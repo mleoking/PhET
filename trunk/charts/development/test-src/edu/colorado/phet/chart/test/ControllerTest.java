@@ -25,7 +25,7 @@ public class ControllerTest {
         VerticalChartSlider verticalChartSlider = new VerticalChartSlider( ch );
         ch.getVerticalTicks().setMajorOffset( -verticalChartSlider.getSlider().getWidth() - 5, 0 );
         final DataSet ds = new DataSet();
-        DataSetGraphic dsg = new LinePlot( ds, new BasicStroke( 3 ), Color.red );
+        DataSetGraphic dsg = new LinePlot( apparatusPanel, ch, ds, new BasicStroke( 3 ), Color.red );
         ch.addDataSetGraphic( dsg );
         verticalChartSlider.addListener( new VerticalChartSlider.Listener() {
             public void valueChanged( double value ) {

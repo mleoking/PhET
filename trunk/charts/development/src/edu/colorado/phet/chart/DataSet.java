@@ -71,8 +71,6 @@ public class DataSet {
     public interface Observer {
         void pointAdded( Point2D point );
 
-        void pointRemoved( Point2D point );
-
         void cleared();
     }
 

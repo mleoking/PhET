@@ -4,7 +4,6 @@ package edu.colorado.phet.chart.controllers;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -34,7 +33,7 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
     private PhetJComponent sliderGraphic;
     private int preferredWidth;
 
-    public VerticalChartSlider2( ApparatusPanel apparatusPanel, final Chart chart ) {
+    public VerticalChartSlider2( Component apparatusPanel, final Chart chart ) {
         super( apparatusPanel );
         this.chart = chart;
         slider = new JSlider( JSlider.VERTICAL, 0, numTicks, numTicks / 2 );

@@ -12,9 +12,13 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
@@ -22,6 +26,7 @@ import java.util.ArrayList;
 public class DynamicChartTest {
 
     static ArrayList toPaint = new ArrayList();
+    private static double x = -5;
 
     public static void main( String[] args ) {
         BaseModel model = new BaseModel();
@@ -62,7 +67,6 @@ public class DynamicChartTest {
         chart.setLocation( 50, 50 );
         apparatusPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-//                Rectangle renderSize = new Rectangle( insets, insets, e.getComponent().getWidth() - insets * 2, e.getComponent().getHeight() - insets * 2 );
                 Rectangle renderSize = new Rectangle( 0, 0, 600, 600 );
                 chart.setViewBounds( renderSize );
                 Color leftColor = new Color( 255, 255, 255 );
@@ -72,71 +76,67 @@ public class DynamicChartTest {
         } );
 
         final DataSet dataSet1 = new DataSet();
-        DataSetGraphic sinGraphic = new LinePlot( dataSet1, new BasicStroke( 3 ), Color.blue );
+        DataSetGraphic sinGraphic = new LinePlot( apparatusPanel, chart, dataSet1, new BasicStroke( 3 ), Color.blue );
         chart.addDataSetGraphic( sinGraphic );
 
         final DataSet dataSet2 = new DataSet();
-        DataSetGraphic sinGraphic3 = new LinePlot( dataSet2,
-                                                   new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{8, 8}, 0 ),
-                                                   Color.red );
+
+//        ScatterPlot.CircleFactory scatterPaintFactory = new ScatterPlot.CircleFactory( apparatusPanel, Color.red, 3 );
+        ScatterPlot.ScatterPaintFactory scatterPaintFactory = new ScatterPlot.ScatterPaintFactory() {
+            public PhetGraphic createScatterPoint( double x, double y ) {
+                PhetImageGraphic pig = new PhetImageGraphic( apparatusPanel, "images/icons/java/media/Play24.gif" );
+                pig.centerRegistrationPoint();
+                pig.setLocation( (int)x, (int)y );
+                pig.setRenderingHints( new RenderingHints( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
+                pig.rotate( Math.random() * 2 * Math.PI );
+                return pig;
+            }
+        };
+        DataSetGraphic sinGraphic3 = new ScatterPlot( apparatusPanel, chart, dataSet2, scatterPaintFactory );
+//        DataSetGraphic sinGraphic3 = new LinePlot( apparatusPanel, chart, dataSet2,
+//                                                   new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{8, 8}, 0 ),
+//                                                   Color.red );
         chart.addDataSetGraphic( sinGraphic3 );
 
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        Thread dataThread = new Thread( new Runnable() {
-            public void run() {
-                double x = -5;
-                while( true ) {
-                    try {
-                        Thread.sleep( 20 );
-                    }
-                    catch( InterruptedException e ) {
-                        e.printStackTrace();
-                    }
-                    {
-                        double y = 10 * Math.sin( x / 2 );
-                        dataSet1.addPoint( x, y );
-                        while( dataSet1.size() > 100 ) {
-                            dataSet1.removePoint( 0 );
-                        }
-                    }
-                    {
-                        double y = 10 * Math.cos( x / 3 );
-//                        if( dataSet2.size() == 0 ) {
-//                            dataSet2.addPoint( x, Math.abs( 1.1 ) );
-//                        }
-//                        else {
-//                        double y = dataSet2.getLastPoint().getY() * dataSet2.getLastPoint().getY();
-                        dataSet2.addPoint( x, Math.abs( y ) );
-                        while( dataSet2.size() > 100 ) {
-                            dataSet2.removePoint( 0 );
-//                            }
-                        }
-                    }
-                    Range2D dataBounds = chart.getDataRange();//TODO should this be renamed to unconfuse chart.getRange()?
-                    if( dataBounds.getWidth() > 0 && dataBounds.getHeight() > 0 ) {
-                        chart.setRange( dataBounds.getScaledRange( 1.2, 1.2 ) );
-                    }
-                    apparatusPanel.paintImmediately( union() );
-//                    apparatusPanel.repaint( union() );
-                    x += .15;
-                }
+        Timer timer = new Timer( 30, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                x = step( x, dataSet1, dataSet2, chart, apparatusPanel );
             }
         } );
-        dataThread.start();
+        timer.start();
     }
 
-    private static Rectangle union() {
-        if( toPaint.size() == 0 ) {
-            return new Rectangle();
+    private static double step( double x, final DataSet dataSet1, final DataSet dataSet2, final Chart chart, final ApparatusPanel2 apparatusPanel ) {
+        try {
+            Thread.sleep( 20 );
         }
-        else {
-            Rectangle union = (Rectangle)toPaint.get( 0 );
-            for( int i = 1; i < toPaint.size(); i++ ) {
-                Rectangle rectangle = (Rectangle)toPaint.get( i );
-                union = union.union( rectangle );
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
+        {
+            double y = 10 * Math.sin( x / 2 );
+            dataSet1.addPoint( x, y );
+            while( dataSet1.size() > 100 ) {
+                dataSet1.removePoint( 0 );
             }
-            return union;
         }
+        {
+            double y = 10 * Math.cos( x / 3 );
+            dataSet2.addPoint( x, Math.abs( y ) );
+            while( dataSet2.size() > 100 ) {
+                dataSet2.removePoint( 0 );
+            }
+        }
+        Range2D dataBounds = chart.getDataRange();//TODO should this be renamed to unconfuse chart.getRange()?
+        if( dataBounds.getWidth() > 0 && dataBounds.getHeight() > 0 ) {
+            chart.setRange( dataBounds.getScaledRange( 1.2, 1.2 ) );
+        }
+//                    apparatusPanel.paintImmediately( new Rectangle( apparatusPanel.getWidth(), apparatusPanel.getHeight() ) );
+        apparatusPanel.paint();
+        x += .15;
+        return x;
     }
+
 }

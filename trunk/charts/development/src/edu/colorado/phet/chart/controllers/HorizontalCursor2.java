@@ -95,6 +95,13 @@ public class HorizontalCursor2 extends CompositePhetGraphic {
         shapeGraphic.setShape( shape );
     }
 
+//    public void paint( Graphics2D g2 ) {
+////        GraphicsState graphicsState = new GraphicsState( g2 );
+////        g2.translate( chart.getX(), chart.getY() );//Todo: this is a bit hackish.
+//        super.paint( g2 );
+////        graphicsState.restoreGraphics();
+//    }
+
     public void setModelX( double modelX ) {
         this.modelX = modelX;
         update();

@@ -1,10 +1,14 @@
 /** Sam Reid*/
 package edu.colorado.phet.chart;
 
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -18,6 +22,8 @@ public abstract class AbstractTicks extends AbstractGrid {
     private Font font = new Font( "Lucida Sans", 0, 12 );
     private FontMetrics fontMetrics;
     private boolean showLabels = true;
+    private GraphicLayerSet tickGraphics;
+    private GraphicLayerSet labelGraphics;
 
     public AbstractTicks( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing ) {
         this( chart, orientation, stroke, color, tickSpacing, 0 );
@@ -26,7 +32,54 @@ public abstract class AbstractTicks extends AbstractGrid {
     public AbstractTicks( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing, double crossesOtherAxisAt ) {
         super( chart, orientation, stroke, color, tickSpacing, crossesOtherAxisAt );
         fontMetrics = chart.getComponent().getFontMetrics( font );
-        setVisible( true );
+        tickGraphics = new GraphicLayerSet( chart.getComponent() );
+        labelGraphics = new GraphicLayerSet( chart.getComponent() );
+        addGraphic( tickGraphics );
+        addGraphic( labelGraphics );
+        chart.addListener( new Chart.Listener() {
+            public void transformChanged( Chart chart ) {
+                update();
+            }
+        } );
+        update();
+    }
+
+    private void update() {
+        labelGraphics.clear();
+        tickGraphics.clear();
+        Chart chart = super.getChart();
+        if( super.getOrientation() == HORIZONTAL ) {
+            double[] gridLines = getGridLines( super.getCrossesOtherAxisAt(), chart.getRange().getMinX(), chart.getRange().getMaxX(), super.getSpacing() );
+            for( int i = 0; i < gridLines.length; i++ ) {
+                double gridLineX = gridLines[i];
+                int x = chart.transformX( gridLineX );
+                int y = getHorizontalTickY();
+                Line2D.Double line = new Line2D.Double( x, y - tickHeight / 2, x, y + tickHeight / 2 );
+                PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, super.getStroke(), super.getColor() );
+                tickGraphics.addGraphic( lineGraphic );
+
+                String string = format.format( gridLineX );
+                PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
+                labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 + labelGraphic.getHeight() );
+                labelGraphics.addGraphic( labelGraphic );
+            }
+        }
+        else if( super.getOrientation() == VERTICAL ) {
+            double[] gridLines = getGridLines( super.getCrossesOtherAxisAt(), chart.getRange().getMinY(), chart.getRange().getMaxY(), super.getSpacing() );
+            for( int i = 0; i < gridLines.length; i++ ) {
+                double gridLineY = gridLines[i];
+                int x = getVerticalTickX();
+                int y = chart.transformY( gridLineY );
+                Line2D.Double line = new Line2D.Double( x - tickHeight / 2, y, x + tickHeight / 2, y );
+                PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, super.getStroke(), super.getColor() );
+                tickGraphics.addGraphic( lineGraphic );
+
+                String string = format.format( gridLineY );
+                PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
+                labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y + labelGraphic.getHeight() / 2 );
+                labelGraphics.addGraphic( labelGraphic );
+            }
+        }
     }
 
     public boolean isShowLabels() {
@@ -47,101 +100,6 @@ public abstract class AbstractTicks extends AbstractGrid {
 
     public void setTickHeight( int tickHeight ) {
         this.tickHeight = tickHeight;
-    }
-
-    public void paint( Graphics2D g ) {
-        if( isVisible() ) {
-            Stroke stroke = super.getStroke();
-            int orientation = super.getOrientation();
-            Color color = super.getColor();
-            double crossesOtherAxisAt = super.getCrossesOtherAxisAt();
-            Chart chart = super.getChart();
-            double tickSpacing = super.getSpacing();
-            Stroke origStroke = g.getStroke();
-            Color origColor = g.getColor();
-            g.setStroke( stroke );
-            g.setColor( color );
-            g.setFont( font );
-            if( orientation == HORIZONTAL ) {
-                double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinX(), chart.getRange().getMaxX(), tickSpacing );
-                for( int i = 0; i < gridLines.length; i++ ) {
-                    double gridLineX = gridLines[i];
-                    int x = chart.transformX( gridLineX );
-                    int y = getHorizontalTickY();
-                    g.drawLine( x, y - tickHeight / 2, x, y + tickHeight / 2 );
-                    if( isShowLabels() ) {
-                        String string = format.format( gridLineX );
-                        int width = fontMetrics.stringWidth( string );
-                        int height = fontMetrics.getHeight();
-                        if( string == null ) {
-                            throw new RuntimeException( "Null string, gridLineX=" + gridLineX );
-                        }
-                        g.drawString( string, x - width / 2, y + tickHeight / 2 + height );
-                    }
-                }
-            }
-            else if( orientation == VERTICAL ) {
-                double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinY(), chart.getRange().getMaxY(), tickSpacing );
-                for( int i = 0; i < gridLines.length; i++ ) {
-                    double gridLineY = gridLines[i];
-                    int x = getVerticalTickX();
-                    int y = chart.transformY( gridLineY );
-                    g.drawLine( x - tickHeight / 2, y, x + tickHeight / 2, y );
-                    if( isShowLabels() ) {
-                        String string = format.format( gridLineY );
-                        int width = fontMetrics.stringWidth( string );
-                        int height = fontMetrics.getHeight();
-                        g.drawString( string, x - tickHeight / 2 - width, y + height / 2 );
-                    }
-                }
-            }
-            g.setStroke( origStroke );
-            g.setColor( origColor );
-        }
-    }
-
-    public Rectangle[] getTextBounds() {
-        ArrayList result = new ArrayList();
-        Rectangle bounds = null;
-        int orientation = super.getOrientation();
-        double crossesOtherAxisAt = super.getCrossesOtherAxisAt();
-        Chart chart = super.getChart();
-        double tickSpacing = super.getSpacing();
-        if( orientation == HORIZONTAL ) {
-            double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinX(), chart.getRange().getMaxX(), tickSpacing );
-            for( int i = 0; i < gridLines.length; i++ ) {
-                double gridLineX = gridLines[i];
-                int x = chart.transformX( gridLineX );
-                int y = getHorizontalTickY();
-                if( isShowLabels() ) {
-                    String string = format.format( gridLineX );
-                    int width = fontMetrics.stringWidth( string );
-                    int height = fontMetrics.getHeight();
-                    int textX = x - width / 2;
-                    int textY = y + tickHeight / 2 + height;
-                    Rectangle rect = new Rectangle( textX, textY, width, height );//TODO this is untested
-                    result.add( rect );
-                }
-            }
-        }
-        else if( orientation == VERTICAL ) {
-            double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinY(), chart.getRange().getMaxY(), tickSpacing );
-            for( int i = 0; i < gridLines.length; i++ ) {
-                double gridLineY = gridLines[i];
-                int x = getVerticalTickX();
-                int y = chart.transformY( gridLineY );
-                if( isShowLabels() ) {
-                    String string = format.format( gridLineY );
-                    int width = fontMetrics.stringWidth( string );
-                    int height = fontMetrics.getHeight();
-                    int textX = x - tickHeight / 2 - width;
-                    int textY = y - height / 2;
-                    Rectangle strBounds = new Rectangle( textX, textY, width, height );
-                    result.add( strBounds );
-                }
-            }
-        }
-        return (Rectangle[])result.toArray( new Rectangle[0] );
     }
 
     public void setNumberFormat( NumberFormat numberFormat ) {

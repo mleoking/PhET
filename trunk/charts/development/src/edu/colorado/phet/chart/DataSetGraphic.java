@@ -6,20 +6,20 @@
  */
 package edu.colorado.phet.chart;
 
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public abstract class DataSetGraphic implements DataSet.Observer {
+public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.Observer {
     private DataSet dataSet;
     private Chart chart;
 
-    public DataSetGraphic( DataSet dataSet ) {
+    public DataSetGraphic( Component component, Chart chart, DataSet dataSet ) {
+        super( component );
+        this.chart = chart;
         this.dataSet = dataSet;
         dataSet.addObserver( this );
-    }
-
-    public void setChart( Chart chart ) {
-        this.chart = chart;
     }
 
     public DataSet getDataSet() {
@@ -38,8 +38,6 @@ public abstract class DataSetGraphic implements DataSet.Observer {
     protected Chart getChart() {
         return chart;
     }
-
-    public abstract void paint( Graphics2D graphics2D );
 
     public abstract void transformChanged();
 }
