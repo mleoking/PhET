@@ -1,8 +1,12 @@
-/**
- * Class: Body
- * Package: edu.colorado.phet.mechanics
- * Author: Another Guy
- * Date: May 20, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.mechanics;
 
@@ -11,6 +15,12 @@ import edu.colorado.phet.common.model.Particle;
 
 import java.awt.geom.Point2D;
 
+/**
+ * Body
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public abstract class Body extends Particle {
 
     private Particle lastColidedBody = null;
