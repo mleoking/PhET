@@ -59,6 +59,9 @@ public class OscillateSuite extends MotionSuite {
         module.repaintBackground();
 
         oscillate.initialize( man );
+        module.getPositionGraphic().setSliderVisible( false );
+        module.getVelocityGraphic().setSliderVisible( false );
+        module.getAccelerationGraphic().setSliderVisible( false );
     }
 
 }

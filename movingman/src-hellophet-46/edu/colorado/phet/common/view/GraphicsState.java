@@ -1,7 +1,8 @@
 /** Sam Reid*/
-package edu.colorado.phet.movingman.common;
+package edu.colorado.phet.common.view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 /**
  * User: Sam Reid
@@ -9,7 +10,7 @@ import java.awt.*;
  * Time: 3:45:00 PM
  * Copyright (c) Aug 29, 2004 by Sam Reid
  */
-public class GraphicsSetup {
+public class GraphicsState {
     private Stroke stroke;
     private Paint paint;
     private Shape clip;
@@ -18,6 +19,7 @@ public class GraphicsSetup {
     private Composite composite;
     private Color background;
     private Color color;
+    private AffineTransform transform;
 
     public void saveState( Graphics2D g2 ) {
         stroke = g2.getStroke();
@@ -28,6 +30,7 @@ public class GraphicsSetup {
         composite = g2.getComposite();
         background = g2.getBackground();
         color = g2.getColor();
+        transform = g2.getTransform();
     }
 
     public void restoreState( Graphics2D g2 ) {
@@ -39,5 +42,6 @@ public class GraphicsSetup {
         g2.setComposite( composite );
         g2.setBackground( background );
         g2.setColor( color );
+        g2.setTransform( transform );
     }
 }

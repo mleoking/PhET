@@ -1,10 +1,10 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements;
 
+import edu.colorado.phet.common.view.GraphicsState;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.movingman.application.MovingManModule;
-import edu.colorado.phet.movingman.common.GraphicsSetup;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -41,7 +41,7 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
         update( recordingTimer, null );
     }
 
-    GraphicsSetup gs = new GraphicsSetup();
+    GraphicsState gs = new GraphicsState();
 
     public void paint( Graphics2D g ) {
         gs.saveState( g );

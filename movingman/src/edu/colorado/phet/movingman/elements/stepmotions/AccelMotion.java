@@ -25,7 +25,7 @@ public class AccelMotion implements StepMotion {
 
     public double stepInTime( Man man, double dt ) {
         double velocity = module.getMan().getVelocity() + accel * dt;
-        System.out.println( "velocity = " + velocity );
+//        System.out.println( "velocity = " + velocity );
         module.getMan().setVelocity( velocity );
         double position = man.getX() + velocity * dt;
         return position;

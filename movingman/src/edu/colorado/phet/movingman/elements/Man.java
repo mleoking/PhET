@@ -14,10 +14,14 @@ public class Man extends AutomatedObservable {
     private double x0;
     private boolean grabbed = false;
     private double velocity;
+    private double min;
+    private double max;
 
-    public Man( double x ) {
+    public Man( double x, double min, double max ) {
         this.x0 = x;
         this.x = x;
+        this.min = min;
+        this.max = max;
     }
 
     public double getVelocity() {
@@ -26,7 +30,7 @@ public class Man extends AutomatedObservable {
 
     public void setVelocity( double velocity ) {
         this.velocity = velocity;
-        System.out.println( "SET velocity = " + velocity );
+//        System.out.println( "SET velocity = " + velocity );
     }
 
     public boolean isGrabbed() {
@@ -42,6 +46,12 @@ public class Man extends AutomatedObservable {
     }
 
     public void setX( double x ) {
+        if( x < min ) {
+            x = min;
+        }
+        else if( x > max ) {
+            x = max;
+        }
         this.x = x;
         updateObservers();
     }

@@ -12,35 +12,35 @@ import java.awt.geom.Rectangle2D;
 public class BoxToBoxInvertY implements InvertibleTransform, IBoxToBox {
     RangeToRange xtrf;
     RangeToRangeInvert ytrf;
-    Rectangle2D.Double in;
-    Rectangle2D.Double out;
+    Rectangle2D in;
+    Rectangle2D out;
 
     //A is the input rectangle, B is the output rectangle.
-    public BoxToBoxInvertY( Rectangle2D.Double in, Rectangle2D.Double out ) {
+    public BoxToBoxInvertY( Rectangle2D in, Rectangle2D out ) {
         this.in = in;
         this.out = out;
         setState();
     }
 
     private void setState() {
-        xtrf = new RangeToRange( in.x, in.x + in.width, out.x, out.x + out.width );
-        ytrf = new RangeToRangeInvert( in.y, in.y + in.height, out.y, out.y + out.height );
+        xtrf = new RangeToRange( in.getX(), in.getX() + in.getWidth(), out.getX(), out.getX() + out.getWidth() );
+        ytrf = new RangeToRangeInvert( in.getY(), in.getY() + in.getHeight(), out.getY(), out.getY() + out.getHeight() );
     }
 
-    public Rectangle2D.Double getInputBounds() {
+    public Rectangle2D getInputBounds() {
         return in;//new DoubleRectangle(ax, ay, aw, ah);
     }
 
-    public Rectangle2D.Double getOutputBounds() {
+    public Rectangle2D getOutputBounds() {
         return out;//new DoubleRectangle(bx, by, bw, bh);
     }
 
-    public void setInputBounds( Rectangle2D.Double in ) {
+    public void setInputBounds( Rectangle2D in ) {
         this.in = in;
         setState();
     }
 
-    public void setOutputBounds( Rectangle2D.Double out ) {
+    public void setOutputBounds( Rectangle2D out ) {
         this.out = out;
         setState();
     }

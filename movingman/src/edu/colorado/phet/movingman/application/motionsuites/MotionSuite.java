@@ -188,14 +188,8 @@ public abstract class MotionSuite {
         resetButton.setEnabled( false );
     }
 
-    public void showDialog() {
-//        module.getMovingManControlPanel().setPauseState();
+    public void showControls() {
         pauseButton.setEnabled( false );
-        module.setMotionMode( this );//.getStepMotion());
-        module.setPaused( true );
-        initialize( module.getMan() );
-        module.setPaused( true );
-
         dialog.pack();
         JFrame f = (JFrame)SwingUtilities.getWindowAncestor( module.getApparatusPanel() );
         centerInParent( dialog, f );

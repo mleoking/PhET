@@ -1,6 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman.common;
 
+import edu.colorado.phet.common.view.GraphicsState;
+
 import java.awt.*;
 
 /**
@@ -27,12 +29,16 @@ public class PhetTextGraphic extends PhetGraphic {
         fontMetrics = component.getFontMetrics( font );
     }
 
+    GraphicsState state = new GraphicsState();
+
     public void paint( Graphics2D g ) {
+        state.saveState( g );
         if( isVisible() ) {
             g.setFont( font );
             g.setColor( color );
             g.drawString( text, x, y );
         }
+        state.restoreState( g );
     }
 
     protected Rectangle determineBounds() {

@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.movingman.application.motionsuites.MotionSuite;
 import edu.colorado.phet.movingman.elements.*;
 import edu.colorado.phet.movingman.elements.Timer;
+import smooth.util.SmoothUtilities;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +35,7 @@ import java.util.Observer;
  */
 public class MovingManModule extends Module {
     private int minTime = 0;
-    private int numSmoothingPoints = 10;
+    public static final int numSmoothingPoints = 10;
     private int maxManPosition = 10;
     public static final double TIMER_SCALE = 1.0 / 50;
     private int numResetPoints = 1;//number of points to use in the reset routine.
@@ -77,10 +78,12 @@ public class MovingManModule extends Module {
     private int numVelocitySmoothPoints;
     private int numAccSmoothPoints;
     private static boolean addJEP = true;
+    private Color backgroundColor;
 
     public MovingManModule() throws IOException {
         super( "The Moving Man" );
-        ApparatusPanel mypanel = new RepaintDebugPanel();
+//        ApparatusPanel mypanel = new RepaintDebugPanel();
+        ApparatusPanel mypanel = new ApparatusPanel();
         mypanel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
         super.setApparatusPanel( mypanel );
         final BaseModel model = new BaseModel() {
@@ -102,9 +105,9 @@ public class MovingManModule extends Module {
         position.setDerivative( velocity );
         velocity.setDerivative( acceleration );
 
-        Color backgroundColor = new Color( 250, 190, 240 );
+        backgroundColor = new Color( 250, 190, 240 );
         backgroundGraphic = new BufferedGraphicForComponent( 0, 0, 800, 400, backgroundColor, getApparatusPanel() );
-        man = new Man( 0 );
+        man = new Man( 0, -maxManPosition, maxManPosition );
 
         manPositionTransform = new RangeToRange( -maxManPosition, maxManPosition, 50, 600 );
         manGraphic = new ManGraphic( this, man, 0, manPositionTransform );
@@ -121,7 +124,12 @@ public class MovingManModule extends Module {
 
         walkwayGraphic = new WalkWayGraphic( this, 11 );
         backgroundGraphic.addGraphic( walkwayGraphic, 0 );
-
+        layout = new MovingManLayout();
+        layout.setApparatusPanelHeight( 800 );
+        layout.setApparatusPanelWidth( 400 );
+        layout.setNumPlots( 3 );
+        layout.relayout();
+        setupPlots();
         movingManControlPanel = new MovingManControlPanel( this );
         super.setControlPanel( movingManControlPanel );
         mainModelElement = new ModelElement() {
@@ -147,12 +155,6 @@ public class MovingManModule extends Module {
             }
         };
         man.addObserver( crashObserver );
-        layout = new MovingManLayout();
-        layout.setApparatusPanelHeight( 800 );
-        layout.setApparatusPanelWidth( 400 );
-        layout.setNumPlots( 3 );
-        layout.relayout();
-        setupPlots();
         Color cursorColor = Color.black;
         cursorGraphic = new CursorGraphic( this, playbackTimer, cursorColor, null, layout.getPlotY( 0 ), layout.getTotalPlotHeight() );
         getApparatusPanel().addGraphic( cursorGraphic, 6 );
@@ -192,6 +194,10 @@ public class MovingManModule extends Module {
 
     }
 
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
     private void setupPlots() {
         double maxPositionView = 12;
         double maxVelocity = 25;
@@ -202,8 +208,8 @@ public class MovingManModule extends Module {
         Stroke plotStroke = new BasicStroke( 3.0f );
         Rectangle2D.Double positionInputBox = new Rectangle2D.Double( minTime, -maxPositionView, maxTime - minTime, maxPositionView * 2 );
 
-        BoxedPlot positionGraphic = new BoxedPlot( this, position.getSmoothedDataSeries(), recordingTimer, Color.blue,
-                                                   plotStroke, positionInputBox, backgroundGraphic, 0 );
+        final BoxedPlot positionGraphic = new BoxedPlot( this, position.getSmoothedDataSeries(), recordingTimer, Color.blue,
+                                                         plotStroke, positionInputBox, backgroundGraphic, 0 );
         GridLineGraphic positionGrid = new GridLineGraphic( positionGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 13, Color.yellow, "Position" );
         positionGrid.setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
         Point textCoord = layout.getTextCoordinates( 0 );
@@ -216,7 +222,8 @@ public class MovingManModule extends Module {
         positionPlot = new PlotAndText( positionGraphic, positionString, positionGrid );
 
         Rectangle2D.Double velocityInputBox = new Rectangle2D.Double( minTime, -maxVelocity, maxTime - minTime, maxVelocity * 2 );
-        BoxedPlot velocityGraphic = new BoxedPlot( this, velocity.getSmoothedDataSeries(), recordingTimer, Color.red, plotStroke, velocityInputBox, backgroundGraphic, xshiftVelocity );
+        final BoxedPlot velocityGraphic = new BoxedPlot( this, velocity.getSmoothedDataSeries(), recordingTimer, Color.red, plotStroke, velocityInputBox, backgroundGraphic, xshiftVelocity );
+
         GridLineGraphic velocityGrid = new GridLineGraphic( velocityGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 5, Color.yellow, "Velocity" );
         velocityGrid.setPaintYLines( new double[]{-20, -10, 0, 10, 20} );
         ValueGraphic velocityString = new ValueGraphic( this, recordingTimer, playbackTimer, velocity.getSmoothedDataSeries(), "Velocity=", "m/s", textCoord.x, textCoord.y, velocityGraphic );
@@ -227,15 +234,15 @@ public class MovingManModule extends Module {
         velocityPlot = new PlotAndText( velocityGraphic, velocityString, velocityGrid );
 
         Rectangle2D.Double accelInputBox = new Rectangle2D.Double( minTime, -maxAccel, maxTime - minTime, maxAccel * 2 );
-        BoxedPlot accelGraphic = new BoxedPlot( this, acceleration.getSmoothedDataSeries(), recordingTimer, Color.black, plotStroke, accelInputBox, backgroundGraphic, xshiftAcceleration );
-        backgroundGraphic.addGraphic( accelGraphic, 5 );
+        BoxedPlot accelPlot = new BoxedPlot( this, acceleration.getSmoothedDataSeries(), recordingTimer, Color.black, plotStroke, accelInputBox, backgroundGraphic, xshiftAcceleration );
+        backgroundGraphic.addGraphic( accelPlot, 5 );
 
-        GridLineGraphic accelGrid = new GridLineGraphic( accelGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 5, Color.yellow, "Acceleration" );
+        GridLineGraphic accelGrid = new GridLineGraphic( accelPlot, new BasicStroke( 1.0f ), Color.gray, 10, 5, Color.yellow, "Acceleration" );
         accelGrid.setPaintYLines( new double[]{-50, -25, 0, 25, 50} );
         backgroundGraphic.addGraphic( accelGrid, 2 );
-        ValueGraphic accelString = new ValueGraphic( this, recordingTimer, playbackTimer, acceleration.getSmoothedDataSeries(), "Acceleration=", "m/s^2", textCoord.x, textCoord.y, accelGraphic );
+        ValueGraphic accelString = new ValueGraphic( this, recordingTimer, playbackTimer, acceleration.getSmoothedDataSeries(), "Acceleration=", "m/s^2", textCoord.x, textCoord.y, accelPlot );
         getApparatusPanel().addGraphic( accelString, 5 );
-        accelerationPlot = new PlotAndText( accelGraphic, accelString, accelGrid );
+        accelerationPlot = new PlotAndText( accelPlot, accelString, accelGrid );
     }
 
     public int getNumResetPoints() {
@@ -252,6 +259,7 @@ public class MovingManModule extends Module {
         return backgroundGraphic;
     }
 
+
     interface StateListener {
         void stateChanged( MovingManModule module );
     }
@@ -261,10 +269,16 @@ public class MovingManModule extends Module {
     }
 
     public void setPaused( boolean paused ) {
-        this.paused = paused;
-        for( int i = 0; i < stateListeners.size(); i++ ) {
-            StateListener stateListener = (StateListener)stateListeners.get( i );
-            stateListener.stateChanged( this );
+        if( paused != this.paused ) {
+            this.paused = paused;
+            for( int i = 0; i < stateListeners.size(); i++ ) {
+                StateListener stateListener = (StateListener)stateListeners.get( i );
+                stateListener.stateChanged( this );
+            }
+            if( !paused ) {
+                movingManControlPanel.motionStarted();
+                movingManControlPanel.goPressed();
+            }
         }
     }
 
@@ -301,13 +315,13 @@ public class MovingManModule extends Module {
         int inset = 50;
         if( rightPos ) {//as usual
             newTransform = new RangeToRange( -maxManPosition, maxManPosition, inset, appPanelWidth - inset );
-            this.walkwayGraphic.setTreeX( -10 );
-            this.walkwayGraphic.setHouseX( 10 );
+            walkwayGraphic.setTreeX( -10 );
+            walkwayGraphic.setHouseX( 10 );
         }
         else {
             newTransform = new RangeToRange( maxManPosition, -maxManPosition, inset, appPanelWidth - inset );
-            this.walkwayGraphic.setTreeX( 10 );
-            this.walkwayGraphic.setHouseX( -10 );
+            walkwayGraphic.setTreeX( 10 );
+            walkwayGraphic.setHouseX( -10 );
         }
         manGraphic.setTransform( newTransform );
         setManTransform( newTransform );
@@ -319,6 +333,12 @@ public class MovingManModule extends Module {
     public void repaintBackground() {
         backgroundGraphic.paintBufferedImage();
         getApparatusPanel().repaint();
+    }
+
+    public void setPositionPlotMagnitude( double positionMagnitude ) {
+        Rectangle2D.Double positionInputBox = new Rectangle2D.Double( minTime, -positionMagnitude, maxTime - minTime, positionMagnitude * 2 );
+        positionPlot.getPlot().setInputBox( positionInputBox );
+        backgroundGraphic.paintBufferedImage();
     }
 
     public void setVelocityPlotMagnitude( double maxVelocity ) {
@@ -630,8 +650,102 @@ public class MovingManModule extends Module {
         return movingManControlPanel;
     }
 
+    private static void addJEP( MovingManModule module ) {
+        final JFrame frame = module.getFrame();
+        JMenu misc = new JMenu( "Misc" );
+        JMenuItem jep = new JMenuItem( "Expression Evaluator" );
+        misc.add( jep );
+        final JEPFrame jef = new JEPFrame( frame, module );
+        jep.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                jef.setVisible( true );
+            }
+        } );
+        frame.getJMenuBar().add( misc );
+    }
+
+    public double getMaxTime() {
+        return maxTime;
+    }
+
+    public double getMaxManPosition() {
+        return maxManPosition;
+    }
+
+    public Timer getPlaybackTimer() {
+        return playbackTimer;
+    }
+
+    public boolean isDragMode() {
+        return mode == dragMode;
+    }
+
+    public boolean isTakingData() {
+        return !isPaused() && mode.isTakingData();
+    }
+
+    public void disableIdeaGraphics() {
+        manGraphic.setShowIdea( false );
+    }
+
+
+    /**
+     * User: Sam Reid
+     * Date: Jul 1, 2004
+     * Time: 3:33:37 AM
+     * Copyright (c) Jul 1, 2004 by Sam Reid
+     */
+    public static class RepaintDebugGraphic implements Graphic, ClockTickListener {
+        private int r = 255;
+        private int g = 255;
+        private int b = 255;
+        private MovingManModule module;
+        private ApparatusPanel panel;
+        private boolean active = false;
+        private Clock clock;
+
+        public RepaintDebugGraphic( MovingManModule module, ApparatusPanel panel, Clock clock ) {
+            this.module = module;
+            this.panel = panel;
+            this.clock = clock;
+            setActive( true );
+        }
+
+        GraphicsState state = new GraphicsState();
+
+        public void paint( Graphics2D gr ) {
+            state.saveState( gr );
+            gr.setColor( new Color( r, g, b ) );
+            gr.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
+            state.restoreState( gr );
+        }
+
+        public void clockTicked( Clock c, double dt ) {
+            r = ( r - 1 + 255 ) % 255;
+            g = ( g - 2 + 255 ) % 255;
+            b = ( b - 3 + 255 ) % 255;
+            module.repaintBackground();
+        }
+
+        public void setActive( boolean active ) {
+            if( this.active == active ) {
+                return;
+            }
+            this.active = active;
+            if( active ) {
+                clock.addClockTickListener( this );
+                panel.addGraphic( this, -100 );
+            }
+            else {
+                clock.removeClockTickListener( this );
+                panel.removeGraphic( this );
+            }
+        }
+    }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
+//        SmoothUtilities.setAntialias( false );
+        SmoothUtilities.setFractionalMetrics( false );
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         MovingManModule m = new MovingManModule();
         FrameSetup setup = new MaximizeFrame();
@@ -708,97 +822,6 @@ public class MovingManModule extends Module {
 //        m.backgroundGraphic.addGraphic( rdp, -100 );
 
     }
-
-    private static void addJEP( MovingManModule module ) {
-        final JFrame frame = module.getFrame();
-        JMenu misc = new JMenu( "Misc" );
-        JMenuItem jep = new JMenuItem( "Expression Evaluator" );
-        misc.add( jep );
-        final JEPFrame jef = new JEPFrame( frame, module );
-        jep.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                jef.setVisible( true );
-            }
-        } );
-        frame.getJMenuBar().add( misc );
-    }
-
-    public double getMaxTime() {
-        return maxTime;
-    }
-
-    public double getMaxManPosition() {
-        return maxManPosition;
-    }
-
-    public Timer getPlaybackTimer() {
-        return playbackTimer;
-    }
-
-    public boolean isDragMode() {
-        return mode == dragMode;
-    }
-
-    public boolean isTakingData() {
-        return !isPaused() && mode.isTakingData();
-    }
-
-    public void disableIdeaGraphics() {
-        manGraphic.setShowIdea( false );
-    }
-
-
-    /**
-     * User: Sam Reid
-     * Date: Jul 1, 2004
-     * Time: 3:33:37 AM
-     * Copyright (c) Jul 1, 2004 by Sam Reid
-     */
-    public static class RepaintDebugGraphic implements Graphic, ClockTickListener {
-        private int r = 255;
-        private int g = 255;
-        private int b = 255;
-        private MovingManModule module;
-        private ApparatusPanel panel;
-        private boolean active = false;
-        private Clock clock;
-
-        public RepaintDebugGraphic( MovingManModule module, ApparatusPanel panel, Clock clock ) {
-            this.module = module;
-            this.panel = panel;
-            this.clock = clock;
-            setActive( true );
-        }
-
-        public void paint( Graphics2D gr ) {
-            gr.setColor( new Color( r, g, b ) );
-            gr.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
-        }
-
-        public void clockTicked( Clock c, double dt ) {
-            r = ( r - 1 + 255 ) % 255;
-            g = ( g - 2 + 255 ) % 255;
-            b = ( b - 3 + 255 ) % 255;
-            module.repaintBackground();
-        }
-
-        public void setActive( boolean active ) {
-            if( this.active == active ) {
-                return;
-            }
-            this.active = active;
-            if( active ) {
-                clock.addClockTickListener( this );
-                panel.addGraphic( this, -100 );
-            }
-            else {
-                clock.removeClockTickListener( this );
-                panel.removeGraphic( this );
-            }
-        }
-
-    }
-
 
 }
 

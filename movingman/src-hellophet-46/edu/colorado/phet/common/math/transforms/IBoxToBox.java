@@ -10,11 +10,11 @@ import java.awt.geom.Rectangle2D;
  * To change this template use Options | File Templates.
  */
 public interface IBoxToBox extends Transform {
-    public Rectangle2D.Double getInputBounds();
+    public Rectangle2D getInputBounds();
 
-    public Rectangle2D.Double getOutputBounds();
+    public Rectangle2D getOutputBounds();
 
-    public void setInputBounds( Rectangle2D.Double in );
+    public void setInputBounds( Rectangle2D in );
 
-    public void setOutputBounds( Rectangle2D.Double out );
+    public void setOutputBounds( Rectangle2D out );
 }
