@@ -43,12 +43,11 @@ public class ElectromagnetModule extends FaradayModule {
     //----------------------------------------------------------------------------
 
     // Rendering layers
-    private static final double GRID_LAYER = 1;
+    private static final double COMPASS_GRID_LAYER = 1;
     private static final double ELECTROMAGNET_BACK_LAYER = 2;
-    private static final double ELECTROMAGNET_LAYER = 3;
-    private static final double COMPASS_LAYER = 4;
-    private static final double ELECTROMAGNET_FRONT_LAYER = 5;
-    private static final double METER_LAYER = 6;
+    private static final double COMPASS_LAYER = 3;
+    private static final double ELECTROMAGNET_FRONT_LAYER = 4;
+    private static final double FIELD_METER_LAYER = 5;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
@@ -152,7 +151,7 @@ public class ElectromagnetModule extends FaradayModule {
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
         apparatusPanel.addChangeListener( gridGraphic );
-        apparatusPanel.addGraphic( gridGraphic, GRID_LAYER );
+        apparatusPanel.addGraphic( gridGraphic, COMPASS_GRID_LAYER );
         super.setCompassGridGraphic( gridGraphic );
         
         // Compass
@@ -166,7 +165,7 @@ public class ElectromagnetModule extends FaradayModule {
         fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
         fieldMeterGraphic.setVisible( false );
         apparatusPanel.addChangeListener( fieldMeterGraphic );
-        apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
+        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
 
         // Debugger
 //        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );

@@ -44,7 +44,7 @@ public class BarMagnetModule extends FaradayModule {
     //----------------------------------------------------------------------------
 
     // Rendering layers
-    private static final double GRID_LAYER = 1;
+    private static final double COMPASS_GRID_LAYER = 1;
     private static final double BAR_MAGNET_LAYER = 2;
     private static final double COMPASS_LAYER = 3;
     private static final double FIELD_METER_LAYER = 4;
@@ -118,7 +118,7 @@ public class BarMagnetModule extends FaradayModule {
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
         apparatusPanel.addChangeListener( gridGraphic );
-        apparatusPanel.addGraphic( gridGraphic, GRID_LAYER );
+        apparatusPanel.addGraphic( gridGraphic, COMPASS_GRID_LAYER );
         super.setCompassGridGraphic( gridGraphic );
         
         // CompassGraphic

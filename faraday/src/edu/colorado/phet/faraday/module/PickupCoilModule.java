@@ -44,7 +44,7 @@ public class PickupCoilModule extends FaradayModule {
     //----------------------------------------------------------------------------
     
     // Rendering layers
-    private static final double GRID_LAYER = 1;
+    private static final double COMPASS_GRID_LAYER = 1;
     private static final double PICKUP_COIL_BACK_LAYER = 2;
     private static final double BAR_MAGNET_LAYER = 3;
     private static final double COMPASS_LAYER = 4;
@@ -150,7 +150,7 @@ public class PickupCoilModule extends FaradayModule {
         gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
         gridGraphic.setVisible( false );
         apparatusPanel.addChangeListener( gridGraphic );
-        apparatusPanel.addGraphic( gridGraphic, GRID_LAYER );
+        apparatusPanel.addGraphic( gridGraphic, COMPASS_GRID_LAYER );
         super.setCompassGridGraphic( gridGraphic );
         
         // CompassGraphic
