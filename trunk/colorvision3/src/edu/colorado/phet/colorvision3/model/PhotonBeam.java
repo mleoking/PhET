@@ -385,7 +385,6 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
         // last filtered photon was passed.
         cull = (int) (count - (count * lastPercentPassed / 100));
       }
-      System.out.println("culling " + cull );
       
       // Cull the photons by marking them as available.
       for ( int i = 0; i < cull; i++ )
