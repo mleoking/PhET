@@ -47,7 +47,7 @@ public class FrameSequence {
      *
      * @return The current image of the animation
      */
-    public Image getCurrFrame() {
+    public BufferedImage getCurrFrame() {
         return frames[currFrameNum];
     }
 
@@ -56,7 +56,7 @@ public class FrameSequence {
      *
      * @return The next frame in the animation
      */
-    public Image getNextFrame() {
+    public BufferedImage getNextFrame() {
         stepCurrFrameNum( +1 );
         return getCurrFrame();
     }
