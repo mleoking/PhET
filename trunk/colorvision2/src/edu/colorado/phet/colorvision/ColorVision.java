@@ -52,6 +52,7 @@ public class ColorVision {
                 System.exit( 0 );
             }
         } );
+
         contentPane.add( southPanel, BorderLayout.SOUTH );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.pack();
