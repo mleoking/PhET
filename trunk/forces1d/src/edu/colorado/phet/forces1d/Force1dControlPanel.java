@@ -87,7 +87,8 @@ public class Force1dControlPanel extends VerticalLayoutPanel {
                 double k = model.getBlock().getKineticFriction();
 //                if( s < k ) {
 //                    staticFriction.setValue( k );
-                staticFriction.setDragMin( k );
+
+//                staticFriction.setDragMin( k );
 //                }
             }
         } );
