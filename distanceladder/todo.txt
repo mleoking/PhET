@@ -1,7 +1,5 @@
 - Pull computation of brightness out of the control panel and starVeiwGraphic and put it in the photometer
 
-- Fix clipping at sides of StarView
-
 - Fix model so you don't have to call setStarField() to get the views to update.
 
 - Handle situation where cockpit is at same location as a star. The isVisible test needs to handle this.

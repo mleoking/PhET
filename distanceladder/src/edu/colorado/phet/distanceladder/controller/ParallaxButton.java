@@ -19,8 +19,8 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
 public class ParallaxButton extends DefaultInteractiveGraphic {
-    private AffineTransform parallaxBtnTx = new AffineTransform();
     private AffineTransform hitTx = new AffineTransform();
+    private AffineTransform buttonTx = new AffineTransform();
     private Ellipse2D.Double button;
     private boolean isOn = false;
     private String label = "On";
@@ -29,29 +29,33 @@ public class ParallaxButton extends DefaultInteractiveGraphic {
     Color buttonBorderColorRollover = Color.white;
     Color buttonBorderColor = buttonBorderColorBase;
     private Boundary bounds;
+    private Point2D trf;
 
-    public ParallaxButton( CockpitModule module, Point2D.Double location ) {
+    public ParallaxButton( final CockpitModule module, Point2D.Double location ) {
         super( null, null );
         this.module = module;
-        parallaxBtnTx.translate( location.getX(), location.getY() );
+        buttonTx.setToTranslation( location.getX(), location.getY() );
         button = new Ellipse2D.Double( 0, 0, 30, 20 );
         addCursorHandBehavior();
 
         Graphic graphic = new Graphic() {
             public void paint( Graphics2D g ) {
                 AffineTransform orgTx = g.getTransform();
-                g.transform( parallaxBtnTx );
+                g.transform( buttonTx );
                 g.setColor( Color.red );
                 g.fill( button );
                 g.setColor( buttonBorderColor );
                 g.draw( button );
                 FontMetrics fontMetrics = g.getFontMetrics();
                 int strWidth = fontMetrics.stringWidth( label );
-//                g.setColor( Color.white );
                 g.drawString( label, (int)( button.getWidth() - strWidth ) / 2, 15 );
 
+                strWidth = fontMetrics.stringWidth( "Parallax Instrument" );
+                g.setColor( Color.black );
+                g.drawString( "Parallax Instrument", (int)( button.getWidth() - strWidth ) / 2, -(int)( button.getHeight() ) / 2 );
+
                 hitTx.setTransform( orgTx );
-                hitTx.translate( parallaxBtnTx.getTranslateX(), parallaxBtnTx.getTranslateY() );
+                hitTx.concatenate( buttonTx );
 
                 g.setTransform( orgTx );
             }
@@ -60,17 +64,22 @@ public class ParallaxButton extends DefaultInteractiveGraphic {
 
         bounds = new Boundary() {
             public boolean contains( int x, int y ) {
+                update();
                 Point2D.Double testPt = new Point2D.Double( x, y );
                 try {
-                    hitTx.inverseTransform( testPt, testPt );
+                    trf = hitTx.inverseTransform( testPt, null );
                 }
                 catch( NoninvertibleTransformException e ) {
                     e.printStackTrace();
                 }
-                return button.contains( testPt );
+                return button.contains( trf );
             }
         };
         setBoundary( bounds );
+    }
+
+    private void update() {
+        module.getApparatusPanel().repaint();
     }
 
     public void mouseClicked( MouseEvent e ) {
@@ -83,3 +92,5 @@ public class ParallaxButton extends DefaultInteractiveGraphic {
         label = isOn ? "Off" : "On";
     }
 }
+
+
