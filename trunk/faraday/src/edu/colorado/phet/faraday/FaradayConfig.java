@@ -44,9 +44,9 @@ public class FaradayConfig {
     
     // Images
     private static final String IMAGES_DIRECTORY = "images/";
-    public static final String AC_SOURCE_IMAGE = IMAGES_DIRECTORY + "acSource.png";
-    public static final String AC_SOURCE_ICON = IMAGES_DIRECTORY + "acSource_icon.png";
-    public static final String AC_SOURCE_ICON_SELECTED = IMAGES_DIRECTORY + "acSource_icon_selected.png";
+    public static final String AC_POWER_SUPPLY_IMAGE = IMAGES_DIRECTORY + "acPowerSupply.png";
+    public static final String AC_POWER_SUPPLY_ICON = IMAGES_DIRECTORY + "acPowerSupply_icon.png";
+    public static final String AC_POWER_SUPPLY_ICON_SELECTED = IMAGES_DIRECTORY + "acPowerSupply_icon_selected.png";
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
     public static final String BATTERY_IMAGE = IMAGES_DIRECTORY + "battery.png";
     public static final String BATTERY_ICON = IMAGES_DIRECTORY + "battery_icon.png";

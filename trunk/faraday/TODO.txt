@@ -66,6 +66,7 @@ PHETCOMMON:
 
 DONE:
 v0r19...\
+(3/16) - ACSource -> ACPowerSupply throughout the source code & data files
 (3/16) - set low end of AC frequency to 10%
 (3/16) - label ACSourceGraphic with "AC Power Supply"
 (3/16) - add field meter to Transformer & Generator modules

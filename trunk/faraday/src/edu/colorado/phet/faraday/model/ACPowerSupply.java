@@ -16,12 +16,12 @@ import edu.colorado.phet.common.model.ModelElement;
 
 
 /**
- * ACSource is the model of an Alternating Current (AC) source.
+ * ACPowerSupply is the model of an AC Power Supply.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ACSource extends AbstractVoltageSource implements ModelElement {
+public class ACPowerSupply extends AbstractVoltageSource implements ModelElement {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -45,7 +45,7 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
     /**
      * Sole constructor.
      */
-    public ACSource() {
+    public ACPowerSupply() {
         super();
         _maxAmplitude = 1.0; // biggest
         _frequency = 1.0; // fastest

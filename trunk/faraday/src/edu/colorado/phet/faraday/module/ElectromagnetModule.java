@@ -92,13 +92,13 @@ public class ElectromagnetModule extends FaradayModule {
         batteryModel.setAmplitude( 1.0 );
         batteryModel.setEnabled( false );
         
-        // AC Source
-        ACSource acSourceModel = new ACSource();
-        acSourceModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
-        acSourceModel.setMaxAmplitude( 0.5 );
-        acSourceModel.setFrequency( 0.5 );
-        acSourceModel.setEnabled( true );
-        model.addModelElement( acSourceModel );
+        // AC Power Supply
+        ACPowerSupply acPowerSupplyModel = new ACPowerSupply();
+        acPowerSupplyModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
+        acPowerSupplyModel.setMaxAmplitude( 0.5 );
+        acPowerSupplyModel.setFrequency( 0.5 );
+        acPowerSupplyModel.setEnabled( true );
+        model.addModelElement( acPowerSupplyModel );
         
         // Source Coil
         SourceCoil sourceCoilModel = new SourceCoil();
@@ -110,7 +110,7 @@ public class ElectromagnetModule extends FaradayModule {
             sourceCoilModel.setVoltageSource( batteryModel );
         }
         else {
-            sourceCoilModel.setVoltageSource( acSourceModel );
+            sourceCoilModel.setVoltageSource( acPowerSupplyModel );
         }
         
         // Electromagnet
@@ -142,7 +142,7 @@ public class ElectromagnetModule extends FaradayModule {
         
         // Electromagnet
         ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, 
-                electromagnetModel, sourceCoilModel, batteryModel, acSourceModel );
+                electromagnetModel, sourceCoilModel, batteryModel, acPowerSupplyModel );
         apparatusPanel.addChangeListener( electromagnetGraphic );
         apparatusPanel.addGraphic( electromagnetGraphic.getForeground(), ELECTROMAGNET_FRONT_LAYER );
         apparatusPanel.addGraphic( electromagnetGraphic.getBackground(), ELECTROMAGNET_BACK_LAYER );
@@ -221,7 +221,7 @@ public class ElectromagnetModule extends FaradayModule {
         {
             ControlPanel controlPanel = new ControlPanel( this );
             ElectromagnetPanel electromagnetPanel = new ElectromagnetPanel(
-                    sourceCoilModel, batteryModel, acSourceModel, compassModel,
+                    sourceCoilModel, batteryModel, acPowerSupplyModel, compassModel,
                     electromagnetGraphic, gridGraphic, fieldMeterGraphic );
             controlPanel.addFullWidth( electromagnetPanel );
             this.setControlPanel( controlPanel );

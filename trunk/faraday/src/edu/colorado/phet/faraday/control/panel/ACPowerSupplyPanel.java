@@ -26,23 +26,23 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.ACSource;
+import edu.colorado.phet.faraday.model.ACPowerSupply;
 
 
 /**
- * ACPanel contains the controls for the AC source.
+ * ACPowerSupplyPanel contains the controls for the AC Power Supply.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ACPanel extends FaradayPanel {
+public class ACPowerSupplyPanel extends FaradayPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     // Model & view components to be controlled.
-    private ACSource _acSourceModel;
+    private ACPowerSupply _acPowerSupplyModel;
 
     // UI components
     private JSlider _acMaxAmplitudeSlider;
@@ -57,18 +57,18 @@ public class ACPanel extends FaradayPanel {
     /**
      * Sole constructor.
      * 
-     * @param acSourceModel
+     * @param acPowerSupplyModel
      */
-    public ACPanel( ACSource acSourceModel ) {
+    public ACPowerSupplyPanel( ACPowerSupply acPowerSupplyModel ) {
 
         super();
 
-        assert ( acSourceModel != null );
-        _acSourceModel = acSourceModel;
+        assert ( acPowerSupplyModel != null );
+        _acPowerSupplyModel = acPowerSupplyModel;
 
         // Title
         Border border = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.get( "ACPanel.title" );
+        String title = SimStrings.get( "ACPowerSupplyPanel.title" );
         TitledBorder titledBorder = BorderFactory.createTitledBorder( border, title );
         titledBorder.setTitleFont( getTitleFont() );
         setBorder( titledBorder );
@@ -151,8 +151,8 @@ public class ACPanel extends FaradayPanel {
         _acFrequencySlider.addChangeListener( listener );
 
         // Update control panel to match the components that it's controlling.
-        _acMaxAmplitudeSlider.setValue( (int) ( 100.0 * _acSourceModel.getMaxAmplitude() ) );
-        _acFrequencySlider.setValue( (int) ( 100.0 * _acSourceModel.getFrequency() ) );
+        _acMaxAmplitudeSlider.setValue( (int) ( 100.0 * _acPowerSupplyModel.getMaxAmplitude() ) );
+        _acFrequencySlider.setValue( (int) ( 100.0 * _acPowerSupplyModel.getFrequency() ) );
     }
 
     //----------------------------------------------------------------------------
@@ -182,20 +182,20 @@ public class ACPanel extends FaradayPanel {
                 // Read the value.
                 int percent = _acMaxAmplitudeSlider.getValue();
                 // Update the model.
-                _acSourceModel.setMaxAmplitude( percent / 100.0 );
+                _acPowerSupplyModel.setMaxAmplitude( percent / 100.0 );
                 // Update the label.
                 Object[] args = { new Integer( percent ) };
-                String text = MessageFormat.format( SimStrings.get( "ACPanel.amplitude" ), args );
+                String text = MessageFormat.format( SimStrings.get( "ACPowerSupplyPanel.amplitude" ), args );
                 _acMaxAmplitudeValue.setText( text );
             }
             else if ( e.getSource() == _acFrequencySlider ) {
                 // Read the value.
                 int percent = _acFrequencySlider.getValue();
                 // Update the model.
-                _acSourceModel.setFrequency( percent / 100.0 );
+                _acPowerSupplyModel.setFrequency( percent / 100.0 );
                 // Update the label.
                 Object[] args = { new Integer( percent ) };
-                String text = MessageFormat.format( SimStrings.get( "ACPanel.frequency" ), args );
+                String text = MessageFormat.format( SimStrings.get( "ACPowerSupplyPanel.frequency" ), args );
                 _acFrequencyValue.setText( text );
             }
             else {

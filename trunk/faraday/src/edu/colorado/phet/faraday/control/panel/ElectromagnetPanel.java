@@ -26,7 +26,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.ACSource;
+import edu.colorado.phet.faraday.model.ACPowerSupply;
 import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.SourceCoil;
@@ -51,7 +51,7 @@ public class ElectromagnetPanel extends FaradayPanel {
     // Model & view components to be controlled.
     private SourceCoil _sourceCoilModel;
     private Battery _batteryModel;
-    private ACSource _acSourceModel;
+    private ACPowerSupply _acPowerSupplyModel;
     private Compass _compassModel;
     private CoilGraphic _coilGraphic;
     private CompassGridGraphic _gridGraphic;
@@ -75,7 +75,7 @@ public class ElectromagnetPanel extends FaradayPanel {
      * 
      * @param sourceCoilModel
      * @param batteryModel
-     * @param acSourceModel
+     * @param acPowerSupplyModel
      * @param electromagnetGraphic
      * @param gridGraphic
      * @param fieldMeterGraphic
@@ -83,7 +83,7 @@ public class ElectromagnetPanel extends FaradayPanel {
     public ElectromagnetPanel(
             SourceCoil sourceCoilModel,
             Battery batteryModel,
-            ACSource acSourceModel,
+            ACPowerSupply acPowerSupplyModel,
             Compass compassModel,
             ElectromagnetGraphic electromagnetGraphic,
             CompassGridGraphic gridGraphic, 
@@ -91,7 +91,7 @@ public class ElectromagnetPanel extends FaradayPanel {
         
         assert ( sourceCoilModel != null );
         assert ( batteryModel != null );
-        assert ( acSourceModel != null );
+        assert ( acPowerSupplyModel != null );
         assert ( compassModel != null );
         assert ( electromagnetGraphic != null );
         assert ( gridGraphic != null );
@@ -100,7 +100,7 @@ public class ElectromagnetPanel extends FaradayPanel {
         // Things we'll be controlling.
         _sourceCoilModel = sourceCoilModel;
         _batteryModel = batteryModel;
-        _acSourceModel = acSourceModel;
+        _acPowerSupplyModel = acPowerSupplyModel;
         _compassModel = compassModel;
         _coilGraphic = electromagnetGraphic.getCoilGraphic();
         _gridGraphic = gridGraphic;
@@ -166,12 +166,12 @@ public class ElectromagnetPanel extends FaradayPanel {
                 // Radio buttons with icons.
                 ImageIcon batteryIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.BATTERY_ICON ) );
                 ImageIcon batteryIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.BATTERY_ICON_SELECTED ) );
-                ImageIcon acSourceIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.AC_SOURCE_ICON ) );
-                ImageIcon acSourceIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.AC_SOURCE_ICON_SELECTED ) );
+                ImageIcon acIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.AC_POWER_SUPPLY_ICON ) );
+                ImageIcon acIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.AC_POWER_SUPPLY_ICON_SELECTED ) );
                 _batteryRadioButton = new JRadioButton( batteryIcon );
                 _batteryRadioButton.setSelectedIcon( batteryIconSelected );
-                _acRadioButton = new JRadioButton( acSourceIcon );
-                _acRadioButton.setSelectedIcon( acSourceIconSelected );
+                _acRadioButton = new JRadioButton( acIcon );
+                _acRadioButton.setSelectedIcon( acIconSelected );
                 layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
                 layout.addAnchoredComponent( _acRadioButton, 0, 1, GridBagConstraints.WEST );
             }
@@ -212,7 +212,7 @@ public class ElectromagnetPanel extends FaradayPanel {
 
         // Update control panel to match the components that it's controlling.
         _batteryRadioButton.setSelected( _batteryModel.isEnabled() );
-        _acRadioButton.setSelected( _acSourceModel.isEnabled() );
+        _acRadioButton.setSelected( _acPowerSupplyModel.isEnabled() );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
@@ -259,14 +259,14 @@ public class ElectromagnetPanel extends FaradayPanel {
             if ( e.getSource() == _batteryRadioButton ) {
                 // Battery (DC) source
                 _batteryModel.setEnabled( true );
-                _acSourceModel.setEnabled( false );
+                _acPowerSupplyModel.setEnabled( false );
                 _sourceCoilModel.setVoltageSource( _batteryModel );
             }
             else if ( e.getSource() == _acRadioButton ) {
                 // AC source
                 _batteryModel.setEnabled( false );
-                _acSourceModel.setEnabled( true );
-                _sourceCoilModel.setVoltageSource( _acSourceModel );
+                _acPowerSupplyModel.setEnabled( true );
+                _sourceCoilModel.setVoltageSource( _acPowerSupplyModel );
             }
             else if ( e.getSource() == _gridCheckBox ) {
                 // Grid enable
