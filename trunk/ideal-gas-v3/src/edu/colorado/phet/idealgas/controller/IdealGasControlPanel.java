@@ -23,7 +23,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Hashtable;
-import java.util.Random;
 
 public class IdealGasControlPanel extends JPanel {
 
@@ -367,22 +366,6 @@ public class IdealGasControlPanel extends JPanel {
     //        newMolecule.addConstraint( constraintSpec );
     //        return newMolecule;
     //    }
-
-    protected class PressureSliceControl extends JPanel {
-        PressureSliceControl() {
-            String msg = "<html>Measure pressure<br>in layer</html>";
-            final JCheckBox pressureSliceCB = new JCheckBox( msg );
-            pressureSliceCB.setPreferredSize( new Dimension( 140, 30 ) );
-            //            final JCheckBox pressureSliceCB = new JCheckBox( "Measure pressure in layer" );
-            this.add( pressureSliceCB );
-            pressureSliceCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setPressureSliceEnabled( pressureSliceCB.isSelected() );
-                    //                    IdealGasControlPanel.this.getIdealGasApplication().setPressureSliceEnabled( pressureSliceCB.isSelected() );
-                }
-            } );
-        }
-    }
 
     protected IdealGasModule getModule() {
         return module;

@@ -7,12 +7,8 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.Command;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.Strings;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
@@ -23,15 +19,9 @@ import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.BaseIdealGasApparatusPanel;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.Mannequin;
-import edu.colorado.phet.idealgas.view.RulerGraphic;
 import edu.colorado.phet.idealgas.view.monitors.IdealGasMonitorPanel;
 
-import javax.swing.event.MouseInputListener;
 import java.awt.geom.Point2D;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class IdealGasModule extends Module {
     private IdealGasModel idealGasModel;
@@ -45,7 +35,7 @@ public class IdealGasModule extends Module {
         this( clock, Strings.idealGasModuleName );
     }
 
-    public IdealGasModule( AbstractClock clock, String name  ) {
+    public IdealGasModule( AbstractClock clock, String name ) {
         super( name );
 
         // Create the model
@@ -101,10 +91,10 @@ public class IdealGasModule extends Module {
     //        idealGasModel.setGravity( gravity );
     //    }
 
-    public void setPressureSliceEnabled( boolean selected ) {
-        System.out.println( "not implemented" );
-    }
-
+//    public void setPressureSliceEnabled( boolean selected ) {
+//        System.out.println( "not implemented" );
+//    }
+//
 //    public void setRulerEnabed( boolean rulerEnabled ) {
 //        if( rulerGraphic == null ) {
 //            rulerGraphic = new RulerGraphic( getApparatusPanel() );
@@ -129,5 +119,9 @@ public class IdealGasModule extends Module {
     public void removeGasMolecule() {
         Command cmd = new RemoveMoleculeCmd( idealGasModel, pump.getCurrentGasSpecies() );
         cmd.doIt();
+    }
+
+    protected PressureSensingBox getBox() {
+        return box;
     }
 }

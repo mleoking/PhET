@@ -11,7 +11,6 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.IdealGasParticle;
 import edu.colorado.phet.idealgas.model.LightSpecies;
 
 import javax.swing.*;
@@ -29,7 +28,7 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
 
     private void init() {
         this.remove( getGravityControlPanel() );
-//        this.add( new PressureSliceControl() );
+        this.add( new PressureSliceControl() );
         this.add( new RulerControlPanel() );
         addLinebergerControls();
     }
@@ -130,9 +129,26 @@ public class MeasurementControlPanel extends IdealGasControlPanel {
             this.add( rulerCB );
             rulerCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    ((MeasurementModule)getModule()).setRulerEnabed( rulerCB.isSelected() );
+                    ( (MeasurementModule)getModule() ).setRulerEnabed( rulerCB.isSelected() );
                 }
             } );
         }
     }
+
+    protected class PressureSliceControl extends JPanel {
+        PressureSliceControl() {
+            String msg = "<html>Measure pressure<br>in layer</html>";
+            final JCheckBox pressureSliceCB = new JCheckBox( msg );
+            pressureSliceCB.setPreferredSize( new Dimension( 140, 30 ) );
+            //            final JCheckBox pressureSliceCB = new JCheckBox( "Measure pressure in layer" );
+            this.add( pressureSliceCB );
+            pressureSliceCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    ( (MeasurementModule)getModule() ).setPressureSliceEnabled( pressureSliceCB.isSelected() );
+                    //                    IdealGasControlPanel.this.getIdealGasApplication().setPressureSliceEnabled( pressureSliceCB.isSelected() );
+                }
+            } );
+        }
+    }
+
 }
