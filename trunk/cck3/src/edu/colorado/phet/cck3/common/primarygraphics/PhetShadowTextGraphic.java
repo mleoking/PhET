@@ -1,6 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.view.phetgraphics;
 
+import edu.colorado.phet.common.view.util.RectangleUtils;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
