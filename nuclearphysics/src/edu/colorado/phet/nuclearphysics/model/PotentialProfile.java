@@ -59,7 +59,6 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
 
     public PotentialProfile( Nucleus nucleus ) {
         this.nucleus = nucleus;
-//        nucleus.addObserver( this );
         this.width = Config.defaultProfileWidth;
         this.maxPotential = 2 * nucleus.getNumProtons();
         this.wellDepth = 0.5 * nucleus.getNumNeutrons();

@@ -9,6 +9,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
@@ -43,7 +44,6 @@ public class PhysicalPanel extends ApparatusPanel {
         // Register the graphic to the model element
         modelElementToGraphicMap.put( nucleus, ng );
         addGraphic( ng, nucleonTx );
-//        addGraphic( ng, originTx );
     }
 
     public void removeNucleus( Nucleus nucleus ) {
@@ -53,7 +53,6 @@ public class PhysicalPanel extends ApparatusPanel {
 
     public synchronized void addGraphic( Graphic graphic ) {
         super.addGraphic( graphic, nucleonTx );
-//        super.addGraphic( graphic, originTx );
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
@@ -64,6 +63,7 @@ public class PhysicalPanel extends ApparatusPanel {
         nucleonTx.concatenate( originTx );
         nucleonTx.concatenate( scaleTx );
 
+        GraphicsUtil.setAlpha( (Graphics2D)graphics, 1 );
         super.paintComponent( graphics );
     }
 

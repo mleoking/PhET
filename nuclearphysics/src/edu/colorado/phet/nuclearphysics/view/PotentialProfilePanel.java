@@ -279,8 +279,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
         super.removeAllGraphics();
     }
 
-    public void addOriginCenteredGraphic( Graphic leaderLines ) {
-        this.addGraphic( leaderLines, profileTx );
+    public void addOriginCenteredGraphic( Graphic graphic ) {
+        this.addGraphic( graphic, profileTx );
     }
 
     public void addNucleusGraphic( Nucleus nucleus ) {

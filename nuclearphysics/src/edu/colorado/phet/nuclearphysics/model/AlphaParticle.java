@@ -62,7 +62,6 @@ public class AlphaParticle extends Nucleus {
                 // proportional to its height on the profile
                 PotentialProfile profile = nucleus.getPotentialProfile();
 
-                // If this -Math.sqrt is right, then we need to fix some sign things
                 double d = this.getLocation().distance( nucleus.getLocation() );
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;

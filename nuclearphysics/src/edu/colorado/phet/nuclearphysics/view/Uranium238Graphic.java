@@ -12,7 +12,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class Uranium238Graphic extends NucleusGraphic {
-    private static Font font = new Font( "Serif", Font.BOLD, 15 );
+    private static Font font = new Font( "Serif", Font.BOLD, 18 );
     private static Color color = Color.green;
     private static AffineTransform nucleusTx = new AffineTransform();
 
