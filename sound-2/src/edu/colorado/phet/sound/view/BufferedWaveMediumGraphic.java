@@ -50,7 +50,7 @@ public class BufferedWaveMediumGraphic extends PhetImageGraphic implements Simpl
     // Note that larger values for the stroke slow down performance considerably
     protected static Stroke s_defaultStroke = new BasicStroke( 1.0F );
     private Point2D.Double origin;
-    private double height = SoundConfig.s_wavefrontHeight;
+    private int height = SoundConfig.s_wavefrontHeight;
     private double stroke = 1;
     // Adjust this to control the dispersion angle of a spherical wavefront
     private double radius = SoundConfig.s_wavefrontRadius;
@@ -97,7 +97,7 @@ public class BufferedWaveMediumGraphic extends PhetImageGraphic implements Simpl
      * @param height
      * @param radius
      */
-    public void initLayout( Point2D.Double origin, double height, double radius ) {
+    public void initLayout( Point2D.Double origin, int height, double radius ) {
         initLayout( origin, height, radius, 0 );
     }
 
@@ -107,7 +107,7 @@ public class BufferedWaveMediumGraphic extends PhetImageGraphic implements Simpl
      * @param radius
      * @param theta
      */
-    public void initLayout( Point2D.Double origin, double height, double radius,
+    public void initLayout( Point2D.Double origin, int height, double radius,
                             double theta ) {
         this.origin = origin;
         this.height = height;
@@ -263,7 +263,7 @@ public class BufferedWaveMediumGraphic extends PhetImageGraphic implements Simpl
         clear();
     }
 
-    protected double getHeight() {
+    public int getHeight() {
         return height;
     }
 

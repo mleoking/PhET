@@ -46,8 +46,8 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
         setVisible( true );
     }
 
-    public double getWidth() {
-        return textGraphic.getBounds().width;
+    public int getWidth() {
+        return (int) (textGraphic.getBounds().width + .5);
     }
 
     public void stepInTime( double dt ) {
