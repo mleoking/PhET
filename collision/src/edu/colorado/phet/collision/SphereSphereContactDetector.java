@@ -12,8 +12,8 @@ public class SphereSphereContactDetector implements ContactDetector {
 
     private Point2D tempPt = new Point2D.Double();
 
-    public boolean applies( Collidable bodyA, Collidable bodyB ) {
-        return ( bodyA instanceof SolidSphere && bodyB instanceof SolidSphere );
+    public boolean applies(Collidable bodyA, Collidable bodyB) {
+        return (bodyA instanceof SolidSphere && bodyB instanceof SolidSphere);
 //        return ( bodyA instanceof SphericalBody && bodyB instanceof SphericalBody );
     }
 
@@ -25,27 +25,26 @@ public class SphereSphereContactDetector implements ContactDetector {
      * @param bodyB
      * @return
      */
-    public boolean areInContact( Collidable bodyA, Collidable bodyB ) {
-        SphericalBody sbA = (SphericalBody)bodyA;
-        SphericalBody sbB = (SphericalBody)bodyB;
+    public boolean areInContact(Collidable bodyA, Collidable bodyB) {
+        SphericalBody sbA = (SphericalBody) bodyA;
+        SphericalBody sbB = (SphericalBody) bodyB;
 
         // perform bounding box check, first
-        if( boundingBoxesOverlap( sbA, sbB ) ) {
-            return spheresOverlap( sbA, sbB );
-        }
-        else {
+        if (boundingBoxesOverlap(sbA, sbB)) {
+            return spheresOverlap(sbA, sbB);
+        } else {
             return false;
         }
     }
 
-    private boolean spheresOverlap( SphericalBody sbA, SphericalBody sbB ) {
-        tempPt.setLocation( sbA.getPosition() );
-        double distance = tempPt.distance( sbB.getPosition() );
-        return ( distance <= sbA.getRadius() + sbB.getRadius() );
+    private boolean spheresOverlap(SphericalBody sbA, SphericalBody sbB) {
+        tempPt.setLocation(sbA.getPosition());
+        double distance = tempPt.distance(sbB.getPosition());
+        return (distance <= sbA.getRadius() + sbB.getRadius());
     }
 
-    private boolean boundingBoxesOverlap( SphericalBody sbA, SphericalBody sbB ) {
-        return ( Math.abs( sbA.getPosition().getX() - sbB.getPosition().getX() ) <= sbA.getRadius() + sbB.getRadius()
-                 && Math.abs( sbA.getPosition().getY() - sbB.getPosition().getY() ) <= sbA.getRadius() + sbB.getRadius() );
+    private boolean boundingBoxesOverlap(SphericalBody sbA, SphericalBody sbB) {
+        return (Math.abs(sbA.getPosition().getX() - sbB.getPosition().getX()) <= sbA.getRadius() + sbB.getRadius()
+                && Math.abs(sbA.getPosition().getY() - sbB.getPosition().getY()) <= sbA.getRadius() + sbB.getRadius());
     }
 }
