@@ -18,26 +18,34 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.BarMagnet;
+import edu.colorado.phet.faraday.model.HollywoodMagnet;
 
 
 /**
- * BarMagnetGraphic
+ * BarMagnetGraphic is the graphical representation of a bar magnet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver {
 
-    private BarMagnet _barMagnetModel;
-    private double _initialStrength;
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+
+    private HollywoodMagnet _barMagnetModel;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+
     /**
      * Sole constructor.
      * 
      * @param component the parent Component
+     * @param barMagnetModel model of the bar magnet
      */
-    public BarMagnetGraphic( Component component, BarMagnet barMagnetModel ) {
+    public BarMagnetGraphic( Component component, HollywoodMagnet barMagnetModel ) {
         super( component, FaradayConfig.BAR_MAGNET_IMAGE );
         
         // Registration point is the center of the image.
@@ -45,7 +53,6 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
         
         // Save a reference to the model.
         _barMagnetModel = barMagnetModel;
-        _initialStrength = barMagnetModel.getStrength();
         
         // Setup interactivity.
         super.setCursorHand();
@@ -61,10 +68,16 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
         update();
     }
 
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+
     /**
-     *  This is called when the model changes, and updates the view to match the model.
+     * Updates the view to match the model.
      */
     public void update() {
+        
+        // Determine how to scale the image.
         double scaleX = _barMagnetModel.getWidth() / getImage().getWidth();
         double scaleY = _barMagnetModel.getHeight() / getImage().getHeight();
         

@@ -28,11 +28,19 @@ import edu.colorado.phet.common.view.util.SimStrings;
  */
 public class FaradayApplication extends PhetApplication {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
     // The background color for the application's main Frame.
     private static final Color BACKGROUND = new Color( 148, 166, 158 );
 
     // Whether to turn on rendering of PhetGraphic bounds
     private static final boolean BOUNDS_OUTLINE_ENABLED = false; // DEBUG
+
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
 
     /**
      * Sole constructor.
@@ -43,6 +51,10 @@ public class FaradayApplication extends PhetApplication {
     public FaradayApplication( FaradayApplicationModel appModel ) throws IOException {
         super( appModel );
     }
+
+    //----------------------------------------------------------------------------
+    // main
+    //----------------------------------------------------------------------------
 
     /**
      * Main entry point for the PhET Color Vision application.

@@ -23,13 +23,13 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
-import edu.colorado.phet.faraday.model.BarMagnet;
+import edu.colorado.phet.faraday.model.HollywoodMagnet;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.view.*;
 
 
 /**
- * BarMagnetModule is "Two Coils" module for the Faraday's Law simulation.
+ * BarMagnetModule
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -62,11 +62,14 @@ public class BarMagnetModule extends Module {
     //----------------------------------------------------------------------------
     
     // Model
-    private BarMagnet _barMagnetModel;
+    private HollywoodMagnet _magnetModel;
     private PickupCoil _pickupCoilModel;
     
     // View
     private PickupWidget _pickupWidget;
+    
+    // Control
+    private BarMagnetControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -93,10 +96,10 @@ public class BarMagnetModule extends Module {
         this.setModel( model );
         
         // Bar Magnet
-        _barMagnetModel = new BarMagnet();
-        _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
-        _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
-        _barMagnetModel.setDirection( 0 );
+        _magnetModel = new HollywoodMagnet();
+        _magnetModel.setStrength( BAR_MAGNET_STRENGTH );
+        _magnetModel.setLocation( BAR_MAGNET_LOCATION );
+        _magnetModel.setDirection( 0 );
         
         // Pickup Coil
         _pickupCoilModel = new PickupCoil();
@@ -104,7 +107,7 @@ public class BarMagnetModule extends Module {
         _pickupCoilModel.setRadius( PICKUP_LOOP_RADIUS );
         _pickupCoilModel.setDirection( 0 );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
-        _pickupCoilModel.setMagnet( _barMagnetModel );
+        _pickupCoilModel.setMagnet( _magnetModel );
         model.addModelElement( _pickupCoilModel );
        
         //----------------------------------------------------------------------------
@@ -112,8 +115,8 @@ public class BarMagnetModule extends Module {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this );
-        this.setControlPanel( controlPanel );
+        _controlPanel = new BarMagnetControlPanel( this );
+        this.setControlPanel( _controlPanel );
 
         // Apparatus Panel
         ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
@@ -121,8 +124,8 @@ public class BarMagnetModule extends Module {
         this.setApparatusPanel( apparatusPanel );
         
         // Bar Magnet
-        BarMagnetGraphic barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, _barMagnetModel );
-        apparatusPanel.addGraphic( barMagnetGraphic, BAR_MAGNET_LAYER );
+        BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
+        apparatusPanel.addGraphic( magnetGraphic, BAR_MAGNET_LAYER );
         
         // Pickup Coil
         CoilGraphic coilGraphic = new CoilGraphic( apparatusPanel, _pickupCoilModel );
@@ -142,7 +145,7 @@ public class BarMagnetModule extends Module {
         // Observers
         //----------------------------------------------------------------------------
         
-        _barMagnetModel.addObserver( barMagnetGraphic );
+        _magnetModel.addObserver( magnetGraphic );
         _pickupCoilModel.addObserver( coilGraphic );
         _pickupCoilModel.addObserver( meterGraphic );
         _pickupCoilModel.addObserver( bulbGraphic );
@@ -160,54 +163,89 @@ public class BarMagnetModule extends Module {
         // Initalize
         //----------------------------------------------------------------------------
         
-        int areaScale = BarMagnetControlPanel.AREA_MIN_PERCENTAGE + (BarMagnetControlPanel.AREA_MAX_PERCENTAGE - BarMagnetControlPanel.AREA_MIN_PERCENTAGE)/2;
-        controlPanel.setFieldLinesEnabled( false );
-        controlPanel.setBarMagnetStrength( BAR_MAGNET_STRENGTH );
-        controlPanel.setLoopAreaScale( areaScale );
-        controlPanel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
-        controlPanel.setBulbEnabled( true );
-        controlPanel.setMeterEnabled( false );
+        reset();
     }
 
     //----------------------------------------------------------------------------
     // Controller methods
     //----------------------------------------------------------------------------
     
-    public void flipBarMagnetPolarity() {
-        //System.out.println( "flipBarMagnetPolarity" ); // DEBUG
-        double direction = _barMagnetModel.getDirection();
+    /**
+     * Resets everything to the initial state.
+     */
+    public void reset() {
+        int areaScale = BarMagnetControlPanel.AREA_MIN_PERCENTAGE + (BarMagnetControlPanel.AREA_MAX_PERCENTAGE - BarMagnetControlPanel.AREA_MIN_PERCENTAGE)/2;
+        _controlPanel.setCompassGridEnabled( false );
+        _controlPanel.setMagnetStrength( BAR_MAGNET_STRENGTH );
+        _controlPanel.setLoopAreaScale( areaScale );
+        _controlPanel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
+        _controlPanel.setBulbEnabled( true );
+        _controlPanel.setMeterEnabled( false );
+    }
+    
+    /**
+     * Flips the magnet's polarity.
+     */
+    public void flipMagnetPolarity() {
+        //System.out.println( "flipMagnetPolarity" ); // DEBUG
+        double direction = _magnetModel.getDirection();
         direction = ( direction + 180 ) % 360;
-        _barMagnetModel.setDirection( direction );
+        _magnetModel.setDirection( direction );
     }
     
-    public void setBarMagnetStrength( double value ) {
-        //System.out.println( "setBarMagnetStrength " + value ); // DEBUG
-        _barMagnetModel.setStrength( value );
+    /**
+     * Sets the magnet's strength.
+     * 
+     * @param strength the strength value
+     */
+    public void setMagnetStrength( double strength ) {
+        //System.out.println( "setMagnetStrength " + strength ); // DEBUG
+        _magnetModel.setStrength( strength );
     }
     
-    public void setFieldLinesEnabled( boolean enable ) {
-        //System.out.println( "setFieldLinesEnabled " + enable );
+    /**
+     * Enables/disables the compass grid.
+     * 
+     * @param enable true to enable, false to disable
+     */
+    public void setCompassGridEnabled( boolean enable ) {
+        //System.out.println( "setCompassGridEnabled " + enable ); // DEBUG
         // XXX
     }
     
+    /**
+     * Sets the number of loops in the pickup coil.
+     * 
+     * @param numberOfLoops the number of loops
+     */
     public void setNumberOfPickupLoops( int numberOfLoops ) {
-        //System.out.println( "setNumberOfPickupLoops " + numberOfLoops );
+        //System.out.println( "setNumberOfPickupLoops " + numberOfLoops ); // DEBUG
         _pickupCoilModel.setNumberOfLoops( numberOfLoops ); 
     }
     
+    /**
+     * XXX
+     * 
+     * @param scale
+     */
     public void scalePickupLoopArea( double scale ) {
-        System.out.println( "scalePickupLoopArea " + scale );
+        //System.out.println( "scalePickupLoopArea " + scale ); // DEBUG
         _pickupCoilModel.setRadius( PICKUP_LOOP_RADIUS * scale );
     }
     
-    public void enableBulb() {
-        System.out.println( "enableBulb" );
-        _pickupWidget.enableBulb();
+    /**
+     * Enables the light bulb.
+     */
+    public void setBulbEnabled( boolean enabled ) {
+        //System.out.println( "setBulbEnabled " + enabled ); // DEBUG
+        _pickupWidget.setBulbEnabled( enabled );
     }
     
-    public void enableMeter() {
-        System.out.println( "enableMeter" );
-        _pickupWidget.enableMeter();
+    /**
+     * Enables the volt meter.
+     */
+    public void setMeterEnabled( boolean enabled ) {
+        //System.out.println( "setMeterEnabled " + enabled ); // DEBUG
+        _pickupWidget.setMeterEnabled( enabled );
     }
-    
 }

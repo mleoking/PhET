@@ -24,7 +24,7 @@ import edu.colorado.phet.common.model.ModelElement;
  */
 public class PickupCoil extends Coil implements ModelElement {
     
-    private BarMagnet _magnet; // XXX should be IMagnet, any type of magnet
+    private IMagnet _magnet;
     private double _EMF;
     private double _previousEMF;
     private double _previousFlux;
@@ -35,11 +35,11 @@ public class PickupCoil extends Coil implements ModelElement {
         _previousFlux = 0.0;
     }
     
-    public void setMagnet( BarMagnet magnet ) {
+    public void setMagnet( IMagnet magnet ) {
         _magnet = magnet;
     }
     
-    public BarMagnet getMagnet() {
+    public IMagnet getMagnet() {
         return _magnet;
     }
 

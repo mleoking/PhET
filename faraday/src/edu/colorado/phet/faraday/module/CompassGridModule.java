@@ -26,7 +26,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.CompassGridControlPanel;
-import edu.colorado.phet.faraday.model.BarMagnet;
+import edu.colorado.phet.faraday.model.HollywoodMagnet;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.GridGraphic;
 
@@ -59,16 +59,16 @@ public class CompassGridModule extends Module {
 
     private static final double BAR_MAGNET_STRENGTH = 350;
     private static final Dimension BAR_MAGNET_SIZE = new Dimension( 250, 50 );
-    private static final int GRID_X_SPACING = 55;
-    private static final int GRID_Y_SPACING = 65;
-    private static final Dimension NEEDLE_SIZE = new Dimension( 40, 20 );
+    private static final int GRID_X_SPACING = 25;
+    private static final int GRID_Y_SPACING = 25;
+    private static final Dimension NEEDLE_SIZE = new Dimension( 25, 5 );
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     // Model
-    private BarMagnet _barMagnetModel;
+    private HollywoodMagnet _magnetModel;
     
     // View
     private GridGraphic _gridGraphic;
@@ -81,7 +81,9 @@ public class CompassGridModule extends Module {
     //----------------------------------------------------------------------------
     
     /**
-     * @param name
+     * Sole constructor.
+     * 
+     * @param appModel the application model
      */
     public CompassGridModule( ApplicationModel appModel ) {
         
@@ -99,11 +101,11 @@ public class CompassGridModule extends Module {
         this.setModel( model );
         
         // Bar Magnet
-        _barMagnetModel = new BarMagnet();
-        _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
-        _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
-        _barMagnetModel.setDirection( 0 );
-        _barMagnetModel.setSize( BAR_MAGNET_SIZE );
+        _magnetModel = new HollywoodMagnet();
+        _magnetModel.setStrength( BAR_MAGNET_STRENGTH );
+        _magnetModel.setLocation( BAR_MAGNET_LOCATION );
+        _magnetModel.setDirection( 0 );
+        _magnetModel.setSize( BAR_MAGNET_SIZE );
         
         //----------------------------------------------------------------------------
         // View
@@ -119,11 +121,11 @@ public class CompassGridModule extends Module {
         this.setApparatusPanel( apparatusPanel );
 
         // Bar Magnet
-        BarMagnetGraphic barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, _barMagnetModel );
-        apparatusPanel.addGraphic( barMagnetGraphic, BAR_MAGNET_LAYER );
+        BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
+        apparatusPanel.addGraphic( magnetGraphic, BAR_MAGNET_LAYER );
         
         // Grid
-        _gridGraphic = new GridGraphic( apparatusPanel, _barMagnetModel, GRID_X_SPACING, GRID_Y_SPACING );
+        _gridGraphic = new GridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
         _gridGraphic.setLocation( 0, 0 );
         _gridGraphic.setNeedleSize( NEEDLE_SIZE );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
@@ -132,13 +134,15 @@ public class CompassGridModule extends Module {
         // Observers
         //----------------------------------------------------------------------------
         
-        _barMagnetModel.addObserver( barMagnetGraphic );
-        _barMagnetModel.addObserver( _gridGraphic );
+        _magnetModel.addObserver( magnetGraphic );
+        _magnetModel.addObserver( _gridGraphic );
         
         //----------------------------------------------------------------------------
         // Listeners
         //----------------------------------------------------------------------------
         
+        // We don't really know how to lay out the compass grid until the 
+        // apparatus panel is displayed.
         apparatusPanel.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
                 resetGridSpacing();
@@ -160,35 +164,63 @@ public class CompassGridModule extends Module {
     // Controller methods
     //----------------------------------------------------------------------------
 
+    /**
+     * Resets everything to the initial values.
+     */
     public void reset() {
+        // System.out.println( "reset" ); // DEBUG
         _controlPanel.setBarMagnetStrength( BAR_MAGNET_STRENGTH );
         _controlPanel.setBarMagnetSize( BAR_MAGNET_SIZE );
-        _controlPanel.setGridDensity( GRID_X_SPACING, GRID_Y_SPACING );
-        _controlPanel.setNeedleSize( NEEDLE_SIZE );
+        _controlPanel.setGridSpacing( GRID_X_SPACING, GRID_Y_SPACING );
+        _controlPanel.setGridNeedleSize( NEEDLE_SIZE );
     }
     
-    public void flipBarMagnetPolarity() {
-        //System.out.println( "flipBarMagnetPolarity" ); // DEBUG
-        double direction = _barMagnetModel.getDirection();
+    /**
+     * Flips the magnet's polarity.
+     */
+    public void flipMagnetPolarity() {
+        //System.out.println( "flipMagnetPolarity" ); // DEBUG
+        double direction = _magnetModel.getDirection();
         direction = ( direction + 180 ) % 360;
-        _barMagnetModel.setDirection( direction );
+        _magnetModel.setDirection( direction );
     }
     
-    public void setBarMagnetStrength( double strength ) {
-        //System.out.println( "setBarMagnetStrength " + strength ); // DEBUG
-        _barMagnetModel.setStrength( strength );
+    /**
+     * Sets the magnet's strength.
+     * 
+     * @param strength the strength
+     */
+    public void setMagnetStrength( double strength ) {
+        //System.out.println( "setMagnetStrength " + strength ); // DEBUG
+        _magnetModel.setStrength( strength );
     }
     
-    public void setBarMagnetSize( int width, int height ) {
-        //System.out.println( "setBarMagnetSize " + width + "x" + height );
-        _barMagnetModel.setSize( width, height );
+    /**
+     * Sets the magnet's size.
+     * 
+     * @param width the width
+     * @param height the height
+     */
+    public void setMagnetSize( Dimension size ) {
+        //System.out.println( "setBarMagnetSize " + size );
+        _magnetModel.setSize( size );
     }
     
+    /**
+     * Sets the spacing betweeen compasses in the grid.
+     * 
+     * @param x space between compasses in the X direction
+     * @param y space between compasses in the Y direction
+     */
     public void setGridSpacing( int x, int y ) {
         //System.out.println( "setGridSpacing " + x + "x" + y ); // DEBUG
         _gridGraphic.setSpacing( x, y );
     }
     
+    /**
+     * Resets the grid spacing.
+     * This needs to be called when the apparatus panel changes size.
+     */
     public void resetGridSpacing() {
         //System.out.println( "resetGridSpacing" );  // DEBUG
         int x = _gridGraphic.getXSpacing();
@@ -196,7 +228,12 @@ public class CompassGridModule extends Module {
         _gridGraphic.setSpacing( x, y );
     }
     
-    public void setNeedleSize( Dimension size ) {
+    /**
+     * Sets the size of the compass needles in the grid.
+     * 
+     * @param size the size
+     */
+    public void setGridNeedleSize( Dimension size ) {
         //System.out.println( "setNeedleSize " + size ); // DEBUG
         _gridGraphic.setNeedleSize( size );
     }

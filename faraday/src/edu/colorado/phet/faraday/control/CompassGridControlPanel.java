@@ -27,30 +27,38 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.module.CompassGridModule;
 
 /**
- * CompassGridControlPanel
+ * CompassGridControlPanel is the control panel for the "Compass Grid" module.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class CompassGridControlPanel extends ControlPanel {
   
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
     private static final String EMPTY_LABEL = "??????";
     
     private static final int MAGNET_STRENGTH_MIN = 100;
     private static final int MAGNET_STRENGTH_MAX = 1000;
-    private static final int X_SPACING_MIN = 25;
+    private static final int X_SPACING_MIN = 20;
     private static final int X_SPACING_MAX = 200;
-    private static final int Y_SPACING_MIN = 25;
+    private static final int Y_SPACING_MIN = 20;
     private static final int Y_SPACING_MAX = 200;
-    private static final int NEEDLE_WIDTH_MIN = 5;
+    private static final int NEEDLE_WIDTH_MIN = 1;
     private static final int NEEDLE_WIDTH_MAX = 100;
-    private static final int NEEDLE_HEIGHT_MIN = 5;
+    private static final int NEEDLE_HEIGHT_MIN = 1;
     private static final int NEEDLE_HEIGHT_MAX = 100;
-    private static final int MAGNET_WIDTH_MIN = 25;
+    private static final int MAGNET_WIDTH_MIN = 1;
     private static final int MAGNET_WIDTH_MAX = 500;
-    private static final int MAGNET_HEIGHT_MIN = 10;
+    private static final int MAGNET_HEIGHT_MIN = 1;
     private static final int MAGNET_HEIGHT_MAX = 200;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+
     private CompassGridModule _module;
     private JButton _flipPolarityButton;
     private JSlider _strengthSlider;
@@ -61,8 +69,15 @@ public class CompassGridControlPanel extends ControlPanel {
     private JLabel _xSpacingValue, _ySpacingValue, _needleWidthValue, _needleHeightValue;
     private JButton _resetButton;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+
     /**
      * Sole constructor.
+     * <p>
+     * The structure of the code (the way that code blocks are nested)
+     * reflects the structure of the panel.
      * 
      * @param module the module that this control panel is associated with.
      */
@@ -114,7 +129,7 @@ public class CompassGridControlPanel extends ControlPanel {
                 JPanel widthPanel = new JPanel();
                 {
                     // Label
-                    JLabel label = new JLabel( "Width:" );
+                    JLabel label = new JLabel( SimStrings.get( "magnetWidth.label" ) );
                     
                     // Slider
                     _magnetWidthSlider = new JSlider();
@@ -136,7 +151,7 @@ public class CompassGridControlPanel extends ControlPanel {
                 JPanel heightPanel = new JPanel();
                 {
                     // Label
-                    JLabel label = new JLabel( "Height:" );
+                    JLabel label = new JLabel( SimStrings.get( "magnetHeight.label" ) );
                     
                     // Slider
                     _magnetHeightSlider = new JSlider();
@@ -166,7 +181,7 @@ public class CompassGridControlPanel extends ControlPanel {
             JPanel gridPanel = new JPanel();
             {
                 // Titled border with a larger font.
-                TitledBorder border = new TitledBorder( "Compass Grid" );
+                TitledBorder border = new TitledBorder( SimStrings.get( "gridPanel.title" ) );
                 border.setTitleFont( titleFont );
                 gridPanel.setBorder( border );
                 
@@ -174,7 +189,7 @@ public class CompassGridControlPanel extends ControlPanel {
                 JPanel xPanel = new JPanel();
                 {
                     // Label
-                    JLabel label = new JLabel( "X Spacing:" );
+                    JLabel label = new JLabel( SimStrings.get( "xSpacing.label" ) );
                     
                     // Slider
                     _xSpacingSlider = new JSlider();
@@ -196,7 +211,7 @@ public class CompassGridControlPanel extends ControlPanel {
                 JPanel yPanel = new JPanel();
                 {
                     // Label
-                    JLabel label = new JLabel( "Y Spacing:" );
+                    JLabel label = new JLabel( SimStrings.get( "ySpacing.label" ) );
                     
                     // Slider
                     _ySpacingSlider = new JSlider();
@@ -218,7 +233,7 @@ public class CompassGridControlPanel extends ControlPanel {
                 JPanel widthPanel = new JPanel();
                 {
                     // Label
-                    JLabel label = new JLabel( "Needle Width:" );
+                    JLabel label = new JLabel( SimStrings.get( "needleWidth.label" ) );
                     
                     // Slider
                     _needleWidthSlider = new JSlider();
@@ -240,7 +255,7 @@ public class CompassGridControlPanel extends ControlPanel {
                 JPanel heightPanel = new JPanel();
                 {
                     // Label
-                    JLabel label = new JLabel( "Needle Height:" );
+                    JLabel label = new JLabel( SimStrings.get( "needleHeight.label" ) );
                     
                     // Slider
                     _needleHeightSlider = new JSlider();
@@ -266,15 +281,15 @@ public class CompassGridControlPanel extends ControlPanel {
                 gridPanel.add( heightPanel );
             }
             
+            // Reset panel
             JPanel resetPanel = new JPanel();
             {
               // Reset button
-              _resetButton = new JButton( "Reset All" );
+              _resetButton = new JButton( SimStrings.get( "resetButton.label" ) );
               
               resetPanel.setLayout( new BoxLayout( resetPanel, BoxLayout.X_AXIS ) );
               resetPanel.add( _resetButton );
             }
-            
             
             // Layout so that control groups fill horizontal space.
             BorderLayout layout = new BorderLayout();
@@ -284,7 +299,7 @@ public class CompassGridControlPanel extends ControlPanel {
             panel.add( gridPanel, BorderLayout.CENTER );
             panel.add( resetPanel, BorderLayout.SOUTH );
             
-            // Wire up event handling
+            // Wire up event handling.
             EventListener listener = new EventListener();
             _resetButton.addActionListener( listener );
             _flipPolarityButton.addActionListener( listener );
@@ -299,34 +314,79 @@ public class CompassGridControlPanel extends ControlPanel {
         super.setControlPane( panel );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters
+    //----------------------------------------------------------------------------
+
+    /**
+     * Sets the bar magnet strength.
+     * 
+     * @param value the value
+     */
     public void setBarMagnetStrength( double value ) {
         _strengthSlider.setValue( (int)value );
     }
     
+    /**
+     * Sets the bar magnet size.
+     * 
+     * @param size the size
+     */
     public void setBarMagnetSize( Dimension size ) {
         _magnetWidthSlider.setValue( size.width );
         _magnetHeightSlider.setValue( size.height );
     }
     
-    public void setGridDensity( int x, int y ) {
+    /**
+     * Sets the compass grid spacing.
+     * 
+     * @param x space between compasses in X direction
+     * @param y space between compasses in Y direction
+     */
+    public void setGridSpacing( int x, int y ) {
         _xSpacingSlider.setValue( x );
         _ySpacingSlider.setValue( y );
     }
     
-    public void setNeedleSize( Dimension size ) {
+    /**
+     * Sets the size of the compass needles in the grid.
+     * 
+     * @param size the size
+     */
+    public void setGridNeedleSize( Dimension size ) {
         _needleWidthSlider.setValue( size.width );
         _needleHeightSlider.setValue( size.height );
     }
     
+    //----------------------------------------------------------------------------
+    // Event Handling
+    //----------------------------------------------------------------------------
+
+    /**
+     * EventListener is a nested class that is private to this control panel.
+     * It handles dispatching of all events generated by the controls.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
     private class EventListener implements ActionListener, ChangeListener {
         
+        /** Sole constructor */
         public EventListener() {}
         
+        /**
+         * ActionEvent handler.
+         * 
+         * @param e the event
+         * @throws IllegalArgumentException if the event is unexpected
+         */
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _flipPolarityButton ) {
-                _module.flipBarMagnetPolarity();
+                // Magnet polarity
+                _module.flipMagnetPolarity();
             }
             else if ( e.getSource() == _resetButton ) {
+                // Reset
                 _module.reset();
             }
             else {
@@ -334,33 +394,42 @@ public class CompassGridControlPanel extends ControlPanel {
             }
         }
         
+        /**
+         * ChangeEvent handler.
+         * 
+         * @param e the event
+         * @throws IllegalArgumentException if the event is unexpected
+         */
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _strengthSlider ) {
-                _module.setBarMagnetStrength( _strengthSlider.getValue() );
+                // Magnet strength
+                _module.setMagnetStrength( _strengthSlider.getValue() );
                 Integer i = new Integer( _strengthSlider.getValue() );
                 _strengthValue.setText( i.toString() );
             }
             else if ( e.getSource() == _magnetWidthSlider || e.getSource() == _magnetHeightSlider ) {
-                _module.setBarMagnetSize( _magnetWidthSlider.getValue(), _magnetHeightSlider.getValue() );
-                Integer w = new Integer( _magnetWidthSlider.getValue() );
-                _magnetWidthValue.setText( w.toString() );
-                Integer h = new Integer( _magnetHeightSlider.getValue() );
-                _magnetHeightValue.setText( h.toString() );
+                // Magnet dimensions
+                int width = _magnetWidthSlider.getValue();
+                int height = _magnetHeightSlider.getValue();
+                _module.setMagnetSize( new Dimension( width, height ) );
+                _magnetWidthValue.setText( String.valueOf( width ) );
+                _magnetHeightValue.setText( String.valueOf( height ) );
             }
             else if ( e.getSource() == _xSpacingSlider || e.getSource() == _ySpacingSlider ) {
-                _module.setGridSpacing( _xSpacingSlider.getValue(), _ySpacingSlider.getValue() );
-                Integer x = new Integer( _xSpacingSlider.getValue() );
-                _xSpacingValue.setText( x.toString() );
-                Integer y = new Integer( _ySpacingSlider.getValue() );
-                _ySpacingValue.setText( y.toString() );
+                // Grid spacing
+                int x = _xSpacingSlider.getValue();
+                int y = _ySpacingSlider.getValue();
+                _module.setGridSpacing( x, y );
+                _xSpacingValue.setText( String.valueOf( x ) );
+                _ySpacingValue.setText( String.valueOf( y ) );
             }
             else if ( e.getSource() == _needleWidthSlider || e.getSource() == _needleHeightSlider ) {
-                Dimension size = new Dimension( _needleWidthSlider.getValue(), _needleHeightSlider.getValue() );
-                _module.setNeedleSize( size );
-                Integer w = new Integer( _needleWidthSlider.getValue() );
-                _needleWidthValue.setText( w.toString() );
-                Integer h = new Integer( _needleHeightSlider.getValue() );
-                _needleHeightValue.setText( h.toString() );
+                // Compass Needle dimensions
+                int width = _needleWidthSlider.getValue();
+                int height = _needleHeightSlider.getValue();
+                _module.setGridNeedleSize( new Dimension( width, height ) );
+                _needleWidthValue.setText( String.valueOf( width ) );
+                _needleHeightValue.setText( String.valueOf( height) );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
