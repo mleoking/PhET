@@ -176,12 +176,16 @@ public class GraphicLayerSet extends PhetGraphic {
      * @param layer
      */
     public void addGraphic( PhetGraphic graphic, double layer ) {
-        this.graphicMap.add( new Double( layer ), graphic );
+        this.graphicMap.put( new Double( layer ), graphic );
     }
 
+    /**
+     * Moves a graphic to the top layer of the set
+     * @param target
+     */
     public void moveToTop( PhetGraphic target ) {
         this.removeGraphic( target );
-        graphicMap.add( graphicMap.lastKey(), target );
+        graphicMap.put( graphicMap.lastKey(), target );
     }
 
     /**
