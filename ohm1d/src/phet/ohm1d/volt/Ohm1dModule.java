@@ -1,5 +1,7 @@
 package phet.ohm1d.volt;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import phet.math.functions.Transform;
 import phet.ohm1d.AngelPaint;
 import phet.ohm1d.AverageCurrent2;
@@ -55,9 +57,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Random;
 
 public class Ohm1dModule extends JApplet {
+    // Localization
+    public static final String localizedStringsPath = "localization/Ohm1dStrings";
+
     public Ohm1dModule() {
         //System.err.println("HI");
     }
@@ -65,7 +71,11 @@ public class Ohm1dModule extends JApplet {
     public void init() {
         super.init();
         //System.err.println("HI");
-        JButton jb = new JButton( "Start applet" );
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        JButton jb = new JButton( SimStrings.get( "Ohm1dModule.StartButton" ) );
         getContentPane().add( jb );
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent ae ) {
@@ -80,6 +90,7 @@ public class Ohm1dModule extends JApplet {
     }
 
     public void mainBAK() throws IOException, FontFormatException {
+        SimStrings.setStrings( localizedStringsPath );
         ResourceLoader4 loader = new ResourceLoader4( getClass().getClassLoader(), this );
         int moveRight = 68;
         //int scatInset = 60;
@@ -165,8 +176,8 @@ public class Ohm1dModule extends JApplet {
         float xcold = 360;
         float ycold = yhot;
         Font heatFont = new Font( null, -1, 19 );
-        cp.addPainter( new TextPainter( "hot", xhot, yhot, heatFont, Color.black ) );
-        cp.addPainter( new TextPainter( "cold", xcold, ycold, heatFont, Color.white ) );
+        cp.addPainter( new TextPainter( SimStrings.get( "Ohm1dModule.Hot" ), xhot, yhot, heatFont, Color.black ) );
+        cp.addPainter( new TextPainter( SimStrings.get( "Ohm1dModule.Cold" ), xcold, ycold, heatFont, Color.white ) );
         cp.addPainter( filament );
 
         WireSystem ws = new WireSystem();
@@ -297,11 +308,11 @@ public class Ohm1dModule extends JApplet {
         //wp,CORE_START+10,CORE_END-10);//wp.getLength());
         //AverageCurrent current=new AverageCurrent(gauge,45);
         GaugeScaling gus = new GaugeScaling();
-        gus.add( new Scaling( gauge, "Low", -maxCurrent / 4, maxCurrent / 4 ), false );
-        Scaling medium = new Scaling( gauge, "Medium", -maxCurrent / 2, maxCurrent / 2 );
+        gus.add( new Scaling( gauge, SimStrings.get( "Ohm1dModule.Low" ), -maxCurrent / 4, maxCurrent / 4 ), false );
+        Scaling medium = new Scaling( gauge, SimStrings.get( "Ohm1dModule.Medium" ), -maxCurrent / 2, maxCurrent / 2 );
         gus.add( medium, true );
-        gus.add( new Scaling( gauge, "High", -maxCurrent, maxCurrent ), false );
-        gus.setBorder( BorderFactory.createTitledBorder( "Ammeter Scale" ) );
+        gus.add( new Scaling( gauge, SimStrings.get( "Ohm1dModule.High" ), -maxCurrent, maxCurrent ), false );
+        gus.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "Ohm1dModule.AmmeterScaleBorder" ) ) );
         medium.actionPerformed( null );
         int ELECTRON_LEVEL = 3;
         ShowPainters showElectrons = new ShowPainters( cp, new int[]{ELECTRON_LEVEL, ELECTRON_LEVEL - 1} );
@@ -350,7 +361,7 @@ public class Ohm1dModule extends JApplet {
         sys.addLaw( current ); //Uncomment this to show the actual current.
         sys.addLaw( new Repaint( pp ) );
 
-        JFrame f = new JFrame( "Ohm's Law" );
+        JFrame f = new JFrame( SimStrings.get( "Ohm1dApplication.title" ) );
         pp.setBackground( new Color( 235, 230, 240 ) );
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout( new BorderLayout() );
@@ -360,10 +371,10 @@ public class Ohm1dModule extends JApplet {
         int baseFrameWidth = 1028;
         f.setSize( baseFrameWidth, 620 );
 
-        JFrame control = new JFrame( "Controls" );
+        JFrame control = new JFrame( SimStrings.get( "Ohm1dModule.ControlsTitle" ) );
         control.setLocation( baseFrameWidth, 0 );
         JPanel conPan = new JPanel();
-        conPan.setBorder( BorderFactory.createTitledBorder( "Control Panel" ) );
+        conPan.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "Ohm1dModule.ControlPanelBorder" ) ) );
         GridBagLayout gridLayout = new GridBagLayout();
         conPan.setLayout( gridLayout );
         //conPan.setLayout(conPanLayout);//new BoxLayout(conPan, BoxLayout.Y_AXIS));
@@ -371,17 +382,17 @@ public class Ohm1dModule extends JApplet {
         JPanel butPan = new JPanel();
         butPan.setLayout( new BoxLayout( butPan, BoxLayout.Y_AXIS ) );
 
-        JCheckBox showCoreBox = new JCheckBox( "Show Cores", true );
+        JCheckBox showCoreBox = new JCheckBox( SimStrings.get( "Ohm1dModule.ShowCoresCheckbox" ), true );
         showCoreBox.addActionListener( new ShowPainterListener( showCoreBox, showCores ) );
         //conPan.add(showCoreBox);
         butPan.add( showCoreBox );
 
-        JCheckBox showElectronBox = new JCheckBox( "Show Electrons", true );
+        JCheckBox showElectronBox = new JCheckBox( SimStrings.get( "Ohm1dModule.ShowElectronsCheckbox" ), true );
         showElectronBox.addActionListener( new ShowPainterListener( showElectronBox, showElectrons ) );
         //conPan.add(showElectronBox);
-        butPan.add( showElectronBox );
+        //butPan.add( showElectronBox );
 
-        JCheckBox showVoltDesc = new JCheckBox( "Show Voltage Calculation", false );
+        JCheckBox showVoltDesc = new JCheckBox( SimStrings.get( "Ohm1dModule.ShowVoltageCalcCheckbox" ), false );
         int VP_LEVEL = 100;
         CompositePainter vp = new CompositePainter();
         ShowPainters showVoltPaint = new ShowPainters( cp, VP_LEVEL );
@@ -389,8 +400,8 @@ public class Ohm1dModule extends JApplet {
         showVoltPaint.setShowPainters( showVoltDesc.isSelected() );
         showVoltDesc.addActionListener( new ShowPainterListener( showVoltDesc, showVoltPaint ) );
         //conPan.add(showVoltDesc);
-        //butPan.add(showVoltDesc);
-        JCheckBox showInsideBattery = new JCheckBox( "Show Inside Battery", false );
+        butPan.add(showVoltDesc);
+        JCheckBox showInsideBattery = new JCheckBox( SimStrings.get( "Ohm1dModule.ShowInsideBatteryCheckbox" ), false );
         ShowInsideBattery sib = new ShowInsideBattery( showInsideBattery, bp );
         showInsideBattery.addActionListener( sib );
 
@@ -404,7 +415,9 @@ public class Ohm1dModule extends JApplet {
         nf.setMaximumFractionDigits( 2 );
         nf.setMinimumFractionDigits( 2 );
         Image tinyBatteryImage = loader.loadBufferedImage( "images/ron/AA-battery-100.gif" );
-        VoltageSlider voltageSlider = new VoltageSlider( new Transform( 0, 100, minAcc, accWidth ), "Voltage", tinyBatteryImage, accDefault, nf, "Volts" );
+        VoltageSlider voltageSlider = new VoltageSlider( new Transform( 0, 100, minAcc, accWidth ),
+                        SimStrings.get( "Ohm1dModule.VoltageSliderName" ), tinyBatteryImage, accDefault,
+                        nf, SimStrings.get( "Ohm1dModule.VoltageSliderUnits" ) );
         voltageSlider.addVoltageListener( battery );
         voltageSlider.addVoltageListener( bdc );
         voltageSlider.addVoltageListener( current );
@@ -415,7 +428,8 @@ public class Ohm1dModule extends JApplet {
         voltageSlider.addVoltageListener( rs );
 
         Image coreThumbnail = loader.loadBufferedImage( "images/ron/CoreCountImage.gif" );
-        CoreCountSlider is = new CoreCountSlider( 3, maxResistance, 6, "Resistance", coreThumbnail );
+        CoreCountSlider is = new CoreCountSlider( 3, maxResistance, 6, SimStrings.get( "Ohm1dModule.CoreCountSliderName" ),
+                            coreThumbnail, SimStrings.get( "Ohm1dModule.CoreCountSliderUnits" ) );
         is.addIntListener( resistance );
         is.addIntListener( current );
         is.addIntListener( filament );
@@ -427,8 +441,8 @@ public class Ohm1dModule extends JApplet {
         BufferedImage pauseImage = loader.loadBufferedImage( "icons/Pause16.gif" );
         ImageIcon playIcon = new ImageIcon( playImage );
         ImageIcon pauseIcon = new ImageIcon( pauseImage );
-        JButton playButton = new JButton( "Play", playIcon );
-        JButton pauseButton = new JButton( "Pause", pauseIcon );
+        JButton playButton = new JButton( SimStrings.get( "Ohm1dModule.PlayButton" ), playIcon );
+        JButton pauseButton = new JButton( SimStrings.get( "Ohm1dModule.PauseButton" ), pauseIcon );
         mediaControlPanel.add( playButton );
         mediaControlPanel.add( pauseButton );
         playButton.setEnabled( false );
@@ -488,9 +502,9 @@ public class Ohm1dModule extends JApplet {
         int subTextX = 150;
         int subTextY = 170;
         int fontDX = 20;
-        TextPainter rightTP = new TextPainter( "3 electrons", subTextX, subTextY, font, textColor );
-        TextPainter leftTP = new TextPainter( "-5 electrons", subTextX, subTextY + fontDX, font, textColor );
-        TextPainter tot = new TextPainter( "= -2 Volts", subTextX, subTextY + fontDX * 2, font, textColor );
+        TextPainter rightTP = new TextPainter( "3 " + SimStrings.get( "VoltCount.Electrons" ), subTextX, subTextY, font, textColor );
+        TextPainter leftTP = new TextPainter( "-5 " + SimStrings.get( "VoltCount.Electrons" ), subTextX, subTextY + fontDX, font, textColor );
+        TextPainter tot = new TextPainter( "= -2 " + SimStrings.get( "VoltCount.Volts" ), subTextX, subTextY + fontDX * 2, font, textColor );
         VoltCount vc = new VoltCount( rightTP, battery, tot, leftTP );
         vc.iterate( 0, null );
         sys.addLaw( vc );
@@ -558,7 +572,8 @@ public class Ohm1dModule extends JApplet {
         //
         Point positiveLocation = new Point( battImageX + 30, battImageY + 45 );
         Point negativeLocation = new Point( battImageX + batteryImage.getWidth() - 170, positiveLocation.y );
-        VoltageOnBattery voltagePainter = new VoltageOnBattery( positiveLocation, negativeLocation, sylfFont, "Hi there." );
+        VoltageOnBattery voltagePainter = new VoltageOnBattery( positiveLocation, negativeLocation, sylfFont,
+                                                                SimStrings.get( "VoltageOnBattery.DefaultText" ) );
         voltageSlider.addVoltageListener( voltagePainter );
         cp.addPainter( voltagePainter, 100 );
 
@@ -605,6 +620,16 @@ public class Ohm1dModule extends JApplet {
     }
 
     public static void main( String[] args ) throws Throwable {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
         new Ohm1dModule().mainBAK();
     }
 

@@ -1,5 +1,7 @@
 package phet.ohm1d.volt;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import phet.paint.TextPainter;
 import phet.phys2d.Law;
 import phet.phys2d.System2D;
@@ -21,11 +23,11 @@ public class VoltCount implements Law {
         int left = batt.countLeft();
         int right = batt.countRight();
         int total = right - left;
-        String text = right + " electrons";
-        String textRight = "- " + left + " electrons";
+        String text = right + " " + SimStrings.get( "VoltCount.Electrons" );
+        String textRight = "- " + left + " " + SimStrings.get( "VoltCount.Electrons" );
         rightTp.setText( textRight );
         tp.setText( text );
-        String tp2 = "= " + total + " \"Volts\"";
+        String tp2 = "= " + total + " " + SimStrings.get( "VoltCount.Volts" );
         tot.setText( tp2 );
     }
 }
