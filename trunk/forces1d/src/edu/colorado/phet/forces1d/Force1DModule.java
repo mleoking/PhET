@@ -16,6 +16,7 @@ import edu.colorado.phet.forces1d.view.Force1dObject;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * User: Sam Reid
@@ -35,6 +36,7 @@ public class Force1DModule extends Module {
         this.clock = clock;
 
         forceModel = new Force1DModel( this );
+        setModel( new BaseModel() );
         imageElements = new Force1dObject[]{
             new Force1dObject( "images/cabinet.gif", "File Cabinet", 0.8, 200, 0.3, 0.2 ),
             new Force1dObject( "images/fridge.gif", "Refrigerator", 0.35, 400, 0.7, 0.5 ),
@@ -49,7 +51,7 @@ public class Force1DModule extends Module {
         forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
 
-        setModel( new BaseModel() );
+
         forceControlPanel = new Force1dControlPanel( this );
 
         setControlPanel( forceControlPanel );
@@ -88,7 +90,7 @@ public class Force1DModule extends Module {
 //        return forcePanel.getBufferedGraphic();
 //    }
 
-    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
+    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException, InterruptedException, InvocationTargetException {
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
 
         AbstractClock clock = new SwingTimerClock( 1, 30 );
@@ -97,7 +99,7 @@ public class Force1DModule extends Module {
         FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 200, 200 ) );
         ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
                                                        frameSetup, module, clock );
-        PhetApplication phetApplication = new PhetApplication( model );
+        final PhetApplication phetApplication = new PhetApplication( model );
         phetApplication.startApplication();
         module.getForcePanel().setSize( module.getForcePanel().getSize().width - 1, module.getForcePanel().getSize().height - 1 );
         module.getForcePanel().relayout();
@@ -108,6 +110,18 @@ public class Force1DModule extends Module {
 //        UIManager.getLookAndFeel().
 //        UIManager.setLookAndFeel( new PhetLookAndFeelForWindows() );
 //        SwingUtilities.updateComponentTreeUI(phetApplication.getPhetFrame() );
+        final Force1DPanel p = module.getForcePanel();
+//        p.resetRenderingSize();
+//        p.resetDidLayout();
+        SwingUtilities.invokeAndWait( new Runnable() {
+            public void run() {
+                new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
+                p.forceLayout();
+            }
+        } );
+
+        p.resetRenderingSize();
+
     }
 
     public AbstractClock getClock() {

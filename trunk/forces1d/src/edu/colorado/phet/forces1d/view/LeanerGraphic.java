@@ -25,6 +25,7 @@ public class LeanerGraphic extends PhetImageGraphic {
     private Force1DPanel forcePanel;
     private Force1DModule module;
     private double max = 500.0;
+    private FrameSequence flippedAnimation;
 
     public LeanerGraphic( final Force1DPanel forcePanel, final PhetGraphic target ) throws IOException {
         super( forcePanel, (BufferedImage)null );
@@ -32,6 +33,11 @@ public class LeanerGraphic extends PhetImageGraphic {
         this.target = target;
         this.module = forcePanel.getModule();
         animation = new FrameSequence( "images/pusher-leaning/pusher-leaning", 15 );
+        BufferedImage[] flipped = new BufferedImage[animation.getNumFrames()];
+        for( int i = 0; i < flipped.length; i++ ) {
+            flipped[i] = BufferedImageUtils.flipX( animation.getFrame( i ) );
+        }
+        flippedAnimation = new FrameSequence( flipped );
         super.setImage( animation.getFrame( 0 ) );
         target.addPhetGraphicListener( new PhetGraphicListener() {
             public void phetGraphicChanged( PhetGraphic phetGraphic ) {
@@ -61,14 +67,14 @@ public class LeanerGraphic extends PhetImageGraphic {
         } );
     }
 
-    private BufferedImage getFrame() {
+    private int getFrame() {
 
         double appliedForce = Math.abs( module.getForceModel().getAppliedForce() );
         int index = (int)( animation.getNumFrames() * appliedForce / max );
         if( index >= animation.getNumFrames() ) {
             index = animation.getNumFrames() - 1;
         }
-        return animation.getFrame( index );
+        return index;
     }
 
     private void update() {
@@ -77,7 +83,8 @@ public class LeanerGraphic extends PhetImageGraphic {
         if( app < 0 ) {
             facingRight = false;
         }
-        BufferedImage frame = getFrame();
+        int index = getFrame();
+        BufferedImage frame = animation.getFrame( index );
         int x = 0;
         int y = 0;
         if( facingRight ) {
@@ -87,7 +94,7 @@ public class LeanerGraphic extends PhetImageGraphic {
         else {
             x = target.getX() + target.getWidth();
             y = forcePanel.getWalkwayGraphic().getFloorY() - getHeight();
-            frame = BufferedImageUtils.flipX( frame );
+            frame = flippedAnimation.getFrame( index );
         }
 
         setImage( frame );
