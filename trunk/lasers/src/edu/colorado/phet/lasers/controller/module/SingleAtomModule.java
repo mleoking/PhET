@@ -47,7 +47,6 @@ public class SingleAtomModule extends BaseLaserModule {
                                                                            s_boxWidth + s_laserOffsetX * 2, 1 );
         stimulatingBeam.setBounds( stimulatingBeamBounds );
         stimulatingBeam.setDirection( new Vector2D.Double( 1, 0 ) );
-        stimulatingBeam.addListener( this );
         stimulatingBeam.setActive( true );
         stimulatingBeam.setPhotonsPerSecond( 1 );
 
@@ -57,7 +56,6 @@ public class SingleAtomModule extends BaseLaserModule {
         pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
                                                        1, s_boxHeight + s_laserOffsetX * 2 ) );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
-        pumpingBeam.addListener( this );
         pumpingBeam.setActive( true );
         BlueBeamGraphic beamGraphic = new BlueBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
         addGraphic( beamGraphic, 1 );

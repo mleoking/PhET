@@ -37,7 +37,7 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
 
     public BeamControl( final CollimatedBeam beam ) {
         this.beam = beam;
-        beam.addListener2( this );
+        beam.addListener( this );
 
         //        photonRateTF = new JTextField( 3 );
         //        photonRateTF.setEditable( false );

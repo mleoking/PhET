@@ -49,9 +49,6 @@ public class CollimatedBeam extends Particle {
     private LinkedList photons = new LinkedList();
     private boolean isEnabled;
 
-    public interface Listener {
-        void photonCreated( CollimatedBeam beam, Photon photon );
-    }
 
     public CollimatedBeam( LaserModel model, double wavelength, Point2D origin, double height, double width, Vector2D direction ) {
         this.model = model;
@@ -65,8 +62,12 @@ public class CollimatedBeam extends Particle {
     // Events and listeners
     private EventRegistry eventRegistry = new EventRegistry();
 
-    public void addListener2( EventListener listener ) {
+    public void addListener( EventListener listener ) {
         eventRegistry.addListener( listener );
+    }
+
+    public void removeListener( EventListener listener ) {
+        eventRegistry.removeListener( listener );
     }
 
     public class RateChangeEvent extends EventObject {
@@ -105,14 +106,6 @@ public class CollimatedBeam extends Particle {
 
     public void setDirection( Vector2D.Double direction ) {
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.s_speed );
-    }
-
-    public void addListener( Listener listener ) {
-        bulletinBoard.addListener( listener );
-    }
-
-    public void removeListener( Listener listener ) {
-        bulletinBoard.removeListener( listener );
     }
 
     public double getHeight() {
@@ -162,29 +155,14 @@ public class CollimatedBeam extends Particle {
         newPhoton.setPosition( genPositionX(), genPositionY() /* + newPhoton.getRadius() */ );
         newPhoton.setVelocity( new Vector2D.Double( velocity ) );
         newPhoton.setWavelength( this.wavelength );
-        model.addModelElement( newPhoton );
         photons.add( newPhoton );
-        bulletinBoard.notifyListeners( new SubscriptionService.Notifier() {
-            public void doNotify( Object obj ) {
-                ( (Listener)obj ).photonCreated( CollimatedBeam.this, newPhoton );
-            }
-        } );
+
+        eventRegistry.fireEvent( new PhotonEmittedEvent( this, newPhoton ) );
     }
 
     public void removePhoton( Photon photon ) {
         photons.remove( photon );
         model.removeModelElement( photon );
-    }
-
-
-    public class PhotonEmittedEvent extends EventObject {
-        public PhotonEmittedEvent( Object source ) {
-            super( source );
-        }
-    }
-
-    public interface PhotonEmittedEventListener extends EventListener {
-        public void photonEmittedEventOccurred( PhotonEmittedEvent event );
     }
 
     public void stepInTime( double dt ) {
