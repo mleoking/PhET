@@ -12,6 +12,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions.AlphaSetter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.DecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
@@ -34,7 +35,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private static String xAxisLabel = "Disance from Nucleus Center";
     private static String yAxisLabel = "Potential Energy";
     private static Font axisLabelFont;
-    private static float ghostAlpha = 0.6f;
+    private static float ghostAlpha = 0.2f;
 
     static {
         String family = "SansSerif";
@@ -128,13 +129,12 @@ public class PotentialProfilePanel extends ApparatusPanel {
             double y = ( nucleus instanceof AlphaParticle ? potentialProfile.getWellPotential() + AlphaParticle.RADIUS : 0 );
             // Draw one version referenced off the origin
             nucleusGraphic.paint( g2, (int)( origin.getX() + xStat ), (int)( origin.getY() + yStat ) );
-//            nucleusGraphic.paint( g2, (int)x, (int)( origin.getY() ) );
             // Draw a "ghost" version up at the well
             if( nucleusGraphic.getNucleus() instanceof AlphaParticle ) {
                 float alpha = ghostAlpha;
-                g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
+                AlphaSetter.set( g2, ghostAlpha );
                 nucleusGraphic.paint( g2, (int)x, (int)( origin.getY() - y ) );
-                g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1 ) );
+                AlphaSetter.set( g2, 1 );
             }
         }
 
@@ -147,10 +147,9 @@ public class PotentialProfilePanel extends ApparatusPanel {
                        ( nucleus.getStatisticalLocationOffset().getX() > 0 ? -1 : 1 );
 
             // Draw a ghost coming down the profile first, then the real thing on the x axis
-            float alpha = ghostAlpha;
-            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
+            AlphaSetter.set( g2, ghostAlpha );
             decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)origin.getY() - (int)y );
-            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1 ) );
+            AlphaSetter.set( g2, 1 );
             decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)origin.getY() );
         }
 

@@ -7,10 +7,7 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 
 /**
  * This class represents the potential energy profile of a particular atom.
@@ -42,7 +39,14 @@ public class PotentialProfile {
     private Point2D.Double ctrlPt2B = new Point2D.Double();
     private Point2D.Double endPt3 = new Point2D.Double();
     private Point2D.Double ctrlPt3 = new Point2D.Double();
+    private Point2D.Double endPt4 = new Point2D.Double();
+    private Point2D.Double ctrlPt4A = new Point2D.Double();
+    private Point2D.Double ctrlPt4B = new Point2D.Double();
+    private Point2D.Double endPt5 = new Point2D.Double();
+    private Point2D.Double ctrlPt5 = new Point2D.Double();
     private double alphaDecayX;
+    private GeneralPath profilePath;
+    private GeneralPath profileBackgroundPath;
 
     public PotentialProfile() {
     }
@@ -149,11 +153,45 @@ public class PotentialProfile {
         AffineTransform profileTx = new AffineTransform();
         profileTx.setToIdentity();
         profileTx.scale( -1, 1 );
+        endPt4.setLocation( -endPt2.getX(), endPt2.getY() );
+        ctrlPt4A.setLocation( -ctrlPt2B.getX(), ctrlPt2B.getY() );
+        ctrlPt4B.setLocation( -ctrlPt2A.getX(), ctrlPt2A.getY() );
+        endPt5.setLocation( -endPt1.getX(), endPt1.getY() );
+        ctrlPt5.setLocation( -ctrlPt1.getX(), ctrlPt1.getY() );
 
-        shape[2] = profileTx.createTransformedShape( shape[1] );
-        shape[3] = profileTx.createTransformedShape( shape[0] );
+        shape[2] = new CubicCurve2D.Double( endPt3.x, endPt3.y,
+                                            -ctrlPt3.x, ctrlPt3.y,
+                                            ctrlPt4A.x, ctrlPt4A.y,
+                                            endPt4.x, endPt4.y );
+        shape[3] = new CubicCurve2D.Double( endPt4.x, endPt4.y,
+                                            ctrlPt4B.x, ctrlPt4B.y,
+                                            ctrlPt5.x, ctrlPt5.y,
+                                            endPt5.x, endPt5.y );
+//        shape[2] = profileTx.createTransformedShape( shape[1] );
+//        shape[3] = profileTx.createTransformedShape( shape[0] );
+
+        profilePath = new GeneralPath();
+        profilePath.append( shape[0], true );
+        profilePath.append( shape[1], true );
+        profilePath.append( shape[2], true );
+        profilePath.append( shape[3], true );
+
+        profileBackgroundPath = new GeneralPath();
+        profileBackgroundPath.append( shape[0], true );
+        profileBackgroundPath.append( shape[1], true );
+        profileBackgroundPath.append( shape[2], true );
+        profileBackgroundPath.append( shape[3], true );
+
 
         alphaDecayX = getHillX( -getWellPotential() );
+    }
+
+    public GeneralPath getPath() {
+        return profilePath;
+    }
+
+    public GeneralPath getBackgroundPath() {
+        return profileBackgroundPath;
     }
 
     public double getAlphaDecayX() {
