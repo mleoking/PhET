@@ -102,7 +102,7 @@
         <delete dir="${classes}"/>
         <mkdir dir="${classes}"/>
         <!--        <javac classpath="lib/smoothmetal.jar;lib/jep-2.24.jar" srcdir="src-hellophet-46" destdir="${classes}"/>-->
-        <javac classpath="C:\PhET\intellij-projects\charts\classes;C:\PhET\intellij-projects\phetcommon\classes;lib/smoothmetal.jar;lib/jep-2.24.jar" srcdir="${src}" destdir="${classes}"/>
+        <javac classpath="C:\PhET\intellij-projects\charts\classes;C:\PhET\intellij-projects\phetcommon\classes;C:\PhET\projects-ii\phetcommon\lib\smoothmetal.jar" srcdir="${src}" destdir="${classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>

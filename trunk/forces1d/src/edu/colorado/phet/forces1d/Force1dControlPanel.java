@@ -39,12 +39,12 @@ public class Force1dControlPanel extends VerticalLayoutPanel {
                 model.setAppliedForce( value );
             }
         } );
-        JPanel staticFriction = createSpinner( 0, 0, MAX_KINETIC_FRICTION, .01, "Static Friction", "", new SpinnerHandler() {
+        JPanel staticFriction = createSpinner( 0.10, 0, MAX_KINETIC_FRICTION, .01, "Static Friction", "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setStaticFriction( value );
             }
         } );
-        JPanel kineticFriction = createSpinner( 0, 0, MAX_KINETIC_FRICTION, .01, "Kinetic Friction", "", new SpinnerHandler() {
+        JPanel kineticFriction = createSpinner( 0.05, 0, MAX_KINETIC_FRICTION, .01, "Kinetic Friction", "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setKineticFriction( value );
             }
@@ -61,10 +61,6 @@ public class Force1dControlPanel extends VerticalLayoutPanel {
         setAnchor( GridBagConstraints.CENTER );
         setFill( GridBagConstraints.NONE );
         add( controls );
-    }
-
-    static interface SpinnerHandler {
-        void changed( double value );
     }
 
     private JPanel createSpinner( double value, double min, double max, double spacing, String name, String units, final SpinnerHandler handler ) {
@@ -88,4 +84,8 @@ public class Force1dControlPanel extends VerticalLayoutPanel {
         return panel;
     }
 
+}
+
+interface SpinnerHandler {
+    void changed( double value );
 }
