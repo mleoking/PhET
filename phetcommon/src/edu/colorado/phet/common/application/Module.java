@@ -89,7 +89,7 @@ public class Module {
         getModel().addModelElement( modelElement );
     }
 
-    protected void addGraphic( Graphic graphic, double layer ) {
+    public void addGraphic( Graphic graphic, double layer ) {
         getApparatusPanel().addGraphic( graphic, layer );
     }
 
