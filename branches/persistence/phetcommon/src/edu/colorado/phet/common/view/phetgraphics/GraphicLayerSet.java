@@ -445,6 +445,7 @@ public class GraphicLayerSet extends PhetGraphic {
 
 
     public Rectangle getBounds() {
+
         return super.getBounds();
     }
 
