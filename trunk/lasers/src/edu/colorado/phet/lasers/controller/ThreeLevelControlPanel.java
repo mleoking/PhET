@@ -26,43 +26,44 @@ import java.awt.event.ActionListener;
 
 public class ThreeLevelControlPanel extends LaserControlPanel {
 
-    /**
-     *
-     */
     public ThreeLevelControlPanel( Module module, AbstractClock clock ) {
-        super( module, new ControlPanel( (LaserModel)module.getModel(), clock ));
+        super( module, new ControlPanel( (LaserModel)module.getModel(), clock ) );
     }
 
     private static class ControlPanel extends JPanel {
         ControlPanel( LaserModel model, AbstractClock clock ) {
             this.setLayout( new GridLayout( 7, 1 ) );
-            this.setPreferredSize( new Dimension( 160, 300 ) );
-
+            this.setLayout( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 0, 0, 0 ),
+                                                             0, 0 );
             Border border = BorderFactory.createEtchedBorder();
             this.setBorder( border );
 
-            this.add( new PumpingBeamControl( model.getPumpingBeam() ) );
-            this.add( new StimulatingBeamControl( model ) );
-            this.add( new HighEnergyHalfLifeControl( model ) );
-            this.add( new MiddleEnergyHalfLifeControl( model ) );
+            this.add( new PumpingBeamControl( model.getPumpingBeam() ), gbc );
+            gbc.gridy++;
+            this.add( new StimulatingBeamControl( model ), gbc );
+            gbc.gridy++;
+            this.add( new HighEnergyHalfLifeControl( model ), gbc );
+            gbc.gridy++;
+            this.add( new MiddleEnergyHalfLifeControl( model ), gbc );
+            gbc.gridy++;
             ResonatingCavity cavity = model.getResonatingCavity();
-            this.add( new RightMirrorReflectivityControlPanel( cavity ) );
-            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ) );
+            this.add( new RightMirrorReflectivityControlPanel( cavity ), gbc );
+            gbc.gridy++;
+            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ), gbc );
 
             String s = GraphicsUtil.formatMessage( "Show high to\nmid emissions" );
             final JCheckBox showHighToMidEmissionCB = new JCheckBox( s );
-            this.add( showHighToMidEmissionCB );
+            gbc.gridy++;
+            this.add( showHighToMidEmissionCB, gbc );
             showHighToMidEmissionCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ( (LaserApplication)PhetApplication.instance() ).displayHighToMidEmission( showHighToMidEmissionCB.isSelected() );
                 }
             } );
-        }
-
-        /**
-         *
-         */
-        public void clear() {
         }
     }
 }

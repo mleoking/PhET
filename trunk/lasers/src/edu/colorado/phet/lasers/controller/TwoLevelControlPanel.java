@@ -22,17 +22,12 @@ public class TwoLevelControlPanel extends LaserControlPanel {
 
     private static class ControlPanel extends JPanel {
         ControlPanel( LaserModel model, AbstractClock clock ) {
-
-//            this.setLayout( new GridLayout( 6, 1 ) );
             this.setLayout( new GridBagLayout() );
             GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,1,1,
                                                              GridBagConstraints.CENTER,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0,0,0,0 ),
                                                              0,0 );
-
-//            this.setPreferredSize( new Dimension( 160, 300 ) );
-
             Border border = BorderFactory.createEtchedBorder();
             this.setBorder( border );
 
