@@ -60,10 +60,10 @@ public class MultipleAtomModule extends BaseLaserModule {
         // Set the size of the cavity
         ResonatingCavity cavity = getCavity();
         Rectangle2D cavityBounds = cavity.getBounds();
-        cavity.setBounds( cavityBounds.getMinX(), cavityBounds.getMinY(),
-                          cavityBounds.getMinX() + cavityBounds.getWidth() * .7,
-                          cavityBounds.getMinY() + ( cavityBounds.getHeight() * 1.5 ) );
-        cavityBounds = cavity.getBounds();
+//        cavity.setBounds( cavityBounds.getMinX(), cavityBounds.getMinY(),
+//                          cavityBounds.getMinX() + cavityBounds.getWidth() * .7,
+//                          cavityBounds.getMinY() + ( cavityBounds.getHeight() * 1.5 ) );
+//        cavityBounds = cavity.getBounds();
 
         // Set up the beams
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),

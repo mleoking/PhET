@@ -125,7 +125,7 @@ public class BaseLaserModule extends Module {
                                           s_origin.getY() );
         cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
         getModel().addModelElement( cavity );
-        ResonatingCavityGraphic cavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
+        ResonatingGraphic cavityGraphic = new ResonatingGraphic( getApparatusPanel(), cavity );
         addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
 
         // Create the energy levels dialog
@@ -204,7 +204,7 @@ public class BaseLaserModule extends Module {
         return laserOrigin;
     }
 
-    protected ResonatingCavity getCavity() {
+    public ResonatingCavity getCavity() {
         return cavity;
     }
 
