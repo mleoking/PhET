@@ -144,6 +144,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         // the Paint being used has alpha < 255, we set apply an AlphaComposite to the
         // Graphics2D that represents alpha in the Paint, compounded with whatever
         // AlphaComposite might have been already set on the Graphics2D.
+        workingPaint = paint;
         if( component instanceof ApparatusPanel2 ) {
             ApparatusPanel2 apparatusPanel2 = (ApparatusPanel2)component;
             if( apparatusPanel2.isUseOffscreenBuffer() ) {
