@@ -72,7 +72,6 @@ public abstract class AbstractCompass extends SimpleObservable implements ModelE
         _location.setLocation( x, y );
         update();
         notifyObservers();
-        System.out.println( "AbstractCompass.setLocation: " + toString() );
     }
     
     /**
@@ -142,14 +141,26 @@ public abstract class AbstractCompass extends SimpleObservable implements ModelE
         notifyObservers();
     }
     
+    //----------------------------------------------------------------------------
+    // Object overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Provides a string representation of this object.
+     * Do not write code that relies on the format of this string.
+     * <p>
+     * Since this class is abstract, it is the subclass' responsibility
+     * to include this information in its toString method.
+     * 
+     * @return string representation
+     */
     public String toString() {
-        return "AbstractCompass=[" +
-            " location=" + _location + 
+        return
+            "location=" + _location + 
             " direction=" + _direction +
             " B=" + _fieldStrength.getMagnitude() +
             " Bx=" + _fieldStrength.getX() +
             " By=" + _fieldStrength.getY() +
-            " B0=" + Math.toDegrees(_fieldStrength.getAngle()) + "(" + _fieldStrength.getAngle() + ")" +
-            " ]";
+            " B0=" + Math.toDegrees(_fieldStrength.getAngle());
     }
 }

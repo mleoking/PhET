@@ -112,13 +112,13 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
     public void update() {
         if( isVisible() ) {
             
-            // DEBUG
-            System.out.println( "CompassGraphic.update: " +
-                    " location=" + _compassModel.getLocation() +
-                    " direction=" + _compassModel.getDirection() +
-                    " B=" + _compassModel.getFieldStrength().getMagnitude() + 
-                    " [" + _compassModel.getFieldStrength().getX() + "," + _compassModel.getFieldStrength().getY() + "]" +
-                    " @ " + Math.toDegrees( _compassModel.getFieldStrength().getAngle() )  );
+//            // DEBUG
+//            System.out.println( "CompassGraphic.update: " +
+//                    " location=" + _compassModel.getLocation() +
+//                    " direction=" + _compassModel.getDirection() +
+//                    " B=" + _compassModel.getFieldStrength().getMagnitude() + 
+//                    " [" + _compassModel.getFieldStrength().getX() + "," + _compassModel.getFieldStrength().getY() + "]" +
+//                    " @ " + Math.toDegrees( _compassModel.getFieldStrength().getAngle() )  );
 
             // Rotation of the needle
             _needle.setDirection( _compassModel.getDirection() );
