@@ -112,22 +112,6 @@ public class ACSource extends AbstractVoltageSource implements ModelElement {
                 }
             }
             setAmplitude( amplitude );
-                
-//                double max = Math.abs( amplitude * getMaxVoltage() );
-//                double delta = Math.abs( _frequency * ( max / MIN_STEPS_PER_CYCLE ) );
-//                double voltage = _voltage + ( _sign * delta );
-//                if ( voltage > max ) {
-//                    _sign = -1;
-//                    voltage = max - delta;
-//                }
-//                else if ( voltage < -max ) {
-//                    _sign = +1;
-//                    voltage = -max + delta;
-//                }
-////                _voltage = voltage;
-//            }
-//            notifyObservers();
-
         }
     } 
 }
