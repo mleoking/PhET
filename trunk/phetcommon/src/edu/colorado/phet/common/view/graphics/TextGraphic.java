@@ -90,7 +90,11 @@ public class TextGraphic implements BoundedGraphic {
         return result;
     }
 
-    public Rectangle2D getBounds() {
-        return getBounds2D();
+    public Rectangle getBounds() {
+        Rectangle2D b2 = getBounds2D();
+        if( b2 == null ) {
+            return null;
+        }
+        return new Rectangle( (int)b2.getX(), (int)b2.getY(), (int)b2.getWidth(), (int)b2.getHeight() );
     }
 }
