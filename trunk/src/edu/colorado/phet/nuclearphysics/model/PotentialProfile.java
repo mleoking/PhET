@@ -117,12 +117,14 @@ public class PotentialProfile {
         // Draw the curve going up the left side of the potential profile
         endPt1.x = -getWidth() / 2;
         endPt1.y = 0;
-        endPt2.x = -getWidth() / 10;
+        endPt2.x = -getWidth() / 20;
+//        endPt2.x = -getWidth() / 10;
         endPt2.y = -getMaxPotential();
 
         ctrlPt1.x = endPt1.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 3 );
         ctrlPt1.y = endPt1.getY();
-        ctrlPt2A.x = endPt2.getX() - ( ( endPt2.getX() - endPt1.getX() ) / 3 );
+        ctrlPt2A.x = endPt2.getX() - ( ( endPt2.getX() - endPt1.getX() ) / 6 );
+//        ctrlPt2A.x = endPt2.getX() - ( ( endPt2.getX() - endPt1.getX() ) / 3 );
         ctrlPt2A.y = endPt2.getY();
 
         shape[0] = new CubicCurve2D.Double( endPt1.x, endPt1.y,
@@ -134,7 +136,8 @@ public class PotentialProfile {
         endPt3.x = 0;
         endPt3.y = -getWellPotential();
 
-        ctrlPt2B.x = endPt2.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 4 );
+        ctrlPt2B.x = endPt2.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 10 );
+//        ctrlPt2B.x = endPt2.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 4 );
         ctrlPt2B.y = endPt2.getY();
         ctrlPt3.x = endPt3.getX() - ( ( endPt3.getX() - endPt2.getX() ) / 2 );
         ctrlPt3.y = endPt3.getY();

@@ -21,7 +21,10 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.GraphicsSetup;
+import edu.colorado.phet.common.view.RevertableGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.coreadditions.AlphaSetter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.DecayNucleus;
@@ -32,6 +35,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class PotentialProfilePanel extends ApparatusPanel {
@@ -42,12 +46,32 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private static Color axisColor = new Color( 100, 100, 100 );
     private static Stroke axisStroke = new BasicStroke( 1f );
     private static Color backgroundColor = new Color( 255, 255, 255 );
-    private static String xAxisLabel = "Disance from Nucleus Center";
+    private static String xAxisLabel = "Distance from Nucleus Center";
     private static String yAxisLabel = "Potential Energy";
     private static Font axisLabelFont;
     private static float ghostAlpha = 0.2f;
     private static double profileLayer = 10;
     private static double nucleusLayer = 20;
+    private static AffineTransform atx = new AffineTransform();
+    private static RevertableGraphicsSetup nucleusGraphicsSetup = new RevertableGraphicsSetup() {
+        private Composite orgComposite;
+
+        public void setup( Graphics2D graphics ) {
+            orgComposite = graphics.getComposite();
+            AlphaSetter.set( graphics, 0.5 );
+        }
+
+        public void revert( Graphics2D graphics ) {
+            graphics.setComposite( orgComposite );
+        }
+    };
+    private static GraphicsSetup decayProductGraphicsSetup = new GraphicsSetup() {
+        public void setup( Graphics2D graphics ) {
+            AlphaSetter.set( graphics, 0.8 );
+        }
+    };
+    private Rectangle2D.Double nucleusBackground;
+    private Line2D.Double dividingLine;
 
     static {
         String family = "SansSerif";
@@ -55,9 +79,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
         int size = 12;
         axisLabelFont = new Font( family, style, size );
     }
-
-    private static AffineTransform atx = new AffineTransform();
-    ;
 
     public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
         atx.setToIdentity();
@@ -85,6 +106,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private Point2D.Double strLoc = new Point2D.Double();
     private Line2D.Double xAxis = new Line2D.Double();
     private Line2D.Double yAxis = new Line2D.Double();
+    private AffineTransform profileTx = new AffineTransform();
     private AffineTransform originTx = new AffineTransform();
     private AffineTransform wellTx = new AffineTransform();
     private ArrayList wellParticles = new ArrayList();
@@ -94,13 +116,18 @@ public class PotentialProfilePanel extends ApparatusPanel {
         this.setBackground( backgroundColor );
         this.potentialProfile = potentialProfile;
         profileGraphic = new PotentialProfileGraphic( potentialProfile );
+
+        nucleusBackground = new Rectangle2D.Double();
+        this.addGraphic( new ShapeGraphic( nucleusBackground, new Color( 255, 255, 220 ) ), 0 );
+        dividingLine = new Line2D.Double();
+        this.addGraphic( new ShapeGraphic( dividingLine, Color.black, new BasicStroke( 1f ) ), 0.1 );
     }
 
-    private void addNucleusGraphic( NucleusGraphic nucleusGraphic ) {
-        this.addGraphic( nucleusGraphic, nucleusLayer, originTx );
+    private synchronized void addNucleusGraphic( NucleusGraphic nucleusGraphic ) {
+        this.addGraphic( nucleusGraphic, nucleusLayer, originTx, nucleusGraphicsSetup );
     }
 
-    public void addOriginCenteredGraphic( Graphic graphic ) {
+    public synchronized void addOriginCenteredGraphic( Graphic graphic ) {
         this.addGraphic( graphic, originTx );
     }
 
@@ -108,27 +135,41 @@ public class PotentialProfilePanel extends ApparatusPanel {
         return potentialProfile;
     }
 
-    protected void paintComponent( Graphics graphics ) {
+    protected synchronized void paintComponent( Graphics graphics ) {
+        Graphics2D g2 = (Graphics2D)graphics;
 
         // Center the profile in the panel
-        origin.setLocation( this.getWidth() / 2, this.getHeight() * 3 / 4 );
+        origin.setLocation( this.getWidth() / 2, this.getHeight() * 1 / 4 );
         originTx.setToTranslation( origin.getX(), origin.getY() );
-        wellTx.setToTranslation( origin.getX(), origin.getY() - potentialProfile.getWellPotential() - AlphaParticle.RADIUS );
+        profileTx.setToTranslation( origin.getX(),
+                                    origin.getY() + 600 );
+        wellTx.setToTranslation( origin.getX(), origin.getY() + 600 - potentialProfile.getWellPotential() - AlphaParticle.RADIUS );
+
+        // Paint the background
+        nucleusBackground.setRect( this.getX(), this.getY(), this.getWidth(), this.getHeight() * 2 / 5 );
+        dividingLine.setLine( 0, this.getHeight() * 2 / 5, this.getWidth(), this.getHeight() * 2 / 5 );
 
         // Draw everything that isn't special to this panel
-        super.paintComponent( graphics );
-        Graphics2D g2 = (Graphics2D)graphics;
+        AlphaSetter.set( g2, 1 );
+        g2.setColor( backgroundColor );
+        super.paintComponent( g2 );
+
+//        Color orgColor = g2.getColor();
+//        g2.setColor( new Color( 255, 255, 220 ) );
+//        g2.draw( nucleusBackground );
+//        g2.setColor( orgColor );
+
 
         // Draw axes
         drawAxes( g2 );
 
         // Draw "ghost" alpah particles in the potential well
+//        for( int i = 0; i < 0; i++ ) {
         for( int i = 0; i < wellParticles.size(); i++ ) {
             NucleusGraphic nucleusGraphic = (NucleusGraphic)wellParticles.get( i );
             double xStat = nucleusGraphic.getNucleus().getLocation().getX();
             double yStat = nucleusGraphic.getNucleus().getLocation().getY();
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
-
             AlphaSetter.set( g2, ghostAlpha );
             AffineTransform orgTx = g2.getTransform();
             g2.transform( wellTx );
@@ -138,6 +179,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
         }
 
         if( decayGraphic != null ) {
+            AffineTransform orgTx = g2.getTransform();
             DecayNucleus nucleus = (DecayNucleus)decayGraphic.getNucleus();
             // Note: -y is needed because we're currently working in view coordinates. The profile is a cubic
             // in view coordinates
@@ -145,38 +187,44 @@ public class PotentialProfilePanel extends ApparatusPanel {
             double x = nucleus.getLocation().getX();
 
             // Draw a ghost coming down the profile first, then the real thing on the x axis
+            g2.transform( profileTx );
             AlphaSetter.set( g2, ghostAlpha );
-            decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)origin.getY() - (int)y );
+            decayGraphic.paint( g2, (int)( x ), -(int)y );
             AlphaSetter.set( g2, 1 );
-            decayGraphic.paint( g2, (int)( (int)origin.getX() + x ), (int)( origin.getY() + nucleus.getLocation().getY() ) );
+            g2.setTransform( orgTx );
+            g2.transform( originTx );
+            decayGraphic.paint( g2, (int)nucleus.getLocation().getX(), (int)nucleus.getLocation().getY() );
+            g2.setTransform( orgTx );
         }
     }
 
     private void drawAxes( Graphics2D g2 ) {
+        AffineTransform orgTx = g2.getTransform();
 
         g2.setColor( axisColor );
         g2.setStroke( axisStroke );
-        xAxis.setLine( 0, origin.getY(), this.getWidth(), origin.getY() );
-        yAxis.setLine( origin.getX(), 0, origin.getX(), this.getHeight() );
+        xAxis.setLine( -this.getWidth(), 0, this.getWidth(), 0 );
+        yAxis.setLine( 0, -this.getHeight(), 0, this.getHeight() );
+        g2.transform( profileTx );
         g2.draw( xAxis );
         g2.draw( yAxis );
+        g2.setTransform( orgTx );
 
         // Draw labels
         g2.setFont( axisLabelFont );
         g2.setColor( Color.black );
         FontMetrics fm = g2.getFontMetrics();
-        strLoc.setLocation( origin.getX(), fm.stringWidth( yAxisLabel ) + 10 );
+        strLoc.setLocation( origin.getX(), profileTx.getTranslateY() );
         AffineTransform strTx = rotateInPlace( -Math.PI / 2, strLoc.getX(), strLoc.getY() );
-        AffineTransform orgTx = g2.getTransform();
         g2.transform( strTx );
         g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
         g2.setTransform( orgTx );
         strLoc.setLocation( this.getWidth() - fm.stringWidth( xAxisLabel ) - 10,
-                            origin.getY() + fm.getHeight() );
+                            profileTx.getTranslateY() + fm.getHeight() );
         g2.drawString( xAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
     }
 
-    public void setNucleus( Nucleus nucleus ) {
+    public synchronized void setNucleus( Nucleus nucleus ) {
         this.addNucleusGraphic( new NucleusGraphic( nucleus ) );
         setPotentialProfile( nucleus.getPotentialProfile() );
     }
@@ -185,22 +233,20 @@ public class PotentialProfilePanel extends ApparatusPanel {
         this.potentialProfile = potentialProfile;
         PotentialProfileGraphic ppg = new PotentialProfileGraphic( potentialProfile );
         ppg.setOrigin( new Point2D.Double( 0, 0 ) );
-        addGraphic( ppg, nucleusLayer, originTx );
+        addGraphic( ppg, nucleusLayer, profileTx );
     }
 
-    public void addDecayProduct( Nucleus decayNucleus ) {
+    public synchronized void addDecayProduct( Nucleus decayNucleus ) {
         this.decayGraphic = new NucleusGraphic( decayNucleus );
     }
 
-    public void addAlphaParticle( AlphaParticle alphaParticle ) {
+    public synchronized void addAlphaParticle( AlphaParticle alphaParticle ) {
         NucleusGraphic graphic = new NucleusGraphic( alphaParticle );
-        alphaParticle.addObserver( graphic );
         this.addOriginCenteredGraphic( graphic );
 
         // Add a graphic up in the potential well for the graphic
         NucleusGraphic wellGraphic = new NucleusGraphic( alphaParticle );
         wellParticles.add( wellGraphic );
-        alphaParticle.addObserver( wellGraphic );
     }
 
     public void clear() {

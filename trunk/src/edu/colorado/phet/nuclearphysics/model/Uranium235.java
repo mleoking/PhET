@@ -23,6 +23,7 @@ public class Uranium235 extends Nucleus {
     // Instance fields and methods
     //
     private ArrayList decayListeners = new ArrayList();
+//    private AlphaParticle[] alphaParticles = new AlphaParticle[1];
     private AlphaParticle[] alphaParticles = new AlphaParticle[4];
 
     public Uranium235( Point2D.Double position ) {
@@ -46,12 +47,12 @@ public class Uranium235 extends Nucleus {
             AlphaParticle alphaParticle = alphaParticles[j];
             if( alphaParticle.getLocation().distanceSq( this.getLocation() ) + alphaParticle.getRadius()
                 > potentialProfile.getAlphaDecayX() * potentialProfile.getAlphaDecayX() ) {
-                try {
-                    Thread.sleep( 1000 );
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Thread.sleep( 1000 );
+//                }
+//                catch( InterruptedException e ) {
+//                    e.printStackTrace();
+//                }
                 // Note: the production of decay products in this way is probably no longer the best
                 // way to do things, now that there are alpha particles jumping around and causing the
                 // decay in the first place. But this hacked up system still seems to work, so I'm
