@@ -63,3 +63,7 @@ Misc
     Add a header to every file
     Tag/branch strategy
     Test notification on phetcommon
+
+
+
+Make default constructor for PhetImageGraphic protected
