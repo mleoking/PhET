@@ -28,6 +28,13 @@ import edu.colorado.phet.faraday.util.Vector2D;
 public class PickupCoil extends AbstractCoil implements ModelElement {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Determines how the magnetic field decreases with the distance from the magnet.
+    private static final double DISTANCE_EXPONENT = 2.0;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -128,7 +135,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             getLocation( _point /* output */ );
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _point, _fieldVector /* output */ );
+            _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
             
             // Calculate the flux.
             double B = _fieldVector.getMagnitude();
@@ -151,7 +158,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             }
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _point, _fieldVector /* output */ );
+            _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT  );
             
             // Calculate the flux.
             double B = _fieldVector.getMagnitude();
@@ -174,7 +181,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             }
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _point, _fieldVector /* output */ );
+            _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT  );
             
             // Calculate the flux.
             double B = _fieldVector.getMagnitude();

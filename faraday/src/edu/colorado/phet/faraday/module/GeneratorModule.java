@@ -113,11 +113,13 @@ public class GeneratorModule extends FaradayModule {
         // Lightbulb
         Lightbulb lightbulbModel = new Lightbulb( pickupCoilModel );
         lightbulbModel.setEnabled( true );
+        lightbulbModel.setScale( 2.0 ); // depends on distance between pickup coil and turbine!
         
         // Volt Meter
         Voltmeter voltmeterModel = new Voltmeter( pickupCoilModel );
         voltmeterModel.setRotationalKinematicsEnabled( true );
         voltmeterModel.setEnabled( false );
+        voltmeterModel.setScale( 3.2 ); // depends on distance between pickup coil and turbine!
         model.addModelElement( voltmeterModel );
         
         //----------------------------------------------------------------------------
@@ -138,16 +140,13 @@ public class GeneratorModule extends FaradayModule {
         PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model,
                 pickupCoilModel, lightbulbModel, voltmeterModel, turbineModel );
         pickupCoilGraphic.setDraggingEnabled( false );
-        pickupCoilGraphic.setElectronSpeedRescaler( new ElectronSpeedRescaler( turbineModel ) );
-        pickupCoilGraphic.setLightbulbRescaler( new LightbulbRescaler( turbineModel ) );
-        pickupCoilGraphic.setVoltmeterRescaler( new VoltmeterRescaler( turbineModel) );
         apparatusPanel.addChangeListener( pickupCoilGraphic );
         apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, turbineModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescaler( new CompassGridRescaler( turbineModel ) );
+        gridGraphic.setRescaler( new CompassGridRescaler() );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         gridGraphic.setVisible( false );

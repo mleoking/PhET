@@ -137,16 +137,13 @@ public class PickupCoilModule extends FaradayModule {
         // Pickup Coil
         PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
                 pickupCoilModel, lightbulbModel, voltmeterModel, barMagnetModel );
-        pickupCoilGraphic.setElectronSpeedRescaler( new ElectronSpeedRescaler( barMagnetModel ) );
-        pickupCoilGraphic.setLightbulbRescaler( new LightbulbRescaler( barMagnetModel ) );
-        pickupCoilGraphic.setVoltmeterRescaler( new VoltmeterRescaler( barMagnetModel) );
         apparatusPanel.addChangeListener( pickupCoilGraphic );
         apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
 
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescaler( new CompassGridRescaler( barMagnetModel ) );
+        gridGraphic.setRescaler( new CompassGridRescaler() );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         gridGraphic.setVisible( false );

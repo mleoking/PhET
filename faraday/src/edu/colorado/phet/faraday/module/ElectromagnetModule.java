@@ -142,7 +142,7 @@ public class ElectromagnetModule extends FaradayModule {
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, 
                 electromagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescaler( new CompassGridRescaler( electromagnetModel ) );
+        gridGraphic.setRescaler( new CompassGridRescaler() );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         apparatusPanel.addChangeListener( gridGraphic );

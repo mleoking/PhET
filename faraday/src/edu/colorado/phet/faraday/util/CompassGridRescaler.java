@@ -11,8 +11,7 @@
 
 package edu.colorado.phet.faraday.util;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.common.math.MathUtil;
 
 
 /** 
@@ -22,21 +21,21 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class CompassGridRescaler extends GenericRescaler implements SimpleObserver {
+public class CompassGridRescaler implements IRescaler  {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
     private static final double THRESHOLD = 0.8;
-    private static final double MIN_EXPONENT = 0.3;
-    private static final double MAX_EXPONENT = 0.8;
+    private static final double EXPONENT = 0.5;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractMagnet _magnetModel;
+    private double _threshold;
+    private double _exponent;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -44,32 +43,46 @@ public class CompassGridRescaler extends GenericRescaler implements SimpleObserv
     
     /**
      * Sole constructor
-     * 
-     * @param magnetModel the magnet whose magnetic field serves as the reference
      */
-    public CompassGridRescaler( AbstractMagnet magnetModel ) {
-        super();
-        assert( magnetModel != null );
-        _magnetModel = magnetModel;
-        _magnetModel.addObserver( this );
-        
-        setMaxReference( magnetModel.getMaxStrength() );
-        setReference( magnetModel.getStrength() );
-        setExponents( MIN_EXPONENT, MAX_EXPONENT );
-        setThreshold( THRESHOLD );
-    }
-    
-    public void finalize() {
-        _magnetModel.removeObserver( this );
-        _magnetModel = null;
+    public CompassGridRescaler() {
+        super();      
+        _threshold = THRESHOLD;
+        _exponent = EXPONENT;
     }
     
     //----------------------------------------------------------------------------
-    // SimpleObserver implementation
+    // Accessors
     //----------------------------------------------------------------------------
     
-    public void update() {
-        setMaxReference( _magnetModel.getMaxStrength() );
-        setReference( _magnetModel.getStrength() );
+    public void setThreshold( double threshold ) {
+        assert( threshold >= 0 && threshold <= 1 );
+        _threshold = threshold;
+    }
+    
+    public double getThresold() {
+        return _threshold;
+    }
+    
+    public void setExponent( double exponent ) {
+        assert( exponent > 0 && exponent <= 1.0 );
+        _exponent = exponent;
+    } 
+    
+    public double getExponent() {
+        return _exponent;
+    }
+    
+    //----------------------------------------------------------------------------
+    // IRescaler implementation
+    //----------------------------------------------------------------------------
+    
+    public double rescale( double scale ) {
+        assert( scale >=0 && scale <= 1 );
+        double newScale = scale;
+        if ( scale != 0 && scale <= _threshold ) {
+            newScale = Math.pow( scale / _threshold, _exponent );
+            newScale = MathUtil.clamp( 0, newScale, 1 );
+        }
+        return newScale;
     }
 }

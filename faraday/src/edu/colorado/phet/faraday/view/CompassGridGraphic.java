@@ -407,6 +407,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
                     double scale = 0;
                     if ( magnetStrength != 0 ) {
                         
+                        // Start with a scale relative to the current strength of the magnet.
                         scale = ( magnitude / magnetStrength );
                         scale = MathUtil.clamp( 0, scale, 1 );
                         
@@ -414,6 +415,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
                         if ( _rescaler != null ) {
                             scale = _rescaler.rescale( scale );
                         }
+                        
+                        // Adjust the scale to the maximum magnet strength.
+                        scale = scale * ( magnetStrength / _magnetModel.getMaxStrength() );
                     }
                     
                     // Set the needle strength.
