@@ -156,8 +156,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      * disable smoothing of emf values.
      */
     public void updateEmf() {
-
-        // TODO handle arbitrary coil orientation
         
         // Flux at the center of the coil.
         double centerFlux = 0;
@@ -165,7 +163,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             Point2D location = getLocation();
             AbstractVector2D strength = _magnetModel.getStrength( location );
             double B = strength.getMagnitude();
-            double theta = strength.getAngle();
+            double theta = Math.abs( strength.getAngle() - getDirection() );
             double A = getArea();
             centerFlux = B * A * Math.cos( theta );
         }
@@ -178,7 +176,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             Point2D location = new Point2D.Double( x, y );
             AbstractVector2D strength = _magnetModel.getStrength( location );
             double B = strength.getMagnitude();
-            double theta = strength.getAngle();
+            double theta = Math.abs( strength.getAngle() - getDirection() );
             double A = getArea();
             topFlux = B * A * Math.cos( theta ); 
         }
@@ -191,7 +189,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             Point2D location = new Point2D.Double( x, y );
             AbstractVector2D strength = _magnetModel.getStrength( location );
             double B = strength.getMagnitude();
-            double theta = strength.getAngle();
+            double theta = Math.abs( strength.getAngle() - getDirection() );
             double A = getArea();
             bottomFlux = B * A * Math.cos( theta ); 
         }
