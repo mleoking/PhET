@@ -77,7 +77,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         _electromagnetModel.addObserver( this );
         
         // Graphics components
-        _coilGraphic = new CoilGraphic( component, baseModel, sourceCoilModel );
+        _coilGraphic = new CoilGraphic( component, sourceCoilModel, baseModel );
         _batteryGraphic = new BatteryGraphic( component, batteryModel );
         _acSourceGraphic = new ACSourceGraphic( component, acSourceModel );
         
