@@ -20,6 +20,7 @@ import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MMTimer;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
+import edu.colorado.phet.movingman.common.ScreenSizeHandlerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -242,7 +243,7 @@ public class MMPlot extends PhetGraphic {
         chart.getXAxis().setMajorGridlines( new double[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20} ); //to ignore the 0.0
         chart.getXAxis().setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{6, 6}, 0 ) );
 
-        chart.setVerticalTitle( title, color, verticalTitleFont );
+        chart.setVerticalTitle( title, color, verticalTitleFont, 40 );
 
         verticalChartSlider = new VerticalChartSlider( chart );
         chart.getVerticalTicks().setMajorOffset( -verticalChartSlider.getSlider().getWidth() - 5, 0 );
@@ -271,8 +272,12 @@ public class MMPlot extends PhetGraphic {
 
 //        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/mag-plus-10.gif" );
 //        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/mag-minus-10.gif" );
-        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
-        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+//        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+        //        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+
+        BufferedImage imgPlus = ScreenSizeHandlerFactory.getScreenSizeHandler().getZoomInButtonImage();//ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+        BufferedImage imgMinus = ScreenSizeHandlerFactory.getScreenSizeHandler().getZoomOutButtonImage();//ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+
         final double smooth = 1;
         ActionListener smoothPos = new Increment( smooth );
         ActionListener smoothNeg = new Decrement( smooth );
@@ -572,8 +577,9 @@ public class MMPlot extends PhetGraphic {
     public static class ChartButton extends JButton {
         private static Font font = MMFontManager.getFontSet().getChartButtonFont();//new Font( "Lucida Sans", Font.BOLD, 14 );
 
-        public ChartButton( String label ) throws IOException {
-            super( label, new ImageIcon( ImageLoader.loadBufferedImage( "images/arrow-right.gif" ) ) );
+        public ChartButton( String label ) {
+//            super( label, new ImageIcon( ImageLoader.loadBufferedImage( "images/arrow-right.gif" ) ) );
+            super( label );
             setFont( font );
             setVerticalTextPosition( AbstractButton.CENTER );
             setHorizontalTextPosition( AbstractButton.LEFT );
@@ -615,9 +621,10 @@ public class MMPlot extends PhetGraphic {
             super( loadIcon() );
         }
 
-        public static Icon loadIcon() throws IOException {
+        public static Icon loadIcon() {
             if( icon == null ) {
-                BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
+                BufferedImage image = ScreenSizeHandlerFactory.getScreenSizeHandler().getCloseImage();
+//                BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
                 icon = new ImageIcon( image );
             }
             return icon;
