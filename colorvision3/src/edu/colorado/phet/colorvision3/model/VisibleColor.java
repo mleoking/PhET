@@ -105,7 +105,7 @@ public class VisibleColor extends Color
   }
   
   /** 
-   * Converts a wavelength to a Color.
+   * Converts a wavelength to an opaque Color.
    * A wavelength of zero corresponds to white.
    * Wavelengths outside the visible spectrum return fully-transparent black.
    * <p>
@@ -116,7 +116,7 @@ public class VisibleColor extends Color
    * @param wl the wavelength
    * @return the corresponding Color
    */
-  private static Color wavelengthToColor( double wl )
+  public static Color wavelengthToColor( double wl )
   {
     Color color = null;
     
@@ -147,12 +147,13 @@ public class VisibleColor extends Color
   /**
    * Converts a Color to its corresponding wavelength.
    * Relies on a color lookup table that is initialized the first time
-   * that this method is called.
+   * that this method is called.  Color lookup is based on RGB component
+   * value; the alpha value is ignored.
    * 
    * @param color the color
    * @return the wavelength
    */
-  private static double colorToWavelength( Color color )
+  public static double colorToWavelength( Color color )
   {
     double wavelength = INVISIBLE_WAVELENGTH;
     
