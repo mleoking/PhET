@@ -7,9 +7,8 @@
  */
 package edu.colorado.phet.lasers.physics.atom;
 
-import edu.colorado.phet.controller.command.AddParticleCmd;
 import edu.colorado.phet.lasers.physics.photon.Photon;
-import edu.colorado.phet.physics.collision.SphericalBody;
+import edu.colorado.phet.collision.SphericalBody;
 
 /**
  *
@@ -37,7 +36,7 @@ public class Atom extends SphericalBody {
 
     public void setState( AtomicState newState ) {
         this.state = newState;
-        setChanged();
+//        setChanged();
         notifyObservers();
     }
 

@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.graphics.ShapeGraphic;
-import edu.colorado.phet.physics.collision.Wall;
-import edu.colorado.phet.physics.body.Particle;
+
+import edu.colorado.phet.common.view.graphics.ShapeGraphic;
+import edu.colorado.phet.common.model.Particle;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;

@@ -6,9 +6,6 @@
  */
 package edu.colorado.phet.lasers.physics;
 
-import edu.colorado.phet.physics.MustContain;
-import edu.colorado.phet.physics.Constraint;
-import edu.colorado.phet.physics.body.PhysicalEntity;
 import edu.colorado.phet.lasers.physics.atom.Atom;
 
 public class CavityMustContainAtom extends MustContain {
@@ -40,10 +37,10 @@ public class CavityMustContainAtom extends MustContain {
             throw new RuntimeException( "Contained not instance of Atom" );
         }
 
-        float x = atom.getPosition().getX();
-        float newX = x;
-        float y = atom.getPosition().getY();
-        float newY = y;
+        double x = atom.getPosition().getX();
+        double newX = x;
+        double y = atom.getPosition().getY();
+        double newY = y;
 
 
         if( x < cavity.getPosition().getX() + atom.getRadius() ) {

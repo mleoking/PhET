@@ -6,10 +6,9 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.controller.PhetApplication;
-import edu.colorado.phet.controller.PhetControlPanel;
-import edu.colorado.phet.lasers.view.*;
-import edu.colorado.phet.lasers.physics.LaserSystem;
+
+import edu.colorado.phet.common.view.PhetControlPanel;
+import edu.colorado.phet.common.application.Module;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -21,8 +20,10 @@ public class LaserControlPanel extends PhetControlPanel {
      *
      * @param application
      */
-    public LaserControlPanel( PhetApplication application ) {
-        init();
+    public LaserControlPanel( Module module, JPanel controls ) {
+        super( module, controls );
+//    public LaserControlPanel( PhetApplication application ) {
+//        init();
     }
 
     /**
@@ -36,7 +37,7 @@ public class LaserControlPanel extends PhetControlPanel {
         Border border = BorderFactory.createEtchedBorder();
         this.setBorder( border );
 
-//        LaserSystem laserSystem = (LaserSystem)PhetApplication.instance().getPhysicalSystem();
+//        LaserModel laserSystem = (LaserModel)PhetApplication.instance().getPhysicalSystem();
 //        this.add( new StimulatingBeamControl( laserSystem.getStimulatingBeam() ) );
 //        this.add( new PumpingBeamControl() );
 //        this.add( new SpontaneousEmissionTimeControlPanel() );

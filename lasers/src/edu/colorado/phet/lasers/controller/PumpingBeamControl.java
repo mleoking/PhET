@@ -7,11 +7,9 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.command.SetPumpingRateCmd;
-import edu.colorado.phet.lasers.controller.command.SetPhotonRateCmd;
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.lasers.physics.LaserModel;
 import edu.colorado.phet.lasers.physics.photon.CollimatedBeam;
-import edu.colorado.phet.controller.PhetApplication;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,15 +17,13 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.util.Observer;
-import java.util.Observable;
 
-public class PumpingBeamControl extends JPanel implements Observer {
+public class PumpingBeamControl extends JPanel implements SimpleObserver {
 
     private JTextField pumpingRateTF;
     private JSlider pumpingRateSlider;
 
-    public PumpingBeamControl( CollimatedBeam collimatedBeam ) {
+    public PumpingBeamControl( final CollimatedBeam collimatedBeam ) {
 
         if( collimatedBeam != null ) {
             collimatedBeam.addObserver( this );
@@ -57,7 +53,8 @@ public class PumpingBeamControl extends JPanel implements Observer {
         pumpingRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 if( !pumpingRateSlider.getValueIsAdjusting() ) {
-                    updatePumpingRate( pumpingRateSlider.getValue() );
+                    collimatedBeam.setPhotonsPerSecond( pumpingRateSlider.getValue() );
+//                    updatePumpingRate( pumpingRateSlider.getValue() );
                     pumpingRateTF.setText( Integer.toString( pumpingRateSlider.getValue() ) );
                 }
             }
@@ -72,18 +69,24 @@ public class PumpingBeamControl extends JPanel implements Observer {
         this.add( pumpingControlPanel );
     }
 
-    private void updatePumpingRate( int rate ) {
-        PhetApplication.instance().getPhysicalSystem().addPrepCmd( new SetPumpingRateCmd( rate ));
-    }
+//    private void updatePumpingRate( int rate ) {
+//
+//        PhetApplication.instance().getPhysicalSystem().addPrepCmd( new SetPumpingRateCmd( rate ));
+//    }
 
 
-    public void update( Observable o, Object arg ) {
-        if( o instanceof CollimatedBeam ) {
-            CollimatedBeam collimatedBeam = (CollimatedBeam)o;
+    public void update() {
 //            SwingUtilities.invokeLater( new UpdateControl( collimatedBeam ));
-        }
+//        }
     }
 
+//    public void update( Observable o, Object arg ) {
+//        if( o instanceof CollimatedBeam ) {
+//            CollimatedBeam collimatedBeam = (CollimatedBeam)o;
+////            SwingUtilities.invokeLater( new UpdateControl( collimatedBeam ));
+//        }
+//    }
+//
     //
     // Inner Classes
     //

@@ -7,15 +7,15 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.controller.PhetApplication;
-import edu.colorado.phet.controller.PhetControlPanel;
-import edu.colorado.phet.graphics.MonitorPanel;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.TwoLevelControlPanel;
 import edu.colorado.phet.lasers.physics.ResonatingCavity;
-import edu.colorado.phet.physics.Vector2D;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.Vector2D;
 
-public class TestApparatusPanel extends SingleAtomBaseApparatusPanel {
+import java.awt.geom.Point2D;
+
+public class TestApparatusModule extends SingleAtomBaseModule {
 
 //    private MonitorPanel monitorPanel = new TwoEnergyLevelMonitorPanel();
 //    private PhetControlPanel controlPanel = new TwoLevelControlPanel();
@@ -23,22 +23,23 @@ public class TestApparatusPanel extends SingleAtomBaseApparatusPanel {
     /**
      *
      */
-    public TestApparatusPanel() {
+    public TestApparatusModule() {
         super( "Test" );
     }
 
-    public void activate() {
-        super.activate();
+    public void activate( PhetApplication app ) {
+        super.activate( app );
 
-        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( new TwoEnergyLevelMonitorPanel() );
-        PhetApplication.instance().getPhetMainPanel().setControlPanel( new TwoLevelControlPanel() );
+//        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( new TwoEnergyLevelMonitorPanel() );
+//        PhetApplication.instance().getPhetMainPanel().setControlPanel( new TwoLevelControlPanel() );
 
 
         float newHeight = 100;
         ResonatingCavity cavity = this.getCavity();
-        float cavityHeight =  cavity.getHeight();
-        Vector2D cavityPos = cavity.getPosition();
-        float yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
+        double cavityHeight =  cavity.getHeight();
+        Point2D cavityPos = cavity.getPosition();
+//        Vector2D cavityPos = cavity.getPosition();
+        double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
         cavity.setPosition( cavityPos.getX(), yNew );
         cavity.setHeight( newHeight );
 
@@ -47,6 +48,6 @@ public class TestApparatusPanel extends SingleAtomBaseApparatusPanel {
         config.setMiddleEnergySpontaneousEmissionTime( 10.00f );
         config.setPumpingPhotonRate( 0.0f );
         config.setReflectivity( 0.0f );
-        config.configureSystem();
+        config.configureSystem( getLaserModel() );
     }
 }

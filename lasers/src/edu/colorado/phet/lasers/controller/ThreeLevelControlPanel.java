@@ -6,49 +6,58 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.controller.PhetApplication;
-import edu.colorado.phet.controller.PhetControlPanel;
-import edu.colorado.phet.lasers.physics.LaserSystem;
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.lasers.physics.LaserModel;
 import edu.colorado.phet.lasers.physics.ResonatingCavity;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ThreeLevelControlPanel extends PhetControlPanel {
+public class ThreeLevelControlPanel extends LaserControlPanel {
 
     /**
      *
      */
-    public ThreeLevelControlPanel() {
-        init();
+    public ThreeLevelControlPanel( Module module, AbstractClock clock ) {
+        super( module, new ControlPanel( (LaserModel)module.getModel(), clock ));
     }
 
-    /**
-     *
-     */
-    private void init() {
+    private static class ControlPanel extends JPanel {
+        ControlPanel( LaserModel model, AbstractClock clock ) {
+            this.setLayout( new GridLayout( 7, 1 ) );
+            this.setPreferredSize( new Dimension( 160, 300 ) );
 
-        this.setLayout( new GridLayout( 6, 1 ) );
-//        this.setLayout( new FlowLayout( FlowLayout.LEFT ) );
-        this.setPreferredSize( new Dimension( 160, 300 ) );
+            Border border = BorderFactory.createEtchedBorder();
+            this.setBorder( border );
 
-        Border border = BorderFactory.createEtchedBorder();
-        this.setBorder( border );
+            this.add( new PumpingBeamControl( model.getPumpingBeam() ) );
+            this.add( new StimulatingBeamControl( model ) );
+            this.add( new HighEnergyHalfLifeControl( model ) );
+            this.add( new MiddleEnergyHalfLifeControl( model ) );
+            ResonatingCavity cavity = model.getResonatingCavity();
+            this.add( new RightMirrorReflectivityControlPanel( cavity ) );
+            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ) );
 
-        LaserSystem laserSystem = (LaserSystem)PhetApplication.instance().getPhysicalSystem();
-        this.add( new PumpingBeamControl( laserSystem.getPumpingBeam() ) );
-        this.add( new StimulatingBeamControl( laserSystem.getStimulatingBeam() ) );
-        this.add( new HighEnergyHalfLifeControl() );
-        this.add( new MiddleEnergyHalfLifeControl() );
-        ResonatingCavity cavity = laserSystem.getResonatingCavity();
-        this.add( new RightMirrorReflectivityControlPanel( cavity ) );
-        this.add( new SimulationRateControlPanel( 1, 40, 10 ));
-    }
+            String s = GraphicsUtil.formatMessage( "Show high to\nmid emissions" );
+            final JCheckBox showHighToMidEmissionCB = new JCheckBox( s );
+            this.add( showHighToMidEmissionCB );
+            showHighToMidEmissionCB.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    ( (LaserApplication)PhetApplication.instance() ).displayHighToMidEmission( showHighToMidEmissionCB.isSelected() );
+                }
+            } );
+        }
 
-    /**
-     *
-     */
-    public void clear() {
+        /**
+         *
+         */
+        public void clear() {
+        }
     }
 }
