@@ -45,18 +45,18 @@ public class TestPhetApplication {
             final ControlPanel controlPanel = new ControlPanel( this );
             setControlPanel( controlPanel );
 
-            addHelpItem( new HelpItem(getApparatusPanel(), "HELP!!!", 300, 200 ));
+            addHelpItem( new HelpItem( getApparatusPanel(), "HELP!!!", 300, 200 ) );
 
             controlPanel.add( ctrl );
-            final JButton button1 = new JButton("YO!" );
-            controlPanel.add( button1);
-            JButton button2 = new JButton("Y'ALL!" );
-            controlPanel.addFullWidth( button2);
+            final JButton button1 = new JButton( "YO!" );
+            controlPanel.add( button1 );
+            JButton button2 = new JButton( "Y'ALL!" );
+            controlPanel.addFullWidth( button2 );
             button2.addActionListener( new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed( ActionEvent e ) {
                     controlPanel.remove( button1 );
                 }
-            });
+            } );
         }
 
         public void activate( PhetApplication app ) {

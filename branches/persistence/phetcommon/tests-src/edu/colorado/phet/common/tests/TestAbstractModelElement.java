@@ -33,7 +33,7 @@ public class TestAbstractModelElement {
     static class MyModelElement extends AbstractModelElement {
         int numSteps;
 
-        public void stepInTime(double dt) {
+        public void stepInTime( double dt ) {
             numSteps++;
             fireEvent( new MyEvent( this ) );
         }
@@ -44,12 +44,12 @@ public class TestAbstractModelElement {
     }
 
     public static class MyEvent extends EventObject {
-        public MyEvent(Object source) {
-            super(source);
+        public MyEvent( Object source ) {
+            super( source );
         }
 
         public int getNumSteps() {
-            return ((MyModelElement)getSource()).getNumSteps();
+            return ( (MyModelElement)getSource() ).getNumSteps();
         }
     }
 
@@ -58,20 +58,20 @@ public class TestAbstractModelElement {
     }
 
     public static class EL implements MyEventListener {
-        public void myEventHappened(MyEvent event) {
-            System.out.println("numSteps = " + event.getNumSteps() );
+        public void myEventHappened( MyEvent event ) {
+            System.out.println( "numSteps = " + event.getNumSteps() );
         }
     }
 
     public static class EL2 implements MyEventListener {
-        public void myEventHappened(MyEvent event) {
+        public void myEventHappened( MyEvent event ) {
             if( event.getNumSteps() > 20 ) {
                 System.exit( 0 );
             }
         }
     }
 
-    public static void main(String[] args) {
+    public static void main( String[] args ) {
 
         AbstractClock clock = new SwingTimerClock( 10, 500 );
         BaseModel model = new BaseModel();
@@ -80,7 +80,7 @@ public class TestAbstractModelElement {
         model.addModelElement( modelElement );
 
         // Add a listener to the model element that prints out the number of steps made so far
-        modelElement.addListener( new EL());
+        modelElement.addListener( new EL() );
 //        modelElement.addListener( new MyEventListener() {
 //            public void myEventHappened(MyEvent event) {
 //                System.out.println("numSteps = " + event.getNumSteps() );
@@ -99,7 +99,9 @@ public class TestAbstractModelElement {
 
         clock.start();
         // Spin until the listener kills us
-        while( true );
+        while( true ) {
+            ;
+        }
     }
 
 }

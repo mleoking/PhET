@@ -31,7 +31,7 @@ import javax.swing.ImageIcon;
  * and the conversion mechanism.
  * <p/>
  * All combinations do not return the same results.
- * 
+ *
  * @author ?
  * @version $Revision$
  */

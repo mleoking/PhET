@@ -22,7 +22,7 @@ import java.util.EventObject;
  * This subclass of ModelElement acts as an event channel. Aribitrary
  * implementations of EventListener can add themselves as listeners and will be notified
  * of any events fired by concrete subclasses of this one.
- *
+ * <p/>
  * It also extends SimpleObservable, so other objects can register for simple update() callbacks.
  *
  * @author Ron LeMaster

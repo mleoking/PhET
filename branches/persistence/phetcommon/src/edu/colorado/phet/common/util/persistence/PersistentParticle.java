@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.persistence.test.util;
+package edu.colorado.phet.common.util.persistence;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
@@ -23,7 +23,7 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class PersistentParticle extends SimpleObservable implements ModelElement {
-    private PersistentPoint2D position = new PersistentPoint2D( new Point2D.Double());
+    private PersistentPoint2D position = new PersistentPoint2D( new Point2D.Double() );
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D acceleration = new Vector2D.Double();
     private Vector2D prevAcceleration = new Vector2D.Double();
@@ -32,7 +32,7 @@ public class PersistentParticle extends SimpleObservable implements ModelElement
     }
 
     protected PersistentParticle( Point2D position, Vector2D velocity,
-                        Vector2D acceleration ) {
+                                  Vector2D acceleration ) {
         setPosition( position );
         setVelocity( velocity );
         setAcceleration( acceleration );

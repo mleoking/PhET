@@ -24,12 +24,13 @@ public class MathUtil {
 
     /**
      * Returns the logarithm of a number to a specified base.
+     *
      * @param number
      * @param base
      * @return
      */
-    public static double logBaseX(double number, double base) {
-        return Math.log(number) / Math.log(base);
+    public static double logBaseX( double number, double base ) {
+        return Math.log( number ) / Math.log( base );
     }
 
     /**

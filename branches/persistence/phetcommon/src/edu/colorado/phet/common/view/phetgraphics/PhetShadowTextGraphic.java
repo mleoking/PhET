@@ -26,6 +26,12 @@ public class PhetShadowTextGraphic extends PhetGraphic {
     private PhetTextGraphic foreground;
     private PhetTextGraphic background;
 
+    /**
+     * Provided for Java Beans conformance
+     */
+    public PhetShadowTextGraphic() {
+    }
+
     public PhetShadowTextGraphic( Component component, String text, Font font, int x, int y, Color foregroundColor, int dx, int dy, Color backgroundColor ) {
         super( component );
         foreground = new PhetTextGraphic( component, font, text, foregroundColor, 0, 0 );
@@ -76,5 +82,21 @@ public class PhetShadowTextGraphic extends PhetGraphic {
 
     public void setShadowColor( Color color ) {
         this.background.setColor( color );
+    }
+
+    public PhetTextGraphic getForeground() {
+        return foreground;
+    }
+
+    public void setForeground( PhetTextGraphic foreground ) {
+        this.foreground = foreground;
+    }
+
+    public PhetTextGraphic getBackground() {
+        return background;
+    }
+
+    public void setBackground( PhetTextGraphic background ) {
+        this.background = background;
     }
 }

@@ -8,13 +8,13 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.persistence.test.util;
+package edu.colorado.phet.common.util.persistence;
 
 import java.awt.geom.Point2D;
 
 /**
  * PersistentPoint2D
- * <p>
+ * <p/>
  * This class is provided as a wrapper for Point2D for use in applications that
  * do persistence using XMLEncoder & XMLDecoder
  *
@@ -22,33 +22,24 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class PersistentPoint2D extends Point2D {
-    private Point2D point2D;
-    private StateDescriptor stateDescriptor;
-    private double x;
-    private double y;
+    private Point2D point2D = new Double();
 
     public PersistentPoint2D() {
     }
 
     public PersistentPoint2D( Point2D point2D ) {
         this.point2D = point2D;
-        stateDescriptor = new StateDescriptor( point2D );
-        x = point2D.getX();
-        y = point2D.getY();
     }
 
     ////////////////////////////////////////////
     // Persistence setters and getters
     //
     public StateDescriptor getStateDescriptor() {
-        return stateDescriptor;
+        return new StateDescriptor( point2D );
     }
 
     public void setStateDescriptor( StateDescriptor stateDescriptor ) {
-        this.stateDescriptor = stateDescriptor;
         point2D = stateDescriptor.generate();
-        x = point2D.getX();
-        y = point2D.getY();
     }
 
     ////////////////////////////////////////////
@@ -78,15 +69,8 @@ public class PersistentPoint2D extends Point2D {
         return point2D.equals( obj );
     }
 
-    /////////////////////////////////////////
-    // Getter and setters for persistence
-    //
     public void setLocation( double x, double y ) {
         point2D.setLocation( x, y );
-
-//         stuff our variables that support persistence
-        this.x = x;
-        this.y = y;
     }
 
     public double getX() {
@@ -104,14 +88,6 @@ public class PersistentPoint2D extends Point2D {
     public void setY( double y ) {
         setLocation( point2D.getX(), y );
     }
-
-//    public Point2D getPoint2D() {
-//        return point2D;
-//    }
-//
-//    public void setPoint2D( Point2D point2D ) {
-//        this.point2D = point2D;
-//    }
 
     //////////////////////////////////////
     // Inner classes
@@ -132,8 +108,7 @@ public class PersistentPoint2D extends Point2D {
         // Generator
         //
         Point2D generate() {
-            Point2D point2D = new Point2D.Double( x, y );
-            return point2D;
+            return new Point2D.Double( x, y );
         }
 
         ////////////////////////////////////

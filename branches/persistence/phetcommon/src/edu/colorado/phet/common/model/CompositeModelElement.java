@@ -49,4 +49,12 @@ public class CompositeModelElement extends SimpleObservable implements ModelElem
     public void removeAllModelElements() {
         modelElements.clear();
     }
+
+    public ArrayList getModelElements() {
+        return modelElements;
+    }
+
+    public void setModelElements( ArrayList modelElements ) {
+        this.modelElements = modelElements;
+    }
 }

@@ -14,7 +14,7 @@ import java.awt.*;
 
 /**
  * Represents an object that can be rendered on a Graphics2D.
- * 
+ *
  * @author ?
  * @version $Revision$
  */

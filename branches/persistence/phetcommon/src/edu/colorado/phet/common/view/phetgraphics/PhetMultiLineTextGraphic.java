@@ -26,6 +26,12 @@ public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
     private String[] text;
     private FontMetrics fontMetrics;
 
+    /**
+     * Provided for Java Beans conformance
+     */
+    public PhetMultiLineTextGraphic() {
+    }
+
     public PhetMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color color ) {
         this( component, text, font, x, y, new Basic( component, font, color ) );
     }
@@ -125,4 +131,15 @@ public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
         }
     }
 
+
+    ////////////////////////////////////////////
+    // Persistence support
+    //
+//    public FontMetrics getFontMetrics() {
+//        return fontMetrics;
+//    }
+//
+//    public void setFontMetrics( FontMetrics fontMetrics ) {
+//        this.fontMetrics = fontMetrics;
+//    }
 }

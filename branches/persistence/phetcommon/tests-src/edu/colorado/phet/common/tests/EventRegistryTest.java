@@ -46,7 +46,7 @@ public class EventRegistryTest {
         }
 
         void fireEvent() {
-            eventResigstry.fireEvent( new FooEvent( this ));
+            eventResigstry.fireEvent( new FooEvent( this ) );
         }
     }
 
@@ -62,7 +62,7 @@ public class EventRegistryTest {
 
         // Test a top-level listener implementations
         foo.addListener( new FooListenerImpl() );
-        
+
         foo.fireEvent();
     }
 }

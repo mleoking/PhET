@@ -12,9 +12,7 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockStateEvent;
-import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
@@ -53,13 +51,6 @@ import java.util.LinkedList;
  */
 public class ApparatusPanel2 extends ApparatusPanel {
 
-    //////////////////////////////////////////////////////////////////////////////////////
-    // Class
-    //
-    public static final double LAYER_TOP = Double.POSITIVE_INFINITY;
-    public static final double LAYER_BOTTOM = Double.NEGATIVE_INFINITY;
-    public static final double LAYER_DEFAULT = 0;
-
 
     //////////////////////////////////////////////////////////////////////////////////////
     // Instance
@@ -79,6 +70,12 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private ResizeHandler resizeHandler;
 
     /**
+     * Privided for JavaBeans conformance
+     */
+    public ApparatusPanel2() {
+    }
+
+    /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
      * when the model clock is paused.
      *
@@ -87,24 +84,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     public ApparatusPanel2( BaseModel model, AbstractClock clock ) {
         this( model );
-        clock.addClockStateListener( new ClockStateListener() {
-            public void delayChanged( int waitTime ) {
-            }
-
-            public void dtChanged( double dt ) {
-            }
-
-            public void threadPriorityChanged( int priority ) {
-            }
-
-            public void pausedStateChanged( boolean isPaused ) {
-                modelPaused = isPaused;
-            }
-
-            public void stateChanged( ClockStateEvent event ) {
-            }
-        } );
-        modelPaused = clock.isPaused();
+        setClock( clock );
     }
 
     /**
@@ -119,19 +99,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
+        this.addKeyListener( getGraphic().getKeyAdapter() );//TODO key events should go in processing thread as well.
 
-        model.addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                if( useOffscreenBuffer ) {
-                    paintImmediately( 0, 0, getWidth(), getHeight() );
-                }
-                else {
-                    megapaintImmediately();
-                }
-                // Clear the rectangles so they get garbage collectged
-                rectangles.clear();
-            }
-        } );
+//        model.addModelElement(new MyModelElement());
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
@@ -153,8 +123,30 @@ public class ApparatusPanel2 extends ApparatusPanel {
         this.addComponentListener( resizeHandler );
     }
 
-    public boolean isUseOffscreenBuffer() {
-        return useOffscreenBuffer;
+    public void setClock( AbstractClock clock ) {
+        clock.addClockTickListener( new TickListener() );
+        clock.addClockStateListener( new ClockStateListener() {
+            public void delayChanged( int waitTime ) {
+            }
+
+            public void dtChanged( double dt ) {
+            }
+
+            public void threadPriorityChanged( int priority ) {
+            }
+
+            public void pausedStateChanged( boolean isPaused ) {
+                modelPaused = isPaused;
+            }
+
+            public void stateChanged( ClockStateEvent event ) {
+            }
+        } );
+        modelPaused = clock.isPaused();
+    }
+
+    public void setModel( BaseModel model ) {
+
     }
 
     /**
@@ -168,6 +160,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
 //        setOpaque( useOffscreenBuffer );
         setDoubleBuffered( !useOffscreenBuffer );
         this.useOffscreenBuffer = useOffscreenBuffer;
+    }
+
+    public boolean isUseOffscreenBuffer() {
+        return useOffscreenBuffer;
     }
 
     /**
@@ -240,15 +236,15 @@ public class ApparatusPanel2 extends ApparatusPanel {
         megarepaint( r.x, r.y, r.width, r.height );
     }
 
-//    public void repaint() {
-//    }
+    public void repaint() {
+    }
 
     public void repaint( int x, int y, int width, int height ) {
         megarepaint( x, y, width, height );
     }
 
-//    public void repaint( long tm ) {
-//    }
+    public void repaint( long tm ) {
+    }
 
     protected void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
@@ -494,6 +490,40 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 }
             }
 
+        }
+    }
+
+    //////////////////////////////////////////////////////
+    // Inner classes
+    //
+
+    /**
+     * Responds to clock ticks from the model
+     */
+    public class MyModelElement implements ModelElement {
+
+        public void stepInTime( double dt ) {
+            if( useOffscreenBuffer ) {
+                paintImmediately( 0, 0, getWidth(), getHeight() );
+            }
+            else {
+                megapaintImmediately();
+            }
+            // Clear the rectangles so they get garbage collectged
+            rectangles.clear();
+        }
+    }
+
+    public class TickListener implements ClockTickListener {
+        public void clockTicked( ClockTickEvent event ) {
+            if( useOffscreenBuffer ) {
+                paintImmediately( 0, 0, getWidth(), getHeight() );
+            }
+            else {
+                megapaintImmediately();
+            }
+            // Clear the rectangles so they get garbage collectged
+            rectangles.clear();
         }
     }
 }

@@ -163,10 +163,18 @@ public class TestPhetGraphics extends JFrame {
         setVisible( true );
     }
 
+
+    //////////////////////////////
+    // Inner classes
+    //
     public static class OutlineTextGraphic extends PhetShapeGraphic {
         private String text;
         private Font font;
         private FontRenderContext fontRenderContext;
+        Shape shape;
+
+        public OutlineTextGraphic() {
+        }
 
         public OutlineTextGraphic( Component component, String text, Font font, int x, int y, Color fillColor, Stroke stroke, Color strokeColor ) {
             super( component );
@@ -208,6 +216,25 @@ public class TestPhetGraphics extends JFrame {
             return new Rectangle();
         }
 
+        public String getText() {
+            return text;
+        }
+
+        public void setText( String text ) {
+            this.text = text;
+        }
+
+        public Font getFont() {
+            return font;
+        }
+
+        public void setFont( Font font ) {
+            this.font = font;
+        }
+
+        public void setShape( Shape shape ) {
+            super.setShape( shape );
+        }
     }
 
 }

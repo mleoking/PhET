@@ -26,6 +26,8 @@ public class Particle extends SimpleObservable implements ModelElement {
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D acceleration = new Vector2D.Double();
     private Vector2D prevAcceleration = new Vector2D.Double();
+    private double x;
+    private double y;
 
     public Particle() {
     }
@@ -37,12 +39,21 @@ public class Particle extends SimpleObservable implements ModelElement {
         setAcceleration( acceleration );
     }
 
+    ///////////////////////////////////////////
+    // Setter and getters
+    //
     public Point2D getPosition() {
         return position;
     }
 
+
     public void setPosition( double x, double y ) {
         position.setLocation( x, y );
+
+        // stuff our variables that support persistence
+        this.x = x;
+        this.y = y;
+
         notifyObservers();
     }
 
@@ -79,6 +90,25 @@ public class Particle extends SimpleObservable implements ModelElement {
     public void setAccelerationNoUpdate( double ax, double ay ) {
         this.prevAcceleration.setComponents( acceleration.getX(), acceleration.getY() );
         this.acceleration.setComponents( ax, ay );
+    }
+
+    //////////////////////////////////
+    // Persistence support. Point2D doesn't provided enough Java Beans compliance
+    //
+    public double getX() {
+        return x;
+    }
+
+    public void setX( double x ) {
+        setPosition( x, this.getPosition().getY() );
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY( double y ) {
+        setPosition( this.getPosition().getX(), y );
     }
 
     /**

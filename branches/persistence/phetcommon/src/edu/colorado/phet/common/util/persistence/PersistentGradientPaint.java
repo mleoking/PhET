@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.persistence.test.util;
+package edu.colorado.phet.common.util.persistence;
 
 import java.awt.*;
 import java.awt.image.ColorModel;

@@ -25,13 +25,29 @@ public class PhetTextGraphic extends PhetGraphic {
     private Color color;
     private FontMetrics fontMetrics;
 
+    /**
+     * Provided for Jaba Beans conformance
+     */
+    public PhetTextGraphic() {
+
+    }
+
     public PhetTextGraphic( Component component, Font font, String text, Color color, int x, int y ) {
         super( component );
         this.font = font;
         this.text = text;
         this.color = color;
         this.fontMetrics = component.getFontMetrics( font );
+        resetRegistrationPoint();
         setLocation( x, y );
+    }
+
+    private void resetRegistrationPoint() {
+        int ascent = fontMetrics.getAscent();
+        int descent = fontMetrics.getDescent();
+        int leading = fontMetrics.getLeading();
+        int height = ascent + descent + leading;
+        setRegistrationPoint( 0, -height );
     }
 
     public void paint( Graphics2D g ) {
@@ -78,8 +94,12 @@ public class PhetTextGraphic extends PhetGraphic {
         return fontMetrics;
     }
 
+    public void setFontMetrics( FontMetrics fontMetrics ) {
+        this.fontMetrics = fontMetrics;
+    }
+
     public void setText( String text ) {
-        if( this.text == text ) {
+        if( this.text.equals( text ) || this.text == text ) {
             return;
         }
         this.text = text;
@@ -88,16 +108,18 @@ public class PhetTextGraphic extends PhetGraphic {
     }
 
     public void setColor( Color color ) {
-        this.color = color;
+        this.color = color;//TODO we need to compare to current color to avoid potential autorepaints.
         setBoundsDirty();
         autorepaint();
     }
 
     public void setFont( Font font ) {
-        this.font = font;
+        this.font = font;//TODO we need to compare to current Font to avoid potential autorepaints.
         this.fontMetrics = getComponent().getFontMetrics( font );
         setBoundsDirty();
         autorepaint();
+        //TODO should we keep whatever registration point the user may have set?
+        resetRegistrationPoint();
     }
 
 }

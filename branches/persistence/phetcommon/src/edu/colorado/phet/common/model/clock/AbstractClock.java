@@ -130,9 +130,9 @@ public abstract class AbstractClock {
         runningTime += dt;
         ClockTickEvent event = new ClockTickEvent( this, dt );
         Object[] listeners = eventRegistry.getListenerList();
-        for( int i = 0; i < listeners.length; i+=2 ) {
+        for( int i = 0; i < listeners.length; i += 2 ) {
             if( listeners[i] == ClockTickListener.class ) {
-                ((ClockTickListener)listeners[i+1]).clockTicked( event );
+                ( (ClockTickListener)listeners[i + 1] ).clockTicked( event );
             }
         }
     }
@@ -146,7 +146,7 @@ public abstract class AbstractClock {
     }
 
     protected ArrayList getClockStateListeners() {
-        ArrayList clockStateListeners = new ArrayList( );
+        ArrayList clockStateListeners = new ArrayList();
         Object[] listeners = eventRegistry.getListenerList();
         for( int i = 0; i < listeners.length; i++ ) {
             Object listener = listeners[i];
@@ -178,9 +178,9 @@ public abstract class AbstractClock {
     protected void fireClockStateEvent() {
         ClockStateEvent event = new ClockStateEvent( this );
         Object[] listeners = eventRegistry.getListenerList();
-        for( int i = 0; i < listeners.length; i+=2 ) {
+        for( int i = 0; i < listeners.length; i += 2 ) {
             if( listeners[i] == ClockStateListener.class ) {
-                ((ClockStateListener )listeners[i+1]).stateChanged( event );
+                ( (ClockStateListener)listeners[i + 1] ).stateChanged( event );
             }
         }
     }

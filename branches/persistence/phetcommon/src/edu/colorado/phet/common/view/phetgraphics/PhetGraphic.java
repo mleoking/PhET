@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.util.persistence.PersistentAffineTransform;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -47,10 +48,10 @@ public abstract class PhetGraphic {
     
     private Point location = new Point();
     private Point registrationPoint = new Point();
-    private AffineTransform transform = new AffineTransform();
+    private PersistentAffineTransform transform = new PersistentAffineTransform();
+//    private AffineTransform transform = new AffineTransform();
     private Rectangle lastBounds = new Rectangle();
     private Rectangle bounds = new Rectangle();
-    private Rectangle before;                       // utility variable used in syncBounds
     private Component component;
     private boolean visible = true;
     private boolean boundsDirty = true;
@@ -81,6 +82,13 @@ public abstract class PhetGraphic {
         this.component = component;
     }
 
+    /**
+     * Provided for Java Beans conformance
+     */
+    protected PhetGraphic() {
+        //noop
+    }
+    
     //----------------------------------------------------------------------------
     // Accessor methods
     //----------------------------------------------------------------------------
@@ -96,9 +104,10 @@ public abstract class PhetGraphic {
 
     /**
      * Set the Component within which this PhetGraphic is contained
+     *
      * @param component
      */
-    public void setComponent(Component component) {
+    public void setComponent( Component component ) {
         this.component = component;
     }
 
@@ -109,6 +118,27 @@ public abstract class PhetGraphic {
      */
     protected void setParent( GraphicLayerSet parent ) {
         this.parent = parent;
+    }
+
+
+    public boolean isAutorepaint() {
+        return autorepaint;
+    }
+
+    public void setAutorepaint( boolean autorepaint ) {
+        this.autorepaint = autorepaint;
+    }
+
+    public ArrayList getListeners() {
+        return listeners;
+    }
+
+    public void setBounds( Rectangle bounds ) {
+        this.bounds = bounds;
+    }
+
+    public void setListeners( ArrayList listeners ) {
+        this.listeners = listeners;
     }
 
     //----------------------------------------------------------------------------
@@ -197,6 +227,15 @@ public abstract class PhetGraphic {
                 PhetGraphicListener phetGraphicListener = (PhetGraphicListener)listeners.get( i );
                 phetGraphicListener.phetGraphicVisibilityChanged( this );
             }
+            if( !visible ) {
+                //see if we have a parent, and tell them to lose mouse and key focus.
+                if( parent != null ) {
+                    parent.childBecameInvisible( this );
+                }
+
+                //TODO even if there is no parent, we may want to fire off a MouseExited event anyways.
+                //TODO make sure this is coordinated with the childBecameInvisible call above.
+            }
         }
     }
 
@@ -277,7 +316,7 @@ public abstract class PhetGraphic {
      */
     public void setTransform( AffineTransform transform ) {
         if( !transform.equals( this.transform ) ) {
-            this.transform = transform;
+            this.transform = new PersistentAffineTransform( transform );
             setBoundsDirty();
             autorepaint();
         }
@@ -289,7 +328,7 @@ public abstract class PhetGraphic {
      * @return the transform
      */
     public AffineTransform getTransform() {
-        return new AffineTransform( transform );
+        return new PersistentAffineTransform( transform );
     }
 
     /**
@@ -439,7 +478,8 @@ public abstract class PhetGraphic {
      * Sets the local transform to the identity matrix.
      */
     public void clearTransform() {
-        setTransform( new AffineTransform() );
+        setTransform( new PersistentAffineTransform() );
+//        setTransform( new AffineTransform() );
     }
     
     //----------------------------------------------------------------------------
@@ -524,10 +564,10 @@ public abstract class PhetGraphic {
     
     /**
      * Sets the location of this graphic.
-     * <p>
+     * <p/>
      * The location is a translation that is applied after the local transform,
      * but before the parent's net transform.  This effectively moves the
-     * graphic's registration point to the specified location, relative 
+     * graphic's registration point to the specified location, relative
      * to the parent container.
      *
      * @param p the location
@@ -538,22 +578,24 @@ public abstract class PhetGraphic {
 
     /**
      * Convenience method, sets the location.
-     * 
-     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic.#setLocation(java.awt.Point)
+     *
      * @param x X coordinate
      * @param y Y coordinate
+     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic#setLocation(java.awt.Point)
      */
     public void setLocation( int x, int y ) {
-        location.setLocation( x, y );
-        setBoundsDirty();
-        repaint();
+        if( location.x != x || location.y != y ) {
+            location.setLocation( x, y );
+            setBoundsDirty();
+            repaint();
+        }
     }
 
     /**
      * Gets the location.
      *
-     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic.#setLocation(java.awt.Point)
      * @return the location
+     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic#setLocation(java.awt.Point)
      */
     public Point getLocation() {
         return new Point( location );
@@ -650,7 +692,7 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Mouse Input interactivity methods
     //----------------------------------------------------------------------------
-    
+
     /**
      * Adds a mouse input listener.
      *
@@ -674,8 +716,12 @@ public abstract class PhetGraphic {
      *
      * @return the delegate
      */
-    protected CompositeMouseInputListener getMouseInputListener() {
+    public CompositeMouseInputListener getMouseInputListener() {
         return mouseInputListener;
+    }
+
+    public void setMouseInputListener( CompositeMouseInputListener mouseInputListener ) {
+        this.mouseInputListener = mouseInputListener;
     }
 
     /**
@@ -758,6 +804,14 @@ public abstract class PhetGraphic {
     }
 
     /**
+     * Fires a "mouse exited" event because this component became invisible.
+     * This explicitly avoids the visibility condition for firing the event.
+     */
+    public void fireMouseExitedBecauseInvisible( MouseEvent e ) {
+        mouseInputListener.mouseExited( e );
+    }
+
+    /**
      * Passes a "mouse dragged" event to the mouse input listener delegate,
      * who in turn sends it to all registered mouse input listeners.
      *
@@ -784,7 +838,15 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Cursor interactivity methods
     //----------------------------------------------------------------------------
-    
+
+    public CursorControl getCursorControl() {
+        return cursorControl;
+    }
+
+    public void setCursorControl( CursorControl cursorControl ) {
+        this.cursorControl = cursorControl;
+    }
+
     /**
      * Sets the mouse cursor to look like the specified cursor.
      *
@@ -855,7 +917,7 @@ public abstract class PhetGraphic {
      * correctly draw the graphic.  This transform should be passed to
      * g2.transform.
      * </ul>
-     * 
+     *
      * @param g2 the 2D graphics context
      */
     public abstract void paint( Graphics2D g2 );

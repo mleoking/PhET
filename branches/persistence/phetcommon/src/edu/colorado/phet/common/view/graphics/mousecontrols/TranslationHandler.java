@@ -25,6 +25,12 @@ public class TranslationHandler implements MouseInputListener {
     TranslationListener translationListener;
     private Point last;
 
+    /**
+     * Provided for Java Beans conformance
+     */
+    public TranslationHandler() {
+    }
+
     public TranslationHandler( TranslationListener translationListener ) {
         this.translationListener = translationListener;
     }
@@ -60,4 +66,22 @@ public class TranslationHandler implements MouseInputListener {
     public void mouseExited( MouseEvent e ) {
     }
 
+    //////////////////////////////////////////////////////////
+    // Setters and getters for Java Beans conformance
+    //
+    public TranslationListener getTranslationListener() {
+        return translationListener;
+    }
+
+    public void setTranslationListener( TranslationListener translationListener ) {
+        this.translationListener = translationListener;
+    }
+
+    public Point getLast() {
+        return last;
+    }
+
+    public void setLast( Point last ) {
+        this.last = last;
+    }
 }

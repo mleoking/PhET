@@ -90,9 +90,9 @@ public class TestApparatusPanel2 {
             setColor( Color.blue );
         }
 
-        public void fireMouseExited(MouseEvent e) {
-            super.fireMouseExited(e);
-            setColor( Color.red );            
+        public void fireMouseExited( MouseEvent e ) {
+            super.fireMouseExited( e );
+            setColor( Color.red );
         }
     }
 

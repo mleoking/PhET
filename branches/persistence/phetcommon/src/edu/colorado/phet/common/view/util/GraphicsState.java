@@ -15,7 +15,7 @@ import java.awt.geom.AffineTransform;
 
 /**
  * A utilitye class for saving and restoring the state of Graphics2D objects
- * 
+ *
  * @author ?
  * @version $Revision$
  */

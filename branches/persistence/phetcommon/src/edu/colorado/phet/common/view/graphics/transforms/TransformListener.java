@@ -13,7 +13,7 @@ package edu.colorado.phet.common.view.graphics.transforms;
 
 /**
  * Listens for changes in the model or view viewport.
- * 
+ *
  * @author ?
  * @version $Revision$
  */

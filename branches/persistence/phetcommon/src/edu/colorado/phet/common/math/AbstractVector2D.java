@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 /**
  * High level abstraction of a 2-D Vector data structure.  The two main implementations
  * are the Vector2D and ImmutableVector2D.
- * 
+ *
  * @author Ron LeMaster
  * @version $Revision$
  */

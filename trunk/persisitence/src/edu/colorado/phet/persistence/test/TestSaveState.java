@@ -18,18 +18,18 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.persistence.test.model.TestParticle;
-import edu.colorado.phet.persistence.test.util.PersistentGeneralPath;
-import edu.colorado.phet.persistence.test.util.PersistentStroke;
-import edu.colorado.phet.persistence.test.util.PersistentGradientPaint;
+import edu.colorado.phet.common.util.persistence.PersistentPoint2D;
+import edu.colorado.phet.common.util.persistence.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.PathIterator;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.beans.XMLEncoder;
@@ -172,34 +172,29 @@ public class TestSaveState extends PhetApplication {
     }
 
     static void beanTest2() {
+        JPanel panel = new JPanel( );
+        CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
+        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
+        cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
 
-        BasicStroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
-        PersistentStroke pStroke = new PersistentStroke( stroke );
-        ApparatusPanel panel = new ApparatusPanel();
-        Module_D.OutlineTextGraphic g = new Module_D.OutlineTextGraphic( panel, "L", new Font( "Lucida Sans", Font.ITALIC, 68 ),
-                                                                         0, 0, Color.yellow, pStroke, Color.black );
-
-        GradientPaint gp = new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue );
-        PersistentGradientPaint pgp = new PersistentGradientPaint( gp );
-//        g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
-
+        Object po1 = cpg;
         XMLEncoder e = new XMLEncoder( System.out );
-        e.writeObject( pgp );
+        e.writeObject( po1 );
         e.close();
 
         XMLEncoder e2 = getTestEncoder();
-        e2.writeObject( pgp );
+        e2.writeObject( po1 );
         e2.close();
-        XMLDecoder d2 = getTestDecoder();
-        PersistentGradientPaint pgp2 = (PersistentGradientPaint)d2.readObject();
-        d2.close();
+//        XMLDecoder d2 = getTestDecoder();
+//        Ellipse2D out = (Ellipse2D)d2.readObject();
+//        d2.close();
 
         System.exit(0);
     }
 
     public static void main( String[] args ) {
 //        beanTest();
-//        beanTest2();
+        beanTest2();
 
         PhetApplication app = new TestSaveState( new AppModel() );
 

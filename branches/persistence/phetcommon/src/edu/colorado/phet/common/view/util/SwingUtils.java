@@ -29,8 +29,9 @@ public class SwingUtils {
     /**
      * Not intended for instantiation.
      */
-    private SwingUtils() {}
-    
+    private SwingUtils() {
+    }
+
     public static void addMenuAt( JFrame frame, JMenu newMenu, int index ) {
         frame.setJMenuBar( addMenuAt( newMenu, frame.getJMenuBar(), index ) );
     }

@@ -15,7 +15,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.persistence.test.util.PersistentParticle;
+import edu.colorado.phet.common.util.persistence.PersistentParticle;
+import edu.colorado.phet.common.util.persistence.PersistentParticle;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

@@ -28,6 +28,14 @@ public class PhetShapeGraphic extends PhetGraphic {
     private Paint fill;
     private Paint border;
 
+
+    /**
+     * Provided for Java Beans conformance
+     */
+    public PhetShapeGraphic() {
+        // noop
+    }
+
     public PhetShapeGraphic( Component component, Shape shape, Color fill ) {
         super( component );
         this.shape = shape;
@@ -71,6 +79,10 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setBorderPaint( Paint border ) {
         this.border = border;
+    }
+
+    public Paint getBorderPaint() {
+        return this.border;
     }
 
     public void paint( Graphics2D g ) {
@@ -205,6 +217,14 @@ public class PhetShapeGraphic extends PhetGraphic {
         autorepaint();
     }
 
+    public void setFill( Paint fill ) {
+        this.fill = fill;
+    }
+
+    public void setBorder( Paint border ) {
+        this.border = border;
+    }
+
     public void setPaint( Paint paint ) {
         boolean changed = false;
         if( this.fill == null && paint != null ) {
@@ -225,4 +245,6 @@ public class PhetShapeGraphic extends PhetGraphic {
     public void setColor( Color color ) {
         setPaint( color );
     }
+
+
 }

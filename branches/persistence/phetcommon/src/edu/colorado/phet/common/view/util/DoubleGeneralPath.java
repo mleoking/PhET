@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
 
 /**
  * This adapter class for GeneralPath allows provides an interface in double coordinates.
- * 
+ *
  * @author ?
  * @version $Revision$
  */

@@ -15,11 +15,18 @@ import java.awt.*;
 /**
  * A list of PhetGraphics, painted in order.
  * The CompositePhetGraphic manages interactivity for all its children.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
 public class CompositePhetGraphic extends GraphicLayerSet {
+
+    /**
+     * Provided for Jaba Beans compliance
+     */
+    public CompositePhetGraphic() {
+        // noop
+    }
 
     public CompositePhetGraphic( Component component ) {
         super( component );
