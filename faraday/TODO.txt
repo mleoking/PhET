@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- broken grid scaling (see 50% strength magnet in Bar Magnet module)
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet
 
 HIGH PRIORITY:
@@ -42,7 +43,7 @@ POSSIBLE OPTIMIZATIONS:
 - cache grid needles at N-degree angles to eliminate rotation transform
 - eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf
 
-phetcommon:
+PHETCOMMON:
 - bug: hand cursor accidentally picks another object when you release mouse
 - bug: ApparatusPanel2 resize problems
 - bug: MathUtil.clamp behavior with Double.NaN
@@ -52,7 +53,9 @@ phetcommon:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
-v0r17...\
+v0r17...
+(3/14) - increase bar magnet strength range to 25-100%
+(3/14) - calibrate compass grid
 (3/14) - fix: electrons in electromagnet coil loops don't line up with each other (due to ends being shorter)
 (3/14) - fix: center of slider knob doesn't line up with ticks on Battery (fix to PhetGraphic.centerRegistrationPoint)
 (3/14) - fix: changing number of loops in source coil doesn't affect electromagnet strength
