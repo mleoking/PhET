@@ -24,6 +24,7 @@ import java.awt.event.*;
 public class SoundControlPanel extends PhetControlPanel {
     private ControlPanel soundControlPanel;
     private int rowIdx = 0;
+    private AmplitudeControlPanel amplitudeControlPanel;
 
     public SoundControlPanel( Module module ) {
         super( module );
@@ -44,6 +45,9 @@ public class SoundControlPanel extends PhetControlPanel {
         super.adjustLayout();
     }
 
+    public void setAmplitude( double amplitude ) {
+        amplitudeControlPanel.setAmplitude( amplitude );
+    }
 
     //
     // Inner classes for the component panels
@@ -67,7 +71,8 @@ public class SoundControlPanel extends PhetControlPanel {
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new AmplitudeControlPanel( (SoundModel)module.getModel() ),
+                amplitudeControlPanel = new AmplitudeControlPanel( (SoundModel)module.getModel() );
+                GraphicsUtil.addGridBagComponent( this, amplitudeControlPanel,
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
@@ -172,11 +177,11 @@ public class SoundControlPanel extends PhetControlPanel {
             amplitudeSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     setModelAmplitude( amplitudeSlider.getValue() );
-                    //                    model.setModelAmplitude( amplitudeSlider.getValue() );
+                    //                    model.setAmplitude( amplitudeSlider.getValue() );
                 }
             } );
             setModelAmplitude( amplitudeSlider.getValue() );
-            //            model.setModelAmplitude( amplitudeSlider.getValue() );
+            //            model.setAmplitude( amplitudeSlider.getValue() );
             this.add( amplitudeSlider );
             Border amplitudeBorder = new TitledBorder( "Amplitude" );
             this.setBorder( amplitudeBorder );
@@ -186,6 +191,12 @@ public class SoundControlPanel extends PhetControlPanel {
             double amplitude = ( (double)sliderValue ) * ( SoundConfig.s_maxAmplitude ) / ( sliderMax - sliderMin );
             model.setAmplitude( amplitude );
         }
+
+        public void setAmplitude( double amplitude ) {
+            int sliderValue = (int)( (double)( sliderMax - sliderMin ) * amplitude + (double)sliderMin );
+            amplitudeSlider.setValue( sliderValue );
+            setModelAmplitude( sliderValue );
+        }
     }
 
     private static class OctaveControlPanel extends JPanel {
@@ -193,16 +204,17 @@ public class SoundControlPanel extends PhetControlPanel {
         private int sliderMin = 0;
         private int sliderDefault = 5;
         private SoundModel model;
+        private JSlider octaveAmplitudeSlider;
 
         OctaveControlPanel( final SoundModule module ) {
             this.model = (SoundModel)module.getModel();
             this.setLayout( new GridLayout( 2, 1 ) );
             this.setPreferredSize( new Dimension( 125, 80 ) );
 
-            final JSlider octaveAmplitudeSlider = new JSlider( JSlider.HORIZONTAL,
-                                                               sliderMin,
-                                                               sliderMax,
-                                                               sliderDefault );
+            octaveAmplitudeSlider = new JSlider( JSlider.HORIZONTAL,
+                                                 sliderMin,
+                                                 sliderMax,
+                                                 sliderDefault );
             octaveAmplitudeSlider.setPreferredSize( new Dimension( 25, 60 ) );
             octaveAmplitudeSlider.setPaintTicks( true );
             octaveAmplitudeSlider.setMajorTickSpacing( 5 );
