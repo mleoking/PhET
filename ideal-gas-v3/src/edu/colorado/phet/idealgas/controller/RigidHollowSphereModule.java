@@ -162,14 +162,14 @@ public class RigidHollowSphereModule extends IdealGasModule {
                                       insets, 0, 0 );
         controlPanel.add( new SpeciesSelectionPanel(), gbc );
         gbc.gridy = 1;
-        controlPanel.add( new MoleculeFactoryPanel( this ), gbc );
+        controlPanel.add( new MoleculePanel( this ), gbc );
         getControlPanel().add( controlPanel );
     }
 
-    private class MoleculeFactoryPanel extends MoleculeFactoryPanel {
+    private class MoleculePanel extends MoleculeFactoryPanel {
         Random random = new Random();
 
-        MoleculeFactoryPanel( IdealGasModule module ) {
+        MoleculePanel( IdealGasModule module ) {
             super( module );
 
         }
