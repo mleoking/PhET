@@ -15,17 +15,27 @@ import java.awt.geom.Point2D;
  */
 public class Battery extends CircuitComponent {
     public Battery( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl ) {
-        super( kl, start, dir, length, height );
-        setVoltageDrop( 9.0 );
+        this( start, dir, length, height, kl, 0 );
     }
 
-    public Battery( KirkhoffListener kl, Junction startJunction, Junction endjJunction,double length,double height ) {
-        super( kl, startJunction, endjJunction,length, height );
+    public Battery( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl, double internalResistance ) {
+        super( kl, start, dir, length, height );
         setVoltageDrop( 9.0 );
+        setResistance( internalResistance );
+    }
+
+    public Battery( KirkhoffListener kl, Junction startJunction, Junction endjJunction, double length, double height, double internalResistance ) {
+        super( kl, startJunction, endjJunction, length, height );
+        setVoltageDrop( 9.0 );
+        setResistance( internalResistance );
     }
 
     public void setVoltageDrop( double voltageDrop ) {
         super.setVoltageDrop( voltageDrop );
         super.fireKirkhoffChange();
+    }
+
+    public double getEffectiveVoltageDrop() {
+        return getVoltageDrop() - getCurrent() * getResistance();
     }
 }

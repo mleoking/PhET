@@ -22,6 +22,16 @@ public class KirkhoffSolver {
     private ArrayList listeners = new ArrayList();
     public static boolean debugging = false;
 
+//    public void applyInternalResistance( Circuit c ) {
+//        Circuit circuit = (Circuit)c.clone();
+//        for( int i = 0; i < circuit.numBranches(); i++ ) {
+//            Branch br = circuit.branchAt( i );
+//            if( br instanceof Battery ) {
+//
+//            }
+//        }
+//    }
+
     public void apply( Circuit circuit ) {
         //create a gauss jordan matrix.
         MatrixTable mt = new MatrixTable( circuit );
@@ -177,10 +187,14 @@ public class KirkhoffSolver {
                     value = -1;
                 }
                 if( branch instanceof Battery ) {
-                    eq.addValue( -value * branch.getVoltageDrop() );//used to be -value
+//                    eq.addValue( -value * branch.getVoltageDrop() );//used to be -value
+                    eq.addValue( -value * branch.getVoltageDrop() );
+//                    int column = mt.getVoltageColumn( circuit.indexOf( directedBranch.getBranch() ) );
+                    int column = mt.getCurrentColumn( circuit.indexOf( branch ) );
+                    eq.setCoefficient( column, -value * branch.getResistance() );
                 }
                 else {
-                    int column = mt.getVoltageColumn( circuit.indexOf( directedBranch.getBranch() ) );
+                    int column = mt.getVoltageColumn( circuit.indexOf( branch ) );
                     if( column != -1 ) {
                         eq.setCoefficient( column, value );
                     }

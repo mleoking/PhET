@@ -116,4 +116,15 @@ public abstract class ComponentEditor extends JDialog {
         }
 
     }
+
+    public static class BatteryResistanceEditor extends ComponentEditor {
+        public BatteryResistanceEditor( Battery element, Component parent, Circuit circuit ) {
+            super( "Battery Internal Resistance", element, parent, "Internal Resistance", "Ohms", 0, 9, 0, circuit );
+//            super( windowTitle, element, parent, name, units, min, max, startvalue, circuit );
+        }
+
+        protected void doChange( double value ) {
+            super.element.setResistance( value );
+        }
+    }
 }

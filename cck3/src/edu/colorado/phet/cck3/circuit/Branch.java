@@ -85,9 +85,11 @@ public class Branch extends SimpleObservable {
     }
 
     public void setResistance( double resistance ) {
-        this.resistance = resistance;
-        notifyObservers();
-        fireKirkhoffChange();
+        if( resistance != this.resistance ) {
+            this.resistance = resistance;
+            notifyObservers();
+            fireKirkhoffChange();
+        }
     }
 
     public void setCurrent( double current ) {

@@ -535,6 +535,10 @@ public class CircuitGraphic extends CompositeGraphic {
         return junctionLayer.getGraphics().length;
     }
 
+    public Graphic[] getJunctionGraphics() {
+        return junctionLayer.getGraphics();
+    }
+
     interface GraphicSource {
         void addGraphic( Branch b );
     }

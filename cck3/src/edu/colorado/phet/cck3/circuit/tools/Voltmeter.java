@@ -10,9 +10,9 @@ import edu.colorado.phet.common.util.SimpleObservable;
  * Copyright (c) Jun 14, 2004 by Sam Reid
  */
 public class Voltmeter {
-    VoltmeterUnit unit;
-    Lead blackLead;
-    Lead redLead;
+    private VoltmeterUnit unit;
+    private Lead blackLead;
+    private Lead redLead;
 
     public Voltmeter( double x, double y, double dx ) {
         this.unit = new VoltmeterUnit( x, y );
@@ -42,8 +42,6 @@ public class Voltmeter {
         unit.translate( dx, dy );
         blackLead.notifyObservers();
         redLead.notifyObservers();
-//        blackLead.translate( 0, 0 );
-//        redLead.translate( 0, 0 );
     }
 
     public class VoltmeterUnit extends SimpleObservable {

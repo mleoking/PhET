@@ -33,7 +33,6 @@ public class ReadoutGraphic implements Graphic {
 //    DecimalFormat formatter = new DecimalFormat( "#0.00000" );//for debugging.
 //    DecimalFormat formatter = new DecimalFormat( "#0.0#" );
     static Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
-//    static Font font = new Font( "Dialog", Font.BOLD, 18 );
     boolean visible = false;
     private DecimalFormat formatter;
 
@@ -96,8 +95,6 @@ public class ReadoutGraphic implements Graphic {
         }
 
         Point out = transform.modelToView( pt );
-//        Color foregroundColor = Color.red;
-//        Color backgroundColor = Color.black;
         Color foregroundColor = Color.black;
         Color backgroundColor = Color.yellow;
 

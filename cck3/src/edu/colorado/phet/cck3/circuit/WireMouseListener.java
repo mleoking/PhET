@@ -37,7 +37,6 @@ public class WireMouseListener extends MouseInputAdapter {
         isDragging = false;
         startTarget = null;
         endTarget = null;
-//        branch.setSelected( true );
         if( e.isControlDown() ) {
             branch.setSelected( true );
         }
@@ -55,7 +54,6 @@ public class WireMouseListener extends MouseInputAdapter {
         if( endTarget != null ) {
             circuitGraphic.collapseJunctions( endTarget, branch.getEndJunction() );
         }
-//        branch.setSelected( false );
     }
 
     public void mouseDragged( MouseEvent e ) {
@@ -66,8 +64,6 @@ public class WireMouseListener extends MouseInputAdapter {
             Point2D endJ = branch.getEndJunction().getPosition();
             toStart = new ImmutableVector2D.Double( modelCoords, startJ );
             toEnd = new ImmutableVector2D.Double( modelCoords, endJ );
-//                    System.out.println( "toStart = " + toStart );
-//                    System.out.println( "toEnd = " + toEnd );
         }
         else {
             Point2D newStartPosition = toStart.getDestination( modelCoords );
@@ -113,7 +109,6 @@ public class WireMouseListener extends MouseInputAdapter {
                 }
             }
             Translator t = new Translator( newStartPosition, newEndPosition, circuitGraphic.getModule().getModel() );
-//            circuitGraphic.getModule().getModel().addModelElement( t );
             t.stepInTime( 0 );
         }
     }
@@ -155,6 +150,7 @@ public class WireMouseListener extends MouseInputAdapter {
 //            //TODO the wrong kind of loop could break this.
 
         branchGraphic.getBranch().notifyObservers();
+        circuit.fireJunctionsMoved();
     }
 
 }

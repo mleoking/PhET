@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.components.*;
+import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
@@ -14,8 +15,6 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * User: Sam Reid
@@ -28,6 +27,21 @@ public class Circuit {
     ArrayList junctions = new ArrayList();
     ArrayList listeners = new ArrayList();
     private KirkhoffListener kirkhoffListener;
+
+//    public Object clone() {
+//        try {
+//            Circuit clone = (Circuit)super.clone();
+//            clone.branches.addAll( branches );
+//            clone.junctions.addAll( junctions );
+//            clone.listeners.addAll( listeners );
+//            clone.kirkhoffListener = kirkhoffListener;
+//            return clone;
+//        }
+//        catch( CloneNotSupportedException e ) {
+//            e.printStackTrace();
+//            throw new RuntimeException( e );
+//        }
+//    }
 
     public Circuit( KirkhoffListener kirkhoffListener ) {
         this.kirkhoffListener = kirkhoffListener;
@@ -325,59 +339,93 @@ public class Circuit {
         return junctions.contains( junction );
     }
 
-    public double getVoltage( Branch branch1, Branch branch2 ) {
-        if( branch1 == branch2 ) {
+    public double getVoltage( VoltmeterGraphic.Connection a, VoltmeterGraphic.Connection b ) {
+        if( a.equals( b ) ) {
             return 0;
         }
         else {
-            double v1 = getVoltage( branch1, branch1.getStartJunction(), branch2.getStartJunction(), 0 );
-            double v2 = getVoltage( branch1, branch1.getEndJunction(), branch2.getStartJunction(), 0 );
-            double v3 = getVoltage( branch1, branch1.getStartJunction(), branch2.getEndJunction(), 0 );
-            double v4 = getVoltage( branch1, branch1.getEndJunction(), branch2.getEndJunction(), 0 );
-            ArrayList list = new ArrayList();
-            if( !Double.isInfinite( v1 ) ) {
-                list.add( new Double( v1 ) );
+            Junction startJ = a.getJunction();
+            Junction endJ = b.getJunction();
+            Branch[] ignore1 = a.getBranchesToIgnore();
+            Branch[] ignore2 = b.getBranchesToIgnore();
+            ArrayList ignore = new ArrayList();
+            ignore.addAll( Arrays.asList( ignore1 ) );
+            ignore.addAll( Arrays.asList( ignore2 ) );
+            double va = a.getVoltageAddon();
+            double vb = b.getVoltageAddon();
+            double voltInit = ( -va + vb );
+
+            double junctionAnswer = getVoltage( ignore, startJ, endJ, 0 );
+            double junctionAnswer2 = getVoltage( ignore, endJ, startJ, 0 );
+            double result = Double.POSITIVE_INFINITY;
+            if( !Double.isInfinite( junctionAnswer ) ) {
+                result = junctionAnswer + voltInit;
             }
-            if( !Double.isInfinite( v2 ) ) {
-                list.add( new Double( v2 ) );
+            else if( !Double.isInfinite( junctionAnswer2 ) ) {
+                result = junctionAnswer2 + voltInit;
             }
-            if( !Double.isInfinite( v3 ) ) {
-                list.add( new Double( v3 ) );
-            }
-            if( !Double.isInfinite( v4 ) ) {
-                list.add( new Double( v4 ) );
-            }
-            Collections.sort( list, new Comparator() {
-                public int compare( Object o1, Object o2 ) {
-                    Double a = (Double)o1;
-                    Double b = (Double)o2;
-                    double diff = ( -Math.abs( a.doubleValue() ) + Math.abs( b.doubleValue() ) );
-                    if( diff == 0 ) {
-                        return 0;
-                    }
-                    else if( diff > 0 ) {
-                        return -1;
-                    }
-                    else if( diff < 0 ) {
-                        return 1;
-                    }
-//                    return diff;
-                    else {
-                        return -(int)diff;
-                    }
-                }
-            } );
-            System.out.println( "list = " + list );
-            Double lowest = (Double)list.get( 0 );
-            return lowest.doubleValue();
+
+//            System.out.println( "ignore.length=" + ignore.size() + ", j1=" + junctionAnswer + ", j2= " + junctionAnswer2 + ", voltInit=" + voltInit + ", va=" + va + ", vb=" + vb );
+//            double min = Math.max( junctionAnswer, junctionAnswer2 );
+//            return junctionAnswer + voltInit;
+//            return junctionAnswer;
+            return result;
         }
     }
 
-    private double getVoltage( Branch branch1, Junction at, Junction target, double volts ) {
-        ArrayList visited = new ArrayList();
-        visited.add( branch1 );
-        return getVoltage( visited, at, target, volts );
-    }
+//    public double getVoltage( Branch branch1, Branch branch2 ) {
+//        if( branch1 == branch2 ) {
+//            return 0;
+//        }
+//        else {
+//            double v1 = getVoltage( branch1, branch1.getStartJunction(), branch2.getStartJunction(), 0 );
+//            double v2 = getVoltage( branch1, branch1.getEndJunction(), branch2.getStartJunction(), 0 );
+//            double v3 = getVoltage( branch1, branch1.getStartJunction(), branch2.getEndJunction(), 0 );
+//            double v4 = getVoltage( branch1, branch1.getEndJunction(), branch2.getEndJunction(), 0 );
+//            ArrayList list = new ArrayList();
+//            if( !Double.isInfinite( v1 ) ) {
+//                list.add( new Double( v1 ) );
+//            }
+//            if( !Double.isInfinite( v2 ) ) {
+//                list.add( new Double( v2 ) );
+//            }
+//            if( !Double.isInfinite( v3 ) ) {
+//                list.add( new Double( v3 ) );
+//            }
+//            if( !Double.isInfinite( v4 ) ) {
+//                list.add( new Double( v4 ) );
+//            }
+//            Collections.sort( list, new Comparator() {
+//                public int compare( Object o1, Object o2 ) {
+//                    Double a = (Double)o1;
+//                    Double b = (Double)o2;
+//                    double diff = ( -Math.abs( a.doubleValue() ) + Math.abs( b.doubleValue() ) );
+//                    if( diff == 0 ) {
+//                        return 0;
+//                    }
+//                    else if( diff > 0 ) {
+//                        return -1;
+//                    }
+//                    else if( diff < 0 ) {
+//                        return 1;
+//                    }
+////                    return diff;
+//                    else {
+//                        return -(int)diff;
+//                    }
+//                }
+//            } );
+//            System.out.println( "list = " + list );
+//            Double lowest = (Double)list.get( 0 );
+//            return lowest.doubleValue();
+//        }
+//    }
+
+//    private double getVoltage( Branch branch1, Junction at, Junction target, double volts ) {
+//        ArrayList visited = new ArrayList();
+//        visited.add( branch1 );
+//        return getVoltage( visited, at, target, volts );
+//    }
 
     private double getVoltage( ArrayList visited, Junction at, Junction target, double volts ) {
         if( at == target ) {
@@ -390,6 +438,10 @@ public class Circuit {
             if( !visited.contains( branch ) ) {  //don't cross the same bridge twice.
                 visited.add( branch );
                 double dv = branch.getVoltageDrop();
+                if( branch instanceof Battery ) {
+                    Battery batt = (Battery)branch;
+                    dv = batt.getEffectiveVoltageDrop();
+                }
                 if( branch.getEndJunction() == opposite ) {
                     dv *= -1;
                 }
@@ -445,7 +497,7 @@ public class Circuit {
             return res;
         }
         else if( type.equals( Battery.class.getName() ) ) {
-            Battery batt = new Battery( kl, startJunction, endJunction, length, height );
+            Battery batt = new Battery( kl, startJunction, endJunction, length, height, 0 );
             String voltVal = xml.getAttribute( "voltage", Double.NaN + "" );
             double val = Double.parseDouble( voltVal );
             batt.setVoltageDrop( val );
@@ -465,9 +517,6 @@ public class Circuit {
             String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
             double val = Double.parseDouble( resVal );
             bulb.setResistance( val );
-//            bulb.setSchematic( module.getCircuitGraphic().isLifelike(), );
-//            bulb.setSchematic( !module.getCircuitGraphic().isLifelike() );
-//            String schStr=xml.getAttribute( "schematic","false");
             return bulb;
         }
         else if( type.equals( SeriesAmmeter.class.getName() ) ) {

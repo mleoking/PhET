@@ -94,12 +94,16 @@ public class CCK3Module extends Module {
     private InteractiveVoltmeter interactiveVoltmeter;
     private VoltmeterGraphic voltmeterGraphic;
     public static final double SCH_BULB_DIST = 1;
-    private WiggleMe wigger;
+    private WiggleMe wiggleMe;
     private CCKHelp help;
-    private String debugText = "";
     private CCK3ControlPanel cck3controlPanel;
     public static Color backgroundColor = new Color( 200, 240, 200 );
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
+//    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0000" ); //For debugging.
+    private ResistivityManager resistivityManager;
+    private static final double DEFAULT_RESISTANCE = 0.0001;
+    private boolean internalResistanceOn = false;
+    private double internalResistance;
 
     public CCK3Module() throws IOException {
         this( false );
@@ -176,6 +180,8 @@ public class CCK3Module extends Module {
 
         aspectRatioPanel = new AspectRatioPanel( getApparatusPanel(), 5, 5, 1.2 );
         imageSuite = new CCK2ImageSuite();
+        this.resistivityManager = new ResistivityManager( this );
+        circuit.addCircuitListener( resistivityManager );
         CCK3ControlPanel controlPanel = null;
         controlPanel = new CCK3ControlPanel( this );
         this.cck3controlPanel = controlPanel;
@@ -283,15 +289,15 @@ public class CCK3Module extends Module {
         Rectangle2D rect = toolbox.getBounds2D();
         Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
         pt.translate( -130, 5 );
-        wigger = new WiggleMe( getApparatusPanel(), pt,
-                               new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
+        wiggleMe = new WiggleMe( getApparatusPanel(), pt,
+                                 new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 Rectangle2D rect = toolbox.getBounds2D();
                 Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
                 pt.translate( -130, 5 );
-                wigger.setVisible( true );
-                wigger.setCenter( pt );
+                wiggleMe.setVisible( true );
+                wiggleMe.setCenter( pt );
             }
         } );
         toolbox.addObserver( new SimpleObserver() {
@@ -299,19 +305,19 @@ public class CCK3Module extends Module {
                 Rectangle2D rect = toolbox.getBounds2D();
                 Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
                 pt.translate( -130, 5 );
-                wigger.setVisible( true );
-                wigger.setCenter( pt );
+                wiggleMe.setVisible( true );
+                wiggleMe.setCenter( pt );
             }
         } );
-        getApparatusPanel().addGraphic( wigger, 100 );
-        getModel().addModelElement( wigger );
+        getApparatusPanel().addGraphic( wiggleMe, 100 );
+        getModel().addModelElement( wiggleMe );
         circuit.addCircuitListener( new CircuitListenerAdapter() {
             public void branchesMoved( Branch[] branches ) {
                 if( branches.length > 0 ) {
                     circuit.removeCircuitListener( this );
-                    getApparatusPanel().removeGraphic( wigger );
-                    getModel().removeModelElement( wigger );
-                    getApparatusPanel().repaint( wigger.getBounds() );
+                    getApparatusPanel().removeGraphic( wiggleMe );
+                    getModel().removeModelElement( wiggleMe );
+                    getApparatusPanel().repaint( wiggleMe.getBounds() );
                 }
             }
         } );
@@ -340,7 +346,7 @@ public class CCK3Module extends Module {
         getApparatusPanel().repaint();
     }
 
-    private Rectangle2D getToolboxBounds() {
+    private Rectangle2D createToolboxBounds() {
         double toolBoxWidthFrac = .07;
         double toolBoxInsetXFrac = 1 - toolBoxWidthFrac * 1.5;
         double toolBoxHeightFrac = .7;
@@ -357,7 +363,7 @@ public class CCK3Module extends Module {
         if( toolbox != null ) {
             throw new RuntimeException( "Only one toolbox per app, please." );
         }
-        toolbox = new Toolbox( getToolboxBounds(), this, backgroundColor );
+        toolbox = new Toolbox( createToolboxBounds(), this, backgroundColor );
         getApparatusPanel().addGraphic( toolbox );
     }
 
@@ -467,7 +473,7 @@ public class CCK3Module extends Module {
         double newHeight = modelHeight * scale;
         Rectangle2D.Double r = new Rectangle2D.Double( 0, 0, newWidth, newHeight );
         transform.setModelBounds( r );
-        toolbox.setModelBounds( getToolboxBounds() );
+        toolbox.setModelBounds( createToolboxBounds(), cck3controlPanel.isSeriesAmmeterSelected() );
         getApparatusPanel().repaint();
     }
 
@@ -641,5 +647,109 @@ public class CCK3Module extends Module {
             app.getApplicationView().getPhetFrame().setLocation( 0, 0 );
         }
     }
+
+    public static class ResistivityManager extends CircuitListenerAdapter {
+        private CCK3Module module;
+        private Circuit circuit;
+        private static double DEFAULT_RESISTIVITY = 0.05;
+        private double resistivity = DEFAULT_RESISTIVITY;
+        private boolean enabled = false;
+
+        public ResistivityManager( CCK3Module module ) {
+            this.module = module;
+            this.circuit = module.getCircuit();
+        }
+
+        public void junctionsMoved() {
+            changed();
+        }
+
+        private void changed() {
+            if( enabled ) {
+                for( int i = 0; i < circuit.numBranches(); i++ ) {
+                    Branch b = circuit.branchAt( i );
+                    if( b.getClass().equals( Branch.class ) ) {//make sure it's not a component.
+                        double resistance = getResistance( b );
+                        b.setResistance( resistance );
+                        System.out.println( "resistance = " + resistance );
+                    }
+                }
+            }
+        }
+
+        private double getResistance( Branch b ) {
+            double length = b.getLength();
+            double resistance = length * resistivity;
+            return resistance;
+        }
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public void setEnabled( boolean enabled ) {
+            this.enabled = enabled;
+            if( enabled ) {
+                changed();
+            }
+        }
+
+        public double getResistivity() {
+            return resistivity;
+        }
+
+        public void setResistivity( double resistivity ) {
+            if( this.resistivity != resistivity ) {
+                this.resistivity = resistivity;
+                changed();
+            }
+        }
+    }
+
+    public void setResistivityEnabled( boolean selected ) {
+        if( selected == resistivityManager.isEnabled() ) {
+            return;
+        }
+        else {
+            resistivityManager.setEnabled( selected );
+            if( !selected ) {
+                setWireResistance( DEFAULT_RESISTANCE );
+            }
+        }
+    }
+
+    public ResistivityManager getResistivityManager() {
+        return resistivityManager;
+    }
+
+    private void setWireResistance( double defaultResistance ) {
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            Branch br = circuit.branchAt( i );
+            if( br.getClass().equals( Branch.class ) ) {
+                br.setResistance( defaultResistance );
+            }
+        }
+    }
+
+    public boolean isInternalResistanceOn() {
+        return internalResistanceOn;
+    }
+
+    public void setInternalResistanceOn( boolean selected ) {
+        if( this.internalResistanceOn != selected ) {
+            this.internalResistanceOn = selected;
+        }
+    }
+
+//    public void setInternalResistance( double value ) {
+//        this.internalResistance = value;
+//        for( int i = 0; i < circuit.numBranches(); i++ ) {
+//            Branch br = circuit.branchAt( i );
+//            if( br instanceof Battery ) {
+//                Battery batt = (Battery)br;
+//                batt.setResistance( value );
+//            }
+//        }
+//    }
 
 }

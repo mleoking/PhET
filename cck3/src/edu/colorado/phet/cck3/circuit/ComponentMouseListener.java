@@ -89,16 +89,19 @@ public class ComponentMouseListener extends MouseInputAdapter {
                 //nothing to do, just translate one.
                 moveStart( newStartPosition, b );
                 moveEnd( newEndPosition, b );
+                circuit.fireJunctionsMoved();
             }
             else if( startMatch == null && endMatch != null ) {
                 endTarget = endMatch;
                 newEndPosition = endMatch.getPosition();
                 moveEnd( newEndPosition, b );
+                circuit.fireJunctionsMoved();
             }
             else if( startMatch != null && endMatch == null ) {
                 startTarget = startMatch;
                 newStartPosition = startMatch.getPosition();
                 moveStart( newStartPosition, b );
+                circuit.fireJunctionsMoved();
             }
         }
     }

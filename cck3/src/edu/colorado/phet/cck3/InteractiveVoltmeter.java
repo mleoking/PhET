@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
-import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.common.view.CompositeGraphic;
@@ -42,8 +41,10 @@ public class InteractiveVoltmeter extends CompositeGraphic {
             // implements java.awt.event.MouseListener
             public void mousePressed( MouseEvent e ) {
                 //if the leads are on the circuit, only the DVM goes.
-                Branch a = voltmeterGraphic.getRedLeadGraphic().detectBranch( module.getCircuitGraphic() );
-                Branch b = voltmeterGraphic.getBlackLeadGraphic().detectBranch( module.getCircuitGraphic() );
+//                Branch a = voltmeterGraphic.getRedLeadGraphic().detectBranch( module.getCircuitGraphic() );
+//                Branch b = voltmeterGraphic.getBlackLeadGraphic().detectBranch( module.getCircuitGraphic() );
+                VoltmeterGraphic.Connection a = voltmeterGraphic.getRedLeadGraphic().detectConnection( module.getCircuitGraphic() );
+                VoltmeterGraphic.Connection b = voltmeterGraphic.getBlackLeadGraphic().detectConnection( module.getCircuitGraphic() );
                 if( a == null && b == null ) {
                     dragAll = true;
                 }

@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.components.Battery;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
+import edu.colorado.phet.cck3.common.PhetSlider;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -14,6 +15,7 @@ import org.srr.localjnlp.local.InputStreamFileContents;
 
 import javax.jnlp.*;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -26,6 +28,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
@@ -36,178 +39,20 @@ import java.util.Random;
  */
 public class CCK3ControlPanel extends JPanel {
     private CCK3Module module;
-
+    private JCheckBox seriesAmmeter;
+    private AdvancedControlPanel advancedControlPanel;
 
     public CCK3ControlPanel( final CCK3Module module ) {
+        advancedControlPanel = new AdvancedControlPanel( module );
         JLabel titleLabel = ( new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) ) );
         titleLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
         titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
         this.module = module;
-        //        setLayout( new GridBagLayout() );
-        //        setLayout( new VerticalBagLayout( ) );
-        //        setLayout( new GridLayout( 0, 1 ) );
-        //        setLayout( new BoxLayout( this, BoxLayout.PAGE_AXIS ) );
-        //        setLayout( new BasicSplitPaneUI.BasicVerticalLayoutManager() );
-        //        GridBagConstraints gbc=new GridBagConstraints( );
-        //        gbc.gridheight=8;
-        //        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-        //        setLayout( new GridLayout( 8,1) );
-
         JPanel filePanel = makeFilePanel();
         JPanel circuitPanel = makeCircuitPanel();
-
-        //        JButton clear = new JButton( "Clear" );
-        //        clear.addActionListener( new ActionListener() {
-        //            public void actionPerformed( ActionEvent e ) {
-        //                int answer = JOptionPane.showConfirmDialog( module.getApparatusPanel(), "Delete the entire circuit and start over?" );
-        //                if( answer == JOptionPane.OK_OPTION ) {
-        //                    module.clear();
-        //                }
-        //            }
-        //        } );
-        //        filePanel.setAlignmentX( Component.LEFT_ALIGNMENT );
-        //
-        //        JButton printKirkhoffsLaws = new JButton( "Show Equations" );
-        //        printKirkhoffsLaws.addActionListener( new ActionListener() {
-        //            public void actionPerformed( ActionEvent e ) {
-        //                printEm();
-        //            }
-        //        } );
-        //        final JCheckBox showReadouts = new JCheckBox( "Show Values" );
-        //        showReadouts.addActionListener( new ActionListener() {
-        //            public void actionPerformed( ActionEvent e ) {
-        //                boolean r = showReadouts.isSelected();
-        //                module.getCircuitGraphic().setReadoutMapVisible( r );
-        //                module.getApparatusPanel().repaint();
-        //            }
-        //        } );
-        //        JPanel circuitPanel = new JPanel();
-        //        circuitPanel.setLayout( new BoxLayout( circuitPanel, BoxLayout.Y_AXIS ) );
-        //        circuitPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Circuit" ) );
-        //        circuitPanel.add( printKirkhoffsLaws );
-        //        circuitPanel.add( clear );
-        //        if( !module.isVirtualLabMode() ) {
-        //            circuitPanel.add( showReadouts );
-        //        }
-
-        JRadioButton lifelike = new JRadioButton( "Lifelike", true );
-        JRadioButton schematic = new JRadioButton( "Schematic", false );
-        ButtonGroup bg = new ButtonGroup();
-        bg.add( lifelike );
-        bg.add( schematic );
-        lifelike.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setLifelike( true );
-            }
-        } );
-        schematic.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setLifelike( false );
-            }
-        } );
-
-        JPanel visualizationPanel = new JPanel();
-        visualizationPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Visual" ) );
-        visualizationPanel.setLayout( new BoxLayout( visualizationPanel, BoxLayout.Y_AXIS ) );
-        visualizationPanel.add( lifelike );
-        visualizationPanel.add( schematic );
-
-        //        add( virtualAmmeter );
-        JPanel toolPanel = new JPanel();
-        //        toolPanel.setLayout( new BoxLayout( toolPanel, BoxLayout.Y_AXIS ) );
-        toolPanel.setLayout( new GridBagLayout() );
-        GridBagConstraints lhs = new GridBagConstraints( 1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints rhs = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-
-        ImageIcon voltIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/dvm-thumb.gif" ) );
-        ImageIcon ammIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/va-thumb.gif" ) );
-        final JCheckBox voltmeter = new JCheckBox( "Voltmeter", false );
-        voltmeter.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setVoltmeterVisible( voltmeter.isSelected() );
-                module.getApparatusPanel().repaint();
-            }
-        } );
-        //        voltmeter.add( new JLabel(voltIcon));
-        //        JPanel vm = new JPanel();
-        //        vm.setLayout( new GridBagLayout() );
-        //        GridBagConstraints gbc=new GridBagConstraints( );
-        //        gbc.gridwidth=2;
-        //        gbc.gridheight=1;
-        //        gbc.gridx=0;
-        //        gbc.gridy=1;
-        //        vm.add
-        //        vm.add( voltmeter );
-        //        vm.add( new JLabel( voltIcon ) );
-
-        final JCheckBox virtualAmmeter = new JCheckBox( "<html>Non-Contact<br>Ammeter</html>", false );
-        virtualAmmeter.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setVirtualAmmeterVisible( virtualAmmeter.isSelected() );
-            }
-        } );
-        final JCheckBox seriesAmmeter = new JCheckBox( "Ammeter(s)", false );
-        seriesAmmeter.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setSeriesAmmeterVisible( seriesAmmeter.isSelected() );
-            }
-        } );
-
-        toolPanel.add( seriesAmmeter, rhs );
-        rhs.gridy++;
-        toolPanel.add( voltmeter, rhs );
-        rhs.gridy++;
-        if( !module.isVirtualLabMode() ) {
-            toolPanel.add( virtualAmmeter, rhs );
-        }
-        lhs.gridy = 0;
-        toolPanel.add( new JLabel( ammIcon ), lhs );
-        lhs.gridy++;
-        toolPanel.add( new JLabel( voltIcon ), lhs );
-
-        toolPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Tools" ) );
-
-        final JSpinner zoom = new JSpinner( new SpinnerNumberModel( 1, .1, 10, .1 ) );
-        zoom.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                Number value = (Number)zoom.getValue();
-                double v = value.doubleValue();
-                zoom( v );
-            }
-        } );
-        zoom.setSize( 50, zoom.getPreferredSize().height );
-        zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
-        //        add( zoom );
-
-        JPanel zoomPanel = new JPanel();
-        zoomPanel.setLayout( new BoxLayout( zoomPanel, BoxLayout.Y_AXIS ) );
-        zoomPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Size" ) );
-        ButtonGroup zoomGroup = new ButtonGroup();
-        JRadioButton small = new JRadioButton( "Small" );
-        small.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                zoom( 2 );
-            }
-        } );
-        JRadioButton medium = new JRadioButton( "Medium" );
-        medium.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                zoom( 1 );
-            }
-        } );
-        JRadioButton large = new JRadioButton( "Large" );
-        large.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                zoom( .5 );
-            }
-        } );
-        medium.setSelected( true );
-        zoomGroup.add( large );
-        zoomGroup.add( medium );
-        zoomGroup.add( small );
-        zoomPanel.add( large );
-        zoomPanel.add( medium );
-        zoomPanel.add( small );
+        JPanel visualPanel = makeVisualPanel();
+        JPanel toolPanel = makeToolPanel();
+        JPanel sizePanel = makeSizePanel();
 
         JButton jb = new JButton( "Local Help" );
         jb.addActionListener( new ActionListener() {
@@ -226,8 +71,6 @@ public class CCK3ControlPanel extends JPanel {
         //        add( new JSeparator() );
 
         HelpPanel hp = new HelpPanel( module );
-        //        hp.setBorder( BorderFactory.createRaisedBevelBorder() );
-
 
         JButton xml = new JButton( "Show XML" );
         xml.addActionListener( new ActionListener() {
@@ -256,7 +99,7 @@ public class CCK3ControlPanel extends JPanel {
                     double x1 = rand.nextDouble() * 10;
                     double y1 = rand.nextDouble() * 10;
                     Battery batt = new Battery( new Point2D.Double( x1, y1 ), new ImmutableVector2D.Double( 1, 0 ),
-                                                CCK3Module.BATTERY_DIMENSION.getLength(), CCK3Module.BATTERY_DIMENSION.getHeight(), module.getKirkhoffListener() );
+                                                CCK3Module.BATTERY_DIMENSION.getLength(), CCK3Module.BATTERY_DIMENSION.getHeight(), module.getKirkhoffListener(), 0 );
                     module.getCircuit().addBranch( batt );
                     module.getCircuitGraphic().addGraphic( batt );
                     System.out.println( "i = " + i );
@@ -264,7 +107,7 @@ public class CCK3ControlPanel extends JPanel {
                 module.relayout( module.getCircuit().getBranches() );
             }
         } );
-        //        add( manyComp );
+//                add( manyComp );
 
         this.setLayout( new BorderLayout() );
         add( titleLabel, BorderLayout.NORTH );
@@ -275,17 +118,148 @@ public class CCK3ControlPanel extends JPanel {
         constraints.gridy++;
         controlPanel.add( circuitPanel, constraints );
         constraints.gridy++;
-        controlPanel.add( visualizationPanel, constraints );
+        controlPanel.add( visualPanel, constraints );
         constraints.gridy++;
         controlPanel.add( toolPanel, constraints );
         constraints.gridy++;
-        controlPanel.add( zoomPanel, constraints );
+        controlPanel.add( sizePanel, constraints );
         constraints.gridy++;
 
         add( controlPanel, BorderLayout.CENTER );
-        JPanel helpPanel = new JPanel();
-        helpPanel.add( hp );
+        JPanel helpPanel = new JPanel( new GridBagLayout() );
+        GridBagConstraints helpPanelConstraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
+        helpPanel.add( hp, helpPanelConstraints );
+
         this.add( helpPanel, BorderLayout.SOUTH );
+    }
+
+    private JPanel makeSizePanel() {
+
+        final JSpinner zoom = new JSpinner( new SpinnerNumberModel( 1, .1, 10, .1 ) );
+        zoom.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                Number value = (Number)zoom.getValue();
+                double v = value.doubleValue();
+                zoom( v );
+            }
+        } );
+        zoom.setSize( 50, zoom.getPreferredSize().height );
+        zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
+        //        add( zoom );
+
+        JPanel zoomPanel = new JPanel();
+        zoomPanel.setLayout( new BoxLayout( zoomPanel, BoxLayout.Y_AXIS ) );
+//        zoomPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Size" ) );
+        ButtonGroup zoomGroup = new ButtonGroup();
+        JRadioButton small = new JRadioButton( "Small" );
+        small.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                zoom( 2 );
+            }
+        } );
+        JRadioButton medium = new JRadioButton( "Medium" );
+        medium.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                zoom( 1 );
+            }
+        } );
+        JRadioButton large = new JRadioButton( "Large" );
+        large.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                zoom( .5 );
+            }
+        } );
+        medium.setSelected( true );
+        zoomGroup.add( large );
+        zoomGroup.add( medium );
+        zoomGroup.add( small );
+        zoomPanel.add( large );
+        zoomPanel.add( medium );
+        zoomPanel.add( small );
+//        return placeInPanel( "Size", zoomPanel, new Insets( 0, 10, 0, 10 ) );
+        return placeInPanel( "Size", zoomPanel, BASIC_INSETS, GridBagConstraints.WEST );
+    }
+
+    private JPanel makeToolPanel() {
+
+        //        add( virtualAmmeter );
+        JPanel toolPanel = new JPanel();
+        //        toolPanel.setLayout( new BoxLayout( toolPanel, BoxLayout.Y_AXIS ) );
+        toolPanel.setLayout( new GridBagLayout() );
+        GridBagConstraints lhs = new GridBagConstraints( 1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
+        GridBagConstraints rhs = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
+
+        ImageIcon voltIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/dvm-thumb.gif" ) );
+        ImageIcon nonContactAmmIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/va-thumb.gif" ) );
+        ImageIcon ammIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/ammeter60.gif" ) );
+
+        final JCheckBox voltmeter = new JCheckBox( "Voltmeter", false );
+        voltmeter.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setVoltmeterVisible( voltmeter.isSelected() );
+                module.getApparatusPanel().repaint();
+            }
+        } );
+
+        final JCheckBox virtualAmmeter = new JCheckBox( "<html>Non-Contact<br>Ammeter</html>", false );
+        virtualAmmeter.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setVirtualAmmeterVisible( virtualAmmeter.isSelected() );
+            }
+        } );
+        seriesAmmeter = new JCheckBox( "Ammeter(s)", false );
+        seriesAmmeter.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setSeriesAmmeterVisible( seriesAmmeter.isSelected() );
+            }
+        } );
+
+        toolPanel.add( seriesAmmeter, rhs );
+        rhs.gridy++;
+        toolPanel.add( voltmeter, rhs );
+        rhs.gridy++;
+        if( !module.isVirtualLabMode() ) {
+            toolPanel.add( virtualAmmeter, rhs );
+        }
+        lhs.gridy = 0;
+        toolPanel.add( new JLabel( ammIcon ), lhs );
+        lhs.gridy++;
+        toolPanel.add( new JLabel( voltIcon ), lhs );
+        lhs.gridy++;
+        if( !module.isVirtualLabMode() ) {
+            toolPanel.add( new JLabel( nonContactAmmIcon ), lhs );
+        }
+
+//        toolPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Tools" ) );
+//        return placeInPanel( "Tools", toolPanel, new Insets( 0, 10, 0, 10 ) );
+        return placeInPanel( "Tools", toolPanel, BASIC_INSETS, GridBagConstraints.WEST );
+    }
+
+    private JPanel makeVisualPanel() {
+
+        JRadioButton lifelike = new JRadioButton( "Lifelike", true );
+        JRadioButton schematic = new JRadioButton( "Schematic", false );
+        ButtonGroup bg = new ButtonGroup();
+        bg.add( lifelike );
+        bg.add( schematic );
+        lifelike.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setLifelike( true );
+            }
+        } );
+        schematic.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setLifelike( false );
+            }
+        } );
+
+        JPanel visualizationPanel = new JPanel();
+//        visualizationPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Visual" ) );
+        visualizationPanel.setLayout( new BoxLayout( visualizationPanel, BoxLayout.Y_AXIS ) );
+        visualizationPanel.add( lifelike );
+        visualizationPanel.add( schematic );
+//        return placeInPanel( "Visual", visualizationPanel, new Insets( 0, 10, 0, 10 ) );
+        return placeInPanel( "Visual", visualizationPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
     public class GridBagLayoutHelper extends GridBagConstraints {
@@ -508,14 +482,27 @@ public class CCK3ControlPanel extends JPanel {
         //        Insets insets = new Insets( 0, 10, 0, 10 );
 
         //        GraphicsUtil.addGridBagComponent( filePanel, filePanelContents, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, insets );
-        return placeInPanel( "File", filePanelContents, new Insets( 0, 10, 0, 10 ) );
+        return placeInPanel( "File", filePanelContents, new Insets( 0, 10, 0, 10 ), GridBagConstraints.CENTER );
+//        return placeInPanel( "File", filePanelContents, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
-    private static JPanel placeInPanel( String title, JPanel contents, Insets insets ) {
-        GridBagConstraints constraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0 );
+    private static JPanel placeInPanel( String title, JPanel contents, Insets insets, int anchor ) {
+        GridBagConstraints constraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, anchor, GridBagConstraints.NONE, insets, 10, 0 );
         JPanel panel = new JPanel( new GridBagLayout() );
-        panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), title ) );
+//        panel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), title ) );
+        panel.setBorder( new TitledBorder( BorderFactory.createRaisedBevelBorder(), title ) {
+            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+                Graphics2D g2 = (Graphics2D)g;
+                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                super.paintBorder( c, g, x, y, width, height );
+            }
+        } );
+        panel.add( Box.createRigidArea( new Dimension( 10, 0 ) ), constraints );
+        constraints.gridx++;
         panel.add( contents, constraints );
+        constraints.weightx = 1;
+        constraints.gridx++;
+        panel.add( Box.createRigidArea( new Dimension( 1, 0 ) ), constraints );
         return panel;
     }
 
@@ -530,12 +517,6 @@ public class CCK3ControlPanel extends JPanel {
             }
         } );
 
-        JButton printKirkhoffsLaws = new JButton( "Show Equations" );
-        printKirkhoffsLaws.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                printEm();
-            }
-        } );
         final JCheckBox showReadouts = new JCheckBox( "Show Values" );
         showReadouts.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -544,14 +525,101 @@ public class CCK3ControlPanel extends JPanel {
                 module.getApparatusPanel().repaint();
             }
         } );
+        JButton advanced = new JButton( "Advanced" );
+        advanced.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                advancedControlPanel.showDialog();
+            }
+        } );
         JPanel circuitPanel = new JPanel();
         circuitPanel.setLayout( new BoxLayout( circuitPanel, BoxLayout.Y_AXIS ) );
-        circuitPanel.add( printKirkhoffsLaws );
+//        circuitPanel.add( printKirkhoffsLaws );
+        circuitPanel.add( advanced );
         circuitPanel.add( clear );
         if( !module.isVirtualLabMode() ) {
             circuitPanel.add( showReadouts );
         }
-        return placeInPanel( "Circuit", circuitPanel, new Insets( 0, 10, 0, 10 ) );
+        return placeInPanel( "Circuit", circuitPanel, BASIC_INSETS, GridBagConstraints.WEST );
+    }
+
+    public boolean isSeriesAmmeterSelected() {
+        return seriesAmmeter.isSelected();
+    }
+
+    static Insets BASIC_INSETS = new Insets( 0, 0, 0, 0 );
+
+    class AdvancedControlPanel extends JPanel {
+        private CCK3Module module;
+        JDialog dialog;
+        private PhetSlider resistivitySlider;
+//        private PhetSlider batteryInternalResistance;
+
+        public AdvancedControlPanel( final CCK3Module module ) {
+            this.module = module;
+            setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+            final JCheckBox resistivityEnabled = new JCheckBox( "Resistivity", module.getResistivityManager().isEnabled() );
+            resistivityEnabled.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setResistivityEnabled( resistivityEnabled.isSelected() );
+                    resistivitySlider.setEnabled( resistivityEnabled.isSelected() );
+                    if( resistivityEnabled.isSelected() ) {
+                        resistivitySlider.requestSliderFocus();
+                    }
+                }
+            } );
+            add( resistivityEnabled );
+            resistivitySlider = new PhetSlider( "Wire Resistivity", "Ohms/meter", 0, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
+            resistivitySlider.setNumMajorTicks( 5 );
+            resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
+            add( resistivitySlider );
+            resistivitySlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    double value = resistivitySlider.getValue();
+                    module.getResistivityManager().setResistivity( value );
+                }
+            } );
+            resistivitySlider.setEnabled( resistivityEnabled.isSelected() );
+
+            final JCheckBox internalResistanceEnabled = new JCheckBox( "Battery Internal Resistance Editable", module.isInternalResistanceOn() );
+            internalResistanceEnabled.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setInternalResistanceOn( internalResistanceEnabled.isSelected() );
+                }
+            } );
+            add( internalResistanceEnabled );
+
+            JButton printKirkhoffsLaws = new JButton( "Show Equations" );
+            printKirkhoffsLaws.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    printEm();
+                }
+            } );
+            add( printKirkhoffsLaws );
+
+            JButton close = new JButton( "Close" );
+            close.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    dialog.setVisible( false );
+                }
+            } );
+            add( Box.createRigidArea( new Dimension( 0, 30 ) ) );
+            add( close );
+        }
+
+        public void showDialog() {
+            if( dialog == null ) {
+                Window parent = SwingUtilities.getWindowAncestor( module.getApparatusPanel() );
+                dialog = new JDialog( (Frame)parent, "Advanced Controls" );
+                dialog.setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
+                dialog.setModal( false );
+//                dialog.setUndecorated( true );
+                dialog.setContentPane( this );
+                SwingUtilities.updateComponentTreeUI( dialog );
+                dialog.pack();
+                GraphicsUtil.centerDialogInParent( dialog );
+            }
+            dialog.setVisible( true );
+        }
     }
 }
 

@@ -18,7 +18,6 @@ import java.awt.*;
  * Copyright (c) May 24, 2004 by Sam Reid
  */
 public class BranchGraphic extends CompositePrimaryGraphic {
-//public class BranchGraphic extends PrimaryShapeGraphic {
     private Branch branch;
     private double thickness;
     private ModelViewTransform2D transform;
