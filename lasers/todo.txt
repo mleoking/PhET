@@ -1,4 +1,5 @@
-- position beam graphics from the beam origin
+-
+
 - AtomGraphic should just be a listener, not a SimpleObserver
 - Photons jump to right when stimulated emissoin happens
 - Put off..max labels on intensity slider
@@ -22,7 +23,14 @@ Should we keep or toss TxTranslatable, TxGraphic, TxBoundary, if we keep, can we
 
 Refactor ModelViewTx2D and AffineTxUtil
 
+
 =========================================================
+11/16/04
+- Removed restriction of method ending in "Occurred" from EventRegistry
+ 
+---------------------------------------------------------
+11/16/04
+- position beam graphics from the beam origin
 - Changed AtomGraphic to be an EventListener from a SimpleObserver
 - Beam control panels change if the rate of the beam changes
 - Lenses of lamps are the same as the photons they produce

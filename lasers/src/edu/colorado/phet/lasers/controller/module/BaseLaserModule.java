@@ -126,7 +126,7 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
 
         // Create the energy levels dialog
         energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( laserModel );
-        energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel, getLaserModel() );
+        energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
 
         // Add the control panel
         LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
@@ -222,7 +222,8 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
     public void activate( PhetApplication app ) {
         super.activate( app );
         appFrame = app.getApplicationView().getPhetFrame();
-        energyLevelsDialog.setVisible( energyDialogIsVisible );
+        energyLevelsDialog.setVisible( true );
+        //        energyLevelsDialog.setVisible( energyDialogIsVisible );
 
         // todo: this whole mechanism should probably be refactored
         SpontaneouslyEmittingState.setModel( getModel() );

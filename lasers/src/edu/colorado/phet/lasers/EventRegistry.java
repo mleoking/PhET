@@ -43,9 +43,9 @@ public class EventRegistry {
         Method[] methods = listenerType.getMethods();
         for( int i = 0; i < methods.length; i++ ) {
             Method method = methods[i];
-            if( method.getName().endsWith( "Occurred" )
-                && method.getParameterTypes().length == 1
-                && EventObject.class.isAssignableFrom( method.getParameterTypes()[0] ) ) {
+            if( /*method.getName().endsWith( "Occurred" )
+                &&*/ method.getParameterTypes().length == 1
+                     && EventObject.class.isAssignableFrom( method.getParameterTypes()[0] ) ) {
 
                 // Register the listener on the event type in the method's signature
                 registerListenerForEvent( listener, method );
