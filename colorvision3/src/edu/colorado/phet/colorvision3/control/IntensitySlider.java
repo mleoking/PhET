@@ -69,7 +69,7 @@ public class IntensitySlider extends JPanel implements ChangeListener
     _slider.setValue( 0 );
     _slider.setPreferredSize( size );
     _slider.addChangeListener( this );
-    
+     
     // Layout
     this.add( _containerPanel );
     _containerPanel.add( _slider );
@@ -198,26 +198,46 @@ public class IntensitySlider extends JPanel implements ChangeListener
       int w = component.getWidth();
       int h = component.getHeight();
       
-      // Create the background shape.
-      Shape shape = new Rectangle2D.Double( x, y, w, h );
+      // Create the background shapes.
+      int offset = 15; // HACK: distance from end of track to end of component
+      Shape top, bottom, middle, shape;
+      if ( _slider.getOrientation() == JSlider.VERTICAL )
+      {
+        top = new Rectangle2D.Double( x, y, w, h/2 );
+        bottom = new Rectangle2D.Double( x, y + (h/2), w, h/2 );
+        middle = new Rectangle2D.Double( x, y + offset, w, h - (2*offset) );
+        shape = new Rectangle2D.Double( x, y, w, h );
+      }
+      else
+      {
+        top = new Rectangle2D.Double( x, y, w/2, h );
+        bottom = new Rectangle2D.Double( x + (w/2), y, w/2, h );
+        middle = new Rectangle2D.Double( x + offset, y, w - (2*offset), h );
+        shape = new Rectangle2D.Double( x, y, w, h );
+      }
       
       // Create the gradient fill.
       Point2D p1, p2;
       if ( _slider.getOrientation() == JSlider.VERTICAL )
       {
-        p1 = new Point2D.Double( x + (w/2), y );
-        p2 = new Point2D.Double( x + (w/2), y + h );
+        p1 = new Point2D.Double( x + (w/2), y + offset );
+        p2 = new Point2D.Double( x + (w/2), y + h - offset );
       }
       else
       {
-        p1 = new Point2D.Double( x + w, y + (h/2) );
-        p2 = new Point2D.Double( x, y + (h/2) );
+        p1 = new Point2D.Double( x + w - offset, y + (h/2) );
+        p2 = new Point2D.Double( x + offset, y + (h/2) );
       }
-      GradientPaint gradient = new GradientPaint( p1, _color, p2, Color.black );
+      GradientPaint gradient = new GradientPaint( p1, _color, p2, Color.BLACK );
       
       // Render the background.
+      g2.setPaint( Color.BLACK );
+      g2.fill( bottom );
+      g2.setPaint( _color );
+      g2.fill( top );
       g2.setPaint( gradient );
-      g2.fill( shape );
+      //g2.setPaint( Color.WHITE ); // DEBUG, to see how middle lines up with track ends.
+      g2.fill( middle );
       g2.setStroke( new BasicStroke( 1f ) );
       g2.setPaint( Color.white );
       g2.draw( shape );
