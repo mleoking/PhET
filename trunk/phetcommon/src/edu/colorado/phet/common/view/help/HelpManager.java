@@ -10,6 +10,8 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
 
 public class HelpManager extends CompositeGraphic {
+    double helpLayer = Double.POSITIVE_INFINITY;
+
     public void removeHelpItem( HelpItem helpItem ) {
         super.removeGraphic( helpItem );
     }
@@ -20,7 +22,7 @@ public class HelpManager extends CompositeGraphic {
 
     public void setHelpEnabled( ApparatusPanel apparatusPanel, boolean h ) {
         if( h ) {
-            apparatusPanel.addGraphic( this );
+            apparatusPanel.addGraphic( this, helpLayer );
         }
         else {
             apparatusPanel.removeGraphic( this );

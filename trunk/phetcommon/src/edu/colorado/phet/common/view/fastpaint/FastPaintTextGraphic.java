@@ -41,8 +41,11 @@ public class FastPaintTextGraphic extends TextGraphic implements FastPaint.Graph
     }
 
     public void setText( String text ) {
-        super.setText( text );
-        repaint();
+        String oldText = super.getText();
+        if( !oldText.equals( text ) ) {
+            super.setText( text );
+            repaint();
+        }
     }
 
     public void setFont( Font font ) {
