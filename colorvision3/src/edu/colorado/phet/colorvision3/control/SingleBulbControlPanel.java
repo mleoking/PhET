@@ -53,7 +53,6 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
   private JRadioButton _monochromaticRadioButton;
   private JRadioButton _photonsRadioButton;
   private JRadioButton _solidRadioButton;
-  private JCheckBox _filterCheckBox;
   
   // Event listeners
   private EventListenerList _listenerList;
@@ -126,42 +125,15 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
       buttonGroup.add( _solidRadioButton );  
     }
     
-    // Filter Control panel
-    JPanel filterPanel = new JPanel();
-    {
-      // Titled border with a larger font.
-      TitledBorder border = new TitledBorder( SimStrings.get( "filter.title" ) );
-      Font defaultFont = bulbPanel.getFont();
-      Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
-      border.setTitleFont( font );
-      
-      filterPanel.setBorder( border );
-      filterPanel.setLayout( new BoxLayout( filterPanel, BoxLayout.Y_AXIS ) );
-
-      // Radio buttons
-      _filterCheckBox = new JCheckBox( SimStrings.get( "filter.checkBox" ) );
-      filterPanel.add( _filterCheckBox );
-    }
-    
     // Layout so that control groups fill horizontal space.
-    JPanel panel1 = new JPanel();
+    JPanel panel = new JPanel();
     {
       BorderLayout layout = new BorderLayout();
       layout.setVgap( 20 ); // vertical space between control groups
-      panel1.setLayout( layout );
-      panel1.add( bulbPanel, BorderLayout.NORTH );
-      panel1.add( beamPanel, BorderLayout.CENTER );
-      panel1.add( filterPanel, BorderLayout.SOUTH );
-    }
-    
-    // Add filler so that control panel retains a minimum size.
-    JPanel panel2 = new JPanel();
-    {
-      BorderLayout layout = new BorderLayout();
-      layout.setVgap( 20 ); // vertical space between PhET logo and top control group
-      panel2.setLayout( layout );
-      panel2.add( fillerPanel, BorderLayout.NORTH );
-      panel2.add( panel1, BorderLayout.CENTER );
+      panel.setLayout( layout );
+      panel.add( fillerPanel, BorderLayout.NORTH );
+      panel.add( bulbPanel, BorderLayout.CENTER );
+      panel.add( beamPanel, BorderLayout.SOUTH );
     }
     
     // Add a listener to the radio buttons.
@@ -169,14 +141,12 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     _monochromaticRadioButton.addActionListener( this );
     _solidRadioButton.addActionListener( this );
     _photonsRadioButton.addActionListener( this );
-    _filterCheckBox.addActionListener( this );
     
     //  Set the initial state.
     _whiteRadioButton.setSelected( true );
     _solidRadioButton.setSelected( true );
-    _filterCheckBox.setSelected( true );
     
-    super.setControlPane( panel2 );
+    super.setControlPane( panel );
   }
 
 	//----------------------------------------------------------------------------
@@ -258,28 +228,6 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     {
       throw new IllegalArgumentException( "invalid beam type: " + beamType );
     }
-    fireChangeEvent( new ChangeEvent(this) );
-  }
-  
-  /**
-   * Gets the state of the filter checkbox.
-   * 
-   * @return true or false
-   */
-  public boolean getFilterEnabled()
-  {
-    return _filterCheckBox.isSelected();
-  }
-  
-  /**
-   * Sets the state of the filter checkbox.
-   * Registered listeners receive a ChangeEvent.
-   * 
-   * @param enabled true or false
-   */
-  public void setFilterEnabled( boolean enabled )
-  {
-    _filterCheckBox.setSelected( enabled );
     fireChangeEvent( new ChangeEvent(this) );
   }
   
