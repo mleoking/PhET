@@ -45,20 +45,19 @@ import java.util.LinkedList;
  */
 public class ApparatusPanel2 extends ApparatusPanel {
 
-    //
-    // Statics
+    ////////////////////////////////////////////////////////////////////////////////////////
+    // Class
     //
     public static final double LAYER_TOP = Double.POSITIVE_INFINITY;
     public static final double LAYER_BOTTOM = Double.NEGATIVE_INFINITY;
     public static final double LAYER_DEFAULT = 0;
 
 
-    //
-    // Instance fields and methods
+    ///////////////////////////////////////////////////////////////////////////////////////
+    // Instance
     //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     GraphicLayerSet graphic;
-//    CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
     BufferedImage bImg;
 
     ArrayList graphicsSetups = new ArrayList();
@@ -86,6 +85,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 megapaintImmediately();
             }
         } );
+
         //        setOpaque( true );
         //        setDoubleBuffered( false );
         this.addComponentListener( new ComponentAdapter() {
@@ -98,7 +98,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
                     if( strategy.getCapabilities().isFullScreenRequired() ) {
                         System.out.println( "Full screen is required for buffering." );
                     }
-                    System.out.println( "strategy = " + strategy );
                 }
             }
         } );
@@ -168,6 +167,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         return super.add( name, comp );
     }
 
+
+    //////////////////////////////////////////////////////////////////////////////////////
+    // Rendering
+    //
     public void paintImmediately() {
         megapaintImmediately();
     }
@@ -184,14 +187,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
             repaintArea = union;
             paintImmediately( union );
         }
-    }
-
-    public void addGraphicsSetup( GraphicsSetup setup ) {
-        graphicsSetups.add( setup );
-    }
-
-    public void removeAllGraphics() {
-        graphic.clear();
     }
 
     public void repaint( long tm, int x, int y, int width, int height ) {
@@ -231,7 +226,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         gs.restoreGraphics();
     }
 
-
     private void drawIt( Graphics2D g2 ) {
         if( repaintArea == null ) {
             repaintArea = this.getBounds();
@@ -263,23 +257,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         g2.setStroke( origStroke );
     }
 
-    public void addGraphic( PhetGraphic graphic, double level ) {
-        this.graphic.addGraphic( graphic, level );
-    }
-
-    public void addGraphic( PhetGraphic graphic ) {
-        this.addGraphic( graphic, 0 );
-    }
-
-    public void removeGraphic( PhetGraphic graphic ) {
-        this.graphic.removeGraphic( graphic );
-    }
-
-    public GraphicLayerSet getGraphic() {
-        return graphic;
-    }
-
-    class MouseProcessor implements ModelElement, MouseListener, MouseMotionListener {
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Inner classes
+    //    
+    private class MouseProcessor implements ModelElement, MouseListener, MouseMotionListener {
         LinkedList mouseEventList;
         LinkedList mouseMotionEventList;
         private GraphicLayerSet handler;
@@ -295,6 +276,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
             processMouseMotionEventList();
         }
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        // Mouse event handling
+        //
         private void xformEventPt( MouseEvent event ) {
             Point2D.Double p = new Point2D.Double( event.getPoint().getX(), event.getPoint().getY() );
             mouseTx.transform( p, p );
