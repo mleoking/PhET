@@ -14,8 +14,8 @@ import java.util.Stack;
  * Testing.
  */
 public abstract class PhetGraphic implements BoundedGraphic {
-    private Rectangle lastBounds = null;
-    private Rectangle bounds = null;
+    private Rectangle lastBounds = new Rectangle();
+    private Rectangle bounds = new Rectangle();
     private Component component;
 //    private boolean visible = false;
     protected boolean visible = true;
@@ -100,13 +100,13 @@ public abstract class PhetGraphic implements BoundedGraphic {
         Rectangle newBounds = determineBounds();
         if( newBounds != null ) {
             if( this.bounds == null ) {
-                this.bounds = new Rectangle( newBounds );
+                this.bounds.setRect( newBounds );
             }
             else {
                 this.bounds.setBounds( newBounds );
             }
             if( lastBounds == null ) {
-                lastBounds = new Rectangle( bounds );
+                lastBounds.setRect( bounds );
             }
         }
     }
