@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -29,8 +30,9 @@ import java.awt.*;
 public class StimulatingBeamControl extends JPanel implements SimpleObserver {
 
     private JSlider photonRateSlider;
-    private JTextField photonRateTF;
+//    private JTextField photonRateTF;
     private CollimatedBeam collimatedBeam;
+    private JSlider wavelengthSlider;
 
     public StimulatingBeamControl( final LaserModel model ) {
 
@@ -40,21 +42,23 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
         }
         this.collimatedBeam = collimatedBeam;
 
-        photonRateTF = new JTextField( 3 );
-        photonRateTF.setEditable( false );
-        photonRateTF.setHorizontalAlignment( JTextField.RIGHT );
-        Font clockFont = photonRateTF.getFont();
-        photonRateTF.setFont( new Font( clockFont.getName(),
-                                        LaserConfig.CONTROL_FONT_STYLE,
-                                        LaserConfig.CONTROL_FONT_SIZE ) );
-
-        photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) );
-        photonRateSlider = new JSlider( JSlider.VERTICAL,
+//        photonRateTF = new JTextField( 3 );
+//        photonRateTF.setEditable( false );
+//        photonRateTF.setHorizontalAlignment( JTextField.RIGHT );
+//        Font clockFont = photonRateTF.getFont();
+//        photonRateTF.setFont( new Font( clockFont.getName(),
+//                                        LaserConfig.CONTROL_FONT_STYLE,
+//                                        LaserConfig.CONTROL_FONT_SIZE ) );
+//
+//        photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) );
+        // Create the intesity slider
+        photonRateSlider = new JSlider( JSlider.HORIZONTAL,
                                         LaserConfig.MINIMUM_STIMULATING_PHOTON_RATE,
                                         LaserConfig.MAXIMUM_STIMULATING_PHOTON_RATE,
                                         0 );
 
-        photonRateSlider.setPreferredSize( new Dimension( 20, 50 ) );
+        photonRateSlider.setPreferredSize( new Dimension( 100, 50 ) );
+//        photonRateSlider.setPreferredSize( new Dimension( 20, 50 ) );
         photonRateSlider.setPaintTicks( true );
         photonRateSlider.setMajorTickSpacing( 2 );
         photonRateSlider.addChangeListener( new ChangeListener() {
@@ -62,7 +66,23 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
                 //                updatePhotonRate( photonRateSlider.getValue() );
                 CollimatedBeam beam = model.getStimulatingBeam();
                 beam.setPhotonsPerSecond( photonRateSlider.getValue() );
-                photonRateTF.setText( Integer.toString( photonRateSlider.getValue() ) );
+//                photonRateTF.setText( Integer.toString( photonRateSlider.getValue() ) );
+            }
+        } );
+
+        // Create the wavelength slider
+        // The wavelength has to be inverted to be used as the min and max for the slider
+        // if we want red to be on the left and blue to be on the right. The scale factor
+        // is needed to make things usable integers.
+        final double scaleFactor = 1E6;
+        wavelengthSlider = new JSlider( (int)( scaleFactor / GroundState.instance().getWavelength() ),
+                                        (int)( scaleFactor / LaserConfig.MIN_WAVELENGTH ),
+                                        (int)( scaleFactor / GroundState.instance().getWavelength() ));
+        wavelengthSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                CollimatedBeam beam = model.getStimulatingBeam();
+                beam.setWavelength( (int)( scaleFactor / wavelengthSlider.getValue() ));
+                System.out.println( "lambda: " + (scaleFactor / wavelengthSlider.getValue()) );
             }
         } );
 
@@ -72,17 +92,18 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 5, 0, 5 ), 20, 0 );
         this.add( photonRateSlider, gbc );
-        gbc.gridx++;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        this.add( photonRateTF, gbc );
+        gbc.gridy++;
+//        gbc.anchor = GridBagConstraints.WEST;
+//        gbc.fill = GridBagConstraints.HORIZONTAL;
+        this.add( wavelengthSlider, gbc );
+//        this.add( photonRateTF, gbc );
         Border frequencyBorder = new TitledBorder( SimStrings.get( "StimulatingBeamControl.BorderTitle" ) );
         this.setBorder( frequencyBorder );
     }
 
     public void update() {
         if( photonRateSlider.getValue() != (int)collimatedBeam.getPhotonsPerSecond() ) {
-            photonRateTF.setText( Double.toString( collimatedBeam.getPhotonsPerSecond() ) );
+//            photonRateTF.setText( Double.toString( collimatedBeam.getPhotonsPerSecond() ) );
             photonRateSlider.setValue( (int)collimatedBeam.getPhotonsPerSecond() );
         }
     }
