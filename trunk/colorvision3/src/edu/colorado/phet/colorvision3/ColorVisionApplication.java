@@ -12,7 +12,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * ColorVisionApplication is the main application for the PhET Color Vision simulation.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class ColorVisionApplication extends PhetApplication
 {
