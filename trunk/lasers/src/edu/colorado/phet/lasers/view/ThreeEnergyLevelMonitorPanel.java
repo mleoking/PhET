@@ -14,11 +14,6 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.GroundState;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -27,8 +22,10 @@ public class ThreeEnergyLevelMonitorPanel extends MonitorPanel {
 
     static private int s_atomDiam = 14;
 
-    static private double s_panelWidth = 600;
-    static private double s_panelHeight = 150;
+    static private double s_panelWidth = 300;
+    //    static private double s_panelWidth = 600;
+    static private double s_panelHeight = 250;
+    //    static private double s_panelHeight = 150;
 
     static private double s_highLevelLineOriginX = 50;
     static private double s_highLevelLineOriginY = 30;
@@ -62,28 +59,27 @@ public class ThreeEnergyLevelMonitorPanel extends MonitorPanel {
     private void init() {
 
         highLevelLine = new Line2D.Double( s_highLevelLineOriginX,
-                                          s_highLevelLineOriginY,
-                                          s_highLevelLineOriginX + s_highLevelLineLength,
-                                          s_highLevelLineOriginY );
+                                           s_highLevelLineOriginY,
+                                           s_highLevelLineOriginX + s_highLevelLineLength,
+                                           s_highLevelLineOriginY );
         middleLevelLine = new Line2D.Double( s_middleLevelLineOriginX,
-                                            s_middleLevelLineOriginY,
-                                            s_middleLevelLineOriginX + s_middleLevelLineLength,
-                                            s_middleLevelLineOriginY );
+                                             s_middleLevelLineOriginY,
+                                             s_middleLevelLineOriginX + s_middleLevelLineLength,
+                                             s_middleLevelLineOriginY );
         groundLevelLine = new Line2D.Double( s_groundLevelLineOriginX,
-                                            s_groundLevelLineOriginY,
-                                            s_groundLevelLineOriginX + s_groundLevelLineLength,
-                                            s_groundLevelLineOriginY );
-        setPreferredSize( new Dimension( (int) s_panelWidth, (int) s_panelHeight ) );
+                                             s_groundLevelLineOriginY,
+                                             s_groundLevelLineOriginX + s_groundLevelLineLength,
+                                             s_groundLevelLineOriginY );
+        setPreferredSize( new Dimension( (int)s_panelWidth, (int)s_panelHeight ) );
     }
 
     /**
-     *
      * @param graphics
      */
     protected synchronized void paintComponent( Graphics graphics ) {
         super.paintComponent( graphics );
 
-        Graphics2D g2 = (Graphics2D) graphics;
+        Graphics2D g2 = (Graphics2D)graphics;
         g2.draw( highLevelLine );
         g2.draw( middleLevelLine );
         g2.draw( groundLevelLine );
@@ -91,8 +87,8 @@ public class ThreeEnergyLevelMonitorPanel extends MonitorPanel {
         // Draw ground level atoms
         g2.setColor( Color.gray );
         for( int i = 0; i < numGroundLevel; i++ ) {
-            g2.fillArc( (int) ( s_groundLevelLineOriginX + ( s_atomDiam * i ) ),
-                        (int) ( s_groundLevelLineOriginY - s_atomDiam ),
+            g2.fillArc( (int)( s_groundLevelLineOriginX + ( s_atomDiam * i ) ),
+                        (int)( s_groundLevelLineOriginY - s_atomDiam ),
                         s_atomDiam,
                         s_atomDiam,
                         0, 360 );
@@ -101,8 +97,8 @@ public class ThreeEnergyLevelMonitorPanel extends MonitorPanel {
         // Draw middle level atoms
         g2.setColor( Color.red );
         for( int i = 0; i < numMiddleLevel; i++ ) {
-            g2.fillArc( (int) ( s_middleLevelLineOriginX + ( s_atomDiam * i ) ),
-                        (int) ( s_middleLevelLineOriginY - s_atomDiam ),
+            g2.fillArc( (int)( s_middleLevelLineOriginX + ( s_atomDiam * i ) ),
+                        (int)( s_middleLevelLineOriginY - s_atomDiam ),
                         s_atomDiam,
                         s_atomDiam,
                         0, 360 );
@@ -111,8 +107,8 @@ public class ThreeEnergyLevelMonitorPanel extends MonitorPanel {
         // Draw high level atoms
         g2.setColor( Color.blue );
         for( int i = 0; i < numHighLevel; i++ ) {
-            g2.fillArc( (int) ( s_highLevelLineOriginX + ( s_atomDiam * i ) ),
-                        (int) ( s_highLevelLineOriginY - s_atomDiam ),
+            g2.fillArc( (int)( s_highLevelLineOriginX + ( s_atomDiam * i ) ),
+                        (int)( s_highLevelLineOriginY - s_atomDiam ),
                         s_atomDiam,
                         s_atomDiam,
                         0, 360 );

@@ -46,9 +46,12 @@ public class Atom extends SphericalBody {
 
     private AtomicState state;
     private SubscriptionService subscriptionService = new SubscriptionService();
+
     public interface Listener {
         void photonEmitted( Atom atom, Photon photon );
+
         void leftSystem( Atom atom );
+
         void stateChanged( Atom atom, AtomicState oldState, AtomicState newState );
     }
 
@@ -80,7 +83,7 @@ public class Atom extends SphericalBody {
         notifyObservers();
         this.subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
-                ((Listener)obj).stateChanged( Atom.this, oldState, newState );
+                ( (Listener)obj ).stateChanged( Atom.this, oldState, newState );
             }
         } );
     }
@@ -93,10 +96,10 @@ public class Atom extends SphericalBody {
      *
      */
     void emitPhoton( final Photon emittedPhoton ) {
-        emittedPhoton.collideWithAtom( this );
+        //        emittedPhoton.collideWithAtom( this );
         subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
-                ((Listener)obj).photonEmitted( Atom.this, emittedPhoton );
+                ( (Listener)obj ).photonEmitted( Atom.this, emittedPhoton );
             }
         } );
     }
@@ -104,7 +107,7 @@ public class Atom extends SphericalBody {
     public void removeFromSystem() {
         subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
-                ((Listener)obj).leftSystem( Atom.this );
+                ( (Listener)obj ).leftSystem( Atom.this );
             }
         } );
         state.decrementNumInState();

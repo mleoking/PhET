@@ -11,21 +11,16 @@
  */
 package edu.colorado.phet.lasers.model.photon;
 
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
-import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
-import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.mechanics.Body;
+import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
+import edu.colorado.phet.lasers.model.atom.Atom;
 
-import java.util.ArrayList;
-import java.util.Observer;
-import java.util.LinkedList;
-import java.util.List;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  *
@@ -43,9 +38,10 @@ public class Photon extends Particle implements Collidable {
     // at run-time
     static private int freePoolSize = 2000;
     static private ArrayList freePool = new ArrayList( freePoolSize );
+
     // Populate the free pool
     static {
-        for( int i = 0; i < freePoolSize; i++ ){
+        for( int i = 0; i < freePoolSize; i++ ) {
             freePool.add( new Photon() );
         }
     }
@@ -57,32 +53,32 @@ public class Photon extends Particle implements Collidable {
         }
         else */{
             newPhoton = new Photon();
-//            freePool.add( new Photon() );
+            //            freePool.add( new Photon() );
         }
         return newPhoton;
     }
 
-//    static public Photon create( Photon photon ) {
-//        Photon newPhoton = create();
-//        newPhoton.setVelocity( new Vector2D.Double( photon.getVelocity() ));
-//        newPhoton.setWavelength( photon.getWavelength() );
-//        newPhoton.numStimulatedPhotons = photon.numStimulatedPhotons;
-//        return newPhoton;
-//    }
+    //    static public Photon create( Photon photon ) {
+    //        Photon newPhoton = create();
+    //        newPhoton.setVelocity( new Vector2D.Double( photon.getVelocity() ));
+    //        newPhoton.setWavelength( photon.getWavelength() );
+    //        newPhoton.numStimulatedPhotons = photon.numStimulatedPhotons;
+    //        return newPhoton;
+    //    }
 
     static public Photon createStimulated( Photon stimulatingPhoton ) {
         stimulatingPhoton.numStimulatedPhotons++;
         if( stimulatingPhoton.numStimulatedPhotons > 1 ) {
-//            System.out.println( "!!!" );
+            //            System.out.println( "!!!" );
         }
 
         Photon newPhoton = create();
-        newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ));
+        newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ) );
         newPhoton.setWavelength( stimulatingPhoton.getWavelength() );
         int yOffset = stimulatingPhoton.numStimulatedPhotons * 4;
         newPhoton.setPosition( stimulatingPhoton.getPosition().getX(),
                                stimulatingPhoton.getPosition().getY() - yOffset );
-//                               stimulatingPhoton.getPosition().getY() - stimulatingPhoton.getRadius() );
+        //                               stimulatingPhoton.getPosition().getY() - stimulatingPhoton.getRadius() );
 
         return newPhoton;
     }
@@ -90,6 +86,7 @@ public class Photon extends Particle implements Collidable {
     /**
      * If the photon is created by a CollimatedBeam, it should use this method,
      * so that the photon can tell the CollimatedBeam if it is leaving the system.
+     *
      * @param beam
      */
     static public Photon create( CollimatedBeam beam ) {
@@ -98,7 +95,6 @@ public class Photon extends Particle implements Collidable {
         newPhoton.setWavelength( beam.getWavelength() );
         return newPhoton;
     }
-
 
 
     private int numObservers;
@@ -134,10 +130,9 @@ public class Photon extends Particle implements Collidable {
     private Photon() {
         collidableAdapter = new CollidableAdapter( this );
         setVelocity( s_speed, 0 );
-//        setMass( 1 );
+        //        setMass( 1 );
     }
 
-//    private List listeners = new LinkedList();
     private SubscriptionService bulletinBoard = new SubscriptionService();
 
     public interface Listener {
@@ -160,16 +155,16 @@ public class Photon extends Particle implements Collidable {
     public void removeFromSystem() {
         bulletinBoard.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
-                ((Listener)obj).leavingSystem( Photon.this );
+                ( (Listener)obj ).leavingSystem( Photon.this );
             }
         } );
         if( beam != null ) {
             beam.removePhoton( this );
         }
 
-//        freePool.add( this );
-//        setChanged();
-//        notifyObservers( Particle.S_REMOVE_BODY );
+        //        freePool.add( this );
+        //        setChanged();
+        //        notifyObservers( Particle.S_REMOVE_BODY );
     }
 
     public double getWavelength() {
@@ -183,10 +178,6 @@ public class Photon extends Particle implements Collidable {
     public double getEnergy() {
         // Some function based on wavelength
         return ( 1 / getWavelength() );
-    }
-
-    public void collideWithAtom( Atom atom ) {
-//        contactedAtoms.add( atom );
     }
 
     public boolean hasCollidedWithAtom( Atom atom ) {

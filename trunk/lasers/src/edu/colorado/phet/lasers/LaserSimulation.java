@@ -37,7 +37,7 @@ public class LaserSimulation extends PhetApplication {
 
             AbstractClock clock = new SwingTimerClock( 10, 20 );
             setClock( clock );
-            setFrameCenteredSize( 900, 600 );
+            setFrameCenteredSize( 900, 750 );
 
             Module singleAtomModule = new OneAtomTwoLevelsModule( clock );
             Module oneAtomThreeLevelsModule = new OneAtomThreeLevelsModule( clock );
@@ -79,10 +79,12 @@ public class LaserSimulation extends PhetApplication {
 
     private static class LaserAppLookAndFeel extends LandF {
         static Color yellowishBackground = new Color( 249, 221, 162 );
-        static Color greenishBackground = new Color( 225, 249, 162 );
+        static Color greenishBackground = new Color( 235, 243, 205 );
         static Color purpleishBackground = new Color( 200, 197, 220 );
-        static Color backgroundColor = purpleishBackground;
-        static Color buttonBackgroundColor = new Color( 165, 160, 219 );
+        static Color backgroundColor = greenishBackground;
+        //        static Color backgroundColor = purpleishBackground;
+        static Color buttonBackgroundColor = new Color( 180, 170, 160 );
+        //        static Color buttonBackgroundColor = new Color( 165, 160, 219 );
         static Color controlTextColor = new Color( 0, 0, 0 );
         static Font font = new Font( "SansSerif", Font.BOLD, 12 );
 

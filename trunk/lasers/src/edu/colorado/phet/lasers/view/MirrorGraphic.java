@@ -52,10 +52,10 @@ public class MirrorGraphic extends PhetGraphic {
 
         switch( direction ) {
             case LEFT_FACING:
-                xOffset = -thickness;
+                xOffset = thickness;
                 break;
             case RIGHT_FACING:
-                xOffset = thickness;
+                xOffset = 0;
                 break;
             default:
                 throw new RuntimeException( "Invalid direction specified in constructor" );
