@@ -70,6 +70,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
 
         // Make the listener the audio source
         getAudioControlPanel().setAudioSource( SoundApparatusPanel.LISTENER_SOURCE );
+        getAudioControlPanel().setSpeakerRBEnabled( false );
 
         // Make the ListenerGraphic non-movable
         getListenerGraphic().setMovable( false );
