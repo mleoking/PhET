@@ -261,7 +261,6 @@ public class VisibleColor extends Color {
                 duplicates++;
             }
         }
-        System.out.println( "colorLookup duplicates: " + duplicates );
     }
 
 }
