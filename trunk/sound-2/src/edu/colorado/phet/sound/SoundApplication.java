@@ -6,11 +6,10 @@
  */
 package edu.colorado.phet.sound;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.model.clock.ThreadedClock;
 
 public class SoundApplication extends PhetApplication {
 
@@ -24,23 +23,25 @@ public class SoundApplication extends PhetApplication {
             super( windowTitle, description, version );
 
             // Specify the clock
-//            this.setClock( new ThreadedClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime, true ));
-            this.setClock( new SwingTimerClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ));
+            //            this.setClock( new ThreadedClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime, true ));
+            this.setClock( new SwingTimerClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ) );
 
             // Set up the modules
-            Module singleSourceModule = new SingleSourceListenModule( this );
-            Module measureModule = new SingleSourceMeasureModule( this );
-            Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
-            Module wallInterferenceModule = new WallInterferenceModule( this );
-            this.setModules( new Module[]{ singleSourceModule, measureModule,
-                                           twoSourceIntereferenceModule, wallInterferenceModule } );
-//            this.setModules( new Module[]{  /*singleSourceModule, measureModule,*/ wallInterferenceModule } );
-            this.setInitialModule( wallInterferenceModule );
+//            Module singleSourceModule = new SingleSourceListenModule( this );
+//            Module measureModule = new SingleSourceMeasureModule( this );
+//            Module twoSourceIntereferenceModule = new TwoSpeakerInterferenceModule( this );
+//            Module wallInterferenceModule = new WallInterferenceModule( this );
+            Module evacuatedBoxModule = new SingleSourceWithBoxModule( this );
+//            this.setModules( new Module[]{singleSourceModule, measureModule,
+//                                          twoSourceIntereferenceModule, wallInterferenceModule,
+//                                          evacuatedBoxModule} );
+                        this.setModules( new Module[]{ evacuatedBoxModule  } );
+            this.setInitialModule( evacuatedBoxModule );
         }
     }
 
     public SoundApplication() {
-        super( new SoundApplicationModel( ) );
+        super( new SoundApplicationModel() );
     }
 
     public static void main( String[] args ) {

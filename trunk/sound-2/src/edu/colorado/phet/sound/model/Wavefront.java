@@ -7,10 +7,9 @@
 package edu.colorado.phet.sound.model;
 
 import edu.colorado.phet.common.util.SimpleObservable;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.sound.SoundConfig;
 
-public class Wavefront extends SimpleObservable implements ModelElement {
+public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
 
     private WaveFunction waveFunction;
     private WavefrontType wavefrontType = new SphericalWavefront();
@@ -46,7 +45,6 @@ public class Wavefront extends SimpleObservable implements ModelElement {
     }
 
     /**
-     *
      * @param enabled
      */
     public void setEnabled( boolean enabled ) {
@@ -54,7 +52,6 @@ public class Wavefront extends SimpleObservable implements ModelElement {
     }
 
     /**
-     *
      * @param waveFunction
      */
     public void setWaveFunction( WaveFunction waveFunction ) {
@@ -64,7 +61,7 @@ public class Wavefront extends SimpleObservable implements ModelElement {
     /**
      * Moves the wave front forward through time
      */
-    public void stepInTime( double dt ) {
+    public void stepInTime( double dt, AttenuationFunction attenuationFunction ) {
 
         time += dt;
         int stepSize = propagationSpeed;
@@ -77,19 +74,23 @@ public class Wavefront extends SimpleObservable implements ModelElement {
                 notifyObservers();
             }
             prevMaxAmplitudeAtTime[i] = maxAmplitudeAtTime[i];
-            amplitude[i] = amplitude[i-stepSize];
+            amplitude[i] = amplitude[i - stepSize];
 
-            // Amplitude must be adjusted for distance from source
-            amplitude[i] = wavefrontType.computeAmplitudeAtDistance( this, amplitude[i], (float)i );
+            // Amplitude must be adjusted for distance from source, and attenuation due to
+            // the density of the wave medium
+            amplitude[i] = wavefrontType.computeAmplitudeAtDistance( this, amplitude[i], (float)i )
+                           * attenuationFunction.getAttenuation( i * this.propagationSpeed, 0 );
+
 
             // Has the frequency changed for the listener since the last time step?
-            if( ( i - stepSize ) == listenerLocation && frequencyAtTime[i] != prevFrequencyAtTime[i]) {
+            if( ( i - stepSize ) == listenerLocation && frequencyAtTime[i] != prevFrequencyAtTime[i] ) {
                 notifyObservers();
             }
             prevFrequencyAtTime[i] = frequencyAtTime[i];
-            frequencyAtTime[i] = frequencyAtTime[i-stepSize];
-            maxAmplitudeAtTime[i] = maxAmplitudeAtTime[i-stepSize];
-            maxAmplitudeAtTime[i] = wavefrontType.computeAmplitudeAtDistance( this, maxAmplitudeAtTime[i], i );
+            frequencyAtTime[i] = frequencyAtTime[i - stepSize];
+            maxAmplitudeAtTime[i] = maxAmplitudeAtTime[i - stepSize];
+            maxAmplitudeAtTime[i] = wavefrontType.computeAmplitudeAtDistance( this, maxAmplitudeAtTime[i], i )
+                                    * attenuationFunction.getAttenuation( i * this.propagationSpeed, 0 );
 
             if( maxAmplitudeAtTime[i] < 0 ) {
                 throw new RuntimeException( "Negative amplitude" );
@@ -143,14 +144,15 @@ public class Wavefront extends SimpleObservable implements ModelElement {
      * Returns the frequency at which the amplitude at a particular index
      * was generated. This enables a client to get the frequency at some
      * point in the wave train other than what is being generated right now.
-     * <p>
+     * <p/>
      * This method protects against attempted references outside the range of
      * legitimate indexes.
+     *
      * @param frequencyIdx
      * @return
      */
     public double getFrequencyAtTime( int frequencyIdx ) {
-        frequencyIdx = Math.max( 0, Math.min( s_length - 1, frequencyIdx ));
+        frequencyIdx = Math.max( 0, Math.min( s_length - 1, frequencyIdx ) );
         return frequencyAtTime[frequencyIdx];
     }
 
@@ -158,7 +160,7 @@ public class Wavefront extends SimpleObservable implements ModelElement {
      *
      */
     public double getMaxAmplitudeAtTime( int maxAmplitudeIdx ) {
-        maxAmplitudeIdx = Math.max( 0, Math.min( s_length - 1, maxAmplitudeIdx ));
+        maxAmplitudeIdx = Math.max( 0, Math.min( s_length - 1, maxAmplitudeIdx ) );
         return maxAmplitudeAtTime[maxAmplitudeIdx];
     }
 
@@ -170,7 +172,6 @@ public class Wavefront extends SimpleObservable implements ModelElement {
     }
 
     /**
-     *
      * @return
      */
     public double getWavelengthAtTime( int t ) {
@@ -201,6 +202,7 @@ public class Wavefront extends SimpleObservable implements ModelElement {
     }
 
     private int listenerLocation;
+
     public void setListenerLocation( int x ) {
         listenerLocation = x;
     }

@@ -8,21 +8,27 @@ package edu.colorado.phet.sound.model;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.sound.SingleSourceWithBoxModule;
 
 import java.util.ArrayList;
+import java.awt.geom.Point2D;
 
 public class WaveMedium extends SimpleObservable implements ModelElement {
 
     private ArrayList wavefronts = new ArrayList();
+    private AttenuationFunction attenuationFunction = new AttenuationFunction() {
+        public double getAttenuation( double x, double y ) {
+            return 1;
+        }
+    };
 
     public WaveMedium() {
-        System.out.println( "" );
     }
 
     public void stepInTime( double dt ) {
         for( int i = 0; i < wavefronts.size(); i++ ) {
             Wavefront wavefront = (Wavefront)wavefronts.get( i );
-            wavefront.stepInTime( dt );
+            wavefront.stepInTime( dt, attenuationFunction );
         }
         notifyObservers();
     }
@@ -72,5 +78,23 @@ public class WaveMedium extends SimpleObservable implements ModelElement {
         }
         amplitude /= wavefrontCount;
         return amplitude;
+    }
+
+    /**
+     * Returns signal attentuation per unit distance. A value of 1 indicates
+     * no attenuation.
+     * @param point
+     * @return
+     */
+    public double getAttentuation( Point2D.Double point ) {
+        return getAttentuation( point.x, point.y );
+    }
+
+    public double getAttentuation( double x, double y ) {
+        return 1;
+    }
+
+    public void setAttenuationFunction( AttenuationFunction attenuationFunction ) {
+        this.attenuationFunction = attenuationFunction;
     }
 }

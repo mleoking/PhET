@@ -29,7 +29,7 @@ public class SoundModel extends BaseModel {
 
     public SoundModel( AbstractClock clock ) {
         this.clock = clock;
-        addModelElement( waveMedium );
+        setWaveMedium( waveMedium );
     }
 
     /**
@@ -37,6 +37,14 @@ public class SoundModel extends BaseModel {
      */
     public WaveMedium getWaveMedium() {
         return waveMedium;
+    }
+
+    public void setWaveMedium( WaveMedium waveMedium ) {
+        if( this.waveMedium != null ) {
+            removeModelElement( this.waveMedium );
+        }
+        this.waveMedium = waveMedium;
+        addModelElement( waveMedium );
     }
 
     /**
@@ -57,28 +65,19 @@ public class SoundModel extends BaseModel {
         return wavefrontType;
     }
 
-    public void setWavefrontType( WavefrontType wavefrontType ) {
-        this.wavefrontType = wavefrontType;
-        for( Iterator iterator = waveMedium.getWavefronts().iterator(); iterator.hasNext(); ) {
-            Wavefront wavefront = (Wavefront)iterator.next();
-            wavefront.setWavefrontType( wavefrontType );
-        }
-    }
+//    public void setWavefrontType( WavefrontType wavefrontType ) {
+//        this.wavefrontType = wavefrontType;
+//        for( Iterator iterator = waveMedium.getWavefronts().iterator(); iterator.hasNext(); ) {
+//            Wavefront wavefront = (Wavefront)iterator.next();
+//            wavefront.setWavefrontType( wavefrontType );
+//        }
+//    }
 
     public void setPropagationSpeed( int propogationSpeed ) {
         for( Iterator iterator = waveMedium.getWavefronts().iterator(); iterator.hasNext(); ) {
             Wavefront wavefront = (Wavefront)iterator.next();
             wavefront.setPropagationSpeed( propogationSpeed );
         }
-    }
-
-    public void clear() {
-        for( Iterator iterator = waveMedium.getWavefronts().iterator(); iterator.hasNext(); ) {
-            Wavefront wavefront = (Wavefront)iterator.next();
-            wavefront.clear();
-        }
-        // Step the system to notify all observers
-        this.stepInTime( clock.getDt() );
     }
 
     /**
@@ -92,7 +91,6 @@ public class SoundModel extends BaseModel {
      *
      */
     public void setFrequency( double frequency ) {
-        System.out.println( "frequency = " + frequency );
         primaryWavefront.setFrequency( frequency / SoundConfig.s_frequencyDisplayFactor );
         octaveWavefront.setFrequency( 2 * frequency / SoundConfig.s_frequencyDisplayFactor );
     }
@@ -140,5 +138,4 @@ public class SoundModel extends BaseModel {
     public boolean isOctaveEnabled() {
         return octaveEnabled;
     }
-
 }

@@ -24,9 +24,16 @@ public class SingleSourceListenModule extends SingleSourceModule {
     private Listener speakerListener = new Listener();
     private Listener headListener = new Listener();
 
-    protected SingleSourceListenModule( ApplicationModel appModel ) {
-        super( appModel, "<html>Listen to<br>Single Source</html>" );
+    public SingleSourceListenModule( ApplicationModel appModel ) {
+        this( appModel, "<html>Listen to<br>Single Source</html>" );
+    }
 
+    protected  SingleSourceListenModule( ApplicationModel appModel, String title ) {
+        super( appModel, title );
+        init();
+    }
+
+    private void init() {
         // Add the listener
         BufferedImage headImg = null;
         try {
