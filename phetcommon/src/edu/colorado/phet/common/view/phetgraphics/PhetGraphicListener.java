@@ -7,9 +7,7 @@ package edu.colorado.phet.common.view.phetgraphics;
  * Copyright (c) Nov 15, 2004 by University of Colorado, PhET
  */
 public interface PhetGraphicListener {
-    public void phetGraphicMoved( PhetGraphic phetGraphic );
+    public void phetGraphicChanged( PhetGraphic phetGraphic );
 
     public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic );
-
-    public void phetGraphicContentChanged( PhetGraphic phetGraphic );
 }
