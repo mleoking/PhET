@@ -79,13 +79,13 @@ public class OscillateSuite extends MotionSuite {
     }
 
     public void initialize( Man man ) {
-        module.getPositionPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
+        module.getPositionPlot().setPaintYLines( new double[]{5, 10} );
 
         module.setVelocityPlotMagnitude( 21 );
-        module.getVelocityPlot().getGrid().setPaintYLines( new double[]{-20, -10, 0, 10, 20} );
+        module.getVelocityPlot().setPaintYLines( new double[]{10, 20} );
 
         module.setAccelerationPlotMagnitude( 55 );
-        module.getAccelerationPlot().getGrid().setPaintYLines( new double[]{-50, -25, 0, 25, 50} );
+        module.getAccelerationPlot().setPaintYLines( new double[]{25, 50} );
         module.repaintBackground();
 
         oscillate.initialize( man );

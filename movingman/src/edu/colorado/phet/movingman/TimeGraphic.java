@@ -3,7 +3,7 @@ package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
-import edu.colorado.phet.movingman.common.GraphicsState;
+import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -21,7 +21,7 @@ import java.util.Observable;
 public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
     private String timeStr;
     private MovingManModule module;
-    private Timer recordingTimer;
+    private MMTimer recordingMMTimer;
     private int x;
     private int y;
     private Font f = new Font( "Lucida Sans", 0, 36 );
@@ -29,35 +29,29 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
     private FontRenderContext frc;
 
-    public TimeGraphic( MovingManModule module, Timer recordingTimer, Timer playbackTimer, int x, int y ) {
+    public TimeGraphic( MovingManModule module, MMTimer recordingMMTimer, MMTimer playbackMMTimer, int x, int y ) {
         this.module = module;
-        this.recordingTimer = recordingTimer;
+        this.recordingMMTimer = recordingMMTimer;
         this.x = x;
         this.y = y;
-        recordingTimer.addObserver( this );
-        recordingTimer.updateObservers();
-        playbackTimer.addObserver( this );
-        update( recordingTimer, null );
+        recordingMMTimer.addObserver( this );
+        recordingMMTimer.updateObservers();
+        playbackMMTimer.addObserver( this );
+        update( recordingMMTimer, null );
     }
 
-    GraphicsState gs = new GraphicsState();
-
     public void paint( Graphics2D g ) {
-        gs.saveState( g );
+        GraphicsState gs = new GraphicsState( g );
         this.frc = g.getFontRenderContext();
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g.setFont( f );
         g.drawString( timeStr, x, y );
-
-//        g.setColor( Color.green );
-//        g.setStroke( new BasicStroke() );
-//        g.draw( getShape() );
-        gs.restoreState( g );
+        gs.restoreGraphics();
     }
 
     public void update( Observable o, Object arg ) {
-//        System.out.println( "recordingTimer.getTime() = " + recordingTimer.getTime() );
-        Timer tx = (Timer)o;
+//        System.out.println( "recordingMMTimerer.getTime() = " + recordingMMTimerer.getTime() );
+        MMTimer tx = (MMTimer)o;
         double scalarTime = tx.getTime();
         double seconds = scalarTime;// * timerDisplayScale; //TIMING
         Rectangle r = getShape();

@@ -92,7 +92,7 @@ public class MovingManLayout {
 
         PlotAndText pos = module.getPositionPlot();
         PlotAndText vel = module.getVelocityPlot();
-        PlotAndText acc = module.getAccelerationPlot();
+//        PlotAndText acc = module.getAccelerationPlot();
         BoxedPlot smoothedPositionGraphic = module.getPositionGraphic();
         BoxedPlot velocityGraphic = module.getVelocityGraphic();
         BoxedPlot accelGraphic = module.getAccelerationGraphic();
@@ -120,12 +120,15 @@ public class MovingManLayout {
     }
 
     private void relayoutBoxedPlot( BoxedPlot plot, int index, MovingManModule module, ValueGraphic vg ) {
-
         int insetX = plotInsetX;
-
         int insetXRightSide = 20;
-        plot.setOutputBox( new Rectangle( insetX, getPlotY( index ), panelWidth - insetX - insetXRightSide, getPlotHeight() ) );
-        Point textCoord = getTextCoordinates( index );
-        vg.setPosition( textCoord.x, textCoord.y );
+
+        Rectangle rectangle = new Rectangle( insetX, getPlotY( index ), panelWidth - insetX - insetXRightSide, getPlotHeight() );
+        if( rectangle.width > 0 && rectangle.height > 0 ) {
+
+            plot.setViewBounds( rectangle );
+            Point textCoord = getTextCoordinates( index );
+            vg.setPosition( textCoord.x, textCoord.y );
+        }
     }
 }

@@ -3,9 +3,6 @@ package edu.colorado.phet.chart;
 
 import java.awt.*;
 
-/**
- * Inner classses.
- */
 public class GridLineSet {
     private Grid minorGrid;
     private Grid majorGrid;
@@ -27,7 +24,7 @@ public class GridLineSet {
                               Color.black, minorTickSpacing, crossesOtherAxisAt );
         majorGrid = new Grid( chart, orientation, new BasicStroke( 1 ),
                               Color.black, majorTickSpacing, crossesOtherAxisAt );
-        minorGrid.setTicksVisible( false );
+//        minorGrid.setTicksVisible( false );
     }
 
     public void paint( Graphics2D graphics2D ) {
@@ -64,7 +61,10 @@ public class GridLineSet {
         minorGrid.setStroke( stroke );
     }
 
-    public void setMajorTickLabelsVisible( boolean visible ) {
-        majorGrid.setTicksVisible( visible );
+//    public void setMajorTickLabelsVisible( boolean visible ) {
+//        majorGrid.setTicksVisible( visible );
+//    }
+    public void setMajorGridlines( double[] lines ) {
+        majorGrid.setGridlines( lines );
     }
 }

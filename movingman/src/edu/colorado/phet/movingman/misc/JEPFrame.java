@@ -33,7 +33,7 @@ public class JEPFrame extends JDialog {
 
         public void initialize() {
             module.repaintBackground();
-            module.disableIdeaGraphics();
+            module.setWiggleMeVisible( false );
         }
 
         public void stepInTime( double dt ) {

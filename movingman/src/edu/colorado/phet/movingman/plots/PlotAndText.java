@@ -12,13 +12,11 @@ import edu.colorado.phet.movingman.ValueGraphic;
 public class PlotAndText {
     private BoxedPlot plot;
     private ValueGraphic text;
-    private GridLineGraphic grid;
     private boolean visible = true;
 
-    public PlotAndText( BoxedPlot plot, ValueGraphic text, GridLineGraphic grid ) {
+    public PlotAndText( BoxedPlot plot, ValueGraphic text ) {
         this.plot = plot;
         this.text = text;
-        this.grid = grid;
     }
 
     public boolean isVisible() {
@@ -29,7 +27,6 @@ public class PlotAndText {
         this.visible = visible;
         plot.setVisible( visible );
         text.setVisible( visible );
-        grid.setVisible( visible );
     }
 
     public BoxedPlot getPlot() {
@@ -40,8 +37,7 @@ public class PlotAndText {
         return text;
     }
 
-    public GridLineGraphic getGrid() {
-        return grid;
+    public void setPaintYLines( double[] doubles ) {
+        plot.setPaintYLines( doubles );
     }
-
 }

@@ -170,6 +170,10 @@ public class Axis implements Graphic {
         minorTicks.setStroke( stroke );
     }
 
+    public void setMajorGridlines( double[] lines ) {
+        majorTicks.setGridlines( lines );
+    }
+
     public static class AxisTicks extends AbstractTicks {
 
         public AxisTicks( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing ) {

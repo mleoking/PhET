@@ -1,5 +1,5 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.common.view.graphics;
+package edu.colorado.phet.movingman.common;
 
 import javax.swing.*;
 import java.util.Hashtable;

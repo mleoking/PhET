@@ -1,8 +1,8 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.movingman.common.GraphicsState;
 import edu.colorado.phet.movingman.common.math.RangeToRange;
 
 import java.awt.*;
@@ -51,10 +51,8 @@ public class WalkWayGraphic implements Graphic {
         this.housex = housex;
     }
 
-    GraphicsState state = new GraphicsState();
-
     public void paint( Graphics2D graphics2D ) {
-        state.saveState( graphics2D );
+        GraphicsState graphicsState = new GraphicsState( graphics2D );
 //        graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         RangeToRange transform = module.getManPositionTransform();
         double modelRange = transform.getInputWidth();
@@ -98,6 +96,6 @@ public class WalkWayGraphic implements Graphic {
         int housey = 10;
         graphics2D.drawImage( tree, treex, treey, null );
         graphics2D.drawImage( house, housex, housey, null );
-        state.restoreState( graphics2D );
+        graphicsState.restoreGraphics();
     }
 }

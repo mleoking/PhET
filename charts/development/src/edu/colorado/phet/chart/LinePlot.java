@@ -8,17 +8,31 @@ package edu.colorado.phet.chart;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 public class LinePlot extends DataSetGraphic {
     private GeneralPath generalPath;
     private Stroke stroke;
     private Paint paint;
+    private ArrayList observers = new ArrayList();
 
     public LinePlot( DataSet dataSet, Stroke stroke, Paint paint ) {
         super( dataSet );
         this.stroke = stroke;
         this.paint = paint;
+    }
+
+    /**
+     * So clients can find out exactly what part changed for repainting.
+     */
+    public static interface Observer {
+        public void plotChanged( Rectangle rect );
+    }
+
+    public void addObserver( Observer observer ) {
+        observers.add( observer );
     }
 
     public void pointAdded( Point2D point ) {
@@ -31,10 +45,22 @@ public class LinePlot extends DataSetGraphic {
             generalPath.moveTo( viewLocation.x, viewLocation.y );
         }
         else {
+            Line2D line = new Line2D.Double( generalPath.getCurrentPoint(), point );
             generalPath.lineTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
+            notifyObservers( line );
+
+            //TODO this should get the specific rectangle for repainting.
+            Rectangle shape = stroke.createStrokedShape( line ).getBounds();
+            getChart().getComponent().repaint( shape.x, shape.y, shape.width, shape.height );
         }
-        //TODO this should get the specific rectangle for repainting.
-        getChart().getComponent().repaint();
+    }
+
+    private void notifyObservers( Line2D line ) {
+        Rectangle shape = stroke.createStrokedShape( line ).getBounds();
+        for( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer)observers.get( i );
+            observer.plotChanged( shape );
+        }
     }
 
     public void pointRemoved( Point2D point ) {

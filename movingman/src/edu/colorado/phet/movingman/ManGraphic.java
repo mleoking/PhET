@@ -8,8 +8,6 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.common.CircularBuffer;
 import edu.colorado.phet.movingman.common.DragHandler;
-import edu.colorado.phet.movingman.common.IdeaGraphic2;
-import edu.colorado.phet.movingman.common.arrows.ArrowWithFixedSizeArrowhead;
 import edu.colorado.phet.movingman.common.math.RangeToRange;
 
 import java.awt.*;
@@ -37,11 +35,11 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     private BufferedImage currentImage;
     private RangeToRange inversion;
     private CircularBuffer cb = new CircularBuffer( 10 );
-    private IdeaGraphic2 ideaGraphic;
-    private boolean showIdea = true;
-    private ArrowWithFixedSizeArrowhead arrow;
-    private IdeaGraphic2 motionIdea;
-    private ArrowWithFixedSizeArrowhead motionArrow;
+//    private IdeaGraphic2 ideaGraphic;
+//    private boolean showIdea = true;
+//    private ArrowWithFixedSizeArrowhead arrow;
+//    private IdeaGraphic2 motionIdea;
+//    private ArrowWithFixedSizeArrowhead motionArrow;
     private double lastx = 0;
 
     public ManGraphic( MovingManModule module, Man m, int y, RangeToRange transform ) throws IOException {
@@ -66,50 +64,50 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         update( null, null );
     }
 
-    public void setShowIdea( boolean showIdea ) {
-        if( this.showIdea != showIdea ) {
-            this.showIdea = showIdea;
-            module.getApparatusPanel().repaint();
-        }
-    }
+//    public void setShowIdea( boolean showIdea ) {
+//        if( this.showIdea != showIdea ) {
+//            this.showIdea = showIdea;
+//            module.getApparatusPanel().repaint();
+//        }
+//    }
 
     public void paint( Graphics2D g ) {
         g.drawImage( currentImage, x - currentImage.getWidth() / 2, y, null );
-        if( showIdea ) {
-            paintIdea( g );
-        }
+//        if( showIdea ) {
+//            paintIdea( g );
+//        }
     }
 
-    private void paintIdea( Graphics2D g ) {
-        if( ideaGraphic == null ) {
-//            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-            Color lightBlue = module.getPurple();
-            Font ideaFont = new Font( "Lucida", Font.ITALIC, 18 );
-
-            BufferedImage ideaImage = null;
-            try {
-                ideaImage = ImageLoader.loadBufferedImage( "images/icons/TipOfTheDay24.gif" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-            int ideaX = module.getApparatusPanel().getWidth() / 8;
-            ideaGraphic = new IdeaGraphic2( true, ideaX, y + 250, new String[]{"Drag the man"},
-                                            g.getFontRenderContext(), ideaFont, Color.black, ideaImage, lightBlue );
-            int motionIdeaX = (int)( module.getApparatusPanel().getWidth() * .6 );
-            arrow = new ArrowWithFixedSizeArrowhead( Color.black, 10 );
-            motionIdea = new IdeaGraphic2( true, motionIdeaX, y + 270, new String[]{"Or choose a premade motion."}, g.getFontRenderContext(),
-                                           ideaFont, Color.black, ideaImage, lightBlue );
-            motionArrow = new ArrowWithFixedSizeArrowhead( Color.black, 10 );
-        }
-        ideaGraphic.paint( g );
-        motionIdea.paint( g );
-        Point ideaCenter = ideaGraphic.getImageCenter();
-        arrow.drawLine( g, ideaCenter.x, ideaCenter.y, x - currentImage.getWidth() / 2, y + currentImage.getHeight() / 2 );
-
-        Point motionCenter = motionIdea.getImageCenter();
-        motionArrow.drawLine( g, motionCenter.x, motionCenter.y, module.getApparatusPanel().getWidth(), 85 );
-    }
+//    private void paintIdea( Graphics2D g ) {
+//        if( ideaGraphic == null ) {
+////            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//            Color lightBlue = module.getPurple();
+//            Font ideaFont = new Font( "Lucida", Font.ITALIC, 18 );
+//
+//            BufferedImage ideaImage = null;
+//            try {
+//                ideaImage = ImageLoader.loadBufferedImage( "images/icons/TipOfTheDay24.gif" );
+//            }
+//            catch( IOException e ) {
+//                e.printStackTrace();
+//            }
+//            int ideaX = module.getApparatusPanel().getWidth() / 8;
+//            ideaGraphic = new IdeaGraphic2( true, ideaX, y + 250, new String[]{"Drag the man"},
+//                                            g.getFontRenderContext(), ideaFont, Color.black, ideaImage, lightBlue );
+////            int motionIdeaX = (int)( module.getApparatusPanel().getWidth() * .6 );
+//            arrow = new ArrowWithFixedSizeArrowhead( Color.black, 10 );
+////            motionIdea = new IdeaGraphic2( true, motionIdeaX, y + 270, new String[]{"Or choose a premade motion."}, g.getFontRenderContext(),
+////                                           ideaFont, Color.black, ideaImage, lightBlue );
+////            motionArrow = new ArrowWithFixedSizeArrowhead( Color.black, 10 );
+//        }
+//        ideaGraphic.paint( g );
+////        motionIdea.paint( g );
+//        Point ideaCenter = ideaGraphic.getImageCenter();
+//        arrow.drawLine( g, ideaCenter.x, ideaCenter.y, x - currentImage.getWidth() / 2, y + currentImage.getHeight() / 2 );
+//
+////        Point motionCenter = motionIdea.getImageCenter();
+////        motionArrow.drawLine( g, motionCenter.x, motionCenter.y, module.getApparatusPanel().getWidth(), 85 );
+//    }
 
     public void update( Observable o, Object arg ) {
         Rectangle origRectangle = getRectangle();
@@ -161,7 +159,8 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
         int graphicsPt = newPt.x;
         double manPoint = inversion.evaluate( graphicsPt );
         m.setX( manPoint );
-        setShowIdea( false );
+//        setShowIdea( false );
+        module.setWiggleMeVisible( false );
     }
 
     public void mouseMoved( MouseEvent e ) {
