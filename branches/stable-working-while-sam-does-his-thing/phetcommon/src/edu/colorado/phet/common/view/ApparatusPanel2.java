@@ -16,7 +16,6 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.common.application.PhetApplication;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,9 +40,9 @@ import java.util.LinkedList;
  * Test Comment.
  * <p/>
  *
- * @see edu.colorado.phet.common.view.graphics.Graphic
  * @author Ron LeMaster
  * @version $Revision$
+ * @see edu.colorado.phet.common.view.graphics.Graphic
  */
 public class ApparatusPanel2 extends ApparatusPanel {
 
@@ -316,10 +315,12 @@ public class ApparatusPanel2 extends ApparatusPanel {
         g2.transform( graphicTx );
         //        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         if( useOffscreenBuffer ) {
+            bImgGraphics = (Graphics2D)bImg.getGraphics();
             bImgGraphics.setColor( this.getBackground() );
             bImgGraphics.fillRect( bImg.getMinX(), bImg.getMinY(), bImg.getWidth(), bImg.getHeight() );
             graphic.paint( bImgGraphics );
             g2.drawImage( bImg, new AffineTransform(), null );
+            bImgGraphics.dispose();
         }
         else {
             graphic.paint( g2 );
