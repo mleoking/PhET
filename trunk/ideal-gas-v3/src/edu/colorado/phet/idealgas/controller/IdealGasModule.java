@@ -83,6 +83,8 @@ public class IdealGasModule extends Module {
     private JPanel pressureSlideTimeAveCtrlPane;
     private StopwatchPanel stopwatchPanel;
     private PressureSlice gaugeSlice;
+    private Mannequin pusher;
+    private BoxDoorGraphic boxDoorGraphic;
 
 
     /**
@@ -97,12 +99,21 @@ public class IdealGasModule extends Module {
      * @param clock
      * @param name
      */
-    protected IdealGasModule( AbstractClock clock, String name ) {
+    public IdealGasModule( AbstractClock clock, String name ) {
+        this( clock, name, new IdealGasModel( clock.getDt() ) );
+
+    }
+
+    /**
+     * @param clock
+     * @param name
+     */
+    protected IdealGasModule( AbstractClock clock, String name, IdealGasModel model ) {
         super( name, clock );
         this.clock = clock;
 
         // Create the model
-        idealGasModel = new IdealGasModel( clock.getDt() );
+        idealGasModel = model;
         setModel( idealGasModel );
 
         // Add collision experts
@@ -115,7 +126,7 @@ public class IdealGasModule extends Module {
         // Create a listener that will keep the model bounds set correctly
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                idealGasModel.setModelBounds( getApparatusPanel().getBounds());
+                idealGasModel.setModelBounds( getApparatusPanel().getBounds() );
             }
         } );
 
@@ -131,7 +142,7 @@ public class IdealGasModule extends Module {
         idealGasModel.addModelElement( gravity );
 
         // Add the animated mannequin
-        Mannequin pusher = new Mannequin( getApparatusPanel(), idealGasModel, box, boxGraphic );
+        pusher = new Mannequin( getApparatusPanel(), idealGasModel, box, boxGraphic );
         addGraphic( pusher, 10 );
 
         // Set up the control panel
@@ -199,6 +210,15 @@ public class IdealGasModule extends Module {
         // Set up the box graphic
         boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
         addGraphic( boxGraphic, 10 );
+
+        // Set up the door for the box
+        boxDoorGraphic = new BoxDoorGraphic( getApparatusPanel(),
+                                                                    IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
+                                                                    IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
+                                                                    IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
+                                                                    box );
+        this.addGraphic( boxDoorGraphic, -6 );
+
     }
 
     /**
@@ -394,6 +414,18 @@ public class IdealGasModule extends Module {
 
     protected PressureSensingBox getBox() {
         return box;
+    }
+
+    protected Box2DGraphic getBoxGraphic() {
+        return boxGraphic;
+    }
+
+    protected BoxDoorGraphic getBoxDoorGraphic() {
+        return boxDoorGraphic;
+    }
+
+    public Mannequin getPusher() {
+        return pusher;
     }
 
     public Pump getPump() {

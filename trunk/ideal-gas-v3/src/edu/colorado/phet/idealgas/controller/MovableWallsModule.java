@@ -16,13 +16,15 @@ import edu.colorado.phet.collision.VerticalWallFixupStrategy;
 import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
-import edu.colorado.phet.idealgas.model.Box2D;
-import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
+import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
+import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 
 import javax.swing.*;
@@ -38,7 +40,7 @@ import java.awt.geom.Rectangle2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MovableWallsModule extends AdvancedModule {
+public class MovableWallsModule extends AdvancedModule implements PChemModel.Listener {
 
     //----------------------------------------------------------------
     // Class fields and methods
@@ -60,20 +62,34 @@ public class MovableWallsModule extends AdvancedModule {
      * @param clock
      */
     public MovableWallsModule( final AbstractClock clock ) {
-        super( clock, "<html><center>Potential Energy<br>Surface</center></html>" );
+        super( clock, "<html><center>Potential Energy<br>Surface</center></html>", new PChemModel( clock.getDt() ) );
+
+        ControlPanel controlPanel = new ControlPanel( this );
+        setControlPanel( controlPanel );
+        controlPanel.add( new AdvancedIdealGasControlPanel( this ) );
 
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
-        final Box2D box = super.getBox();
 
-        createWalls( box );
-
+        createWalls();
         createCurve();
+        createCurveAdjuster();
 
-        addWallListeners();
+        // Make box non-resizable
+//        getBoxGraphic().setIgnoreMouse( true );
+
+        // Remove the mannequin graphic and the box door
+        getApparatusPanel().removeGraphic( getPusher() );
+        getApparatusPanel().removeGraphic( getBoxDoorGraphic() );
+
+        // Hook the model up to the vertical wall so it will know when it has moved
+        PChemModel pchemModel = (PChemModel)getModel();
+        pchemModel.setVerticalWall( verticalWall );
+        pchemModel.addListener( this );
+//        verticalWall.addChangeListener( pchemModel );
+//        verticalWall.setBounds(  verticalWall.getBounds() );
 
         // Add counters for the number of particles on either side of the vertical wall
         addParticleCounters();
-
 
         JButton testButton = new JButton( "Test" );
 //        getControlPanel().add( testButton);
@@ -103,7 +119,7 @@ public class MovableWallsModule extends AdvancedModule {
     /**
      * Listeners that will cause the curve to be recomputed when a wall moves
      */
-    private void addWallListeners() {
+    private void createCurveAdjuster() {
         Wall.ChangeListener listener = new Wall.ChangeListener() {
             public void wallChanged( Wall.ChangeEvent event ) {
                 getApparatusPanel().removeGraphic( energyCurveGraphic );
@@ -129,7 +145,7 @@ public class MovableWallsModule extends AdvancedModule {
      * p12 |-------------------------------| p11
      * </pre>
      */
-    private void createCurve() {
+    private void createCurve1() {
         DoubleGeneralPath energyCurve = new DoubleGeneralPath();
         Rectangle2D leftFloorBounds = leftFloor.getBounds();
         Rectangle2D rightFloorBounds = rightFloor.getBounds();
@@ -168,7 +184,7 @@ public class MovableWallsModule extends AdvancedModule {
         energyCurve.quadTo( c5.getX(), c5.getY(), p5.getX(), p5.getY() );
         energyCurve.lineTo( p6 );
         energyCurve.quadTo( c7.getX(), c7.getY(), p7.getX(), p7.getY() );
-        energyCurve.lineTo( p8);
+        energyCurve.lineTo( p8 );
         energyCurve.quadTo( c9.getX(), c9.getY(), p9.getX(), p9.getY() );
         energyCurve.lineTo( p10 );
         energyCurve.lineTo( p11 );
@@ -186,9 +202,68 @@ public class MovableWallsModule extends AdvancedModule {
 
 
     /**
-     * @param box
+     * Make the curve that coverse the walls
+     * <pre>
+     *                       p5
+     *                     /----\
+     *                     |    |
+     *                     |    |
+     *    p1               |    |
+     *     |--------------/     \----------| p10
+     *     |             p2      p9        |
+     *     |                               |
+     * p12 |-------------------------------| p11
+     * </pre>
      */
-    private void createWalls( final Box2D box ) {
+    private void createCurve() {
+        DoubleGeneralPath energyCurve = new DoubleGeneralPath();
+        Rectangle2D leftFloorBounds = leftFloor.getBounds();
+        Rectangle2D rightFloorBounds = rightFloor.getBounds();
+        Rectangle2D verticalWallBounds = verticalWall.getBounds();
+        Rectangle2D boxBounds = getBox().getBoundsInternal();
+        double filletRadius = verticalWall.getBounds().getWidth() / 2;
+
+        // Create path points (p<n>) and control points (c<n>)
+        Point2D p1 = new Point2D.Double( leftFloorBounds.getMinX(), leftFloorBounds.getMinY() );
+        Point2D p2 = new Point2D.Double( leftFloorBounds.getMaxX() - filletRadius, leftFloorBounds.getMinY() );
+        Point2D p5 = new Point2D.Double( verticalWallBounds.getMinX() + verticalWallBounds.getWidth() / 2, verticalWallBounds.getMinY() );
+        double dx = p5.getX() - p2.getX();
+        Point2D c5A = new Point2D.Double( p2.getX() + dx * 3 /4, p2.getY() );
+        Point2D c5B = new Point2D.Double( p5.getX() - dx / 2, p5.getY() );
+        Point2D c5 = new Point2D.Double( verticalWallBounds.getMinX(), verticalWallBounds.getMinY() );
+        Point2D p9 = new Point2D.Double( rightFloorBounds.getMinX() + filletRadius, rightFloorBounds.getMinY() );
+        Point2D c9A = new Point2D.Double( p5.getX() + dx / 2, p5.getY() );
+        Point2D c9B = new Point2D.Double( p9.getX() - dx * 3/4, p9.getY() );
+        Point2D p10 = new Point2D.Double( rightFloorBounds.getMaxX(), rightFloorBounds.getMinY() );
+        Point2D p11 = new Point2D.Double( boxBounds.getMaxX(), boxBounds.getMaxY() );
+        Point2D p12 = new Point2D.Double( boxBounds.getMinX(), boxBounds.getMaxY() );
+
+        energyCurve.moveTo( p1 );
+        energyCurve.lineTo( p2 );
+        energyCurve.curveTo( c5A.getX(), c5A.getY(), c5B.getX(), c5B.getY(), p5.getX(), p5.getY() );
+        energyCurve.curveTo( c9A.getX(), c9A.getY(), c9B.getX(), c9B.getY(), p9.getX(), p9.getY() );
+        energyCurve.lineTo( p10 );
+        energyCurve.lineTo( p11 );
+        energyCurve.lineTo( p12 );
+        energyCurve.closePath();
+
+        Color borderColor = Color.cyan;
+        Color fill = new Color( 255, 255, 255, 160 );
+        energyCurveGraphic = new PhetShapeGraphic( getApparatusPanel(), energyCurve.getGeneralPath(),
+                                                   fill, new BasicStroke( 2f ), borderColor );
+        energyCurveGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        energyCurveGraphic.setIgnoreMouse( true );
+        getApparatusPanel().addGraphic( energyCurveGraphic, s_verticalWallLayer + 10 );
+    }
+
+
+    /**
+     *
+     */
+    private void createWalls() {
+
+        Box2D box = super.getBox();
+
         // Create the lower vertical wall
         verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
                                                          box.getCorner1Y() + box.getHeight() / 3,
@@ -274,6 +349,25 @@ public class MovableWallsModule extends AdvancedModule {
                                                               boxBounds.getMaxY() - ( Pump.s_intakePortY + 10 ) ) );
     }
 
+
+    //----------------------------------------------------------------
+    // Model manipulation
+    //----------------------------------------------------------------
+
+    public void pumpGasMolecules( int numMolecules, Class species ) {
+        Point2D location = null;
+        if( species == HeavySpecies.class ) {
+            location = new Point2D.Double( ( leftFloor.getBounds().getMinX() + leftFloor.getBounds().getMaxX() ) / 2,
+                                           leftFloor.getBounds().getMinY() - 15 );
+        }
+        if( species == LightSpecies.class ) {
+            location = new Point2D.Double( ( rightFloor.getBounds().getMinX() + rightFloor.getBounds().getMaxX() ) / 2,
+                                           rightFloor.getBounds().getMinY() - 15 );
+        }
+        getPump().pump( numMolecules, species, location );
+    }
+
+
     //-----------------------------------------------------------------
     // Event handling
     //-----------------------------------------------------------------
@@ -284,11 +378,6 @@ public class MovableWallsModule extends AdvancedModule {
             setParticleCounterRegions();
         }
     }
-
-
-    //-----------------------------------------------------------------
-    // Event handlers
-    //-----------------------------------------------------------------
 
     private class BoxChangeListener implements Box2D.ChangeListener {
         public void boundsChanged( Box2D.ChangeEvent event ) {
@@ -301,4 +390,17 @@ public class MovableWallsModule extends AdvancedModule {
         }
     }
 
+    public void moleculeCreated( PChemModel.MoleculeCreationEvent event ) {
+        PhetGraphic graphic = null;
+        GasMolecule molecule = event.getMolecule();
+        if( molecule instanceof HeavySpecies ) {
+            graphic = new HeavySpeciesGraphic( this.getApparatusPanel(), molecule );
+        }
+        else if( molecule instanceof LightSpecies ) {
+            graphic = new LightSpeciesGraphic( this.getApparatusPanel(), molecule );
+        }
+        if( graphic != null ) {
+            addGraphic( graphic, IdealGasConfig.MOLECULE_LAYER );
+        }
+    }
 }

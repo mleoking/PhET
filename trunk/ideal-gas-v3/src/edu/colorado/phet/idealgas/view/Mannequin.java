@@ -36,10 +36,10 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
         this.box = box;
         this.boxGraphic = boxGraphic;
         try {
-            pusher = new FrameSequence( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_TYPE, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
-            leaner = new FrameSequence( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_TYPE, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
-//            pusher = new FrameSequence( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
-//            leaner = new FrameSequence( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
+//            pusher = new FrameSequence( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_TYPE, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
+//            leaner = new FrameSequence( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_TYPE, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
+            pusher = new FrameSequence( IdealGasConfig.PUSHER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_PUSHER_ANIMATION_FRAMES );
+            leaner = new FrameSequence( IdealGasConfig.LEANER_ANIMATION_IMAGE_FILE_PREFIX, IdealGasConfig.NUM_LEANER_ANIMATION_FRAMES );
         }
         catch( IOException e ) {
             e.printStackTrace();

@@ -145,6 +145,14 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
         return lightSpinner;
     }
 
+    public void setHeavySpeciesLabelText( String text ) {
+        heavySpeciesLbl.setText( text );
+    }
+
+    public void setLightSpeciesLabelText( String text ) {
+        lightSpeciesLbl.setText( text );
+    }
+
     //----------------------------------------------------------------------------------
     // Abstract methods
     //----------------------------------------------------------------------------------

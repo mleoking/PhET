@@ -69,13 +69,12 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
             iceGraphicImage = new PhetImageGraphic( this, iceImg, IdealGasConfig.X_BASE_OFFSET + 260, IdealGasConfig.Y_BASE_OFFSET + 545 );
             this.addGraphic( iceGraphicImage, -6 );
 
-            // Set up the door for the box
-            BoxDoorGraphic interactiveDoorGraphic = new BoxDoorGraphic( this,
-                                                                        IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
-                                                                        IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
-                                                                        IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
-                                                                        box );
-            this.addGraphic( interactiveDoorGraphic, -6 );
+//            // Set up the door for the box
+//            BoxDoorGraphic boxDoorGraphic = new BoxDoorGraphic( this, IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
+//                                                 IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
+//                                                 IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
+//                                                 box );
+//            this.addGraphic( boxDoorGraphic, -6 );
         }
         catch( IOException ioe ) {
             throw new RuntimeException( ioe.getMessage() );

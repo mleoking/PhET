@@ -111,5 +111,6 @@ public class IdealGasConfig {
     public static final String BOING_SOUND_FILE = SOUND_DIRECTORY + "boing.au";
 
     // Graphic layer specs
-    public static final double readoutLayer = 100;
+    public static final double READOUT_LAYER = 100;
+    public static final double MOLECULE_LAYER = 10;
 }

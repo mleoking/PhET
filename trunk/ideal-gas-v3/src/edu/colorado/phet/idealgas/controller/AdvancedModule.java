@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.model.PChemModel;
 import edu.colorado.phet.idealgas.model.ParticleCounter;
 
 import java.awt.*;
@@ -44,6 +45,10 @@ public class AdvancedModule extends IdealGasModule {
         getBox().setMultipleSlicesEnabled( false );
     }
 
+    public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
+        super( clock, s, model );
+    }
+
     /**
      * Add elements that keep count of the number of particles on either side of the vertical wall
      */
@@ -64,11 +69,11 @@ public class AdvancedModule extends IdealGasModule {
         // Put readouts on the apparatus panel
         PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter, "Reactants: " );
         leftCounterReadout.setLocation( (int)boxBounds.getMinX() + 0, (int)boxBounds.getMaxY() + 7 );
-        addGraphic( leftCounterReadout, IdealGasConfig.readoutLayer );
+        addGraphic( leftCounterReadout, IdealGasConfig.READOUT_LAYER );
 
         PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, "Products: " );
         rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 110, (int)boxBounds.getMaxY() + 7 );
-        addGraphic( rightCounterReadout, IdealGasConfig.readoutLayer );
+        addGraphic( rightCounterReadout, IdealGasConfig.READOUT_LAYER );
     }
 
     /**
