@@ -20,9 +20,23 @@ import java.util.Enumeration;
 public class GraphicsUtil {
 
 
-    public static void fastRepaint( Component parent, Rectangle bounds ) {
-        if( bounds != null ) {
-            parent.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
+    public static void fastRepaint( final Component parent, final Rectangle bounds ) {
+        boolean dolater = false;
+//        boolean dolater=true;
+        if( dolater ) {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    if( bounds != null ) {
+                        JComponent jc = (JComponent)parent;
+                        jc.paintImmediately( bounds );
+                    }
+                }
+            } );
+        }
+        else {
+            if( bounds != null ) {
+                parent.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
+            }
         }
     }
 
