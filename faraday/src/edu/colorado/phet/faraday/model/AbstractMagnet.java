@@ -47,8 +47,8 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
         super();
         _size = new Dimension( 250, 50 );
         _strength = 1.0;
-        _minStrength = 0.0;
-        _maxStrength = 1.0;
+        _minStrength = 0.0;  // couldn't be any weaker
+        _maxStrength = Double.POSITIVE_INFINITY;  // couldn't be any stronger
     }
     
     //----------------------------------------------------------------------------
