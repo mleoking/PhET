@@ -104,6 +104,8 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
             lightBulbGraphic.setRegistrationPoint( rx, ry );
         }
         
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        
         update();
     }
     
