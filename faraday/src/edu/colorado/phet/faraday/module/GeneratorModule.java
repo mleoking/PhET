@@ -20,8 +20,8 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
+import edu.colorado.phet.faraday.control.panel.TurbinePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
@@ -71,7 +71,7 @@ public class GeneratorModule extends FaradayModule {
     /**
      * Sole constructor.
      * 
-     * @param appModel the application model
+     * @param clock the simulation clock
      */
     public GeneratorModule( AbstractClock clock ) {
 
@@ -87,12 +87,12 @@ public class GeneratorModule extends FaradayModule {
         
         // Turbine
         Turbine turbineModel = new Turbine();
-        turbineModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
-        turbineModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
-        turbineModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        turbineModel.setMaxStrength( FaradayConfig.TURBINE_STRENGTH_MAX );
+        turbineModel.setMinStrength( FaradayConfig.TURBINE_STRENGTH_MIN );
+        turbineModel.setStrength( 0.75 * FaradayConfig.TURBINE_STRENGTH_MAX );
         turbineModel.setLocation( TURBINE_LOCATION );
         turbineModel.setDirection( 0 /* radians */ );
-        turbineModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
+        turbineModel.setSize( FaradayConfig.TURBINE_SIZE );
         model.addModelElement( turbineModel );
         
         // Rescaler
@@ -186,13 +186,8 @@ public class GeneratorModule extends FaradayModule {
         {
             ControlPanel controlPanel = new ControlPanel( this );
             
-            BarMagnetPanel barMagnetPanel = new BarMagnetPanel(
-                    turbineModel, compassModel,
-                    turbineGraphic.getBarMagnetGraphic(), gridGraphic, fieldMeterGraphic );
-            barMagnetPanel.setFlipPolarityVisible( false );
-            barMagnetPanel.setSeeInsideVisible( false );
-            barMagnetPanel.setFieldMeterEnabled( false );
-            controlPanel.addFullWidth( barMagnetPanel );
+            TurbinePanel turbinePanel = new TurbinePanel( turbineModel, compassModel, gridGraphic );
+            controlPanel.addFullWidth( turbinePanel );
             
             controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
             

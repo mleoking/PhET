@@ -113,6 +113,11 @@ public class FaradayConfig {
     public static final double AC_FREQUENCY_MAX = 1.0;  // 0...1
     public static final double AC_FREQUENCY_MIN = 0.05;  // 0...1
     
+    // Turbine parameters
+    public static final double TURBINE_STRENGTH_MAX = BAR_MAGNET_STRENGTH_MAX;
+    public static final double TURBINE_STRENGTH_MIN = BAR_MAGNET_STRENGTH_MIN;
+    public static final Dimension TURBINE_SIZE = BAR_MAGNET_SIZE;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
