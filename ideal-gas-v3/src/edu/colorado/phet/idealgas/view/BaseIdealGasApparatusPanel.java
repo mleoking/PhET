@@ -82,9 +82,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
             this.addGraphic( iceGraphicImage, -6 );
 
             // Set up the door for the box
-            BufferedImage doorImg = ImageLoader.loadBufferedImage( IdealGasConfig.DOOR_IMAGE_FILE );
-            PhetImageGraphic doorGraphic = new PhetImageGraphic( this, doorImg );
-            BoxDoorGraphic interactiveDoorGraphic = new BoxDoorGraphic( doorGraphic,
+            BoxDoorGraphic interactiveDoorGraphic = new BoxDoorGraphic( this,
                                                                         IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227,
                                                                         IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
                                                                         IdealGasConfig.X_BASE_OFFSET + 280, IdealGasConfig.Y_BASE_OFFSET + 227,
