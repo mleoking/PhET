@@ -85,14 +85,18 @@ public class TransformerModule extends Module {
         // View
         //----------------------------------------------------------------------------
 
-        // Control Panel
-        _controlPanel = new TransformerControlPanel( this );
-        this.setControlPanel( _controlPanel );
-
         // Apparatus Panel
         ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
+        
+        //----------------------------------------------------------------------------
+        // Control
+        //----------------------------------------------------------------------------
+
+        // Control Panel
+        _controlPanel = new TransformerControlPanel( this );
+        this.setControlPanel( _controlPanel );
         
         //----------------------------------------------------------------------------
         // Observers

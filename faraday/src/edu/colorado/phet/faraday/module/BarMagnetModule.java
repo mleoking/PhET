@@ -54,8 +54,13 @@ public class BarMagnetModule extends Module {
     // Colors
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
 
-    private static final double BAR_MAGNET_STRENGTH = 500;
-    private static final double PICKUP_LOOP_RADIUS = 200;
+    public static final double MAGNET_STRENGTH_MIN = 100;
+    public static final double MAGNET_STRENGTH_MAX = 999;
+    private static final double MAGNET_STRENGTH = 350;
+    
+    public static final int LOOP_RADIUS_MIN = 50;
+    public static final int LOOP_RADIUS_MAX = 150;
+    private static final double LOOP_RADIUS = 100;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -97,14 +102,14 @@ public class BarMagnetModule extends Module {
         
         // Bar Magnet
         _magnetModel = new HollywoodMagnet();
-        _magnetModel.setStrength( BAR_MAGNET_STRENGTH );
+        _magnetModel.setStrength( MAGNET_STRENGTH );
         _magnetModel.setLocation( BAR_MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
         
         // Pickup Coil
         _pickupCoilModel = new PickupCoil();
         _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
-        _pickupCoilModel.setRadius( PICKUP_LOOP_RADIUS );
+        _pickupCoilModel.setRadius( LOOP_RADIUS );
         _pickupCoilModel.setDirection( 0 );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         _pickupCoilModel.setMagnet( _magnetModel );
@@ -113,10 +118,6 @@ public class BarMagnetModule extends Module {
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
-
-        // Control Panel
-        _controlPanel = new BarMagnetControlPanel( this );
-        this.setControlPanel( _controlPanel );
 
         // Apparatus Panel
         ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
@@ -140,6 +141,14 @@ public class BarMagnetModule extends Module {
         _pickupWidget = 
             new PickupWidget( apparatusPanel, coilGraphic, meterGraphic, bulbGraphic, _pickupCoilModel );
         apparatusPanel.addGraphic( _pickupWidget, PICKUP_WIDGET_LAYER );
+        
+        //----------------------------------------------------------------------------
+        // Control
+        //----------------------------------------------------------------------------
+        
+        // Control Panel
+        _controlPanel = new BarMagnetControlPanel( this );
+        this.setControlPanel( _controlPanel );
         
         //----------------------------------------------------------------------------
         // Observers
@@ -174,10 +183,9 @@ public class BarMagnetModule extends Module {
      * Resets everything to the initial state.
      */
     public void reset() {
-        int areaScale = BarMagnetControlPanel.AREA_MIN_PERCENTAGE + (BarMagnetControlPanel.AREA_MAX_PERCENTAGE - BarMagnetControlPanel.AREA_MIN_PERCENTAGE)/2;
         _controlPanel.setCompassGridEnabled( false );
-        _controlPanel.setMagnetStrength( BAR_MAGNET_STRENGTH );
-        _controlPanel.setLoopAreaScale( areaScale );
+        _controlPanel.setMagnetStrength( MAGNET_STRENGTH );
+        _controlPanel.setLoopRadius( (int)LOOP_RADIUS );
         _controlPanel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
         _controlPanel.setBulbEnabled( true );
         _controlPanel.setMeterEnabled( false );
@@ -224,13 +232,13 @@ public class BarMagnetModule extends Module {
     }
     
     /**
-     * XXX
+     * Sets the radius used for all loops in the pickup coil.
      * 
-     * @param scale
+     * @param radius the radius
      */
-    public void scalePickupLoopArea( double scale ) {
-        //System.out.println( "scalePickupLoopArea " + scale ); // DEBUG
-        _pickupCoilModel.setRadius( PICKUP_LOOP_RADIUS * scale );
+    public void setPickupLoopRadius( double radius ) {
+        //System.out.println( "setPickupLoopRadius " + radius ); // DEBUG
+        _pickupCoilModel.setRadius( radius );
     }
     
     /**

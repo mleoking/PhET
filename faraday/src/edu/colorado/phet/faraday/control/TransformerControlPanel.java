@@ -83,7 +83,7 @@ public class TransformerControlPanel extends ControlPanel {
             // Wire up event handling
             EventListener listener = new EventListener();
         }
-        super.setControlPane( panel );
+        super.add( panel );
     }
     
     //----------------------------------------------------------------------------
