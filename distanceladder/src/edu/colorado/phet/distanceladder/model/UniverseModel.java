@@ -10,6 +10,8 @@ package edu.colorado.phet.distanceladder.model;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 
+import javax.swing.*;
+
 public class UniverseModel extends BaseModel {
 
     private StarField starField;
@@ -30,8 +32,14 @@ public class UniverseModel extends BaseModel {
     }
 
     public void setStarField( StarField starField ) {
-        this.starField = starField;
-        updateObservers();
-        starField.updateObservers();
+        UniverseModel.this.starField = starField;
+        // Using invokeLater() here prevents ConcurrentModification
+        // exceptions
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                updateObservers();
+                UniverseModel.this.starField.updateObservers();
+            }
+        } );
     }
 }

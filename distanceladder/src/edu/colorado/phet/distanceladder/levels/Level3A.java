@@ -44,5 +44,6 @@ public class Level3A extends Exercise {
             model.getStarField().addStar( star );
         }
         model.setStarField( model.getStarField() );
+        return;
     }
 }
