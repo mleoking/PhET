@@ -9,12 +9,10 @@ import java.awt.*;
  * Time: 5:59:29 PM
  * Copyright (c) Jun 25, 2004 by University of Colorado, PhET
  */
-public class PhetTextGraphic extends PhetGraphic implements PhetMultiLineTextGraphic.IPhetTextGraphic {
+public class PhetTextGraphic extends PhetGraphic {
     private Font font;
     private String text;
     private Color color;
-    private int x;
-    private int y;
     private FontMetrics fontMetrics;
 
     public PhetTextGraphic( Component component, Font font, String text, Color color, int x, int y ) {
@@ -22,41 +20,30 @@ public class PhetTextGraphic extends PhetGraphic implements PhetMultiLineTextGra
         this.font = font;
         this.text = text;
         this.color = color;
-        this.x = x;
-        this.y = y;
         fontMetrics = component.getFontMetrics( font );
+        setLocation( x, y );
     }
 
     public void paint( Graphics2D g ) {
         if( isVisible() ) {
             g.setFont( font );
             g.setColor( color );
-            g.drawString( text, x, y );
+            Point location = super.getLocation();
+            g.drawString( text, location.x, location.y );
         }
     }
 
     protected Rectangle determineBounds() {
-        if( text == "" ) {
+        if( text == null || text.equals( "" ) ) {
             return null;
         }
         int width = fontMetrics.stringWidth( text );//this ignores antialias and fractional metrics.
         int ascent = fontMetrics.getAscent();
         int descent = fontMetrics.getDescent();
         int leading = fontMetrics.getLeading();
-        Rectangle bounds = new Rectangle( (int)this.x, (int)this.y - ascent + leading, width, ascent + descent + leading );
+        Point location = getLocation();
+        Rectangle bounds = new Rectangle( location.x, location.y - ascent + leading, width, ascent + descent + leading );
         return bounds;
-    }
-
-    public Point getPosition() {
-        return new Point( x, y );
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public Font getFont() {
@@ -75,14 +62,13 @@ public class PhetTextGraphic extends PhetGraphic implements PhetMultiLineTextGra
         return fontMetrics;
     }
 
-    public void setPosition( int x, int y ) {
-        if( this.x == x && this.y == y ) {
-            return;
+    public void setLocation( int x, int y ) {
+        Point loc = getLocation();
+        if( loc.x != x || loc.y != y ) {
+            super.setLocation( x, y );
+            setBoundsDirty();
+            repaint();
         }
-        this.x = x;
-        this.y = y;
-        setBoundsDirty();
-        repaint();
     }
 
     public void setText( String text ) {
@@ -106,11 +92,4 @@ public class PhetTextGraphic extends PhetGraphic implements PhetMultiLineTextGra
         repaint();
     }
 
-    public int getHeight() {
-        return getBounds().height;
-    }
-
-    public int getWidth() {
-        return getBounds().width;
-    }
 }

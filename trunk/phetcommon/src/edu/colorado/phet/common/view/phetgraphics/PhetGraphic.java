@@ -221,12 +221,14 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
         return getBounds().height;
     }
 
+    /*Danger, the term x is getting overriden.*/
     public int getX() {
-        return getBounds().x;
+        return getLocation().x;
     }
 
+    /*Danger, the term x is getting overriden.  This could mean getBounds().y*/
     public int getY() {
-        return getBounds().y;
+        return getLocation().y;
     }
 
     /**
