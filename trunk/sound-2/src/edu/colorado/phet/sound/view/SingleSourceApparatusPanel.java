@@ -31,9 +31,8 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
 
     /**
      * @param model
-     * @param name
      */
-    public SingleSourceApparatusPanel( SoundModel model, String name ) {
+    public SingleSourceApparatusPanel( SoundModel model ) {
         super( model );
         this.model = model;
         final WaveMedium waveMedium = model.getWaveMedium();
@@ -84,23 +83,6 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
                                          SoundConfig.s_wavefrontBaseY - speakerConeImg.getHeight( null ) / 2 );
             }
         } );
-
-        // Initialize the head
-        BufferedImage headImg = null;
-        try {
-            headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILE );
-            PhetImageGraphic head = new PhetImageGraphic( this, headImg );
-            head.setPosition( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
-            ListenerGraphic listener = new ListenerGraphic( model, new Listener(), head,
-                                                            SoundConfig.s_headBaseX, SoundConfig.s_headBaseY,
-                                                            SoundConfig.s_headBaseX - 150, SoundConfig.s_headBaseY,
-                                                            SoundConfig.s_headBaseX + 150, SoundConfig.s_headBaseY );
-            this.addGraphic( listener, 9 );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-
     }
 
     /**
