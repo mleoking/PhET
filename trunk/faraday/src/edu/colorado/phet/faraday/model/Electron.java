@@ -20,7 +20,7 @@ import edu.colorado.phet.common.model.ModelElement;
 
 /**
  * Electron is the model of an electron, capable of moving along some path.
- * The path is described as a set of CurveDescriptors.
+ * The path is described by an ordered set of ElectronPathDescriptors.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -41,14 +41,14 @@ public class Electron extends SpacialObservable implements ModelElement {
     // Is this electron enabled?
     private boolean _enabled;
     
-    // Describes the electron's path (array of CurveDescriptor)
-    private ArrayList _curveDescriptors;
+    // Describes the electron's path (array of ElectronPathDescriptor)
+    private ArrayList _path;
     
     // Index of the descriptor that describes the curve the electron is currently on.
-    private int _curveIndex;
+    private int _pathIndex;
     
     // Electron's position along the current curve (0-1)
-    private double _positionAlongCurve;
+    private double _pathPosition;
     
     // Electron's speed & direction (-1...+1)
     private double _speed;
@@ -63,9 +63,9 @@ public class Electron extends SpacialObservable implements ModelElement {
     public Electron() {
         super();
         _enabled = true;
-        _curveDescriptors = null;
-        _curveIndex = 0; // first curve
-        _positionAlongCurve = 1.0; // curve's start point
+        _path = null;
+        _pathIndex = 0; // first curve
+        _pathPosition = 1.0; // curve's start point
         _speed = 0.0;  // not moving
     }
 
@@ -95,53 +95,53 @@ public class Electron extends SpacialObservable implements ModelElement {
     }
     
     /**
-     * Sets the set of curves that the electron will follow.
-     * The curves will be followed in the order that they appear in the array.
+     * Sets the path that the electron will follow.
      * 
-     * @param curves
+     * @param path array of ElectronPathDescriptor
      */
-    public void setCurveDescriptors( ArrayList curves ) {
-        assert ( curves != null );
-        assert ( curves.size() > 0 );
-        _curveDescriptors = curves;
-        _curveIndex = 0;
-        _positionAlongCurve = 1.0;
+    public void setPath( ArrayList path ) {
+        assert ( path != null );
+        assert ( path.size() > 0 );
+        assert ( path.get(0) instanceof ElectronPathDescriptor );
+        _path = path;
+        _pathIndex = 0;
+        _pathPosition = 1.0;
     }
     
     /**
-     * Gets the curve descriptor for the curve that the electron is currently on.
+     * Gets the descriptor for the curve that the electron is currently on.
      * 
-     * @return a CurveDescriptor
+     * @return an ElectronPathDescriptor
      */
-    public CurveDescriptor getCurveDescriptor() {
-        return (CurveDescriptor)_curveDescriptors.get( _curveIndex );
+    public ElectronPathDescriptor getPathDescriptor() {
+        return (ElectronPathDescriptor)_path.get( _pathIndex );
     }
     
     /**
-     * Clears the set of curve descriptors.
+     * Clears the path.
      */
-    public void clearCurveDescriptors() {
-        _curveDescriptors = null;
+    public void clearPath() {
+        _path = null;
     }
 
     /**
-     * Sets the position of the electron along one of the curves.
+     * Sets the position of the electron along its path.
      * 
-     * @param positionAlongCurve position on the curve, 0-1 (1=startPoint, 0=endPoint)
-     * @param curveIndex index of the curve
+     * @param pathIndex index of the ElectronPathDescriptor
+     * @param pathPosition position on the curve, 0-1 (1=startPoint, 0=endPoint)
      */
-    public void setPositionAlongCurve( double positionAlongCurve, int curveIndex ) {
+    public void setPositionAlongPath( int pathIndex, double pathPosition  ) {
 
-        assert( positionAlongCurve >=0.0 && positionAlongCurve <= 1.0 );
-        assert( curveIndex >= 0 && curveIndex < _curveDescriptors.size() );
+        assert( pathPosition >=0.0 && pathPosition <= 1.0 );
+        assert( pathIndex >= 0 && pathIndex < _path.size() );
         
-        _curveIndex = curveIndex;
-        _positionAlongCurve = positionAlongCurve;
+        _pathIndex = pathIndex;
+        _pathPosition = pathPosition;
         
         // Evaluate the quadratic to determine XY location.
-        CurveDescriptor cd = (CurveDescriptor) _curveDescriptors.get( _curveIndex );
+        ElectronPathDescriptor cd = (ElectronPathDescriptor) _path.get( _pathIndex );
         QuadBezierSpline curve = cd.getCurve();
-        Point2D location = curve.evaluate( _positionAlongCurve );
+        Point2D location = curve.evaluate( _pathPosition );
         super.setLocation( location );
     }
     
@@ -187,7 +187,7 @@ public class Electron extends SpacialObservable implements ModelElement {
     /**
      * Moves the electron along the path.  
      * <p>
-     * The electron's path is described by the CurveDescriptor array.
+     * The electron's path is described by the ElectronPathDescriptor array.
      * <p>
      * The electron's speed & direction determine its position along a curve.
      * Speed is scaled to account for possible differences in the lengths 
@@ -196,44 +196,44 @@ public class Electron extends SpacialObservable implements ModelElement {
      * When an electron gets to the end of the current curve, it jumps
      * to the next curve, to a point that represent the "overshoot".
      * The order of curves is determined by the order of elements in the 
-     * CurveDescription array.
+     * ElectronPathDescriptor array.
      */
     public void stepInTime( double dt ) {
-        if ( _enabled && _speed != 0 && _curveDescriptors != null ) {
+        if ( _enabled && _speed != 0 && _path != null ) {
             
             // Move the electron along the path.
-            double oldSpeedScale = ((CurveDescriptor)_curveDescriptors.get( _curveIndex )).getSpeedScale();
-            _positionAlongCurve -= _speed * oldSpeedScale;
+            double oldSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
+            _pathPosition -= _speed * oldSpeedScale;
 
             // If we've reached the end of the current path, move to the next path.
             // Handle motion in both directions.
-            if ( _positionAlongCurve <= 0 ) {
+            if ( _pathPosition <= 0 ) {
                 // Move to the next curve, with wrap around and speed re-scaling.
-                _curveIndex++;
-                if ( _curveIndex >= _curveDescriptors.size() ) {
-                    _curveIndex = 0;
+                _pathIndex++;
+                if ( _pathIndex >= _path.size() ) {
+                    _pathIndex = 0;
                 }
                 // Set the position on the next curve.
-                double newSpeedScale = ((CurveDescriptor)_curveDescriptors.get( _curveIndex )).getSpeedScale();
-                double overshoot = Math.abs( _positionAlongCurve * newSpeedScale / oldSpeedScale ) % 1;
-                _positionAlongCurve = 1.0 - overshoot;
+                double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
+                double overshoot = Math.abs( _pathPosition * newSpeedScale / oldSpeedScale ) % 1;
+                _pathPosition = 1.0 - overshoot;
             }
-            else if ( _positionAlongCurve >= 1 ) {
+            else if ( _pathPosition >= 1 ) {
                 // Move to the previous curve, with wrap around and speed re-scaling.
-                _curveIndex--;
-                if ( _curveIndex < 0 ) {
-                    _curveIndex = _curveDescriptors.size() - 1;
+                _pathIndex--;
+                if ( _pathIndex < 0 ) {
+                    _pathIndex = _path.size() - 1;
                 }
                 // Set the position on the next curve.
-                double newSpeedScale = ((CurveDescriptor)_curveDescriptors.get( _curveIndex )).getSpeedScale();
-                double overshoot = Math.abs( (_positionAlongCurve % 1) * newSpeedScale / oldSpeedScale ) % 1;
-                _positionAlongCurve = 0.0 + overshoot;
+                double newSpeedScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getSpeedScale();
+                double overshoot = Math.abs( (_pathPosition % 1) * newSpeedScale / oldSpeedScale ) % 1;
+                _pathPosition = 0.0 + overshoot;
             }
             
             // Evaluate the quadratic to determine XY location.
-            CurveDescriptor cd = (CurveDescriptor)_curveDescriptors.get( _curveIndex );
+            ElectronPathDescriptor cd = (ElectronPathDescriptor)_path.get( _pathIndex );
             QuadBezierSpline curve = cd.getCurve();
-            Point2D location = curve.evaluate( _positionAlongCurve );
+            Point2D location = curve.evaluate( _pathPosition );
             super.setLocation( location );
             
             notifyObservers();

@@ -22,7 +22,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractCoil;
-import edu.colorado.phet.faraday.model.CurveDescriptor;
+import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.QuadBezierSpline;
 
@@ -39,9 +39,9 @@ import edu.colorado.phet.faraday.model.QuadBezierSpline;
  * The coil optionally shows electrons flowing. The number of electrons is 
  * a function of the coil radius and number of loops.  Electrons are part of 
  * the simulation model, and they know about the path that they need to follow.
- * The path is a describe by a set of CurveDescriptors.
+ * The path is a describe by a set of ElectronPathDescriptors.
  * <p>
- * The set of CurveDescriptors contains the information that the electrons
+ * The set of ElectronPathDescriptors contains the information that the electrons
  * need to determine which layer that are in (foreground or background) 
  * and how to adjust ("scale") their speed so that they appear to flow at
  * the same rate in all curve segments.  (For example, the wire ends are
@@ -102,8 +102,8 @@ public class CoilGraphic implements SimpleObserver {
     // The Colors used to render the loop.
     private Color _foregroundColor, _middlegroundColor, _backgroundColor;
     
-    // Description of the coil (array of CurveDescriptor).
-    private ArrayList _curveDescriptors;
+    // Description of the path that electrons follow (array of ElectronPathDescriptor).
+    private ArrayList _electronPath;
     
     // Electrons in the coil (array of Electron)
     private ArrayList _electrons;
@@ -149,7 +149,7 @@ public class CoilGraphic implements SimpleObserver {
         _middlegroundColor = MIDDLEGROUND_COLOR;
         _backgroundColor = BACKGROUND_COLOR;
         
-        _curveDescriptors = new ArrayList();
+        _electronPath = new ArrayList();
         _electrons = new ArrayList();
         
         _numberOfLoops = -1; // force update
@@ -362,14 +362,14 @@ public class CoilGraphic implements SimpleObserver {
      */
     private void updateCoil() {
         
-        // Start with a clean slate
+        // Start with a clean slate.
         {
             // Removing any existing graphics components.
             _foreground.clear();
             _background.clear();
 
-            // Clear the description of the coil.
-            _curveDescriptors.clear();
+            // Clear the electron path description.
+            _electronPath.clear();
 
             // Remove electrons from the model.
             for ( int i = 0; i < _electrons.size(); i++ ) {
@@ -407,8 +407,8 @@ public class CoilGraphic implements SimpleObserver {
                     // Scale the speed, since this curve is different than the others in the coil.
                     double length = startPoint.distance( endPoint );
                     double speedScale = radius / length;
-                    CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND, speedScale );
-                    _curveDescriptors.add( cd );
+                    ElectronPathDescriptor d = new ElectronPathDescriptor( curve, _background, ElectronPathDescriptor.BACKGROUND, speedScale );
+                    _electronPath.add( d );
                     
                     // Horizontal gradient, left to right.
                     Paint paint = new GradientPaint( startPoint.x, 0, _middlegroundColor, endPoint.x, 0, _backgroundColor );
@@ -427,8 +427,8 @@ public class CoilGraphic implements SimpleObserver {
                     Point controlPoint = new Point( (int) ( radius * .15 ) + xOffset, (int) ( -radius * .70 ) );
                     QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
 
-                    CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
-                    _curveDescriptors.add( cd );
+                    ElectronPathDescriptor d = new ElectronPathDescriptor( curve, _background, ElectronPathDescriptor.BACKGROUND );
+                    _electronPath.add( d );
                     
                     Paint paint = _backgroundColor;
                     
@@ -446,8 +446,8 @@ public class CoilGraphic implements SimpleObserver {
                 Point controlPoint = new Point( (int)(radius * .15) + xOffset, (int)(-radius * 1.20));
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
 
-                CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
-                _curveDescriptors.add( cd );
+                ElectronPathDescriptor d = new ElectronPathDescriptor( curve, _background, ElectronPathDescriptor.BACKGROUND );
+                _electronPath.add( d );
 
                 // Diagonal gradient, upper left to lower right.
                 Paint paint = new GradientPaint( (int)(startPoint.x + (radius * .10)), (int)-(radius), _middlegroundColor, xOffset, (int)-(radius * 0.92), _backgroundColor );
@@ -466,8 +466,8 @@ public class CoilGraphic implements SimpleObserver {
                 Point controlPoint = new Point( (int)(radius * .35) + xOffset, (int)(radius * 1.20) );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
 
-                CurveDescriptor cd = new CurveDescriptor( curve, _background, CurveDescriptor.BACKGROUND );
-                _curveDescriptors.add( cd );
+                ElectronPathDescriptor d = new ElectronPathDescriptor( curve, _background, ElectronPathDescriptor.BACKGROUND );
+                _electronPath.add( d );
 
                 // Vertical gradient, upper to lower
                 Paint paint = new GradientPaint( 0, (int)(radius * 0.92), _backgroundColor, 0, (int)(radius), _middlegroundColor );
@@ -486,8 +486,8 @@ public class CoilGraphic implements SimpleObserver {
                 Point controlPoint = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( radius * 0.80 ) );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
 
-                CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND );
-                _curveDescriptors.add( cd );
+                ElectronPathDescriptor d = new ElectronPathDescriptor( curve, _foreground, ElectronPathDescriptor.FOREGROUND );
+                _electronPath.add( d );
 
                 // Horizontal gradient, left to right
                 Paint paint = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
@@ -506,8 +506,8 @@ public class CoilGraphic implements SimpleObserver {
                 Point controlPoint = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( -radius * 0.80) );
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
 
-                CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND );
-                _curveDescriptors.add( cd );
+                ElectronPathDescriptor d = new ElectronPathDescriptor( curve, _foreground, ElectronPathDescriptor.FOREGROUND );
+                _electronPath.add( d );
                 
                 // Horizontal gradient, left to right
                 Paint paint = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
@@ -529,8 +529,8 @@ public class CoilGraphic implements SimpleObserver {
                 // Scale the speed, since this curve is different than the others in the coil.
                 double length = startPoint.distance( endPoint );
                 double speedScale = radius / length;
-                CurveDescriptor cd = new CurveDescriptor( curve, _foreground, CurveDescriptor.FOREGROUND, speedScale );
-                _curveDescriptors.add( cd );
+                ElectronPathDescriptor d = new ElectronPathDescriptor( curve, _foreground, ElectronPathDescriptor.FOREGROUND, speedScale );
+                _electronPath.add( d );
 
                 Paint paint = _middlegroundColor;
                 
@@ -547,19 +547,19 @@ public class CoilGraphic implements SimpleObserver {
             final double speed = calculateElectronSpeed();
             
             final int leftEndIndex = 0;
-            final int rightEndIndex = _curveDescriptors.size() - 1;
+            final int rightEndIndex = _electronPath.size() - 1;
 
             // For each curve...
-            for ( int curveIndex = 0; curveIndex < _curveDescriptors.size(); curveIndex++ ) {
+            for ( int pathIndex = 0; pathIndex < _electronPath.size(); pathIndex++ ) {
                 /*
                  * The wire ends are a different size, 
                  * and therefore contain a different number of electrons.
                  */
                 int numberOfElectrons;
-                if ( curveIndex == leftEndIndex ) {
+                if ( pathIndex == leftEndIndex ) {
                     numberOfElectrons = ELECTRONS_IN_LEFT_END;
                 }
-                else if ( curveIndex == rightEndIndex ) {
+                else if ( pathIndex == rightEndIndex ) {
                     numberOfElectrons = ELECTRONS_IN_RIGHT_END;
                 }
                 else {
@@ -569,22 +569,22 @@ public class CoilGraphic implements SimpleObserver {
                 // Add the electrons to the curve.
                 for ( int i = 0; i < numberOfElectrons; i++ ) {
 
-                    double positionAlongCurve = i / (double) numberOfElectrons;
+                    double pathPosition = i / (double) numberOfElectrons;
 
                     // Model
                     Electron electron = new Electron();
-                    electron.setCurveDescriptors( _curveDescriptors );
-                    electron.setPositionAlongCurve( positionAlongCurve, curveIndex );
+                    electron.setPath( _electronPath );
+                    electron.setPositionAlongPath( pathIndex, pathPosition );
                     electron.setSpeed( speed );
                     electron.setEnabled( _electronAnimationEnabled );
                     _electrons.add( electron );
                     _baseModel.addModelElement( electron );
 
                     // View
-                    CurveDescriptor cd = electron.getCurveDescriptor();
-                    CompositePhetGraphic parent = cd.getParent();
+                    ElectronPathDescriptor d = electron.getPathDescriptor();
+                    CompositePhetGraphic parent = d.getParent();
                     ElectronGraphic electronGraphic = new ElectronGraphic( _component, parent, electron );
-                    cd.getParent().addGraphic( electronGraphic );
+                    d.getParent().addGraphic( electronGraphic );
                 }
             }
         }
