@@ -176,7 +176,7 @@ public class CollimatedBeam extends Particle implements PhotonSource {
     }
 
     //---------------------------------------------------------------------
-    // Event Handling
+    // LeftSystemEvent Handling
     //---------------------------------------------------------------------
 
     private EventChannel rateChangeEventChannel = new EventChannel( RateChangeListener.class );

@@ -113,7 +113,7 @@ public class BeamControl2 extends CompositeGraphic implements CollimatedBeam.Rat
     }
 
     //----------------------------------------------------------------
-    // Event handling
+    // LeftSystemEvent handling
     //----------------------------------------------------------------
 
     public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {

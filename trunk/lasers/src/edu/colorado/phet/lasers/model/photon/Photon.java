@@ -213,7 +213,7 @@ public class Photon extends Particle implements Collidable {
     }
 
     //-------------------------------------------------------------------------------------
-    // Event handling
+    // LeftSystemEvent handling
     //-------------------------------------------------------------------------------------
     private EventChannel leftSystemEventChannel = new EventChannel( LeftSystemEventListener.class );
     private LeftSystemEventListener leftSystemListenerProxy = (LeftSystemEventListener)leftSystemEventChannel.getListenerProxy();

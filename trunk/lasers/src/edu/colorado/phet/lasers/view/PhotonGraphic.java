@@ -483,7 +483,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Listener implementions
+    // LeftSystemListener implementions
     //
 
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {

@@ -27,7 +27,7 @@ x        Manages visibility
 x        May be used to manage relative/absolute location.
 
 Events/Listeners - entire cast
-    Use AWT2 event model going forward
+    Use AWT2 leftSystemEventystemEventystemEventystemEventystemEventystemEventystemEvent model going forward
     retrofit as needed
 
 DefaultInteractiveGraphic

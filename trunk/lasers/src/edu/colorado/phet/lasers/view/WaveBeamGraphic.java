@@ -81,7 +81,7 @@ public class WaveBeamGraphic extends PhetGraphic implements PhotonSource.RateCha
     }
 
     //----------------------------------------------------------------------------
-    // Event handling
+    // LeftSystemEvent handling
     //----------------------------------------------------------------------------
     public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
         update();

@@ -78,6 +78,11 @@ public class BaseLaserModule extends Module {
     protected boolean threeEnergyLevels;
     private boolean mirrorsEnabled;
 
+    // Numbers of atoms in each state
+    private int numGroundStateAtoms, numMiddleStateAtoms, numHighStateAtoms;
+
+    private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
+    private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME;
 
     /**
      *
@@ -121,7 +126,7 @@ public class BaseLaserModule extends Module {
      * @param frame
      */
     private void createEnergyLevelsDialog( AbstractClock clock, PhetFrame frame ) {
-        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( laserModel, clock );
+        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( this, clock );
         energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
         energyLevelsDialog.setBounds( new Rectangle( (int)( frame.getBounds().getX() + frame.getBounds().getWidth() * 1 / 2 ),
                                                      10,
@@ -174,11 +179,8 @@ public class BaseLaserModule extends Module {
         Photon.setStimulationBounds( cavity.getBounds() );
         appFrame = app.getApplicationView().getPhetFrame();
         energyLevelsDialog.setVisible( true );
-
-        // Clear the numbers of atoms in each state.
-        GroundState.instance().clearNumInState();
-        MiddleEnergyState.instance().clearNumInState();
-        HighEnergyState.instance().clearNumInState();
+        MiddleEnergyState.instance().setMeanLifetime( middleStateMeanLifetime );
+        HighEnergyState.instance().setMeanLifetime( highStateMeanLifetime );
     }
 
     /**
@@ -187,6 +189,8 @@ public class BaseLaserModule extends Module {
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
         energyLevelsDialog.setVisible( false );
+        middleStateMeanLifetime = MiddleEnergyState.instance().getMeanLifeTime();
+        highStateMeanLifetime = HighEnergyState.instance().getMeanLifeTime();
     }
 
     //-----------------------------------------------------------------------------
@@ -240,6 +244,18 @@ public class BaseLaserModule extends Module {
 
     public int getNumPhotons() {
         return numPhotons;
+    }
+
+    public int getNumGroundStateAtoms() {
+        return numGroundStateAtoms;
+    }
+
+    public int getNumMiddleStateAtoms() {
+        return numMiddleStateAtoms;
+    }
+
+    public int getNumHighStateAtoms() {
+        return numHighStateAtoms;
     }
 
     protected Point2D getLaserOrigin() {
@@ -356,8 +372,19 @@ public class BaseLaserModule extends Module {
 
         // Add a listener to the atom that will create a photon graphic if the atom
         // emits a photon, and another to deal with an atom leaving the system
-        atom.addListener( new InternalPhotonEmittedListener() );
-        atom.addListener( new AtomRemovalListener( atomGraphic ) );
+        atom.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
+        atom.addLeftSystemListener( new AtomRemovalListener( atomGraphic ) );
+        atom.addStateChangeListener( new AtomStateChangeListener() );
+
+        if( atom.getState() instanceof GroundState ) {
+            numGroundStateAtoms++;
+        }
+        if( atom.getState() instanceof MiddleEnergyState ) {
+            numMiddleStateAtoms++;
+        }
+        if( atom.getState() instanceof HighEnergyState ) {
+            numHighStateAtoms++;
+        }
     }
 
     protected void removeAtom( Atom atom ) {
@@ -411,7 +438,7 @@ public class BaseLaserModule extends Module {
 
 
     //-------------------------------------------------------------------------------------------------
-    // Event handling
+    // LeftSystemEvent handling
     //-------------------------------------------------------------------------------------------------
 
     public class InternalPhotonEmittedListener implements PhotonEmittedListener {
@@ -462,21 +489,48 @@ public class BaseLaserModule extends Module {
     /**
      * Handles cleanup when an atom is removed from the system
      */
-    public class AtomRemovalListener implements Atom.Listener {
+    public class AtomRemovalListener implements Atom.LeftSystemListener {
         private AtomGraphic atomGraphic;
 
         public AtomRemovalListener( AtomGraphic atomGraphic ) {
             this.atomGraphic = atomGraphic;
         }
 
-        public void stateChanged( Atom.Event event ) {
-        }
-
-        public void leftSystem( Atom.Event event ) {
+        public void leftSystem( Atom.LeftSystemEvent leftSystemEvent ) {
             getApparatusPanel().removeGraphic( atomGraphic );
         }
 
-        public void photonEmitted( Atom.Event event ) {
+        public void stateChanged( Atom.LeftSystemEvent leftSystemEvent ) {
+        }
+    }
+
+    /**
+     * Keeps track of number of atoms in each state
+     */
+    public class AtomStateChangeListener implements Atom.StateChangeListener {
+        public void stateChanged( Atom.StateChangedEvent event ) {
+            AtomicState prevState = event.getPrevState();
+            AtomicState currState = event.getCurrState();
+            if( prevState instanceof GroundState ) {
+                numGroundStateAtoms--;
+                System.out.println( "numGroundStateAtoms = " + numGroundStateAtoms );
+            }
+            if( prevState instanceof MiddleEnergyState ) {
+                numMiddleStateAtoms--;
+            }
+            if( prevState instanceof HighEnergyState ) {
+                numHighStateAtoms--;
+            }
+            if( currState instanceof GroundState ) {
+                numGroundStateAtoms++;
+                System.out.println( "numGroundStateAtoms = " + numGroundStateAtoms );
+            }
+            if( currState instanceof MiddleEnergyState ) {
+                numMiddleStateAtoms++;
+            }
+            if( currState instanceof HighEnergyState ) {
+                numHighStateAtoms++;
+            }
         }
     }
 
@@ -500,9 +554,6 @@ public class BaseLaserModule extends Module {
             // Get rid of the graphic
             getApparatusPanel().removeGraphic( graphic );
             getApparatusPanel().repaint( graphic.getBounds() );
-
-            // Take us off the listener list of the photon
-//            photon.removeLeftSystemListener( this );
             graphic = null;
         }
     }
