@@ -1,10 +1,9 @@
 package phet.ohm1d.volt;
 
-import edu.colorado.phet.common.view.util.SimStrings;
-
 import phet.ohm1d.gui.VoltageListener;
 import phet.paint.Painter;
 import phet.paint.TextPainter;
+import phet.view.util.SimStrings;
 
 import java.awt.*;
 import java.text.DecimalFormat;
