@@ -69,6 +69,8 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
     private SineWaveGraphic _waveGraphic;
     private String _amplitudeFormat;
     private String _frequencyFormat;
+    private double _previousMaxAmplitude;
+    private double _previousFrequency;
     
     //----------------------------------------------------------------------------
     // Constructors and finalizers
@@ -171,6 +173,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         int ry = getHeight();
         setRegistrationPoint( rx, ry );
         
+        _previousMaxAmplitude = _previousFrequency = -2;  // any invalid value is fine... 
         update();
     }
     
@@ -191,6 +194,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
+        
         setVisible( _acSourceModel.isEnabled() );
         if ( isVisible() ) {
             
@@ -198,7 +202,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             double frequency = _acSourceModel.getFrequency();
             
             // Update the displayed amplitude.
-            {
+            if ( maxAmplitude != _previousMaxAmplitude ) {
                 // Format the text
                 int value = (int) ( maxAmplitude * 100 );
                 Object[] args = { new Integer( value ) };
@@ -212,7 +216,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             }
             
             // Update the displayed frequency.
-            {
+            if ( frequency != _previousFrequency ) {
                 // Format the text
                 int value = (int) ( 100 * frequency );
                 Object[] args = { new Integer( value ) };
@@ -226,11 +230,14 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             }
             
             // Update the sine wave.
-            {
+            if ( maxAmplitude != _previousMaxAmplitude || frequency != _previousFrequency ) {
                 _waveGraphic.setAmplitude( maxAmplitude );
                 _waveGraphic.setFrequency( frequency );
                 _waveGraphic.update();
             }
+            
+            _previousMaxAmplitude = maxAmplitude;
+            _previousFrequency = frequency;
             
             repaint();
         }
