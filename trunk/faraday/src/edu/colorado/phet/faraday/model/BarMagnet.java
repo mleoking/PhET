@@ -100,7 +100,7 @@ public class BarMagnet extends AbstractMagnet {
         double magnitude = B.getMagnitude();
         if ( magnitude > magnetStrength ) {
             B = ImmutableVector2D.Double.parseAngleAndMagnitude( magnetStrength, B.getAngle() );
-            System.out.println( "BarMagnet.getStrengthOutside - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
+            //System.out.println( "BarMagnet.getStrengthOutside - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
         }
         
         return B;
