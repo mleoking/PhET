@@ -254,6 +254,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         GraphicsState gs = new GraphicsState( g2 );
         g2.transform( graphicTx );
+        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         graphic.paint( g2 );
         //        g2.drawImage( bImg, new AffineTransform(), null );
         gs.restoreGraphics();
