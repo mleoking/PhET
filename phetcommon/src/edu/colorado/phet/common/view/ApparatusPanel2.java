@@ -60,6 +60,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private BufferStrategy strategy;
     private ArrayList rectangles = new ArrayList();
     private Rectangle repaintArea;
+
     private AffineTransform graphicTx = new AffineTransform();
     private AffineTransform mouseTx = new AffineTransform();
     private Rectangle orgBounds;
@@ -142,6 +143,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 }
             }
         } );
+    }
+
+    protected AffineTransform getGraphicTx() {
+        return graphicTx;
     }
 
     public void add( Component comp, Object constraints ) {
