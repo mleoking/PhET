@@ -102,9 +102,9 @@ public class MagnetAndCoilControlPanel extends ControlPanel {
 
                 // Slider
                 _strengthSlider = new JSlider();
-                _strengthSlider.setMinimum( (int) MagnetAndCoilModule.MAGNET_STRENGTH_MIN );
-                _strengthSlider.setMaximum( (int) MagnetAndCoilModule.MAGNET_STRENGTH_MAX );
-                _strengthSlider.setValue( (int) MagnetAndCoilModule.MAGNET_STRENGTH_MIN );
+                _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
+                _strengthSlider.setMaximum( (int) FaradayConfig.MAGNET_STRENGTH_MAX );
+                _strengthSlider.setValue( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
 
                 // Value
                 _strengthValue = new JLabel( UNKNOWN_VALUE );

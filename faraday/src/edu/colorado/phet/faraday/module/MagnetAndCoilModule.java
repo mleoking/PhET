@@ -60,16 +60,16 @@ public class MagnetAndCoilModule extends Module {
     // Colors
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
 
-    public static final double MAGNET_STRENGTH_MIN = 100;
-    public static final double MAGNET_STRENGTH_MAX = 999;
+    // Magnet parameters
     private static final double MAGNET_STRENGTH = 350;
-    
     private static final Dimension MAGNET_SIZE = new Dimension( 250, 50 );
     
+    // Pickup Coil parameters
     public static final int LOOP_RADIUS_MIN = 75;
     public static final int LOOP_RADIUS_MAX = 150;
     private static final double LOOP_RADIUS = 100;
     
+    // Compass Grid parameters
     private static final int GRID_X_SPACING = 40;
     private static final int GRID_Y_SPACING = 40;
     private static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 5 );
