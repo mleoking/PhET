@@ -1,3 +1,5 @@
+- Things are getting repainted all the time, even if things aren't changinig. The performance is pegged.
+
 - move wall until it catches up with the cursor
 - scale graphics
 - Collision problems: Overlapping particles "dance"

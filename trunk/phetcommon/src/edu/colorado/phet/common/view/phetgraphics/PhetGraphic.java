@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
+import java.util.Stack;
 
 /**
  * This graphic class auto-magically repaints itself in the appropriate bounds,
@@ -21,7 +22,7 @@ public abstract class PhetGraphic implements BoundedGraphic {
     private boolean boundsDirty = true;
     private RenderingHints savedRenderingHints;
     private RenderingHints renderingHints;
-    private GraphicsState graphicsState;
+    private Stack graphicsStates = new Stack();
 
     protected PhetGraphic( Component component ) {
         this.component = component;
@@ -33,11 +34,12 @@ public abstract class PhetGraphic implements BoundedGraphic {
     }
 
     protected void saveGraphicsState( Graphics2D graphics2D ) {
-        graphicsState = new GraphicsState( graphics2D );
+        graphicsStates.push( new GraphicsState( graphics2D ) );
     }
 
     protected void restoreGraphicsState() {
-        graphicsState.restoreGraphics();
+        GraphicsState gs = (GraphicsState)graphicsStates.pop();
+        gs.restoreGraphics();
     }
 
     protected void pushRenderingHints( Graphics2D g ) {

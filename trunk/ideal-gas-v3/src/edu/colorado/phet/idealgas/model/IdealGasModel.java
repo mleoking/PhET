@@ -313,7 +313,7 @@ public class IdealGasModel extends BaseModel {
         for( int i = 0; i < removeList.size(); i++ ) {
             GasMolecule gasMolecule = (GasMolecule)removeList.get( i );
             this.bodies.remove( gasMolecule );
-            super.removeModelElement( gasMolecule );
+            removeModelElement( gasMolecule );
         }
         removeList.clear();
 

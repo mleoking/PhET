@@ -10,9 +10,9 @@ package edu.colorado.phet.idealgas.view.monitors;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.coreadditions.ScalarObservable;
-import edu.colorado.phet.gauges.DialGauge;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
+import edu.colorado.phet.instrumentation.DialGauge;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
