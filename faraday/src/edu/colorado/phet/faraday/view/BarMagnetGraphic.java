@@ -12,6 +12,9 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+
+import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -77,8 +80,10 @@ public class BarMagnetGraphic extends PhetImageGraphic
         setRegistrationPoint( getImage().getWidth() / 2, getImage().getHeight() / 2 );
 
         // Setup interactivity.
+        InteractivityListener listener = new InteractivityListener();
         super.setCursorHand();
-        super.addTranslationListener( new InteractivityHandler() );
+        super.addTranslationListener( listener );
+        super.addMouseInputListener( listener );
         
         // Use the opaque image by default.
         setTransparencyEnabled( false );
@@ -224,14 +229,19 @@ public class BarMagnetGraphic extends PhetImageGraphic
     //----------------------------------------------------------------------------
     
     /**
-     * InteractivityHandler is an inner class that handles interactivity.
+     * InteractivityListener is an inner class that handles interactivity.
      *
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private class InteractivityHandler implements TranslationListener {
+    private class InteractivityListener extends MouseInputAdapter implements TranslationListener {
 
-        public InteractivityHandler() {}
+        private boolean _stopDragging;
+        
+        public InteractivityListener() {
+            super();
+            _stopDragging = false;
+        }
 
         public void translationOccurred( TranslationEvent e ) {
             int dx = e.getDx();
@@ -240,14 +250,25 @@ public class BarMagnetGraphic extends PhetImageGraphic
             boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
             if ( !collidesNow && wouldCollide ) {
                 // Ignore the translate if it would result in a collision.
+                _stopDragging = true;
                 update();
             }
-            else if ( _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
+            else if ( !_stopDragging && _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
                 // Translate if the mouse cursor is inside the parent component.
                 double x = _magnetModel.getX() + e.getDx();
                 double y = _magnetModel.getY() + e.getDy();
                 _magnetModel.setLocation( x, y );
             }
+        }
+        
+        public void mouseDragged( MouseEvent event ) {
+            if ( _stopDragging && getBounds().contains( event.getPoint() ) ) {
+                _stopDragging = false;
+            }
+        }
+        
+        public void mouseReleased( MouseEvent event ) {
+            _stopDragging = false;
         }
     }
 }

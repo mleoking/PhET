@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- after a collision, don't start dragging again until cursor is over the object
+- when a collision occurs, don't ignore the translate, move the object as close as possible
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
@@ -42,6 +42,7 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/18) - after a collision, don't start dragging again until cursor is over the object
 (2/18) - remove data smoothing code from PickupCoil, nothing but problems
 (2/18) - "spike" emf changes are not being displayed
 (2/17) - handle temporary disabling of data smoothing in PickupCoil.updateNow
