@@ -88,15 +88,6 @@ public class Histogram extends JPanel {
         model.clear();
     }
 
-    //
-    // Static fields and methods
-    //
-
-    //
-    // Inner classes
-    //
-
-
 
     public static void main( String[] args ) {
         Histogram histogram = new Histogram( 300, 100, 0, 10, 100, 10, Color.green );
