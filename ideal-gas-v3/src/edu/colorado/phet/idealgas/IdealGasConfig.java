@@ -86,7 +86,7 @@ public class IdealGasConfig {
     public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning/pusher-leaning";
 
     // Offset for locating objects in the apparatus panel
-    public static final int X_BASE_OFFSET = 50;
+    public static final int X_BASE_OFFSET = 30;
     public static final int Y_BASE_OFFSET = -80;
     public static final int X_STOVE_OFFSET = 247;
     public static final int Y_STOVE_OFFSET = 545;

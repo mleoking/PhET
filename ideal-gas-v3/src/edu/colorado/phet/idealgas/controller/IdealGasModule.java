@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.PressureSlice;
@@ -36,6 +37,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventListener;
@@ -61,6 +63,11 @@ public class IdealGasModule extends Module implements EventChannel {
     private IdealGasControlPanel idealGasControlPanel;
     private Thermometer thermometer;
     private EventRegistry eventRegistry = new EventRegistry();
+    private BufferedImage basePumpImg;
+    private BufferedImage currentPumpImg;
+    private BufferedImage bluePumpImg;
+    private BufferedImage redPumpImg;
+    private PhetImageGraphic pumpGraphic;
 
 
     public IdealGasModule( AbstractClock clock ) {
@@ -116,7 +123,7 @@ public class IdealGasModule extends Module implements EventChannel {
 
         // Set up the graphics for the pump
         try {
-            BufferedImage pumpImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_IMAGE_FILE );
+            basePumpImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_IMAGE_FILE );
             BufferedImage handleImg = ImageLoader.loadBufferedImage( IdealGasConfig.HANDLE_IMAGE_FILE );
             PhetImageGraphic handleGraphic = new PhetImageGraphic( getApparatusPanel(), handleImg );
 
@@ -124,8 +131,18 @@ public class IdealGasModule extends Module implements EventChannel {
                                                                           IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238,
                                                                           IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
                                                                           IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
+
+            bluePumpImg = new BufferedImage(basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            redPumpImg = new BufferedImage(basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            BufferedImageOp blueOp = new MakeDuotoneImageOp( Color.blue );
+            blueOp.filter(basePumpImg, bluePumpImg );
+            BufferedImageOp redOp = new MakeDuotoneImageOp( Color.red );
+            redOp.filter(basePumpImg, redPumpImg );
+            currentPumpImg = bluePumpImg;
+
             this.addGraphic( handleGraphicImage, -6 );
-            PhetImageGraphic pumpGraphic = new PhetImageGraphic( getApparatusPanel(), pumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
+            pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
+//            PhetImageGraphic pumpGraphic = new PhetImageGraphic( getApparatusPanel(), basePumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
             this.addGraphic( pumpGraphic, -4 );
 
             if( wiggleMeGraphic == null ) {
@@ -150,6 +167,7 @@ public class IdealGasModule extends Module implements EventChannel {
             e.printStackTrace();
         }
 
+
         // Set up the box
         Box2DGraphic boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
         addGraphic( boxGraphic, 10 );
@@ -168,6 +186,12 @@ public class IdealGasModule extends Module implements EventChannel {
         stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 80,
                                      IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
         getApparatusPanel().add( stoveControlPanel );
+
+        // Add buttons for selecting the species that the pump will produce
+        PumpSpeciesSelectorPanel pumpSelectorPanel = new PumpSpeciesSelectorPanel( this );
+        pumpSelectorPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + 590, IdealGasConfig.Y_BASE_OFFSET + 300,
+                                     200, 150 );
+        getApparatusPanel().add( pumpSelectorPanel );
 
         // Add help items
         addHelp();
@@ -257,7 +281,7 @@ public class IdealGasModule extends Module implements EventChannel {
         cmd.doIt();
     }
 
-    public void removeGasMolecule( Class species) {
+    public void removeGasMolecule( Class species ) {
         Command cmd = new RemoveMoleculeCmd( idealGasModel, species );
         cmd.doIt();
     }
@@ -373,6 +397,14 @@ public class IdealGasModule extends Module implements EventChannel {
         return eventRegistry.getNumListeners();
     }
 
+    public void setCurrentPumpImage( Color color ) {
+        if( color.equals( Color.blue )){
+            pumpGraphic.setImage( bluePumpImg );
+        }
+        if( color.equals( Color.red )){
+            pumpGraphic.setImage( redPumpImg );
+        }
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes

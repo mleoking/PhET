@@ -26,10 +26,6 @@ public class HotAirBalloonControlPanel extends JPanel {
 
     public HotAirBalloonControlPanel( HotAirBalloon hotAirBalloon ) {
         this.hotAirBalloon = hotAirBalloon;
-        init();
-    }
-
-    private void init() {
         addHotAirBallonControls();
     }
 
@@ -37,7 +33,7 @@ public class HotAirBalloonControlPanel extends JPanel {
      * Create a panel for controlling the stove
      */
     private void addHotAirBallonControls() {
-        JPanel stovePanel = new JPanel();
+        JPanel stovePanel = this;
 
         JPanel iconPanel = new JPanel( new GridLayout( 2, 1 ) );
         try {
@@ -74,7 +70,6 @@ public class HotAirBalloonControlPanel extends JPanel {
         stovePanel.add( stoveSlider );
 
         stovePanel.setBorder( new TitledBorder( SimStrings.get( "ModuleTitle.HotAirBalloon" ) ) );
-        this.add( stovePanel );
     }
 
 
