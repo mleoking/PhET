@@ -10,25 +10,20 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class PhetFrame extends JFrame {
     HelpMenu helpMenu;
     private JMenu defaultFileMenu;
-    //    PhetApplication app;
     private GraphicsSetup graphicsSetup = new BasicGraphicsSetup();
 
     public PhetFrame( ApplicationModel appDescriptor ) {
-        //    public PhetFrame( PhetApplication app ) {
         super( appDescriptor.getWindowTitle() );
-        //        super( app.getApplicationDescriptor().getWindowTitle() );
-        //        this.app = app;
         this.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
@@ -36,34 +31,21 @@ public class PhetFrame extends JFrame {
         } );
         JMenuBar menuBar = new JMenuBar();
         this.helpMenu = new HelpMenu( appDescriptor );
-        JMenu controlMenu = new JMenu( "Control" );
-        JMenuItem showClockDialog = new JMenuItem( "FixedClock" );
-        showClockDialog.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                //                clockDialog.setVisible(true);
-            }
-        } );
-
         defaultFileMenu = new PhetFileMenu();
         menuBar.add( defaultFileMenu );
         menuBar.add( helpMenu );
-
         setJMenuBar( menuBar );
-
         appDescriptor.getFrameSetup().initialize( this );
     }
 
-    //    public PhetApplication getApp() {
-    //        return app;
-    //    }
-    //
-    //    /**
-    //     * Adds a JMenu before the Help Menu.
-    //     *
-    //     * @param menu
-    //     */
+
+    /**
+     * Adds a JMenu before the Help Menu.
+     *
+     * @param menu
+     */
     public void addMenu( JMenu menu ) {
-        edu.colorado.phet.common.view.util.GraphicsUtil.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
+        GraphicsUtil.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
     }
 
     public void addFileMenuSeparator() {

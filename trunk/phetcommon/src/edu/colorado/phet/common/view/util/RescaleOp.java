@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
  * Time: 10:07:55 AM
  * Copyright (c) Apr 27, 2003 by Sam Reid
  */
-// TODO: Move up one level in package hierarchy
 public class RescaleOp {
     public static BufferedImage rescaleYMaintainAspectRatio( BufferedImage im, int height ) {
         double iny = im.getHeight();

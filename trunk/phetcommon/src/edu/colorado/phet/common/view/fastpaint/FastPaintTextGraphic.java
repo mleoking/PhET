@@ -35,7 +35,6 @@ public class FastPaintTextGraphic extends TextGraphic {
         super.setText( text );
         Rectangle rectB = getViewBounds();
         GraphicsUtil.fastRepaint( parent, rectA, rectB );
-        //        repaint( rectA, rectB );
     }
 
     public void setFont( Font font ) {

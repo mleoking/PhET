@@ -9,7 +9,7 @@ package edu.colorado.phet.common.math;
 import java.awt.geom.Point2D;
 
 public interface AbstractVector2D {
-    //public interface AbstractVector2D {
+
     AbstractVector2D getAddedInstance( AbstractVector2D v );
 
     AbstractVector2D getSubtractedInstance( AbstractVector2D v );
@@ -174,7 +174,6 @@ public interface AbstractVector2D {
             return vector.getScaledInstance( r );
         }
     }
-
 
     public class Float implements AbstractVector2D {
         private float x;

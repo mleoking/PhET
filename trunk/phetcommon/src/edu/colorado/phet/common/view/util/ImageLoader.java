@@ -1,5 +1,4 @@
 /*Copyright, Sam Reid, 2003.*/
-// TODO: move up on level in package hierarchy
 package edu.colorado.phet.common.view.util;
 
 import javax.imageio.ImageIO;
@@ -37,7 +36,6 @@ public class ImageLoader {
     }
 
     public ImageLoader() {
-        //        setImageIOLoader();
         setPhetLoader();
         conversionStrategy = new ConversionStrategy() {
             public BufferedImage toBufferedImage( Image image ) {
@@ -92,7 +90,6 @@ public class ImageLoader {
 
     public void setIconLoader() {
         this.loadStrategy = new IconLoader();
-        //test cvs comment
     }
 
     static interface LoadStrategy {

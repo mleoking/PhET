@@ -38,7 +38,6 @@ public class ShapeGraphic implements BoundedGraphic {
         if( shape != null ) {
             if( fillPaint != null ) {
                 g.setPaint( fillPaint );
-//                System.out.println( "shape = " + shape +", bounds="+shape.getBounds());
                 g.fill( shape );
             }
             if( outlineStroke != null ) {

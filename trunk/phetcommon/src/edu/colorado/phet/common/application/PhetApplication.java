@@ -76,10 +76,6 @@ public class PhetApplication {
         return s_instance;
     }
 
-//    public ApparatusPanelContainer getApparatusPanelContainer() {
-//        return null;
-//    }
-
     public Module moduleAt( int i ) {
         return moduleManager.moduleAt( i );
     }

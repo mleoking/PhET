@@ -82,7 +82,6 @@ public interface FrameSetup {
                 pre.initialize( frame );
             }
             GraphicsUtil.maximizeFrame( frame );
-            //            frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
         }
     }
 }

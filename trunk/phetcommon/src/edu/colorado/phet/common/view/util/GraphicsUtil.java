@@ -17,7 +17,6 @@ import java.util.Enumeration;
 
 public class GraphicsUtil {
 
-
     public static void fastRepaint( final Component parent, final Rectangle bounds ) {
         boolean dolater = false;
         //        boolean dolater=true;
@@ -108,7 +107,7 @@ public class GraphicsUtil {
         return outString.toString();
     }
 
-    // Sets anit-aliasing on for a specified Graphics2D
+    // Sets anti-aliasing on for a specified Graphics2D
     public static Graphics2D setAntiAliasingOn( Graphics2D g2 ) {
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         return g2;

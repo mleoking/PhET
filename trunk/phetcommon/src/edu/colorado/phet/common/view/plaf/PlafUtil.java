@@ -1,8 +1,6 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common.view.plaf;
 
-//import edu.colorado.phet.common.view.PhetFrame;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

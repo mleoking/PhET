@@ -87,7 +87,6 @@ public class Particle extends SimpleObservable implements ModelElement {
         double yNew = position.getY()
                       + dt * velocity.getY()
                       + dt * dt * acceleration.getY() / 2;
-        //        setPosition( xNew, yNew );
         position.setLocation( xNew, yNew );
 
         // New velocity
