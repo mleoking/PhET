@@ -12,13 +12,13 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.movingman.MMTimer;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.ValueGraphic;
 import edu.colorado.phet.movingman.common.ObservingGraphic;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -130,7 +130,8 @@ public class MMPlot implements ObservingGraphic {
 
         public static Icon loadIcon() throws IOException {
             if( icon == null ) {
-                Image image = ImageIO.read( CloseButton.class.getClassLoader().getResource( "images/x-25.png" ) );
+//                Image image = ImageIO.read( CloseButton.class.getClassLoader().getResource( "images/x-25.png" ) );
+                Image image = ImageLoader.loadBufferedImage( "images/x-25.png" );
                 icon = new ImageIcon( image );
             }
             return icon;
