@@ -19,7 +19,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 
 import java.awt.geom.Point2D;
 
-public class OneAtomTwoLevelsModule extends edu.colorado.phet.lasers.view.SingleAtomBaseModule {
+public class OneAtomTwoLevelsModule extends SingleAtomBaseModule {
 
     private MonitorPanel monitorPanel;
 //    private PhetControlPanel controlPanel = new TwoLevelControlPanel();
@@ -42,12 +42,12 @@ public class OneAtomTwoLevelsModule extends edu.colorado.phet.lasers.view.Single
 //        cavity.setPosition( cavityPos.getX(), yNew );
 //        cavity.setHeight( newHeight );
 
-        ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setStimulatedPhotonRate( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE );
-        config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
-        config.setPumpingPhotonRate( 0.0f );
-        config.setReflectivity( 0.7f );
-        config.configureSystem( getLaserModel() );
+//        ApparatusConfiguration config = new ApparatusConfiguration();
+//        config.setStimulatedPhotonRate( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE );
+//        config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
+//        config.setPumpingPhotonRate( 0.0f );
+//        config.setReflectivity( 0.7f );
+//        config.configureSystem( getLaserModel() );
     }
 
     public void activate( PhetApplication app ) {
@@ -70,6 +70,13 @@ public class OneAtomTwoLevelsModule extends edu.colorado.phet.lasers.view.Single
 //        ApparatusConfiguration config = new ApparatusConfiguration();
 //        config.setStimulatedPhotonRate( 8.0f );
 //        config.setMiddleEnergySpontaneousEmissionTime( 0.500f );
+//        config.setPumpingPhotonRate( 0.0f );
+//        config.setReflectivity( 0.7f );
+//        config.configureSystem( getLaserModel() );
+
+//        ApparatusConfiguration config = new ApparatusConfiguration();
+//        config.setStimulatedPhotonRate( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE );
+//        config.setMiddleEnergySpontaneousEmissionTime( LaserConfig.DEFAULT_SPONTANEOUS_EMISSION_TIME );
 //        config.setPumpingPhotonRate( 0.0f );
 //        config.setReflectivity( 0.7f );
 //        config.configureSystem( getLaserModel() );

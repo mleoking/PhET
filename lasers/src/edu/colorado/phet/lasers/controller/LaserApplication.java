@@ -17,6 +17,10 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.lasers.view.*;
+import edu.colorado.phet.lasers.controller.module.OneAtomTwoLevelsModule;
+import edu.colorado.phet.lasers.controller.module.OneAtomThreeLevelsModule;
+import edu.colorado.phet.lasers.controller.module.MultipleAtomTwoLevelModule;
+import edu.colorado.phet.lasers.controller.module.MultipleAtomThreeLevelModule;
 
 public class LaserApplication extends PhetApplication {
 

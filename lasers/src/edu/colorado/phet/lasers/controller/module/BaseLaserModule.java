@@ -90,23 +90,6 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         getLaserModel().setPumpingBeam( pumpingBeam );
     }
 
-    /**
-     *
-     */
-    public void activate( PhetApplication app ) {
-
-        super.activate( app );
-    }
-
-    /**
-     *
-     */
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        incomingBeam.setActive( false );
-        pumpingBeam.setActive( false );
-    }
-
     protected Point2D getLaserOrigin() {
         return laserOrigin;
     }

@@ -23,7 +23,7 @@ import edu.colorado.phet.lasers.view.*;
 
 import java.awt.geom.Point2D;
 
-public class OneAtomThreeLevelsModule extends edu.colorado.phet.lasers.view.SingleAtomBaseModule {
+public class OneAtomThreeLevelsModule extends SingleAtomBaseModule {
 
     private MonitorPanel monitorPanel;
 
