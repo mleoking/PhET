@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.model.*;
@@ -29,6 +30,9 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
         double xDiag = 434;
         double yDiag = 397;
 
+        // Add collision experts to the model
+        getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert( getIdealGasModel(), clock.getDt() ) );
+
         // Set the size of the box
         final Box2D box = getIdealGasModel().getBox();
         box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
@@ -38,7 +42,7 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
                                    new Vector2D.Double( 0, 0 ),
                                    100,
                                    50 );
-        box.setMinimumWidth( sphere.getRadius() * 3);
+        box.setMinimumWidth( sphere.getRadius() * 3 );
 
         new AddModelElementCmd( getIdealGasModel(), sphere ).doIt();
         getIdealGasModel().getBox().addContainedBody( sphere );

@@ -1,10 +1,12 @@
 
+import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.AddModelElementCmd;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
@@ -46,12 +48,16 @@ public class TestMoleculeHollowSphereCollisionII extends PhetApplication {
             };
             setModules( modules );
             setInitialModule( idealGasModule );
+            ImageLoader
         }
     }
 
     static class TestIdealGasModule extends IdealGasModule {
         public TestIdealGasModule( AbstractClock clock ) {
             super( clock );
+
+            // Add collision experts to the model
+            getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert( getIdealGasModel(), clock.getDt() ) );
 
             final Box2D box = getIdealGasModel().getBox();
             box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
@@ -83,7 +89,7 @@ public class TestMoleculeHollowSphereCollisionII extends PhetApplication {
             testBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m[0] = new HeavySpecies( new Point2D.Double( sphere1.getPosition().getX(),
-                                                                 sphere1.getPosition().getY()),
+                                                                 sphere1.getPosition().getY() ),
                                              new Vector2D.Double( -100, -130 ),
                                              new Vector2D.Double(),
                                              5 );

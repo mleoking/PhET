@@ -157,7 +157,6 @@ public class CollisionGod {
     }
 
     private void doGasToGasCollisions() {
-
         // Do particle-particle collisions. Each region collides with
         // itself and the regions to the right and below.
         for( int i = 0; i < numRegionsX; i++ ) {
@@ -193,11 +192,12 @@ public class CollisionGod {
 
     private void detectAndDoCollision( CollidableBody body1, CollidableBody body2 ) {
         boolean haveCollided = false;
-        for( int i = 0; i < collisionExperts.size() && !haveCollided; i++ ) {
+        // todo: I don't think the haveCollided thing does any good.
+        for( int i = 0; i < collisionExperts.size(); i++ ) {
+//        for( int i = 0; i < collisionExperts.size() && !haveCollided; i++ ) {
             CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( i );
             haveCollided = collisionExpert.detectAndDoCollision( body1, body2 );
         }
-
     }
 
     private void addBody( Body body ) {

@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import edu.colorado.phet.collision.SphereBoxExpert;
+import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -27,6 +29,7 @@ import java.util.ResourceBundle;
 public class IdealGasModule extends Module {
 
     private static ResourceBundle localizedStrings;
+
     static {
         localizedStrings = ResourceBundle.getBundle( "localization/IdealGasModule" );
     }
@@ -40,7 +43,7 @@ public class IdealGasModule extends Module {
 
 
     public IdealGasModule( AbstractClock clock ) {
-        this( clock, localizedStrings.getString( "Ideal_Gas"));
+        this( clock, localizedStrings.getString( "Ideal_Gas" ) );
     }
 
     protected IdealGasModel getIdealGasModel() {
@@ -56,6 +59,11 @@ public class IdealGasModule extends Module {
 
         gravity = new Gravity( idealGasModel );
         idealGasModel.addModelElement( gravity );
+
+        // Add collision experts
+        idealGasModel.addCollisionExpert( new SphereSphereExpert( idealGasModel, clock.getDt() ) );
+        idealGasModel.addCollisionExpert( new SphereBoxExpert( idealGasModel ) );
+
 
         // Create the box
         double xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;

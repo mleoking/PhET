@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.model.*;
@@ -18,6 +19,7 @@ import java.util.ResourceBundle;
 public class HeliumBalloonModule extends IdealGasModule {
 
     private static ResourceBundle localizedStrings;
+
     static {
         localizedStrings = ResourceBundle.getBundle( "localization/HeliumBalloonModule" );
     }
@@ -28,14 +30,15 @@ public class HeliumBalloonModule extends IdealGasModule {
 //    private HollowSphereControlPanel hsaControlPanel;
 
     public HeliumBalloonModule( AbstractClock clock ) {
-        super( clock, localizedStrings.getString( "Helium_Balloon" ));
+        super( clock, localizedStrings.getString( "Helium_Balloon" ) );
 
         double xOrigin = 200;
         double yOrigin = 250;
         double xDiag = 434;
         double yDiag = 397;
 
-//        Box2D box = application.getIdealGasSystem().getBox();
+        // Add collision experts to the model
+        getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert( getIdealGasModel(), clock.getDt() ) );
 
         balloon = new Balloon( new Point2D.Double( 300, 350 ),
                                new Vector2D.Double( 0, 0 ),

@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.model.*;
@@ -18,6 +19,7 @@ import java.util.ResourceBundle;
 public class HotAirBalloonModule extends IdealGasModule {
 
     private static ResourceBundle localizedStrings;
+
     static {
         localizedStrings = ResourceBundle.getBundle( "localization/HotAirBalloonModule" );
     }
@@ -28,6 +30,9 @@ public class HotAirBalloonModule extends IdealGasModule {
 
     public HotAirBalloonModule( AbstractClock clock ) {
         super( clock, localizedStrings.getString( "Title" ) );
+
+        // Add collision experts to the model
+        getIdealGasModel().addCollisionExpert( new SphereHotAirBalloonExpert( getIdealGasModel(), clock.getDt() ) );
 
         // Set the size of the box
         Box2D box = getIdealGasModel().getBox();
