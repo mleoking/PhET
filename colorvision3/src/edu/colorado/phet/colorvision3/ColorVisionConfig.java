@@ -1,4 +1,4 @@
-/* ColorVisionConfig, Copyright 2004 University of Colorado */
+/* ColorVisionConfig, Copyright 2004 University of Colorado PhET */
 
 package edu.colorado.phet.colorvision3;
 

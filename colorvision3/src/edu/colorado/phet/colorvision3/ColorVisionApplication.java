@@ -1,4 +1,4 @@
-/* ColorVisionApplication.java, Copyright 2004 University of Colorado */
+/* ColorVisionApplication.java, Copyright 2004 University of Colorado PhET */
 
 package edu.colorado.phet.colorvision3;
 
@@ -33,18 +33,26 @@ public class ColorVisionApplication extends PhetApplication
 	 */
 	public static void main(String[] args)
 	{
-            String applicationLocale = System.getProperty( "javaws.locale" );
-            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                Locale.setDefault( new Locale( applicationLocale ) );
-            }
-            String argsKey = "user.language=";
-            if( args.length > 0 && args[0].startsWith( argsKey )) {
-                String locale = args[0].substring( argsKey.length(), args[0].length() );
-                Locale.setDefault( new Locale( locale ));
-            }
-
 	  // Initialize localization.
-	  SimStrings.setStrings( ColorVisionConfig.LOCALIZATION_BUNDLE_BASENAME );
+	  {
+	    // Get the default locale from property javaws.locale.
+	    String applicationLocale = System.getProperty( "javaws.locale" );
+	    if ( applicationLocale != null && !applicationLocale.equals( "" ) )
+	    {
+	      Locale.setDefault( new Locale( applicationLocale ) );
+	    }
+	    
+	    // Override default locale using "user.language=" command line argument.
+	    String argsKey = "user.language=";
+	    if ( args.length > 0 && args[0].startsWith( argsKey ) )
+	    {
+	      String locale = args[0].substring( argsKey.length(), args[0].length() );
+	      Locale.setDefault( new Locale( locale ) );
+	    }
+	    
+	    // Initialize simulation strings using resource bundle for the locale.
+	    SimStrings.setStrings( ColorVisionConfig.LOCALIZATION_BUNDLE_BASENAME );
+	  }
 	    
 	  // Get stuff needed to initialize the application model.
 		String title = SimStrings.get( "ColorVisionApplication.title" );
