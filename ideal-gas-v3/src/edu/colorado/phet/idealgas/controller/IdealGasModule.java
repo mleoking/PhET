@@ -67,39 +67,6 @@ public class IdealGasModule extends Module {
         return (IdealGasModel)getModel();
     }
 
-    public JDialog setMeasurementDlgVisible( boolean isVisible ) {
-        if( measurementDlg == null ) {
-            measurementDlg = new MeasurementDialog( PhetApplication.instance().getApplicationView().getPhetFrame(), this );
-            JFrame frame = PhetApplication.instance().getApplicationView().getPhetFrame();
-            measurementDlg.setLocationRelativeTo( frame );
-            measurementDlg.setLocation( (int)( frame.getLocation().getX() + frame.getWidth() * 3 / 5 ),
-                                        (int)frame.getLocation().getY() + 20 );
-        }
-        measurementDlg.setVisible( isVisible );
-        if( isVisible ) {
-            visibleInstruments.add( measurementDlg );
-        }
-        else {
-            visibleInstruments.remove( measurementDlg );
-        }
-        return measurementDlg;
-    }
-
-    public JDialog setSpeciesMonitorDlgEnabled( boolean isEnabled ) {
-        if( speciesMonitorDlg == null ) {
-            speciesMonitorDlg = new SpeciesMonitorDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
-                                                          idealGasModel );
-        }
-        speciesMonitorDlg.setVisible( isEnabled );
-        if( isEnabled ) {
-            visibleInstruments.add( speciesMonitorDlg );
-        }
-        else {
-            visibleInstruments.remove( speciesMonitorDlg );
-        }
-        return speciesMonitorDlg;
-    }
-
     public IdealGasModule( AbstractClock clock, String name ) {
         super( name );
 
@@ -219,6 +186,39 @@ public class IdealGasModule extends Module {
         addHelpItem( helpItem3 );
     }
 
+    public JDialog setMeasurementDlgVisible( boolean isVisible ) {
+        if( measurementDlg == null ) {
+            measurementDlg = new MeasurementDialog( PhetApplication.instance().getApplicationView().getPhetFrame(), this );
+            JFrame frame = PhetApplication.instance().getApplicationView().getPhetFrame();
+            measurementDlg.setLocationRelativeTo( frame );
+            measurementDlg.setLocation( (int)( frame.getLocation().getX() + frame.getWidth() * 3 / 5 ),
+                                        (int)frame.getLocation().getY() + 20 );
+        }
+        measurementDlg.setVisible( isVisible );
+        if( isVisible ) {
+            visibleInstruments.add( measurementDlg );
+        }
+        else {
+            visibleInstruments.remove( measurementDlg );
+        }
+        return measurementDlg;
+    }
+
+    public JDialog setSpeciesMonitorDlgEnabled( boolean isEnabled ) {
+        if( speciesMonitorDlg == null ) {
+            speciesMonitorDlg = new SpeciesMonitorDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
+                                                          idealGasModel );
+        }
+        speciesMonitorDlg.setVisible( isEnabled );
+        if( isEnabled ) {
+            visibleInstruments.add( speciesMonitorDlg );
+        }
+        else {
+            visibleInstruments.remove( speciesMonitorDlg );
+        }
+        return speciesMonitorDlg;
+    }
+
     public void setCurrentSpecies( Class moleculeClass ) {
         pump.setCurrentGasSpecies( moleculeClass );
     }
@@ -284,14 +284,19 @@ public class IdealGasModule extends Module {
     }
 
     public void setRulerEnabed( boolean rulerEnabled ) {
-        if( rulerEnabled ) {
+        if( rulerGraphic == null ) {
             rulerGraphic = new RulerGraphic( getApparatusPanel() );
+        }
+        if( rulerEnabled ) {
             getApparatusPanel().addGraphic( rulerGraphic, Integer.MAX_VALUE );
         }
         else {
             getApparatusPanel().removeGraphic( rulerGraphic );
         }
-        getApparatusPanel().repaint();
+        getApparatusPanel().revalidate();
+        getApparatusPanel().paintImmediately(0, 0,
+                (int) getApparatusPanel().getBounds().getWidth(),
+                (int) getApparatusPanel().getBounds().getHeight());
     }
 
     public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
