@@ -12,7 +12,6 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.controller.RemoveModelElementCmd;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Rectangle2D;
@@ -87,14 +86,6 @@ public class IdealGasModel extends BaseModel {
         return constantVolume;
     }
 
-    //    public void setCurrentGasSpecies( Class currentGasSpecies ) {
-    //        this.currentGasSpecies = currentGasSpecies;
-    //    }
-    //
-    //    public Class getCurrentGasSpecies() {
-    //        return currentGasSpecies;
-    //    }
-    //
     public void setConstantVolume( boolean constantVolume ) {
         this.constantVolume = constantVolume;
     }
@@ -293,16 +284,15 @@ public class IdealGasModel extends BaseModel {
             if( body instanceof GasMolecule ) {
                 //            if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
-                if( getBox().isInOpening( gasMolecule )
-                    && gasMolecule.getPosition().getY() < getBox().getMinY() + s_escapeOffset ) {
-                    RemoveModelElementCmd removeCmdCmd = new RemoveModelElementCmd( this, gasMolecule );
-                    removeList.add( removeCmdCmd );
+                if( /* getBox().isInOpening( gasMolecule )
+                    &&*/ gasMolecule.getPosition().getY() < getBox().getMinY() + s_escapeOffset ) {
+                    removeList.add( gasMolecule );
                 }
             }
         }
         for( int i = 0; i < removeList.size(); i++ ) {
-            RemoveModelElementCmd removeCmdCmd = (RemoveModelElementCmd)removeList.get( i );
-            removeCmdCmd.doIt();
+            GasMolecule gasMolecule = (GasMolecule)removeList.get( i );
+            gasMolecule.removeYourselfFromSystem();
         }
         removeList.clear();
 
