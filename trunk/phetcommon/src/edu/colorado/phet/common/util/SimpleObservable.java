@@ -34,5 +34,13 @@ public class SimpleObservable {
     public int numObservers() {
         return observers.size();
     }
+
+    public String toString() {
+        return super.toString() + ", observers=" + observers;
+    }
+
+    public SimpleObserver[] getObservers() {
+        return (SimpleObserver[])observers.toArray( new SimpleObserver[0] );
+    }
 }
 

@@ -205,20 +205,7 @@ public class PhetSlider extends JPanel {
         textField.addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent e ) {
                 if( e.getKeyCode() == KeyEvent.VK_ENTER ) {
-                    String text = PhetSlider.this.textField.getText();
-                    try {
-                        double value = Double.parseDouble( text );
-                        if( value >= min && value <= max ) {
-                            //still legal.
-                            setValue( value );
-                        }
-                        else {
-                            //we could display a message that reminds the user to stay between the min and max values.
-                        }
-                    }
-                    catch( NumberFormatException nfe ) {
-                        return;
-                    }
+                    testCommit();
                 }
                 else if( e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
                     setValue( initialValue );
@@ -227,6 +214,19 @@ public class PhetSlider extends JPanel {
         } );
 
         return textField;
+    }
+
+    public boolean testCommit() {
+        try {
+            commitEdit();
+            return true;
+        }
+        catch( IllegalValueException ive ) {
+            JOptionPane.showMessageDialog( this, "Value out of range.\nMinimum= " + ive.getMin() + ", Maximum=" + ive.getMax() + "\nYou entered: " + ive.getValue(), "Illegal value.", JOptionPane.ERROR_MESSAGE );
+            double value = getValue();
+            textField.setText( formatter.format( value ) );
+            return false;
+        }
     }
 
     public void setRange( double min, double max ) {
@@ -242,6 +242,50 @@ public class PhetSlider extends JPanel {
         transform = new ModelViewTx1D( min, max, SLIDER_MIN, SLIDER_MAX );
         setValue( val );
 
+    }
+
+    public static class IllegalValueException extends Exception {
+        private double min;
+        private double max;
+        private double value;
+
+        public IllegalValueException( double min, double max, double value ) {
+            super( IllegalValueException.class.getName() + " min=" + min + ", max=" + max + " value=" + value );
+            this.min = min;
+            this.max = max;
+            this.value = value;
+        }
+
+        public double getMin() {
+            return min;
+        }
+
+        public double getMax() {
+            return max;
+        }
+
+        public double getValue() {
+            return value;
+        }
+
+    }
+
+    public void commitEdit() throws IllegalValueException {
+        String text = PhetSlider.this.textField.getText();
+        try {
+            double value = Double.parseDouble( text );
+            if( value >= min && value <= max ) {
+                //still legal.
+                setValue( value );
+            }
+            else {
+                //we could display a message that reminds the user to stay between the min and max values.
+                throw new IllegalValueException( min, max, value );
+            }
+        }
+        catch( NumberFormatException nfe ) {
+            return;
+        }
     }
 
     private class SliderKeyHandler implements KeyListener {

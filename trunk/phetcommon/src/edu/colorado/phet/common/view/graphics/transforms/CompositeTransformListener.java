@@ -32,11 +32,15 @@ public class CompositeTransformListener implements TransformListener {
         listeners.remove( tl );
     }
 
-    public int numTransformListeners( TransformListener tl ) {
+    public int numTransformListeners() {
         return listeners.size();
     }
 
     public void addTransformListener( TransformListener tl ) {
         listeners.add( tl );
+    }
+
+    public TransformListener[] getTransformListeners() {
+        return (TransformListener[])listeners.toArray( new TransformListener[0] );
     }
 }
