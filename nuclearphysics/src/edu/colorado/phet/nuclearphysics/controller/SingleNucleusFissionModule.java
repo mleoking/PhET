@@ -14,7 +14,6 @@ import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
-import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
 
 import java.awt.geom.Point2D;
 import java.util.List;
@@ -92,15 +91,13 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         double v2 = daughter2.getVelocity().getLength();
         daughter2.setVelocity( (float)( v2 * Math.cos( theta + Math.PI ) ), (float)( v2 * Math.sin( theta + Math.PI ) ) );
 
-        PotentialProfilePanel potentialProfilePanel = this.getPotentialProfilePanel();
-
         // Remove the neutron and old nucleus
         getModel().removeModelElement( products.getInstigatingNeutron() );
         getModel().removeModelElement( products.getParent() );
         List graphics = (List)NucleusGraphic.getGraphicForNucleus( products.getParent() );
         for( int i = 0; i < graphics.size(); i++ ) {
             NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
-            potentialProfilePanel.removeGraphic( ng );
+            getPotentialProfilePanel().removeGraphic( ng );
             this.getPhysicalPanel().removeGraphic( ng );
         }
         NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( products.getInstigatingNeutron() );

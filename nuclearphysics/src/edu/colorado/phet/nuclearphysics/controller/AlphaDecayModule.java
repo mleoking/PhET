@@ -50,6 +50,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     }
 
     public void start() {
+
+//        PhetApplication.instance().setPaused( false );
+        
         // todo: combine these calls
         Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), getModel() );
         setNucleus( nucleus );
