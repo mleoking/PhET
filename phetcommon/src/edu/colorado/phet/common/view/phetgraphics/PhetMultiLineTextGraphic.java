@@ -1,12 +1,9 @@
 /** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -15,19 +12,10 @@ import java.util.Arrays;
  * Time: 10:45:57 PM
  * Copyright (c) Jun 24, 2004 by University of Colorado, PhET
  */
-public class PhetMultiLineTextGraphic extends PhetGraphic {
-    private ArrayList textGraphics = new ArrayList();
+public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
     private LineCreator lineCreator;
     private String[] text;
-    private int x;
-    private int y;
     private FontMetrics fontMetrics;
-
-//    public static interface IPhetTextGraphic {
-//        void setLocation( int x, int y );
-//
-//        void setVisible( boolean visible );
-//    }
 
     public PhetMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color color ) {
         this( component, text, font, x, y, new Basic( component, font, color ) );
@@ -44,70 +32,21 @@ public class PhetMultiLineTextGraphic extends PhetGraphic {
     public PhetMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, LineCreator lineCreator ) {
         super( component );
         this.text = text;
-        this.x = x;
-        this.y = y;
         this.lineCreator = lineCreator;
         this.fontMetrics = component.getFontMetrics( font );
         init();
+        setLocation( x, y );
     }
 
     private void init() {
-        int currentY = y;
-        boolean visible = super.isVisible();
+        clear();
+        int currentY = 0;
         for( int i = 0; i < text.length; i++ ) {
             String s = text[i];
-            PhetGraphic g = lineCreator.createLine( s, x, currentY );
-            g.setVisible( visible );
-            textGraphics.add( g );
+            PhetGraphic g = lineCreator.createLine( s, 0, currentY );
+            addGraphic( g );
             currentY += fontMetrics.getDescent() + fontMetrics.getLeading() + fontMetrics.getAscent();
         }
-    }
-
-    public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-        for( int i = 0; i < textGraphics.size(); i++ ) {
-            PhetGraphic iPrimaryTextGraphic = (PhetGraphic)textGraphics.get( i );
-            iPrimaryTextGraphic.setVisible( visible );
-        }
-    }
-
-    public void setPosition( int x, int y ) {
-        this.x = x;
-        this.y = y;
-        for( int i = 0; i < textGraphics.size(); i++ ) {
-            PhetGraphic iTextGraphic = (PhetGraphic)textGraphics.get( i );
-            iTextGraphic.setLocation( x, y );
-            y += fontMetrics.getDescent() + fontMetrics.getLeading() + fontMetrics.getAscent();
-        }
-        setBoundsDirty();
-    }
-
-    public void paint( Graphics2D g ) {
-        for( int i = 0; i < textGraphics.size(); i++ ) {
-            Graphic itg = (Graphic)textGraphics.get( i );
-            itg.paint( g );
-        }
-    }
-
-    protected Rectangle determineBounds() {
-        if( text.length == 0 ) {
-            return null;
-        }
-        Rectangle2D r = ( (PhetGraphic)textGraphics.get( 0 ) ).getBounds();
-        for( int i = 1; i < textGraphics.size(); i++ ) {
-            PhetGraphic iTextGraphic = (PhetGraphic)textGraphics.get( i );
-            r = r.createUnion( iTextGraphic.getBounds() );
-        }
-        Rectangle intRect = new Rectangle( (int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight() );
-        return intRect;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public Point getLeftCenter() {
@@ -118,16 +57,11 @@ public class PhetMultiLineTextGraphic extends PhetGraphic {
         return RectangleUtils.getRightCenter( getBounds() );
     }
 
-    public Point getPosition() {
-        return new Point( x, y );
-    }
-
     public void setText( String[] text ) {
         if( Arrays.asList( this.text ).equals( Arrays.asList( text ) ) ) {
             return;
         }
         this.text = text;
-        textGraphics.clear();
         init();
         setBoundsDirty();
         repaint();
