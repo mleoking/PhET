@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 
 /**
- * VerticalSpacerPanel
+ * VerticalSpacePanel is used to put vertical space in the control panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
