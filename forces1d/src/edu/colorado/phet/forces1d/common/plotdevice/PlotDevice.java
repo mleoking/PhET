@@ -417,6 +417,7 @@ public class PlotDevice extends GraphicLayerSet {
     public void reset() {
         chartComponent.reset();
         horizontalCursor.setMaxX( Double.POSITIVE_INFINITY );//so it can't be dragged past, hopefully.
+        horizontalCursor.setVisible( false );
         setTextValue( 0 );
         verticalChartSlider.setValue( 0 );
     }
