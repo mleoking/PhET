@@ -169,4 +169,8 @@ public class ApparatusPanel extends JPanel {
         return graphic;
     }
 
+    public void setGraphic( GraphicLayerSet graphic ) {
+        this.graphic = graphic;
+    }
+
 }
