@@ -2,8 +2,11 @@
 
 package edu.colorado.phet.colorvision3.control;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.colorvision3.ColorVisionConfig;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.PhetControlPanel;
 
@@ -27,8 +30,11 @@ public class RgbBulbsControlPanel extends PhetControlPanel
     super( module );
     
     // WORKAROUND: PhetControlPanel doesn't display anything unless we give it a dummy control pane.
-    JPanel panel = new JPanel();
-    this.setControlPane( panel );
+    JPanel fillerPanel = new JPanel();
+    fillerPanel.setLayout( new BoxLayout(fillerPanel, BoxLayout.X_AXIS) );
+    fillerPanel.add( Box.createHorizontalStrut(ColorVisionConfig.CONTROL_PANEL_MIN_WIDTH) );
+    
+    this.setControlPane( fillerPanel );
   }
 
 }

@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -16,6 +17,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.colorvision3.ColorVisionConfig;
 import edu.colorado.phet.colorvision3.SingleBulbModule;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -70,6 +72,11 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     
     _listenerList = new EventListenerList();
     
+    // Filler, to constrain panel width.
+    JPanel fillerPanel = new JPanel();
+    fillerPanel.setLayout( new BoxLayout(fillerPanel, BoxLayout.X_AXIS) );
+    fillerPanel.add( Box.createHorizontalStrut(ColorVisionConfig.CONTROL_PANEL_MIN_WIDTH) );
+    
     // Bulb Control panel
     JPanel bulbPanel = new JPanel();
     {
@@ -117,12 +124,18 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
       filterPanel.add( _filterCheckBox );
     }
     
-    // Layout so that they fill horizontal space.
-    JPanel panel = new JPanel();
-    panel.setLayout( new BorderLayout() );
-    panel.add( bulbPanel, BorderLayout.NORTH );
-    panel.add( beamPanel, BorderLayout.CENTER );
-    panel.add( filterPanel, BorderLayout.SOUTH );
+    // Layout so that control groups fill horizontal space.
+    JPanel panel1 = new JPanel();
+    panel1.setLayout( new BorderLayout() );
+    panel1.add( bulbPanel, BorderLayout.NORTH );
+    panel1.add( beamPanel, BorderLayout.CENTER );
+    panel1.add( filterPanel, BorderLayout.SOUTH );
+    
+    // Add filler so that control panel retains a minimum size.
+    JPanel panel2 = new JPanel();
+    panel2.setLayout( new BorderLayout() );
+    panel2.add( fillerPanel, BorderLayout.NORTH );
+    panel2.add( panel1, BorderLayout.CENTER );
     
     // Add a listener to the radio buttons.
     _whiteRadioButton.addActionListener( this );
@@ -136,7 +149,7 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     _solidRadioButton.setSelected( true );
     _filterCheckBox.setSelected( true );
     
-    super.setControlPane( panel );
+    super.setControlPane( panel2 );
   }
 
 	//----------------------------------------------------------------------------
