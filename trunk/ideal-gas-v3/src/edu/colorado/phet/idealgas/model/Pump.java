@@ -122,7 +122,8 @@ public class Pump extends SimpleObservable {
                 throw new RuntimeException( "No gas species set in application" );
             }
 
-            double pe = model.getBodyEnergy( newMolecule );
+            double pe = model.getPotentialEnergy( newMolecule );
+//            double pe = model.getBodyEnergy( newMolecule );
             //        double pe = physicalSystem.getBodyEnergy( newMolecule );
             double vSq = 2 * ( this.initialEnergy - pe ) / newMolecule.getMass();
             if( vSq <= 0 ) {

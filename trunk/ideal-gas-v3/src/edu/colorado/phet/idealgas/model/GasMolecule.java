@@ -19,9 +19,8 @@ import java.util.List;
  */
 public class GasMolecule extends SphericalBody {
 
-    public void stepInTime( double dt ) {
-//        System.out.println( "v = " + this.getVelocity() );
-        super.stepInTime( dt );
+    public Vector2D getVelocity() {
+        return super.getVelocity();
     }
 
     // List of GasMolecule.Observers

@@ -1,11 +1,7 @@
 - Mannequin needs to be lower on the screen.
 - Box leaves screen turds when you move the wall.
 
-- When molecules are pumped in with no interactions, they have different energies
-
 - Sam, clockStateListeners
-
-- gravity only seems to act on a particle when gravity changes
 
 - Fix up collisions with sphere. Can we get rid of constraints?
 
