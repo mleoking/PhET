@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.model.atom;
 import edu.colorado.phet.collision.SolidSphere;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
@@ -32,26 +33,6 @@ public class Atom extends SolidSphere {
     static private int s_radius = 15;
     static private int s_mass = 1000;
 
-    static public void setHighEnergySpontaneousEmissionTime( double time ) {
-        HighEnergyState.instance().setMeanLifetime( time );
-    }
-
-    static public void setMiddleEnergySpontaneousEmissionTime( double time ) {
-        MiddleEnergyState.instance().setMeanLifetime( time );
-    }
-
-    static public int getNumGroundStateAtoms() {
-        return GroundState.instance().getNumAtomsInState();
-    }
-
-    static public int getNumMiddleStateAtoms() {
-        return MiddleEnergyState.instance().getNumAtomsInState();
-    }
-
-    static public int getNumHighStateAtoms() {
-        return HighEnergyState.instance().getNumAtomsInState();
-    }
-
     public static int getS_radius() {
         return s_radius;
     }
@@ -64,12 +45,12 @@ public class Atom extends SolidSphere {
     private AtomicState currState;
     private AtomicState[] states;
 
-    public Atom( BaseModel model, int numStates ) {
+    public Atom( LaserModel model, int numStates ) {
         super( s_radius );
         this.model = model;
         setMass( s_mass );
-        setCurrState( GroundState.instance() );
-        setNumEnergyLevels( numStates );
+        setCurrState( model.getGroundState() );
+        setNumEnergyLevels( numStates, model );
     }
 
     public void collideWithPhoton( Photon photon ) {
@@ -90,7 +71,6 @@ public class Atom extends SolidSphere {
      *
      * @param newState
      */
-
     public void setCurrState( final AtomicState newState ) {
         final AtomicState oldState = this.currState;
 
@@ -145,13 +125,26 @@ public class Atom extends SolidSphere {
      *
      * @param numEnergyLevels
      */
-    public void setNumEnergyLevels( int numEnergyLevels ) {
+    public void setNumEnergyLevels( int numEnergyLevels, LaserModel model ) {
         states = new AtomicState[numEnergyLevels];
-        states[0] = GroundState.instance();
-        states[1] = MiddleEnergyState.instance();
+        states[0] = model.getGroundState();
+        states[1] = model.getMiddleEnergyState();
         if( numEnergyLevels == 3 ) {
-            states[2] = HighEnergyState.instance();
+            states[2] = model.getHighEnergyState();
         }
+    }
+
+    public AtomicState getLowestEnergyState() {
+        AtomicState lowestState = null;
+        double lowestEnergy = Double.MAX_VALUE;
+        for( int i = 0; i < states.length; i++ ) {
+            AtomicState state = states[i];
+            if( state.getEnergyLevel() < lowestEnergy ) {
+                lowestEnergy = state.getEnergyLevel();
+                lowestState = state;
+            }
+        }
+        return lowestState;
     }
 
 

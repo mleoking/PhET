@@ -141,7 +141,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         int numAtoms = 30;
         for( int i = 0; i < numAtoms; i++ ) {
             int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
-            atom = new Atom( getModel(), numEnergyLevels );
+            atom = new Atom( getLaserModel(), numEnergyLevels );
             boolean placed = false;
 
             // Place atoms so they don't overlap
@@ -213,7 +213,7 @@ public class MultipleAtomModule extends BaseLaserModule {
             int numEnergyLevels = threeEnergyLevels ? 3 : 2;
             for( int i = 0; i < atoms.size(); i++ ) {
                 Atom atom = (Atom)atoms.get( i );
-                atom.setNumEnergyLevels( numEnergyLevels );
+                atom.setNumEnergyLevels( numEnergyLevels, getLaserModel() );
             }
         }
     }

@@ -16,7 +16,6 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
@@ -81,7 +80,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         double groundStateRingThickness = 5;
         // used to scale the thickness of the ring so it changes size a reasonable amount through the visible range
         double ringThicknessExponent = 0.15;
-        double energyRatio = state.getEnergyLevel() / GroundState.instance().getEnergyLevel();
+        double energyRatio = state.getEnergyLevel() / AtomicState.minEnergy;
 
         double energyRepRad = Math.pow( energyRatio, ringThicknessExponent )
                               * ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;

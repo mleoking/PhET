@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.lasers.model.atom;
 
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.lasers.model.photon.Photon;
-
-import java.awt.geom.Point2D;
 
 /**
  * Class: MiddleEnergyState
@@ -26,11 +23,11 @@ public class HighEnergyState extends AtomicState {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Class
     //
-    protected static HighEnergyState instance = new HighEnergyState();
+//    protected static HighEnergyState instance = new HighEnergyState();
 
-    public static HighEnergyState instance() {
-        return instance;
-    }
+//    public static HighEnergyState instance() {
+//        return instance;
+//    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Instance
@@ -42,11 +39,15 @@ public class HighEnergyState extends AtomicState {
      */
     private AtomicState nextHigherState = AtomicState.MaxEnergyState.instance();
 
-    private HighEnergyState() {
+    public HighEnergyState() {
+//    private HighEnergyState() {
         setEnergyLevel( Photon.wavelengthToEnergy( Photon.BLUE ) );
-        determineEmittedPhotonWavelength();
+//        determineEmittedPhotonWavelength();
     }
 
+
+
+/*
     public void collideWithPhoton( Atom atom, Photon photon ) {
 
         // If the photon has the same energy as the difference
@@ -80,16 +81,19 @@ public class HighEnergyState extends AtomicState {
 //            atom.setCurrState( HighEnergyState.instance() );
 //        }
     }
+*/
 
-    public AtomicState getNextLowerEnergyState() {
-        return MiddleEnergyState.instance();
-    }
 
-    public AtomicState getNextHigherEnergyState() {
-        return nextHigherState;
-    }
 
-    public void setNextHigherEnergyState( AtomicState state ) {
-        nextHigherState = state;
-    }
+//    public AtomicState getNextLowerEnergyState() {
+//        return MiddleEnergyState.instance();
+//    }
+
+//    public AtomicState getNextHigherEnergyState() {
+//        return nextHigherState;
+//    }
+
+//    public void setNextHigherEnergyState( AtomicState state ) {
+//        nextHigherState = state;
+//    }
 }

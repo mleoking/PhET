@@ -1,4 +1,4 @@
-/* Copyright 2004, University of Colorado */
+/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -8,6 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
+
 package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.Module;
@@ -23,7 +24,6 @@ import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.HighEnergyState;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -38,15 +38,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Class: BaseLaserModule
- * Package: edu.colorado.phet.lasers.view
- * Author: Another Guy
- * Date: Mar 21, 2003
- * Latest Change:
- * $Author$
- * $Date$
- * $Name$
- * $Revision$
+ * 
  */
 public class BaseLaserModule extends Module {
 
@@ -81,12 +73,8 @@ public class BaseLaserModule extends Module {
     protected boolean threeEnergyLevels;
     private boolean mirrorsEnabled;
 
-    // Numbers of atoms in each state
-    private int numGroundStateAtoms, numMiddleStateAtoms, numHighStateAtoms;
-
     private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
     private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_DEFAULT_LIFETIME;
-//    private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME;
 
     /**
      *
@@ -133,8 +121,8 @@ public class BaseLaserModule extends Module {
         if( energyLevelsDialog == null ) {
             createEnergyLevelsDialog( getClock(), appFrame );
         }
-        MiddleEnergyState.instance().setMeanLifetime( middleStateMeanLifetime );
-        HighEnergyState.instance().setMeanLifetime( highStateMeanLifetime );
+        getLaserModel().getMiddleEnergyState().setMeanLifetime( middleStateMeanLifetime );
+        getLaserModel().getHighEnergyState().setMeanLifetime( highStateMeanLifetime );
     }
 
     /**
@@ -142,8 +130,8 @@ public class BaseLaserModule extends Module {
      */
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
-        middleStateMeanLifetime = MiddleEnergyState.instance().getMeanLifeTime();
-        highStateMeanLifetime = HighEnergyState.instance().getMeanLifeTime();
+        middleStateMeanLifetime = getLaserModel().getMiddleEnergyState().getMeanLifeTime();
+        highStateMeanLifetime = getLaserModel().getHighEnergyState().getMeanLifeTime();
     }
 
     //----------------------------------------------------------------
@@ -250,7 +238,7 @@ public class BaseLaserModule extends Module {
                                                 (int)cavity.getBounds().getWidth(), (int)cavity.getBounds().getHeight() );
         LaserCurtainGraphic internalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
                                                                                    cavityBounds, laserModel,
-                                                                                   MiddleEnergyState.instance(),
+                                                                                   getLaserModel().getMiddleEnergyState(),
                                                                                    internalLaserCurtainOpacity );
         laserModel.addLaserListener( internalLaserCurtainGraphic );
         addGraphic( internalLaserCurtainGraphic, LaserConfig.LEFT_MIRROR_LAYER - 1 );
@@ -261,7 +249,7 @@ public class BaseLaserModule extends Module {
                                                   (int)cavity.getBounds().getHeight() );
         final LaserCurtainGraphic externalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
                                                                                          externalBounds, laserModel,
-                                                                                         MiddleEnergyState.instance(),
+                                                                                         getLaserModel().getMiddleEnergyState(),
                                                                                          externalLaserCurtainOpacity );
         laserModel.addLaserListener( externalLaserCurtainGraphic );
         addGraphic( externalLaserCurtainGraphic, LaserConfig.RIGHT_MIRROR_LAYER - 1 );
@@ -296,7 +284,7 @@ public class BaseLaserModule extends Module {
             case PHOTON_WAVE:
                 if( waveGraphic == null ) {
                     waveGraphic = new LaserWaveGraphic( getApparatusPanel(), getCavity(),
-                                                        rightMirror, getLaserModel(), MiddleEnergyState.instance() );
+                                                        rightMirror, getLaserModel(), getLaserModel().getMiddleEnergyState() );
                 }
                 addGraphic( waveGraphic.getInternalStandingWave(), LaserConfig.LEFT_MIRROR_LAYER + 1 );
                 addGraphic( waveGraphic.getExternalStandingWave(), LaserConfig.LEFT_MIRROR_LAYER - 1 );
@@ -329,18 +317,6 @@ public class BaseLaserModule extends Module {
         return numPhotons;
     }
 
-//    public int getNumGroundStateAtoms() {
-//        return numGroundStateAtoms;
-//    }
-//
-//    public int getNumMiddleStateAtoms() {
-//        return numMiddleStateAtoms;
-//    }
-//
-//    public int getNumHighStateAtoms() {
-//        return numHighStateAtoms;
-//    }
-//
     protected Point2D getLaserOrigin() {
         return laserOrigin;
     }
@@ -390,12 +366,12 @@ public class BaseLaserModule extends Module {
         if( threeEnergyLevels ) {
             getEnergyLevelsMonitorPanel().setNumLevels( 3 );
             getLaserModel().getPumpingBeam().setEnabled( true );
-            MiddleEnergyState.instance().setNextHigherEnergyState( HighEnergyState.instance() );
+            getLaserModel().getMiddleEnergyState().setNextHigherEnergyState( getLaserModel().getHighEnergyState() );
         }
         else {
             getEnergyLevelsMonitorPanel().setNumLevels( 2 );
             getLaserModel().getPumpingBeam().setEnabled( false );
-            MiddleEnergyState.instance().setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
+            getLaserModel().getMiddleEnergyState().setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
         }
     }
 
@@ -442,17 +418,6 @@ public class BaseLaserModule extends Module {
         // emits a photon, and another to deal with an atom leaving the system
         atom.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         atom.addLeftSystemListener( new AtomRemovalListener( atomGraphic ) );
-//        atom.addChangeListener( new AtomChangeListener() );
-//
-//        if( atom.getCurrState() instanceof GroundState ) {
-//            numGroundStateAtoms++;
-//        }
-//        if( atom.getCurrState() instanceof MiddleEnergyState ) {
-//            numMiddleStateAtoms++;
-//        }
-//        if( atom.getCurrState() instanceof HighEnergyState ) {
-//            numHighStateAtoms++;
-//        }
     }
 
     protected void removeAtom( Atom atom ) {
@@ -545,34 +510,6 @@ public class BaseLaserModule extends Module {
             getApparatusPanel().removeGraphic( atomGraphic );
         }
     }
-
-//    /**
-//     * Keeps track of number of atoms in each state
-//     */
-//    public class AtomChangeListener implements Atom.ChangeListener {
-//        public void stateChanged( Atom.ChangeEvent event ) {
-//            AtomicState prevState = event.getPrevState();
-//            AtomicState currState = event.getCurrState();
-//            if( prevState instanceof GroundState ) {
-//                numGroundStateAtoms--;
-//            }
-//            if( prevState instanceof MiddleEnergyState ) {
-//                numMiddleStateAtoms--;
-//            }
-//            if( prevState instanceof HighEnergyState ) {
-//                numHighStateAtoms--;
-//            }
-//            if( currState instanceof GroundState ) {
-//                numGroundStateAtoms++;
-//            }
-//            if( currState instanceof MiddleEnergyState ) {
-//                numMiddleStateAtoms++;
-//            }
-//            if( currState instanceof HighEnergyState ) {
-//                numHighStateAtoms++;
-//            }
-//        }
-//    }
 
     /**
      * Handles cleanup when a photon leaves the system. Takes care of removing the photon's
