@@ -1,6 +1,6 @@
+- Enable photons emitted on high-to-mid state transitions
 - Track states with a StateChangeListener, or Listener interface in Atom.
 - add CollimatedBeamGraphic, or CollimatedBeamView class
-- There are two versions of ThreeEnergyLevelMonitorPanel
 - Change interpolation method that creates middle and high energy atom graphics.
 - spontaneousEmmisionHalfLife and SpontaneousEmissionTime methods are confusing
 - Line 34 in GroundState has a call that has terrible style
