@@ -150,8 +150,29 @@ public class TestPhetGraphics extends JFrame {
         } );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
+        final PhetShapeGraphic graphic = new PhetShapeGraphic( panel, new Rectangle( panel.getWidth(), panel.getHeight() ), Color.white );
+        panel.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                graphic.setShape( new Rectangle( panel.getWidth(), panel.getHeight() ) );
+            }
+        } );
+
+        graphic.addMouseInputListener( new MouseInputAdapter() {
+            // implements java.awt.event.MouseMotionListener
+            public void mouseDragged( MouseEvent e ) {
+                Point newDragPt = e.getPoint();
+
+                int dx = lastDragPt == null ? 0 : newDragPt.x - lastDragPt.x;
+                double dd = 0.01;
+                double ds = dx > 0 ? 1 + dd : 1 - dd;
+                panel.getGraphic().scale( ds );
+                lastDragPt = newDragPt;
+            }
+        } );
+        panel.addGraphic( graphic, Double.NEGATIVE_INFINITY );
     }
 
+    static Point lastDragPt = null;
 
     public static void main( String[] args ) {
         new TestPhetGraphics().start();
