@@ -54,9 +54,10 @@ public class MultipleAtomModule extends BaseLaserModule {
     public MultipleAtomModule( PhetFrame frame, AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleAtomModule" ), frame, clock );
 
+        setThreeEnergyLevels( true );
+
         // Set the control panel
         setControlPanel( new UniversalAtomControlPanel( this ) );
-        setThreeEnergyLevels( true );
 //        setControlPanel(new MultipleAtomControlPanel(this));
 
         // Set the size of the cavity
