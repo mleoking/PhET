@@ -209,7 +209,7 @@ public class Filter extends SimpleObservable
    * @param wavelength the wavelength
    * @param transmissionPeak the transmission peak
    * @param transmissionWidth the transmission width
-   * @return
+   * @return the percentage (0-100)
    */
   private static double calculatePercentPassed( 
       double wavelength, double transmissionPeak, double transmissionWidth )

@@ -88,7 +88,6 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
   /**
    * Constructor for an unfiltered beam.
    * 
-   * @param parent the parent Component
    * @param spotlight the spotlight model
    */
   public PhotonBeam( Spotlight spotlight )
@@ -103,7 +102,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
   /**
    * Gets the collection of photons.
    * 
-   * @param an ArrayList of Photon instances
+   * @return an ArrayList of Photon instances
    */
   public final ArrayList getPhotons()
   {
@@ -324,7 +323,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
    * to the provided location.
    * 
    * @param x the current X coordinate
-   * @return
+   * @return the new X coordinate
    */
   private double genX( double x )
   {

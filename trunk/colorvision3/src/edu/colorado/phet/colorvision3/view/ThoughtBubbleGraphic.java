@@ -52,7 +52,7 @@ public class ThoughtBubbleGraphic extends PhetGraphic
   /**
    * Sole constructor.
    * 
-   * @param component the parent component
+   * @param parent the parent Component
    */
   public ThoughtBubbleGraphic( Component parent )
   {

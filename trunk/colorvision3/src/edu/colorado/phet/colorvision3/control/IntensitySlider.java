@@ -48,10 +48,9 @@ public class IntensitySlider extends JPanel implements ChangeListener
   /**
    * Sole constructor.
    * 
-   * @param spotlightModel the associated spotlight model
+   * @param color the color whose intensity is being controlled
    * @param orientation orientation of the control (JSlider.HORIZONTAL or JSlider.VERTICAL)
    * @param size the dimensions of the control
-   * @param color the color whose intensity is being controlled
    */
   public IntensitySlider( Color color, int orientation, Dimension size )
   {  
