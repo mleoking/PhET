@@ -30,5 +30,9 @@ public class SimpleObservable {
     public void removeAllObservers() {
         observers.clear();
     }
+
+    public int numObservers() {
+        return observers.size();
+    }
 }
 

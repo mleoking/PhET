@@ -22,8 +22,8 @@
     <property file="local.build.properties"/>
     <property file="build.time.stamp" location="${data}"/>
 
-    <property name="build.number.txt" value="${data}/build.number"/>
-    <property name="timestamp.name" value="${data}/build.time.stamp"/>
+    <property name="build.number.txt" value="${data}/${distname}.build.number"/>
+    <property name="timestamp.name" value="${data}/${distname}.build.time.stamp"/>
 
     <description>
         Build File.
@@ -104,7 +104,6 @@
 
     <target name="Generate Build Info">
         <buildnumber file="${build.number.txt}"/>
-        <!--        <copy file="build.number" tofile="${build.number.txt}"/> -->
         <tstamp>
             <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
         </tstamp>

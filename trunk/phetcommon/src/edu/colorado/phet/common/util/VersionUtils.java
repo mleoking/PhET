@@ -1,11 +1,12 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common.util;
 
-import edu.colorado.phet.common.view.PhetFrame;
-
-import javax.swing.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -17,8 +18,10 @@ public class VersionUtils {
     public static class VersionInfo {
         int buildNumber;
         String buildTime;
+        String name;
 
-        public VersionInfo( int buildNumber, String buildTime ) {
+        public VersionInfo( String name, int buildNumber, String buildTime ) {
+            this.name = name;
             this.buildNumber = buildNumber;
             this.buildTime = buildTime;
         }
@@ -31,8 +34,11 @@ public class VersionUtils {
             return buildTime;
         }
 
+//        public String toString() {
+//            return "Name = " + name + ", Build Number = " + buildNumber + ", Build Time = " + buildTime;
+//        }
         public String toString() {
-            return "Build Number = " + buildNumber + ", Build Time = " + buildTime;
+            return name + " #" + buildNumber + ": " + buildTime;
         }
     }
 
@@ -48,47 +54,64 @@ public class VersionUtils {
     </target>
 
     */
-    public static void showBuildNumber( PhetFrame frame ) {
-        VersionInfo vi = readVersionInfo();
-        JOptionPane.showMessageDialog( frame, "Build number=" + vi.getBuildNumber() + "\n" + "BuildTime=" + vi.getBuildTime() );
-    }
 
-    public static VersionInfo readVersionInfo() {
+    public static VersionInfo[] readVersionInfo( String name ) throws IOException {
+        if( name == null ) {
+            throw new RuntimeException( "Cannot read version info for name=" + name );
+        }
         VersionUtils vu = new VersionUtils();
         ClassLoader cl = vu.getClass().getClassLoader();
-        URL buildNumberURL = cl.getResource( "build.number" );
 
-        System.out.println( "PhET Application Loading, BuildURL = " + buildNumberURL );
-        int buildNum = -1;
-        try {
-            BufferedReader br = new BufferedReader( new InputStreamReader( buildNumberURL.openStream() ) );
-            String line = br.readLine();
-            while( line != null ) {
-                if( line.toLowerCase().startsWith( "build.number=" ) ) {
-                    String number = line.substring( "build.number=".length() );
-                    buildNum = Integer.parseInt( number );
-                }
-                line = br.readLine();
+
+        ArrayList vall = new ArrayList();
+        VersionInfo rootInfo = readVersionInfo( name, cl );
+        if( rootInfo != null ) {
+            vall.add( rootInfo );
+        }
+        URL resourceList = cl.getResource( name + ".resources" );
+
+        BufferedReader br = new BufferedReader( new InputStreamReader( resourceList.openStream() ) );
+        String line = br.readLine();
+        if( line != null ) {
+            line = line.trim();
+        }
+        while( line != null ) {
+            if( line.trim().startsWith( "#" ) ) {
+                //ignore.
+            }
+            else {
+                VersionInfo vi = readVersionInfo( line, cl );
+                vall.add( vi );
+            }
+            line = br.readLine();
+            if( line != null ) {
+                line = line.trim();
             }
         }
-        catch( FileNotFoundException e ) {
-            e.printStackTrace();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
 
-        InputStream buildTimeURL = cl.getResourceAsStream( "build.time.stamp" );
-        String buildTimeStr = "-1";
-        try {
-            buildTimeStr = new BufferedReader( new InputStreamReader( buildTimeURL ) ).readLine();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        VersionInfo vi = new VersionInfo( buildNum, buildTimeStr );
-        System.out.println( "PhET Application Loaded: " + vi );
-        return vi;
+        return (VersionInfo[])vall.toArray( new VersionInfo[0] );
     }
 
+    public static VersionInfo readVersionInfo( String name, ClassLoader cl ) throws IOException {
+        URL buildNumberURL = cl.getResource( name + ".build.number" );
+        System.out.println( "loading resource info=" + name + ", BuildURL = " + buildNumberURL );
+        int buildNum = -1;
+        BufferedReader br = new BufferedReader( new InputStreamReader( buildNumberURL.openStream() ) );
+        String line = br.readLine();
+        while( line != null ) {
+            if( line.toLowerCase().startsWith( "build.number=" ) ) {
+                String number = line.substring( "build.number=".length() );
+                buildNum = Integer.parseInt( number );
+            }
+            line = br.readLine();
+        }
+
+        InputStream buildTimeURL = cl.getResourceAsStream( name + ".build.time.stamp" );
+        String buildTimeStr = "-1";
+        buildTimeStr = new BufferedReader( new InputStreamReader( buildTimeURL ) ).readLine();
+
+        VersionInfo vi = new VersionInfo( name, buildNum, buildTimeStr );
+        System.out.println( "resource info loaded: " + vi );
+        return vi;
+    }
 }

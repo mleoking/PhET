@@ -89,7 +89,7 @@ public class PhetImageGraphic extends PhetGraphic {
      * observed by this class.  You must call setBoundsDirty(); repaint();
      * or simply setTransform().
      *
-     * @return
+     * @return the AffineTransform associated with this PhetImageGraphic.
      */
     public AffineTransform getTransform() {
         return transform;
