@@ -325,7 +325,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                        line.getPosition().getY() - atomDiam );
         atx.scale( scale, scale );
         for( int i = 0; i < numInLevel; i++ ) {
-            atx.translate( atomDiam / scale, 0 );
+            atx.translate( atomDiam * 0.7 / scale, 0 );
             g2.drawRenderedImage( bi, atx );
         }
     }

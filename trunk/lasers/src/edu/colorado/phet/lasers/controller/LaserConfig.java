@@ -24,15 +24,12 @@ public class LaserConfig {
     // Physical things
     public static Point2D.Double ORIGIN = new Point2D.Double( 150, 200 );
 
-    public static final int DEFAULT_SEED_PHOTON_RATE = 20;
+    // Photon rates for beams
     public static final int MINIMUM_SEED_PHOTON_RATE = 0;
-    //    public static final int MAXIMUM_SEED_PHOTON_RATE = 50;
     public static final int MAXIMUM_SEED_PHOTON_RATE = 10;
 
-    public static final int DEFAULT_PUMPING_PHOTON_RATE = 0;
     public static final int MINIMUM_PUMPING_PHOTON_RATE = 0;
     public static final int MAXIMUM_PUMPING_PHOTON_RATE = 400;
-    //    public static final int MAXIMUM_PUMPING_PHOTON_RATE = 100;
 
     // Spontaneous emission times, in milliseconds
     public static final int MAXIMUM_STATE_LIFETIME = 200;

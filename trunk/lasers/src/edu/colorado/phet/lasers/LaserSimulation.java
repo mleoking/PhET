@@ -16,6 +16,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.util.FrameRateReporter;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
@@ -69,20 +70,7 @@ public class LaserSimulation extends PhetApplication {
 //            } );
 
             // Print out frame rate for debugging
-//            clock.addClockTickListener( new ClockTickListener() {
-//                int frameAve = 25;
-//                int tickCnt = 0;
-//                long lastTickTime = System.currentTimeMillis();
-//                public void clockTicked( AbstractClock c, double dt ) {
-//                    if( ++tickCnt % frameAve == 0 ) {
-//                        long currTime = System.currentTimeMillis();
-//                        long elapsedTime = currTime - lastTickTime;
-//                        lastTickTime = currTime;
-//                        double rate = frameAve * 1000 / elapsedTime;
-//                        System.out.println( "rate = " + rate  );
-//                    }
-//                }
-//            } );
+            FrameRateReporter rep = new FrameRateReporter( clock );
         }
     }
 
