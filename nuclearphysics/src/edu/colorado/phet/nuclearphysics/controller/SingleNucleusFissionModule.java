@@ -7,6 +7,7 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -87,11 +88,18 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         this.stop();
     }
 
+    /**
+     * Produces a neutron that comes into the PhysicalPanel at a randomly
+     * generated angle, and passes through the center of the panel. The
+     */
     public void fireNeutron() {
-        double bounds = 600;
         double gamma = random.nextDouble() * Math.PI * 2;
-        double x = bounds * Math.cos( gamma );
-        double y = bounds * Math.sin( gamma );
+        double w = getPhysicalPanel().getWidth();
+        double h = getPhysicalPanel().getHeight();
+        double x = Math.min( w / 2, ( h / 2 ) / Math.abs( Math.tan( gamma ) ) );
+        double y = Math.min( h / 2, ( w / 2 ) * Math.abs( Math.tan( gamma ) ) );
+        x *= MathUtil.getSign( Math.cos( gamma ) );
+        y *= MathUtil.getSign( Math.sin( gamma ) );
         neutron = new Neutron( new Point2D.Double( x, y ), gamma + Math.PI );
         super.addNeutron( neutron );
     }

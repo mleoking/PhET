@@ -14,6 +14,8 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.Format;
 
 public class AlphaDecayControlPanel extends JPanel {
     private NuclearPhysicsModule module;
@@ -25,6 +27,8 @@ public class AlphaDecayControlPanel extends JPanel {
         this.module = module;
 
         timerTF = new JTextField();
+        timerTF.setEditable( false );
+        timerTF.setBackground( Color.white );
         timerTF.setHorizontalAlignment( JTextField.RIGHT );
         timerTF.setPreferredSize( new Dimension( 80, 30 ) );
 
@@ -39,7 +43,7 @@ public class AlphaDecayControlPanel extends JPanel {
         setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "<html>Time until<br>decay (msec)" ),
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "<html>Running time<br> to decay (msec)" ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
@@ -89,9 +93,11 @@ public class AlphaDecayControlPanel extends JPanel {
 
     private class Timer implements Runnable {
         private boolean running = false;
+        private Format formatter = new DecimalFormat( "##" );
 
         public void run() {
-            long startTime = System.currentTimeMillis();
+            double startTime = module.getModel().getClock().getRunningTime();
+
             running = true;
             while( running ) {
                 try {
@@ -100,10 +106,10 @@ public class AlphaDecayControlPanel extends JPanel {
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
-                final long runningTime = System.currentTimeMillis() - startTime;
+                final double runningTime = module.getModel().getClock().getRunningTime() - startTime;
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        timerTF.setText( Long.toString( runningTime ) );
+                        timerTF.setText( formatter.format( new Double( runningTime ) ) );
                         AlphaDecayControlPanel.this.repaint();
                     }
                 } );
