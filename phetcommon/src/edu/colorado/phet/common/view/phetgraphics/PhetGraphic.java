@@ -313,9 +313,16 @@ public abstract class PhetGraphic {
     
     /**
      * Convenience method for setting the registration point at the graphic's center.
+     * If the width or height is an even number, then the center point is subject to integer rounding error.
+     * For example: If the size is 20x15, then the center is at (10.5,8.0), but the registration
+     * point will be set to (10,8).
      */
     public void centerRegistrationPoint() {
-        setRegistrationPoint( getWidth() / 2, getHeight() / 2 );
+        int width = getWidth();
+        int height = getHeight();
+        int rx = ( width / 2 ) + ( width % 2 );
+        int ry = ( height / 2 ) + ( height % 2 );
+        setRegistrationPoint( rx, ry );
     }
 
     /**
