@@ -46,7 +46,7 @@ public class BarMagnetModule extends FaradayModule {
     private static final double GRID_LAYER = 1;
     private static final double BAR_MAGNET_LAYER = 2;
     private static final double COMPASS_LAYER = 3;
-    private static final double METER_LAYER = 4;
+    private static final double FIELD_METER_LAYER = 4;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
@@ -136,7 +136,7 @@ public class BarMagnetModule extends FaradayModule {
         fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
         fieldMeterGraphic.setVisible( false );
         apparatusPanel.addChangeListener( fieldMeterGraphic );
-        apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
+        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
         
         // Debugger
 //        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );

@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.faraday.control;
+package edu.colorado.phet.faraday.control.dialog;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,6 +25,8 @@ import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.control.panel.EasyGridBagLayout;
+import edu.colorado.phet.faraday.control.panel.FaradayPanel;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
 
 
@@ -137,7 +139,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
             _spacingSlider.setMinimum( FaradayConfig.GRID_SPACING_MIN );
             _spacingSlider.setMaximum( FaradayConfig.GRID_SPACING_MAX );
             _spacingSlider.setValue( _xSpacing );
-            FaradayControlPanel.setSliderSize( _spacingSlider, FaradayControlPanel.SLIDER_SIZE );
+            FaradayPanel.setSliderSize( _spacingSlider, FaradayPanel.SLIDER_SIZE );
 
             // Value
             _gridSpacingValue = new JLabel( String.valueOf( _xSpacing) );
@@ -151,7 +153,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
             _needleSizeSlider.setMinimum( FaradayConfig.GRID_NEEDLE_WIDTH_MIN );
             _needleSizeSlider.setMaximum( FaradayConfig.GRID_NEEDLE_WIDTH_MAX );
             _needleSizeSlider.setValue( _needleSize.width );
-            FaradayControlPanel.setSliderSize( _needleSizeSlider, FaradayControlPanel.SLIDER_SIZE );
+            FaradayPanel.setSliderSize( _needleSizeSlider, FaradayPanel.SLIDER_SIZE );
 
             // Value
             String value = String.valueOf( _needleSize.width ) + "x" + String.valueOf( _needleSize.height );

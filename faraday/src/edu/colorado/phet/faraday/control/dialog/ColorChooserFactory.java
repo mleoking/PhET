@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.faraday.control;
+package edu.colorado.phet.faraday.control.dialog;
 
 import java.awt.Color;
 import java.awt.Component;

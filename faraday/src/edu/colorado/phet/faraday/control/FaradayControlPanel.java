@@ -14,10 +14,14 @@ package edu.colorado.phet.faraday.control;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
@@ -27,20 +31,6 @@ import edu.colorado.phet.common.view.ControlPanel;
  * @version $Revision$
  */
 public abstract class FaradayControlPanel extends ControlPanel {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    public static final Dimension SLIDER_SIZE = new Dimension( 100, 20 );
-    public static final Dimension SPINNER_SIZE = new Dimension( 50, 20 );
-    public static final String UNKNOWN_VALUE = "??????";
-    
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private Font _titleFont;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,37 +43,13 @@ public abstract class FaradayControlPanel extends ControlPanel {
      */
     public FaradayControlPanel( Module module ) {
         super( module );
-        Font defaultFont = super.getFont();
-        _titleFont = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the font to be used for titled borders.
-     * 
-     * @return the font
-     */
-    public Font getTitleFont() {
-        return _titleFont; // Fonts are immutable
-    }
-    
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Sets a slider to a fixed size.
-     * 
-     * @param slider the slider
-     * @param size the size
-     */
-    protected static void setSliderSize( JSlider slider, Dimension size ) {
-        assert( slider != null );
-        slider.setPreferredSize( size );
-        slider.setMaximumSize( size );
-        slider.setMinimumSize( size );
+        
+        JPanel fillerPanel = new JPanel();
+        {
+            fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
+            // WORKAROUND: Filler to set consistent panel width
+            fillerPanel.add( Box.createHorizontalStrut( FaradayConfig.CONTROL_PANEL_MIN_WIDTH ) );
+        }
+        addFullWidth( fillerPanel );
     }
 }

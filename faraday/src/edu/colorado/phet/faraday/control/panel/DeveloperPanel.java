@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.faraday.control;
+package edu.colorado.phet.faraday.control.panel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,6 +23,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.control.dialog.ColorChooserFactory;
+import edu.colorado.phet.faraday.control.dialog.ColorChooserFactory.Listener;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -35,7 +37,7 @@ import edu.colorado.phet.faraday.view.CompassGridGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DeveloperPanel extends JPanel {
+public class DeveloperPanel extends FaradayPanel {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -101,10 +103,10 @@ public class DeveloperPanel extends JPanel {
             _magnetSizeSlider.setMaximum( FaradayConfig.BAR_MAGNET_WIDTH_MAX );
             _magnetSizeSlider.setMinimum( FaradayConfig.BAR_MAGNET_WIDTH_MIN );
             _magnetSizeSlider.setValue( FaradayConfig.BAR_MAGNET_WIDTH_MIN );
-            FaradayControlPanel.setSliderSize( _magnetSizeSlider, FaradayControlPanel.SLIDER_SIZE );
+            setSliderSize( _magnetSizeSlider, SLIDER_SIZE );
 
             // Value
-            _magnetSize = new JLabel( FaradayControlPanel.UNKNOWN_VALUE );
+            _magnetSize = new JLabel( UNKNOWN_VALUE );
 
             // Layout
             magnetSizePanel.setLayout( new BoxLayout( magnetSizePanel, BoxLayout.X_AXIS ) );
@@ -124,16 +126,16 @@ public class DeveloperPanel extends JPanel {
             _needleSizeSlider.setMaximum( FaradayConfig.GRID_NEEDLE_WIDTH_MAX );
             _needleSizeSlider.setMinimum( FaradayConfig.GRID_NEEDLE_WIDTH_MIN );
             _needleSizeSlider.setValue( FaradayConfig.GRID_NEEDLE_WIDTH_MIN );
-            FaradayControlPanel.setSliderSize( _needleSizeSlider, FaradayControlPanel.SLIDER_SIZE );
+            setSliderSize( _needleSizeSlider, SLIDER_SIZE );
 
             // Value
-            _needleSizeValue = new JLabel( FaradayControlPanel.UNKNOWN_VALUE );
+            _needleSizeValue = new JLabel( UNKNOWN_VALUE );
 
             // Layout
             needleSizePanel.setLayout( new BoxLayout( needleSizePanel, BoxLayout.X_AXIS ) );
             needleSizePanel.add( label );
             needleSizePanel.add( _needleSizeSlider );
-            needleSizePanel.add( _needleSizeValue, FaradayControlPanel.SLIDER_SIZE );
+            needleSizePanel.add( _needleSizeValue, SLIDER_SIZE );
         }
 
         // Grid density
@@ -146,10 +148,10 @@ public class DeveloperPanel extends JPanel {
             _gridSpacingSlider = new JSlider();
             _gridSpacingSlider.setMinimum( FaradayConfig.GRID_SPACING_MIN );
             _gridSpacingSlider.setMaximum( FaradayConfig.GRID_SPACING_MAX );
-            FaradayControlPanel.setSliderSize( _gridSpacingSlider, FaradayControlPanel.SLIDER_SIZE );
+            setSliderSize( _gridSpacingSlider, SLIDER_SIZE );
 
             // Value
-            _gridSpacingValue = new JLabel( FaradayControlPanel.UNKNOWN_VALUE );
+            _gridSpacingValue = new JLabel( UNKNOWN_VALUE );
 
             // Layout
             gridDensityPanel.setLayout( new BoxLayout( gridDensityPanel, BoxLayout.X_AXIS ) );

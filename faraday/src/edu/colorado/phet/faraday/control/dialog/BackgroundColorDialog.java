@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.faraday.control;
+package edu.colorado.phet.faraday.control.dialog;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -20,6 +20,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.faraday.control.dialog.ColorChooserFactory.Listener;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
 
 
