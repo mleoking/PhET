@@ -43,12 +43,22 @@ public class AlphaDecayControlPanel extends JPanel {
         setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
             GraphicsUtil.addGridBagComponent( this, new JLabel( "<html>Running time<br> to decay (msec)" ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
             GraphicsUtil.addGridBagComponent( this, timerTF,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
@@ -63,7 +73,7 @@ public class AlphaDecayControlPanel extends JPanel {
             e.printStackTrace();
         }
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Alpha Decay" );
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Controls" );
         this.setBorder( titledBorder );
     }
 

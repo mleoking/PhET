@@ -13,6 +13,8 @@ import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -74,6 +76,8 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 module.fireNeutron();
                 percentDecayTF.setText( "0" );
+                percentDecayTF.setEditable( false );
+                percentDecayTF.setBackground( Color.white );
                 startNumU235 = ( (Integer)numU235Spinner.getValue() ).intValue();
             }
         } );
@@ -117,7 +121,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "Number of U235 nulcei" ),
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "<html><br>Number of<br><sup><font size=-1>235</font></sup>U nulcei</html>" ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
@@ -127,7 +131,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "Number of U238 nulcei" ),
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "<html><br>Number of<br><sup><font size=-1>238</font></sup>U nulcei</html></html>" ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
@@ -137,7 +141,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "Percent U235 fissioned" ),
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "<html><br>Percent <sup><font size=-1>235</font></sup>U<br> nuclei fissioned</html>" ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
@@ -147,7 +151,17 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
             GraphicsUtil.addGridBagComponent( this, fireNeutronBtn,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
@@ -161,6 +175,9 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         catch( AWTException e ) {
             e.printStackTrace();
         }
+        BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Controls" );
+        this.setBorder( titledBorder );
     }
 
     private synchronized void setNumU235Nuclei( int num ) {
