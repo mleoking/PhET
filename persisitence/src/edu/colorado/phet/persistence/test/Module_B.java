@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.util.persistence.StateDescriptor;
 import edu.colorado.phet.persistence.test.view.ParticleGraphic;
 import edu.colorado.phet.persistence.test.model.TestModel;
 import edu.colorado.phet.persistence.test.model.TestParticle;
@@ -78,16 +79,11 @@ public class Module_B extends Module implements Serializable {
     //////////////////////////////////////////////////////////
     // Persistence
     //
-    public ModuleStateDescriptor getStateDescriptor() {
+    public StateDescriptor getState() {
         MyModuleStateDescriptor mySd = new MyModuleStateDescriptor( this );
-        mySd.setLastX( lastX );
         return mySd;
     }
 
-    public void restoreState( ModuleStateDescriptor sd ) {
-        super.restoreState( sd );
-        lastX = ( (MyModuleStateDescriptor)sd ).getLastX();
-    }
 
     //////////////////////////////////////////////////////////
     // Inner classes
@@ -100,6 +96,7 @@ public class Module_B extends Module implements Serializable {
 
         protected MyModuleStateDescriptor( Module_B module ) {
             super( module );
+            lastX = module.lastX;
         }
 
         public int getLastX() {

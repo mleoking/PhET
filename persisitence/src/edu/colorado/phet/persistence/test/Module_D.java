@@ -122,8 +122,8 @@ public class Module_D extends Module implements Serializable {
 //        addGraphicToPanel( pg4, panel );
 //        addGraphicToPanel( pg5, panel );
 //        addGraphicToPanel( pg6, panel );      // works with exceptions
-        addGraphicToPanel( cpg, panel );
-//        addGraphicToPanel( g, panel );      // works
+//        addGraphicToPanel( cpg, panel );
+        addGraphicToPanel( g, panel );      // works
 //        panel.addGraphic( pg2 );
 //        panel.addGraphic( pg3 );
 //        panel.addGraphic( pg4 );

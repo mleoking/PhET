@@ -200,7 +200,7 @@ public class TestSaveState extends PhetApplication {
 
     public static void main( String[] args ) {
 //        beanTest();
-        beanTest2();
+//        beanTest2();
 
         PhetApplication app = new TestSaveState( new AppModel() );
         JMenuItem mi2 = new JMenuItem( "Restore state" );

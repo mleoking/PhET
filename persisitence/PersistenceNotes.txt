@@ -13,7 +13,7 @@ Save/restore is invoked through the ModuleManager class through the following in
     public void saveState( String fileName );
     public void restoreState( String fileName );
 
-Note that the current module is the only thing persisted. 
+Note that the current module is the only thing persisted.
 
 A simple use of this through the File menu is shown here:
 
@@ -39,25 +39,31 @@ A simple use of this through the File menu is shown here:
 
 Modules
 -------
-Each module that has state that must be preserved needs to have an associated subclass of ModuleStateDescriptor,
-with Java Beans conformant code like this:
+Each module with state that must be preserved needs to have an associated subclass of ModuleStateDescriptor,
+with Java Beans conformant code that looks something like the following example. Because MyModuleStateDescriptor
+in this example is an inner class, it must be public and static in order to be Java Beans conformant.
+
+public class MyModule extends Module {
+    private int lastX;
 
     //////////////////////////////////////////////////////////
-    // Persistence
+    // Lots of normal Module code
+
+
+    //////////////////////////////////////////////////////////
+    // Persistence Support
     //
-    public ModuleStateDescriptor getStateDescriptor() {
+
+    /**
+     * Returns a state descriptor for this module.
+     */
+    public StateDescriptor getState() {
         MyModuleStateDescriptor mySd = new MyModuleStateDescriptor( this );
-        mySd.setLastX( lastX );
         return mySd;
     }
 
-    public void restoreState( ModuleStateDescriptor sd ) {
-        super.restoreState( sd );
-        lastX = ( (MyModuleStateDescriptor)sd ).getLastX();
-    }
-
     /**
-     * This module's descriptor
+     * Subclass of ModuleStateDescriptor that captures the state of MyModule.
      */
     public static class MyModuleStateDescriptor extends ModuleStateDescriptor {
         private int lastX;
@@ -67,6 +73,7 @@ with Java Beans conformant code like this:
 
         protected MyModuleStateDescriptor( Module_B module ) {
             super( module );
+            lastX = module.lastX;
         }
 
         public int getLastX() {
@@ -77,6 +84,7 @@ with Java Beans conformant code like this:
             this.lastX = lastX;
         }
     }
+}
 
 
 Use of Persistent Wrappers for JDK Classes
