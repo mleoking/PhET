@@ -79,6 +79,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         addGraphic( backgroundGraphic );
         addGraphic( blockGraphic );
         addGraphic( leanerGraphic, 1000 );
+
         leanerGraphic.setLocation( 400, 100 );
 
         addGraphic( arrowSetGraphic );
@@ -116,6 +117,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         forcePlotDevice.addDataSeries( model.getNetForceSeries(), tn, "Total Force", new BasicStroke( totalForceStrokeWidth, cap, join ) );
 
         backgroundGraphic.addGraphic( forcePlotDevice );
+        addGraphic( forcePlotDevice.getVerticalChartSlider() );
         double accelRange = 10;
         PlotDevice.ParameterSet accelParams = new PlotDevice.ParameterSet( this, "Acceleration", model.getPlotDeviceModel(), forcePlotDeviceView, model.getAccelerationDataSeries(),
                                                                            laf.getAccelerationColor(), new BasicStroke( strokeWidth ),
