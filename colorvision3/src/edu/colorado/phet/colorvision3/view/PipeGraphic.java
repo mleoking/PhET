@@ -55,11 +55,11 @@ public class PipeGraphic extends PhetShapeGraphic
    * By default, the pipe is stroked and filled with Color.GRAY.
    * You can change the color by calling methods inherited from the superclass.
    * 
-   * @param parent the parent Component
+   * @param component the parent Component
    */
-  public PipeGraphic( Component parent )
+  public PipeGraphic( Component component )
   {
-    super( parent, null, null );
+    super( component, null, null );
     
     _pipes = new ArrayList();
     _thickness = 5;

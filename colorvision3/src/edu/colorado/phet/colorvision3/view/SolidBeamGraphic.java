@@ -37,12 +37,12 @@ public class SolidBeamGraphic extends PhetShapeGraphic implements SimpleObserver
   /**
    * Sole constructor.
    * 
-   * @param parent the parent Component
+   * @param component the parent Component
    * @param beamModel the beam model
    */
-  public SolidBeamGraphic( Component parent, SolidBeam beamModel )
+  public SolidBeamGraphic( Component component, SolidBeam beamModel )
   {
-    super( parent, null, null );
+    super( component, null, null );
     
     _beamModel = beamModel;
     _alphaScale = 100.0;

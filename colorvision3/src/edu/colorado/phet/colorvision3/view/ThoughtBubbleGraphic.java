@@ -35,11 +35,11 @@ public class ThoughtBubbleGraphic extends PhetShapeGraphic
   /**
    * Sole constructor.
    * 
-   * @param parent the parent Component
+   * @param component the parent Component
    */
-  public ThoughtBubbleGraphic( Component parent )
+  public ThoughtBubbleGraphic( Component component )
   {
-    super( parent, null, null );
+    super( component, null, null );
 
     // Outline
     super.setBorderColor( Color.WHITE );

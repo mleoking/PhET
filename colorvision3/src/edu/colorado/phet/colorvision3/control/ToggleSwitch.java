@@ -41,7 +41,7 @@ public class ToggleSwitch extends DefaultInteractiveGraphic
   // Location, origin at upper left.
   private Point _location;
   // The parent component, needed for repaint.
-  private Component _parent;
+  private Component _component;
   // List of event listeners.
   private EventListenerList _listenerList;
   
@@ -52,17 +52,17 @@ public class ToggleSwitch extends DefaultInteractiveGraphic
   /**
    * Sole constructor.
    * 
-   * @param parent the parent Component
+   * @param component the parent Component
    * @param onImageName the resource name of the "on" image
    * @param offImageName the resource name of the "off" image
    */
-  public ToggleSwitch( Component parent, String onImageName, String offImageName )
+  public ToggleSwitch( Component component, String onImageName, String offImageName )
   {
     super( null );
     
-    _parent = parent;
-    _onImage = new PhetImageGraphic( parent, onImageName );
-    _offImage = new PhetImageGraphic( parent, offImageName );
+    _component = component;
+    _onImage = new PhetImageGraphic( component, onImageName );
+    _offImage = new PhetImageGraphic( component, offImageName );
     _listenerList = new EventListenerList();
     
     // Set up interactivity.
@@ -167,7 +167,7 @@ public class ToggleSwitch extends DefaultInteractiveGraphic
   public void repaint()
   {
     Rectangle r = getBounds();
-    _parent.repaint( r.x, r.y, r.width, r.height );
+    _component.repaint( r.x, r.y, r.width, r.height );
   }
   
   /**

@@ -47,12 +47,12 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver
   /**
    * Sole constructor.
    * 
-   * @param parent the parent Component
+   * @param component the parent Component
    * @param photonBeamModel the photon beam model
    */
-  public PhotonBeamGraphic( Component parent, PhotonBeam photonBeamModel )
+  public PhotonBeamGraphic( Component component, PhotonBeam photonBeamModel )
   {
-    super( parent );
+    super( component );
     _photonBeamModel = photonBeamModel;
   }
   

@@ -57,7 +57,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   //----------------------------------------------------------------------------
 
   // The parent Component.
-  private Component _parent;
+  private Component _component;
   // The upper left corner of the spectrum graphic.
   private Point _location;
   // The spectrum graphic.
@@ -88,22 +88,22 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   /**
    * Sole constructor.
    * 
-   * @param parent parent Component
+   * @param component parent Component
    */
-  public SpectrumSlider( Component parent )
+  public SpectrumSlider( Component component )
   {
     super( null );
   
-    _parent = parent;
+    _component = component;
     
     // Listeners
     _listenerList = new EventListenerList();
     
     // Spectrum
-    _spectrum = new PhetImageGraphic( parent, ColorVisionConfig.SPECTRUM_IMAGE );
+    _spectrum = new PhetImageGraphic( component, ColorVisionConfig.SPECTRUM_IMAGE );
    
     // Slider
-    _knob = new SpectrumSliderKnob( parent );
+    _knob = new SpectrumSliderKnob( component );
  
     // Drag behavior
     _dragBounds = new Rectangle( 0, 0, 0, 0); // set correctly by setLocation
@@ -249,7 +249,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
       _attributedString.addAttribute( TextAttribute.FONT, font );
       
       // Determine the label dimensions for bounds calculations.
-      FontMetrics fontMetrics = _parent.getFontMetrics( font );
+      FontMetrics fontMetrics = _component.getFontMetrics( font );
       int height = fontMetrics.getHeight();
       int width = fontMetrics.stringWidth( label );
       _labelDimension = new Dimension( width, height );
@@ -329,7 +329,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     _curve = null;
     if ( width > 0 )
     {
-      _curve = new BellCurve( _parent, (int)width, _spectrum.getBounds().height );
+      _curve = new BellCurve( _component, (int)width, _spectrum.getBounds().height );
     }
     repaint();
   }
@@ -394,7 +394,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
   public void repaint()
   {
     Rectangle r = getBounds();
-    _parent.repaint( r.x, r.y, r.width, r.height );
+    _component.repaint( r.x, r.y, r.width, r.height );
   }
   
   /**

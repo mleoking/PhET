@@ -33,11 +33,11 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
   /**
    * Sole constructor.
    * 
-   * @param parent the parent Component
+   * @param component the parent Component
    */
-  public SpectrumSliderKnob( Component parent )
+  public SpectrumSliderKnob( Component component )
   {    
-    super( parent, null, null );
+    super( component, null, null );
 
     //  Request antialiasing.
     RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
