@@ -9,7 +9,7 @@ package edu.colorado.phet.nuclearphysics;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ThreadedClock;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.controller.FissionModule;
@@ -30,7 +30,8 @@ public class NuclearPhysicsApplication extends PhetApplication {
         ApplicationDescriptor appDesc = new ApplicationDescriptor( "Nuclear Physics",
                                                                    desc,
                                                                    "0.1" );
-        AbstractClock clock = new ThreadedClock( 20, 50, true );
+        // Note: a ThreadedClock here ends up looking balky
+        AbstractClock clock = new SwingTimerClock( 10, 50, true );
         Module fissionModule = new FissionModule( clock );
         Module alphaModule = new AlphaRadiationModule( clock );
         Module[] modules = new Module[]{alphaModule, fissionModule};
