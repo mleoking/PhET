@@ -74,30 +74,31 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         }
 
         Rectangle2D bounds = wall.getBounds();
+        Rectangle2D prevBounds = wall.getPrevBounds();
         double sphereX = sphere.getPosition().getX();
         double sphereXPrev = sphere.getPositionPrev().getX();
         double sphereY = sphere.getPosition().getY();
         double sphereYPrev = sphere.getPositionPrev().getY();
         // Hitting left side of wall?
-        if( sphereX + sphere.getRadius() >= bounds.getMinX() && sphereXPrev + sphere.getRadius() < bounds.getMinX()
+        if( sphereX + sphere.getRadius() >= bounds.getMinX() && sphereXPrev + sphere.getRadius() < prevBounds.getMinX()
             && sphereY >= bounds.getMinY() && sphereY <= bounds.getMaxY() ) {
             result = LEFT_SIDE;
         }
 
         // Hitting right side?
-        if( sphereX - sphere.getRadius() <= bounds.getMaxX() && sphereXPrev - sphere.getRadius() > bounds.getMaxX()
+        if( sphereX - sphere.getRadius() <= bounds.getMaxX() && sphereXPrev - sphere.getRadius() > prevBounds.getMaxX()
             && sphereY >= bounds.getMinY() && sphereY <= bounds.getMaxY() ) {
             result = RIGHT_SIDE;
         }
 
         // Hitting top?
-        if( sphereY + sphere.getRadius() >= bounds.getMinY() && sphereYPrev + sphere.getRadius() < bounds.getMinY()
+        if( sphereY + sphere.getRadius() >= bounds.getMinY() && sphereYPrev + sphere.getRadius() < prevBounds.getMinY()
             && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ) {
             result = TOP;
         }
 
         // Hitting bottom?
-        if( sphereY - sphere.getRadius() <= bounds.getMaxY() && sphereYPrev - sphere.getRadius() > bounds.getMaxY()
+        if( sphereY - sphere.getRadius() <= bounds.getMaxY() && sphereYPrev - sphere.getRadius() > prevBounds.getMaxY()
             && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ) {
             result = BOTTOM;
         }
