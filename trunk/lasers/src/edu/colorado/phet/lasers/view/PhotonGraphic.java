@@ -191,7 +191,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     public static void removeInstance( PhotonGraphic graphic ) {
         synchronized( s_instances ) {
             s_instances.remove( graphic );
-            System.out.println( "PhotonGraphic.removeInstance " + s_instances.size() );
         }
     }
 

@@ -268,8 +268,10 @@ public class BaseLaserModule extends Module {
 
             getModel().addModelElement( leftMirror );
             getModel().addModelElement( rightMirror );
-            getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
-            getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
+            getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.MIRROR_LAYER );
+            getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.MIRROR_LAYER );
+            //            getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.CAVITY_LAYER );
+            //            getApparatusPanel().addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
 
             // Put a reflectivity control on the panel
             JPanel reflectivityControl = new RightMirrorReflectivityControlPanel( rightMirror );

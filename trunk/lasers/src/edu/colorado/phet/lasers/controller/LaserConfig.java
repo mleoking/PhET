@@ -55,7 +55,8 @@ public class LaserConfig {
     // Graphics layers
     public static final double CAVITY_LAYER = 12;
     public static final double ATOM_LAYER = 11;
-    public static final double PHOTON_LAYER = 11.5;
+    public static final double PHOTON_LAYER = 13;
+    public static final double MIRROR_LAYER = 14;
 
     public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
     public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
