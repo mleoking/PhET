@@ -1,3 +1,24 @@
+2/15/05
+=======
+Add command line parm to get a FrameRateReporter
+Replace CompositeMouseListener with an EventChannel
+
+We will use the native L&F for the particular platform we are on.
+
+ApplicationModel will go away.
+
+PhetApplication will create a frame and default clock in its constructor. Constructor will get command line
+arguments. PhetApplication will have setters for all the things it needs to have to work, and check that they
+are all set in start(). Style of programming will be thatwe subclass PhetApplication.
+
+Settable colors will be background for panels, sliders, etc. (they will all be the same), and button color.
+
+Font size will be settable.
+
+Border labels will be same font and size as other controls.
+
+SimStrings.init() will be called in the PhetApplication constructor
+
 
 11/19/04
 =========
