@@ -3,6 +3,8 @@ package edu.colorado.phet.mazegame;
 //import edu.colorado.phet.common.view.util.GraphicsUtil;
 //import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -11,19 +13,37 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
+import java.util.Locale;
 
 public class MazeGameApplet extends JApplet {
+    public static boolean applet = true;
+
+    // Localization
+    public static final String localizedStringsPath = "localization/MazeGameStrings";
+
     static int fullHeight = 500;	//height and width of applet
     static int fullWidth = 700;		//Must find way to pass in from html
     AudioClip cork, figaro;  //sound effects
     Image ballImage, splat;  //gifs
-    JPanel topRowPanel = new JPanel();
-    JPanel bottomRowPanel = new JPanel();
+    JPanel topRowPanel = null;
+    JPanel bottomRowPanel = null;
 
     public static Border raisedBevel, loweredBevel;
-    ParticleArena pArena = new ParticleArena( this );
-
+    ParticleArena pArena = null;
+    
     public void init() {
+        if ( applet ) {
+            String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+                Locale.setDefault( new Locale( applicationLocale ) );
+            }
+            SimStrings.setStrings( localizedStringsPath );
+        }
+        
+        topRowPanel = new JPanel();
+        bottomRowPanel = new JPanel();
+        pArena = new ParticleArena( this );
+
         raisedBevel = BorderFactory.createRaisedBevelBorder();  //Why won't this go in the preamble?
         loweredBevel = BorderFactory.createLoweredBevelBorder();
 
@@ -74,6 +94,20 @@ public class MazeGameApplet extends JApplet {
     }//end of constructor
 
     public static void main( String[] args ) {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
+        
+        MazeGameApplet.applet = false;
+        
         JFrame f = new JFrame();
         MazeGameApplet mg = new MazeGameApplet();
         f.setContentPane( mg );

@@ -3,6 +3,8 @@ package edu.colorado.phet.mazegame;
 //A simple clock application using javax.swing.Timer class
 
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -34,9 +36,9 @@ public class StopWatch extends JPanel {
         timeLbl.setFont( myClockFont );
         timeLbl.setText( clockTimeString );
 
-        startBtn = new JButton( "Start" );
-        stopBtn = new JButton( "Stop" );
-        resetBtn = new JButton( "Reset" );
+        startBtn = new JButton( SimStrings.get( "StopWatch.StartButton" ) );
+        stopBtn = new JButton( SimStrings.get( "StopWatch.StopButton" ) );
+        resetBtn = new JButton( SimStrings.get( "StopWatch.ResetButton" ) );
 
 
         myTimer1 = new Timer( TENTH_SEC, new ActionListener() {

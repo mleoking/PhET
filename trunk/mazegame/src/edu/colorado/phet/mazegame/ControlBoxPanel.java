@@ -2,6 +2,8 @@ package edu.colorado.phet.mazegame;
 
 //Helper class for Maze Game.  Maintains controller arrow
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -49,7 +51,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         raisedBevel = BorderFactory.createRaisedBevelBorder();
         loweredBevel = BorderFactory.createLoweredBevelBorder();
         compound1 = BorderFactory.createCompoundBorder( raisedBevel, loweredBevel );
-        compound2 = BorderFactory.createTitledBorder( compound1, "Control Arrow -- Drag tip", TitledBorder.CENTER, TitledBorder.BOTTOM );
+        compound2 = BorderFactory.createTitledBorder( compound1, SimStrings.get( "ControlBoxPanel.CrontrolArrowBorder" ), TitledBorder.CENTER, TitledBorder.BOTTOM );
         setBorder( compound2 );
         arrow = new ArrowA();
         x0 = MazeGameApplet.fullWidth / 4;
@@ -65,11 +67,11 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         arrowFont = new Font( "Serif", Font.PLAIN, 40 );
         fontColor = new Color( 255, 0, 0 );
 
-        rButton = new JRadioButton( "R", true );
+        rButton = new JRadioButton( SimStrings.get( "ControlBoxPanel.PositionRadioButton" ), true );
         rButton.setBackground( Color.yellow );//rButton.setOpaque(false);
-        vButton = new JRadioButton( "V", false );
+        vButton = new JRadioButton( SimStrings.get( "ControlBoxPanel.VelocityRadioButton" ), false );
         vButton.setBackground( Color.yellow );//vButton.setOpaque(false);
-        aButton = new JRadioButton( "A", false );
+        aButton = new JRadioButton( SimStrings.get( "ControlBoxPanel.AccelerationRadioButton" ), false );
         aButton.setBackground( Color.yellow );//aButton.setOpaque(false);
         rButton.addItemListener( this );
         vButton.addItemListener( this );
@@ -120,13 +122,13 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         g.setColor( fontColor );
         g.setFont( arrowFont );
         if( controlState == POSITION ) {
-            g.drawString( "Position", 5 * MazeGameApplet.fullWidth / 32, 3 * MazeGameApplet.fullHeight / 8 );
+            g.drawString( SimStrings.get( "ControlBoxPanel.PositionLabel" ), 5 * MazeGameApplet.fullWidth / 32, 3 * MazeGameApplet.fullHeight / 8 );
         }
         else if( controlState == VELOCITY ) {
-            g.drawString( "Velocity", 5 * MazeGameApplet.fullWidth / 32, 3 * MazeGameApplet.fullHeight / 8 );
+            g.drawString( SimStrings.get( "ControlBoxPanel.VelocityLabel" ), 5 * MazeGameApplet.fullWidth / 32, 3 * MazeGameApplet.fullHeight / 8 );
         }
         else {
-            g.drawString( "Acceleration", MazeGameApplet.fullWidth / 8, 3 * MazeGameApplet.fullHeight / 8 );
+            g.drawString( SimStrings.get( "ControlBoxPanel.AccelerationLabel" ), MazeGameApplet.fullWidth / 8, 3 * MazeGameApplet.fullHeight / 8 );
         }
 
         g.setColor( Color.black );
