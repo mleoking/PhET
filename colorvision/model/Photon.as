@@ -39,6 +39,9 @@
 	function setRgb(rgb) {
 		this.rgb = rgb;
 	}
+	function getRgb():Number{
+		return rgb;
+	}
 	function stepInTime() {
 		this.xLoc += ds * Math.cos(this.theta);
 		this.yLoc += ds * Math.sin(this.theta);
