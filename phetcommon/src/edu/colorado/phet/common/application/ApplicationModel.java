@@ -2,9 +2,7 @@
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
-import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
-import edu.colorado.phet.common.view.util.framesetup.FullScreen;
+import edu.colorado.phet.common.view.util.FrameSetup;
 
 /**
  * This class is essentially a data structure that contains specifications for the top-level
@@ -21,7 +19,7 @@ public class ApplicationModel {
     boolean useClockControlPanel = true;
 
     public ApplicationModel( String windowTitle, String description, String version ) {
-        this( windowTitle, description, version, new FrameCenterer( 200, 200 ) );
+        this( windowTitle, description, version, new FrameSetup.Center( 200, 200 ) );
     }
 
     public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup ) {
@@ -32,7 +30,7 @@ public class ApplicationModel {
     }
 
     public static FrameSetup getDefaultFrameSetup() {
-        return new FullScreen();
+        return new FrameSetup.MaxExtent();
     }
 
     public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, AbstractClock clock ) {

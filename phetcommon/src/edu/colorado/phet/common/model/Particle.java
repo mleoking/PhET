@@ -6,14 +6,14 @@
  */
 package edu.colorado.phet.common.model;
 
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 
 import java.awt.geom.Point2D;
 
 public class Particle extends SimpleObservable implements ModelElement {
-    private Point2D.Double location = new Point2D.Double();
+    private Point2D.Double position = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D acceleration = new Vector2D.Double();
     //Relying on this being null for the first iteration.
@@ -22,24 +22,24 @@ public class Particle extends SimpleObservable implements ModelElement {
     protected Particle() {
     }
 
-    protected Particle( Point2D.Double location, Vector2D velocity,
+    protected Particle( Point2D.Double position, Vector2D velocity,
                         Vector2D acceleration ) {
-        setLocation( location );
+        setPosition( position );
         setVelocity( velocity );
         setAcceleration( acceleration );
     }
 
-    public Point2D.Double getLocation() {
-        return location;
+    public Point2D.Double getPosition() {
+        return position;
     }
 
-    public void setLocation( double x, double y ) {
-        location.setLocation( x, y );
+    public void setPosition( double x, double y ) {
+        position.setLocation( x, y );
         notifyObservers();
     }
 
-    public void setLocation( Point2D.Double location ) {
-        setLocation( location.x, location.y );
+    public void setPosition( Point2D.Double position ) {
+        setPosition( position.x, position.y );
     }
 
     public AbstractVector2D getVelocity() {
@@ -64,11 +64,11 @@ public class Particle extends SimpleObservable implements ModelElement {
     }
 
     public void setAcceleration( double ax, double ay ) {
-        setAccelerationNoUpdate( ax,ay);
+        setAccelerationNoUpdate( ax, ay );
         notifyObservers();
     }
 
-    public void setAccelerationNoUpdate(double ax,double ay){
+    public void setAccelerationNoUpdate( double ax, double ay ) {
         this.prevAcceleration.setComponents( acceleration.getX(), acceleration.getY() );
         this.acceleration.setComponents( ax, ay );
     }
@@ -80,15 +80,15 @@ public class Particle extends SimpleObservable implements ModelElement {
      */
     public void stepInTime( double dt ) {
 
-        // New location
-        double xNew = location.getX()
+        // New position
+        double xNew = position.getX()
                       + dt * velocity.getX()
                       + dt * dt * acceleration.getX() / 2;
-        double yNew = location.getY()
+        double yNew = position.getY()
                       + dt * velocity.getY()
                       + dt * dt * acceleration.getY() / 2;
-        //        setLocation( xNew, yNew );
-        location.setLocation( xNew, yNew );
+        //        setPosition( xNew, yNew );
+        position.setLocation( xNew, yNew );
 
         // New velocity
         if( prevAcceleration == null ) {

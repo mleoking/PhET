@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.examples;
 
 //import edu.colorado.phet.common.view.plaf.AnimFactoryLookAndFeel;
+
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 

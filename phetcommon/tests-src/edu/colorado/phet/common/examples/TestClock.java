@@ -17,7 +17,7 @@ import edu.colorado.phet.common.model.clock.ThreadedClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
-import edu.colorado.phet.common.view.util.framesetup.AbsoluteFrameSetup;
+import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +38,7 @@ public class TestClock extends PhetApplication {
             super( "Test" );
             setApparatusPanel( new ApparatusPanel() );
             setModel( new BaseModel() );
-            Particle p = new Particle( 100, 200 );
+            TestParticle p = new TestParticle( 100, 200 );
             super.add( p, new ParticleGraphic( p ), 10 );
         }
 
@@ -47,11 +47,11 @@ public class TestClock extends PhetApplication {
         }
     }
 
-    static class Particle extends Observable implements ModelElement {
+    static class TestParticle extends Observable implements ModelElement {
         double x;
         double y;
 
-        Particle( double x, double y ) {
+        TestParticle( double x, double y ) {
             this.x = x;
             this.y = y;
         }
@@ -65,9 +65,9 @@ public class TestClock extends PhetApplication {
     }
 
     static class ParticleGraphic implements Graphic, Observer {
-        private Particle p;
+        private TestParticle p;
 
-        public ParticleGraphic( Particle p ) {
+        public ParticleGraphic( TestParticle p ) {
             this.p = p;
         }
 
@@ -85,7 +85,7 @@ public class TestClock extends PhetApplication {
         AbstractClock clock = new ThreadedClock( 10, 20, false );
         final MyModule m = new MyModule( "asdf", clock );
         ApplicationModel ad = new ApplicationModel( "appname", "mydescritpion",
-                                                    "myversion", new AbsoluteFrameSetup( 400, 400 ) );
+                                                    "myversion", new FrameSetup.Absolute( 400, 400 ) );
         TestClock tc = new TestClock( ad, m, clock );
         clock.addClockTickListener( new ClockTickListener() {
             public void clockTicked( AbstractClock c, double dt ) {

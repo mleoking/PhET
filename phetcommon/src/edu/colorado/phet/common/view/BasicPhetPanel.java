@@ -1,7 +1,7 @@
 /* Copyright University of Colorado, 2003 */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;

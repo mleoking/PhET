@@ -1,7 +1,8 @@
 /* Copyright University of Colorado, 2003 */
-package edu.colorado.phet.common.view.apparatuspanelcontainment;
+package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ import java.awt.*;
  * that have more than one module.
  */
 //public class TabbedApparatusPanelContainer extends JTabbedPane implements ApparatusPanelContainer {
-public class TabbedApparatusPanelContainer extends JPanel implements ApparatusPanelContainer {
+public class TabbedApparatusPanelContainer extends JPanel implements ModuleObserver {
     Module current;
     JTabbedPane tabbedPane = new JTabbedPane();
     private PhetApplication application;

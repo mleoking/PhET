@@ -1,8 +1,6 @@
 /*Copyright, Sam Reid, 2003.*/
 // TODO: move up on level in package hierarchy
-package edu.colorado.phet.common.view.util.graphics;
-
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+package edu.colorado.phet.common.view.util;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

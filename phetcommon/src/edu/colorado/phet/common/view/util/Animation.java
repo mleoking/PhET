@@ -8,8 +8,6 @@
  */
 package edu.colorado.phet.common.view.util;
 
-import edu.colorado.phet.common.view.util.graphics.ImageLoader;
-
 import java.awt.*;
 import java.io.IOException;
 

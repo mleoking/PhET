@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.common.view;
 
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
-import edu.colorado.phet.common.application.ApplicationModel;
 
 import javax.swing.*;
 import java.awt.*;

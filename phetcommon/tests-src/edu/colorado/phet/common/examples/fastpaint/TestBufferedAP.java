@@ -7,7 +7,6 @@
 package edu.colorado.phet.common.examples.fastpaint;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 
@@ -49,10 +48,10 @@ public class TestBufferedAP {
 
     public static void main( String[] args ) {
         BufferedApparatusPanel bap = new BufferedApparatusPanel();
-        Graphic g=new ShapeGraphic( new Rectangle( 20,30,40,50), Color.blue);
-        bap.addGraphic( g);
-        JFrame jf=new JFrame( "Test Buffered AP");
-        jf.setSize( 600,600);
+        Graphic g = new ShapeGraphic( new Rectangle( 20, 30, 40, 50 ), Color.blue );
+        bap.addGraphic( g );
+        JFrame jf = new JFrame( "Test Buffered AP" );
+        jf.setSize( 600, 600 );
 
         jf.setContentPane( bap );
 

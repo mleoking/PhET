@@ -4,7 +4,7 @@
  * Author: Another Guy
  * Date: May 20, 2003
  */
-package edu.colorado.phet.common.model.command;
+package edu.colorado.phet.common.model;
 
 import java.util.Vector;
 

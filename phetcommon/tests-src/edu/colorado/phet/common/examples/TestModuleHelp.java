@@ -12,9 +12,9 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
-import edu.colorado.phet.common.view.util.framesetup.FullScreen;
+import edu.colorado.phet.common.view.help.HelpPanel;
+import edu.colorado.phet.common.view.util.FrameSetup;
 
 public class TestModuleHelp {
     static class MyModule extends Module {
@@ -32,9 +32,8 @@ public class TestModuleHelp {
 
     public static void main( String[] args ) {
         MyModule mm = new MyModule( "Test Module" );
-        ApplicationModel model = new ApplicationModel( "test", "test", "test", new FullScreen(), mm, new SwingTimerClock( 1, 30, true ) );
+        ApplicationModel model = new ApplicationModel( "test", "test", "test", new FrameSetup.Absolute( 400, 400 ), mm, new SwingTimerClock( 1, 30, true ) );
         PhetApplication pa = new PhetApplication( model );
         pa.startApplication();
-
     }
 }

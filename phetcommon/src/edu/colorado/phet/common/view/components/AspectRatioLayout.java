@@ -1,9 +1,6 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common.view.components;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -14,7 +11,7 @@ import java.awt.*;
  * container.setLayout(cl);
  * container.add(apparatusPanel);
  */
-class AspectRatioLayout implements LayoutManager {
+public class AspectRatioLayout implements LayoutManager {
     Component target;
     private int insetX;
     private int insetY;
@@ -84,27 +81,6 @@ class AspectRatioLayout implements LayoutManager {
         int x = ( parent.getWidth() - desiredWidth ) / 2;
         int y = ( parent.getHeight() - desiredHeight ) / 2;
         target.setLocation( x, y );
-    }
-
-    public static void main( String[] args ) {
-        final JPanel container = new JPanel();
-        final ApparatusPanel apparatusPanel = new ApparatusPanel();
-        final int insetY = 30;
-        final int insetX = 30;
-        apparatusPanel.setBackground( Color.green );
-
-        container.setBackground( Color.yellow );
-        double aspectRatio = 1.5;//height/width
-
-        AspectRatioLayout cl = new AspectRatioLayout( apparatusPanel, insetX, insetY, aspectRatio );
-        container.setLayout( cl );
-        container.add( apparatusPanel );
-
-        JFrame jf = new JFrame();
-        jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        jf.setContentPane( container );
-        jf.pack();
-        jf.setVisible( true );
     }
 
     public void setAspectRatio( double aspectRatio ) {

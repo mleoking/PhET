@@ -15,6 +15,10 @@ public class SwingTimerClock extends AbstractClock {
     Timer timer;
     private long lastTickTime;
 
+    public SwingTimerClock( double dt, int delay ) {
+        super( dt, delay, true );
+    }
+
     /**
      * This uses a TimeScalingClockModel.
      */

@@ -8,19 +8,14 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.util.MultiMap;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -265,38 +260,4 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
 
     }
 
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame( "test" );
-
-        final CompositeInteractiveGraphic compositeGraphic = new CompositeInteractiveGraphic();
-        final JPanel p = new JPanel() {
-            protected void paintComponent( Graphics g ) {
-                super.paintComponent( g );
-                Graphics2D g2 = (Graphics2D)g;
-                compositeGraphic.paint( g2 );
-            }
-        };
-        final ShapeGraphic sg = new ShapeGraphic( new Ellipse2D.Double( 100, 100, 200, 200 ), Color.blue );
-        DefaultInteractiveGraphic dig = new DefaultInteractiveGraphic( sg, sg );
-        dig.addCursorHandBehavior();
-        dig.addTranslationBehavior( new Translatable() {
-
-            public void translate( double dx, double dy ) {
-                AffineTransform at = AffineTransform.getTranslateInstance( dx, dy );
-                Shape trf = at.createTransformedShape( sg.getShape() );
-                sg.setShape( trf );
-                p.repaint();
-            }
-
-        } );
-        compositeGraphic.addGraphic( dig );
-        p.addMouseListener( compositeGraphic );
-        p.addMouseMotionListener( compositeGraphic );
-
-        frame.setContentPane( p );
-        frame.setSize( 600, 600 );
-        frame.setVisible( true );
-
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-    }
 }
