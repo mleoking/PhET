@@ -74,24 +74,7 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
 
         // Setup interactivity.
         super.setCursorHand();
-        super.addTranslationListener( new TranslationListener() {
-            public void translationOccurred( TranslationEvent e ) {
-                int dx = e.getDx();
-                int dy = e.getDy();
-                boolean collidesNow = _collisionDetector.collidesNow();
-                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
-                if ( !collidesNow && wouldCollide ) {
-                    // Ignore the translate if it would result in a collision.
-                    update();
-                }
-                else if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
-                    // Translate if the mouse cursor is inside the parent component.
-                    double x = _magnetModel.getX() + e.getDx();
-                    double y = _magnetModel.getY() + e.getDy();
-                    _magnetModel.setLocation( x, y );
-                }
-            }
-        } );
+        super.addTranslationListener( new InteractivityHandler() );
         
         // Use the opaque image by default.
         setTransparencyEnabled( false );
@@ -219,5 +202,37 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
             bounds[0] = getBounds();
         }
         return bounds;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /**
+     * InteractivityHandler is an inner class that handles interactivity.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private class InteractivityHandler implements TranslationListener {
+        
+        public InteractivityHandler() {}
+        
+        public void translationOccurred( TranslationEvent e ) {
+            int dx = e.getDx();
+            int dy = e.getDy();
+            boolean collidesNow = _collisionDetector.collidesNow();
+            boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
+            if ( !collidesNow && wouldCollide ) {
+                // Ignore the translate if it would result in a collision.
+                update();
+            }
+            else if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
+                // Translate if the mouse cursor is inside the parent component.
+                double x = _magnetModel.getX() + e.getDx();
+                double y = _magnetModel.getY() + e.getDy();
+                _magnetModel.setLocation( x, y );
+            }
+        }
     }
 }
