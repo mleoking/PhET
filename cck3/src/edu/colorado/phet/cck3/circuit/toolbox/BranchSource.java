@@ -8,6 +8,7 @@ import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.BoundedGraphic;
@@ -111,7 +112,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private double distBetweenJunctions;
 
         public BulbSource( BoundedGraphic boundedGraphic, CircuitGraphic circuitGraphic,
-                           ApparatusPanel panel, Branch branch, BoundedGraphic schematic, ComponentDimension finalDim, KirkhoffListener kl,
+                           ApparatusPanel panel, Bulb branch, BoundedGraphic schematic, ComponentDimension finalDim, KirkhoffListener kl,
                            double distBetweenJunctions ) {
             super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl );
             this.finalDim = finalDim;
@@ -121,12 +122,17 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         public Branch createBranch() {
             AbstractVector2D dir = super.getDirection();
             dir = dir.getInstanceOfMagnitude( finalDim.getLength() );
-            Bulb bulb = new Bulb( super.branch.getStartJunction().getPosition(), dir, distBetweenJunctions, dir.getMagnitude(), finalDim.getHeight(), super.kirkhoffListener );
+            Point2D start = super.branch.getStartJunction().getPosition();
+            if( !super.circuitGraphic.isLifelike() ) {
+                dir = new ImmutableVector2D.Double( 1, 0 );
+                start = new Point2D.Double( start.getX() - distBetweenJunctions, start.getY() );
+            }
+            Bulb bulb = new Bulb( start, dir, distBetweenJunctions, dir.getMagnitude(), finalDim.getHeight(), super.kirkhoffListener );
             if( super.circuitGraphic.isLifelike() ) {
                 return bulb;
             }
             else {
-                bulb.setSchematic( true,super.circuitGraphic.getCircuit() );
+                bulb.setSchematic( true, super.circuitGraphic.getCircuit() );
                 return bulb;
             }
         }

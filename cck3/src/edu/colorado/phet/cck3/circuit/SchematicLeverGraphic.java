@@ -4,11 +4,11 @@ package edu.colorado.phet.cck3.circuit;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.Switch;
 import edu.colorado.phet.cck3.common.LineSegment;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
  * Time: 12:26:09 AM
  * Copyright (c) Jun 19, 2004 by Sam Reid
  */
-public class SchematicLeverGraphic extends FastPaintShapeGraphic {
+public class SchematicLeverGraphic extends PhetShapeGraphic {
     private SchematicSwitchGraphic schematicSwitchGraphic;
     private ApparatusPanel apparatusPanel;
     private ModelViewTransform2D transform;
@@ -37,7 +37,7 @@ public class SchematicLeverGraphic extends FastPaintShapeGraphic {
     private TransformListener transformListener;
 
     public SchematicLeverGraphic( SchematicSwitchGraphic schematicSwitchGraphic, ApparatusPanel apparatusPanel, ModelViewTransform2D transform, double wireThickness, double length ) {
-        super( new Area(), Color.black, Color.gray, new BasicStroke( 2 ), apparatusPanel );
+        super( apparatusPanel, new Area(), Color.black, new BasicStroke( 2 ), Color.gray );
         this.schematicSwitchGraphic = schematicSwitchGraphic;
         this.apparatusPanel = apparatusPanel;
         this.transform = transform;
@@ -65,6 +65,7 @@ public class SchematicLeverGraphic extends FastPaintShapeGraphic {
             relativeAngle = OPEN_ANGLE;
         }
         changed();
+        setVisible( true );
     }
 
     private void changed() {
@@ -120,7 +121,7 @@ public class SchematicLeverGraphic extends FastPaintShapeGraphic {
         }
     }
 
-    public CircuitComponent getComponent() {
+    public CircuitComponent getCircuitComponent() {
         return aSwitch;
     }
 

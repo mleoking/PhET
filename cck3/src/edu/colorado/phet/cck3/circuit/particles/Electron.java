@@ -19,6 +19,7 @@ public class Electron extends SimpleObservable {
     Point2D position;
     double radius = .1;
     private SimpleObserver observer;
+    private boolean deleted = false;
 
     public Electron( Branch branch, double distAlongWire ) {
         if( Double.isNaN( distAlongWire ) ) {
@@ -32,6 +33,9 @@ public class Electron extends SimpleObservable {
         updatePosition();
         observer = new SimpleObserver() {
             public void update() {
+                if( deleted ) {
+                    throw new RuntimeException( "Update called on deleted electron." );
+                }
                 updatePosition();
             }
         };
@@ -40,10 +44,12 @@ public class Electron extends SimpleObservable {
 
     private void updatePosition() {
         Point2D pt = branch.getPosition( distAlongWire );
-        this.position = pt;
         if( isNaN( pt ) ) {
-            throw new RuntimeException( "Point was NaN, dist=" + distAlongWire + ", wire length=" + branch.getLength() );
+            int x = 3;
+            pt = branch.getPosition( distAlongWire );
+            throw new RuntimeException( "Point was NaN, pt=" + pt + ", dist=" + distAlongWire + ", wire length=" + branch.getLength() );
         }
+        this.position = pt;
         notifyObservers();
     }
 
@@ -68,13 +74,20 @@ public class Electron extends SimpleObservable {
 
     public void delete() {
         branch.removeObserver( observer );
+        this.deleted = true;
     }
 
     public Branch getBranch() {
+        if( deleted ) {
+            throw new RuntimeException( "Already deleted!" );
+        }
         return branch;
     }
 
     public Point2D getPosition() {
+        if( deleted ) {
+            throw new RuntimeException( "Already deleted!" );
+        }
         if( Double.isNaN( position.getX() ) || Double.isNaN( position.getY() ) ) {
             throw new RuntimeException( "Position is NaN." );
         }
@@ -90,6 +103,10 @@ public class Electron extends SimpleObservable {
     }
 
     public void setLocation( Branch branch, double x ) {
+        if( this.branch != branch ) {
+            this.branch.removeObserver( observer );
+            branch.addObserver( observer );
+        }
         if( Double.isNaN( x ) ) {
             throw new RuntimeException( "x was NaN, for electron distance along branch." );
         }

@@ -3,11 +3,10 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
-import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -21,18 +20,18 @@ import java.awt.geom.Point2D;
  * Time: 8:34:54 PM
  * Copyright (c) May 25, 2004 by Sam Reid
  */
-public class SchematicBatteryGraphic extends FastPaintShapeGraphic implements IComponentGraphic {
+public class SchematicBatteryGraphic extends PhetShapeGraphic implements IComponentGraphic {
     private CircuitComponent component;
     private ModelViewTransform2D transform;
     private double wireThickness;
     private Area mouseArea;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
-    PrimaryShapeGraphic highlightRegion;
+    private PhetShapeGraphic highlightRegion;
 
     public SchematicBatteryGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness ) {
-        super( new Area(), Color.black, parent );
-        highlightRegion = new PrimaryShapeGraphic( parent, new Area(), Color.yellow );
+        super( parent, new Area(), Color.black );
+        highlightRegion = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         this.component = component;
         this.transform = transform;
         this.wireThickness = wireThickness;
@@ -49,11 +48,12 @@ public class SchematicBatteryGraphic extends FastPaintShapeGraphic implements IC
         };
         transform.addTransformListener( transformListener );
         changed();
+        setVisible( true );
     }
 
     private void changed() {
-        Point2D srcpt = transform.toAffineTransform().transform( component.getStartJunction().getPosition(), null );
-        Point2D dstpt = transform.toAffineTransform().transform( component.getEndJunction().getPosition(), null );
+        Point2D srcpt = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
+        Point2D dstpt = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
         double viewThickness = transform.modelToViewDifferentialY( wireThickness );
 
         double fracDistToCathode = .395;

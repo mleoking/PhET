@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.primarygraphics;
+package edu.colorado.phet.cck3.common.phetgraphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -11,13 +11,17 @@ import java.awt.image.BufferedImage;
  * Time: 5:59:39 PM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public class PrimaryImageGraphic extends PrimaryGraphic {
+public class ImageGraphic extends PhetGraphic {
     private BufferedImage image;
     private AffineTransform transform;
     private boolean shapeDirty = true;
     private Shape shape;
 
-    public PrimaryImageGraphic( Component component, BufferedImage image, AffineTransform transform ) {
+    public ImageGraphic( Component component, BufferedImage image ) {
+        this( component, image, new AffineTransform() );
+    }
+
+    public ImageGraphic( Component component, BufferedImage image, AffineTransform transform ) {
         super( component );
         this.image = image;
         this.transform = transform;
@@ -30,7 +34,7 @@ public class PrimaryImageGraphic extends PrimaryGraphic {
         }
         return shape;
     }
-//
+
     public boolean contains( int x, int y ) {
         return isVisible() && getShape().contains( x, y );
     }
@@ -54,7 +58,15 @@ public class PrimaryImageGraphic extends PrimaryGraphic {
         setTransform( tx );
     }
 
-    public void setState( int x, int y ) {
+    public void setPositionCentered( int x, int y ) {
+        AffineTransform tx = AffineTransform.getTranslateInstance( x - image.getWidth() / 2, y - image.getHeight() / 2 );
+        if( getTransform().equals( tx ) ) {
+            return;
+        }
+        setTransform( tx );
+    }
+
+    public void setPosition( int x, int y ) {
         AffineTransform tx = AffineTransform.getTranslateInstance( x, y );
         if( getTransform().equals( tx ) ) {
             return;

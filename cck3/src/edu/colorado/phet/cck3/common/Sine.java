@@ -7,9 +7,9 @@
 package edu.colorado.phet.cck3.common;
 
 public class Sine {
-    double frequency;
-    double amplitude;
-    double phase = 0;
+    private double frequency;
+    private double amplitude;
+    private double phase = 0;
 
     public Sine( double amplitude, double frequency ) {
         this.frequency = frequency;

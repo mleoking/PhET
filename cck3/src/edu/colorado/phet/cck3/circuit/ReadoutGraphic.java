@@ -3,20 +3,19 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.components.Switch;
+import edu.colorado.phet.cck3.common.phetgraphics.MultiLineTextGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.fastpaint.FastPaint;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.ShadowTextGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
@@ -26,21 +25,21 @@ import java.util.StringTokenizer;
  * Copyright (c) Jun 2, 2004 by Sam Reid
  */
 public class ReadoutGraphic implements Graphic {
-    ShadowTextGraphic textGraphic;
+//    ShadowTextGraphic textGraphic;
+    MultiLineTextGraphic textGraphic;
+    private CCK3Module module;
     Branch branch;
     private ModelViewTransform2D transform;
     private ApparatusPanel panel;
-//    DecimalFormat formatter = new DecimalFormat( "#0.00000" );//for debugging.
-//    DecimalFormat formatter = new DecimalFormat( "#0.0#" );
     static Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
-    boolean visible = false;
+
     private DecimalFormat formatter;
 
-    public ReadoutGraphic( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible, DecimalFormat formatter ) {
+    public ReadoutGraphic( CCK3Module module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, DecimalFormat formatter ) {
+        this.module = module;
         this.branch = branch;
         this.transform = transform;
         this.panel = panel;
-        this.visible = visible;
         this.formatter = formatter;
 
         recompute();
@@ -57,20 +56,15 @@ public class ReadoutGraphic implements Graphic {
     }
 
     public boolean isVisible() {
-        return visible;
+        return textGraphic.isVisible();
     }
 
     public void setVisible( boolean visible ) {
-        this.visible = visible;
+        textGraphic.setVisible( visible );
     }
 
     public void recompute() {
-        Rectangle2D r2 = null;
-        if( textGraphic != null ) {
-            r2 = textGraphic.getBounds2D();
-        }
-
-        String text = getText();
+        String[] text = getText();
         //For debugging,
         //text+=" V=" + vol;
         AbstractVector2D vec = new Vector2D.Double( branch.getStartJunction().getPosition(),
@@ -85,15 +79,16 @@ public class ReadoutGraphic implements Graphic {
             angle -= Math.PI * 2;
         }
 //        System.out.println( "angle = " + angle );
+
         boolean up = angle > Math.PI / 4 && angle < 3.0 / 4.0 * Math.PI;
         boolean down = angle > 5.0 / 4.0 * Math.PI && angle < 7.0 / 4.0 * Math.PI;
         if( up || down ) {
-            pt = new Point2D.Double( pt.getX() + CCK3Module.BATTERY_DIMENSION.getHeight() * .5, pt.getY() );
+            pt = new Point2D.Double( pt.getX() + CCK3Module.BATTERY_DIMENSION.getHeight() * 2.3, pt.getY() );
         }
         else {
-            pt = new Point2D.Double( pt.getX(), pt.getY() + CCK3Module.BATTERY_DIMENSION.getHeight() * .5 );
+            pt = new Point2D.Double( pt.getX(), pt.getY() + CCK3Module.BATTERY_DIMENSION.getHeight() * .3 );
         }
-
+        pt = new Point2D.Double( pt.getX() + CCK3Module.BATTERY_DIMENSION.getLength() / 2, pt.getY() );
         Point out = transform.modelToView( pt );
         Color foregroundColor = Color.black;
         Color backgroundColor = Color.yellow;
@@ -101,20 +96,18 @@ public class ReadoutGraphic implements Graphic {
         int dx = 1;
         int dy = 1;
         if( textGraphic == null ) {
-            textGraphic = new ShadowTextGraphic( font, text, dx, dy, out.x, out.y, foregroundColor, backgroundColor );
+            textGraphic = new MultiLineTextGraphic( panel, text, font, out.x, out.y, foregroundColor, dx, dy, backgroundColor );
+            textGraphic.setVisible( false );
         }
         else {
-            textGraphic.setState( font, text, dx, dy, out.x, out.y, foregroundColor, backgroundColor );
-        }
-        if( r2 != null ) {
-            Rectangle2D r3 = textGraphic.getBounds2D();
-            if( r2 != null && r3 != null ) {
-                FastPaint.fastRepaint( panel, r2.getBounds(), r3.getBounds() );
-            }
+            textGraphic.setText( text );
+            Rectangle bounds = textGraphic.getBounds();
+            out = new Point( (int)( out.getX() - bounds.getWidth() ), (int)( out.getY() - bounds.getHeight() ) );
+            textGraphic.setPosition( out.x, out.y );
         }
     }
 
-    protected String getText() {
+    protected String[] getText() {
         double r = branch.getResistance();
         if( branch instanceof Switch ) {
             Switch swit = (Switch)branch;
@@ -131,7 +124,7 @@ public class ReadoutGraphic implements Graphic {
 
 //        String text = "R=" + res + " I=" + cur;
         String text = res + " Ohms";//, " + cur + " Amps";
-        return text;
+        return new String[]{text};
     }
 
     private String abs( String vol ) {
@@ -145,26 +138,28 @@ public class ReadoutGraphic implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
-        if( visible ) {
-//        Rectangle2D bounds = textGraphic.getBounds2D();
-//        if( bounds != null ) {
-//            Color fill = new Color( 200, 200, 200, 128 );
-//            g.setColor( fill );
-//            g.fill( bounds );
-//        }
-            textGraphic.paint( g );
-        }
+        textGraphic.paint( g );
     }
 
     public static class BatteryReadout extends ReadoutGraphic {
-        public BatteryReadout( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible, DecimalFormat decimalFormatter ) {
-            super( branch, transform, panel, visible, decimalFormatter );
+
+        public BatteryReadout( CCK3Module module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible, DecimalFormat decimalFormatter ) {
+            super( module, branch, transform, panel, decimalFormatter );
         }
 
-        protected String getText() {
+        protected String[] getText() {
+            boolean internal = super.module.isInternalResistanceOn();
             double volts = Math.abs( branch.getVoltageDrop() );
             String vol = super.formatter.format( volts );
-            return "" + vol + " Volts";
+            String str = "" + vol + " Volts";
+            ArrayList text = new ArrayList();
+            text.add( str );
+            if( internal ) {
+                String s2 = super.formatter.format( branch.getResistance() ) + " Ohms";
+                text.add( s2 );
+            }
+            String[] out = (String[])text.toArray( new String[0] );
+            return out;
         }
     }
 }

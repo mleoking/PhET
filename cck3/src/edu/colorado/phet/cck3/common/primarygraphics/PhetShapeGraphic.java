@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.primarygraphics;
+package edu.colorado.phet.cck3.common.phetgraphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -10,26 +10,26 @@ import java.awt.geom.AffineTransform;
  * Time: 5:59:48 PM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public class PrimaryShapeGraphic extends PrimaryGraphic {
+public class PhetShapeGraphic extends PhetGraphic {
     private Shape shape;
     private Stroke stroke;
-    private Color fill;
+    private Paint fill;
     private Color border;
 
-    public PrimaryShapeGraphic( Component component, Shape shape, Color fill ) {
+    public PhetShapeGraphic( Component component, Shape shape, Color fill ) {
         super( component );
         this.shape = shape;
         this.fill = fill;
     }
 
-    public PrimaryShapeGraphic( Component component, Shape shape, Stroke stroke, Color border ) {
+    public PhetShapeGraphic( Component component, Shape shape, Stroke stroke, Color border ) {
         super( component );
         this.shape = shape;
         this.stroke = stroke;
         this.border = border;
     }
 
-    public PrimaryShapeGraphic( Component component, Shape shape, Color fill, Stroke stroke, Color border ) {
+    public PhetShapeGraphic( Component component, Shape shape, Color fill, Stroke stroke, Color border ) {
         super( component );
         this.shape = shape;
         this.fill = fill;
@@ -41,7 +41,7 @@ public class PrimaryShapeGraphic extends PrimaryGraphic {
         return shape;
     }
 
-    public Color getFill() {
+    public Paint getFill() {
         return fill;
     }
 
@@ -57,13 +57,15 @@ public class PrimaryShapeGraphic extends PrimaryGraphic {
         if( isVisible() ) {
             if( shape != null ) {
                 if( fill != null ) {
-                    g.setColor( fill );
+                    g.setPaint( fill );
                     g.fill( shape );
                 }
                 if( stroke != null ) {
                     g.setColor( border );
+                    Stroke origStroke = g.getStroke();
                     g.setStroke( stroke );
                     g.draw( shape );
+                    g.setStroke( origStroke );
                 }
             }
         }
@@ -78,7 +80,10 @@ public class PrimaryShapeGraphic extends PrimaryGraphic {
         }
         else {
             Shape outlineShape = stroke.createStrokedShape( shape );
-            return outlineShape.getBounds();
+            Rectangle bounds = outlineShape.getBounds();
+            Rectangle expanded = new Rectangle( bounds.x, bounds.y, bounds.width + 1, bounds.height + 1 );
+//            Rectangle expanded=RectangleUtils.expand( bounds, 1, 1 );
+            return expanded;
         }
     }
 
@@ -109,5 +114,9 @@ public class PrimaryShapeGraphic extends PrimaryGraphic {
     public void setStroke( Stroke stroke ) {
         this.stroke = stroke;
         repaint();
+    }
+
+    public void setPaint( Paint paint ) {
+        this.fill = paint;
     }
 }

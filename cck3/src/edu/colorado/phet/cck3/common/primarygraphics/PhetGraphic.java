@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.primarygraphics;
+package edu.colorado.phet.cck3.common.phetgraphics;
 
 import edu.colorado.phet.common.view.graphics.BoundedGraphic;
 
@@ -11,14 +11,14 @@ import java.awt.*;
  * Time: 5:59:20 PM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public abstract class PrimaryGraphic implements BoundedGraphic {
+public abstract class PhetGraphic implements BoundedGraphic {
     private Rectangle lastBounds = null;
     private Rectangle bounds = null;
     private Component component;
-    private boolean visible = true;
+    private boolean visible = false;
     private boolean boundsDirty = true;
 
-    protected PrimaryGraphic( Component component ) {
+    protected PhetGraphic( Component component ) {
         this.component = component;
     }
 

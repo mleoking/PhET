@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.common.math.ImmutableVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -11,6 +11,8 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -22,7 +24,7 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
     private CircuitGraphic circuitGraphic;
     private JunctionGraphic junctionGraphic;
     private ModelViewTransform2D transform;
-    private Junction mytarget;
+    private CircuitGraphic.DragMatch dragMatch;
 
     public InteractiveWireJunctionGraphic( final CircuitGraphic circuitGraphic, final JunctionGraphic jg, final ModelViewTransform2D transform, CCK3Module module ) {
         super( jg );
@@ -37,29 +39,30 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
             }
 
             public void mouseDragged( MouseEvent e ) {
-                Point2D.Double pt = transform.viewToModel( e.getX(), e.getY() );
+                Point2D pt = transform.viewToModel( e.getX(), e.getY() );
 
                 //find a potential match.
-                Junction target = circuitGraphic.getBestDragMatch( jg.getJunction(), pt );
-                Point2D dst = null;
-                if( target != null ) {
-                    dst = target.getPosition();
-                    mytarget = target;
+                Branch[] sc = circuit.getStrongConnections( getJunction() );
+                Junction[] j = Circuit.getJunctions( sc );
+                ArrayList ju = new ArrayList( Arrays.asList( j ) );
+                if( !ju.contains( getJunction() ) ) {
+                    ju.add( getJunction() );
                 }
-                else {
-                    dst = pt;
-                    mytarget = null;
+
+                Junction[] jx = (Junction[])ju.toArray( new Junction[0] );
+                Vector2D dx = new Vector2D.Double( getJunction().getPosition(), pt );
+                dragMatch = circuitGraphic.getBestDragMatch( jx, dx );
+                if( dragMatch != null ) {
+                    dx = dragMatch.getVector();
                 }
-                Point2D orig = jg.getJunction().getPosition();
-                ImmutableVector2D vec = new ImmutableVector2D.Double( orig, dst );
-                Branch[] connections = circuit.getStrongConnections( jg.getJunction() );
-                BranchSet bs = new BranchSet( circuit, connections );
+
+                BranchSet bs = new BranchSet( circuit, sc );
                 bs.addJunction( jg.getJunction() );
-                bs.translate( vec );
-                circuit.fireJunctionsMoved();
+                bs.translate( dx );
             }
 
             public void mousePressed( MouseEvent e ) {
+                dragMatch = null;
                 if( e.isControlDown() ) {
                     junctionGraphic.getJunction().setSelected( true );
                 }
@@ -69,19 +72,15 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
             }
 
             public void mouseReleased( MouseEvent e ) {
-                if( mytarget != null ) {
-                    //make a connection.
-                    //This means killing one junction and its corresponding graphic.
-//                    System.out.println( "Released, target=" + mytarget );
-                    circuitGraphic.collapseJunctions( mytarget, jg.getJunction() );
-//                    System.out.println( "released, circuitGraphic=" + circuitGraphic.getCircuit() );
-//                    System.out.println( "circuitGraphic graphic=" + circuitGraphic );
+                if( dragMatch != null ) {
+                    circuitGraphic.collapseJunctions( dragMatch.getSource(), dragMatch.getTarget() );
+                    dragMatch = null;
                 }
+
             }
         };
         addMouseInputListener( input );
         JPopupMenu menu = new JunctionPopupMenu( getJunction(), this.circuitGraphic, module );
-//        menu.add( new JunctionSplitter( getJunction(), circuitGraphic ).toJMenuItem());
         addPopupMenuBehavior( menu );
     }
 

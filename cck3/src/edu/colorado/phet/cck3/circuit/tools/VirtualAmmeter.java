@@ -3,7 +3,6 @@ package edu.colorado.phet.cck3.circuit.tools;
 
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.TargetReadoutTool;
-import edu.colorado.phet.common.view.fastpaint.FastPaint;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
@@ -24,7 +23,7 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
     private Circuit circuit;
 
     public VirtualAmmeter( CircuitGraphic circuitGraphic, Component panel ) {
-        this( new TargetReadoutTool(), panel, circuitGraphic );
+        this( new TargetReadoutTool( panel ), panel, circuitGraphic );
     }
 
     public VirtualAmmeter( TargetReadoutTool targetReadoutTool, final Component panel, final CircuitGraphic circuitGraphic ) {
@@ -38,10 +37,7 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
         addCursorHandBehavior();
         addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
-                Rectangle before = trt.getBounds();
                 trt.translate( (int)dx, (int)dy );
-                Rectangle after = trt.getBounds();
-                FastPaint.fastRepaint( panel, before, after );
                 recompute();
             }
         } );
@@ -50,7 +46,6 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
     }
 
     public void recompute() {
-
         Point target = trt.getPoint();
         //check for intersect with circuit.
         Graphic[] g = circuitGraphic.getBranchGraphics();
@@ -63,12 +58,9 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
                 Shape shape = branchGraphic.getCoreShape();//getShape();
                 if( shape.contains( target ) ) {
                     double current = branch.getCurrent();
-//                    DecimalFormat df = new DecimalFormat( "#0.00#" );
                     DecimalFormat df = circuitGraphic.getModule().getDecimalFormat();
-                    trt.clear();
                     String amps = df.format( Math.abs( current ) );
-                    trt.addText( amps + " Amps" );
-                    FastPaint.fastRepaint( panel, trt.getBounds() );
+                    trt.setText( amps + " Amps" );
                     return;
                 }
             }
@@ -77,12 +69,8 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
     }
 
     private void resetText() {
-        trt.clear();
-        trt.addText( "Move over a wire" );
-        trt.addText( "to read current." );
-        if( trt.getBounds() != null ) {
-            FastPaint.fastRepaint( panel, trt.getBounds() );
-        }
+        String[] text = new String[]{"Move over a wire", "to read current."};
+        trt.setText( text );
     }
 
     public void setVisible( boolean visible ) {

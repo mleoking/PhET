@@ -52,8 +52,8 @@ public class Junction extends SimpleObservable {
         notifyObservers();
     }
 
-    public double getDistance( Junction dragging ) {
-        return getPosition().distance( dragging.getPosition() );
+    public double getDistance( Junction junction ) {
+        return getPosition().distance( junction.getPosition() );
     }
 
     public double getDistance( Point2D pt ) {

@@ -4,9 +4,9 @@ package edu.colorado.phet.cck3;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
-import edu.colorado.phet.cck3.common.MultiLineComponentTextGraphic;
 import edu.colorado.phet.cck3.common.PositionedHelpItem;
 import edu.colorado.phet.cck3.common.RectangleUtils;
+import edu.colorado.phet.cck3.common.phetgraphics.MultiLineTextGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
@@ -98,7 +98,7 @@ public class CCKHelp {
 
     class ToolboxTarget extends HelpTarget {
 
-        public Arrow getArrow( MultiLineComponentTextGraphic textGraphic ) {
+        public Arrow getArrow( MultiLineTextGraphic textGraphic ) {
             Shape shape = transform.createTransformedShape( toolbox.getBounds2D() );
             Point topLeft = shape.getBounds().getLocation();
             topLeft.translate( -3, -3 );
@@ -123,7 +123,7 @@ public class CCKHelp {
 
     class ComponentTarget extends ChangeTarget {
 
-        public Arrow getArrow( MultiLineComponentTextGraphic textGraphic ) {
+        public Arrow getArrow( MultiLineTextGraphic textGraphic ) {
             InteractiveGraphic g = circuitGraphic.getGraphic( circuit.branchAt( 0 ) );
             if( g instanceof CircuitComponentInteractiveGraphic ) {
                 CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)g;
@@ -187,14 +187,14 @@ public class CCKHelp {
 
     class JunctionTarget extends ChangeTarget {
 
-        public Arrow getArrow( MultiLineComponentTextGraphic textGraphic ) {
+        public Arrow getArrow( MultiLineTextGraphic textGraphic ) {
             HasJunctionGraphic g = circuitGraphic.getGraphic( circuit.junctionAt( 0 ) );
             JunctionGraphic jg = g.getJunctionGraphic();
             Shape shape = jg.getShape();
             Rectangle shapeBounds = shape.getBounds();
 
             Point tail = textGraphic.getLeftSide();
-            Point tip = RectangleUtils.getNorth( shapeBounds );
+            Point tip = RectangleUtils.getTopCenter( shapeBounds );
             Arrow arrow = new Arrow( tail, tip, 5, 5, 2 );
             return arrow;
         }

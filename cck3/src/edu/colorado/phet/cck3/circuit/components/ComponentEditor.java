@@ -1,10 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.circuit.Branch;
-import edu.colorado.phet.cck3.circuit.Circuit;
-import edu.colorado.phet.cck3.circuit.CircuitListener;
-import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.PhetSlider;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
@@ -24,14 +22,16 @@ import java.awt.event.WindowFocusListener;
  * Copyright (c) Jun 9, 2004 by Sam Reid
  */
 public abstract class ComponentEditor extends JDialog {
+    private CCK3Module module;
     private CircuitComponent element;
     private Component parent;
     private Circuit circuit;
     private PhetSlider slider;
 
-    public ComponentEditor( String windowTitle, final CircuitComponent element, Component parent, String name, String units,
+    public ComponentEditor( final CCK3Module module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
         super( getAncestor( parent ), windowTitle, false );
+        this.module = module;
         this.element = element;
         this.parent = parent;
         this.circuit = circuit;
@@ -45,13 +45,19 @@ public abstract class ComponentEditor extends JDialog {
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double value = slider.getValue();
+                setReadoutVisible( true );
                 doChange( value );
             }
         } );
         JButton done = new JButton( "Done" );
         done.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                boolean r = module.getCircuitGraphic().isReadoutGraphicsVisible();
+
                 setVisible( false );
+                if( r ) {
+                    setReadoutVisible( true );
+                }
             }
         } );
         contentPane.add( done, BorderLayout.SOUTH );
@@ -84,9 +90,21 @@ public abstract class ComponentEditor extends JDialog {
         GraphicsUtil.centerDialogInParent( this );
     }
 
+    private void setReadoutVisible( boolean visible ) {
+        ReadoutGraphic rg = module.getCircuitGraphic().getReadoutGraphic( element );
+        if( rg == null ) {
+            throw new RuntimeException( "Null ReadoutGRaphic for component." );
+        }
+        else {
+            rg.setVisible( visible );
+        }
+    }
+
     public void setVisible( boolean b ) {
         slider.requestSliderFocus();
         super.setVisible( b );
+        //ensure that the editor value is visible.
+        setReadoutVisible( b );
     }
 
     protected abstract void doChange( double value );
@@ -96,8 +114,8 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class BatteryEditor extends ComponentEditor {
-        public BatteryEditor( final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
-            super( "Editing Battery", element, parent, "Voltage", "Volts", 0, 100, 9, circuit );
+        public BatteryEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
+            super( module, "Editing Battery", element, parent, "Voltage", "Volts", 0, 100, 9, circuit );
         }
 
         protected void doChange( double value ) {
@@ -107,8 +125,19 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class ResistorEditor extends ComponentEditor {
-        public ResistorEditor( final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( "Editing Resistor", element, parent, "Resistance", "Ohms", 1, 100, 10, circuit );
+        public ResistorEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) {
+            super( module, "Editing Resistor", element, parent, "Resistance", "Ohms", 0, 100, 10, circuit );
+        }
+
+        protected void doChange( double value ) {
+            super.element.setResistance( value );
+        }
+
+    }
+
+    public static class BulbResistanceEditor extends ComponentEditor {
+        public BulbResistanceEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) {
+            super( module, "Editing Bulb", element, parent, "Resistance", "Ohms", 0, 100, 10, circuit );
         }
 
         protected void doChange( double value ) {
@@ -118,9 +147,8 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public static class BatteryResistanceEditor extends ComponentEditor {
-        public BatteryResistanceEditor( Battery element, Component parent, Circuit circuit ) {
-            super( "Battery Internal Resistance", element, parent, "Internal Resistance", "Ohms", 0, 9, 0, circuit );
-//            super( windowTitle, element, parent, name, units, min, max, startvalue, circuit );
+        public BatteryResistanceEditor( CCK3Module module, Battery element, Component parent, Circuit circuit ) {
+            super( module, "Battery Internal Resistance", element, parent, "Internal Resistance", "Ohms", Battery.MIN_RESISTANCE, 9, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {

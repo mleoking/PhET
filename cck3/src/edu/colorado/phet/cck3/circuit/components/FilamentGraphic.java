@@ -19,7 +19,8 @@ public class FilamentGraphic implements Graphic {
     private ModelViewTransform2D transform;
     private BulbComponentGraphic bcg;
     private Color color = Color.black;
-    private Stroke stroke = new BasicStroke( 2 );
+//    private Stroke stroke = new BasicStroke( 8, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    private Stroke stroke = new BasicStroke( 8 );
     private TransformListener transformListener;
     private BulbComponentGraphic.IntensityChangeListener intensityListener;
 
@@ -35,11 +36,11 @@ public class FilamentGraphic implements Graphic {
         transform.addTransformListener( transformListener );
         changed();
         intensityListener = new BulbComponentGraphic.IntensityChangeListener() {
-                    public void intensityChanged( BulbComponentGraphic bulbComponentGraphic, double intensity ) {
-                        color = new Color( (float)( intensity ), (float)( intensity * .4 ), (float)( intensity * .5 ) );
-                    }
-                };
-        bcg.addIntensityChangeListener(intensityListener );
+            public void intensityChanged( BulbComponentGraphic bulbComponentGraphic, double intensity ) {
+                color = new Color( (float)( intensity ), (float)( intensity * .4 ), (float)( intensity * .5 ) );
+            }
+        };
+        bcg.addIntensityChangeListener( intensityListener );
     }
 
     private void changed() {
@@ -50,6 +51,7 @@ public class FilamentGraphic implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
+        Stroke origStroke = g.getStroke();
         g.setColor( color );
         g.setStroke( stroke );
         Shape shape = transform.createTransformedShape( fil.getPath() );
@@ -63,10 +65,11 @@ public class FilamentGraphic implements Graphic {
         g.draw( shape );
 
         g.setClip( origClip );
+        g.setStroke( origStroke );
     }
 
     public void delete() {
-        bcg.removeIntensityChangeListener(intensityListener);
+        bcg.removeIntensityChangeListener( intensityListener );
         transform.removeTransformListener( transformListener );
     }
 }

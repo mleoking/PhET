@@ -2,9 +2,9 @@
 package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
-import edu.colorado.phet.cck3.common.primarygraphics.CompositePrimaryGraphic;
-import edu.colorado.phet.cck3.common.primarygraphics.PrimaryImageGraphic;
-import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.ImageGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -23,19 +23,19 @@ import java.awt.image.BufferedImage;
  * Time: 8:34:54 PM
  * Copyright (c) May 25, 2004 by Sam Reid
  */
-public class CircuitComponentImageGraphic extends CompositePrimaryGraphic implements IComponentGraphic {
+public class CircuitComponentImageGraphic extends CompositePhetGraphic implements IComponentGraphic {
     private CircuitComponent component;
     private ModelViewTransform2D transform;
     private Rectangle2D.Double src;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
-    private PrimaryImageGraphic imageGraphic;
-    private PrimaryShapeGraphic highlightGraphic;
+    private ImageGraphic imageGraphic;
+    private PhetShapeGraphic highlightGraphic;
 
     public CircuitComponentImageGraphic( BufferedImage image, Component parent, CircuitComponent component, ModelViewTransform2D transform ) {
         super( parent );
-        imageGraphic = new PrimaryImageGraphic( parent, image, new AffineTransform() );
-        highlightGraphic = new PrimaryShapeGraphic( parent, new Area(), Color.yellow );
+        imageGraphic = new ImageGraphic( parent, image );
+        highlightGraphic = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         addGraphic( highlightGraphic );
         addGraphic( imageGraphic );
 
@@ -55,6 +55,12 @@ public class CircuitComponentImageGraphic extends CompositePrimaryGraphic implem
         };
         transform.addTransformListener( transformListener );
         changed();
+        setVisible( true );
+    }
+
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        highlightGraphic.setVisible( visible && component.isSelected() );
     }
 
     private void changed() {
@@ -67,8 +73,8 @@ public class CircuitComponentImageGraphic extends CompositePrimaryGraphic implem
     }
 
     private AffineTransform createTransform() {
-        Point2D srcpt = transform.toAffineTransform().transform( component.getStartJunction().getPosition(), null );
-        Point2D dstpt = transform.toAffineTransform().transform( component.getEndJunction().getPosition(), null );
+        Point2D srcpt = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
+        Point2D dstpt = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
         double dist = component.getStartJunction().getPosition().distance( component.getEndJunction().getPosition() );
         double length = component.getLength();
         double diff = Math.abs( length - dist );

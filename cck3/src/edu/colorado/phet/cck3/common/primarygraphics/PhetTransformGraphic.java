@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.primarygraphics;
+package edu.colorado.phet.cck3.common.phetgraphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -10,11 +10,11 @@ import java.awt.geom.AffineTransform;
  * Time: 8:40:09 PM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public class PrimaryTransformGraphic extends PrimaryGraphic {
-    PrimaryGraphic graphic;
-    AffineTransform transform;
+public class PhetTransformGraphic extends PhetGraphic {
+    private PhetGraphic graphic;
+    private AffineTransform transform;
 
-    public PrimaryTransformGraphic( PrimaryGraphic graphic, AffineTransform transform ) {
+    public PhetTransformGraphic( PhetGraphic graphic, AffineTransform transform ) {
         super( graphic.getComponent() );
         this.graphic = graphic;
         this.transform = transform;
@@ -39,7 +39,17 @@ public class PrimaryTransformGraphic extends PrimaryGraphic {
     }
 
     public void rotate( double angle ) {
-        transform.preConcatenate( AffineTransform.getRotateInstance( angle));
+        transform.preConcatenate( AffineTransform.getRotateInstance( angle ) );
+        setBoundsDirty();
+        repaint();
+    }
+
+    public void rotate( double angle, double x, double y ) {
+        transform.preConcatenate( AffineTransform.getRotateInstance( angle, x, y ) );
+    }
+
+    public void setTransform( AffineTransform transform ) {
+        this.transform = transform;
         setBoundsDirty();
         repaint();
     }

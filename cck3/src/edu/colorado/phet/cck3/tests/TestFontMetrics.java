@@ -1,6 +1,10 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common;
+package edu.colorado.phet.cck3.tests;
 
+import edu.colorado.phet.cck3.common.phetgraphics.MultiLineTextGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.cck3.common.RectangleUtils;
+import edu.colorado.phet.cck3.common.Sine;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
@@ -27,9 +31,9 @@ public class TestFontMetrics {
         Font font = new Font( "Lucida Sans", Font.BOLD, 24 );
         FontMetrics fm = panel.getFontMetrics( font );
         System.out.println( "fm = " + fm );
-        ComponentTextGraphic tmw = new ComponentTextGraphic( "This is my text.", font, 100, 100, panel, new Color( 255, 0, 0, 128 ) );
+        PhetTextGraphic tmw = new PhetTextGraphic( panel, font, "This is my text.", new Color( 255, 0, 0, 128 ), 100, 100 );
         ShapeGraphic sg = new ShapeGraphic( tmw.getBounds(), new Color( 0, 255, 0, 128 ) );
-        Point2D tail = tmw.getRightPoint();
+        Point2D tail = RectangleUtils.getRightCenter( tmw.getBounds() );
         Point2D tip = new Point2D.Double( tail.getX() + 50, tail.getY() );
         Arrow arrow = new Arrow( tail, tip, 10, 10, 5 );
         panel.addGraphic( new ShapeGraphic( arrow.getShape(), new Color( 0, 0, 255, 128 ) ) );
@@ -37,7 +41,7 @@ public class TestFontMetrics {
         panel.addGraphic( sg );
         panel.addGraphic( tmw );
 
-        final MultiLineComponentTextGraphic g = new MultiLineComponentTextGraphic( panel, new String[]{"Hello!", "This is a test."}, font, 100, 300, Color.green, 1, 1, Color.blue );
+        final MultiLineTextGraphic g = new MultiLineTextGraphic( panel, new String[]{"Hello!", "This is a test."}, font, 100, 300, Color.green, 1, 1, Color.blue );
 
         ShapeGraphic sg2 = new ShapeGraphic( g.getBounds(), Color.white );
         panel.addGraphic( sg2 );

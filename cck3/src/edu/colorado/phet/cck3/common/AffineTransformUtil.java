@@ -30,9 +30,7 @@ public class AffineTransformUtil {
         double m02 = outputBounds.getX() - m00 * inputBounds.getX();
         double m10 = 0;
         double m11 = outputBounds.getHeight() / inputBounds.getHeight();
-//        double m11 = -outputBounds.getHeight() / inputBounds.getHeight();
         double m12 = outputBounds.getY() - m11 * inputBounds.getY();
-//        double m12 = outputBounds.getY() + outputBounds.getHeight()/ inputBounds.getHeight()* ( inputBounds.getY()+ inputBounds.getHeight() );
         return new AffineTransform( m00, m10, m01, m11, m02, m12 );
     }
 

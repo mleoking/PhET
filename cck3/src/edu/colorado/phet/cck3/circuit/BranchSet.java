@@ -69,10 +69,12 @@ public class BranchSet {
             branch.notifyObservers();
         }
         Branch[] moved = (Branch[])branchesToNotify.toArray( new Branch[0] );
+        circuit.fireJunctionsMoved();
         circuit.fireBranchesMoved( moved );
     }
 
     public void removeBranch( Branch b ) {
         branches.remove( b );
     }
+
 }

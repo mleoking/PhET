@@ -2,8 +2,8 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.common.LineSegment;
-import edu.colorado.phet.cck3.common.primarygraphics.CompositePrimaryGraphic;
-import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -17,20 +17,20 @@ import java.awt.*;
  * Time: 1:39:53 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class BranchGraphic extends CompositePrimaryGraphic {
+public class BranchGraphic extends CompositePhetGraphic {
     private Branch branch;
     private double thickness;
     private ModelViewTransform2D transform;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
-    private PrimaryShapeGraphic core;
+    private PhetShapeGraphic core;
     private Color highlightColor = Color.yellow;
-    private PrimaryShapeGraphic highlight;
+    private PhetShapeGraphic highlight;
 
     public BranchGraphic( Branch branch, ApparatusPanel apparatusPanel, double thickness, ModelViewTransform2D transform, Color color ) {
         super( apparatusPanel );
-        highlight = new PrimaryShapeGraphic( apparatusPanel, null, highlightColor );
-        core = new PrimaryShapeGraphic( apparatusPanel, null, color );
+        highlight = new PhetShapeGraphic( apparatusPanel, null, highlightColor );
+        core = new PhetShapeGraphic( apparatusPanel, null, color );
         addGraphic( highlight );
         addGraphic( core );
         this.branch = branch;
@@ -49,6 +49,12 @@ public class BranchGraphic extends CompositePrimaryGraphic {
         };
         transform.addTransformListener( transformListener );
         doupdate();
+        setVisible( true );
+    }
+
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        highlight.setVisible( visible && branch.isSelected() );
     }
 
     private void doupdate() {
@@ -58,12 +64,7 @@ public class BranchGraphic extends CompositePrimaryGraphic {
 //            throw new RuntimeException( "No bounds to coreshape." );
         }
         else {
-            if( branch.isSelected() ) {
-                highlight.setVisible( true );
-            }
-            else {
-                highlight.setVisible( false );
-            }
+            highlight.setVisible( branch.isSelected() );
             highlight.setShape( transform.createTransformedShape( highlightShape ) );
             core.setShape( transform.createTransformedShape( coreshape ) );
         }

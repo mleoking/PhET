@@ -21,16 +21,7 @@ import java.util.*;
 public class KirkhoffSolver {
     private ArrayList listeners = new ArrayList();
     public static boolean debugging = false;
-
-//    public void applyInternalResistance( Circuit c ) {
-//        Circuit circuit = (Circuit)c.clone();
-//        for( int i = 0; i < circuit.numBranches(); i++ ) {
-//            Branch br = circuit.branchAt( i );
-//            if( br instanceof Battery ) {
-//
-//            }
-//        }
-//    }
+//    public static boolean debugging = true;
 
     public void apply( Circuit circuit ) {
         //create a gauss jordan matrix.
@@ -52,7 +43,7 @@ public class KirkhoffSolver {
             System.out.println( "mt = " + mt );
             System.out.println( mt.describe( junctionEquations, "Junction Equations" ) );
             System.out.println( mt.describe( loopEquations, "Loop Equations" ) );
-            System.out.println( mt.describe( ohmsLaws, "Ohms Law Equations" ) );
+            System.out.println( mt.describe( ohmsLaws, "Ohm's Law Equations" ) );
             System.out.println( "ms = " + ms );
             solution.print( new DecimalFormat( "#0.0####" ), 4 );
             System.out.println( "rnorm = " + rnorm );
@@ -457,6 +448,7 @@ public class KirkhoffSolver {
         }
 
         public String describe( Equation[] equations, String name ) {
+            DecimalFormat format = new DecimalFormat( "0.00" );
             String str = "";
             str += ( name + "\n" );
             for( int i = 0; i < equations.length; i++ ) {
@@ -470,14 +462,12 @@ public class KirkhoffSolver {
                         if( coeff < 0 ) {
                             sign = "-";
                         }
-                        String coeffVal = "" + Math.abs( coeff ) + "*";
+                        String coeffVal = "" + format.format( Math.abs( coeff ) ) + "*";
                         if( coeff == 1 || coeff == -1 ) {
                             coeffVal = "";
                         }
                         String term = coeffVal + getVariableNameForColumn( k );
-
                         LHS += sign + term;
-//                        LHS += coeffVal + getVariableNameForColumn( k ) + " ";
                     }
                 }
                 if( LHS.startsWith( "+" ) ) {
@@ -485,9 +475,11 @@ public class KirkhoffSolver {
                 }
                 String RHS = "" + equation.getValue();
                 String equ = LHS + " = " + RHS;
-
+                if( !LHS.trim().equals( "" ) ) {
+                    str += "" + i + ": " + equ + "\n";
+                }
 //                System.out.println( "" + i + ": " + equ );
-                str += "" + i + ": " + equ + "\n";
+
             }
 //            System.out.println( str );
             return str;

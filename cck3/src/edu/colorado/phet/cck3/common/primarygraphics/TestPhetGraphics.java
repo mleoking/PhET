@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.primarygraphics;
+package edu.colorado.phet.cck3.common.phetgraphics;
 
 import edu.colorado.phet.cck3.common.RepaintDebugGraphic;
 import edu.colorado.phet.common.math.Vector2D;
@@ -23,7 +23,7 @@ import java.io.IOException;
  * Time: 6:08:32 PM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public class TestPrimaryGraphics {
+public class TestPhetGraphics {
     static double scale = 1;
 
     public static void main( String[] args ) throws IOException {
@@ -31,8 +31,8 @@ public class TestPrimaryGraphics {
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
 
         Font font = new Font( "Lucida Sans", Font.PLAIN, 28 );
-        final PrimaryTextGraphic textGraphic = new PrimaryTextGraphic( panel, font, "HelloiIGg", Color.black, 100, 100 );
-        final PrimaryShapeGraphic shapeGraphic = new PrimaryShapeGraphic( panel, textGraphic.getBounds().getBounds(), Color.blue );
+        final PhetTextGraphic textGraphic = new PhetTextGraphic( panel, font, "HelloiIGg", Color.black, 100, 100 );
+        final PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( panel, textGraphic.getBounds().getBounds(), Color.blue );
 
         DefaultInteractiveGraphic textInteraction = new DefaultInteractiveGraphic( textGraphic );
         textInteraction.addCursorHandBehavior();
@@ -52,7 +52,7 @@ public class TestPrimaryGraphics {
             }
         } );
 
-        final PrimaryImageGraphic imageGraphic = new PrimaryImageGraphic( panel, ImageLoader.loadBufferedImage( "images/Phet-logo-48x48.gif" ), new AffineTransform() );
+        final ImageGraphic imageGraphic = new ImageGraphic( panel, ImageLoader.loadBufferedImage( "images/Phet-logo-48x48.gif" ) );
         DefaultInteractiveGraphic imageInteraction = new DefaultInteractiveGraphic( imageGraphic );
         imageInteraction.addCursorHandBehavior();
         final Point imageLocation = new Point();
@@ -75,12 +75,12 @@ public class TestPrimaryGraphics {
         panel.addGraphic( textInteraction );
         panel.addGraphic( shapeInteraction, -1 );
 
-        final PrimaryMultiLineTextGraphic multiLineText =
-                new PrimaryMultiLineTextGraphic( panel, new String[]{"Hello",
-                                                                     "This is a test", "so there :)"},
-                                                 font, 300, 180, Color.green, 2, 2, Color.red );
-        final PrimaryTransformGraphic transformText = new PrimaryTransformGraphic( multiLineText,
-                                                                                   AffineTransform.getRotateInstance( -Math.PI / 2 ) );
+        final MultiLineTextGraphic multiLineText =
+                new MultiLineTextGraphic( panel, new String[]{"Hello",
+                                                                  "This is a test", "so there :)"},
+                                              font, 300, 180, Color.green, 2, 2, Color.red );
+        final PhetTransformGraphic transformText = new PhetTransformGraphic( multiLineText,
+                                                                             AffineTransform.getRotateInstance( -Math.PI / 2 ) );
         Point loc = transformText.getBounds().getLocation();
         Point dest = new Point( 150, 150 );
         Vector2D vec = new Vector2D.Double( loc, dest );
@@ -91,7 +91,7 @@ public class TestPrimaryGraphics {
 //                transformText.rotate(.01);
 //            }
 //        } );
-        transformText.rotate(-Math.PI / 4);
+        transformText.rotate( -Math.PI / 4 );
 
         DefaultInteractiveGraphic multiLineInteraction = new DefaultInteractiveGraphic( transformText );
         multiLineInteraction.addCursorHandBehavior();
@@ -105,13 +105,13 @@ public class TestPrimaryGraphics {
         RepaintDebugGraphic colorG = new RepaintDebugGraphic( panel, clock );
         colorG.setActive( true );
 
-        //        PrimaryShadowTextGraphic shadowText =
-        //                new PrimaryShadowTextGraphic( "Shadow Text", font, 100, 300, Color.red, 2, 2, Color.blue, panel );
+        //        ShadowTextGraphic shadowText =
+        //                new ShadowTextGraphic( "Shadow Text", font, 100, 300, Color.red, 2, 2, Color.blue, panel );
         //        panel.addGraphic( shadowText );
         //
-        //        CompositePrimaryGraphic cpg = new CompositePrimaryGraphic( panel );
-        //        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 100, 300 ), Color.blue ) );
-        //        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 300, 100 ), Color.red ) );
+        //        CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
+        //        cpg.addGraphic( new PhetShapeGraphic( panel, new Rectangle( 100, 300 ), Color.blue ) );
+        //        cpg.addGraphic( new PhetShapeGraphic( panel, new Rectangle( 300, 100 ), Color.red ) );
         //        panel.addGraphic( cpg, -1 );
         imageGraphic.setVisible( false );
 

@@ -13,6 +13,7 @@ import edu.colorado.phet.cck3.circuit.toolbox.Toolbox;
 import edu.colorado.phet.cck3.circuit.tools.VirtualAmmeter;
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
+import edu.colorado.phet.cck3.common.MovieRecorder;
 import edu.colorado.phet.cck3.common.RepaintDebugGraphic;
 import edu.colorado.phet.cck3.common.WiggleMe;
 import edu.colorado.phet.common.application.ApplicationModel;
@@ -79,10 +80,14 @@ public class CCK3Module extends Module {
     public static final ComponentDimension LEVER_DIMENSION = new ComponentDimension( 1.0 * SCALE * switchscale, 0.5 * SCALE * switchscale );
     public static final ComponentDimension BATTERY_DIMENSION = new ComponentDimension( 1.9 * SCALE, 0.7 * SCALE );
     public static final ComponentDimension SERIES_AMMETER_DIMENSION = new ComponentDimension( 2.33 * SCALE, .92 * SCALE );
+//    private static double bulbLength = 1;
+//    private static double bulbHeight = 1.4;
     private static double bulbLength = 1;
-    private static double bulbHeight = 1.4;
-    private static double bulbDistJ = .333;
-    private static double bulbScale = 1.6;
+    private static double bulbHeight = 1.5;
+
+//    private static double bulbDistJ = .333;
+    private static double bulbDistJ = .39333;
+    private static double bulbScale = 1.9;
     public static final BulbDimension BULB_DIMENSION = new BulbDimension( bulbLength * SCALE * bulbScale, bulbHeight * SCALE * bulbScale, bulbDistJ * SCALE * bulbScale );
 
     public static final double WIRE_LENGTH = BATTERY_DIMENSION.getLength() * 1.2;
@@ -103,7 +108,6 @@ public class CCK3Module extends Module {
     private ResistivityManager resistivityManager;
     private static final double DEFAULT_RESISTANCE = 0.0001;
     private boolean internalResistanceOn = false;
-    private double internalResistance;
 
     public CCK3Module() throws IOException {
         this( false );
@@ -186,6 +190,8 @@ public class CCK3Module extends Module {
         controlPanel = new CCK3ControlPanel( this );
         this.cck3controlPanel = controlPanel;
         setControlPanel( controlPanel );
+//        doinit();
+//        inited = true;
     }
 
     private void relayout() {
@@ -211,6 +217,7 @@ public class CCK3Module extends Module {
             };
 
             SwingUtilities.invokeLater( r );
+//            r.run();
         }
 
         if( transform != null && !transform.getViewBounds().equals( getViewBounds() ) ) {
@@ -243,7 +250,11 @@ public class CCK3Module extends Module {
     }
 
     private void doinit() throws IOException {
-        transform = new ModelViewTransform2D( modelBounds, getViewBounds() );
+//        Rectangle viewBounds = new Rectangle( 0, 0, 100, 100 );
+        Rectangle vb = getApparatusPanel().getBounds();
+        Rectangle viewBounds = new Rectangle( vb.width, vb.height );
+        transform = new ModelViewTransform2D( modelBounds, viewBounds );
+//        transform = new ModelViewTransform2D.OriginTopLeft( modelBounds, viewBounds );
         circuitGraphic = new CircuitGraphic( this );
         setupToolbox();
         particleSet = new ParticleSet( circuit );
@@ -289,8 +300,9 @@ public class CCK3Module extends Module {
         Rectangle2D rect = toolbox.getBounds2D();
         Point pt = transform.modelToView( rect.getX(), rect.getY() + rect.getHeight() );
         pt.translate( -130, 5 );
-        wiggleMe = new WiggleMe( getApparatusPanel(), pt,
-                                 new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
+//        wiggleMe = new WiggleMe( getApparatusPanel(), pt,
+//                                 new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
+        wiggleMe = new WiggleMe( getApparatusPanel(), pt, new ImmutableVector2D.Double( 0, 1 ), 10, .025, "Grab a wire." );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 Rectangle2D rect = toolbox.getBounds2D();
@@ -315,9 +327,12 @@ public class CCK3Module extends Module {
             public void branchesMoved( Branch[] branches ) {
                 if( branches.length > 0 ) {
                     circuit.removeCircuitListener( this );
+                    wiggleMe.setVisible( false );
                     getApparatusPanel().removeGraphic( wiggleMe );
                     getModel().removeModelElement( wiggleMe );
-                    getApparatusPanel().repaint( wiggleMe.getBounds() );
+                    if( wiggleMe.getBounds() != null ) {
+                        getApparatusPanel().repaint( wiggleMe.getBounds() );
+                    }
                 }
             }
         } );
@@ -337,7 +352,6 @@ public class CCK3Module extends Module {
         //        };
         //        getModel().addModelElement( me );
         setSeriesAmmeterVisible( false );
-        testInit();
     }
 
     public void setHelpEnabled( boolean h ) {
@@ -365,38 +379,6 @@ public class CCK3Module extends Module {
         }
         toolbox = new Toolbox( createToolboxBounds(), this, backgroundColor );
         getApparatusPanel().addGraphic( toolbox );
-    }
-
-    private void testInit() {
-        //        Branch branch = circuit.createBranch( 4, 4, 7, 4 );
-        //        circuitGraphic.addWireGraphic( branch );
-        //
-        //        Branch branch2 = circuit.createBranch( 4, 2, 7, 2 );
-        //        circuitGraphic.addWireGraphic( branch2 );
-
-        //        Battery battery = new Battery( new Point2D.Double( 1, 1 ), new Vector2D.Double( 1, 3 ), 1, .5, getKirkhoffListener() );
-        //        circuitGraphic.addGraphic( battery );
-        //        circuit.addBranch( battery );
-        //
-        //        final Resistor resistor = new Resistor( new Point2D.Double( 1, 3 ), new Vector2D.Double( 1, 0 ), RESISTOR_LENGTH, RESISTOR_HEIGHT, getKirkhoffListener() );
-        //        circuitGraphic.addGraphic( resistor );
-        //        circuit.addBranch( resistor );
-        //
-        //        Switch switch1 = new Switch( new Point2D.Double( 5, 5 ), new Vector2D.Double( 1, 0 ), .9, .8, getKirkhoffListener() );
-        //        circuit.addBranch( switch1 );
-        //        circuitGraphic.addGraphic( switch1 );
-        //        double SUPER_BULB_SCALE = 3;
-        //        final Bulb bulb = new Bulb( new Point2D.Double( 5, 5 ), new ImmutableVector2D.Double( 0, 1 ),
-        //                                    BULB_DIMENSION.getLength() * SUPER_BULB_SCALE / 3,
-        //                                    BULB_DIMENSION.getLength() * SUPER_BULB_SCALE,
-        //                                    BULB_DIMENSION.getHeight() * SUPER_BULB_SCALE,
-        //                                    getKirkhoffListener() );
-        //        circuit.addBranch( bulb );
-        //        circuitGraphic.addGraphic( bulb );
-        //
-        //        layout.relayout( circuit.getBranches() );
-
-        layout.relayout( circuit.getBranches() );
     }
 
     private void addVirtualAmmeter() {
@@ -490,6 +472,7 @@ public class CCK3Module extends Module {
         removeParticlesAndGraphics( branch );
         circuitGraphic.removeGraphic( branch );
         circuit.remove( branch );
+
         //see if the adjacent junctions are free.
         testRemove( branch.getStartJunction() );
         testRemove( branch.getEndJunction() );
@@ -637,23 +620,29 @@ public class CCK3Module extends Module {
         app.getApplicationView().getPhetFrame().addMenu( laf );
 
         UIManager.setLookAndFeel( cckLookAndFeel );
+        PlafUtil.updateFrames();
         app.startApplication();
+        PlafUtil.updateFrames();
         app.getApplicationView().getPhetFrame().doLayout();
         app.getApplicationView().getPhetFrame().repaint();
         cck.getApparatusPanel().addKeyListener( new CCKKeyListener( cck, colorG ) );
         cck.getApparatusPanel().requestFocus();
-        PlafUtil.updateFrames();
+//        PlafUtil.updateFrames();
         if( debugMode ) {
             app.getApplicationView().getPhetFrame().setLocation( 0, 0 );
         }
+        MovieRecorder movieRecorder = new MovieRecorder( app.getApplicationView().getPhetFrame(), "cckmovie" );
+        clock.addClockTickListener( movieRecorder );
+        movieRecorder.setRecording( false );
+        cck.getApparatusPanel().addKeyListener( movieRecorder );
     }
 
     public static class ResistivityManager extends CircuitListenerAdapter {
         private CCK3Module module;
         private Circuit circuit;
-        private static double DEFAULT_RESISTIVITY = 0.05;
+        private static double DEFAULT_RESISTIVITY = 0.0;
         private double resistivity = DEFAULT_RESISTIVITY;
-        private boolean enabled = false;
+        private boolean enabled = true;
 
         public ResistivityManager( CCK3Module module ) {
             this.module = module;
@@ -671,7 +660,7 @@ public class CCK3Module extends Module {
                     if( b.getClass().equals( Branch.class ) ) {//make sure it's not a component.
                         double resistance = getResistance( b );
                         b.setResistance( resistance );
-                        System.out.println( "resistance = " + resistance );
+//                        System.out.println( "resistance = " + resistance );
                     }
                 }
             }
@@ -739,17 +728,11 @@ public class CCK3Module extends Module {
         if( this.internalResistanceOn != selected ) {
             this.internalResistanceOn = selected;
         }
+        ReadoutGraphic[] rg = circuitGraphic.getReadoutGraphics();
+        for( int i = 0; i < rg.length; i++ ) {
+            ReadoutGraphic readoutGraphic = rg[i];
+            readoutGraphic.recompute();
+        }
     }
-
-//    public void setInternalResistance( double value ) {
-//        this.internalResistance = value;
-//        for( int i = 0; i < circuit.numBranches(); i++ ) {
-//            Branch br = circuit.branchAt( i );
-//            if( br instanceof Battery ) {
-//                Battery batt = (Battery)br;
-//                batt.setResistance( value );
-//            }
-//        }
-//    }
 
 }

@@ -21,6 +21,7 @@ public class Bulb extends CircuitComponent {
     private SimpleObserver so;
     private double width;
     private boolean isSchematic = false;
+    private boolean connectAtRight = true;
 
     public Bulb( Point2D start, AbstractVector2D dir,
                  double distBetweenJunctions,
@@ -118,14 +119,13 @@ public class Bulb extends CircuitComponent {
         }
         this.isSchematic = schematic;
         //move junctions, if necessary.
-        Vector2D delta = null;
+//        Vector2D delta = null;
         if( schematic ) {
-            delta = expandToSchematic( this, circuit );
+            expandToSchematic( this, circuit );
         }
         else {
-            delta = collaspeToLifelike( this, circuit );
+            collaspeToLifelike( this, circuit );
         }
-
     }
 
     private Vector2D collaspeToLifelike( Bulb bulb, Circuit circuit ) {
@@ -145,7 +145,7 @@ public class Bulb extends CircuitComponent {
         return delta;
     }
 
-    private Vector2D expandToSchematic( Bulb bulb, Circuit circuit ) {
+    private static void expandToSchematic( Bulb bulb, Circuit circuit ) {
         Vector2D vec = new Vector2D.Double( bulb.getStartJunction().getPosition(), bulb.getEndJunction().getPosition() );
         Point2D dst = vec.getInstanceOfMagnitude( CCK3Module.SCH_BULB_DIST ).getDestination( bulb.getStartJunction().getPosition() );
         Vector2D delta = new Vector2D.Double( bulb.getEndJunction().getPosition(), dst );
@@ -158,11 +158,38 @@ public class Bulb extends CircuitComponent {
         else {
             bulb.getEndJunction().setPosition( dst.getX(), dst.getY() );
         }
-        return delta;
     }
 
     public boolean isSchematic() {
         return isSchematic;
+    }
+
+    public boolean isConnectAtRight() {
+        return connectAtRight;
+    }
+
+    public void flip( CCK3Module module ) {
+        Circuit circuit = module.getCircuit();
+        connectAtRight = !connectAtRight;
+        filament.setConnectAtRight( connectAtRight );
+        double sign = -1;
+        if( connectAtRight ) {
+            sign = 1;
+        }
+        double tilt = BulbComponentGraphic.determineTilt();
+        AbstractVector2D vector = getDirectionVector();
+        vector = vector.getRotatedInstance( tilt * 2 * sign );
+        Point2D target = vector.getDestination( getStartJunction().getPosition() );
+        Vector2D delta = new Vector2D.Double( getEndJunction().getPosition(), target );
+
+        if( circuit != null ) {
+            Branch[] sc = circuit.getStrongConnections( this, getEndJunction() );
+            BranchSet bs = new BranchSet( circuit, sc );
+            bs.addJunction( getEndJunction() );
+            bs.translate( delta );
+        }
+
+//        getEndJunction().setPosition( target.getX(), target.getY() );
     }
 
 }

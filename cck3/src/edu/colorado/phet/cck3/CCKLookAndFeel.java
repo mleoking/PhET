@@ -18,7 +18,7 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
         "Button", "MenuItem", "Panel", "Dialog",
         "CheckBox", "RadioButton", "ComboBox",
         "Menu", "MenuItem", "MenuBar",
-        "Slider"
+        "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem"
     };
 
     static {
@@ -27,7 +27,7 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
 
         Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 18 );
         Font font1040 = new Font( "Lucida Sans", Font.BOLD, 10 );
-        
+
         Font uifont = font1040;
 
         if( Toolkit.getDefaultToolkit().getScreenSize().width > 1024 ) {
@@ -47,7 +47,7 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
         ColorUIResource background = new ColorUIResource( backgroundColor );
         ColorUIResource foreground = new ColorUIResource( foregroundColor );
         FontUIResource fontResource = new FontUIResource( font );
-        FontUIResource borderFont=new FontUIResource( new Font( "Lucida Sans",Font.ITALIC, 16));
+        FontUIResource borderFont = new FontUIResource( new Font( "Lucida Sans", Font.ITALIC, 16 ) );
 
         InsetsUIResource insets = new InsetsUIResource( 2, 2, 2, 2 );
         ArrayList def = new ArrayList();
@@ -62,8 +62,8 @@ public class CCKLookAndFeel extends SmoothLookAndFeel {
             def.add( type + ".margin" );
             def.add( insets );
         }
-        def.add("TitledBorder.font");
-        def.add(borderFont );
+        def.add( "TitledBorder.font" );
+        def.add( borderFont );
         Object[] defaults = def.toArray();
         table.putDefaults( defaults );
     }

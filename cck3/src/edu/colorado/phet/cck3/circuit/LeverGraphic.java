@@ -3,10 +3,10 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentImageGraphic;
 import edu.colorado.phet.cck3.circuit.components.Switch;
+import edu.colorado.phet.cck3.common.phetgraphics.ImageGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -21,7 +21,7 @@ import java.awt.image.BufferedImage;
  * Time: 12:54:18 PM
  * Copyright (c) Jun 10, 2004 by Sam Reid
  */
-public class LeverGraphic extends FastPaintImageGraphic {
+public class LeverGraphic extends ImageGraphic {
     private CircuitComponentImageGraphic baseGraphic;
     private double length;
     private double height;
@@ -37,7 +37,7 @@ public class LeverGraphic extends FastPaintImageGraphic {
     private TransformListener transformListener;
 
     public LeverGraphic( CircuitComponentImageGraphic baseGraphic, BufferedImage image, Component parent, ModelViewTransform2D transform, double length, double height ) {
-        super( image, parent );
+        super( parent, image );
         this.mvtransform = transform;
         this.baseGraphic = baseGraphic;
         this.length = length;
@@ -64,6 +64,7 @@ public class LeverGraphic extends FastPaintImageGraphic {
             relativeAngle = OPEN_ANGLE;
         }
         changed();
+        setVisible( true );
     }
 
     private void changed() {
@@ -78,8 +79,8 @@ public class LeverGraphic extends FastPaintImageGraphic {
         Point2D modelDst = to.getDestination( baseSrc );
         Point2D modelSrc = leverDir.getDestination( modelDst );
 
-        int w0 = getBufferedImage().getWidth();
-        int h0 = getBufferedImage().getHeight();
+        int w0 = getImage().getWidth();
+        int h0 = getImage().getHeight();
         this.modelPivot = modelSrc;
         Point2D viewSrc = mvtransform.modelToView( modelSrc );
         Point2D viewDst = mvtransform.modelToView( modelDst );

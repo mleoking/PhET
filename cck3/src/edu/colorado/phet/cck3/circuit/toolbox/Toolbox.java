@@ -4,13 +4,14 @@ package edu.colorado.phet.cck3.circuit.toolbox;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.circuit.components.*;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -26,13 +27,15 @@ import java.awt.image.BufferedImage;
  * Copyright (c) May 29, 2004 by Sam Reid
  */
 public class Toolbox extends CompositeGraphic {
-    SimpleObservable simpleObservable = new SimpleObservable();
-    Rectangle2D modelRect;
+    private SimpleObservable simpleObservable = new SimpleObservable();
+    private Rectangle2D modelRect;
     private ApparatusPanel parent;
     private ModelViewTransform2D transform;
-    FastPaintShapeGraphic boundaryGraphic;
     private CCK3Module module;
+
     private Color backgroundColor;
+
+    private PhetShapeGraphic boundaryGraphic;
     private BranchSource.WireSource wireSource;
     private BranchSource.BatterySource batterySource;
     private BranchSource.BulbSource bulbSource;
@@ -54,12 +57,12 @@ public class Toolbox extends CompositeGraphic {
         } );
         rebuild();
         doUpdate();
+        setVisible( true );
     }
 
     private void rebuild() {
-
-        boundaryGraphic = new FastPaintShapeGraphic( transform.createTransformedShape( modelRect ),
-                                                     backgroundColor, Color.black, new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ), parent );
+        boundaryGraphic = new PhetShapeGraphic( parent, transform.createTransformedShape( modelRect ),
+                                                   backgroundColor, new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ), Color.black );
 
         double fracInsetX = .1;
         double componentWidthFrac = 1 - fracInsetX * 2;
@@ -101,11 +104,17 @@ public class Toolbox extends CompositeGraphic {
         {
             double bulbToolWidth = componentWidth;
             double bulbToolHeight = CCK3Module.BULB_DIMENSION.getHeightForLength( bulbToolWidth );
-            Vector2D bulbDir = new Vector2D.Double( 0, 1 );
-            Bulb bulb = new Bulb( new Point2D.Double( componentX + componentWidth / 2, y - CCK3Module.BULB_DIMENSION.getHeight() / 3 ),
+            AbstractVector2D bulbDir = new Vector2D.Double( 0, 1 );
+            bulbDir = bulbDir.getRotatedInstance( BulbComponentGraphic.determineTilt() );
+            double bulbY = y - CCK3Module.BULB_DIMENSION.getHeight() * modelRect.getHeight() / 30;
+            Bulb bulb = new Bulb( new Point2D.Double( componentX + componentWidth / 2, bulbY ),
                                   bulbDir, 1, bulbToolWidth, bulbToolHeight, module.getKirkhoffListener() );//TODO 1 is broken
             BulbComponentGraphic bulbGraphic = new BulbComponentGraphic( parent, bulb, transform, module );
-            SchematicBulbGraphic schBulbGraphic = new SchematicBulbGraphic( parent, bulb, transform, schematicWireThickness );
+            Vector2D schBulbDir = new Vector2D.Double( 1, 0 );
+            Bulb schematicBulb = new Bulb( new Point2D.Double( componentX, bulbY ),
+                                           schBulbDir, componentWidth, bulbToolWidth, bulbToolHeight, module.getKirkhoffListener() );
+
+            SchematicBulbGraphic schBulbGraphic = new SchematicBulbGraphic( parent, schematicBulb, transform, schematicWireThickness );
             bulbSource = new BranchSource.BulbSource( bulbGraphic, module.getCircuitGraphic(), parent, bulb, schBulbGraphic, CCK3Module.BULB_DIMENSION, module.getKirkhoffListener(),
                                                       CCK3Module.BULB_DIMENSION.getDistBetweenJunctions() );
             addSource( bulbSource );
@@ -144,6 +153,7 @@ public class Toolbox extends CompositeGraphic {
             SeriesAmmeter sam = new SeriesAmmeter( module.getKirkhoffListener(), new Point2D.Double( componentX, y ),
                                                    new ImmutableVector2D.Double( 1, 0 ), samLength, samHeight );
             SeriesAmmeterGraphic sag = new SeriesAmmeterGraphic( parent, sam, transform, module, "Ammeter" );
+            sag.setFont( new Font( "Lucida Sans",Font.PLAIN, 8) );
             SchematicAmmeterGraphic schAg = new SchematicAmmeterGraphic( parent, sam, transform, schematicWireThickness, module.getDecimalFormat() );
             ammeterSource = new BranchSource.AmmeterSource( sag, schAg, module.getCircuitGraphic(), parent, sam, module.getKirkhoffListener(), dir,
                                                             CCK3Module.SERIES_AMMETER_DIMENSION.getLength(),
@@ -151,6 +161,7 @@ public class Toolbox extends CompositeGraphic {
             addSource( ammeterSource );
         }
         setLifelike( module.getCircuitGraphic().isLifelike() );
+        setVisible( true );
     }
 
     public void addObserver( SimpleObserver observer ) {
@@ -161,6 +172,17 @@ public class Toolbox extends CompositeGraphic {
         Shape viewShape = transform.createTransformedShape( modelRect ).getBounds();
         boundaryGraphic.setShape( viewShape );//that's a view shape.
         simpleObservable.notifyObservers();
+    }
+
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        boundaryGraphic.setVisible( visible );
+        wireSource.setVisible( visible );
+        batterySource.setVisible( visible );
+        bulbSource.setVisible( visible );
+        resistorSource.setVisible( visible );
+        switchSource.setVisible( visible );
+        ammeterSource.setVisible( visible );
     }
 
     public void addSource( BranchSource branchSource ) {

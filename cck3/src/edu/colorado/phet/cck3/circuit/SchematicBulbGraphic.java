@@ -3,8 +3,8 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.circuit.components.Bulb;
 import edu.colorado.phet.cck3.circuit.components.SchematicResistorGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.*;
@@ -19,13 +19,21 @@ import java.awt.geom.Point2D;
  */
 public class SchematicBulbGraphic extends SchematicResistorGraphic {
     private Bulb bulb;
-    FastPaintShapeGraphic shapeGraphic;
+    PhetShapeGraphic shapeGraphic;
 
     public SchematicBulbGraphic( Component parent, Bulb bulb, ModelViewTransform2D transform, double wireThickness ) {
         super( parent, bulb, transform, wireThickness );
         this.bulb = bulb;
-        shapeGraphic = new FastPaintShapeGraphic( null, Color.black, new BasicStroke( 3 ), parent );
+        shapeGraphic = new PhetShapeGraphic( parent, null, new BasicStroke( 3.0f ), Color.black );
         changed();
+        setVisible( true );
+    }
+
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        if( shapeGraphic != null ) {
+            shapeGraphic.setVisible( visible );
+        }
     }
 
     protected void changed() {

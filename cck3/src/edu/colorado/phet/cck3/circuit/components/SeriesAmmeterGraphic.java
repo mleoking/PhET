@@ -5,11 +5,13 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
 import edu.colorado.phet.cck3.common.LineSegment;
-import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetTransformGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.fastpaint.FastPaint;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -26,13 +28,10 @@ import java.util.ArrayList;
  * Time: 12:57:37 AM
  * Copyright (c) May 29, 2004 by Sam Reid
  */
-public class SeriesAmmeterGraphic implements IComponentGraphic {
-    private Component parent;
+public class SeriesAmmeterGraphic extends CompositePhetGraphic implements IComponentGraphic {
     private SeriesAmmeter component;
     private ModelViewTransform2D transform;
     private CCK3Module module;
-    private AffineTransform affineTx;
-
     private Stroke stroke = new BasicStroke( 5 );
     private Font font = new Font( "Lucida Sans", Font.BOLD, 17 );
     private Shape shape;
@@ -41,22 +40,26 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
     private KirkhoffSolutionListener kirkhoffSolutionListener;
-    PrimaryShapeGraphic highlightRegion;
+    private int numWindows = 3;
+
+    private PhetShapeGraphic highlightRegion;
+    private PhetShapeGraphic blackGraphic;
+    private PhetShapeGraphic[] windowGraphics = new PhetShapeGraphic[numWindows];
+    private PhetShapeGraphic areaGraphic;
+    private PhetTransformGraphic textTX;
+    private PhetTextGraphic textGraphic;
 
     public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCK3Module module, String fixedMessage ) {
         this( parent, component, transform, module );
-
         this.fixedMessage = fixedMessage;
     }
 
     public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, final CCK3Module module ) {
-        highlightRegion = new PrimaryShapeGraphic( parent, new Area(), Color.yellow );
-        this.parent = parent;
+        super( parent );
+        highlightRegion = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         this.component = component;
         this.transform = transform;
         this.module = module;
-
-        changed();
 
         simpleObserver = new SimpleObserver() {
             public void update() {
@@ -73,88 +76,52 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
         kirkhoffSolutionListener = new KirkhoffSolutionListener() {
             public void finishedKirkhoff() {
                 DecimalFormat df = module.getDecimalFormat();
-//                        new DecimalFormat( "#0.0#" );
                 String form = df.format( Math.abs( component.getCurrent() ) );
                 text = "" + form + " Amps";
                 changed();
             }
         };
         module.getKirkhoffSolver().addSolutionListener( kirkhoffSolutionListener );
+        blackGraphic = new PhetShapeGraphic( parent, new Area(), stroke, Color.black );
+
+        addGraphic( highlightRegion );
+        addGraphic( blackGraphic );
+        areaGraphic = new PhetShapeGraphic( parent, new Area(), Color.black );
+        addGraphic( areaGraphic );
+        for( int i = 0; i < windowGraphics.length; i++ ) {
+            windowGraphics[i] = new PhetShapeGraphic( parent, new Area(), new BasicStroke( 1.2f ), Color.black );
+            addGraphic( windowGraphics[i] );
+        }
+        textGraphic = new PhetTextGraphic( parent, font, "", Color.black, 0, 0 );
+        textGraphic.setVisible( true );
+        textTX = new PhetTransformGraphic( textGraphic, new AffineTransform() );
+        addGraphic( textTX );
+        changed();
+        setVisible( true );
     }
 
-    private void updateShape() {
-        double newHeight = transform.modelToViewDifferentialY( component.getHeight() );
-        Point2D start = transform.modelToView( component.getStartJunction().getPosition() );
-        Point2D end = transform.modelToView( component.getEndJunction().getPosition() );
-
-        this.shape = LineSegment.getSegment( start, end, newHeight );
+    public void setFont( Font font ) {
+        textGraphic.setFont( font );
     }
 
     private void changed() {
-        Rectangle r1 = expand( getBounds() );
-        updateShape();
-        Rectangle r2 = expand( getBounds() );
-        if( r1 != null && r2 != null ) {
-            FastPaint.fastRepaint( parent, r1, r2 );
-        }
-        else if( r2 != null ) {
-            FastPaint.fastRepaint( parent, r2 );
-        }
+        double newHeight = transform.modelToViewDifferentialY( component.getHeight() );
+        Point2D start = transform.modelToView( component.getStartJunction().getPosition() );
+        Point2D end = transform.modelToView( component.getEndJunction().getPosition() );
+        this.shape = LineSegment.getSegment( start, end, newHeight );
         BasicStroke stroke = new BasicStroke( 12 );
         highlightRegion.setShape( stroke.createStrokedShape( shape ) );
         highlightRegion.setVisible( component.isSelected() );
-    }
 
-    private Rectangle expand( Rectangle bounds ) {
-        if( bounds == null ) {
-            return null;
-        }
-        int inset = 6;
-        return new Rectangle( bounds.x - inset, bounds.y - inset, bounds.width + inset * 2, bounds.height + inset * 2 );
-    }
+        blackGraphic.setShape( shape );
 
-    private Rectangle getBounds() {
-        if( shape == null ) {
-            return null;
-        }
-        return shape.getBounds();
-    }
-
-    public ModelViewTransform2D getModelViewTransform2D() {
-        return transform;
-    }
-
-    public CircuitComponent getCircuitComponent() {
-        return component;
-    }
-
-    public void delete() {
-        component.removeObserver( simpleObserver );
-        transform.removeTransformListener( transformListener );
-        module.getKirkhoffSolver().removeSolutionListener( kirkhoffSolutionListener );
-    }
-
-    public boolean contains( int x, int y ) {
-        return shape != null && shape.contains( x, y );
-    }
-
-    public void paint( Graphics2D g ) {
-        highlightRegion.paint( g );
-        Point2D start = transform.modelToView( component.getStartJunction().getPosition() );
-        Point2D end = transform.modelToView( component.getEndJunction().getPosition() );
         Vector2D dir = new Vector2D.Double( start, end ).normalize();
         AbstractVector2D north = dir.getNormalVector();
 
         double angle = new Vector2D.Double( start, end ).getAngle();
         Rectangle r = shape.getBounds();
 
-        g.setColor( Color.black );
-        g.setStroke( stroke );
-        g.draw( shape );
-
-        //TODO this is slow, and not well written.
         Area area = new Area( shape );
-        int numWindows = 3;
         double windowHeightFraction = .3;
         int windowHeight = transform.modelToViewDifferentialY( component.getHeight() * windowHeightFraction );
         double length = start.distance( end );
@@ -173,34 +140,41 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
             Shape seg = LineSegment.getSegment( a, b, windowHeight );
             windows.add( seg );
             area.subtract( new Area( seg ) );
-        }
-        g.setStroke( new BasicStroke( 1 ) );
-        g.setColor( Color.black );
-        for( int i = 0; i < windows.size(); i++ ) {
-            Shape windowShape = (Shape)windows.get( i );
-            g.draw( windowShape );
+            windowGraphics[i].setShape( seg );
         }
 
         Point a = r.getLocation();
         Point b = new Point( (int)( a.getX() + r.getWidth() ), (int)( a.getY() + r.getHeight() ) );
         Color startColor = new Color( 255, 230, 250 );
         Color endColor = new Color( 230, 255, 230 );
-        g.setPaint( new GradientPaint( a, startColor, b, endColor ) );
-        g.fill( area );
+        areaGraphic.setPaint( new GradientPaint( a, startColor, b, endColor ) );
+        areaGraphic.setShape( area );
 
-        g.setColor( Color.black );
-
-//        Point2D textLoc = north.getScaledInstance( -2.5 ).getDestination( start );
         Point2D textLoc = north.getScaledInstance( -2.9 ).getDestination( start );
         textLoc = dir.getInstanceOfMagnitude( 2 ).getDestination( textLoc );
 
-        g.rotate( angle, textLoc.getX(), textLoc.getY() );
-        g.setFont( font );
         String msg = text;
         if( fixedMessage != null ) {
             msg = fixedMessage;
         }
-        g.drawString( msg, (float)textLoc.getX(), (float)textLoc.getY() );
-        g.rotate( -angle, textLoc.getX(), textLoc.getY() );
+        textGraphic.setText( msg );
+        textGraphic.setPosition( (int)textLoc.getX(), (int)textLoc.getY() );
+        AffineTransform at = AffineTransform.getRotateInstance( angle, textLoc.getX(), textLoc.getY() );
+        textTX.setTransform( at );
     }
+
+    public ModelViewTransform2D getModelViewTransform2D() {
+        return transform;
+    }
+
+    public CircuitComponent getCircuitComponent() {
+        return component;
+    }
+
+    public void delete() {
+        component.removeObserver( simpleObserver );
+        transform.removeTransformListener( transformListener );
+        module.getKirkhoffSolver().removeSolutionListener( kirkhoffSolutionListener );
+    }
+
 }

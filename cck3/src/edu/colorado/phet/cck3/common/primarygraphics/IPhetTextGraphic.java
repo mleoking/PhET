@@ -1,4 +1,4 @@
-package edu.colorado.phet.cck3.common.primarygraphics;
+package edu.colorado.phet.cck3.common.phetgraphics;
 
 
 /**
@@ -7,6 +7,8 @@ package edu.colorado.phet.cck3.common.primarygraphics;
  * Time: 8:00:01 PM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public interface IPrimaryTextGraphic {
+public interface IPhetTextGraphic {
     void setPosition( int x, int y );
+
+    void setVisible( boolean visible );
 }

@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.PathBranch;
@@ -18,24 +19,30 @@ import java.awt.geom.Point2D;
  * Copyright (c) Jun 13, 2004 by Sam Reid
  */
 public class Filament extends PathBranch {
-    Junction shellJunction;
-    Junction tailJunction;
-    int numPeaks;
-    double resistorDY;//the pin is the assumed origin.
-    double resistorWidth;
-    private double zigHeight;
+    private Junction shellJunction;
+    private Junction tailJunction;
+    private double resistorDY;//the pin is the assumed origin.
+    private double resistorWidth;
     private AbstractVector2D northDir;
     private AbstractVector2D eastDir;
     private Point2D pin;
+    private boolean connectAtRight = true;
 
     public Filament( KirkhoffListener kl, Junction tailJunction, Junction shellJunction, int numPeaks, double pivotToResistorDY, double resistorWidth, double zigHeight ) {
         super( kl, tailJunction, shellJunction );
         this.shellJunction = shellJunction;
         this.tailJunction = tailJunction;
-        this.numPeaks = numPeaks;
         this.resistorDY = pivotToResistorDY;
         this.resistorWidth = resistorWidth;
-        this.zigHeight = zigHeight;
+        recompute();
+    }
+
+    public boolean isConnectAtRight() {
+        return connectAtRight;
+    }
+
+    public void setConnectAtRight( boolean connectAtRight ) {
+        this.connectAtRight = connectAtRight;
         recompute();
     }
 
@@ -79,8 +86,16 @@ public class Filament extends PathBranch {
     }
 
     public void recompute() {
+        double tilt = BulbComponentGraphic.determineTilt();
+        if( !connectAtRight ) {
+            tilt = -tilt;
+        }
         northDir = new Vector2D.Double( tailJunction.getPosition(), shellJunction.getPosition() ).getNormalizedInstance();
+        northDir = northDir.getRotatedInstance( -tilt );
         eastDir = northDir.getNormalVector().getNormalizedInstance();
+        if( !connectAtRight ) {
+            eastDir = eastDir.getScaledInstance( -1 );
+        }
         if( isNaN( northDir ) || isNaN( eastDir ) ) {
             System.out.println( "Bulb basis set is not a number." );
             return;
@@ -92,20 +107,8 @@ public class Filament extends PathBranch {
             throw new RuntimeException( "Point was nan: " + pt );
         }
         super.reset( tailJunction.getPosition(), pt );
-//        super.addPoint( pt );
-
-        //zig zags go here.
-        int numQuarters = ( numPeaks - 1 ) * 4 + 2;
-        double numWaves = numQuarters / 4.0;
-        double wavelength = resistorWidth / numWaves;
-        double quarterWavelength = wavelength / 4.0;
-        double halfWavelength = wavelength / 2.0;
-        addPoint( getVector( quarterWavelength, zigHeight ) );
-        for( int i = 0; i < numPeaks - 1; i++ ) {
-            addPoint( getVector( halfWavelength, -2 * zigHeight ) );
-            addPoint( getVector( halfWavelength, 2 * zigHeight ) );
-        }
-        addPoint( getVector( quarterWavelength, -zigHeight ) );
+        addPoint( getVector( -resistorWidth / 4, CCK3Module.BULB_DIMENSION.getHeight() * 0.2 ) );
+        addPoint( getVector( resistorWidth * .68, 0 ) );
         addPoint( pin );
     }
 
