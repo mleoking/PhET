@@ -34,10 +34,12 @@ public class PhysicalPanel extends ApparatusPanel {
     }
 
     public void addNucleus( Nucleus nucleus ) {
-        NucleusGraphic ng = new NucleusGraphic( nucleus );
+        NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
+//        NucleusGraphic ng = new NucleusGraphic( nucleus );
         // Register the graphic to the model element
         modelElementToGraphicMap.put( nucleus, ng );
         addGraphic( ng, originTx );
+//        addGraphic( new TxGraphic( ng, originTx ));
     }
 
     public void removeNucleus( Nucleus nucleus ) {

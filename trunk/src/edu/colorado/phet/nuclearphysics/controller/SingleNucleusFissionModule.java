@@ -34,12 +34,11 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
         this.clock = clock;
 
-        setNucleus( new Uranium235( new Point2D.Double( 0, 0 ) ) );
+        setNucleus( new Uranium235( new Point2D.Double( 0, 0 ), getModel() ) );
         setUraniumNucleus( getNucleus() );
         getNucleus().addFissionListener( this );
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                checkForFission();
                 if( SingleNucleusFissionModule.this.neutronToAdd != null ) {
                     SingleNucleusFissionModule.this.addNeutron( neutronToAdd );
                     SingleNucleusFissionModule.this.neutronToAdd = null;
@@ -66,25 +65,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         super.addNeutron( neutron );
     }
 
-    private void checkForFission() {
-        for( int i = 0; i < getModel().numModelElements(); i++ ) {
-            ModelElement me = getModel().modelElementAt( i );
-            if( me instanceof Neutron ) {
-                Neutron neutron = (Neutron)me;
-                for( int j = 0; j < getModel().numModelElements(); j++ ) {
-                    ModelElement me2 = getModel().modelElementAt( j );
-                    if( me2 instanceof Uranium235 ) {
-                        Uranium235 nucleus = (Uranium235)me2;
-                        if( neutron.getLocation().distanceSq( nucleus.getLocation() )
-                            < nucleus.getRadius() * nucleus.getRadius() ) {
-                            nucleus.fission( neutron );
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public void fission( FissionProducts products ) {
 
         PotentialProfilePanel potentialProfilePanel = this.getPotentialProfilePanel();
@@ -105,8 +85,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         potentialProfilePanel.removePotentialProfile( products.getParent().getPotentialProfile() );
 
         // Add fission products
-        super.addNeucleus( products.getDaughter1() );
-        super.addNeucleus( products.getDaughter2() );
+        super.addNucleus( products.getDaughter1() );
+        super.addNucleus( products.getDaughter2() );
         Neutron[] neutronProducts = products.getNeutronProducts();
         for( int i = 0; i < neutronProducts.length; i++ ) {
             NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
@@ -117,7 +97,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         // Add some pizzazz
         Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
                                     25, 300, getApparatusPanel() );
-//                                    25, 300, getPotentialProfilePanel() );
         getPhysicalPanel().addGraphic( kaboom );
     }
 

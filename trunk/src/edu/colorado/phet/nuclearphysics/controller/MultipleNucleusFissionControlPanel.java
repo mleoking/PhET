@@ -10,6 +10,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
+import edu.colorado.phet.nuclearphysics.model.Uranium238;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -21,9 +22,20 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 public class MultipleNucleusFissionControlPanel extends JPanel {
+
+    //
+    // Static fields and methods
+    //
     private static Random random = new Random();
+    private static final int U235 = 1;
+    private static final int U238 = 2;
+
+    //
+    // Instance fields and methods
+    //
     private MultipleNucleusFissionModule module;
-    private JSpinner numNucleiSpinner;
+    private JSpinner numU235Spinner;
+    private JSpinner numU238Spinner;
 
     public MultipleNucleusFissionControlPanel( final MultipleNucleusFissionModule module ) {
         super();
@@ -32,7 +44,16 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         // nuclei
         module.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                numNucleiSpinner.setValue( new Integer( module.getNuclei().size() ) );
+                int modelNum = module.getU235Nuclei().size();
+                int viewNum = ( (Integer)numU235Spinner.getValue() ).intValue();
+                if( modelNum != viewNum ) {
+                    numU235Spinner.setValue( new Integer( module.getU235Nuclei().size() ) );
+                }
+                modelNum = module.getU238Nuclei().size();
+                viewNum = ( (Integer)numU238Spinner.getValue() ).intValue();
+                if( modelNum != viewNum ) {
+                    numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
+                }
             }
         } );
 
@@ -53,22 +74,35 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
 //            }
 //        } );
 //
-        SpinnerModel spinnerModel = new SpinnerNumberModel( 1, 0, 100, 1 );
-        numNucleiSpinner = new JSpinner( spinnerModel );
-        numNucleiSpinner.addChangeListener( new ChangeListener() {
+        Font spinnerFont = new Font( "SansSerif", Font.BOLD, 40 );
+        numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 100, 1 ) );
+        numU235Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setNumNuclei( ( (Integer)numNucleiSpinner.getValue() ).intValue() );
+                setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
             }
         } );
-        numNucleiSpinner.setPreferredSize( new Dimension( 80, 50 ) );
-        Font spinnerFont = new Font( "SansSerif", Font.BOLD, 40 );
-        numNucleiSpinner.setFont( spinnerFont );
+        numU235Spinner.setPreferredSize( new Dimension( 80, 50 ) );
+        numU235Spinner.setFont( spinnerFont );
+
+        numU238Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 100, 1 ) );
+        numU238Spinner.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                setNumU238Nuclei( ( (Integer)numU238Spinner.getValue() ).intValue() );
+            }
+        } );
+        numU238Spinner.setPreferredSize( new Dimension( 80, 50 ) );
+        numU238Spinner.setFont( spinnerFont );
 
         // Layout the panel
         setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
-            GraphicsUtil.addGridBagComponent( this, numNucleiSpinner,
+            GraphicsUtil.addGridBagComponent( this, numU235Spinner,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
+            GraphicsUtil.addGridBagComponent( this, numU238Spinner,
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
@@ -84,26 +118,45 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         }
     }
 
-    private void setNumNuclei( int num ) {
-        for( int i = 0; i < num - module.getNuclei().size(); i++ ) {
-            addNucleus();
+    private void setNumU235Nuclei( int num ) {
+        for( int i = 0; i < num - module.getU235Nuclei().size(); i++ ) {
+            Point2D.Double location = findLocationForNewNucleus();
+            if( location != null ) {
+                module.addU235Nucleus( new Uranium235( location, module.getModel() ) );
+            }
         }
-        for( int i = 0; i < module.getNuclei().size() - num; i++ ) {
-            removeNucleus();
+        for( int i = 0; i < module.getU235Nuclei().size() - num; i++ ) {
+            int numNuclei = module.getU235Nuclei().size();
+            Uranium235 nucleus = (Uranium235)module.getU235Nuclei().get( random.nextInt( numNuclei ) );
+            module.removeU235Nucleus( nucleus );
         }
     }
 
-    private void addNucleus() {
+    private void setNumU238Nuclei( int num ) {
+        for( int i = 0; i < num - module.getU238Nuclei().size(); i++ ) {
+            Point2D.Double location = findLocationForNewNucleus();
+            if( location != null ) {
+                module.addU238Nucleus( new Uranium238( location, module.getModel() ) );
+            }
+        }
+        for( int i = 0; i < module.getU238Nuclei().size() - num; i++ ) {
+            int numNuclei = module.getU238Nuclei().size();
+            Uranium238 nucleus = (Uranium238)module.getU235Nuclei().get( random.nextInt( numNuclei ) );
+            module.removeU238Nucleus( nucleus );
+        }
+    }
+
+    private Point2D.Double findLocationForNewNucleus() {
         double width = module.getApparatusPanel().getWidth();
         double height = module.getApparatusPanel().getHeight();
         boolean overlapping = false;
         Point2D.Double location = null;
         int attempts = 0;
         do {
-            // If there is already a nucleus at (0,0), the generate a random location
+            // If there is already a nucleus at (0,0), then generate a random location
             boolean centralNucleusExists = false;
             for( int i = 0; i < module.getNuclei().size() && !centralNucleusExists; i++ ) {
-                Uranium235 testNucleus = (Uranium235)module.getNuclei().get( i );
+                Nucleus testNucleus = (Nucleus)module.getNuclei().get( i );
                 if( testNucleus.getLocation().getX() == 0 && testNucleus.getLocation().getY() == 0 ) {
                     centralNucleusExists = true;
                 }
@@ -115,63 +168,13 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
 
             overlapping = false;
             for( int j = 0; j < module.getNuclei().size() && !overlapping; j++ ) {
-                Uranium235 testNucleus = (Uranium235)module.getNuclei().get( j );
+                Nucleus testNucleus = (Nucleus)module.getNuclei().get( j );
                 if( testNucleus.getLocation().distance( location ) < testNucleus.getRadius() * 3 ) {
                     overlapping = true;
                 }
             }
             attempts++;
         } while( overlapping && attempts < 50 );
-
-        if( attempts >= 50 ) {
-//            JOptionPane.showMessageDialog( SwingUtilities.getRoot( this ),
-//                                           "Unable to add any more nuclei", "Attention!",
-//                                           JOptionPane.INFORMATION_MESSAGE );
-        }
-        else {
-            Uranium235 nucleus = new Uranium235( location );
-            module.addNeucleus( nucleus );
-        }
-    }
-
-    private void removeNucleus() {
-        int numNuclei = module.getNuclei().size();
-        Nucleus nucleus = (Nucleus)module.getNuclei().get( random.nextInt( numNuclei ) );
-        module.removeNucleus( nucleus );
-    }
-
-    //
-    // Inner classes
-    //
-    private class NucleusNumberPanel extends JPanel {
-
-        public NucleusNumberPanel() {
-
-            Integer value = new Integer( 0 );
-            Integer min = new Integer( 0 );
-            Integer max = new Integer( 20 );
-            Integer step = new Integer( 1 );
-            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
-            final JSpinner numNucleiSpinner = new JSpinner( model );
-//            numNucleiSpinner.setPreferredSize( new Dimension( 20, 5 ) );
-            numNucleiSpinner.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    setNumNuclei( ( (Integer)numNucleiSpinner.getValue() ).intValue() );
-                }
-            } );
-
-            setLayout( new GridBagLayout() );
-            int rowIdx = 0;
-            try {
-                GraphicsUtil.addGridBagComponent( this, numNucleiSpinner,
-                                                  0, rowIdx++,
-                                                  1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
-            }
-            catch( AWTException e ) {
-                e.printStackTrace();
-            }
-        }
+        return location;
     }
 }

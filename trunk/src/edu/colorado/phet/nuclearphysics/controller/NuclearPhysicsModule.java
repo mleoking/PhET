@@ -58,7 +58,7 @@ public class NuclearPhysicsModule extends Module {
     public void deactivate( PhetApplication app ) {
     }
 
-    protected void addNeucleus( Nucleus nucleus ) {
+    protected void addNucleus( Nucleus nucleus ) {
         this.getModel().addModelElement( nucleus );
         physicalPanel.addNucleus( nucleus );
     }
@@ -81,7 +81,7 @@ public class NuclearPhysicsModule extends Module {
     }
 
     protected void setUraniumNucleus( Uranium235 uraniumNucleus ) {
-        addNeucleus( uraniumNucleus );
+        addNucleus( uraniumNucleus );
     }
 
     protected void handleDecay( DecayProducts decayProducts ) {
