@@ -65,20 +65,20 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         public ThreadPriorityPanel( final ThreadedClock c ) {
             this.c = c;
 
-            min = new JRadioButton( SimStrings.get( "ClockControlPanel.Minumum" ) );
+            min = new JRadioButton( SimStrings.get( "Common.ClockControlPanel.Minumum" ) );
             min.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     c.setThreadPriority( Thread.MIN_PRIORITY );
                 }
             } );
 
-            norm = new JRadioButton( SimStrings.get( "ClockControlPanel.Normal" ) );
+            norm = new JRadioButton( SimStrings.get( "Common.ClockControlPanel.Normal" ) );
             norm.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     c.setThreadPriority( Thread.NORM_PRIORITY );
                 }
             } );
-            max = new JRadioButton( SimStrings.get( "ClockControlPanel.Maximum") );
+            max = new JRadioButton( SimStrings.get( "Common.ClockControlPanel.Maximum") );
             max.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     c.setThreadPriority( Thread.MAX_PRIORITY );
@@ -100,7 +100,8 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
             bg.add( norm );
             bg.add( max );
             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-            setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ), SimStrings.get( "ClockControlPanel.BorderTitle" ) ) );
+            setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ),
+                                        SimStrings.get( "Common.ClockControlPanel.BorderTitle" ) ) );
             add( max );
             add( norm );
             add( min );
@@ -108,7 +109,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
     }
 
     private void buildClockControlPanel() {
-        JLabel dtlabel = new JLabel( SimStrings.get( "ClockControlPanel.ChangeSeconds" ) + ":" );
+        JLabel dtlabel = new JLabel( SimStrings.get( "Common.ClockControlPanel.ChangeSeconds" ) + ":" );
         dtlabel.setFont( bigfont );
         this.add( dtlabel );
         dtSpinner.setValue( new Double( clock.getDt() ) );
@@ -119,7 +120,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
             }
         } );
 
-        JLabel sleeplabel = new JLabel( SimStrings.get( "ClockControlPanel.SleepInterval" ) + ":" );
+        JLabel sleeplabel = new JLabel( SimStrings.get( "Common.ClockControlPanel.SleepInterval" ) + ":" );
         sleeplabel.setFont( bigfont );
         this.add( sleeplabel );
         waitTimeSpinner.setValue( new Integer( (int)clock.getDelay() ) );

@@ -16,15 +16,15 @@ import java.awt.event.ActionListener;
 
 public class HelpMenu extends JMenu {
     public HelpMenu( final ApplicationModel appDescriptor ) {
-        super( SimStrings.get( "HelpMenu.Title" ) );
-        this.setMnemonic( SimStrings.get( "HelpMenu.TitleMnemonic" ).charAt(0) );
+        super( SimStrings.get( "Common.HelpMenu.Title" ) );
+        this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt(0) );
 
-        final JMenuItem about = new JMenuItem( SimStrings.get( "HelpMenu.About" ) );
-        about.setMnemonic( SimStrings.get( "HelpMenu.AboutMnemonic" ).charAt(0) );
+        final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
+        about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt(0) );
         final String name = appDescriptor.getWindowTitle();
         String desc = appDescriptor.getDescription();
         String version = appDescriptor.getVersion();
-        String message = name + "\n" + desc + "\n" + SimStrings.get( "HelpMenu.VersionLabel" ) + ": " + version + "\n";
+        String message = name + "\n" + desc + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + version + "\n";
         try {
             VersionUtils.VersionInfo[] inf = VersionUtils.readVersionInfo( appDescriptor.getName() );
 
@@ -35,11 +35,11 @@ public class HelpMenu extends JMenu {
                     message += "\n";
                 }
             }
-            message += "\n" + SimStrings.get( "HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" ) + "\n" + SimStrings.get( "HelpMenu.By" ) + " " + System.getProperty( "java.vendor" );
+            message += "\n" + SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" ) + "\n" + SimStrings.get( "Common.HelpMenu.By" ) + " " + System.getProperty( "java.vendor" );
             final String msg = message;
             about.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    JOptionPane.showMessageDialog( about, msg, SimStrings.get( "HelpMenu.AboutTitle" ) + " " + name, JOptionPane.INFORMATION_MESSAGE );
+                    JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + name, JOptionPane.INFORMATION_MESSAGE );
                 }
             } );
 

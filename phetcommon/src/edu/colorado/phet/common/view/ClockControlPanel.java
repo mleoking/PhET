@@ -39,9 +39,9 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         ImageIcon playIcon = new ImageIcon( playU );
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
-        play = new JButton( SimStrings.get( "ClockControlPanel.Play" ), playIcon );
-        pause = new JButton( SimStrings.get( "ClockControlPanel.Pause" ), pauseIcon );
-        step = new JButton( SimStrings.get( "ClockControlPanel.Step" ), stepIcon );
+        play = new JButton( SimStrings.get( "Common.ClockControlPanel.Play" ), playIcon );
+        pause = new JButton( SimStrings.get( "Common.ClockControlPanel.Pause" ), pauseIcon );
+        step = new JButton( SimStrings.get( "Common.ClockControlPanel.Step" ), stepIcon );
         step.setEnabled( false );
 
         play.addActionListener( new ActionListener() {

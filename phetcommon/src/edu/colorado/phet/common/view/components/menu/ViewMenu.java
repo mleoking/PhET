@@ -13,8 +13,8 @@ import javax.swing.*;
 public class ViewMenu extends JMenu {
 
     public ViewMenu() {
-        super( SimStrings.get( "ViewMenu.Title" ) );
-        this.setMnemonic( SimStrings.get( "ViewMenu.TitleMnemonic" ).charAt(0) );
+        super( SimStrings.get( "Common.ViewMenu.Title" ) );
+        this.setMnemonic( SimStrings.get( "Common.ViewMenu.TitleMnemonic" ).charAt(0) );
         //        JMenuItem menuItem = new JMenuItem( "Look and Feel" );
         //        menuItem.setMnemonic( 'L' );
         //        menuItem.addActionListener( new ActionListener() {
@@ -23,12 +23,12 @@ public class ViewMenu extends JMenu {
         //            }
         //        } );
         JMenu subMenu = new JMenu();
-        subMenu.setText( SimStrings.get( "ViewMenu.LookandFeel" ) );
-        subMenu.setMnemonic( SimStrings.get( "ViewMenu.LookandFeelMnemonic" ).charAt(0) );
+        subMenu.setText( SimStrings.get( "Common.ViewMenu.LookandFeel" ) );
+        subMenu.setMnemonic( SimStrings.get( "Common.ViewMenu.LookandFeelMnemonic" ).charAt(0) );
 
         // bold checkbox item
         JCheckBoxMenuItem checkItem = new JCheckBoxMenuItem();
-        checkItem.setText( SimStrings.get( "ViewMenu.Test" ) );
+        checkItem.setText( SimStrings.get( "Common.ViewMenu.Test" ) );
         subMenu.add( checkItem );
 
         this.add( subMenu );
