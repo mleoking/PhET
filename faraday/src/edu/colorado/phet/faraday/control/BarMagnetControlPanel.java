@@ -11,13 +11,14 @@
 
 package edu.colorado.phet.faraday.control;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -96,7 +97,9 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
         JPanel magnetPanel = new JPanel();
         {
             // Title
-            TitledBorder magnetBorder = BorderFactory.createTitledBorder( SimStrings.get( "BarMagnetModule.magnetControls" ) );
+            Border border = BorderFactory.createLineBorder( Color.BLACK, 2 );
+            String title = SimStrings.get( "BarMagnetModule.magnetControls" );
+            TitledBorder magnetBorder = BorderFactory.createTitledBorder( border, title );
             magnetBorder.setTitleFont( getTitleFont() );
             magnetPanel.setBorder( magnetBorder );
             
