@@ -109,19 +109,22 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setShape( Shape shape ) {
         boolean differentShape = false;
-        if( this.shape == null && shape != null ) {
+        if( this.shape == null && shape == null ) {
+            differentShape = false;
+        }
+        else if( this.shape == null && shape != null ) {
             differentShape = true;
         }
         else if( this.shape != null && shape == null ) {
             differentShape = true;
         }
-        else if( this.shape != null && shape != null && !shape.equals( this.shape ) ) {
+        else if( !shape.equals( this.shape ) ) {
             differentShape = true;
         }
         if( differentShape ) {
             this.shape = shape;
             setBoundsDirty();
-            repaint();
+            autorepaint();
         }
     }
 
@@ -135,12 +138,12 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setBorderColor( Color color ) {
         this.border = color;
-        repaint();
+        autorepaint();
     }
 
     public void setStroke( Stroke stroke ) {
         this.stroke = stroke;
-        repaint();
+        autorepaint();
     }
 
     public void setPaint( Paint paint ) {
@@ -156,7 +159,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         }
         if( changed ) {
             this.fill = paint;
-            repaint();
+            autorepaint();
         }
     }
 

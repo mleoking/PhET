@@ -85,7 +85,7 @@ public class PhetImageGraphic extends PhetGraphic {
         if( this.image != image ) {
             this.image = image;
             setBoundsDirty();
-            repaint();
+            autorepaint();
         }
     }
 
