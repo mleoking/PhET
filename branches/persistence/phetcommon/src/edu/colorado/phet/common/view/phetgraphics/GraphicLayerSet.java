@@ -66,7 +66,15 @@ public class GraphicLayerSet extends PhetGraphic {
             Iterator it = graphicMap.iterator();
             while( it.hasNext() ) {
                 PhetGraphic graphic = (PhetGraphic)it.next();
-                graphic.paint( g );//The children know about our transform implicitly.  They handle the transform.
+
+                // The following test is here because as persistence support is being developed, null
+                // entries are turning up in the MultiMap
+                if( graphic != null) {
+                    graphic.paint( g );//The children know about our transform implicitly.  They handle the transform.
+                }
+                else {
+                    System.out.println( "GraphicLayerSet.paint: graphic == null" );
+                }
             }
         }
     }
@@ -279,7 +287,10 @@ public class GraphicLayerSet extends PhetGraphic {
         PhetGraphic result = null;
         for( int i = graphics.length - 1; result == null && i >= 0; i-- ) {
             PhetGraphic g = graphics[i];
-            if( g.isVisible() && !g.getIgnoreMouse() ) {
+
+            // Persistence - rjl 1-7-05
+            if( g != null && g.isVisible() && !g.getIgnoreMouse() ) {
+//            if( g.isVisible() && !g.getIgnoreMouse() ) {
                 if( g instanceof GraphicLayerSet ) {
                     GraphicLayerSet gx = (GraphicLayerSet)g;
                     result = gx.getHandler( p );
