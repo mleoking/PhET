@@ -53,6 +53,10 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
         return _voltageSource;
     }
 
+    protected void updateSelf() {
+        update();
+    }
+    
     /*
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
