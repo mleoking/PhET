@@ -26,7 +26,7 @@ public class FloatingControl extends VerticalLayoutPanel {
     private JButton recordButton;
     private JButton resetButton;
 
-    public JComponent getGoButton() {
+    public JButton getGoButton() {
         return recordButton;
     }
 

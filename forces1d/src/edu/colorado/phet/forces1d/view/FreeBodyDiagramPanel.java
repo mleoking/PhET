@@ -59,7 +59,7 @@ public class FreeBodyDiagramPanel {
         fbdWiggleMe = new WiggleMe( fbdPanel, module.getClock(), "Click to set Force", target );
         fbdWiggleMe.setArrowColor( new Color( 0, 30, 240, 128 ) );
         fbdWiggleMe.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
-        fbdWiggleMe.setArrowDirection( 0, 40 );
+        fbdWiggleMe.setArrow( 0, 40 );
         fbdWiggleMe.setAmplitude( 10 );
         fbdWiggleMe.setFrequency( 5.0 );
         fbdWiggleMe.setOscillationAxis( new Vector2D.Double( 1, 0 ) );

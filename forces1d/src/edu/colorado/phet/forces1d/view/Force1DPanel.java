@@ -56,7 +56,10 @@ public class Force1DPanel extends ApparatusPanel2 {
     private Color top = new Color( 230, 255, 230 );
     private Color bottom = new Color( 180, 200, 180 );
     private FloatingControl floatingControl;
-
+    private WiggleMe sliderWiggleMe;
+//    private HelpItem2 goButtonHelp;
+    private HelpItem2 soloGoButtonHelp;
+    private boolean goButtonPressed;
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         super( module.getModel(), module.getClock() );
@@ -260,6 +263,39 @@ public class Force1DPanel extends ApparatusPanel2 {
             }
         } );
 
+        sliderWiggleMe = new WiggleMe( this, module.getClock(), "<html>Apply a Force<br>By dragging the Slider!</html>",
+//                                       new WiggleMe.SwingComponentTarget( this.forcePlotDevice.getVerticalChartSlider().getSlider() ) );
+                                       new WiggleMe.Target() {
+                                           public Point getLocation() {
+                                               int x = forcePlotDevice.getVerticalChartSlider().getSlider().getX() + sliderWiggleMe.getWidth() + 10;
+                                               int y = forcePlotDevice.getY() + forcePlotDevice.getHeight() / 2;
+                                               return new Point( x, y );
+                                           }
+
+                                           public int getHeight() {
+                                               return forcePlotDevice.getVerticalChartSlider().getSlider().getHeight();
+                                           }
+                                       } );
+        sliderWiggleMe.setArrow( -30, 5 );
+        forcePlotDevice.getVerticalChartSlider().getSlider().addChangeListener( new javax.swing.event.ChangeListener() {
+            public void stateChanged( javax.swing.event.ChangeEvent e ) {
+                sliderWiggleMe.setVisible( false );
+//                goButtonHelp.setVisible( true );
+                if( !goButtonPressed && module.getForceModel().getPlotDeviceModel().isPaused() ) {
+                    soloGoButtonHelp.setVisible( true );
+                }
+            }
+        } );
+
+        floatingControl.getGoButton().addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                soloGoButtonHelp.setVisible( false );
+                goButtonPressed = true;
+            }
+        } );
+
+        addGraphic( sliderWiggleMe );
+        sliderWiggleMe.setVisible( false );
 
         accelPlotDevice.setVisible( false );
         velPlotDevice.setVisible( false );
@@ -298,7 +334,10 @@ public class Force1DPanel extends ApparatusPanel2 {
         module.getHelpManager().addGraphic( zoomHelpButton );
         module.getHelpManager().addGraphic( typeInButton );
 
-
+        soloGoButtonHelp = new HelpItem2( this, "<html>Press the Go button to record</html>" );
+        soloGoButtonHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( floatingControl.getGoButton(), this ), 30 );
+        addGraphic( soloGoButtonHelp, Double.POSITIVE_INFINITY );
+        soloGoButtonHelp.setVisible( false );
     }
 
 
@@ -442,6 +481,14 @@ public class Force1DPanel extends ApparatusPanel2 {
         repaintBuffer();
         forcePlotDevice.reset();
         repaint( 0, 0, getWidth(), getHeight() );
+        handleWiggleMes();
+    }
+
+    private void handleWiggleMes() {
+        boolean moved = forcePlotDevice.getVerticalChartSlider().hasMoved();
+        if( !moved ) {
+            sliderWiggleMe.setVisible( true );
+        }
     }
 
     public Force1DModule getModule() {
