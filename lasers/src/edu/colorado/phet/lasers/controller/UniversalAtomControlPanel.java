@@ -37,14 +37,16 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
         addControl( new Controls() );
 
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                         1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
 //        optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
         optionsPanel.add( new MirrorOnOffControlPanel( module ), gbc );
-        gbc.gridy++;
+//        gbc.gridy++;
 
         // Add controls for the different views of beams and photons
         optionsPanel.add( waveViewControlPanel, gbc );
+        optionsPanel.add( new HighLevelEmissionControlPanel( module ), gbc );
         JPanel container = new JPanel();
         Border border = BorderFactory.createEtchedBorder();
         container.setBorder( border );
