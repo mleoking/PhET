@@ -56,12 +56,12 @@ public class CockpitModuleTest {
             double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
             double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
             int colorIdx = random.nextInt( colors.length );
-            star = new NormalStar( colors[ colorIdx ], Config.maxStarLuminance, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
+            star = new NormalStar( colors[colorIdx], Config.maxStarLuminance, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
             starField.addStar( star );
         }
 
-        placeEquidistantStars( starField );
-        placeFourStars( starField );
+//        placeEquidistantStars( starField );
+//        placeFourStars( starField );
 
 //        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 0 ), -45 );
 //        starField.addStar( star );

@@ -45,34 +45,68 @@ public class CockpitControlPanel extends JPanel {
         this.model = (UniverseModel)module.getModel();
         parallaxPanel = new ParallaxPanel();
         photometerPanel = new PhotometerPanel();
-        setParallaxEnabled( false );
-        setPhotometerEnabled( false );
 
-        this.setLayout( new GridBagLayout() );
+        GridBagLayout layout = new GridBagLayout();
+        this.setLayout( new GridLayout( 2, 1 ) );
+//        this.setLayout( new GridBagLayout() );
+        JPanel pilotingPanel = new JPanel( new GridBagLayout() );
+        JPanel instrumentPanel = new JPanel( new GridBagLayout() );
+        instrumentPanel.setMinimumSize( pilotingPanel.getMinimumSize() );
+        this.add( pilotingPanel );
+        this.add( instrumentPanel );
         int rowIdx = 0;
         try {
             starMapPanel = new StarMapPanel();
-            GraphicsUtil.addGridBagComponent( this, starMapPanel,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new ControlPanel( module ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, parallaxPanel,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, photometerPanel,
-                                              0, rowIdx++,
+//            GraphicsUtil.addGridBagComponent( this, pilotingPanel,
+//                                              0, 0,
+//                                              1, 1,
+//                                              GridBagConstraints.HORIZONTAL,
+//                                              GridBagConstraints.CENTER );
+//            GraphicsUtil.addGridBagComponent( this, instrumentPanel,
+//                                              0, 2,
+//                                              1, 1,
+//                                              GridBagConstraints.HORIZONTAL,
+//                                              GridBagConstraints.CENTER );
+
+            GraphicsUtil.addGridBagComponent( pilotingPanel, starMapPanel,
+                                              0, 0,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.CENTER );
-//            GraphicsUtil.addGridBagComponent( this, new HyperjumpPanel(),
+                                              GridBagConstraints.NORTH );
+            GraphicsUtil.addGridBagComponent( pilotingPanel, new ControlPanel( module ),
+                                              0, 1,
+                                              1, 1,
+                                              GridBagConstraints.HORIZONTAL,
+                                              GridBagConstraints.NORTH );
+
+            GraphicsUtil.addGridBagComponent( instrumentPanel, parallaxPanel,
+                                              0, 0,
+                                              1, 1,
+                                              GridBagConstraints.HORIZONTAL,
+                                              GridBagConstraints.NORTH );
+            GraphicsUtil.addGridBagComponent( instrumentPanel, photometerPanel,
+                                              0, 1,
+                                              1, 1,
+                                              GridBagConstraints.HORIZONTAL,
+                                              GridBagConstraints.NORTH );
+
+
+//            GraphicsUtil.addGridBagComponent( this, starMapPanel,
+//                                              0, rowIdx++,
+//                                              1, 1,
+//                                              GridBagConstraints.NONE,
+//                                              GridBagConstraints.NORTH );
+//            GraphicsUtil.addGridBagComponent( this, new ControlPanel( module ),
+//                                              0, rowIdx++,
+//                                              1, 1,
+//                                              GridBagConstraints.NONE,
+//                                              GridBagConstraints.NORTH );
+//            GraphicsUtil.addGridBagComponent( this, parallaxPanel,
+//                                              0, rowIdx++,
+//                                              1, 1,
+//                                              GridBagConstraints.HORIZONTAL,
+//                                              GridBagConstraints.CENTER );
+//            GraphicsUtil.addGridBagComponent( this, photometerPanel,
 //                                              0, rowIdx++,
 //                                              1, 1,
 //                                              GridBagConstraints.HORIZONTAL,
@@ -81,7 +115,13 @@ public class CockpitControlPanel extends JPanel {
         catch( AWTException e ) {
             e.printStackTrace();
         }
+//        ((GridBagLayout)pilotingPanel.getLayout()).layoutContainer( pilotingPanel );
+//        ((GridBagLayout)instrumentPanel.getLayout()).layoutContainer( instrumentPanel );
+//        layout.layoutContainer( this );
         this.module = module;
+
+        setParallaxEnabled( false );
+        setPhotometerEnabled( false );
     }
 
     public void setParallaxEnabled( boolean isEnabled ) {
@@ -453,7 +493,6 @@ public class CockpitControlPanel extends JPanel {
         }
 
         private void update() {
-            System.out.println( "pe: " + photometerEnabled );
             brightnessTF.setEnabled( photometerEnabled );
             textFieldLabel.setEnabled( photometerEnabled );
             if( photometerEnabled ) {
