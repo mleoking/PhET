@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
-import edu.colorado.phet.faraday.util.IRescaler;
+import edu.colorado.phet.faraday.util.CompassGridRescaler;
 import edu.colorado.phet.faraday.util.Vector2D;
 
 
@@ -55,7 +55,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     private AbstractMagnet _magnetModel;
     
     // Handles rescaling the field to improve the visual effect.
-    private IRescaler _rescaler;
+    private CompassGridRescaler _rescaler;
     
     // The spacing between compass needles, in pixels.
     private int _xSpacing, _ySpacing;
@@ -150,7 +150,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
      * 
      * @param rescaler
      */
-    public void setRescaler( IRescaler rescaler ) {
+    public void setRescaler( CompassGridRescaler rescaler ) {
         _rescaler = rescaler;
     }
     

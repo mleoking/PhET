@@ -15,7 +15,6 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -74,9 +73,6 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     // Needle deflection angle
     private double _needleAngle;
     
-    // Rescales the voltage.
-    private IRescaler _rescaler;
-    
     // The scale that is applied to the needle angle.
     private double _scale;
     
@@ -115,16 +111,7 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Set the rescaler, applied to the voltage read.
-     * 
-     * @param rescaler
-     */
-    public void setRescaler( IRescaler rescaler ) {
-        _rescaler = rescaler;
-    }
-    
+       
     /**
      * Enables or disables the state of the voltmeter.
      * 
@@ -211,12 +198,6 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
         //  Get the amplitude of the voltage source.
         double amplitude = _scale * _voltageSourceModel.getAmplitude();
         amplitude = MathUtil.clamp( -1, amplitude, +1 );
-        
-        // Rescale the amplitude to improve the visual effect.
-        if ( _rescaler != null ) {
-            double sign = ( amplitude < 0 ) ? -1 : +1;
-            amplitude = sign * _rescaler.rescale( Math.abs( amplitude ) );
-        }
         
         // Determine the needle deflection angle.
         return amplitude * MAX_NEEDLE_ANGLE;

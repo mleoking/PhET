@@ -17,7 +17,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - add sliders for changing lightbulb, voltmeter and electron scale
 - add scaling of pixel-space
-- get rid of rescaler stuff in voltmeter, lightbulb and electrons (model, view, modules), remove those rescaler classes
 - integrate CompassGridRescaler into CompassGridGraphic
 - use PhetGraphic.skipRectangleComputations to bypass calls to AffineTransform.createTransformedShape
 - optimize PickupCoil.updateEmf so that it doesn't do anything if it doesn't have to
@@ -72,6 +71,7 @@ PHETCOMMON:
 
 DONE:
 v0r21
+(4/4) - delete all rescalers except CompassGridRescaler
 (4/4) - modify Faraday algorithm so that there is an emf induced when the #loops in pickup coil changes
 (3/31) - fix delta flux calculation, should be based on the surface area of 1 loop, not total coil area
 (3/31) - turn off coil edges in Faraday computation to see if light intensity becomes sinusoidal (no change)
