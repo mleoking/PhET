@@ -45,12 +45,12 @@ public class MagneticFieldRescaler extends GenericRescaler  implements SimpleObs
     
     // Values below this value are rescaled.
     private static final double DEFAULT_THRESHOLD = 0.8;
-    
-    // Approach this rescaling exponent as value approaches 1.
-    private static final double DEFAULT_MAX_EXPONENT = 0.8;
-    
-    // Approach this rescaling exponent as value approaches 0.
+   
+    // Approach this rescaling exponent as magnet strength approaches 0.
     private static final double DEFAULT_MIN_EXPONENT = 0.3;
+    
+    // Approach this rescaling exponent as magnet strength approach its maximum.
+    private static final double DEFAULT_MAX_EXPONENT = 0.8;
     
     private AbstractMagnet _magnetModel;
     
@@ -69,7 +69,7 @@ public class MagneticFieldRescaler extends GenericRescaler  implements SimpleObs
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
         
-        setReferenceRange( magnetModel.getMinStrength(), magnetModel.getMaxStrength() );
+        setMaxReference( magnetModel.getMaxStrength() );
         setReference( magnetModel.getStrength() );
         setExponents( DEFAULT_MIN_EXPONENT, DEFAULT_MAX_EXPONENT );
         setThreshold( DEFAULT_THRESHOLD );
@@ -85,7 +85,7 @@ public class MagneticFieldRescaler extends GenericRescaler  implements SimpleObs
     //----------------------------------------------------------------------------
     
     public void update() {
-        setReferenceRange( _magnetModel.getMinStrength(), _magnetModel.getMaxStrength() );
+        setMaxReference( _magnetModel.getMaxStrength() );
         setReference( _magnetModel.getStrength() );
     }
 }
