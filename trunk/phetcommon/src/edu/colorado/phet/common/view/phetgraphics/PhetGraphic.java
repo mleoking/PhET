@@ -45,6 +45,7 @@ public abstract class PhetGraphic {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Point location = new Point();
     private Point registrationPoint = new Point();
     private AffineTransform transform = new AffineTransform();
     private Rectangle lastBounds = new Rectangle();
@@ -323,8 +324,8 @@ public abstract class PhetGraphic {
 
     /**
      * Gets the "net" transform.  The net transform is the result of applying
-     * the local transform relative to the registration point, then applying
-     * the parent's net transform (if a parent exists).
+     * the local transform relative to the registration point, then translating
+     * to the location, then applying the parent's net transform (if a parent exists).
      * <p/>
      * This method should be used in methods involving painting and bounds calculations.
      *
@@ -335,11 +336,13 @@ public abstract class PhetGraphic {
         
         // Use preConcatenate, so that transforms are shown in the order that they will occur.
         
-        // Center translation
+        // Translate to registration point
         net.preConcatenate( AffineTransform.getTranslateInstance( -registrationPoint.x, -registrationPoint.y ) );
-        // Local transform
+        // Apply local transform
         net.preConcatenate( transform );
-        // Parent's net transform.
+        // Translate to location
+        net.preConcatenate( AffineTransform.getTranslateInstance( location.x, location.y ) );
+        // Apply parent's net transform
         if( parent != null ) {
             AffineTransform parentTransform = parent.getNetTransform();
             net.preConcatenate( parentTransform );
@@ -513,44 +516,40 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     
     /**
-     * Modifies the AffineTransform on this PhetGraphic so that the top-left
-     * corner lies at the specified coordinates.
+     * Sets the location of this graphic.
+     * <p>
+     * The location is a translation that is applied after the local transform,
+     * but before the parent's net transform.  This effectively moves the
+     * graphic's registration point to the specified location, relative 
+     * to the parent container.
      *
-     * @param p the new top left corner of this PhetGraphic.
+     * @param p the location
      */
     public void setLocation( Point p ) {
         setLocation( p.x, p.y );
     }
 
     /**
-     * Modifies the AffineTransform on this PhetGraphic so that the top-left
-     * corner lies at the specified coordinates.
-     *
+     * Convenience method, sets the location.
+     * 
+     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic.#setLocation(java.awt.Point)
      * @param x X coordinate
      * @param y Y coordinate
      */
     public void setLocation( int x, int y ) {
-        //In order to respect our global transformation the best,
-        //this should translate our current location to the new location.
-        Point currentLocation = getLocation();
-        if( currentLocation == null ) {
-            currentLocation = new Point( 0, 0 );
-        }
-        int dx = x - currentLocation.x;
-        int dy = y - currentLocation.y;
-        transform( AffineTransform.getTranslateInstance( dx, dy ) );
+        location.setLocation( x, y );
+        setBoundsDirty();
+        repaint();
     }
 
     /**
-     * Gets the top-left corner of the boundary of this PhetGraphic.
-     * Note that if any transform is set (either in this graphic or
-     * parents) then the location may not be the same point that was
-     * set using setLocation.
+     * Gets the location.
      *
+     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic.#setLocation(java.awt.Point)
      * @return the location
      */
     public Point getLocation() {
-        return getBounds() == null ? null : getBounds().getLocation();
+        return new Point( location );
     }
 
     /**
@@ -559,7 +558,7 @@ public abstract class PhetGraphic {
      * @return X coordinate
      */
     public int getX() {
-        return getBounds().x;
+        return location.x;
     }
 
     /**
@@ -568,7 +567,7 @@ public abstract class PhetGraphic {
      * @return Y coordinate
      */
     public int getY() {
-        return getBounds().y;
+        return location.y;
     }
 
     //----------------------------------------------------------------------------
@@ -849,8 +848,10 @@ public abstract class PhetGraphic {
      * correctly draw the graphic.  This transform should be passed to
      * g2.transform.
      * </ul>
+     * 
+     * @param g2 the 2D graphics context
      */
-    public abstract void paint( Graphics2D g );
+    public abstract void paint( Graphics2D g2 );
 
     /**
      * Set the autorepaint value.
