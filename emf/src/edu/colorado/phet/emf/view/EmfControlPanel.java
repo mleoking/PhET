@@ -39,7 +39,7 @@ public class EmfControlPanel extends ControlPane implements Observer {
 
     private void createControls() {
         this.setPreferredSize( new Dimension( 180, 400 ) );
-        this.setLayout( new GridBagLayout());
+        this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
             GraphicsUtil.addGridBagComponent( this, new Legend(),
@@ -61,9 +61,9 @@ public class EmfControlPanel extends ControlPane implements Observer {
         catch( AWTException e ) {
             e.printStackTrace();
         }
-//        this.add( new Legend() );
-//        this.add( new MovementControlPane() );
-//        this.add( new OptionControlPane() );
+        //        this.add( new Legend() );
+        //        this.add( new MovementControlPane() );
+        //        this.add( new OptionControlPane() );
     }
 
     public void update( Observable o, Object arg ) {
@@ -79,7 +79,7 @@ public class EmfControlPanel extends ControlPane implements Observer {
      */
     private class OptionControlPane extends ControlPane {
 
-//        JCheckBox autoscaleCB = new JCheckBox( MessageFormatter.format( ( "Autoscale vectors" ) ) );
+        //        JCheckBox autoscaleCB = new JCheckBox( MessageFormatter.format( ( "Autoscale vectors" ) ) );
         private JRadioButton fullFieldRB = new JRadioButton( "Full field" );
         private JRadioButton splineCurveWVectorsRB = new JRadioButton( "Curve with Vectors" );
         private JRadioButton splineCurveRB = new JRadioButton( "Curve" );
@@ -112,13 +112,13 @@ public class EmfControlPanel extends ControlPane implements Observer {
             splineCurveRB.addActionListener( new DisplayTypeRBActionListener() );
             fieldDisplayRBGroup.add( fullFieldRB );
             fullFieldRB.addActionListener( new DisplayTypeRBActionListener() );
-            JPanel fieldDisplayPane = new JPanel( new GridLayout( 4, 1 ));
-            fieldDisplayPane.setBorder( BorderFactory.createTitledBorder( "Display Type" ));
+            JPanel fieldDisplayPane = new JPanel( new GridLayout( 4, 1 ) );
+            fieldDisplayPane.setBorder( BorderFactory.createTitledBorder( "Display Type" ) );
             fieldDisplayPane.add( splineCurveWVectorsRB );
             fieldDisplayPane.add( splineCurveRB );
             fieldDisplayPane.add( fullFieldRB );
             fieldDisplayPane.add( hideFieldRB );
-//            fieldVectorPane.add( autoscaleCB );
+            //            fieldVectorPane.add( autoscaleCB );
 
             staticFieldRB.addActionListener( new FieldViewRBActionListener() );
             dynamicFieldRB.addActionListener( new FieldViewRBActionListener() );
@@ -126,8 +126,8 @@ public class EmfControlPanel extends ControlPane implements Observer {
 
             // Field sense options
             ButtonGroup fieldSenseRBGroup = new ButtonGroup();
-            JPanel fieldSensePane = new JPanel( new GridLayout( 2, 1 ));
-            JRadioButton fFieldRB = new JRadioButton( MessageFormatter.format( "Force on\nelectron" ));
+            JPanel fieldSensePane = new JPanel( new GridLayout( 2, 1 ) );
+            JRadioButton fFieldRB = new JRadioButton( MessageFormatter.format( "Force on\nelectron" ) );
             fFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setFieldSense( FieldLatticeView.FORCE_ON_ELECTRON );
@@ -147,11 +147,11 @@ public class EmfControlPanel extends ControlPane implements Observer {
             fieldSensePane.setBorder( fieldSenseBorder );
 
             // Option check boxes
-//            autoscaleCB.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    module.setAutoscaleEnabled( autoscaleCB.isSelected() );
-//                }
-//            } );
+            //            autoscaleCB.addActionListener( new ActionListener() {
+            //                public void actionPerformed( ActionEvent e ) {
+            //                    module.setAutoscaleEnabled( autoscaleCB.isSelected() );
+            //                }
+            //            } );
 
             splineCurveWVectorsRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -213,8 +213,8 @@ public class EmfControlPanel extends ControlPane implements Observer {
             dynamicFieldRB.setSelected( true );
             setFieldView();
 
-//            autoscaleCB.setSelected( false );
-//            module.setAutoscaleEnabled( autoscaleCB.isSelected() );
+            //            autoscaleCB.setSelected( false );
+            //            module.setAutoscaleEnabled( autoscaleCB.isSelected() );
 
         }
 
@@ -225,7 +225,7 @@ public class EmfControlPanel extends ControlPane implements Observer {
             display = rb == splineCurveRB ? EmfPanel.CURVE : display;
             display = rb == splineCurveWVectorsRB ? EmfPanel.CURVE_WITH_VECTORS : display;
             module.setFieldDisplay( display );
-//            new SetFieldCurveEnabledCmd( splineCurveWVectorsRB.isSelected() ).doIt();
+            //            new SetFieldCurveEnabledCmd( splineCurveWVectorsRB.isSelected() ).doIt();
         }
 
         private class DisplayTypeRBActionListener implements ActionListener {
@@ -242,6 +242,14 @@ public class EmfControlPanel extends ControlPane implements Observer {
 
             splineCurveRB.setEnabled( dynamicFieldRB.isSelected() );
             splineCurveWVectorsRB.setEnabled( dynamicFieldRB.isSelected() );
+
+            // Takes care of turning off field curve if it was showing and
+            // we have gone to the static field display
+            if( staticFieldRB.isSelected() && !hideFieldRB.isSelected() ) {
+                ButtonModel model = fullFieldRB.getModel();
+                fieldDisplayRBGroup.setSelected( model, true );
+                setDisplayType();
+            }
         }
 
         private class FieldViewRBActionListener implements ActionListener {
@@ -342,10 +350,10 @@ public class EmfControlPanel extends ControlPane implements Observer {
                                                   0, componentIdx++, 1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.CENTER );
-//                GraphicsUtil.addGridBagComponent( this, coordinateFACB,
-//                                                  0, componentIdx++, 1, 1,
-//                                                  GridBagConstraints.NONE,
-//                                                  GridBagConstraints.CENTER );
+                //                GraphicsUtil.addGridBagComponent( this, coordinateFACB,
+                //                                                  0, componentIdx++, 1, 1,
+                //                                                  GridBagConstraints.NONE,
+                //                                                  GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
                 e.printStackTrace();
@@ -383,7 +391,7 @@ public class EmfControlPanel extends ControlPane implements Observer {
         Legend() {
             setLayout( new GridBagLayout() );
             this.setBorder( BorderFactory.createTitledBorder( "Legend" ) );
-            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( "images/small-yellow-electron.gif" ));
+            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( "images/small-yellow-electron.gif" ) );
             int rowIdx = 0;
             try {
                 GraphicsUtil.addGridBagComponent( this, new JLabel( "Electron", electronImg, SwingConstants.LEFT ),

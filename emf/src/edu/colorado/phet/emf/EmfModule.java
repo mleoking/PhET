@@ -172,6 +172,8 @@ public class EmfModule extends Module {
         if( isEnabled && stripChartDlg == null ) {
             JFrame frame = PhetApplication.instance().getApplicationView().getPhetFrame();
             stripChartDlg = new JDialog( frame );
+            stripChartDlg.setUndecorated( true );
+            stripChartDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
             stripChartDlg.getContentPane().setLayout( new GridBagLayout() );
             new StripChartDelegate( receivingElectron, receiverStripChart );
             new StripChartDelegate( electron, senderStripChart );

@@ -52,6 +52,8 @@ public class EmfPanel extends ApparatusPanel {
         EmfPanel.setInstance( this );
 
         // Add the field lattice
+//        int latticeSpacingX = 10;
+//        int latticeSpacingY = 10;
         int latticeSpacingX = 50;
         int latticeSpacingY = 50;
         fieldLatticeView = new FieldLatticeView( electron,
