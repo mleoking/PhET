@@ -29,8 +29,6 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
 	// Class data
   //----------------------------------------------------------------------------
 
-  // Default bounds for photon drop off
-  private static final Rectangle BOUNDS_EVERYWHERE = new Rectangle(0,0,10000,10000);
   // Offset of filter's visual center
   private static final int FILTER_CENTER_OFFSET = 12;
   // How far to advance a photon when it hits the filter
@@ -52,7 +50,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
   private Rectangle _bounds;
   // Perceived color, based on most recent photon to leave the bounds
   private VisibleColor _perceivedColor;
-  // Color intensity, in percent (0-100)
+  // Light intensity, in percent (0-100)
   private double _perceivedIntensity;
   // Photons (array of Photon)
   private ArrayList _photons;
@@ -76,7 +74,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     // Initialize member data.
     _spotlightModel = spotlightModel;
     _filterModel = filterModel;
-    _bounds = BOUNDS_EVERYWHERE;
+    _bounds = new Rectangle((int)_spotlightModel.getX(), (int)_spotlightModel.getY(), 100, 100 );
     _perceivedColor = VisibleColor.INVISIBLE;
     _perceivedIntensity = 0.0;
     _photons = new ArrayList();
@@ -306,10 +304,11 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     }
     
     // If the perceived color or intensity has changed, then fire a VisibleColorChangeEvent.
-    if ( !newPerceivedColor.equals(_perceivedColor) || newPerceivedIntensity != _perceivedIntensity )
+    if ( newPerceivedIntensity != _perceivedIntensity || !newPerceivedColor.equals(_perceivedColor) )
     {
       _perceivedColor = newPerceivedColor;
       _perceivedIntensity = newPerceivedIntensity;
+      
       if ( _enabled )
       {
         // Calculate the new color.
