@@ -1,6 +1,7 @@
 package electron.electricField;
 
 import electron.gui.vectorChooser.VectorListener;
+import phet.view.util.SimStrings;
 import phys2d.DoublePoint;
 import phys2d.Law;
 import phys2d.Particle;

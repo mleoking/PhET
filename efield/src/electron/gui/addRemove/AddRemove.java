@@ -9,6 +9,7 @@ import electron.core.ParticleFactory;
 import electron.gui.ParticlePainter;
 import electron.gui.ParticlePanel;
 import electron.gui.media.Resettable;
+import phet.view.util.SimStrings;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -80,9 +81,9 @@ public class AddRemove
 
     public JPanel getJPanel()
     {
-        JButton jbutton = new JButton("Add");
+        JButton jbutton = new JButton( SimStrings.get( "AddRemove.AddButton" ));
         jbutton.addActionListener(new Adder());
-        JButton jbutton1 = new JButton("Remove");
+        JButton jbutton1 = new JButton( SimStrings.get( "AddRemove.RemoveButton" ));
         jbutton1.addActionListener(new Remover());
         JPanel jpanel = new JPanel();
         jpanel.setLayout(new BoxLayout(jpanel, 1));

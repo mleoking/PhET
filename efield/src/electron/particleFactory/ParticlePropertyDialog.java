@@ -4,6 +4,7 @@
 
 package electron.particleFactory;
 
+import phet.view.util.SimStrings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -24,9 +25,9 @@ public class ParticlePropertyDialog extends JPanel
         charge = new JTextField("" + d1);
         mass = new JTextField("" + d);
         setLayout(new BoxLayout(this, 1));
-        add(label("Charge", charge));
-        add(label("Mass", mass));
-        done = new JButton("Done");
+        add(label( SimStrings.get( "ParticlePropertyDialog.ChargeLabel" ), charge));
+        add(label( SimStrings.get( "ParticlePropertyDialog.MassLabel" ), mass));
+        done = new JButton( SimStrings.get( "ParticlePropertyDialog.DoneButton" ));
         done.addActionListener(this);
         add(done);
     }

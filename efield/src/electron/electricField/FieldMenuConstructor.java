@@ -1,6 +1,7 @@
 package electron.electricField;
 
 import electron.gui.popupMenu.MenuConstructor;
+import phet.view.util.SimStrings;
 import phys2d.Particle;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class FieldMenuConstructor implements MenuConstructor {
     }
 
     public JMenu getMenu(Particle p) {
-        JMenu jm = new JMenu("Particle Menu");
+        JMenu jm = new JMenu( SimStrings.get( "FieldMenuConstructor.ParticleMenuTitle" ));
         ShowEField se = (new ShowEField(cfs, p, paintMe));
         se.setSelected(!cfs.isIgnoring(p));
         jm.add(se);
@@ -31,7 +32,7 @@ public class FieldMenuConstructor implements MenuConstructor {
         Component paintMe;
 
         public ShowEField(ChargeFieldSource cfs, Particle p, Component paintMe) {
-            super("Show Contribution to Electric Field", true);
+            super( SimStrings.get( "FieldMenuConstructor.ShowContributionCheckBox" ), true);
             this.cfs = cfs;
             this.p = p;
             addActionListener(this);
