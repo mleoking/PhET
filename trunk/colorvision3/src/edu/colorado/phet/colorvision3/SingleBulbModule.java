@@ -39,7 +39,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * white or monochromatic.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class SingleBulbModule extends Module implements ChangeListener, VisibleColorChangeListener
 {

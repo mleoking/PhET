@@ -19,7 +19,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  * component will be rendered as an outline, in a Color that you specify.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Id$
+ * @revision $Id$ $Name$
  */
 public class BoundsOutline
 {

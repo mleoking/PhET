@@ -17,7 +17,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * SolidBeamGraphic provides a graphic representation of a solid beam.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class SolidBeamGraphic extends PhetShapeGraphic implements SimpleObserver
 {

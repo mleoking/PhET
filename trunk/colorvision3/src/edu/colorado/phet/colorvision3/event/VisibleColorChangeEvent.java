@@ -10,7 +10,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * VisibleColorChangeEvent occurs when a color changes in some way.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class VisibleColorChangeEvent extends EventObject
 {

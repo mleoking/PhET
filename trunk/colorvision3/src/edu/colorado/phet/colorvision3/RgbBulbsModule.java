@@ -34,7 +34,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * works in the context of three lights (red, green and blue).
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class RgbBulbsModule extends Module implements ChangeListener, VisibleColorChangeListener
 {	

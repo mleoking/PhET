@@ -16,7 +16,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
  * layer, so that light appears to fall on the face.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class PersonGraphic extends CompositePhetGraphic implements SimpleObserver
 { 

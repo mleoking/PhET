@@ -15,7 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * FilterHolderGraphic
  *
  * @author cmalley
- * @revision $Id$
+ * @revision $Id$ $Name$
  */
 public class FilterHolderGraphic extends PhetShapeGraphic
 {

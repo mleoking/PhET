@@ -12,7 +12,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
  * Color Vision simulations.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class ColorVisionApplicationModel extends ApplicationModel
 {

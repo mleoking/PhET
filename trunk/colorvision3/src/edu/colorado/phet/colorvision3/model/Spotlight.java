@@ -12,7 +12,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * results in the notification of all registered observers.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class Spotlight extends SimpleObservable
 {

@@ -8,7 +8,7 @@ import java.util.EventListener;
  * VisibleColorChangeListener listens for VisibleColorChangeEvent.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public interface VisibleColorChangeListener extends EventListener
 {

@@ -27,7 +27,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * SingleBulbControlPanel is the control panel for the "Single Bulb" simulation module.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$
+ * @version $Id$ $Name$
  */
 public class SingleBulbControlPanel extends PhetControlPanel implements ActionListener
 {
