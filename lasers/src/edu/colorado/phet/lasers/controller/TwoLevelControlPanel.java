@@ -23,18 +23,26 @@ public class TwoLevelControlPanel extends LaserControlPanel {
     private static class ControlPanel extends JPanel {
         ControlPanel( LaserModel model, AbstractClock clock ) {
 
-            this.setLayout( new FlowLayout( FlowLayout.LEFT ) );
-            this.setLayout( new GridLayout( 6, 1 ) );
+//            this.setLayout( new GridLayout( 6, 1 ) );
+            this.setLayout( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,1,1,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0,0,0,0 ),
+                                                             0,0 );
 
-            this.setPreferredSize( new Dimension( 160, 300 ) );
+//            this.setPreferredSize( new Dimension( 160, 300 ) );
 
             Border border = BorderFactory.createEtchedBorder();
             this.setBorder( border );
 
-            this.add( new StimulatingBeamControl( model ) );
-            this.add( new MiddleEnergyHalfLifeControl( model ) );
-            this.add( new RightMirrorReflectivityControlPanel( model.getResonatingCavity() ) );
-            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ) );
+            this.add( new StimulatingBeamControl( model ), gbc );
+            gbc.gridy++;
+            this.add( new MiddleEnergyHalfLifeControl( model ), gbc );
+            gbc.gridy++;
+            this.add( new RightMirrorReflectivityControlPanel( model.getResonatingCavity() ), gbc );
+            gbc.gridy++;
+            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ), gbc );
         }
 
     }

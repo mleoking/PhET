@@ -28,7 +28,7 @@ import java.awt.geom.Point2D;
 /**
  *
  */
-public abstract class BaseLaserModule extends Module {
+public abstract class BaseLaserModule extends Module implements CollimatedBeam.Listener {
 //public class BaseLaserModule extends ApparatusPanel {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
@@ -63,6 +63,7 @@ public abstract class BaseLaserModule extends Module {
                                            s_boxHeight,
                                            s_boxWidth,
                                            new Vector2D.Double( 1, 0 ) );
+        incomingBeam.addListener( this );
         incomingBeam.setPosition( s_origin );
         incomingBeam.setHeight( s_boxHeight - Photon.s_radius );
         incomingBeam.setPhotonsPerSecond( 0 );
@@ -200,5 +201,10 @@ public abstract class BaseLaserModule extends Module {
 //        ResonatingCavity cavity = getLaserModel().getResonatingCavity();
 //        Constraint constraintSpec = new CavityMustContainAtom( cavity, atom );
 //        cavity.addConstraint( constraintSpec );
+    }
+
+    public void photonCreated( CollimatedBeam beam, Photon photon ) {
+        PhotonGraphic photonGraphic = new PhotonGraphic( getApparatusPanel(), photon );
+        addGraphic( photonGraphic, LaserConfig.PHOTON_LAYER );
     }
 }
