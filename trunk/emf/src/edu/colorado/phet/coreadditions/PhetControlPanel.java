@@ -8,14 +8,14 @@ package edu.colorado.phet.coreadditions;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.help.HelpPanel;
-import edu.colorado.phet.coreadditions.layout.FractionSpring;
+import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 import java.net.URL;
 
 /**
@@ -76,7 +76,6 @@ public class PhetControlPanel extends JPanel {
 
     protected void adjustLayout() {
         Dimension controlPaneSize = controlPane.getPreferredSize();
-//        Dimension controlPaneSize = getSize( controlPane );
         int controlPaneWidth = (int)Math.round( controlPaneSize.getWidth() );
         int controlPaneHeight = (int)Math.round( controlPaneSize.getHeight() );
         int width = (int)Math.max( imageIcon.getIconWidth() + padX * 2,
@@ -126,23 +125,5 @@ public class PhetControlPanel extends JPanel {
                               SpringLayout.NORTH, this );
         this.invalidate();
         this.repaint();
-    }
-
-
-    private static Dimension getSize( Container container ) {
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
-        int maxX = Integer.MIN_VALUE;
-        int maxY = Integer.MIN_VALUE;
-        for( int i = 0; i < container.getComponentCount(); i++ ) {
-            Component component = container.getComponent( i );
-            minX = component.getBounds().x < minX ? component.getBounds().x : minX;
-            minY = component.getBounds().y < minY ? component.getBounds().y : minY;
-            maxX = (int)component.getBounds().getMaxX() > maxX ? (int)component.getBounds().getMaxX() : maxX;
-            maxY = (int)component.getBounds().getMaxY() > maxY ? (int)component.getBounds().getMaxY() : maxY;
-        }
-        Dimension size = new Dimension( maxX - minX, maxY - minY );
-        System.out.println( "size = " + size );
-        return size;
     }
 }
