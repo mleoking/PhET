@@ -24,13 +24,12 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.model.ACSource;
 import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Electromagnet;
 import edu.colorado.phet.faraday.model.SourceCoil;
-import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -51,7 +50,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     private CoilGraphic _coilGraphic;
     private BatteryGraphic _batteryGraphic;
     private ACSourceGraphic _acSourceGraphic;
-    private CompositePhetGraphic _foreground, _background;
+    private GraphicLayerSet _foreground, _background;
     private CollisionDetector _collisionDetector;
     
     //----------------------------------------------------------------------------
@@ -83,13 +82,13 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         _acSourceGraphic = new ACSourceGraphic( component, acSourceModel );
         
         // Foreground composition
-        _foreground = new CompositePhetGraphic( component );
+        _foreground = new GraphicLayerSet( component );
         _foreground.addGraphic( _coilGraphic.getForeground() );
         _foreground.addGraphic( _batteryGraphic );
         _foreground.addGraphic( _acSourceGraphic );
         
         // Background composition
-        _background = new CompositePhetGraphic( component );
+        _background = new GraphicLayerSet( component );
         _background.addGraphic( _coilGraphic.getBackground() );
         
         // Interactivity
