@@ -150,24 +150,37 @@ public class SineWaveGraphic extends PhetShapeGraphic {
         
         if ( isVisible() ) {
             
-            // Number of points to fill the viewport.
-            final double numPoints = _viewportSize.width / DX;
+            // Number of lines to fill the viewport.
+            final double numLines = _viewportSize.width / DX;
             // Number of wave cycles to fill the viewport at the current frequency.
             final double numCycles = _frequency * _maxCycles;
             // Change in angle per change in X.
-            final double deltaAngle = Math.toRadians( numCycles * 360 / numPoints );
+            final double deltaAngle = Math.toRadians( numCycles * 360 / numLines );
             
-            double x = -_viewportSize.width / 2;
-            double angle = 0;
-            GeneralPath wavePath = new GeneralPath();
-            wavePath.moveTo( (float) x, 0f );
-            for ( int i = 0; i < numPoints; i++ ) {
-                x += DX;
-                angle += deltaAngle;
+            /*
+             * Approximate the sine wave using line segments.
+             * Keep the zero-crossing of one cycle centered at the origin.
+             * Flip the sign on the Y coordinates so that +Y is up.
+             */
+            {
+                GeneralPath wavePath = new GeneralPath();
+                
+                // Move to the starting location, at the far left.
+                double angle = ( Math.PI  ) - ( deltaAngle * numLines / 2 );
+                double x = -( numLines / 2 );
                 double y = _amplitude * Math.sin( angle ) * _viewportSize.height / 2;
-                wavePath.lineTo( (float) x, (float) -y ); // flip Y coordinate so that +Y is up
+                wavePath.moveTo( (float) x, (float) -y );
+                
+                // Add lines, moving from left to right.
+                for ( int i = 0; i < numLines; i++ ) {
+                    angle += deltaAngle;
+                    x += DX;
+                    y = _amplitude * Math.sin( angle ) * _viewportSize.height / 2;
+                    wavePath.lineTo( (float) x, (float) -y ); 
+                }
+                
+                setShape( wavePath );
             }
-            setShape( wavePath );
             
             repaint();
         }
