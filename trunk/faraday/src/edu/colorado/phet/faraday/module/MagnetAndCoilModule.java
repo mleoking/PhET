@@ -128,7 +128,9 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         
         // Volt Meter
         Voltmeter voltmeterModel = new Voltmeter( pickupCoilModel );
+        voltmeterModel.setRotationalKinematicsEnabled( true );
         voltmeterModel.setEnabled( false );
+        model.addModelElement( voltmeterModel );
         
         //----------------------------------------------------------------------------
         // View
