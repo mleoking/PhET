@@ -75,4 +75,12 @@ public class SmoothDataSeries {
         this.windowSize = windowSize;
     }
 
+    public void clearAfter( int index ) {
+        for( int i = data.size() - 1; i > index; i-- ) {
+            data.remove( i );
+        }
+        for( int i = smoothed.size() - 1; i > index; i-- ) {
+            smoothed.remove( i );
+        }
+    }
 }

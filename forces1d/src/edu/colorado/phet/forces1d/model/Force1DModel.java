@@ -40,8 +40,10 @@ public class Force1DModel implements ModelElement {
     private SmoothDataSeries staticSeries;
     private SmoothDataSeries kineticSeries;
     private SmoothDataSeries massSeries;
+    private Force1DModule module;
 
     public Force1DModel( Force1DModule module ) {
+        this.module = module;
         block = new Block( this );
         open = new BoundaryCondition.Open( this );
         walls = new BoundaryCondition.Walls( this );
@@ -205,6 +207,35 @@ public class Force1DModel implements ModelElement {
 
     public void setPaused( boolean paused ) {
         plotDeviceModel.setPaused( paused );
+    }
+
+    public void resetRecordPointer( int index ) {
+        clear( netForceDataSeries, index );
+        clear( frictionForceDataSeries, index );
+        clear( appliedForceDataSeries, index );
+        clear( accelerationDataSeries, index );
+        clear( velocityDataSeries, index );
+        clear( positionDataSeries, index );
+        clear( gravitySeries, index );
+        clear( kineticSeries, index );
+        clear( staticSeries, index );
+        clear( massSeries, index );
+//        netForceDataSeries.addPoint( netForce );
+//        frictionForceDataSeries.addPoint( frictionForce );
+//        appliedForceDataSeries.addPoint( getAppliedForce() );
+//
+//        accelerationDataSeries.addPoint( block.getAcceleration() );
+//        velocityDataSeries.addPoint( block.getVelocity() );
+//        positionDataSeries.addPoint( block.getPosition() );
+//        gravitySeries.addPoint( getGravity() );
+//        kineticSeries.addPoint( block.getKineticFriction() );
+//        staticSeries.addPoint( block.getStaticFriction() );
+//        massSeries.addPoint( block.getMass() );
+        module.relayoutPlots();
+    }
+
+    private void clear( SmoothDataSeries dataSeries, int index ) {
+        dataSeries.clearAfter( index );
     }
 
     public static interface Listener {
