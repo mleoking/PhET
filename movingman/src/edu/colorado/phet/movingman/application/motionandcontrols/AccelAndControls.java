@@ -36,8 +36,6 @@ public class AccelAndControls extends MotionAndControls {
 
         initialVelocitySpinner = new JSpinner( new SpinnerNumberModel( 0, -3, 3, .1 ) );
         TitledBorder border = BorderFactory.createTitledBorder( "Initial Velocity" );
-//        border.setTitleFont(new Font("dialog", 0, 30));
-
         initialVelocitySpinner.setBorder( border );
         initialVelocitySpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -64,9 +62,6 @@ public class AccelAndControls extends MotionAndControls {
 
         transformslider = new TransformSlider( minAccel, maxAccel, 200 );
         slider = transformslider.getSlider();
-//        slider = new JSlider(-5, 5, 0);
-//        slider.setMinorTickSpacing(1);
-//        slider.setMajorTickSpacing(5);
         slider.setMajorTickSpacing( 100 / 5 );
         slider.setPaintTicks( true );
         transformslider.addLabel( minAccel, createLabel( "" + minAccel ) );
