@@ -59,7 +59,7 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
         clockTF.setHorizontalAlignment( JTextField.RIGHT );
 
         // Initialize the contents of the clockTF
-        clockTicked( new ClockTickEvent( clock, 0 ));
+        clockTicked( new ClockTickEvent( clock, 0 ) );
 
         // Start/stop button
         startStopStr = new String[2];
@@ -77,36 +77,10 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
         } );
 
         // Lay out the panel
-        this.setLayout( new FlowLayout( ));
+        this.setLayout( new FlowLayout() );
         add( startStopBtn );
         add( resetBtn );
         add( clockTF );
-        if( true ) return;
-
-        this.setLayout( new GridBagLayout() );
-        int rowIdx = 0;
-        int padX = 0;
-        int padY = 0;
-        Insets insets = new Insets( 5, 5, 5, 5 );
-        GridBagConstraints gbc = null;
-        gbc = new GridBagConstraints( 0, rowIdx, 2, 1, 1, 1,
-                                      GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                                      insets, padX, padY );
-        this.add( new JLabel( "Simulation Time" ), gbc );
-        gbc.gridy = ++rowIdx;
-        gbc.gridwidth = 1;
-        this.add( clockTF, gbc );
-        gbc = new GridBagConstraints( 1, rowIdx, 1, 1, 1, 1,
-                                      GridBagConstraints.WEST, GridBagConstraints.NONE,
-                                      insets, padX, padY );
-        this.add( new JLabel( "sec" ), gbc );
-        gbc = new GridBagConstraints( 0, rowIdx, 2, 1, 1, 1,
-                                      GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                                      insets, padX, padY );
-        gbc.gridy = ++rowIdx;
-        this.add( startStopBtn, gbc );
-        gbc.gridy = ++rowIdx;
-        this.add( resetBtn, gbc );
     }
 
     private void resetClock() {
@@ -143,14 +117,17 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
 
         public void actionPerformed( ActionEvent e ) {
             if( startStopState == 0 ) {
-                clock.start();
+                if( !clock.hasStarted() ) {
+                    clock.start();
+                }
+                clock.setPaused( false );
                 StopwatchEvent event = new StopwatchEvent( this );
                 event.setRunning( true );
                 stopwatchListenerProxy.start( event );
                 resetBtn.setEnabled( false );
             }
             else {
-                clock.stop();
+                clock.setPaused( true );
                 StopwatchEvent event = new StopwatchEvent( this );
                 event.setRunning( false );
                 stopwatchListenerProxy.stop( event );
@@ -162,7 +139,7 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
             Dimension prevSize = startStopBtn.getSize();
             startStopBtn.setText( startStopStr[startStopState] );
             Dimension currSize = startStopBtn.getSize();
-            Dimension newSize = new Dimension( Math.max( prevSize.width, currSize.width), currSize.height );
+            Dimension newSize = new Dimension( Math.max( prevSize.width, currSize.width ), currSize.height );
             startStopBtn.setPreferredSize( newSize );
         }
     }
@@ -172,7 +149,9 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
     //-----------------------------------------------------------------
     public interface StopwatchListener extends EventListener {
         void start( StopwatchEvent event );
+
         void stop( StopwatchEvent event );
+
         void reset( StopwatchEvent event );
     }
 
