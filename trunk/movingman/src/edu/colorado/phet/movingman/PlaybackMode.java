@@ -26,7 +26,7 @@ public class PlaybackMode extends Mode {
     }
 
     public void initialize() {
-        module.getCursorGraphic().setVisible( true );
+        module.setCursorsVisible( true );
         module.repaintBackground();
     }
 

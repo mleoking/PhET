@@ -14,6 +14,7 @@ public class Man extends AutomatedObservable {
     private double x0;
     private boolean grabbed = false;
     private double velocity;
+    private double acceleration;
     private double min;
     private double max;
 
@@ -59,5 +60,25 @@ public class Man extends AutomatedObservable {
         this.x = x0;
         setVelocity( 0 );
         updateObservers();
+    }
+
+    public void stepInTime( double dt ) {
+        double newVelocity = velocity + acceleration * dt;
+        double newX = x + velocity * dt;
+
+        newX = Math.min( newX, max );
+        newX = Math.max( newX, min );
+//        if( x == module.getMaxManPosition() ) {
+//            module.getMan().setVelocity( 0 );
+//        }
+//        if( x == -module.getMaxManPosition() ) {
+//            module.getMan().setVelocity( 0 );
+//        }
+        setVelocity( newVelocity );
+        setX( newX );
+    }
+
+    public void setAcceleration( double acceleration ) {
+        this.acceleration = acceleration;
     }
 }

@@ -18,7 +18,7 @@ public class RecordMode extends Mode {
     }
 
     public void initialize() {
-        module.getCursorGraphic().setVisible( false );
+        module.setCursorsVisible( false );
         int timeIndex = module.getPosition().numSmoothedPoints() - 1;//smoothedPosition.size() - 1;
         module.setReplayTime( timeIndex );
         module.setAccelerationPlotMagnitude( 75 );
@@ -46,12 +46,7 @@ public class RecordMode extends Mode {
 //                dt = maxTime - recordingTimer.getTime();
 //            }
             module.getRecordingTimer().stepInTime( dt );//this could go over the max.
-            module.getPosition().addPoint( module.getMan().getX() );
-            module.getPosition().updateSmoothedSeries();
-            module.getPosition().updateDerivative( dt * MovingManModule.TIMER_SCALE );
-            module.getVelocityData().updateSmoothedSeries();
-            module.getVelocityData().updateDerivative( dt * MovingManModule.TIMER_SCALE );
-            module.getAcceleration().updateSmoothedSeries();
+            module.step( dt );
             if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
                 module.setPaused( true );
                 module.getMovingManControlPanel().finishedRecording();

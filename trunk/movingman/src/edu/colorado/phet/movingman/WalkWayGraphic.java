@@ -59,24 +59,18 @@ public class WalkWayGraphic implements Graphic {
         graphics2D.setColor( Color.black );
         graphics2D.setFont( font );
         int height = 134;
-//        if (height <= -10)
-//        PhetVector vanishingPoint=new PhetVector();
 
-//        Rectangle2D.Double rect=new Rectangle2D.Double(transform.evaluate(-10),transform);
         graphics2D.setColor( module.getPurple() );
         Rectangle rect = new Rectangle( 0, 0, module.getApparatusPanel().getWidth(), height + 30 );
-//        graphics2D.fillRect( 0, 0, module.getApparatusPanel().getWidth(), height + 30 );
         graphics2D.fill( rect );
         graphics2D.setColor( Color.blue );
         graphics2D.setStroke( borderStroke );
-//        graphics2D.draw( rect );
         graphics2D.drawLine( 0, rect.y + rect.height, rect.width, rect.y + rect.height );
         graphics2D.setColor( Color.black );
 
         for( int i = 0; i < numTickMarks; i++ ) {
             double modelx = transform.getLowInputPoint() + i * modelDX;
             int viewx = (int)transform.evaluate( modelx );
-//            O.d("modelx="+modelx+", viewx="+viewx);
 
             Point dst = new Point( viewx, height - 20 );
             graphics2D.drawLine( viewx, height, dst.x, dst.y );

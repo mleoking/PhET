@@ -4,7 +4,6 @@ package edu.colorado.phet.movingman;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.movingman.common.plaf.PhetLookAndFeel;
 import edu.colorado.phet.movingman.common.plaf.PlafUtil;
 import edu.colorado.phet.movingman.plots.DataSeries;
 
@@ -27,10 +26,7 @@ public class MovingManControlPanel extends JPanel {
     private MovingManModule module;
     private JPanel controllerContainer;
     private PlaybackPanel playbackPanel;
-//    private MotionPanel motionPanel;
     private JButton reset;
-    private JButton pause;
-    private JButton go;
     private boolean useMotionPanel = false;
 
     public void setRunningState() {
@@ -44,14 +40,6 @@ public class MovingManControlPanel extends JPanel {
     public void motionStarted() {
         playbackPanel.disablePlayback();
     }
-
-//    public void setFrame( PhetFrame frame ) {
-//        MotionSuite[] ms = motionPanel.motions;
-//        for( int i = 0; i < ms.length; i++ ) {
-//            MotionSuite m = ms[i];
-//            m.setFrame( frame );
-//        }
-//    }
 
     public void goPressed() {
         reset.setEnabled( true );
@@ -67,6 +55,10 @@ public class MovingManControlPanel extends JPanel {
 
     public void motionPaused() {
         playbackPanel.enablePlayback();
+    }
+
+    public void enablePause() {
+        playbackPanel.pause.setEnabled( true );
     }
 
     public class PlaybackPanel extends JPanel {
@@ -158,7 +150,6 @@ public class MovingManControlPanel extends JPanel {
             pause.setEnabled( true );
             play.setEnabled( false );
             slowMotion.setEnabled( false );
-//            MotionSuite.hideDialogs();
         }
 
         public void disablePlayback() {
@@ -189,75 +180,6 @@ public class MovingManControlPanel extends JPanel {
             slowMotion.setEnabled( true );
         }
     }
-
-//    class MotionPanel extends VerticalLayoutPanel {
-//        private String recordMouseString;
-//        private ArrayList motionButtons;
-//        private MotionSuite[] motions;
-//
-//        public MotionPanel() throws IOException {
-//            motions = new MotionSuite[]{
-//                new VariablePosition( module ),
-//                new VariableVelocity( module ),
-//                new VariableAcceleration( module ),
-//                new OscillateSuite( module )
-//            };
-//
-//            setBorder( PhetLookAndFeel.createSmoothBorder( "Controls" ) );
-//            recordMouseString = "Manual";
-//            JRadioButton jrb = new JRadioButton( recordMouseString );
-//            jrb.setSelected( true );
-//            motionButtons = new ArrayList();
-//            motionButtons.add( jrb );
-//            ButtonGroup bg = new ButtonGroup();
-//
-//            ActionListener changeListener = new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    int index = getSelectedButton();
-////                    module.getManGraphic().setShowIdea( false );
-//                    module.setWiggleMeVisible( false );
-//                    if( index == 0 ) {
-//                        startRecordingManual();
-//                    }
-//                    else {
-//                        MotionSuite mac = motions[index - 1];
-//                        module.setMotionSuite( mac );
-//                        module.setMotionMode( mac );
-//                        module.setPaused( true );
-//                        mac.initialize( module.getMan() );
-//                        mac.showControls();
-//                    }
-//                }
-//            };
-//
-//            for( int i = 0; i < motions.length; i++ ) {
-//                motionButtons.add( new JRadioButton( motions[i].toString() ) );
-//            }
-//
-//            for( int i = 0; i < motionButtons.size(); i++ ) {
-//                JRadioButton jRadioButton = (JRadioButton)motionButtons.get( i );
-//
-//                add( jRadioButton );
-//                bg.add( jRadioButton );
-//                jRadioButton.addActionListener( changeListener );
-//            }
-//        }
-//
-//        private int getSelectedButton() {
-//            for( int i = 0; i < motionButtons.size(); i++ ) {
-//                JRadioButton jRadioButton = (JRadioButton)motionButtons.get( i );
-//                if( jRadioButton.isSelected() ) {
-//                    return i;
-//                }
-//            }
-//            return -1;
-//        }
-//
-//        private void setSelectedItem( int index ) {
-//            JRadioButton button = (JRadioButton)motionButtons.get( index );
-//            button.setSelected( true );
-//        }
-//    }
 
     public MovingManControlPanel( final MovingManModule module ) throws IOException {
         this.module = module;
@@ -291,13 +213,13 @@ public class MovingManControlPanel extends JPanel {
                 module.setAccelerationGraphVisible( accelerationBox.isSelected() );
             }
         } );
-        JPanel boxes = new JPanel();
-        boxes.setLayout( new BoxLayout( boxes, BoxLayout.Y_AXIS ) );
-        boxes.add( positionBox );
-        boxes.add( velocityBox );
-        boxes.add( accelerationBox );
-        boxes.setBorder( PhetLookAndFeel.createSmoothBorder( "Show Plots" ) );
-        add( boxes, BorderLayout.SOUTH );
+//        JPanel boxes = new JPanel();
+//        boxes.setLayout( new BoxLayout( boxes, BoxLayout.Y_AXIS ) );
+//        boxes.add( positionBox );
+//        boxes.add( velocityBox );
+//        boxes.add( accelerationBox );
+//        boxes.setBorder( PhetLookAndFeel.createSmoothBorder( "Show Plots" ) );
+//        add( boxes, BorderLayout.SOUTH );
 
         playbackPanel = new PlaybackPanel();
 
@@ -312,7 +234,6 @@ public class MovingManControlPanel extends JPanel {
                 module.setNumSmoothingPoints( Integer.parseInt( value ) );
             }
         } );
-//        motionPanel = new MotionPanel();
 
         VerticalLayoutPanel northPanel = new VerticalLayoutPanel();
         final JMenu viewMenu = new JMenu( "View" );
@@ -340,9 +261,6 @@ public class MovingManControlPanel extends JPanel {
         ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
         JLabel phetIconLabel = new JLabel( imageIcon );
         northPanel.add( phetIconLabel );
-//        if( useMotionPanel ) {
-//            northPanel.add( motionPanel );
-//        }
 
         final JCheckBox invertAxes = new JCheckBox( "Invert X-Axis", false );
         invertAxes.addActionListener( new ActionListener() {
@@ -359,14 +277,8 @@ public class MovingManControlPanel extends JPanel {
             }
         } );
         reset.setEnabled( false );
-        pause = new JButton( "Pause" );
-        go = new JButton( "Go" );
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new BoxLayout( buttonPanel, BoxLayout.X_AXIS ) );
-        buttonPanel.add( go );
-
-        buttonPanel.add( pause );
         buttonPanel.add( reset );
 
         northPanel.setFill( GridBagConstraints.NONE );
@@ -452,8 +364,9 @@ public class MovingManControlPanel extends JPanel {
 
     public void startRecordingManual() {
         playbackPanel.doManual();
-//        motionPanel.setSelectedItem( 0 );
-        reset.setEnabled( true );
+        if( !reset.isEnabled() ) {
+            reset.setEnabled( true );
+        }
     }
 
     public static String toString( DataSeries data ) {
@@ -477,7 +390,4 @@ public class MovingManControlPanel extends JPanel {
         return playbackPanel;
     }
 
-//    public void resetComboBox() {
-//        motionPanel.setSelectedItem( 0 );
-//    }
 }

@@ -4,8 +4,7 @@ package edu.colorado.phet.movingman;
 //import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
 
 import edu.colorado.phet.movingman.common.RangeToRange;
-import edu.colorado.phet.movingman.plots.BoxedPlot;
-import edu.colorado.phet.movingman.plots.CursorGraphic;
+import edu.colorado.phet.movingman.plots.MMPlot;
 import edu.colorado.phet.movingman.plots.PlotAndText;
 
 import javax.swing.*;
@@ -31,6 +30,12 @@ public class MovingManLayout {
     private int plotHeight;
     private int plotsStartAtY;
     private int plotInsetX = 90;
+
+    public MovingManLayout( int apparatusPanelHeight, int apparatusPanelWidth, int numPlots ) {
+        setApparatusPanelHeight( apparatusPanelHeight );
+        setApparatusPanelWidth( apparatusPanelWidth );
+        setNumPlots( numPlots );
+    }
 
     public void setApparatusPanelHeight( int panelHeight ) {
         this.panelHeight = panelHeight;
@@ -93,9 +98,9 @@ public class MovingManLayout {
         PlotAndText pos = module.getPositionPlot();
         PlotAndText vel = module.getVelocityPlot();
 //        PlotAndText acc = module.getAccelerationPlot();
-        BoxedPlot smoothedPositionGraphic = module.getPositionGraphic();
-        BoxedPlot velocityGraphic = module.getVelocityGraphic();
-        BoxedPlot accelGraphic = module.getAccelerationGraphic();
+        MMPlot smoothedPositionGraphic = module.getPositionGraphic();
+        MMPlot velocityGraphic = module.getVelocityGraphic();
+        MMPlot accelGraphic = module.getAccelerationGraphic();
 
         int index = 0;
         relayoutBoxedPlot( smoothedPositionGraphic, index, module, module.getPositionString() );
@@ -108,9 +113,9 @@ public class MovingManLayout {
         }
         relayoutBoxedPlot( accelGraphic, index, module, module.getAccelString() );
 
-        CursorGraphic cursorGraphic = module.getCursorGraphic();
-        cursorGraphic.setBounds( smoothedPositionGraphic.getTransform() );
-        cursorGraphic.setHeight( getTotalPlotHeight() );
+//        CursorGraphic cursorGraphic = module.getCursorGraphic();
+//        cursorGraphic.setBounds( smoothedPositionGraphic.getTransform() );
+//        cursorGraphic.setHeight( getTotalPlotHeight() );
 
         int manInset = 50;
         RangeToRange oldTransform = module.getManPositionTransform();
@@ -119,7 +124,7 @@ public class MovingManLayout {
         module.setManTransform( manGraphicTransform );
     }
 
-    private void relayoutBoxedPlot( BoxedPlot plot, int index, MovingManModule module, ValueGraphic vg ) {
+    private void relayoutBoxedPlot( MMPlot plot, int index, MovingManModule module, ValueGraphic vg ) {
         int insetX = plotInsetX;
         int insetXRightSide = 20;
 

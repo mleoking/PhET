@@ -2,6 +2,9 @@ package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.movingman.ValueGraphic;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Sam Reid
@@ -10,13 +13,19 @@ import edu.colorado.phet.movingman.ValueGraphic;
  * To change this template use Options | File Templates.
  */
 public class PlotAndText {
-    private BoxedPlot plot;
+    private MMPlot plot;
     private ValueGraphic text;
     private boolean visible = true;
 
-    public PlotAndText( BoxedPlot plot, ValueGraphic text ) {
+    public PlotAndText( final MMPlot plot, ValueGraphic text ) {
         this.plot = plot;
         this.text = text;
+        plot.setCloseHandler( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                plot.getModule().setPlotVisible( PlotAndText.this, false );
+            }
+        } );
+        plot.setValueGraphic( text );
     }
 
     public boolean isVisible() {
@@ -29,7 +38,7 @@ public class PlotAndText {
         text.setVisible( visible );
     }
 
-    public BoxedPlot getPlot() {
+    public MMPlot getPlot() {
         return plot;
     }
 
@@ -39,5 +48,17 @@ public class PlotAndText {
 
     public void setPaintYLines( double[] doubles ) {
         plot.setPaintYLines( doubles );
+    }
+
+    public void updateSlider() {
+        plot.updateSlider();
+    }
+
+    public void cursorMovedToTime( double time ) {
+        plot.cursorMovedToTime( time );
+    }
+
+    public void setCursorVisible( boolean visible ) {
+        plot.setCursorVisible( visible );
     }
 }
