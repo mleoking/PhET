@@ -18,7 +18,8 @@ public class IdealGasApplication extends PhetApplication {
         public IdealGasApplicationModel() {
             super( Strings.title,
                    Strings.description,
-                   IdealGasConfig.VERSION );
+                   IdealGasConfig.VERSION,
+                   IdealGasConfig.FRAME_SETUP );                   
 
             // Create the clock
             setClock( new SwingTimerClock( IdealGasConfig.s_timeStep,
