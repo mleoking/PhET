@@ -1,12 +1,14 @@
 "To Do" list for "faraday" simulation
 
+IN PROGRESS:
+- add inertia to compass needle
+
 HIGH:
 - determine how to make compass needles use field vector magnitude
 - averaging of values so that lightbulb & voltmeter behave smoothly
 - redo coil graphic, more of a tilt, thicker wire, copper/brown color
 - draw pickup coil correctly when loop area is changed
 - how to separate PhetCoilGraphic into foreground & background layers
-- add inertia to compass needle
 - add inertia to voltmeter needle
 - calibration of everything so that sensitivity can be adjusted
 - show electrons flowing (blue)
