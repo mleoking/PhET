@@ -12,8 +12,8 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -49,19 +49,19 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
                                         LaserConfig.CONTROL_FONT_SIZE ) );
 
         photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) );
-//        photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) + " photon/sec" );
+        //        photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) + " photon/sec" );
 
         photonRateSlider = new JSlider( JSlider.VERTICAL,
                                         LaserConfig.MINIMUM_STIMULATING_PHOTON_RATE,
                                         LaserConfig.MAXIMUM_STIMULATING_PHOTON_RATE,
-                                        10 );
+                                        0 );
 
         photonRateSlider.setPreferredSize( new Dimension( 20, 50 ) );
         photonRateSlider.setPaintTicks( true );
         photonRateSlider.setMajorTickSpacing( 10 );
         photonRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-//                updatePhotonRate( photonRateSlider.getValue() );
+                //                updatePhotonRate( photonRateSlider.getValue() );
                 CollimatedBeam beam = model.getStimulatingBeam();
                 beam.setPhotonsPerSecond( photonRateSlider.getValue() );
                 photonRateTF.setText( Integer.toString( photonRateSlider.getValue() ) );
@@ -69,10 +69,10 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
         } );
 
         this.setLayout( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0,0, 1,1,1,1,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
-                                                         new Insets( 0,5,0,5 ), 20, 0 );
+                                                         new Insets( 0, 5, 0, 5 ), 20, 0 );
         this.add( photonRateSlider, gbc );
         gbc.gridx++;
         gbc.anchor = GridBagConstraints.WEST;

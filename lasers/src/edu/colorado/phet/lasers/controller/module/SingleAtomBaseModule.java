@@ -7,10 +7,11 @@
 package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 
@@ -22,36 +23,46 @@ public class SingleAtomBaseModule extends BaseLaserModule {
     public SingleAtomBaseModule( String title ) {
         super( title );
 
+        Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
+                                                 s_origin.getY() + s_boxHeight / 2 - Photon.s_radius );
+        stimulatingBeam = new CollimatedBeam( getLaserModel(),
+                                              Photon.RED,
+                                              beamOrigin,
+                                              Photon.s_radius * 2,
+                                              s_boxWidth + s_laserOffsetX * 2,
+                                              new Vector2D.Double( 1, 0 ) );
+        stimulatingBeam.addListener( this );
+        stimulatingBeam.setActive( true );
+        stimulatingBeam.setPhotonsPerSecond( 1 );
+        getLaserModel().setStimulatingBeam( stimulatingBeam );
 
-//        stimulatingBeam = ((LaserModel)getModel()).getStimulatingBeam();
-//        stimulatingBeam.setHeight( s_boxHeight );
-//        stimulatingBeam.setHeight( 10 );
-//        stimulatingBeam.setOrigin( new Point2D.Double( s_origin.getX(), s_origin.getY()  + s_boxHeight / 2));
-//        stimulatingBeam.setPosition( new Point2D.Double( s_origin.getX(), s_origin.getY() ));
-
-//        pumpingBeam = ((LaserModel)getModel()).getPumpingBeam();
-//        pumpingBeam.setWidth( 10 );
-//        pumpingBeam.setPosition( pumpingBeam.getPosition().getX() + s_boxWidth / 2,
-//                                 pumpingBeam.getPosition().getY() );
-//        pumpingBeam.getPosition().setX( pumpingBeam.getPosition().getX() + s_boxWidth / 2 );
+        pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
+        pumpingBeam = new CollimatedBeam( getLaserModel(),
+                                          Photon.BLUE,
+                                          new Point2D.Double( s_origin.getX() + s_laserOffsetX + s_boxWidth / 2 - Photon.s_radius / 2,
+                                                              s_origin.getY() - s_laserOffsetX ),
+                                          s_boxHeight + s_laserOffsetX * 2,
+                                          s_boxWidth,
+                                          new Vector2D.Double( 0, 1 ) );
+        pumpingBeam.addListener( this );
+        pumpingBeam.setWidth( Photon.s_radius * 2 );
+        pumpingBeam.setActive( true );
+        getLaserModel().setPumpingBeam( pumpingBeam );
     }
 
-    /**
-     * Atoms have to added and removed in activate/deactive so that the number of atoms
-     * in each energy state are reported correctly in each module
-     * @param app
-     */
     public void activate( PhetApplication app ) {
         super.activate( app );
-//        atom = new Atom();
-//        atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
-//                          getLaserOrigin().getY() + s_boxHeight / 2  );
-//        atom.setVelocity( 0, 0 );
-//        addAtom( atom );
+
+        atom = new Atom();
+        atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
+                          getLaserOrigin().getY() + s_boxHeight / 2 );
+        atom.setVelocity( 0, 0 );
+        addAtom( atom );
     }
 
     public void deactivate( PhetApplication app ) {
-//        super.deactivate( app );
-//        removeAtom( atom );
+        super.deactivate( app );
+        getLaserModel().removeModelElement( atom );
+        atom.removeFromSystem();
     }
 }

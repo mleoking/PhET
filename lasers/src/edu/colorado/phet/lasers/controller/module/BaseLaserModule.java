@@ -12,18 +12,17 @@
 package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.LaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
-import edu.colorado.phet.lasers.model.mirror.RightReflecting;
+import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.model.mirror.Partial;
+import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.*;
@@ -42,10 +41,12 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     static protected final double s_laserOffsetX = 100;
 
     private ResonatingCavity cavity;
-    private CollimatedBeam incomingBeam;
-    private CollimatedBeam pumpingBeam;
+    //    private CollimatedBeam stimulatingBeam;
+    //    private CollimatedBeam pumpingBeam;
     private Point2D laserOrigin;
     private LaserModel laserModel;
+    private MonitorPanel monitorPanel;
+    private EnergyLevelsDialog energyLevelsDialog;
 
     /**
      *
@@ -60,28 +61,26 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
 
-        incomingBeam = new CollimatedBeam( getLaserModel(),
-                                           Photon.RED,
-                                           s_origin,
-                                           s_boxHeight - Photon.s_radius,
-                                           s_boxWidth + s_laserOffsetX * 2,
-                                           new Vector2D.Double( 1, 0 ) );
-        incomingBeam.addListener( this );
-        incomingBeam.setActive( true );
-        getLaserModel().setStimulatingBeam( incomingBeam );
-
-        pumpingBeam = new CollimatedBeam( getLaserModel(),
-                                          Photon.BLUE,
-                                          new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
-                                          s_boxHeight + s_laserOffsetX * 2,
-                                          s_boxWidth,
-                                          new Vector2D.Double( 0, 1 ) );
-        pumpingBeam.addListener( this );
-
-        // Add the pump beam
-        pumpingBeam.setActive( true );
-        getLaserModel().setPumpingBeam( pumpingBeam );
-
+        //        stimulatingBeam = new CollimatedBeam( getLaserModel(),
+        //                                           Photon.RED,
+        //                                           s_origin,
+        //                                           s_boxHeight - Photon.s_radius,
+        //                                           s_boxWidth + s_laserOffsetX * 2,
+        //                                           new Vector2D.Double( 1, 0 ) );
+        //        stimulatingBeam.addListener( this );
+        //        stimulatingBeam.setActive( true );
+        //        getLaserModel().setStimulatingBeam( stimulatingBeam );
+        //
+        //        pumpingBeam = new CollimatedBeam( getLaserModel(),
+        //                                          Photon.BLUE,
+        //                                          new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
+        //                                          s_boxHeight + s_laserOffsetX * 2,
+        //                                          s_boxWidth,
+        //                                          new Vector2D.Double( 0, 1 ) );
+        //        pumpingBeam.addListener( this );
+        //        pumpingBeam.setActive( true );
+        //        getLaserModel().setPumpingBeam( pumpingBeam );
+        //
         // Add the laser cavity
         laserOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX,
                                           s_origin.getY() );
@@ -93,18 +92,18 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         // Add the mirrors
         // The right mirror is a partial mirror
         Point2D p1 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth() + 20,
-                                         cavity.getPosition().getY());
+                                         cavity.getPosition().getY() );
         Point2D p2 = new Point2D.Double( cavity.getPosition().getX() + cavity.getWidth() + 20,
                                          cavity.getPosition().getY() + cavity.getHeight() );
         Mirror rightMirror = new Mirror( p1, p2 );
         rightMirror.addReflectionStrategy( new LeftReflecting() );
-        rightMirror.addReflectionStrategy( new Partial( .2 ));
+        rightMirror.addReflectionStrategy( new Partial( .2 ) );
         laserModel.addModelElement( rightMirror );
         WallGraphic rightMirrorGraphic = new WallGraphic( getApparatusPanel(), rightMirror );
         addGraphic( rightMirrorGraphic, LaserConfig.CAVITY_LAYER );
         // The left mirror is 100% reflecting
         Point2D p3 = new Point2D.Double( cavity.getPosition().getX() - 20,
-                                         cavity.getPosition().getY());
+                                         cavity.getPosition().getY() );
         Point2D p4 = new Point2D.Double( cavity.getPosition().getX() - 20,
                                          cavity.getPosition().getY() + cavity.getHeight() );
         Mirror leftMirror = new Mirror( p3, p4 );
@@ -168,5 +167,30 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
                 getApparatusPanel().removeGraphic( photonGraphic );
             }
         } );
+    }
+
+    protected MonitorPanel getEnergyMonitorPanel() {
+        return monitorPanel;
+    }
+
+    protected void setEnergyMonitorPanel( MonitorPanel monitorPanel ) {
+        this.monitorPanel = monitorPanel;
+    }
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        if( monitorPanel != null ) {
+            ;
+        }
+        {
+            energyLevelsDialog = new EnergyLevelsDialog( app.getApplicationView().getPhetFrame(),
+                                                         monitorPanel );
+            energyLevelsDialog.setVisible( true );
+        }
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        energyLevelsDialog.setVisible( false );
     }
 }
