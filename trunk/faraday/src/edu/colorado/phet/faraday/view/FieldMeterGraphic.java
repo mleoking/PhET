@@ -103,7 +103,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObs
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         // Probe body, registration point at center of crosshairs.
-        PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.FIELD_PROBE_IMAGE );
+        PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.FIELD_METER_IMAGE );
         body.setRegistrationPoint( CROSSHAIRS_LOCATION.x, CROSSHAIRS_LOCATION.y );
         addGraphic( body );
         
