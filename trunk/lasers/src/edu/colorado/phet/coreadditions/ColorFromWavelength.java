@@ -1,8 +1,12 @@
-/**
- * Class: ColorFromWavelength
- * Package: edu.colorado.phet.coreadditions
- * Author: Another Guy
- * Date: Nov 10, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.coreadditions;
 
@@ -16,6 +20,14 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 import java.awt.image.IndexColorModel;
 
+/**
+ * Class: ColorFromWavelength
+ * Package: edu.colorado.phet.coreadditions
+ * Author: Another Guy
+ *
+ * This is a BufferedImageOp that creates a duotone image of an input BufferedImage. The color of the duotone is
+ * based on a wavelength specified in the ColorFromWavelength constructor.
+ */
 public class ColorFromWavelength implements BufferedImageOp {
     private double wavelength;
 
@@ -45,9 +57,6 @@ public class ColorFromWavelength implements BufferedImageOp {
             dest = createCompatibleDestImage( src, src.getColorModel() );
         }
         ColorModel cm = src.getColorModel();
-        double redPct = (double)( color.getRed() ) / 255;
-        double greenPct = (double)( color.getGreen() ) / 255;
-        double bluePct = (double)( color.getBlue() ) / 255;
         double grayRefLevel = ( color.getRed() + color.getGreen() + color.getBlue() ) / ( 255 * 3 );
         for( int x = 0; x < src.getWidth(); x++ ) {
             for( int y = 0; y < src.getHeight(); y++ ) {
