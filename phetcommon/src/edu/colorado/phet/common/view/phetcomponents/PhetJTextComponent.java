@@ -6,7 +6,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import javax.swing.*;
 import javax.swing.text.Caret;
 import javax.swing.text.JTextComponent;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,38 +19,44 @@ import java.awt.event.ActionListener;
 public class PhetJTextComponent extends PhetJComponent {
     private JTextComponent textComponent;
     private boolean autorepaintCaret = true;
+    private Caret caret;
+    private boolean hasKeyFocus = false;
 
     public PhetJTextComponent( ApparatusPanel apparatusPanel, JTextComponent component ) {
         super( apparatusPanel, component );
         this.textComponent = component;
-        Caret caret = component.getCaret();
+        caret = component.getCaret();
         int blinkRate = caret.getBlinkRate();
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                redraw();//todo just redraw the caret region.
+                if( hasKeyFocus ) {
+                    redraw();//todo just redraw the caret region.
+                }
             }
         };
         Timer timer = new Timer( blinkRate, actionListener );
         if( autorepaintCaret ) {
             timer.start();
         }
+        caret.setVisible( false );
+        caret.setSelectionVisible( true );
+
         redraw();
     }
 
-    protected void redraw() {
-        if( textComponent != null ) {
-            super.redraw();
-            Graphics2D g2 = createGraphics();
-            /**How to handle text..?*/
-            Caret caret = textComponent.getCaret();
-            caret.setVisible( true );
-            caret.setSelectionVisible( true );
-            int blinkie = caret.getBlinkRate();
-            long time = System.currentTimeMillis();
-            long remainder = time % ( blinkie * 2 );
-            if( remainder <= 500 ) {
-                caret.paint( g2 );
-            }
-        }
+    public void gainedKeyFocus() {
+        this.hasKeyFocus = true;
+        super.gainedKeyFocus();
+        textComponent.setFocusable( true );
+        textComponent.requestFocus();
+        caret.setVisible( true );
+        redraw();
+    }
+
+    public void lostKeyFocus() {
+        this.hasKeyFocus = false;
+        super.lostKeyFocus();
+        caret.setVisible( false );
+        redraw();
     }
 }
