@@ -60,7 +60,6 @@ public class ElectromagnetPanel extends FaradayPanel {
     private JCheckBox _gridCheckBox;
     private JCheckBox _fieldMeterCheckBox;
     private JCheckBox _compassCheckBox; 
-    private JPanel _batteryPanel;
     private JPanel _acPanel;
     private JSpinner _loopsSpinner;
     private JCheckBox _electronsCheckBox;
@@ -170,8 +169,6 @@ public class ElectromagnetPanel extends FaradayPanel {
             layout.addAnchoredComponent( _acRadioButton, 1, 0, GridBagConstraints.WEST );
         }
         
-        _batteryPanel = new BatteryPanel( _batteryModel );
-        
         _acPanel = new ACPanel( _acSourceModel );
             
         // Layout
@@ -184,7 +181,6 @@ public class ElectromagnetPanel extends FaradayPanel {
         layout.addComponent( _electronsCheckBox, row++, 0 );
         layout.addComponent( loopsPanel, row++, 0 );
         layout.addFilledComponent( sourcePanel, row++, 0, GridBagConstraints.HORIZONTAL );
-        layout.addFilledComponent( _batteryPanel, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addFilledComponent( _acPanel, row++, 0, GridBagConstraints.HORIZONTAL );
         
         // Wire up event handling.
@@ -206,7 +202,6 @@ public class ElectromagnetPanel extends FaradayPanel {
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
         _loopsSpinner.setValue( new Integer( _sourceCoilModel.getNumberOfLoops() ) );
         
-        _batteryPanel.setVisible( _batteryRadioButton.isSelected() );
         _acPanel.setVisible( _acRadioButton.isSelected() );
     }
     
@@ -248,7 +243,6 @@ public class ElectromagnetPanel extends FaradayPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _batteryRadioButton ) {
                 // Battery (DC) source
-                _batteryPanel.setVisible( true );
                 _acPanel.setVisible( false );
                 _batteryModel.setEnabled( true );
                 _acSourceModel.setEnabled( false );
@@ -256,7 +250,6 @@ public class ElectromagnetPanel extends FaradayPanel {
             }
             else if ( e.getSource() == _acRadioButton ) {
                 // AC source
-                _batteryPanel.setVisible( false );
                 _acPanel.setVisible( true );
                 _batteryModel.setEnabled( false );
                 _acSourceModel.setEnabled( true );
