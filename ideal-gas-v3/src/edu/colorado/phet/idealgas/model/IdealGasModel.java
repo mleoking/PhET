@@ -42,23 +42,25 @@ public class IdealGasModel extends BaseModel {
     private List prepCommands = Collections.synchronizedList( new ArrayList() );
 
     private ArrayList bodies = new ArrayList();
+    private CollisionGod collisionGod;
 
     // todo: this attribute should proabably belong to the Pump
     //    private Class currentGasSpecies = HeavySpecies.class;
 
     public IdealGasModel( double dt ) {
         // Add a collision collisionGod
-        CollisionGod collisionGod = new CollisionGod( this, dt,
-                                                      new Rectangle2D.Double( 0, 0,
-                                                                              600,
-                                                                              600 ),
-                                                      10, 10 );
-        this.addModelElement( collisionGod );
+        collisionGod = new CollisionGod( this, dt,
+                                         new Rectangle2D.Double( 0, 0,
+                                                                 600,
+                                                                 600 ),
+                                         10, 10 );
+//        this.addModelElement( collisionGod );
         // Set up collision classes
         //        new SphereHotAirBalloonContactDetector();
-        new SphereBoxContactDetector();
+        new SphereBoxCollisionExpert();
+//        new SphereBoxContactDetector();
         new SphereSphereContactDetector();
-        new SphereWallContactDetector();
+//        new SphereWallContactDetector();
 
         //        BalloonSphereCollision.register();
         SphereBoxCollision.register();
@@ -239,6 +241,8 @@ public class IdealGasModel extends BaseModel {
         addHeatFromStove();
 
         super.stepInTime( dt );
+
+        collisionGod.stepInTime( dt );
 
         // Managing energy, step 2: Get the total kinetic energy in the system,
         // and adjust it if neccessary

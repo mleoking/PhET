@@ -154,10 +154,18 @@ public abstract class AbstractClock {
 
     public void setDt( double dt ) {
         this.dt = dt;
+        for( int i = 0; i < clockStateListeners.size(); i++ ) {
+            ClockStateListener clockStateListener = (ClockStateListener)clockStateListeners.get( i );
+            clockStateListener.dtChanged( dt );
+        }
     }
 
     public void setDelay( int delay ) {
         this.delay = delay;
+        for( int i = 0; i < clockStateListeners.size(); i++ ) {
+            ClockStateListener clockStateListener = (ClockStateListener)clockStateListeners.get( i );
+            clockStateListener.delayChanged( delay );
+        }
     }
 
     private interface TickConverter {

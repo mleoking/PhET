@@ -175,4 +175,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
             tpp.norm.setSelected( true );
         }
     }
+
+    public void pausedStateChanged( boolean b ) {
+    }
 }

@@ -70,8 +70,11 @@ public class CollisionGod implements ModelElement {
     public void stepInTime( double dt ) {
         List bodies = model.getBodies();
         adjustRegionMembership( bodies );
-        doMiscCollisions( bodies );
+
+        // Do the miscellaneous collisions after the gas to gas collisions. This
+        // seems to help keep things more graphically accurate
         doGasToGasCollisions();
+        doMiscCollisions( bodies );
         for( int i = 0; i < regions.length; i++ ) {
             Region[] region = regions[i];
             for( int j = 0; j < region.length; j++ ) {

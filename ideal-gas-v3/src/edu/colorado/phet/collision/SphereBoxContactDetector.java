@@ -22,6 +22,18 @@ public class SphereBoxContactDetector extends ContactDetector {
         SphericalBody sphere = null;
         box = bodyA instanceof Box2D ? (Box2D)bodyA : (Box2D)bodyB;
         sphere = bodyA instanceof SphericalBody ? (SphericalBody)bodyA : (SphericalBody)bodyB;
-        return box.isInContactWithParticle( sphere );
+
+        boolean result = false;
+        double sx = sphere.getPosition().getX();
+        double sy = sphere.getPosition().getY();
+        double r = sphere.getRadius();
+
+        result |= ( sx - r ) <= box.getMinX();
+        result |= ( sx + r ) >= box.getMaxX();
+        result |= ( sy - r ) <= box.getMinY();
+        result |= ( sy + r ) >= box.getMaxY();
+
+        result &= !box.isInOpening( sphere );
+        return result;
     }
 }

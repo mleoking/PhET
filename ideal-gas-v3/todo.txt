@@ -1,8 +1,17 @@
+- molecules can't escape through door
+- door need to be painted differently
+
+- Molecules don't stay inside moving wall.Add kinetice energy to molecules when they
+collide with the moving wall.
+
+- Get rid of SphereWallContactDetector and SphereWallCollision
+
+- Fix up collisions with sphere. Can we get rid of constraints?
+
+- Combine collision detectors and collision classes into common collision experts
 - Add collision detectors and collisions for the hollow sphere classes
 
 - check CollidableBody.stepInTimeNoNotify()
-- molecules can escape the box
-- hollow sphere doesn't stay in the box
 - pressure slice graphic overlays mannequin
 - when hollow sphere is only thing in the box, the gravity response is jerky
 
@@ -13,6 +22,7 @@ HollowSphereMustNotContain
 
 - hierarchy of Body/.../IdealGasParticle is way too big. Clean it up!
 
+- entire pump handle and rod respond to the mouse
 
 
 - Gravity: there is a lot of code in the model that refers to a gravity object, but all the

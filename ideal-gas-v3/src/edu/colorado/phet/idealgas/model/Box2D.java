@@ -6,8 +6,6 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.collision.CollidableBody;
-import edu.colorado.phet.collision.CollisionFactory;
-import edu.colorado.phet.collision.SphereWallContactDetector;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 
@@ -30,7 +28,7 @@ public class Box2D extends CollidableBody {
     private double leftWallVx = 0;
 //    private ArrayList containedBodies = new ArrayList();
 
-    private SphereWallContactDetector detector = new SphereWallContactDetector();
+//    private SphereWallContactDetector detector = new SphereWallContactDetector();
 
 
     // TODO: put the opening characteristics in a specialization of this class.
@@ -168,24 +166,24 @@ public class Box2D extends CollidableBody {
         }
     }
 
-    public boolean isInContactWithParticle( SphericalBody particle ) {
-
-        if( isInOpening( particle ) ) {
-            return false;
-        }
-        // To try to catch escaped particles
-        if( containsBody( particle ) && this.isOutsideBox( particle ) ) {
-            return true;
-        }
-
-        for( int i = 0; i < walls.length; i++ ) {
-            Wall wall = walls[i];
-            if( detector.areInContact( wall, particle ) ) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public boolean isInContactWithParticle( SphericalBody particle ) {
+//
+//        if( isInOpening( particle ) ) {
+//            return false;
+//        }
+//        // To try to catch escaped particles
+//        if( containsBody( particle ) && this.isOutsideBox( particle ) ) {
+//            return true;
+//        }
+//
+//        for( int i = 0; i < walls.length; i++ ) {
+//            Wall wall = walls[i];
+//            if( detector.areInContact( wall, particle ) ) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
 //    private boolean containsBody( SphericalBody particle ) {
 //        super.containsBody( )
@@ -298,6 +296,9 @@ public class Box2D extends CollidableBody {
      */
     public Wall collideWithParticle( SphericalBody particle, double dt ) {
 
+        if( true ) {
+            throw new RuntimeException( "to be removed" );
+        }
         // Since we can collide with more than one wall in a time step, and we try to handle that in this method, we
         // also have to make sure that we don't thing we've hit a second wall, when we actually only hit one, but the
         // timing of the collision was such that it happened exactly at the end of the time step. In such a case, the
@@ -317,28 +318,28 @@ public class Box2D extends CollidableBody {
                 // determine which it hit first
                 for( int i = 0; i < walls.length; i++ ) {
                     Wall wall = walls[i];
-                    if( detector.areInContact( particle, wall ) ) {
-                        collidingWall = wall;
-                        break;
-                    }
+//                    if( detector.areInContact( particle, wall ) ) {
+//                        collidingWall = wall;
+//                        break;
+//                    }
                 }
-                if( collidingWall != null && collidingWall != previousCollidingWall ) {
-                    previousCollidingWall = collidingWall;
-                    hasCollision = true;
-                    cnt++;
-                    CollisionFactory.create( collidingWall, particle, model, dt ).collide();
-
-                    // Handle giving particle kinetic energy if the wall is moving
-                    if( collidingWall == leftWall ) {
-                        double vx0 = particle.getVelocity().getX();
-                        double vx1 = vx0 + leftWallVx;
-                        particle.setVelocity( vx1, particle.getVelocity().getY() );
-
-                        // Add the energy to the system, so it doesn't get
-                        // taken back out when energy conservation is performed
-                        model.addKineticEnergyToSystem( leftWallVx );
-                    }
-                }
+//                if( collidingWall != null && collidingWall != previousCollidingWall ) {
+//                    previousCollidingWall = collidingWall;
+//                    hasCollision = true;
+//                    cnt++;
+//                    CollisionFactory.create( collidingWall, particle, model, dt ).collide();
+//
+//                    // Handle giving particle kinetic energy if the wall is moving
+//                    if( collidingWall == leftWall ) {
+//                        double vx0 = particle.getVelocity().getX();
+//                        double vx1 = vx0 + leftWallVx;
+//                        particle.setVelocity( vx1, particle.getVelocity().getY() );
+//
+//                        // Add the energy to the system, so it doesn't get
+//                        // taken back out when energy conservation is performed
+//                        model.addKineticEnergyToSystem( leftWallVx );
+//                    }
+//                }
             } while( hasCollision && cnt < 2 );
         } // if( !isInOpening( particle ) )
         return collidingWall;
