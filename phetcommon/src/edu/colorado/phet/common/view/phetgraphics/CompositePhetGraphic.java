@@ -55,7 +55,7 @@ public class CompositePhetGraphic extends PhetGraphic {
         }
     }
 
-    private PhetGraphic graphicAt( int i ) {
+    public PhetGraphic graphicAt( int i ) {
         return (PhetGraphic)list.get( i );
     }
 
@@ -72,5 +72,13 @@ public class CompositePhetGraphic extends PhetGraphic {
             PhetGraphic graphic = (PhetGraphic)list.get( i );
             graphic.setVisible( visible );
         }
+    }
+
+    public int numGraphics() {
+        return list.size();
+    }
+
+    public void removeGraphic( PhetGraphic graphic ) {
+        list.remove( graphic );
     }
 }
