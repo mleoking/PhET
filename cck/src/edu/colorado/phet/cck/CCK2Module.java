@@ -42,6 +42,7 @@ import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
@@ -138,6 +139,7 @@ public class CCK2Module extends Module {
     private boolean helpVisible = false;
     private static final double AMMETER_BRANCH_Y = 1.0;
     private Rectangle2D.Double modelRect;
+    private static boolean virtualLab;
 
     public BufferedImage getFlameImage() {
         return flameImage;
@@ -215,7 +217,7 @@ public class CCK2Module extends Module {
         });
 
         if (usePointAmmeter) {
-            ammeter = new Ammeter(vm.getVoltmeterUnit().getX(), vm.getVoltmeterUnit().getY() + .5);
+            ammeter = new Ammeter(vm.getVoltmeterUnit().getX() - 2, vm.getVoltmeterUnit().getY() - .2);
             ammeterGraphic = new AmmeterGraphic(ammeter, getTransform(), this, circuitGraphic);
             getApparatusPanel().addGraphic(ammeterGraphic, 2000);
         }
@@ -512,14 +514,21 @@ public class CCK2Module extends Module {
     }
 
     public static void main(String[] args) throws IOException {
+        java.util.List list = Arrays.asList(args);
+        System.out.println("args = " + list);
+        if (Arrays.asList(args).contains("-virtuallab")) {
+            virtualLab = true;
+        } else
+            virtualLab = false;
         SwingTimerClock stc = new SwingTimerClock(1, 30, true);
+
         boolean usePointAmmeter = false;
+        if (virtualLab)
+            usePointAmmeter = false;
+        else
+            usePointAmmeter = true;
         final CCK2Module module = new CCK2Module(usePointAmmeter, stc);
-//        FrameSetup fs = new FrameSetup() {
-//            public void initialize(JFrame frame) {
-//                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-//            }
-//        };
+
         ApplicationDescriptor ad = new ApplicationDescriptor("Circuit Construction Kit II",
                 "Create, interact with and observe simple circuits.",
                 "ii-V6.5", new FrameSetup() {
@@ -563,34 +572,6 @@ public class CCK2Module extends Module {
         jmb.add(cckMenu);
         jmb.add(helpMenu);
         app.startApplication(module);
-//        final ThreadClock tc = new ThreadClock(30, 30) {
-//            public void start() {
-//                super.start();
-//            }
-//        };
-
-
-//        TickListener tl = new TickListener() {
-//            public void clockTicked(AbstractClock abstractClock) {
-//                Thread t = Thread.currentThread();
-////                t.setPriority(Thread.MIN_PRIORITY);
-//                tc.removeTickListener(this);
-//            }
-//        };
-//        tc.addTickListener(tl);
-
-
-//        DefaultClock dc = new DefaultClock(stc, new ConstantTimeConverter(30));
-//        dc.addTickListener(new TickListener() {
-//            public void clockTicked(AbstractClock abstractClock) {
-//                module.getModel().clockTicked(null, 30);
-//                if (numTicks < 100) {
-//                    module.repaint();
-//                    numTicks++;
-//                }
-//            }
-//        });
-//        dc.start();
         app.getApplicationView().getPhetFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
         module.getApparatusPanel().repaint();
         enableAspectRatio(app, module);

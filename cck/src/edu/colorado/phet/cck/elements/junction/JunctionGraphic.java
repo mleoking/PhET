@@ -38,7 +38,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener, B
     private Color highlight = Color.yellow;
     private boolean showID = false;
 
-    public JunctionGraphic(final Junction junction, CCK2Module module, int radius, Color color, Stroke stroke, Color filledColor) {
+    public JunctionGraphic(final Junction junction, final CCK2Module module, int radius, Color color, Stroke stroke, Color filledColor) {
         this.junction = junction;
         this.module = module;
         this.radius = radius;
@@ -62,6 +62,7 @@ public class JunctionGraphic implements InteractiveGraphic, TransformListener, B
         splitJunction.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 junction.getBranch().getCircuit().splitJunction(junction);
+                module.getCircuit().fireConnectivityChanged();
             }
         });
         menu.add(splitJunction);

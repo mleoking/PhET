@@ -25,6 +25,8 @@ import java.util.logging.Logger;
 public class RoughDraftApplicator implements KirkhoffSolutionApplicator {
     private static boolean debugKirkhoff = false;
     private Logger logger;
+    private boolean recursing;
+//    private static boolean recursing = false;
 
     public RoughDraftApplicator(Logger logger) {
         this.logger = logger;
@@ -143,6 +145,33 @@ public class RoughDraftApplicator implements KirkhoffSolutionApplicator {
 //        logger.fine("------------>Started Kirkhoff Solve<--------");
         if (m == null) {
 //            logger.fine("No matrix system for circuit.");
+            //need to fire update since we ignored in clearCircuit.
+            //could use a ZeroInterpreter.
+            for (int i = 0; i < c.numBranches(); i++) {
+                Branch b = c.branchAt(i);
+                //O.d("Examining branch["+i+"], type="+b.getClass());
+                if (b instanceof HasResistance) {
+                    HasResistance hr = (HasResistance) b;
+                    double res = hr.getResistance();
+                    double amps = 0;
+                    double volts = 0;
+                    if (res == 0)
+                        volts = 0;
+                    else
+                        volts = 0;
+                    b.setCurrentAndVoltage(amps, volts);
+//                    b.setVoltageDrop(volts);
+//                    logger.fine("Set values for i=" + i + ", current=" + amps + ", volts=" + volts);
+                } else if (b instanceof Battery) {
+                    Battery batt = (Battery) b;
+                    double amps = 0;
+                    batt.setCurrent(amps);
+//                    logger.fine("Set value for battery i=" + i + ", current=" + amps);
+                } else
+                    throw new RuntimeException("Type not found: " + b.getClass());
+
+            }
+
             return;
         }
 
