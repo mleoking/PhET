@@ -47,15 +47,7 @@ public class FaradayConfig {
     // Images
     private static final String IMAGES_DIRECTORY = "images/";
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
-    public static final String COIL1_FRONT_IMAGE = IMAGES_DIRECTORY + "coil1_front.png";
-    public static final String COIL1_BACK_IMAGE = IMAGES_DIRECTORY + "coil1_back.png";
-    public static final String COIL2_FRONT_IMAGE = IMAGES_DIRECTORY + "coil2_front.png";
-    public static final String COIL2_BACK_IMAGE = IMAGES_DIRECTORY + "coil2_back.png";
     public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
-    public static final String ELECTRONS1_BACK_IMAGE = IMAGES_DIRECTORY + "electrons1_back.png";
-    public static final String ELECTRONS1_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons1_front.png";
-    public static final String ELECTRONS2_BACK_IMAGE = IMAGES_DIRECTORY + "electrons2_back.png";
-    public static final String ELECTRONS2_FRONT_IMAGE = IMAGES_DIRECTORY + "electrons2_front.png";
     public static final String FIELD_METER_IMAGE = IMAGES_DIRECTORY + "fieldMeter.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightBulb.png";
     public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltMeter.png";
