@@ -1,5 +1,7 @@
 - Performance now SUCKS!!!!!
 
+- Add gravity controls to measurement panel
+
 - Mannequin needs to be lower on the screen.
 - Box leaves screen turds when you move the wall.
 

@@ -25,7 +25,6 @@ public abstract class HardsphereCollision implements Collision {
      */
     public void collide( CollidableBody bodyA, CollidableBody bodyB,
                          Vector2D loa, double dt, IdealGasModel model ) {
-
         double timeStep = dt;
 
         // Compute the actual time of collision. This is, in general, prior to the end of the current time step.

@@ -22,7 +22,7 @@ public abstract class CollidableBody extends Body {
     ArrayList containedBodies = new ArrayList();
 
     // List of contraints that must be applied to the body's state
-    // at the end of each stepInTime
+    // at the end of each doYourThing
     protected ArrayList constraints = new ArrayList();
     // Working copy of constraint list used in case a constraint
     // needs to modify the real constraint list

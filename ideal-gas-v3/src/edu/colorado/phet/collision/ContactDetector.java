@@ -20,10 +20,6 @@ abstract public class ContactDetector {
 
     abstract protected boolean applies( CollidableBody bodyA, CollidableBody bodyB );
 
-    //
-    // Static fields and methods
-    //
-
     /**
      * Determines if two bodies are in contact. Note that the first ContactDetector that
      * applies to the types of the arguments will make the determination. This means if
