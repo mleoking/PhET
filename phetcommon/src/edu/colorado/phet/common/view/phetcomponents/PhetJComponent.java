@@ -38,7 +38,9 @@ public class PhetJComponent extends PhetGraphic {
         offscreen.getContentPane().setLayout( null ); //so we can use reshape for absolute layout.
     }
 
-    public static PhetJComponent newInstance( ApparatusPanel apparatusPanel, JComponent jComponent ) {
+//    public static PhetJComponent newInstance( ApparatusPanel apparatusPanel, JComponent jComponent ) {
+    public static PhetGraphic newInstance( ApparatusPanel apparatusPanel, JComponent jComponent ) {
+        doNotifyAll( jComponent );
         //some special cases.
         if( jComponent instanceof JTextComponent ) {
             return new PhetJTextComponent( apparatusPanel, (JTextComponent)jComponent );
@@ -46,14 +48,47 @@ public class PhetJComponent extends PhetGraphic {
         else if( jComponent instanceof JToggleButton ) {
             return new PhetJToggleButton( apparatusPanel, (JToggleButton)jComponent );
         }
+        else if( jComponent.getComponentCount() > 0 ) {
+            return new PhetJComponent( apparatusPanel, jComponent );
+
+            //This code attempted to create a Graphic Tree with the swing components we contain.
+//            GraphicLayerSet graphicLayerSet = new GraphicLayerSet();
+//            Component[] children = jComponent.getComponents();
+//            jComponent.invalidate();
+//            jComponent.validate();
+//            jComponent.doLayout();
+//            graphicLayerSet.addGraphic( new PhetJComponent( apparatusPanel, jComponent ) );//the container is the background.
+//
+//            for( int i = 0; i < children.length; i++ ) {
+//                JComponent child = (JComponent)children[i];
+//                Point location = child.getLocation();
+//                System.out.println( "location = " + location );
+//                PhetGraphic pj = PhetJComponent.newInstance( apparatusPanel, child );
+//                graphicLayerSet.addGraphic( pj );
+////                pj.setLocation( location.x + 120, location.y );
+//                pj.setLocation( location.x, location.y  );
+//            }
+//
+//            return graphicLayerSet;
+        }
         else {
             return new PhetJComponent( apparatusPanel, jComponent );
+        }
+    }
+
+    private static void doNotifyAll( JComponent jComponent ) {
+        jComponent.addNotify();
+        Component[] c = jComponent.getComponents();
+        for( int i = 0; i < c.length; i++ ) {
+            JComponent component = (JComponent)c[i];
+            doNotifyAll( component );
         }
     }
 
     protected PhetJComponent( ApparatusPanel ap, final JComponent component ) {
         super( ap );
         this.component = component;
+//        component.addNotify();
         offscreen.getContentPane().add( component );
         redraw();
 
@@ -84,79 +119,99 @@ public class PhetJComponent extends PhetGraphic {
         mouseListener = new MouseInputAdapter() {
             // implements java.awt.event.MouseListener
             public void mouseClicked( MouseEvent e ) {
-                applyEvent( e, new MouseListenerMethod() {
+                boolean handled = applyEventRecursive( component, e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseClicked( newEvent );
                     }
 
-                } );
+                }, toLocalFrame( e.getPoint() ) );
+                if( handled ) {
+                    redraw();
+                }
 
             }
 
             // implements java.awt.event.MouseMotionListener
             public void mouseDragged( MouseEvent e ) {
-                applyEvent( e, new MouseMotionListenerMethod() {
+                boolean handled = applyEventRecursive( component, e, new MouseMotionListenerMethod() {
 
                     public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
                         mouseMotionListener.mouseDragged( newEvent );
                     }
-                } );
+                }, toLocalFrame( e.getPoint() ) );
+                if( handled ) {
+                    redraw();
+                }
             }
 
             // implements java.awt.event.MouseListener
             public void mouseEntered( MouseEvent e ) {
-                applyEvent( e, new MouseListenerMethod() {
+                boolean handled = applyEventRecursive( component, e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseEntered( newEvent );
                     }
 
-                } );
+                }, toLocalFrame( e.getPoint() ) );
+                if( handled ) {
+                    redraw();
+                }
             }
 
             // implements java.awt.event.MouseListener
             public void mouseExited( MouseEvent e ) {
-                applyEvent( e, new MouseListenerMethod() {
+                boolean handled = applyEventRecursive( component, e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseExited( newEvent );
                     }
 
-                } );
+                }, toLocalFrame( e.getPoint() ) );
+                if( handled ) {
+                    redraw();
+                }
             }
 
             // implements java.awt.event.MouseMotionListener
             public void mouseMoved( MouseEvent e ) {
-                applyEvent( e, new MouseMotionListenerMethod() {
+                boolean handled = applyEventRecursive( component, e, new MouseMotionListenerMethod() {
 
                     public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
-                        mouseMotionListener.mouseMoved( newEvent );
+                        mouseMotionListener.mouseDragged( newEvent );
                     }
-                } );
+                }, toLocalFrame( e.getPoint() ) );
+                if( handled ) {
+                    redraw();
+                }
             }
 
             // implements java.awt.event.MouseListener
             public void mousePressed( MouseEvent e ) {
-                applyEvent( e, new MouseListenerMethod() {
+                boolean handled = applyEventRecursive( component, e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mousePressed( newEvent );
                     }
 
-                } );
-
+                }, toLocalFrame( e.getPoint() ) );
+                if( handled ) {
+                    redraw();
+                }
             }
 
             // implements java.awt.event.MouseListener
             public void mouseReleased( MouseEvent e ) {
-                applyEvent( e, new MouseListenerMethod() {
+                boolean handled = applyEventRecursive( component, e, new MouseListenerMethod() {
+
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseReleased( newEvent );
                     }
 
-                } );
-
+                }, toLocalFrame( e.getPoint() ) );
+                if( handled ) {
+                    redraw();
+                }
             }
         };
         addMouseInputListener( mouseListener );
@@ -189,11 +244,49 @@ public class PhetJComponent extends PhetGraphic {
         }
     }
 
-    private void applyEvent( MouseEvent e, MouseMethod mouseMethod ) {
+    /**
+     * This is the nonrecursive form, let's keep it around just in case.
+     */
+//    private void applyEventOrig( MouseEvent e, MouseMethod mouseMethod ) {
+//        MouseListener[] ml = component.getMouseListeners();
+//
+//        //need an intelligent conversion of mouse point.
+//        Point pt = toLocalFrame( e.getPoint() );
+//
+//        MouseEvent newEvent = new MouseEvent( component, e.getID(), System.currentTimeMillis(), e.getModifiers(), pt.x, pt.y, e.getClickCount(), e.isPopupTrigger(), e.getButton() );
+//        //pass to all listeners, some will be no-ops.//could be rewritten for understandability.
+//        boolean changed = false;
+//        if( mouseMethod instanceof PhetJComponent.MouseListenerMethod ) {
+//            MouseListenerMethod mle = (MouseListenerMethod)mouseMethod;
+//            for( int i = 0; i < ml.length; i++ ) {
+//                MouseListener mouseListener = ml[i];
+//                mle.invoke( mouseListener, newEvent );
+//                changed = true;
+//            }
+//        }
+//        else if( mouseMethod instanceof MouseMotionListenerMethod ) {
+//            MouseMotionListenerMethod mmlm = (MouseMotionListenerMethod)mouseMethod;
+//
+//            MouseMotionListener[] mml = component.getMouseMotionListeners();
+//            for( int i = 0; i < mml.length; i++ ) {
+//                MouseMotionListener mouseMotionListener = mml[i];
+//                mmlm.invoke( mouseMotionListener, newEvent );
+//                changed = true;
+//            }
+//        }
+//        else {
+//            throw new RuntimeException( "Illegal mouse handler class: " + mouseMethod );
+//        }
+//        if( changed ) {
+//            redraw();
+//        }
+//    }
+
+    private boolean applyEventRecursive( JComponent component, MouseEvent e, MouseMethod mouseMethod, Point pt ) {
         MouseListener[] ml = component.getMouseListeners();
 
         //need an intelligent conversion of mouse point.
-        Point pt = toLocalFrame( e.getPoint() );
+//        Point pt = toLocalFrame( e.getPoint() );
 
         MouseEvent newEvent = new MouseEvent( component, e.getID(), System.currentTimeMillis(), e.getModifiers(), pt.x, pt.y, e.getClickCount(), e.isPopupTrigger(), e.getButton() );
         //pass to all listeners, some will be no-ops.//could be rewritten for understandability.
@@ -219,9 +312,25 @@ public class PhetJComponent extends PhetGraphic {
         else {
             throw new RuntimeException( "Illegal mouse handler class: " + mouseMethod );
         }
-        if( changed ) {
-            redraw();
+//        if( changed ) {
+//            redraw();
+//        }
+        if( component.getComponentCount() > 0 ) {
+            Component[] children = component.getComponents();
+            for( int i = 0; i < children.length; i++ ) {
+
+                JComponent child = (JComponent)children[i];
+                Point rel = new Point( pt.x - child.getX(), pt.y - child.getY() );
+//                JComponent origComponent = component;
+//                this.component = child;
+                boolean c = applyEventRecursive( child, e, mouseMethod, rel );//transform it to child coordinates and set the source.
+//                this.component = origComponent;
+                if( c ) {
+                    changed = true;
+                }
+            }
         }
+        return changed;
     }
 
     private Point toLocalFrame( Point point ) {
@@ -240,6 +349,7 @@ public class PhetJComponent extends PhetGraphic {
     }
 
     protected void redraw() {
+//        Rectangle origBounds = component.getBounds();
         component.reshape( 0, 0, component.getPreferredSize().width, component.getPreferredSize().height );
         if( image == null ) {
             image = new BufferedImage( component.getPreferredSize().width, component.getPreferredSize().height, BufferedImage.TYPE_INT_RGB );
@@ -260,7 +370,22 @@ public class PhetJComponent extends PhetGraphic {
         g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
         g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
+
         component.paint( g2 );
+//        component.reshape( origBounds.x, origBounds.y, origBounds.width, origBounds.height );
+        Component[] children = component.getComponents();
+        component.invalidate();
+        component.validate();
+        component.doLayout();
+        for( int i = 0; i < children.length; i++ ) {
+            JComponent child = (JComponent)children[i];
+            Point loc = child.getLocation();
+            System.out.println( "loc = " + loc );
+            g2.translate( loc.x, loc.y );//this will need
+            child.paint( g2 );
+            g2.translate( -loc.x, -loc.y );
+        }
+
         setBoundsDirty();
         autorepaint();
     }
