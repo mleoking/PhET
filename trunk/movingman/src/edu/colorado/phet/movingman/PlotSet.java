@@ -52,14 +52,16 @@ public class PlotSet {
             }
         } );
 
+        final boolean DRAG_SLIDER_UNPAUSES = false;
         positionPlot.setPaintYLines( new double[]{5, 10} );
         module.getBackground().addGraphic( positionPlot, 3 );
         positionPlot.addSliderListener( new VerticalChartSlider.Listener() {
             public void valueChanged( double value ) {
                 module.setMode( module.getMotionMode() );
                 module.getMan().setX( value );
-                module.setPaused( false );
-                module.getMovingManControlPanel().enablePause();
+                if( DRAG_SLIDER_UNPAUSES ) {
+                    module.setPaused( false );
+                }
             }
         } );
 
@@ -85,8 +87,9 @@ public class PlotSet {
                 module.setMode( module.getMotionMode() );//acceleration needs to be the dependent variable now.
                 module.getMan().setVelocity( value * MovingManModel.TIMER_SCALE );
                 module.getMan().setAcceleration( 0 );
-                module.setPaused( false );
-                module.getMovingManControlPanel().enablePause();
+                if( DRAG_SLIDER_UNPAUSES ) {
+                    module.setPaused( false );
+                }
             }
         } );
 
@@ -112,8 +115,9 @@ public class PlotSet {
             public void valueChanged( double value ) {
                 module.setMode( module.getMotionMode() );
                 module.getMan().setAcceleration( value * MovingManModel.TIMER_SCALE * MovingManModel.TIMER_SCALE );
-                module.setPaused( false );
-                module.getMovingManControlPanel().enablePause();
+                if( DRAG_SLIDER_UNPAUSES ) {
+                    module.setPaused( false );
+                }
             }
         } );
     }

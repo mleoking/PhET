@@ -7,7 +7,6 @@ import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.controllers.HorizontalCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -19,6 +18,7 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.movingman.MMTimer;
 import edu.colorado.phet.movingman.MovingManModel;
 import edu.colorado.phet.movingman.MovingManModule;
+import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -100,6 +100,7 @@ public class MMPlot implements Graphic, Observer {
             final JButton playButton = new JButton( new ImageIcon( play ) );
             playButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
+                    module.setMode( module.getMotionMode() );
                     module.setPaused( false );
                 }
             } );

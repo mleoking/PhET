@@ -1,6 +1,7 @@
-package edu.colorado.phet.common.view.graphics;
+package edu.colorado.phet.movingman.common;
 
 import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;

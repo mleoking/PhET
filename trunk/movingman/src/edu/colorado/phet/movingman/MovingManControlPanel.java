@@ -2,8 +2,8 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
 import edu.colorado.phet.movingman.common.plaf.PlafUtil;
 import edu.colorado.phet.movingman.plots.DataSeries;
 
@@ -76,10 +76,10 @@ public class MovingManControlPanel extends JPanel {
             record = new JButton( "Record", recordIcon );
             record.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-//                    doManual();
-                    doMotion();
-                    record.setEnabled( false );
-                    reset.setEnabled( true );
+                    module.setMode( module.getMotionMode() );
+                    module.setPaused( false );
+//                    record.setEnabled( false );
+//                    reset.setEnabled( true );
                 }
             } );
             ImageIcon resetIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Stop24.gif" ) );
@@ -200,13 +200,10 @@ public class MovingManControlPanel extends JPanel {
             rewind.setEnabled( false );
         }
 
-        private void doMotion() {
-            module.setMode( module.getMotionMode() );
-            module.setPaused( false );
-            pause.setEnabled( true );
-            play.setEnabled( false );
-            slowMotion.setEnabled( false );
-        }
+//        private void doMotion() {
+//            module.setMode( module.getMotionMode() );
+//            module.setPaused( false );
+//        }
 
         private void doManual() {
             module.setRecordMode();

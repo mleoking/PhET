@@ -70,12 +70,23 @@ public class Man extends AutomatedObservable {
         if( newX > max || newX < min ) {
             setVelocity( 0 );
             setAcceleration( 0 );
+            if( newX > max ) {
+                setX( max );
+            }
+            else if( newX < min ) {
+                setX( min );
+            }
         }
+        else {
+            double origNewX = newX;
+            newX = Math.min( newX, max );
+            newX = Math.max( newX, min );
+            double clampedX = newX;
 
-        newX = Math.min( newX, max );
-        newX = Math.max( newX, min );
-        setVelocity( newVelocity );
-        setX( newX );
+            System.out.println( "origNewX = " + origNewX + ", \tclampedX=" + clampedX );
+            setVelocity( newVelocity );
+            setX( newX );
+        }
     }
 
     public void setAcceleration( double acceleration ) {
