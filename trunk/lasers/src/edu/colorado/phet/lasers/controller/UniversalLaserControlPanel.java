@@ -86,7 +86,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         super.addControl( resetBtnPanel );
 
         this.doLayout();
-        this.setPreferredSize( new Dimension( 340, (int)this.getSize().getHeight() ) );
+        this.setPreferredSize( new Dimension( 360, (int)this.getSize().getHeight() + 20 ) );
 
 //        setThreeEnergyLevels( module.getThreeEnergyLevels() );
     }

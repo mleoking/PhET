@@ -43,7 +43,7 @@ public class LaserConfig {
     public static final int CONTROL_FONT_SIZE = 12;
     public static final int CONTROL_FONT_STYLE = Font.BOLD;
     public static final String IMAGE_DIRECTORY = "images/";
-    public static final String ATOM_IMAGE_FILE = IMAGE_DIRECTORY + "particle-gray-med.gif";
+    public static final String ATOM_IMAGE_FILE = IMAGE_DIRECTORY + "particle-gray-med.png";
     public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "photon-comet.png";
     //        public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-med.gif";
     public static final String MID_HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-deep-red-xsml.gif";
@@ -72,5 +72,5 @@ public class LaserConfig {
     public static int LASING_THRESHOLD = 80;
     // Number of photons in the system that will cause the thing to blow up
 //    public static int KABOOM_THRESHOLD = 30;
-    public static int KABOOM_THRESHOLD = 300;
+    public static int KABOOM_THRESHOLD = 400;
 }

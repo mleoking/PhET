@@ -74,7 +74,6 @@ public class WaveBeamGraphic extends PhetGraphic implements PhotonSource.RateCha
         bounds.setRect( beam.getBounds().getX(), beam.getBounds().getY(),
                         beam.getBounds().getWidth(), getComponent().getHeight() - beam.getBounds().getY() );
         setBoundsDirty();
-        System.out.println( "bounds = " + bounds );
         repaint();
     }
 
