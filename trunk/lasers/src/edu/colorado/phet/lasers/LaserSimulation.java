@@ -33,25 +33,16 @@ public class LaserSimulation extends PhetApplication {
         public LaserAppModel() {
             super( "Lasers", "Lasers", "0.1" );
 
-            //            AbstractClock clock = new SwingTimerClock( 2, 20 );
-            AbstractClock clock = new SwingTimerClock( 10, 40 );
+            AbstractClock clock = new SwingTimerClock( 7, 40 );
+//            AbstractClock clock = new SwingTimerClock( 10, 40 );
             setClock( clock );
             setFrameCenteredSize( 900, 750 );
 
             Module singleAtomModule = new OneAtomModule( clock );
             Module multipleAtomModule = new MultipleAtomModule( clock );
-            //            Module singleAtomModule = new OneAtomTwoLevelsModule( clock );
-            //            Module oneAtomThreeLevelsModule = new OneAtomThreeLevelsModule( clock );
-            //            Module multipleAtomTwoLevelModule = new MultipleAtomTwoLevelModule( clock );
-            //            Module multipleAtomThreeLevelModule = new MultipleAtomThreeLevelModule( clock );
-            //            Module testApparatusModule = new TestApparatusModule();
             Module[] modules = new Module[]{
                 singleAtomModule,
                 multipleAtomModule
-                //                oneAtomThreeLevelsModule,
-                //                multipleAtomTwoLevelModule,
-                //                multipleAtomThreeLevelModule,
-                //                testApparatusModule
             };
             setModules( modules );
             setInitialModule( singleAtomModule );
@@ -64,7 +55,6 @@ public class LaserSimulation extends PhetApplication {
 
     public void displayHighToMidEmission( boolean selected ) {
         throw new RuntimeException( "TBI" );
-        //        LaserGraphicFactory.instance().setHighToMidEmissionsVisible( selected );
     }
 
     public static void main( String[] args ) {

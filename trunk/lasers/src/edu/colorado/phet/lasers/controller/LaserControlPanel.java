@@ -144,8 +144,8 @@ public class LaserControlPanel extends PhetControlPanel {
             gbc.gridy++;
             ResonatingCavity cavity = model.getResonatingCavity();
             this.add( new RightMirrorReflectivityControlPanel( cavity ), gbc );
-            gbc.gridy++;
-            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ), gbc );
+//            gbc.gridy++;
+//            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ), gbc );
 
             // Set the number of energy levels we'll see
             twoLevelsRB.setSelected( true );

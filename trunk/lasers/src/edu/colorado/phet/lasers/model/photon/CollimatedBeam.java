@@ -145,23 +145,12 @@ public class CollimatedBeam extends Particle {
         // Produce photons
         if( isActive() ) {
             timeSinceLastPhotonProduced += dt;
-            int numPhotons = (int)( photonsPerSecond * timeSinceLastPhotonProduced );
-            //            for( int i = 0; i < numPhotons; i++ ) {
             if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
                 timeSinceLastPhotonProduced = 0;
                 this.addPhoton();
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
 
-                EventRegistry.instance.fireEvent( new PhotonEmittedEvent( this ) );
-            }
-        }
-
-        // Remove ones that have gotten beyond the bounds
-        for( int i = 0; i < photons.size(); i++ ) {
-            Photon photon = (Photon)photons.get( i );
-            if( !this.bounds.contains( photon.getPosition() ) ) {
-                photon.removeFromSystem();
-                this.photons.remove( photon );
+//                EventRegistry.instance.fireEvent( new PhotonEmittedEvent( this ) );
             }
         }
     }
@@ -188,9 +177,7 @@ public class CollimatedBeam extends Particle {
 
     private double getNextTimeToProducePhoton() {
         double temp = ( gaussianGenerator.nextGaussian() + 1.0 );
-
         temp = 1;
-
         return temp / ( photonsPerSecond / 1000 );
     }
 }
