@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.util.ArrayList;
@@ -92,37 +93,40 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver
   {
     if ( isVisible() && _photonBeamModel.isEnabled() )
     {
-      super.saveGraphicsState( g2 );
+      // Save graphics state
+      Paint oldPaint = g2.getPaint();
+      Stroke oldStroke = g2.getStroke();
+      
+      // Use the same stroke for all photons.
+      g2.setStroke( PHOTON_STROKE );
+      
+      Photon photon = null;
+      int x, y, w, h;
+      
+      // For each photon ...
+      ArrayList photons = _photonBeamModel.getPhotons();
+      for ( int i = 0; i < photons.size(); i++ )
       {
-        // Use the same stroke for all photons.
-        g2.setStroke( PHOTON_STROKE );
+        photon = (Photon) photons.get(i);
         
-        Photon photon = null;
-        int x, y, w, h;
-        VisibleColor vc;
-        
-        // For each photon ...
-        ArrayList photons = _photonBeamModel.getPhotons();
-        for ( int i = 0; i < photons.size(); i++ )
+        // If the photon is in use, render it.
+        if ( photon.isInUse() )
         {
-          photon = (Photon) photons.get(i);
+          x = (int) photon.getX();
+          y = (int) photon.getY();
+          w = (int) photon.getWidth();
+          h = (int) photon.getHeight();
           
-          // If the photon is in use, render it.
-          if ( photon.isInUse() )
-          {
-            x = (int) photon.getX();
-            y = (int) photon.getY();
-            w = (int) photon.getWidth();
-            h = (int) photon.getHeight();
-            vc = photon.getColor();
-            
-            // WORKAROUND: Huge performance improvement by converting VisibleColor to Color.
-            g2.setPaint( vc.toColor() ); 
-            g2.drawLine( x, y, x-w, y-h );
-          }
+          // WORKAROUND: Huge performance improvement by converting VisibleColor to Color.
+          g2.setPaint( photon.getColor().toColor() );
+          // Head of photon is at (x,y), assumes left-to-right motion!
+          g2.drawLine( x, y, x-w, y-h ); 
         }
       }
-      super.restoreGraphicsState();
+      
+      // Restore graphics state
+      g2.setPaint( oldPaint );
+      g2.setStroke( oldStroke );
       
       BoundsOutline.paint( g2, this, Color.YELLOW ); // DEBUG
     }
