@@ -26,10 +26,12 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.control.ColorVisionConfig;
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.view.ApparatusPanel;
 
 /**
  * SpectrumSlider is a UI component, similar to a JSlider, for selecting a
@@ -50,7 +52,8 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpectrumSlider extends DefaultInteractiveGraphic {
+//public class SpectrumSlider extends GraphicLayerSet {
+public class SpectrumSlider extends CompositePhetGraphic {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -125,8 +128,8 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
         _knob = new SpectrumSliderKnob( component, DEFAULT_KNOB_SIZE, getRotationAngle() );
 
         // Initialize interactivity
-        super.setBoundedGraphic( _knob );
-        super.addCursorHandBehavior();
+        super.addGraphic( _knob );
+        super.setCursorHand();
         super.addMouseInputListener( new SpectrumSliderMouseInputListener() );
 
         // This call recalculates the location of all graphic elements.
@@ -365,7 +368,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
      * 
      * @return the bounds
      */
-    protected Rectangle getBounds() {
+    public Rectangle getBounds() {
 
         // Start with the spectrum graphic's bounds.
         // Make a copy, so we don't accidentally change the graphic's bounds.
@@ -452,20 +455,22 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
 
         if( _orientation == HORIZONTAL ) {
             // Translate the spectrum graphic.
-            _spectrum.setPosition( x, y );
+            _spectrum.setLocation( x, y );
 
             // Set drag bounds.
-            _dragBounds = new Rectangle( x, y + spectrumBounds.height, spectrumBounds.width, 0 );
+            _dragBounds = new Rectangle( 0, spectrumBounds.height, spectrumBounds.width, 0);
+//            _dragBounds = new Rectangle( x, y + spectrumBounds.height, spectrumBounds.width, 0 );
         }
         else {
             // Rotate and translate the spectrum graphic.
             double angle = getRotationAngle();
             AffineTransform transform = AffineTransform.getRotateInstance( angle );
             _spectrum.setTransform( transform );
-            _spectrum.setPosition( x, y + spectrumBounds.height );
+            _spectrum.setLocation( x, y + spectrumBounds.height );
 
             // Set drag bounds.
-            _dragBounds = new Rectangle( x + spectrumBounds.width, y, 0, spectrumBounds.height );
+            _dragBounds = new Rectangle( spectrumBounds.width, 0, 0, spectrumBounds.height );
+//            _dragBounds = new Rectangle( x + spectrumBounds.width, y, 0, spectrumBounds.height );
         }
 
         // Update the knob.
@@ -482,15 +487,20 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
         int x, y;
         if( _orientation == HORIZONTAL ) {
             double percent = ( _value - _minimum ) / (double) ( _maximum - _minimum );
+//            x = (int) ( percent * _dragBounds.width );
+//            y = (int)_knob.getLocation().getY();
             x = _dragBounds.x + (int) ( percent * _dragBounds.width );
             y = _dragBounds.y;
         }
         else {
             double percent = 1 - ( _value - _minimum ) / (double) ( _maximum - _minimum );
+            x = (int)_knob.getLocation().getX();
+            y = (int) ( percent * _dragBounds.height );
             x = _dragBounds.x;
             y = _dragBounds.y + (int) ( percent * _dragBounds.height );
         }
-        _knob.setLocation( x, y );
+//        _knob.setLocation( x , y );
+        _knob.setLocation( x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY() );
 
         // Set the knob's color.
         VisibleColor color = new VisibleColor( _value );
@@ -544,7 +554,11 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
                 }
 
                 // Create the curve.
-                BellCurve curve = new BellCurve( _component, x, y, w, h, getRotationAngle() );
+                BellCurve curve = new BellCurve( _component, x,
+//                BellCurve curve = new BellCurve( _component, x + (int)this.getLocation().getX(),
+                                                 (int)this.getLocation().getY(),
+//                                                 y + (int)this.getLocation().getY(),
+                                                 w, h, getRotationAngle() );
 
                 // Save graphics state.
                 Shape oldClip = g2.getClip();
@@ -625,12 +639,12 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
             // Get the proposed knob coordinates.
             int knobX, knobY;
             if( _orientation == HORIZONTAL ) {
-                knobX = event.getX() - _mouseOffset;
+                knobX = event.getX() - _mouseOffset - (int)getLocation().getX();
                 knobY = event.getY();
             }
             else {
                 knobX = event.getX();
-                knobY = event.getY() - _mouseOffset;
+                knobY = event.getY() - _mouseOffset - (int)getLocation().getY();
             }
 
             // Constrain the drag boundaries of the knob.

@@ -83,6 +83,7 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
         super.translate( -_location.x, -_location.y );
         _location = new Point( location );
         super.translate( location.x, location.y );
+        updateShape();
     }
 
     /**
@@ -171,10 +172,11 @@ public class SpectrumSliderKnob extends PhetShapeGraphic {
         Shape shape = path;
 
         // Rotate and translate.
-        AffineTransform transform = new AffineTransform();
-        transform.translate( _location.x, _location.y );
-        transform.rotate( _angle );
-        shape = transform.createTransformedShape( shape );
+//        AffineTransform netTx = getNetTransform();
+//        AffineTransform transform = new AffineTransform();
+//        transform.translate( _location.x, _location.y );
+//        transform.rotate( _angle );
+//        shape = transform.createTransformedShape( shape );
 
         super.setShape( shape );
     }
