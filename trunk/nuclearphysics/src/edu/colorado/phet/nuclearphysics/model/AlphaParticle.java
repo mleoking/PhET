@@ -60,9 +60,6 @@ public class AlphaParticle extends Nucleus {
                 double dy = d * Math.sin( theta );
                 setLocation( dx, dy );
                 this.setPotential( nucleus.getPotentialProfile().getWellPotential() );
-                if( this.getPotential() == 0 ) {
-                    System.out.println( "!!!" );
-                }
             }
             else {
                 // Accelerate the alpha particle away from the nucleus, with a force

@@ -111,7 +111,7 @@ public class NuclearPhysicsControlPanel extends JPanel {
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
                                                   GridBagConstraints.WEST );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "AlphaParticle", alphaParticleImg, SwingConstants.LEFT ),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( "Alpha Particle", alphaParticleImg, SwingConstants.LEFT ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.HORIZONTAL,
