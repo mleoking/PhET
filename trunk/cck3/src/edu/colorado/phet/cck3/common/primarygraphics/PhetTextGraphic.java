@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.primarygraphics;
+package edu.colorado.phet.cck3.common.phetgraphics;
 
 import java.awt.*;
 
@@ -9,7 +9,7 @@ import java.awt.*;
  * Time: 5:59:29 PM
  * Copyright (c) Jun 25, 2004 by Sam Reid
  */
-public class PrimaryTextGraphic extends PrimaryGraphic implements IPrimaryTextGraphic {
+public class PhetTextGraphic extends PhetGraphic implements IPhetTextGraphic {
     private Font font;
     private String text;
     private Color color;
@@ -17,7 +17,7 @@ public class PrimaryTextGraphic extends PrimaryGraphic implements IPrimaryTextGr
     private int y;
     private FontMetrics fontMetrics;
 
-    public PrimaryTextGraphic( Component component, Font font, String text, Color color, int x, int y ) {
+    public PhetTextGraphic( Component component, Font font, String text, Color color, int x, int y ) {
         super( component );
         this.font = font;
         this.text = text;
@@ -39,8 +39,8 @@ public class PrimaryTextGraphic extends PrimaryGraphic implements IPrimaryTextGr
         int width = fontMetrics.stringWidth( text );//this ignores antialias and fractional metrics.
         int ascent = fontMetrics.getAscent();
         int descent = fontMetrics.getDescent();
-        int leading =fontMetrics.getLeading();
-        Rectangle bounds = new Rectangle( (int)this.x, (int)this.y - ascent+leading, width, ascent + descent+leading );
+        int leading = fontMetrics.getLeading();
+        Rectangle bounds = new Rectangle( (int)this.x, (int)this.y - ascent + leading, width, ascent + descent + leading );
         return bounds;
     }
 
@@ -73,8 +73,32 @@ public class PrimaryTextGraphic extends PrimaryGraphic implements IPrimaryTextGr
     }
 
     public void setPosition( int x, int y ) {
+        if( this.x == x && this.y == y ) {
+            return;
+        }
         this.x = x;
         this.y = y;
+        setBoundsDirty();
+        repaint();
+    }
+
+    public void setText( String text ) {
+        if( this.text == text ) {
+            return;
+        }
+        this.text = text;
+        setBoundsDirty();
+        repaint();
+    }
+
+    public void setColor( Color color ) {
+        this.color = color;
+        setBoundsDirty();
+        repaint();
+    }
+
+    public void setFont( Font font ) {
+        this.font = font;
         setBoundsDirty();
         repaint();
     }

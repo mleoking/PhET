@@ -19,16 +19,14 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -44,9 +42,15 @@ public class CCK3ControlPanel extends JPanel {
 
     public CCK3ControlPanel( final CCK3Module module ) {
         advancedControlPanel = new AdvancedControlPanel( module );
-        JLabel titleLabel = ( new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) ) );
+        JLabel titleLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) );
+        titleLabel.setToolTipText( "<html>Click to visit<br>the PhET webpage.</html>" );
         titleLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
         titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
+        titleLabel.addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                showPhetPage();
+            }
+        } );
         this.module = module;
         JPanel filePanel = makeFilePanel();
         JPanel circuitPanel = makeCircuitPanel();
@@ -60,15 +64,12 @@ public class CCK3ControlPanel extends JPanel {
                 showHelpImage();
             }
         } );
-        //        add( jb );
         JButton browserGIF = new JButton( "GIF Help" );
         browserGIF.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showHelpGIF();
             }
         } );
-        //        add( browserGIF );
-        //        add( new JSeparator() );
 
         HelpPanel hp = new HelpPanel( module );
 
@@ -110,7 +111,9 @@ public class CCK3ControlPanel extends JPanel {
 //                add( manyComp );
 
         this.setLayout( new BorderLayout() );
-        add( titleLabel, BorderLayout.NORTH );
+        JPanel titlePanel = new JPanel();
+        titlePanel.add( titleLabel );
+        add( titlePanel, BorderLayout.NORTH );
         JPanel controlPanel = new JPanel( new GridBagLayout() );
 
         GridBagConstraints constraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -132,6 +135,7 @@ public class CCK3ControlPanel extends JPanel {
 
         this.add( helpPanel, BorderLayout.SOUTH );
     }
+
 
     private JPanel makeSizePanel() {
 
@@ -214,17 +218,19 @@ public class CCK3ControlPanel extends JPanel {
             }
         } );
 
-        toolPanel.add( seriesAmmeter, rhs );
-        rhs.gridy++;
         toolPanel.add( voltmeter, rhs );
         rhs.gridy++;
+
+        toolPanel.add( seriesAmmeter, rhs );
+        rhs.gridy++;
+
         if( !module.isVirtualLabMode() ) {
             toolPanel.add( virtualAmmeter, rhs );
         }
         lhs.gridy = 0;
-        toolPanel.add( new JLabel( ammIcon ), lhs );
-        lhs.gridy++;
         toolPanel.add( new JLabel( voltIcon ), lhs );
+        lhs.gridy++;
+        toolPanel.add( new JLabel( ammIcon ), lhs );
         lhs.gridy++;
         if( !module.isVirtualLabMode() ) {
             toolPanel.add( new JLabel( nonContactAmmIcon ), lhs );
@@ -421,31 +427,45 @@ public class CCK3ControlPanel extends JPanel {
 
         String je = mt.describe( junctionEquations, "Junction Equations" );
         String le = mt.describe( loopEquations, "Loop Equations" );
-        String oh = mt.describe( ohmsLaws, "Ohms Law Equations" );
+        String oh = mt.describe( ohmsLaws, "Ohm's Law Equations" );
         System.out.println( je );
         System.out.println( le );
         System.out.println( oh );
 
-        JFrame readoutFrame = new JFrame();
-        JTextArea jta = new JTextArea( je + "\n" + le + "\n" + oh + "\n" ) {
+        JFrame readoutFrame = new JFrame( "Circuit Equations" );
+        String plainText = je + "\n" + le + "\n" + oh + "\n";
+        JTextArea jta = new JTextArea( plainText ) {
             protected void paintComponent( Graphics g ) {
                 GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
                 super.paintComponent( g );
             }
         };
+
+//        String html = toHTML( plainText );
+//        JEditorPane jta = new JEditorPane( "text/html", html ) {
+//            protected void paintComponent( Graphics g ) {
+//                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
+//                super.paintComponent( g );
+//            }
+//        };
         jta.setEditable( false );
-        jta.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
-        readoutFrame.setContentPane( jta );
+        String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        if( Arrays.asList( names ).contains( "Courier New" ) ) {
+            jta.setFont( new Font( "Courier New", Font.BOLD, 18 ) );
+        }
+        else {
+            System.out.println( "Courier New font not supported." );
+            jta.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+        }
+
+        readoutFrame.setContentPane( new JScrollPane( jta ) );
         readoutFrame.pack();
         GraphicsUtil.centerWindowOnScreen( readoutFrame );
         readoutFrame.setVisible( true );
     }
 
+
     private JPanel makeFilePanel() {
-        //        JPanel filePanel = new JPanel();
-        //        filePanel.setLayout( new BoxLayout( filePanel, BoxLayout.LINE_AXIS ) );//X_AXIS ) );
-
-
         JButton save = new JButton( "Save" );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -521,7 +541,7 @@ public class CCK3ControlPanel extends JPanel {
         showReadouts.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean r = showReadouts.isSelected();
-                module.getCircuitGraphic().setReadoutMapVisible( r );
+                module.getCircuitGraphic().setAllReadoutsVisible( r );
                 module.getApparatusPanel().repaint();
             }
         } );
@@ -568,9 +588,17 @@ public class CCK3ControlPanel extends JPanel {
                 }
             } );
             add( resistivityEnabled );
-            resistivitySlider = new PhetSlider( "Wire Resistivity", "Ohms/meter", 0, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
+            resistivitySlider = new PhetSlider( "Wire Resistivity", "resistance/length", 0, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
             resistivitySlider.setNumMajorTicks( 5 );
             resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
+
+            Font labelFont = new Font( "Lucida Sans", Font.PLAIN, 10 );
+            JLabel lowLabel = new JLabel( "None" );
+            lowLabel.setFont( labelFont );
+            JLabel highLabel = new JLabel( "Lots" );
+            highLabel.setFont( labelFont );
+
+            resistivitySlider.setExtremumLabels( lowLabel, highLabel );
             add( resistivitySlider );
             resistivitySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -619,6 +647,18 @@ public class CCK3ControlPanel extends JPanel {
                 GraphicsUtil.centerDialogInParent( dialog );
             }
             dialog.setVisible( true );
+        }
+    }
+
+    private void showPhetPage() {
+        ServiceSource ss = new ServiceSource();
+        BasicService bs = ss.getBasicService();
+        try {
+            URL url = new URL( "http://phet.colorado.edu" );
+            bs.showDocument( url );
+        }
+        catch( MalformedURLException e ) {
+            e.printStackTrace();
         }
     }
 }

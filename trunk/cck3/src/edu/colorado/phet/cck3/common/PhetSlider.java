@@ -31,7 +31,7 @@ public class PhetSlider extends JPanel {
     private double max;
     private double initialValue;
     private ArrayList listeners = new ArrayList();
-    private double value;
+    private double value = Double.NaN;//to force an update at the end of the constructor.
     private int numMajorTicks;
     private int numMinorTicks;
     private JLabel titleLabel;
@@ -179,12 +179,6 @@ public class PhetSlider extends JPanel {
 
     private JTextField createTextField() {
         JTextField textField = new JTextField( 8 );
-//        final JTextField textField = new JTextField( 8 ) {
-//            protected void paintComponent( Graphics g ) {
-//                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
-//                super.paintComponent( g );
-//            }
-//        };
         textField.addFocusListener( new FocusAdapter() {
             public void focusGained( FocusEvent e ) {
             }
@@ -309,6 +303,13 @@ public class PhetSlider extends JPanel {
     public void setNumMinorTicksPerMajorTick( int numMinorsPerMajor ) {
         int testValue = ( numMajorTicks - 1 ) * numMinorsPerMajor + 1;
         setNumMinorTicks( testValue );
+    }
+
+    public void setExtremumLabels( JComponent low, JComponent high ) {
+        Hashtable labelTable = new Hashtable();
+        labelTable.put( new Integer( slider.getMinimum() ), low );
+        labelTable.put( new Integer( slider.getMaximum() ), high );
+        slider.setLabelTable( labelTable );
     }
 
 }

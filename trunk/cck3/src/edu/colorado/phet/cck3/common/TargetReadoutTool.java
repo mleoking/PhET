@@ -6,20 +6,19 @@
  */
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.common.view.graphics.BoundedGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.MultiLineTextGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.RoundRectangle2D;
-import java.util.ArrayList;
+import java.awt.geom.*;
+import java.util.Arrays;
 
-public class TargetReadoutTool implements BoundedGraphic {
+public class TargetReadoutTool extends CompositePhetGraphic {
     private RoundRectangle2D.Double bounds;
     private int crosshairRadius = 15;
     private int readoutWidth = 140;
     private int readoutHeight = 50;
-    private int leading = 20;
     private Point location = new Point();
     private int width = crosshairRadius * 2 + readoutWidth + 30;
     private int height = readoutHeight + 20;
@@ -28,9 +27,36 @@ public class TargetReadoutTool implements BoundedGraphic {
     private Stroke holeStroke = new BasicStroke( 2f );
     private int boundsStrokeWidth = 2;
     private Stroke boundsStroke = new BasicStroke( boundsStrokeWidth );
-    private ArrayList data = new ArrayList();
+    private PhetShapeGraphic background;
+    private PhetShapeGraphic roundRect;
+    private PhetShapeGraphic portHole;
+    private PhetShapeGraphic upCrossHairGraphic;
+    private PhetShapeGraphic readoutShapeGraphic;
+    private MultiLineTextGraphic textGraphic;
+    private String[] text = new String[0];
+    private PhetShapeGraphic rightCrossHairGraphic;
 
-    public void paint( Graphics2D g2 ) {
+    public TargetReadoutTool( Component component ) {
+        super( component );
+        background = new PhetShapeGraphic( component, new Area(), new Color( 255, 255, 255, 128 ) );
+        addGraphic( background );
+        roundRect = new PhetShapeGraphic( component, new Area(), boundsStroke, Color.black );
+        addGraphic( roundRect );
+        portHole = new PhetShapeGraphic( component, new Area(), holeStroke, Color.black );
+        addGraphic( portHole );
+        rightCrossHairGraphic = new PhetShapeGraphic( component, new Area(), crossHairStroke, Color.black );
+        addGraphic( rightCrossHairGraphic );
+        upCrossHairGraphic = new PhetShapeGraphic( component, new Area(), crossHairStroke, Color.black );
+        addGraphic( upCrossHairGraphic );
+        readoutShapeGraphic = new PhetShapeGraphic( component, new Area(), Color.white, crossHairStroke, Color.black );
+        addGraphic( readoutShapeGraphic );
+        textGraphic = new MultiLineTextGraphic( component, new String[]{"HELLO"}, font, 0, 0, Color.black );
+        addGraphic( textGraphic );
+        changed();
+        setVisible( true );
+    }
+
+    public void changed() {
         // Compute the locations of things
         location.setLocation( (int)location.getX(), (int)location.getY() );
         Point upperLeft = new Point( location.x - crosshairRadius, location.y - crosshairRadius );
@@ -44,59 +70,31 @@ public class TargetReadoutTool implements BoundedGraphic {
         Ellipse2D.Double hole = new Ellipse2D.Double( upperLeft.x, upperLeft.y, crosshairRadius * 2, crosshairRadius * 2 );
         Area a = new Area( bounds );
         a.subtract( new Area( hole ) );
-        g2.setColor( new Color( 255, 255, 255, 128 ) );
-        g2.fill( a );
-        g2.setColor( Color.BLACK );
-        g2.setStroke( boundsStroke );
-        g2.drawRoundRect( upperLeft.x - 10, upperLeft.y + crosshairRadius - readoutHeight / 2 - 10,
-                          crosshairRadius * 2 + readoutWidth + 30,
-                          readoutHeight + 20,
-                          5, 5 );
+        background.setShape( a );
 
-        // Draw the hole and the crosshairs
-        g2.setStroke( holeStroke );
-        g2.drawOval( upperLeft.x, upperLeft.y, crosshairRadius * 2, crosshairRadius * 2 );
-        g2.setStroke( crossHairStroke );
-        g2.drawLine( upperLeft.x + crosshairRadius, upperLeft.y, upperLeft.x + crosshairRadius, upperLeft.y + crosshairRadius * 2 );
-        g2.drawLine( upperLeft.x, upperLeft.y + crosshairRadius, upperLeft.x + crosshairRadius * 2, upperLeft.y + crosshairRadius );
+        Shape rr = new RoundRectangle2D.Double( upperLeft.x - 10, upperLeft.y + crosshairRadius - readoutHeight / 2 - 10,
+                                                crosshairRadius * 2 + readoutWidth + 30,
+                                                readoutHeight + 20,
+                                                5, 5 );
+        roundRect.setShape( rr );
+        Ellipse2D.Double oval = new Ellipse2D.Double( upperLeft.x, upperLeft.y, crosshairRadius * 2, crosshairRadius * 2 );
+        portHole.setShape( oval );
 
-        // Draw the readout values
-        g2.setFont( font );
-        g2.setColor( Color.WHITE );
-        g2.fillRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight );
-        g2.setColor( Color.black );
-        g2.drawRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight );
-        g2.setColor( Color.black );
-        for( int i = 0; i < data.size(); i++ ) {
-            String text = (String)data.get( i );
-            g2.drawString( text, readoutLocation.x + 5, readoutLocation.y + readoutHeight / 2 + leading * i );
-        }
-    }
+        Line2D.Double line = new Line2D.Double( upperLeft.x + crosshairRadius, upperLeft.y, upperLeft.x + crosshairRadius, upperLeft.y + crosshairRadius * 2 );
+        Line2D.Double line2 = new Line2D.Double( upperLeft.x, upperLeft.y + crosshairRadius, upperLeft.x + crosshairRadius * 2, upperLeft.y + crosshairRadius );
+        upCrossHairGraphic.setShape( line );
+        rightCrossHairGraphic.setShape( line2 );
 
-    public Rectangle getBounds() {
-        if( bounds == null ) {
-            return null;
-        }
-        Rectangle full = bounds.getBounds();
-        int expand = boundsStrokeWidth + 1;
-        Rectangle tot = new Rectangle( full.x - expand, full.y - expand, full.width + expand * 2, full.height + expand * 2 );
-        return tot;
-    }
-
-    public void addText( String value ) {
-        data.add( value );
-    }
-
-    public boolean contains( Point point ) {
-        return bounds == null ? false : bounds.contains( point );
-    }
-
-    public boolean contains( int x, int y ) {
-        return contains( new Point( x, y ) );
+        readoutShapeGraphic.setShape( new Rectangle2D.Double( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight ) );
+        textGraphic.setText( text );
+        textGraphic.setPosition( readoutLocation.x + 5, readoutLocation.y + readoutHeight / 2 );
     }
 
     public void setLocation( int x, int y ) {
-        this.location.setLocation( x, y );
+        if( this.location.x != x || this.location.y != y ) {
+            this.location.setLocation( x, y );
+            changed();
+        }
     }
 
     public void translate( int dx, int dy ) {
@@ -107,8 +105,15 @@ public class TargetReadoutTool implements BoundedGraphic {
         return new Point( location );
     }
 
-    public void clear() {
-        this.data.clear();
+    public void setText( String[] text ) {
+        if( !Arrays.asList( text ).equals( Arrays.asList( this.text ) ) ) {
+            this.text = text;
+            changed();
+        }
+    }
+
+    public void setText( String text ) {
+        setText( new String[]{text} );
     }
 
 }

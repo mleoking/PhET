@@ -32,7 +32,7 @@ public class InteractiveComponentJunctionGraphic extends DefaultInteractiveGraph
         MouseInputListener mouse = new MouseInputAdapter() {
 
             public void mouseDragged( MouseEvent e ) {
-                Point2D.Double pt = junctionGraphic.getTransform().viewToModel( e.getPoint() );
+                Point2D pt = junctionGraphic.getTransform().viewToModel( e.getPoint() );
                 Junction opposite = branch.opposite( junctionGraphic.getJunction() );
                 AbstractVector2D vec = new ImmutableVector2D.Double( opposite.getPosition(), pt );
                 vec = vec.getInstanceOfMagnitude( branch.getComponentLength() );

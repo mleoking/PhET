@@ -314,7 +314,11 @@ public class Circuit {
         }
     }
 
-    private static Junction[] getJunctions( Branch[] branchs ) {
+    public Junction[] getJunctions() {
+        return (Junction[])junctions.toArray( new Junction[0] );
+    }
+
+    public static Junction[] getJunctions( Branch[] branchs ) {
         ArrayList list = new ArrayList();
         for( int i = 0; i < branchs.length; i++ ) {
             Branch branch = branchs[i];
@@ -497,7 +501,9 @@ public class Circuit {
             return res;
         }
         else if( type.equals( Battery.class.getName() ) ) {
-            Battery batt = new Battery( kl, startJunction, endJunction, length, height, 0 );
+            String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
+            double internalResistance = Double.parseDouble( resVal );
+            Battery batt = new Battery( kl, startJunction, endJunction, length, height, internalResistance );
             String voltVal = xml.getAttribute( "voltage", Double.NaN + "" );
             double val = Double.parseDouble( voltVal );
             batt.setVoltageDrop( val );
@@ -554,6 +560,7 @@ public class Circuit {
             }
             if( branch instanceof Battery ) {
                 branchElement.setAttribute( "voltage", branch.getVoltageDrop() + "" );
+                branchElement.setAttribute( "resistance", branch.getResistance() + "" );
             }
             else if( branch instanceof Resistor ) {
                 branchElement.setAttribute( "resistance", branch.getResistance() + "" );

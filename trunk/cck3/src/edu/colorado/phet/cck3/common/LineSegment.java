@@ -20,11 +20,8 @@ public class LineSegment {
     }
 
     public static Shape getSegment( double x1, double y1, double x2, double y2, double thickness ) {
-//        GeneralPath path=new GeneralPath( );
-////        path.moveTo( (float)x1,(float)y1);
         ImmutableVector2D.Double vec = new ImmutableVector2D.Double( x2 - x1, y2 - y1 );
         AbstractVector2D norm = vec.getNormalVector().getInstanceOfMagnitude( thickness / 2 );
-//        path.moveTo( (float)( x1+norm.getX() ),(float)(y1+norm.getY()));
         DoubleGeneralPath doublePath = new DoubleGeneralPath( x1 + norm.getX(), y1 + norm.getY() );
 
         doublePath.lineToRelative( vec.getX(), vec.getY() );

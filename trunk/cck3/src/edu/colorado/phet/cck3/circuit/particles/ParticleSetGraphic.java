@@ -39,6 +39,7 @@ public class ParticleSetGraphic extends CompositeGraphic {
             Electron electron = electrons[i];
             ElectronGraphic eg = (ElectronGraphic)table.get( electron );
             super.removeGraphic( eg );
+            eg.delete();
         }
     }
 }

@@ -55,7 +55,7 @@ public class InteractiveVoltmeter extends CompositeGraphic {
         } );
         unitInteraction.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
-                Point2D.Double pt = InteractiveVoltmeter.this.transform.viewToModelDifferential( (int)dx, (int)dy );
+                Point2D pt = InteractiveVoltmeter.this.transform.viewToModelDifferential( (int)dx, (int)dy );
                 if( dragAll ) {
                     InteractiveVoltmeter.this.voltmeter.translateAll( pt.getX(), pt.getY() );
                 }
@@ -82,7 +82,7 @@ public class InteractiveVoltmeter extends CompositeGraphic {
         redLead.addCursorHandBehavior();
         redLead.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
-                Point2D.Double pt = InteractiveVoltmeter.this.transform.viewToModelDifferential( (int)dx, (int)dy );
+                Point2D pt = InteractiveVoltmeter.this.transform.viewToModelDifferential( (int)dx, (int)dy );
                 InteractiveVoltmeter.this.voltmeter.getRedLead().translate( pt.getX(), pt.getY() );
             }
         } );
@@ -92,11 +92,17 @@ public class InteractiveVoltmeter extends CompositeGraphic {
         blackLead.addCursorHandBehavior();
         blackLead.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
-                Point2D.Double pt = InteractiveVoltmeter.this.transform.viewToModelDifferential( (int)dx, (int)dy );
+                Point2D pt = InteractiveVoltmeter.this.transform.viewToModelDifferential( (int)dx, (int)dy );
                 InteractiveVoltmeter.this.voltmeter.getBlackLead().translate( pt.getX(), pt.getY() );
             }
         } );
         addGraphic( blackLead );
+        setVisible( false );
+    }
+
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        voltmeterGraphic.setVisible( visible );
     }
 
     private void setLeadsVertical( boolean vertical ) {

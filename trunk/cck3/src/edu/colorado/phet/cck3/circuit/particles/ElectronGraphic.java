@@ -8,8 +8,8 @@ import edu.colorado.phet.cck3.circuit.components.Bulb;
 import edu.colorado.phet.cck3.circuit.components.BulbComponentGraphic;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.common.AffineTransformUtil;
+import edu.colorado.phet.cck3.common.phetgraphics.ImageGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
@@ -27,13 +27,14 @@ import java.awt.image.BufferedImage;
  * Time: 12:20:04 AM
  * Copyright (c) May 29, 2004 by Sam Reid
  */
-public class ElectronGraphic extends FastPaintImageGraphic {
-    Electron electron;
-    ModelViewTransform2D transform;
+public class ElectronGraphic extends ImageGraphic {
+    private Electron electron;
+    private ModelViewTransform2D transform;
     private CCK3Module module;
+    private TransformListener transformListener;
 
     public ElectronGraphic( final Electron electron, ModelViewTransform2D transform, BufferedImage image, Component parent, CCK3Module module ) {
-        super( image, createTransformStatic( electron, transform, image ), parent );
+        super( parent, image, createTransformStatic( electron, transform, image ) );
         this.electron = electron;
         this.transform = transform;
         this.module = module;
@@ -42,12 +43,18 @@ public class ElectronGraphic extends FastPaintImageGraphic {
                 doUpdate();
             }
         } );
-        transform.addTransformListener( new TransformListener() {
+        transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 doUpdate();
             }
-        } );
+        };
+        transform.addTransformListener( transformListener );
         doUpdate();
+        setVisible( true );
+    }
+
+    public void delete() {
+        transform.removeTransformListener( transformListener );
     }
 
     private static AffineTransform createTransformStatic( Electron electron, ModelViewTransform2D transform, BufferedImage image ) {
@@ -70,6 +77,9 @@ public class ElectronGraphic extends FastPaintImageGraphic {
         if( branch instanceof Bulb ) {
             Bulb bulb = (Bulb)branch;
             PathBranch.Location loc = bulb.getFilament().getLocation( electron.getDistAlongWire() );
+            if( loc == null ) {
+                throw new RuntimeException( "Null electron location." );
+            }
             if( bulb.getFilament().isHiddenBranch( loc ) ) {
                 Shape origClip = graphics2D.getClip();
                 Area area = new Area( origClip );
@@ -104,7 +114,7 @@ public class ElectronGraphic extends FastPaintImageGraphic {
         if( at.getX() < 1 ) {
             System.out.println( "Less than 1" );
         }
-        Rectangle2D src = new Rectangle2D.Double( 0, 0, getBufferedImage().getWidth(), getBufferedImage().getHeight() );
+        Rectangle2D src = new Rectangle2D.Double( 0, 0, getImage().getWidth(), getImage().getHeight() );
         Rectangle2D dst = new Rectangle2D.Double( at.getX() - imWidth / 2, at.getY() - imHeight / 2, imWidth, imHeight );
         AffineTransform tx = AffineTransformUtil.getTransform( src, dst, Math.PI / 2 );//the pi/2 is a hack because AffineTransformUtil turns upside down.
         return tx;

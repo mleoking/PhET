@@ -14,7 +14,7 @@ import java.awt.geom.AffineTransform;
  */
 public class ColorBandsGraphic implements Graphic {
     boolean visible = true;
-    CircuitComponentImageGraphic resistorGraphic;//    ImageBranchGraphic resistorGraphic;
+    CircuitComponentImageGraphic resistorGraphic;
     private Resistor resistor;
 
     public ColorBandsGraphic( boolean visible, CircuitComponentImageGraphic resistorGraphic, Resistor resistor ) {

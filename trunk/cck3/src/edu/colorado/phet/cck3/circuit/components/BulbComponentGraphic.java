@@ -4,10 +4,10 @@ package edu.colorado.phet.cck3.circuit.components;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
-import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
+import edu.colorado.phet.cck3.common.RectangleUtils;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.fastpaint.FastPaint;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -32,17 +32,18 @@ public class BulbComponentGraphic implements IComponentGraphic {
     private static final double WIDTH = 100;
     private static final double HEIGHT = 100;
     private AffineTransform affineTransform;
-
-    LightBulbGraphic lbg;
+    private LightBulbGraphic lbg;
     private Rectangle2D.Double srcShape;
     private ArrayList listeners = new ArrayList();
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
     private KirkhoffSolutionListener kirkhoffSolutionListener;
-    PrimaryShapeGraphic highlightGraphic;
+    private PhetShapeGraphic highlightGraphic;
+    private Stroke highlightStroke = new BasicStroke( 5 );
+    private double tilt;
 
     public BulbComponentGraphic( Component parent, Bulb component, ModelViewTransform2D transform, CCK3Module module ) {
-        highlightGraphic = new PrimaryShapeGraphic( parent, new Area(), Color.yellow );
+        highlightGraphic = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         this.parent = parent;
         this.component = component;
         this.transform = transform;
@@ -70,7 +71,21 @@ public class BulbComponentGraphic implements IComponentGraphic {
         srcShape = new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT );
         lbg = new LightBulbGraphic( srcShape );
         lbg.setIntensity( 0 );
+        double w = lbg.getCoverShape().getBounds().getWidth() / 2;
+        double h = lbg.getCoverShape().getBounds().getHeight();
+        tilt = -Math.atan2( w, h );
         updateTransform();
+    }
+
+    public static double determineTilt() {
+        LightBulbGraphic lbg = new LightBulbGraphic( new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT ) );
+        double w = lbg.getCoverShape().getBounds().getWidth() / 2;
+        double h = lbg.getCoverShape().getBounds().getHeight();
+        return -Math.atan2( w, h );
+    }
+
+    public double getTilt() {
+        return tilt;
     }
 
     private void changeIntensity() {
@@ -85,7 +100,7 @@ public class BulbComponentGraphic implements IComponentGraphic {
         lbg.setIntensity( intensity );
         Rectangle r2 = getBoundsWithBrighties();
         if( r1 != null && r2 != null ) {
-            FastPaint.fastRepaint( parent, r1, r2 );
+            fastRepaint( parent, r1, r2 );
         }
         for( int i = 0; i < listeners.size(); i++ ) {
             IntensityChangeListener intensityChangeListener = (IntensityChangeListener)listeners.get( i );
@@ -93,18 +108,27 @@ public class BulbComponentGraphic implements IComponentGraphic {
         }
     }
 
-    private void updateTransform() {
-        this.affineTransform = createTransform( transform, component, WIDTH, HEIGHT );
+    private static void fastRepaint( Component parent, Rectangle r1, Rectangle r2 ) {
+        parent.repaint( r1.x, r1.y, r1.width, r1.height );
+        parent.repaint( r2.x, r2.y, r2.width, r2.height );
     }
 
-    private static AffineTransform createTransform( ModelViewTransform2D transform, Bulb component, double width, double height ) {
-        Point2D srcpt = transform.toAffineTransform().transform( component.getStartJunction().getPosition(), null );
-        Point2D dstpt = transform.toAffineTransform().transform( component.getEndJunction().getPosition(), null );
-//        double dist = srcpt.distance( dstpt );
-//        System.out.println( "dist = " + dist );
+    private void updateTransform() {
+        double sign = 1;
+        if( !component.isConnectAtRight() ) {
+            sign = -1;
+        }
+        this.affineTransform = createTransform( transform, component, WIDTH, HEIGHT, sign * tilt );
+    }
+
+    private static AffineTransform createTransform( ModelViewTransform2D transform, Bulb component, double width, double height, double theta ) {
+        Point2D srcpt = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
+        Point2D dstpt = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
         double newHeight = transform.modelToViewDifferentialY( component.getHeight() );
         double newLength = transform.modelToViewDifferentialX( component.getWidth() );
         double angle = new ImmutableVector2D.Double( srcpt, dstpt ).getAngle() - Math.PI / 2;
+
+        angle += theta;
         AffineTransform trf = new AffineTransform();
         trf.rotate( angle, srcpt.getX(), srcpt.getY() );
         trf.translate( -newLength / 2, -newHeight * .93 );//TODO .93 is magick!
@@ -115,18 +139,16 @@ public class BulbComponentGraphic implements IComponentGraphic {
     }
 
     private void changed() {
-        FastPaint.fastRepaint( parent, getBoundsWithBrighties() );
+        Rectangle orig = getBoundsWithBrighties();
         updateTransform();
         highlightGraphic.setShape( getHighlightArea() );
         highlightGraphic.setVisible( component.isSelected() );
-        FastPaint.fastRepaint( parent, getBoundsWithBrighties() );
+        fastRepaint( parent, orig, getBoundsWithBrighties() );
     }
-
-    Stroke highlightStroke = new BasicStroke( 5 );
 
     private Shape getHighlightArea() {
         Rectangle2D b = lbg.getBounds();
-        b = expand( b, 5, 5 );
+        b = RectangleUtils.expandRectangle2D( b, 5, 5 );
         Shape out = highlightStroke.createStrokedShape( b );
         Shape trf = affineTransform.createTransformedShape( out );
         return trf;
@@ -134,18 +156,12 @@ public class BulbComponentGraphic implements IComponentGraphic {
 
     private Rectangle getBoundsWithBrighties() {
         Rectangle2D shape = lbg.getFullShape();
-        shape = expand( shape, 2, 2 );
+        shape = RectangleUtils.expandRectangle2D( shape, 2, 2 );
         return affineTransform.createTransformedShape( shape ).getBounds();
     }
 
-    private static Rectangle2D expand( Rectangle2D rect, double insetX, double insetY ) {
-        Rectangle2D.Double expanded = new Rectangle2D.Double( rect.getX() - insetX, rect.getY() - insetY, rect.getWidth() + insetX * 2, rect.getHeight() + insetY * 2 );
-        return expanded;
-    }
-
     private Rectangle getBounds() {
-        double inset = 2;
-        Rectangle2D.Double expanded = new Rectangle2D.Double( srcShape.getX() - inset, srcShape.getY() - inset, srcShape.getWidth() + inset * 2, srcShape.getHeight() + inset * 2 );
+        Rectangle2D expanded = RectangleUtils.expandRectangle2D( srcShape, 2, 2 );
         return affineTransform.createTransformedShape( expanded ).getBounds();
     }
 

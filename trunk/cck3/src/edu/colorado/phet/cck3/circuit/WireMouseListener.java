@@ -1,13 +1,15 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.math.Vector2D;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -19,12 +21,12 @@ public class WireMouseListener extends MouseInputAdapter {
     boolean isDragging = false;
     private ImmutableVector2D.Double toStart;
     private ImmutableVector2D.Double toEnd;
-    private Junction startTarget;
-    private Junction endTarget;
     private CircuitGraphic circuitGraphic;
     private BranchGraphic branchGraphic;
     private Branch branch;
     private Circuit circuit;
+    private CircuitGraphic.DragMatch startMatch;
+    private CircuitGraphic.DragMatch endMatch;
 
     public WireMouseListener( final CircuitGraphic circuitGraphic, final BranchGraphic branchGraphic ) {
         this.circuitGraphic = circuitGraphic;
@@ -35,8 +37,8 @@ public class WireMouseListener extends MouseInputAdapter {
 
     public void mousePressed( MouseEvent e ) {
         isDragging = false;
-        startTarget = null;
-        endTarget = null;
+        startMatch = null;
+        endMatch = null;
         if( e.isControlDown() ) {
             branch.setSelected( true );
         }
@@ -47,17 +49,16 @@ public class WireMouseListener extends MouseInputAdapter {
 
     public void mouseReleased( MouseEvent e ) {
         isDragging = false;
-        Branch branch = branchGraphic.getBranch();
-        if( startTarget != null ) {
-            circuitGraphic.collapseJunctions( startTarget, branch.getStartJunction() );
+        if( startMatch != null ) {
+            circuitGraphic.collapseJunctions( startMatch.getSource(), startMatch.getTarget() );
         }
-        if( endTarget != null ) {
-            circuitGraphic.collapseJunctions( endTarget, branch.getEndJunction() );
+        if( endMatch != null ) {
+            circuitGraphic.collapseJunctions( endMatch.getSource(), endMatch.getTarget() );
         }
     }
 
     public void mouseDragged( MouseEvent e ) {
-        Point2D.Double modelCoords = circuitGraphic.getTransform().viewToModel( e.getPoint() );
+        Point2D modelCoords = circuitGraphic.getTransform().viewToModel( e.getPoint() );
         if( !isDragging ) {
             isDragging = true;
             Point2D startJ = branch.getStartJunction().getPosition();
@@ -68,89 +69,54 @@ public class WireMouseListener extends MouseInputAdapter {
         else {
             Point2D newStartPosition = toStart.getDestination( modelCoords );
             Point2D newEndPosition = toEnd.getDestination( modelCoords );
+            Branch[] scStart = circuit.getStrongConnections( branch.getStartJunction() );
+            Branch[] scEnd = circuit.getStrongConnections( branch.getEndJunction() );
+            Vector2D startDX = new Vector2D.Double( branch.getStartJunction().getPosition(), newStartPosition );
+            Vector2D endDX = new Vector2D.Double( branch.getEndJunction().getPosition(), newEndPosition );
+            Junction[] startSources = getSources( scStart, branch.getStartJunction() );
+            Junction[] endSources = getSources( scEnd, branch.getEndJunction() );
+            //how about removing any junctions in start and end that share a branch?
+            //Is this sufficient to keep from dropping wires directly on other wires?
 
-            Circuit circuit = circuitGraphic.getCircuit();
+            startMatch = circuitGraphic.getBestDragMatch( startSources, startDX );
+            endMatch = circuitGraphic.getBestDragMatch( endSources, endDX );
 
-            Junction startMatch = circuitGraphic.getBestDragMatch( branch.getStartJunction(), newStartPosition );
-            Junction endMatch = circuitGraphic.getBestDragMatch( branch.getEndJunction(), newEndPosition );
-            if( startMatch == endMatch && startMatch != null ) {
-//                endMatch = null;//hack so both don't grab same target
-                //choose the better man.
-                double distToStart = startMatch.getDistance( newStartPosition );
-                double distToEnd = startMatch.getDistance( newEndPosition );
-                if( distToStart < distToEnd ) {
-                    endMatch = null;
-                }
-                else {
-                    startMatch = null;
+            if( startMatch != null && endMatch != null ) {
+                for( int i = 0; i < circuit.numBranches(); i++ ) {
+                    Branch branch = circuit.branchAt( i );
+                    if( branch.hasJunction( startMatch.getTarget() ) && branch.hasJunction( endMatch.getTarget() ) ) {
+                        startMatch = null;
+                        endMatch = null;
+                        break;
+                    }
                 }
             }
-            if( startMatch == null && endMatch == null ) {
-                //nothing to do
-                startTarget = null;
-                endTarget = null;
-            }
-            else if( startMatch == null && endMatch != null ) {
-                newEndPosition = endMatch.getPosition();
-                endTarget = endMatch;
-                startTarget = null;
-            }
-            else if( startMatch != null && endMatch == null ) {
-                newStartPosition = startMatch.getPosition();
-                startTarget = startMatch;
-                endTarget = null;
-            }
-            else {
-                if( !circuit.areNeighbors( startMatch, endMatch ) ) {
-                    newStartPosition = startMatch.getPosition();
-                    startTarget = startMatch;
-                    newEndPosition = endMatch.getPosition();
-                    endTarget = endMatch;
-                }
-            }
-            Translator t = new Translator( newStartPosition, newEndPosition, circuitGraphic.getModule().getModel() );
-            t.stepInTime( 0 );
+            apply( scStart, startDX, branch.getStartJunction(), startMatch );
+            apply( scEnd, endDX, branch.getEndJunction(), endMatch );
         }
     }
 
-    class Translator implements ModelElement {
-        Point2D newStartPosition;
-        Point2D newEndPosition;
-        private BaseModel model;
-
-        public Translator( Point2D newStartPosition, Point2D newEndPosition, BaseModel model ) {
-            this.newStartPosition = newStartPosition;
-            this.newEndPosition = newEndPosition;
-            this.model = model;
+    private Junction[] getSources( Branch[] sc, Junction j ) {
+        ArrayList list = new ArrayList( Arrays.asList( Circuit.getJunctions( sc ) ) );
+        if( !list.contains( j ) ) {
+            list.add( j );
         }
-
-        public void stepInTime( double dt ) {
-            doTranslation( newStartPosition, newEndPosition );
-            model.removeModelElement( this );
-        }
-
+        return (Junction[])list.toArray( new Junction[0] );
     }
 
-    private void doTranslation( Point2D newStartPosition, Point2D newEndPosition ) {
-        Point2D a0 = branch.getStartJunction().getPosition();
-        ImmutableVector2D aVec = new ImmutableVector2D.Double( a0, newStartPosition );
-        Branch[] rhs = circuit.getStrongConnections( branch, branch.getStartJunction() );
-        BranchSet rightSet = new BranchSet( circuit, rhs );
-        rightSet.addJunction( branch.getStartJunction() );
-        rightSet.removeBranch( branch );
-        rightSet.translate( aVec );
-
-        Point2D b0 = branch.getEndJunction().getPosition();
-        ImmutableVector2D.Double bVec = new ImmutableVector2D.Double( b0, newEndPosition );
-        Branch[] lhs = circuit.getStrongConnections( branch, branch.getEndJunction() );
-        BranchSet leftSet = new BranchSet( circuit, lhs );
-        leftSet.addJunction( branch.getEndJunction() );
-        leftSet.removeBranch( branch );
-        leftSet.translate( bVec );
-//            //TODO the wrong kind of loop could break this.
-
-        branchGraphic.getBranch().notifyObservers();
-        circuit.fireJunctionsMoved();
+    private void apply( Branch[] sc, Vector2D dx, Junction junction, CircuitGraphic.DragMatch match ) {
+        if( match == null ) {
+            BranchSet bs = new BranchSet( circuit, sc );
+            bs.addJunction( junction );
+            bs.translate( dx );
+        }
+        else {
+            BranchSet bs = new BranchSet( circuit, sc );
+            AbstractVector2D vec = match.getVector();
+            bs.addJunction( junction );
+            bs.translate( vec );
+        }
+//        System.out.println( "match = " + match );
     }
 
 }

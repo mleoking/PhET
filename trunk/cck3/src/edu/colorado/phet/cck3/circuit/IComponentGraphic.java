@@ -25,8 +25,8 @@ public interface IComponentGraphic extends BoundedGraphic {
     static class Impl {
 
         public static AffineTransform createTransform( ModelViewTransform2D transform, Point2D srcpt, Point2D dstpt, double getTargetWidth, double getTargetHeight, double componentHeight ) {
-            srcpt = transform.toAffineTransform().transform( srcpt, null );
-            dstpt = transform.toAffineTransform().transform( dstpt, null );
+            srcpt = transform.getAffineTransform().transform( srcpt, null );
+            dstpt = transform.getAffineTransform().transform( dstpt, null );
             double dist = srcpt.distance( dstpt );
 //        System.out.println( "dist = " + dist );
             double newHeight = transform.modelToViewDifferentialY( componentHeight );

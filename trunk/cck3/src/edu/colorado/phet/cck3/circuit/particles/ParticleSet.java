@@ -41,18 +41,26 @@ public class ParticleSet implements ModelElement {
     }
 
     public Electron[] removeParticles( Branch branch ) {
-        ArrayList rem = new ArrayList();
-        for( int i = 0; i < particles.size(); i++ ) {
-            Electron electron = (Electron)particles.get( i );
-            if( electron.getBranch() == branch ) {
-                particles.remove( electron );
-                electron.delete();
-                rem.add( electron );
-                i--;
-            }
+        Electron[] p = getParticles( branch );
+        for( int i = 0; i < p.length; i++ ) {
+            Electron electron = p[i];
+            particles.remove( electron );
+            electron.delete();
         }
-        particles.removeAll( rem );
-        return (Electron[])rem.toArray( new Electron[0] );
+//        ArrayList rem = new ArrayList();
+//        for( int i = 0; i < particles.size(); i++ ) {
+//            Electron electron = (Electron)particles.get( i );
+//            if( electron.getBranch() == branch ) {
+//                rem.add( electron );
+//            }
+//        }
+//        particles.removeAll( rem );
+//        for( int i = 0; i < rem.size(); i++ ) {
+//            Electron electron = (Electron)rem.get( i );
+//            electron.delete();
+//        }
+//        return (Electron[])rem.toArray( new Electron[0] );
+        return p;
     }
 
     public int numParticles() {

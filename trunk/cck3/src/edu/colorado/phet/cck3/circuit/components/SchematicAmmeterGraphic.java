@@ -5,10 +5,9 @@ import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.CurrentVoltListener;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.common.LineSegment;
-import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
-import edu.colorado.phet.common.view.fastpaint.FastPaintTextGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -24,26 +23,25 @@ import java.text.DecimalFormat;
  * Time: 8:34:54 PM
  * Copyright (c) May 25, 2004 by Sam Reid
  */
-public class SchematicAmmeterGraphic extends FastPaintShapeGraphic implements IComponentGraphic {
+public class SchematicAmmeterGraphic extends PhetShapeGraphic implements IComponentGraphic {
     private CircuitComponent component;
     private ModelViewTransform2D transform;
     private double wireThickness;
     private DecimalFormat decimalFormat;
-//    DecimalFormat format = new DecimalFormat( "#0.0#" );
-    FastPaintTextGraphic textGraphic;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
-    PrimaryShapeGraphic highlightRegion;
+    private PhetTextGraphic textGraphic;
+    private PhetShapeGraphic highlightRegion;
 
     public SchematicAmmeterGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness, DecimalFormat decimalFormat ) {
-        super( new Area(), Color.black, parent );
-        highlightRegion = new PrimaryShapeGraphic( parent, new Area(), Color.yellow );
+        super( parent, new Area(), Color.black );
+        highlightRegion = new PhetShapeGraphic( parent, new Area(), Color.yellow );
         this.component = component;
         this.transform = transform;
         this.wireThickness = wireThickness;
         this.decimalFormat = decimalFormat;
-        this.textGraphic = new FastPaintTextGraphic( "", new Font( "Lucida Sans", 0, 22 ), 0, 0, parent );
-        textGraphic.setPaint( Color.blue );
+        this.textGraphic = new PhetTextGraphic( parent, new Font( "Lucida Sans", 0, 22 ), "", Color.black, 0, 0 );
+        textGraphic.setColor( Color.blue );
         simpleObserver = new SimpleObserver() {
             public void update() {
                 changed();
@@ -56,25 +54,30 @@ public class SchematicAmmeterGraphic extends FastPaintShapeGraphic implements IC
             }
         };
         transform.addTransformListener( transformListener );
-        changed();
+
         component.addCurrentVoltListener( new CurrentVoltListener() {
             public void currentOrVoltageChanged( Branch branch ) {
                 changed();
             }
         } );
+        changed();
+        setVisible( true );
+    }
+
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        textGraphic.setVisible( visible );
     }
 
     private void changed() {
-        Point2D srcpt = transform.toAffineTransform().transform( component.getStartJunction().getPosition(), null );
-        Point2D dstpt = transform.toAffineTransform().transform( component.getEndJunction().getPosition(), null );
-//        ImmutableVector2D vector = new ImmutableVector2D.Double( srcpt, dstpt );
-
+        Point2D srcpt = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
+        Point2D dstpt = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
         double viewThickness = Math.abs( transform.modelToViewDifferentialY( wireThickness ) );
         Shape shape = LineSegment.getSegment( srcpt, dstpt, viewThickness );
         super.setShape( shape );
         String text = decimalFormat.format( Math.abs( component.getCurrent() ) ) + " Amps";
         Rectangle2D bounds2d = shape.getBounds2D();
-        textGraphic.setLocation( (float)( bounds2d.getX() + bounds2d.getWidth() / 2 ), (float)( bounds2d.getY() - 5 ) );
+        textGraphic.setPosition( (int)( bounds2d.getX() + bounds2d.getWidth() / 2 ), (int)( bounds2d.getY() - 5 ) );
         textGraphic.setText( text );
         highlightRegion.setShape( LineSegment.getSegment( srcpt, dstpt, viewThickness * 1.63 ) );
         highlightRegion.setVisible( component.isSelected() );

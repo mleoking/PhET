@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.cck3.common.primarygraphics;
+package edu.colorado.phet.cck3.common.phetgraphics;
 
 import edu.colorado.phet.cck3.common.RectangleUtils;
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * Time: 10:45:57 PM
  * Copyright (c) Jun 24, 2004 by Sam Reid
  */
-public class PrimaryMultiLineTextGraphic extends PrimaryGraphic {
+public class MultiLineTextGraphic extends PhetGraphic {
     private ArrayList textGraphics = new ArrayList();
     private LineCreator lineCreator;
     private String[] text;
@@ -22,33 +23,45 @@ public class PrimaryMultiLineTextGraphic extends PrimaryGraphic {
     private int y;
     private FontMetrics fontMetrics;
 
-    public PrimaryMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color color ) {
-        super( component );
-        this.text = text;
-        this.x = x;
-        this.y = y;
-        lineCreator = new Basic( component, font, color );
-        this.fontMetrics = component.getFontMetrics( font );
-        init();
+    public MultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color color ) {
+        this( component, text, font, x, y, new Basic( component, font, color ) );
     }
 
-    public PrimaryMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color foreground, int dx, int dy, Color background ) {
+    public MultiLineTextGraphic( Component component, String text, Font font, int x, int y, Color foreground, int dx, int dy, Color background ) {
+        this( component, new String[]{text}, font, x, y, foreground, dx, dy, background );
+    }
+
+    public MultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color foreground, int dx, int dy, Color background ) {
+        this( component, text, font, x, y, new Shadowed( component, font, foreground, dx, dy, background ) );
+    }
+
+    public MultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, LineCreator lineCreator ) {
         super( component );
         this.text = text;
         this.x = x;
         this.y = y;
-        lineCreator = new Shadowed( component, font, foreground, dx, dy, background );
+        this.lineCreator = lineCreator;
         this.fontMetrics = component.getFontMetrics( font );
         init();
     }
 
     private void init() {
         int currentY = y;
+        boolean visible = super.isVisible();
         for( int i = 0; i < text.length; i++ ) {
             String s = text[i];
-            PrimaryGraphic g = lineCreator.createLine( s, x, currentY );
+            PhetGraphic g = lineCreator.createLine( s, x, currentY );
+            g.setVisible( visible );
             textGraphics.add( g );
             currentY += fontMetrics.getDescent() + fontMetrics.getLeading() + fontMetrics.getAscent();
+        }
+    }
+
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        for( int i = 0; i < textGraphics.size(); i++ ) {
+            IPhetTextGraphic iPrimaryTextGraphic = (IPhetTextGraphic)textGraphics.get( i );
+            iPrimaryTextGraphic.setVisible( visible );
         }
     }
 
@@ -56,12 +69,11 @@ public class PrimaryMultiLineTextGraphic extends PrimaryGraphic {
         this.x = x;
         this.y = y;
         for( int i = 0; i < textGraphics.size(); i++ ) {
-            IPrimaryTextGraphic iTextGraphic = (IPrimaryTextGraphic)textGraphics.get( i );
+            IPhetTextGraphic iTextGraphic = (IPhetTextGraphic)textGraphics.get( i );
             iTextGraphic.setPosition( x, y );
             y += fontMetrics.getDescent() + fontMetrics.getLeading() + fontMetrics.getAscent();
         }
         setBoundsDirty();
-//        repaint();//this duplicates all the children's repaints.
     }
 
     public void paint( Graphics2D g ) {
@@ -72,9 +84,12 @@ public class PrimaryMultiLineTextGraphic extends PrimaryGraphic {
     }
 
     protected Rectangle determineBounds() {
-        Rectangle2D r = ( (PrimaryGraphic)textGraphics.get( 0 ) ).getBounds();
+        if( text.length == 0 ) {
+            return null;
+        }
+        Rectangle2D r = ( (PhetGraphic)textGraphics.get( 0 ) ).getBounds();
         for( int i = 1; i < textGraphics.size(); i++ ) {
-            PrimaryGraphic iTextGraphic = (PrimaryGraphic)textGraphics.get( i );
+            PhetGraphic iTextGraphic = (PhetGraphic)textGraphics.get( i );
             r = r.createUnion( iTextGraphic.getBounds() );
         }
         Rectangle intRect = new Rectangle( (int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight() );
@@ -90,19 +105,34 @@ public class PrimaryMultiLineTextGraphic extends PrimaryGraphic {
     }
 
     public Point getLeftSide() {
-        return RectangleUtils.getLeftSide( getBounds() );
+        return RectangleUtils.getLeftCenter( getBounds() );
     }
 
     public Point getEast() {
-        return RectangleUtils.getEastSide( getBounds() );
+        return RectangleUtils.getRightCenter( getBounds() );
     }
 
     public Point getPosition() {
         return new Point( x, y );
     }
 
+    public void setText( String[] text ) {
+        if( Arrays.asList( this.text ).equals( Arrays.asList( text ) ) ) {
+            return;
+        }
+        this.text = text;
+        textGraphics.clear();
+        init();
+        setBoundsDirty();
+        repaint();
+    }
+
+    public void setText( String text ) {
+        setText( new String[]{text} );
+    }
+
     interface LineCreator {
-        PrimaryGraphic createLine( String text, int x, int y );
+        PhetGraphic createLine( String text, int x, int y );
     }
 
     static class Shadowed implements LineCreator {
@@ -122,8 +152,8 @@ public class PrimaryMultiLineTextGraphic extends PrimaryGraphic {
             this.backgroundColor = backgroundColor;
         }
 
-        public PrimaryGraphic createLine( String text, int x, int y ) {
-            return new PrimaryShadowTextGraphic( text, font, x, y, foregroundColor, dx, dy, backgroundColor, component );
+        public PhetGraphic createLine( String text, int x, int y ) {
+            return new ShadowTextGraphic( component, text, font, x, y, foregroundColor, dx, dy, backgroundColor );
         }
     }
 
@@ -138,8 +168,8 @@ public class PrimaryMultiLineTextGraphic extends PrimaryGraphic {
             this.color = color;
         }
 
-        public PrimaryGraphic createLine( String text, int x, int y ) {
-            return new PrimaryTextGraphic( component, font, text, color, x, y );
+        public PhetGraphic createLine( String text, int x, int y ) {
+            return new PhetTextGraphic( component, font, text, color, x, y );
         }
     }
 

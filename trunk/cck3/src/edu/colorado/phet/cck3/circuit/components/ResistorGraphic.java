@@ -22,7 +22,6 @@ public class ResistorGraphic extends CircuitComponentImageGraphic {
 
     public void paint( Graphics2D graphics2D ) {
         super.paint( graphics2D );
-
         colorBandsGraphic.paint( graphics2D );
     }
 }

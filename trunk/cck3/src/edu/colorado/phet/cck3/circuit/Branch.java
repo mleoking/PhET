@@ -85,6 +85,9 @@ public class Branch extends SimpleObservable {
     }
 
     public void setResistance( double resistance ) {
+        if( resistance < 0 ) {
+            throw new RuntimeException( "Resistance was < 0, value=" + resistance );
+        }
         if( resistance != this.resistance ) {
             this.resistance = resistance;
             notifyObservers();

@@ -1,8 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.components;
 
-import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.cck3.circuit.Junction;
+import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.common.math.AbstractVector2D;
 
 import java.awt.geom.Point2D;
@@ -22,8 +22,8 @@ public class Switch extends CircuitComponent {
         super.setResistance( OPEN_RESISTANCE );
     }
 
-    public Switch( KirkhoffListener kl, Junction startJunction, Junction endjJunction, boolean closed,double length,double height ) {
-        super( kl, startJunction, endjJunction,length, height );
+    public Switch( KirkhoffListener kl, Junction startJunction, Junction endjJunction, boolean closed, double length, double height ) {
+        super( kl, startJunction, endjJunction, length, height );
         this.closed = closed;
     }
 

@@ -20,8 +20,8 @@ public class Resistor extends CircuitComponent {
         setResistance( 10 );
     }
 
-    public Resistor( KirkhoffListener kl, Junction startJunction, Junction endjJunction,double length,double height ) {
-        super( kl, startJunction, endjJunction,length, height );
+    public Resistor( KirkhoffListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
+        super( kl, startJunction, endjJunction, length, height );
     }
 
     public void addAttributes( IXMLElement xml ) {
@@ -30,8 +30,8 @@ public class Resistor extends CircuitComponent {
 
 //    public static Resistor parseXML( IXMLElement xml, Junction startJunction, Junction endJunction, KirkhoffListener kl ) {
 //        Resistor r = new Resistor( kl, startJunction, endJunction );
-//        String res = xml.getAttribute( "resistance", "0" );
-//        double rx = Double.parseDouble( res );
+//        String bulb = xml.getAttribute( "resistance", "0" );
+//        double rx = Double.parseDouble( bulb );
 //        r.setResistance( rx );
 //        return r;
 //    }

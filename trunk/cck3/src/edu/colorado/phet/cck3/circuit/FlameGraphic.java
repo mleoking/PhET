@@ -3,10 +3,10 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentImageGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.ImageGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -21,7 +21,7 @@ import java.awt.image.BufferedImage;
  * Time: 12:10:55 PM
  * Copyright (c) Jun 24, 2004 by Sam Reid
  */
-public class FlameGraphic extends FastPaintImageGraphic {
+public class FlameGraphic extends ImageGraphic {
     CircuitComponent component;
     BufferedImage flameImage;
     private ModelViewTransform2D transform;
@@ -30,7 +30,7 @@ public class FlameGraphic extends FastPaintImageGraphic {
     private TransformListener transformListener;
 
     public FlameGraphic( Component parent, CircuitComponent branch, BufferedImage flameImage, ModelViewTransform2D transform ) {
-        super( flameImage, parent );
+        super( parent, flameImage );
         this.component = branch;
         this.flameImage = flameImage;
         this.transform = transform;
@@ -47,11 +47,12 @@ public class FlameGraphic extends FastPaintImageGraphic {
         };
         transform.addTransformListener( transformListener );
         changed();
+        setVisible( true );
     }
 
     private void changed() {
-        Point2D srcpt = transform.toAffineTransform().transform( component.getStartJunction().getPosition(), null );
-        Point2D dstpt = transform.toAffineTransform().transform( component.getEndJunction().getPosition(), null );
+        Point2D srcpt = transform.getAffineTransform().transform( component.getStartJunction().getPosition(), null );
+        Point2D dstpt = transform.getAffineTransform().transform( component.getEndJunction().getPosition(), null );
         ImmutableVector2D vec = new ImmutableVector2D.Double( srcpt, dstpt );
         AbstractVector2D normal = vec.getNormalVector();
         double fracDistToStart = .2;

@@ -15,21 +15,11 @@ public class ModelViewTx1D {
     private double modelMin;
     private int viewMin;
     private double m;
-    private double modelMax;
-    private int viewMax;
 
-    /**
-     * @param modelValue1 Model value corresponding to viewValue1
-     * @param modelValue2 Model value corresponding to viewValue2
-     * @param viewValue1  View value corresponding to modelValue1
-     * @param viewValue2  View value corresponding to modelValue2
-     */
     public ModelViewTx1D( double modelValue1, double modelValue2, int viewValue1, int viewValue2 ) {
         this.modelMin = modelValue1;
         this.viewMin = viewValue1;
-        this.modelMax = modelValue2;
-        this.viewMax = viewValue2;
-        m = ( (double)( viewValue2 - viewValue1 ) ) / ( modelValue2 - modelValue1 );
+         m = ( (double)( viewValue2 - viewValue1 ) ) / ( modelValue2 - modelValue1 );
     }
 
     public double viewToModel( int view ) {

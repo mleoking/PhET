@@ -4,13 +4,13 @@ package edu.colorado.phet.cck3.circuit.tools;
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.RectangleUtils;
+import edu.colorado.phet.cck3.common.phetgraphics.ImageGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.fastpaint.FastPaint;
-import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
-import edu.colorado.phet.common.view.fastpaint.FastPaintTextGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
@@ -39,6 +39,15 @@ public class VoltmeterGraphic extends CompositeGraphic {
     private CableGraphic redCableGraphic;
     private CableGraphic blackCableGraphic;
     private CCK3Module module;
+
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        redLeadGraphic.setVisible( visible );
+        blackLeadGraphic.setVisible( visible );
+        redCableGraphic.setVisible( visible );
+        blackCableGraphic.setVisible( visible );
+        unitGraphic.setVisible( visible );
+    }
 
     public VoltmeterGraphic( Voltmeter voltmeter, Component parent, CCK3Module module ) throws IOException {
         this.transform = module.getTransform();
@@ -76,14 +85,14 @@ public class VoltmeterGraphic extends CompositeGraphic {
         return blackLeadGraphic;
     }
 
-    public class LeadGraphic extends FastPaintImageGraphic {
+    public class LeadGraphic extends ImageGraphic {
         private Voltmeter.Lead lead;
         private double angle;
         private Stroke stroke = new BasicStroke( 1.5f );
         private InteractiveBranchGraphic overlap;
 
         public LeadGraphic( Voltmeter.Lead lead, BufferedImage bufferedImage, Component parent, double angle ) {
-            super( bufferedImage, parent );
+            super( parent, bufferedImage, new AffineTransform() );
             this.lead = lead;
             this.angle = angle;
             VoltmeterGraphic.this.transform.addTransformListener( new TransformListener() {
@@ -103,8 +112,8 @@ public class VoltmeterGraphic extends CompositeGraphic {
         private void changed() {
             Point2D.Double loc = new Point2D.Double( lead.getX(), lead.getY() );
             Point ctr = VoltmeterGraphic.this.transform.modelToView( loc );
-            double imWidth = getBufferedImage().getWidth();
-            double imHeight = getBufferedImage().getHeight();
+            double imWidth = getImage().getWidth();
+            double imHeight = getImage().getHeight();
 
             Point2D tx = new Point2D.Double( ctr.x - imWidth / 2, ctr.y - imHeight / 2 );
             AffineTransform imageTransform = AffineTransform.getTranslateInstance( tx.getX(), tx.getY() );
@@ -116,13 +125,13 @@ public class VoltmeterGraphic extends CompositeGraphic {
         public Shape getTipShape() {
             int tipWidth = 3;
             int tipHeight = 25;
-            int imWidth = getBufferedImage().getWidth();
+            int imWidth = getImage().getWidth();
             Rectangle r = new Rectangle( imWidth / 2 - tipWidth / 2, 0, tipWidth, tipHeight );
             return getTransform().createTransformedShape( r );
         }
 
         public Point2D getInputPoint() {
-            BufferedImage image = super.getBufferedImage();
+            BufferedImage image = super.getImage();
             Rectangle rect = new Rectangle( 0, 0, image.getWidth(), image.getHeight() );
             Point2D pt = new Point2D.Double( rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() );
             return getTransform().transform( pt, null );
@@ -130,12 +139,14 @@ public class VoltmeterGraphic extends CompositeGraphic {
 
         public void paint( Graphics2D graphics2D ) {
             super.paint( graphics2D );
+            Stroke origStroke = graphics2D.getStroke();
             graphics2D.setColor( Color.white );
             graphics2D.setStroke( stroke );
             Shape tipShape = getTipShape();
             graphics2D.draw( tipShape );
             graphics2D.setColor( Color.gray );
             graphics2D.fill( tipShape );
+            graphics2D.setStroke( origStroke );
         }
 
         private Branch detectBranch( CircuitGraphic circuitGraphic ) {
@@ -328,8 +339,8 @@ public class VoltmeterGraphic extends CompositeGraphic {
     }
 
     class UnitGraphic extends CompositeGraphic {
-        FastPaintImageGraphic unitGraphic;
-        FastPaintTextGraphic textGraphic;
+        ImageGraphic unitGraphic;
+        PhetTextGraphic textGraphic;
         Font font = new Font( "Dialog", 0, 20 );
         private Voltmeter.VoltmeterUnit vm;
         private Point ctr;
@@ -338,12 +349,11 @@ public class VoltmeterGraphic extends CompositeGraphic {
         private static final String UNKNOWN_VOLTS = "???";
         private String voltageString = UNKNOWN_VOLTS;
         private DecimalFormat voltFormatter;
-//        private DecimalFormat voltFormatter = new DecimalFormat( "#0.0#" );
 
         public UnitGraphic( Voltmeter.VoltmeterUnit vm, BufferedImage image, Component parent, DecimalFormat voltFormatter ) {
             this.voltFormatter = voltFormatter;
-            unitGraphic = new FastPaintImageGraphic( image, parent );
-            textGraphic = new FastPaintTextGraphic( UNKNOWN_VOLTS, font, 0, 0, parent );
+            unitGraphic = new ImageGraphic( parent, image );
+            textGraphic = new PhetTextGraphic( parent, font, UNKNOWN_VOLTS, Color.black, 0, 0 );
             addGraphic( unitGraphic );
             addGraphic( textGraphic );
             vm.addObserver( new SimpleObserver() {
@@ -358,6 +368,13 @@ public class VoltmeterGraphic extends CompositeGraphic {
             } );
             this.vm = vm;
             changed();
+            setVisible( true );
+        }
+
+        public void setVisible( boolean visible ) {
+            super.setVisible( visible );
+            unitGraphic.setVisible( visible );
+            textGraphic.setVisible( visible );
         }
 
         public Rectangle getUnitBounds() {
@@ -367,8 +384,8 @@ public class VoltmeterGraphic extends CompositeGraphic {
         private void changed() {
             Point2D.Double loc = new Point2D.Double( vm.getX(), vm.getY() );
             ctr = transform.modelToView( loc );
-            unitGraphic.setPosition( ctr );
-            textGraphic.setLocation( (float)( ctr.getX() + relX ), (float)( ctr.getY() + relY ) );
+            unitGraphic.setPositionCentered( (int)ctr.getX(), (int)ctr.getY() );
+            textGraphic.setPosition( (int)( ctr.getX() + relX ), (int)( ctr.getY() + relY ) );
         }
 
         public Point getPosition() {
@@ -394,12 +411,15 @@ public class VoltmeterGraphic extends CompositeGraphic {
         private LeadGraphic leadGraphic;
         private Point2D rel;
         private CubicCurve2D.Double cableCurve;
+        private PhetShapeGraphic graphic;
 
         public CableGraphic( ModelViewTransform2D transform, Color color, LeadGraphic leadGraphic, Point2D rel ) {
             this.transform = transform;
             this.color = color;
             this.leadGraphic = leadGraphic;
             this.rel = rel;
+            Stroke stroke = ( new BasicStroke( 4.0f ) );
+            this.graphic = new PhetShapeGraphic( module.getApparatusPanel(), new Area(), stroke, color );
             transform.addTransformListener( new TransformListener() {
                 public void transformChanged( ModelViewTransform2D ModelViewTransform2D ) {
                     changed();
@@ -409,8 +429,6 @@ public class VoltmeterGraphic extends CompositeGraphic {
         }
 
         public void changed() {
-            Rectangle rect1 = getBounds();
-
             Point unitGraphicPt = unitGraphic.getUnitBounds().getLocation();
             Point in = new Point( (int)( rel.getX() + unitGraphicPt.getX() ), (int)( rel.getY() + unitGraphicPt.getY() ) );
             Point2D out = leadGraphic.getInputPoint();
@@ -420,27 +438,16 @@ public class VoltmeterGraphic extends CompositeGraphic {
             double cy = out.getY();
             float dcy = 100;
             cableCurve = new CubicCurve2D.Double( cx, cy, cx, cy + dcy, ( 2 * dx + cx ) / 3, dy, dx, dy );
+            graphic.setShape( cableCurve );
             notifyObservers();
-            Rectangle rect2 = getBounds();
-            if( rect1 != null ) {
-                FastPaint.fastRepaint( module.getApparatusPanel(), rect1, rect2 );
-            }
-            else {
-                FastPaint.fastRepaint( module.getApparatusPanel(), rect2 );
-            }
-        }
-
-        private Rectangle getBounds() {
-            if( cableCurve == null ) {
-                return null;
-            }
-            return RectangleUtils.expand( cableCurve.getBounds(), 4, 4 );
         }
 
         public void paint( Graphics2D g ) {
-            g.setColor( color );
-            g.setStroke( new BasicStroke( 4.0f ) );
-            g.draw( cableCurve );
+            graphic.paint( g );
+        }
+
+        public void setVisible( boolean visible ) {
+            graphic.setVisible( visible );
         }
     }
 

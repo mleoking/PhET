@@ -48,7 +48,7 @@ public class InteractiveSchematicLever extends DefaultInteractiveGraphic impleme
         this.leverGraphic = leverGraphic;
         this.transform = transform;
         this.apparatusPanel = apparatusPanel;
-        this.component = leverGraphic.getComponent();
+        this.component = leverGraphic.getCircuitComponent();
         Boundary mybounds = new Boundary() {
             public boolean contains( int x, int y ) {
                 //only allowed to move the handle.  This will make it easier to move the base when the switch is closed.

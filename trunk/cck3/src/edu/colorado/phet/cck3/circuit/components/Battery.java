@@ -14,8 +14,10 @@ import java.awt.geom.Point2D;
  * Copyright (c) May 28, 2004 by Sam Reid
  */
 public class Battery extends CircuitComponent {
+    public static final double MIN_RESISTANCE = 0.0001;
+
     public Battery( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl ) {
-        this( start, dir, length, height, kl, 0 );
+        this( start, dir, length, height, kl, MIN_RESISTANCE );
     }
 
     public Battery( Point2D start, AbstractVector2D dir, double length, double height, KirkhoffListener kl, double internalResistance ) {
@@ -37,5 +39,12 @@ public class Battery extends CircuitComponent {
 
     public double getEffectiveVoltageDrop() {
         return getVoltageDrop() - getCurrent() * getResistance();
+    }
+
+    public void setResistance( double resistance ) {
+        if( resistance < MIN_RESISTANCE ) {
+            throw new IllegalArgumentException( "Resistance was les than the min, value=" + resistance + ", min=" + MIN_RESISTANCE );
+        }
+        super.setResistance( resistance );
     }
 }

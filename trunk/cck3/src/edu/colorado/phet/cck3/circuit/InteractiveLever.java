@@ -89,8 +89,8 @@ public class InteractiveLever extends DefaultInteractiveGraphic implements Lever
     private Shape getHandleShape() {
         double x = 0;
         double y = 0;
-        double w = leverGraphic.getBufferedImage().getWidth() * .4;
-        double h = leverGraphic.getBufferedImage().getHeight();
+        double w = leverGraphic.getImage().getWidth() * .4;
+        double h = leverGraphic.getImage().getHeight();
 
         Rectangle2D r = new Rectangle2D.Double( x, y, w, h );
         Shape sh = leverGraphic.getTransform().createTransformedShape( r );

@@ -29,7 +29,7 @@ public abstract class CircuitComponent extends Branch {
         super.setEndJunction( endJunction );
     }
 
-    protected CircuitComponent( KirkhoffListener kl, Junction startJunction, Junction endjJunction,double length,double height ) {
+    protected CircuitComponent( KirkhoffListener kl, Junction startJunction, Junction endjJunction, double length, double height ) {
         super( kl, startJunction, endjJunction );
         this.length = length;
         this.height = height;

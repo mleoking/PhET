@@ -15,10 +15,9 @@ import java.awt.*;
  * Copyright (c) Jul 1, 2004 by Sam Reid
  */
 public class RepaintDebugGraphic implements Graphic, ClockTickListener {
-
-    int r = 250;
-    int g = 250;
-    int b = 250;
+    private int r = 255;
+    private int g = 255;
+    private int b = 255;
     private ApparatusPanel panel;
     private AbstractClock clock;
     private boolean active = false;
@@ -34,9 +33,9 @@ public class RepaintDebugGraphic implements Graphic, ClockTickListener {
     }
 
     public void clockTicked( AbstractClock c, double dt ) {
-        r = ( r + 2 ) % 255;
-        g = ( g + 3 ) % 255;
-        b = ( b + 4 ) % 255;
+        r = ( r - 1 + 255 ) % 255;
+        g = ( g - 2 + 255 ) % 255;
+        b = ( b - 3 + 255 ) % 255;
     }
 
     public void setActive( boolean active ) {

@@ -25,9 +25,9 @@ import java.util.ArrayList;
  * Copyright (c) May 27, 2004 by Sam Reid
  */
 public class LightBulbGraphic implements Graphic {
-    Rectangle2D bounds;
-    Ellipse2D.Double bulb;
-    Paint paint;
+    private Rectangle2D bounds;
+    private Ellipse2D.Double bulb;
+    private Paint paint;
     private Rectangle2D.Double conductor;
     private Stroke baseStroke = new BasicStroke( 3 );
     private Stroke linestroke = new BasicStroke( 1 );
@@ -35,7 +35,7 @@ public class LightBulbGraphic implements Graphic {
     private Point2D rad;
     private Point2D pin;
     private Stroke bulboutline = new BasicStroke( 1 );
-    ArrayList brighties = new ArrayList();
+    private ArrayList brighties = new ArrayList();
     private Color brightyColor;
     private BasicStroke brightyStroke;
     private Ellipse2D.Double insulator;
@@ -51,7 +51,9 @@ public class LightBulbGraphic implements Graphic {
         //reserve the top part for the bulb.
         double fracInsulator = .1;
         double fracTip = .04;
-        double fracConductor = .204;
+//        double fracConductor = .204;
+//        double fracConductor = .304;
+        double fracConductor = .23504;
         double fracBulb = 1 - fracInsulator - fracTip - fracConductor;
         double fracConductorWidth = .5;
         double fracTipWidth = .08;
@@ -110,6 +112,7 @@ public class LightBulbGraphic implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
+        Stroke origStroke = g.getStroke();
         g.setColor( brightyColor );
         g.setStroke( brightyStroke );
 
@@ -146,6 +149,7 @@ public class LightBulbGraphic implements Graphic {
             Line2D.Double aDouble = (Line2D.Double)spiralLines.get( i );
             g.draw( aDouble );
         }
+        g.setStroke( origStroke );
     }
 
     static Point2D center( Ellipse2D r ) {

@@ -4,12 +4,11 @@ package edu.colorado.phet.cck3.circuit;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.Switch;
 import edu.colorado.phet.cck3.common.LineSegment;
-import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
+import edu.colorado.phet.cck3.common.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
@@ -23,7 +22,7 @@ import java.awt.geom.Point2D;
  * Time: 10:53:37 AM
  * Copyright (c) Jun 18, 2004 by Sam Reid
  */
-public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements IComponentGraphic, TransformListener, SimpleObserver {
+public class SchematicSwitchGraphic extends PhetShapeGraphic implements IComponentGraphic, TransformListener, SimpleObserver {
     private ApparatusPanel apparatusPanel;
     private Switch aSwitch;
     private ModelViewTransform2D transform;
@@ -31,11 +30,11 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
     private Shape userSpace;
     private double leverLength;
     private Point2D pivot;
-    PrimaryShapeGraphic highlightRegion;
+    PhetShapeGraphic highlightRegion;
 
     public SchematicSwitchGraphic( ApparatusPanel apparatusPanel, Switch aSwitch, ModelViewTransform2D transform, double wireThickness ) {
-        super( new Area(), Color.black, apparatusPanel );
-        highlightRegion = new PrimaryShapeGraphic( apparatusPanel, new Area(), Color.yellow );
+        super( apparatusPanel, new Area(), Color.black );
+        highlightRegion = new PhetShapeGraphic( apparatusPanel, new Area(), Color.yellow );
         this.apparatusPanel = apparatusPanel;
         this.aSwitch = aSwitch;
         this.transform = transform;
@@ -43,14 +42,12 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
         transform.addTransformListener( this );
         aSwitch.addObserver( this );
         changed();
+        setVisible( true );
     }
 
     private void changed() {
-        Point2D srcpt = transform.toAffineTransform().transform( aSwitch.getStartJunction().getPosition(), null );
-        Point2D dstpt = transform.toAffineTransform().transform( aSwitch.getEndJunction().getPosition(), null );
-//        Point2D tmp=srcpt;
-//        srcpt=dstpt;
-//        dstpt=srcpt;
+        Point2D srcpt = transform.getAffineTransform().transform( aSwitch.getStartJunction().getPosition(), null );
+        Point2D dstpt = transform.getAffineTransform().transform( aSwitch.getEndJunction().getPosition(), null );
         double viewThickness = Math.abs( transform.modelToViewDifferentialY( wireThickness ) );
         double fracToPivot = .3;
         double fracToEnd = ( 1 - fracToPivot );
@@ -96,7 +93,7 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
     }
 
     public double getLeverLengthModelCoordinates() {
-        return transform.viewToModelDifferentialX( leverLength );
+        return transform.viewToModelDifferentialX( (int)leverLength );
     }
 
     //in view coordinates.
