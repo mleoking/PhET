@@ -27,4 +27,16 @@ public class VerticalLayoutPanel extends JPanel {
         gridBagConstraints.gridy++;
         return null;
     }
+
+    public void setFill( int fill ) {
+        gridBagConstraints.fill = fill;
+    }
+
+    public void setAnchor( int anchor ) {
+        gridBagConstraints.anchor = anchor;
+    }
+
+    public void setInsets( Insets insets ) {
+        gridBagConstraints.insets = insets;
+    }
 }

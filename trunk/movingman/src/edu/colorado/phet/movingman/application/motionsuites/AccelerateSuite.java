@@ -86,6 +86,32 @@ public class AccelerateSuite extends MotionSuite {
         gridBagConstraints.gridy++;
     }
 
+    protected void resetPressed() {
+        super.resetPressed();
+        setInitialVelocityEnabled();
+    }
+
+    protected void doEnable() {
+        super.doEnable();
+        setInitialVelocityEnabled();
+    }
+
+    public void setInitialVelocityEnabled() {
+        if( initialVelocitySpinner != null ) {
+            if( isReset() ) {
+                initialVelocitySpinner.setEnabled( true );
+            }
+            else {
+                initialVelocitySpinner.setEnabled( false );
+            }
+        }
+    }
+
+    protected void doGo() {
+        super.doGo();
+        initialVelocitySpinner.setEnabled( false );
+    }
+
     private void setInitialVelocity() {
         Double value = (Double)initialVelocitySpinner.getValue();
         MotionState ms = motion.getMotionState();

@@ -138,7 +138,7 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
 
     public void mouseDragged( MouseEvent event ) {
         if( !module.isRecording() ) {
-            module.getMovingManControlPanel().setManualMode();
+            module.getMovingManControlPanel().startRecordingManual();
         }
         final Point newPt = dragHandler.getNewLocation( event.getPoint() );
         Rectangle curRect = new Rectangle( x - currentImage.getWidth() / 2, y, currentImage.getWidth(), currentImage.getHeight() );
