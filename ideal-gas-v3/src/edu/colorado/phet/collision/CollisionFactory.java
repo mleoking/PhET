@@ -19,7 +19,8 @@ public class CollisionFactory {
         collisionPrototypes.add( collision );
     }
 
-    static public Collision create( Particle particleA, Particle particleB,
+    static public Collision create( CollidableBody particleA, CollidableBody particleB,
+//    static public Collision create( Particle particleA, Particle particleB,
                                     IdealGasModel model, double dt ) {
         Collision result = null;
         for( int i = 0; i < collisionPrototypes.size() && result == null; i++ ) {

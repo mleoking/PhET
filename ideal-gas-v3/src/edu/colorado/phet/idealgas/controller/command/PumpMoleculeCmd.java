@@ -57,6 +57,8 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
 
     public void doIt() {
         super.doIt();
+        molecule.setModel( model );
+
         PhetGraphic graphic = new HeavySpeciesGraphic( module.getApparatusPanel(), molecule );
         module.getApparatusPanel().addGraphic( graphic, 10 );
         //        pumpGasMolecule( speciesClass );

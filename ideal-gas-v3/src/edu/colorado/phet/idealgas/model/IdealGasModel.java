@@ -60,15 +60,14 @@ public class IdealGasModel extends BaseModel {
         this.addModelElement( collisionGod );
         // Set up collision classes
 //        new SphereHotAirBalloonContactDetector();
+        new SphereBoxContactDetector();
         new SphereSphereContactDetector();
-//        new SphereWallContactDetector();
-//        new SphereBoxContactDetector();
+        new SphereWallContactDetector();
 
 //        BalloonSphereCollision.register();
+        SphereBoxCollision.register();
         SphereSphereCollision.register();
-//        SphereWallCollision.register();
-//        SphereBoxCollision.register();
-
+        SphereWallCollision.register();
     }
 
     /**
@@ -149,6 +148,7 @@ public class IdealGasModel extends BaseModel {
      */
     public void addBox( PressureSensingBox box ) {
         this.box = box;
+        this.addModelElement( box );
         //        this.box = (PressureSensingBox)box;
     }
 

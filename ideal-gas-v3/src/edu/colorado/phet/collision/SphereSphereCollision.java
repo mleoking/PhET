@@ -41,9 +41,6 @@ public class SphereSphereCollision extends HardsphereCollision {
         return loa;
     }
 
-    //
-    // Abstract methods
-    //
     public void collide() {
         super.collide( sphere1, sphere2, getLoa( sphere1, sphere2 ), dt, model );
     }

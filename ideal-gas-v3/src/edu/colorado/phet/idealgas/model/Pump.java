@@ -26,9 +26,9 @@ public class Pump extends SimpleObservable {
     }
 
     public void pump( int numMolecules ) {
-        for( int i = 0; i < numMolecules; i++ ) {
+//        for( int i = 0; i < numMolecules; i++ ) {
             this.pumpGasMolecule();
-        }
+//        }
         return;
     }
 
