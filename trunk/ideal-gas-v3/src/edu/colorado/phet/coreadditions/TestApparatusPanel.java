@@ -59,16 +59,17 @@ public class TestApparatusPanel extends ApparatusPanel {
     //    private boolean paintEnabled;
     private BufferStrategy strategy;
     private ArrayList rectangles = new ArrayList();
-    private Rectangle onion;
+    private Rectangle repaintArea;
 
     public TestApparatusPanel( BaseModel model ) {
         super( null );
-        MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
-        //        model.addModelElement( mouseProcessor );
+        // The following lines use a mouse processor in the model loop
+        //                MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
+        //                model.addModelElement( mouseProcessor );
+        //                this.addMouseListener( mouseProcessor );
+        //                this.addMouseMotionListener( mouseProcessor );
         this.addMouseListener( mouseDelegator );
         this.addMouseMotionListener( mouseDelegator );
-        //        this.addMouseListener( mouseProcessor );
-        //        this.addMouseMotionListener( mouseProcessor );
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -99,6 +100,10 @@ public class TestApparatusPanel extends ApparatusPanel {
         } );
     }
 
+    public void paintImmediately() {
+        megapaintImmediately();
+    }
+
     private void megapaintImmediately() {
         if( rectangles.size() == 0 ) {
             return;
@@ -108,7 +113,7 @@ public class TestApparatusPanel extends ApparatusPanel {
             while( rectangles.size() > 0 ) {
                 union = union.union( (Rectangle)rectangles.remove( 0 ) );
             }
-            onion = union;
+            repaintArea = union;
             paintImmediately( union );
         }
     }
@@ -129,7 +134,6 @@ public class TestApparatusPanel extends ApparatusPanel {
     }
 
     public void repaint( long tm, int x, int y, int width, int height ) {
-        //super.repaint( tm, x, y, width, height );
         megarepaint( x, y, width, height );
     }
 
@@ -138,32 +142,22 @@ public class TestApparatusPanel extends ApparatusPanel {
             rectangles = new ArrayList();
         }
         Rectangle r = new Rectangle( x, y, width, height );
-        //                System.out.println( "r = " + r );
-        if( r.x < 5 ) {
-            //            new Exception( "r=" + r ).printStackTrace();
-        }
         rectangles.add( r );
-        //        super.repaint( 0,x,y,width, height);
     }
 
     public void repaint( Rectangle r ) {
-        //        super.repaint( r );
         megarepaint( r.x, r.y, r.width, r.height );
+        System.out.println( "r = " + r );
     }
 
     public void repaint() {
-        //        super.repaint();
-        //        megarepaint( 0, 0, getWidth(), getHeight() );
     }
 
     public void repaint( int x, int y, int width, int height ) {
-        //        super.repaint( x, y, width, height );
         megarepaint( x, y, width, height );
     }
 
     public void repaint( long tm ) {
-        //        super.repaint( tm );
-        //        repaint();
     }
 
     AffineTransform IDENTITY = AffineTransform.getTranslateInstance( 0, 0 );
@@ -178,8 +172,8 @@ public class TestApparatusPanel extends ApparatusPanel {
             updateBuffer();
         }
         else {
-            //            drawIt( (Graphics2D)graphics );
-            ( (Graphics2D)graphics ).drawRenderedImage( bImg, IDENTITY );
+            drawIt( (Graphics2D)graphics );
+            //            ( (Graphics2D)graphics ).drawRenderedImage( bImg, IDENTITY );
         }
     }
 
@@ -192,44 +186,22 @@ public class TestApparatusPanel extends ApparatusPanel {
         }
         Graphics2D g2 = (Graphics2D)bImg.getGraphics();
         drawIt( g2 );
-        //
-        //        g2.setBackground( super.getBackground() );
-        //        g2.clearRect( 0, 0, getWidth(), getHeight() );
-        //        for( int i = 0; i < graphicsSetups.size(); i++ ) {
-        //            GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
-        //            graphicsSetup.setup( g2 );
-        //        }
-        //        graphic.paint( g2 );
-        //        Color origColor = g2.getColor();
-        //        Stroke origStroke = g2.getStroke();
-        //
-        //        g2.setColor( Color.black );
-        //        g2.setStroke( borderStroke );
-        //        Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
-        //        g2.draw( border );
-        //
-        //        g2.setColor( origColor );
-        //        g2.setStroke( origStroke );
-        //        //        g2.draw( this.getBounds() );
-        ////        if( onion != null ) {
-        ////            g2.setColor( Color.green );
-        ////            g2.setStroke( new BasicStroke( 7, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 0.1f, new float[]{15, 15}, 0 ) );
-        ////            g2.draw( onion );
-        ////        }
     }
 
     private void drawIt( Graphics2D g2 ) {
-        //        Graphics2D g2 = (Graphics2D)bImg.getGraphics();
-        //        g2.setClip( onion );
+        //                Graphics2D g2 = (Graphics2D)bImg.getGraphics();
+        //                g2.setClip( repaintArea );
+        if( repaintArea == null ) {
+            repaintArea = this.getBounds();
+        }
         long now = System.currentTimeMillis();
         g2.setBackground( super.getBackground() );
         g2.clearRect( 0, 0, this.getWidth(), this.getHeight() );
-        g2.clearRect( onion.x, onion.y, onion.width, onion.height );
+        g2.clearRect( repaintArea.x, repaintArea.y, repaintArea.width, repaintArea.height );
         for( int i = 0; i < graphicsSetups.size(); i++ ) {
             GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
             graphicsSetup.setup( g2 );
         }
-
 
         graphic.paint( g2 );
         Color origColor = g2.getColor();
@@ -243,25 +215,22 @@ public class TestApparatusPanel extends ApparatusPanel {
         g2.setColor( origColor );
         g2.setStroke( origStroke );
         //        g2.draw( this.getBounds() );
-        //        if( onion != null ) {
+        //        if( repaintArea != null ) {
         //            g2.setColor( Color.green );
         //            g2.setStroke( new BasicStroke( 7, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 0.1f, new float[]{15, 15}, 0 ) );
-        //            g2.draw( onion );
+        //            g2.draw( repaintArea );
         //        }
-        long dt=System.currentTimeMillis()-now;
-        System.out.println( "dt = " + dt );
+
+        //        long dt=System.currentTimeMillis()-now;
+        //        System.out.println( "dt = " + dt );
     }
 
     public void addGraphic( Graphic graphic, double level ) {
         this.graphic.addGraphic( graphic, level );
     }
 
-    /**
-     * Adds a graphic to the default layer 0.
-     */
     public void addGraphic( Graphic graphic ) {
         this.addGraphic( graphic, 0 );
-        //        this.graphic.addGraphic( graphic, 0 );
     }
 
     public void removeGraphic( Graphic graphic ) {

@@ -27,7 +27,7 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
     private static Color s_defaultColor = Color.black;
     private Box2D box;
     private boolean graphicSelected;
-    private int wallSpeedLimit = 6;
+    private int wallSpeedLimit = 3;
     private boolean leftWallHighlighted;
 
     public Box2DGraphic( Component component, final Box2D box ) {
@@ -37,12 +37,11 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         InternalBoxGraphic internalBoxGraphic = new InternalBoxGraphic( component );
         setBoundedGraphic( internalBoxGraphic );
 
-        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ));
+        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
         this.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
                 // Speed limit on wall
-                dx = Math.max( -wallSpeedLimit, Math.min(  dx, wallSpeedLimit ));
-
+                dx = Math.max( -wallSpeedLimit, Math.min( dx, wallSpeedLimit ) );
                 double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
                 box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
             }
@@ -75,12 +74,12 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
 
     public void mouseDragged( MouseEvent e ) {
         super.mouseDragged( e );
-//        try {
-//            Thread.sleep( 10 );
-//        }
-//        catch( InterruptedException e1 ) {
-//            e1.printStackTrace();
-//        }
+        //        try {
+        //            Thread.sleep( 10 );
+        //        }
+        //        catch( InterruptedException e1 ) {
+        //            e1.printStackTrace();
+        //        }
     }
 
     private class InternalBoxGraphic extends PhetShapeGraphic implements SimpleObserver {
@@ -111,13 +110,11 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
             mouseableArea.setRect( box.getMinX() - s_thickness,
                                    box.getMinY() - s_thickness,
                                    s_thickness,
-                                   box.getMaxY() - box.getMinY() + s_thickness );
-            wallHandleLocation = new Point( (int)(box.getMinX() - wallHandle.getWidth()),
-                         (int)( box.getMinY() + box.getHeight() + wallHandle.getHeight() ) / 2 );
+                                   box.getMaxY() - box.getMinY() + s_thickness * 2 );
+            wallHandleLocation = new Point( (int)( box.getMinX() - wallHandle.getWidth() ),
+                                            (int)( box.getMinY() + box.getHeight() + wallHandle.getHeight() ) / 2 );
             mouseableArea.add( new Rectangle( wallHandleLocation.x, wallHandleLocation.y,
-                                              wallHandle.getWidth(), wallHandle.getHeight( )));
-            mouseableArea.setRect( new Rectangle( wallHandleLocation.x, wallHandleLocation.y,
-                                              wallHandle.getWidth(), wallHandle.getHeight( )));
+                                              wallHandle.getWidth(), wallHandle.getHeight() ) );
             Point2D[] opening = box.getOpening();
             openingRect.setFrameFromDiagonal( opening[0].getX(), opening[0].getY(),
                                               opening[1].getX(), opening[1].getY() - ( s_thickness - 1 ) );
@@ -127,9 +124,8 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
 
         public void paint( Graphics2D g ) {
             saveGraphicsState( g );
-            g.drawImage( wallHandle, (int)(box.getMinX() - wallHandle.getWidth()),
-                         (int)( box.getMinY() + box.getHeight() + wallHandle.getHeight() ) / 2,
-                         wallHandle.getWidth(), wallHandle.getHeight(),null);
+            g.drawImage( wallHandle, (int)wallHandleLocation.x, (int)wallHandleLocation.y,
+                         wallHandle.getWidth(), wallHandle.getHeight(), null );
             g.setStroke( s_defaultStroke );
             g.setColor( s_defaultColor );
             g.draw( rect );
@@ -137,13 +133,9 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
             g.fill( openingRect );
 
             if( leftWallHighlighted ) {
-                Rectangle2D r = new Rectangle2D.Double( box.getMinX() - s_thickness,
-                          box.getMinY() - s_thickness,
-                          s_thickness,
-                          box.getMaxY() - box.getMinY() + s_thickness * 2 );
-                g.setStroke( new BasicStroke( 1 ));
+                g.setStroke( new BasicStroke( 1 ) );
                 g.setColor( Color.red );
-                g.draw( r );
+                g.draw( mouseableArea.getBounds() );
             }
             restoreGraphicsState();
         }

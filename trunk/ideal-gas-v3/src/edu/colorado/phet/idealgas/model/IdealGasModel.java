@@ -156,7 +156,7 @@ public class IdealGasModel extends BaseModel {
             if( modelElement instanceof HeavySpecies ) {
                 heavySpeciesCnt++;
             }
-            if( modelElement instanceof LightSpecies) {
+            if( modelElement instanceof LightSpecies ) {
                 lightSpeciesCnt++;
             }
         }
@@ -171,10 +171,13 @@ public class IdealGasModel extends BaseModel {
             bodies.remove( modelElement );
         }
 
+        if( modelElement instanceof GasMolecule ) {
+            ( (GasMolecule)modelElement ).removeYourselfFromSystem();
+        }
         if( modelElement instanceof HeavySpecies ) {
             heavySpeciesCnt--;
         }
-        if( modelElement instanceof LightSpecies) {
+        if( modelElement instanceof LightSpecies ) {
             lightSpeciesCnt--;
         }
 
@@ -242,8 +245,8 @@ public class IdealGasModel extends BaseModel {
         // Managing energy step 1: Get the amount of kinetic energy in the system
         // before anything happens
         currentlyInStepInTimeMethod = true;
-//        double energyPre = this.getTotalEnergy();
-                double energyPre = this.getTotalKineticEnergy();
+        //        double energyPre = this.getTotalEnergy();
+        double energyPre = this.getTotalKineticEnergy();
 
         // Clear the accelerations on the bodies in the model
         for( int i = 0; i < bodies.size(); i++ ) {
@@ -267,8 +270,8 @@ public class IdealGasModel extends BaseModel {
 
         // Managing energy, step 2: Get the total kinetic energy in the system,
         // and adjust it if neccessary
-//        double energyPost = this.getTotalEnergy();
-                double energyPost = this.getTotalKineticEnergy();
+        //        double energyPost = this.getTotalEnergy();
+        double energyPost = this.getTotalKineticEnergy();
         double ratio;
         double r1 = Math.sqrt( energyPre + deltaKE );
         deltaKE = 0;
@@ -309,7 +312,6 @@ public class IdealGasModel extends BaseModel {
         }
         for( int i = 0; i < removeList.size(); i++ ) {
             GasMolecule gasMolecule = (GasMolecule)removeList.get( i );
-            gasMolecule.removeYourselfFromSystem();
             this.bodies.remove( gasMolecule );
             super.removeModelElement( gasMolecule );
         }
@@ -496,7 +498,6 @@ public class IdealGasModel extends BaseModel {
             ModelElement modelElement = (ModelElement)removalList.get( i );
             GasMolecule gm = (GasMolecule)modelElement;
             this.removeModelElement( gm );
-            gm.removeYourselfFromSystem();
         }
     }
 }

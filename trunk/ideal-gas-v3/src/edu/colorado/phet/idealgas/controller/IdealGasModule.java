@@ -21,6 +21,7 @@ import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.TestApparatusPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
@@ -366,6 +367,14 @@ public class IdealGasModule extends Module {
             Component component = (Component)visibleInstruments.get( i );
             component.setVisible( true );
         }
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                TestApparatusPanel tap = (TestApparatusPanel)getApparatusPanel();
+                // The hard-coded numbers here seem to be needed to get the apparatus
+                // panel to reliably clear and repaint the whole panel at least once.
+                tap.paintImmediately( 0, 0, 2000, 2000 );
+            }
+        } );
     }
 
     public void deactivate( PhetApplication app ) {

@@ -31,14 +31,14 @@ public class IdealGasApplication extends PhetApplication {
 
             // Create the clock
 
-//            setClock( new ThreadedClock( IdealGasConfig.s_timeStep * 1.,
-//                                         IdealGasConfig.s_waitTime, true ) );
+            //            setClock( new ThreadedClock( IdealGasConfig.s_timeStep * 1.,
+            //                                         IdealGasConfig.s_waitTime, true ) );
             //            setClock( new ThreadedClock( IdealGasConfig.s_timeStep,
             //                                         10, false,Thread.MAX_PRIORITY ) );
-//                        setClock( new SwingTimerClock( IdealGasConfig.s_timeStep,
-//                                                       IdealGasConfig.s_waitTime,false ) );
+            //                        setClock( new SwingTimerClock( IdealGasConfig.s_timeStep,
+            //                                                       IdealGasConfig.s_waitTime,false ) );
             setClock( new SwingTimerClock( IdealGasConfig.s_timeStep,
-                                                       IdealGasConfig.s_waitTime,true ) );
+                                           IdealGasConfig.s_waitTime, true ) );
 
             // Create the modules
             Module idealGasModule = new IdealGasModule( getClock() );
@@ -52,7 +52,7 @@ public class IdealGasApplication extends PhetApplication {
                 hotAirBalloonModule
             };
             setModules( modules );
-            //            setInitialModule( heliumBalloonModule );
+            //                        setInitialModule( rigidSphereModule );
             setInitialModule( idealGasModule );
         }
     }

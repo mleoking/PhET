@@ -24,6 +24,14 @@ import java.util.Hashtable;
 public class StoveControlPanel extends JPanel {
     private static final int s_stoveSliderHeight = 60;
 
+    protected void paintComponent( Graphics g ) {
+        super.paintComponent( g );
+    }
+
+    public void setBounds( int x, int y, int width, int height ) {
+        super.setBounds( x, y, width, height );
+    }
+
     public StoveControlPanel( final IdealGasModule module ) {
 
         // This panel will be put on the ApparatusPanel, which has a null LayoutManager.
@@ -40,27 +48,27 @@ public class StoveControlPanel extends JPanel {
         // The following commented code is left from the days that we had small icons
         // to the left of the slider. I'm leaving the commented code in here, just in
         // case we want to go back to that
-//        JPanel iconPanel = new JPanel( new GridLayout( 3, 1 ) );
-//        Image stoveAndFlameImage = null;
-//        Image stoveImage = null;
-//        Image stoveAndIceImage = null;
-//        try {
-//            stoveAndFlameImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_AND_FLAME_ICON_FILE );
-//            stoveImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_ICON_FILE );
-//            stoveAndIceImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_AND_ICE_ICON_FILE );
-//        }
-//        catch( IOException e ) {
-//            e.printStackTrace();
-//        }
+        //        JPanel iconPanel = new JPanel( new GridLayout( 3, 1 ) );
+        //        Image stoveAndFlameImage = null;
+        //        Image stoveImage = null;
+        //        Image stoveAndIceImage = null;
+        //        try {
+        //            stoveAndFlameImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_AND_FLAME_ICON_FILE );
+        //            stoveImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_ICON_FILE );
+        //            stoveAndIceImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_AND_ICE_ICON_FILE );
+        //        }
+        //        catch( IOException e ) {
+        //            e.printStackTrace();
+        //        }
 
-//        Icon stoveAndFlameIcon = new ImageIcon( stoveAndFlameImage );
-//        Icon stoveIcon = new ImageIcon( stoveImage );
-//        Icon stoveAndIceIcon = new ImageIcon( stoveAndIceImage );
-//        iconPanel.add( new JLabel( stoveAndFlameIcon ) );
-//        iconPanel.add( new JLabel( stoveIcon ) );
-//        iconPanel.add( new JLabel( stoveAndIceIcon ) );
-//        stoveSliderPanel.add( iconPanel );
-//        iconPanel.setPreferredSize( new Dimension( 24, s_stoveSliderHeight ) );
+        //        Icon stoveAndFlameIcon = new ImageIcon( stoveAndFlameImage );
+        //        Icon stoveIcon = new ImageIcon( stoveImage );
+        //        Icon stoveAndIceIcon = new ImageIcon( stoveAndIceImage );
+        //        iconPanel.add( new JLabel( stoveAndFlameIcon ) );
+        //        iconPanel.add( new JLabel( stoveIcon ) );
+        //        iconPanel.add( new JLabel( stoveAndIceIcon ) );
+        //        stoveSliderPanel.add( iconPanel );
+        //        iconPanel.setPreferredSize( new Dimension( 24, s_stoveSliderHeight ) );
 
         int maxStoveSliderValue = 40;
         final JSlider stoveSlider = new JSlider( JSlider.VERTICAL, -maxStoveSliderValue,
@@ -111,10 +119,8 @@ public class StoveControlPanel extends JPanel {
         stoveSlider.setBackground( background );
         heatSourceCB.setBackground( background );
         stovePanel.getLayout().layoutContainer( this );
-//        stovePanel.setBackground( new Color( 200, 255, 160 ));
 
         revalidate();
         repaint();
     }
-
 }

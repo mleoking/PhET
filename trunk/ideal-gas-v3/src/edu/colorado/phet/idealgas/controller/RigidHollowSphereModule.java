@@ -9,10 +9,8 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 import edu.colorado.phet.instrumentation.Thermometer;
@@ -21,6 +19,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.LinkedList;
 
 public class RigidHollowSphereModule extends IdealGasModule implements GasSource {
 
@@ -29,6 +28,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
     private HollowSphere sphere;
     private Class gasSpecies = HeavySpecies.class;
     private MoleculeFactoryPanel moleculeFactoryPanel;
+    private LinkedList moleculesInSphere = new LinkedList();
 
     public RigidHollowSphereModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.RigidHollowSphere" ) );
@@ -42,7 +42,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
         // Set the size of the box
         final Box2D box = getIdealGasModel().getBox();
-//        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
+        //        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
         sphere = new HollowSphere( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
                                                        box.getMinY() + box.getHeight() / 2 ),
                                    new Vector2D.Double( 0, 0 ),
@@ -131,8 +131,21 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
     }
 
     public void removeGasMoleculeFromSphere( Class gasSpecies ) {
-        Command cmd = new RemoveMoleculeCmd( getIdealGasModel(), gasSpecies );
-        cmd.doIt();
+        // Find a molecule of the right species, and remove it
+        boolean found = false;
+        GasMolecule gasMolecule = null;
+        for( int i = 0; !found && i < moleculesInSphere.size(); i++ ) {
+            gasMolecule = (GasMolecule)moleculesInSphere.get( i );
+            if( gasSpecies.isInstance( gasMolecule ) ) {
+                found = true;
+                moleculesInSphere.remove( gasMolecule );
+            }
+        }
+        if( !found ) {
+            gasMolecule = (GasMolecule)moleculesInSphere.removeFirst();
+        }
+        getIdealGasModel().removeModelElement( gasMolecule );
+        //        gasMolecule.removeYourselfFromSystem();
     }
 
     /**
@@ -163,6 +176,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                         gm = new LightSpecies( location, velocity, new Vector2D.Double() );
                         currNumLightMolecules += dn;
                     }
+                    moleculesInSphere.add( gm );
                     pumpMolecule( gm );
                 }
             }
