@@ -246,23 +246,25 @@ public class MacroModule extends Module {
                 
         String applicationLocale = System.getProperty( "javaws.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
+            SimStrings.setLocale( new Locale( applicationLocale ) );
         }
         String argsKey = "user.language=";
         if( args.length > 0 && args[0].startsWith( argsKey )) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
+            SimStrings.setLocale( new Locale( locale ));
         }
 
         SimStrings.setStrings( localizedStringsPath );
         
         SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
         final MacroModule module = new MacroModule( swingtimerclock );
-        PhetApplication phetapplication = new PhetApplication( new ApplicationDescriptor(
+        ApplicationDescriptor ad = new ApplicationDescriptor(
                                         SimStrings.get( "ConductivityApplication.title" ),
                                         SimStrings.get( "ConductivityApplication.description" ),
                                         SimStrings.get( "ConductivityApplication.version" ),
-                                        new FrameCenterer( 100, 100 ) ), module, swingtimerclock );
+                                        new FrameCenterer( 100, 100 ) );
+        ad.setName( "conductivity" );
+        PhetApplication phetapplication = new PhetApplication( ad, module, swingtimerclock );
         phetapplication.startApplication( module );
         swingtimerclock.addClockTickListener( new ClockTickListener() {
 
