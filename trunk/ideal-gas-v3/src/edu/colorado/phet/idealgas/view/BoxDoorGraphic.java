@@ -28,6 +28,7 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
     private int maxY;
     private Box2D box;
     private PhetImageGraphic imageGraphic;
+    private double openingMaxX;
 
     public BoxDoorGraphic( Component component,
                            int x, int y, int minX, int minY, int maxX, int maxY,
@@ -49,6 +50,7 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
         this.maxX = maxX;
         this.maxY = maxY;
         this.box = box;
+        this.openingMaxX = x + imageGraphic.getBounds().getWidth();
         box.addObserver( this );
 
         this.addCursorHandBehavior();
@@ -63,15 +65,16 @@ public class BoxDoorGraphic extends DefaultInteractiveGraphic implements SimpleO
         }
 
         public void translate( double dx, double dy ) {
+            // Update the position of the image on the screen
             x = (int)Math.min( maxX, Math.max( minX, x + dx ) );
             y = (int)Math.min( maxY, Math.max( minY, y + dy ) );
             imageGraphic.setPosition( x, y - (int)imageGraphic.getBounds().getHeight() );
-            //            imageGraphic.setPosition( x, y );
 
+            // Update the box's openinng
             opening[0] = new Point2D.Double( x + imageGraphic.getBounds().getWidth(),
-                                             y + imageGraphic.getBounds().getHeight() + 2 );
-            opening[1] = new Point2D.Double( box.getMaxX(),
-                                             y + imageGraphic.getBounds().getHeight() + 2 );
+                                             box.getMinY() );
+            opening[1] = new Point2D.Double( openingMaxX,
+                                             box.getMinY() );
             box.setOpening( opening );
         }
     }

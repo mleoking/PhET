@@ -1,9 +1,5 @@
 - Sam, clockStateListeners
 
-- door need to be painted differently
-
-- do we need Wall classes at all?
-
 - Fix up collisions with sphere. Can we get rid of constraints?
 
 - Combine collision detectors and collision classes into common collision experts
