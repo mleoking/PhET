@@ -290,7 +290,7 @@ public abstract class PhetGraphic {
      * @param transform the transform to preconcatenate
      */
     public void transform( AffineTransform transform ) {
-        preConcatenateTransform( new AffineTransform( transform ) );
+        preConcatenateTransform( transform );
     }
 
     /**
@@ -487,7 +487,8 @@ public abstract class PhetGraphic {
     protected void syncBounds() {
         if( boundsDirty ) {
             rebuildBounds();
-            if( !RectangleUtils.areEqual( bounds, lastBounds )) {
+            boundsDirty = false;
+            if( !RectangleUtils.areEqual( lastBounds, bounds ) ) {
                 notifyChanged();
             }
         }
