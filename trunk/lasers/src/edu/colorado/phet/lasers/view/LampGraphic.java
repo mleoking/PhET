@@ -39,7 +39,7 @@ public class LampGraphic extends PhetImageGraphic implements CollimatedBeam.Wave
         update();
     }
 
-    public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
+    public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
         update();
     }
 

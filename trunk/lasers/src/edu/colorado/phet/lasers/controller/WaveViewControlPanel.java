@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 
@@ -91,13 +91,13 @@ public class WaveViewControlPanel extends JPanel {
 
     private class LasingPhotonRBListener implements ActionListener {
         public void actionPerformed( ActionEvent e ) {
-            JRadioButton selection = GraphicsUtil.getSelection( lasingPhotonBG );
+            JRadioButton selection = SwingUtils.getSelection( lasingPhotonBG );
             if( selection == lasingPhotonViewRB ) {
+                PhotonGraphic.setAllVisible( true );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
             }
             if( selection == lasingWaveViewRB ) {
-                //                PhotonGraphic.setAllVisible( false );
-                PhotonGraphic.removeAll( module.getApparatusPanel() );
+                PhotonGraphic.setAllVisible( false );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_WAVE );
             }
         }
@@ -105,12 +105,13 @@ public class WaveViewControlPanel extends JPanel {
 
     private class PumpPhotonRBListener implements ActionListener {
         public void actionPerformed( ActionEvent e ) {
-            JRadioButton selection = GraphicsUtil.getSelection( pumpPhotonBG );
+            JRadioButton selection = SwingUtils.getSelection( pumpPhotonBG );
             if( selection == pumpPhotonViewRB ) {
+                PhotonGraphic.setAllVisible( true );
                 module.setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
             }
             if( selection == pumpCurtainViewRB ) {
-                PhotonGraphic.removeAll( module.getApparatusPanel() );
+                PhotonGraphic.setAllVisible( false );
                 module.setPumpingPhotonView( BaseLaserModule.PHOTON_CURTAIN );
             }
         }

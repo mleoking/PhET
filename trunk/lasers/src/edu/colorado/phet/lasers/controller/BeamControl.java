@@ -119,7 +119,7 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
     }
 
     public class LimitingWavelengthChangeListener implements CollimatedBeam.WavelengthChangeListener {
-        public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
+        public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
             int wavelengthValue = (int)( wavelengthSliderScaleFactor / event.getWavelength() );
             wavelengthValue = Math.min( wavelengthValue, wavelengthSlider.getValue() );
             wavelengthSlider.setEnabled( false );
@@ -128,7 +128,7 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
         }
     }
 
-    public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
+    public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
         wavelengthSlider.setEnabled( false );
         wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
         wavelengthSlider.setEnabled( true );

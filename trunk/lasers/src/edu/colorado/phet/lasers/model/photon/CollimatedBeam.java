@@ -33,8 +33,12 @@ import java.util.Random;
  */
 public class CollimatedBeam extends Particle {
 
+    ///////////////////////////////////////////////////////////////
+    // Class
     private static Random gaussianGenerator = new Random();
 
+    //////////////////////////////////////////////////////////////
+    // Instance
     private double nextTimeToProducePhoton = 0;
     private double wavelength;
     private Rectangle2D bounds;
@@ -53,7 +57,6 @@ public class CollimatedBeam extends Particle {
         this.setPosition( origin );
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
     }
-
 
     public void setBounds( Rectangle2D rect ) {
         this.bounds = rect;
@@ -107,13 +110,6 @@ public class CollimatedBeam extends Particle {
 
     public double getWavelength() {
         return wavelength;
-    }
-
-    public void addPhoton() {
-        final Photon newPhoton = Photon.create( this.getWavelength(),
-                                                new Point2D.Double( genPositionX(), genPositionY() ),
-                                                new Vector2D.Double( velocity ) );
-        eventRegistry.fireEvent( new PhotonEmittedEvent( this, newPhoton ) );
     }
 
     public void stepInTime( double dt ) {
@@ -205,7 +201,7 @@ public class CollimatedBeam extends Particle {
     }
 
     public interface WavelengthChangeListener extends EventListener {
-        public void wavelengthChangeOccurred( WavelengthChangeEvent event );
+        public void wavelengthChanged( WavelengthChangeEvent event );
     }
 
 }

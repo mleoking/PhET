@@ -1,7 +1,6 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.LaserSimulation;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
@@ -91,7 +90,8 @@ public class SingleAtomControlPanel extends LaserControlPanel {
             energyButtonPanel.add( threeLevelsRB );
             energyButtonPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.EnergyLevelsBorderTitle" ) ) );
 
-            String s = GraphicsUtil.formatMessage( SimStrings.get( "LaserControlPanel.EmissionCheckBox" ) );
+            String s = SimStrings.get( "LaserControlPanel.EmissionCheckBox" );
+            //            String s = GraphicsUtil.formatMessage( SimStrings.get( "LaserControlPanel.EmissionCheckBox" ) );
             final JCheckBox showHighToMidEmissionCB = new JCheckBox( s );
             showHighToMidEmissionCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

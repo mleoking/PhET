@@ -47,9 +47,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private double panelWidth = 400;
     private double panelHeight = 500;
     private double sliderWidth = 100;
+    private int squiggleHeight = 10;
 
     private Point2D origin = new Point2D.Double( 50, panelHeight - 30 );
-    private double levelLineOriginX = origin.getX() + 30;
+    private double levelLineOriginX = origin.getX();
     private double levelLineLength = panelWidth - levelLineOriginX - sliderWidth - 20;
 
     private EnergyLevelGraphic highLevelLine;
@@ -86,9 +87,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         highLevelLine = new EnergyLevelGraphic( this, HighEnergyState.instance(),
                                                 Color.blue, levelLineOriginX, levelLineLength );
         middleLevelLine = new EnergyLevelGraphic( this, MiddleEnergyState.instance(),
-                                                  Color.red, levelLineOriginX, levelLineLength );
+                                                  Color.red, levelLineOriginX + squiggleHeight * 2, levelLineLength );
         groundLevelLine = new EnergyLevelGraphic( this, GroundState.instance(),
-                                                  Color.black, levelLineOriginX, levelLineLength );
+                                                  Color.black, levelLineOriginX + squiggleHeight * 4, levelLineLength );
 
         this.setBackground( Color.white );
         this.addGraphic( highLevelLine );
@@ -115,6 +116,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                 highLevelLine.update( energyYTx );
                 middleLevelLine.update( energyYTx );
                 groundLevelLine.update( energyYTx );
+                update();
             }
         } );
     }
@@ -212,22 +214,76 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         double y2 = energyYTx.modelToView( pumpBeamEnergy );
 
         // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
-        int squiggleHeight = 10;
         stimSquiggle = computeSquiggleImage( seedBeamWavelength, 0, (int)( y0 - y1 ), squiggleHeight );
-        stimSquiggleTx = AffineTransform.getTranslateInstance( origin.getX(),
+        stimSquiggleTx = AffineTransform.getTranslateInstance( middleLevelLine.getPosition().getX(),
                                                                energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
         stimSquiggleTx.rotate( -Math.PI / 2 );
 
         pumpSquiggle = computeSquiggleImage( pumpBeamWavelength, 0, (int)( y0 - y2 ), squiggleHeight );
-        pumpSquiggleTx = AffineTransform.getTranslateInstance( origin.getX() + squiggleHeight * 3 / 2,
+        pumpSquiggleTx = AffineTransform.getTranslateInstance( highLevelLine.getPosition().getX(),
                                                                energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
         pumpSquiggleTx.rotate( -Math.PI / 2 );
-
 
         this.invalidate();
         this.repaint();
     }
 
+    /**
+     *
+     */
+    private BufferedImage computeSquiggleImage( double wavelength, double phaseAngle, int length, int height ) {
+
+        int arrowHeight = height;
+        // A buffered image for generating the image data
+        BufferedImage img = new BufferedImage( length + 2 * arrowHeight,
+                                               height,
+                                               BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2d = img.createGraphics();
+        int kPrev = height / 2;
+        int iPrev = 0;
+        Color c = VisibleColor.wavelengthToColor( wavelength );
+        double freqFactor = 10 * wavelength / 680;
+        for( int i = 0; i < length - arrowHeight * 2; i++ ) {
+            int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
+            for( int j = 0; j < height; j++ ) {
+                if( j == k ) {
+                    g2d.setColor( c );
+                    g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
+                    iPrev = i;
+                    kPrev = k;
+                }
+            }
+        }
+        Arrow head = new Arrow( new Point2D.Double( arrowHeight, height / 2 ),
+                                new Point2D.Double( 0, height / 2 ),
+                                arrowHeight, height * 1.2, 2 );
+        Arrow tail = new Arrow( new Point2D.Double( length - arrowHeight, height / 2 ),
+                                new Point2D.Double( length, height / 2 ),
+                                arrowHeight, height * 1.2, 2 );
+        g2d.fill( head.getShape() );
+        g2d.fill( tail.getShape() );
+        g2d.dispose();
+        return img;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Event handlers
+    //
+    public void wavelengthChanged( CollimatedBeam.WavelengthChangeEvent event ) {
+        CollimatedBeam beam = (CollimatedBeam)event.getSource();
+        if( beam == model.getPumpingBeam() ) {
+            pumpBeamWavelength = beam.getWavelength();
+            pumpBeamEnergy = Photon.wavelengthToEnergy( pumpBeamWavelength );
+        }
+        if( beam == model.getSeedBeam() ) {
+            seedBeamWavelength = beam.getWavelength();
+            seedBeamEnergy = Photon.wavelengthToEnergy( seedBeamWavelength );
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Inner classes
+    //
     public class EnergyLifetimeSlider extends JSlider implements AtomicState.MeanLifetimeChangeListener {
         private int maxLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME;
         //        private int maxLifetime = 100;
@@ -272,55 +328,5 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             this.setValue( (int)event.getMeanLifetime() );
             this.setEnabled( true );
         }
-    }
-
-    public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
-        CollimatedBeam beam = (CollimatedBeam)event.getSource();
-        if( beam == model.getPumpingBeam() ) {
-            pumpBeamWavelength = beam.getWavelength();
-            pumpBeamEnergy = Photon.wavelengthToEnergy( pumpBeamWavelength );
-        }
-        if( beam == model.getSeedBeam() ) {
-            seedBeamWavelength = beam.getWavelength();
-            seedBeamEnergy = Photon.wavelengthToEnergy( seedBeamWavelength );
-        }
-    }
-
-    /**
-     *
-     */
-    private BufferedImage computeSquiggleImage( double wavelength, double phaseAngle, int length, int height ) {
-
-        int arrowHeight = height;
-        // A buffered image for generating the image data
-        BufferedImage img = new BufferedImage( length + 2 * arrowHeight,
-                                               height,
-                                               BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g2d = img.createGraphics();
-        int kPrev = height / 2;
-        int iPrev = 0;
-        Color c = VisibleColor.wavelengthToColor( wavelength );
-        double freqFactor = 10 * wavelength / 680;
-        for( int i = 0; i < length - arrowHeight * 2; i++ ) {
-            int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
-            for( int j = 0; j < height; j++ ) {
-                if( j == k ) {
-                    g2d.setColor( c );
-                    g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
-                    iPrev = i;
-                    kPrev = k;
-                }
-            }
-        }
-        Arrow head = new Arrow( new Point2D.Double( arrowHeight, height / 2 ),
-                                new Point2D.Double( 0, height / 2 ),
-                                arrowHeight, height * 1.2, 2 );
-        Arrow tail = new Arrow( new Point2D.Double( length - arrowHeight, height / 2 ),
-                                new Point2D.Double( length, height / 2 ),
-                                arrowHeight, height * 1.2, 2 );
-        g2d.fill( head.getShape() );
-        g2d.fill( tail.getShape() );
-        g2d.dispose();
-        return img;
     }
 }
