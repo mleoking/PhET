@@ -173,7 +173,6 @@ public class CompassGridModule extends Module {
         // Debugger
         DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
         debugger.setLocationColor( Color.GREEN );
-//        debugger.add( magnetGraphic );
 //        debugger.add( probeGraphic );
         apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
         
@@ -204,7 +203,6 @@ public class CompassGridModule extends Module {
      * Resets everything to the initial values.
      */
     public void reset() {
-        // System.out.println( "reset" ); // DEBUG
         _controlPanel.setBarMagnetStrength( MAGNET_STRENGTH );
         _controlPanel.setBarMagnetSize( MAGNET_SIZE );
         _controlPanel.setGridSpacing( GRID_X_SPACING, GRID_Y_SPACING );
@@ -215,7 +213,6 @@ public class CompassGridModule extends Module {
      * Flips the magnet's polarity.
      */
     public void flipMagnetPolarity() {
-        //System.out.println( "flipMagnetPolarity" ); // DEBUG
         double direction = _magnetModel.getDirection();
         direction = ( direction + 180 ) % 360;
         _magnetModel.setDirection( direction );
@@ -227,7 +224,6 @@ public class CompassGridModule extends Module {
      * @param strength the strength
      */
     public void setMagnetStrength( double strength ) {
-        //System.out.println( "setMagnetStrength " + strength ); // DEBUG
         _magnetModel.setStrength( strength );
     }
     
@@ -238,7 +234,6 @@ public class CompassGridModule extends Module {
      * @param height the height
      */
     public void setMagnetSize( Dimension size ) {
-        //System.out.println( "setBarMagnetSize " + size );
         _magnetModel.setSize( size );
     }
     
@@ -249,7 +244,6 @@ public class CompassGridModule extends Module {
      * @param y space between compasses in the Y direction
      */
     public void setGridSpacing( int x, int y ) {
-        //System.out.println( "setGridSpacing " + x + "x" + y ); // DEBUG
         _gridGraphic.setSpacing( x, y );
     }
     
@@ -259,7 +253,6 @@ public class CompassGridModule extends Module {
      * @param size the size
      */
     public void setGridNeedleSize( Dimension size ) {
-        //System.out.println( "setNeedleSize " + size ); // DEBUG
         _gridGraphic.setNeedleSize( size );
     }
 }
