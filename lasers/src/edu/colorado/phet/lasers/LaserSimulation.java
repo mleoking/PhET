@@ -89,10 +89,11 @@ public class LaserSimulation extends PhetApplication {
     private static class LaserAppLookAndFeel extends LandF {
         static Color yellowishBackground = new Color( 255, 255, 214 );
         //        static Color yellowishBackground = new Color( 249, 221, 162 );
-        static Color greenishBackground = new Color( 235, 243, 205 );
+        static Color greenishBackground = new Color( 30, 60, 30 );
         static Color purpleishBackground = new Color( 200, 197, 220 );
-        static Color backgroundColor = yellowishBackground;
-        //        static Color backgroundColor = greenishBackground;
+        //        static Color backgroundColor = yellowishBackground;
+        //        static Color backgroundColor = yellowishBackground;
+        static Color backgroundColor = greenishBackground;
         //        static Color backgroundColor = purpleishBackground;
         //        static Color buttonBackgroundColor = new Color( 220, 230, 160 );
         static Color buttonBackgroundColor = new Color( 180, 170, 160 );

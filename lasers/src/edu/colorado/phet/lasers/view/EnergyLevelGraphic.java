@@ -107,7 +107,7 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
             // ground state has a wavelength that is below visible, and we want a black line, this
             // is the best hack to use.
             color = new Color( color.getRed(), color.getGreen(), color.getBlue() );
-            int y = (int)Math.pow( energyYTx.modelToView( atomicState.getEnergyLevel() ), .98 );
+            int y = (int)energyYTx.modelToView( atomicState.getEnergyLevel() );
             levelLine.setRect( xLoc, y, width, thickness );
             setBoundsDirty();
             repaint();
