@@ -25,8 +25,9 @@ public abstract class Body extends SimpleObservable implements ModelElement {
     protected Body() {
     }
 
-    protected Body( Point2D.Double position, Vector2D velocity,
+    protected Body( Point2D.Double location, Vector2D velocity,
                     Vector2D acceleration, float mass, float charge ) {
+        setLocation( location );
         setVelocity( velocity );
         setAcceleration( acceleration );
         setMass( mass );
@@ -39,6 +40,10 @@ public abstract class Body extends SimpleObservable implements ModelElement {
 
     public void setLocation( double x, double y ) {
         location.setLocation( x, y );
+    }
+
+    public void setLocation( Point2D.Double location ) {
+        this.location.setLocation( location );
     }
 
     public double getOmega() {

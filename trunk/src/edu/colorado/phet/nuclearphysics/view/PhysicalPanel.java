@@ -20,6 +20,7 @@ public class PhysicalPanel extends ApparatusPanel {
     private AffineTransform atx = new AffineTransform();
     private HashMap modelElementToGraphicMap = new HashMap();
     private Point2D.Double origin = new Point2D.Double();
+    private AffineTransform originTx = new AffineTransform();
 
     public PhysicalPanel() {
         this.setBackground( backgroundColor );
@@ -29,7 +30,8 @@ public class PhysicalPanel extends ApparatusPanel {
         NucleusGraphic ng = new NucleusGraphic( nucleus );
         // Register the graphic to the model element
         modelElementToGraphicMap.put( nucleus, ng );
-        addGraphic( ng );
+        addGraphic( ng, originTx );
+//        addGraphic( ng );
     }
 
     public void removeNucleus( Nucleus nucleus ) {
@@ -38,7 +40,8 @@ public class PhysicalPanel extends ApparatusPanel {
     }
 
     public synchronized void addGraphic( Graphic graphic ) {
-        super.addGraphic( graphic );    //To change body of overridden methods use File | Settings | File Templates.
+        super.addGraphic( graphic, originTx );
+//        super.addGraphic( graphic );
     }
 
     public synchronized void removeGraphic( Graphic graphic ) {
@@ -47,6 +50,8 @@ public class PhysicalPanel extends ApparatusPanel {
 
     protected synchronized void paintComponent( Graphics graphics ) {
         origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );
+
+        originTx.setToTranslation( origin.getX(), origin.getY() );
         Graphics2D g2 = (Graphics2D)graphics;
         AffineTransform orgTx = g2.getTransform();
         atx.setToIdentity();

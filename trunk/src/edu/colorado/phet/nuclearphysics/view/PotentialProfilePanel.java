@@ -46,6 +46,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private static String yAxisLabel = "Potential Energy";
     private static Font axisLabelFont;
     private static float ghostAlpha = 0.2f;
+    private static double profileLayer = 10;
+    private static double nucleusLayer = 20;
 
     static {
         String family = "SansSerif";
@@ -55,6 +57,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     private static AffineTransform atx = new AffineTransform();
+    ;
 
     public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
         atx.setToIdentity();
@@ -75,7 +78,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
     //
     // Instance fields and methods
     //
-    private ArrayList nucleusGraphics = new ArrayList();
     private NucleusGraphic decayGraphic;
     private PotentialProfileGraphic profileGraphic;
     private PotentialProfile potentialProfile;
@@ -83,40 +85,35 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private Point2D.Double strLoc = new Point2D.Double();
     private Line2D.Double xAxis = new Line2D.Double();
     private Line2D.Double yAxis = new Line2D.Double();
+    private AffineTransform originTx = new AffineTransform();
+    private AffineTransform wellTx = new AffineTransform();
+    private ArrayList wellParticles = new ArrayList();
 
     public PotentialProfilePanel( PotentialProfile potentialProfile ) {
-        origin = new Point2D.Double( 250, 600 );
+        origin = new Point2D.Double( 250, 250 );
         this.setBackground( backgroundColor );
         this.potentialProfile = potentialProfile;
         profileGraphic = new PotentialProfileGraphic( potentialProfile );
-        addGraphic( profileGraphic );
     }
 
     private void addNucleusGraphic( NucleusGraphic nucleusGraphic ) {
-        nucleusGraphics.add( nucleusGraphic );
+        this.addGraphic( nucleusGraphic, nucleusLayer, originTx );
+    }
+
+    public void addOriginCenteredGraphic( Graphic graphic ) {
+        this.addGraphic( graphic, originTx );
     }
 
     public PotentialProfile getPotentialProfile() {
         return potentialProfile;
     }
 
-    public void addGraphic( Graphic graphic ) {
-        if( graphic instanceof PotentialProfileGraphic ) {
-            addPotentialProfile( (PotentialProfileGraphic)graphic );
-        }
-        if( graphic instanceof NucleusGraphic ) {
-            addNucleusGraphic( (NucleusGraphic)graphic );
-        }
-        else {
-            super.addGraphic( graphic );
-        }
-    }
-
     protected void paintComponent( Graphics graphics ) {
 
         // Center the profile in the panel
         origin.setLocation( this.getWidth() / 2, this.getHeight() * 3 / 4 );
-//        origin.setLocation( this.getWidth() / 2, this.getHeight() * 2 / 3 );
+        originTx.setToTranslation( origin.getX(), origin.getY() );
+        wellTx.setToTranslation( origin.getX(), origin.getY() - potentialProfile.getWellPotential() - AlphaParticle.RADIUS );
 
         // Draw everything that isn't special to this panel
         super.paintComponent( graphics );
@@ -125,39 +122,27 @@ public class PotentialProfilePanel extends ApparatusPanel {
         // Draw axes
         drawAxes( g2 );
 
-        // Draw nuclei
-        for( int i = 0; i < nucleusGraphics.size(); i++ ) {
-            NucleusGraphic nucleusGraphic = (NucleusGraphic)nucleusGraphics.get( i );
-            Nucleus nucleus = nucleusGraphic.getNucleus();
-            double xStat = nucleus.getLocation().getX();
-            double yStat = nucleus.getLocation().getY();
+        // Draw "ghost" alpah particles in the potential well
+        for( int i = 0; i < wellParticles.size(); i++ ) {
+            NucleusGraphic nucleusGraphic = (NucleusGraphic)wellParticles.get( i );
+            double xStat = nucleusGraphic.getNucleus().getLocation().getX();
+            double yStat = nucleusGraphic.getNucleus().getLocation().getY();
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
-            double x = origin.getX() + d;
-            double y = ( nucleus instanceof AlphaParticle ? potentialProfile.getWellPotential() + AlphaParticle.RADIUS : 0 );
-            // Draw one version referenced off the origin
-            nucleusGraphic.paint( g2, (int)( origin.getX() + xStat ), (int)( origin.getY() + yStat ) );
-            // Draw a "ghost" version up at the well for alpha particles
-            if( nucleusGraphic.getNucleus() instanceof AlphaParticle ) {
-                float alpha = ghostAlpha;
-                AlphaSetter.set( g2, ghostAlpha );
-                nucleusGraphic.paint( g2, (int)x, (int)( origin.getY() - y ) );
-                AlphaSetter.set( g2, 1 );
-            }
+
+            AlphaSetter.set( g2, ghostAlpha );
+            AffineTransform orgTx = g2.getTransform();
+            g2.transform( wellTx );
+            nucleusGraphic.paint( g2, (int)d, 0 );
+            AlphaSetter.set( g2, 1 );
+            g2.setTransform( orgTx );
         }
 
         if( decayGraphic != null ) {
             DecayNucleus nucleus = (DecayNucleus)decayGraphic.getNucleus();
             // Note: -y is needed because we're currently working in view coordinates. The profile is a cubic
             // in view coordinates
-            double y = nucleus.getPotentialEnergy();
-//            double x = potentialProfile.getHillX( -y ) *
-//                       ( nucleus.getLocation().getX() > 0 ? -1 : 1 );
-
+            double y = Math.max( nucleus.getPotentialEnergy(), 0 );
             double x = nucleus.getLocation().getX();
-//            double yTest = potentialProfile.getHillY( nucleus.getLocation().distance( 0, 0 ) );
-//            yTest = nucleus.getForce( nucleus.getLocation().distance( 0, 0 ) );
-//            yTest = ( Double.isNaN( yTest ) ? 0 : yTest );
-//            y = -yTest;
 
             // Draw a ghost coming down the profile first, then the real thing on the x axis
             AlphaSetter.set( g2, ghostAlpha );
@@ -183,21 +168,12 @@ public class PotentialProfilePanel extends ApparatusPanel {
         strLoc.setLocation( origin.getX(), fm.stringWidth( yAxisLabel ) + 10 );
         AffineTransform strTx = rotateInPlace( -Math.PI / 2, strLoc.getX(), strLoc.getY() );
         AffineTransform orgTx = g2.getTransform();
-        g2.setTransform( strTx );
+        g2.transform( strTx );
         g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
         g2.setTransform( orgTx );
         strLoc.setLocation( this.getWidth() - fm.stringWidth( xAxisLabel ) - 10,
                             origin.getY() + fm.getHeight() );
         g2.drawString( xAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
-    }
-
-    private void addPotentialProfile( PotentialProfileGraphic profileGraphic ) {
-        if( this.profileGraphic != null ) {
-            removeGraphic( this.profileGraphic );
-        }
-        this.profileGraphic = profileGraphic;
-        this.profileGraphic.setOrigin( origin );
-        super.addGraphic( profileGraphic );
     }
 
     public void setNucleus( Nucleus nucleus ) {
@@ -207,22 +183,28 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
     public void setPotentialProfile( PotentialProfile potentialProfile ) {
         this.potentialProfile = potentialProfile;
-        this.addPotentialProfile( new PotentialProfileGraphic( potentialProfile ) );
+        PotentialProfileGraphic ppg = new PotentialProfileGraphic( potentialProfile );
+        ppg.setOrigin( new Point2D.Double( 0, 0 ) );
+        addGraphic( ppg, nucleusLayer, originTx );
     }
 
     public void addDecayProduct( Nucleus decayNucleus ) {
         this.decayGraphic = new NucleusGraphic( decayNucleus );
     }
 
-
     public void addAlphaParticle( AlphaParticle alphaParticle ) {
         NucleusGraphic graphic = new NucleusGraphic( alphaParticle );
         alphaParticle.addObserver( graphic );
-        this.addGraphic( graphic );
+        this.addOriginCenteredGraphic( graphic );
+
+        // Add a graphic up in the potential well for the graphic
+        NucleusGraphic wellGraphic = new NucleusGraphic( alphaParticle );
+        wellParticles.add( wellGraphic );
+        alphaParticle.addObserver( wellGraphic );
     }
 
     public void clear() {
         this.decayGraphic = null;
-        this.nucleusGraphics.clear();
+        this.removeAllGraphics();
     }
 }

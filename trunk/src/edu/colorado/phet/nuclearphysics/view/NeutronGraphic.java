@@ -21,4 +21,17 @@ public class NeutronGraphic extends ParticleGraphic {
     public NeutronGraphic( NuclearParticle particle ) {
         super( particle, NeutronGraphic.color );
     }
+
+    public void paint( Graphics2D g ) {
+        super.paint( g );
+    }
+
+    public void paint( Graphics2D g, double x, double y ) {
+        super.paint( g, x, y );    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+
+    public void update() {
+        super.update();
+    }
 }

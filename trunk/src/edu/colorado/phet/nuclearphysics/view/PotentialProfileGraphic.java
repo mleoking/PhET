@@ -54,8 +54,10 @@ public class PotentialProfileGraphic implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
-        g.drawImage( image, (int)origin.getX() - image.getWidth( imgObs ) / 2,
-                     (int)origin.getY() - image.getHeight( imgObs ), imgObs );
+        g.drawImage( image, -image.getWidth( imgObs ) / 2,
+                     -image.getHeight( imgObs ), imgObs );
+//        g.drawImage( image, (int)origin.getX() - image.getWidth( imgObs ) / 2,
+//                     (int)origin.getY() - image.getHeight( imgObs ), imgObs );
 
 //        GraphicsUtil.setAntiAliasingOn( g );
 //        g.setColor( color );
