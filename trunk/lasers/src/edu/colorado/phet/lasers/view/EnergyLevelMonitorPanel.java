@@ -17,10 +17,7 @@ import edu.colorado.phet.common.math.ModelViewTx1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -41,6 +38,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
@@ -88,6 +86,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private AffineTransform pumpSquiggleTx;
     private double seedBeamWavelength;
     private double pumpBeamWavelength;
+    private BufferedImage baseSphereImg;
 
     /**
      *
@@ -276,39 +275,35 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         GraphicsUtil.setAntiAliasingOn( g2 );
 
         // Draw ground level atoms
-        g2.setColor( Color.gray );
-        for( int i = 0; i < numGroundLevel; i++ ) {
-            g2.fillArc( (int)( groundLevelLine.getPosition().getX() + ( atomDiam * i ) ),
-                        (int)( groundLevelLine.getPosition().getY() - atomDiam ),
-                        atomDiam,
-                        atomDiam,
-                        0, 360 );
-        }
+//        g2.setColor( Color.gray );
+        drawAtomsInLevel( g2, Color.darkGray, groundLevelLine, numGroundLevel );
 
         // Draw middle level atoms
         if( numLevels >= 2 ) {
             Color c = VisibleColor.wavelengthToColor( MiddleEnergyState.instance().getWavelength() );
-            g2.setColor( c );
-            for( int i = 0; i < numMiddleLevel; i++ ) {
-                g2.fillArc( (int)( middleLevelLine.getPosition().getX() + ( atomDiam * i ) ),
-                            (int)( middleLevelLine.getPosition().getY() - atomDiam ),
-                            atomDiam,
-                            atomDiam,
-                            0, 360 );
-            }
+            drawAtomsInLevel( g2, c, middleLevelLine, numMiddleLevel );
+//            g2.setColor( c );
+//            for( int i = 0; i < numMiddleLevel; i++ ) {
+//                g2.fillArc( (int)( middleLevelLine.getPosition().getX() + ( atomDiam * i ) ),
+//                            (int)( middleLevelLine.getPosition().getY() - atomDiam ),
+//                            atomDiam,
+//                            atomDiam,
+//                            0, 360 );
+//            }
         }
 
         // Draw high level atoms, if the level is enabled
         if( numLevels >= 3 ) {
             Color c = VisibleColor.wavelengthToColor( HighEnergyState.instance().getWavelength() );
-            g2.setColor( c );
-            for( int i = 0; i < numHighLevel; i++ ) {
-                g2.fillArc( (int)( highLevelLine.getPosition().getX() + ( atomDiam * i ) ),
-                            (int)( highLevelLine.getPosition().getY() - atomDiam ),
-                            atomDiam,
-                            atomDiam,
-                            0, 360 );
-            }
+            drawAtomsInLevel( g2, c, highLevelLine, numHighLevel );
+//            g2.setColor( c );
+//            for( int i = 0; i < numHighLevel; i++ ) {
+//                g2.fillArc( (int)( highLevelLine.getPosition().getX() + ( atomDiam * i ) ),
+//                            (int)( highLevelLine.getPosition().getY() - atomDiam ),
+//                            atomDiam,
+//                            atomDiam,
+//                            0, 360 );
+//            }
         }
 
         // Draw squiggles showing what energy photons the beams are putting out
@@ -322,6 +317,34 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         gs.restoreGraphics();
     }
 
+    private void drawAtomsInLevel( Graphics2D g2, Color color, EnergyLevelGraphic line, int numInLevel ) {
+        BufferedImage bi = getAtomImage( color );
+        double scale = (double)atomDiam / bi.getWidth();
+        AffineTransform atx = new AffineTransform();
+        atx.translate( line.getPosition().getX() - atomDiam,
+                       line.getPosition().getY() - atomDiam );
+        atx.scale( scale, scale );
+        for( int i = 0; i < numInLevel; i++ ) {
+            atx.translate( atomDiam / scale, 0 );
+            g2.drawRenderedImage( bi, atx );
+        }
+    }
+
+    private BufferedImage getAtomImage( Color color ) {
+        if( baseSphereImg == null ) {
+            try {
+                baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-med.gif" );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
+        BufferedImage atomImg = new BufferedImage( baseSphereImg.getWidth(), baseSphereImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        op.filter( baseSphereImg, atomImg );
+        return atomImg;
+
+    }
 
     ////////////////////////////////////////////////////////////////////////////////
     // Event handlers

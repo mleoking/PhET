@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.common.view.util;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -24,7 +22,7 @@ import java.awt.image.IndexColorModel;
  * Class: ColorFromWavelength
  * Package: edu.colorado.phet.coreadditions
  * Author: Another Guy
- *
+ * <p/>
  * This is a BufferedImageOp that creates a duotone image of an input BufferedImage. The color of the duotone is
  * based on a baseColor specified in the ColorFromWavelength constructor.
  */
@@ -75,6 +73,13 @@ public class MakeDuotoneImageOp implements BufferedImageOp {
         return dest;
     }
 
+    /**
+     * Creates a new duotone image.
+     *
+     * @param src
+     * @param destCM
+     * @return
+     */
     public BufferedImage createCompatibleDestImage( BufferedImage src, ColorModel destCM ) {
         BufferedImage bi = new BufferedImage( src.getWidth(), src.getHeight(),
                                               src.getType(), (IndexColorModel)destCM );

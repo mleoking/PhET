@@ -45,8 +45,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     //////////////////////////////////////////////////////////////////////////////////////
     // Class
     //
-    static protected int s_imgHeight = (int)Photon.RADIUS;
-    static protected int s_imgLength = 20;
+    static public final int s_imgHeight = (int)Photon.RADIUS;
+    static public final int s_imgLength = 20;
 
     // List of inactive instances (the free pool)
     static private ArrayList s_inactiveInstances = new ArrayList();

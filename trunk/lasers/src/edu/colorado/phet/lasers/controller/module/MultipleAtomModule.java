@@ -103,14 +103,15 @@ public class MultipleAtomModule extends BaseLaserModule {
         // Pumping beam lamps
         int numLamps = 8;
         double yOffset = 10;
-        // The lamps should take up about half the space above the cavity
+        // The lamps should span the cavity
         double pumpScaleX = ( ( pumpingBeamBounds.getY() ) - yOffset ) / gunBI.getWidth();
         double pumpScaleY = ( pumpingBeamBounds.getWidth() / numLamps ) / gunBI.getHeight();
         AffineTransformOp atxOp2 = new AffineTransformOp( AffineTransform.getScaleInstance( pumpScaleX, pumpScaleY ), AffineTransformOp.TYPE_BILINEAR );
         BufferedImage pumpBeamImage = atxOp2.filter( gunBI, null );
         for( int i = 0; i < numLamps; i++ ) {
             AffineTransform tx = new AffineTransform();
-            tx.translate( pumpingBeamBounds.getX() + pumpBeamImage.getHeight() * ( i + 1 ), yOffset );
+            tx.translate( pumpingBeamBounds.getX() + pumpBeamImage.getHeight() * ( i + 1 ),
+                          yOffset );
             tx.rotate( Math.PI / 2 );
             BufferedImage img = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( pumpBeamImage, null );
             PhetImageGraphic imgGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), img, tx );
