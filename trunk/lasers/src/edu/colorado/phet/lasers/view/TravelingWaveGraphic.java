@@ -41,9 +41,6 @@ public class TravelingWaveGraphic extends WaveGraphic {
     }
 
     public void stepInTime( double dt ) {
-
-        update();
-
         wavePath.reset();
         elapsedTime += dt;
         for( int i = 0; i < numPts; i++ ) {
@@ -56,15 +53,6 @@ public class TravelingWaveGraphic extends WaveGraphic {
                 wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
             }
         }
-        listenerProxy.waveChanged( new ChangeEvent( this ) );
+        update();
     }
-
-//    public void paint( Graphics2D g2 ) {
-//        GraphicsState gs = new GraphicsState( g2 );
-////        g2.setColor( actualColor );
-////        g2.fill( wavePath.getBounds() );
-//        super.paint( g2 );
-//        gs.restoreGraphics();
-//    }
-
 }
