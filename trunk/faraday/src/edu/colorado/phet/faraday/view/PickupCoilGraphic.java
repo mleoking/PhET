@@ -12,15 +12,13 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
+import java.awt.Rectangle;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.LightBulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.VoltMeter;
@@ -32,14 +30,17 @@ import edu.colorado.phet.faraday.model.VoltMeter;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PickupCoilGraphic {
+public class PickupCoilGraphic implements SimpleObserver {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-
-    private ForegroundGraphic _foreground;
-    private BackgroundGraphic _background;
+    
+    private PickupCoil _pickupCoilModel;
+    private CoilGraphic _coilGraphic;
+    private LightBulbGraphic _lightBulbGraphic;
+    private VoltMeterGraphic _voltMeterGraphic;
+    private CompositePhetGraphic _foreground, _background;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -58,12 +59,42 @@ public class PickupCoilGraphic {
             PickupCoil pickupCoilModel, 
             LightBulb lightBulbModel,
             VoltMeter voltMeterModel ) {
+        
         assert ( component != null );
         assert ( pickupCoilModel != null );
         assert ( lightBulbModel != null );
         assert ( voltMeterModel != null );
-        _foreground = new ForegroundGraphic( component, pickupCoilModel, lightBulbModel, voltMeterModel );
-        _background = new BackgroundGraphic( component, pickupCoilModel, lightBulbModel );
+        
+        _pickupCoilModel = pickupCoilModel;
+        _pickupCoilModel.addObserver( this );
+        
+        // Graphics components
+        _coilGraphic = new CoilGraphic( component, pickupCoilModel );
+        _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, pickupCoilModel.getMagnet() );
+        _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, pickupCoilModel.getMagnet() );
+        
+        // Foreground composition
+        _foreground = new CompositePhetGraphic( component );
+        _foreground.addGraphic( _coilGraphic.getForeground() );
+        _foreground.addGraphic( _lightBulbGraphic );
+        _foreground.addGraphic( _voltMeterGraphic );
+        
+        // Background composition
+        _background = new CompositePhetGraphic( component );
+        _background.addGraphic( _coilGraphic.getBackground() );
+        
+        // Interactivity
+        _foreground.setCursorHand();
+        _background.setCursorHand();
+        TranslationListener listener = new TranslationListener() {
+            public void translationOccurred( TranslationEvent e ) {
+                double x = _pickupCoilModel.getX() + e.getDx();
+                double y = _pickupCoilModel.getY() + e.getDy();
+                _pickupCoilModel.setLocation( x, y );
+            }
+        };
+        _foreground.addTranslationListener( listener );
+        _background.addTranslationListener( listener );
     }
     
     /**
@@ -71,10 +102,11 @@ public class PickupCoilGraphic {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _foreground.finalize();
-        _foreground = null;
-        _background.finalize();
-        _background = null;
+        _pickupCoilModel.removeObserver( this );
+        _pickupCoilModel = null;
+        _coilGraphic.finalize();
+        _lightBulbGraphic.finalize();
+        _voltMeterGraphic.finalize();
     }
  
     //----------------------------------------------------------------------------
@@ -98,297 +130,33 @@ public class PickupCoilGraphic {
     public PhetGraphic getBackground() {
         return _background;
     }
- 
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-
-    /**
-     * ForegroundGraphic contains the foreground layers of the PickupCoilGraphic.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private class ForegroundGraphic extends CompositePhetGraphic implements SimpleObserver {
-
-        //----------------------------------------------------------------------------
-        // Instance data
-        //----------------------------------------------------------------------------
-
-        private PickupCoil _pickupCoilModel;
-        private LightBulb _lightBulbModel;
-        private PhetImageGraphic _coilFront;
-        private PhetImageGraphic _electronsFront;
-        private LightBulbGraphic _lightBulbGraphic;
-        private VoltMeterGraphic _voltMeterGraphic;
-
-        //----------------------------------------------------------------------------
-        // Constructors
-        //----------------------------------------------------------------------------
-
-        /**
-         * Sole constructor.
-         * 
-         * @param component the parent Component
-         * @param pickupCoilModel the pickup coil model
-         * @param lightBulbModel the lightbulb model
-         * @param voltMeterModel the voltmeter model
-         */
-        public ForegroundGraphic( 
-                Component component, 
-                PickupCoil pickupCoilModel,  
-                LightBulb lightBulbModel, 
-                VoltMeter voltMeterModel ) {
-            super( component );
-
-            _pickupCoilModel = pickupCoilModel;
-            _pickupCoilModel.addObserver( this );
-            _lightBulbModel = lightBulbModel;
-            _lightBulbModel.addObserver( this );
-
-            // Coil parts -- these are set in update method
-            _coilFront = null;
-
-            // Lightbulb
-            _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, pickupCoilModel.getMagnet() );
-
-            // Voltmeter
-            _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, pickupCoilModel.getMagnet() );
-
-            // Interactivity
-            super.setCursorHand();
-            super.addTranslationListener( new TranslationListener() {
-
-                public void translationOccurred( TranslationEvent e ) {
-                    double x = _pickupCoilModel.getX() + e.getDx();
-                    double y = _pickupCoilModel.getY() + e.getDy();
-                    _pickupCoilModel.setLocation( x, y );
-                }
-            } );
-
-            update();
-        }
-
-        /**
-         * Finalizes an instance of this type.
-         * Call this method prior to releasing all references to an object of this type.
-         */
-        public void finalize() {
-            _pickupCoilModel.removeObserver( this );
-            _pickupCoilModel = null;
-            _lightBulbModel.removeObserver( this );
-            _lightBulbModel = null;
-        }
-
-        //----------------------------------------------------------------------------
-        // Override inherited methods
-        //----------------------------------------------------------------------------
-
-        /**
-         * Updates when we become visible.
-         * 
-         * @param visible true for visible, false for invisible
-         */
-        public void setVisible( boolean visible ) {
-            super.setVisible( visible );
-            update();
-        }
-
-        //----------------------------------------------------------------------------
-        // SimpleObserver implementation
-        //----------------------------------------------------------------------------
-
-        /**
-         * Updates the view to match the model.
-         */
-        public void update() {
-            if ( isVisible() ) {
-
-                // Position this composite graphic.
-                setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
-
-                // Set the number of loops in the coil.
-                {
-                    Component component = getComponent();
-                    int numberOfLoops = _pickupCoilModel.getNumberOfLoops();
-                    if ( numberOfLoops == 1 ) {
-                        _coilFront = new PhetImageGraphic( component, FaradayConfig.COIL1_FRONT_IMAGE );
-                        _electronsFront = new PhetImageGraphic( component, FaradayConfig.ELECTRONS1_FRONT_IMAGE );
-                    }
-                    else {
-                        _coilFront = new PhetImageGraphic( component, FaradayConfig.COIL2_FRONT_IMAGE );
-                        _electronsFront = new PhetImageGraphic( component, FaradayConfig.ELECTRONS2_FRONT_IMAGE );
-                    }
-                    
-                    clear(); // remove all graphics
-                    addGraphic( _coilFront );
-                    addGraphic( _electronsFront );
-                    addGraphic( _lightBulbGraphic );
-                    addGraphic( _voltMeterGraphic );
-
-                    // Registration point at center.
-                    // Assumes all coil-related images are the same size.
-                    int rx = _coilFront.getImage().getWidth() / 2;
-                    int ry = _coilFront.getImage().getHeight() / 2;
-                    _coilFront.setRegistrationPoint( rx, ry );
-                    _electronsFront.setRegistrationPoint( rx, ry );
-                }
-
-                // Set the area of the loops.
-                // Assumes both images are the same size and the loop orientation is vertical.
-                double scale = ( 2 * _pickupCoilModel.getRadius() ) / _coilFront.getImage().getHeight();
-                _coilFront.clearTransform();
-                _coilFront.scale( scale );
-                _electronsFront.clearTransform();
-                _electronsFront.scale( scale );
-
-                // Position the bulb and meter so that they are at the top of the coil.
-                int x = 0;
-                int y = (int) -( _coilFront.getBounds().getHeight() / 2 );
-                _lightBulbGraphic.setLocation( x, y );
-                _voltMeterGraphic.setLocation( x, y );
-
-                // Show electrons only if the lightbulb is enabled.
-                _electronsFront.setVisible( _lightBulbModel.isEnabled() );
-                
-                repaint();
-            }
-        }
-    } // class ForegroundGraphic
     
     /**
-     * BackgroundGraphic contains the background layers of the PickupCoilGraphic.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
+     * Gets the coil graphic.
+     * This is intended for use in debugging, or for connecting a control panel.
      */
-    private class BackgroundGraphic extends CompositePhetGraphic implements SimpleObserver {
-
-        //----------------------------------------------------------------------------
-        // Instance data
-        //----------------------------------------------------------------------------
-
-        private PickupCoil _pickupCoilModel;
-        private LightBulb _lightBulbModel;
-        private PhetImageGraphic _coilBack;
-        private PhetImageGraphic _electronsBack;
-
-        //----------------------------------------------------------------------------
-        // Constructors
-        //----------------------------------------------------------------------------
-
-        /**
-         * Sole constructor.
-         * 
-         * @param component the parent Component
-         * @param pickupCoilModel the pickup coil model
-         * @param lightBulbModel the lightbulb model
-         */
-        public BackgroundGraphic( Component component, PickupCoil pickupCoilModel, LightBulb lightBulbModel ) {
-            super( component );
-
-            _pickupCoilModel = pickupCoilModel;
-            _pickupCoilModel.addObserver( this );
-            _lightBulbModel = lightBulbModel;
-            _lightBulbModel.addObserver( this );
-
-            // Coil parts -- these are set in update method
-            _coilBack = null;
-
-            // Interactivity
-            super.setCursorHand();
-            super.addTranslationListener( new TranslationListener() {
-
-                public void translationOccurred( TranslationEvent e ) {
-                    double x = _pickupCoilModel.getX() + e.getDx();
-                    double y = _pickupCoilModel.getY() + e.getDy();
-                    _pickupCoilModel.setLocation( x, y );
-                }
-            } );
-
-            update();
-        }
-
-        /**
-         * Finalizes an instance of this type.
-         * Call this method prior to releasing all references to an object of this type.
-         */
-        public void finalize() {
-            _pickupCoilModel.removeObserver( this );
-            _pickupCoilModel = null;
-            _lightBulbModel.removeObserver( this );
-            _lightBulbModel = null;
-        }
-
-        //----------------------------------------------------------------------------
-        // Override inherited methods
-        //----------------------------------------------------------------------------
-
-        /**
-         * Updates when we become visible.
-         * 
-         * @param visible true for visible, false for invisible
-         */
-        public void setVisible( boolean visible ) {
-            super.setVisible( visible );
-            update();
-        }
-
-        //----------------------------------------------------------------------------
-        // SimpleObserver implementation
-        //----------------------------------------------------------------------------
-
-        /**
-         * Updates the view to match the model.
-         */
-        public void update() {
-            if ( isVisible() ) {
-
-                // Position this composite graphic.
-                setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
-
-                // Set the number of loops in the coil.
-                {
-                    Component component = getComponent();
-                    int numberOfLoops = _pickupCoilModel.getNumberOfLoops();
-                    if ( numberOfLoops == 1 ) {
-                        _coilBack = new PhetImageGraphic( component, FaradayConfig.COIL1_BACK_IMAGE );
-                        _electronsBack = new PhetImageGraphic( component, FaradayConfig.ELECTRONS1_BACK_IMAGE );
-                    }
-                    else {
-                        _coilBack = new PhetImageGraphic( component, FaradayConfig.COIL2_BACK_IMAGE );
-                        _electronsBack = new PhetImageGraphic( component, FaradayConfig.ELECTRONS2_BACK_IMAGE );
-                    }
-                    
-                    clear(); // remove all graphics
-                    addGraphic( _coilBack );
-                    addGraphic( _electronsBack );
-
-                    // Registration point at center.
-                    // Assumes all coil-related images are the same size.
-                    int rx = _coilBack.getImage().getWidth() / 2;
-                    int ry = _coilBack.getImage().getHeight() / 2;
-                    _coilBack.setRegistrationPoint( rx, ry );
-                    _electronsBack.setRegistrationPoint( rx, ry );
-                }
-
-                // Set the area of the loops.
-                // Assumes foreground and background images are the same size and the loop orientation is vertical.
-                double scale = ( 2 * _pickupCoilModel.getRadius() ) / _coilBack.getImage().getHeight();
-                _coilBack.clearTransform();
-                _coilBack.scale( scale );
-                _electronsBack.clearTransform();
-                _electronsBack.scale( scale );
-
-                // Position the bulb and meter so that they are at the top of the coil.
-                int x = 0;
-                int y = (int) -( _coilBack.getBounds().getHeight() / 2 );
-
-                // Show electrons only if the lightbulb is enabled.
-                _electronsBack.setVisible( _lightBulbModel.isEnabled() );
-                
-                repaint();
-            }
-        }
-    } // class BacgroundGraphic
+    public CoilGraphic getCoilGraphic() {
+        return _coilGraphic;
+    }
+ 
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    public void update() {
+        
+        _foreground.setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
+        _background.setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
+        
+        // Position the bulb and meter so that they are at the top of the coil.
+        Rectangle bounds = new Rectangle( _coilGraphic.getForeground().getBounds() );
+        bounds.union( _coilGraphic.getBackground().getBounds() );
+        int x = -10;
+        int y = -( bounds.height / 2 ) - 5;
+        _lightBulbGraphic.setLocation( x, y );
+        _voltMeterGraphic.setLocation( x, y );
+        
+        _foreground.repaint();
+        _background.repaint();
+    }
 }
