@@ -182,4 +182,8 @@ public class ModelViewTransform2D {
 //        double m12 =outputBounds.y-m11*inputBounds.y;
         return new AffineTransform(m00, m10, m01, m11, m02, m12);
     }
+
+    public Shape createTransformedShape(Shape shape) {
+        return toAffineTransform().createTransformedShape(shape);
+    }
 }
