@@ -52,7 +52,9 @@ public class TestArrows {
                 Rectangle viewBounds = arrow.getShape().getBounds();
                 arrow.setTipLocation( new Point2D.Double( x, y ) );
                 Rectangle after = arrow.getShape().getBounds();
-                GraphicsUtil.fastRepaint( p, viewBounds, after );
+//                FastPaint.fastRepaint( p, viewBounds, after );
+                Rectangle union = viewBounds.union( after );
+                p.repaint( union.x, union.y, union.width, union.height );
                 //                p.repaint( );
             }
         } );
