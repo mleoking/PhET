@@ -119,7 +119,7 @@ public class SingleAtomModule extends BaseLaserModule {
         // Add the beam control
         Point pumpControlLocation = new Point( (int)( pumpingBeamTx.getTranslateX() - 200 ), 10 );
         pumpBeamControl = new BeamControl2( getApparatusPanel(), pumpControlLocation, pumpingBeam,
-                                            LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE,
+                                            LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE / 8,
                                             seedBeam, null );
         getApparatusPanel().addGraphic( pumpBeamControl );
     }

@@ -42,6 +42,8 @@ public class LaserControlPanel extends PhetControlPanel {
         addControl( cheatSlider );
 
         final PhetSlider cavityHeightSlider = new PhetSlider( "Cavity height", "pixels", 100, 300, module.getCavity().getBounds().getHeight() );
+        cavityHeightSlider.setPaintTicks( false );
+        cavityHeightSlider.setPaintLabels( false );
         cavityHeightSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Rectangle2D bounds = module.getCavity().getBounds();
@@ -52,6 +54,20 @@ public class LaserControlPanel extends PhetControlPanel {
             }
         } );
         addControl( cavityHeightSlider );
+
+        final PhetSlider cavityWidthSlider = new PhetSlider( "Cavity width", "pixels", 200, 450, module.getCavity().getBounds().getWidth() );
+        cavityWidthSlider.setPaintTicks( false );
+        cavityWidthSlider.setPaintLabels( false );
+        cavityWidthSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                Rectangle2D bounds = module.getCavity().getBounds();
+                double width = cavityWidthSlider.getValue();
+                double midX = bounds.getMinX() + bounds.getWidth() / 2;
+                module.getCavity().setBounds( midX - width / 2, bounds.getMinY(),
+                                              midX + width / 2, bounds.getMaxY() );
+            }
+        } );
+        addControl( cavityWidthSlider );
     }
 
     public void addControl( Component component ) {
