@@ -25,8 +25,10 @@ public abstract class AtomicState {
         return atom;
     }
 
+    // Used by subclasses to handle time-dependent behaviors, such as
+    // spontaneous emission
+    abstract public void stepInTime( double dt );
     abstract public void collideWithPhoton( Photon photon );
-
     abstract void decrementNumInState();
 
     //
