@@ -26,6 +26,7 @@ Global issues;
 11. Pause when the simulation is minimized.
 
 MEDIUM:
+o support orientation of SpectrumSlider
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
 
 LOW:
