@@ -82,7 +82,7 @@ public class TestApparatusPanel extends ApparatusPanel {
                 //                Graphics g = PhetApplication.instance().getApplicationView().getPhetFrame().getGraphics();
                 //                myPaintComponent( g );
                 //                myPaintComponents( g );
-                updateBuffer();
+//                updateBuffer();
                 megapaintImmediately();
                 //                paintImmediately( 0, 0, getWidth(), getHeight() );
 
@@ -105,31 +105,23 @@ public class TestApparatusPanel extends ApparatusPanel {
             }
         } );
 
-        this.addComponentListener( new ComponentListener() {
-            public void componentHidden( ComponentEvent e ) {
-            }
-
-            public void componentMoved( ComponentEvent e ) {
-            }
-
+        this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                if( orgBounds != null ) {
-                    double sx = TestApparatusPanel.this.getBounds().getWidth() / orgBounds.getWidth();
-                    double sy = TestApparatusPanel.this.getBounds().getHeight() / orgBounds.getHeight();
-                    graphicTx = AffineTransform.getScaleInstance( sx, sy );
-                    try {
-                        mouseTx = graphicTx.createInverse();
-                    }
-                    catch( NoninvertibleTransformException e1 ) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-
-            public void componentShown( ComponentEvent e ) {
                 if( orgBounds == null ) {
                     orgBounds = TestApparatusPanel.this.getBounds();
                 }
+                double sx = TestApparatusPanel.this.getBounds().getWidth() / orgBounds.getWidth();
+                double sy = TestApparatusPanel.this.getBounds().getHeight() / orgBounds.getHeight();
+                // Using a single scale factor keeps the aspect ratio constant
+                double s = Math.min( sx, sy );
+                graphicTx = AffineTransform.getScaleInstance( s, s );
+                try {
+                    mouseTx = graphicTx.createInverse();
+                }
+                catch( NoninvertibleTransformException e1 ) {
+                    e1.printStackTrace();
+                }
+                bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
             }
         } );
     }
@@ -160,9 +152,6 @@ public class TestApparatusPanel extends ApparatusPanel {
         graphicsSetups.add( setup );
     }
 
-    /**
-     * Clears objects in the graphical context that are experiment-specific
-     */
     public void removeAllGraphics() {
         graphic.clear();
     }
@@ -194,37 +183,13 @@ public class TestApparatusPanel extends ApparatusPanel {
     public void repaint( long tm ) {
     }
 
-    AffineTransform IDENTITY = AffineTransform.getTranslateInstance( 0, 0 );
-
-    /**
-     * Draws all the Graphic objects in the ApparatusPanel
-     *
-     * @param graphics
-     */
     protected void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
         GraphicsState gs = new GraphicsState( g2 );
-        g2.transform( graphicTx );
-        if( bImg == null || bImg.getWidth() != this.getWidth() || bImg.getHeight() != this.getHeight() ) {
-            updateBuffer();
-        }
-        else {
-            drawIt( g2 );
-            //            ( (Graphics2D)graphics ).drawRenderedImage( bImg, IDENTITY );
-        }
+        drawIt( g2 );
         gs.restoreGraphics();
     }
 
-    private void updateBuffer() {
-        if( bImg == null || bImg.getWidth() != this.getWidth() || bImg.getHeight() != this.getHeight() ) {
-            if( getWidth() == 0 || getHeight() == 0 ) {
-                return;
-            }
-            bImg = new BufferedImage( this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB );
-        }
-        Graphics2D g2 = (Graphics2D)bImg.getGraphics();
-        drawIt( g2 );
-    }
 
     private void drawIt( Graphics2D g2 ) {
         //                Graphics2D g2 = (Graphics2D)bImg.getGraphics();
@@ -241,7 +206,10 @@ public class TestApparatusPanel extends ApparatusPanel {
             graphicsSetup.setup( g2 );
         }
 
+        GraphicsState gs = new GraphicsState( g2 );
+        g2.transform( graphicTx );
         graphic.paint( g2 );
+        gs.restoreGraphics();
         Color origColor = g2.getColor();
         Stroke origStroke = g2.getStroke();
 
@@ -290,31 +258,28 @@ public class TestApparatusPanel extends ApparatusPanel {
             this.handler = mouseDelegator;
         }
 
-        int cnt = 0;
-
         public void stepInTime( double dt ) {
-            cnt = 0;
             processMouseEventList();
             processMouseMotionEventList();
         }
 
-        public void addMouseEvent( MouseEvent event ) {
+        private void xformEventPt( MouseEvent event ) {
             Point2D.Double p = new Point2D.Double( event.getPoint().getX(), event.getPoint().getY() );
             mouseTx.transform( p, p );
             int dx = (int)( p.getX() - event.getPoint().getX() );
             int dy = (int)( p.getY() - event.getPoint().getY() );
             event.translatePoint( dx, dy );
+        }
+
+        public void addMouseEvent( MouseEvent event ) {
+            xformEventPt( event );
             synchronized( mouseEventList ) {
                 mouseEventList.add( event );
             }
         }
 
         public void addMouseMotionEvent( MouseEvent event ) {
-            Point2D.Double p = new Point2D.Double( event.getPoint().getX(), event.getPoint().getY() );
-            mouseTx.transform( p, p );
-            int dx = (int)( p.getX() - event.getPoint().getX() );
-            int dy = (int)( p.getY() - event.getPoint().getY() );
-            event.translatePoint( dx, dy );
+            xformEventPt( event );
             synchronized( mouseMotionEventList ) {
                 mouseMotionEventList.add( event );
             }
@@ -341,7 +306,6 @@ public class TestApparatusPanel extends ApparatusPanel {
         }
 
         private void handleMouseEvent( MouseEvent event ) {
-            //            if( true) return;
             switch( event.getID() ) {
                 case MouseEvent.MOUSE_CLICKED:
                     handler.mouseClicked( event );
