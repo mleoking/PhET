@@ -362,8 +362,8 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _batteryAmplitudeSlider.setValue( (int) ( 100.0 * _batteryModel.getVoltage() / FaradayConfig.BATTERY_VOLTAGE_MAX ) );
-        _acMaxAmplitudeSlider.setValue( (int) ( _acSourceModel.getMaxAmplitude() * 100.0 ) );
-        _acFrequencySlider.setValue( (int) ( _acSourceModel.getFrequency() * 100.0 ) );
+        _acMaxAmplitudeSlider.setValue( (int) ( 100.0 * _acSourceModel.getMaxAmplitude() ) );
+        _acFrequencySlider.setValue( (int) ( 100.0 * _acSourceModel.getFrequency() ) );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
         _loopsSpinner.setValue( new Integer( _sourceCoilModel.getNumberOfLoops() ) );
         
