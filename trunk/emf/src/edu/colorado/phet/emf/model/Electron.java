@@ -201,6 +201,8 @@ public class Electron extends ModelElement {
         // the by the distance from the source
         float acceleration = this.getAccelerationAt( (int)distanceFromSource );
         float distanceScaleFactor = (float)Math.max( ( Math.pow( distanceFromSource, 0.5 ) ), 1.0 );
+//        float distanceScaleFactor = (float)Math.pow( distanceFromSource, 0.1 );
+
         dynamicFieldStrength.multiply( acceleration / distanceScaleFactor );
 //        dynamicFieldStrength.multiply( acceleration / (float)(Math.pow( distanceFromSource, 0.5 ) ));
 

@@ -47,7 +47,8 @@ public class TransmitterElectronGraphic extends ElectronGraphic {
                                      ( current.y + ( stop.y - current.y ) * .04 ) );
                 g.setFont( font );
                 g.setColor( new Color( 0, 0, 200 ));
-                g.drawString( "Wiggle me!", (int)current.getX(), (int)current.getY() );
+                g.drawString( "Wiggle me >", (int)current.getX(), (int)current.getY() );
+
             }
         };
         apparatusPanel.addGraphic( wiggleMeGraphic, 5 );

@@ -165,7 +165,6 @@ public class FieldLatticeView implements ObservingGraphic {
     public synchronized void update( Observable o, Object arg ) {
         if( o instanceof Electron ) {
             for( int j = 0; j < numLatticePtsX; j++ ) {
-
                 for( int i = 0; i < numLatticePtsY; i++ ) {
                     latticePtLocation.setLocation( j * latticeSpacingX, i * latticeSpacingY );
                     Vector2D fs = null;
@@ -281,11 +280,12 @@ public class FieldLatticeView implements ObservingGraphic {
     private static int maxWidth = 10; // width of arrowhead
     private static int arrowWidth = 10;
     private static int arrowHeadWidth = 20;
-    BasicStroke hollowArrowStroke = new BasicStroke( 4 );
+    static BasicStroke hollowArrowStroke = new BasicStroke( 2 );
 
     private static void drawHollowArrow( Graphics2D g2, int x1, int y1, int x2, int y2 ) {
         if( x1 != x2 || y1 != y2 ) {
-            g2.setStroke( new BasicStroke( 1f ) );
+            g2.setStroke( hollowArrowStroke );
+//            g2.setStroke( new BasicStroke( 2f ) );
 
             int y3 = y2 - Math.min( Math.abs( y2 - y1 ) / 2, maxWidth ) * MathUtil.getSign( y2 - y1 );
             GeneralPath arrow = new GeneralPath();
