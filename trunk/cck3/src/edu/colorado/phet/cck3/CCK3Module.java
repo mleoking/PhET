@@ -115,10 +115,15 @@ public class CCK3Module extends Module {
     private ResistivityManager resistivityManager;
     private boolean internalResistanceOn = false;
     public static final double MIN_RESISTANCE = 0.0001;
-    private boolean advanced = false;
+//    private boolean advanced = false;
+    private boolean electronsVisible = true;
 
     public CCK3Module() throws IOException {
         this( false );
+    }
+
+    public boolean isElectronsVisible() {
+        return electronsVisible;
     }
 
     public CCK3Module( boolean virtualLabMode ) throws IOException {
@@ -721,10 +726,10 @@ public class CCK3Module extends Module {
                 c.invalidate();
                 c.validate();
                 c.repaint();
-                if( c instanceof JComponent ) {
-                    JComponent jc = (JComponent)c;
-//                    jc.paintImmediately( 0,0,jc.getWidth(), jc.getHeight() );
-                }
+//                if( c instanceof JComponent ) {
+//                    JComponent jc = (JComponent)c;
+////                    jc.paintImmediately( 0,0,jc.getWidth(), jc.getHeight() );
+//                }
             }
         };
         frame.addWindowFocusListener( new WindowFocusListener() {
@@ -801,6 +806,12 @@ public class CCK3Module extends Module {
             }
             alreadyChecked.add( frames[i] );
         }
+    }
+
+    public void setElectronsVisible( boolean visible ) {
+        this.electronsVisible = visible;
+        layout.branchesMoved( circuit.getBranches() );
+        getApparatusPanel().repaint();
     }
 
     public static class ResistivityManager extends CircuitListenerAdapter {
@@ -928,7 +939,7 @@ public class CCK3Module extends Module {
     }
 
     public void setAdvancedEnabled( boolean advanced ) {
-        this.advanced = advanced;
+//        this.advanced = advanced;
         if( advanced ) {
             setInternalResistanceOn( cck3controlPanel.isInternalResistanceEnabled() );
             setResistivityEnabled( true );
