@@ -1,4 +1,5 @@
 
+import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -7,13 +8,11 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.AddModelElementCmd;
+import edu.colorado.phet.idealgas.controller.HotAirBalloon;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;
-import edu.colorado.phet.idealgas.controller.HotAirBalloon;
 import edu.colorado.phet.idealgas.model.*;
-import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
-import edu.colorado.phet.collision.SphereHotAirBalloonExpert;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -68,7 +67,8 @@ public class TestMoleculeHotAirBalloonCollision extends PhetApplication {
                                        new Vector2D.Double( 0, 0 ),
                                        100,
                                        50,
-                                       60);
+                                       60,
+                                       getIdealGasModel());
 
             new AddModelElementCmd( getIdealGasModel(), sphere ).doIt();
             getIdealGasModel().getBox().addContainedBody( sphere );

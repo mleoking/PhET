@@ -43,7 +43,8 @@ public class HotAirBalloonModule extends IdealGasModule {
                                      new Vector2D.Double( 0, -20 ),
                                      new Vector2D.Double( 0, 0 ),
                                      200, 50,
-                                     60 );
+                                     60,
+                                     getIdealGasModel() );
         box.setMinimumWidth( balloon.getRadius() * 3 );
         // Give the balloon a high layer number so it always is over whatever
         // particles are pumped into the box
@@ -109,7 +110,7 @@ public class HotAirBalloonModule extends IdealGasModule {
         }
 
         // Add the specific controls we need for the hot air balloon
-        getControlPanel().add( new HotAirBalloonControlPanel() );
+        getControlPanel().add( new HotAirBalloonControlPanel( balloon ) );
 
 
     }

@@ -6,7 +6,6 @@ import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -70,17 +69,17 @@ public abstract class CollidableBody extends Body {
 
     public abstract double getContactOffset( Body body );
 
-    public void stepInTimeNoNotify( double dt ) {
-        this.stepInTime( dt );
-
-        // any of the constraints need to add or remove constraints from the list
-        workingList.clear();
-        workingList.addAll( constraints );
-        for( Iterator iterator = workingList.iterator(); iterator.hasNext(); ) {
-            Constraint constraintSpec = (Constraint)iterator.next();
-//            constraintSpec.apply();
-        }
-    }
+//    public void stepInTimeNoNotify( double dt ) {
+//        this.stepInTime( dt );
+//
+//        // any of the constraints need to add or remove constraints from the list
+//        workingList.clear();
+//        workingList.addAll( constraints );
+//        for( Iterator iterator = workingList.iterator(); iterator.hasNext(); ) {
+//            Constraint constraintSpec = (Constraint)iterator.next();
+////            constraintSpec.apply();
+//        }
+//    }
 
 
     /**
