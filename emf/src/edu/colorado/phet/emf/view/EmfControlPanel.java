@@ -46,7 +46,6 @@ public class EmfControlPanel extends JPanel {
                 } );
     }
 
-
     private void createControls() {
         JPanel container = this;
         container.setLayout( new GridBagLayout() );
@@ -82,7 +81,6 @@ public class EmfControlPanel extends JPanel {
      * of various options
      */
     private class OptionControlPane extends JPanel {
-
         //        JCheckBox autoscaleCB = new JCheckBox( MessageFormatter.format( ( "Autoscale vectors" ) ) );
         private JRadioButton fullFieldRB = new JRadioButton( "Full field" );
         private JRadioButton splineCurveWVectorsRB = new JRadioButton( "Curve with Vectors" );
@@ -165,8 +163,6 @@ public class EmfControlPanel extends JPanel {
             stripChartCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setStripChartEnabled( stripChartCB.isSelected() );
-                    EmfControlPanel.this.remove( 0 );
-                    EmfControlPanel.this.validate();
                 }
             } );
 
