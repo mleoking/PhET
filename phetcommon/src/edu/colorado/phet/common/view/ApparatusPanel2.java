@@ -12,9 +12,11 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,13 +41,13 @@ import java.util.LinkedList;
  * Test Comment.
  * <p/>
  *
- * @see edu.colorado.phet.common.view.graphics.Graphic
  * @author Ron LeMaster
  * @version $Revision$
+ * @see edu.colorado.phet.common.view.graphics.Graphic
  */
 public class ApparatusPanel2 extends ApparatusPanel {
 
-    ////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
     // Class
     //
     public static final double LAYER_TOP = Double.POSITIVE_INFINITY;
@@ -53,15 +55,13 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public static final double LAYER_DEFAULT = 0;
 
 
-    ///////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
     // Instance
     //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-    GraphicLayerSet graphic;
-    BufferedImage bImg;
-
-    ArrayList graphicsSetups = new ArrayList();
-    //    private boolean paintEnabled;
+    private BufferedImage bImg;
+    private Graphics2D bImgGraphics;
+    private boolean useOffscreenBuffer = false;
     private BufferStrategy strategy;
     private ArrayList rectangles = new ArrayList();
     private Rectangle repaintArea;
@@ -70,24 +70,59 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private AffineTransform mouseTx = new AffineTransform();
     private Rectangle orgBounds;
     private HashMap componentOrgLocationsMap = new HashMap();
+    private boolean modelPaused = false;
 
+    /**
+     * This constructor adds a feature that allows PhetGraphics to get mouse events
+     * when the model clock is paused.
+     *
+     * @param model
+     * @param clock
+     */
+    public ApparatusPanel2( BaseModel model, AbstractClock clock ) {
+        this( model );
+        clock.addClockStateListener( new ClockStateListener() {
+            public void delayChanged( int waitTime ) {
+            }
+
+            public void dtChanged( double dt ) {
+            }
+
+            public void threadPriorityChanged( int priority ) {
+            }
+
+            public void pausedStateChanged( boolean isPaused ) {
+                modelPaused = isPaused;
+            }
+        } );
+        modelPaused = clock.isPaused();
+    }
+
+    /**
+     * @param model
+     */
     public ApparatusPanel2( BaseModel model ) {
         super( null );
-        graphic = new GraphicLayerSet( this );
+
         // The following lines use a mouse processor in the model loop
-        MouseProcessor mouseProcessor = new MouseProcessor( graphic );
+        MouseProcessor mouseProcessor = new MouseProcessor(  getGraphic() );
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                megapaintImmediately();
+                if( useOffscreenBuffer ) {
+                    paintImmediately( 0, 0, getWidth(), getHeight() );
+                }
+                else {
+                    megapaintImmediately();
+                }
+                // Clear the rectangles so they get garbage collectged
+                rectangles.clear();
             }
         } );
 
-        //        setOpaque( true );
-        //        setDoubleBuffered( false );
         this.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
                 if( strategy == null ) {
@@ -98,58 +133,38 @@ public class ApparatusPanel2 extends ApparatusPanel {
                     if( strategy.getCapabilities().isFullScreenRequired() ) {
                         System.out.println( "Full screen is required for buffering." );
                     }
+                    System.out.println( "strategy = " + strategy );
                 }
             }
         } );
 
-        this.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                if( orgBounds == null ) {
-                    orgBounds = ApparatusPanel2.this.getBounds();
-                    Component[] components = ApparatusPanel2.this.getComponents();
-                    for( int i = 0; i < components.length; i++ ) {
-                        Component component = components[i];
-                        if( !componentOrgLocationsMap.containsKey( component ) ) {
-                            componentOrgLocationsMap.put( component, new Point( component.getLocation() ) );
-                        }
-                    }
-                }
+        // Add a listener what will adjust things if the size of the panel changes
+        this.addComponentListener( new ResizeHandler() );
+    }
 
-                // Setup the affine transforms for graphics and mouse events
-                double sx = ApparatusPanel2.this.getBounds().getWidth() / orgBounds.getWidth();
-                double sy = ApparatusPanel2.this.getBounds().getHeight() / orgBounds.getHeight();
-                // Using a single scale factor keeps the aspect ratio constant
-                double s = Math.min( sx, sy );
-                graphicTx = AffineTransform.getScaleInstance( s, s );
-                try {
-                    mouseTx = graphicTx.createInverse();
-                }
-                catch( NoninvertibleTransformException e1 ) {
-                    e1.printStackTrace();
-                }
-                bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+    public boolean isUseOffscreenBuffer() {
+        return useOffscreenBuffer;
+    }
 
-                // Adjust the locations of Swing components
-                Component[] components = ApparatusPanel2.this.getComponents();
-                for( int i = 0; i < components.length; i++ ) {
-                    Component component = components[i];
-                    Point p = (Point)componentOrgLocationsMap.get( component );
-                    if( p != null ) {
-                        Point pNew = new Point( (int)( p.getX() * s ), (int)( p.getY() * s ) );
-                        component.setLocation( pNew );
-                    }
-                }
-            }
-        } );
+    public void setUseOffscreenBuffer( boolean useOffscreenBuffer ) {
+        // Todo: Determine if the following two lines help or not
+//        setOpaque( useOffscreenBuffer );
+        setDoubleBuffered( !useOffscreenBuffer );
+        this.useOffscreenBuffer = useOffscreenBuffer;
     }
 
     /**
      * Returns the AffineTransform used by the apparatus panel to size and place graphics
      *
-     * @return the transform for this panel.
+     * @return
      */
     public AffineTransform getGraphicTx() {
         return graphicTx;
+    }
+
+    public Component add( Component comp ) {
+        componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+        return super.add( comp );
     }
 
     public void add( Component comp, Object constraints ) {
@@ -167,8 +182,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         return super.add( name, comp );
     }
 
-
-    //////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
     // Rendering
     //
     public void paintImmediately() {
@@ -206,7 +220,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     public void repaint( Rectangle r ) {
         megarepaint( r.x, r.y, r.width, r.height );
-        System.out.println( "r = " + r );
     }
 
     public void repaint() {
@@ -226,24 +239,32 @@ public class ApparatusPanel2 extends ApparatusPanel {
         gs.restoreGraphics();
     }
 
+
     private void drawIt( Graphics2D g2 ) {
         if( repaintArea == null ) {
             repaintArea = this.getBounds();
         }
-        long now = System.currentTimeMillis();
         g2.setBackground( super.getBackground() );
         g2.clearRect( 0, 0, this.getWidth(), this.getHeight() );
         g2.clearRect( repaintArea.x, repaintArea.y, repaintArea.width, repaintArea.height );
-        for( int i = 0; i < graphicsSetups.size(); i++ ) {
-            GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
+        for( int i = 0; i < getGraphicsSetups().size(); i++ ) {
+            GraphicsSetup graphicsSetup = (GraphicsSetup)getGraphicsSetups().get( i );
             graphicsSetup.setup( g2 );
         }
 
         GraphicsState gs = new GraphicsState( g2 );
         g2.transform( graphicTx );
-        //        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-        graphic.paint( g2 );
-        //        g2.drawImage( bImg, new AffineTransform(), null );
+        if( useOffscreenBuffer ) {
+            bImgGraphics = (Graphics2D)bImg.getGraphics();
+            bImgGraphics.setColor( this.getBackground() );
+            bImgGraphics.fillRect( bImg.getMinX(), bImg.getMinY(), bImg.getWidth(), bImg.getHeight() );
+            getGraphic().paint( bImgGraphics );
+            g2.drawImage( bImg, new AffineTransform(), null );
+            bImgGraphics.dispose();
+        }
+        else {
+            getGraphic().paint( g2 );
+        }
         gs.restoreGraphics();
         Color origColor = g2.getColor();
         Stroke origStroke = g2.getStroke();
@@ -257,13 +278,25 @@ public class ApparatusPanel2 extends ApparatusPanel {
         g2.setStroke( origStroke );
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////
     // Inner classes
-    //    
+    //
+
+    /**
+     * Handles mouse events in the model loop
+     */
     private class MouseProcessor implements ModelElement, MouseListener, MouseMotionListener {
         LinkedList mouseEventList;
         LinkedList mouseMotionEventList;
         private GraphicLayerSet handler;
+        // The following Runnable is used to process mouse events when the model clock is paused
+        private Runnable pausedEventListProcessor = new Runnable() {
+            public void run() {
+                stepInTime( 0 );
+                ApparatusPanel2.this.megapaintImmediately();
+            }
+        };
 
         public MouseProcessor( GraphicLayerSet mouseDelegator ) {
             mouseEventList = new LinkedList();
@@ -276,10 +309,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
             processMouseMotionEventList();
         }
 
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        // Mouse event handling
-        //
         private void xformEventPt( MouseEvent event ) {
             Point2D.Double p = new Point2D.Double( event.getPoint().getX(), event.getPoint().getY() );
             mouseTx.transform( p, p );
@@ -288,21 +317,32 @@ public class ApparatusPanel2 extends ApparatusPanel {
             event.translatePoint( dx, dy );
         }
 
-        public void addMouseEvent( MouseEvent event ) {
+        private void addMouseEvent( MouseEvent event ) {
             xformEventPt( event );
             synchronized( mouseEventList ) {
                 mouseEventList.add( event );
             }
+
+            // If the clock is paused, then process mouse events
+            // in the Swing thread
+            if( modelPaused ) {
+                SwingUtilities.invokeLater( pausedEventListProcessor );
+            }
         }
 
-        public void addMouseMotionEvent( MouseEvent event ) {
+        private void addMouseMotionEvent( MouseEvent event ) {
             xformEventPt( event );
             synchronized( mouseMotionEventList ) {
                 mouseMotionEventList.add( event );
             }
+            // If the clock is paused, then process mouse events
+            // in the Swing thread
+            if( modelPaused ) {
+                SwingUtilities.invokeLater( pausedEventListProcessor );
+            }
         }
 
-        public void processMouseEventList() {
+        private void processMouseEventList() {
             MouseEvent event;
             while( mouseEventList.size() > 0 ) {
                 synchronized( mouseEventList ) {
@@ -325,25 +365,25 @@ public class ApparatusPanel2 extends ApparatusPanel {
         private void handleMouseEvent( MouseEvent event ) {
             switch( event.getID() ) {
                 case MouseEvent.MOUSE_CLICKED:
-                    handler.fireMouseClicked( event );
+                    handler.getSwingAdapter().mouseClicked( event );
                     break;
                 case MouseEvent.MOUSE_DRAGGED:
-                    handler.fireMouseDragged( event );
+                    handler.getSwingAdapter().mouseDragged( event );
                     break;
                 case MouseEvent.MOUSE_ENTERED:
-                    handler.fireMouseEntered( event );
+                    handler.getSwingAdapter().mouseEntered( event );
                     break;
                 case MouseEvent.MOUSE_EXITED:
-                    handler.fireMouseExited( event );
+                    handler.getSwingAdapter().mouseExited( event );
                     break;
                 case MouseEvent.MOUSE_MOVED:
-                    handler.fireMouseMoved( event );
+                    handler.getSwingAdapter().mouseMoved( event );
                     break;
                 case MouseEvent.MOUSE_PRESSED:
-                    handler.fireMousePressed( event );
+                    handler.getSwingAdapter().mousePressed( event );
                     break;
                 case MouseEvent.MOUSE_RELEASED:
-                    handler.fireMouseReleased( event );
+                    handler.getSwingAdapter().mouseReleased( event );
                     break;
             }
         }
@@ -376,4 +416,50 @@ public class ApparatusPanel2 extends ApparatusPanel {
             this.addMouseMotionEvent( e );
         }
     }
+
+    /**
+     * Handles the state of the ApparatusPanel2 if it is resized
+     */
+    private class ResizeHandler extends ComponentAdapter {
+
+        public void componentResized( ComponentEvent e ) {
+            if( orgBounds == null ) {
+                orgBounds = ApparatusPanel2.this.getBounds();
+                Component[] components = ApparatusPanel2.this.getComponents();
+                for( int i = 0; i < components.length; i++ ) {
+                    Component component = components[i];
+                    if( !componentOrgLocationsMap.containsKey( component ) ) {
+                        componentOrgLocationsMap.put( component, new Point( component.getLocation() ) );
+                    }
+                }
+            }
+
+            // Setup the affine transforms for graphics and mouse events
+            double sx = ApparatusPanel2.this.getBounds().getWidth() / orgBounds.getWidth();
+            double sy = ApparatusPanel2.this.getBounds().getHeight() / orgBounds.getHeight();
+            // Using a single scale factor keeps the aspect ratio constant
+            double s = Math.min( sx, sy );
+            graphicTx = AffineTransform.getScaleInstance( s, s );
+            try {
+                mouseTx = graphicTx.createInverse();
+            }
+            catch( NoninvertibleTransformException e1 ) {
+                e1.printStackTrace();
+            }
+            bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+            bImgGraphics = (Graphics2D)bImg.getGraphics();
+
+            // Adjust the locations of Swing components
+            Component[] components = ApparatusPanel2.this.getComponents();
+            for( int i = 0; i < components.length; i++ ) {
+                Component component = components[i];
+                Point p = (Point)componentOrgLocationsMap.get( component );
+                if( p != null ) {
+                    Point pNew = new Point( (int)( p.getX() * s ), (int)( p.getY() * s ) );
+                    component.setLocation( pNew );
+                }
+            }
+        }
+    }
 }
+
