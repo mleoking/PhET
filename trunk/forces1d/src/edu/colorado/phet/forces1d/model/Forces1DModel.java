@@ -15,6 +15,8 @@ public class Forces1DModel implements ModelElement {
     private double gravity = EARTH_GRAVITY;
     private double appliedForce;
     private Block block;
+    private MMTimer playbackTimer=new MMTimer( "playback");
+    private MMTimer recordTimer=new MMTimer( "record");
 
     public Forces1DModel() {
         block = new Block();
@@ -38,5 +40,17 @@ public class Forces1DModel implements ModelElement {
 
     public void stepInTime( double dt ) {
         block.stepInTime( dt );
+    }
+
+    public Block getBlock() {
+        return block;
+    }
+
+    public MMTimer getPlaybackTimer() {
+        return playbackTimer;
+    }
+
+    public MMTimer getRecordingTimer() {
+        return recordTimer;
     }
 }

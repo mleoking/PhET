@@ -1,6 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d.model;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Nov 12, 2004
@@ -67,5 +69,15 @@ public class Block {
     }
 
     public void stepInTime( double dt ) {
+    }
+
+    ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public interface Listener {
+        void changed();
     }
 }
