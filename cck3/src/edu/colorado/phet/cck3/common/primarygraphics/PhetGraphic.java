@@ -9,6 +9,7 @@ import java.awt.*;
  * This graphic class auto-magically repaints itself in the appropriate bounds,
  * using component.paint(int x,int y,int width,int height).
  * This class manages the current and previous bounds for painting, and whether the region is dirty.
+ * Testing.
  */
 public abstract class PhetGraphic implements BoundedGraphic {
     private Rectangle lastBounds = null;
