@@ -5,6 +5,7 @@ package edu.colorado.phet.colorvision3.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -40,6 +41,8 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
   private Filter _filterModel;
   // Shapes for various parts of the filter.
   private Shape _exterior, _interior, _lens;
+  // last known location of the model.
+  private double _x, _y;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -87,27 +90,31 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
    */
   public void update()
   {
-    int x = (int)_filterModel.getX();
-    int y = (int)_filterModel.getY();
-    int height = 150;
+    double x = _filterModel.getX();
+    double y = _filterModel.getY();
     
-    // Use constructive area geomety to create the exterior shape.
-    Area area = new Area();
+    // If the filter has moved, reconstruct it.
+    if ( x != _x || y != y )
     {
-      Ellipse2D.Double e1 = new Ellipse2D.Double( x, y, 20, LENS_HEIGHT );
-      Rectangle2D.Double r1 = new Rectangle2D.Double( x+10, y, 10, LENS_HEIGHT );
-      Ellipse2D.Double e2 = new Ellipse2D.Double( x+10, y, 20, LENS_HEIGHT );
-      Rectangle2D.Double base = new Rectangle2D.Double( x+10, y+LENS_HEIGHT, 10, 20 );
-      area.add( new Area(e1) );
-      area.add( new Area(e2) );
-      area.add( new Area(r1) );
-      area.add( new Area(base) );
+      // Use constructive area geomety to create the exterior shape.
+      Area area = new Area();
+      {
+        Ellipse2D.Double e1 = new Ellipse2D.Double( x, y, 20, LENS_HEIGHT );
+        Rectangle2D.Double r1 = new Rectangle2D.Double( x+10, y, 10, LENS_HEIGHT );
+        Ellipse2D.Double e2 = new Ellipse2D.Double( x+10, y, 20, LENS_HEIGHT );
+        Rectangle2D.Double base = new Rectangle2D.Double( x+10, y+LENS_HEIGHT, 10, 20 );
+        area.add( new Area(e1) );
+        area.add( new Area(e2) );
+        area.add( new Area(r1) );
+        area.add( new Area(base) );
+      }
+      
+      _exterior = area;
+      _interior = new Ellipse2D.Double( x, y, 20, LENS_HEIGHT );
+      _lens = new Ellipse2D.Double( x+4, y+4, 12, LENS_HEIGHT-8 );
     }
     
-    _exterior = area;
-    _interior = new Ellipse2D.Double( x, y, 20, LENS_HEIGHT );
-    _lens = new Ellipse2D.Double( x+4, y+4, 12, LENS_HEIGHT-8 );
-    
+    // Need to repaint in case color has changed via super.setPaint.
     super.repaint();
   }
   
@@ -124,25 +131,29 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
   {
     if ( super.isVisible() && _filterModel.isEnabled() )
     {
-      super.saveGraphicsState( g2 );
-      {
-        // Request antialiasing.
-        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        g2.setRenderingHints( hints );
-        
-        // Draw the exterior
-        g2.setPaint( Color.DARK_GRAY );
-        g2.fill( _exterior );
-        
-        // Draw the interior
-        g2.setPaint( Color.GRAY );
-        g2.fill( _interior );
-        
-        // Draw the filter
-        g2.setPaint( _filterModel.getTransmissionPeak() );
-        g2.fill( _lens );
-      }
-      super.restoreGraphicsState();
+      // Save graphics state.
+      RenderingHints oldHints = g2.getRenderingHints();
+      Paint oldPaint = g2.getPaint();
+      
+      // Request antialiasing.
+      RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+      g2.setRenderingHints( hints );
+      
+      // Draw the exterior
+      g2.setPaint( Color.DARK_GRAY );
+      g2.fill( _exterior );
+      
+      // Draw the interior
+      g2.setPaint( Color.GRAY );
+      g2.fill( _interior );
+      
+      // Draw the filter
+      g2.setPaint( _filterModel.getTransmissionPeak() );
+      g2.fill( _lens );
+      
+      // Restore graphics state.
+      g2.setPaint( oldPaint );
+      g2.setRenderingHints( oldHints );
       
       BoundsOutline.paint( g2, this ); // DEBUG
     }

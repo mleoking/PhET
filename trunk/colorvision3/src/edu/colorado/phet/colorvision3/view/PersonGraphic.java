@@ -38,6 +38,8 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
   private Person _personModel;
   private PhetImageGraphic _headBackgroundGraphic, _headForegroundGraphic;
   private ThoughtBubbleGraphic _thoughtBubbleGraphic;
+  // Last known location of the model.
+  private double _x, _y;
     
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -94,13 +96,24 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
    */
   public void update()
   {
-    _headBackgroundGraphic.setPosition( (int)(_personModel.getX() + HEAD_X_OFFSET),
-                                        (int)(_personModel.getY() + HEAD_Y_OFFSET) );
-    _headForegroundGraphic.setPosition( (int)(_personModel.getX() + HEAD_X_OFFSET),
-                                        (int)(_personModel.getY() + HEAD_Y_OFFSET) );
-    _thoughtBubbleGraphic.setLocation( (int)(_personModel.getX() + THOUGHT_BUBBLE_X_OFFSET), 
-                                      (int)(_personModel.getY() + THOUGHT_BUBBLE_Y_OFFSET) );
-    _thoughtBubbleGraphic.setPaint( _personModel.getColor() );
+    double x = _personModel.getX();
+    double y = _personModel.getY();
+    
+    // If the model has moved, then move the view.
+    if ( x != _x || y != _y )
+    {
+      _x = x;
+      _y = y;
+      
+      _headBackgroundGraphic.setPosition( (int)(x + HEAD_X_OFFSET),
+                                        (int)(y + HEAD_Y_OFFSET) );
+      _headForegroundGraphic.setPosition( (int)(x + HEAD_X_OFFSET),
+                                        (int)(y + HEAD_Y_OFFSET) );
+      _thoughtBubbleGraphic.setLocation( (int)(x + THOUGHT_BUBBLE_X_OFFSET), 
+                                       (int)(y + THOUGHT_BUBBLE_Y_OFFSET) );
+    }
+    
+    _thoughtBubbleGraphic.setPaint( _personModel.getColor().toColor() );
     
     super.repaint();
   }

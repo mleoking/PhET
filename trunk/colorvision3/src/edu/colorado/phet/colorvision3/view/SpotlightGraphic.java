@@ -35,6 +35,10 @@ public class SpotlightGraphic extends PhetImageGraphic implements SimpleObserver
   private Spotlight _spotlightModel;
   // Rotate transformed used in rendering.
   private AffineTransform _rotate;
+  // Last known location of the model.
+  private double _x, _y;
+  // Last known direction of the model.
+  private double _direction;
     
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -67,25 +71,36 @@ public class SpotlightGraphic extends PhetImageGraphic implements SimpleObserver
    */
   public void update()
   {
-    BufferedImage image = super.getImage();
-   
-    // Location (translation)
-    int x = (int)( _spotlightModel.getX() - image.getWidth() + BULB_OFFSET );
-    int y = (int)( _spotlightModel.getY() - (image.getHeight()/2) );
+    double x = _spotlightModel.getX();
+    double y = _spotlightModel.getY();
+    double direction = _spotlightModel.getDirection();
+    
+    // If something we're displaying has changed...
+    if ( x != _x || _y != y || _direction != direction )
+    {
+      BufferedImage image = super.getImage();
+      int width = image.getWidth();
+      int height = image.getHeight();
+      
+      // Location (translation)
+      _x = (int)( x - width + BULB_OFFSET );
+      _y = (int)( y - (height/2) );
 
-    // Direction (rotation about the center of the bulb within the spotlight)
-    double radians = Math.toRadians( _spotlightModel.getDirection() );
-    int centerX = (int) (image.getWidth() - BULB_OFFSET);
-    int centerY = (int) (image.getHeight()/2);
+      // Direction (rotation about the center of the bulb within the spotlight)
+      _direction = direction;
+      double radians = Math.toRadians( direction );
+      int centerX = (int) (width - BULB_OFFSET);
+      int centerY = (int) (height/2);
     
-    // Apply translation + rotation transforms
-    AffineTransform transform = new AffineTransform();
-    transform.translate( 0, 0 );
-    transform.translate( x, y );
-    transform.rotate( radians, centerX, centerY );
-    super.setTransform( transform );
-    
-    super.repaint();
+      // Apply translation + rotation transforms
+      AffineTransform transform = new AffineTransform();
+      transform.translate( 0, 0 );
+      transform.translate( _x, _y );
+      transform.rotate( radians, centerX, centerY );
+      super.setTransform( transform );
+      
+      super.repaint();
+    }
   }
   
 	//----------------------------------------------------------------------------
