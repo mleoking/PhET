@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 
 
@@ -31,8 +32,12 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
     
     private CompassGridGraphic _gridGraphic;
     
-    public FaradayModule( String title ) {
-        super( title );
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    public FaradayModule( String title, AbstractClock clock ) {
+        super( title, clock );
     }
     
     //----------------------------------------------------------------------------

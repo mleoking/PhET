@@ -71,17 +71,13 @@ public class MagnetAndCoilModule extends FaradayModule {
      * 
      * @param appModel the application model
      */
-    public MagnetAndCoilModule( ApplicationModel appModel ) {
+    public MagnetAndCoilModule( AbstractClock clock ) {
 
-        super( SimStrings.get( "MagnetAndCoilModule.title" ) );
-        assert( appModel != null );
+        super( SimStrings.get( "MagnetAndCoilModule.title" ), clock );
         
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
-
-        // Clock
-        AbstractClock clock = appModel.getClock();
 
         // Module model
         BaseModel model = new BaseModel();
@@ -132,7 +128,7 @@ public class MagnetAndCoilModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
 
