@@ -2,11 +2,12 @@
 
 package edu.colorado.phet.colorvision3;
 
+import java.util.Locale;
+
+import edu.colorado.phet.colorvision3.view.BoundsOutline;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-
-import java.util.Locale;
 
 /**
  * ColorVisionApplication is the main application for the PhET Color Vision simulation.
@@ -33,6 +34,10 @@ public class ColorVisionApplication extends PhetApplication
 	 */
 	public static void main(String[] args)
 	{
+	  // DEBUG of graphics bounds
+	  boolean renderBounds = ( System.getProperty("colorvision.renderBounds") != null );
+	  BoundsOutline.setEnabled( renderBounds );
+	  
 	  // Initialize localization.
 	  {
 	    // Get the default locale from property javaws.locale.
