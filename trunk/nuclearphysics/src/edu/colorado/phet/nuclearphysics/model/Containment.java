@@ -6,21 +6,26 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.collision.Box2D;
+import edu.colorado.phet.common.util.SimpleObservable;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class Containment extends Box2D {
-    private Rectangle2D bounds;
+public class Containment extends SimpleObservable {
+    //public class Containment extends Box2D {
+    //    private Rectangle2D shape;
+    Shape shape;
 
-    public Containment( Rectangle2D bounds ) {
-        this.bounds = bounds;
+    public Containment( Shape shape ) {
+        //    public Containment( Rectangle2D shape ) {
+        this.shape = shape;
     }
 
-    public Rectangle2D getBounds() {
-        return bounds;
+    public Shape geShape() {
+        return shape;
     }
 
-    public void stepInTime( double dt ) {
+    public Rectangle2D getBounds2D() {
+        return shape.getBounds2D();
     }
 }

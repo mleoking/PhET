@@ -16,6 +16,7 @@ import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 
+import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -320,7 +321,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     }
 
     private void addContainment() {
-        containment = new Containment( new Rectangle2D.Double( -300, -300, 600, 600 ) );
+        containment = new Containment( new Ellipse2D.Double( -300, -300, 600, 600 ) );
+        //        containment = new Containment( new Rectangle2D.Double( -300, -300, 600, 600 ) );
         containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel(), getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( containmentGraphic, 100 );
     }
@@ -342,21 +344,31 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     private Point2D.Double findLocationForNewNucleus() {
         // Determine the area in which the nucleus can be place. This depends on whether the
         // containment vessel is enabled or not.
-        Rectangle2D rect = null;
+        Rectangle2D r = getPhysicalPanel().getBounds();
+        AffineTransform atx = getPhysicalPanel().getNucleonTx();
+        Rectangle2D apparatusPanelBounds = new Rectangle2D.Double();
+        try {
+            apparatusPanelBounds.setFrameFromDiagonal( atx.inverseTransform( new Point2D.Double( r.getMinX(), r.getMinY() ), null ),
+                                                       atx.inverseTransform( new Point2D.Double( r.getMinX() + r.getWidth(), r.getMinY() + r.getHeight() ), null ) );
+        }
+        catch( NoninvertibleTransformException e ) {
+            e.printStackTrace();
+        }
+        Shape bounds = null;
         if( containment != null ) {
-            rect = containment.getBounds();
+            bounds = containment.geShape();
         }
         else {
-            rect = new Rectangle2D.Double();
-            Rectangle2D r = getPhysicalPanel().getBounds();
-            AffineTransform atx = getPhysicalPanel().getNucleonTx();
-            try {
-                rect.setFrameFromDiagonal( atx.inverseTransform( new Point2D.Double( r.getMinX(), r.getMinY() ), null ),
-                                           atx.inverseTransform( new Point2D.Double( r.getMinX() + r.getWidth(), r.getMinY() + r.getHeight() ), null ) );
-            }
-            catch( NoninvertibleTransformException e ) {
-                e.printStackTrace();
-            }
+            //            Rectangle2D r = getPhysicalPanel().getBounds();
+            //            AffineTransform atx = getPhysicalPanel().getNucleonTx();
+            //            try {
+            //                apparatusPanelBounds.setFrameFromDiagonal( atx.inverseTransform( new Point2D.Double( r.getMinX(), r.getMinY() ), null ),
+            //                                           atx.inverseTransform( new Point2D.Double( r.getMinX() + r.getWidth(), r.getMinY() + r.getHeight() ), null ) );
+            //            }
+            //            catch( NoninvertibleTransformException e ) {
+            //                e.printStackTrace();
+            //            }
+            bounds = apparatusPanelBounds;
         }
         boolean overlapping = false;
         Point2D.Double location = new Point2D.Double();
@@ -371,8 +383,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
                 }
             }
 
-            double x = centralNucleusExists ? random.nextDouble() * ( rect.getWidth() - 50 ) + rect.getMinX() + 25 : 0;
-            double y = centralNucleusExists ? random.nextDouble() * ( rect.getHeight() - 50 ) + rect.getMinY() + 25 : 0;
+            double x = centralNucleusExists ? random.nextDouble() * ( apparatusPanelBounds.getWidth() - 50 ) + apparatusPanelBounds.getMinX() + 25 : 0;
+            double y = centralNucleusExists ? random.nextDouble() * ( apparatusPanelBounds.getHeight() - 50 ) + apparatusPanelBounds.getMinY() + 25 : 0;
             location.setLocation( x, y );
 
             overlapping = false;
@@ -385,7 +397,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
 
             // todo: the hard-coded 50 here should be replaced with the radius of a Uranium nucleus
             if( location.getX() != 0 && location.getY() != 0 ) {
-                overlapping = overlapping || getNeutronPath().ptSegDist( location ) < 50;
+                overlapping = overlapping || getNeutronPath().ptSegDist( location ) < 50 || !bounds.contains( location );
             }
             attempts++;
         } while( overlapping && attempts < 50 );
