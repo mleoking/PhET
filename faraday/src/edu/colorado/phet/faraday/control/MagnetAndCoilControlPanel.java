@@ -52,11 +52,14 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
     // UI components
     private JButton _flipPolarityButton;
     private JSlider _strengthSlider;
-    private JCheckBox _seeInsideCheckBox, _gridCheckBox, _compassCheckBox;
+    private JCheckBox _seeInsideCheckBox;
+    private JCheckBox _gridCheckBox;
+    private JCheckBox _compassCheckBox;
     private JSpinner _loopsSpinner;
     private JSlider _radiusSlider;
     private JRadioButton _voltmeterRadioButton;
     private JRadioButton _lightbulbRadioButton;
+    private JCheckBox _electronsCheckBox;
     private JLabel _strengthValue, _radiusValue;
 
     //----------------------------------------------------------------------------
@@ -214,13 +217,14 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             group.add( _voltmeterRadioButton );
 
             // Layout
-//            connectionPanel.add( _lightbulbRadioButton );
-//            connectionPanel.add( _voltmeterRadioButton );
             EasyGridBagLayout layout = new EasyGridBagLayout( connectionPanel );
             connectionPanel.setLayout( layout );
             layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
             layout.addAnchoredComponent( _voltmeterRadioButton, 1, 0, GridBagConstraints.WEST );
         }
+        
+        // Electrons on/off
+        _electronsCheckBox = new JCheckBox( SimStrings.get( "MagnetAndCoilModule.showElectrons" ) );
 
         JPanel controlPanel = new JPanel();
         {
@@ -237,6 +241,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             layout.addFilledComponent( loopsPanel, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addFilledComponent( radiusPanel, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addFilledComponent( connectionPanel, row++, 0, GridBagConstraints.HORIZONTAL );
+            layout.addComponent( _electronsCheckBox, row++, 0 );
         }
         
         // Add panels.
@@ -254,6 +259,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         _lightbulbRadioButton.addActionListener( listener );
         _voltmeterRadioButton.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
+        _electronsCheckBox.addActionListener( listener );
         
         // Update control panel to match the components that it's controlling.
         _strengthSlider.setValue( (int) _magnetModel.getStrength() );
@@ -264,6 +270,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         _radiusSlider.setValue( (int) _pickupCoilModel.getRadius() );
         _lightbulbRadioButton.setSelected( _lightbulbModel.isEnabled() );
         _voltmeterRadioButton.setSelected( _voltmeterModel.isEnabled() );
+        //TODO: _electronsCheckBox.setSelected( ??? );
     }
     
     //----------------------------------------------------------------------------
@@ -320,6 +327,10 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 // Voltmeter enable
                 _voltmeterModel.setEnabled( _voltmeterRadioButton.isSelected() );
                 _lightbulbModel.setEnabled( !_voltmeterRadioButton.isSelected() );
+            }
+            else if ( e.getSource() == _electronsCheckBox ) {
+                // Electrons enabled
+                // TODO: ???( _electronsCheckBox.isSelected() );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
