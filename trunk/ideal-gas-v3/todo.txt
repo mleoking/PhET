@@ -4,6 +4,7 @@
 - pressure slice graphic overlays mannequin
 - when hollow sphere is only thing in the box, the gravity response is jerky
 
+- scalarDataRecorder should be re-written so it doesn't need a clock, but rather observes an ScalarReporter
 
 
 

@@ -10,10 +10,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.idealgas.controller.IdealGasModule;
-import edu.colorado.phet.idealgas.controller.MeasurementModule;
-import edu.colorado.phet.idealgas.controller.RigidHollowSphereModuleII;
-import edu.colorado.phet.idealgas.controller.RigidSphereModuleI;
+import edu.colorado.phet.idealgas.controller.*;
 
 public class IdealGasApplication extends PhetApplication {
 
@@ -33,14 +30,17 @@ public class IdealGasApplication extends PhetApplication {
             Module measurementModule = new MeasurementModule( getClock() );
             Module rigidSphereModuleI = new RigidSphereModuleI( getClock() );
             Module rigidSphereModuleII = new RigidHollowSphereModuleII( getClock() );
+            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
             Module[] modules = new Module[]{
                 idealGasModule,
                 measurementModule,
                 rigidSphereModuleI,
-                rigidSphereModuleII
+                rigidSphereModuleII,
+                heliumBalloonModule
             };
             setModules( modules );
-            setInitialModule( rigidSphereModuleII );
+            setInitialModule( heliumBalloonModule );
+//            setInitialModule( rigidSphereModuleII );
 //            setInitialModule( rigidSphereModuleI );
 //                        setInitialModule( measurementModule );
 //            setInitialModule( idealGasModule );
