@@ -1,11 +1,13 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.view.phetgraphics;
 
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+
 import edu.colorado.phet.common.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 /**
  * This graphic class auto-magically repaints itself in the appropriate bounds,
@@ -21,6 +23,7 @@ public abstract class PhetGraphic implements BoundedGraphic {
     protected boolean visible = true;
     private boolean boundsDirty = true;
     private RenderingHints savedRenderingHints;
+    private RenderingHints renderingHints;
     private GraphicsState graphicsState;
 
     protected PhetGraphic( Component component ) {
@@ -48,6 +51,14 @@ public abstract class PhetGraphic implements BoundedGraphic {
         if( savedRenderingHints != null ) {
             g.setRenderingHints( savedRenderingHints );
         }
+    }
+    
+    public void setRenderingHints( RenderingHints hints ) {
+        renderingHints = hints;
+    }
+  
+    public RenderingHints getRenderingHints() {
+        return renderingHints;
     }
 
     protected void syncBounds() {
