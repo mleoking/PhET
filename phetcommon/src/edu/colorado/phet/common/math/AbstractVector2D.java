@@ -44,6 +44,8 @@ public interface AbstractVector2D {
 
     Point2D getDestination( Point2D startPt );
 
+    AbstractVector2D getRotatedInstance( double angle );
+
     public class Double implements AbstractVector2D {
         private double x;
         private double y;
@@ -167,6 +169,10 @@ public interface AbstractVector2D {
 
         public Point2D getDestination( Point2D startPt ) {
             return new Point2D.Double( startPt.getX() + getX(), startPt.getY() + getY() );
+        }
+
+        public AbstractVector2D getRotatedInstance( double angle ) {
+            return parseAngleAndMagnitude( getMagnitude(), getAngle() + angle );
         }
 
         public static AbstractVector2D parseAngleAndMagnitude( double r, double angle ) {
@@ -316,6 +322,10 @@ public interface AbstractVector2D {
 
         public Point2D getDestination( Point2D startPt ) {
             return new Point2D.Float( (float)( getX() + startPt.getX() ), (float)( getY() + startPt.getY() ) );
+        }
+
+        public AbstractVector2D getRotatedInstance( double angle ) {
+            return parseAngleAndMagnitude( getMagnitude(), getAngle() + angle );
         }
 
         public static AbstractVector2D parseAngleAndMagnitude( double r, double angle ) {

@@ -22,6 +22,7 @@ public class ModelViewTransform2D {
     private AffineTransform forwardTransform;
     private boolean backTransformDirty = true;
     private AffineTransform backTransform;
+    private boolean invertY;
 
     /**
      * Constructs a forwardTransform from the specified model bounds to view bounds.
@@ -30,8 +31,13 @@ public class ModelViewTransform2D {
      * @param viewBounds
      */
     public ModelViewTransform2D( Rectangle2D.Double modelBounds, Rectangle viewBounds ) {
+        this( modelBounds, viewBounds, true );
+    }
+
+    public ModelViewTransform2D( Rectangle2D.Double modelBounds, Rectangle viewBounds, boolean invertY ) {
         setModelBounds( modelBounds );
         setViewBounds( viewBounds );
+        this.invertY = invertY;
     }
 
     /**
@@ -87,16 +93,11 @@ public class ModelViewTransform2D {
     }
 
     protected AffineTransform createForwardTransform() {
-        return createTXInvertY( viewBounds, modelBounds );
-    }
-
-    public static class OriginTopLeft extends ModelViewTransform2D {
-        public OriginTopLeft( Rectangle2D.Double modelBounds, Rectangle viewBounds ) {
-            super( modelBounds, viewBounds );
+        if( invertY ) {
+            return createTXInvertY( viewBounds, modelBounds );
         }
-
-        protected AffineTransform createForwardTransform() {
-            return createTX( super.viewBounds, super.modelBounds );
+        else {
+            return createTX( viewBounds, modelBounds );
         }
     }
 
