@@ -334,14 +334,6 @@ public class Force1DModule extends Module {
         }
     }
 
-//    public void updateControlPanelGraphics() {
-//        currentControlPanel.updateGraphics();
-//    }
-//
-//    public void handleControlPanelInputs() {
-//        currentControlPanel.handleUserInput();
-//    }
-
     public IForceControl getActiveControlPanel() {
         return currentControlPanel;
     }
@@ -355,6 +347,9 @@ public class Force1DModule extends Module {
         super.setControlPanel( controlPanel );
         if( phetFrame != null ) {
             phetFrame.getBasicPhetPanel().setControlPanel( controlPanel );
+            phetFrame.getBasicPhetPanel().invalidate();
+            phetFrame.getBasicPhetPanel().validate();
+            phetFrame.getBasicPhetPanel().doLayout();
         }
     }
 
