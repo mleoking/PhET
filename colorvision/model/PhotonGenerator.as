@@ -57,15 +57,13 @@
 			}
 			// Paint or prune the photons, as need be
 			for (var i = 0; i < photons.length; i++) {
-//				trace("photonGenerator: " + photons[i]._x + "  " + _root.head._x );
 				if (photons[i]._x <= _root.head._x) {
 					photons[i].paint(photonCanvas_mc);
 				}
 				else {
-//					trace("photongenerator: prune");
 					var p = photons[i];
 					photons.splice(i, 1);
-//					p.removeMovieClip();
+					p.removeMovieClip();
 				}
 			}
 		}
@@ -96,8 +94,8 @@
 		this.rate = rate;
 	}
 	private function genTheta(theta0) {
-		var d_theta = Math.random() * Math.PI / 8 - Math.PI / 16;
-//		var d_theta = Math.random() * Math.PI / 16 - Math.PI / 32;
+//		var d_theta = Math.random() * Math.PI / 8 - Math.PI / 16;
+		var d_theta = Math.random() * Math.PI / 16 - Math.PI / 32;
 		var angle = theta0 + d_theta;
 		return angle;
 	}
