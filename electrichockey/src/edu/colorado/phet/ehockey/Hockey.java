@@ -5,7 +5,7 @@ package edu.colorado.phet.ehockey;
 //import edu.colorado.phet.utils.edu.colorado.phet.ehockey.ResourceLoader4;
 
 // Only import this while using Enumeration class to test bundle strings
-import java.util.Enumeration;
+// import java.util.Enumeration;
 
 import javax.swing.*;
 import java.applet.AudioClip;
@@ -39,15 +39,17 @@ public class Hockey extends JApplet implements Runnable {
 
         HockeyStrings.setStrings( HockeyConfig.localizedStringPath );
 
-        // Verify all I18N keywords have valid values (by visual inspection).
-        Enumeration keys = HockeyStrings.getKeys();
-        int ki = 1;
-        while (keys.hasMoreElements()) {
-            String key = (String)keys.nextElement();
-            String value = HockeyStrings.get(key);
-            System.out.println("HockeyStrings key-value " + ki + " " + key + " " + value);
-            ki++;
-        }
+        // Verify all I18N keywords have valid values (by visual inspection of
+        // the values sent to stdout).
+        //
+        // Enumeration keys = HockeyStrings.getKeys();
+        // int ki = 1;
+        // while (keys.hasMoreElements()) {
+        //     String key = (String)keys.nextElement();
+        //     String value = HockeyStrings.get(key);
+        //     System.out.println("HockeyStrings key-value " + ki + " " + key + " " + value);
+        //     ki++;
+        // }
 
         barrierList = new BarrierList( this );
         model = new Model( width, height, this );
@@ -102,20 +104,6 @@ public class Hockey extends JApplet implements Runnable {
 
     public static void main( String[] args ) {
 
-
-        // Currently: "all or nothing" - specify locale via both language
-        //     and country, or use defaults ( en US ).
-        // To Do: support the usage "java Hockey [ language [ country ] ]"
-        //     instead of forcing user to specify both language and country.
-        // To Do: get local from environment if not specified on command line.
-        if ( args.length == 2 ) {
-            HockeyStrings.setLocale( args[0], args[1] );
-        }
-        else {
-            HockeyStrings.setLocale( "en", "US" );
-        }
-
-        System.out.println( new HockeyStrings().toString() );
 
         JFrame f = new JFrame();
         Hockey mg = new Hockey();
