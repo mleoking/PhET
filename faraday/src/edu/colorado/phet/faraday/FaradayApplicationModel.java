@@ -47,6 +47,9 @@ public class FaradayApplicationModel extends ApplicationModel {
         boolean fixedDelay = true;
         this.setClock( new SwingTimerClock( FaradayConfig.TIME_STEP, FaradayConfig.WAIT_TIME, fixedDelay ) );
 
+        // Clock control panel is disabled.
+        setUseClockControlPanel( false );
+        
         // Simulation Modules
         BarMagnetModule barMagnetModule = new BarMagnetModule( this );
         MagnetAndCoilModule magnetAndCoilModule = new MagnetAndCoilModule( this );
