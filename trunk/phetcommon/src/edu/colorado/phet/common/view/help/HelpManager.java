@@ -24,8 +24,16 @@ import java.awt.*;
 public class HelpManager extends GraphicLayerSet {
     private static double HELP_LAYER = Double.POSITIVE_INFINITY;
 
+    public HelpManager() {
+        super( null );
+    }
+
     public HelpManager( Component component ) {
         super( component );
+    }
+
+    public void setComponent( Component component ) {
+        super.setComponent( component );
     }
 
     public void removeHelpItem( HelpItem helpItem ) {

@@ -94,6 +94,13 @@ public abstract class PhetGraphic {
         return component;
     }
 
+    /**
+     * Set the Component within which this PhetGraphic is contained
+     * @param component
+     */
+    public void setComponent(Component component) {
+        this.component = component;
+    }
 
     /**
      * Sets the parent of this Graphic.

@@ -40,23 +40,34 @@ public class Module {
     String name;
     HelpManager helpManager;
 
+
+    public Module() {
+
+    }
+
     protected Module(String name) {
         this.name = name;
         SimStrings.setStrings("localization/CommonStrings");
+        helpManager = new HelpManager();
+    }
 
+    protected void init(ApparatusPanel panel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel) {
+        setApparatusPanel(apparatusPanel);
+        setControlPanel(controlPanel);
+        setMonitorPanel(monitorPanel);
+        setModel(model);
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Setters and getters
+    //
+    protected void setApparatusPanel(ApparatusPanel apparatusPanel) {
+        this.apparatusPanel = apparatusPanel;
+        helpManager = new HelpManager(apparatusPanel);//TODO fix this.
     }
 
     public ApparatusPanel getApparatusPanel() {
         return apparatusPanel;
-    }
-
-    public JPanel getControlPanel() {
-        return controlPanel;
-    }
-
-    protected void setApparatusPanel(ApparatusPanel apparatusPanel) {
-        this.apparatusPanel = apparatusPanel;
-        helpManager = new HelpManager(apparatusPanel);//TODO fix this.
     }
 
     protected void setMonitorPanel(JPanel monitorPanel) {
@@ -71,11 +82,8 @@ public class Module {
         this.controlPanel = controlPanel;
     }
 
-    protected void init(ApparatusPanel panel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel) {
-        setApparatusPanel(apparatusPanel);
-        setControlPanel(controlPanel);
-        setMonitorPanel(monitorPanel);
-        setModel(model);
+    public JPanel getControlPanel() {
+        return controlPanel;
     }
 
     public JPanel getMonitorPanel() {
@@ -201,4 +209,9 @@ public class Module {
     public boolean hasMegaHelp() {
         return false;
     }
+
+    //////////////////////////////////////////////////////////////
+    // Getters and setters
+    //
+
 }

@@ -1,14 +1,14 @@
 <project name="General Ant Build Script" default="Publish Executables" basedir=".">
 
     <!--  Set ant output directories.  -->
-    <property name="ant.output" value="../ant_output"/>
+    <property name="ant.output" value="./ant_output"/>
     <property name="classes" location="${ant.output}/classes"/>
     <property name="jars" location="${ant.output}/jars"/>
     <property name="javadoc" location="${ant.output}/javadoc"/>
     <property name="lib" location="${ant.output}/lib"/>
 
     <!--    Set current sister directories, for backup and release data. -->
-    <property name="development" location="../development"/>
+    <property name="development" location="./"/>
     <property name="backup" location="../backup"/>
     <property name="releases" location="../releases"/>
     <property name="idea.classes" location="${development}/classes"/>

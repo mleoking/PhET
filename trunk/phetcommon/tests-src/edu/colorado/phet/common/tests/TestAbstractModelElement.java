@@ -17,6 +17,10 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 
 import java.util.EventObject;
 import java.util.EventListener;
+import java.net.Authenticator;
+import java.lang.reflect.ReflectPermission;
+import java.security.Permission;
+import java.security.AccessController;
 
 /**
  * TestAbstractModelElement
@@ -39,7 +43,7 @@ public class TestAbstractModelElement {
         }
     }
 
-    static class MyEvent extends EventObject {
+    public static class MyEvent extends EventObject {
         public MyEvent(Object source) {
             super(source);
         }
@@ -53,8 +57,22 @@ public class TestAbstractModelElement {
         void myEventHappened( MyEvent event );
     }
 
+    public static class EL implements MyEventListener {
+        public void myEventHappened(MyEvent event) {
+            System.out.println("numSteps = " + event.getNumSteps() );
+        }
+    }
+
+    public static class EL2 implements MyEventListener {
+        public void myEventHappened(MyEvent event) {
+            if( event.getNumSteps() > 20 ) {
+                System.exit( 0 );
+            }
+        }
+    }
 
     public static void main(String[] args) {
+
         AbstractClock clock = new SwingTimerClock( 10, 500 );
         BaseModel model = new BaseModel();
         clock.addClockTickListener( model );
@@ -62,20 +80,22 @@ public class TestAbstractModelElement {
         model.addModelElement( modelElement );
 
         // Add a listener to the model element that prints out the number of steps made so far
-        modelElement.addListener( new MyEventListener() {
-            public void myEventHappened(MyEvent event) {
-                System.out.println("numSteps = " + event.getNumSteps() );
-            }
-        });
+        modelElement.addListener( new EL());
+//        modelElement.addListener( new MyEventListener() {
+//            public void myEventHappened(MyEvent event) {
+//                System.out.println("numSteps = " + event.getNumSteps() );
+//            }
+//        });
 
         // Add a listener to the model element that stops the program after 20 steps
-        modelElement.addListener( new MyEventListener() {
-            public void myEventHappened(MyEvent event) {
-                if( event.getNumSteps() > 20 ) {
-                    System.exit( 0 );
-                }
-            }
-        });
+        modelElement.addListener( new EL2() );
+//        modelElement.addListener( new MyEventListener() {
+//            public void myEventHappened(MyEvent event) {
+//                if( event.getNumSteps() > 20 ) {
+//                    System.exit( 0 );
+//                }
+//            }
+//        });
 
         clock.start();
         // Spin until the listener kills us

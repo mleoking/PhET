@@ -34,6 +34,9 @@ public class TestPhetApplication {
         public MyModule( String name, AbstractClock clock, Color color ) {
             super( name );
 
+//            final ControlPanel controlPanel = new ControlPanel( this );
+//            setControlPanel( controlPanel );
+
             setApparatusPanel( new ApparatusPanel() );
             setModel( new BaseModel() );
             JTextArea ctrl = new JTextArea( 5, 20 );
