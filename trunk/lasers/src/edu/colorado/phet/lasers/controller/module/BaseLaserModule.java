@@ -75,7 +75,6 @@ public class BaseLaserModule extends Module {
     private CollimatedBeam seedBeam;
     private CollimatedBeam pumpingBeam;
     private JPanel reflectivityControlPanel;
-    private int photonView;
     private int pumpingPhotonView;
     private int lasingPhotonView = PHOTON_DISCRETE;
     private WaveBeamGraphic beamGraphic;
@@ -249,15 +248,6 @@ public class BaseLaserModule extends Module {
         atom.removeFromSystem();
     }
 
-    public void photonCreated( CollimatedBeam beam, Photon photon ) {
-        final PhotonGraphic photonGraphic = new PhotonGraphic( getApparatusPanel(), photon );
-        addGraphic( photonGraphic, LaserConfig.PHOTON_LAYER );
-        
-        // Add a listener that will remove the graphic from the apparatus panel when the
-        // photon leaves the system
-        photon.addListener( new PhotonLeftSystemListener( photonGraphic ) );
-    }
-
     public void setMirrorsEnabled( boolean mirrorsEnabled ) {
 
         // Regardless of the value of mirrorsEnabled, we should remove the
@@ -329,21 +319,22 @@ public class BaseLaserModule extends Module {
     // Implementations of listeners interfaces
     //
     public class PhotonEmissionListener implements PhotonEmittedListener {
+
         public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
             Photon photon = event.getPhoton();
             getModel().addModelElement( photon );
             // Is it a pumping beam photon, and are we viewing discrete photons?
             if( pumpingPhotonView == PHOTON_DISCRETE
                 && photon.getWavelength() == pumpingBeam.getWavelength() ) {
-                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+                PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
                 // Add a listener that will remove the graphic if the photon leaves the system
                 photon.addListener( new PhotonLeftSystemListener( pg ) );
             }
             // Is it a lasing wavelength photon, and are we viewing discrete photons?
-            if( lasingPhotonView == PHOTON_DISCRETE
-                && photon.getWavelength() == MiddleEnergyState.instance().getWavelength() ) {
-                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+            else if( lasingPhotonView == PHOTON_DISCRETE
+                     && photon.getWavelength() == MiddleEnergyState.instance().getWavelength() ) {
+                PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
                 // Add a listener that will remove the graphic if the photon leaves the system
                 photon.addListener( new PhotonLeftSystemListener( pg ) );
@@ -377,7 +368,6 @@ public class BaseLaserModule extends Module {
         public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
             getApparatusPanel().removeGraphic( graphic );
             getApparatusPanel().repaint( graphic.getBounds() );
-            PhotonGraphic.removeInstance( graphic );
         }
     }
 }

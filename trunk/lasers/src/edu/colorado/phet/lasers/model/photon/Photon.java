@@ -17,7 +17,6 @@ import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
-import javax.swing.event.EventListenerList;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.EventListener;
@@ -60,11 +59,11 @@ public class Photon extends Particle implements Collidable {
     static private ArrayList freePool = new ArrayList( freePoolSize );
 
     // Populate the free pool
-    static {
-        for( int i = 0; i < freePoolSize; i++ ) {
-            freePool.add( new Photon() );
-        }
-    }
+    //    static {
+    //        for( int i = 0; i < freePoolSize; i++ ) {
+    //            freePool.add( new Photon() );
+    //        }
+    //    }
 
     static public Photon create( Point2D location, Vector2D velocity ) {
         Photon newPhoton = new Photon();
@@ -78,13 +77,10 @@ public class Photon extends Particle implements Collidable {
         stimulatingPhoton.numStimulatedPhotons++;
         Photon newPhoton = create( stimulatingPhoton.getWavelength(), location,
                                    stimulatingPhoton.getVelocity() );
-        //        Photon newPhoton = create( stimulatingPhoton.getWavelength(), location, velocity );
-        //        newPhoton.setVelocity( new Vector2D.Double( stimulatingPhoton.getVelocity() ) );
         int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
         int sign = random.nextBoolean() ? 1 : -1;
         newPhoton.setPosition( stimulatingPhoton.getPosition().getX(),
                                stimulatingPhoton.getPosition().getY() + ( yOffset * sign ) );
-        //                               stimulatingPhoton.getPosition().getY() - yOffset );
         return newPhoton;
     }
 
@@ -105,8 +101,8 @@ public class Photon extends Particle implements Collidable {
     /////////////////////////////////////////////////////////////////////////////////////
     // Instance
     //
-    private EventListenerList listenerList = new EventListenerList();
-    private EventRegistry eventRegistry = new EventRegistry();
+    private ArrayList eventRegistry = new ArrayList();
+    //    private EventRegistry eventRegistry = new EventRegistry();
     private int numStimulatedPhotons;
     // If this photon was produced by the stimulation of another, this
     // is a reference to that photon.
@@ -116,18 +112,8 @@ public class Photon extends Particle implements Collidable {
     private Photon childPhoton;
     private CollidableAdapter collidableAdapter;
     private double wavelength;
-    //    private CollimatedBeam beam;
     // This list keeps track of atoms that the photon has collided with
     private ArrayList contactedAtoms = new ArrayList();
-
-
-    public void addLeftSystemEventListener( LeftSystemEventListener listener ) {
-        listenerList.add( LeftSystemEventListener.class, listener );
-    }
-
-    public void removeLeftSystemEventListener( LeftSystemEventListener listener ) {
-        listenerList.remove( LeftSystemEventListener.class, listener );
-    }
 
     /**
      * Constructor is private so that clients of the class must use static create()
@@ -145,11 +131,13 @@ public class Photon extends Particle implements Collidable {
     }
 
     public void addListener( EventListener listener ) {
-        eventRegistry.addListener( listener );
+        eventRegistry.add( listener );
+        //        eventRegistry.addListener( listener );
     }
 
     public void removeListener( EventListener listener ) {
-        eventRegistry.removeListener( listener );
+        eventRegistry.remove( listener );
+        //        eventRegistry.removeListener( listener );
     }
 
     /**
@@ -158,10 +146,14 @@ public class Photon extends Particle implements Collidable {
      * again. This helps prevent us from flogging the heap.
      */
     public void removeFromSystem() {
-        eventRegistry.fireEvent( new LeftSystemEvent() );
+        //        eventRegistry.fireEvent( new LeftSystemEvent() );
+        for( int i = 0; i < eventRegistry.size(); i++ ) {
+            EventListener eventListener = (EventListener)eventRegistry.get( i );
+            if( eventListener instanceof LeftSystemEventListener ) {
+                ( (LeftSystemEventListener)eventRegistry.get( i ) ).leftSystemEventOccurred( new LeftSystemEvent() );
+            }
+        }
         this.removeAllObservers();
-        // Do this to release references to all listeners
-        eventRegistry = null;
         //        freePool.add( this );
         //        setChanged();
         //        notifyObservers( Particle.S_REMOVE_BODY );
@@ -202,7 +194,13 @@ public class Photon extends Particle implements Collidable {
     public void setVelocity( double vx, double vy ) {
         VelocityChangedEvent vce = new VelocityChangedEvent();
         super.setVelocity( vx, vy );
-        eventRegistry.fireEvent( vce );
+        //        eventRegistry.fireEvent( vce );
+        for( int i = 0; i < eventRegistry.size(); i++ ) {
+            EventListener eventListener = (EventListener)eventRegistry.get( i );
+            if( eventListener instanceof VelocityChangedListener ) {
+                ( (VelocityChangedListener)eventRegistry.get( i ) ).velocityChanged( new VelocityChangedEvent() );
+            }
+        }
     }
 
     public Vector2D getVelocityPrev() {

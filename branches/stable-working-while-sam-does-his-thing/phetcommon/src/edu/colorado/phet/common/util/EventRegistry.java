@@ -118,4 +118,14 @@ public class EventRegistry {
             }
         }
     }
+
+    public int getNumListeners() {
+        int num = 0;
+        Collection list = this.listenerTypeToListenersMap.values();
+        for( Iterator iterator = list.iterator(); iterator.hasNext(); ) {
+            Collection collection = (Collection)iterator.next();
+            num += collection.size();
+        }
+        return num;
+    }
 }

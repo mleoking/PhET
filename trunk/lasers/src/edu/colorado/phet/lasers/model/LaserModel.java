@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
+public class LaserModel extends BaseModel {
 
     static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
     static private int width = 800;
@@ -80,7 +80,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         }
         if( modelElement instanceof Photon ) {
             photons.add( modelElement );
-            ( (Photon)modelElement ).addListener( this );
+            //            ( (Photon)modelElement ).addListener( this );
         }
         if( modelElement instanceof Atom ) {
             atoms.add( modelElement );
@@ -110,18 +110,14 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         super.stepInTime( dt );
 
         // Check to see if any photons need to be taken out of the system
-        int photonCnt = 0;
-
         for( int i = 0; i < bodies.size(); i++ ) {
             Object obj = bodies.get( i );
             if( obj instanceof Photon ) {
-                photonCnt++;
                 Photon photon = (Photon)obj;
                 Point2D position = photon.getPosition();
                 if( !boundingRectangle.contains( position.getX(), position.getY() ) ) {
                     removeModelElement( photon );
                     photon.removeFromSystem();
-                    photonCnt--;
                 }
             }
         }
@@ -213,11 +209,5 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
                 }
             }
         }
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    // Listener implementations
-    public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
-        removeModelElement( event.getPhoton() );
     }
 }

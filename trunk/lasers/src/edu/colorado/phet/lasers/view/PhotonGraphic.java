@@ -38,7 +38,9 @@ import java.util.HashMap;
  * Author: Another Guy
  * Date: Mar 21, 2003
  */
-public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, Photon.VelocityChangedListener {
+public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
+                                                               Photon.LeftSystemEventListener,
+                                                               Photon.VelocityChangedListener {
 
     //////////////////////////////////////////////////////////////////////////////////////
     // Class
@@ -90,8 +92,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     // by their angle of travel. The outer map keys the inner maps by color
     static HashMap s_animationMap = new HashMap();
     // The angle at which the photon is moving
-    private double theta;
-    private Rectangle2D rect = new Rectangle2D.Double();
 
     // Generated all the photon animations
     static {
@@ -191,6 +191,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     public static void removeInstance( PhotonGraphic graphic ) {
         synchronized( s_instances ) {
             s_instances.remove( graphic );
+            System.out.println( "PhotonGraphic.removeInstance " + s_instances.size() );
         }
     }
 
@@ -198,7 +199,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Instance
     //
-
+    private double theta;
+    private Rectangle2D rect = new Rectangle2D.Double();
     private Vector2D velocity;
     //    private BufferedImage buffImg = new BufferedImage( s_imgLength, s_imgHeight, BufferedImage.TYPE_INT_ARGB );
     private BufferedImage[] animation;
@@ -206,11 +208,24 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     private Photon photon;
     private Color color;
 
+
+    public class Foo {
+        String s = "FOO";
+    }
+
+    Foo[] foo = new Foo[1000];
+
+
     public PhotonGraphic( Component component, Photon photon ) {
         // Need to subtract half the width and height of the image to locate it
         // properly
         super( component, s_particleImage );
         s_instances.add( this );
+
+        // Create objects so we'll show up in the profiler
+        for( int i = 0; i < foo.length; i++ ) {
+            foo[i] = new Foo();
+        }
 
         this.photon = photon;
         this.color = VisibleColor.wavelengthToColor( photon.getWavelength() );
@@ -223,7 +238,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
         //        init( particle );
 
         velocity = new Vector2D.Double( photon.getVelocity() );
-        createImage();
+        createImage( photon );
 
         double w = getBounds().getWidth();
         double h = getBounds().getHeight();
@@ -232,10 +247,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
         double x = cx + w * Math.cos( photon.getVelocity().getAngle() );
         double y = cy + h * Math.sin( photon.getVelocity().getAngle() );
         setPosition( (int)( photon.getPosition().getX() - x ), (int)( photon.getPosition().getY() - y ) );
-        //        setPosition( photon );
     }
 
-    private void createImage() {
+    private void createImage( Photon photon ) {
         theta = photon.getVelocity().getAngle();
 
         // This code is for the squiggle view of photons
@@ -390,6 +404,14 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, P
     }
 
     public void velocityChanged( Photon.VelocityChangedEvent event ) {
-        createImage();
+        createImage( (Photon)event.getSource() );
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Listener implementions
+    //
+    public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
+        PhotonGraphic.removeInstance( this );
+        //        photon.removeListener( this );
     }
 }

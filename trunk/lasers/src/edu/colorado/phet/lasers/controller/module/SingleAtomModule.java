@@ -77,8 +77,6 @@ public class SingleAtomModule extends BaseLaserModule {
                                                        1, s_boxHeight + s_laserOffsetX * 2 ) );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.setEnabled( true );
-        //        WaveBeamGraphic beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
-        //        addGraphic( beamGraphic, 1 );
 
         // Add the lamps for firing photons
         try {
@@ -153,9 +151,7 @@ public class SingleAtomModule extends BaseLaserModule {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-
         laserControlPanel.setThreeEnergyLevels( this.threeEnergyLevels );
-
         atom = new Atom( getModel() );
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
