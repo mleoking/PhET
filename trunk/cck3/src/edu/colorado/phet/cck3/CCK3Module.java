@@ -605,6 +605,8 @@ public class CCK3Module extends Module {
             fs = new FrameSetup.CenteredWithInsets( 0, 200 );
         }
         ApplicationModel model = new ApplicationModel( "Circuit Construction Kit III", "cck-v3", "III-v8+", fs, cck, clock );
+        model.setName( "cck" );
+        model.setUseClockControlPanel( false );
         PhetApplication app = new PhetApplication( model );
 
         CCKLookAndFeel cckLookAndFeel = new CCKLookAndFeel();

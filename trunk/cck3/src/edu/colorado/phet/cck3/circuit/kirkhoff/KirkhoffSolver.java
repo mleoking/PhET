@@ -36,15 +36,20 @@ public class KirkhoffSolver {
         es.addAll( loopEquations );
         es.addAll( ohmsLaws );
 
+
         MatrixSystem ms = es.toMatrixSystem();
-        Matrix solution = ms.solve();
-        double rnorm = ms.getResidualNorm();
+
         if( debugging ) {
             System.out.println( "mt = " + mt );
             System.out.println( mt.describe( junctionEquations, "Junction Equations" ) );
             System.out.println( mt.describe( loopEquations, "Loop Equations" ) );
             System.out.println( mt.describe( ohmsLaws, "Ohm's Law Equations" ) );
             System.out.println( "ms = " + ms );
+        }
+
+        Matrix solution = ms.solve();
+        double rnorm = ms.getResidualNorm();
+        if( debugging ) {
             solution.print( new DecimalFormat( "#0.0####" ), 4 );
             System.out.println( "rnorm = " + rnorm );
         }
@@ -93,7 +98,7 @@ public class KirkhoffSolver {
         ArrayList all = new ArrayList();
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch br = circuit.branchAt( i );
-            if( table.isLoopElement( br ) ) {
+            if( table.isLoopElementWithVoltageSource( br ) ) {
                 int iIndex = table.getCurrentColumn( br );
                 if( iIndex != -1 ) {
                     double resistance = br.getResistance();
@@ -167,31 +172,33 @@ public class KirkhoffSolver {
         Path[] loops = mt.getLoops();
         for( int i = 0; i < loops.length; i++ ) {
             Path loop = loops[i];
-            Path.DirectedBranch[] db = loop.getDirectedBranches();
-            //the sum of the voltages around the directed loop is zero.
-            Equation eq = mt.newEquation();
-            for( int k = 0; k < db.length; k++ ) {
-                Path.DirectedBranch directedBranch = db[k];
-                Branch branch = directedBranch.getBranch();
-                int value = 1;
-                if( !directedBranch.isForward() ) {
-                    value = -1;
-                }
-                if( branch instanceof Battery ) {
+            if( loop.containsVoltageSource() ) {
+                Path.DirectedBranch[] db = loop.getDirectedBranches();
+                //the sum of the voltages around the directed loop is zero.
+                Equation eq = mt.newEquation();
+                for( int k = 0; k < db.length; k++ ) {
+                    Path.DirectedBranch directedBranch = db[k];
+                    Branch branch = directedBranch.getBranch();
+                    int value = 1;
+                    if( !directedBranch.isForward() ) {
+                        value = -1;
+                    }
+                    if( branch instanceof Battery ) {
 //                    eq.addValue( -value * branch.getVoltageDrop() );//used to be -value
-                    eq.addValue( -value * branch.getVoltageDrop() );
+                        eq.addValue( -value * branch.getVoltageDrop() );
 //                    int column = mt.getVoltageColumn( circuit.indexOf( directedBranch.getBranch() ) );
-                    int column = mt.getCurrentColumn( circuit.indexOf( branch ) );
-                    eq.setCoefficient( column, -value * branch.getResistance() );
-                }
-                else {
-                    int column = mt.getVoltageColumn( circuit.indexOf( branch ) );
-                    if( column != -1 ) {
-                        eq.setCoefficient( column, value );
+                        int column = mt.getCurrentColumn( circuit.indexOf( branch ) );
+                        eq.setCoefficient( column, -value * branch.getResistance() );
+                    }
+                    else {
+                        int column = mt.getVoltageColumn( circuit.indexOf( branch ) );
+                        if( column != -1 ) {
+                            eq.setCoefficient( column, value );
+                        }
                     }
                 }
+                equations.add( eq );
             }
-            equations.add( eq );
         }
         return (Equation[])equations.toArray( new Equation[0] );
     }
@@ -293,7 +300,7 @@ public class KirkhoffSolver {
             this.loops = Path.getLoops( circuit );
             for( int i = 0; i < circuit.numBranches(); i++ ) {
                 Branch br = circuit.branchAt( i );
-                if( isLoopElement( br ) ) {
+                if( isLoopElementWithVoltageSource( br ) ) {
                     currentTable.put( new Integer( i ), new Integer( columnIndex++ ) );
 //                    System.out.println( "column[" + ( columnIndex - 1 ) + "] = " + "I" + i );
                 }
@@ -303,7 +310,7 @@ public class KirkhoffSolver {
             }
             for( int i = 0; i < circuit.numBranches(); i++ ) {
                 Branch b = circuit.branchAt( i );
-                if( isLoopElement( b ) ) {
+                if( isLoopElementWithVoltageSource( b ) ) {
                     if( !( b instanceof Battery ) ) {
                         voltageTable.put( new Integer( i ), new Integer( columnIndex++ ) );
 //                        System.out.println( "column[" + ( columnIndex - 1 ) + "] = " + "V" + i );
@@ -437,6 +444,16 @@ public class KirkhoffSolver {
             for( int i = 0; i < loops.length; i++ ) {
                 Path p = loops[i];
                 if( p.containsBranch( br ) ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public boolean isLoopElementWithVoltageSource( Branch br ) {
+            for( int i = 0; i < loops.length; i++ ) {
+                Path p = loops[i];
+                if( p.containsBranch( br ) && p.containsVoltageSource() ) {
                     return true;
                 }
             }

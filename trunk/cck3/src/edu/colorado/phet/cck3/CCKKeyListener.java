@@ -38,6 +38,13 @@ public class CCKKeyListener implements KeyListener {
         else if( e.getKeyCode() == KeyEvent.VK_A && e.isControlDown() ) {
             cck.selectAll();
         }
+        else if( e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
+            boolean orig = cck.getCircuitGraphic().isLifelike();
+            for( int i = 0; i < 100; i++ ) {
+                cck.setLifelike( !orig );
+                cck.setLifelike( orig );
+            }
+        }
     }
 
     public void keyTyped( KeyEvent e ) {

@@ -85,6 +85,17 @@ public abstract class ComponentEditor extends JDialog {
 
             public void branchesMoved( Branch[] branches ) {
             }
+
+            public void junctionAdded( Junction junction ) {
+            }
+
+            public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
+            }
+
+            public void junctionsSplit( Junction old, Junction[] j ) {
+            }
+
+
         } );
         pack();
         GraphicsUtil.centerDialogInParent( this );

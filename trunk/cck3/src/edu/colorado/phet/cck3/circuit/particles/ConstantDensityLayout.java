@@ -22,15 +22,13 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
     public void branchesMoved( Branch[] branches ) {
         int num = module.getParticleSet().numParticles();
 //        System.out.println( "num= " + num );
-        relayout( branches );
+//        relayout( branches );
+        relayout( module.getCircuit().getBranches() );
         int numAfter = module.getParticleSet().numParticles();
 //        System.out.println( "numAfter = " + numAfter );
     }
 
     public void relayout( Branch[] branches ) {
-//
-//        System.out.println( "TIME=" + System.currentTimeMillis() + ", Started layout, branches=" + Arrays.asList( branches ) );
-
         for( int i = 0; i < branches.length; i++ ) {
             Branch branch = branches[i];
             relayout( branch );
@@ -49,33 +47,17 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
         double L = endingPoint - startingPoint;
         double desiredDensity = 1 / CCK3Module.ELECTRON_DX;
         double N = L * desiredDensity;
-//        int integralNumberParticles = (int)N;
-//        integralNumberParticles++;
         int integralNumberParticles = (int)Math.ceil( N );
         double mydensity = ( integralNumberParticles - 1 ) / L;
-//        double dx = CCK3Module.ELECTRON_DX;
         double dx = 1 / mydensity;
         if( mydensity == 0 ) {
             integralNumberParticles = 0;
         }
-//        System.out.println( "dx = " + dx );
-//        System.out.println( "desiredDensity = " + desiredDensity );
-//        System.out.println( "mydensity = " + mydensity );
-//        System.out.println( "st = " + startingPoint );
-//        System.out.println( "endingPoint = " + endingPoint );
         for( int i = 0; i < integralNumberParticles; i++ ) {
-
             double x = i * dx + startingPoint;
-//            System.out.println( "i = " + i );
-//            System.out.println( "x = " + x );
             Electron e = new Electron( branch, x );
             ps.addParticle( e );
             psg.addGraphic( e );
         }
-//        for( double x = startingPoint; x <= endingPoint; x += dx ) {
-//            Electron e = new Electron( branch, x );
-//            ps.addParticle( e );
-//            psg.addGraphic( e );
-//        }
     }
 }

@@ -393,6 +393,7 @@ public class CCK3ControlPanel extends JPanel {
         final JFrame imageFrame = new JFrame();
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "images/cck-help.gif" );
+
             JLabel label = new JLabel( new ImageIcon( image ) );
             imageFrame.setContentPane( label );
             imageFrame.pack();
@@ -405,10 +406,13 @@ public class CCK3ControlPanel extends JPanel {
             } );
             imageFrame.setResizable( false );
         }
-
         catch( IOException e ) {
             e.printStackTrace();
+            StringWriter sw = new StringWriter();
+            e.printStackTrace( new PrintWriter( sw ) );
+            JOptionPane.showMessageDialog( module.getApparatusPanel(), sw.getBuffer().toString(), "Error Loading Help", JOptionPane.ERROR_MESSAGE );
         }
+
     }
 
     private void zoom( double scale ) {
@@ -551,6 +555,7 @@ public class CCK3ControlPanel extends JPanel {
                 advancedControlPanel.showDialog();
             }
         } );
+        advanced.setToolTipText( "advanced tooltip" );
         JPanel circuitPanel = new JPanel();
         circuitPanel.setLayout( new BoxLayout( circuitPanel, BoxLayout.Y_AXIS ) );
 //        circuitPanel.add( printKirkhoffsLaws );
