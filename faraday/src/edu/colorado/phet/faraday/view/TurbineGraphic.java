@@ -68,7 +68,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     private Rectangle _waterShape;
     private BarMagnetGraphic _barMagnetGraphic;
     private PhetImageGraphic _waterWheelGraphic;
-    private PhetTextGraphic _rpmGraphic;
+    private PhetTextGraphic _rpmValue;
     private FaradaySlider _flowSlider;
     private double _previousSpeed;
     
@@ -157,13 +157,14 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
 
         // RPM readout
         {
-            _rpmGraphic = new PhetTextGraphic( component, RPM_VALUE_FONT, "", RPM_COLOR );
-            addGraphic( _rpmGraphic, RPM_LAYER );
-            _rpmGraphic.centerRegistrationPoint();
-            _rpmGraphic.setLocation( 0, 10 );
+            String valueString = String.valueOf( (int) ( _turbineModel.getRPM() ) );
+            _rpmValue = new PhetTextGraphic( component, RPM_VALUE_FONT, valueString, RPM_COLOR );
+            addGraphic( _rpmValue, RPM_LAYER );
+            _rpmValue.centerRegistrationPoint();
+            _rpmValue.setLocation( 0, 10 );
 
-            String s = SimStrings.get( "TurbineGraphic.rpm" );
-            PhetTextGraphic rpmUnits = new PhetTextGraphic( component, RPM_UNITS_FONT, s, RPM_COLOR );
+            String unitsString = SimStrings.get( "TurbineGraphic.rpm" );
+            PhetTextGraphic rpmUnits = new PhetTextGraphic( component, RPM_UNITS_FONT, unitsString, RPM_COLOR );
             addGraphic( rpmUnits, RPM_LAYER );
             rpmUnits.centerRegistrationPoint();
             rpmUnits.setLocation( 0, 22 );
@@ -236,10 +237,10 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
                     int rpms = (int) _turbineModel.getRPM();
 
                     // Set the text
-                    _rpmGraphic.setText( String.valueOf( rpms ) );
+                    _rpmValue.setText( String.valueOf( rpms ) );
 
                     // Center justify
-                    _rpmGraphic.centerRegistrationPoint();
+                    _rpmValue.centerRegistrationPoint();
                 }
 
                 // Update the water flow.
