@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.chart;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public abstract class DataSetGraphic implements DataSet.Observer {
     private DataSet dataSet;
@@ -15,6 +15,7 @@ public abstract class DataSetGraphic implements DataSet.Observer {
 
     public DataSetGraphic( DataSet dataSet ) {
         this.dataSet = dataSet;
+        dataSet.addObserver( this );
     }
 
     public void setChart( Chart chart ) {
@@ -28,6 +29,7 @@ public abstract class DataSetGraphic implements DataSet.Observer {
     protected void addAllPoints() {
         DataSet dataSet = getDataSet();
         for( int i = 0; i < dataSet.size(); i++ ) {
+//            System.out.println( "i = " + i + ", point=" + dataSet.pointAt( i ) );
             Point2D point = dataSet.pointAt( i );
             pointAdded( point );
         }
@@ -36,5 +38,8 @@ public abstract class DataSetGraphic implements DataSet.Observer {
     protected Chart getChart() {
         return chart;
     }
-    public abstract void paint(Graphics2D graphics2D);
+
+    public abstract void paint( Graphics2D graphics2D );
+
+    public abstract void transformChanged();
 }
