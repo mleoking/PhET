@@ -62,7 +62,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
     private JLabel _strengthValue;
     private JSlider _strengthSlider;
     private JCheckBox _magnetTransparencyCheckBox;
-    private JCheckBox _meterCheckBox, _compassCheckBox;
+    private JCheckBox _fieldMeterCheckBox, _compassCheckBox;
     
     // Debugging components
     private JSlider _magnetWidthSlider, _magnetHeightSlider;
@@ -158,10 +158,10 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
 
         JPanel probePanel = new JPanel();
         {
-            _meterCheckBox = new JCheckBox( SimStrings.get( "meterCheckBox.label" ) );
+            _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "meterCheckBox.label" ) );
             
             probePanel.setLayout( new BoxLayout( probePanel, BoxLayout.X_AXIS ) );
-            probePanel.add( _meterCheckBox );
+            probePanel.add( _fieldMeterCheckBox );
         }
         
         JPanel compassPanel = new JPanel();
@@ -317,7 +317,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
         _flipPolarityButton.addActionListener( listener );
         _strengthSlider.addChangeListener( listener );
         _magnetTransparencyCheckBox.addActionListener( listener );
-        _meterCheckBox.addActionListener( listener );
+        _fieldMeterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
         if ( ENABLE_DEVELOPER_CONTROLS ) {
             _magnetWidthSlider.addChangeListener( listener );
@@ -337,7 +337,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
     public void update() {
         _strengthSlider.setValue( (int) _magnetModel.getStrength() );
         _magnetTransparencyCheckBox.setSelected( _magnetGraphic.isTransparencyEnabled() );
-        _meterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
+        _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         if ( ENABLE_DEVELOPER_CONTROLS ) {
             _magnetWidthSlider.setValue( (int) _magnetModel.getSize().width );
@@ -382,9 +382,9 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
                 // Magnet transparency enable
                 _magnetGraphic.setTransparencyEnabled( _magnetTransparencyCheckBox.isSelected() );
             }
-            else if ( e.getSource() == _meterCheckBox ) {
+            else if ( e.getSource() == _fieldMeterCheckBox ) {
                 // Meter enable
-                _fieldMeterGraphic.setVisible( _meterCheckBox.isSelected() );
+                _fieldMeterGraphic.setVisible( _fieldMeterCheckBox.isSelected() );
             }
             else if ( e.getSource() == _compassCheckBox ) {
                 // Compass enable
