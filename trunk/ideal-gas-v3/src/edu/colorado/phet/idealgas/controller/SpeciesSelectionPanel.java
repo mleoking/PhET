@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 
-public abstract class SpeciesSelectionPanel extends JPanel {
+public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasModule.ResetListener {
     private IdealGasModule module;
     private GasSource gasSource;
     private JSpinner heavySpinner;
@@ -27,6 +27,7 @@ public abstract class SpeciesSelectionPanel extends JPanel {
 
     public SpeciesSelectionPanel( final IdealGasModule module, final GasSource gasSource ) {
         this.module = module;
+        module.addResetListener( this );
         this.gasSource = gasSource;
 
         // Radio buttons
@@ -81,15 +82,17 @@ public abstract class SpeciesSelectionPanel extends JPanel {
         heavySpinner.setPreferredSize( new Dimension( 50, 20 ) );
         heavySpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int dn = ((Integer)heavySpinner.getValue()).intValue() - getHeavySpeciesCnt();
-                if( dn > 0 ) {
-                    for( int i = 0; i < dn; i++ ) {
-                        createMolecule( HeavySpecies.class );
+                if( heavySpinner.isEnabled() ) {
+                    int dn = ( (Integer)heavySpinner.getValue() ).intValue() - getHeavySpeciesCnt();
+                    if( dn > 0 ) {
+                        for( int i = 0; i < dn; i++ ) {
+                            createMolecule( HeavySpecies.class );
+                        }
                     }
-                }
-                else if( dn < 0 ) {
-                    for( int i = 0; i < -dn; i++ ) {
-                        removeMolecule( HeavySpecies.class );
+                    else if( dn < 0 ) {
+                        for( int i = 0; i < -dn; i++ ) {
+                            removeMolecule( HeavySpecies.class );
+                        }
                     }
                 }
             }
@@ -101,19 +104,30 @@ public abstract class SpeciesSelectionPanel extends JPanel {
         lightSpinner.setPreferredSize( new Dimension( 50, 20 ) );
         lightSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int dn = ((Integer)lightSpinner.getValue()).intValue()  - getLightSpeciesCnt();
-                if( dn > 0 ) {
-                    for( int i = 0; i < dn; i++ ) {
-                        createMolecule( LightSpecies.class );
+                if( lightSpinner.isEnabled() ) {
+                    int dn = ( (Integer)lightSpinner.getValue() ).intValue() - getLightSpeciesCnt();
+                    if( dn > 0 ) {
+                        for( int i = 0; i < dn; i++ ) {
+                            createMolecule( LightSpecies.class );
+                        }
                     }
-                }
-                else if( dn < 0 ) {
-                    for( int i = 0; i < -dn; i++ ) {
-                        removeMolecule( LightSpecies.class );
+                    else if( dn < 0 ) {
+                        for( int i = 0; i < -dn; i++ ) {
+                            removeMolecule( LightSpecies.class );
+                        }
                     }
                 }
             }
         } );
+    }
+
+    public void resetOccurred( IdealGasModule.ResetEvent event ) {
+        heavySpinner.setEnabled( false );
+        lightSpinner.setEnabled( false );
+        heavySpinner.setValue( new Integer( 0 ) );
+        lightSpinner.setValue( new Integer( 0 ) );
+        heavySpinner.setEnabled( true );
+        lightSpinner.setEnabled( true );
     }
 
     //----------------------------------------------------------------------------------
@@ -135,7 +149,10 @@ public abstract class SpeciesSelectionPanel extends JPanel {
     // Abstract methods
     //----------------------------------------------------------------------------------
     protected abstract void createMolecule( Class moleculeClass );
+
     protected abstract void removeMolecule( Class moleculeClass );
+
     protected abstract int getHeavySpeciesCnt();
+
     protected abstract int getLightSpeciesCnt();
 }

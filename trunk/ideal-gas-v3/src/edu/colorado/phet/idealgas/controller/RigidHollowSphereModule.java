@@ -109,8 +109,8 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         }
 
         // Turn on gravity
-        //        getIdealGasApplication().setGravityEnabled( true );
-        //        getIdealGasApplication().setGravity( 15 );
+//        getIdealGasApplication().setGravityEnabled( true );
+//        getIdealGasApplication().setGravity( 15 );
 
         // Add controls to the control panel that are specific to this module
         JPanel controlPanel = new JPanel( new GridBagLayout() );
@@ -120,7 +120,9 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                       insets, 0, 0 );
-        controlPanel.add( new HollowSphereControlPanel( this, RigidHollowSphereModule.this, sphere ), gbc );
+        HollowSphereControlPanel hollowSphereControlPanel = new HollowSphereControlPanel( this, RigidHollowSphereModule.this, sphere );
+        controlPanel.add( hollowSphereControlPanel, gbc );
+        this.addResetListener( hollowSphereControlPanel );
         getIdealGasControlPanel().addParticleControl( controlPanel );
     }
 
