@@ -4,10 +4,9 @@
  * Author: Another Guy
  * Date: Oct 2, 2003
  */
-package edu.colorado.phet.coreadditions;
+package edu.colorado.phet.mechanics;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.mechanics.PhysicalVector;
 
 public class Vector3D extends PhysicalVector {
 
@@ -30,10 +29,14 @@ public class Vector3D extends PhysicalVector {
         this.setZ( z );
         if( Double.isNaN( x ) )
         //throw new RuntimeException( "x was NaN" );
+        {
             System.out.println( "Vector2D constructor: x was NaN" );
+        }
         if( Double.isNaN( y ) )
         //throw new RuntimeException( "Y was NaN" );
+        {
             System.out.println( "Vector2D constructor: y was NaN" );
+        }
     }
 
     public String toString() {
@@ -109,10 +112,9 @@ public class Vector3D extends PhysicalVector {
     }
 
     public Vector3D crossProduct( Vector3D that ) {
-        Vector3D result = new Vector3D(
-                this.getY() * that.getZ() - this.getZ() * that.getY(),
-                -this.getX() * that.getZ() + this.getZ() * that.getX(),
-                this.getX() * that.getY() - this.getY() * that.getX() );
+        Vector3D result = new Vector3D( this.getY() * that.getZ() - this.getZ() * that.getY(),
+                                        -this.getX() * that.getZ() + this.getZ() * that.getX(),
+                                        this.getX() * that.getY() - this.getY() * that.getX() );
         return result;
     }
 
