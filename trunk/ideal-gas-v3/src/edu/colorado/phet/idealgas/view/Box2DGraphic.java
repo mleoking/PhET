@@ -22,6 +22,7 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
     private static Color s_defaultColor = Color.black;
     private static float s_leaningManStateChangeScaleFactor = 1.75F;
     private Box2D box;
+    private boolean initWallMovement;
 
     public Box2DGraphic( Component component, final Box2D box ) {
         super( null );
@@ -35,26 +36,6 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
             public void translate( double dx, double dy ) {
                 double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - 50 );
                 box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
-                // Compute the velocity of the wall
-                //        if( !initWallMovement ) {
-                //            initWallMovement = true;
-                //
-                //            lastMinX = (float)event.getPoint().getX();
-                //            lastEventTime = event.getWhen();
-                //            clockScaleFactor = PhysicalSystem.instance().getDt() / PhysicalSystem.instance().getWaitTime();
-                //        }
-                //        float dx = (float)event.getPoint().getX() - lastMinX;
-                //        lastMinX = (float)event.getPoint().getX();
-                //        long now = event.getWhen();
-                //        long dt = now - lastEventTime;
-                //        lastEventTime = now;
-                //        if( dt > 0 ) {
-                //            float vx = dx / ( dt * clockScaleFactor );
-                //            Thread.yield();
-                //            box.setLeftWallVelocity( vx * 2 );
-                ////             We must yield so the PhysicalSystem thread can get the
-                ////             update.
-                //            Thread.yield();
             }
         } );
     }

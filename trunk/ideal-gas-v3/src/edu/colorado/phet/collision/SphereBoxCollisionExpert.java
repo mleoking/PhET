@@ -48,7 +48,7 @@ public class SphereBoxCollisionExpert extends ContactDetector {
 
         // Hitting left wall?
         double dx = sphere.getCenter().getX() - sphere.getRadius() - box.getMinX();
-        if( dx <= 0 && sphere.getVelocity().getX() < 0 ) {
+        if( dx <= 0 && sphere.getVelocity().getX() - box.getLeftWallVx() < 0 ) {
             result = true;
         }
 

@@ -65,7 +65,7 @@ public class IdealGasModel extends BaseModel {
         //        BalloonSphereCollision.register();
         SphereBoxCollision.register();
         SphereSphereCollision.register();
-        SphereWallCollision.register();
+//        SphereWallCollision.register();
     }
 
     /**
