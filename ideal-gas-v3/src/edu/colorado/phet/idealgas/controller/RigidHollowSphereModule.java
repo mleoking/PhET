@@ -38,6 +38,7 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
                                    new Vector2D.Double( 0, 0 ),
                                    100,
                                    50 );
+        box.setMinimumWidth( sphere.getRadius() * 3);
 
         new AddModelElementCmd( getIdealGasModel(), sphere ).doIt();
         getIdealGasModel().getBox().addContainedBody( sphere );

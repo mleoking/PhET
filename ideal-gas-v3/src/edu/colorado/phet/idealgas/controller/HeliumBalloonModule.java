@@ -44,6 +44,7 @@ public class HeliumBalloonModule extends IdealGasModule {
                                50,
                                getIdealGasModel().getBox(),
                                clock );
+        getBox().setMinimumWidth( balloon.getRadius() * 3 );
         getIdealGasModel().addModelElement( balloon );
         getIdealGasModel().getBox().addContainedBody( balloon );
         HollowSphereGraphic graphic = new HollowSphereGraphic( getApparatusPanel(), balloon );
