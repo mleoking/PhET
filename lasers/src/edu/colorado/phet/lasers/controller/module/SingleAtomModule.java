@@ -74,6 +74,7 @@ public class SingleAtomModule extends BaseLaserModule {
 //        pumpingBeam.setBounds(new Rectangle2D.Double(pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
 //                1, s_boxHeight + s_laserOffsetX * 2));
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
+
         // Start with the pumping beam turned down all the way
         pumpingBeam.setPhotonsPerSecond( 0 );
 
@@ -126,6 +127,9 @@ public class SingleAtomModule extends BaseLaserModule {
                                             LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE / 8,
                                             seedBeam, null );
         getApparatusPanel().addGraphic( pumpBeamControl );
+
+        // Set the averaging time for the energy levels display
+        setEnergyLevelsAveragingPeriod( 0 );
     }
 
     public void activate( PhetApplication app ) {
