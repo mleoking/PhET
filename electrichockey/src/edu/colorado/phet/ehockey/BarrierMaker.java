@@ -31,6 +31,7 @@ public class BarrierMaker extends JFrame {
 
 
     public static void main( String[] args ) {
+        HockeyStrings.setStrings( HockeyConfig.localizedStringPath );
         BarrierMaker barriers1 = new BarrierMaker();
     }
 }//end of public class
