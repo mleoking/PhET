@@ -19,12 +19,16 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.BeamControl2;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
+import edu.colorado.phet.lasers.help.SingleAtomModuleWiggleMe;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.model.photon.PhotonSource;
 import edu.colorado.phet.lasers.view.LampGraphic;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -136,19 +140,47 @@ public class SingleAtomModule extends BaseLaserModule {
         atom.setVelocity( 0, 0 );
         addAtom( atom );
 
-
         // Set up the control panel, and start off with two energy levels
         laserControlPanel = new UniversalLaserControlPanel( this );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
         setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
+
+        // Add the Wiggle-me
+        addWiggleMe( seedBeam );
     }
 
+    private void addWiggleMe( final CollimatedBeam seedBeam ) {
+        Point2D wiggleMeLoc = new Point2D.Double( seedBeamControl.getBounds().getMinX() + seedBeamControl.getWidth() / 2,
+                                                  seedBeamControl.getBounds().getMaxY() + 30 );
+        final SingleAtomModuleWiggleMe wiggleMe = new SingleAtomModuleWiggleMe( getApparatusPanel(),
+                                                                                wiggleMeLoc,
+                                                                                seedBeamControl.getWidth() / 2 );
+        addGraphic( wiggleMe, 100 );
+        getApparatusPanel().addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                wiggleMe.stop();
+            }
+        } );
+        seedBeam.addRateChangeListener( new PhotonSource.RateChangeListener() {
+            public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
+                wiggleMe.stop();
+                seedBeam.removeListener( this );
+            }
+        } );
+    }
+
+    /**
+     * @param app
+     */
     public void activate( PhetApplication app ) {
         super.activate( app );
         laserControlPanel.setThreeEnergyLevels( this.threeEnergyLevels );
     }
 
+    /**
+     * @param app
+     */
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
     }

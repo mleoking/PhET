@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.lasers.help;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -28,7 +28,7 @@ import java.awt.geom.Point2D;
  */
 public class SingleAtomModuleWiggleMe extends CompositePhetGraphic {
     private Font font = new Font( "Lucida-sans", Font.BOLD, 18 );
-    private Color color = new Color( 30, 140, 40 );
+    private Color color = new Color( 20, 140, 40 );
     private String text;
     private int x0;
     private int y0;

@@ -1,7 +1,6 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.control.IntensitySlider;
@@ -94,6 +93,10 @@ public class BeamControl2 extends GraphicLayerSet implements CollimatedBeam.Rate
             }
         } );
         beam.addWavelengthChangeListener( new WavelengthChangeListener( photonRateSlider ) );
+    }
+
+    public IntensitySlider getIntensityControl() {
+        return photonRateSlider;
     }
 
     public class WavelengthChangeListener implements CollimatedBeam.WavelengthChangeListener {

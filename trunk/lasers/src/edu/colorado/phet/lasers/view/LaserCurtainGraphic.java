@@ -65,7 +65,7 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
         // Determine the proper opacity of the shape's fill color
         level = numLasingPhotons > LaserConfig.LASING_THRESHOLD ? numLasingPhotons : 0;
         alpha = ( level / LaserConfig.KABOOM_THRESHOLD ) * maxAlpha;
-        setFillAlpha( alpha );
+//        setFillAlpha( alpha );
 
         setColor( VisibleColor.wavelengthToColor( atomicState.getWavelength() ) );
         // The power function here controls the ramp-up of actualColor intensity
@@ -77,17 +77,17 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
         repaint();
     }
 
-//    public void paint( Graphics2D g2 ) {
-////        if( alpha > 0 ) {
-//            saveGraphicsState( g2 );
-////            GraphicsUtil.setAlpha( g2, alpha );
-//            super.paint( g2 );
-//
-//            restoreGraphicsState();
-////        }
-////        g2.setColor( Color.green );
-////        g2.draw( this.getBounds() );
-//    }
+    public void paint( Graphics2D g2 ) {
+        if( alpha > 0 ) {
+            saveGraphicsState( g2 );
+            GraphicsUtil.setAlpha( g2, alpha );
+            super.paint( g2 );
+
+            restoreGraphicsState();
+        }
+//        g2.setColor( Color.green );
+//        g2.draw( this.getBounds() );
+    }
 
     //----------------------------------------------------------------
     // Event handling
