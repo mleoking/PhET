@@ -1,4 +1,4 @@
-/* WiggleMeGraphic.java, Copyright 2004 University of Colorado PhET */
+/* WiggleMe.java, Copyright 2004 University of Colorado PhET */
 
 package edu.colorado.phet.colorvision3.help;
 
@@ -16,7 +16,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 
 /**
- * WiggleMeGraphic is the base class for all "wiggle me" help graphics.
+ * WiggleMe is the base class for all "wiggle me" help graphics.
  * The graphic is animated in a clockwise circular motion.  The rate
  * and travel of the animation are adjustable.
  *
@@ -24,7 +24,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  * @revision $Id$ $Name$
  */
 
-public class WiggleMeGraphic extends PhetGraphic implements ModelElement
+public class WiggleMe extends PhetGraphic implements ModelElement
 {
 	//----------------------------------------------------------------------------
 	// Class data
@@ -61,13 +61,13 @@ public class WiggleMeGraphic extends PhetGraphic implements ModelElement
   //----------------------------------------------------------------------------
 
   /**
-   * Constructs a WiggleMeGraphic.
+   * Constructs a WiggleMe.
    * 
    * @param component the parent Component
    * @param model the module's model
    * @param graphic the graphic to be wiggled
    */
-  public WiggleMeGraphic( Component component, BaseModel model, PhetGraphic graphic )
+  public WiggleMe( Component component, BaseModel model, PhetGraphic graphic )
   {
     super( component );
     
@@ -84,13 +84,13 @@ public class WiggleMeGraphic extends PhetGraphic implements ModelElement
   }
   
   /**
-   * Constructs a WiggleMeGraphic with no graphic component.
+   * Constructs a WiggleMe with no graphic component.
    * This constructor is intended to be used in subclassing.
    * 
    * @param component the parent Component
    * @param model the module's model
    */
-  protected WiggleMeGraphic( Component component, BaseModel model )
+  protected WiggleMe( Component component, BaseModel model )
   {
     this( component, model, null );
   }
