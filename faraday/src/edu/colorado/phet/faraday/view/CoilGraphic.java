@@ -13,12 +13,16 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 import java.awt.geom.QuadCurve2D;
+import java.util.ArrayList;
 
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.model.AbstractCoil;
+import edu.colorado.phet.faraday.model.Electron;
+import edu.colorado.phet.faraday.model.QuadBezierSpline;
 
 
 /**
@@ -46,11 +50,14 @@ public class CoilGraphic implements SimpleObserver {
 
     private Component _component;
     private AbstractCoil _coilModel;
+    private BaseModel _baseModel;
     private CompositePhetGraphic _foreground;
     private CompositePhetGraphic _background;
-    private boolean _currentFlowAnimationEnabled;
+    private boolean _currentAnimationEnabled;
     private Stroke _loopStroke;
     private Color _foregroundColor, _middlegroundColor, _backgroundColor;
+    private ArrayList _paths; // array of QuadBezierSpline
+    private ArrayList _electrons; // array of Electron
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -62,11 +69,13 @@ public class CoilGraphic implements SimpleObserver {
      * @param component parent Component
      * @param coilModel the coil that this graphic is watching
      */
-    public CoilGraphic( Component component, AbstractCoil coilModel ) {
+    public CoilGraphic( Component component, BaseModel baseModel, AbstractCoil coilModel ) {
         assert( component != null );
         assert( coilModel != null );
         
         _component = component;
+        _baseModel = baseModel;
+        
         _coilModel = coilModel;
         _coilModel.addObserver( this );
         
@@ -76,11 +85,14 @@ public class CoilGraphic implements SimpleObserver {
         _foreground.setRenderingHints( hints );
         _background.setRenderingHints( hints );
         
-        _currentFlowAnimationEnabled = false;
+        _currentAnimationEnabled = false;
         _loopStroke = new BasicStroke( WIRE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL );
         _foregroundColor = FOREGROUND_COLOR;
         _middlegroundColor = MIDDLEGROUND_COLOR;
         _backgroundColor = BACKGROUND_COLOR;
+        
+        _paths = new ArrayList();
+        _electrons = new ArrayList();
         
         update();
     }
@@ -121,9 +133,9 @@ public class CoilGraphic implements SimpleObserver {
      * 
      * @param enabled true to enabled, false to disable
      */
-    public void setCurrentFlowAnimationEnabled( boolean enabled ) {
-        if ( enabled != _currentFlowAnimationEnabled ) {
-            _currentFlowAnimationEnabled = enabled;
+    public void setCurrentAnimationEnabled( boolean enabled ) {
+        if ( enabled != _currentAnimationEnabled ) {
+            _currentAnimationEnabled = enabled;
             update();
         }
     }
@@ -133,8 +145,8 @@ public class CoilGraphic implements SimpleObserver {
      * 
      * @return true if enabled, false if disabled
      */
-    public boolean isCurrentFlowAnimationEnabled() {
-        return _currentFlowAnimationEnabled;
+    public boolean isCurrentAnimationEnabled() {
+        return _currentAnimationEnabled;
     }
 
     /**
@@ -196,10 +208,27 @@ public class CoilGraphic implements SimpleObserver {
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
+        if ( _foreground.isVisible() || _background.isVisible() ) {
+            updateGraphics();
+        }
+    }
+    
+    private void updateGraphics() {
         
         // Removing any existing graphics components.
         _foreground.clear();
         _background.clear();
+        
+        // Clear the parametric path list.
+        _paths.clear();
+        
+        // Remove electrons from the model.
+        for ( int i = 0; i < _electrons.size(); i ++ ) {
+            Electron electron = (Electron) _electrons.get(i);
+            electron.removeAllObservers();
+            _baseModel.removeModelElement( electron );
+        }
+        _electrons.clear();
         
         int numberOfLoops = _coilModel.getNumberOfLoops();
         double radius = _coilModel.getRadius();
@@ -289,20 +318,19 @@ public class CoilGraphic implements SimpleObserver {
         }
         
         // Front of loops
-        for ( int i = 0; i < numberOfLoops; i++ ) {
+        for ( int i = numberOfLoops - 1; i >= 0; i-- ) {
             
             int offset = firstLoopCenter + ( i * loopSpacing );;
             
-            // Horizontal gradient, left to right
-            Paint paint = new GradientPaint( (int)(-radius * .25) + offset, 0, _foregroundColor, (int)(-radius * .15) + offset, 0, _middlegroundColor );
-            
-            // Front bottom
-            {
-                Point end1 = new Point( (int) ( -radius * .25 ) + offset, 0 ); // upper
-                Point end2 = new Point( offset, (int) radius ); // lower
-                Point control = new Point( (int) ( -radius * .25 ) + offset, (int) ( radius * 0.80 ) );
+            // Right connection wire
+            if ( i == numberOfLoops - 1 ) {
+                Point end1 = new Point( offset, (int) -radius ); // lower
+                Point end2 = new Point( end1.x + 15, end1.y - 40 ); // upper
+                Point control = new Point( end1.x + 20, end1.y - 20 );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
+                
+                Paint paint = _middlegroundColor;
                 
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
@@ -310,6 +338,9 @@ public class CoilGraphic implements SimpleObserver {
                 shapeGraphic.setBorderPaint( paint );
                 _foreground.addGraphic( shapeGraphic );
             }
+            
+            // Horizontal gradient, left to right
+            Paint paint = new GradientPaint( (int)(-radius * .25) + offset, 0, _foregroundColor, (int)(-radius * .15) + offset, 0, _middlegroundColor );
             
             // Front top
             {
@@ -319,6 +350,9 @@ public class CoilGraphic implements SimpleObserver {
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
                 
+                QuadBezierSpline path = new QuadBezierSpline( end1, control, end2 );
+                _paths.add( path );
+                
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
                 shapeGraphic.setStroke( _loopStroke );
@@ -326,21 +360,40 @@ public class CoilGraphic implements SimpleObserver {
                 _foreground.addGraphic( shapeGraphic );
             }
 
-            // Right connection wire
-            if ( i == numberOfLoops - 1 ) {
-                Point end1 = new Point( offset, (int) -radius ); // lower
-                Point end2 = new Point( end1.x + 15, end1.y - 40 ); // upper
-                Point control = new Point( end1.x + 20, end1.y - 20 );
+            //  Front bottom
+            {
+                Point end1 = new Point( (int) ( -radius * .25 ) + offset, 0 ); // upper
+                Point end2 = new Point( offset, (int) radius ); // lower
+                Point control = new Point( (int) ( -radius * .25 ) + offset, (int) ( radius * 0.80 ) );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
                 
-                paint = _middlegroundColor;
+                QuadBezierSpline path = new QuadBezierSpline( end1, control, end2 );
+                _paths.add( path );
                 
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
                 shapeGraphic.setStroke( _loopStroke );
                 shapeGraphic.setBorderPaint( paint );
                 _foreground.addGraphic( shapeGraphic );
+            }
+        }
+        
+        // Add electrons.
+        if ( _currentAnimationEnabled )
+        {
+            int numberOfElectrons = (int) ( radius / 20 );
+            for ( int j = 0; j < _paths.size(); j++ ) {
+                for ( int i = 0; i < numberOfElectrons; i++ ) {
+                    Electron electron = new Electron();
+                    electron.setCurves( _paths );
+                    electron.setCurveLocation( j, i / (double) numberOfElectrons );
+                    _electrons.add( electron );
+                    _baseModel.addModelElement( electron );
+
+                    ElectronGraphic electronGraphic = new ElectronGraphic( _component, electron );
+                    _foreground.addGraphic( electronGraphic );
+                }
             }
         }
         

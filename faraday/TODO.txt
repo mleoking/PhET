@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- voodoo to optimize compass grid
 - add Verlet behavior to voltmeter needle
 - make lightbulb ramp up/down instead of immediate on/off
 - show important "spikes" in induced emf (consider totally disabling smoothing)
@@ -17,7 +16,6 @@ HIGH PRIORITY:
 - optimize performance
 
 MEDIUM PRIORITY:
-- repaint compass grid when background color changes, in case we're switching rendering strategies
 - beautify Control Panels
 - Transformer module requirements
 - check for unnecessary notification, events and updates
@@ -38,6 +36,9 @@ phetcommon:
 
 DONE:
 v0r11...
+(2/7) - basic support for electron animation
+(2/7) - convert CompassNeedleGraphic to be a CompositePhetGraphic composed of PhetShapeGraphics
+(2/7) - optimize CompassGridGraphic to draw its own needles
 (2/4) - adjust top part of coil loop for collision detection & shading
 (2/3) - add background color chooser to menubar (ala CCK)
 (2/3, 3:26PM) - synchronize phetcommon-HEAD to pick up major "persistence" merge
@@ -114,6 +115,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(2/7) - repaint compass grid when background color changes, in case we're switching rendering strategies (no longer necessary)
 (1/28) - use offscreen buffering in apparatus panel to remove screen turds? (found GraphicLayerSet problem)
 
 ===============================================================================
