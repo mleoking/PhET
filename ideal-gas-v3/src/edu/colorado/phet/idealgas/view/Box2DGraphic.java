@@ -9,12 +9,16 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Box2DGraphic extends DefaultInteractiveGraphic {
 
@@ -83,11 +87,19 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         private Rectangle2D.Double rect = new Rectangle2D.Double();
         private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();
         private Rectangle openingRect = new Rectangle();
+        private BufferedImage wallHandle;
+        private Point wallHandleLocation;
 
         public InternalBoxGraphic( Component component ) {
             super( component, null, s_defaultStroke, s_defaultColor );
             box.addObserver( this );
             this.setShape( mouseableArea );
+            try {
+                wallHandle = ImageLoader.loadBufferedImage( IdealGasConfig.IMAGE_DIRECTORY + "wall-handle.gif" );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
             update();
         }
 
@@ -100,6 +112,12 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
                                    box.getMinY() - s_thickness,
                                    s_thickness,
                                    box.getMaxY() - box.getMinY() + s_thickness );
+            wallHandleLocation = new Point( (int)(box.getMinX() - wallHandle.getWidth()),
+                         (int)( box.getMinY() + box.getHeight() + wallHandle.getHeight() ) / 2 );
+            mouseableArea.add( new Rectangle( wallHandleLocation.x, wallHandleLocation.y,
+                                              wallHandle.getWidth(), wallHandle.getHeight( )));
+            mouseableArea.setRect( new Rectangle( wallHandleLocation.x, wallHandleLocation.y,
+                                              wallHandle.getWidth(), wallHandle.getHeight( )));
             Point2D[] opening = box.getOpening();
             openingRect.setFrameFromDiagonal( opening[0].getX(), opening[0].getY(),
                                               opening[1].getX(), opening[1].getY() - ( s_thickness - 1 ) );
@@ -109,6 +127,9 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
 
         public void paint( Graphics2D g ) {
             saveGraphicsState( g );
+            g.drawImage( wallHandle, (int)(box.getMinX() - wallHandle.getWidth()),
+                         (int)( box.getMinY() + box.getHeight() + wallHandle.getHeight() ) / 2,
+                         wallHandle.getWidth(), wallHandle.getHeight(),null);
             g.setStroke( s_defaultStroke );
             g.setColor( s_defaultColor );
             g.draw( rect );
