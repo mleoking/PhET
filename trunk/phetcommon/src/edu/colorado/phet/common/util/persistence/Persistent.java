@@ -8,15 +8,16 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.view.graphics.transforms;
-
+package edu.colorado.phet.common.util.persistence;
 
 /**
- * Listens for changes in the model or view viewport.
+ * Persistent
  *
- * @author ?
+ * @author Ron LeMaster
  * @version $Revision$
  */
-public interface TransformListener {
-    public void transformChanged( ModelViewTransform2D mvt );
+public interface Persistent {
+    StateDescriptor getState();
+
+    void setState( StateDescriptor stateDescriptor );
 }

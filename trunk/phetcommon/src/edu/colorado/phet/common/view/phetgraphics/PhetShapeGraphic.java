@@ -27,20 +27,20 @@ public class PhetShapeGraphic extends PhetGraphic {
     private Paint fill;
     private Paint border;
 
-    public PhetShapeGraphic( Component component, Shape shape, Paint fill ) {
+    public PhetShapeGraphic( Component component, Shape shape, Color fill ) {
         super( component );
         this.shape = shape;
         this.fill = fill;
     }
 
-    public PhetShapeGraphic( Component component, Shape shape, Stroke stroke, Paint border ) {
+    public PhetShapeGraphic( Component component, Shape shape, Stroke stroke, Color border ) {
         super( component );
         this.shape = shape;
         this.stroke = stroke;
         this.border = border;
     }
 
-    public PhetShapeGraphic( Component component, Shape shape, Paint fill, Stroke stroke, Paint border ) {
+    public PhetShapeGraphic( Component component, Shape shape, Color fill, Stroke stroke, Color border ) {
         super( component );
         this.shape = shape;
         this.fill = fill;
@@ -101,6 +101,8 @@ public class PhetShapeGraphic extends PhetGraphic {
         if( shape == null ) {
             return null;
         }
+
+        // todo: this looks like it could be expensive
         if( stroke == null ) {
             return getNetTransform().createTransformedShape( shape.getBounds() ).getBounds();
         }

@@ -11,11 +11,10 @@
 
 package edu.colorado.phet.common.view.util;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
-
-import javax.swing.*;
 
 
 /**
@@ -29,8 +28,9 @@ public class SwingUtils {
     /**
      * Not intended for instantiation.
      */
-    private SwingUtils() {}
-    
+    private SwingUtils() {
+    }
+
     public static void addMenuAt( JFrame frame, JMenu newMenu, int index ) {
         frame.setJMenuBar( addMenuAt( newMenu, frame.getJMenuBar(), index ) );
     }

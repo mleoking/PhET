@@ -4,9 +4,15 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
+<<<<<<< PhetTextGraphic.java
  * Modified by : $Author$
  * Revision : $Revision$
  * Date modified : $Date$
+=======
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+>>>>>>> 1.18
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
@@ -16,17 +22,21 @@ import java.awt.*;
  * PhetTextGraphic
  *
  * @author ?
+ *         <<<<<<< PhetTextGraphic.java
  * @version $Revision$
+ *          >>>>>>> 1.18
  */
 public class PhetTextGraphic extends PhetGraphic {
     private Font font;
-    private String text;
+    private String text = "";
     private Color color;
     private FontMetrics fontMetrics;
 
+
     public PhetTextGraphic( Component component, Font font, String text, Color color, int x, int y ) {
         super( component );
-        this.font = font;
+        setFont( font );
+//        this.font = font;
         this.text = text;
         this.color = color;
         this.fontMetrics = component.getFontMetrics( font );
@@ -108,4 +118,13 @@ public class PhetTextGraphic extends PhetGraphic {
         resetRegistrationPoint();
     }
 
+    /**
+     * Provided for Java Beans conformance
+     */
+    public PhetTextGraphic() {
+    }
+
+    public void setFontMetrics( FontMetrics fontMetrics ) {
+        this.fontMetrics = fontMetrics;
+    }
 }

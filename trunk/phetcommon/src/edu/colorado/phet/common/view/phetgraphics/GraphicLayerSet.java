@@ -34,17 +34,37 @@ public class GraphicLayerSet extends PhetGraphic {
     private MultiMap graphicMap = new MultiMap();
     private PhetGraphic activeUnit;//The unit being dragged or moused-over.
     private PhetGraphic keyFocusUnit;//The unit that should accept key events.
-    private SwingAdapter swingAdapter;
+    private SwingAdapter swingAdapter = new SwingAdapter();
     private KeyListener keyAdapter = new KeyAdapter();
     private static int mouseEventID = 0;//For creating mouse events.
 
-    public GraphicLayerSet( Component component ) {
-        super( component );
-        this.swingAdapter = new SwingAdapter();
+
+    /**
+     * Provided for JavaBeans conformance
+     */
+    public GraphicLayerSet() {
+        super( null );
     }
 
-    public void setComponent( Component component ) {//TODO I'm presuming this is here for debugging purposes.
+    public GraphicLayerSet( Component component ) {
+        super( component );
+    }
+
+    /**
+     * Sets the component for this object and all its children
+     *
+     * @param component
+     */
+    public void setComponent( Component component ) {
         super.setComponent( component );
+        Iterator gIt = graphicMap.iterator();
+        while( gIt.hasNext() ) {
+            Object o = gIt.next();
+            if( o instanceof PhetGraphic ) {
+                PhetGraphic phetGraphic = (PhetGraphic)o;
+                phetGraphic.setComponent( component );
+            }
+        }
     }
 
     /**
@@ -61,10 +81,19 @@ public class GraphicLayerSet extends PhetGraphic {
                 g2.setRenderingHints( hints );
             }
             // Iterate over each child graphic.
+
             Iterator it = graphicMap.iterator();
             while( it.hasNext() ) {
                 PhetGraphic graphic = (PhetGraphic)it.next();
-                graphic.paint( g2 );//The children know about our transform implicitly.  They handle the transform.
+
+                // The following test is here because as persistence support is being developed, null
+                // entries are turning up in the MultiMap
+                if( graphic != null ) {
+                    graphic.paint( g2 );//The children know about our transform implicitly.  They handle the transform.
+                }
+                else {
+                    System.out.println( "GraphicLayerSet.paint: graphic == null" );
+                }
             }
             super.restoreGraphicsState();
         }
@@ -110,7 +139,11 @@ public class GraphicLayerSet extends PhetGraphic {
         for( int i = 0; i < r.length; i++ ) {
             r[i] = ch[i].getBounds();
         }
+
+        // todo: Reduce inefiicieny of RectangleUtils.union, by sending a pre-allocated Rectangle to a
+        // new versions of RectangleUtils.union that takes a seoond parameter, which is the result Rectangle
         Rectangle bounds = RectangleUtils.union( r );//children do their own transform.
+
         return bounds;
     }
 
@@ -161,6 +194,7 @@ public class GraphicLayerSet extends PhetGraphic {
      */
     public void addGraphic( PhetGraphic graphic ) {
         addGraphic( graphic, 0 );
+        graphic.setParent( this );
     }
 
     /**
@@ -219,6 +253,14 @@ public class GraphicLayerSet extends PhetGraphic {
     public int getNumGraphics() {
         return graphicMap.size();
     }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Setters and getters for persistence
+    //
+    public void setGraphicMap( MultiMap graphicMap ) {
+        this.graphicMap = graphicMap;
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////////
     // Methods for MouseInteraction.
@@ -280,7 +322,10 @@ public class GraphicLayerSet extends PhetGraphic {
         PhetGraphic result = null;
         for( int i = graphics.length - 1; result == null && i >= 0; i-- ) {
             PhetGraphic g = graphics[i];
-            if( g.isVisible() && !g.getIgnoreMouse() ) {
+
+            // Null check is needed because the XMLEncoder/Decoder serialization puts nulls
+            // in the map, for some reason
+            if( g != null && g.isVisible() && !g.getIgnoreMouse() ) {
                 if( g instanceof GraphicLayerSet ) {
                     GraphicLayerSet gx = (GraphicLayerSet)g;
                     result = gx.getHandler( p );

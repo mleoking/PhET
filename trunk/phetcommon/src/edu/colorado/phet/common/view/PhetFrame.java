@@ -110,6 +110,14 @@ public class PhetFrame extends JFrame {
 
     }
 
+    public ContentPanel getBasicPhetPanel() {
+        return basicPhetPanel;
+    }
+
+    //////////////////////////////////////////////
+    // Menu setup methods
+    //
+
     /**
      * Adds a JMenu before the Help Menu.
      *
@@ -119,8 +127,45 @@ public class PhetFrame extends JFrame {
         SwingUtils.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
     }
 
+    /**
+     * Adds a menu separator to the File menu
+     */
     public void addFileMenuSeparator() {
         defaultFileMenu.insertSeparator( defaultFileMenu.getComponentCount() + 1 );
+    }
+
+    /**
+     * Adds a menu separator to the File menu after a specified menu item
+     *
+     * @param menuItem
+     */
+    public void addFileMenuSeparatorAfter( JMenuItem menuItem ) {
+        JMenu fileMenu = getFileMenu();
+        if( fileMenu != null ) {
+            for( int i = 0; i < fileMenu.getItemCount(); i++ ) {
+                if( fileMenu.getItem( i ) == menuItem ) {
+                    fileMenu.insertSeparator( i + 1 );
+                    return;
+                }
+            }
+        }
+    }
+
+    /**
+     * Adds a menu separator to the File menu before a specified menu item
+     *
+     * @param menuItem
+     */
+    public void addFileMenuSeparatorBefore( JMenuItem menuItem ) {
+        JMenu fileMenu = getFileMenu();
+        if( fileMenu != null ) {
+            for( int i = 0; i < fileMenu.getItemCount(); i++ ) {
+                if( fileMenu.getItem( i ) == menuItem ) {
+                    fileMenu.insertSeparator( i );
+                    return;
+                }
+            }
+        }
     }
 
     public void addFileMenuItem( JMenuItem menuItem ) {
@@ -143,7 +188,11 @@ public class PhetFrame extends JFrame {
         getJMenuBar().add( defaultFileMenu, 0 );
     }
 
-    public ContentPanel getBasicPhetPanel() {
-        return basicPhetPanel;
+    private PhetFileMenu getFileMenu() {
+        JMenu testMenu = getJMenuBar().getMenu( 0 );
+        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
+            return (PhetFileMenu)testMenu;
+        }
+        return null;
     }
 }

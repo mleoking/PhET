@@ -125,4 +125,14 @@ public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
         }
     }
 
+
+    ////////////////////////////////////////////
+    // Persistence support
+    //
+    /**
+     * Provided for Java Beans conformance
+     */
+    public PhetMultiLineTextGraphic() {
+    }
+
 }

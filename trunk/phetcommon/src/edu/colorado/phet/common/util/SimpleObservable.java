@@ -51,5 +51,33 @@ public class SimpleObservable {
     public SimpleObserver[] getObservers() {
         return (SimpleObserver[])observers.toArray( new SimpleObserver[0] );
     }
+
+    //////////////////////////////////////////////////
+    // Persistence support
+    //
+
+    /**
+     * No-arg contructor for Java Bean conformance
+     */
+    public SimpleObservable() {
+    }
+
+    /**
+     * Setter for Java Bean conformance
+     *
+     * @param observers
+     */
+    public void setObserverList( ArrayList observers ) {
+        this.observers = observers;
+    }
+
+    /**
+     * Getter for Java Bean conformance
+     *
+     * @return
+     */
+    public ArrayList getObserverList() {
+        return observers;
+    }
 }
 
