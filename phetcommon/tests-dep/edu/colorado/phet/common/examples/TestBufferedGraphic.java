@@ -4,8 +4,9 @@ package edu.colorado.phet.common.examples;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.GraphicsSetup;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetBufferedGraphic;
 import edu.colorado.phet.common.view.graphics.BufferedGraphic;
-import edu.colorado.phet.common.view.graphics.ShapeGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,10 +23,10 @@ public class TestBufferedGraphic {
     public static void main( String[] args ) {
         ApparatusPanel ap = new ApparatusPanel();
         Ellipse2D.Double ellipse = new Ellipse2D.Double( 10, 10, 40, 40 );
-        ShapeGraphic sg = new ShapeGraphic( ellipse, Color.blue );
+        PhetShapeGraphic sg = new PhetShapeGraphic( ap, ellipse, Color.blue );
         BufferedImage buffer = new BufferedImage( 50, 50, BufferedImage.TYPE_INT_RGB );
         GraphicsSetup setup = new BasicGraphicsSetup();
-        BufferedGraphic bufferedGraphic = new BufferedGraphic( buffer, sg, Color.white, setup );
+        PhetBufferedGraphic bufferedGraphic = new PhetBufferedGraphic( ap, 200,200,sg );
         bufferedGraphic.repaintBuffer();
         ap.addGraphic( bufferedGraphic );
         JFrame jf = new JFrame();
