@@ -103,35 +103,22 @@ public class MathUtil {
     }
 
     /**
-     * Finds the positione of the apparent reflection of a point across a line
+     * Determines the position of a point that is the reflection of a specified point across a line.
      *
      * @param p
-     * @param linePt1
-     * @param lineAngle
-     * @return the position of the reflection of a point across a line.
+     * @param ptOnLine
+     * @param lineAngle Anlge of line in radians
+     * @return
      */
-    public static Point2D.Double reflectPointHorizontal( Point2D p, Point2D linePt1, double lineAngle ) {
+    public static Point2D reflectPointAcrossLine( Point2D p, Point2D ptOnLine, double lineAngle ) {
 
-/*
-        double bx = linePt1.getX() + ( linePt1.getY() - p.getY() ) / Math.tan( Math.toRadians( lineAngle ) );
-
-        // Note that this line is what constrains this to a horizontal reflection
-        double by = p.getY();
-        Point2D b = new Point2D.Double( bx, by );
-        double d = p.distance( b );
-        double beta = 180 - 2 * lineAngle;
-        double ppx = bx + d * Math.cos( Math.toRadians( beta ) );
-        double ppy = by + d * Math.sin( Math.toRadians( beta ) );
-        Point2D.Double pp = new Point2D.Double( ppx, ppy );
-        return pp;
-*/
-        double alpha = Math.toRadians( lineAngle );
-        Point2D l = linePt1;
-        double gamma = Math.atan2( (p.getY()-l.getY()) , ( p.getX() - l.getX()));
+        double alpha = lineAngle;
+        Point2D l = ptOnLine;
+        double gamma = Math.atan2( ( p.getY() - l.getY() ), ( p.getX() - l.getX() ) );
         double theta = 2 * alpha - gamma;
         double d = p.distance( l );
-        Point2D.Double e = new Point2D.Double( l.getX() + d * Math.cos( theta),
-                                               l.getY() + d * Math.sin( theta ));
+        Point2D.Double e = new Point2D.Double( l.getX() + d * Math.cos( theta ),
+                                               l.getY() + d * Math.sin( theta ) );
         return e;
     }
 
