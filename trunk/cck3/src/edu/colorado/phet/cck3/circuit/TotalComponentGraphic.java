@@ -23,9 +23,7 @@ public class TotalComponentGraphic extends CompositeGraphic {
 
     public TotalComponentGraphic( CircuitGraphic circuitGraphic, final CircuitComponent branch, ApparatusPanel apparatusPanel, final ModelViewTransform2D transform, IComponentGraphic bg, double junctionRadius, CCK3Module module ) {
         this.circuitGraphic = circuitGraphic;
-
-//        CircuitComponentImageGraphic bg = new CircuitComponentImageGraphic( image, apparatusPanel, component, transform );
-        interactiveBranchGraphic = new CircuitComponentInteractiveGraphic( bg, circuitGraphic );// circuitGraphic, bg, transform );
+        interactiveBranchGraphic = new CircuitComponentInteractiveGraphic( bg, circuitGraphic );
 
         JunctionGraphic jg = new JunctionGraphic( apparatusPanel, branch.getStartJunction(), transform, junctionRadius, circuitGraphic.getCircuit() );
         JunctionGraphic jg2 = new JunctionGraphic( apparatusPanel, branch.getEndJunction(), transform, junctionRadius, circuitGraphic.getCircuit() );

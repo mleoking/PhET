@@ -5,6 +5,7 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.IComponentGraphic;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolutionListener;
 import edu.colorado.phet.cck3.common.LineSegment;
+import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -40,39 +41,42 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
     private KirkhoffSolutionListener kirkhoffSolutionListener;
+    PrimaryShapeGraphic highlightRegion;
 
     public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, CCK3Module module, String fixedMessage ) {
         this( parent, component, transform, module );
+
         this.fixedMessage = fixedMessage;
     }
 
     public SeriesAmmeterGraphic( Component parent, final SeriesAmmeter component, ModelViewTransform2D transform, final CCK3Module module ) {
+        highlightRegion = new PrimaryShapeGraphic( parent, new Area(), Color.yellow );
         this.parent = parent;
         this.component = component;
         this.transform = transform;
         this.module = module;
 
-        doupdate();
+        changed();
 
         simpleObserver = new SimpleObserver() {
             public void update() {
-                doupdate();
+                changed();
             }
         };
         component.addObserver( simpleObserver );
         transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
-                doupdate();
+                changed();
             }
         };
         transform.addTransformListener( transformListener );
         kirkhoffSolutionListener = new KirkhoffSolutionListener() {
             public void finishedKirkhoff() {
-                DecimalFormat df = module.getDecimalFormat(); 
+                DecimalFormat df = module.getDecimalFormat();
 //                        new DecimalFormat( "#0.0#" );
                 String form = df.format( Math.abs( component.getCurrent() ) );
                 text = "" + form + " Amps";
-                doupdate();
+                changed();
             }
         };
         module.getKirkhoffSolver().addSolutionListener( kirkhoffSolutionListener );
@@ -86,7 +90,7 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
         this.shape = LineSegment.getSegment( start, end, newHeight );
     }
 
-    private void doupdate() {
+    private void changed() {
         Rectangle r1 = expand( getBounds() );
         updateShape();
         Rectangle r2 = expand( getBounds() );
@@ -96,6 +100,9 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
         else if( r2 != null ) {
             FastPaint.fastRepaint( parent, r2 );
         }
+        BasicStroke stroke = new BasicStroke( 12 );
+        highlightRegion.setShape( stroke.createStrokedShape( shape ) );
+        highlightRegion.setVisible( component.isSelected() );
     }
 
     private Rectangle expand( Rectangle bounds ) {
@@ -132,6 +139,7 @@ public class SeriesAmmeterGraphic implements IComponentGraphic {
     }
 
     public void paint( Graphics2D g ) {
+        highlightRegion.paint( g );
         Point2D start = transform.modelToView( component.getStartJunction().getPosition() );
         Point2D end = transform.modelToView( component.getEndJunction().getPosition() );
         Vector2D dir = new Vector2D.Double( start, end ).normalize();

@@ -2,12 +2,14 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.common.primarygraphics.CompositePrimaryGraphic;
+import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
 /**
@@ -16,7 +18,8 @@ import java.awt.geom.Ellipse2D;
  * Time: 2:05:05 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class JunctionGraphic extends FastPaintShapeGraphic {
+public class JunctionGraphic extends CompositePrimaryGraphic {
+    PrimaryShapeGraphic shapeGraphic;
     private Junction junction;
     private ModelViewTransform2D transform;
     private double radius;
@@ -24,26 +27,31 @@ public class JunctionGraphic extends FastPaintShapeGraphic {
     private double strokeWidthModelCoords = CCK3Module.JUNCTION_GRAPHIC_STROKE_WIDTH;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
+    private PrimaryShapeGraphic highlightGraphic;
 
     public JunctionGraphic( Component parent, Junction junction, ModelViewTransform2D transform, double radius, Circuit circuit ) {
-        super( null, Color.black, new BasicStroke( 2 ), parent );
+        super( parent );
+        shapeGraphic = new PrimaryShapeGraphic( parent, new Area(), new BasicStroke( 2 ), Color.black );
+        highlightGraphic = new PrimaryShapeGraphic( parent, new Area(), new BasicStroke( 4 ), Color.yellow );
+        addGraphic( highlightGraphic );
+        addGraphic( shapeGraphic );
         this.junction = junction;
         this.transform = transform;
         this.radius = radius;
         this.circuit = circuit;
         simpleObserver = new SimpleObserver() {
             public void update() {
-                doupdate();
+                changed();
             }
         };
         junction.addObserver( simpleObserver );
         circuit.addCircuitListener( new CircuitListener() {
             public void junctionRemoved( Junction junction ) {
-                doupdate();
+                changed();
             }
 
             public void branchRemoved( Branch branch ) {
-                doupdate();
+                changed();
             }
 
             public void junctionsMoved() {
@@ -52,10 +60,10 @@ public class JunctionGraphic extends FastPaintShapeGraphic {
             public void branchesMoved( Branch[] branches ) {
             }
         } );
-        doupdate();
+        changed();
         transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
-                doupdate();
+                changed();
             }
         };
         transform.addTransformListener( transformListener );
@@ -74,20 +82,26 @@ public class JunctionGraphic extends FastPaintShapeGraphic {
         return s;
     }
 
-    private void doupdate() {
+    private void changed() {
+        boolean selected = junction.isSelected();
+        highlightGraphic.setVisible( selected );
         Ellipse2D.Double ellipse = new Ellipse2D.Double();
         ellipse.setFrameFromCenter( junction.getX(), junction.getY(), junction.getX() + radius, junction.getY() + radius );
-        setShape( transform.createTransformedShape( ellipse ) );
+        shapeGraphic.setShape( transform.createTransformedShape( ellipse ) );
+
+        Ellipse2D.Double highlightEllipse = new Ellipse2D.Double();
+        highlightEllipse.setFrameFromCenter( junction.getX(), junction.getY(), junction.getX() + radius * 1.33, junction.getY() + radius * 1.33 );
+        highlightGraphic.setShape( transform.createTransformedShape( highlightEllipse ) );
 
 //        setOutlineStroke( createStroke( strokeWidthModelCoords ) );
         int numConnections = circuit.getNeighbors( getJunction() ).length;
         if( numConnections == 1 ) {
-            super.setOutlinePaint( Color.red );
-            super.setOutlineStroke( createStroke( strokeWidthModelCoords * 2 ) );
+            shapeGraphic.setBorderColor( Color.red );//setOutlinePaint( Color.red );
+            shapeGraphic.setStroke( createStroke( strokeWidthModelCoords * 2 ) );
         }
         else {
-            super.setOutlinePaint( Color.black );
-            super.setOutlineStroke( createStroke( strokeWidthModelCoords ) );
+            shapeGraphic.setBorderColor( Color.black );
+            shapeGraphic.setStroke( createStroke( strokeWidthModelCoords ) );
         }
     }
 
@@ -102,5 +116,9 @@ public class JunctionGraphic extends FastPaintShapeGraphic {
     public void delete() {
         junction.removeObserver( simpleObserver );
         transform.removeTransformListener( transformListener );
+    }
+
+    public Shape getShape() {
+        return this.shapeGraphic.getShape();
     }
 }

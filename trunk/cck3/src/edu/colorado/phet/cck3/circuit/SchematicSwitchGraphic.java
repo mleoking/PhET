@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3.circuit;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.Switch;
 import edu.colorado.phet.cck3.common.LineSegment;
+import edu.colorado.phet.cck3.common.primarygraphics.PrimaryShapeGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -30,31 +31,26 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
     private Shape userSpace;
     private double leverLength;
     private Point2D pivot;
+    PrimaryShapeGraphic highlightRegion;
 
     public SchematicSwitchGraphic( ApparatusPanel apparatusPanel, Switch aSwitch, ModelViewTransform2D transform, double wireThickness ) {
         super( new Area(), Color.black, apparatusPanel );
+        highlightRegion = new PrimaryShapeGraphic( apparatusPanel, new Area(), Color.yellow );
         this.apparatusPanel = apparatusPanel;
         this.aSwitch = aSwitch;
         this.transform = transform;
         this.wireThickness = wireThickness;
         transform.addTransformListener( this );
         aSwitch.addObserver( this );
-//        transform.addTransformListener( new TransformListener() {
-//            public void transformChanged( ModelViewTransform2D mvt ) {
-//                changed();
-//            }
-//        } );
-//        aSwitch.addObserver( new SimpleObserver() {
-//            public void update() {
-//                changed();
-//            }
-//        } );
         changed();
     }
 
     private void changed() {
         Point2D srcpt = transform.toAffineTransform().transform( aSwitch.getStartJunction().getPosition(), null );
         Point2D dstpt = transform.toAffineTransform().transform( aSwitch.getEndJunction().getPosition(), null );
+//        Point2D tmp=srcpt;
+//        srcpt=dstpt;
+//        dstpt=srcpt;
         double viewThickness = Math.abs( transform.modelToViewDifferentialY( wireThickness ) );
         double fracToPivot = .3;
         double fracToEnd = ( 1 - fracToPivot );
@@ -68,6 +64,14 @@ public class SchematicSwitchGraphic extends FastPaintShapeGraphic implements ICo
         area.add( new Area( LineSegment.getSegment( srcpt, pivot, viewThickness ) ) );
         area.add( new Area( LineSegment.getSegment( connectionPt, dstpt, viewThickness ) ) );
         super.setShape( area );
+        Stroke highlightsStroke = new BasicStroke( 6 );
+        highlightRegion.setShape( highlightsStroke.createStrokedShape( area ) );
+        highlightRegion.setVisible( aSwitch.isSelected() );
+    }
+
+    public void paint( Graphics2D g ) {
+        highlightRegion.paint( g );
+        super.paint( g );
     }
 
     public ModelViewTransform2D getModelViewTransform2D() {

@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.common.primarygraphics;
 
+import edu.colorado.phet.cck3.common.RepaintDebugGraphic;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
@@ -8,7 +9,6 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
@@ -95,29 +95,17 @@ public class TestPrimaryGraphics {
         } );
         panel.addGraphic( multiLineInteraction );
 
-        final Graphic colorG = new Graphic() {
-            public void paint( Graphics2D gr ) {
-                gr.setColor( new Color( r, g, b ) );
-                gr.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
-            }
-        };
-        clock.addClockTickListener( new ClockTickListener() {
-            public void clockTicked( AbstractClock c, double dt ) {
-                r = ( r + 2 ) % 255;
-                g = ( g + 3 ) % 255;
-                b = ( b + 4 ) % 255;
-            }
-        } );
-        panel.addGraphic( colorG, Double.NEGATIVE_INFINITY );
+        RepaintDebugGraphic colorG = new RepaintDebugGraphic( panel, clock );
+        colorG.setActive( true );
 
-        PrimaryShadowTextGraphic shadowText =
-                new PrimaryShadowTextGraphic( "Shadow Text", font, 100, 300, Color.red, 2, 2, Color.blue, panel );
-        panel.addGraphic( shadowText );
-
-        CompositePrimaryGraphic cpg = new CompositePrimaryGraphic( panel );
-        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 100, 300 ), Color.blue ) );
-        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 300, 100 ), Color.red ) );
-        panel.addGraphic( cpg, -1 );
+//        PrimaryShadowTextGraphic shadowText =
+//                new PrimaryShadowTextGraphic( "Shadow Text", font, 100, 300, Color.red, 2, 2, Color.blue, panel );
+//        panel.addGraphic( shadowText );
+//
+//        CompositePrimaryGraphic cpg = new CompositePrimaryGraphic( panel );
+//        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 100, 300 ), Color.blue ) );
+//        cpg.addGraphic( new PrimaryShapeGraphic( panel, new Rectangle( 300, 100 ), Color.red ) );
+//        panel.addGraphic( cpg, -1 );
         imageGraphic.setVisible( false );
 
         JFrame jf = new JFrame();

@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -25,7 +26,7 @@ import java.awt.*;
 public class CCKHelp {
 
     private PositionedHelpItem junctionHelpItem;
-    private PositionedHelpItem componentItem;
+    private PositionedHelpItem componentHelpItem;
     private PositionedHelpItem myToolboxHelpItem;
     private CCK3Module module;
     private ModelViewTransform2D transform;
@@ -54,20 +55,27 @@ public class CCKHelp {
         JunctionTarget jt = new JunctionTarget();
         junctionHelpItem = new PositionedHelpItem( "Drag junctions or\nright click for menu.", jt, helpFont, getApparatusPanel() );
         ComponentTarget ct = new ComponentTarget();
-        componentItem = new PositionedHelpItem( "Drag to move or\nright click to modify or remove.", ct, helpFont, getApparatusPanel() );
+        componentHelpItem = new PositionedHelpItem( "Drag to move or\nright click to modify or remove.", ct, helpFont, getApparatusPanel() );
+
+        getApparatusPanel().addGraphic( myToolboxHelpItem, Double.POSITIVE_INFINITY );
+        getApparatusPanel().addGraphic( junctionHelpItem, Double.POSITIVE_INFINITY );
+        getApparatusPanel().addGraphic( componentHelpItem, Double.POSITIVE_INFINITY );
     }
 
     public void setEnabled( boolean h ) {
-        if( h ) {
-            getApparatusPanel().addGraphic( myToolboxHelpItem, Double.POSITIVE_INFINITY );
-            getApparatusPanel().addGraphic( junctionHelpItem, Double.POSITIVE_INFINITY );
-            getApparatusPanel().addGraphic( componentItem, Double.POSITIVE_INFINITY );
-        }
-        else {
-            getApparatusPanel().removeGraphic( myToolboxHelpItem );
-            getApparatusPanel().removeGraphic( junctionHelpItem );
-            getApparatusPanel().removeGraphic( componentItem );
-        }
+        myToolboxHelpItem.setVisible( h );
+        junctionHelpItem.setVisible( h );
+        componentHelpItem.setVisible( h );
+//        if( h ) {
+//            getApparatusPanel().addGraphic( myToolboxHelpItem, Double.POSITIVE_INFINITY );
+//            getApparatusPanel().addGraphic( junctionHelpItem, Double.POSITIVE_INFINITY );
+//            getApparatusPanel().addGraphic( componentHelpItem, Double.POSITIVE_INFINITY );
+//        }
+//        else {
+//            getApparatusPanel().removeGraphic( myToolboxHelpItem );
+//            getApparatusPanel().removeGraphic( junctionHelpItem );
+//            getApparatusPanel().removeGraphic( componentHelpItem );
+//        }
     }
 
     private ApparatusPanel getApparatusPanel() {
@@ -136,13 +144,13 @@ public class CCKHelp {
                 if( g instanceof CircuitComponentInteractiveGraphic ) {
                     CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)g;
                     Point target = transform.modelToView( ccig.getCircuitComponentGraphic().getCircuitComponent().getCenter() );
-                    target.translate( 10, (int)( componentItem.getBounds().getHeight() / 2 + 20 ) );
+                    target.translate( 10, (int)( componentHelpItem.getTextBounds().getHeight() / 2 + 20 ) );
                     return target;
                 }
                 else if( g instanceof InteractiveBranchGraphic ) {
                     InteractiveBranchGraphic ibg = (InteractiveBranchGraphic)g;
                     Point target = transform.modelToView( ibg.getBranch().getCenter() );
-                    target.translate( 10, (int)componentItem.getBounds().getHeight() / 2 + 20 );
+                    target.translate( 10, (int)componentHelpItem.getTextBounds().getHeight() / 2 + 20 );
                     return target;
                 }
                 return null;
@@ -201,9 +209,14 @@ public class CCKHelp {
                 Shape shape = jg.getShape();
                 Rectangle bounds = shape.getBounds();
                 Point target = bounds.getLocation();
-                Rectangle phiRect = junctionHelpItem.getBounds();
-                target.translate( (int)( bounds.width + 5 ), -phiRect.height / 2 - 15 );
-                return target;
+                Rectangle2D phiRect = junctionHelpItem.getTextBounds();
+                if( phiRect == null ) {
+                    throw new RuntimeException( "Junction help item bounds=null." );
+                }
+                else {
+                    target.translate( (int)( bounds.width + 5 ), (int)( -phiRect.getHeight() / 2 - 15 ) );
+                    return target;
+                }
             }
             else {
                 return null;

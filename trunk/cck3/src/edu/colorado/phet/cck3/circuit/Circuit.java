@@ -534,34 +534,56 @@ public class Circuit {
     }
 
     public void setSelection( Branch branch ) {
-        for( int i = 0; i < branches.size(); i++ ) {
-            Branch branch1 = (Branch)branches.get( i );
-            if( branch1 == branch ) {
-                branch1.setSelected( true );
-            }
-            else {
-                branch1.setSelected( false );
-            }
-        }
-        for( int i = 0; i < junctions.size(); i++ ) {
-            Junction junction = (Junction)junctions.get( i );
-            junction.setSelected( false );
-        }
+        clearSelection();
+        branch.setSelected( true );
     }
 
     public void setSelection( Junction junction ) {
+        clearSelection();
+        junction.setSelected( true );
+    }
+
+    public void clearSelection() {
         for( int i = 0; i < branches.size(); i++ ) {
             Branch branch1 = (Branch)branches.get( i );
             branch1.setSelected( false );
         }
         for( int i = 0; i < junctions.size(); i++ ) {
             Junction junction1 = (Junction)junctions.get( i );
-            if( junction1 == junction ) {
-                junction.setSelected( true );
+            junction1.setSelected( false );
+        }
+    }
+
+    public Branch[] getSelectedBranches() {
+        ArrayList sel = new ArrayList();
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch = (Branch)branches.get( i );
+            if( branch.isSelected() ) {
+                sel.add( branch );
             }
-            else {
-                junction1.setSelected( false );
+        }
+        return (Branch[])sel.toArray( new Branch[0] );
+    }
+
+    public Junction[] getSelectedJunctions() {
+        ArrayList sel = new ArrayList();
+        for( int i = 0; i < junctions.size(); i++ ) {
+            Junction branch = (Junction)junctions.get( i );
+            if( branch.isSelected() ) {
+                sel.add( branch );
             }
+        }
+        return (Junction[])sel.toArray( new Junction[0] );
+    }
+
+    public void selectAll() {
+        for( int i = 0; i < branches.size(); i++ ) {
+            Branch branch = (Branch)branches.get( i );
+            branch.setSelected( true );
+        }
+        for( int i = 0; i < junctions.size(); i++ ) {
+            Junction junction = (Junction)junctions.get( i );
+            junction.setSelected( true );
         }
     }
 }

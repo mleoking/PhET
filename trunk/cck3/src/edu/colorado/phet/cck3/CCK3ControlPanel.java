@@ -39,8 +39,17 @@ public class CCK3ControlPanel extends JPanel {
 
     public CCK3ControlPanel( final CCK3Module module ) {
         this.module = module;
+//        setLayout( new GridBagLayout() );
+//        setLayout( new VerticalBagLayout( ) );
+//        setLayout( new GridLayout( 0, 1 ) );
+        setLayout( new BoxLayout( this, BoxLayout.PAGE_AXIS ) );
+//        setLayout( new BasicSplitPaneUI.BasicVerticalLayoutManager() );
+//        GridBagConstraints gbc=new GridBagConstraints( );
+//        gbc.gridheight=8;
+//        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+//        setLayout( new GridLayout( 8,1) );
         JPanel filePanel = new JPanel();
-        filePanel.setLayout( new BoxLayout( filePanel, BoxLayout.Y_AXIS ) );
+        filePanel.setLayout( new BoxLayout( filePanel, BoxLayout.LINE_AXIS ) );//X_AXIS ) );
 
         JLabel label = ( new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) ) );
         label.setBorder( BorderFactory.createRaisedBevelBorder() );
@@ -75,10 +84,13 @@ public class CCK3ControlPanel extends JPanel {
         JButton clear = new JButton( "Clear" );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.clear();
+                int answer = JOptionPane.showConfirmDialog( module.getApparatusPanel(), "Delete the entire circuit and start over?" );
+                if( answer == JOptionPane.OK_OPTION ) {
+                    module.clear();
+                }
             }
         } );
-        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+        filePanel.setAlignmentX( Component.LEFT_ALIGNMENT );
         add( filePanel );
 
         JButton printKirkhoffsLaws = new JButton( "Show Equations" );
@@ -100,7 +112,9 @@ public class CCK3ControlPanel extends JPanel {
         circuitPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Circuit" ) );
         circuitPanel.add( printKirkhoffsLaws );
         circuitPanel.add( clear );
-        circuitPanel.add( showReadouts );
+        if( !module.isVirtualLabMode() ) {
+            circuitPanel.add( showReadouts );
+        }
         add( circuitPanel );
 
         JRadioButton lifelike = new JRadioButton( "Lifelike", true );
@@ -152,10 +166,16 @@ public class CCK3ControlPanel extends JPanel {
 //        vm.add( voltmeter );
 //        vm.add( new JLabel( voltIcon ) );
 
-        final JCheckBox virtualAmmeter = new JCheckBox( "Virtual Ammeter", false );
+        final JCheckBox virtualAmmeter = new JCheckBox( "Non-Contact Ammeter", false );
         virtualAmmeter.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setVirtualAmmeterVisible( virtualAmmeter.isSelected() );
+            }
+        } );
+        final JCheckBox seriesAmmeter = new JCheckBox( "Ammeter(s)", false );
+        seriesAmmeter.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setSeriesAmmeterVisible( seriesAmmeter.isSelected() );
             }
         } );
 
@@ -166,10 +186,14 @@ public class CCK3ControlPanel extends JPanel {
 
 //        toolPanel.add( vm );
 //        toolPanel.add( new JLabel( ammIcon ) );
-        toolPanel.add( virtualAmmeter );
+
 //        toolPanel.add( am );
 //        toolPanel.add( new JLabel( voltIcon ) );
+        toolPanel.add( seriesAmmeter );
         toolPanel.add( voltmeter );
+        if( !module.isVirtualLabMode() ) {
+            toolPanel.add( virtualAmmeter );
+        }
         toolPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Tools" ) );
         add( toolPanel );
 
@@ -229,7 +253,8 @@ public class CCK3ControlPanel extends JPanel {
             }
         } );
 //        add( browserGIF );
-        add( new JSeparator() );
+//        add( new JSeparator() );
+        add( Box.createRigidArea( new Dimension( 0, 80 ) ) );
         HelpPanel hp = new HelpPanel( module );
 //        hp.setBorder( BorderFactory.createRaisedBevelBorder() );
         add( hp );

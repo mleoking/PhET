@@ -12,8 +12,8 @@ import java.awt.geom.AffineTransform;
  */
 public class PrimaryShapeGraphic extends PrimaryGraphic {
     private Shape shape;
-    private Color fill;
     private Stroke stroke;
+    private Color fill;
     private Color border;
 
     public PrimaryShapeGraphic( Component component, Shape shape, Color fill ) {
@@ -73,7 +73,13 @@ public class PrimaryShapeGraphic extends PrimaryGraphic {
         if( shape == null ) {
             return null;
         }
-        return shape.getBounds();
+        if( stroke == null ) {
+            return shape.getBounds();
+        }
+        else {
+            Shape outlineShape = stroke.createStrokedShape( shape );
+            return outlineShape.getBounds();
+        }
     }
 
     public Point getPosition() {
@@ -93,5 +99,15 @@ public class PrimaryShapeGraphic extends PrimaryGraphic {
 
     public boolean contains( int x, int y ) {
         return isVisible() && getShape().contains( x, y );
+    }
+
+    public void setBorderColor( Color color ) {
+        this.border = color;
+        repaint();
+    }
+
+    public void setStroke( Stroke stroke ) {
+        this.stroke = stroke;
+        repaint();
     }
 }

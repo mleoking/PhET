@@ -70,6 +70,7 @@ public class Junction extends SimpleObservable {
 
     public void setSelected( boolean selected ) {
         this.selected = selected;
+        notifyObservers();
     }
 
     public boolean isSelected() {

@@ -48,7 +48,7 @@ public abstract class PrimaryGraphic implements BoundedGraphic {
 
     public void setVisible( boolean visible ) {
         this.visible = visible;
-        repaint();//if we just turned invisible, we need to paint over ourselves.
+        forceRepaint();//if we just turned invisible, we need to paint over ourselves, and vice versa.
     }
 
     public boolean contains( int x, int y ) {
@@ -77,17 +77,21 @@ public abstract class PrimaryGraphic implements BoundedGraphic {
     }
 
     public void repaint() {
-        if( visible || true ) {
-            syncBounds();
-            if( lastBounds != null ) {
-                component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
-            }
-            if( bounds != null ) {
-                component.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
-            }
-            if( bounds != null ) {
-                lastBounds.setBounds( bounds );
-            }
+        if( visible ) {
+            forceRepaint();
+        }
+    }
+
+    private void forceRepaint() {
+        syncBounds();
+        if( lastBounds != null ) {
+            component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
+        }
+        if( bounds != null ) {
+            component.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
+        }
+        if( bounds != null ) {
+            lastBounds.setBounds( bounds );
         }
     }
 
