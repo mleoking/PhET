@@ -8,7 +8,6 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.view.Cesium;
 
@@ -96,19 +95,6 @@ public class Uranium235 extends Nucleus {
 
         super.stepInTime( dt );
 
-        // Check to see if we are being hit by a neutron
-        fissionCheck();
-//        for( int i = 0; i < model.numModelElements(); i++ ) {
-//            ModelElement me = model.modelElementAt( i );
-//            if( me instanceof Neutron ) {
-//                Neutron neutron = (Neutron)me;
-//                if( neutron.getLocation().distanceSq( this.getLocation() )
-//                    < this.getRadius() * this.getRadius() ) {
-//                    this.fission( neutron );
-//                }
-//            }
-//        }
-
         // Handle fission morphing
         if( morphTargetNeutrons != 0 ) {
             setPotential( getPotential() + morphSpeedFactor );
@@ -132,19 +118,6 @@ public class Uranium235 extends Nucleus {
 //            if( temp * morphTargetNeutrons <= 0 ) {
 //                super.fission( fissionInstigatingNeutron );
 //            }
-        }
-    }
-
-    public void fissionCheck() {
-        for( int i = 0; i < model.numModelElements(); i++ ) {
-            ModelElement me = model.modelElementAt( i );
-            if( me instanceof Neutron ) {
-                Neutron neutron = (Neutron)me;
-                if( neutron.getLocation().distanceSq( this.getLocation() )
-                    < this.getRadius() * this.getRadius() ) {
-                    this.fission( neutron );
-                }
-            }
         }
     }
 
