@@ -1,4 +1,11 @@
-/* ColorVisionConfig, Copyright 2004 University of Colorado PhET */
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ *   $Source$
+ *   $Revision$ on branch $Name$
+ *   Modified by $Author$ on $Date$
+ */
 
 package edu.colorado.phet.colorvision3;
 
@@ -10,7 +17,7 @@ import java.awt.Font;
  * See ColorVisionStrings.properties for localized Strings that are visible to the user.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$ $Name$
+ * @version $Revision$
  */
 public class ColorVisionConfig
 {

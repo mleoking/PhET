@@ -1,4 +1,11 @@
-/* IntensitySliderWiggleMe.java, Copyright 2004 University of Colorado PhET */
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ *   $Source$
+ *   $Revision$ on branch $Name$
+ *   Modified by $Author$ on $Date$
+ */
 
 package edu.colorado.phet.colorvision3.help;
 
@@ -25,7 +32,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * superclass handles the animation behavior.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Id$ $Name$
+ * @version $Revision$
  */
 public class IntensitySliderWiggleMe extends WiggleMe
 {

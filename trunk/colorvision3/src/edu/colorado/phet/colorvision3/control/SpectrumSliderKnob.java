@@ -1,4 +1,11 @@
-/* SpectrumSliderKnob.java, Copyright 2004 University of Colorado PhET */
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ *   $Source$
+ *   $Revision$ on branch $Name$
+ *   Modified by $Author$ on $Date$
+ */
 
 package edu.colorado.phet.colorvision3.control;
 
@@ -20,7 +27,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * The default orientation is with the tip of the arrow pointing straight up.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$ $Name$
+ * @version $Revision$
  */
 public class SpectrumSliderKnob extends PhetShapeGraphic
 {  

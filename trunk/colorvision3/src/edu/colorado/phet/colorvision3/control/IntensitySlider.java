@@ -1,4 +1,11 @@
-/* IntensitySlider.java, Copyright 2004 University of Colorado PhET */
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ *   $Source$
+ *   $Revision$ on branch $Name$
+ *   Modified by $Author$ on $Date$
+ */
 
 package edu.colorado.phet.colorvision3.control;
 
@@ -27,7 +34,7 @@ import javax.swing.event.EventListenerList;
  * Intensity is a percentage, with a range of 0-100 inclusive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Id$ $Name$
+ * @version $Revision$
  */
 public class IntensitySlider extends JPanel implements ChangeListener
 {
