@@ -10,21 +10,29 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import edu.colorado.phet.common.view.util.ImageLoader;
+
+import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import edu.colorado.phet.common.view.util.ImageLoader;
-
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
-    private AffineTransform transform;
+    // Affine transform relative to the image's origin
+    private AffineTransform relativeTx;
+    // Affine transform relative to the image's location
+    private AffineTransform absoluteTx;
+    private AffineTransformOp atxOp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR );
     private boolean shapeDirty = true;
     private Shape shape;
+    private Point2D location = new Point2D.Double();
+
+    public PhetImageGraphic( Component component ) {
+        super( component );
+    }
 
     public PhetImageGraphic( Component component, String imageResourceName ) {
         this( component, (BufferedImage)null );
@@ -46,19 +54,19 @@ public class PhetImageGraphic extends PhetGraphic {
     public PhetImageGraphic( Component component, BufferedImage image, int x, int y ) {
         super( component );
         this.image = image;
-        this.transform = AffineTransform.getTranslateInstance( x, y );
+        this.relativeTx = AffineTransform.getTranslateInstance( x, y );
     }
 
     public PhetImageGraphic( Component component, BufferedImage image, AffineTransform transform ) {
         super( component );
         this.image = image;
-        this.transform = transform;
+        this.relativeTx = transform;
     }
 
     public Shape getShape() {
         if( shapeDirty ) {
             Rectangle rect = new Rectangle( 0, 0, image.getWidth(), image.getHeight() );
-            this.shape = transform.createTransformedShape( rect );
+            this.shape = absoluteTx.createTransformedShape( rect );
         }
         return shape;
     }
@@ -68,18 +76,23 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
-        return getShape().getBounds();
+        if( this.image == null ) {
+            return null;
+        }
+        else {
+            return getShape().getBounds();
+        }
     }
 
     public void paint( Graphics2D g ) {
         if( isVisible() ) {
-            g.drawRenderedImage( image, transform );
+            g.drawImage( image, atxOp, (int)location.getX(), (int)location.getY() );
         }
     }
 
     public void setPosition( int x, int y, double scale ) {
-        AffineTransform tx = AffineTransform.getTranslateInstance( x, y );
-        tx.scale( scale, scale );
+        setPosition( x, y );
+        AffineTransform tx = AffineTransform.getScaleInstance( scale, scale );
         setTransform( tx );
     }
 
@@ -89,8 +102,8 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     public void setPosition( int x, int y ) {
-        AffineTransform tx = AffineTransform.getTranslateInstance( x, y );
-        setTransform( tx );
+        location.setLocation( x, y );
+        setAbsoluteTx();
     }
 
 //    public void setPositionCentered( int x, int y, double scale ) {
@@ -99,13 +112,24 @@ public class PhetImageGraphic extends PhetGraphic {
 //        setTransform( tx );
 //    }
 
-    public void setTransform( AffineTransform transform ) {
-        if( !transform.equals( this.transform ) ) {
-            this.transform = transform;
+    /**
+     * @param relativeTransform An affine relativeTx that is relative to the
+     *                          images origin
+     */
+    public void setTransform( AffineTransform relativeTransform ) {
+        if( !relativeTransform.equals( this.relativeTx ) ) {
+            this.relativeTx = relativeTransform;
+            setAbsoluteTx();
+            atxOp = new AffineTransformOp( relativeTransform, AffineTransformOp.TYPE_BILINEAR );
             setBoundsDirty();
             shapeDirty = true;
             repaint();
         }
+    }
+
+    private void setAbsoluteTx() {
+        absoluteTx = new AffineTransform( getTransform() );
+        absoluteTx.preConcatenate( AffineTransform.getTranslateInstance( location.getX(), location.getY() ) );
     }
 
     public void setImage( BufferedImage image ) {
@@ -117,14 +141,14 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     /**
-     * Any side effects produced on this transform will not be automatically
+     * Any side effects produced on this relativeTx will not be automatically
      * observed by this class.  You must call setBoundsDirty(); repaint();
      * or simply setTransform().
      *
      * @return the AffineTransform associated with this PhetImageGraphic.
      */
     public AffineTransform getTransform() {
-        return transform;
+        return relativeTx;
     }
 
 }
