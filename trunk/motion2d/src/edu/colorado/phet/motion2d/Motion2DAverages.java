@@ -5,7 +5,7 @@ import java.util.Arrays;
 //Helper Class for Velocity-Acceleration GUI.  This class computes
 //average position and double-averaged velocity and acceleration.
 
-public class VelAccAvg {
+public class Motion2DAverages {
     private int nP;  	//Number of points in stack, must be odd
     private int nA;		//averaging radius, #of pts averaged = (2*nA + 1)
     private int nGroup;	//Number of points averaged for vel, acc
@@ -18,7 +18,7 @@ public class VelAccAvg {
     private int[] x, y;		//last nP x- and y-coordinates from mousemovements
     private double[] xAvg, yAvg;	//averaged position stacks
 
-    public VelAccAvg( int nA, int nGroup ) {
+    public Motion2DAverages( int nA, int nGroup ) {
 
         this.nA = nA;
         this.nGroup = nGroup;
@@ -190,7 +190,7 @@ public class VelAccAvg {
     }
 
     public void setNA( int nA ) {
-        //edu.colorado.phet.motion2d.VelAccGui.setButtonFlag(edu.colorado.phet.motion2d.VelAccGui.SHOW_NEITHER);
+        //edu.colorado.phet.motion2d.Motion2DApplet.setButtonFlag(edu.colorado.phet.motion2d.Motion2DApplet.SHOW_NEITHER);
         this.nA = nA;
         this.nP = 3 * this.nGroup + 2 * this.nA;
         this.x = new int[nP];

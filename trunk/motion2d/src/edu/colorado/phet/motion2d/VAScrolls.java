@@ -13,11 +13,11 @@ public class VAScrolls extends JFrame implements ChangeListener {
     private int nPoints, nRadius, nGroup, timeStep, velFactor, accFactor;
     private Label label1, label2, label3, label4;
     private TextField field5, field6;
-    private VelAccAvg vaa;
-    private MyJPanel myJP;
+    private Motion2DAverages vaa;
+    private Motion2DPanel myJP;
     private Container scrollPane;
 
-    public VAScrolls( VelAccAvg vaa, MyJPanel myJP ) {
+    public VAScrolls( Motion2DAverages vaa, Motion2DPanel myJP ) {
         super( "Slider Controls" );
         //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         scrollPane = getContentPane();

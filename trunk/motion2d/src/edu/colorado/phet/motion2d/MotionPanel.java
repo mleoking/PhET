@@ -12,7 +12,7 @@ import java.awt.event.ComponentEvent;
 
 public class MotionPanel extends JPanel implements ActionListener //, Runnable
 {
-    private MyJPanel myJP;
+    private Motion2DPanel myJP;
     private JRadioButton constAIRadBtn, constAIIRadBtn, sHMRadBtn, circularRadBtn, stopRadBtn;
     private double amplitude;		//amplitude of motion for either SHM or constant acceleration
     private double tNow;			//motion time
@@ -26,10 +26,10 @@ public class MotionPanel extends JPanel implements ActionListener //, Runnable
     private final int STOP = 4;
     private int xNow, yNow;
     private double xDoubleNow;  //used for constant acceleration motion
-    private int width = -1;// = edu.colorado.phet.motion2d.VelAccGui.width;
-    private int height = -1;// = edu.colorado.phet.motion2d.VelAccGui.height;
+    private int width = -1;// = edu.colorado.phet.motion2d.Motion2DApplet.width;
+    private int height = -1;// = edu.colorado.phet.motion2d.Motion2DApplet.height;
 
-    public MotionPanel( final MyJPanel myJP, VelAccAvg vaa, int width, int height ) {
+    public MotionPanel( final Motion2DPanel myJP, Motion2DAverages vaa, int width, int height ) {
         this.width = width;
         this.height = height;
         this.myJP = myJP;

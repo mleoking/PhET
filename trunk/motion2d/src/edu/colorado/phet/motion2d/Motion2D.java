@@ -19,7 +19,7 @@ public class Motion2D {
     public static void main( String[] args ) {
         JFrame f = new JFrame( "PhET Motion2D" );
 
-        JApplet ja = new VelAccGui();
+        Motion2DApplet ja = new Motion2DApplet();
         ja.init();
         f.setContentPane( ja );
 
@@ -31,6 +31,7 @@ public class Motion2D {
         SwingUtilities.invokeLater( new Repaint( ja ) );
 
         f.setVisible( true );
+
     }
 
     private static void centerFrameOnScreen( JFrame f ) {

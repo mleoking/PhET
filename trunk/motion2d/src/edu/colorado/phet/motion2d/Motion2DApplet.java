@@ -1,17 +1,21 @@
 package edu.colorado.phet.motion2d;
 
-//edu.colorado.phet.motion2d.VelAccGui.class 06/02/02 M.Dubson
+//edu.colorado.phet.motion2d.Motion2DApplet.class 06/02/02 M.Dubson
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class VelAccGui extends JApplet {
+public class Motion2DApplet extends JApplet {
 
     private Container myPane;
-    private MyJPanel myJPanel;
+    private Motion2DPanel motion2DPanel;
     Image ballImage, emptyImage;
     Cursor hide, show;		//Invisible and visible mouse cursors
+
+    public Motion2DPanel getMotion2DPanel() {
+        return motion2DPanel;
+    }
 
     public void init() {
         try {
@@ -28,9 +32,9 @@ public class VelAccGui extends JApplet {
 
         myPane = getContentPane();
         myPane.setLayout( new BorderLayout() );
-        myJPanel = new MyJPanel( this );
-        myJPanel.setBackground( Color.yellow );
-        myPane.add( myJPanel, BorderLayout.CENTER );
+        motion2DPanel = new Motion2DPanel( this );
+        motion2DPanel.setBackground( Color.yellow );
+        myPane.add( motion2DPanel, BorderLayout.CENTER );
     }
 
 }
