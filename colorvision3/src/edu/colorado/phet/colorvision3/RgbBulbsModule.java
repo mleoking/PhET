@@ -1,4 +1,4 @@
-/* RgbBulbModule.java */
+/* RgbBulbModule.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3;
 
@@ -34,6 +34,10 @@ import edu.colorado.phet.common.view.util.SimStrings;
  */
 public class RgbBulbsModule extends Module implements ColorChangeListener
 {	
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+  
 	// Rendering layers
   private static final double PERSON_BACKGROUND_LAYER = 1;
   private static final double RED_BEAM_LAYER = 2;
@@ -73,11 +77,19 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
 	private static final Rectangle BEAM_BOUNDS = new Rectangle( 0, 0, PERSON_X + 160, 10000 );
 	private static final Dimension INTENSITY_CONTROL_SIZE = new Dimension(20,100);
 	
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+	
 	// Models
 	private Person _personModel;
 	
 	// Views
 	private PhotonBeamGraphic _redBeam, _greenBeam, _blueBeam;
+	
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
 	
 	/**
 	 * Sole constructor.
@@ -210,9 +222,9 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
     clock.addClockTickListener( _blueBeam );
     
     // Photon beams notify the RgbBulbsController when their perceived intensity changes.
-    _redBeam.addIntensityChangeListener( this );
-    _greenBeam.addIntensityChangeListener( this );
-    _blueBeam.addIntensityChangeListener( this );
+    _redBeam.addColorChangeListener( this );
+    _greenBeam.addColorChangeListener( this );
+    _blueBeam.addColorChangeListener( this );
     
 		//----------------------------------------------------------------------------
 		// Help
@@ -222,8 +234,12 @@ public class RgbBulbsModule extends Module implements ColorChangeListener
 		super.setHelpEnabled( false );
 	}
 	
+	//----------------------------------------------------------------------------
+	// Event handling
+  //----------------------------------------------------------------------------
+	
   /**
-   * Handles an ColorChangeEvent.
+   * Handles a ColorChangeEvent.
    * The new perceived color is calculated and set.
    * 
    * @param event the event

@@ -1,4 +1,4 @@
-/* Person.java */
+/* Person.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.model;
 
@@ -14,9 +14,19 @@ import edu.colorado.phet.common.util.SimpleObservable;
  */
 public class Person extends SimpleObservable
 {
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+
+  // The color perceived by the person
   private VisibleColor _color;
+  // The person's location in 2D space
   private double _x, _y;
   
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
+
   /**
    * Sole constructor.
    * Creates a person who is located at (0,0) and is seeing no color.
@@ -27,6 +37,10 @@ public class Person extends SimpleObservable
     _color = VisibleColor.INVISIBLE;
     _x = _y = 0.0;
   }
+
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
 
   /**
    * Gets the color perceived by the person.

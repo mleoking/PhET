@@ -1,4 +1,4 @@
-/* PhotonBeamGraphic.java */
+/* PhotonBeamGraphic.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.view;
 
@@ -26,53 +26,90 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  * PhotonBeamGraphic provides a photon view of a Spotlight (a 2D spotlight beam).
  * A PhotonBeamGraphic is composed of a number of Photon instances.
  * Memory allocation of Photons is optimized to reuse instances when possible.
+ * The photon beam may be filtered or unfiltered.
  */
 public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, ClockTickListener
 {
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+
+  // Default bounds for photon drop off
   private static final Rectangle BOUNDS_EVERYWHERE = new Rectangle(0,0,10000,10000);
+  // Offset of filter's visual center
   private static final int FILTER_CENTER_OFFSET = 12;
+  // How far to advance a photon when it hits the filter
   private static final int FILTERED_PHOTON_ADVANCE = 20;
+  // Stroke used from drawing photons
   private static Stroke PHOTON_STROKE = new BasicStroke( 1f );
-  
+  // Photons per 1% intensity.
   public static final int PHOTONS_PER_INTENSITY = 5;
+  // Photon delta.
   public static final int PHOTON_DS = 10;
+  // Photon line length, for rendering.
   public static final int PHOTON_LINE_LENGTH = 3;
 
-  private Spotlight _spotlight;
-  private Filter _filter;
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+
+  // Spotlight model
+  private Spotlight _spotlightModel;
+  // Optional filter model
+  private Filter _filterModel;
+  // Bounds for photon drop off
   private Rectangle _bounds;
+  // Perceived color, based on most recent photon to leave the bounds
   private VisibleColor _perceivedColor;
-  private double _perceivedIntensity; // in percent (0.0-100.0)
+  // Color intensity, in percent (0-100)
+  private double _perceivedIntensity;
+  // Photons (array of Photon)
   private ArrayList _photons;
+  // Event listeners
   private EventListenerList _listenerList;
   
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
+
   /**
-   * Sole constructor.
+   * Constructor for a filtered beam.
    * 
-   * @param parent the parent component
-   * @param spotlight the model that this photon beam will animate
+   * @param parent the parent Component
+   * @param spotlightModel the spotlight model
+   * @param filterModel the filter model
    */
-  public PhotonBeamGraphic( Component parent, Spotlight spotlight, Filter filter )
+  public PhotonBeamGraphic( Component parent, Spotlight spotlightModel, Filter filterModel )
   {
     super( parent );
     
     // Initialize member data.
-    _spotlight = spotlight;
-    _filter = filter;
+    _spotlightModel = spotlightModel;
+    _filterModel = filterModel;
     _bounds = BOUNDS_EVERYWHERE;
-    _perceivedColor = null;
+    _perceivedColor = VisibleColor.INVISIBLE;
     _perceivedIntensity = 0.0;
     _photons = new ArrayList();
     _listenerList = new EventListenerList();
   }
   
+  /**
+   * Constructor for an unfiltered beam.
+   * 
+   * @param parent the parent Component
+   * @param spotlight the spotlight model
+   */
   public PhotonBeamGraphic( Component parent, Spotlight spotlight )
   {
     this( parent, spotlight, null );
   }
 
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
+
   /**
-   * Gets the bounds.
+   * Gets the bounds. See setBounds.
    * 
    * @return the bounds
    */
@@ -82,7 +119,7 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
   }
   
   /** 
-   * Sets the bounds.  The photon beam will not render outside of this region,
+   * Sets the bounds. The photon beam will not render outside of this region,
    * and photons that leave this region will be marked as available.
    * 
    * @param bounds the bounds
@@ -123,7 +160,11 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
   {
     return _perceivedIntensity;
   }
-  
+ 
+	//----------------------------------------------------------------------------
+	// Rendering
+  //----------------------------------------------------------------------------
+
   /**
    * Renders the photon beam.
    * Note that the graphics state is preserved.
@@ -140,9 +181,13 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
         Photon photon = null;
         int x, y, w, h;
         VisibleColor vc;
+        
+        // For each photon ...
         for ( int i = 0; i < _photons.size(); i++ )
         {
           photon = (Photon)_photons.get(i);
+          
+          // If the photon is in use, render it.
           if ( photon.isInUse() )
           {
             x = (int) photon.getX();
@@ -151,8 +196,8 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
             h = (int) photon.getHeight();
             vc = photon.getColor();
             
-            // Render the photon.
-            g2.setPaint( vc.toColor() ); // XXX Huge performance improvement by converting VisibleColor to Color.
+            // WORKAROUND: Huge performance improvement by converting VisibleColor to Color.
+            g2.setPaint( vc.toColor() ); 
             g2.drawLine( x, y, x-w, y-h );
           }
         }
@@ -161,12 +206,19 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
     }
   } // paint
 
+	//----------------------------------------------------------------------------
+	// Animation
+  //----------------------------------------------------------------------------
+
   /**
    * Called each time the simulation clock ticks.
    * Walks the photon list exactly once, and advances or prunes photons
-   * based on their location.  Pruned photons are available for reuse. 
-   * The current intensity determines how many photons must be initialized,
-   * either via reuse or by creating new photons.
+   * based on their location and optional color filtering.  Pruned photons 
+   * are available for reuse. The current intensity determines how many 
+   * photons must be initialized, either via reuse or by creating new photons.
+   * <p>
+   * Note that this algorithm assumes that the photons are traveling 
+   * left-to-right in its treatment of filtering and coordinate generation.
    * 
    * @param dt time delta, currently ignored
    */
@@ -183,13 +235,13 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
     // If the intensity is changing to from non-zero to zero, emit one 
     // photon with zero intensity to ensure that zero intensity is 
     // perceived by the viewer.
-    int allocCount = (int) (_spotlight.getIntensity() / PHOTONS_PER_INTENSITY);
+    int allocCount = (int) (_spotlightModel.getIntensity() / PHOTONS_PER_INTENSITY);
     if ( allocCount == 0 && _perceivedIntensity != 0.0 )
     {
       allocCount = 1;
     }
     
-    // Walk the photon array and paint/prune/reinitialize as needed.
+    // Walk the photon array and paint/prune/filter/reinitialize as needed.
     for ( int i = 0; i < _photons.size(); i++ )
     {
       photon = (Photon)_photons.get(i);
@@ -202,19 +254,20 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
         
         if ( ! _bounds.contains( photon.getX(), photon.getY() ))
         {
+          // Photon is out of bounds, mark for reuse.
           photon.setInUse( false );
           newPerceivedColor = photon.getColor();
           newPerceivedIntensity = photon.getIntensity();
         }
-        else if ( _filter != null && _filter.isEnabled() && ! photon.isFiltered() )
+        else if ( _filterModel != null && ! photon.isFiltered() )
         {
           // If we have an active filter and the photon has not been previously
           // filtered, then determine whether the photon should pass the filter
           // and what its new color should be.
           // Note! This assumes the photon is traveling left-to-right horizontally.
-          if ( photon.getX() > _filter.getX() + FILTER_CENTER_OFFSET )
+          if ( photon.getX() > _filterModel.getX() + FILTER_CENTER_OFFSET )
           {
-            VisibleColor color = _filter.colorPassed( photon.getColor() );
+            VisibleColor color = _filterModel.colorPassed( photon.getColor() );
             if ( color.equals( VisibleColor.INVISIBLE ) )
             {
               // If the filter passes no color, then mark the photon as available.
@@ -227,9 +280,12 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
               // Photon's color is the filtered color.
               photon.setColor( color );
               photon.setFiltered( true );
-              // Advance it a bit so it looks like it goes through the filter.
-              photon.setLocation( photon.getX() + FILTERED_PHOTON_ADVANCE, photon.getY() );
-              passedCount++;
+              if ( _filterModel.isEnabled() )
+              {
+                // Advance it a bit so it looks like it goes through the filter.
+                photon.setLocation( photon.getX() + FILTERED_PHOTON_ADVANCE, photon.getY() );
+                passedCount++;
+              }
             }
           }
         }
@@ -239,14 +295,14 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
       // then reuse the photon.
       if ( (! photon.isInUse()) && allocCount > 0 )
       {
-        double x = genX( _spotlight.getX() );
-        double y = _spotlight.getY();
-        double direction = genDirection( _spotlight.getDirection() );
+        double x = genX( _spotlightModel.getX() );
+        double y = _spotlightModel.getY();
+        double direction = genDirection( _spotlightModel.getDirection() );
  
         photon.setLocation( x, y );
         photon.setDirection( direction );
-        photon.setColor( _spotlight.getColor() );
-        photon.setIntensity( _spotlight.getIntensity() );
+        photon.setColor( _spotlightModel.getColor() );
+        photon.setIntensity( _spotlightModel.getIntensity() );
         photon.setInUse( true );
         photon.setFiltered( false );
        
@@ -257,11 +313,11 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
     // If we didn't find enough available photons, allocate some new ones.
     while ( allocCount > 0 )
     {
-      double direction = genDirection( _spotlight.getDirection() );
-      double x = genX( _spotlight.getX() );
-      photon = new Photon( _spotlight.getColor(),
-                                  _spotlight.getIntensity(), 
-                                  x, _spotlight.getY(),
+      double direction = genDirection( _spotlightModel.getDirection() );
+      double x = genX( _spotlightModel.getX() );
+      photon = new Photon( _spotlightModel.getColor(),
+                                  _spotlightModel.getIntensity(), 
+                                  x, _spotlightModel.getY(),
                                   direction );
       _photons.add( photon );
       
@@ -271,22 +327,24 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
     // If filtering is enabled and we passed no photons, then send a photon
     // with "no color", starting at the location of the last photon that the 
     // filter blocked.
-    if ( _filter != null && _filter.isEnabled() && passedCount == 0 && 
+    if ( _filterModel != null && _filterModel.isEnabled() && passedCount == 0 && 
         _perceivedColor != null && !_perceivedColor.equals(VisibleColor.INVISIBLE) )
     {
       
-      photon = new Photon( VisibleColor.INVISIBLE, 0, lastFilteredX, lastFilteredY, _spotlight.getDirection() );
+      photon = new Photon( VisibleColor.INVISIBLE, 0, lastFilteredX, lastFilteredY, _spotlightModel.getDirection() );
       _photons.add( photon );
     }
     
     // If the perceived color or intensity has changed, then fire a ColorChangeEvent.
-    if ( newPerceivedColor != _perceivedColor ||
-         newPerceivedIntensity != _perceivedIntensity )
+    if ( !newPerceivedColor.equals(_perceivedColor) || newPerceivedIntensity != _perceivedIntensity )
     {
       _perceivedColor = newPerceivedColor;
       _perceivedIntensity = newPerceivedIntensity;
-      ColorChangeEvent event = new ColorChangeEvent( this, _perceivedColor, _perceivedIntensity );
-      fireIntensityChangeEvent( event );
+      if ( super.isVisible() )
+      {
+        ColorChangeEvent event = new ColorChangeEvent( this, _perceivedColor, _perceivedIntensity );
+        fireColorChangeEvent( event );
+      }
     }
    
   } // stepInTime
@@ -312,12 +370,16 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
   private double genDirection( double direction )
   {
     // Generate a delta based on the cutoff angle.
-    double delta = (Math.random() * _spotlight.getCutOffAngle() / 2 );
+    double delta = (Math.random() * _spotlightModel.getCutOffAngle() / 2 );
     // Randomly make the delta positive or negative.
     delta *= ( Math.random() > 0.5 ) ? 1 : -1;
     // Add the delta to the original direction.
     return (direction + delta);
   }
+
+	//----------------------------------------------------------------------------
+	// SimpleObserver implementation
+  //----------------------------------------------------------------------------
 
   /**
    * Called each time the model changes.
@@ -329,12 +391,16 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
     // Do nothing.
   }
   
+	//----------------------------------------------------------------------------
+	// Event handling
+  //----------------------------------------------------------------------------
+
   /**
    * Adds a ColorChangeListener.
    * 
    * @param listener the listener to add
    */
-  public void addIntensityChangeListener( ColorChangeListener listener )
+  public void addColorChangeListener( ColorChangeListener listener )
   {
     _listenerList.add( ColorChangeListener.class, listener );
   }
@@ -344,7 +410,7 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
    * 
    * @param listener the listener to remove
    */
-  public void removeIntensityChangeListener( ColorChangeListener listener )
+  public void removeColorChangeListener( ColorChangeListener listener )
   {
     _listenerList.remove( ColorChangeListener.class, listener );
   }
@@ -355,7 +421,7 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
    * 
    * @param event the event
    */
-  private void fireIntensityChangeEvent( ColorChangeEvent event )
+  private void fireColorChangeEvent( ColorChangeEvent event )
   {
     Object[] listeners = _listenerList.getListenerList();
     for ( int i = 0; i < listeners.length; i+=2 )

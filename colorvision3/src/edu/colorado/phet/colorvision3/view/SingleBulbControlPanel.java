@@ -1,4 +1,4 @@
-/* SingleBulbControlPanel.java */
+/* SingleBulbControlPanel.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.view;
 
@@ -28,18 +28,37 @@ import edu.colorado.phet.common.view.util.SimStrings;
  */
 public class SingleBulbControlPanel extends PhetControlPanel implements ActionListener
 {
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+
+  /** Bulb type of "White" */
   public static final int WHITE_BULB = 0;
+  /** Bulb type of "Monochrome" */
   public static final int MONOCHROMATIC_BULB = 1;
+  /** Beam type of "Solid" */
   public static final int SOLID_BEAM = 2;
-  public static final int PHOTONS_BEAM = 3;
+  /** Beam type of "Photons" */
+  public static final int PHOTON_BEAM = 3;
   
+	//----------------------------------------------------------------------------
+	// Instance data
+  //---------------------------------------------------------------------------
+  
+  // UI components
   private JRadioButton _whiteRadioButton;
   private JRadioButton _monochromaticRadioButton;
   private JRadioButton _solidRadioButton;
   private JRadioButton _photonsRadioButton;
   private JCheckBox _filterCheckBox;
+  
+  // Event listeners
   private EventListenerList _listenerList;
   
+	//----------------------------------------------------------------------------
+	// Constructors
+  //---------------------------------------------------------------------------
+
   /**
    * Sole constructor.
    * 
@@ -54,12 +73,12 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     // Bulb Control panel
     JPanel bulbPanel = new JPanel();
     {
-      bulbPanel.setBorder( new TitledBorder( SimStrings.get( "BulbControl.title" ) ) );
+      bulbPanel.setBorder( new TitledBorder( SimStrings.get( "bulbType.title" ) ) );
       bulbPanel.setLayout( new BoxLayout( bulbPanel, BoxLayout.Y_AXIS ) );
 
       // Radio buttons
-      _whiteRadioButton = new JRadioButton( SimStrings.get( "BulbControl.whiteRadioButton.label" ) );
-      _monochromaticRadioButton = new JRadioButton( SimStrings.get( "BulbControl.monochromaticRadioButton.label" ) );
+      _whiteRadioButton = new JRadioButton( SimStrings.get( "bulbType.white" ) );
+      _monochromaticRadioButton = new JRadioButton( SimStrings.get( "bulbType.monochromatic" ) );
       bulbPanel.add( _whiteRadioButton );
       bulbPanel.add( _monochromaticRadioButton );
 
@@ -72,12 +91,12 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     // Beam Control panel
     JPanel beamPanel = new JPanel();
     {
-      beamPanel.setBorder( new TitledBorder( SimStrings.get( "BeamControl.title" ) ) );
+      beamPanel.setBorder( new TitledBorder( SimStrings.get( "beamType.title" ) ) );
       beamPanel.setLayout( new BoxLayout( beamPanel, BoxLayout.Y_AXIS ) );
 
       // Radio buttons
-      _solidRadioButton = new JRadioButton( SimStrings.get( "BeamControl.solidRadioButton.label" ) );
-      _photonsRadioButton = new JRadioButton( SimStrings.get( "BeamControl.photonsRadioButton.label" ) );
+      _solidRadioButton = new JRadioButton( SimStrings.get( "beamType.solid" ) );
+      _photonsRadioButton = new JRadioButton( SimStrings.get( "beamType.photons" ) );
       beamPanel.add( _solidRadioButton );
       beamPanel.add( _photonsRadioButton );
 
@@ -90,11 +109,11 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     // Filter Control panel
     JPanel filterPanel = new JPanel();
     {
-      filterPanel.setBorder( new TitledBorder( SimStrings.get( "FilterControl.title" ) ) );
+      filterPanel.setBorder( new TitledBorder( SimStrings.get( "filter.title" ) ) );
       filterPanel.setLayout( new BoxLayout( filterPanel, BoxLayout.Y_AXIS ) );
 
       // Radio buttons
-      _filterCheckBox = new JCheckBox( SimStrings.get( "FilterControl.checkBox.label" ) );
+      _filterCheckBox = new JCheckBox( SimStrings.get( "filter.checkBox" ) );
       filterPanel.add( _filterCheckBox );
     }
     
@@ -120,6 +139,15 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     super.setControlPane( panel );
   }
 
+	//----------------------------------------------------------------------------
+	// Accessors
+  //---------------------------------------------------------------------------
+
+  /**
+   * Gets the bulb type that is currently selected.
+   * 
+   * @return WHITE_BULB or MONOCHROMATIC_BULB
+   */
   public int getBulbType()
   {
     int bulbType = MONOCHROMATIC_BULB;
@@ -130,53 +158,99 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
     return bulbType;
   }
   
+  /**
+   * Sets the bulb type.
+   * Registered listeners receive a ChangeEvent.
+   * 
+   * @param bulbType the bulb type, WHITE_BULB or MONOCHROMATIC_BULB
+   * @throws IllegalArgumentException if bulbType is invalid
+   */
   public void setBulbType( int bulbType )
   {
     if ( bulbType == WHITE_BULB )
     {
       _whiteRadioButton.setSelected( true );
     }
-    else
+    else if ( bulbType == MONOCHROMATIC_BULB )
     {
       _monochromaticRadioButton.setSelected( true );
     }
+    else
+    {
+      throw new IllegalArgumentException( "invalid bulb type: " + bulbType );
+    }
+    fireChangeEvent( new ChangeEvent(this) );
   }
   
+  /**
+   * Gets the beam type that is currently selected.
+   * 
+   * @return SOLID_BEAM or PHOTON_BEAM
+   */
   public int getBeamType()
   {
     int beamType = SOLID_BEAM;
     if ( _photonsRadioButton.isSelected() )
     {
-      beamType= PHOTONS_BEAM;
+      beamType= PHOTON_BEAM;
     }
     return beamType;
   }
   
+  /**
+   * Sets the beam type.
+   * Registered listeners receive a ChangeEvent.
+   * 
+   * @param beamType the beam type, SOLID_BEAM or PHOTON_BEAM
+   * @throws IllegalArgumentException if beamType is invalid
+   */
   public void setBeamType( int beamType )
   {
     if ( beamType == SOLID_BEAM )
     {
       _solidRadioButton.setSelected( true );
     }
-    else
+    else if ( beamType == PHOTON_BEAM )
     {
       _photonsRadioButton.setSelected( true );
     }
+    else
+    {
+      throw new IllegalArgumentException( "invalid beam type: " + beamType );
+    }
+    fireChangeEvent( new ChangeEvent(this) );
   }
   
+  /**
+   * Gets the state of the filter checkbox.
+   * 
+   * @return true or false
+   */
   public boolean getFilterEnabled()
   {
     return _filterCheckBox.isSelected();
   }
   
+  /**
+   * Sets the state of the filter checkbox.
+   * Registered listeners receive a ChangeEvent.
+   * 
+   * @param enabled true or false
+   */
   public void setFilterEnabled( boolean enabled )
   {
     _filterCheckBox.setSelected( enabled );
+    fireChangeEvent( new ChangeEvent(this) );
   }
   
+	//----------------------------------------------------------------------------
+	// Event handling
+  //---------------------------------------------------------------------------
+
   /**
-   * Handles control panel events.
-   * Propogates them as ChangeEvents.
+   * Handles a control panel button event by propogating it as a ChangeEvent.
+   * 
+   * @param event the event
    */
   public void actionPerformed( ActionEvent event )
   {

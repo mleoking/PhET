@@ -1,4 +1,4 @@
-/* ColorChangeEvent.java */
+/* ColorChangeEvent.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.event;
 
@@ -14,9 +14,19 @@ import edu.colorado.phet.colorvision3.model.VisibleColor;
  */
 public class ColorChangeEvent extends EventObject
 {
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+
+  // The base color.
   protected VisibleColor _color;
+  // The intensity of the base color's alpha component.
   protected double _intensity;
   
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
+
   /**
    * Sole constructor.
    * 
@@ -31,6 +41,10 @@ public class ColorChangeEvent extends EventObject
     _intensity = intensity;
   }
   
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
+
   /**
    * Gets the color.
    *
@@ -49,6 +63,15 @@ public class ColorChangeEvent extends EventObject
   public double getIntensity()
   {
     return _intensity;
+  }
+
+	//----------------------------------------------------------------------------
+	// Conversions
+  //----------------------------------------------------------------------------
+  
+  public String toString()
+  {
+    return "ColorChangeEvent: " + _color + ", intensity=" + _intensity;
   }
 
 }

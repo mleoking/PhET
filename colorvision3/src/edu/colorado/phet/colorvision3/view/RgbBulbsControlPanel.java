@@ -1,4 +1,4 @@
-/* RgbBulbsControlPanel.java */
+/* RgbBulbsControlPanel.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.view;
 
@@ -26,7 +26,7 @@ public class RgbBulbsControlPanel extends PhetControlPanel
   {
     super( module );
     
-    // HACK - PhetControlPanel doesn't display anything unless we give it a dummy control pane.
+    // WORKAROUND: PhetControlPanel doesn't display anything unless we give it a dummy control pane.
     JPanel panel = new JPanel();
     this.setControlPane( panel );
   }

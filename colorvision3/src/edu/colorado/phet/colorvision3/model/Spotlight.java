@@ -1,4 +1,4 @@
-/* Spotlight.java */
+/* Spotlight.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.model;
 
@@ -15,25 +15,50 @@ import edu.colorado.phet.common.util.SimpleObservable;
  */
 public class Spotlight extends SimpleObservable
 {
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+
+  /** Minumum intensity, in percent */
   public static final double INTENSITY_MIN = 0.0;
+  /** Maximum intensity, in percent */
   public static final double INTENSITY_MAX = 100.0;
-  public static final double DROP_OFF_RATE_MIN = 0.0;  // constant intensity
-  public static final double DROP_OFF_RATE_MAX = 100.0; // sharpest droff-off
+  /** Minimum drop off rate (constant intensity) */
+  public static final double DROP_OFF_RATE_MIN = 0.0;
+  /** Maximum drop off rate (sharpest) */
+  public static final double DROP_OFF_RATE_MAX = 100.0;
+  /** Minimum cut off angle */
   public static final double CUT_OFF_ANGLE_MIN = 0.0;
+  /** Maximum cut off angle */
   public static final double CUT_OFF_ANGLE_MAX = 180.00;
+  /** Default cut off angle */
   public static final double CUT_OFF_ANGLE_DEFAULT = 15.0;
   
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+
+  // Light color
   private VisibleColor _color;
+  // Cut off angle, the angle outside of which the light intensity is 0.0
   private double _cutOffAngle;
+  // Direct that the light points, in degrees
   private double _direction;
+  // Drop off rate, the rate at which light intensity drops off from the primary direction
   private double _dropOffRate;
-  private double _intensity; // 0.0 - 100.0 %
+  // Intensity, in percent
+  private double _intensity;
+  // Location in 2D space
   private double _x, _y;
+
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
 
   /**
    * Sole constructor.
    * Creates a Spotlight with: location at the origin (0,0), a white beam,
-   * 20 degree cut off angle, 0 degree direction, 0 drop off rate (contant),
+   * 15 degree cut off angle, 0 degree direction, 0 drop off rate (contant),
    * 0 intensity.
    */
   public Spotlight()
@@ -43,10 +68,14 @@ public class Spotlight extends SimpleObservable
     _cutOffAngle = CUT_OFF_ANGLE_DEFAULT;
     _direction   = 0.0;
     _dropOffRate = DROP_OFF_RATE_MIN; // constant intensity
-    _intensity   = INTENSITY_MIN;
+    _intensity   = INTENSITY_MAX;
     _x = _y      = 0.0;
   }
   
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
+
   /**
    * Gets the color.
    * 

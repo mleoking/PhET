@@ -1,4 +1,4 @@
-/* IntensityControl.java */
+/* IntensityControl.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.view;
 
@@ -32,26 +32,32 @@ import edu.colorado.phet.colorvision3.model.Spotlight;
  */
 public class IntensityControl extends JPanel implements ChangeListener
 {
-  private static Stroke STROKE = new BasicStroke( 1f );
-  
-  private Spotlight _model;
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+
+  private Spotlight _spotlightModel;
   private JPanel _containerPanel;
   private JSlider _slider;
   private JLabel _label;
   
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
+
   /**
    * Sole constructor.
    * 
-   * @param model the associated spotlight model
+   * @param spotlightModel the associated spotlight model
    * @param orientation orientation of the control (JSlider.HORIZONTAL or JSlider.VERTICAL)
    */
-  public IntensityControl( Spotlight model, int orientation, Dimension size )
+  public IntensityControl( Spotlight spotlightModel, int orientation, Dimension size )
   {
-    _model = model;
+    _spotlightModel = spotlightModel;
      
     // Container panel, so we can put this component on the Apparatus panel.
     _containerPanel = new JPanel();
-    _containerPanel.setBackground( _model.getColor() );
+    _containerPanel.setBackground( _spotlightModel.getColor() );
   
     // Slider
     _slider = new JSlider( );
@@ -78,6 +84,10 @@ public class IntensityControl extends JPanel implements ChangeListener
     repaint();
   }
 
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
+
   /** 
    * Sets the location and (as a side effect) the bounds for this component.
    * 
@@ -90,21 +100,33 @@ public class IntensityControl extends JPanel implements ChangeListener
     super.setBounds( x, y, super.getPreferredSize().width, super.getPreferredSize().height );
   }
   
+	//----------------------------------------------------------------------------
+	// Event handling
+  //----------------------------------------------------------------------------
+
   /**
    * Handles ChangeEvents that occur when the slider is moved.
    * The spotlight model is notified of the intensity change.
+   * 
+   * @param event the event
    */
-  public void stateChanged( ChangeEvent e )
+  public void stateChanged( ChangeEvent event )
   {
-    if ( e.getSource() == _slider )
+    if ( event.getSource() == _slider )
     {
-      _model.setIntensity( _slider.getValue() );
+      _spotlightModel.setIntensity( _slider.getValue() );
     }
   }
+
+	//----------------------------------------------------------------------------
+	// Rendering
+  //----------------------------------------------------------------------------
 
   /**
    * Paints the component.
    * A gradient fill, based on the model color, is used for the background.
+   * 
+   * @param g the graphics context
    */
   public void paintComponent( Graphics g )
   {
@@ -136,12 +158,12 @@ public class IntensityControl extends JPanel implements ChangeListener
       p1 = new Point2D.Double( x + w, y + (h/2) );
       p2 = new Point2D.Double( x, y + (h/2) );
     }
-    GradientPaint gradient = new GradientPaint( p1, _model.getColor(), p2, Color.black );
+    GradientPaint gradient = new GradientPaint( p1, _spotlightModel.getColor(), p2, Color.black );
     
     // Render the background.
     g2.setPaint( gradient );
     g2.fill( shape );
-    g2.setStroke( STROKE );
+    g2.setStroke( new BasicStroke( 1f ) );
     g2.setPaint( Color.white );
     g2.draw( shape );
     
@@ -151,7 +173,7 @@ public class IntensityControl extends JPanel implements ChangeListener
     
     // Render the component.
     super.paintComponent( g );
-  }
+  } // paint
 
 }
 

@@ -1,10 +1,11 @@
-/* FilterGraphic.java */
+/* FilterGraphic.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.view;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -17,32 +18,76 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 /**
- * FilterGraphic
+ * FilterGraphic is the UI component that represents a filter.
+ * It is a Shape that is described using constructive area geometry.
  *
  * @author cmalley
  * @revision $Id$
  */
 public class FilterGraphic extends PhetGraphic implements SimpleObserver
 {
-  private static final int HEIGHT = 150;
+	//----------------------------------------------------------------------------
+	// Class data
+  //----------------------------------------------------------------------------
+
+  // Height of the filter lens.
+  private static final int LENS_HEIGHT = 150;
   
-  private Filter _model;
+	//----------------------------------------------------------------------------
+	// Instance data
+  //----------------------------------------------------------------------------
+
+  // The filter model
+  private Filter _filterModel;
+  // Shapes for various parts of the filter.
   private Shape _exterior, _interior, _lens;
   
-  public FilterGraphic( Component parent, Filter model )
+	//----------------------------------------------------------------------------
+	// Constructors
+  //----------------------------------------------------------------------------
+
+  /**
+   * Sole constructor.
+   * 
+   * @param parent the parent Component
+   * @param filterModel the filter model
+   */
+  public FilterGraphic( Component parent, Filter filterModel )
   {
     super( parent );
-    _model = model;
+    _filterModel = filterModel;
     update();
   }
+ 
+	//----------------------------------------------------------------------------
+	// Accessors
+  //----------------------------------------------------------------------------
+
+  /**
+   * Sets the location of the filter model.
+   * 
+   * @param location the location
+   */
+  public void setLocation( Point location )
+  {
+    _filterModel.setLocation( location.x, location.y );
+  }
   
+  /**
+   * Convenience method for setting location.
+   * 
+   * @param x X coordinate
+   * @param y Y coordinate
+   */
   public void setLocation( int x, int y )
   {
-    _model.setLocation( x, y );
+    setLocation( new Point(x,y) );
   }
   
   /**
    * Determines the bounds.
+   * 
+   * @return the bounding rectangle
    */
   protected Rectangle determineBounds()
   {
@@ -54,22 +99,27 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
     return bounds;
   }
 
+	//----------------------------------------------------------------------------
+	// SimpleObserver implementation
+  //----------------------------------------------------------------------------
+
   /**
-   * @see edu.colorado.phet.common.util.SimpleObserver#update()
+   * Updates the view by consulting the model.
+   * This is called each time the filter model changes.
    */
   public void update()
   {
-    int x = (int)_model.getX();
-    int y = (int)_model.getY();
+    int x = (int)_filterModel.getX();
+    int y = (int)_filterModel.getY();
     int height = 150;
     
     // Use constructive area geomety to create the exterior shape.
     Area area = new Area();
     {
-      Ellipse2D.Double e1 = new Ellipse2D.Double( x, y, 20, HEIGHT );
-      Rectangle2D.Double r1 = new Rectangle2D.Double( x+10, y, 10, HEIGHT );
-      Ellipse2D.Double e2 = new Ellipse2D.Double( x+10, y, 20, HEIGHT );
-      Rectangle2D.Double base = new Rectangle2D.Double( x+10, y+HEIGHT, 10, 20 );
+      Ellipse2D.Double e1 = new Ellipse2D.Double( x, y, 20, LENS_HEIGHT );
+      Rectangle2D.Double r1 = new Rectangle2D.Double( x+10, y, 10, LENS_HEIGHT );
+      Ellipse2D.Double e2 = new Ellipse2D.Double( x+10, y, 20, LENS_HEIGHT );
+      Rectangle2D.Double base = new Rectangle2D.Double( x+10, y+LENS_HEIGHT, 10, 20 );
       area.add( new Area(e1) );
       area.add( new Area(e2) );
       area.add( new Area(r1) );
@@ -77,12 +127,21 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
     }
     
     _exterior = area;
-    _interior = new Ellipse2D.Double( x, y, 20, HEIGHT );
-    _lens = new Ellipse2D.Double( x+4, y+4, 12, HEIGHT-8 );
+    _interior = new Ellipse2D.Double( x, y, 20, LENS_HEIGHT );
+    _lens = new Ellipse2D.Double( x+4, y+4, 12, LENS_HEIGHT-8 );
     
     super.repaint();
   }
   
+	//----------------------------------------------------------------------------
+	// Rendering
+  //----------------------------------------------------------------------------
+
+  /**
+   * Draws the filter, based on the current state of the filter model.
+   * 
+   * @param g2 graphics context
+   */
   public void paint( Graphics2D g2 )
   {
     if ( super.isVisible() )
@@ -102,7 +161,7 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
         g2.fill( _interior );
         
         // Draw the filter
-        g2.setPaint( _model.getTransmissionPeak() );
+        g2.setPaint( _filterModel.getTransmissionPeak() );
         g2.fill( _lens );
       }
       super.restoreGraphicsState();

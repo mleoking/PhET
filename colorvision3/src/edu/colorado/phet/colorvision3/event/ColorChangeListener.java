@@ -1,4 +1,4 @@
-/* ColorChangeListener.java */
+/* ColorChangeListener.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.event;
 

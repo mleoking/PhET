@@ -1,4 +1,4 @@
-/* ColorVisionApplication.java */
+/* ColorVisionApplication.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3;
 
