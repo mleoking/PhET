@@ -312,7 +312,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         }
         Arrow head = new Arrow( new Point2D.Double( arrowHeight, height / 2 ),
                                 new Point2D.Double( 0, height / 2 ),
-                                arrowHeight, height, 2 );
+                                arrowHeight, height * 1.2, 2 );
         Arrow tail = new Arrow( new Point2D.Double( length - arrowHeight, height / 2 ),
                                 new Point2D.Double( length, height / 2 ),
                                 arrowHeight, height * 1.2, 2 );

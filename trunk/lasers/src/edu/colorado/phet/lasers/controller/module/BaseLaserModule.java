@@ -22,11 +22,7 @@ import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
-import edu.colorado.phet.lasers.model.atom.HighEnergyState;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
-import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
@@ -59,7 +55,7 @@ public class BaseLaserModule extends Module {
     private LaserModel laserModel;
     private EnergyLevelsDialog energyLevelsDialog;
     private PartialMirror rightMirror;
-    private Mirror leftMirror;
+    private PartialMirror leftMirror;
     private MirrorGraphic rightMirrorGraphic;
     private MirrorGraphic leftMirrorGraphic;
     private Frame appFrame;
@@ -134,13 +130,18 @@ public class BaseLaserModule extends Module {
                                          cavity.getPosition().getY() );
         Point2D p4 = new Point2D.Double( cavity.getPosition().getX(), // - 20,
                                          cavity.getPosition().getY() + cavity.getHeight() );
-        leftMirror = new Mirror( p3, p4 );
+        leftMirror = new PartialMirror( p3, p4 );
+        leftMirror.setReflectivity( 1.0 );
         leftMirror.addReflectionStrategy( new RightReflecting() );
         leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
 
         // Create the energy levels dialog
         energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( laserModel );
         energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
+        energyLevelsDialog.setBounds( new Rectangle( (int)( frame.getBounds().getX() + frame.getBounds().getWidth() * 1 / 2 ),
+                                                     10,
+                                                     (int)energyLevelsDialog.getBounds().getWidth(),
+                                                     (int)energyLevelsDialog.getBounds().getHeight() ) );
 
         // Add the control panel
         LaserControlPanel controlPanel = new LaserControlPanel( this );
@@ -188,6 +189,7 @@ public class BaseLaserModule extends Module {
             getModel().addModelElement( photon );
             if( photonView == PHOTON_DISCRETE ) {
                 final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+                //                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
 
                 // Add a listener that will remove the graphic if the photon leaves the system
