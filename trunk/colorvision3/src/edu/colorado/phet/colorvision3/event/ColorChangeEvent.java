@@ -4,7 +4,7 @@ package edu.colorado.phet.colorvision3.event;
 
 import java.util.EventObject;
 
-import edu.colorado.phet.colorvision3.model.VisibleColor;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
  * ColorChangeEvent occurs when a color changes in some way.

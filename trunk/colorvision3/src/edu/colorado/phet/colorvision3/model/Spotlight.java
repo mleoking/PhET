@@ -4,6 +4,7 @@ package edu.colorado.phet.colorvision3.model;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
  * Spotlight is the model for a 2D spotlight.

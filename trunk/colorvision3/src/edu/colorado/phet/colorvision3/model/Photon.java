@@ -3,6 +3,7 @@
 package edu.colorado.phet.colorvision3.model;
 
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 
 /**

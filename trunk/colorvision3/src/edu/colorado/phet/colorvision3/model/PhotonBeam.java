@@ -13,6 +13,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
  * PhotonBeam is the model of a photon beam.

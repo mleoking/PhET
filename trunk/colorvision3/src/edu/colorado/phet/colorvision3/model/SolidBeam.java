@@ -1,4 +1,4 @@
-/* ColumnarBeam.java, Copyright 2004 University of Colorado */
+/* SolidBeam.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.model;
 
@@ -8,15 +8,16 @@ import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
 import edu.colorado.phet.colorvision3.event.ColorChangeListener;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
- * ColumnarBeam is the model of a columnar beam of light.
+ * SolidBeam is the model of a solid beam of light.
  * The beam may be filtered or unfiltered.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @revision $Id$
  */
-public class ColumnarBeam extends SimpleObservable implements SimpleObserver
+public class SolidBeam extends SimpleObservable implements SimpleObserver
 {
 	//----------------------------------------------------------------------------
 	// Instance data
@@ -45,7 +46,7 @@ public class ColumnarBeam extends SimpleObservable implements SimpleObserver
    * @param spotlightModel the spotlight model
    * @param fitlerModel the fitler model
    */
-  public ColumnarBeam( Spotlight spotlightModel, Filter filterModel )
+  public SolidBeam( Spotlight spotlightModel, Filter filterModel )
   {   
     _spotlightModel = spotlightModel;
     _filterModel = filterModel;
@@ -61,7 +62,7 @@ public class ColumnarBeam extends SimpleObservable implements SimpleObserver
    * @param parent the parent Component
    * @param spotlightModel the spotlight model
    */
-  public ColumnarBeam( Spotlight spotlightModel )
+  public SolidBeam( Spotlight spotlightModel )
   {
     this( spotlightModel, null );
   }
