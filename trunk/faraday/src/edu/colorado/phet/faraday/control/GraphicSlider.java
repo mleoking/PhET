@@ -87,7 +87,7 @@ public class GraphicSlider extends GraphicLayerSet {
         _minimum = 0;
         _maximum = 100;
         _value = ( _maximum - _minimum ) / 2;
-        _tickSize = new Dimension( 1, 10 );
+        _tickSize = new Dimension( 1, 20 );
         _listenerList = new EventListenerList();
         
         // Enable anti-aliasing.
