@@ -3,15 +3,15 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.components.Switch;
-import edu.colorado.phet.cck3.common.ShadowTextGraphic;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.fastpaint.FastPaint;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.graphics.ShadowTextGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -36,7 +36,7 @@ public class ReadoutGraphic implements Graphic {
 //    static Font font = new Font( "Dialog", Font.BOLD, 18 );
     boolean visible = false;
 
-    public ReadoutGraphic( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel,boolean visible ) {
+    public ReadoutGraphic( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible ) {
         this.branch = branch;
         this.transform = transform;
         this.panel = panel;
@@ -66,7 +66,7 @@ public class ReadoutGraphic implements Graphic {
     public void recompute() {
         Rectangle2D r2 = null;
         if( textGraphic != null ) {
-            r2 = textGraphic.getBounds();
+            r2 = textGraphic.getBounds2D();
         }
 
         String text = getText();
@@ -94,17 +94,23 @@ public class ReadoutGraphic implements Graphic {
         }
 
         Point out = transform.modelToView( pt );
+//        Color foregroundColor = Color.red;
+//        Color backgroundColor = Color.black;
+        Color foregroundColor = Color.black;
+        Color backgroundColor = Color.yellow;
 
+        int dx = 1;
+        int dy = 1;
         if( textGraphic == null ) {
-            textGraphic = new ShadowTextGraphic( font, text, 1, 1, out.x, out.y, Color.black, Color.yellow );
+            textGraphic = new ShadowTextGraphic( font, text, dx, dy, out.x, out.y, foregroundColor, backgroundColor );
         }
         else {
-            textGraphic.setState( font, text, 1, 1, out.x, out.y, Color.black, Color.yellow );
+            textGraphic.setState( font, text, dx, dy, out.x, out.y, foregroundColor, backgroundColor );
         }
         if( r2 != null ) {
-            Rectangle2D r3 = textGraphic.getBounds();
+            Rectangle2D r3 = textGraphic.getBounds2D();
             if( r2 != null && r3 != null ) {
-                GraphicsUtil.fastRepaint( panel, r2.getBounds(), r3.getBounds() );
+                FastPaint.fastRepaint( panel, r2.getBounds(), r3.getBounds() );
             }
         }
     }
@@ -141,7 +147,7 @@ public class ReadoutGraphic implements Graphic {
 
     public void paint( Graphics2D g ) {
         if( visible ) {
-//        Rectangle2D bounds = textGraphic.getBounds();
+//        Rectangle2D bounds = textGraphic.getBounds2D();
 //        if( bounds != null ) {
 //            Color fill = new Color( 200, 200, 200, 128 );
 //            g.setColor( fill );
@@ -152,8 +158,8 @@ public class ReadoutGraphic implements Graphic {
     }
 
     public static class BatteryReadout extends ReadoutGraphic {
-        public BatteryReadout( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel,boolean visible ) {
-            super( branch, transform, panel,visible );
+        public BatteryReadout( Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, boolean visible ) {
+            super( branch, transform, panel, visible );
         }
 
         protected String getText() {

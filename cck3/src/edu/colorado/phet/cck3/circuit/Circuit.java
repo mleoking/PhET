@@ -36,14 +36,6 @@ public class Circuit {
         return "Junctions=" + junctions + ", Branches=" + branches;
     }
 
-//    public Branch createBranch( double x1, double y1, double x2, double y2 ) {
-//        Junction startJunction = new Junction( x1, y1 );
-//        Junction endJunction = new Junction( x2, y2 );
-//        Branch branch = new Branch( kirkhoffListener, startJunction, endJunction );
-//        addBranch( branch );
-//        return branch;
-//    }
-
     public void addJunction( Junction startJunction ) {
         junctions.add( startJunction );
     }
@@ -235,7 +227,7 @@ public class Circuit {
         }
     }
 
-    private void fireJunctionsMoved() {
+    public void fireJunctionsMoved() {
         for( int i = 0; i < listeners.size(); i++ ) {
             CircuitListener circuitListener = (CircuitListener)listeners.get( i );
             circuitListener.junctionsMoved();
@@ -397,6 +389,10 @@ public class Circuit {
         }
         return Double.POSITIVE_INFINITY;
     }
+
+    public void removeCircuitListener( CircuitListener circuitListener ) {
+        listeners.remove( circuitListener );
+    }
 //
 //    private Branch[] getAdjacentBranches( Branch target ) {
 //        ArrayList all = new ArrayList();
@@ -404,9 +400,9 @@ public class Circuit {
 //        Branch[] b = getAdjacentBranches( target.getEndJunction() );
 //        all.addAll( Arrays.asList( a ) );
 //        for( int i = 0; i < b.length; i++ ) {
-//            Branch branch = b[i];
-//            if( !all.contains( branch ) ) {
-//                all.add( branch );
+//            Branch component = b[i];
+//            if( !all.contains( component ) ) {
+//                all.add( component );
 //            }
 //        }
 //        return (Branch[])all.toArray( new Branch[0] );

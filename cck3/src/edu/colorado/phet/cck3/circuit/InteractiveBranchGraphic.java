@@ -56,7 +56,7 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic {
             JMenuItem item = new JMenuItem( "Remove" );
             item.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-//                    circuit.remove( branch );
+//                    circuit.remove( component );
                     module.removeBranch( branch );
                 }
             } );

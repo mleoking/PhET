@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.fastpaint.FastPaint;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -41,7 +42,7 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
                 Rectangle before = trt.getBounds();
                 trt.translate( (int)dx, (int)dy );
                 Rectangle after = trt.getBounds();
-                GraphicsUtil.fastRepaint( panel, before, after );
+                FastPaint.fastRepaint( panel, before, after );
                 recompute();
             }
         } );
@@ -67,7 +68,7 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
                     trt.clear();
                     String amps = df.format( Math.abs( current ) );
                     trt.addText( amps + " Amps" );
-                    GraphicsUtil.fastRepaint( panel, trt.getBounds() );
+                    FastPaint.fastRepaint( panel, trt.getBounds() );
                     return;
                 }
             }
@@ -80,7 +81,7 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
         trt.addText( "Move over a wire" );
         trt.addText( "to read current." );
         if( trt.getBounds() != null ) {
-            GraphicsUtil.fastRepaint( panel, trt.getBounds() );
+            FastPaint.fastRepaint( panel, trt.getBounds() );
         }
     }
 

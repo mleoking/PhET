@@ -58,6 +58,7 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
                 BranchSet bs = new BranchSet( circuit, connections );
                 bs.addJunction( jg.getJunction() );
                 bs.translate( vec );
+                circuit.fireJunctionsMoved();
             }
 
             public void mousePressed( MouseEvent e ) {

@@ -33,7 +33,7 @@ public class ElectronGraphic extends FastPaintImageGraphic {
     private CCK3Module module;
 
     public ElectronGraphic( final Electron electron, ModelViewTransform2D transform, BufferedImage image, Component parent, CCK3Module module ) {
-        super( image, parent );
+        super( image, createTransformStatic( electron, transform, image ), parent );
         this.electron = electron;
         this.transform = transform;
         this.module = module;
@@ -48,6 +48,21 @@ public class ElectronGraphic extends FastPaintImageGraphic {
             }
         } );
         doUpdate();
+    }
+
+    private static AffineTransform createTransformStatic( Electron electron, ModelViewTransform2D transform, BufferedImage image ) {
+        double radius = electron.getRadius();
+        int imWidth = transform.modelToViewDifferentialX( radius ) * 2;
+        int imHeight = transform.modelToViewDifferentialY( radius ) * 2;
+        Point2D at = electron.getPosition();
+        at = transform.modelToView( at );
+        if( at.getX() < 1 ) {
+            System.out.println( "Less than 1" );
+        }
+        Rectangle2D src = new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() );
+        Rectangle2D dst = new Rectangle2D.Double( at.getX() - imWidth / 2, at.getY() - imHeight / 2, imWidth, imHeight );
+        AffineTransform tx = AffineTransformUtil.getTransform( src, dst, Math.PI / 2 );//the pi/2 is a hack because AffineTransformUtil turns upside down.
+        return tx;
     }
 
     public void paint( Graphics2D graphics2D ) {
@@ -86,7 +101,7 @@ public class ElectronGraphic extends FastPaintImageGraphic {
         int imHeight = transform.modelToViewDifferentialY( radius ) * 2;
         Point2D at = electron.getPosition();
         at = transform.modelToView( at );
-        if (at.getX()<1){
+        if( at.getX() < 1 ) {
             System.out.println( "Less than 1" );
         }
         Rectangle2D src = new Rectangle2D.Double( 0, 0, getBufferedImage().getWidth(), getBufferedImage().getHeight() );

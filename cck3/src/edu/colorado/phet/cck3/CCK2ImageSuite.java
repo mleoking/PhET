@@ -16,30 +16,19 @@ import java.io.IOException;
  */
 public class CCK2ImageSuite {
 
-    ImageSuite schematicImageSuite;
     ImageSuite lifelikeImageSuite;
-    private BufferedImage bulbImage;
     private BufferedImage closedImage;
-    private BufferedImage openImage;
-    private BufferedImage imageHandle;
-
-    private String batteryImageLocation = "images/batteries/AA-battery-100.gif";
-    private String schematicResistorImage = "images/schematic/resistor-transparent.gif";
-    private String switchImage = "images/schematic/switch-closed.gif";
-    private String schematicBatteryImage = "images/schematic/battery-transparent.gif";
-    String resistorImageLocation = "images/lifelike/resistor3.gif";
+    private String batteryImageLocation = "images/AA-battery-100.gif";
+    String resistorImageLocation = "images/resistor3.gif";
     private BufferedImage resistorImage;
-    private BufferedImage particleImage;
-    private BufferedImage ammeterImage;
     HashedImageLoader imageLoader = new HashedImageLoader();
-    private BufferedImage bulb;
 
     public CCK2ImageSuite() throws IOException {
         loadImages();
     }
 
     public BufferedImage getParticleImage() throws IOException {
-        return imageLoader.loadImage( "images/spheres/electron9.gif" );
+        return imageLoader.loadImage( "images/electron9.gif" );
     }
 
     public int getParticleImageWidth() throws IOException {
@@ -50,42 +39,28 @@ public class CCK2ImageSuite {
         resistorImage = ImageLoader.loadBufferedImage( resistorImageLocation );
         BufferedImage batteryImage = ImageLoader.loadBufferedImage( batteryImageLocation );
         lifelikeImageSuite = new ImageSuite( resistorImage, batteryImage, closedImage );
-        BufferedImage schr = ImageLoader.loadBufferedImage( schematicResistorImage );
-        BufferedImage schswit = ImageLoader.loadBufferedImage( switchImage );
-        BufferedImage schbatt = imageLoader.loadImage( schematicBatteryImage );
-        schematicImageSuite = new ImageSuite( schr, schbatt, schswit );
     }
 
     public ImageSuite getLifelikeSuite() {
         return lifelikeImageSuite;
     }
 
-    public ImageSuite getSchematicSuite() {
-        return schematicImageSuite;
-    }
-
     public BufferedImage getKnifeHandleImage() {
         try {
-            return imageLoader.loadImage( "images/switches/handle8.gif" );
+            return imageLoader.loadImage( "images/handle8.gif" );
         }
         catch( IOException e ) {
-//            e.printStackTrace();
             throw new RuntimeException( e );
         }
     }
 
     public BufferedImage getKnifeBoardImage() {
         try {
-            return imageLoader.loadImage( "images/switches/knifeBoard.gif" );
+            return imageLoader.loadImage( "images/knifeBoard.gif" );
         }
         catch( IOException e ) {
-//            e.printStackTrace();
             throw new RuntimeException( e );
         }
-    }
-
-    public BufferedImage getImageHandle() throws IOException {
-        return imageLoader.loadImage( "images/switches/handle4.gif" );
     }
 
     public BufferedImage getResistorImage() {

@@ -9,12 +9,12 @@ import edu.colorado.phet.cck3.common.RectangleUtils;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.fastpaint.FastPaint;
 import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 import edu.colorado.phet.common.view.fastpaint.FastPaintTextGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -32,7 +32,6 @@ import java.text.DecimalFormat;
  * Copyright (c) Jun 17, 2004 by Sam Reid
  */
 public class VoltmeterGraphic extends CompositeGraphic {
-//public class VoltmeterGraphic extends CompositeGraphic {
     UnitGraphic unitGraphic;
     private Voltmeter voltmeter;
     private ModelViewTransform2D transform;
@@ -48,8 +47,8 @@ public class VoltmeterGraphic extends CompositeGraphic {
         this.module = module;
         unitGraphic = new UnitGraphic( voltmeter.getUnit(), module.loadBufferedImage( "images/vm3.gif" ), parent );
         addGraphic( unitGraphic );
-        redLeadGraphic = new LeadGraphic( voltmeter.getRedLead(), module.loadBufferedImage( "images/dvm/probeRed.gif" ), parent, Math.PI / 8 );
-        blackLeadGraphic = new LeadGraphic( voltmeter.getBlackLead(), module.loadBufferedImage( "images/dvm/probeBlack.gif" ), parent, -Math.PI / 8 );
+        redLeadGraphic = new LeadGraphic( voltmeter.getRedLead(), module.loadBufferedImage( "images/probeRed.gif" ), parent, Math.PI / 8 );
+        blackLeadGraphic = new LeadGraphic( voltmeter.getBlackLead(), module.loadBufferedImage( "images/probeBlack.gif" ), parent, -Math.PI / 8 );
 
         redCableGraphic = new CableGraphic( transform, Color.red, redLeadGraphic, new Point2D.Double( 12, 218 ) );
         blackCableGraphic = new CableGraphic( transform, Color.black, blackLeadGraphic, new Point2D.Double( 88, 218 ) );
@@ -200,7 +199,6 @@ public class VoltmeterGraphic extends CompositeGraphic {
                 }
             }
         }
-
     }
 
     public Voltmeter getVoltmeter() {
@@ -220,7 +218,6 @@ public class VoltmeterGraphic extends CompositeGraphic {
     }
 
     class UnitGraphic extends CompositeGraphic {
-//    class UnitGraphic extends CompositeGraphic {
         FastPaintImageGraphic unitGraphic;
         FastPaintTextGraphic textGraphic;
         Font font = new Font( "Dialog", 0, 20 );
@@ -249,29 +246,10 @@ public class VoltmeterGraphic extends CompositeGraphic {
             } );
             this.vm = vm;
             changed();
-//            final JTextField xField=new JTextField( "  0  ");
-//            final JTextField yField=new JTextField( "  0   ");
-//            JButton jb=new JButton( "Update");
-//            jb.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    relX=Double.parseDouble( xField.getText() );
-//                    relY=Double.parseDouble( yField.getText() );
-//                    changed();
-//                }
-//            } );
-//
-//            JPanel panel=new JPanel( );
-//            panel.add(xField);
-//            panel.add(yField);
-//            panel.add(jb);
-//            JFrame jf=new JFrame( );
-//            jf.setContentPane( panel );
-//            jf.pack();
-//            jf.setVisible( true );
         }
 
         public Rectangle getUnitBounds() {
-            return unitGraphic.getVisibleRect();
+            return unitGraphic.getBounds();
         }
 
         private void changed() {
@@ -333,10 +311,10 @@ public class VoltmeterGraphic extends CompositeGraphic {
             notifyObservers();
             Rectangle rect2 = getBounds();
             if( rect1 != null ) {
-                GraphicsUtil.fastRepaint( module.getApparatusPanel(), rect1, rect2 );
+                FastPaint.fastRepaint( module.getApparatusPanel(), rect1, rect2 );
             }
             else {
-                GraphicsUtil.fastRepaint( module.getApparatusPanel(), rect2 );
+                FastPaint.fastRepaint( module.getApparatusPanel(), rect2 );
             }
         }
 

@@ -1,10 +1,13 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.particles;
 
+import edu.colorado.phet.cck3.FireHandler;
 import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
+import edu.colorado.phet.cck3.circuit.kirkhoff.Path;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 
 import javax.swing.*;
@@ -22,7 +25,7 @@ public class ConstantDensityPropagator implements ModelElement {
     Circuit circuit;
     private double speedScale = .01;
     private double MIN_CURRENT = Math.pow( 10, -10 );
-    private double MAX_CURRENT = 1000;
+    private double MAX_CURRENT = FireHandler.FIRE_CURRENT;
     int numEqualize = 2;
 
     public ConstantDensityPropagator( ParticleSet particleSet, Circuit circuit ) {
@@ -43,7 +46,6 @@ public class ConstantDensityPropagator implements ModelElement {
     }
 
     private void equalize( double dt ) {
-
         ArrayList indices = new ArrayList();
         for( int i = 0; i < particleSet.numParticles(); i++ ) {
             indices.add( new Integer( i ) );
@@ -73,7 +75,6 @@ public class ConstantDensityPropagator implements ModelElement {
         //move a bit toward the midpoint.
 //        double correctionSpeed = .01;//gives a factor of 100 off the correct answer ^ish.
 //        double correctionSpeed = .2;
-
 
         double dest = midpoint;
         double distMoving = Math.abs( dest - myloc );
@@ -133,6 +134,9 @@ public class ConstantDensityPropagator implements ModelElement {
     }
 
     private void propagate( Electron e, double dt ) {
+//        if (isInFireLoop(e.getBranch())){
+//            return;
+//        }
         double x = e.getDistAlongWire();
         if( Double.isNaN( x ) ) {
             //TODO fix this
@@ -144,9 +148,11 @@ public class ConstantDensityPropagator implements ModelElement {
         if( current == 0 || Math.abs( current ) < MIN_CURRENT ) {
             return;
         }
+
         if( Math.abs( current ) > MAX_CURRENT ) {
-            System.out.println( "current = " + current + ", max current exceeded" );
-            return;
+//            System.out.println( "current = " + current + ", max current exceeded" );
+//            return;
+            current = MathUtil.getSign( current ) * MAX_CURRENT;
         }
         double speed = current * speedScale;
         double newX = x + speed * dt;
@@ -186,6 +192,12 @@ public class ConstantDensityPropagator implements ModelElement {
             CircuitLocation chosen = chooseDestinationBranch( loc );
             e.setLocation( chosen.getBranch(), Math.abs( chosen.getX() ) );
         }
+    }
+
+    private boolean isInFireLoop( Branch branch ) {
+        KirkhoffSolver.MatrixTable mt = new KirkhoffSolver.MatrixTable( circuit );
+        Path[] paths = mt.getLoops();
+        return false;
     }
 
     private CircuitLocation chooseDestinationBranch( CircuitLocation[] loc ) {
