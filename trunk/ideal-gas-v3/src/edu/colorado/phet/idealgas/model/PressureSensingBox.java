@@ -60,15 +60,6 @@ public class PressureSensingBox extends Box2D {
      *
      */
     public double getPressure() {
-
-        //        float perimeter = (( this.getMaxY() - this.getMinY() )
-        //                            + ( this.getMaxX() - this.getMinX() )) * 2 ;
-        //        float pressure = pressureRecorder.getDataAverage();
-        ////        float pressure = pressureRecorder.getDataTotal();
-        //        float pressureLength = (( this.getMaxX() - this.getMinX() ) * 2);
-        ////        return pressure / pressureLength;
-        //      return pressure / perimeter;
-
         if( multipleSlicesEnabled ) {
             double sum = 0;
             for( int i = 0; i < averagingSlices.size(); i++ ) {

@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.tests.phetjcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -41,7 +41,7 @@ public class PumpSpeciesSelectorPanel2 extends GraphicLayerSet {
         // it must be put into an intermediate JPanel with a simple layout manager (in this case
         // we use the default), and that intermediate panel is then added to the ApparatusPanel.
         JPanel basePanel = new JPanel();
-        basePanel.setPreferredSize( new Dimension( 130, 80 ) );
+        basePanel.setPreferredSize( new Dimension( 130, 70 ) );
 
         PhetGraphic buttonPanel = new SelectionPanel( module, module.getPump() );
 
@@ -60,11 +60,11 @@ public class PumpSpeciesSelectorPanel2 extends GraphicLayerSet {
         basePanel.setBackground( backgroundColor );
 //        buttonPanel.setBackground( backgroundColor );
 
-        PhetJComponent basePanelPJC = new PhetJComponent( module.getApparatusPanel(), basePanel );
+        PhetGraphic basePanelPJC = PhetJComponent.newInstance( module.getApparatusPanel(), basePanel );
         this.addGraphic( basePanelPJC );
 //        PhetJComponent buttonPanelPJC = new PhetJComponent( module.getApparatusPanel(), buttonPanel );
         this.addGraphic( buttonPanel );
-        buttonPanel.setLocation( 0, 0 );
+        buttonPanel.setLocation( 10, 0 );
     }
 
     class SelectionPanel extends GraphicLayerSet {
@@ -87,10 +87,10 @@ public class PumpSpeciesSelectorPanel2 extends GraphicLayerSet {
 //            GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
 //                                                             GridBagConstraints.WEST, GridBagConstraints.NONE,
 //                                                             insets, 0, 0 );
-            PhetJComponent hsrbPJC = new PhetJComponent( module.getApparatusPanel(), heavySpeciesRB );
-            PhetJComponent lsrbPJC = new PhetJComponent( module.getApparatusPanel(), lightSpeciesRB );
-            hsrbPJC.setLocation( 10, 20 );
-            lsrbPJC.setLocation( 10, 50 );
+            PhetGraphic hsrbPJC = PhetJComponent.newInstance( module.getApparatusPanel(), heavySpeciesRB );
+            PhetGraphic lsrbPJC = PhetJComponent.newInstance( module.getApparatusPanel(), lightSpeciesRB );
+            hsrbPJC.setLocation( 15, 20 );
+            lsrbPJC.setLocation( 15, 40 );
             addGraphic( hsrbPJC );
             addGraphic( lsrbPJC );
         }

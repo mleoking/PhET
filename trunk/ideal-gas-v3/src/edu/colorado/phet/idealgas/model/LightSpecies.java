@@ -17,38 +17,20 @@ import java.util.ArrayList;
  */
 public class LightSpecies extends GasMolecule {
 
-    /**
-     * Constructor
-     */
-    public LightSpecies( Point2D position, Vector2D velocity, Vector2D acceleration ) {
-        super( position, velocity, acceleration, s_defaultMass );
-        init();
-    }
-
-    /**
-     *
-     */
-    private void init() {
-        s_instances.add( this );
-    }
-
-
-    //
+    //----------------------------------------------------------------
     // Static fields and methods
-    //
-    private static float s_defaultMass = 4; // To Make Kathy happy!
-    //    private static float s_defaultMass = 10;
-    private static Double s_aveSpeed = new Double( 0.0 );
-    private static Double s_temperature = new Double( 0.0 );
+    //----------------------------------------------------------------
+
+    private static double s_radius = 3.5;
+    private static float s_mass = 4; // Helium
     private static ArrayList s_instances = new ArrayList( 100 );
-    private static Vector2D.Double s_tempVector = new Vector2D.Double();
 
     public static void clear() {
         s_instances.removeAll( s_instances );
     }
 
     public static double getMoleculeMass() {
-        return s_defaultMass;
+        return s_mass;
     }
 
     public static void removeParticle( LightSpecies particle ) {
@@ -62,4 +44,22 @@ public class LightSpecies extends GasMolecule {
     public static int getCnt() {
         return s_instances.size();
     }
+
+
+    /**
+     * Constructor
+     */
+    public LightSpecies( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+        super( position, velocity, acceleration, s_mass, s_radius );
+        init();
+        super.setRadius( s_radius );
+    }
+
+    /**
+     *
+     */
+    private void init() {
+        s_instances.add( this );
+    }
+
 }

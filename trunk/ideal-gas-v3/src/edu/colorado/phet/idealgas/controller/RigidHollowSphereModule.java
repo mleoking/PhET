@@ -66,6 +66,27 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         getIdealGasModel().getBox().addContainedBody( sphere );
         addGraphic( new HollowSphereGraphic( getApparatusPanel(), sphere ), 20 );
 
+        // Put some intial gas inside and outside sphere
+        addGas( xDiag, xOrigin, yDiag, yOrigin );
+
+        // Turn on gravity
+        setGravity( IdealGasConfig.s_maxGravity / 10 );
+
+        // Add controls to the control panel that are specific to this module
+        JPanel controlPanel = new JPanel( new GridBagLayout() );
+        controlPanel.setBorder( new TitledBorder( SimStrings.get( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
+        GridBagConstraints gbc = null;
+        Insets insets = new Insets( 0, 0, 0, 0 );
+        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                      GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                                      insets, 0, 0 );
+        HollowSphereControlPanel hollowSphereControlPanel = new HollowSphereControlPanel( this, RigidHollowSphereModule.this, sphere );
+        controlPanel.add( hollowSphereControlPanel, gbc );
+        this.addResetListener( hollowSphereControlPanel );
+        getIdealGasControlPanel().addParticleControl( controlPanel );
+    }
+
+    private void addGas( double xDiag, double xOrigin, double yDiag, double yOrigin ) {
         // Put some heavy gas outside the sphere
         for( int i = 0; i < 0; i++ ) {
             //        for( int i = 0; i < 100; i++ ) {
@@ -108,22 +129,6 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                 sphere.addContainedBody( p1 );
             }
         }
-
-        // Turn on gravity
-        setGravity( IdealGasConfig.s_maxGravity / 10 );
-
-        // Add controls to the control panel that are specific to this module
-        JPanel controlPanel = new JPanel( new GridBagLayout() );
-        controlPanel.setBorder( new TitledBorder( SimStrings.get( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
-        GridBagConstraints gbc = null;
-        Insets insets = new Insets( 0, 0, 0, 0 );
-        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                      GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                                      insets, 0, 0 );
-        HollowSphereControlPanel hollowSphereControlPanel = new HollowSphereControlPanel( this, RigidHollowSphereModule.this, sphere );
-        controlPanel.add( hollowSphereControlPanel, gbc );
-        this.addResetListener( hollowSphereControlPanel );
-        getIdealGasControlPanel().addParticleControl( controlPanel );
     }
 
     protected Pump.PumpingEnergyStrategy getPumpingEnergyStrategy() {

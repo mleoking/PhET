@@ -17,8 +17,36 @@ import java.util.ArrayList;
  */
 public class HeavySpecies extends GasMolecule {
 
+    //---------------------------------------------------------------
+    // Static fields and methods
+    //---------------------------------------------------------------
+
+    private static double s_radius = 5;
+    private static float s_mass = 28; /* To make Kathy happy: Nitrogen */
+    private static ArrayList s_instances = new ArrayList( 100 );
+
+    public static void clear() {
+        s_instances.removeAll( s_instances );
+    }
+
+    public static double getMoleculeMass() {
+        return s_mass;
+    }
+
+    public static void removeParticle( HeavySpecies particle ) {
+        s_instances.remove( particle );
+    }
+
+    public static Point2D getCm() {
+        return GasMolecule.getCm( s_instances );
+    }
+
+    public static int getCnt() {
+        return s_instances.size();
+    }
+
     public HeavySpecies( Point2D position, Vector2D velocity, Vector2D acceleration ) {
-        super( position, velocity, acceleration, s_defaultMass );
+        super( position, velocity, acceleration, s_mass, s_radius );
         init();
     }
 
@@ -34,34 +62,4 @@ public class HeavySpecies extends GasMolecule {
         notifyObservers();
     }
 
-
-    //
-    // Static fields and methods
-    //
-    private static float s_defaultMass = 28; /* To make Kathy happy: Nitrogen */
-    //    private static float s_defaultMass = 30; /* float.POSITIVE_INFINITY; */
-    private static Double s_aveSpeed = new Double( 0.0 );
-    private static Double s_temperature = new Double( 0.0 );
-    private static ArrayList s_instances = new ArrayList( 100 );
-    private static Vector2D.Double s_tempVector = new Vector2D.Double();
-
-    public static void clear() {
-        s_instances.removeAll( s_instances );
-    }
-
-    public static double getMoleculeMass() {
-        return s_defaultMass;
-    }
-
-    public static void removeParticle( HeavySpecies particle ) {
-        s_instances.remove( particle );
-    }
-
-    public static Point2D getCm() {
-        return GasMolecule.getCm( s_instances );
-    }
-
-    public static int getCnt() {
-        return s_instances.size();
-    }
 }

@@ -83,15 +83,12 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
     /**
      *
      */
-//    Object[] emptyParamArray = new Object[]{};
-
     public void update() {
 
         // Get the number of molecules, average speed of the molecules
         double aveSpeed = 0;
         int numMolecules = 0;
         if( HeavySpecies.class.isAssignableFrom( speciesClass ) ) {
-//            numMolecules = HeavySpecies.
             numMolecules = model.getHeavySpeciesCnt();
             aveSpeed = model.getHeavySpeciesAveSpeed();
         }
@@ -146,5 +143,6 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
     //
     private double s_pressureReadoutFactor = 1.0 / 100;
     private double s_temperatureReadoutFactor = 1.0 / 1000;
-    private double s_aveSpeedReadoutFactor = 10;
+    private double s_screenToModelFactor = 476.0 / 290;
+    private double s_aveSpeedReadoutFactor = 10 * s_screenToModelFactor;
 }

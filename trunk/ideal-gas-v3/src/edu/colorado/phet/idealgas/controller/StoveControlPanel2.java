@@ -6,8 +6,9 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.tests.phetjcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -83,11 +84,11 @@ public class StoveControlPanel2 extends GraphicLayerSet {
         stovePanel.setPreferredSize( new Dimension( 115, 85 ) );
         Color background = new Color( 240, 230, 255 );
         stovePanel.setBackground( background );
-        PhetJComponent panelPJC = new PhetJComponent( module.getApparatusPanel(), stovePanel );
+        PhetGraphic panelPJC = PhetJComponent.newInstance( module.getApparatusPanel(), stovePanel );
         this.addGraphic( panelPJC );
 
         stoveSlider.setBackground( background );
-        PhetJComponent sliderPJC = new PhetJComponent( module.getApparatusPanel(), stoveSlider );
+        PhetGraphic sliderPJC = PhetJComponent.newInstance( module.getApparatusPanel(), stoveSlider );
         sliderPJC.setCursorHand();
         this.addGraphic( sliderPJC );
         sliderPJC.setLocation( 10, 20 );

@@ -12,17 +12,15 @@
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.util.LineGrid;
-import edu.colorado.phet.common.util.DebugMenu;
 
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.awt.event.*;
-import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 /**
@@ -67,7 +65,7 @@ public class PhetApplication {
         moduleManager.addAllModules( descriptor.getModules() );
         s_instance = this;
 
-
+        // Handle command line arguments
         parseArgs( args );
     }
 

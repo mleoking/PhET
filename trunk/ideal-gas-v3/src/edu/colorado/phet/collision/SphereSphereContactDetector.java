@@ -13,8 +13,7 @@ public class SphereSphereContactDetector implements ContactDetector {
     private Point2D tempPt = new Point2D.Double();
 
     public boolean applies( CollidableBody bodyA, CollidableBody bodyB ) {
-        return ( bodyA instanceof SolidSphere && bodyB instanceof SolidSphere );
-//        return ( bodyA instanceof SphericalBody && bodyB instanceof SphericalBody );
+            return ( bodyA instanceof SolidSphere && bodyB instanceof SolidSphere );
     }
 
     /**
