@@ -70,9 +70,11 @@ public class VisibleColorChangeEvent extends EventObject
     int a = _color.getAlpha();
     double w = _color.getWavelength();
     
-    return "color=[" + r + "," + g + "," + b + "," + a + "]" +
+    return this.getClass().getName() + "[" +
+           "color=[" + r + "," + g + "," + b + "," + a + "]" +
            " wavelength=" + w +
-           " source=[" + super.getSource() + "]";
+           " source=[" + super.getSource() + "]" +
+           "]";
   }
   
 }
