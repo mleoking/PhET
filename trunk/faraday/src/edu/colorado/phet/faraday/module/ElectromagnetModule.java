@@ -62,7 +62,7 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
     // Battery
-    private static final double BATTERY_VOLTAGE = 9; // volts
+    private static final double BATTERY_VOLTAGE = 50; // XXX % ?
     
     // Source Coil
     private static final int NUMBER_OF_LOOPS = 4;
@@ -98,23 +98,7 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         // Module model
         BaseModel model = new BaseModel();
         this.setModel( model );
-        
-        // Electromagnet
-        Electromagnet electromagnetModel = new Electromagnet();
-        electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
-        electromagnetModel.setMinStrength( 0 );
-        electromagnetModel.setStrength( 0 );
-        electromagnetModel.setLocation( MAGNET_LOCATION );
-        electromagnetModel.setDirection( 0 /* radians */ );
-        electromagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE ); // XXX
-        model.addModelElement( electromagnetModel );
-        
-        // Compass model
-        Compass compassModel = new Compass( electromagnetModel );
-        compassModel.setLocation( COMPASS_LOCATION );
-        compassModel.setRotationalKinematicsEnabled( true );
-        model.addModelElement( compassModel );
-        
+     
         // Battery
         Battery batteryModel = new Battery();
         batteryModel.setVoltage( BATTERY_VOLTAGE );
@@ -126,6 +110,22 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         sourceCoilModel.setDirection( 0 /* radians */ );
         sourceCoilModel.setLocation( SOURCE_COIL_LOCATION );
         
+        // Electromagnet
+        Electromagnet electromagnetModel = new Electromagnet( sourceCoilModel, batteryModel );
+        electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
+        electromagnetModel.setMinStrength( 0 );
+        electromagnetModel.setStrength( 0 );
+        electromagnetModel.setLocation( MAGNET_LOCATION );
+        electromagnetModel.setDirection( 0 /* radians */ );
+        electromagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE ); // XXX
+        model.addModelElement( electromagnetModel );
+         
+        // Compass model
+        Compass compassModel = new Compass( electromagnetModel );
+        compassModel.setLocation( COMPASS_LOCATION );
+        compassModel.setRotationalKinematicsEnabled( true );
+        model.addModelElement( compassModel );
+        
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -136,7 +136,7 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         this.setApparatusPanel( apparatusPanel );
         
         // Bar Magnet
-        ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, sourceCoilModel, batteryModel );
+        ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, electromagnetModel, sourceCoilModel, batteryModel );
         apparatusPanel.addChangeListener( electromagnetGraphic );
         apparatusPanel.addGraphic( electromagnetGraphic.getForeground(), ELECTROMAGNET_FRONT_LAYER );
         apparatusPanel.addGraphic( electromagnetGraphic.getBackground(), ELECTROMAGNET_BACK_LAYER );
