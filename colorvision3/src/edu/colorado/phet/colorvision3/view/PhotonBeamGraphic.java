@@ -126,9 +126,18 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver, Cl
   public void stepInTime( double dt )
   {
     PhotonGraphic photon;
-    int allocCount = (int) (_model.getIntensity() / PHOTONS_PER_INTENSITY);
     double newPerceivedIntensity = 0.0;
-      
+    
+    // Determine how many photons to emit.
+    // If the intensity is changing to from non-zero to zero, emit one 
+    // photon with zero intensity to ensure that zero intensity is 
+    // perceived by the viewer.
+    int allocCount = (int) (_model.getIntensity() / PHOTONS_PER_INTENSITY);
+    if ( allocCount == 0 && _perceivedIntensity != 0.0 )
+    {
+      allocCount = 1;
+    }
+    
     // Walk the photon array and paint/prune/reinitialize as needed.
     for ( int i = 0; i < _photons.size(); i++ )
     {
