@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 public class IdealGasControlPanel extends JPanel {
 
     private static ResourceBundle localizedStrings;
+
     static {
         localizedStrings = ResourceBundle.getBundle( "localization/IdealGasControlPanel" );
     }
@@ -149,7 +150,7 @@ public class IdealGasControlPanel extends JPanel {
         // Add control for gravity, set default to OFF
         //        gravitySlider = new JSlider( JSlider.VERTICAL, 0, 5000, 0 );
         gravitySlider = new JSlider( JSlider.VERTICAL, 0, s_gravityControlPanelHeight - 30, 0 );
-        gravityOnCB = new JCheckBox( localizedStrings.getString( "On" ));
+        gravityOnCB = new JCheckBox( localizedStrings.getString( "On" ) );
         leftPanel.add( gravityOnCB );
         gravityOnCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -182,7 +183,7 @@ public class IdealGasControlPanel extends JPanel {
         //        rightPanel.add( gravityTF );
         gravityControlPanel.add( rightPanel );
 
-        Border gravityBorder = new TitledBorder( localizedStrings.getString( "Gravity" ));
+        Border gravityBorder = new TitledBorder( localizedStrings.getString( "Gravity" ) );
         gravityControlPanel.setBorder( gravityBorder );
         this.add( gravityControlPanel );
     }
@@ -194,9 +195,9 @@ public class IdealGasControlPanel extends JPanel {
     private void addSpeciesControls() {
         JPanel speciesButtonPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         speciesButtonPanel.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 100 ) );
-        final JRadioButton heavySpeciesRB = new JRadioButton( localizedStrings.getString( "Heavy_Species" ));
+        final JRadioButton heavySpeciesRB = new JRadioButton( localizedStrings.getString( "Heavy_Species" ) );
         heavySpeciesRB.setForeground( Color.blue );
-        final JRadioButton lightSpeciesRB = new JRadioButton( localizedStrings.getString( "Light_Species" ));
+        final JRadioButton lightSpeciesRB = new JRadioButton( localizedStrings.getString( "Light_Species" ) );
         lightSpeciesRB.setForeground( Color.red );
         final ButtonGroup speciesGroup = new ButtonGroup();
         speciesGroup.add( heavySpeciesRB );
@@ -205,7 +206,7 @@ public class IdealGasControlPanel extends JPanel {
         heavySpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
         lightSpeciesRB.setPreferredSize( new Dimension( 110, 15 ) );
         speciesButtonPanel.add( lightSpeciesRB );
-        speciesButtonPanel.setBorder( new TitledBorder( localizedStrings.getString( "Gas_In_Pump" ) ));
+        speciesButtonPanel.setBorder( new TitledBorder( localizedStrings.getString( "Gas_In_Pump" ) ) );
         this.add( speciesButtonPanel );
         heavySpeciesRB.setSelected( true );
         heavySpeciesRB.addActionListener( new ActionListener() {
@@ -224,7 +225,7 @@ public class IdealGasControlPanel extends JPanel {
             }
         } );
 
-        final JCheckBox cmLinesOnCB = new JCheckBox( localizedStrings.getString( "Show_CM_lines" ));
+        final JCheckBox cmLinesOnCB = new JCheckBox( localizedStrings.getString( "Show_CM_lines" ) );
         cmLinesOnCB.setPreferredSize( new Dimension( 110, 15 ) );
         speciesButtonPanel.add( cmLinesOnCB );
         cmLinesOnCB.addActionListener( new ActionListener() {
@@ -238,11 +239,9 @@ public class IdealGasControlPanel extends JPanel {
      * Create a panel for controlling the stove
      */
     private void addStoveControls() {
-        JPanel stovePanel = new JPanel( new GridLayout( 2, 1 ) );
+        JPanel stovePanel = new JPanel();
         JPanel stoveSliderPanel = new JPanel();
-
         JPanel iconPanel = new JPanel( new GridLayout( 3, 1 ) );
-        //        ResourceLoader iconLoader = new ResourceLoader();
         Image stoveAndFlameImage = null;
         Image stoveImage = null;
         Image stoveAndIceImage = null;
@@ -254,9 +253,7 @@ public class IdealGasControlPanel extends JPanel {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        //        Image stoveAndFlameImage = iconLoader.loadImage( IdealGasConfig.STOVE_AND_FLAME_ICON_FILE ).getImage();
-        //        Image stoveImage = iconLoader.loadImage( IdealGasConfig.STOVE_ICON_FILE ).getImage();
-        //        Image stoveAndIceImage = iconLoader.loadImage( IdealGasConfig.STOVE_AND_ICE_ICON_FILE ).getImage();
+
         Icon stoveAndFlameIcon = new ImageIcon( stoveAndFlameImage );
         Icon stoveIcon = new ImageIcon( stoveImage );
         Icon stoveAndIceIcon = new ImageIcon( stoveAndIceImage );
@@ -270,9 +267,9 @@ public class IdealGasControlPanel extends JPanel {
         stoveSlider.setMajorTickSpacing( 10 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( -40 ), new JLabel( localizedStrings.getString( "Remove" ) ));
-        labelTable.put( new Integer( 0 ), new JLabel( localizedStrings.getString( "0" ) ));
-        labelTable.put( new Integer( 40 ), new JLabel( localizedStrings.getString( "Add" ) ));
+        labelTable.put( new Integer( -40 ), new JLabel( localizedStrings.getString( "Remove" ) ) );
+        labelTable.put( new Integer( 0 ), new JLabel( localizedStrings.getString( "0" ) ) );
+        labelTable.put( new Integer( 40 ), new JLabel( localizedStrings.getString( "Add" ) ) );
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
         stoveSlider.setSnapToTicks( true );
@@ -284,17 +281,23 @@ public class IdealGasControlPanel extends JPanel {
             }
         } );
         stoveSliderPanel.add( stoveSlider );
-        stovePanel.add( stoveSliderPanel );
 
-        final JCheckBox testCB = new JCheckBox( localizedStrings.getString( "<html>Add/remove_heat<br>from_floor_only</html>" ));
-        testCB.addActionListener( new ActionListener() {
+        final JCheckBox heatSourceCB = new JCheckBox( localizedStrings.getString( "<html>Add/remove_heat<br>from_floor_only</html>" ) );
+        heatSourceCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                IdealGasConfig.heatOnlyFromFloor = testCB.isSelected();
+                IdealGasConfig.heatOnlyFromFloor = heatSourceCB.isSelected();
             }
         } );
-        stovePanel.add( testCB );
 
-        stovePanel.setBorder( new TitledBorder( localizedStrings.getString( "Heat_Control" ) ));
+        // Put the panel together
+        stovePanel.setLayout( new GridBagLayout() );
+        GridBagConstraints gbc = null;
+        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
+        stovePanel.add( stoveSliderPanel, gbc );
+        gbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
+        stovePanel.add( heatSourceCB, gbc );
+
+        stovePanel.setBorder( new TitledBorder( localizedStrings.getString( "Heat_Control" ) ) );
         this.add( stovePanel );
     }
 
@@ -302,7 +305,7 @@ public class IdealGasControlPanel extends JPanel {
      * This method is provided simply so a subclass can get a reference
      * to the gravity controls, so it can remove them. This is a hack
      * way of doing things, I realize. It should be done is a more
-     * robust way when I get the chance.
+     * understandable way when I get the chance.
      *
      * @return
      */
@@ -315,7 +318,6 @@ public class IdealGasControlPanel extends JPanel {
      */
     private void setFlames( int value ) {
         module.setStove( value );
-        //        this.application.setStove( value );
     }
 
     /**
@@ -326,13 +328,9 @@ public class IdealGasControlPanel extends JPanel {
         gravityTF.setText( gravityFormat.format( value ) );
         if( !isEnabled ) {
             module.setGravity( 0 );
-            //            module.setGravity( null );
         }
         else {
             module.setGravity( value );
-            // The "-" sign is to work with screen and world coords
-            //            gravity.setAmt( -value );
-            //            module.setGravity( gravity );
         }
     }
 
@@ -348,34 +346,10 @@ public class IdealGasControlPanel extends JPanel {
         // NOP
     }
 
-    //    public void update( Observable observable, Object obj ) {
-    //        super.update( observable, obj );
-    //
-    //        if( observable instanceof IdealGasSystem ) {
-    //            IdealGasSystem idealGasSystem = (IdealGasSystem)observable;
-    //            gravityOnCB.setSelected( idealGasSystem.getGravity() != null );
-    //        }
-    //    }
-
-    /**
-     * Creates a gas molecule of the proper species
-     */
-    //    protected GasMolecule pumpGasMolecule() {
-    //
-    //        // Add a new gas molecule to the system
-    //        PumpMoleculeCmd pumpCmd = new PumpMoleculeCmd( getIdealGasApplication() );
-    //        GasMolecule newMolecule = (GasMolecule)pumpCmd.doIt();
-    //
-    //        // Constrain the molecule to be inside the box
-    //        Box2D box = ( (IdealGasSystem)PhetApplication.instance().getPhysicalSystem() ).getBox();
-    //        Constraint constraintSpec = new BoxMustContainParticle( box, newMolecule );
-    //        newMolecule.addConstraint( constraintSpec );
-    //        return newMolecule;
-    //    }
-
     protected IdealGasModule getModule() {
         return module;
     }
+
     //    private void makeScreenShot() {
     //        Window w = SwingUtilities.getWindowAncestor( this );
     //        BufferedImage bi = new BufferedImage( w.getWidth(), w.getHeight(),

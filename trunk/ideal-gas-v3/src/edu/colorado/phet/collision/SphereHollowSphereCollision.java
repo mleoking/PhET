@@ -20,7 +20,7 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
     private SphericalBody sphere;
     private IdealGasModel model;
     private double dt;
-    private Vector2D loa = new Vector2D.Double( );
+    private Vector2D loa = new Vector2D.Double();
     private SphereHollowSphereContactDetector contactDetector = new SphereHollowSphereContactDetector();
 
     public SphereHollowSphereCollision( HollowSphere hollowSphere, SphericalBody sphere,
@@ -31,7 +31,7 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
         this.dt = dt;
     }
 
-    protected Vector2D getLoa( CollidableBody  particleA, CollidableBody  particleB ) {
+    protected Vector2D getLoa( CollidableBody particleA, CollidableBody particleB ) {
         Point2D posA = particleA.getPosition();
         Point2D posB = particleB.getPosition();
         loa.setX( posA.getX() - posB.getX() );
@@ -41,17 +41,20 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
 
     public void collide() {
 //        super.collide( hollowSphere, sphere, getLoa( hollowSphere, sphere), dt, model );
-
-        SphereHollowSphereCollision.doCillision( hollowSphere, sphere, getLoa( hollowSphere, sphere),
-                                                 sphere.getCenter() );
+        double dist = Math.sqrt( hollowSphere.getPosition().distanceSq( sphere.getPosition() ) );
+        double ratio = hollowSphere.getRadius() / dist;
+        Point2D.Double contactPt = new Point2D.Double( hollowSphere.getPosition().getX() + ( sphere.getPosition().getX() - hollowSphere.getPosition().getX() ) * ratio,
+                                                       hollowSphere.getPosition().getY() + ( sphere.getPosition().getY() - hollowSphere.getPosition().getY() ) * ratio );
+        SphereHollowSphereCollision.doCillision( hollowSphere, sphere, getLoa( hollowSphere, sphere ),
+                                                 contactPt );
     }
 
 
-    public Collision createIfApplicable( CollidableBody  bodyA, CollidableBody  bodyB, IdealGasModel model, double dt ) {
+    public Collision createIfApplicable( CollidableBody bodyA, CollidableBody bodyB, IdealGasModel model, double dt ) {
         SphereHollowSphereCollision collision = null;
 
         if( contactDetector.applies( bodyA, bodyB )
-        && contactDetector.areInContact( bodyA, bodyB )) {
+            && contactDetector.areInContact( bodyA, bodyB ) ) {
 //            HollowSphere hs = bodyA instanceof HollowSphere ? (HollowSphere)bodyA : (HollowSphere)bodyB;
 //            SphericalBody sb = bodyA instanceof HollowSphere ? (HollowSphere)bodyA : (HollowSphere)bodyB;
             HollowSphere hollowSphere = null;
@@ -62,7 +65,7 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
                     sphere = (SphericalBody)bodyB;
                 }
                 else {
-                    throw new RuntimeException( "bad arguments");
+                    throw new RuntimeException( "bad arguments" );
                 }
             }
             if( bodyB instanceof HollowSphere ) {
@@ -71,11 +74,11 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
                     sphere = (SphericalBody)bodyA;
                 }
                 else {
-                    throw new RuntimeException( "bad arguments");
+                    throw new RuntimeException( "bad arguments" );
                 }
             }
             if( hollowSphere == null || sphere == null ) {
-                throw new RuntimeException( "bad arguments");
+                throw new RuntimeException( "bad arguments" );
             }
             collision = new SphereHollowSphereCollision( hollowSphere, sphere, model, dt );
         }
@@ -89,6 +92,7 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
 
     static Vector2D vRel = new Vector2D.Double();
     static Vector2D n = new Vector2D.Double();
+
     public static void doCillision( Body bodyA, Body bodyB, Vector2D loa, Point2D collisionPt ) {
 
         // Get the total energy of the two objects, so we can conserve it
@@ -96,9 +100,9 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
 
         // Get the vectors from the bodies' CMs to the point of contact
         Vector2D r1 = new Vector2D.Float( (float)( collisionPt.getX() - bodyA.getPosition().getX() ),
-                                    (float)( collisionPt.getY() - bodyA.getPosition().getY() ) );
+                                          (float)( collisionPt.getY() - bodyA.getPosition().getY() ) );
         Vector2D r2 = new Vector2D.Float( (float)( collisionPt.getX() - bodyB.getPosition().getX() ),
-                                    (float)( collisionPt.getY() - bodyB.getPosition().getY() ) );
+                                          (float)( collisionPt.getY() - bodyB.getPosition().getY() ) );
 
         // Get the unit vector along the line of action
         n.setComponents( loa.getX(), loa.getY() );
@@ -108,7 +112,7 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
         // This is a key check to solve otherwise sticky collision problems
         vRel.setComponents( bodyA.getVelocity().getX(), bodyA.getVelocity().getY() );
         vRel.subtract( bodyB.getVelocity() );
-      /*  if( vRel.dot( n ) <= 0 ) */{
+        if( vRel.dot( n ) <= 0 ) {
 
             // Compute the relative velocities of the contact points
 //            vAng1.setComponents( (float)( -bodyA.getOmega() * r1.getY() ), (float)( bodyA.getOmega() * r1.getX() ) );
@@ -128,18 +132,21 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
 //            Vector3D r13D = new Vector3D( r1 );
 //            Vector3D t1 = r13D.crossProduct( n3D ).multiply( (float)( 1 / bodyA.getMomentOfInertia() ) );
 //            Vector3D t1A = t1.crossProduct( r13D );
-//            float t1B = n3D.dot( t1A );
+//            double t1B = n3D.dot( t1A );
 //            Vector3D r23D = new Vector3D( r2 );
 //            Vector3D t2 = r23D.crossProduct( n3D ).multiply( (float)( 1 / bodyB.getMomentOfInertia() ) );
 //            Vector3D t2A = t2.crossProduct( r23D );
-//            float t2B = n3D.dot( t2A );
+//            double t2B = n3D.dot( t2A );
 //            double denominator = ( 1 / bodyA.getMass() + 1 / bodyB.getMass() ) + t1B + t2B;
             double denominator = ( 1 / bodyA.getMass() + 1 / bodyB.getMass() );
             double j = numerator / denominator;
 
             // Compute the new linear and angular velocities, based on the impulse
-            bodyA.getVelocity().add( new Vector2D.Double( n.getX(), n.getY() ) ).scale( j / bodyA.getMass() );
-            bodyB.getVelocity().add( new Vector2D.Double( n.getX(), n.getY() ).scale(  -j / bodyB.getMass() ) );
+            Vector2D vA = new Vector2D.Double( n.getX(), n.getY() ).scale( j / bodyA.getMass() );
+            bodyA.getVelocity().add( vA );
+
+            Vector2D vB = new Vector2D.Double( n.getX(), n.getY() ).scale( -j / bodyB.getMass() );
+            bodyB.getVelocity().add( vB );
         }
     }
 }

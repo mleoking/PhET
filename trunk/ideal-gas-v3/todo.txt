@@ -1,8 +1,15 @@
+- When two modules are in the app, no collisions with the box take place
+
+- When molecules are pumped in with no interactions, they have different energies
+
 - Sam, clockStateListeners
+
+- tighten up stove control panel, so there is more room on the control panel
 
 - Vector2D: need copy constructor 
 
 - gravity only seems to act on a particle when gravity changes
+
 - Fix up collisions with sphere. Can we get rid of constraints?
 
 - Make the stove a model element and move IdealGasModel.addHeatFromStove() to Stove.stepInTime()
@@ -22,9 +29,6 @@
 HollowSphereMustNotContain
 
 - hierarchy of Body/.../IdealGasParticle is way too big. Clean it up!
-
-- entire pump handle and rod respond to the mouse
-
 
 - Gravity: there is a lot of code in the model that refers to a gravity object, but all the
 manipulation of gravity is currently done in the module, and that object only appears in the

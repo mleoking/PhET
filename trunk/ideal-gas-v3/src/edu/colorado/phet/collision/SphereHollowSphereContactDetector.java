@@ -15,6 +15,10 @@ public class SphereHollowSphereContactDetector extends ContactDetector {
     public boolean areInContact( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean result = false;
 
+        if( !applies( bodyA, bodyB ) ) {
+            return false;
+        }
+
         if( bodyA.getClass() == bodyB.getClass() ) {
             throw new RuntimeException( "bad arguments" );
         }
@@ -45,8 +49,8 @@ public class SphereHollowSphereContactDetector extends ContactDetector {
         double distSq = sphere.getPosition().distanceSq( hollowSphere.getPosition() );
         double distPrevSq = sphere.getPositionPrev().distanceSq( hollowSphere.getPositionPrev() );
         double radSq = hollowSphere.getRadius() * hollowSphere.getRadius();
-        if(( distSq > radSq && distPrevSq < radSq )
-            || ( distSq < radSq && distPrevSq > radSq )) {
+        if( ( distSq > radSq && distPrevSq < radSq )
+            || ( distSq < radSq && distPrevSq > radSq ) ) {
             result = true;
         }
         return result;
