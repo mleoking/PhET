@@ -10,6 +10,7 @@ package edu.colorado.phet.idealgas.model;
 import edu.colorado.phet.collision.CollidableBody;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.CollisionGod;
+import edu.colorado.phet.collision.SphereBoxCollision;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
@@ -84,6 +85,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
     public void setConstantVolume( boolean constantVolume ) {
         this.constantVolume = constantVolume;
+        SphereBoxCollision.setWorkDoneByMovingWall( constantVolume );
     }
 
     public boolean isConstantPressure() {
@@ -92,8 +94,8 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
     public void setConstantPressure( boolean constantPressure ) {
         this.targetPressure = box.getPressure();
-        System.out.println( "targetPressure = " + targetPressure );
         this.constantPressure = constantPressure;
+        SphereBoxCollision.setWorkDoneByMovingWall( !constantPressure );
     }
 
     /**
