@@ -128,10 +128,14 @@ public class ParallaxReticle extends DefaultInteractiveGraphic implements Transl
         }
 
         public void paint( Graphics2D g ) {
+            Object interpolationHint = g.getRenderingHint(  RenderingHints.KEY_INTERPOLATION );
+//            g.setRenderingHint(  RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
             g.setColor( color );
             g.setStroke( stroke );
             g.draw( path );
             g.drawImage( reticleBI, -reticleBI.getWidth() / 2, -reticleBI.getHeight() / 2, this );
+
+//            g.setRenderingHint(  RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
         }
 
         public boolean contains( int x, int y ) {

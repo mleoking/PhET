@@ -20,6 +20,7 @@ import java.awt.geom.Point2D;
 
 public class ParallaxButton extends DefaultInteractiveGraphic {
     private AffineTransform parallaxBtnTx = new AffineTransform();
+    private AffineTransform hitTx = new AffineTransform();
     private Ellipse2D.Double button;
     private boolean isOn = false;
     private String label = "On";
@@ -36,13 +37,17 @@ public class ParallaxButton extends DefaultInteractiveGraphic {
             public void paint( Graphics2D g ) {
                 AffineTransform orgTx = g.getTransform();
                 g.transform( parallaxBtnTx );
-                g.setColor( Color.yellow );
+                g.setColor( Color.red );
                 g.fill( button );
                 g.setColor( Color.black );
                 g.draw( button );
                 FontMetrics fontMetrics = g.getFontMetrics();
                 int strWidth = fontMetrics.stringWidth( label );
+                g.setColor( Color.white );
                 g.drawString( label, (int)( button.getWidth() - strWidth ) / 2, 15 );
+
+                hitTx.setTransform( orgTx );
+                hitTx.translate( parallaxBtnTx.getTranslateX(), parallaxBtnTx.getTranslateY() );
 
                 g.setTransform( orgTx );
             }
@@ -53,7 +58,7 @@ public class ParallaxButton extends DefaultInteractiveGraphic {
             public boolean contains( int x, int y ) {
                 Point2D.Double testPt = new Point2D.Double( x, y );
                 try {
-                    parallaxBtnTx.inverseTransform( testPt, testPt );
+                    hitTx.inverseTransform( testPt, testPt );
                 }
                 catch( NoninvertibleTransformException e ) {
                     e.printStackTrace();
@@ -68,8 +73,8 @@ public class ParallaxButton extends DefaultInteractiveGraphic {
     }
 
     public void mousePressed( MouseEvent e ) {
-//        isOn = !isOn;
-//        module.setParallaxReticleOn( isOn );
-//        label = isOn ? "Off" : "On";
+        isOn = !isOn;
+        module.setParallaxReticleOn( isOn );
+        label = isOn ? "Off" : "On";
     }
 }
