@@ -13,7 +13,6 @@ HIGH PRIORITY:
 - adjust electron animation so that electrons move farther
 
 MEDIUM PRIORITY:
-- electrons in electromagnet coil loops don't line up with each other (is this due to the smaller radius?)
 - electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
 - collision detection in Generator & Transformer modules
 - relocate rescaling from Voltmeter model to Voltmeter view, so that all rescaling is done in the view
@@ -26,10 +25,12 @@ LOW PRIORITY:
 - replace EasyGridBagLayout with SwingUtils.addGridBagComponent
 - background color (use new PhetApplication interface)
 - transparent bar magnet layer so that field meter looks like it's inside it
-- remove unused images from JAR file
-- remove unused i18n strings
 - Help/MegaHelp
 - resize any images that are currently scaled (eg, bar magnet, electron)
+
+CLEANUP:
+- remove unused images from JAR file
+- remove unused i18n strings
 - delete DeveloperControlsPanel when we don't need it anymore
 - delete BatteryPanel and ACPanel when no longer needed
 - remove DebuggerGraphic from modules
@@ -51,7 +52,8 @@ phetcommon:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
-v0r17...
+v0r17...\
+(3/14) - fix: electrons in electromagnet coil loops don't line up with each other (due to ends being shorter)
 (3/14) - fix: center of slider knob doesn't line up with ticks on Battery (fix to PhetGraphic.centerRegistrationPoint)
 (3/14) - fix: changing number of loops in source coil doesn't affect electromagnet strength
 (3/14) - fix: grid needles nearest electromagnet always appear to be full strength, regardless of DC/AC amplitude

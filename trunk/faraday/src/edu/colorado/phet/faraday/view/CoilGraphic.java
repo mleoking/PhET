@@ -431,8 +431,7 @@ public class CoilGraphic implements SimpleObserver {
                     QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
                     
                     // Scale the speed, since this curve is different than the others in the coil.
-                    double length = startPoint.distance( endPoint );
-                    double speedScale = radius / length;
+                    double speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_LEFT_END;
                     ElectronPathDescriptor d = new ElectronPathDescriptor( curve, _background, ElectronPathDescriptor.BACKGROUND, speedScale );
                     _electronPath.add( d );
                     
@@ -553,8 +552,7 @@ public class CoilGraphic implements SimpleObserver {
                 QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
 
                 // Scale the speed, since this curve is different than the others in the coil.
-                double length = startPoint.distance( endPoint );
-                double speedScale = radius / length;
+                double speedScale = ( radius / ELECTRON_SPACING ) / ELECTRONS_IN_RIGHT_END;
                 ElectronPathDescriptor d = new ElectronPathDescriptor( curve, _foreground, ElectronPathDescriptor.FOREGROUND, speedScale );
                 _electronPath.add( d );
 
