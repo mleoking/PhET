@@ -34,6 +34,8 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
     private JSlider wavelengthSlider;
     private Dimension sliderDimension = new Dimension( 50, 30 );
     private double wavelengthSliderScaleFactor = 1E6;
+    // A beam whose wavelength this control must remain longer than.
+    private CollimatedBeam wavelengthLimitingBeam;
 
     public BeamControl( final CollimatedBeam beam ) {
         this.beam = beam;
@@ -75,7 +77,14 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
         wavelengthSlider.setPreferredSize( sliderDimension );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                beam.setWavelength( (int)( wavelengthSliderScaleFactor / wavelengthSlider.getValue() ) );
+                int value = wavelengthSlider.getValue();
+                // The wavelength may be limited by the wavelength of another beam
+                if( wavelengthLimitingBeam != null && wavelengthLimitingBeam.isEnabled() ) {
+                    double limitingWavelength = wavelengthLimitingBeam.getWavelength();
+                    int limitingValue = (int)( wavelengthSliderScaleFactor / limitingWavelength );
+                    value = Math.min( value, limitingValue );
+                }
+                beam.setWavelength( (int)( wavelengthSliderScaleFactor / value ) );
             }
         } );
         wavelengthSlider.setValue( (int)( wavelengthSliderScaleFactor / beam.getWavelength() ) );
@@ -103,6 +112,21 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
 
     public void setMaxPhotonRate( double photonsPerSecond ) {
         photonRateSlider.setMaximum( (int)photonsPerSecond );
+    }
+
+    public void setWavelengthLimitingBeam( CollimatedBeam wavelengthLimitingBeam ) {
+        this.wavelengthLimitingBeam = wavelengthLimitingBeam;
+        wavelengthLimitingBeam.addListener( new LimitingWavelengthChangeListener() );
+    }
+
+    public class LimitingWavelengthChangeListener implements CollimatedBeam.WavelengthChangeListener {
+        public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
+            int wavelengthValue = (int)( wavelengthSliderScaleFactor / event.getWavelength() );
+            wavelengthValue = Math.min( wavelengthValue, wavelengthSlider.getValue() );
+            wavelengthSlider.setEnabled( false );
+            wavelengthSlider.setValue( wavelengthValue );
+            wavelengthSlider.setEnabled( true );
+        }
     }
 
     public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
