@@ -14,6 +14,9 @@ package edu.colorado.phet.faraday.control;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -68,7 +71,8 @@ public class FaradaySlider extends GraphicSlider {
         // Background - none
         
         // Track
-        PhetGraphic track = new PhetShapeGraphic( component, new Rectangle( 0, 0, trackLength, trackWidth ), trackColor );
+        Shape shape = new Rectangle( 0, 0, trackLength, trackWidth );
+        PhetGraphic track = new PhetShapeGraphic( component, shape, trackColor );
         setTrack( track );
         
         // Knob
