@@ -49,7 +49,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     // These parameters affect an individual ray.
     private static final Color RAY_COLOR = Color.YELLOW;
     private static final int MAX_RAY_LENGTH = 500;
-    private static final int MIN_RAY_LENGTH = 10;
+    private static final int MIN_RAY_LENGTH = 0;
     private static final double MAX_RAY_WIDTH = 4.0;
     private static final double MIN_RAY_WIDTH = 2.0;
 
