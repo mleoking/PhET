@@ -38,7 +38,7 @@ public class Electron extends SpacialObservable implements ModelElement {
     //----------------------------------------------------------------------------
 
     private boolean _enabled;
-    private ArrayList _curves; // array of QuadBezierSpline
+    private ArrayList _curveDescriptors; // array of CurveDescriptor
     private int _curveIndex;
     private double _positionAlongCurve;
     private double _speed; // -1...+1, controls speed and direction
@@ -53,7 +53,7 @@ public class Electron extends SpacialObservable implements ModelElement {
     public Electron() {
         super();
         _enabled = true;
-        _curves = null;
+        _curveDescriptors = null;
         _curveIndex = 0; // first curve
         _positionAlongCurve = 1.0; // curve's start point
         _speed = 0.0;  // not moving
@@ -90,10 +90,10 @@ public class Electron extends SpacialObservable implements ModelElement {
      * 
      * @param curves
      */
-    public void setCurves( ArrayList curves ) {
+    public void setCurveDescriptors( ArrayList curves ) {
         assert ( curves != null );
         assert ( curves.size() > 0 );
-        _curves = curves;
+        _curveDescriptors = curves;
         _curveIndex = 0;
         _positionAlongCurve = 1.0;
     }
@@ -102,26 +102,37 @@ public class Electron extends SpacialObservable implements ModelElement {
      * Clears the set of curves.
      */
     public void clearCurves() {
-        _curves = null;
+        _curveDescriptors = null;
     }
 
     /**
-     * Sets the location of the electron, the curve and postion on the curve.
+     * Sets the position of the electron along one of the curves.
      * 
-     * @param curveIndex index of the starting curve
      * @param positionAlongCurve position on the curve, 0-1 (1=startPoint, 0=endPoint)
+     * @param curveIndex index of the curve
      */
-    public void setCurveLocation( int curveIndex, double positionAlongCurve ) {
-        assert( curveIndex >= 0 && curveIndex < _curves.size() );
+    public void setPositionAlongCurve( double positionAlongCurve, int curveIndex ) {
+
         assert( positionAlongCurve >=0.0 && positionAlongCurve <= 1.0 );
+        assert( curveIndex >= 0 && curveIndex < _curveDescriptors.size() );
         
         _curveIndex = curveIndex;
         _positionAlongCurve = positionAlongCurve;
         
         // Evaluate the quadratic to determine XY location.
-        QuadBezierSpline path = (QuadBezierSpline) _curves.get( _curveIndex );
-        Point2D location = path.evaluate( _positionAlongCurve );
+        CurveDescriptor cd = (CurveDescriptor) _curveDescriptors.get( _curveIndex );
+        QuadBezierSpline curve = cd.getCurve();
+        Point2D location = curve.evaluate( _positionAlongCurve );
         super.setLocation( location );
+    }
+    
+    /**
+     * Gets the curve descriptor for the curve that the electron is currently on.
+     * 
+     * @return a CurveDescriptor
+     */
+    public CurveDescriptor getCurveDescriptor() {
+        return (CurveDescriptor)_curveDescriptors.get( _curveIndex );
     }
     
     /**
@@ -167,7 +178,7 @@ public class Electron extends SpacialObservable implements ModelElement {
      * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
      */
     public void stepInTime( double dt ) {
-        if ( _enabled && _speed != 0 && _curves != null ) {
+        if ( _enabled && _speed != 0 && _curveDescriptors != null ) {
 
             // Move the electron along the path.
             _positionAlongCurve -= _speed;
@@ -177,7 +188,7 @@ public class Electron extends SpacialObservable implements ModelElement {
             if ( _positionAlongCurve <= 0 ) {
                 // Move to the next curve, with wrap around.
                 _curveIndex++;
-                if ( _curveIndex >= _curves.size() ) {
+                if ( _curveIndex >= _curveDescriptors.size() ) {
                     _curveIndex = 0;
                 }
                 // Set the position on the next curve.
@@ -187,17 +198,18 @@ public class Electron extends SpacialObservable implements ModelElement {
                 // Move to the previous curve, with wrap around.
                 _curveIndex--;
                 if ( _curveIndex < 0 ) {
-                    _curveIndex = _curves.size() - 1;
+                    _curveIndex = _curveDescriptors.size() - 1;
                 }
                 // Set the position on the next curve.
                 _positionAlongCurve = 0.0 + ( _positionAlongCurve % 1 );
             }
-
+            
             // Evaluate the quadratic to determine XY location.
-            QuadBezierSpline path = (QuadBezierSpline) _curves.get( _curveIndex );
-            Point2D location = path.evaluate( _positionAlongCurve );
+            CurveDescriptor cd = (CurveDescriptor) _curveDescriptors.get( _curveIndex );
+            QuadBezierSpline curve = cd.getCurve();
+            Point2D location = curve.evaluate( _positionAlongCurve );
             super.setLocation( location );
-
+            
             notifyObservers();
         }
     }
