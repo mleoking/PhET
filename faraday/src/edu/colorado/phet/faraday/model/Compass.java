@@ -195,6 +195,8 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
             
             if ( ! _rotationalKinematicsEnabled ) {
                 // If rotational kinematics is disabled, simply set the angle.
+                _omega = 0;
+                _alpha = 0;
                 setDirection( emf.getAngle() );
             }
             else {
@@ -209,8 +211,8 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
                     // When the difference between the field angle and the compass angle is insignificant,
                     // simply set the angle and consider the compass to be at rest.
                     _theta = angle;
-                    _alpha = 0;
                     _omega = 0;
+                    _alpha = 0;
                     setDirection( _theta );
                 }
                 else {
