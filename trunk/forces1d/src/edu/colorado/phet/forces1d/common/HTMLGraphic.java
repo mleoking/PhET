@@ -62,7 +62,7 @@ public class HTMLGraphic extends CompositePhetGraphic {
 
         /**
          * Static utility to transform html into BufferedImage for quick rendering.
-         * This could fail on some systems.
+         * This could fail on some systems, since it uses isShowing() to force rendering.
          */
         public static BufferedImage render( Color color, Font font, String html ) {
             JLabel label = new JLabel( html ) {

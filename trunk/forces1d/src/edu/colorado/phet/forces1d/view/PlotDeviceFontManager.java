@@ -9,7 +9,7 @@ import java.awt.*;
  * Time: 3:20:49 PM
  * Copyright (c) Nov 8, 2004 by Sam Reid
  */
-public class MMFontManager {
+public class PlotDeviceFontManager {
     private static MMFontSet fontSet;
 
     public static MMFontSet getFontSet() {

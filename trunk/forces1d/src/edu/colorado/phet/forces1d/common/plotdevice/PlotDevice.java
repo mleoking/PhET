@@ -16,7 +16,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
-import edu.colorado.phet.forces1d.view.MMFontManager;
+import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,7 +54,7 @@ public class PlotDevice extends CompositePhetGraphic {
 //    private FloatingControl floatingControl;
     private String units;
     private JLabel titleLable;
-    private Font verticalTitleFont = MMFontManager.getFontSet().getVerticalTitleFont();
+    private Font verticalTitleFont = PlotDeviceFontManager.getFontSet().getVerticalTitleFont();
     private ArrayList listeners = new ArrayList();
     private PhetTextGraphic timeLabel;
     private double value = Double.NaN;
@@ -139,7 +139,7 @@ public class PlotDevice extends CompositePhetGraphic {
         } );
 
         titleLable = new JLabel( title );
-        Font titleFont = MMFontManager.getFontSet().getTitleFont();
+        Font titleFont = PlotDeviceFontManager.getFontSet().getTitleFont();
         titleLable.setFont( titleFont );
         titleLable.setBackground( plotDeviceView.getBackgroundColor() );
         titleLable.setOpaque( true );
@@ -153,7 +153,7 @@ public class PlotDevice extends CompositePhetGraphic {
                 horizontalCursor.setX( 0 );
             }
         } );
-        timeLabel = new PhetTextGraphic( panel, MMFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, 0, 0 );
+        timeLabel = new PhetTextGraphic( panel, PlotDeviceFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, 0, 0 );
         addGraphic( chartComponent.getChart() );
         addGraphic( timeLabel );
         respectControllable();
@@ -469,7 +469,7 @@ public class PlotDevice extends CompositePhetGraphic {
             DecimalFormat format = new DecimalFormat( "0.0" );
 
             public Series( String name, ApparatusPanel panel, DataSeries dataSeries, Stroke stroke, Color color ) {
-                Font readoutFont = MMFontManager.getFontSet().getReadoutFont();
+                Font readoutFont = PlotDeviceFontManager.getFontSet().getReadoutFont();
                 this.dataSeries = dataSeries;
                 dataSet = new DataSet();
                 bufferedLinePlot = new BufferedLinePlot( chart, dataSet, stroke, color, bufferedPhetGraphic );
@@ -546,7 +546,7 @@ public class PlotDevice extends CompositePhetGraphic {
 
         public ChartComponent( ApparatusPanel panel, Rectangle2D inputBox, DataSeries dataSeries, double xShift,
                                double holdDownZoom, double singleClickZoom, double maxZoomRange ) throws IOException {
-            Font axisFont = MMFontManager.getFontSet().getAxisFont();
+            Font axisFont = PlotDeviceFontManager.getFontSet().getAxisFont();
             chart = new Chart( panel, new Range2D( inputBox ), new Rectangle( 0, 0, 100, 100 ) );
             Series defaultSeries = new Series( title, panel, dataSeries, stroke, color );
             addSeries( defaultSeries );
@@ -785,7 +785,7 @@ public class PlotDevice extends CompositePhetGraphic {
         boolean changedByUser;
         JTextField textField;
         JLabel label;
-        static Font font = MMFontManager.getFontSet().getTextBoxFont();
+        static Font font = PlotDeviceFontManager.getFontSet().getTextBoxFont();
         private PlotDevice plotDevice;
 
         public TextBox( PlotDeviceModel module, int text, String labelText, final PlotDevice plotDevice ) {
@@ -961,7 +961,7 @@ public class PlotDevice extends CompositePhetGraphic {
     }
 
     public static class ChartButton extends JButton {
-        private static Font font = MMFontManager.getFontSet().getChartButtonFont();//new Font( "Lucida Sans", Font.BOLD, 14 );
+        private static Font font = PlotDeviceFontManager.getFontSet().getChartButtonFont();//new Font( "Lucida Sans", Font.BOLD, 14 );
 
         public ChartButton( String label ) throws IOException {
 //            super( label, new ImageIcon( ImageLoader.loadBufferedImage( "images/arrow-right.gif" ) ) );

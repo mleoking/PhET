@@ -50,7 +50,6 @@ public class Force1DPanel extends ApparatusPanel2 {
     private OffscreenPointerGraphic offscreenPointerGraphic;
     private BufferedPhetGraphic backgroundGraphic;
     private PlotDevice accelPlotDevice;
-//    private PhetShapeGraphic debugGraphic;
     private PlotDevice velPlotDevice;
     private PlotDevice posPlotDevice;
     private WiggleMe wiggleMe;

@@ -22,7 +22,7 @@ public class LayoutUtil {
     public abstract static class LayoutElement {
         protected double size;
         protected double min;
-//        protected double max;
+
         public double getMin() {
             return min;
         }

@@ -58,7 +58,7 @@ public class WiggleMe extends CompositePhetGraphic {
         this( component, text, new PhetGraphicTarget( phetGraphic ) );
     }
 
-    public WiggleMe( Component component, String text, Target t ) {
+    public WiggleMe( final Component component, String text, Target t ) {
         super( component );
         this.target = t;
         textGraphic = new PhetShadowTextGraphic( component, text, font, 0, 0, Color.black, 2, 2, Color.red );
@@ -66,6 +66,8 @@ public class WiggleMe extends CompositePhetGraphic {
         timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 tick();
+//                JComponent jc=(JComponent)component;
+//                jc.paintImmediately( getBounds() );
             }
         } );
         textGraphic.setLocation( 0, 0 );

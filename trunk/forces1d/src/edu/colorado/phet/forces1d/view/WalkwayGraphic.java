@@ -8,7 +8,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DModule;
-import edu.colorado.phet.forces1d.model.Force1DModel;
+import edu.colorado.phet.forces1d.model.BoundaryCondition;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -74,7 +74,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         setCursorHand();
         update();
 
-        module.getForceModel().addBoundaryConditionListener( new Force1DModel.BoundaryConditionListener() {
+        module.getForceModel().addBoundaryConditionListener( new BoundaryCondition.Listener() {
             public void boundaryConditionOpen() {
 
                 try {

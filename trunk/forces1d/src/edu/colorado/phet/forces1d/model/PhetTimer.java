@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class PhetTimer implements ModelElement {
     private double time = 0;
-    private String name;
+    private String name;//For debugging. mostly.
     private ArrayList listeners = new ArrayList();
 
     public PhetTimer( String name ) {
