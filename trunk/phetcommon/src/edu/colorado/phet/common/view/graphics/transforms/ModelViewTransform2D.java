@@ -78,7 +78,7 @@ public class ModelViewTransform2D {
         double m10 = 0;
         double m11 = -viewBounds.height / modelBounds.height;
         double m12 = viewBounds.y + viewBounds.height / modelBounds.height * ( modelBounds.y + modelBounds.height );
-//        double m12 =viewBounds.y-m11*modelBounds.y;
+        //        double m12 =viewBounds.y-m11*modelBounds.y;
         return new AffineTransform( m00, m10, m01, m11, m02, m12 );
     }
 
@@ -183,7 +183,7 @@ public class ModelViewTransform2D {
         double m10 = 0;
         double m11 = -outputBounds.height / inputBounds.height;
         double m12 = outputBounds.y + outputBounds.height / inputBounds.height * ( inputBounds.y + inputBounds.height );
-//        double m12 =outputBounds.y-m11*inputBounds.y;
+        //        double m12 =outputBounds.y-m11*inputBounds.y;
         return new AffineTransform( m00, m10, m01, m11, m02, m12 );
     }
 

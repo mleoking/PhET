@@ -22,7 +22,7 @@ public class HelpItemManager {
      * @see HelpItem
      */
     public void addHelpItem( HelpItem helpText ) {
-//        this.getLayeredPane().add( helpText, JLayeredPane.POPUP_LAYER );
+        //        this.getLayeredPane().add( helpText, JLayeredPane.POPUP_LAYER );
         helpItems.add( helpText );
     }
 

@@ -1,8 +1,6 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.common.view.graphics;
 
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -13,7 +11,7 @@ import java.awt.image.BufferedImage;
  * Time: 12:35:20 AM
  * Copyright (c) Jan 2, 2004 by Sam Reid
  */
-public class SimpleBufferedImageGraphic implements Graphic, Boundary {
+public class SimpleBufferedImageGraphic implements BoundedGraphic {
     BufferedImage image;
     AffineTransform transform;
 

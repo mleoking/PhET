@@ -40,7 +40,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
     public ClockControlPanel( ThreadedClock clock ) {
         super( new FlowLayout() );
 
-//        spinnerModelDT = new SpinnerNumberModel(clock.getRequestedDT(), 0.0, 100.0, 0.05);
+        //        spinnerModelDT = new SpinnerNumberModel(clock.getRequestedDT(), 0.0, 100.0, 0.05);
         spinnerModelWT = new SpinnerNumberModel( (int)clock.getDelay(), 0, 1000, 5 );
         dtSpinner = new JSpinner( spinnerModelDT );
         dtSpinner.setFont( new Font( "dialog", 0, 24 ) );
@@ -50,7 +50,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
 
         this.clock = clock;
         buildClockControlPanel();
-//        init(clock);
+        //        init(clock);
     }
 
     private void syncPanelToClock() {

@@ -19,17 +19,17 @@ import java.awt.event.MouseListener;
 public class MySpinnerUI extends BasicSpinnerUI {
     static String foldername = "graymarble";
     static String name = "gray_marble";
-//    static String path="images/animfactory/suites/alum/";
+    //    static String path="images/animfactory/suites/alum/";
     static String path = "images/animfactory/suites/graymarble/";
     static ImageIcon up = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( path + "up.gif" ) ) );
     static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( path + "up2.gif" ) ) );
     static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( path + "down.gif" ) ) );
     static ImageIcon downpressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( path + "down2.gif" ) ) );
 
-//    static ImageIcon up = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/up1-unpressed.gif" ) ) );
-//    static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/up1-pressed.gif" ) ) );
-//    static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/down1-unpressed.gif" ) ) );
-//    static ImageIcon downpressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/down1-pressed.gif" ) ) );
+    //    static ImageIcon up = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/up1-unpressed.gif" ) ) );
+    //    static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/up1-pressed.gif" ) ) );
+    //    static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/down1-unpressed.gif" ) ) );
+    //    static ImageIcon downpressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/down1-pressed.gif" ) ) );
 
     public MySpinnerUI() {
         super();
@@ -50,7 +50,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
         //This hack is for working around swing's lack of support for customizing spinner components.
         for( int i = 0; i < comp.length; i++ ) {
             Component component = comp[i];
-//            System.out.println( "component = " + component );
+            //            System.out.println( "component = " + component );
             if( component instanceof JButton && first ) {
                 JButton jb = (JButton)component;
                 jb.setIcon( up );

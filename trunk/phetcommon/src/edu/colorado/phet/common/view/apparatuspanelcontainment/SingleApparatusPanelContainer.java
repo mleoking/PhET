@@ -24,8 +24,8 @@ public class SingleApparatusPanelContainer implements ApparatusPanelContainer {
 
     public SingleApparatusPanelContainer( ModuleManager mm ) {
         mm.addModuleObserver( this );
-//        container.setLayout(new AspectRatioLayout(null, 10, 10));
-//        container.setLayout( new BorderLayout() );
+        //        container.setLayout(new AspectRatioLayout(null, 10, 10));
+        //        container.setLayout( new BorderLayout() );
     }
 
     public JComponent getComponent() {
@@ -40,7 +40,7 @@ public class SingleApparatusPanelContainer implements ApparatusPanelContainer {
             container.remove( apparatusPanel );
         }
         this.apparatusPanel = m.getApparatusPanel();
-//        this.container.add( m.getApparatusPanel(), BorderLayout.CENTER );
+        //        this.container.add( m.getApparatusPanel(), BorderLayout.CENTER );
         container.setLayout( new AspectRatioLayout( apparatusPanel, 10, 10 ) );
         this.container.add( m.getApparatusPanel() );
     }

@@ -58,6 +58,9 @@ public class PhysicalVector {
         return (float)Math.sqrt( getMagnitudeSq() );
     }
 
+    /**
+     * @deprecated
+     */
     public float getLength() {
         return getMagnitude();
     }
@@ -72,7 +75,7 @@ public class PhysicalVector {
     }
 
     protected PhysicalVector generalNormalize() {
-        float length = getLength();
+        float length = getMagnitude();
         return multiply( 1.0f / length, this );
     }
 

@@ -11,7 +11,6 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 /**
@@ -101,24 +100,24 @@ public class ApparatusPanel extends JPanel {
         this.graphic.addGraphic( graphic, 0 );
     }
 
-    public void addGraphic( Graphic graphic, AffineTransform atx ) {
-        this.graphic.addGraphic( graphic, 0, atx, null );
-    }
+    //    public void addGraphic( Graphic graphic, AffineTransform atx ) {
+    //        this.graphic.addGraphic( graphic, 0, atx, null );
+    //    }
 
-    public void addGraphic( Graphic graphic, double level, AffineTransform atx ) {
-        this.graphic.addGraphic( graphic, level, atx, null );
-    }
-
-    public void addGraphic( Graphic graphic, AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
-        this.graphic.addGraphic( graphic, 0, atx, graphicSetup );
-    }
-
-    public void addGraphic( Graphic graphic, double level, AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
-        this.graphic.addGraphic( graphic, level, atx, graphicSetup );
-    }
+    //    public void addGraphic( Graphic graphic, double level, AffineTransform atx ) {
+    //        this.graphic.addGraphic( graphic, level, atx, null );
+    //    }
+    //
+    //    public void addGraphic( Graphic graphic, AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
+    //        this.graphic.addGraphic( graphic, 0, atx, graphicSetup );
+    //    }
+    //
+    //    public void addGraphic( Graphic graphic, double level, AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
+    //        this.graphic.addGraphic( graphic, level, atx, graphicSetup );
+    //    }
 
     public void removeGraphic( Graphic graphic ) {
-        this.graphic.remove( graphic );
+        this.graphic.removeGraphic( graphic );
     }
 
     public CompositeInteractiveGraphic getGraphic() {

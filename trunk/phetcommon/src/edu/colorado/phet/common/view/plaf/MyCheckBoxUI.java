@@ -17,8 +17,8 @@ import java.awt.event.MouseAdapter;
  */
 public class MyCheckBoxUI extends MetalCheckBoxUI {
 
-//    private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/in.gif" ) );
-//    private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/out.gif" ) );
+    //    private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/in.gif" ) );
+    //    private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/out.gif" ) );
 
     static String foldername = "graymarble";
     static String name = "gray_marble";

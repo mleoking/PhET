@@ -20,12 +20,17 @@ import java.awt.event.MouseEvent;
 
 /**
  * This class facilitates adding behaviors to an interactive graphic.
+ * This may be used as a decorator of your home-brewed Graphic and Boundary.
  */
 public class DefaultInteractiveGraphic implements InteractiveGraphic {
     Graphic graphic;
     CompositeMouseInputListener mouseControl;
     Boundary boundary;
     private HandCursorControl handControl;
+
+    public DefaultInteractiveGraphic( BoundedGraphic boundedGraphic ) {
+        this( boundedGraphic, boundedGraphic );
+    }
 
     public DefaultInteractiveGraphic( Graphic graphic, Boundary boundary ) {
         this.graphic = graphic;

@@ -43,7 +43,7 @@ public class ApplicationModelControlPanel extends JPanel {
         ImageIcon playIcon = new ImageIcon( playU );
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
-//        this.rh = rh;
+        //        this.rh = rh;
         play = new JButton( "Play", playIcon );
         pause = new JButton( "Pause", pauseIcon );
         step = new JButton( "Step", stepIcon );

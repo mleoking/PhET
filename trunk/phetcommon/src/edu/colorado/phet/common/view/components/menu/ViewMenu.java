@@ -13,13 +13,13 @@ public class ViewMenu extends JMenu {
     public ViewMenu() {
         super( "View" );
         this.setMnemonic( 'V' );
-//        JMenuItem menuItem = new JMenuItem( "Look and Feel" );
-//        menuItem.setMnemonic( 'L' );
-//        menuItem.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                new LookAndFeelMenu.
-//            }
-//        } );
+        //        JMenuItem menuItem = new JMenuItem( "Look and Feel" );
+        //        menuItem.setMnemonic( 'L' );
+        //        menuItem.addActionListener( new ActionListener() {
+        //            public void actionPerformed( ActionEvent e ) {
+        //                new LookAndFeelMenu.
+        //            }
+        //        } );
         JMenu subMenu = new JMenu();
         subMenu.setText( "Look and Feel" );
         subMenu.setMnemonic( 'L' );

@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  * Time: 11:58:25 PM
  * Copyright (c) Oct 8, 2003 by Sam Reid
  */
-public class TargetedImageGraphic implements Graphic {
+public class TargetedImageGraphic implements BoundedGraphic {
     BufferedImage image;
     private Rectangle2D modelBounds;
 
@@ -35,6 +35,10 @@ public class TargetedImageGraphic implements Graphic {
 
     public void setRect( Rectangle2D.Double rect ) {
         this.modelBounds = rect;
+    }
+
+    public boolean contains( int x, int y ) {
+        return modelBounds.contains( x, y );
     }
 
 }
