@@ -34,8 +34,8 @@
     <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile" classpath="${antutil}"/>
 
     <target name="Clean Dependencies">
-        <delete dir="${idea.classes}"></delete>
-        <mkdir dir="${idea.classes}"></mkdir>
+        <delete dir="${idea.classes}"/>
+        <mkdir dir="${idea.classes}"/>
     </target>
 
     <target name="init">
