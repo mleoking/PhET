@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- use mutable vectors in DipoleMagnet
 - if water wheel hits critical angles, then its rotation appears jerky at some speeds
 - make electrons move at same speed whether grid is on or off
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
@@ -53,7 +54,8 @@ PHETCOMMON:
 
 DONE:
 v0r20...
-(3/25) - remove extra notifyObservers from Electron model, causing 2 updates of Electron view per clock tick
+(3/25) - reduce amount of memory allocation in DipoleMagnet, reuse mutable objects (optimization)
+(3/25) - remove extra notifyObservers from Electron model, causing 2 updates of Electron view per clock tick (optimization)
 (3/25) - remove bounds stuff in CompassGridNeedle, not needed (5% optimization)
 (3/23) - added a code switch for turning off critical angles in ACPowerSupply and Turbine models
 (3/23) - verify that AC hits zero crossings, check with lightbulb (it does)

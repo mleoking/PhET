@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.model;
 
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -42,11 +43,25 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     private static final double FUDGE_FACTOR = 700.0;
     
     //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private AffineTransform _transform;
+    private Rectangle _bounds;
+    private Point2D _northPoint, _southPoint;
+    private Point2D _normalizedPoint;
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public DipoleMagnet() {
         super();
+        _transform = new AffineTransform();
+        _bounds = new Rectangle();
+        _northPoint = new Point2D.Double();
+        _southPoint = new Point2D.Double();
+        _normalizedPoint = new Point2D.Double();
     }
     
     //----------------------------------------------------------------------------
@@ -73,23 +88,23 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         // The point we received is based on the magnet's actual location and origin.
         // So transform the point accordingly, adjusting for location and rotation of the magnet.
         double radians = -1 * getDirection();
-        AffineTransform transform = new AffineTransform();       
-        transform.translate( -getX(), -getY() );
-        transform.rotate( radians, getX(), getY() );
-        Point2D pNormalized = transform.transform( p, null );
+        _transform.setToIdentity();       
+        _transform.translate( -getX(), -getY() );
+        _transform.rotate( radians, getX(), getY() );
+        _transform.transform( p, _normalizedPoint );
         
         // Bounds that define the "inside" of the magnet.
-        Rectangle2D bounds = new Rectangle2D.Double( -(getWidth()/2), -(getHeight()/2), getWidth(), getHeight() );
+        _bounds.setRect( -(getWidth()/2), -(getHeight()/2), getWidth(), getHeight() );
               
         // Choose the appropriate algorithm based on
         // whether the point is inside or outside the magnet.
         AbstractVector2D B = null;
-        if ( bounds.contains( pNormalized ) )  {
-            B = getStrengthInside( pNormalized );
+        if ( _bounds.contains( _normalizedPoint ) )  {
+            B = getStrengthInside( _normalizedPoint );
         }
         else
         {
-            B = getStrengthOutside( pNormalized );
+            B = getStrengthOutside( _normalizedPoint );
         }
         
         // Adjust the field vector to match the magnet's direction.
@@ -149,26 +164,26 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         double magnetStrength = super.getStrength();
         
         // Dipole locations.
-        Point2D pN = new Point2D.Double( +getWidth()/2 - getHeight()/2, 0 ); // north dipole
-        Point2D pS = new Point2D.Double( -getWidth()/2 + getHeight()/2, 0 ); // south dipole
+        _northPoint.setLocation( +getWidth()/2 - getHeight()/2, 0 ); // north dipole
+        _southPoint.setLocation( -getWidth()/2 + getHeight()/2, 0 ); // south dipole
         
         // Distances.
-        double rN = pN.distance( p ); // north dipole to point
-        double rS = pS.distance( p ); // south dipole to point
-        double L = pS.distance( pN ); // dipole to dipole
+        double rN = _northPoint.distance( p ); // north dipole to point
+        double rS = _southPoint.distance( p ); // south dipole to point
+        double L = _southPoint.distance( _northPoint ); // dipole to dipole
         
         // Fudge factor
         double C = FUDGE_FACTOR * magnetStrength;
         
         // North dipole field strength vector.
-        double cN = +(C / Math.pow( rN, 3.0 )); // constant multiplier
-        double xN = cN * (p.getX() - (L/2)); // X component
+        double cN = +( C / Math.pow( rN, 3.0 ) ); // constant multiplier
+        double xN = cN * ( p.getX() - ( L / 2 ) ); // X component
         double yN = cN * p.getY(); // Y component
         AbstractVector2D BN = new ImmutableVector2D.Double( xN, yN ); // north dipole vector
         
         // South dipole field strength vector.
-        double cS = -(C / Math.pow( rS, 3.0 )); // constant multiplier
-        double xS = cS * (p.getX() + (L/2)); // X component
+        double cS = -( C / Math.pow( rS, 3.0 ) ); // constant multiplier
+        double xS = cS * ( p.getX() + ( L / 2 ) ); // X component
         double yS = cS * p.getY(); // Y component
         AbstractVector2D BS = new ImmutableVector2D.Double( xS, yS ); // south dipole vector
         
