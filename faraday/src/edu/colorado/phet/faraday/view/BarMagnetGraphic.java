@@ -75,9 +75,12 @@ public class BarMagnetGraphic extends PhetImageGraphic
         // Save a reference to the model.
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
-               
+        
+        // Set the model's size to match the image.
+        _magnetModel.setSize( getWidth()/2, getHeight()/2 );
+        
         // Registration point is the center of the image.
-        setRegistrationPoint( getImage().getWidth() / 2, getImage().getHeight() / 2 );
+        centerRegistrationPoint();
 
         // Setup interactivity.
         InteractivityListener listener = new InteractivityListener();
@@ -149,13 +152,6 @@ public class BarMagnetGraphic extends PhetImageGraphic
             // Rotation
             if ( _magnetModel.getDirection() != 0 ) {
                 rotate( _magnetModel.getDirection() );
-            }
-            
-            // Scale
-            double scaleX = _magnetModel.getWidth() / getImage().getWidth();
-            double scaleY = _magnetModel.getHeight() / getImage().getHeight();
-            if ( scaleX != 1.0 || scaleY != 1.0 ) {
-                scale( scaleX, scaleY );
             }
             
             // Location

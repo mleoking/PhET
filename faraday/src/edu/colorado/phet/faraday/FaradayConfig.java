@@ -17,9 +17,8 @@ import java.awt.Font;
 
 
 /**
- * FaradayConfig contains global configuration values for the Color Vision
- * application. See FaradayStrings.properties for localized Strings that are
- * visible to the user.
+ * FaradayConfig contains global configuration values.
+ * See FaradayStrings.properties for localized Strings.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -30,15 +29,15 @@ public class FaradayConfig {
     // Class data
     //----------------------------------------------------------------------------
     
-    // Resource bundles
+    // Resource bundles for localization.
     public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FaradayStrings";
 
     // Clock constants
     public static final double TIME_STEP = 1;
-    public static final int FRAME_RATE = 25;  // frame per second
+    public static final int FRAME_RATE = 25;  // frames per second
     public static final int WAIT_TIME = ( 1000 / FRAME_RATE );  // milliseconds
 
-    // Layers
+    // Common Layers
     public static final double DEBUG_LAYER = Double.MAX_VALUE - 1;
     public static final double HELP_LAYER = Double.MAX_VALUE;
     
@@ -71,20 +70,9 @@ public class FaradayConfig {
     public static final int APP_FRAME_HEIGHT = 768;
     public static final int CONTROL_PANEL_SPACER_HEIGHT = 15;
 
-    // Colors
-    public static final Color LABEL_COLOR = Color.BLACK;
-
-    // Fonts
-    public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
-
     // Bar Magnet parameters
     public static final double BAR_MAGNET_STRENGTH_MAX = 300.0; // Gauss
     public static final double BAR_MAGNET_STRENGTH_MIN = 0.50 * BAR_MAGNET_STRENGTH_MAX; // Gauss
-    public static final double BAR_MAGNET_ASPECT_RATIO = 5.0/1.0;
-    public static final int BAR_MAGNET_WIDTH_MAX = 350;
-    public static final int BAR_MAGNET_WIDTH_MIN = 150;
-    private static final int BAR_MAGNET_WIDTH = 250;
-    public static final Dimension BAR_MAGNET_SIZE = new Dimension( BAR_MAGNET_WIDTH, (int) ( BAR_MAGNET_WIDTH / BAR_MAGNET_ASPECT_RATIO ) );
 
     // Electromagnet parameters
     public static final double ELECTROMAGNET_STRENGTH_MAX = 300.0; // Gauss
@@ -93,15 +81,20 @@ public class FaradayConfig {
     public static final int ELECTROMAGNET_WIRE_WIDTH = 20;
     public static final double ELECTROMAGNET_ASPECT_RATIO = 4/1;  // width:height
     
+    // Turbine parameters
+    public static final double TURBINE_STRENGTH_MAX = BAR_MAGNET_STRENGTH_MAX;
+    public static final double TURBINE_STRENGTH_MIN = BAR_MAGNET_STRENGTH_MIN;
+    
     // Compass Grid parameters
     public static final int GRID_SPACING_MAX = 100;
     public static final int GRID_SPACING_MIN = 35;
     public static final int GRID_SPACING = 40;
-    public static final double GRID_NEEDLE_ASPECT_RATIO = 25.0/7.0;
+    public static final double GRID_NEEDLE_ASPECT_RATIO = 25.0/7.0; // tips:waist
     public static final int GRID_NEEDLE_WIDTH_MAX = 60;
     public static final int GRID_NEEDLE_WIDTH_MIN = 20;
     private static final int GRID_NEEDLE_WIDTH = 25;
-    public static final Dimension GRID_NEEDLE_SIZE = new Dimension( GRID_NEEDLE_WIDTH, (int) ( GRID_NEEDLE_WIDTH / GRID_NEEDLE_ASPECT_RATIO ) );
+    private static final int GRID_NEEDLE_HEIGHT = (int) ( GRID_NEEDLE_WIDTH / GRID_NEEDLE_ASPECT_RATIO );
+    public static final Dimension GRID_NEEDLE_SIZE = new Dimension( GRID_NEEDLE_WIDTH, GRID_NEEDLE_HEIGHT );
     
     // Pickup Coil parameters
     public static final double MAX_PICKUP_EMF = 4.0E7; // volts
@@ -121,11 +114,6 @@ public class FaradayConfig {
     public static final double AC_MAXAMPLITUDE_MIN = 0.0;  // 0...1
     public static final double AC_FREQUENCY_MAX = 1.0;  // 0...1
     public static final double AC_FREQUENCY_MIN = 0.05;  // 0...1
-    
-    // Turbine parameters
-    public static final double TURBINE_STRENGTH_MAX = BAR_MAGNET_STRENGTH_MAX;
-    public static final double TURBINE_STRENGTH_MIN = BAR_MAGNET_STRENGTH_MIN;
-    public static final Dimension TURBINE_SIZE = BAR_MAGNET_SIZE;
     
     //----------------------------------------------------------------------------
     // Constructors

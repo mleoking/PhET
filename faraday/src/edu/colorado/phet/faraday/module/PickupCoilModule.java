@@ -94,7 +94,7 @@ public class PickupCoilModule extends FaradayModule {
         barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
         barMagnetModel.setLocation( MAGNET_LOCATION );
         barMagnetModel.setDirection( 0 /* radians */ );
-        barMagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
+        // Do NOT set the size -- size is set by the associated BarMagnetGraphic.
         
         // Compass
         Compass compassModel = new Compass( barMagnetModel ); 

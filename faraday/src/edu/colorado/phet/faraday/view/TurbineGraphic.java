@@ -145,6 +145,9 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             turbineModel.removeObserver( _barMagnetGraphic );
             _barMagnetGraphic.removeAllMouseInputListeners();
             _barMagnetGraphic.setLocation( 0, 0 );
+            
+            // Set the model's size to match the bar magnet image.
+            _turbineModel.setSize( _barMagnetGraphic.getWidth(), _barMagnetGraphic.getHeight() );
         }
         
         // Pivot point
@@ -221,7 +224,6 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
 
                 _barMagnetGraphic.clearTransform();
                 _barMagnetGraphic.rotate( direction );
-                _barMagnetGraphic.scale( 0.5, 0.5 ); //XXX rescale the image file and remove this line
 
                 _waterWheelGraphic.clearTransform();
                 _waterWheelGraphic.rotate( direction );
