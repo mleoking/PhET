@@ -43,7 +43,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
     //----------------------------------------------------------------------------
     
     private PhetApplication _app;
-    private JSlider _gridSpacingSlider, _needleSizeSlider;
+    private JSlider _spacingSlider, _needleSizeSlider;
     private JLabel _gridSpacingValue, _needleSizeValue;
     private JButton _okButton, _cancelButton;
     private int _xSpacing, _ySpacing;
@@ -59,9 +59,14 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
      * @param app the application
      * @param title the dialog title
      */
-    public GridControlsDialog( PhetApplication app, String title ) {
-        super( app.getPhetFrame(), title, false /* non-modal */ );
+    public GridControlsDialog( PhetApplication app ) {
+        super( app.getPhetFrame() );
         _app = app;
+        
+        super.setTitle( SimStrings.get( "GridControlsDialog.title" ) );
+        super.setModal( false );
+        super.setResizable( false );
+        
         initValues();
         createUI( app.getPhetFrame() );
     }
@@ -119,27 +124,27 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
     private JPanel createInputPanel() {
         
         // Warning panel
-        JLabel warningMessage = new JLabel( SimStrings.get( "gridWarning.text" ) );
+        JLabel warningMessage = new JLabel( SimStrings.get( "GridControlsDialog.warning.text" ) );
         JPanel warningPanel = new JPanel();
         warningPanel.setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
         warningPanel.add( warningMessage );
         
         // Grid spacing
-        JLabel gridSpacingLabel = new JLabel( SimStrings.get( "gridSpacing.label" ) );
+        JLabel spacingLabel = new JLabel( SimStrings.get( "GridControlsDialog.spacing.label" ) );
         {
             // Slider
-            _gridSpacingSlider = new JSlider();
-            _gridSpacingSlider.setMinimum( FaradayConfig.GRID_SPACING_MIN );
-            _gridSpacingSlider.setMaximum( FaradayConfig.GRID_SPACING_MAX );
-            _gridSpacingSlider.setValue( _xSpacing );
-            FaradayControlPanel.setSliderSize( _gridSpacingSlider, FaradayControlPanel.SLIDER_SIZE );
+            _spacingSlider = new JSlider();
+            _spacingSlider.setMinimum( FaradayConfig.GRID_SPACING_MIN );
+            _spacingSlider.setMaximum( FaradayConfig.GRID_SPACING_MAX );
+            _spacingSlider.setValue( _xSpacing );
+            FaradayControlPanel.setSliderSize( _spacingSlider, FaradayControlPanel.SLIDER_SIZE );
 
             // Value
             _gridSpacingValue = new JLabel( String.valueOf( _xSpacing) );
         }
         
         // Needle size
-        JLabel needleSizeLabel = new JLabel( SimStrings.get( "needleSize.label" ) );
+        JLabel needleSizeLabel = new JLabel( SimStrings.get( "GridControlsDialog.needleSize.label" ) );
         {
             // Slider
             _needleSizeSlider = new JSlider();
@@ -154,7 +159,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
         }
  
         // Listeners
-        _gridSpacingSlider.addChangeListener( this );
+        _spacingSlider.addChangeListener( this );
         _needleSizeSlider.addChangeListener( this );
         
         // Layout
@@ -166,8 +171,8 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
             
             // Grid spacing
             int row = 0;
-            layout.addAnchoredComponent( gridSpacingLabel, row, 0, GridBagConstraints.EAST );
-            layout.addAnchoredComponent( _gridSpacingSlider, row, 1, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( spacingLabel, row, 0, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( _spacingSlider, row, 1, GridBagConstraints.WEST );
             layout.addAnchoredComponent( _gridSpacingValue, row, 2, GridBagConstraints.WEST );
             
             // Needle size
@@ -191,10 +196,10 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
      */
     private JPanel createActionsPanel()
     {   
-      _okButton = new JButton( SimStrings.get( "okButton.label" ) );
+      _okButton = new JButton( SimStrings.get( "GridControlsDialog.okButton.label" ) );
       _okButton.addActionListener( this );
       
-      _cancelButton = new JButton( SimStrings.get( "cancelButton.label" ) ); 
+      _cancelButton = new JButton( SimStrings.get( "GridControlsDialog.cancelButton.label" ) ); 
       _cancelButton.addActionListener( this );
       
       JPanel innerPanel = new JPanel( new GridLayout(1,2,10,0) );
@@ -227,7 +232,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
      * @param e the event
      */
     public void stateChanged( ChangeEvent e ) {
-        int spacing = _gridSpacingSlider.getValue();
+        int spacing = _spacingSlider.getValue();
         int needleWidth = _needleSizeSlider.getValue();
         int needleHeight = (int) ( needleWidth / FaradayConfig.GRID_NEEDLE_ASPECT_RATIO );
         Dimension needleSize = new Dimension( needleWidth, needleHeight );
