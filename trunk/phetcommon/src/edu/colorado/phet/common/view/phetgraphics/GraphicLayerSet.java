@@ -36,13 +36,14 @@ public class GraphicLayerSet extends PhetGraphic {
     private PhetGraphic keyFocusUnit;//The unit that should accept key events.
     private SwingAdapter swingAdapter;
     private KeyListener keyAdapter = new KeyAdapter();
+    private static int mouseEventID = 0;//For creating mouse events.
 
     public GraphicLayerSet( Component component ) {
         super( component );
         this.swingAdapter = new SwingAdapter();
     }
 
-    public void setComponent(Component component) {
+    public void setComponent( Component component ) {//TODO I'm presuming this is here for debugging purposes.
         super.setComponent( component );
     }
 
@@ -150,7 +151,6 @@ public class GraphicLayerSet extends PhetGraphic {
      */
     public void addGraphic( PhetGraphic graphic ) {
         addGraphic( graphic, 0 );
-        graphic.setParent( this );
     }
 
     /**
@@ -177,10 +177,12 @@ public class GraphicLayerSet extends PhetGraphic {
      */
     public void addGraphic( PhetGraphic graphic, double layer ) {
         this.graphicMap.put( new Double( layer ), graphic );
+        graphic.setParent( this );
     }
 
     /**
      * Moves a graphic to the top layer of the set
+     *
      * @param target
      */
     public void moveToTop( PhetGraphic target ) {
@@ -199,6 +201,7 @@ public class GraphicLayerSet extends PhetGraphic {
 
     /**
      * Returns the number of graphics in the GraphicLayerSet
+     *
      * @return
      */
     public int getNumGraphics() {
@@ -289,7 +292,7 @@ public class GraphicLayerSet extends PhetGraphic {
                 keyFocusUnit.lostKeyFocus();
             }
 
-            this.keyFocusUnit = activeUnit;
+            this.keyFocusUnit = focus;
             //Fire a focus change.
             if( keyFocusUnit != null ) {
                 keyFocusUnit.gainedKeyFocus();
@@ -298,6 +301,16 @@ public class GraphicLayerSet extends PhetGraphic {
 
     }
 
+    public void childBecameInvisible( PhetGraphic phetGraphic ) {
+        if( keyFocusUnit == phetGraphic ) {
+            setKeyFocus( null );
+        }
+        if( activeUnit == phetGraphic ) {
+            MouseEvent mouseEvent = new MouseEvent( getComponent(), mouseEventID++, System.currentTimeMillis(), 0, 0, 0, 0, false );
+            activeUnit.fireMouseExitedBecauseInvisible( mouseEvent );
+            activeUnit = null;
+        }
+    }
 
     //////////////////////////////////////////////////////////////
     // Inner classes
