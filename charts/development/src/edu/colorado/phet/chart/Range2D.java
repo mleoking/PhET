@@ -21,8 +21,20 @@ public class Range2D {
         this.maxY = maxY;
     }
 
+    public Range2D( Rectangle2D rectangle ) {
+        this( rectangle.getX(), rectangle.getY(), rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight() );
+    }
+
     public double getMinX() {
         return minX;
+    }
+
+    public Range2D union( Range2D range ) {
+        Range2D union = new Range2D( Math.min( minX, range.minX ),
+                                     Math.min( minY, range.minY ),
+                                     Math.max( maxX, range.maxX ),
+                                     Math.max( maxY, range.maxY ) );
+        return union;
     }
 
     public void setMinX( double minX ) {
@@ -58,4 +70,17 @@ public class Range2D {
         return r;
     }
 
+    public Range2D getScaledRange( double fractionX, double fractionY ) {
+        Rectangle2D.Double rect = getBounds();
+        double centerX = rect.getX() + rect.getWidth() / 2;
+        double centerY = rect.getY() + rect.getHeight() / 2;
+
+        double width = rect.getWidth() * fractionX;
+        double height = rect.getHeight() * fractionY;
+
+        double x = centerX - width / 2;
+        double y = centerY - height / 2;
+        Rectangle2D.Double newRect = new Rectangle2D.Double( x, y, width, height );
+        return new Range2D( newRect );
+    }
 }

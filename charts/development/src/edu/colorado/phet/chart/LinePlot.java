@@ -22,6 +22,9 @@ public class LinePlot extends DataSetGraphic {
     }
 
     public void pointAdded( Point2D point ) {
+        if( point == null ) {
+            throw new RuntimeException( "Null point" );
+        }
         Point viewLocation = getChart().transform( point );
         if( generalPath == null ) {
             generalPath = new GeneralPath();
@@ -30,7 +33,7 @@ public class LinePlot extends DataSetGraphic {
         else {
             generalPath.lineTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
         }
-        //this should get the specific rectangle for repainting.
+        //TODO this should get the specific rectangle for repainting.
         getChart().getComponent().repaint();
     }
 
@@ -41,12 +44,20 @@ public class LinePlot extends DataSetGraphic {
     }
 
     public void paint( Graphics2D graphics2D ) {
-        Stroke oldStroke = graphics2D.getStroke();
-        Paint oldPaint = graphics2D.getPaint();
-        graphics2D.setStroke( stroke );
-        graphics2D.setPaint( paint );
-        graphics2D.draw( generalPath );
-        graphics2D.setStroke( oldStroke );
-        graphics2D.setPaint( oldPaint );
+        if( generalPath != null ) {
+            Stroke oldStroke = graphics2D.getStroke();
+            Paint oldPaint = graphics2D.getPaint();
+            graphics2D.setStroke( stroke );
+            graphics2D.setPaint( paint );
+            graphics2D.draw( generalPath );
+            graphics2D.setStroke( oldStroke );
+            graphics2D.setPaint( oldPaint );
+        }
     }
+
+    public void transformChanged() {
+        generalPath = null;
+        addAllPoints();
+    }
+
 }
