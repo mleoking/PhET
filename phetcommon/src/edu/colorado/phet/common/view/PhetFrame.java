@@ -27,11 +27,13 @@ public class PhetFrame extends JFrame {
                 System.exit( 0 );
             }
 
+            // Pause the clock if the simulation window is minimized
             public void windowIconified( WindowEvent e ) {
                 super.windowIconified( e );
                 appDescriptor.getClock().setPaused( false );
             }
 
+            // Unpause the clock if the simulation window is restored
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
                 appDescriptor.getClock().setPaused( true );
