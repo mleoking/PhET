@@ -51,12 +51,12 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
   /**
    * Sole constructor.
    * 
-   * @param parent the parent Component
+   * @param component the parent Component
    * @param filterModel the filter model
    */
-  public FilterGraphic( Component parent, Filter filterModel )
+  public FilterGraphic( Component component, Filter filterModel )
   {
-    super( parent );
+    super( component );
     _filterModel = filterModel;
     update();
   }

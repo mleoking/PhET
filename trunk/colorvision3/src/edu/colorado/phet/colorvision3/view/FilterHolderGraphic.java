@@ -31,9 +31,9 @@ public class FilterHolderGraphic extends PhetShapeGraphic
 	// Constructors
   //----------------------------------------------------------------------------
   
-  public FilterHolderGraphic( Component parent )
+  public FilterHolderGraphic( Component component )
   {
-    super( parent, null, null );
+    super( component, null, null );
     
     //  Request antialiasing.
     RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );

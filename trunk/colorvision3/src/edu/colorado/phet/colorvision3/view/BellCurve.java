@@ -32,13 +32,13 @@ public class BellCurve extends PhetShapeGraphic
   /**
    * Sole constructor
    * 
-   * @param parent the parent Component
+   * @param component the parent Component
    * @param w the width of the curve, in pixels
    * @param h the height of the curve, in pixels
    */
-  public BellCurve( Component parent, int w, int h )
+  public BellCurve( Component component, int w, int h )
   {
-    super( parent, null, null );
+    super( component, null, null );
     
     //  Request antialiasing.
     RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
