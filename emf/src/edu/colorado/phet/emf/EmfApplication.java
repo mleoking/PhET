@@ -42,18 +42,8 @@ public class EmfApplication {
 //        logHandler.setLevel( Level.INFO );
 //        logger.setLevel( Level.INFO );
 //        logger.addHandler( logHandler );
-
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
-        }
-
-        SimStrings.setStrings( Config.localizedStringsPath );
+        
+        SimStrings.init( args, Config.localizedStringsPath );
 
         // Log a few message at different severity levels
         PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel();
