@@ -19,10 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.FaradaySlider;
@@ -41,29 +38,29 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double BOX_LAYER = 1;
-    private static final double AXES_LAYER = 2;
-    private static final double WAVE_LAYER = 3;
-    private static final double WAVE_OVERLAY_LAYER = 4;
-    private static final double LABEL_LAYER = 5;
-    private static final double SLIDER_LAYER = 6;
-    private static final double VALUE_LAYER = 7;
-    
+    private static final double BACKGROUND_LAYER = 1;
+    private static final double SLIDER_LAYER = 2;
+    private static final double VALUE_LAYER = 3;
+    private static final double WAVE_LAYER = 4;
+    private static final double CURSOR_LAYER = 5;
+
     private static final Font TITLE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
     private static final Color TITLE_COLOR = Color.WHITE;
     private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     private static final Color VALUE_COLOR = Color.GREEN;
     private static final Color AXES_COLOR = new Color( 255, 255, 255, 100 );
     
-    private static final Dimension WAVE_VIEWPORT_SIZE = new Dimension( 157, 124 );
-    private static final Point WAVE_ORIGIN = new Point( 132, 102 );
+    private static final Dimension WAVE_VIEWPORT_SIZE = new Dimension( 156, 122 );
+    private static final Point WAVE_ORIGIN = new Point( 133, 103 );
+    
+    private static final int TICK_SPACING = 10; // pixels
+    private static final int TICK_LENGTH = 8; // pixels
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private ACPowerSupply _acPowerSupplyModel;
-    private PhetImageGraphic _boxGraphic;
     private FaradaySlider _amplitudeSlider;
     private FaradaySlider _frequencySlider;
     private PhetTextGraphic _amplitudeValue;
@@ -98,20 +95,9 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         setRenderingHints( hints );
         
-        // AC panel
-        {
-            _boxGraphic = new PhetImageGraphic( component, FaradayConfig.AC_POWER_SUPPLY_IMAGE );
-            addGraphic( _boxGraphic, BOX_LAYER );
-        }   
-        
-        // Title label
-        {
-            String s = SimStrings.get( "ACPowerSupplyGraphic.title" );
-            PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
-            addGraphic( title, LABEL_LAYER );
-            title.centerRegistrationPoint();
-            title.setLocation( _boxGraphic.getWidth() / 2, 36 );
-        }
+        // Background (all static graphic components)
+        BackgroundGraphic background = new BackgroundGraphic( component );
+        addGraphic( background, BACKGROUND_LAYER );
         
         // Amplitude slider
         {
@@ -158,36 +144,6 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             _frequencyValue.setLocation( 210, 207 );
             
             _frequencyFormat = SimStrings.get( "ACPowerSupplyGraphic.frequency.format" );
-        }
-        
-        // Axes
-        {
-            int xLength = WAVE_VIEWPORT_SIZE.width;
-            int yLength = WAVE_VIEWPORT_SIZE.height;
-            float[] dashPattern = { 5, 5 };
-            Stroke stroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, dashPattern, 0 );
-            
-            // X axis
-            {
-                Line2D shape = new Line2D.Double( -xLength / 2, 0, xLength / 2, 0 );
-                PhetShapeGraphic xAxis = new PhetShapeGraphic( component );
-                xAxis.setShape( shape );
-                xAxis.setBorderColor( AXES_COLOR );
-                xAxis.setStroke( stroke );
-                xAxis.setLocation( WAVE_ORIGIN );
-                addGraphic( xAxis, AXES_LAYER );
-            }
-
-            // Y axis
-            {
-                Line2D shape = new Line2D.Double( 0, -yLength / 2, 0, yLength / 2 );
-                PhetShapeGraphic yAxis = new PhetShapeGraphic( component );
-                yAxis.setShape( shape );
-                yAxis.setBorderColor( AXES_COLOR );
-                yAxis.setStroke( stroke );
-                yAxis.setLocation( WAVE_ORIGIN );
-                addGraphic( yAxis, AXES_LAYER );
-            }
         }
         
         // Sine Wave
@@ -308,4 +264,115 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             }
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /**
+     * BackgroundGraphic creates a background image from a bunch of static 
+     * graphic components.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private class BackgroundGraphic extends CompositePhetGraphic {
+        
+        private static final double PANEL_LAYER = 1;
+        private static final double TITLE_LAYER = 2;
+        private static final double AXES_LAYER = 3;
+        
+        public BackgroundGraphic( Component component ) {
+            
+            // AC panel
+            PhetImageGraphic panel = new PhetImageGraphic( component, FaradayConfig.AC_POWER_SUPPLY_IMAGE );
+            addGraphic( panel, PANEL_LAYER );
+            
+            // Title label
+            {
+                String s = SimStrings.get( "ACPowerSupplyGraphic.title" );
+                PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
+                addGraphic( title, TITLE_LAYER );
+                title.centerRegistrationPoint();
+                title.setLocation( panel.getWidth() / 2, 36 );
+            }
+            
+            // Axes
+            {
+                int xLength = WAVE_VIEWPORT_SIZE.width;
+                int yLength = WAVE_VIEWPORT_SIZE.height;
+                Stroke stroke = new BasicStroke( 1f );
+                
+                // X axis
+                {
+                    // Axis
+                    Line2D shape = new Line2D.Double( -xLength / 2, 0, xLength / 2, 0 );
+                    PhetShapeGraphic xAxis = new PhetShapeGraphic( component );
+                    xAxis.setShape( shape );
+                    xAxis.setBorderColor( AXES_COLOR );
+                    xAxis.setStroke( stroke );
+                    xAxis.setLocation( WAVE_ORIGIN );
+                    addGraphic( xAxis, AXES_LAYER );
+                    
+                    // Tick marks
+                    int numTicks = xLength / TICK_SPACING;
+                    int y = TICK_LENGTH / 2;
+                    for ( int i = 0; i <= numTicks / 2; i++ ) {
+                        int x = i * TICK_SPACING;
+                        
+                        Line2D shape1 = new Line2D.Double( x, -y, x, y  );
+                        PhetShapeGraphic positiveTick = new PhetShapeGraphic( component );
+                        positiveTick.setShape( shape1 );
+                        positiveTick.setBorderColor( AXES_COLOR );
+                        positiveTick.setStroke( stroke );
+                        positiveTick.setLocation( WAVE_ORIGIN );
+                        addGraphic( positiveTick, AXES_LAYER );
+                        
+                        Line2D shape2 = new Line2D.Double( -x, -y, -x, y );
+                        PhetShapeGraphic negativeTick = new PhetShapeGraphic( component );
+                        negativeTick.setShape( shape2 );
+                        negativeTick.setBorderColor( AXES_COLOR );
+                        negativeTick.setStroke( stroke );
+                        negativeTick.setLocation( WAVE_ORIGIN );
+                        addGraphic( negativeTick, AXES_LAYER );
+                    }
+                }
+
+                // Y axis
+                {
+                    // Axis
+                    Line2D shape = new Line2D.Double( 0, -yLength / 2, 0, yLength / 2 );
+                    PhetShapeGraphic yAxis = new PhetShapeGraphic( component );
+                    yAxis.setShape( shape );
+                    yAxis.setBorderColor( AXES_COLOR );
+                    yAxis.setStroke( stroke );
+                    yAxis.setLocation( WAVE_ORIGIN );
+                    addGraphic( yAxis, AXES_LAYER );
+                    
+                    // Tick marks
+                    int numTicks = yLength / TICK_SPACING;
+                    int x = TICK_LENGTH / 2;
+                    for ( int i = 0; i <= numTicks / 2; i++ ) {
+                        int y = i * TICK_SPACING;
+                        
+                        Line2D shape1 = new Line2D.Double( -x, y, x, y  );
+                        PhetShapeGraphic positiveTick = new PhetShapeGraphic( component );
+                        positiveTick.setShape( shape1 );
+                        positiveTick.setBorderColor( AXES_COLOR );
+                        positiveTick.setStroke( stroke );
+                        positiveTick.setLocation( WAVE_ORIGIN );
+                        addGraphic( positiveTick, AXES_LAYER );
+                        
+                        Line2D shape2 = new Line2D.Double( -x, -y, x, -y );
+                        PhetShapeGraphic negativeTick = new PhetShapeGraphic( component );
+                        negativeTick.setShape( shape2 );
+                        negativeTick.setBorderColor( AXES_COLOR );
+                        negativeTick.setStroke( stroke );
+                        negativeTick.setLocation( WAVE_ORIGIN );
+                        addGraphic( negativeTick, AXES_LAYER );
+                    }
+                }
+            }
+        }
+    } // class Background
 }
