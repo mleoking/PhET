@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
  * Test comment for CVS.
  */
 public class DialogTest extends javax.swing.JPanel {
-    JLabel label;
+    private JLabel label;
     ImageIcon icon = new ImageIcon( "images/middle.gif" );
     JFrame frame;
     String simpleDialogDesc = "Some simple message dialogs";
