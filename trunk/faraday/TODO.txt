@@ -3,18 +3,18 @@
 ===============================================================================
 
 IN PROGRESS:
-- Electromagnet module "first pass"
-- set Electromagnet model size based on size of the coil in the Electromagnet graphic
-- grid doesn't display until the battery voltage is changed
-- electrons in source coil seem to get "off" in the left-most loop
-- electrons appear to flow faster in a coil with fewer loops with the same voltage
-- not enough visual difference between the min & max /voltage/amplitude/frequency settings
+- bug: grid doesn't display until the battery voltage is changed
 
 HIGH PRIORITY:
 - when a collision occurs, don't ignore the translate, move the object as close as possible
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
+- set Electromagnet model size based on size of the coil in the Electromagnet graphic
+- bug: changing the number of loops when the AC is connected makes the grid disappear
+- bug: electrons in source coil seem to get "off" in the left-most loop
+- bug: electrons appear to flow faster in a coil with fewer loops with the same voltage
+- bug: not enough visual difference between the min & max /voltage/amplitude/frequency settings
 - show frequency & amplitude graph on the ACSourceGraphic
 - Transformer module requirements
 - Field Meter shows -0.00 and -180.00 values, should be 0.00 and 180.00
@@ -40,11 +40,11 @@ POSSIBLE OPTIMIZATIONS:
 - eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf
 
 phetcommon:
-- hand cursor bug, doesn't revert to arrow if cursor is outside graphic's bounds (fixed by Ron & Sam)
-- ApparatusPanel2 resize problems
-- MathUtil.clamp behavior with Double.NaN
+- bug: hand cursor accidentally picks another object when you release mouse
+- bug: ApparatusPanel2 resize problems
+- bug: MathUtil.clamp behavior with Double.NaN
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
-- fix PhetShapeGraphic.contains so that stroke width is taken into account, test with CompassGraphic
+- bug: ix PhetShapeGraphic.contains so that stroke width is taken into account, test with CompassGraphic
 - make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
 
 DONE:
