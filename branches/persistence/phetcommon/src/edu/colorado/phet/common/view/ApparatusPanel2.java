@@ -12,9 +12,7 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockStateEvent;
-import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
@@ -54,9 +52,6 @@ import java.util.LinkedList;
 public class ApparatusPanel2 extends ApparatusPanel {
 
 
-    //////////////////////////////////////////////////////////////////////////////////////
-    // Instance
-    //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private BufferedImage bImg;
     private boolean useOffscreenBuffer = false;
@@ -82,6 +77,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public ApparatusPanel2( BaseModel model, AbstractClock clock ) {
         super( null );
         init( model );
+
+        // Add a listener that keeps track of when the clock is paused and unpaused. this
+        // is needed so the mouse will still work if the clock is paused.
         clock.addClockStateListener( new ClockStateListener() {
             public void delayChanged( int waitTime ) {
             }
@@ -100,6 +98,13 @@ public class ApparatusPanel2 extends ApparatusPanel {
             }
         } );
         modelPaused = clock.isPaused();
+
+        // Add a clock tick listener that paints the screen on every tick
+        clock.addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                paint();
+            }
+        } );
     }
 
     /**
@@ -109,6 +114,21 @@ public class ApparatusPanel2 extends ApparatusPanel {
     public ApparatusPanel2( BaseModel model ) {
         super( null );
         init( model );
+        model.addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                //TODO: even if we use an offscreen buffer, we could still just throw the changed part to the screen.
+                if( useOffscreenBuffer ) {
+//                    Rectangle region = RectangleUtils.union( (Rectangle[])rectangles.toArray( new Rectangle[0] ) );
+                    Rectangle region = new Rectangle( 0, 0, getWidth(), getHeight() );
+                    paintImmediately( region );
+                }
+                else {
+                    paintDirtyRectanglesImmediately();
+                }
+                // Clear the rectangles so they get garbage collectged
+                rectangles.clear();
+            }
+        } );
     }
 
     private void init( BaseModel model ) {
@@ -119,19 +139,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         this.addMouseMotionListener( mouseProcessor );
         this.addKeyListener( getGraphic().getKeyAdapter() );//TODO key events should go in processing thread as well.
 
+        // Add a model element that paints the panile
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                //TODO: even if we use an offscreen buffer, we could still just throw the changed part to the screen.
-                if( useOffscreenBuffer ) {
-//                    Rectangle region = RectangleUtils.union( (Rectangle[])rectangles.toArray( new Rectangle[0] ) );
-                    Rectangle region = new Rectangle( 0, 0, getWidth(), getHeight() );
-                    paintImmediately( region );
-                }
-                else {
-                    megapaintImmediately();
-                }
-                // Clear the rectangles so they get garbage collectged
-                rectangles.clear();
+                paint();
             }
         } );
 
@@ -151,7 +162,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         } );
 
         // Add a listener what will adjust things if the size of the panel changes
-//        resizeHandler = new ResizeHandler();
         this.addComponentListener( new ComponentAdapter() {
 
             public void componentResized( ComponentEvent e ) {
@@ -172,6 +182,24 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     /**
+     * Paints the panel. Exactly how this is depends on if an offscreen buffer is being used,
+     * or the union of dirty rectangles.
+     */
+    private void paint() {
+        //TODO: even if we use an offscreen buffer, we could still just throw the changed part to the screen.
+        if( useOffscreenBuffer ) {
+//          Rectangle region = RectangleUtils.union( (Rectangle[])rectangles.toArray( new Rectangle[0] ) );
+            Rectangle region = new Rectangle( 0, 0, getWidth(), getHeight() );
+            paintImmediately( region );
+        }
+        else {
+            paintDirtyRectanglesImmediately();
+        }
+        // Clear the rectangles so they get garbage collectged
+        rectangles.clear();
+    }
+
+    /**
      * Sets the reference size for this panel. If the panel resizes after this, it will scale its graphicsTx using
      * its current size in relation to the reference size
      */
@@ -181,6 +209,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
         saveSwingComponentCoordinates( 1.0 );
         setScale( 1.0 );
         paintImmediately( 0, 0, getWidth(), getHeight() );
+
+        System.out.println( "referenceBounds = " + referenceBounds );
     }
 
     private void saveSwingComponentCoordinates( double scale ) {
@@ -193,6 +223,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
     }
 
+    /**
+     * Tells if we are using an offscreen buffer or dirty rectangles
+     * @return
+     */
     public boolean isUseOffscreenBuffer() {
         return useOffscreenBuffer;
     }
@@ -243,14 +277,63 @@ public class ApparatusPanel2 extends ApparatusPanel {
         return super.add( name, comp );
     }
 
-    /////////////////////////////////////////////////////////////////////////////
+    //-------------------------------------------------------------------------
     // Rendering
-    //
+    //-------------------------------------------------------------------------
+
     public void paintImmediately() {
-        megapaintImmediately();
+        paintDirtyRectanglesImmediately();
     }
 
-    public void megapaintImmediately() {
+    /**
+     * Adds a dirty rectangle to the repaint list. Does not invoke a repaint itself.
+     * @param tm
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    public void repaint( long tm, int x, int y, int width, int height ) {
+        addRectangleToRepaintList( x, y, width, height );
+    }
+
+    /**
+     * Adds a dirty rectangle to the repaint list. Does not invoke a repaint itself.
+     * @param r
+     */
+    public void repaint( Rectangle r ) {
+        addRectangleToRepaintList( r.x, r.y, r.width, r.height );
+    }
+
+    /**
+     * Adds a dirty rectangle to the repaint list. Does not invoke a repaint itself.
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    public void repaint( int x, int y, int width, int height ) {
+        addRectangleToRepaintList( x, y, width, height );
+    }
+
+    /**
+     * Overriden as a noop so that nothing happens if a child component calls repaint(). The actions
+     * taken by our superclasss' repaint() should only happen in the model loop.
+     */
+    public void repaint() {
+    }
+
+    /**
+     * Provided for backward compatibility
+     */
+    public void megarepaintImmediately() {
+        paintDirtyRectanglesImmediately();
+    }
+
+    /**
+     * Paints immediately the union of dirty rectangles
+     */
+    private void paintDirtyRectanglesImmediately() {
         if( rectangles.size() == 0 ) {
             return;
         }
@@ -264,11 +347,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
     }
 
-    public void repaint( long tm, int x, int y, int width, int height ) {
-        megarepaint( x, y, width, height );
-    }
-
-    private void megarepaint( int x, int y, int width, int height ) {
+    private void addRectangleToRepaintList( int x, int y, int width, int height ) {
         if( rectangles == null ) {
             rectangles = new ArrayList();
         }
@@ -278,21 +357,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
             //TODO maybe if we just change the transform on the GraphicLayerSet in this object, this would be automatic, and cleaner.
         }
         rectangles.add( r );
-    }
-
-    public void repaint( Rectangle r ) {
-        megarepaint( r.x, r.y, r.width, r.height );
-    }
-
-    public void repaint( int x, int y, int width, int height ) {
-        megarepaint( x, y, width, height );
-    }
-
-    /**
-     * Overriden as a noop so that nothing happens if a child component calls repaint(). The actions
-     * taken by our superclasss' repaint() should only happen in the model loop.
-     */
-    public void repaint() {
     }
 
     /**
@@ -385,9 +449,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
         return referenceBounds;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    //-------------------------------------------------------------------------
     // Inner classes
-    //
+    //-------------------------------------------------------------------------
 
     /**
      * Handles mouse events in the model loop
@@ -400,7 +464,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         private Runnable pausedEventListProcessor = new Runnable() {
             public void run() {
                 stepInTime( 0 );
-                ApparatusPanel2.this.megapaintImmediately();
+                ApparatusPanel2.this.paintDirtyRectanglesImmediately();
             }
         };
 
