@@ -3,6 +3,7 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,10 @@ public class ApplicationModelControlPanel extends JPanel {
     AbstractClock clock;
     private JButton logoButton;
 
+    static {
+        SimStrings.setStrings( "localization/SemiConductorPCStrings" );
+    }
+    
     public ApplicationModelControlPanel( AbstractClock runner ) throws IOException {
         this( runner, null );
     }
@@ -43,9 +48,9 @@ public class ApplicationModelControlPanel extends JPanel {
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
 //        this.rh = rh;
-        play = new JButton( "Play", playIcon );
-        pause = new JButton( "Pause", pauseIcon );
-        step = new JButton( "Step", stepIcon );
+        play = new JButton( SimStrings.get( "ApplicationModelControlPanel.PlayButton" ), playIcon );
+        pause = new JButton( SimStrings.get( "ApplicationModelControlPanel.PauseButton" ), pauseIcon );
+        step = new JButton( SimStrings.get( "ApplicationModelControlPanel.StepButton" ), stepIcon );
         step.setEnabled( false );
 
         play.addActionListener( new ActionListener() {
@@ -80,7 +85,7 @@ public class ApplicationModelControlPanel extends JPanel {
 
         ImageIcon logo = new ImageIcon( new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" ) );
         logoButton = new JButton( logo );
-        logoButton.setToolTipText( "Full Frame" );
+        logoButton.setToolTipText( SimStrings.get( "ApplicationModelControlPanel.LogoButtonToolTipText" ) );
         logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
         this.add( logoButton, BorderLayout.EAST );
         logoButton.addActionListener( new ActionListener() {

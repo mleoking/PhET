@@ -3,6 +3,7 @@ package edu.colorado.phet.semiconductor.macro.energy.bands;
 import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.view.graphics.shapes.ArrowShape;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 
 import java.awt.*;
@@ -30,7 +31,7 @@ public class EnergyTextGraphic extends TransformGraphic {
     public EnergyTextGraphic( ModelViewTransform2D transform, PhetVector loc ) {
         super( transform );
         this.loc = loc;
-        text = "Energy";
+        text = SimStrings.get( "EnergyTextGraphic.EnergyText" );
         font = new Font( "Lucida Sans", 0, 36 );
         smallFont = new Font( "Dialog", 0, 18 );
     }
@@ -69,8 +70,8 @@ public class EnergyTextGraphic extends TransformGraphic {
         PhetVector tipLocation = topPoint.getAddedInstance( 0, -200 );
         arrowShape = new ArrowShape( topPoint, tipLocation, 50, 50, 20 ).getArrowShape();
 
-        highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), "High" ).getOutline( (float)tipLocation.getX() - 20, (float)tipLocation.getY() - 20 );
-        lowShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), "Low" ).getOutline( (float)topPoint.getX() - 20, (float)topPoint.getY() + 20 );
+        highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SimStrings.get( "EnergyTextGraphic.HighText" ) ).getOutline( (float)tipLocation.getX() - 20, (float)tipLocation.getY() - 20 );
+        lowShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(), SimStrings.get( "EnergyTextGraphic.LowText" ) ).getOutline( (float)topPoint.getX() - 20, (float)topPoint.getY() + 20 );
     }
 
     public void update() {

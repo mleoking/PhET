@@ -3,6 +3,7 @@ package edu.colorado.phet.semiconductor.macro.energy.bands;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 
@@ -66,7 +67,7 @@ public class BandGraphic implements Graphic {
                 for( int k = 0; k < el.numCells(); k++ ) {
                     EnergyCell cell = el.cellAt( k );
                     Point pt = transform.modelToView( cell.getPosition() );
-                    String str = "null";
+                    String str = SimStrings.get( "BandGraphic.NullText" );
                     BandParticle bp = diodeSection.getBandParticle( cell );
                     if( bp != null ) {
                         str = bp.toString();

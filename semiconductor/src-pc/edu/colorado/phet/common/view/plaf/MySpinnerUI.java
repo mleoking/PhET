@@ -1,6 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.view.plaf;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicSpinnerUI;
@@ -28,6 +30,10 @@ public class MySpinnerUI extends BasicSpinnerUI {
 //    static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/up1-pressed.gif" ) ) );
 //    static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/down1-unpressed.gif" ) ) );
 //    static ImageIcon downpressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/down1-pressed.gif" ) ) );
+
+    static {
+        SimStrings.setStrings( "localization/SemiConductorPCStrings" );
+    }
 
     public MySpinnerUI() {
         super();
@@ -127,7 +133,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
     protected Component createNextButton() {
         final JButton next = (JButton)super.createNextButton();
-        JButton but = new JButton( "next", up );
+        JButton but = new JButton( SimStrings.get( "MySpinnerUI.NextButton" ), up );
 
         but.setIcon( up );
         but.setPressedIcon( uppressed );
@@ -144,7 +150,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
 
     protected Component createPreviousButton() {
         final JButton prev = (JButton)super.createPreviousButton();
-        JButton but = new JButton( "down", down );
+        JButton but = new JButton( SimStrings.get( "MySpinnerUI.DownButton" ), down );
 
         but.setIcon( down );
         but.setPressedIcon( down );
