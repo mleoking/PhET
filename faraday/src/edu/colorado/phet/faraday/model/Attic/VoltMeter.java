@@ -11,7 +11,8 @@
 
 package edu.colorado.phet.faraday.model;
 
-import edu.colorado.phet.common.math.MedianFilter;
+import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 
 /**
@@ -20,7 +21,7 @@ import edu.colorado.phet.common.math.MedianFilter;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class VoltMeter extends AbstractResistor {
+public class VoltMeter extends SimpleObservable implements SimpleObserver {
   
     //----------------------------------------------------------------------------
     // Class data
@@ -32,9 +33,8 @@ public class VoltMeter extends AbstractResistor {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _voltage;
-    private double[] _voltageHistory;
-    private boolean _smoothingEnabled;
+    private PickupCoil _coilModel;
+    private boolean _enabled;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -43,31 +43,30 @@ public class VoltMeter extends AbstractResistor {
     /**
      * Sole constructor.
      * 
-     * @param resistance the resistance of the meter
+     * @param voltageSourceModel the voltage source
      */
-    public VoltMeter( double resistance ) {
-        super( resistance );
-        _voltage = 0.0;
-        _voltageHistory = new double[ HISTORY_SIZE ];
-        _smoothingEnabled = false;
+    public VoltMeter( PickupCoil coilModel ) {
+        super();
+        
+        assert( coilModel != null );
+        _coilModel = coilModel;
+        _coilModel.addObserver( this );
+        
+        _enabled = true;
     }
 
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void finalize() {
+        _coilModel.removeObserver( this );
+        _coilModel = null;
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the voltage that the meter is reading.
-     * 
-     * @param voltage the voltage, in volts
-     */
-    private void setVoltage( double voltage ) {
-        if ( voltage != _voltage ) {
-            //System.out.println( "VoltMeter.setVoltage: voltage=" + voltage ); // DEBUG
-            _voltage = voltage;
-            notifyObservers();
-        }
-    }
     
     /**
      * Gets the voltage that the meter is reading.
@@ -75,53 +74,40 @@ public class VoltMeter extends AbstractResistor {
      * @return the voltage, in volts
      */
     public double getVoltage() {
-        return _voltage;
+        return _coilModel.getVoltage();
     }
     
     /**
-     * Smooths out the behavior of the voltmeter by removing spikes in the data.
-     * Changing the value of this property has the side-effect of clearing the 
-     * data history.
+     * Enables or disables the state of the voltmeter.
      * 
-     * @param smoothingEnabled true to enable, false to disable
+     * @param enabled true to enable, false to disable.
      */
-    public void setSmoothingEnabled( boolean smoothingEnabled ) {
-        if ( smoothingEnabled != _smoothingEnabled ) {
-            _smoothingEnabled = smoothingEnabled;
-            for ( int i = 0; i < HISTORY_SIZE; i++ ) {
-                _voltageHistory[i] = 0.0;
-            }
+    public void setEnabled( boolean enabled ) {
+        if ( enabled != _enabled ) {
+            _enabled = enabled;
+            notifyObservers();
         }
     }
     
     /**
-     * Gets the smoothing state. See setSmoothingEnabled.
+     * Gets the state of the voltmeter.  See setEnabled.
      * 
      * @return true if enabled, false if disabled
      */
-    public boolean isSmoothingEnabled() {
-        return _smoothingEnabled;
+    public boolean isEnabled() {
+        return _enabled;
     }
-    
+
     //----------------------------------------------------------------------------
-    // ModelElement implementation
+    // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
+     * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
-    public void stepInTime( double dt ) {
-        double voltage = getCurrent() * getResistance();
-        if ( _smoothingEnabled ) {
-            // Take a median to remove spikes in data.
-            for ( int i = HISTORY_SIZE - 1; i > 0; i-- ) {
-                _voltageHistory[i] = _voltageHistory[i - 1];
-            }
-            _voltageHistory[0] = voltage;
-            setVoltage( MedianFilter.getMedian( _voltageHistory ) );
-        }
-        else {
-            setVoltage( voltage );
+    public void update() {
+        if ( isEnabled() ) {
+            notifyObservers();
         }
     }
 }

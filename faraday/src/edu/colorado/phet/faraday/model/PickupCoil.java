@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.MedianFilter;
 import edu.colorado.phet.common.model.ModelElement;
 
 
@@ -26,14 +27,21 @@ import edu.colorado.phet.common.model.ModelElement;
 public class PickupCoil extends AbstractCoil implements ModelElement {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final int HISTORY_SIZE = 5;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private AbstractMagnet _magnet;
-    private AbstractResistor _resistor;
-    private double _EMF;  // in volts
+    private double _emf;  // in volts
+    private double[] _emfHistory;
     private double _flux; // in webers
-    private double _maxEMF; // DEBUG
+    private double _maxEmf; // DEBUG
+    private boolean _smoothingEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -48,9 +56,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         super();
         assert( magnet != null );
         _magnet = magnet;
-        _resistor = null;
-        _EMF = 0.0;
+        _emf = 0.0;
+        _emfHistory = new double[ HISTORY_SIZE ];
         _flux = 0.0;
+        _smoothingEnabled = true;
     }
     
     //----------------------------------------------------------------------------
@@ -58,30 +67,68 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the induced EMF.
+     * Sets the induced emf.
      * 
-     * @return the induced EMF, in volts
+     * @param emf the emf, in volts
      */
-    public double getEMF() {
-        return _EMF;
+    private void setEmf( double emf ) {
+        if ( emf != _emf ) {
+            // System.out.println( "PickupCoil.setEmf: emf=" + emf ); // DEBUG
+            _emf = emf;
+            notifyObservers();
+        }
     }
     
     /**
-     * Sets the resistor that is placed across the coil.
+     * Gets the induced emf.
      * 
-     * @param resistor the resistor, possibly null
+     * @return the induced emf, in volts
      */
-    public void setResistor( AbstractResistor resistor ) {
-        _resistor = resistor;
+    public double getEmf() {
+        return _emf;
     }
     
     /**
-     * Gets the resistor that is across the coil.
+     * Gets the voltage across the ends of the coil.
+     * According to Kirchhoff’s loop rule, the potential difference across
+     * the ends of the coil equals the magnitude of the induced EMF in the coil.
      * 
-     * @return the resistor, possibly null
+     * @return voltage across the ends of the coil, in volts
      */
-    public AbstractResistor getResistor() {
-        return _resistor;
+    public double getVoltage() {
+        return _emf;
+    }
+    
+    /**
+     * Smooths out the behavior by removing spikes in the data.
+     * Changing the value of this property has the side-effect of clearing the 
+     * data history.
+     * 
+     * @param smoothingEnabled true to enable, false to disable
+     */
+    public void setSmoothingEnabled( boolean smoothingEnabled ) {
+        if ( smoothingEnabled != _smoothingEnabled ) {
+            _smoothingEnabled = smoothingEnabled;
+            clearHistory();
+        }
+    }
+    
+    /**
+     * Gets the smoothing state. See setSmoothingEnabled.
+     * 
+     * @return true if enabled, false if disabled
+     */
+    public boolean isSmoothingEnabled() {
+        return _smoothingEnabled;
+    }
+    
+    /**
+     * Clears the emf history by setting all values to zero.
+     */
+    private void clearHistory() {
+        for ( int i = 0; i < HISTORY_SIZE; i++ ) {
+            _emfHistory[i] = 0.0;
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -91,6 +138,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     /**
      * Handles ticks of the simulation clock.
      * Calculates the induced emf using Faraday's Law.
+     * Performs median smoothing of data if isSmoothingEnabled.
      * 
      * @param dt time delta
      */
@@ -110,31 +158,23 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         _flux = flux;
         
         // Calculate the induced EMF.
-        double EMF = -( getNumberOfLoops() * deltaFlux );
-        if ( EMF != _EMF ) {
-            //System.out.println( "PickupCoil.stepInTime: EMF=" + EMF );  // DEBUG
-            _EMF = EMF;
-            
-            /* 
-             * Set the current in the resistor.
-             * According to Kirchhoff’s loop rule the magnitude of the induced EMF
-             * equals the potential difference across the ends of the coil
-             * (and therefore, across a lightbulb or voltmeter hooked to the ends
-             * of the coil).
-             */
-            if ( _resistor != null ) {
-                double voltage = EMF;  // Kirchhoff's loop rule
-                double current = voltage / _resistor.getResistance();  // Ohm's law: I = V/R
-                _resistor.setCurrent( current );
+        double emf = -( getNumberOfLoops() * deltaFlux );
+        if ( _smoothingEnabled ) {
+            // Take a median to remove spikes in data.
+            for ( int i = HISTORY_SIZE - 1; i > 0; i-- ) {
+                _emfHistory[i] = _emfHistory[i - 1];
             }
-            
-            notifyObservers();
+            _emfHistory[0] = emf;
+            setEmf( MedianFilter.getMedian( _emfHistory ) );
+        }
+        else {
+            setEmf( emf );
         }
         
 //        // DEBUG: use this to determine the maximum EMF in the simulation.
-//        if ( Math.abs(EMF) > Math.abs(_maxEMF) ) {
-//            _maxEMF = EMF;
-//            System.out.println( "PickupCoil.stepInTime: MAX EMF=" + _maxEMF ); // DEBUG
+//        if ( Math.abs(emf) > Math.abs(_maxEmf) ) {
+//            _maxEmf = emf;
+//            System.out.println( "PickupCoil.stepInTime: MAX emf=" + _maxEmf ); // DEBUG
 //        }
     }
 }
