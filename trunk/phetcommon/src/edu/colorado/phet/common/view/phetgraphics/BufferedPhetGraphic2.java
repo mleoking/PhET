@@ -110,7 +110,16 @@ public class BufferedPhetGraphic2 extends GraphicLayerSet {
         phetImageGraphic.paint( g );
     }
 
-    public static PhetGraphic createBuffer( PhetGraphic phetGraphic, GraphicsSetup graphicsSetup, int imageType, Paint background ) {
+    /**
+     * Draw the specified graphic into a PhetImageGraphic.
+     *
+     * @param phetGraphic
+     * @param graphicsSetup
+     * @param imageType
+     * @param background
+     * @return
+     */
+    public static PhetImageGraphic createBuffer( PhetGraphic phetGraphic, GraphicsSetup graphicsSetup, int imageType, Paint background ) {
         PhetImageGraphic phetImageGraphic = new PhetImageGraphic( phetGraphic.getComponent() );
         Rectangle r = phetGraphic.getBounds();
         BufferedImage im = new BufferedImage( r.width, r.height, imageType );
