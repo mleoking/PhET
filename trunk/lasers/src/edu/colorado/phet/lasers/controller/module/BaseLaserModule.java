@@ -376,7 +376,7 @@ public class BaseLaserModule extends Module {
         // emits a photon, and another to deal with an atom leaving the system
         atom.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         atom.addLeftSystemListener( new AtomRemovalListener( atomGraphic ) );
-        atom.addStateChangeListener( new AtomStateChangeListener() );
+        atom.addChangeListener( new AtomChangeListener() );
 
         if( atom.getState() instanceof GroundState ) {
             numGroundStateAtoms++;
@@ -501,16 +501,13 @@ public class BaseLaserModule extends Module {
         public void leftSystem( Atom.LeftSystemEvent leftSystemEvent ) {
             getApparatusPanel().removeGraphic( atomGraphic );
         }
-
-        public void stateChanged( Atom.LeftSystemEvent leftSystemEvent ) {
-        }
     }
 
     /**
      * Keeps track of number of atoms in each state
      */
-    public class AtomStateChangeListener implements Atom.StateChangeListener {
-        public void stateChanged( Atom.StateChangedEvent event ) {
+    public class AtomChangeListener implements Atom.ChangeListener {
+        public void stateChanged( Atom.ChangeEvent event ) {
             AtomicState prevState = event.getPrevState();
             AtomicState currState = event.getCurrState();
             if( prevState instanceof GroundState ) {
@@ -539,11 +536,9 @@ public class BaseLaserModule extends Module {
      * associated graphic
      */
     public class PhotonLeftSystemListener implements Photon.LeftSystemEventListener {
-        private Photon photon;
         private PhotonGraphic graphic;
 
         public PhotonLeftSystemListener( Photon photon, PhotonGraphic graphic ) {
-            this.photon = photon;
             this.graphic = graphic;
         }
 
