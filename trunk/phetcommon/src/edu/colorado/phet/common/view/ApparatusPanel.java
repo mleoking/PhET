@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * The graphic objects to be displayed are maintained in "layers". Each layer can
  * contain any number of Graphic objects, and each layer has an integer "level"
  * associated with it. Layers are drawn in ascending order of their levels. The order
- * in which objects in a given level are drawn in undefined.
+ * in which objects in a given level are drawn is undefined.
  * <p/>
  *
  * @see edu.colorado.phet.common.view.graphics.Graphic

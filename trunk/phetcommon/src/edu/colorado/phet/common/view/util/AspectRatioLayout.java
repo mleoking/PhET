@@ -7,10 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Jan 5, 2004
- * Time: 12:14:40 PM
- * Copyright (c) Jan 5, 2004 by Sam Reid
+ * This LayoutManager maintains the specified aspectRatio for the target component.
+ *
+ * Here's an example usage:
+ *         AspectRatioLayout cl = new AspectRatioLayout(apparatusPanel, insetX, insetY, aspectRatio);
+ *         container.setLayout(cl);
+ *         container.add(apparatusPanel);
  */
 public class AspectRatioLayout implements LayoutManager {
     Component target;
@@ -83,20 +85,22 @@ public class AspectRatioLayout implements LayoutManager {
     }
 
     public static void main(String[] args) {
-        final JPanel panel = new JPanel();
-        final ApparatusPanel myPanel = new ApparatusPanel();
+        final JPanel container = new JPanel();
+        final ApparatusPanel apparatusPanel = new ApparatusPanel();
         final int insetY = 30;
         final int insetX = 30;
-        myPanel.setBackground(Color.green);
-        panel.add(myPanel, BorderLayout.CENTER);
-        panel.setBackground(Color.yellow);
+        apparatusPanel.setBackground(Color.green);
+
+        container.setBackground(Color.yellow);
         double aspectRatio = 1.5;//height/width
-        AspectRatioLayout cl = new AspectRatioLayout(myPanel, insetX, insetY, aspectRatio);
-        panel.setLayout(cl);
+
+        AspectRatioLayout cl = new AspectRatioLayout(apparatusPanel, insetX, insetY, aspectRatio);
+        container.setLayout(cl);
+        container.add(apparatusPanel);
 
         JFrame jf = new JFrame();
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jf.setContentPane(panel);
+        jf.setContentPane(container);
         jf.pack();
         jf.setVisible(true);
     }

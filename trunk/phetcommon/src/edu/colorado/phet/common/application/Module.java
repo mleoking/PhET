@@ -16,7 +16,7 @@ import javax.swing.*;
 
 /**
  * This class encapsulates the parts of an application that make up
- * a complete "experiment." This includes, but is not limited to, the
+ * a complete virtual experiment. This includes, but is not limited to, the
  * on-screen controls and viewX elements that go along with the
  * experiment.
  */

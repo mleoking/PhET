@@ -4,10 +4,7 @@ package edu.colorado.phet.common.view;
 import java.awt.*;
 
 /**
- * User: Sam Reid
- * Date: Jan 2, 2004
- * Time: 2:27:30 PM
- * Copyright (c) Jan 2, 2004 by Sam Reid
+ * Convenience class for common rendering options.
  */
 public class BasicGraphicsSetup implements GraphicsSetup {
     RenderingHints renderingHints;

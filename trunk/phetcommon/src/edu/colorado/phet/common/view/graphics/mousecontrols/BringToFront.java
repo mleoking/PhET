@@ -14,7 +14,6 @@ import java.awt.event.MouseEvent;
  * Copyright (c) Oct 9, 2003 by Sam Reid
  */
 public class BringToFront implements MouseInputListener {
-//    AbstractShape shape;
     CompositeInteractiveGraphic graphicTree;
     Graphic target;
 

@@ -19,7 +19,7 @@ public class MathUtil {
      * Returns +1 or -1, reflecting the sign of the argument
      *
      * @param d
-     * @return
+     * @return +1 or -1
      */
     public static int getSign(double d) {
         if (d != 0
@@ -29,26 +29,6 @@ public class MathUtil {
         } else {
             return 1;
         }
-    }
-
-    /**
-     * Returns +1 or -1, reflecting the sign of the argument
-     *
-     * @param f
-     * @return
-     */
-    public static int getSign(float f) {
-        return getSign((double) f);
-    }
-
-    /**
-     * Returns +1 or -1, reflecting the sign of the argument
-     *
-     * @param i
-     * @return
-     */
-    public static int getSign(int i) {
-        return getSign((double) i);
     }
 
     /**
@@ -75,7 +55,7 @@ public class MathUtil {
      * @param a
      * @param b
      * @param c
-     * @return
+     * @return the roots of a quadratic equation
      */
     public static float[] quadraticRoots(float a, float b, float c) {
         float[] roots = new float[2];
@@ -88,19 +68,19 @@ public class MathUtil {
      * @param x
      * @param y
      * @param eps The tolerance to be applied to the equality test
-     * @return
+     * @return true if the two values are within epsilon of each other (exclusive).
      */
     public static boolean isApproxEqual(float x, float y, float eps) {
         return Math.abs(x - y) < eps;
     }
 
     /**
-     * Finds the positioned of the apparent reflection of a point across a line
+     * Finds the positione of the apparent reflection of a point across a line
      *
      * @param p
      * @param linePt1
      * @param lineAngle
-     * @return
+     * @return the position of the reflection of a point across a line.
      */
     public static Point2D.Double reflectPointHorizontal(Point2D p, Point2D linePt1, double lineAngle) {
 
@@ -122,7 +102,7 @@ public class MathUtil {
      *
      * @param l1
      * @param l2
-     * @return
+     * @return the intersection of two line segments.
      */
     public static Point2D.Double getLineSegmentsIntersection(Line2D l1, Line2D l2) {
         return getLineSegmentsIntersection(l1.getP1(), l1.getP2(), l2.getP1(), l2.getP2());
@@ -136,7 +116,7 @@ public class MathUtil {
      * @param p2
      * @param p3
      * @param p4
-     * @return
+     * @return the intersection of two line segments.
      */
     public static Point2D.Double getLineSegmentsIntersection(Point2D p1, Point2D p2,
                                                              Point2D p3, Point2D p4) {
@@ -182,7 +162,7 @@ public class MathUtil {
      * @param p2 Other endpoint of line segment
      * @param p3 Point on line
      * @param p4 Point on line
-     * @return
+     * @return the intersection of a segment with a line.
      */
     public static Point2D.Double getSegmentLineIntersection(Point2D.Double p1, Point2D.Double p2,
                                                             Point2D.Double p3, Point2D.Double p4) {
@@ -228,7 +208,7 @@ public class MathUtil {
      * @param p2
      * @param p3
      * @param p4
-     * @return
+     * @return the intersection of two lines.
      */
     public static Point2D.Double getLinesIntersection(Point2D.Double p1, Point2D.Double p2,
                                                       Point2D.Double p3, Point2D.Double p4) {
@@ -270,7 +250,7 @@ public class MathUtil {
      * @param y3
      * @param x4
      * @param y4
-     * @return
+     * @return true if a segment intersects a line.
      */
     public static boolean segmentIntersectsLine(float x1, float y1,
                                                 float x2, float y2,
@@ -297,7 +277,7 @@ public class MathUtil {
      * @param b1
      * @param m2
      * @param b2
-     * @return
+     * @return the intersection of two lines.
      */
     public static Point2D.Float getLinesIntersection(float m1, float b1, float m2, float b2) {
 
