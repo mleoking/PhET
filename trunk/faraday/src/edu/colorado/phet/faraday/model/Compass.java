@@ -35,7 +35,7 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
     //----------------------------------------------------------------------------
     
     private static final double SENSITIVITY = 0.001;
-    private static final double DAMPING = 0.2;
+    private static final double DAMPING = 0.05;
     private static final double THRESHOLD = Math.toRadians( 0.2 );
 
     //----------------------------------------------------------------------------
@@ -202,10 +202,11 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
                 // Do nothing if there is no magnetic field, direction should remain unchanged.
             }
             else if ( ! _rotationalKinematicsEnabled ) {
-                // If rotational kinematics is disabled, simply set the angle.
+                // If rotational kinematics is disabled, rotate the needle quickly.
+                _theta = getDirection() + ( ( _emf.getAngle() - getDirection() ) / 3 );
                 _omega = 0;
                 _alpha = 0;
-                setDirection( _emf.getAngle() );
+                setDirection( _theta );
             }
             else {
                 // If rotational kinematics is enabled, use Verlet algorithm.
@@ -232,7 +233,6 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
                     _theta = _theta + ( _omega * dt ) + ( 0.5 * alphaTemp * dt * dt );
                     if ( _theta != thetaOld ) {
                         // Set the compass needle direction.
-                        //System.out.println( "Compass.stepInTime: setDirection to " + Math.toDegrees(_theta) );
                         setDirection( _theta );
                     }
 

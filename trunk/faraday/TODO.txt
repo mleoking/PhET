@@ -51,6 +51,8 @@ PHETCOMMON:
 
 DONE:
 v0r21...
+(4/4) - make compass needle do a simple rotation (instead of a flip) when rotational kinematics is disabled
+(4/4) - make compass react more quickly when rotational kinematics is enabled
 (4/4) - disable "Scale" debug panel, move debug flags into FaradayConfig
 (4/4) - lightbulb/voltmeter/electrons should have a lower threshold, values below which are effectively zero
 (4/4) - set scale for lightbulb, voltmeter and electrons after meeting with Kathy
