@@ -13,6 +13,8 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
+
 
 /**
  * ElectroMagnet
@@ -31,22 +33,14 @@ public class ElectroMagnet extends AbstractMagnet {
     }
     
     //----------------------------------------------------------------------------
-    // IMagnet implementation
+    // AbstractMagnet implementation
     //----------------------------------------------------------------------------
 
     /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#getStrength(java.awt.geom.Point2D)
+     * @see edu.colorado.phet.faraday.model.IMagnet#getStrengthVector(java.awt.geom.Point2D)
      */
-    public double getStrength( Point2D p ) {
+    public AbstractVector2D getStrength( Point2D p ) {
         // TODO Auto-generated method stub
-        return 0;
-    }
-
-    /**
-     * @see edu.colorado.phet.faraday.model.IMagnet#getDirection(java.awt.geom.Point2D)
-     */
-    public double getDirection( Point2D p ) {
-        // TODO Auto-generated method stub
-        return 0;
+        return null;
     }
 }

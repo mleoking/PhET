@@ -13,6 +13,7 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.model.ModelElement;
 
 
@@ -55,6 +56,10 @@ public class PickupCoil extends Coil implements ModelElement {
      */
     public void stepInTime( double dt ) {
         
+        // TODO This needs to be revisited ...  
+        // - theta should be calculated based on strength vector
+        // - doesn't handle arbitrary magnet orientation?
+        
        // Calculate theta, angle between magnetic field and surface area vector.
         Point2D magnetLocation = _magnet.getLocation();
         Point2D coilLocation = super.getLocation();
@@ -63,8 +68,9 @@ public class PickupCoil extends Coil implements ModelElement {
         double theta = Math.atan( opposite / adjacent );
         
         // Magnetic field strength at the coil's location.
-        double B = _magnet.getStrength( getLocation() );
-        double direction = _magnet.getDirection();
+        AbstractVector2D strength = _magnet.getStrength( getLocation() );
+        double B = strength.getMagnitude();
+        double direction = Math.toDegrees( strength.getAngle() );
         if ( direction % 360 == 0 ) {
             B = -B;
         }

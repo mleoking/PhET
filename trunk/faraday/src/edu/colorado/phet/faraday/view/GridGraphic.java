@@ -18,8 +18,10 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.IMagnet;
 
 
@@ -126,7 +128,7 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
         // Determine how many compasses are needed to fill the parent component.
         int xCount = (int)(width / xSpacing) + 2;  // HACK
         int yCount = (int)(height / ySpacing) + 2;  // HACK
-        //System.out.println( "GridGraphic.setSpacing - grid is " + xCount + "x" + yCount ); //XXX
+        //System.out.println( "GridGraphic.setSpacing - grid is " + xCount + "x" + yCount ); // DEBUG
         
         // Create the compasses.
         CompassNeedleGraphic needle;
@@ -200,19 +202,20 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
      * Updates the view to match the model.
      */
     public void update() {
-        double magnetStrength = _magnetModel.getStrength();
-        for ( int i = 0; i < _needles.size(); i++ ) {
-            
-            CompassNeedleGraphic needle = (CompassNeedleGraphic)_needles.get(i);
-            
-            Point2D p = needle.getLocation();
-            
-            double direction = _magnetModel.getDirection( p );
-            needle.setDirection( direction );
-            
-            double pointStrength = _magnetModel.getStrength( p );
-            needle.setStrength( pointStrength / magnetStrength );
+        if ( isVisible() ) {
+            double magnetStrength = _magnetModel.getStrength();
+            for( int i = 0; i < _needles.size(); i++ ) {
+
+                CompassNeedleGraphic needle = (CompassNeedleGraphic) _needles.get( i );
+
+                Point2D p = needle.getLocation();
+
+                AbstractVector2D strength = _magnetModel.getStrength( p );
+                needle.setDirection( Math.toDegrees( strength.getAngle() ) );
+                //needle.setStrength( strength.getMagnitude() / magnetStrength );
+                needle.setStrength( 1.0 );//DEBUG
+            }
+            repaint();
         }
-        repaint();
     }
 }

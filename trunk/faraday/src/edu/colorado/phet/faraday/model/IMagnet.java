@@ -14,6 +14,8 @@ package edu.colorado.phet.faraday.model;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.math.AbstractVector2D;
+
 
 /**
  * IMagnet is the interface implemented by all magnets.
@@ -24,27 +26,27 @@ import java.awt.geom.Point2D;
 public interface IMagnet {
     
     /** 
-     * Sets the magnet's strength.
+     * Sets the magnitude of the magnet's strength.
      * 
      * @param strength the strength
      */
     public abstract void setStrength( double strength );
 
     /**
-     * Gets the magnet's strength.
+     * Gets the magnitude of the magnet's strength.
      * 
      * @return the strength
      */
     public abstract double getStrength();
 
     /**
-     * Gets the strength of the magnetic field at a point in 2D space.
+     * Gets the strength vector of the magnetic field at a point in 2D space.
      * 
      * @param p the point
-     * @return the strength
+     * @return the strength vector
      */
-    public abstract double getStrength( final Point2D p );
-
+    public abstract AbstractVector2D getStrength( final Point2D p );
+    
     /**
      * Sets the location of the magnet in 2D space.
      * 
@@ -83,30 +85,20 @@ public interface IMagnet {
 
     /**
      * Sets the magnet's direction in degrees.
-     * Zero degrees is pointing down the positive X axis.
-     * Positive angles indicate in clockwise rotation.
+     * Zero degrees is with north pole pointing down the positive X axis.
+     * Positive angles indicate clockwise rotation.
      * 
      * @param direction the direction, in degrees
      */
     public abstract void setDirection( double direction );
 
     /**
-     * Gets the magnet's direction.
+     * Gets the magnet's direction, in degrees.
      * 
      * @return the direction
      * @see edu.colorado.phet.faraday.model.IMagnet#setDirection(java.awt.geom.Point2D)
      */
     public abstract double getDirection();
-
-    /**
-     * Gets the direction of the magnetic field at a point in 2D space.
-     * Zero degrees is pointing down the positive X axis.
-     * Positive angles indicate in clockwise rotation.
-     * 
-     * @param p the point
-     * @return the direction
-     */
-    public abstract double getDirection( final Point2D p );
 
     /**
      * Sets the physical size of the magnet.
