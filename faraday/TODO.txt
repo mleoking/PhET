@@ -51,6 +51,7 @@ phetcommon:
 
 DONE:
 v0r17...
+(3/10) - rename module "Magnet & Coil" to "Pickup Coil"
 (3/10) - add spacing between titled panels in the control panel
 (3/10) - workaround for zero scaling exception on Windows & Linux
 (3/9) - replace deprecated Module constructor with new constructor for all modules
