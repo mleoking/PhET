@@ -11,8 +11,6 @@
 
 package edu.colorado.phet.faraday.control;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,14 +19,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.AbstractCompass;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.module.BarMagnetModule;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
-import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 /**
@@ -45,7 +41,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
 
     // Model & view components to be controlled.
     private AbstractMagnet _magnetModel;
-    private AbstractCompass _compassModel;
+    private Compass _compassModel;
     private BarMagnetGraphic _magnetGraphic;
     private FieldMeterGraphic _fieldMeterGraphic;
 
@@ -72,7 +68,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
      * @param magnetGraphic
      * @param fieldMeterGraphic
      */
-    public BarMagnetControlPanel( BarMagnetModule module, AbstractMagnet magnetModel, AbstractCompass compassModel, BarMagnetGraphic magnetGraphic, FieldMeterGraphic fieldMeterGraphic ) {
+    public BarMagnetControlPanel( BarMagnetModule module, AbstractMagnet magnetModel, Compass compassModel, BarMagnetGraphic magnetGraphic, FieldMeterGraphic fieldMeterGraphic ) {
 
         super( module );
 

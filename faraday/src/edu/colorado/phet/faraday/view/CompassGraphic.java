@@ -21,7 +21,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.faraday.model.AbstractCompass;
+import edu.colorado.phet.faraday.model.Compass;
 
 /**
  * CompassGraphic is the graphical representation of a compass.
@@ -57,7 +57,7 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractCompass _compassModel;
+    private Compass _compassModel;
     private CompassNeedleGraphic _needle;
 
     //----------------------------------------------------------------------------
@@ -71,7 +71,7 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
      * @param component the parent Component
      * @param magnetModel the magnet that the compass is observing
      */
-    public CompassGraphic( Component component, AbstractCompass compassModel ) {
+    public CompassGraphic( Component component, Compass compassModel ) {
         super( component );
         assert( component != null );
         assert( compassModel != null );
