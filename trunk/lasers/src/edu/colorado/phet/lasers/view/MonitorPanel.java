@@ -10,6 +10,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
 import javax.swing.*;
@@ -36,8 +37,12 @@ public abstract class MonitorPanel extends JPanel implements SimpleObserver {
     private String yAxisLabel = "Energy (ev)";
 
 
-    public void photonEmitted( Atom atom, Photon photon ) {
+    protected MonitorPanel() {
+//        EnergyLevelGraphic elg = new EnergyLevelGraphic( this, new MiddleEnergyState( ), 30 );
+        
     }
+//    public void photonEmitted( Atom atom, Photon photon ) {
+//    }
 
     protected void paintComponent( Graphics g ) {
         Graphics2D g2 = (Graphics2D)g;
@@ -52,10 +57,6 @@ public abstract class MonitorPanel extends JPanel implements SimpleObserver {
         Point2D bottom1 = new Point2D.Double( fm.getHeight() + 4, getBounds().getHeight() - 10 );
         Arrow arrow1 = new Arrow( bottom1, top1, 10, 10, 2 );
         g2.fill( arrow1.getShape() );
-
-        Point2D top2 = new Point2D.Double( fm.getHeight() + 4, 10 );
-        Point2D bottom2 = new Point2D.Double( fm.getHeight() + 4, getBounds().getHeight() / 2 );
-        Arrow arrow2 = new Arrow( bottom2, top2, 10, 10, 2 );
 
         strLoc.setLocation( fm.getHeight(), getBounds().getHeight() - 10 );
         AffineTransform strTx = rotateInPlace( atx, -Math.PI / 2, strLoc.getX(), strLoc.getY() );

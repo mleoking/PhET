@@ -16,14 +16,17 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 public class HighEnergyState extends SpontaneouslyEmittingState {
 
-    protected HighEnergyState( Atom atom ) {
-        super( atom );
-        s_numInstances++;
+    private static HighEnergyState instance = new HighEnergyState();
+    public static HighEnergyState instance() {
+        return instance;
+    }
+
+    private HighEnergyState() {
     }
 
     // TODO: This should emit a stimulated photon if hit by
     // a blue photon
-    public void collideWithPhoton( Photon photon ) {
+    public void collideWithPhoton( Atom atom, Photon photon ) {
         // NOP
     }
 
@@ -32,7 +35,13 @@ public class HighEnergyState extends SpontaneouslyEmittingState {
     }
 
     protected AtomicState nextLowerEnergyState() {
-        return new MiddleEnergyState( getAtom() );
+        return MiddleEnergyState.instance();
+//        return new MiddleEnergyState( getAtom() );
+    }
+
+
+    void incrNumInState() {
+        s_numInstances++;
     }
 
     void decrementNumInState() {

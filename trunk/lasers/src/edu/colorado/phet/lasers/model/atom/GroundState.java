@@ -23,36 +23,32 @@ public class GroundState extends AtomicState {
         return s_numInstances;
     }
 
-    protected GroundState( Atom atom ) {
-        super( atom );
-        s_numInstances++;
+    private static GroundState instance = new GroundState();
+    public static GroundState instance() {
+        return instance;
+    }
+
+
+    private GroundState() {
     }
 
     public void stepInTime( double dt ) {
     }
 
-    public void collideWithPhoton( Photon photon ) {
+    public void collideWithPhoton( Atom atom, Photon photon ) {
 
         // Only respond a specified percentage of the time
         if( Math.random() < s_collisionLikelihood ) {
 
-            // Change state
+            // absorb the photon and change state
             if( photon.getWavelength() == Photon.BLUE ) {
-                // Absorb the photon
                 photon.removeFromSystem();
-
-                decrementNumInState();
-                // todo: change things so this signature isn't so redundant
-                getAtom().setState( new HighEnergyState( getAtom() ) );
+                atom.setState( HighEnergyState.instance() );
             }
             if( photon.getWavelength() == Photon.RED ) {
-                // Absorb the photon
                 photon.removeFromSystem();
-
-                decrementNumInState();
-                getAtom().setState( new MiddleEnergyState( getAtom() ) );
+                atom.setState( MiddleEnergyState.instance() );
             }
-//            System.out.println( "emission" );
         }
         else {
 //            System.out.println( "no emission" );
@@ -60,13 +56,12 @@ public class GroundState extends AtomicState {
 
     }
 
+    void incrNumInState() {
+        s_numInstances++;
+    }
+
     void decrementNumInState() {
         s_numInstances--;
-//        subscriptionService.notifyListeners( new SubscriptionService.Notifier() {
-//            public void doNotify( Object obj ) {
-//                ((Listener)obj).numInstancesChanged( getNumInstances() );
-//            }
-//        } );
     }
 
     int getNumAtomsInState() {

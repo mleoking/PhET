@@ -19,18 +19,21 @@ import java.awt.geom.Point2D;
 
 public class MiddleEnergyState extends SpontaneouslyEmittingState {
 
+    private static MiddleEnergyState instance = new MiddleEnergyState();
+    public static MiddleEnergyState instance() {
+        return instance;
+    }
     /**
-     * @param atom
+//     * @param atom
      */
-    protected MiddleEnergyState( Atom atom ) {
-        super( atom );
-        s_numInstances++;
+    private MiddleEnergyState() {
     }
 
     /**
      * @param photon
      */
-    public void collideWithPhoton( Photon photon ) {
+    public void collideWithPhoton( Atom atom, Photon photon ) {
+//    public void collideWithPhoton( Photon photon ) {
 
         // If the photon has the same energy as the difference
         // between this level and the ground state, then emit
@@ -40,16 +43,21 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
             Vector2D vHat = new Vector2D.Double( photon.getVelocity() ).normalize();
-            vHat.scale( getAtom().getRadius() + 10 );
-            Point2D position = new Point2D.Double( getAtom().getPosition().getX() + vHat.getX(),
-                                                   getAtom().getPosition().getY() + vHat.getY() );
+            vHat.scale( atom.getRadius() + 10 );
+//            vHat.scale( getAtom().getRadius() + 10 );
+            Point2D position = new Point2D.Double( atom.getPosition().getX() + vHat.getX(),
+                                                   atom.getPosition().getY() + vHat.getY() );
+//            Point2D position = new Point2D.Double( getAtom().getPosition().getX() + vHat.getX(),
+//                                                   getAtom().getPosition().getY() + vHat.getY() );
             photon.setPosition( position );
             Photon emittedPhoton = Photon.createStimulated( photon );
-            getAtom().emitPhoton( emittedPhoton );
+            atom.emitPhoton( emittedPhoton );
+//            getAtom().emitPhoton( emittedPhoton );
 
             // Change state
-            decrementNumInState();
-            getAtom().setState( new GroundState( getAtom() ) );
+//            decrementNumInState();
+            atom.setState( GroundState.instance() );
+//            getAtom().setState( new GroundState( getAtom() ) );
         }
 
         // If the photon has the same energy level as the difference between
@@ -60,20 +68,22 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
             photon.removeFromSystem();
 
             // Change state
-            decrementNumInState();
-            getAtom().setState( new HighEnergyState( getAtom() ) );
+//            decrementNumInState();
+            atom.setState( HighEnergyState.instance() );
+//            getAtom().setState( new HighEnergyState( getAtom() ) );
         }
     }
 
-    //
-    // Abstract methods implemented
-    //
     protected double getSpontaneousEmmisionHalfLife() {
         return s_spontaneousEmmisionHalfLife;
     }
 
     protected AtomicState nextLowerEnergyState() {
-        return new GroundState( getAtom() );
+        return GroundState.instance();
+    }
+
+    void incrNumInState() {
+        s_numInstances++;
     }
 
     void decrementNumInState() {
@@ -94,7 +104,6 @@ public class MiddleEnergyState extends SpontaneouslyEmittingState {
     public static void setSpontaneousEmmisionHalfLife( double spontaneousEmmisionHalfLife ) {
         s_spontaneousEmmisionHalfLife = spontaneousEmmisionHalfLife;
     }
-
 
     static public int getNumInstances() {
         return s_numInstances;
