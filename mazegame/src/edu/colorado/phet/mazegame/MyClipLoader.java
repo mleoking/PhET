@@ -17,15 +17,15 @@ public class MyClipLoader {
     ClassLoader loader;
     Applet applet;
 
-    public MyClipLoader(ClassLoader loader, Applet applet) {
+    public MyClipLoader( ClassLoader loader, Applet applet ) {
         this.loader = loader;
         this.applet = applet;
     }
 
-    public AudioClip loadAudioClip(String name) {
-        URL loc = loader.getResource(name);
+    public AudioClip loadAudioClip( String name ) {
+        URL loc = loader.getResource( name );
         // new JFrame("URL="+loc.toString()).setVisible(true);
-        AudioClip clip = Applet.newAudioClip(loc);
+        AudioClip clip = Applet.newAudioClip( loc );
         //new JFrame("Clip="+clip).setVisible(true);;
         return clip;
         //return null;
