@@ -64,6 +64,9 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
   private static final double PHOTON_BEAM_LAYER = 11;
   private static final double SPOTLIGHT_LAYER = 12;
   private static final double PERSON_FOREGROUND_LAYER = 13;
+  private static final double BULB_SLIDER_LABEL_LAYER = 14;
+  private static final double FILTER_SLIDER_LABEL_LAYER = 15;
+  private static final double FILTER_SWITCH_LABEL_LAYER = 16;
   private static final double HELP_LAYER = Double.MAX_VALUE;
 
   // Colors
@@ -86,8 +89,10 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	private static final Point FILTER_SWITCH_LABEL_LOCATION = new Point( 350, 558 );
 	private static final Point FILTER_HOLDER_LOCATION       = new Point( 342, 395 );
 	private static final Point FILTER_SLIDER_LOCATION       = new Point( 100, 515 );
+	private static final Point FILTER_SLIDER_LABEL_LOCATION = new Point( 100, 500 );
 	private static final Point FILTER_PIPE_LOCATION         = new Point( 249, 415 );
 	private static final Point BULB_SLIDER_LOCATION         = new Point( 100, 100 );
+	private static final Point BULB_SLIDER_LABEL_LOCATION   = new Point( 100,  85 );
 	private static final Point BULB_PIPE_LOCATION           = new Point(  50, 112 );
 	
   //Angles
@@ -120,6 +125,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	private SingleBulbControlPanel _controlPanel;
 	private SpectrumSlider _filterSlider;
 	private SpectrumSlider _bulbSlider;
+	private PhetTextGraphic _bulbSliderLabel;
 	private ToggleSwitch _filterSwitch;
 	
 	// Graphics that require control
@@ -232,16 +238,28 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     // Filter Color slider
     _filterSlider = new SpectrumSlider( apparatusPanel );
     _filterSlider.setLocation( FILTER_SLIDER_LOCATION );
-    _filterSlider.setLabel( SimStrings.get("filterSlider.label"), LABEL_COLOR, LABEL_FONT );
+    _filterSlider.setKnobBorderColor( Color.WHITE );
     _filterSlider.setTransmissionWidth( _filterModel.getTransmissionWidth()/2 );
     apparatusPanel.addGraphic( _filterSlider, FILTER_SLIDER_LAYER );
+    
+    // Filter Color label
+    PhetTextGraphic filterSliderLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, 
+        SimStrings.get( "filterSlider.label" ), LABEL_COLOR, 
+        FILTER_SLIDER_LABEL_LOCATION.x, FILTER_SLIDER_LABEL_LOCATION.y );
+    apparatusPanel.addGraphic( filterSliderLabel, FILTER_SLIDER_LABEL_LAYER );  
     
     // Bulb Color slider
     _bulbSlider = new SpectrumSlider( apparatusPanel );
     _bulbSlider.setLocation( BULB_SLIDER_LOCATION );
-    _bulbSlider.setLabel( SimStrings.get("bulbSlider.label"), LABEL_COLOR, LABEL_FONT );
+    _bulbSlider.setKnobBorderColor( Color.WHITE );
     apparatusPanel.addGraphic( _bulbSlider, BULB_SLIDER_LAYER );
-    
+ 
+    // Bulb Color label
+    _bulbSliderLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, 
+        SimStrings.get( "bulbSlider.label" ), 
+        LABEL_COLOR, BULB_SLIDER_LABEL_LOCATION.x, BULB_SLIDER_LABEL_LOCATION.y );
+    apparatusPanel.addGraphic( _bulbSliderLabel, BULB_SLIDER_LABEL_LAYER );
+
     // Pipe connecting filter control to filter.
     _filterPipe = new PipeGraphic( apparatusPanel );
     _filterPipe.setThickness( 6 );
@@ -265,10 +283,10 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     apparatusPanel.addGraphic( _filterSwitch, FILTER_SWITCH_LAYER );
     
     // Filter switch label
-    String string3 = SimStrings.get( "filterSwitch.label" );
     PhetTextGraphic filterSwitchLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, 
-        string3, LABEL_COLOR, FILTER_SWITCH_LABEL_LOCATION.x, FILTER_SWITCH_LABEL_LOCATION.y );
-    apparatusPanel.addGraphic( filterSwitchLabel );
+        SimStrings.get( "filterSwitch.label" ), LABEL_COLOR,
+        FILTER_SWITCH_LABEL_LOCATION.x, FILTER_SWITCH_LABEL_LOCATION.y );
+    apparatusPanel.addGraphic( filterSwitchLabel, FILTER_SWITCH_LABEL_LAYER );
     
 		//----------------------------------------------------------------------------
 		// Observers
@@ -391,12 +409,14 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
       if ( bulbType == SingleBulbControlPanel.WHITE_BULB )
       {
         _bulbSlider.setVisible( false );
+        _bulbSliderLabel.setVisible( false );
         _bulbPipe.setVisible( false );
         _spotlightModel.setColor( VisibleColor.WHITE );
       }
       else
       {
         _bulbSlider.setVisible( true );
+        _bulbSliderLabel.setVisible( true );
         _bulbPipe.setVisible( true );
         double wavelength = _bulbSlider.getValue();
         VisibleColor bulbColor = new VisibleColor( wavelength );
