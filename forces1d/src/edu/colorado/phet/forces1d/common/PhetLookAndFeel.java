@@ -11,7 +11,7 @@
 package edu.colorado.phet.forces1d.common;
 
 import smooth.basic.SmoothTitledBorder;
-import smooth.metal.SmoothLookAndFeel;
+import smooth.windows.SmoothLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -27,11 +27,15 @@ import java.util.ArrayList;
  * @author ?
  * @version $Revision$
  */
-public class PhetLookAndFeel extends SmoothLookAndFeel {
-    private static Font font;
-    private static Color foregroundColor;
-    public static final Color backgroundColor = new Color( 200, 240, 200 );
-    private String[] types = new String[]{
+public class PhetLookAndFeel {
+
+    public static final ScreenSizeHandler screenSizeHandler = new ScreenSizeHandler();
+
+    private Font font;
+    private Color foregroundColor;
+    private Color backgroundColor;
+
+    private static final String[] types = new String[]{
         "Button", "MenuItem", "Panel", "Dialog",
         "CheckBox", "RadioButton", "ComboBox",
         "Menu", "MenuItem", "MenuBar",
@@ -39,42 +43,37 @@ public class PhetLookAndFeel extends SmoothLookAndFeel {
         "TextField", "TextArea", "Spinner", "Label", "TextPane"
     };
 
-    public static Font getFont() {
+    public PhetLookAndFeel() {
+        font = new Font( "Lucida Sans", Font.PLAIN, screenSizeHandler.getFontSize() );
+        foregroundColor = Color.black;
+        backgroundColor = new Color( 200, 240, 200 );
+    }
+
+    public Font getFont() {
         return font;
     }
 
-    static {
-        String fontName = "Lucida Sans";
-//        String fontName="Tahoma";
-        Font font1280 = new Font( fontName, Font.PLAIN, 16 );
-//        Font font1040 = new Font( fontName, Font.PLAIN, 12 );
-        Font font1040 = new Font( fontName, Font.PLAIN, 10 );
-        Font font800 = new Font( fontName, Font.PLAIN, 8 );
-
-        Font uifont = font1040;
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        System.out.println( "d = " + d );
-        if( d.width > 1024 ) {
-            uifont = font1280;
-            System.out.println( "Chose font for width> 1280" );
-        }
-        else if( d.width <= 800 ) {
-            uifont = font800;
-            System.out.println( "Chose font for <=800" );
-        }
-        else {
-            System.out.println( "Chose font for width between between 800 and 1280" );
-        }
-        font = uifont;
-
-        foregroundColor = Color.black;
+    public void setFont( Font font ) {
+        this.font = font;
     }
 
-    public PhetLookAndFeel() {
+    public Color getForegroundColor() {
+        return foregroundColor;
     }
 
-    protected void initComponentDefaults( UIDefaults table ) {
-        super.initComponentDefaults( table );
+    public void setForegroundColor( Color foregroundColor ) {
+        this.foregroundColor = foregroundColor;
+    }
+
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor( Color backgroundColor ) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    private Object[] constructDefaults() {
         ColorUIResource background = new ColorUIResource( backgroundColor );
         ColorUIResource foreground = new ColorUIResource( foregroundColor );
         FontUIResource fontResource = new FontUIResource( font );
@@ -84,25 +83,96 @@ public class PhetLookAndFeel extends SmoothLookAndFeel {
         ArrayList def = new ArrayList();
         for( int i = 0; i < types.length; i++ ) {
             String type = types[i];
-            def.add( type + ".font" );
-            def.add( fontResource );
-            def.add( type + ".foreground" );
-            def.add( foreground );
-            def.add( type + ".background" );
-            def.add( background );
-            def.add( type + ".margin" );
-            def.add( insets );
+            add( def, type, "font", fontResource );
+            add( def, type, "foreground", foreground );
+            add( def, type, "background", background );
+            add( def, type, "margin", insets );
         }
-        def.add( "TitledBorder.font" );
-        def.add( borderFont );
+        add( def, "TitledBorder", "font", borderFont );
+        add( def, "TextField", "background", new ColorUIResource( Color.white ) );
+        return def.toArray();
+    }
 
-        def.add( "TextField.background" );
-        def.add( new ColorUIResource( Color.white ) );
-        Object[] defaults = def.toArray();
+    private void add( ArrayList defaults, String type, String property, Object resource ) {
+        defaults.add( type + "." + property );
+        defaults.add( resource );
+    }
+
+    /**
+     * Use this to simply modify an existing Look and Feel defaults.
+     */
+    public void putDefaults( UIDefaults table ) {
+        Object[] defaults = constructDefaults();
         table.putDefaults( defaults );
+    }
+
+    /**
+     * Use this to simply modify the existing existing Look and Feel.
+     */
+    public void apply() {
+        UIDefaults defaults = UIManager.getDefaults();
+        putDefaults( defaults );
     }
 
     public static Border createSmoothBorder( String s ) {
         return new SmoothTitledBorder( s );
+    }
+
+    public static void setLookAndFeel() {
+        String os = "";
+        try {
+            os = System.getProperty( "os.name" ).toLowerCase();
+        }
+        catch( Throwable t ) {
+            t.printStackTrace();
+        }
+
+        if( os.indexOf( "windows" ) >= 0 ) {
+            try {
+                UIManager.setLookAndFeel( new SmoothLookAndFeel() );
+            }
+            catch( UnsupportedLookAndFeelException e ) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            try {
+                UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+            }
+            catch( ClassNotFoundException e ) {
+                e.printStackTrace();
+            }
+            catch( InstantiationException e ) {
+                e.printStackTrace();
+            }
+            catch( IllegalAccessException e ) {
+                e.printStackTrace();
+            }
+            catch( UnsupportedLookAndFeelException e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static class ScreenSizeHandler {
+        private int fontSize;
+
+        public ScreenSizeHandler() {
+            Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+            System.out.println( "d = " + d );
+            if( d.width > 1024 ) {
+                fontSize = 16;
+            }
+            else if( d.width <= 800 ) {
+                fontSize = 8;
+            }
+            else {
+                fontSize = 10;
+            }
+        }
+
+        public int getFontSize() {
+            return fontSize;
+        }
     }
 }
