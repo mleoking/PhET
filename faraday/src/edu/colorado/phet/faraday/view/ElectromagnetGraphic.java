@@ -120,15 +120,6 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-
-    /**
-     * Set the rescaler, used to make values look better when displayed.
-     * 
-     * @param rescaler
-     */
-    public void setRescaler( IRescaler rescaler ) {
-        _coilGraphic.setRescaler( rescaler );
-    }
     
     /**
      * Gets the PhetGraphic that contains the foreground elements of the coil.
