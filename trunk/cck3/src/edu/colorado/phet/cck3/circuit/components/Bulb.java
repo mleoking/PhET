@@ -4,6 +4,7 @@ package edu.colorado.phet.cck3.circuit.components;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.cck3.circuit.KirkhoffListener;
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.awt.*;
@@ -19,9 +20,12 @@ public class Bulb extends CircuitComponent {
     private Filament filament;
     private SimpleObserver so;
     private double width;
+    private KirkhoffListener kl;
+    private double distBetweenJunctions;
 
     public Bulb( Point2D start, AbstractVector2D dir, double distBetweenJunctions, double width, double height, KirkhoffListener kl ) {
         super( kl, start, dir, distBetweenJunctions, height );
+        this.distBetweenJunctions = distBetweenJunctions;
         this.width = width;
         filament = new Filament( kl, getStartJunction(), getEndJunction(), 3, height * .25, width * .8, height * .061 );
         so = new SimpleObserver() {
@@ -33,6 +37,7 @@ public class Bulb extends CircuitComponent {
         getStartJunction().addObserver( so );
         getEndJunction().addObserver( so );
         setResistance( 10 );
+        this.kl = kl;
     }
 
     public double getWidth() {
@@ -75,5 +80,14 @@ public class Bulb extends CircuitComponent {
 
     public double getComponentLength() {
         return super.getLength();
+    }
+
+    public SchematicBulb toSchematicBulb( double length ) {
+        ImmutableVector2D dir = new ImmutableVector2D.Double( getStartJunction().getPosition(), getEndJunction().getPosition() );
+        SchematicBulb bulb = new SchematicBulb( kl, getStartJunction().getPosition(), dir, length, getHeight(), distBetweenJunctions, getWidth() );
+        bulb.setResistance( getResistance() );
+        bulb.setCurrent( getCurrent() );
+        bulb.setVoltageDrop( getVoltageDrop() );
+        return bulb;
     }
 }
