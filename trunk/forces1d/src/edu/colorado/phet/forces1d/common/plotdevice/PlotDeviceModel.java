@@ -96,10 +96,21 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     public int convertTimeToIndex( double time ) {
 //        return playbackMode.convertTimeToIndex( time );
+        if( recordMode.recordedTimes.size() == 0 ) {
+            return 0;               //todo shouldn't this be -1?
+        }
         double last = recordMode.recordedTimes.getLastPoint();
         double lastIndex = recordMode.recordedTimes.size();
         double scale = lastIndex / last;//use the whole data series to guess the time.
-        return (int)( time * scale );//TODO check this.
+
+        int index = (int)( time * scale );
+        if( index < 0 ) {
+            index = 0;
+        }
+        if( index >= recordMode.recordedTimes.size() ) {
+            index = recordMode.recordedTimes.size() - 1;
+        }
+        return index;//TODO check this.
         //TODO should we check in the array as well..?
     }
 

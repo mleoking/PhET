@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -99,7 +100,7 @@ public class WiggleMe extends CompositePhetGraphic {
         textGraphic.setFont( font );
     }
 
-    public void setArrowDirection( double dx, double dy ) {
+    public void setArrow( double dx, double dy ) {
         Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( dx, dy ), 20, 20, 10 );
         phetShapeGraphic.setShape( arrow.getShape() );
     }
@@ -144,6 +145,22 @@ public class WiggleMe extends CompositePhetGraphic {
 
         public int getHeight() {
             return target.getHeight();
+        }
+    }
+
+    public static class SwingComponentTarget implements Target {
+        JComponent jComponent;
+
+        public SwingComponentTarget( JComponent jComponent ) {
+            this.jComponent = jComponent;
+        }
+
+        public Point getLocation() {
+            return jComponent.getLocation();
+        }
+
+        public int getHeight() {
+            return jComponent.getHeight();
         }
     }
 }

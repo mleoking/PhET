@@ -58,6 +58,7 @@ public class DataSeries {
     }
 
     public double pointAt( int i ) {
+
         return ( (Double)pts.get( i ) ).doubleValue();
     }
 
