@@ -10,8 +10,7 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -54,7 +53,7 @@ public class ApparatusPanel extends JPanel {
         this.addMouseListener( mouseDelegator );
         this.addMouseMotionListener( mouseDelegator );
 //        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
-        LineBorder border = (LineBorder)BorderFactory.createLineBorder(Color.black);
+        Border border = BorderFactory.createLineBorder( Color.black );
         this.setBorder( border );
     }
 

@@ -16,6 +16,7 @@ public abstract class PhetGraphic implements BoundedGraphic {
     private Rectangle bounds = null;
     private Component component;
     private boolean visible = false;
+//    private boolean visible = true;
     private boolean boundsDirty = true;
 
     protected PhetGraphic( Component component ) {
