@@ -42,6 +42,7 @@ public class IdealGasControlPanel extends JPanel {
     private IdealGasModule module;
     private IdealGasModel idealGasModel;
     private GridBagConstraints gbc;
+    private ParticleInteractionControl collisionControl;
 
 
     public IdealGasControlPanel( IdealGasModule module ) {
@@ -63,24 +64,17 @@ public class IdealGasControlPanel extends JPanel {
         JPanel speciesButtonPanel = new SpeciesSelectionPanel( module.getPump() );
         speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Pump" ) ) );
         gbc.gridy++;
+        gbc.fill = GridBagConstraints.NONE;
         this.add( speciesButtonPanel, gbc );
         gbc.gridy++;
         this.add( new NumParticlesControls(), gbc );
-        ToggleButton measurementDlgBtn = new ToggleButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
-                                                           SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) ) {
-            public void onAction() {
-                JDialog dlg = module.setMeasurementDlgVisible( true );
-                dlg.addWindowListener( new WindowAdapter() {
-                    public void windowClosing( WindowEvent e ) {
-                        setOff();
-                    }
-                } );
-            }
 
-            public void offAction() {
-                module.setMeasurementDlgVisible( false );
-            }
-        };
+        gbc.gridy++;
+        ParticleInteractionControl pic = new ParticleInteractionControl();
+        gbc.fill = GridBagConstraints.NONE;
+        this.add( pic, gbc );
+
+        ToggleButton measurementDlgBtn = new MeasurementDialogButton();
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
         measurementDlgBtn.setBorder( new EtchedBorder( EtchedBorder.LOWERED ) );
         measurementDlgBtn.setBackground( new Color( 255, 255, 120 ) );
@@ -99,6 +93,9 @@ public class IdealGasControlPanel extends JPanel {
         //                makeScreenShot();
         //            }
         //        } );
+
+        // Add a control to enable or disable collisions between molecules
+        collisionControl = new ParticleInteractionControl();
 
     }
 
@@ -142,10 +139,10 @@ public class IdealGasControlPanel extends JPanel {
     private JPanel addGravityControls() {
 
         gravityControlPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,1,1,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.WEST,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0 ), 0,0 );
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
         // Add control for gravity, set default to OFF
         gravityOnCB = new JCheckBox( SimStrings.get( "Common.On" ) );
         gravityControlPanel.add( gravityOnCB, gbc );
@@ -250,7 +247,7 @@ public class IdealGasControlPanel extends JPanel {
         stovePanel.add( heatSourceCB, gbc );
 
         stovePanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Heat_Control" ) ) );
-//        this.add( stovePanel );
+        //        this.add( stovePanel );
         return stovePanel;
     }
 
@@ -260,7 +257,7 @@ public class IdealGasControlPanel extends JPanel {
 
             super( new GridBagLayout() );
             GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                             GridBagConstraints.WEST,
+                                                             GridBagConstraints.EAST,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
             JLabel label = new JLabel( SimStrings.get( "MeasurementControlPanel.Number_of_particles" ) );
@@ -275,7 +272,7 @@ public class IdealGasControlPanel extends JPanel {
             final JSpinner particleSpinner = new JSpinner( model );
             particleSpinner.setPreferredSize( new Dimension( 50, 20 ) );
             gbc.gridx = 1;
-            gbc.anchor = GridBagConstraints.EAST;
+            gbc.anchor = GridBagConstraints.WEST;
             this.add( particleSpinner, gbc );
 
             particleSpinner.addChangeListener( new ChangeListener() {
@@ -341,6 +338,26 @@ public class IdealGasControlPanel extends JPanel {
         this.add( component, gbc );
     }
 
+    private class MeasurementDialogButton extends ToggleButton {
+
+        public MeasurementDialogButton() {
+            super( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
+                   SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
+        }
+
+        public void onAction() {
+            JDialog dlg = module.setMeasurementDlgVisible( true );
+            dlg.addWindowListener( new WindowAdapter() {
+                public void windowClosing( WindowEvent e ) {
+                    setOff();
+                }
+            } );
+        }
+
+        public void offAction() {
+            module.setMeasurementDlgVisible( false );
+        }
+    }
 
     //    private void makeScreenShot() {
     //        Window w = SwingUtilities.getWindowAncestor( this );
