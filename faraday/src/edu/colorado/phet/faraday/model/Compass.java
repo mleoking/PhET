@@ -63,6 +63,22 @@ public class Compass extends AbstractCompass {
     }
     
     //----------------------------------------------------------------------------
+    // AbstractCompass overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Workaround to get the compass moving immediately.
+     * In some situations, such as when the magnet polarity is flipped,
+     * it can take quite awhile for the magnet to start moving.
+     * <p>
+     * In this case, we give the compass needle a small amount of 
+     * angular velocity to get it going.
+     */
+    public void startMovingNow() {
+          _omega = 0.03;  // adjust as needed for desired behavior
+    }
+    
+    //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
     

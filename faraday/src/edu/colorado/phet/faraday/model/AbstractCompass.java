@@ -73,6 +73,12 @@ public abstract class AbstractCompass extends SpacialObservable implements Model
         return _magnetModel.getStrength( getLocation() );
     }
     
+    /**
+     * This is a hook for compass models that need a little prodding to get
+     * themselves moving.  The default implementation is to do nothing.
+     */
+    public void startMovingNow() {}
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
