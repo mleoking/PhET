@@ -35,9 +35,11 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
 
     private ArrayList listeners = new ArrayList();
     private int lastX;
+    private MovingManApparatusPanel apparatusPanel;
 
-    public ManGraphic( MovingManModule module, Man m, int y, LinearTransform1d transform ) throws IOException {
-        super( module.getApparatusPanel() );
+    public ManGraphic( MovingManModule module, MovingManApparatusPanel apparatusPanel, Man m, int y, LinearTransform1d transform ) throws IOException {
+        super( apparatusPanel );
+        this.apparatusPanel = apparatusPanel;
         this.module = module;
         this.m = m;
         this.y = y;
@@ -45,8 +47,8 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
         standingMan = ImageLoader.loadBufferedImage( "images/stand-ii.gif" );
         leftMan = ImageLoader.loadBufferedImage( "images/left-ii.gif" );
         int height = 120;
-        standingMan = BufferedImageUtils.rescaleYMaintainAspectRatio( module.getApparatusPanel(), standingMan, height );
-        leftMan = BufferedImageUtils.rescaleYMaintainAspectRatio( module.getApparatusPanel(), leftMan, height );
+        standingMan = BufferedImageUtils.rescaleYMaintainAspectRatio( apparatusPanel, standingMan, height );
+        leftMan = BufferedImageUtils.rescaleYMaintainAspectRatio( apparatusPanel, leftMan, height );
         rightMan = BufferedImageUtils.flipX( leftMan );
 
         currentImage = standingMan;
@@ -96,7 +98,7 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
 
     private void repaint( Rectangle r1, Rectangle r2 ) {
         Rectangle union = r1.union( r2 );
-        module.getApparatusPanel().repaint( union );
+        apparatusPanel.repaint( union );
     }
 
     public void mouseClicked( MouseEvent e ) {

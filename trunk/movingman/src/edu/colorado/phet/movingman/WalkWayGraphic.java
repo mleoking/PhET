@@ -35,10 +35,8 @@ public class WalkWayGraphic extends CompositePhetGraphic {
     private PhetImageGraphic leftWallGraphic;
     private PhetImageGraphic rightWallGraphic;
 
-    public WalkWayGraphic( MovingManModule module, int numTicks ) throws IOException {
-
-        this( module.getApparatusPanel(), module, numTicks, -8, 8, new Function.LinearFunction( -10, 10, 0, 500 ) );
-
+    public WalkWayGraphic( MovingManModule module, ApparatusPanel apparatusPanel, int numTicks ) throws IOException {
+        this( apparatusPanel, module, numTicks, -8, 8, new Function.LinearFunction( -10, 10, 0, 500 ) );
     }
 
     public WalkWayGraphic( ApparatusPanel panel, MovingManModule module, int numTickMarks, Function.LinearFunction transform ) throws IOException {
@@ -78,7 +76,7 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         setBounds( 0, 0, 900, 150 );
         update();
 
-//        module.getForceModel().addBoundaryConditionListener( new BoundaryCondition.Listener() {
+//        module.getForceModel().addBoundaryConditionListener( new BoundaryCondition.TimeListener() {
 //            public void boundaryConditionOpen() {
 //
 //                try {
@@ -132,6 +130,14 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         this.bounds.setBounds( x, y, width, height );
         transform.setOutput( x, x + width );
         update();
+    }
+
+    public void setTreeX( double treeX ) {
+        this.treex = treeX;
+    }
+
+    public void setHouseX( double houseX ) {
+        this.housex = houseX;
     }
 
     public static class TickSetGraphic extends CompositePhetGraphic {

@@ -73,6 +73,9 @@ public abstract class AbstractTicks extends AbstractGrid {
                         String string = format.format( gridLineX );
                         int width = fontMetrics.stringWidth( string );
                         int height = fontMetrics.getHeight();
+                        if( string == null ) {
+                            throw new RuntimeException( "Null string, gridLineX=" + gridLineX );
+                        }
                         g.drawString( string, x - width / 2, y + tickHeight / 2 + height );
                     }
                 }

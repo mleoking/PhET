@@ -1,14 +1,11 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
@@ -23,19 +20,16 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
 import edu.colorado.phet.movingman.common.CircularBuffer;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
-import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.misc.JEPFrame;
 import edu.colorado.phet.movingman.plots.MMPlot;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -45,92 +39,47 @@ import java.util.Locale;
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
 public class MovingManModule extends Module {
-    private boolean paused = true;
+
     private static boolean addJEP = true;
 
-    private ManGraphic manGraphic;
-    private LinearTransform1d manPositionTransform;
-
-    private MMTimer recordTimer;
-    private MMTimer playbackTimer;
-
-
-    private Mode mode;//the current mode.
-
-    private RecordMode recordMode;
-    private PlaybackMode playbackMode;
-    private MovingManControlPanel movingManControlPanel;
-    private TimeGraphic timerGraphic;
-    private BufferedGraphicForComponent backgroundGraphic;
-    private WalkWayGraphic walkwayGraphic;
-
-    private Color purple = new Color( 200, 175, 250 );
-    private PhetFrame frame;
-    private ModelElement mainModelElement;
-    private Color backgroundColor;
     private MovingManModel model;
-    private PlotSet plotSet;
-    private WiggleMe wiggleMe;
-    private boolean initMediaPanel = false;
+    private MovingManTimeModel timeModel;
 
+    private MovingManControlPanel movingManControlPanel;
+    private PhetFrame frame;
+
+    private LinearTransform1d manPositionTransform;
+    private PlotSet plotSet;
+
+    private boolean initMediaPanel = false;
     private MMKeySuite keySuite;
-    private ManGraphic.Listener wiggleMeListener;
-    private ArrayList listeners = new ArrayList();
+
     private MovingManApparatusPanel mypanel;
-    public static final double TIME_SCALE = 1.0 / 50.0;
-    private int numSmoothingPoints;
     private HelpItem closeHelpItem;
-    private boolean stopped = false;
 
     // Localization
     public static final String localizedStringsPath = "localization/MovingManStrings";
 
-    public int getNumSmoothingPoints() {
-        return numSmoothingPoints;
-    }
-
     public MovingManModule( AbstractClock clock ) throws IOException {
         super( SimStrings.get( "ModuleTitle.MovingManModule" ), clock );
+        timeModel = new MovingManTimeModel( this );
+        super.setModel( new BaseModel() );
         model = new MovingManModel( this, clock );
         manPositionTransform = new LinearTransform1d( -getMaxManPosition(), getMaxManPosition(), 50, 600 );
-        recordTimer = new MMTimer( SimStrings.get( "MovingManModule.RecordTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
-        playbackTimer = new MMTimer( SimStrings.get( "MovingManModule.PlaybackTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
+
         mypanel = new MovingManApparatusPanel( this );
         super.setApparatusPanel( mypanel );
-        backgroundColor = new Color( 250, 190, 240 );
-        backgroundGraphic = new BufferedGraphicForComponent( 0, 0, 800, 400, backgroundColor, getApparatusPanel() );
+
         plotSet = new PlotSet( this );
         mypanel.initLayout();
 
         keySuite = new MMKeySuite( this );
         mypanel.addKeyListener( keySuite );
-
-
         mypanel.addGraphicsSetup( new BasicGraphicsSetup() );
         mypanel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-        super.setModel( new BaseModel() );
-
-
-        manGraphic = new ManGraphic( this, model.getMan(), 0, manPositionTransform );
-
-        getApparatusPanel().addGraphic( manGraphic, 1 );
-        timerGraphic = new TimeGraphic( this, recordTimer, playbackTimer, 80, 40 );
-        getApparatusPanel().addGraphic( timerGraphic, 1 );
-
-        walkwayGraphic = new WalkWayGraphic( this, 11 );
-        backgroundGraphic.addGraphic( walkwayGraphic, 0 );
-
-//        layout.relayout();
 
         movingManControlPanel = new MovingManControlPanel( this );
-        mainModelElement = new ModelElement() {
-            public void stepInTime( double dt ) {
-                if( !paused ) {
-                    mode.stepInTime( dt * TIME_SCALE );
-                }
-            }
-        };
-        getModel().addModelElement( mainModelElement );
+        getModel().addModelElement( timeModel.getMainModelElement() );
 
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
@@ -147,49 +96,17 @@ public class MovingManModule extends Module {
                 } );
             }
         } );
-        recordMode = new RecordMode( this );
-        playbackMode = new PlaybackMode( this );
-        setMode( recordMode );
 
-        getApparatusPanel().addGraphic( backgroundGraphic, 0 );
+
         clock.addClockTickListener( getModel() );
 
-        Point2D start = manGraphic.getRectangle().getLocation();
-        start = new Point2D.Double( start.getX() + 50, start.getY() + 50 );
-        wiggleMe = new WiggleMe( getApparatusPanel(), start,
-                                 new ImmutableVector2D.Double( 0, 1 ), 15, .02, SimStrings.get( "MovingManModule.DragTheManText" ) );
-        wiggleMe.setVisible( false );//TODO don't delete this line.
-        addListener( new ListenerAdapter() {
-            public void recordingStarted() {
-                setWiggleMeVisible( false );
-            }
-        } );
-        this.wiggleMeListener = new ManGraphic.Listener() {
-            public void manGraphicChanged() {
-                Point2D start = manGraphic.getRectangle().getLocation();
-                start = new Point2D.Double( start.getX() - wiggleMe.getWidth() - 20, start.getY() + manGraphic.getRectangle().getHeight() / 2 );
-                wiggleMe.setCenter( new Point( (int)start.getX(), (int)start.getY() ) );
-            }
-
-            public void mouseReleased() {
-            }
-        };
-        setWiggleMeVisible( true );
-
-        manGraphic.addListener( this.wiggleMeListener );
-        getApparatusPanel().addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                getApparatusPanel().requestFocus();
-            }
-        } );
 
         closeHelpItem = new HelpItem( getApparatusPanel(), SimStrings.get( "MovingManModule.CloseHelpText" ), 250, 450 );
         closeHelpItem.setForegroundColor( Color.red );
         closeHelpItem.setShadowColor( Color.black );
         addHelpItem( closeHelpItem );
 
-
-        fireReset();
+        timeModel.fireReset();
 //        addDirectionHandler();
 
 //        addModelElement( new ModelElement() {
@@ -235,7 +152,7 @@ public class MovingManModule extends Module {
             public void nominalValueChanged( double value ) {
 //                circularBuffer.addPoint( );
                 if( value == 0 ) {
-                    manGraphic.setVelocity( 0.0 );
+                    getMovingManApparatusPanel().getManGraphic().setVelocity( 0.0 );
                 }
             }
         } );
@@ -248,59 +165,62 @@ public class MovingManModule extends Module {
                 getManGraphic().setVelocity( 0 );
             }
         } );
+        timeModel.setRecordMode();
     }
 
-    private void addDirectionHandler() {
-
-        getVelocityPlot().addListener( new MMPlot.Listener() {
-            public void nominalValueChanged( double value ) {
-                if( manGraphic.isDragging() || getPositionPlot().isDragging() || getVelocityPlot().isDragging() || stopped ) {
-                }
-                else {
-                    manGraphic.setVelocity( value );
-                }
-            }
-        } );
-        getManGraphic().addListener( new ManGraphic.Listener() {
-            double lastX;
-
-            public void manGraphicChanged() {
-                if( manGraphic.isDragging() || getPositionPlot().isDragging() ) {
-                    double x = getMan().getX();
-                    double dx = x - lastX;
-                    getManGraphic().setVelocity( dx );
-                    lastX = x;
-                }
-            }
-
-            public void mouseReleased() {
-                getManGraphic().setVelocity( 0 );
-                stopped = true;
-            }
-        } );
-
-        getVelocityPlot().getVerticalChartSlider().addListener( new VerticalChartSlider.Listener() {
-            public void valueChanged( double value ) {
-                if( getVelocityPlot().isDragging() ) {
-                    getManGraphic().setVelocity( value );
-                }
-            }
-        } );
-        getAccelerationPlot().getVerticalChartSlider().addListener( new VerticalChartSlider.Listener() {
-            public void valueChanged( double value ) {
-                if( getAccelerationPlot().isDragging() ) {
-                    stopped = false;
-                }
-            }
-        } );
+    public int getNumSmoothingPoints() {
+        return timeModel.getNumSmoothingPoints();
     }
+//    private void addDirectionHandler() {
+//
+//        getVelocityPlot().addListener( new MMPlot.TimeListener() {
+//            public void nominalValueChanged( double value ) {
+//                if( manGraphic.isDragging() || getPositionPlot().isDragging() || getVelocityPlot().isDragging() || stopped ) {
+//                }
+//                else {
+//                    manGraphic.setVelocity( value );
+//                }
+//            }
+//        } );
+//        getManGraphic().addListener( new ManGraphic.TimeListener() {
+//            double lastX;
+//
+//            public void manGraphicChanged() {
+//                if( manGraphic.isDragging() || getPositionPlot().isDragging() ) {
+//                    double x = getMan().getX();
+//                    double dx = x - lastX;
+//                    getManGraphic().setVelocity( dx );
+//                    lastX = x;
+//                }
+//            }
+//
+//            public void mouseReleased() {
+//                getManGraphic().setVelocity( 0 );
+//                stopped = true;
+//            }
+//        } );
+//
+//        getVelocityPlot().getVerticalChartSlider().addListener( new VerticalChartSlider.TimeListener() {
+//            public void valueChanged( double value ) {
+//                if( getVelocityPlot().isDragging() ) {
+//                    getManGraphic().setVelocity( value );
+//                }
+//            }
+//        } );
+//        getAccelerationPlot().getVerticalChartSlider().addListener( new VerticalChartSlider.TimeListener() {
+//            public void valueChanged( double value ) {
+//                if( getAccelerationPlot().isDragging() ) {
+//                    stopped = false;
+//                }
+//            }
+//        } );
+//    }
 
     public void showMegaHelp() {
         showHelpImage( "images/mm-mh.gif" );
     }
 
     public void showHelpImage( String imageName ) {
-
         final JFrame imageFrame = new JFrame();
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( imageName );
@@ -329,8 +249,8 @@ public class MovingManModule extends Module {
 
     public void setHelpEnabled( boolean h ) {
         super.setHelpEnabled( h );
-        setWiggleMeVisible( h );
-        Point plotLocation = null;
+        getMovingManApparatusPanel().setHelpEnabled( h );
+//        Point plotLocation = null;
         if( getPositionPlot().isVisible() ) {
             JButton closeButton = getPositionPlot().getCloseButton();
             closeHelpItem.setLocation( closeButton.getLocation().x - 100, closeButton.getLocation().y + closeButton.getHeight() );
@@ -340,207 +260,96 @@ public class MovingManModule extends Module {
         }
     }
 
-    private void fireReset() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.reset();
-        }
-    }
 
     public Color getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    private void firePause() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            if( mode == recordMode ) {
-                listener.recordingPaused();
-            }
-            else {
-                listener.playbackPaused();
-            }
-        }
+        return getMovingManApparatusPanel().getBackgroundColor();
     }
 
     public void repaintBackground( Rectangle rect ) {
-        if( backgroundGraphic != null ) {
-            backgroundGraphic.paintBufferedImage( rect );
-            getApparatusPanel().repaint( rect );
-        }
+        getMovingManApparatusPanel().repaintBackground( rect );
     }
 
-    public void setWiggleMeVisible( boolean b ) {
-        if( b == wiggleMe.isVisible() ) {
-            return;
-        }
-        if( !b ) {
-            wiggleMe.setVisible( false );
-            getApparatusPanel().removeGraphic( wiggleMe );
-            getModel().removeModelElement( wiggleMe );
-            manGraphic.removeListener( wiggleMeListener );
-        }
-        else {
-            wiggleMe.setVisible( true );
-            getApparatusPanel().addGraphic( wiggleMe, 100 );
-            getModel().addModelElement( wiggleMe );
-            manGraphic.addListener( wiggleMeListener );
-        }
-    }
-
-    public void firePlaybackFinished() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.playbackFinished();
-        }
-    }
-
-    public void fireFinishedRecording() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.recordingFinished();
-        }
-    }
 
     public void recordingFinished() {
         setPaused( true );
-        fireFinishedRecording();
+        timeModel.fireFinishedRecording();
     }
 
     public KeyListener getKeySuite() {
         return keySuite;
     }
 
-    public static interface Listener {
-        void recordingStarted();
-
-        void recordingPaused();
-
-        void recordingFinished();
-
-        void playbackStarted();
-
-        void playbackPaused();
-
-        void playbackFinished();
-
-        void reset();
-
-        void rewind();
+    public void firePlaybackFinished() {
+        timeModel.firePlaybackFinished();
     }
 
-    public static class ListenerAdapter implements Listener {
+    public static double getTimeScale() {
+        return MovingManTimeModel.TIME_SCALE;
+    }
 
-        public void recordingStarted() {
-        }
+    public MovingManTimeModel getTimeModel() {
 
-        public void recordingPaused() {
-        }
+        return timeModel;
+    }
 
-        public void recordingFinished() {
-        }
-
-        public void playbackStarted() {
-        }
-
-        public void playbackPaused() {
-        }
-
-        public void playbackFinished() {
-        }
-
-        public void reset() {
-        }
-
-        public void rewind() {
-        }
+    public void setWiggleMeVisible( boolean b ) {
+        getMovingManApparatusPanel().setWiggleMeVisible( b );
     }
 
     public boolean isPaused() {
-        return paused;
+        return timeModel.isPaused();
     }
 
-    public BufferedGraphicForComponent getBackground() {
-        return backgroundGraphic;
+    public BufferedGraphicForComponent getBuffer() {
+        return getMovingManApparatusPanel().getBuffer();
     }
 
     public MovingManModel getMovingManModel() {
         return model;
     }
 
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
+    public void addListener( TimeListener timeListener ) {
+        timeModel.addListener( timeListener );
     }
 
     public void setPaused( boolean paused ) {
-        if( paused != this.paused ) {
-            this.paused = paused;
-            if( paused ) {
-                firePause();
-            }
-            else if( isRecording() ) {
-                fireRecordStarted();
-            }
-            else if( isPlayback() ) {
-                firePlaybackStarted();
-            }
-            getPositionPlot().requestTypingFocus();
-        }
-    }
-
-    private void firePlaybackStarted() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.playbackStarted();
-        }
-    }
-
-    private boolean isPlayback() {
-        return mode == playbackMode;
-    }
-
-    private void fireRecordStarted() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.recordingStarted();
-        }
-    }
-
-    public Color getPurple() {
-        return purple;
+        timeModel.setPaused( paused );
+        getPositionPlot().requestTypingFocus();
     }
 
     public void setNumSmoothingPoints( int n ) {
-        this.numSmoothingPoints = n;
+        timeModel.setNumSmoothingPoints( n );
         model.setNumSmoothingPoints( n );
         plotSet.setNumSmoothingPoints( n );
+
     }
 
     public void setRightDirPositive( boolean rightPos ) {
         LinearTransform1d newTransform;
         double appPanelWidth = getApparatusPanel().getWidth();
         int inset = 50;
+        WalkWayGraphic walkwayGraphic = getWalkwayGraphic();
         if( rightPos ) {//as usual
             newTransform = new LinearTransform1d( -getMaxManPosition(), getMaxManPosition(), inset, appPanelWidth - inset );
-            //todo positions are broken.
-//            walkwayGraphic.setTreeX( -10 );
-//            walkwayGraphic.setHouseX( 10 );
+//            todo positions are broken.
+
+            walkwayGraphic.setTreeX( -10 );
+            walkwayGraphic.setHouseX( 10 );
         }
         else {
             newTransform = new LinearTransform1d( getMaxManPosition(), -getMaxManPosition(), inset, appPanelWidth - inset );
-//            walkwayGraphic.setTreeX( 10 );
-//            walkwayGraphic.setHouseX( -10 );
+            walkwayGraphic.setTreeX( 10 );
+            walkwayGraphic.setHouseX( -10 );
         }
-        manGraphic.setTransform( newTransform );
+
         setManTransform( newTransform );
-        setMode( recordMode );
+        timeModel.setRecordMode();
         reset();
         setPaused( true );
     }
 
     public void repaintBackground() {
-        backgroundGraphic.paintBufferedImage();
-        getApparatusPanel().repaint();
+        getMovingManApparatusPanel().repaintBackground();
     }
 
     public LinearTransform1d getManPositionTransform() {
@@ -593,7 +402,7 @@ public class MovingManModule extends Module {
     }
 
     public ManGraphic getManGraphic() {
-        return manGraphic;
+        return getMovingManApparatusPanel().getManGraphic();
     }
 
     public MMPlot getAccelerationPlot() {
@@ -613,21 +422,15 @@ public class MovingManModule extends Module {
     }
 
     public void setMode( Mode mode ) {
-        boolean same = mode == this.mode;
-        if( !same ) {
-            this.mode = mode;
-            this.mode.initialize();
-            System.out.println( "Changed mode to: " + mode.getName() );
-            repaintBackground();
-        }
+        timeModel.setMode( mode );
+        repaintBackground();
     }
 
     public void relayout() {
         getMovingManApparatusPanel().relayout();
         Component c = getApparatusPanel();
         if( c.getHeight() > 0 && c.getWidth() > 0 ) {
-            backgroundGraphic.setSize( c.getWidth(), c.getHeight() );
-            backgroundGraphic.paintBufferedImage();
+            getMovingManApparatusPanel().setTheSize( c.getWidth(), c.getHeight() );
             getApparatusPanel().repaint();
         }
     }
@@ -653,7 +456,7 @@ public class MovingManModule extends Module {
     }
 
     public MMTimer getRecordingTimer() {
-        return recordTimer;
+        return timeModel.getRecordTimer();
     }
 
     public void setCursorsVisible( boolean visible ) {
@@ -668,22 +471,15 @@ public class MovingManModule extends Module {
     }
 
     public void rewind() {
-        playbackTimer.setTime( 0 );
+        timeModel.rewind();
         getMan().reset();
-        fireRewind();
     }
 
-    private void fireRewind() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.rewind();
-        }
-    }
 
     public void setRecordMode() {
         //enter the text box values.
         enterTextBoxValues();
-        setMode( recordMode );
+        timeModel.setRecordMode();
     }
 
     private void enterTextBoxValues() {
@@ -691,22 +487,20 @@ public class MovingManModule extends Module {
     }
 
     public void startPlaybackMode( double playbackSpeed ) {
-        stopped = false;
-        playbackMode.setPlaybackSpeed( playbackSpeed );
-        setMode( playbackMode );
-        setPaused( false );
+
+        timeModel.startPlaybackMode( playbackSpeed );
     }
 
     public boolean isRecording() {
-        return mode == recordMode && !isPaused();
+        return timeModel.isRecording();
     }
 
     public void cursorMovedToTime( double requestedTime ) {
-        if( requestedTime < 0 || requestedTime > recordTimer.getTime() ) {
+        if( requestedTime < 0 || requestedTime > timeModel.getRecordTimer().getTime() ) {
             return;
         }
         else {
-            playbackTimer.setTime( requestedTime );
+            timeModel.getPlaybackTimer().setTime( requestedTime );
             int timeIndex = getTimeIndex( requestedTime );
             if( timeIndex < model.getPosition().numSmoothedPoints() && timeIndex >= 0 ) {
                 double x = model.getPosition().smoothedPointAt( timeIndex );
@@ -717,24 +511,21 @@ public class MovingManModule extends Module {
     }
 
     private int getTimeIndex( double requestedTime ) {
-        return (int)( requestedTime / TIME_SCALE );
+        return timeModel.getTimeIndex( requestedTime );
     }
 
     public void setManTransform( LinearTransform1d transform ) {
         this.manPositionTransform = transform;
+        getMovingManApparatusPanel().setManTransform( transform );
     }
 
     public void reset() {
-        setPaused( true );
+        timeModel.reset();
         model.reset();
-        recordTimer.reset();
-        playbackTimer.reset();
         setCursorsVisible( false );
         plotSet.reset();
-        backgroundGraphic.paintBufferedImage();
+        getMovingManApparatusPanel().paintBufferedImage();
         getApparatusPanel().repaint();
-
-        fireReset();
     }
 
     public SmoothDataSeries getVelocityData() {
@@ -758,15 +549,15 @@ public class MovingManModule extends Module {
     }
 
     public MMTimer getPlaybackTimer() {
-        return playbackTimer;
+        return timeModel.getPlaybackTimer();
     }
 
     public boolean isRecordMode() {
-        return mode == recordMode;
+        return timeModel.isRecordMode();
     }
 
     public boolean isTakingData() {
-        return !isPaused() && mode.isTakingData();
+        return timeModel.isTakingData();
     }
 
     public static void main( String[] args ) throws Exception {
@@ -817,7 +608,7 @@ public class MovingManModule extends Module {
         frame.validate();
         frame.repaint();
         m.repaintBackground();
-        m.recordMode.initialize();
+        m.timeModel.getRecordMode().initialize();
         m.getApparatusPanel().repaint();
 
         final Runnable dofix = new Runnable() {
@@ -930,7 +721,7 @@ public class MovingManModule extends Module {
     }
 
     public WalkWayGraphic getWalkwayGraphic() {
-        return walkwayGraphic;
+        return getMovingManApparatusPanel().getWalkwayGraphic();
     }
 
 }

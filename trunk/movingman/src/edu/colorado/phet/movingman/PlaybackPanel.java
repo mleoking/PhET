@@ -67,7 +67,7 @@ public class PlaybackPanel extends JPanel {
 //        add( separator );
 //        add( phetIconLabel );
 
-        MovingManModule.Listener listener = new MovingManModule.Listener() {
+        TimeListener timeListener = new TimeListener() {
             public void recordingStarted() {
                 setButtons( false, false, false, false );
             }
@@ -103,7 +103,7 @@ public class PlaybackPanel extends JPanel {
                 setButtons( true, true, false, false );
             }
         };
-        module.addListener( listener );
+        module.addListener( timeListener );
     }
 
     private void setButtons( boolean playBtn, boolean slowBtn, boolean pauseBtn, boolean rewindBtn ) {

@@ -1,6 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -25,9 +26,11 @@ public class TimeGraphic extends PhetGraphic {
     private Font f = MMFontManager.getFontSet().getTimeFont();
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
     private FontRenderContext frc;
+    private ApparatusPanel apparatusPanel;
 
-    public TimeGraphic( MovingManModule module, final MMTimer recordingMMTimer, final MMTimer playbackMMTimer, int x, int y ) {
-        super( module.getApparatusPanel() );
+    public TimeGraphic( MovingManModule module, MovingManApparatusPanel apparatusPanel, final MMTimer recordingMMTimer, final MMTimer playbackMMTimer, int x, int y ) {
+        super( apparatusPanel );
+        this.apparatusPanel = apparatusPanel;
         this.module = module;
 //        this.recordingMMTimer = recordingMMTimer;
         this.x = x;
@@ -75,7 +78,7 @@ public class TimeGraphic extends PhetGraphic {
         Rectangle union = r2.union( r );
 //        System.out.println( "union = " + union );
 //        module.getApparatusPanel().repaint( union );
-        module.getApparatusPanel().repaint( union );
+        apparatusPanel.repaint( union );
     }
 
     public Rectangle getShape() {

@@ -13,7 +13,7 @@ public class PlaybackMode extends Mode {
     private double playbackSpeed;
     private MovingManModule module;
 
-    public PlaybackMode( MovingManModule module ) {
+    public PlaybackMode( MovingManModule module, MovingManTimeModel movingManTimeModel ) {
         super( module, SimStrings.get( "PlaybackMode.ModeName" ), false );
         this.module = module;
     }
