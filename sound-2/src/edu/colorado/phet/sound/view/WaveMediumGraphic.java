@@ -13,13 +13,26 @@ import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.model.Wavefront;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * This variant of WaveMediumGraphic is the one used in the non-interefernce modules of the sound simulation.
+ */
 public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserver {
+
+    // An array of gray scale values
+    private static Color[] s_lineColor = new Color[256];
+
+    static {
+        for( int i = 0; i < s_lineColor.length; i++ ) {
+            s_lineColor[i] = new Color( i, i, i );
+        }
+    }
+
+    // Note that larger values for the stroke slow down performance considerably
+    private static Stroke s_defaultStroke = new BasicStroke( 1.0F );
+
 
     // TODO: This should be set by a call to initLayout, not here.
     private Point2D.Double origin = new Point2D.Double( SoundConfig.s_wavefrontBaseX, SoundConfig.s_wavefrontBaseY );
@@ -37,6 +50,11 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     private double rotationAngle = 0;
     private AffineTransform lineRotationXform;
     private WaveMedium waveMedium;
+    private RgbReporter rgbReporter;
+
+       private int grayScaleZero = s_lineColor.length / 2;
+
+    static public boolean drawTest;
 
     private static BufferedImage createBufferedImage() {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -49,24 +67,63 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     /**
      * todo: rename WaveMediumGraphic
      */
-    public WaveMediumGraphic( WaveMedium waveMedium, Component component ) {
+    public WaveMediumGraphic( WaveMedium waveMedium, Component component, RgbReporter rgbReporter ) {
         super( component, createBufferedImage() );
 
         // Hook up to the WaveMedium we are observing
         this.waveMedium = waveMedium;
+        this.rgbReporter = rgbReporter;
         waveMedium.addObserver( this );
 
         buffImg = super.getImage();
         g2DBuffImg = buffImg.createGraphics();
         g2DBuffImg.setColor( SoundConfig.MIDDLE_GRAY );
+        g2DBuffImg.setColor( new Color( 0, 0, 0, 0 ) );
+        //        Color transparent = new Color(0, 0, 0, 0);
+        //            g2d.setColor(transparent);
+        //            g2d.setComposite(AlphaComposite.Src);
+        //            g2d.fill(new Rectangle2D.Float(20, 20, 100, 20));
+
         g2DBuffImg.fill( new Rectangle( buffImg.getMinX(), buffImg.getMinY(), buffImg.getWidth(), buffImg.getHeight() ) );
-        g2DBuffImg.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED );
-        g2DBuffImg.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
-        g2DBuffImg.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
-        g2DBuffImg.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
-        g2DBuffImg.setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE );
-        g2DBuffImg.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED );
-        g2DBuffImg.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
+        setGraphicsHints( g2DBuffImg );
+
+        // Set the clip
+        GeneralPath clip = new GeneralPath();
+        clip.moveTo( (float)origin.getX(), (float)origin.getY() );
+        double x1 = waveMedium.getMaxX() + origin.getX();
+        double alpha = Math.asin( height / ( 2 * radius ) );
+        double dy = waveMedium.getMaxX() * Math.tan( alpha );
+        clip.lineTo( (float)x1, (float)( origin.getY() - dy ) );
+        clip.lineTo( (float)x1, (float)( origin.getY() + dy ) );
+        clip.closePath();
+        //        g2DBuffImg.setClip( clip );
+    }
+
+    /**
+     * Gets the color corresponding to a particular amplitude at a particular point. The idea is to
+     * match the zero pressure point in the wave medium to the background color reported by the
+     * rgbReporter
+     * @param amplitude
+     * @param x
+     * @param y
+     * @return
+     */
+    Color getColorForAmplitude( double amplitude, int x, int y ) {
+        int zeroGray = rgbReporter.rgbAt( x, y );
+        double normalizedAmplitude = amplitude / SoundConfig.s_maxAmplitude * zeroGray;
+        int colorIndex = Math.min( (int)( ( normalizedAmplitude ) + zeroGray ), s_lineColor.length - 1 );
+        return s_lineColor[colorIndex];
+    }
+
+    private void setGraphicsHints( Graphics2D g2 ) {
+        g2.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED );
+        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
+        g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
+        //        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+        g2.setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE );
+        g2.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED );
+        g2.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
     }
 
     /**
@@ -79,10 +136,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     }
 
     /**
-     * @param origin
-     * @param height
-     * @param radius
-     * @param theta
+     *
      */
     public void initLayout( Point2D.Double origin, double height, double radius,
                             double theta ) {
@@ -123,20 +177,16 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     /**
      *
      */
-    /**
-     *
-     */
     public void paint( Graphics2D g ) {
+
+        this.setGraphicsHints( g );
 
         // Set opacity
         Composite incomingComposite = g.getComposite();
+//rjl 8/25/04
         g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, opacity ) );
 
-        Stroke oldStroke = g.getStroke();
         g.setStroke( s_defaultStroke );
-        Color oldColor = g.getColor();
-
-        //        WaveMedium waveMedium = (WaveMedium)this.getBody();
 
         Point2D end1 = new Point2D.Float();
         Point2D end2 = new Point2D.Float();
@@ -148,52 +198,66 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         // Compute stuff we need to calculate the arc.
         double arcHt = height - 20;
         double rad2 = radius - 20;
-        float theta = (float)Math.asin( arcHt / ( 2 * rad2 ) );
-        float c = (float)( arcHt / ( 2 * Math.tan( theta ) ) );
 
-        // Draw a line or arc for each value in the amplitude array of the wave front
-        for( int i = 0; i < waveMedium.getMaxX(); i++ ) {
-
-            // Negative in front of amplitude is to make black indicate high pressure, and white
-            // indicate low pressure
-            double amplitude = amplitudes[i];
-            int colorIndex = (int)( ( -amplitude ) * ( s_lineColor.length / 2 )
-                                    + s_lineColor.length / 2 );
-            g.setColor( s_lineColor[colorIndex] );
-            if( this.isPlanar ) {
-
-                // The hard-coded 15 here is to get the wave front to start right at the edge of the
-                // speaker
-                end1.setLocation( origin.getX() + 15 + i * stroke, origin.getY() - 22 );
-                end2.setLocation( origin.getX() + 15 + i * stroke, origin.getY() + height + 22 );
-                line.setLine( end1, end2 );
-
-                g.draw( line );
+        // TODO: For some reason, this has to be set here. If you just do it in setRotationAngle()
+        // it doesn't work right
+        lineRotationXform = AffineTransform.getRotateInstance( -Math.toRadians( rotationAngle ),
+                                                               origin.getX(), origin.getY() );
+        if( drawTest ) {
+            int dx = 2;
+            int dy = 2;
+            Graphics2D gBi = (Graphics2D)buffImg.getGraphics();
+            for( int x = (int)rad2; x < waveMedium.getMaxX(); x += dx ) {
+                double yStart = x * Math.tan( Math.toRadians( -alpha + rotationAngle ) );
+                double yStop = x * Math.tan( Math.toRadians( alpha + rotationAngle ) );
+                for( int y = (int)yStart; y < (int)yStop; y += dy ) {
+                    double distSq = ( x * x ) + ( y * y );
+                    int dist = (int)Math.sqrt( distSq );
+                    if( dist < waveMedium.getMaxX() ) {
+                        double normalizedAmplitude = amplitudes[dist] / SoundConfig.s_maxAmplitude * grayScaleZero;
+//                        double normalizedAmplitude = amplitudes[dist] / SoundConfig.s_maxAmplitude * getGrayScaleZero();
+                        int colorIndex = (int)( ( normalizedAmplitude ) + s_lineColor.length / 2 );
+                        gBi.setColor( s_lineColor[colorIndex] );
+//                        gBi.setColor( getColorForAmplitude( amplitudes[dist], x, y ) );
+                        gBi.fillRect( (int)origin.getX() + x, (int)origin.getY() + y, dx, dy );
+                    }
+                }
             }
-            else {
-                arc.setArc( origin.getX() - rad2 - ( i * stroke ),
-                            origin.getY() - rad2 - ( i * stroke ),
-                            rad2 * 2 + ( i * stroke * 2 ),
-                            rad2 * 2 + ( i * stroke * 2 ),
-                            -alpha + rotationAngle, alpha * 2, Arc2D.OPEN );
+            g.drawImage( buffImg, nopAT, null );
+        }
+        else {
 
-                // The following lines draw the are in the buffered image
-                g2DBuffImg.setColor( s_lineColor[colorIndex] );
-                g2DBuffImg.draw( arc );
+            // Draw a line or arc for each value in the amplitude array of the wave front
+            for( int i = 0; i < waveMedium.getMaxX(); i++ ) {
 
-                // Enable these lines to anti-alias the arcs. Note that this degrades performance
-                //                arc.x = arc.getX() - 1;
-                //                g.draw( arc );
+                // Negative in front of amplitude is to make black indicate high pressure, and white
+                // indicate low pressure
+//                double normalizedAmplitude = amplitudes[i] / SoundConfig.s_maxAmplitude * getGrayScaleZero();
+//                int colorIndex = (int)( ( normalizedAmplitude ) + grayScaleZero );
+//                g.setColor( s_lineColor[colorIndex] );
+                g.setColor( getColorForAmplitude( amplitudes[i], (int)( i * stroke ), 0 ) );
+                if( this.isPlanar ) {
+                    end1.setLocation( origin.getX() + rad2 + ( i * stroke ), origin.getY() - height / 2 );
+                    end2.setLocation( origin.getX() + rad2 + ( i * stroke ), origin.getY() + height / 2 );
+                    line.setLine( end1, end2 );
+                    Shape xformedLine = lineRotationXform.createTransformedShape( line );
+                    g.draw( xformedLine );
+//                                        g2DBuffImg.draw( xformedLine );
+                }
+                else {
+                    arc.setArc( origin.getX() - rad2 - ( i * stroke ),
+                                origin.getY() - rad2 - ( i * stroke ),
+                                rad2 * 2 + ( i * stroke * 2 ),
+                                rad2 * 2 + ( i * stroke * 2 ),
+                                -alpha + rotationAngle, alpha * 2, Arc2D.OPEN );
+                    g.draw( arc );
+//                                        g2DBuffImg.draw( arc );
+                }
             }
         }
-
-        g.drawImage( buffImg, nopAT, null );
-
-        g.setStroke( oldStroke );
-        g.setColor( oldColor );
+//                g.drawImage( buffImg, nopAT, null );
         g.setComposite( incomingComposite );
     }
-
 
     /**
      *
@@ -201,18 +265,6 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     public Point2D.Double getOrigin() {
         return origin;
     }
-
-    //
-    // Abstract methods
-    //
-    //    protected void setConePosition( Particle body ) {
-    //    }
-
-    /**
-     * We copy out the amplitudes of the wave medium. If we wait until the paint() to get them, we get
-     * into threading issues, and the display is jerky
-     */
-    boolean auxTest = false;
 
     /**
      *
@@ -228,52 +280,5 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         isPlanar = planar;
         clear();
     }
-
-    protected double getHeight() {
-        return height;
-    }
-
-    protected double getStroke() {
-        return stroke;
-    }
-
-    protected double getRadius() {
-        return radius;
-    }
-
-    protected boolean isPlanar() {
-        return isPlanar;
-    }
-
-    protected BufferedImage getBuffImg() {
-        return buffImg;
-    }
-
-    protected double[] getAmplitudes() {
-        return amplitudes;
-    }
-
-    /* TEST */
-    public boolean imageUpdate( Image img, int infoflags,
-                                int x, int y, int width, int height ) {
-        return false;
-    }
-
-
-    //
-    // Static fields and methods
-    //
-
-    // An array of gray scale values
-    static Color[] s_lineColor = new Color[256];
-
-    static {
-        for( int i = 0; i < s_lineColor.length; i++ ) {
-            s_lineColor[i] = new Color( i, i, i );
-        }
-    }
-
-    // Note that larger values for the stroke slow down performance considerably
-    protected static Stroke s_defaultStroke = new BasicStroke( 1.0F );
 
 }

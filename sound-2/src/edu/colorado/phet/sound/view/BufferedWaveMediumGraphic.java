@@ -19,7 +19,11 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserver {
+/**
+ * This variant of the WaveMediumGraphic is used for the movable speaker in the Two
+ * Source Intereference module
+ */
+public class BufferedWaveMediumGraphic extends PhetImageGraphic implements SimpleObserver {
 
     //
     // Static fields and methods
@@ -45,8 +49,7 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
 
     // Note that larger values for the stroke slow down performance considerably
     protected static Stroke s_defaultStroke = new BasicStroke( 1.0F );
-    // TODO: This should be set by a call to initLayout, not here.
-    private Point2D.Double origin = new Point2D.Double( SoundConfig.s_wavefrontBaseX, SoundConfig.s_wavefrontBaseY );
+    private Point2D.Double origin;
     private double height = SoundConfig.s_wavefrontHeight;
     private double stroke = 1;
     // Adjust this to control the dispersion angle of a spherical wavefront
@@ -69,7 +72,7 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
     /**
      * todo: rename WaveMediumGraphic
      */
-    public WaveMediumGraphicC( WaveMedium waveMedium, Component component ) {
+    public BufferedWaveMediumGraphic( WaveMedium waveMedium, Component component ) {
         super( component, createBufferedImage() );
 
         // Hook up to the WaveMedium we are observing
@@ -110,6 +113,11 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
         this.height = height;
         this.radius = radius;
         setRotationAngle( theta );
+
+        // Initialize the arc centers
+        for( int i = 0; i < arcCenters.length; i++ ) {
+            arcCenters[i] = origin;
+        }
     }
 
     /**
@@ -143,9 +151,6 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
     /**
      *
      */
-    /**
-     *
-     */
     public void paint( Graphics2D g ) {
 
         this.clear();
@@ -157,8 +162,6 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
         Stroke oldStroke = g.getStroke();
         g.setStroke( s_defaultStroke );
         Color oldColor = g.getColor();
-
-        //        WaveMedium waveMedium = (WaveMedium)this.getBody();
 
         Point2D end1 = new Point2D.Float();
         Point2D end2 = new Point2D.Float();
@@ -179,7 +182,6 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
         for( int i = 0; i < 50; i++ ) {
             arcCenters[i] = origin;
         }
-
 
         // Draw a line or arc for each value in the amplitude array of the wave front
         for( int i = 0; i < waveMedium.getMaxX(); i++ ) {
@@ -252,13 +254,7 @@ public class WaveMediumGraphicC extends PhetImageGraphic implements SimpleObserv
         for( int i = 0; i < amplitudes.length; i++ ) {
             amplitudes[i] = waveMedium.getAmplitudeAt( (double)i );
         }
-        //        for( int i = amplitudes.length - 1; i > 0; i--  ) {
-        //            originAtTime.set( i, originAtTime.get( i - 1 ));
-        //        }
-        //        originAtTime.set( 0, origin );
         this.repaint();
-        //        component.invalidate();
-        //        component.repaint();
     }
 
     public void setPlanar( boolean planar ) {

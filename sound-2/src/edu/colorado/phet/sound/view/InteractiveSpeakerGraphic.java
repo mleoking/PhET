@@ -15,10 +15,10 @@ import java.awt.geom.Point2D;
 
 public class InteractiveSpeakerGraphic extends DefaultInteractiveGraphic {
     private SpeakerGraphic speakerGraphic;
-    private WaveMediumGraphicC waveMediumGraphic;
+    private BufferedWaveMediumGraphic waveMediumGraphic;
 
     public InteractiveSpeakerGraphic( SpeakerGraphic speakerGraphic,
-                                      WaveMediumGraphicC waveMediumGraphic ) {
+                                      BufferedWaveMediumGraphic waveMediumGraphic ) {
         super( speakerGraphic );
         this.speakerGraphic = speakerGraphic;
         this.waveMediumGraphic = waveMediumGraphic;

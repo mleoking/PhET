@@ -64,7 +64,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         // Create the upper wave and speaker
         WaveMedium wm = getSoundModel().getWaveMedium();
         //        getSoundModel().getPrimaryWavefront().setOrigin( audioSourceA );
-        WaveMediumGraphicC wgA = new WaveMediumGraphicC( wm, getApparatusPanel() );
+        BufferedWaveMediumGraphic wgA = new BufferedWaveMediumGraphic( wm, getApparatusPanel() );
         wm.addObserver( wgA );
         this.addGraphic( wgA, 5 );
         wgA.initLayout( audioSourceA,
@@ -77,7 +77,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         getApparatusPanel().addGraphic( iSpeakerGraphicA, 8 );
 
         // Add the lower wave and speaker
-        WaveMediumGraphic wgB = new WaveMediumGraphic( wm, getApparatusPanel() );
+        BufferedWaveMediumGraphic wgB = new BufferedWaveMediumGraphic( wm, getApparatusPanel() );
         wm.addObserver( wgB );
         this.addGraphic( wgB, 5 );
         wgB.initLayout( audioSourceB,
