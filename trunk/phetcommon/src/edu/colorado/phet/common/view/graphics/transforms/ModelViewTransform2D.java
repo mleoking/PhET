@@ -30,14 +30,8 @@ public class ModelViewTransform2D {
      * @param viewBounds
      */
     public ModelViewTransform2D( Rectangle2D.Double modelBounds, Rectangle viewBounds ) {
-        this.modelBounds = modelBounds;
-        this.viewBounds = viewBounds;
-        if( viewBounds.getWidth() <= 0 ) {
-            throw new RuntimeException( "View Bounds width must be positive." );
-        }
-        if( viewBounds.getHeight() <= 0 ) {
-            throw new RuntimeException( "View Bounds height must be positive." );
-        }
+        setModelBounds( modelBounds );
+        setViewBounds( viewBounds );
     }
 
     /**
