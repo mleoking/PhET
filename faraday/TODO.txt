@@ -6,7 +6,6 @@ IN PROGRESS:
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 
 HIGH PRIORITY:
-- keep zero-crossing of AC sine wave at origin of the XY axis
 - trace/scan the AC wave with a cursor that represents "now"
 - add playback controls to relevant modules (override Module.activate/deactivate)
 - label current source choices "DC" and "AC"
@@ -63,6 +62,8 @@ PHETCOMMON:
 
 DONE:
 v0r19...
+(3/17) - flatten all static graphic components of AC Power Supply
+(3/17) - keep zero-crossing of AC sine wave at origin of the XY axis
 (3/17) - fix bug in the number of cycles displayed by AC
 (3/17) - add an X/Y axis at center of the AC display
 (3/16) - ACSource -> ACPowerSupply throughout the source code & data files

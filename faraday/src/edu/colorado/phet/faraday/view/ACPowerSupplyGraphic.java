@@ -13,6 +13,7 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 
 import javax.swing.event.ChangeEvent;
@@ -95,7 +96,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         setRenderingHints( hints );
         
-        // Background (all static graphic components)
+        // Background, contains all of the static graphic components.
         BackgroundGraphic background = new BackgroundGraphic( component );
         addGraphic( background, BACKGROUND_LAYER );
         
@@ -276,23 +277,27 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private class BackgroundGraphic extends CompositePhetGraphic {
+    private class BackgroundGraphic extends PhetImageGraphic {
         
         private static final double PANEL_LAYER = 1;
         private static final double TITLE_LAYER = 2;
         private static final double AXES_LAYER = 3;
         
         public BackgroundGraphic( Component component ) {
+            super( component );
+            
+            // This will be flattened after we've added graphics to it.
+            GraphicLayerSet graphicLayerSet = new GraphicLayerSet( component );
             
             // AC panel
             PhetImageGraphic panel = new PhetImageGraphic( component, FaradayConfig.AC_POWER_SUPPLY_IMAGE );
-            addGraphic( panel, PANEL_LAYER );
+            graphicLayerSet.addGraphic( panel, PANEL_LAYER );
             
             // Title label
             {
                 String s = SimStrings.get( "ACPowerSupplyGraphic.title" );
                 PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
-                addGraphic( title, TITLE_LAYER );
+                graphicLayerSet.addGraphic( title, TITLE_LAYER );
                 title.centerRegistrationPoint();
                 title.setLocation( panel.getWidth() / 2, 36 );
             }
@@ -312,7 +317,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     xAxis.setBorderColor( AXES_COLOR );
                     xAxis.setStroke( stroke );
                     xAxis.setLocation( WAVE_ORIGIN );
-                    addGraphic( xAxis, AXES_LAYER );
+                    graphicLayerSet.addGraphic( xAxis, AXES_LAYER );
                     
                     // Tick marks
                     int numTicks = xLength / TICK_SPACING;
@@ -326,7 +331,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                         positiveTick.setBorderColor( AXES_COLOR );
                         positiveTick.setStroke( stroke );
                         positiveTick.setLocation( WAVE_ORIGIN );
-                        addGraphic( positiveTick, AXES_LAYER );
+                        graphicLayerSet.addGraphic( positiveTick, AXES_LAYER );
                         
                         Line2D shape2 = new Line2D.Double( -x, -y, -x, y );
                         PhetShapeGraphic negativeTick = new PhetShapeGraphic( component );
@@ -334,7 +339,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                         negativeTick.setBorderColor( AXES_COLOR );
                         negativeTick.setStroke( stroke );
                         negativeTick.setLocation( WAVE_ORIGIN );
-                        addGraphic( negativeTick, AXES_LAYER );
+                        graphicLayerSet.addGraphic( negativeTick, AXES_LAYER );
                     }
                 }
 
@@ -347,7 +352,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     yAxis.setBorderColor( AXES_COLOR );
                     yAxis.setStroke( stroke );
                     yAxis.setLocation( WAVE_ORIGIN );
-                    addGraphic( yAxis, AXES_LAYER );
+                    graphicLayerSet.addGraphic( yAxis, AXES_LAYER );
                     
                     // Tick marks
                     int numTicks = yLength / TICK_SPACING;
@@ -361,7 +366,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                         positiveTick.setBorderColor( AXES_COLOR );
                         positiveTick.setStroke( stroke );
                         positiveTick.setLocation( WAVE_ORIGIN );
-                        addGraphic( positiveTick, AXES_LAYER );
+                        graphicLayerSet.addGraphic( positiveTick, AXES_LAYER );
                         
                         Line2D shape2 = new Line2D.Double( -x, -y, x, -y );
                         PhetShapeGraphic negativeTick = new PhetShapeGraphic( component );
@@ -369,9 +374,18 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                         negativeTick.setBorderColor( AXES_COLOR );
                         negativeTick.setStroke( stroke );
                         negativeTick.setLocation( WAVE_ORIGIN );
-                        addGraphic( negativeTick, AXES_LAYER );
+                        graphicLayerSet.addGraphic( negativeTick, AXES_LAYER );
                     }
                 }
+            }
+            
+            // Flatten the graphic layer set.
+            {
+                Dimension size = graphicLayerSet.getSize();
+                BufferedImage bufferedImage = new BufferedImage( size.width, size.height, BufferedImage.TYPE_INT_ARGB );
+                Graphics2D g2 = bufferedImage.createGraphics();
+                graphicLayerSet.paint( g2 );
+                setImage( bufferedImage );
             }
         }
     } // class Background
