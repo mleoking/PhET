@@ -44,10 +44,10 @@ import java.awt.geom.Rectangle2D;
  * Author: Another Guy
  * Date: Mar 21, 2003
  * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+ * $Author$
+ * $Date$
+ * $Name$
+ * $Revision$
  */
 public class BaseLaserModule extends Module {
 
@@ -105,7 +105,7 @@ public class BaseLaserModule extends Module {
         // Create the pumping and stimulating beams
         seedBeam = new CollimatedBeam( Photon.RED,
                                        s_origin,
-                                       s_boxHeight - Photon.s_radius,
+                                       s_boxHeight - Photon.RADIUS,
                                        s_boxWidth + s_laserOffsetX * 2,
                                        new Vector2D.Double( 1, 0 ) );
         seedBeam.addListener( new PhotonEmissionListener() );
@@ -192,7 +192,7 @@ public class BaseLaserModule extends Module {
                 beamGraphic = null;
                 break;
             case PHOTON_CURTAIN:
-                beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity(), getModel() );
+                beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity() );
                 addGraphic( beamGraphic, 1 );
                 break;
             default :

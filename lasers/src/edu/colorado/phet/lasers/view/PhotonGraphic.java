@@ -1,13 +1,12 @@
-/**
- * Class: AtomGraphic
- * Package: edu.colorado.phet.lasers.view
- * Author: Another Guy
- * Date: Mar 21, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.view;
 
@@ -34,12 +33,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class: AtomGraphic
+ * Package: edu.colorado.phet.lasers.view
+ * Author: Another Guy
+ * Date: Mar 21, 2003
+ */
 public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver, Photon.VelocityChangedListener {
 
     //////////////////////////////////////////////////////////////////////////////////////
     // Class
     //
-    static protected int s_imgHeight = (int)Photon.s_radius;
+    static protected int s_imgHeight = (int)Photon.RADIUS;
     static protected int s_imgLength = 20;
 
     // List on s_instances

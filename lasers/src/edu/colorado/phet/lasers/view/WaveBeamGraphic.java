@@ -1,12 +1,15 @@
-/**
- * Class: BlueBeamGraphic
- * Package: edu.colorado.phet.lasers.view
- * Author: Another Guy
- * Date: Oct 28, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -15,6 +18,12 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
 import java.awt.*;
 
+/**
+ * Class: BlueBeamGraphic
+ * Package: edu.colorado.phet.lasers.view
+ * Author: Another Guy
+ * Date: Oct 28, 2004
+ */
 public class WaveBeamGraphic extends PhetGraphic implements CollimatedBeam.RateChangeListener {
 
     private ResonatingCavity cavity;
@@ -23,12 +32,11 @@ public class WaveBeamGraphic extends PhetGraphic implements CollimatedBeam.RateC
     private Color color;
 
 
-    public WaveBeamGraphic( Component component, CollimatedBeam beam, ResonatingCavity cavity, BaseModel model ) {
+    public WaveBeamGraphic( Component component, CollimatedBeam beam, ResonatingCavity cavity ) {
         super( component );
         this.cavity = cavity;
         beam.addListener( this );
-        bounds.setRect( cavity.getMinX(), 0, cavity.getWidth(), getComponent().getHeight() );
-        update( beam.getPhotonsPerSecond() );
+        update( beam );
     }
 
     protected Rectangle determineBounds() {
@@ -42,17 +50,18 @@ public class WaveBeamGraphic extends PhetGraphic implements CollimatedBeam.RateC
         gs.restoreGraphics();
     }
 
-    private void update( double rate ) {
+    private void update( CollimatedBeam beam ) {
         int minLevel = 200;
         // The power function here controls the ramp-up of color intensity
-        int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( rate / maxRate ), .4 ) ) );
+        int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( beam.getPhotonsPerSecond() / maxRate ), .4 ) ) );
         color = new Color( level, level, 255 );
-        bounds.setRect( cavity.getMinX(), 0, cavity.getWidth(), getComponent().getHeight() );
+        bounds.setRect( beam.getBounds().getX(), beam.getBounds().getY(),
+                        beam.getBounds().getWidth(), getComponent().getHeight() - beam.getBounds().getY() );
         setBoundsDirty();
         repaint();
     }
 
     public void rateChangeOccurred( CollimatedBeam.RateChangeEvent event ) {
-        update( event.getRate() );
+        update( (CollimatedBeam)event.getSource() );
     }
 }

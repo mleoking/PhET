@@ -1,13 +1,12 @@
-/**
- * Class: Photon
- * Package: edu.colorado.phet.lasers.model
- * Author: Another Guy
- * Date: Mar 21, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.model.photon;
 
@@ -26,15 +25,18 @@ import java.util.EventListener;
 import java.util.EventObject;
 
 /**
- *
+ * Class: Photon
+ * Package: edu.colorado.phet.lasers.model
+ * Author: Another Guy
+ * Date: Mar 21, 2003
  */
 public class Photon extends Particle implements Collidable {
 
     ////////////////////////////////////////////////////////////////////////////////////////
     // Class
     //
-    static public double s_speed = 1;
-    static public double s_radius = 10;
+    static public double SPEED = 1;
+    static public double RADIUS = 10;
     static public double RED = 680;
     static public double DEEP_RED = 640;
     static public double BLUE = 440;
@@ -169,7 +171,7 @@ public class Photon extends Particle implements Collidable {
      */
     private Photon() {
         collidableAdapter = new CollidableAdapter( this );
-        setVelocity( s_speed, 0 );
+        setVelocity( SPEED, 0 );
         //        setMass( 1 );
     }
 

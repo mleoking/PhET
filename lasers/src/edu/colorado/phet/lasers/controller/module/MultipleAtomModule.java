@@ -1,13 +1,12 @@
-/**
- * Class: BaseLaserModule
- * Package: edu.colorado.phet.lasers.view
- * Author: Another Guy
- * Date: Mar 21, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.lasers.controller.module;
 
@@ -57,9 +56,12 @@ public class MultipleAtomModule extends BaseLaserModule {
         // Set the control panel
         setControlPanel( new MultipleAtomControlPanel( this ) );
 
+        // Set up the model elements
         ResonatingCavity cavity = getCavity();
         Rectangle2D cavityBounds = cavity.getBounds();
-        cavity.setBounds( cavityBounds.getMinX(), cavityBounds.getMinY(), cavityBounds.getMinX() + cavityBounds.getWidth(), cavityBounds.getMinY() + ( cavityBounds.getHeight() * 1.5 ) );
+        cavity.setBounds( cavityBounds.getMinX(), cavityBounds.getMinY(),
+                          cavityBounds.getMinX() + cavityBounds.getWidth(),
+                          cavityBounds.getMinY() + ( cavityBounds.getHeight() * 1.5 ) );
         cavityBounds = cavity.getBounds();
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() );
@@ -73,67 +75,79 @@ public class MultipleAtomModule extends BaseLaserModule {
         seedBeam.setPhotonsPerSecond( 1 );
 
         CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
-        Point2D pumpingBeamOrigin = new Point2D.Double( cavityBounds.getMinX() + cavityBounds.getWidth() / 2 - Photon.s_radius / 2,
-                                                        s_origin.getY() - 140 );
-        Rectangle2D.Double pumpingBeamBounds = new Rectangle2D.Double( pumpingBeamOrigin.getX(), pumpingBeamOrigin.getY(),
-                                                                       cavityBounds.getWidth(), s_boxHeight + s_laserOffsetX * 2 );
+        Rectangle2D.Double pumpingBeamBounds = new Rectangle2D.Double( cavity.getBounds().getX() + Photon.RADIUS,
+                                                                       cavity.getBounds().getY() / 2,
+                                                                       cavityBounds.getWidth() - Photon.RADIUS * 2,
+                                                                       s_boxHeight + s_laserOffsetX * 2 );
         pumpingBeam.setBounds( pumpingBeamBounds );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
         pumpingBeam.setEnabled( true );
 
-        // Add the ray gun for firing photons
+        // Set up the graphics
+        BufferedImage gunBI = null;
         try {
-            Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)seedBeamBounds.getX() - 100,
-                                                                  (int)( seedBeamBounds.getY() ),
-                                                                  100, (int)seedBeamBounds.getHeight() );
-            BufferedImage gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
-            double scaleX = allocatedBounds.getWidth() / gunBI.getWidth();
-            double scaleY = allocatedBounds.getHeight() / gunBI.getHeight();
-
-            AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ), AffineTransformOp.TYPE_BILINEAR );
-            BufferedImage beamImage = atxOp1.filter( gunBI, null );
-            AffineTransform atx = new AffineTransform();
-            atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
-
-            // Add the intensity control
-            JPanel sbmPanel = new JPanel();
-            BeamControl sbm = new BeamControl( seedBeam );
-            Dimension sbmDim = sbm.getPreferredSize();
-            sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
-                                (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );
-            sbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-            sbmPanel.add( sbm );
-            //            sbmPanel.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-            sbmPanel.setOpaque( false );
-            //            getApparatusPanel().add( sbmPanel );
-
-            // Pumping beam lamp
-            double pumpScaleX = scaleX;
-            double pumpScaleY = s_boxWidth / gunBI.getHeight();
-            AffineTransformOp atxOp2 = new AffineTransformOp( AffineTransform.getScaleInstance( pumpScaleX, pumpScaleY ), AffineTransformOp.TYPE_BILINEAR );
-            BufferedImage pumpBeamImage = atxOp2.filter( gunBI, null );
-            AffineTransform pumpingBeamTx = new AffineTransform();
-            pumpingBeamTx.translate( getLaserOrigin().getX() + pumpBeamImage.getHeight() + s_boxWidth / 2 - pumpBeamImage.getHeight() / 2, 10 );
-            pumpingBeamTx.rotate( Math.PI / 2 );
-            BufferedImage pumpingBeamLamp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( pumpBeamImage, null );
-            PhetImageGraphic pumpingLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), pumpingBeamLamp, pumpingBeamTx );
-            addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
-
-            // Add the beam control
-            JPanel pbmPanel = new JPanel();
-            BeamControl pbm = new BeamControl( pumpingBeam, 0, LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE );
-            Dimension pbmDim = pbm.getPreferredSize();
-            pbmPanel.setBounds( (int)( pumpingBeamTx.getTranslateX() - ( pumpingLampGraphic.getHeight() * pumpScaleY ) - pbmDim.getWidth() ), 10,
-                                (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
-            pbmPanel.add( pbm );
-            //            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-            pbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-            pbmPanel.setOpaque( false );
-            getApparatusPanel().add( pbmPanel );
+            gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
+
+        // Add the lamp for the seed beam
+        Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)seedBeamBounds.getX() - 100,
+                                                              (int)( seedBeamBounds.getY() ),
+                                                              100, (int)seedBeamBounds.getHeight() );
+        double scaleX = allocatedBounds.getWidth() / gunBI.getWidth();
+        double scaleY = allocatedBounds.getHeight() / gunBI.getHeight();
+
+        AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ), AffineTransformOp.TYPE_BILINEAR );
+        BufferedImage beamImage = atxOp1.filter( gunBI, null );
+        AffineTransform atx = new AffineTransform();
+        atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
+
+        // Add the intensity control
+        JPanel sbmPanel = new JPanel();
+        BeamControl sbm = new BeamControl( seedBeam );
+        Dimension sbmDim = sbm.getPreferredSize();
+        sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
+                            (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );
+        sbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+        sbmPanel.add( sbm );
+        //            sbmPanel.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+        sbmPanel.setOpaque( false );
+        //            getApparatusPanel().add( sbmPanel );
+
+        // Pumping beam lamps
+        int numLamps = 8;
+        double yOffset = 10;
+        // The lamps should take up about half the space above the cavity
+        double pumpScaleX = ( ( pumpingBeamBounds.getY() ) - yOffset ) / gunBI.getWidth();
+        //            double pumpScaleX = (( cavityBounds.getY() / 2 ) - yOffset ) / gunBI.getWidth();
+        double pumpScaleY = ( pumpingBeamBounds.getWidth() / numLamps ) / gunBI.getHeight();
+        AffineTransformOp atxOp2 = new AffineTransformOp( AffineTransform.getScaleInstance( pumpScaleX, pumpScaleY ), AffineTransformOp.TYPE_BILINEAR );
+        BufferedImage pumpBeamImage = atxOp2.filter( gunBI, null );
+        for( int i = 0; i < numLamps; i++ ) {
+            AffineTransform tx = new AffineTransform();
+            tx.translate( pumpingBeamBounds.getX() + pumpBeamImage.getHeight() * ( i + 1 ), yOffset );
+            //                tx.translate( getLaserOrigin().getX() + pumpBeamImage.getHeight() * (i + 1), yOffset );
+            tx.rotate( Math.PI / 2 );
+            BufferedImage img = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( pumpBeamImage, null );
+            PhetImageGraphic imgGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), img, tx );
+            addGraphic( imgGraphic, LaserConfig.PHOTON_LAYER + 1 );
+        }
+
+        // Add the beam control
+        JPanel pbmPanel = new JPanel();
+        BeamControl pbm = new BeamControl( pumpingBeam, 0, LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE );
+        Dimension pbmDim = pbm.getPreferredSize();
+        AffineTransform pumpingBeamTx = new AffineTransform();
+        pumpingBeamTx.translate( getLaserOrigin().getX() + gunBI.getHeight() + s_boxWidth / 2 - gunBI.getHeight() / 2, 10 );
+        pbmPanel.setBounds( (int)( cavity.getBounds().getX() - pbmDim.getWidth() - 30 ), 10,
+                            (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
+        pbmPanel.add( pbm );
+        //            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+        pbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
+        pbmPanel.setOpaque( false );
+        getApparatusPanel().add( pbmPanel );
 
         // Only the pumping beam is enabled for this module
         pumpingBeam.setEnabled( true );
@@ -190,7 +204,6 @@ public class MultipleAtomModule extends BaseLaserModule {
         config.setSeedPhotonRate( 0f );
         config.setMiddleEnergySpontaneousEmissionTime( 2000f );
         config.setPumpingPhotonRate( 0 );
-        //        config.setPumpingPhotonRate( 100f );
         config.setHighEnergySpontaneousEmissionTime( 2000f );
         config.setReflectivity( 0.7f );
         config.configureSystem( (LaserModel)getModel() );
