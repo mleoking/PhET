@@ -17,6 +17,7 @@ import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.CollisionUtil;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.common.math.MathUtil;
 
 import java.awt.geom.Point2D;
 import java.util.HashMap;
@@ -55,9 +56,27 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
         return false;
     }
 
+    /**
+     * This collision implementation "cheats" to make photons reflect horizontally if they
+     * are close to horizontal
+     * @param photon
+     * @param mirror
+     */
     private void doCollision( Photon photon, Mirror mirror ) {
+        double cheatFactor = Math.toRadians( 60 );
         double dx = photon.getPosition().getX() - mirror.getPosition().getX();
         photon.setPosition( mirror.getPosition().getX() - dx, photon.getPosition().getY() );
-        photon.setVelocity( -photon.getVelocity().getX(), photon.getVelocity().getY() );
+        double vx = 0;
+        double vy = 0;
+        if( Math.abs( photon.getVelocity().getAngle() % Math.PI ) < cheatFactor ) {
+            vx = -photon.getVelocity().getMagnitude() * MathUtil.getSign( photon.getVelocity().getX() );
+            vy = 0;
+        }
+        else {
+            vx = -photon.getVelocity().getX();
+            vy = photon.getVelocity().getY();
+        }
+        photon.setVelocity( vx, vy );
+//        photon.setVelocity( -photon.getVelocity().getX(), photon.getVelocity().getY() );
     }
 }
