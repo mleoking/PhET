@@ -6,7 +6,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.AddModelElementCmd;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
@@ -90,8 +89,7 @@ public class TestMoleculeHollowSphereCollisionII extends PhetApplication {
                     m[0] = new HeavySpecies( new Point2D.Double( sphere1.getPosition().getX(),
                                                                  sphere1.getPosition().getY() ),
                                              new Vector2D.Double( -100, -130 ),
-                                             new Vector2D.Double(),
-                                             5 );
+                                             new Vector2D.Double() );
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),
 //                                                      new Vector2D.Double( -217.8, 999.85 ),
 //                                                      new Vector2D.Double(),

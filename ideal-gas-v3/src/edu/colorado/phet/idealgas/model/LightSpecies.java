@@ -20,8 +20,7 @@ public class LightSpecies extends GasMolecule {
     /**
      * Constructor
      */
-    public LightSpecies( Point2D position, Vector2D velocity, Vector2D acceleration,
-                         double mass ) {
+    public LightSpecies( Point2D position, Vector2D velocity, Vector2D acceleration ) {
         super( position, velocity, acceleration, s_defaultMass );
         init();
     }

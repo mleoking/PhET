@@ -58,8 +58,7 @@ public class TestMoleculeBoxCollision extends PhetApplication {
                 public void actionPerformed( ActionEvent e ) {
                     m[0] = new HeavySpecies( new Point2D.Double( 500, 279.1 ),
                                              new Vector2D.Double( -30, 0 ),
-                                             new Vector2D.Double(),
-                                             5 );
+                                             new Vector2D.Double() );
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),
 //                                                      new Vector2D.Double( -217.8, 999.85 ),
 //                                                      new Vector2D.Double(),

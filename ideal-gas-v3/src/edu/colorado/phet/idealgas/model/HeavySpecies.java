@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class HeavySpecies extends GasMolecule {
 
-    public HeavySpecies( Point2D position, Vector2D velocity, Vector2D acceleration, double mass ) {
+    public HeavySpecies( Point2D position, Vector2D velocity, Vector2D acceleration ) {
         super( position, velocity, acceleration, s_defaultMass );
         init();
     }

@@ -72,11 +72,9 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
             double theta = Math.random() * Math.PI * 2;
             double vx = (double)Math.cos( theta ) * initialVelocity;
             double vy = (double)Math.sin( theta ) * initialVelocity;
-            double m = 10;
             GasMolecule p1 = new HeavySpecies( new Point2D.Double( x, y ),
                                                new Vector2D.Double( vx, vy ),
-                                               new Vector2D.Double( 0, 0 ),
-                                               m );
+                                               new Vector2D.Double( 0, 0 ) );
             new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
             //            constraintSpec = new BoxMustContainParticle( box, p1, getIdealGasModel() );
             //            p1.addConstraint( constraintSpec );
@@ -100,16 +98,14 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
                     p1 = new HeavySpecies( new Point2D.Double( 350 + i * 10, 230 + j * 10 ),
                                            //                        new Point2D.Double( 280 + i * 10, 330 + j * 10 ),
                                            new Vector2D.Double( vx, vy ),
-                                           new Vector2D.Double( 0, 0 ),
-                                           10 );
+                                           new Vector2D.Double( 0, 0 ) );
                     new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
                 }
                 if( LightSpecies.class.isAssignableFrom( gasSpecies ) ) {
                     p1 = new LightSpecies( new Point2D.Double( 350 + i * 10, 230 + j * 10 ),
                                            //                        new Point2D.Double( 280 + i * 10, 330 + j * 10 ),
                                            new Vector2D.Double( vx, vy ),
-                                           new Vector2D.Double( 0, 0 ),
-                                           10 );
+                                           new Vector2D.Double( 0, 0 ));
                     new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
                 }
                 sphere.addContainedBody( p1 );
@@ -171,9 +167,9 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
             }
         }
     }
-    
+
     private class NumParticlesControls extends JPanel {
-        GasMoleculeFactory moleculeFactory = new GasMoleculeFactory();
+
         NumParticlesControls() {
             super( new GridLayout( 1, 2 ) );
             this.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 40 ) );
@@ -202,12 +198,17 @@ public abstract class RigidHollowSphereModule extends IdealGasModule {
             int dn = numParticles - numMoleculesInSphere;
             if( dn > 0 ) {
                 for( int i = 0; i < dn; i++ ) {
-                    GasMolecule gm = moleculeFactory.create( (IdealGasModel)getModel(),
-                                                             gasSpecies );
-                    gm.setPosition( sphere.getPosition() );
-                    PumpMoleculeCmd cmd = new PumpMoleculeCmd( (IdealGasModel)getModel(), gm,
-                                                               RigidHollowSphereModule.this );
-                    cmd.doIt();
+                    Class species = getPump().getCurrentGasSpecies();
+                    GasMolecule gm = null;
+                    if( species == HeavySpecies.class ) {
+                        gm = new HeavySpecies( sphere.getPosition(), new Vector2D.Double(), new Vector2D.Double() );
+                    }
+//                    GasMolecule gm = moleculeFactory.create( (IdealGasModel)getModel(),
+//                                                             gasSpecies );
+//                    gm.setPosition( sphere.getPosition() );
+//                    PumpMoleculeCmd cmd = new PumpMoleculeCmd( (IdealGasModel)getModel(), gm,
+//                                                               RigidHollowSphereModule.this );
+//                    cmd.doIt();
                 }
             }
             else if( dn < 0 ) {
