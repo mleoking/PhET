@@ -14,6 +14,9 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+
+import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
@@ -195,6 +198,12 @@ public class MagnetAndCoilModule extends Module {
         // Listeners
         //----------------------------------------------------------------------------
         
+        // Enable the use of median values while the magnet or coil are being dragged.
+        SmoothingListener smoothingListener = new SmoothingListener();
+        _magnetGraphic.addMouseInputListener( smoothingListener );
+        _pickupCoilGraphic.getForeground().addMouseInputListener( smoothingListener );
+        _pickupCoilGraphic.getBackground().addMouseInputListener( smoothingListener );
+
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
@@ -307,4 +316,36 @@ public class MagnetAndCoilModule extends Module {
     public void setMeterEnabled( boolean enabled ) {
         setBulbEnabled( !enabled );
     }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+
+    /**
+     * SmoothingListener watches for the "dragging" of specific graphics.
+     * While one of these graphics is being dragged, specific model components are 
+     * switched to "smoothing" mode, in which they use median values to control 
+     * their behavior.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private class SmoothingListener extends MouseInputAdapter {
+
+        public SmoothingListener() {
+            super();
+        }
+        
+        /** Enable smoothing when a drag is started. */
+        public void mousePressed( MouseEvent event ) {
+            _lightBulbModel.setSmoothingEnabled( true );
+            _voltMeterModel.setSmoothingEnabled( true );
+        }
+
+        /** Disable smoothing when a drag is completed. */
+        public void mouseReleased( MouseEvent event ) {
+            _lightBulbModel.setSmoothingEnabled( false );
+            _voltMeterModel.setSmoothingEnabled( false );
+        }
+    };
 }
