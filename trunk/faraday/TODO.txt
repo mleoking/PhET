@@ -6,16 +6,15 @@ IN PROGRESS:
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 
 HIGH PRIORITY:
-- trace/scan the AC wave with a cursor that represents "now"
 - add an X/Y axis at center of the AC display
 - keep zero-crossing of AC sine wave at origin of the XY axis
+- trace/scan the AC wave with a cursor that represents "now"
 - add playback controls to relevant modules (override Module.activate/deactivate)
-- look for a better AC power source graphic
 - label current source choices "DC" and "AC"
 - add a water wheel graphic to turbine, paddles as wide as widest water stream
 - RPM readout on turbine (at center of rotation?)
 - tick marks around voltmeter display
-- handle for faucet that looks like the sideview of a faucet handle, put slider inside handle
+- handle for faucet that looks like the side view of a faucet handle, put slider inside handle
 - requirements for Generator module
 - calibrate lightbulb
 - calibrate voltmeter
@@ -27,7 +26,6 @@ MEDIUM PRIORITY:
 - lightbulb flashes the first time that you visit each module
 - sliders sometimes remain hilited after you roll off them
 - electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
-- collision detection in Generator & Transformer modules
 - relocate voltage rescaling from Voltmeter model to Voltmeter view, so that all rescaling is done in the view
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 - Wiggle Me's on magnets & coil
@@ -280,6 +278,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(3/16) - collision detection in Generator & Transformer modules (fine as is)
 (2/23) - handle rescaling in VoltmeterGraphic instead of in Voltmeter model (rotational kinematics of needle requires rescaling)
 (2/17) - disable "See Inside Magnet" control when grid is off (control was removed)
 (2/17) - change sliders to "ModelSlider" used by other simulations (No - not used by many others, has problems)
