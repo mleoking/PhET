@@ -1,7 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.math.Average;
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.movingman.plots.DataSeries;
 
 /**
@@ -25,7 +25,7 @@ public class SmoothDataSeries {
     }
 
     public void updateSmoothedSeries() {
-        Average avg = new Average();
+        MathUtil.Average avg = new MathUtil.Average();
 
         int numPtsToAvg = numSmoothingPoints;
         numPtsToAvg = Math.min( numPtsToAvg, data.size() );

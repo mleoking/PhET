@@ -6,7 +6,6 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.ImmutableVector2D;
-import edu.colorado.phet.common.math.LinearTransform1d;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
@@ -25,6 +24,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
 import edu.colorado.phet.movingman.common.CircularBuffer;
+import edu.colorado.phet.movingman.common.LinearTransform1d;
 import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.misc.JEPFrame;
 import edu.colorado.phet.movingman.plots.MMPlot;
@@ -868,7 +868,7 @@ public class MovingManModule extends Module {
                                                       SimStrings.get( "MovingManApplication.version" ), setup, m, clock );
         PhetApplication tpa = new PhetApplication( desc );
 
-        final PhetFrame frame = tpa.getApplicationView().getPhetFrame();
+        final PhetFrame frame = tpa.getPhetFrame();
         m.setFrame( frame );
         if( m.getControlPanel() != null ) {
 //            tpa.getApplicationView().getBasicPhetPanel().add( m.getControlPanel(), BorderLayout.WEST );
