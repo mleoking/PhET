@@ -11,7 +11,10 @@
 
 package edu.colorado.phet.faraday.view;
 
+import java.awt.AlphaComposite;
 import java.awt.Component;
+import java.awt.Composite;
+import java.awt.Graphics2D;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
@@ -24,29 +27,29 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 /**
  * BarMagnetGraphic is the graphical representation of a bar magnet.
+ * The registration point is at the center of the image.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BarMagnetGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double TRANSPARENT_LAYER = 1;
-    private static final double OPAQUE_LAYER = 2;
+    private static final Composite COMPOSITE = 
+        AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.9f );
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     private AbstractMagnet _magnetModel;
-    private PhetImageGraphic _opaqueMagnetGraphic, _transparentMagnetGraphic;
     private boolean _transparencyEnabled;
     
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructors & finalizers
     //----------------------------------------------------------------------------
 
     /**
@@ -56,29 +59,17 @@ public class BarMagnetGraphic extends CompositePhetGraphic implements SimpleObse
      * @param barMagnetModel model of the bar magnet
      */
     public BarMagnetGraphic( Component component, AbstractMagnet magnetModel ) {
-        super( component );
+        super( component, FaradayConfig.BAR_MAGNET_IMAGE );
+        
         assert( component != null );
         assert( magnetModel != null );
         
         // Save a reference to the model.
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
-        
-        // Create the images.
-        _opaqueMagnetGraphic = new PhetImageGraphic( component, FaradayConfig.BAR_MAGNET_IMAGE );
-        _transparentMagnetGraphic = new PhetImageGraphic( component, FaradayConfig.BAR_MAGNET_TRANSPARENT_IMAGE );
-        
-        // WORKAROUND:
-        // Swapping graphics doesn't seem to work correctly.
-        // So we'll add both graphics, then toggle the visibility of the opaque layer.
-        addGraphic( _transparentMagnetGraphic, TRANSPARENT_LAYER );
-        addGraphic( _opaqueMagnetGraphic, OPAQUE_LAYER );
-        
+               
         // Registration point is the center of the image.
-        _opaqueMagnetGraphic.setRegistrationPoint( 
-                _opaqueMagnetGraphic.getImage().getWidth() / 2, _opaqueMagnetGraphic.getImage().getHeight() / 2 );
-        _transparentMagnetGraphic.setRegistrationPoint( 
-                _transparentMagnetGraphic.getImage().getWidth() / 2, _transparentMagnetGraphic.getImage().getHeight() / 2 );
+        setRegistrationPoint( getImage().getWidth() / 2, getImage().getHeight() / 2 );
 
         // Setup interactivity.
         super.setCursorHand();
@@ -97,6 +88,10 @@ public class BarMagnetGraphic extends CompositePhetGraphic implements SimpleObse
         update();
     }
 
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void finalize() {
         _magnetModel.removeObserver( this );
     }
@@ -122,7 +117,7 @@ public class BarMagnetGraphic extends CompositePhetGraphic implements SimpleObse
      */
     public void setTransparencyEnabled( boolean enabled ) {
         _transparencyEnabled = enabled;
-        _opaqueMagnetGraphic.setVisible( !enabled );
+        repaint();
     }
     
     /**
@@ -151,12 +146,39 @@ public class BarMagnetGraphic extends CompositePhetGraphic implements SimpleObse
             rotate( Math.toRadians( _magnetModel.getDirection() ) );
             
             // Scale
-            double scaleX = _magnetModel.getWidth() / _opaqueMagnetGraphic.getImage().getWidth();
-            double scaleY = _magnetModel.getHeight() / _opaqueMagnetGraphic.getImage().getHeight();
+            double scaleX = _magnetModel.getWidth() / getImage().getWidth();
+            double scaleY = _magnetModel.getHeight() / getImage().getHeight();
             scale( scaleX, scaleY );
             
             // Location
             setLocation( (int) _magnetModel.getX(), (int) _magnetModel.getY() );
+            
+            repaint();
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // PhetImageGraphic overrides
+    //----------------------------------------------------------------------------
+
+    /**
+     * Draws the magnet.  
+     * If transparency is enabled, use alpha compositing
+     * to make the magnet slightly transparent.
+     * 
+     * @param g2 the graphics context
+     */
+    public void paint( Graphics2D g2 ) {
+        if ( isVisible() ) {
+            if ( _transparencyEnabled ) {
+                Composite oldComposite = g2.getComposite(); // save
+                g2.setComposite( COMPOSITE );
+                super.paint( g2 );
+                g2.setComposite( oldComposite ); // restore
+            }
+            else {
+                super.paint( g2 );
+            }
+        }   
     }
 }
