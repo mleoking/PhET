@@ -6,11 +6,10 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- coils should not be subclasses from AbstractVoltageSource
-
-- get rid of AbstractVoltageSource.set/getMaxVoltage, set voltage once and use set/getAmplitude to find the voltage
+- make sure that AC amplitude always hits exactly zero as it modulates
+- coils should not be subclassed from AbstractVoltageSource
 - set Electromagnet model size based on size of the coil in the Electromagnet graphic
-- changing number of loops doesn't viisibly change the magnetic field
+- changing number of loops doesn't visibly change the magnetic field
 - grid doesn't gradually dim as amplitude approaches zero, turns abruptly off at zero
 - bug: electrons in source coil seem to get "off" in the left-most loop
 - bug: electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
