@@ -322,7 +322,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     // Tick marks
                     int numTicks = xLength / TICK_SPACING;
                     int y = TICK_LENGTH / 2;
-                    for ( int i = 0; i <= numTicks / 2; i++ ) {
+                    for ( int i = 1; i <= numTicks / 2; i++ ) {
                         int x = i * TICK_SPACING;
                         
                         Line2D shape1 = new Line2D.Double( x, -y, x, y  );
@@ -357,7 +357,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     // Tick marks
                     int numTicks = yLength / TICK_SPACING;
                     int x = TICK_LENGTH / 2;
-                    for ( int i = 0; i <= numTicks / 2; i++ ) {
+                    for ( int i = 1; i <= numTicks / 2; i++ ) {
                         int y = i * TICK_SPACING;
                         
                         Line2D shape1 = new Line2D.Double( -x, y, x, y  );
