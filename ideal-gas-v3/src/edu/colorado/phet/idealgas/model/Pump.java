@@ -72,7 +72,28 @@ public class Pump extends SimpleObservable implements GasSource {
      */
     public void pump( int numMolecules, Class species ) {
         for( int i = 0; i < numMolecules; i++ ) {
-            this.pumpGasMolecule( species );
+            Object obj = this.pumpGasMolecule( species );
+        }
+        MoleculeEvent event = new MoleculeEvent( this, species, numMolecules );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.moleculesAdded( event );
+        }
+        return;
+    }
+
+    /**
+     * Creates a specified number of gas molecules of a specified species, and places
+     * them all at a specified location
+     *
+     * @param numMolecules
+     * @param species
+     * @param location
+     */
+    public void pump( int numMolecules, Class species, Point2D location ) {
+        for( int i = 0; i < numMolecules; i++ ) {
+            GasMolecule molecule = this.pumpGasMolecule( species );
+            molecule.setPosition( location );
         }
         MoleculeEvent event = new MoleculeEvent( this, species, numMolecules );
         for( int i = 0; i < listeners.size(); i++ ) {
