@@ -77,7 +77,7 @@ public class CCK3Module extends Module {
     static double bulbScale = 1.6;
     public static final BulbDimension BULB_DIMENSION = new BulbDimension( bulbLength * SCALE * bulbScale, bulbHeight * SCALE * bulbScale, bulbDistJ * SCALE * bulbScale );
 
-//    private CompositeInteractiveGraphic readoutLayer;
+//    private CompositeGraphic readoutLayer;
     public static final double WIRE_LENGTH = BATTERY_DIMENSION.getLength() * 1.2;
     public static final double JUNCTION_GRAPHIC_STROKE_WIDTH = .01;
     public static final double JUNCTION_RADIUS = .162;

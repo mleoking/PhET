@@ -7,7 +7,7 @@ import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.fastpaint.FastPaintShapeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Time: 2:30:15 AM
  * Copyright (c) May 29, 2004 by Sam Reid
  */
-public class Toolbox extends CompositeInteractiveGraphic {
+public class Toolbox extends CompositeGraphic {
     Rectangle2D modelRect;
     private ApparatusPanel parent;
     private ModelViewTransform2D transform;
@@ -90,7 +90,7 @@ public class Toolbox extends CompositeInteractiveGraphic {
         Switch mySwitch = new Switch( new Point2D.Double( componentX + componentWidth, y ), dir.getScaledInstance( -1 ), componentWidth, initialSwitchHeight, module.getKirkhoffListener() );
         BufferedImage leverImage = module.getImageSuite().getKnifeHandleImage();
         CircuitComponentImageGraphic sg = new CircuitComponentImageGraphic( baseImage, parent, mySwitch, transform );
-        CompositeInteractiveGraphic switchGraphic = new CompositeInteractiveGraphic();
+        CompositeGraphic switchGraphic = new CompositeGraphic();
         switchGraphic.addGraphic( sg );
         double scale = componentWidth / CCK3Module.SWITCH_DIMENSION.getLength();
         double leverLength = scale * CCK3Module.LEVER_DIMENSION.getLength();

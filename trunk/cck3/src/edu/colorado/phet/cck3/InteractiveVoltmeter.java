@@ -3,7 +3,8 @@ package edu.colorado.phet.cck3;
 
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+//import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -19,7 +20,8 @@ import java.awt.geom.Point2D;
  * Time: 2:27:28 PM
  * Copyright (c) Jun 17, 2004 by Sam Reid
  */
-public class InteractiveVoltmeter extends CompositeInteractiveGraphic {
+public class InteractiveVoltmeter extends CompositeGraphic{
+//public class InteractiveVoltmeter extends CompositeGraphic {
     private Voltmeter voltmeter;
     private ModelViewTransform2D transform;
     private VoltmeterGraphic voltmeterGraphic;

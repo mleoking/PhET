@@ -6,7 +6,7 @@ import edu.colorado.phet.cck3.ComponentDimension;
 import edu.colorado.phet.cck3.circuit.components.*;
 import edu.colorado.phet.cck3.circuit.particles.ParticleSetGraphic;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -26,16 +26,16 @@ import java.util.Hashtable;
  * Time: 10:17:59 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class CircuitGraphic extends CompositeInteractiveGraphic {
+public class CircuitGraphic extends CompositeGraphic {
     static double junctionRadius = CCK3Module.JUNCTION_RADIUS;
     public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
-    private CompositeInteractiveGraphic filamentLayer = new CompositeInteractiveGraphic();
-    private CompositeInteractiveGraphic branches = new CompositeInteractiveGraphic();
-    private CompositeInteractiveGraphic leverLayer = new CompositeInteractiveGraphic();
-    private CompositeInteractiveGraphic junctions = new CompositeInteractiveGraphic();
+    private CompositeGraphic filamentLayer = new CompositeGraphic();
+    private CompositeGraphic branches = new CompositeGraphic();
+    private CompositeGraphic leverLayer = new CompositeGraphic();
+    private CompositeGraphic junctions = new CompositeGraphic();
     private ParticleSetGraphic particleSetGraphic;
-    private CompositeInteractiveGraphic ammeterTopLayer = new CompositeInteractiveGraphic();
-    private CompositeInteractiveGraphic readouts = new CompositeInteractiveGraphic();
+    private CompositeGraphic ammeterTopLayer = new CompositeGraphic();
+    private CompositeGraphic readouts = new CompositeGraphic();
     private Circuit circuit;
     private ModelViewTransform2D transform;
     private ApparatusPanel apparatusPanel;

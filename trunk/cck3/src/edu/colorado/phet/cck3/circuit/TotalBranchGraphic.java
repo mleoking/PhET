@@ -3,7 +3,7 @@ package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 import java.awt.*;
@@ -14,7 +14,7 @@ import java.awt.*;
  * Time: 9:05:19 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class TotalBranchGraphic extends CompositeInteractiveGraphic {
+public class TotalBranchGraphic extends CompositeGraphic {
 
     private InteractiveBranchGraphic interactiveBranchGraphic;
     private InteractiveWireJunctionGraphic interactiveJunctionGraphic1;
