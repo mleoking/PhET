@@ -1,8 +1,6 @@
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.LaserSimulation;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 import javax.swing.*;
@@ -10,7 +8,6 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Class: MultipleAtomControlPanel
@@ -28,15 +25,17 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
     private boolean threeEnergyLevels;
     private BaseLaserModule laserModule;
     private WaveViewControlPanel waveViewControlPanel;
-    private Controls basicControls;
+    private BasicOptionsPanel basicBasicOptionsPanel;
+    private HighLevelEmissionControlPanel highLevelEmissionControlPanel;
 
     public UniversalAtomControlPanel( final BaseLaserModule module ) {
         super( module );
         this.laserModule = module;
 
         waveViewControlPanel = new WaveViewControlPanel( module );
-        basicControls = new Controls();
-        addControl( basicControls );
+        highLevelEmissionControlPanel = new HighLevelEmissionControlPanel( module );
+        basicBasicOptionsPanel = new BasicOptionsPanel( module.getThreeEnergyLevels() );
+        addControl( basicBasicOptionsPanel );
 
         JPanel optionsPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
@@ -47,8 +46,8 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
 //        gbc.gridy++;
 
         // Add controls for the different views of beams and photons
+        optionsPanel.add( highLevelEmissionControlPanel, gbc );
         optionsPanel.add( waveViewControlPanel, gbc );
-        optionsPanel.add( new HighLevelEmissionControlPanel( module ), gbc );
         JPanel container = new JPanel();
         Border border = BorderFactory.createEtchedBorder();
         container.setBorder( border );
@@ -56,25 +55,25 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
 
         super.addControl( container );
 
-        setThreeEnergyLevels( module.getThreeEnergyLevels() );
+//        setThreeEnergyLevels( module.getThreeEnergyLevels() );
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         this.threeEnergyLevels = threeEnergyLevels;
         laserModule.setThreeEnergyLevels( threeEnergyLevels );
         waveViewControlPanel.setVisible( threeEnergyLevels );
-        basicControls.setThreeEnergyLevels( threeEnergyLevels );
+        highLevelEmissionControlPanel.setVisible( threeEnergyLevels );
     }
 
     //--------------------------------------------------------------------------------
     // Inner classes
     //--------------------------------------------------------------------------------
 
-    private class Controls extends JPanel {
+    private class BasicOptionsPanel extends JPanel {
         private JRadioButton twoLevelsRB;
         private JRadioButton threeLevelsRB;
 
-        Controls() {
+        BasicOptionsPanel( boolean threeEnergyLevels ) {
             GridBagConstraints gbc;
 
             twoLevelsRB = new JRadioButton( new AbstractAction( SimStrings.get( "LaserControlPanel.TwoLevelsRadioButton" ) ) {
@@ -90,24 +89,12 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
             final ButtonGroup energyButtonGroup = new ButtonGroup();
             energyButtonGroup.add( twoLevelsRB );
             energyButtonGroup.add( threeLevelsRB );
-            twoLevelsRB.setSelected( true );
 
             JPanel energyButtonPanel = new JPanel();
             energyButtonPanel.add( twoLevelsRB );
             energyButtonPanel.add( threeLevelsRB );
-            energyButtonPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.EnergyLevelsBorderTitle" ) ) );
 
-            String s = SimStrings.get( "LaserControlPanel.EmissionCheckBox" );
-            //            String s = GraphicsUtil.formatMessage( SimStrings.get( "LaserControlPanel.EmissionCheckBox" ) );
-            final JCheckBox showHighToMidEmissionCB = new JCheckBox( s );
-            showHighToMidEmissionCB.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    ( (LaserSimulation)PhetApplication.instance() ).displayHighToMidEmission( showHighToMidEmissionCB.isSelected() );
-                }
-            } );
-            JPanel optionsPanel = new JPanel( new GridLayout( 1, 1 ) );
-            optionsPanel.add( showHighToMidEmissionCB );
-            optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
+            energyButtonPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.EnergyLevelsBorderTitle" ) ) );
 
             this.setLayout( new GridBagLayout() );
             gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
@@ -120,17 +107,9 @@ public class UniversalAtomControlPanel extends LaserControlPanel {
             this.add( energyButtonPanel, gbc );
 
             //Set the number of energy levels we'll see
-            twoLevelsRB.setSelected( true );
-            setThreeEnergyLevels( false );
-        }
-
-        private void setThreeEnergyLevels( boolean threeEnergyLevels ) {
-            if( threeEnergyLevels ) {
-                threeLevelsRB.setSelected( true );
-            }
-            else {
-                twoLevelsRB.setSelected( true );
-            }
+            twoLevelsRB.setSelected( !threeEnergyLevels );
+            threeLevelsRB.setSelected( threeEnergyLevels );
+            setThreeEnergyLevels( threeEnergyLevels );
         }
     }
 
