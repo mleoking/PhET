@@ -9,6 +9,7 @@ package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -38,8 +39,8 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     /**
      *
      */
-    public BaseIdealGasApparatusPanel( Module module, Box2D box ) {
-        super( module.getModel() );
+    public BaseIdealGasApparatusPanel( Module module, AbstractClock clock, Box2D box ) {
+        super( module.getModel(), clock );
         init( module, box );
 
         setUseOffscreenBuffer( true );
@@ -79,7 +80,6 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     }
 
     /**
-     *
      * @return
      */
     protected IdealGasApplication getIdealGasApplication() {

@@ -8,8 +8,10 @@
 package edu.colorado.phet.collision;
 
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -35,6 +37,37 @@ public class SphereWallCollision implements Collision {
         double r = sphere.getRadius();
         Rectangle2D wallBounds = wall.getBounds();
 
+        // If the sphere is hitting a corner, rather than a flat side of the wall, we need to handle
+        // the collision in a special way
+        if( ( sx < wallBounds.getMinX() || sx > wallBounds.getMaxX() )
+            && sy < wallBounds.getMinY() || sy > wallBounds.getMaxY() ) {
+//        if( true ) {
+            // Get the new velocity of the sphere
+            Point2D closestPointOnWall = getClosestPointOnWall( sphere.getPosition(), wall );
+            Vector2D loa = new Vector2D.Double( sphere.getPosition().getX() - closestPointOnWall.getX(),
+                                                sphere.getPosition().getY() - closestPointOnWall.getY() );
+            if( loa.getMagnitude() == 0 ) {
+                Vector2D v2 = new Vector2D.Double( sphere.getVelocity() ).normalize().scale( 0.1 );
+                Point2D p2 = new Point2D.Double( sphere.getPosition().getX() + v2.getX(),
+                                                 sphere.getPosition().getY() + v2.getY() );
+                closestPointOnWall = getClosestPointOnWall( p2, wall );
+                loa = new Vector2D.Double( p2.getX() - closestPointOnWall.getX(),
+                                           p2.getY() - closestPointOnWall.getY() );
+            }
+            Vector2D tangent = new Vector2D.Double( loa.getY(), -loa.getX() );
+            double theta = sphere.getVelocity().getAngle() + Math.PI;
+//            double alpha = tangent.getAngle() - theta;
+            double alpha = tangent.getAngle() - sphere.getVelocity().getAngle();
+            sphere.getVelocity().rotate( alpha * 2 );
+
+            // Ge the sphere's new position
+            double l = sphere.getPosition().distance( closestPointOnWall );
+            Vector2D displacement = loa.normalize().scale( l * 2 );
+            Point2D newPosition = new Point2D.Double( sphere.getPosition().getX() + displacement.getX(),
+                                                      sphere.getPosition().getY() + displacement.getY() );
+            sphere.setPosition( newPosition );
+            return;
+        }
 
         switch( contactType ) {
             case SphereWallExpert.RIGHT_SIDE:
@@ -80,6 +113,58 @@ public class SphereWallCollision implements Collision {
             default:
                 throw new RuntimeException( "Invalid contact type" );
         }
+    }
+
+    /**
+     * Note that this only works for walls that are oriented along the x and y axes
+     *
+     * @param p
+     * @param wall
+     * @return
+     */
+    private Point2D getClosestPointOnWall( Point2D p, Wall wall ) {
+
+        double x = 0;
+        double y = 0;
+
+        double minDx = Math.min( Math.abs( p.getX() - wall.getBounds().getMinX() ), Math.abs( p.getX() - wall.getBounds().getMaxX() ) );
+        double minDy = Math.min( Math.abs( p.getY() - wall.getBounds().getMinY() ), Math.abs( p.getY() - wall.getBounds().getMaxY() ) );
+        if( minDx < minDy ) {
+            y = p.getY();
+            if( Math.abs( p.getX() - wall.getBounds().getMinX() ) < Math.abs( p.getX() - wall.getBounds().getMaxX() ) ) {
+                x = wall.getBounds().getMinX();
+            }
+            else {
+                x = wall.getBounds().getMaxX();
+            }
+        }
+        else {
+            x = p.getX();
+            if( Math.abs( p.getY() - wall.getBounds().getMinY() ) < Math.abs( p.getY() - wall.getBounds().getMaxY() ) ) {
+                y = wall.getBounds().getMinY();
+            }
+            else {
+                y = wall.getBounds().getMaxY();
+            }
+        }
+//        y = Math.min( Math.max( p.getY(), wall.getBounds().getMinY() ), wall.getBounds().getMaxY() );
+//        x = Math.min( Math.max( p.getX(), wall.getBounds().getMinX() ), wall.getBounds().getMaxX() );
+
+//        if( Math.abs( p.getY() - wall.getBounds().getMinY())
+//            < Math.abs( p.getY() - wall.getBounds().getMaxY() )) {
+//            y = wall.getBounds().getMinY();
+//        }
+//        else {
+//            y = wall.getBounds().getMaxY();
+//        }
+//        if( Math.abs( p.getX() - wall.getBounds().getMinX())
+//            < Math.abs( p.getX() - wall.getBounds().getMaxX() )) {
+//            x = wall.getBounds().getMinX();
+//        }
+//        else {
+//            x = wall.getBounds().getMaxX();
+//        }
+        return new Point2D.Double( x, y );
     }
 
     /**
