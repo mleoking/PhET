@@ -56,6 +56,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/25) - optimized memory allocation in all classes (optimization)
 (3/25) - add SpacialObserver.getLocation(Point2D) to minimize point allocation (optimization)
 (3/25) - reduce number of points created in ElectronGraphic and QuadBezierSpline (optimization)
 (3/25) - reduce memory allocation in CoilGraphic.getCollisionBounds (optimization)
