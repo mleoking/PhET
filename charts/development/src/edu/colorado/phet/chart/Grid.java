@@ -2,7 +2,6 @@
 package edu.colorado.phet.chart;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -13,7 +12,7 @@ import java.text.NumberFormat;
  * Copyright (c) Sep 21, 2004 by Sam Reid
  */
 public class Grid extends AbstractGrid {
-    GridTicks ticks;
+    private GridTicks ticks;
 
     public Grid( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing, double crossesOtherAxisAt ) {
         super( chart, orientation, stroke, color, tickSpacing, crossesOtherAxisAt );
@@ -34,6 +33,7 @@ public class Grid extends AbstractGrid {
             g.setColor( color );
             if( orientation == VERTICAL ) {
                 double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinX(), chart.getRange().getMaxX(), tickSpacing );
+
                 for( int i = 0; i < gridLines.length; i++ ) {
                     double gridLineX = gridLines[i];
                     Point src = chart.transform( gridLineX, chart.getRange().getMinY() );
@@ -43,6 +43,7 @@ public class Grid extends AbstractGrid {
             }
             else if( orientation == HORIZONTAL ) {
                 double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinY(), chart.getRange().getMaxY(), tickSpacing );
+
                 for( int i = 0; i < gridLines.length; i++ ) {
                     double gridLineY = gridLines[i];
                     Point src = chart.transform( chart.getRange().getMinX(), gridLineY );
@@ -57,12 +58,17 @@ public class Grid extends AbstractGrid {
         ticks.paint( g );
     }
 
+    public void setSpacing( double spacing ) {
+        super.setSpacing( spacing );
+        ticks.setSpacing( spacing );
+    }
+
     public void setTicksVisible( boolean visible ) {
         ticks.setVisible( visible );
     }
 
     /**
-     * Lots of repeated code between this and AxisTicks.
+     * TODO Lots of repeated code between this and AxisTicks.
      */
     public static class GridTicks extends AbstractGrid {
         private int tickHeight = 6;
@@ -98,7 +104,9 @@ public class Grid extends AbstractGrid {
         }
 
         public void paint( Graphics2D g ) {
-
+//            if (true){
+//                return;
+//            }
             if( isVisible() ) {
                 Stroke stroke = super.getStroke();
                 int orientation = super.getOrientation();
@@ -113,9 +121,10 @@ public class Grid extends AbstractGrid {
                 g.setFont( font );
 
                 if( orientation == HORIZONTAL ) {
-                    Point2D.Double leftEndOfAxis = new Point2D.Double( chart.getRange().getMinX(), crossesOtherAxisAt );
-                    Point left = chart.transform( leftEndOfAxis );
+//                    Point2D.Double leftEndOfAxis = new Point2D.Double( chart.getRange().getMinX(), crossesOtherAxisAt );
+//                    Point left = chart.transform( leftEndOfAxis );
                     double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinX(), chart.getRange().getMaxX(), tickSpacing );
+//                    System.out.println( "Horizontal gridLines.length = " + gridLines.length );
                     for( int i = 0; i < gridLines.length; i++ ) {
                         double gridLineX = gridLines[i];
                         int x = chart.transformX( gridLineX );
@@ -131,9 +140,11 @@ public class Grid extends AbstractGrid {
 
                 }
                 else if( orientation == VERTICAL ) {
-                    Point2D.Double bottomEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMinY() );
-                    Point bottom = chart.transform( bottomEndOfAxis );
+//                    Point2D.Double bottomEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMinY() );
+//                    Point bottom = chart.transform( bottomEndOfAxis );
                     double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinY(), chart.getRange().getMaxY(), tickSpacing );
+//                    System.out.println( "range="+chart.getRange()+", tickSpacing = " + tickSpacing );
+//                    System.out.println( "Vertical gridLines.length = " + gridLines.length );
                     for( int i = 0; i < gridLines.length; i++ ) {
                         double gridLineY = gridLines[i];
                         int x = chart.transformX( chart.getRange().getMinX() );

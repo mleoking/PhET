@@ -40,18 +40,31 @@ public class ScatterPlot extends DataSetGraphic {
     }
 
     public static class CirclePaint implements ScatterPaint {
+        private Stroke stroke;
         private Color color;
         private int radius;
         private boolean filled;
 
+        public CirclePaint( Color color ) {
+            this( color, 1, true );
+        }
+
         public CirclePaint( Color color, int radius, boolean filled ) {
+            this( color, new BasicStroke( 1 ), radius, filled );
+        }
+
+        public CirclePaint( Color color, BasicStroke stroke, int radius, boolean filled ) {
+            this.stroke = stroke;
             this.color = color;
             this.radius = radius;
             this.filled = filled;
         }
 
         public void paint( Point point, Graphics2D graphics2D ) {
+            Color origColor = graphics2D.getColor();
+            Stroke origStroke = graphics2D.getStroke();
             graphics2D.setColor( color );
+            graphics2D.setStroke( stroke );
             int x = point.x - radius;
             int y = point.y - radius;
             if( filled ) {
@@ -60,6 +73,8 @@ public class ScatterPlot extends DataSetGraphic {
             else {
                 graphics2D.drawOval( x, y, radius * 2, radius * 2 );
             }
+            graphics2D.setColor( origColor );
+            graphics2D.setStroke( origStroke );
         }
     }
 
