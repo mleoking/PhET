@@ -266,24 +266,26 @@ public class TestParametricCoil extends JComponent {
         // Back of loops
         for ( int i = 0; i < _numberOfLoops && DRAW_BACK; i++ ) {
             
-            int offset = firstLoopCenter + ( i * loopSpacing );
+            int xOffset = firstLoopCenter + ( i * loopSpacing );
                         
             // Back bottom
             {
+                // Vertical gradient, upper to lower
                 g2.setPaint( new GradientPaint( 0, (int)(_radius * 0.92), LOOP_DARKEST_COLOR, 0, (int)(_radius), LOOP_MIDDLE_COLOR ) );
-                Point e1 = new Point( (int)(_radius * .25) + offset, 0 );
-                Point e2 = new Point( offset, (int)(_radius) );
-                Point c = new Point( (int)(_radius * .35) + offset, (int)(_radius * 1.2) );
+                Point e1 = new Point( (int)(_radius * .25) + xOffset, 0 ); // upper
+                Point e2 = new Point( xOffset, (int)(_radius) ); // lower
+                Point c = new Point( (int)(_radius * .35) + xOffset, (int)(_radius * 1.2) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
             
             if ( i != 0 ) {
                 // Back top
                 {
-                    Point e1 = new Point( (int) ( _radius * .25 ) + offset, 0 ); // lower
-                    Point e2 = new Point( -loopSpacing + offset, -_radius ); // upper
-                    Point c = new Point( (int) ( _radius * .15 ) + offset, (int) ( -_radius * 1.2 ) );
-                    g2.setPaint( new GradientPaint( offset, (int)-(_radius * 0.92), LOOP_DARKEST_COLOR, (int)(e2.x + (_radius * .1)), (int)-(_radius), LOOP_MIDDLE_COLOR ) );
+                    Point e1 = new Point( -loopSpacing + xOffset, -_radius ); // upper
+                    Point e2 = new Point( (int) ( _radius * .25 ) + xOffset, 0 ); // lower
+                    Point c = new Point( (int) ( _radius * .15 ) + xOffset, (int) ( -_radius * 1.2 ) );
+                    // Diagonal gradient, upper left to lower right.
+                    g2.setPaint( new GradientPaint( (int)(e1.x + (_radius * .1)), (int)-(_radius), LOOP_MIDDLE_COLOR, xOffset, (int)-(_radius * 0.92), LOOP_DARKEST_COLOR ) );
                     drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
                 }
             }
@@ -291,17 +293,18 @@ public class TestParametricCoil extends JComponent {
                 // Back top (left-most)
                 {
                     g2.setPaint( LOOP_DARKEST_COLOR );
-                    Point e1 = new Point( (int) ( _radius * .25 ) + offset, 0 );
-                    Point e2 = new Point( -loopSpacing/2 + offset, -_radius );
-                    Point c = new Point( (int) ( _radius * .15 ) + offset, (int) ( -_radius * .70 ) );
+                    Point e1 = new Point( -loopSpacing/2 + xOffset, -_radius ); // upper
+                    Point e2 = new Point( (int) ( _radius * .25 ) + xOffset, 0 ); // lower
+                    Point c = new Point( (int) ( _radius * .15 ) + xOffset, (int) ( -_radius * .70 ) );
                     drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
                 }
                 
                 // Left connection wire
                 if ( i == 0 ) {
-                    Point e1 = new Point( -loopSpacing/2 + offset, -_radius );
-                    Point e2 = new Point( e1.x - 15, e1.y - 40 );
+                    Point e1 = new Point( -loopSpacing/2 + xOffset, -_radius ); // lower
+                    Point e2 = new Point( e1.x - 15, e1.y - 40 ); // upper
                     Point c = new Point( e1.x - 20, e1.y - 20 );
+                    // Horizontal gradient, left to right.
                     g2.setPaint( new GradientPaint( e2.x, 0, LOOP_MIDDLE_COLOR, e1.x, 0, LOOP_DARKEST_COLOR ) );
                     drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
                 }
@@ -313,19 +316,21 @@ public class TestParametricCoil extends JComponent {
             
             int offset = firstLoopCenter + ( i * loopSpacing );;
             
+            // Horizontal gradient, left to right
             g2.setPaint( new GradientPaint( (int)(-_radius * .25) + offset, 0, LOOP_LIGHTEST_COLOR, (int)(-_radius * .15) + offset, 0, LOOP_MIDDLE_COLOR ) );
+            
             // Front bottom
             {
-                Point e1 = new Point( (int)(-_radius * .25) + offset, 0 );
-                Point e2 = new Point( offset, (int)(_radius) );
+                Point e1 = new Point( (int)(-_radius * .25) + offset, 0 ); // upper
+                Point e2 = new Point( offset, (int)(_radius) ); // lower
                 Point c = new Point( (int)(-_radius * .25) + offset, (int)(_radius * 0.8) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
             
             // Front top
             {
-                Point e1 = new Point( (int) ( -_radius * .25 ) + offset, 0 );
-                Point e2 = new Point( offset, -_radius );
+                Point e1 = new Point( offset, -_radius ); // upper
+                Point e2 = new Point( (int) ( -_radius * .25 ) + offset, 0 ); // lower
                 Point c = new Point( (int) ( -_radius * .25 ) + offset, (int) ( -_radius * 0.8 ) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
@@ -333,8 +338,8 @@ public class TestParametricCoil extends JComponent {
             // Right connection wire
             if ( i == _numberOfLoops - 1 ) {
                 g2.setPaint( LOOP_MIDDLE_COLOR );
-                Point e1 = new Point( offset, -_radius );
-                Point e2 = new Point( e1.x + 15, e1.y - 40 );
+                Point e1 = new Point( offset, -_radius ); // lower
+                Point e2 = new Point( e1.x + 15, e1.y - 40 ); // upper
                 Point c = new Point( e1.x + 20, e1.y - 20 );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
