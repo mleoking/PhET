@@ -59,8 +59,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private Rectangle repaintArea;
 
     private ScaledComponentLayout scaledComponentLayout;
-    protected ModelElement paintModelElement;
-    protected PanelResizeHandler panelResizeHandler;
+    private ModelElement paintModelElement;
+    private PanelResizeHandler panelResizeHandler;
 
     /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
@@ -84,6 +84,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     protected void init( BaseModel model, AbstractClock clock ) {
+
         // The following lines use a mouse processor in the model loop
         MouseProcessor mouseProcessor = new MouseProcessor( getGraphic(), clock );
         model.addModelElement( mouseProcessor );

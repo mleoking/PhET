@@ -10,8 +10,7 @@
  */
 package edu.colorado.phet.common.model.clock;
 
-import javax.swing.event.EventListenerList;
-import java.util.ArrayList;
+import edu.colorado.phet.common.util.EventChannel;
 
 /**
  * AbstractClock
@@ -24,8 +23,6 @@ public abstract class AbstractClock {
     static public final int MILLISECONDS_PER_TICK = 0;
     static public final int FRAMES_PER_SECOND = 1;
 
-//    private CompositeClockTickListener timeListeners = new CompositeClockTickListener();
-    //test comment
     private double runningTime;
     private TickConverter tickConverter;
     private int delay;
@@ -35,7 +32,10 @@ public abstract class AbstractClock {
     private static final int DEAD = 3;
     private int executionState = NOT_STARTED;
     private double dt;
-    private EventListenerList eventRegistry = new EventListenerList();
+    private EventChannel clockStateEventChannel = new EventChannel( ClockStateListener.class );
+    private ClockStateListener clockStateListenerProxy = (ClockStateListener)clockStateEventChannel.getListenerProxy();
+    private EventChannel tickEventChannel = new EventChannel( ClockTickListener.class );
+    private ClockTickListener tickListenerProxy = (ClockTickListener)tickEventChannel.getListenerProxy();
 
     /**
      * Constructor that allows tick to be specified either in milliseconds between ticks,
@@ -78,10 +78,6 @@ public abstract class AbstractClock {
         this.dt = dt;
     }
 
-//    public CompositeClockTickListener getTimeListeners() {
-//        return timeListeners;
-//    }
-
     public boolean isDead() {
         return executionState == DEAD;
     }
@@ -121,6 +117,7 @@ public abstract class AbstractClock {
         if( paused ) {
             if( executionState == RUNNING ) {
                 this.executionState = PAUSED;
+                doPause();
             }
             else {
                 throw new RuntimeException( "Only running clocks can be paused." );
@@ -128,13 +125,14 @@ public abstract class AbstractClock {
         }
         else {
             if( executionState == PAUSED ) {
-                doUnpause();
                 this.executionState = RUNNING;
+                doUnpause();
             }
             else {
                 throw new RuntimeException( "Only paused clocks can be unpaused." );
             }
         }
+        clockStateListenerProxy.stateChanged( new ClockStateEvent( this ) );
     }
 
     /**
@@ -164,12 +162,7 @@ public abstract class AbstractClock {
     protected void clockTicked( double dt ) {
         runningTime += dt;
         ClockTickEvent event = new ClockTickEvent( this, dt );
-        Object[] listeners = eventRegistry.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ClockTickListener.class ) {
-                ( (ClockTickListener)listeners[i + 1] ).clockTicked( event );
-            }
-        }
+        tickListenerProxy.clockTicked( event );
     }
 
     public String toString() {
@@ -178,18 +171,6 @@ public abstract class AbstractClock {
 
     protected void setRunningTime( double runningTime ) {
         this.runningTime = runningTime;
-    }
-
-    protected ArrayList getClockStateListeners() {
-        ArrayList clockStateListeners = new ArrayList();
-        Object[] listeners = eventRegistry.getListenerList();
-        for( int i = 0; i < listeners.length; i++ ) {
-            Object listener = listeners[i];
-            if( listener instanceof ClockStateListener ) {
-                clockStateListeners.add( listener );
-            }
-        }
-        return clockStateListeners;
     }
 
     protected double getSimulationTime( long actualDelay ) {
@@ -202,38 +183,28 @@ public abstract class AbstractClock {
 
     public void setDt( double dt ) {
         this.dt = dt;
-        fireClockStateEvent();
+        clockStateListenerProxy.stateChanged( new ClockStateEvent( this ) );
     }
 
     public void setDelay( int delay ) {
         this.delay = delay;
-        fireClockStateEvent();
-    }
-
-    protected void fireClockStateEvent() {
-        ClockStateEvent event = new ClockStateEvent( this );
-        Object[] listeners = eventRegistry.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ClockStateListener.class ) {
-                ( (ClockStateListener)listeners[i + 1] ).stateChanged( event );
-            }
-        }
+        clockStateListenerProxy.stateChanged( new ClockStateEvent( this ) );
     }
 
     public void removeClockTickListener( ClockTickListener listener ) {
-        eventRegistry.remove( ClockTickListener.class, listener );
+        tickEventChannel.removeListener( listener );
     }
 
     public void addClockTickListener( ClockTickListener tickListener ) {
-        eventRegistry.add( ClockTickListener.class, tickListener );
+        tickEventChannel.addListener( tickListener );
     }
 
     public void addClockStateListener( ClockStateListener csl ) {
-        eventRegistry.add( ClockStateListener.class, csl );
+        clockStateEventChannel.addListener( csl );
     }
 
     public void removeClockStateListener( ClockStateListener csl ) {
-        eventRegistry.remove( ClockStateListener.class, csl );
+        clockStateEventChannel.removeListener( csl );
     }
 
     ///////////////////////////////////////////////////////////////////////
