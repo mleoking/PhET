@@ -363,7 +363,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     
     // Clip to the spectrum graphic bounds.
     Rectangle r = _spectrum.getBounds();
-    //XXX g2.setClip( r.x, r.y, r.width, r.height );
+    g2.setClip( r.x, r.y, r.width, r.height );
     
     // Move to slider location.
     g2.translate( _knob.getPosition().x + _knob.getBounds().width/2, _spectrum.getBounds().y );
@@ -379,16 +379,9 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     g2.draw( path );
     
     // Restore graphic state.
-    /*
-     * WORKAROUND: 
-     * Calling g2.setClip(oldClip) here causes the clipping to be messed up,
-     * apparently a Java2D bug. This was observed on Macintosh, but not 
-     * investigated on other platforms.  The workaround is to clear the
-     * clipping area by calling g2.setClip(null).
-     */
-    //XXX g2.setClip( null );
-    g2.setTransform( oldTransform );
     g2.setPaint( oldPaint );
+    g2.setTransform( oldTransform );
+    g2.setClip( oldClip );  // Restore clip *after* transform!
   }
   
 	//----------------------------------------------------------------------------
