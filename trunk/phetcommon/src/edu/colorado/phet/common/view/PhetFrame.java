@@ -20,11 +20,21 @@ public class PhetFrame extends JFrame {
     HelpMenu helpMenu;
     private JMenu defaultFileMenu;
 
-    public PhetFrame( ApplicationModel appDescriptor ) {
+    public PhetFrame( final ApplicationModel appDescriptor ) {
         super( appDescriptor.getWindowTitle() );
         this.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
+            }
+
+            public void windowIconified( WindowEvent e ) {
+                super.windowIconified( e );
+                appDescriptor.getClock().setPaused( false );
+            }
+
+            public void windowDeiconified( WindowEvent e ) {
+                super.windowDeiconified( e );
+                appDescriptor.getClock().setPaused( true );
             }
         } );
         JMenuBar menuBar = new JMenuBar();
