@@ -26,9 +26,11 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
                                    (SphericalBody)bodyA : (SphericalBody)bodyB;
             Box2D box = bodyA instanceof Box2D ?
                         (Box2D)bodyA : (Box2D)bodyB;
-            collision = new SphereBoxCollision( sphere, box, model );
-            collision.collide();
-            haveCollided = true;
+            if( !box.isInOpening( sphere ) ) {
+                collision = new SphereBoxCollision( sphere, box, model );
+                collision.collide();
+                haveCollided = true;
+            }
         }
         return haveCollided;
     }
