@@ -57,7 +57,8 @@ public class VersionUtils {
 
     public static VersionInfo[] readVersionInfo( String name ) throws IOException {
         if( name == null ) {
-            throw new RuntimeException( "Cannot read version info for name=" + name );
+//            new RuntimeException( "Cannot read version info for name=" + name ).printStackTrace( );
+            return new VersionInfo[0];
         }
         VersionUtils vu = new VersionUtils();
         ClassLoader cl = vu.getClass().getClassLoader();

@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.view.util;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -54,5 +55,9 @@ public class RectangleUtils {
 
     public static Point getCenter( Rectangle rect ) {
         return new Point( rect.x + rect.width / 2, rect.y + rect.height / 2 );
+    }
+
+    public static Point2D.Double getCenter2D( Rectangle2D rect ) {
+        return new Point2D.Double( rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2 );
     }
 }
