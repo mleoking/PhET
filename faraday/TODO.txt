@@ -38,12 +38,11 @@ LOW PRIORITY:
 CLEANUP:
 - remove unused images from JAR file
 - remove unused i18n strings
-- delete DeveloperPanel when no longer needed
-- delete BatteryPanel and ACPanel when no longer needed
 - remove DebuggerGraphic from modules
 - move test-src programs to examples project
 
 POSSIBLE OPTIMIZATIONS:
+- only recompute grid if magnet location or strength changes
 - use a profiler (eg JProfile) to identify bottlenecks
 - draw grid needles as images instead of shapes
 - cache grid needles at N-degree angles to eliminate rotation transform
@@ -60,6 +59,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/23) - remove unused source files: ACPowerSupplyPanel, BatteryPanel, DeveloperPanel
 (3/22) - handle for faucet that looks like the side view of a faucet handle, put slider inside handle
 (3/22) - make water wheel look like brown wood
 (3/22) - set initial positions of compass & field meter in Generator module
