@@ -13,17 +13,23 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.SimStrings;
+import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.ScalarObserver;
+import edu.colorado.phet.gauges.DialGauge;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.*;
 import edu.colorado.phet.idealgas.view.monitors.CmLines;
+import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
 import edu.colorado.phet.idealgas.view.monitors.IdealGasMonitorPanel;
+import edu.colorado.phet.idealgas.view.monitors.PressureSliceGraphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -41,8 +47,16 @@ public class IdealGasModule extends Module {
     private CmLines cmLines;
     private static WiggleMeGraphic wiggleMeGraphic;
 
+    private PressureSlice pressureSlice;
+    private AbstractClock clock;
+    private boolean pressureSliceEnabled;
+    private PressureSliceGraphic pressureSliceGraphic;
+    private DefaultInteractiveGraphic rulerGraphic;
+    private EnergyHistogramDialog histogramDlg;
+
     public IdealGasModule( AbstractClock clock ) {
         this( clock, SimStrings.get( "ModuleTitle.IdealGas" ) );
+        this.clock = clock;
     }
 
     protected IdealGasModel getIdealGasModel() {
@@ -121,6 +135,14 @@ public class IdealGasModule extends Module {
                                       new Point2D.Double( xDiag, yDiag ), idealGasModel, clock );
         idealGasModel.addBox( box );
         setApparatusPanel( new BaseIdealGasApparatusPanel( this, box ) );
+        ScalarObserver so = new ScalarObserver() {
+            public void update() {
+            }
+        };
+
+        Sca.
+
+        DialGauge pressureGauge = new DialGauge( getApparatusPanel(), );
 
         // Create the pump
         pump = new Pump( this, box );
@@ -140,11 +162,11 @@ public class IdealGasModule extends Module {
             this.addGraphic( pumpGraphic, -4 );
 
             if( wiggleMeGraphic == null ) {
-            wiggleMeGraphic = new WiggleMeGraphic( getApparatusPanel(),
-                                                   new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 470, IdealGasConfig.Y_BASE_OFFSET + 200 ) );
-            addGraphic( wiggleMeGraphic, 40 );
-            Thread wiggleMeThread = new Thread( wiggleMeGraphic );
-            wiggleMeThread.start();
+                wiggleMeGraphic = new WiggleMeGraphic( getApparatusPanel(),
+                                                       new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 470, IdealGasConfig.Y_BASE_OFFSET + 200 ) );
+                addGraphic( wiggleMeGraphic, 40 );
+                Thread wiggleMeThread = new Thread( wiggleMeGraphic );
+                wiggleMeThread.start();
             }
             pump.addObserver( new SimpleObserver() {
                 public void update() {
@@ -220,5 +242,44 @@ public class IdealGasModule extends Module {
 
     public Pump getPump() {
         return pump;
+    }
+
+
+    public void setPressureSliceEnabled( boolean pressureSliceEnabled ) {
+        if( pressureSlice == null ) {
+            pressureSlice = new PressureSlice( getBox(), (IdealGasModel)getModel(), clock );
+            pressureSliceGraphic = new PressureSliceGraphic( getApparatusPanel(),
+                                                             pressureSlice,
+                                                             getBox() );
+        }
+        this.pressureSliceEnabled = pressureSliceEnabled;
+        this.pressureSliceEnabled = pressureSliceEnabled;
+        if( pressureSliceEnabled ) {
+            getModel().addModelElement( pressureSlice );
+            addGraphic( pressureSliceGraphic, 20 );
+        }
+        else {
+            getApparatusPanel().removeGraphic( pressureSliceGraphic );
+            getModel().removeModelElement( pressureSlice );
+        }
+    }
+
+    public void setRulerEnabed( boolean rulerEnabled ) {
+        if( rulerEnabled ) {
+            rulerGraphic = new RulerGraphic( getApparatusPanel() );
+            getApparatusPanel().addGraphic( rulerGraphic, Integer.MAX_VALUE );
+        }
+        else {
+            getApparatusPanel().removeGraphic( rulerGraphic );
+        }
+        getApparatusPanel().repaint();
+    }
+
+    public void setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
+        if( histogramDlg == null ) {
+            histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
+                                                      (IdealGasModel)getModel() );
+        }
+        histogramDlg.setVisible( histogramDlgEnabled );
     }
 }

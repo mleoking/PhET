@@ -5,7 +5,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.SimStrings;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.PumpMoleculeCmd;

@@ -1,3 +1,7 @@
+- Make measurement tools visible module by module
+- Put pump, box and mannequin on common baseline
+- Make energyhistogramdialog undecorated, or make the measurement panel checkbox a listener on it
+- Put hot air balloon in middle of floor at init
 - consolidate MoleculePanel classes in RigidHollowSphere and HeliumBalloon
 - set default energy so kinetic energy is never < 0
 - average speed doesn't report properly

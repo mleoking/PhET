@@ -7,8 +7,8 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
-import edu.colorado.phet.common.view.SimStrings;
 import edu.colorado.phet.common.view.components.OrderOfMagnitudeSpinner;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.instrumentation.BarGauge;
 
 import javax.swing.*;
