@@ -29,7 +29,7 @@ public class BatteryApplet extends JApplet {
         if ( applet ) {
             String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                Locale.setDefault( new Locale( applicationLocale ) );
+                SimStrings.setLocale( new Locale( applicationLocale ) );
             }
             SimStrings.setStrings( localizedStringsPath );
         }
@@ -72,12 +72,12 @@ public class BatteryApplet extends JApplet {
     public static void main( String[] args ) {
         String applicationLocale = System.getProperty( "javaws.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
+            SimStrings.setLocale( new Locale( applicationLocale ) );
         }
         String argsKey = "user.language=";
         if( args.length > 0 && args[0].startsWith( argsKey )) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
+            SimStrings.setLocale( new Locale( locale ));
         }
 
         SimStrings.setStrings( localizedStringsPath );
