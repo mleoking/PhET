@@ -12,7 +12,7 @@ package edu.colorado.phet.collision;
 
 /**
  * VerticalWallFixupStrategy
- * <p>
+ * <p/>
  * Keeps spheres from getting through a wall from left to right or right to left
  *
  * @author Ron LeMaster
@@ -20,12 +20,25 @@ package edu.colorado.phet.collision;
  */
 public class VerticalWallFixupStrategy implements WallFixupStrategy {
     public void fixup( Wall wall, SphericalBody sphere ) {
-        if( sphere.getVelocity().getX() > 0 ) {
-            sphere.setPosition( wall.getBounds().getMinX() - sphere.getRadius(), sphere.getPosition().getY() );
+        WallDescriptor wallDesc = new WallDescriptor( wall, sphere.getRadius() );
+        double dAB = wallDesc.AB.ptLineDistSq( sphere.getPosition() );
+        double dBC = wallDesc.BC.ptLineDistSq( sphere.getPosition() );
+        double dCD = wallDesc.CD.ptLineDistSq( sphere.getPosition() );
+        double dAD = wallDesc.AD.ptLineDistSq( sphere.getPosition() );
+
+//        if( dBC < dAD ) {
+        if( sphere.getVelocity().getX() < 0 ) {
+            System.out.println( "BC" );
+            sphere.setPosition( wallDesc.BC.getX1(), sphere.getPosition().getY() );
+            sphere.setVelocity( Math.abs( sphere.getVelocity().getX() ), sphere.getVelocity().getY() );
         }
         else {
-            sphere.setPosition( wall.getBounds().getMaxX() + sphere.getRadius(), sphere.getPosition().getY() );
+            System.out.println( "AD" );
+            sphere.setPosition( wallDesc.AD.getX1(), sphere.getPosition().getY() );
+            sphere.setVelocity( -Math.abs( sphere.getVelocity().getX() ), sphere.getVelocity().getY() );
         }
-        sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
+
+
+//        if( sphere.getVelocity().getX() > 0 ) {
     }
 }

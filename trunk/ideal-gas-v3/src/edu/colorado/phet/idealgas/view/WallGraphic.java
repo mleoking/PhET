@@ -15,6 +15,7 @@ import edu.colorado.phet.common.util.Translatable;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -115,7 +116,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
      */
     public void paint( Graphics2D g2 ) {
         saveGraphicsState( g2 );
-//        GraphicsUtil.setAlpha( g2, 0.5 );
+        GraphicsUtil.setAlpha( g2, 0.5 );
         super.paint( g2 );
         restoreGraphicsState();
     }

@@ -73,6 +73,7 @@ public class CollisionGod {
         this.collisionExperts = collisionExperts;
         List bodies = model.getBodies();
         adjustRegionMembership( bodies );
+        adjustMoleculeWallRelations( bodies );
 
         // Do the miscellaneous collisions after the gas to gas collisions. This
         // seems to help keep things more graphically accurate
@@ -87,6 +88,37 @@ public class CollisionGod {
         }
 
         keepMoleculesInBox( bodies );
+    }
+
+    private void adjustMoleculeWallRelations( List bodies ) {
+        ArrayList walls = new ArrayList();
+        for( int j = 0; j < bodies.size(); j++ ) {
+            CollidableBody body = (CollidableBody)bodies.get( j );
+            if( body instanceof Wall ) {
+                walls.add( body );
+            }
+        }
+
+        // Assign molecules to region relative to walls
+        for( int j = 0; j < bodies.size(); j++ ) {
+            CollidableBody body = (CollidableBody)bodies.get( j );
+            if( body instanceof GasMolecule ) {
+                GasMolecule molecule = (GasMolecule)body;
+                for( int i = 0; i < walls.size(); i++ ) {
+                    Wall wall = (Wall)walls.get( i );
+                    if( molecule.getPosition().getX() < wall.getBounds().getMinX() + wall.getBounds().getWidth() / 2 ) {
+                        MoleculeDescriptor desc = (MoleculeDescriptor)wallToRegion.get( molecule );
+                        if( desc == null ) {
+                            desc = new MoleculeDescriptor( wall, molecule );
+                            wallToRegion.put( wall, desc );
+                        }
+                        else {
+                            desc.update();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void keepMoleculesInBox( List bodies ) {
@@ -224,15 +256,37 @@ public class CollisionGod {
                     for( int i = 0; i < walls.size(); i++ ) {
                         Wall wall = (Wall)walls.get( i );
                         if( wall.getBounds().contains( molecule.getPosition() ) ) {
-                            wall.fixup( molecule );
+                            wall.fixup( molecule, wallToRegion.get( molecule ) );
                             fixupDone = true;
                         }
                     }
                 } while( fixupDone );
             }
         }
-
+//
+//        // Assign molecules to region relative to walls
+//        for( int j = 0; j < bodies.size(); j++ ) {
+//            CollidableBody body = (CollidableBody)bodies.get( j );
+//            if( body instanceof GasMolecule ) {
+//                GasMolecule molecule = (GasMolecule)body;
+//                for( int i = 0; i < walls.size(); i++ ) {
+//                    Wall wall = (Wall)walls.get( i );
+//                    if( molecule.getPosition().getX() < wall.getBounds().getMinX() + wall.getBounds().getWidth() / 2 ) {
+//                        MoleculeDescriptor desc = (MoleculeDescriptor)wallToRegion.get( molecule );
+//                        if( desc == null ) {
+//                            desc = new MoleculeDescriptor( wall, molecule );
+//                            wallToRegion.put( wall, desc );
+//                        }
+//                        else {
+//                            desc.update();
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
+
+    private HashMap wallToRegion = new HashMap();
 
     private void doGasToGasCollisions() {
         // Do particle-particle collisions. Each region collides with
@@ -270,7 +324,7 @@ public class CollisionGod {
 
     private boolean detectAndDoCollision( CollidableBody body1, CollidableBody body2 ) {
         boolean haveCollided = false;
-        // todo: I don't think the haveCollided thing does any good.
+// todo: I don't think the haveCollided thing does any good.
         for( int i = 0; i < collisionExperts.size(); i++ ) {
             //        for( int i = 0; i < collisionExperts.size() && !haveCollided; i++ ) {
             CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( i );
@@ -372,8 +426,8 @@ public class CollisionGod {
     /**
      * A region within the physical system
      */
-    // Try making it a linked list instead of a HashSet. That way, we can avoid using
-    // iterators when going through them
+// Try making it a linked list instead of a HashSet. That way, we can avoid using
+// iterators when going through them
     public class Region extends LinkedList {
         double xMin;
         double xMax;
@@ -395,4 +449,41 @@ public class CollisionGod {
             return result;
         }
     }
+
+//----------------------------------------------------------------
+// Inner classes
+//----------------------------------------------------------------
+    private class MoleculeDescriptor {
+        static final int LEFT = 1;
+        static final int RIGHT = 2;
+        static final int ABOVE = 3;
+        static final int BELOW = 4;
+        int xDesc;
+        int yDesc;
+        private Wall wall;
+        private SphericalBody sphere;
+
+        public MoleculeDescriptor( Wall wall, SphericalBody sphere ) {
+            this.wall = wall;
+            this.sphere = sphere;
+            update();
+        }
+
+        public void update() {
+
+            if( sphere.getPosition().getX() < wall.getBounds().getMinX() + wall.getBounds().getWidth() / 2 ) {
+                xDesc = LEFT;
+            }
+            else {
+                xDesc = RIGHT;
+            }
+            if( sphere.getPosition().getY() < wall.getBounds().getMinY() + wall.getBounds().getHeight() / 2 ) {
+                yDesc = ABOVE;
+            }
+            else {
+                yDesc = BELOW;
+            }
+        }
+    }
+
 }

@@ -28,7 +28,6 @@ import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.Pump;
-import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 
 import javax.swing.*;
@@ -79,11 +78,14 @@ public class MovableWallsModule extends IdealGasModule {
                               box.getBoundsInternal() );
         verticalWall.setMinimumWidth( wallThickness );
         verticalWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + wallThickness,
-                                                             box.getCorner1Y() + wallThickness,
+                                                             box.getCorner1Y(),
+//                                                             box.getCorner1Y() + wallThickness,
                                                              box.getWidth() - 2 * wallThickness,
-                                                             box.getHeight() - wallThickness ) );
+                                                             box.getHeight() ) );
+//                                                             box.getHeight() - wallThickness ) );
         verticalWall.setFixupStrategy( new VerticalWallFixupStrategy() );
-        WallGraphic lowerWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
+        WallGraphic lowerWallGraphic = new WallGraphic( verticalWall, getApparatusPanel(),
+//        WallGraphic lowerWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
         lowerWallGraphic.setIsResizable( true );
