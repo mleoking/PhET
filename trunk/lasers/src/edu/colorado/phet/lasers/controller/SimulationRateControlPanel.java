@@ -36,13 +36,13 @@ public class SimulationRateControlPanel extends JPanel {
         Font clockFont = simulationRateTF.getFont();
         simulationRateTF.setFont( new Font( clockFont.getName(),
                                             LaserConfig.CONTROL_FONT_STYLE,
-                                            LaserConfig.CONTROL_FONT_SIZE ));
+                                            LaserConfig.CONTROL_FONT_SIZE ) );
         simulationRateTF.setText( Double.toString( 10 ) );
 
         simulationRateSlider = new JSlider( JSlider.VERTICAL,
-                                        minValue,
-                                        maxValue,
-                                        defaultValue );
+                                            minValue,
+                                            maxValue,
+                                            defaultValue );
 
         simulationRateSlider.setPreferredSize( new Dimension( 20, 50 ) );
         simulationRateSlider.setPaintTicks( true );
@@ -55,10 +55,10 @@ public class SimulationRateControlPanel extends JPanel {
         } );
 
         this.setLayout( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0,0, 1,1,1,1,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
-                                                         new Insets( 0,5,0,5 ), 20, 0 );
+                                                         new Insets( 0, 5, 0, 5 ), 20, 0 );
         this.add( simulationRateSlider, gbc );
         gbc.gridx++;
         gbc.anchor = GridBagConstraints.WEST;

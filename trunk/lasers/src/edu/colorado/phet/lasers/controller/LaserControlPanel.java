@@ -19,6 +19,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 public class LaserControlPanel extends PhetControlPanel {
     private GridBagConstraints gbc;
@@ -32,18 +33,14 @@ public class LaserControlPanel extends PhetControlPanel {
                                       GridBagConstraints.HORIZONTAL,
                                       new Insets( 0, 0, 0, 0 ),
                                       0, 0 );
-
         super.setControlPane( laserControlPane );
-
         addDebugControls( module );
-
     }
 
     public void addControl( Component component ) {
         gbc.gridy++;
         laserControlPane.add( component, gbc );
     }
-
 
     /**
      * Adds controls for adjusting simulation parameters
@@ -141,7 +138,10 @@ public class LaserControlPanel extends PhetControlPanel {
             panel.add( numPhotonsTF, gbc );
 //            addControl( numPhotonsTF );
 
-            final PhetSlider aveSlider = new PhetSlider( "Averaging period", "msec", 0, 2000, 0 );
+            DecimalFormat decFmt = new DecimalFormat( "#" );
+            final PhetSlider aveSlider = new PhetSlider( "Averaging period", "msec", 0, 10000, 0, decFmt, 50 );
+            aveSlider.setPaintLabels( false );
+            aveSlider.setNumMajorTicks( 10 );
             aveSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     module.setEnergyLevelsAveragingPeriod( aveSlider.getValue() );

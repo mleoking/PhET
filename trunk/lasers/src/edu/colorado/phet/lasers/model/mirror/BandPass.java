@@ -24,7 +24,7 @@ public class BandPass implements ReflectionStrategy {
     }
 
     public boolean reflects( Photon photon ) {
-        return( photon.getWavelength() >= cutoffLow
-            && photon.getWavelength() <= cutoffHigh );
+        return ( photon.getWavelength() >= cutoffLow
+                 && photon.getWavelength() <= cutoffHigh );
     }
 }

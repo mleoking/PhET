@@ -387,6 +387,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             setMinimum( 0 );
             setMaximum( maxLifetime );
             sliderWidth = (int)( (double)( maxSliderWidth - sliderWidthPadding ) * ( (double)getMaximum() / LaserConfig.MAXIMUM_STATE_LIFETIME ) ) + sliderWidthPadding;
+            sliderWidth = Math.min( sliderWidth, maxSliderWidth );
             setValue( maxLifetime / 2 );
             setMajorTickSpacing( maxLifetime );
             setMinorTickSpacing( maxLifetime / 10 );

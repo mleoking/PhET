@@ -13,7 +13,7 @@ package edu.colorado.phet.lasers.model.photon;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.util.EventChannelProxy;
+import edu.colorado.phet.common.util.EventChannel;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -47,12 +47,16 @@ public class CollimatedBeam extends Particle {
     private double timeSinceLastPhotonProduced = 0;
     // Used to deterimine when photons should be produced
     private double photonsPerSecond;
+    // Maximum photon rate
+    private double maxPhotonsPerSecond;
     // Is the collimated beam currently generating photons?
     private boolean isEnabled;
 
 
-    public CollimatedBeam( double wavelength, Point2D origin, double height, double width, Vector2D direction ) {
+    public CollimatedBeam( double wavelength, Point2D origin, double height, double width,
+                           Vector2D direction, double maxPhotonsPerSecond ) {
         this.wavelength = wavelength;
+        this.maxPhotonsPerSecond = maxPhotonsPerSecond;
         this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
         this.setPosition( origin );
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
@@ -162,19 +166,26 @@ public class CollimatedBeam extends Particle {
         return temp / ( photonsPerSecond / 1000 );
     }
 
+    public double getMaxPhotonsPerSecond() {
+        return this.maxPhotonsPerSecond;
+    }
+
+    public void setMaxPhotonsPerSecond( int maxPhotonsPerSecond ) {
+        this.maxPhotonsPerSecond = maxPhotonsPerSecond;
+    }
 
     //---------------------------------------------------------------------
     // Event Handling
     //---------------------------------------------------------------------
 
-    private EventChannelProxy rateChangeEventChannel = new EventChannelProxy( RateChangeListener.class );
-    private RateChangeListener rateChangeListenerProxy = (RateChangeListener)rateChangeEventChannel.getProxy();
+    private EventChannel rateChangeEventChannel = new EventChannel( RateChangeListener.class );
+    private RateChangeListener rateChangeListenerProxy = (RateChangeListener)rateChangeEventChannel.getListenerProxy();
 
-    private EventChannelProxy wavelengthChangeEventChannel = new EventChannelProxy( WavelengthChangeListener.class );
-    private WavelengthChangeListener wavelengthChangeListenerProxy = (WavelengthChangeListener)wavelengthChangeEventChannel.getProxy();
+    private EventChannel wavelengthChangeEventChannel = new EventChannel( WavelengthChangeListener.class );
+    private WavelengthChangeListener wavelengthChangeListenerProxy = (WavelengthChangeListener)wavelengthChangeEventChannel.getListenerProxy();
 
-    private EventChannelProxy photonEmittedEventChannel = new EventChannelProxy( PhotonEmittedListener.class );
-    private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getProxy();
+    private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmittedListener.class );
+    private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getListenerProxy();
 
     public void addRateChangeListner( RateChangeListener rateChangeListener ) {
         rateChangeEventChannel.addListener( rateChangeListener );
@@ -219,6 +230,5 @@ public class CollimatedBeam extends Particle {
     public interface WavelengthChangeListener extends EventListener {
         public void wavelengthChanged( WavelengthChangeEvent event );
     }
-
 }
 

@@ -30,16 +30,16 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.StateChangeLis
     // Gives a 4 pixel ring for the ground state.
     private double energyScaleFactor = 4 / GroundState.instance().getEnergyLevel();
 
-    public AtomGraphic(Component component, Atom atom) {
-        super(component, s_imageName);
+    public AtomGraphic( Component component, Atom atom ) {
+        super( component, s_imageName );
         this.atom = atom;
-        atom.addObserver(this);
-        atom.addListener(this);
-        update(atom.getState());
+        atom.addObserver( this );
+        atom.addListener( this );
+        update( atom.getState() );
     }
 
-    public void stateChangeOccurred(Atom.StateChangeEvent event) {
-        update(event.getState());
+    public void stateChangeOccurred( Atom.StateChangeEvent event ) {
+        update( event.getState() );
     }
 
     protected Rectangle determineBounds() {
@@ -51,43 +51,44 @@ public class AtomGraphic extends PhetImageGraphic implements Atom.StateChangeLis
      *
      * @param state
      */
-    public void update(AtomicState state) {
+    public void update( AtomicState state ) {
         double groundStateRingThickness = 5;
         // used to scale the thickness of the ring so it changes size a reasonable amount through the visible range
         double ringThicknessExponent = 0.15;
-        if (true) {
+        if( true ) {
 //        if( atomicState != state ) {
             atomicState = state;
             double energyRatio = state.getEnergyLevel() / GroundState.instance().getEnergyLevel();
 
-            double energyRepRad = Math.pow(energyRatio, ringThicknessExponent)
-                    * (getImage().getWidth() / 2) + groundStateRingThickness;
-            energyRep = new Ellipse2D.Double(atom.getPosition().getX() - energyRepRad, atom.getPosition().getY() - energyRepRad,
-                    energyRepRad * 2, energyRepRad * 2);
-            if (state.getWavelength() == Photon.GRAY) {
+            double energyRepRad = Math.pow( energyRatio, ringThicknessExponent )
+                                  * ( getImage().getWidth() / 2 ) + groundStateRingThickness;
+            energyRep = new Ellipse2D.Double( atom.getPosition().getX() - energyRepRad, atom.getPosition().getY() - energyRepRad,
+                                              energyRepRad * 2, energyRepRad * 2 );
+            if( state.getWavelength() == Photon.GRAY ) {
                 energyRepColor = Color.darkGray;
-            } else {
-                energyRepColor = VisibleColor.wavelengthToColor(state.getWavelength());
             }
-            setPosition((int) (atom.getPosition().getX() - getImage().getWidth() / 2),
-                    (int) (atom.getPosition().getY() - getImage().getHeight() / 2));
+            else {
+                energyRepColor = VisibleColor.wavelengthToColor( state.getWavelength() );
+            }
+            setPosition( (int)( atom.getPosition().getX() - getImage().getWidth() / 2 ),
+                         (int)( atom.getPosition().getY() - getImage().getHeight() / 2 ) );
             setBoundsDirty();
             repaint();
         }
     }
 
     public void update() {
-        update(atom.getState());
+        update( atom.getState() );
     }
 
-    public void paint(Graphics2D g) {
-        saveGraphicsState(g);
-        GraphicsUtil.setAntiAliasingOn(g);
-        g.setColor(energyRepColor);
-        g.fill(energyRep);
+    public void paint( Graphics2D g ) {
+        saveGraphicsState( g );
+        GraphicsUtil.setAntiAliasingOn( g );
+        g.setColor( energyRepColor );
+        g.fill( energyRep );
         restoreGraphicsState();
 
-        super.paint(g);
+        super.paint( g );
 
         // Debug: draws a dot at the center of the atom
         //        g.setColor( Color.RED );

@@ -104,7 +104,8 @@ public class BaseLaserModule extends Module {
                                        s_origin,
                                        s_boxHeight - Photon.RADIUS,
                                        s_boxWidth + s_laserOffsetX * 2,
-                                       new Vector2D.Double( 1, 0 ) );
+                                       new Vector2D.Double( 1, 0 ),
+                                       LaserConfig.MAXIMUM_SEED_PHOTON_RATE );
         seedBeam.addPhotonEmittedListener( new PhotonEmissionListener() );
         seedBeam.setEnabled( true );
         getLaserModel().setStimulatingBeam( seedBeam );
@@ -113,7 +114,8 @@ public class BaseLaserModule extends Module {
                                           new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
                                           s_boxHeight + s_laserOffsetX * 2,
                                           s_boxWidth,
-                                          new Vector2D.Double( 0, 1 ) );
+                                          new Vector2D.Double( 0, 1 ),
+                                          LaserConfig.MAXIMUM_SEED_PHOTON_RATE );
         pumpingBeam.addPhotonEmittedListener( new PhotonEmissionListener() );
         pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
@@ -306,6 +308,7 @@ public class BaseLaserModule extends Module {
             reflectivityControl.setBorder( new BevelBorder( BevelBorder.RAISED ) );
             reflectivityControlPanel.setOpaque( false );
             getApparatusPanel().add( reflectivityControlPanel );
+            getApparatusPanel().revalidate();
         }
         getApparatusPanel().paintImmediately( getApparatusPanel().getBounds() );
     }

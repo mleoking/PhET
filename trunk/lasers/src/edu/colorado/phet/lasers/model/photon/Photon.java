@@ -14,7 +14,7 @@ import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.util.EventChannelProxy;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
 import java.awt.geom.Point2D;
@@ -44,8 +44,8 @@ public class Photon extends Particle implements Collidable {
     static private double PLANCK = 6.626E-34;
     static private Random random = new Random();
 
-    static private EventChannelProxy photonEmittedEventChannel = new EventChannelProxy( PhotonEmittedListener.class );
-    static private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getProxy();
+    static private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmittedListener.class );
+    static private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getListenerProxy();
 
     // The bounds within which a stimulated photon must be created. This keeps them inside the
     // laser cavity
@@ -206,11 +206,11 @@ public class Photon extends Particle implements Collidable {
     //-------------------------------------------------------------------------------------
     // Event handling
     //-------------------------------------------------------------------------------------
-    private EventChannelProxy leftSystemEventChannel = new EventChannelProxy( LeftSystemEventListener.class );
-    private LeftSystemEventListener leftSystemListenerProxy = (LeftSystemEventListener)leftSystemEventChannel.getProxy();
+    private EventChannel leftSystemEventChannel = new EventChannel( LeftSystemEventListener.class );
+    private LeftSystemEventListener leftSystemListenerProxy = (LeftSystemEventListener)leftSystemEventChannel.getListenerProxy();
 
-    private EventChannelProxy velocityChangedEventChannel = new EventChannelProxy( VelocityChangedListener.class );
-    private VelocityChangedListener velocityChangedListenerProxy = (VelocityChangedListener)velocityChangedEventChannel.getProxy();
+    private EventChannel velocityChangedEventChannel = new EventChannel( VelocityChangedListener.class );
+    private VelocityChangedListener velocityChangedListenerProxy = (VelocityChangedListener)velocityChangedEventChannel.getListenerProxy();
 
     public class LeftSystemEvent extends EventObject {
         public LeftSystemEvent() {
