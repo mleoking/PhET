@@ -59,7 +59,7 @@ public class FaradayConfig {
     public static final String LIGHTBULB_ICON = IMAGES_DIRECTORY + "lightbulb_icon.png";
     public static final String LIGHTBULB_ICON_SELECTED = IMAGES_DIRECTORY + "lightbulb_icon_selected.png";
     public static final String SLIDER_KNOB_IMAGE = IMAGES_DIRECTORY + "sliderKnob.png";
-    public static final String SLIDER_KNOB_RED_IMAGE = IMAGES_DIRECTORY + "sliderKnobHighlight.png";
+    public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = IMAGES_DIRECTORY + "sliderKnobHighlight.png";
     public static final String TURBINE_PIVOT_IMAGE = IMAGES_DIRECTORY + "turbinePivot.png";
     public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltmeter.png";
     public static final String VOLTMETER_ICON = IMAGES_DIRECTORY + "voltmeter_icon.png";
