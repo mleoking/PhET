@@ -19,6 +19,15 @@
       <entry name=".+\.(properties|xml|html)" />
       <entry name=".+\.(gif|png|jpeg|jpg)" />
     </resourceExtensions>
+    <wildcardResourcePatterns>
+      <entry name="?*.properties" />
+      <entry name="?*.xml" />
+      <entry name="?*.html" />
+      <entry name="?*.gif" />
+      <entry name="?*.png" />
+      <entry name="?*.jpeg" />
+      <entry name="?*.jpg" />
+    </wildcardResourcePatterns>
   </component>
   <component name="DataSourceManager" />
   <component name="DataSourceManagerImpl" />
@@ -182,7 +191,7 @@
       <module fileurl="file://$PROJECT_DIR$/JnlpHacker.iml" filepath="$PROJECT_DIR$/JnlpHacker.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="false" jdk-15="false" />
+  <component name="ProjectRootManager" version="2" assert-keyword="false" jdk-15="false" project-jdk-name="java version &quot;1.4.2_06&quot;" />
   <component name="RmicSettings">
     <option name="IS_EANABLED" value="false" />
     <option name="DEBUGGING_INFO" value="true" />

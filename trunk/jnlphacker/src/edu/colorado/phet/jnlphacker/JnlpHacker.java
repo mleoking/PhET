@@ -63,7 +63,8 @@ public class JnlpHacker {
                     codebase = codebase.substring( codebase.indexOf( ":" ) + 1 );
                 }
 
-                String appDir = dir.getPath().substring( dir.getPath().lastIndexOf( "\\" ));
+                String appDir = dir.getPath().substring( dir.getPath().lastIndexOf( File.separator ));
+//                String appDir = dir.getPath().substring( dir.getPath().lastIndexOf( "\\" ));
                 jnlpPath = codebase + appDir + "/" + jnlpFiles[i].getName();
                 jnlpFile.setCodebase( "file://" + codebase );
                 BufferedWriter out = new BufferedWriter( new FileWriter( jnlpPath ) );

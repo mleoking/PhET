@@ -214,21 +214,7 @@
     <method_breakpoints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlphacker/JnlpHacker.java" line="53">
-        <option name="ENABLED" value="true" />
-        <option name="SUSPEND_VM" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="myCondition" value="" />
-        <option name="myLogMessage" value="" />
-      </breakpoint>
-    </line_breakpoints>
+    <line_breakpoints />
     <exception_breakpoints>
       <breakpoint_any>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -313,20 +299,25 @@
     <option name="HIDE_WARNINGS" value="false" />
   </component>
   <component name="FileEditorManager" split-orientation="horizontal" split-proportion="0.5">
-    <first-group selected-file="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlphacker/JnlpHacker.java">
+    <first-group selected-file="file://$PROJECT_DIR$/makejar.bat">
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlp/JnlpFile.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="24" column="13" selection-start="515" selection-end="515" vertical-scroll-proportion="0.024660913">
+          <state line="39" column="90" selection-start="883" selection-end="883" vertical-scroll-proportion="0.27646327">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlphacker/JnlpHacker.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="30" column="9" selection-start="964" selection-end="964" vertical-scroll-proportion="0.024660913">
-            <folding>
-              <element signature="class#JnlpFileFilter#0;class#JnlpHacker#0" expanded="true" />
-            </folding>
+          <state line="27" column="98" selection-start="842" selection-end="842" vertical-scroll-proportion="0.020782396">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/makejar.bat" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <folding />
           </state>
         </provider>
       </entry>
@@ -361,14 +352,14 @@
     <expanded_node url="" module="JnlpHacker" type="module" />
   </component>
   <component name="ProjectPane">
-    <expanded_node url="file://$PROJECT_DIR$/src" module="JnlpHacker" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlphacker" module="JnlpHacker" type="directory" />
-    <expanded_node url="" module="JnlpHacker" type="module" />
     <expanded_node url="file://$PROJECT_DIR$/src/edu" module="JnlpHacker" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado" module="JnlpHacker" type="directory" />
-    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/phet" module="JnlpHacker" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src" module="JnlpHacker" type="directory" />
     <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlp" module="JnlpHacker" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlphacker" module="JnlpHacker" type="directory" />
     <expanded_node url="file://$PROJECT_DIR$" module="JnlpHacker" type="directory" />
+    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado" module="JnlpHacker" type="directory" />
+    <expanded_node url="" module="JnlpHacker" type="module" />
+    <expanded_node url="file://$PROJECT_DIR$/src/edu/colorado/phet" module="JnlpHacker" type="directory" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" splitterProportion="0.5">
@@ -413,20 +404,6 @@
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
     </configuration>
-    <configuration selected="false" default="true" type="JUnit" factoryName="JUnit">
-      <module name="" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-    </configuration>
     <configuration selected="false" default="true" type="WebLogic Instance" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
@@ -440,6 +417,20 @@
       <option name="PASSWORD" value="weblogic" />
       <option name="SERVER_NAME" value="myserver" />
       <option name="DOMAIN_NAME" value="mydomain" />
+    </configuration>
+    <configuration selected="false" default="true" type="JUnit" factoryName="JUnit">
+      <module name="" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
     </configuration>
     <configuration selected="false" default="true" type="Applet" factoryName="Applet">
       <module name="" />
@@ -462,22 +453,24 @@
       <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.jnlphacker.JnlpHacker" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="/PhET /phet true" />
-      <option name="WORKING_DIRECTORY" value="f:\" />
+      <option name="WORKING_DIRECTORY" value="file://f:/" />
       <module name="JnlpHacker" />
     </configuration>
     <configuration selected="false" default="false" name="Phet-4" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.jnlphacker.JnlpHacker" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="C:/test c:/test" />
-      <option name="WORKING_DIRECTORY" value="C:\PhET\CD-Deployment\jnlphacker" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <module name="JnlpHacker" />
     </configuration>
     <configuration selected="true" default="false" name="PHET INSTALL" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.jnlphacker.JnlpHacker" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;c:\Program Files\PhET\simulations&quot; &quot;c:\Program Files\PhET\simulations&quot;" />
-      <option name="WORKING_DIRECTORY" value="C:\PhET\CD-Deployment\jnlphacker" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;c:\Program Files\PhET\simulations&quot; &quot;c:\temp&quot;" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <module name="JnlpHacker" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
     </configuration>
   </component>
   <component name="SelectInManager" />
@@ -526,19 +519,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1288" height="998" extended-state="6" />
+    <frame x="0" y="0" width="1280" height="988" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.35714287" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.25895765" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="true" internal_type="sliding" type="sliding" visible="false" weight="0.33002207" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="6" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="-1" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.31336406" order="2" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.315" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.5126728" order="3" />
@@ -620,18 +613,23 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlphacker/JnlpHacker.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlp/JnlpFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="9" selection-start="964" selection-end="964" vertical-scroll-proportion="0.024660913">
-          <folding>
-            <element signature="class#JnlpFileFilter#0;class#JnlpHacker#0" expanded="true" />
-          </folding>
+        <state line="39" column="90" selection-start="883" selection-end="883" vertical-scroll-proportion="0.27646327">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlp/JnlpFile.java">
+    <entry file="file://$PROJECT_DIR$/makejar.bat">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="13" selection-start="515" selection-end="515" vertical-scroll-proportion="0.024660913">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/jnlphacker/JnlpHacker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="98" selection-start="842" selection-end="842" vertical-scroll-proportion="0.020782396">
           <folding />
         </state>
       </provider>
