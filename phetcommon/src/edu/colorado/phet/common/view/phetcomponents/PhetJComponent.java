@@ -92,14 +92,19 @@ public class PhetJComponent extends PhetGraphic {
             graphicLayerSet.addGraphic( new PhetJComponent( apparatusPanel, jComponent, topLevel ) );//the container is the background.
 
             for( int i = 0; i < children.length; i++ ) {
-                JComponent child = (JComponent)children[i];
-                Point location = child.getLocation();
+                if( !( children[i] instanceof JComponent ) ) {
+                    System.out.println( "children[i] = " + children[i].getClass() );
+                }
+                else {
+                    JComponent child = (JComponent)children[i];
+                    Point location = child.getLocation();
 //                System.out.println( "location@" + child.getClass() + " = " + location );
-                PhetGraphic pj = PhetJComponent.newInstance( apparatusPanel, child, false );
-                graphicLayerSet.addGraphic( pj );
-                //have to account for parent's locations.
+                    PhetGraphic pj = PhetJComponent.newInstance( apparatusPanel, child, false );
+                    graphicLayerSet.addGraphic( pj );
+                    //have to account for parent's locations.
 
-                pj.setLocation( location.x - jComponent.getX(), location.y - jComponent.getY() );
+                    pj.setLocation( location.x - jComponent.getX(), location.y - jComponent.getY() );
+                }
             }
 
             return graphicLayerSet;
@@ -119,13 +124,19 @@ public class PhetJComponent extends PhetGraphic {
         }
     }
 
-    private static void doNotifyAll( JComponent jComponent ) {
+    private static void doNotifyAll( Component jComponent ) {
         jComponent.addNotify();
-        Component[] c = jComponent.getComponents();
-        for( int i = 0; i < c.length; i++ ) {
-            JComponent component = (JComponent)c[i];
-            doNotifyAll( component );
+        if( jComponent instanceof Container ) {
+            Container container = (Container)jComponent;
+            Component[] c = container.getComponents();
+            for( int i = 0; i < c.length; i++ ) {
+                doNotifyAll( c[i] );
+            }
         }
+    }
+
+    public PhetJComponent( Component ap, JComponent component ) {
+        this( ap, component, true );
     }
 
     protected PhetJComponent( Component ap, final JComponent component, boolean topLevel ) {
@@ -385,6 +396,9 @@ public class PhetJComponent extends PhetGraphic {
         if( !topLevel ) {
             dim = component.getSize();
         }
+        if( dim.width == 0 || dim.height == 0 ) {
+            return;
+        }
         component.reshape( 0, 0, dim.width, dim.height );//dimension is set by parent's layout manager.
 
         if( image == null ) {
@@ -414,6 +428,9 @@ public class PhetJComponent extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
+        if( image == null ) {
+            return null;
+        }
         return getNetTransform().createTransformedShape( new Rectangle( 0, 0, image.getWidth(), image.getHeight() ) ).getBounds();
     }
 
@@ -424,7 +441,7 @@ public class PhetJComponent extends PhetGraphic {
             if( hints != null ) {
                 g2.setRenderingHints( hints );
             }
-            if( component != null ) {
+            if( component != null && image != null ) {
                 g2.transform( getNetTransform() );
                 g2.drawRenderedImage( image, new AffineTransform() );
             }
