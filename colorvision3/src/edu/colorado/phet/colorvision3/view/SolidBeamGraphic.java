@@ -1,4 +1,4 @@
-/* ColumnarBeamGraphic.java, Copyright 2004 University of Colorado */
+/* SolidBeamGraphic.java, Copyright 2004 University of Colorado */
 
 package edu.colorado.phet.colorvision3.view;
 
@@ -7,25 +7,25 @@ import java.awt.Component;
 import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.colorvision3.model.ColumnarBeam;
-import edu.colorado.phet.colorvision3.model.VisibleColor;
+import edu.colorado.phet.colorvision3.model.SolidBeam;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
- * ColumnarBeamGraphic provides a graphic representation of a columnar beam.
+ * SolidBeamGraphic provides a graphic representation of a solid beam.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @revision $Id$
  */
-public class ColumnarBeamGraphic extends PhetShapeGraphic implements SimpleObserver
+public class SolidBeamGraphic extends PhetShapeGraphic implements SimpleObserver
 {
 	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
   
   // The beam model.
-  private ColumnarBeam _beamModel;
+  private SolidBeam _beamModel;
   // Alpha scale, used to make the beam transparent (in percent)
   private double _alphaScale;
   
@@ -39,7 +39,7 @@ public class ColumnarBeamGraphic extends PhetShapeGraphic implements SimpleObser
    * @param parent the parent Component
    * @param beamModel the beam model
    */
-  public ColumnarBeamGraphic( Component parent, ColumnarBeam beamModel )
+  public SolidBeamGraphic( Component parent, SolidBeam beamModel )
   {
     super( parent, null, null );
     

@@ -3,6 +3,7 @@
 package edu.colorado.phet.colorvision3.model;
 
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
  * Person is the model of the person who is perceiving some color.

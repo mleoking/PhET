@@ -5,9 +5,11 @@ o clipping bug with display of filter transmission width on filter spectrum slid
 
 MEDIUM:
 o make all control panels the same size, so that apparatus doesn't resize when switching modules
+o Ant build scripts
 
 LOW:
 o use Point and Point2D.Double for specifying positions
+o Help
 
 ENHANCEMENTS:
 o put bulb color & filter color on a single spectrum slider so it's easier to see how they compare

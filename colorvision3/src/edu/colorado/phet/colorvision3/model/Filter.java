@@ -3,6 +3,7 @@
 package edu.colorado.phet.colorvision3.model;
 
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
  * Filter is a model of a color filter.

@@ -12,13 +12,12 @@ import edu.colorado.phet.colorvision3.control.SingleBulbControlPanel;
 import edu.colorado.phet.colorvision3.control.SpectrumSlider;
 import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
 import edu.colorado.phet.colorvision3.event.ColorChangeListener;
-import edu.colorado.phet.colorvision3.model.ColumnarBeam;
+import edu.colorado.phet.colorvision3.model.SolidBeam;
 import edu.colorado.phet.colorvision3.model.Filter;
 import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.colorvision3.model.PhotonBeam;
 import edu.colorado.phet.colorvision3.model.Spotlight;
-import edu.colorado.phet.colorvision3.model.VisibleColor;
-import edu.colorado.phet.colorvision3.view.ColumnarBeamGraphic;
+import edu.colorado.phet.colorvision3.view.SolidBeamGraphic;
 import edu.colorado.phet.colorvision3.view.FilterGraphic;
 import edu.colorado.phet.colorvision3.view.PersonGraphic;
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
@@ -30,6 +29,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
  * SingleBulbModule implements the simulation module that demonstrates how color vision
@@ -96,7 +96,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 	private Person _personModel;
 	private Spotlight _spotlightModel;
 	private PhotonBeam _photonBeamModel;
-	private ColumnarBeam _preFilterBeamModel, _postFilterBeamModel;
+	private SolidBeam _preFilterBeamModel, _postFilterBeamModel;
 	private Filter _filterModel;
 	
 	// Controls
@@ -108,8 +108,8 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 	private FilterGraphic _filterGraphic;
 	private PipeGraphic _filterPipe;
 	private PipeGraphic _wavelengthPipe;
-	private ColumnarBeamGraphic _preFilterBeamGraphic;
-	private ColumnarBeamGraphic _postFilterBeamGraphic;
+	private SolidBeamGraphic _preFilterBeamGraphic;
+	private SolidBeamGraphic _postFilterBeamGraphic;
 	private PhotonBeamGraphic _photonBeamGraphic;
 
 	//----------------------------------------------------------------------------
@@ -157,11 +157,11 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
 		_photonBeamModel.setBounds( PHOTON_BEAM_BOUNDS );
 		
     // Pre-filter columnar beam model (unfiltered)
-    _preFilterBeamModel = new ColumnarBeam( _spotlightModel );
+    _preFilterBeamModel = new SolidBeam( _spotlightModel );
     _preFilterBeamModel.setDistance( PRE_FILTER_BEAM_DISTANCE );
     
     // Post-filter columnar beam model (filtered)
-    _postFilterBeamModel = new ColumnarBeam( _spotlightModel, _filterModel );
+    _postFilterBeamModel = new SolidBeam( _spotlightModel, _filterModel );
     _postFilterBeamModel.setDistance( POST_FILTER_BEAM_DISTANCE );
 		
 		//----------------------------------------------------------------------------
@@ -191,12 +191,12 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     apparatusPanel.addGraphic( _filterGraphic, FILTER_LAYER );
     
     // Pre-filter columnar beam
-    _preFilterBeamGraphic = new ColumnarBeamGraphic( apparatusPanel, _preFilterBeamModel );
+    _preFilterBeamGraphic = new SolidBeamGraphic( apparatusPanel, _preFilterBeamModel );
     _preFilterBeamGraphic.setAlphaScale( 90 );
     apparatusPanel.addGraphic( _preFilterBeamGraphic, PRE_FILTER_BEAM_LAYER );
     
     // Post-filter columnar beam
-    _postFilterBeamGraphic = new ColumnarBeamGraphic( apparatusPanel, _postFilterBeamModel );
+    _postFilterBeamGraphic = new SolidBeamGraphic( apparatusPanel, _postFilterBeamModel );
     _postFilterBeamGraphic.setAlphaScale( 60 );
     apparatusPanel.addGraphic( _postFilterBeamGraphic, POST_FILTER_BEAM_LAYER );
     

@@ -17,7 +17,6 @@ import edu.colorado.phet.colorvision3.event.ColorChangeListener;
 import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.colorvision3.model.PhotonBeam;
 import edu.colorado.phet.colorvision3.model.Spotlight;
-import edu.colorado.phet.colorvision3.model.VisibleColor;
 import edu.colorado.phet.colorvision3.view.PersonGraphic;
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
 import edu.colorado.phet.colorvision3.view.SpotlightGraphic;
@@ -27,6 +26,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
  * RgbBulbsModule implements the simulation module that demonstrates how color vision
