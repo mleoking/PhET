@@ -68,11 +68,6 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic implem
         this.addCursorHandBehavior();
         this.addTranslationBehavior( this );
 
-        // We're going to draw an animated "Wiggle me". While we're doing this, we might as well
-        // use the time to build the arrow cache
-        Thread t = new Thread( new ArrowCacheBuilder() );
-        t.start();
-
         // Draw the animted "Wiggle me"
         wiggleMeGraphic = new Graphic() {
             Point2D.Double start = new Point2D.Double( 0, 0 );
@@ -100,18 +95,6 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic implem
         apparatusPanel.removeGraphic( wiggleMeGraphic );
     }
 
-    private class ArrowCacheBuilder implements Runnable {
-        public void run() {
-            Color color = FieldLatticeView.arrowRed;
-            for( double length = 20; length < 100; length += FieldVector.lengthGranularity * 2 ) {
-                for( double theta = 0; theta <= Math.PI * 2; theta += FieldVector.thetaGranularity * 2 ) {
-                    FieldVector.getGraphic( length, theta, color );
-                }
-            }
-        }
-    }
-
-//
 //    /**
 //     * Test to see how much more expensive it is to work with imutable Integers
 //     * rather than ints.

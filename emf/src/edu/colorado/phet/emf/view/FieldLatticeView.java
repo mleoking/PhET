@@ -23,7 +23,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 public class FieldLatticeView implements Graphic, SimpleObserver {
-    //public class FieldLatticeView implements ObservingGraphic {
 
     // Note that origin is the view origin, NOT the origin of the electron
     // emitting the field
@@ -152,8 +151,8 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                     }
                     else if( fieldDisplayType == EmfPanel.FULL_FIELD ) {
                         Arrow arrow = new Arrow( new Point2D.Double( -l / 2, 0 ), new Point2D.Double( l / 2, 0 ),
-                                                 FieldVector.maxArrowHeadWidth,
-                                                 FieldVector.maxArrowHeadWidth, 3, 0.5, true );
+                                                 maxArrowHeadWidth,
+                                                 maxArrowHeadWidth, 3, 0.5, true );
                         AffineTransform orgTx = g2.getTransform();
                         AffineTransform tx = latticeTx[i][j];
                         tx.setToTranslation( x, y );
@@ -269,6 +268,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     //
     // Statics
     //
+    public final static int maxArrowHeadWidth = 10;
     public final static Color arrowRed = new Color( 200, 0, 0 );
     public final static Color arrowGreen = new Color( 0, 100, 0 );
     private static Color arrowColor = new Color( 255, 48, 48 );
