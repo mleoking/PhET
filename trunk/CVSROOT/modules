@@ -65,7 +65,7 @@ balloons balloons
 ideal-gas ideal-gas-v3
 
 # Nuclear physics 
-nuclear-physics nuclearphysics
+nuclear-physics nuclearphysics &phetcommon &mechanics
 
 # Sound
 sound sound-2
