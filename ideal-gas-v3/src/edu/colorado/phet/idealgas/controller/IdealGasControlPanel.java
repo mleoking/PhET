@@ -63,6 +63,7 @@ public class IdealGasControlPanel extends JPanel {
                                       GridBagConstraints.HORIZONTAL,
                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
 
+
         // Add control for selecting the constant parameter
         add( constantParamControls(), gbc );
 
@@ -73,6 +74,7 @@ public class IdealGasControlPanel extends JPanel {
         this.add( miscPanel, gbc );
 
         // Add the reset and measurement panel buttons
+        gbc.gridy = GridBagConstraints.REMAINDER;
         this.add( buttonPanel, gbc );
 
         Border border = BorderFactory.createEtchedBorder();
