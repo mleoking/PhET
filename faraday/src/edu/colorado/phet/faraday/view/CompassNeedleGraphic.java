@@ -27,6 +27,13 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 public class CompassNeedleGraphic extends PhetGraphic {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+
+    private static final Color NORTH_COLOR = Color.RED;
+    private static final Color SOUTH_COLOR = Color.WHITE;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
@@ -51,8 +58,6 @@ public class CompassNeedleGraphic extends PhetGraphic {
         super( component );
         assert( component != null );
         
-        _northColor = Color.RED;
-        _southColor = Color.BLUE;
         _hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         
         setSize( new Dimension( 40, 20 ) );
@@ -136,10 +141,13 @@ public class CompassNeedleGraphic extends PhetGraphic {
         if ( ! ( strength >= 0 && strength <= 1 ) ) {
             throw new IllegalArgumentException( "strength must be 0.0-1.0 : " + strength );
         }
-        _strength = strength;
-        _northColor = new Color( 255, 0, 0, (int) ( 255 * _strength ) );
-        _southColor = new Color( 0, 0, 255, (int) ( 255 * _strength ) );
-        repaint();
+        if ( strength != _strength ) {
+            _strength = strength;
+            int alpha = (int) ( 255 * _strength );
+            _northColor = new Color( NORTH_COLOR.getRed(), NORTH_COLOR.getGreen(), NORTH_COLOR.getBlue(), alpha );
+            _southColor = new Color( SOUTH_COLOR.getRed(), SOUTH_COLOR.getGreen(), SOUTH_COLOR.getBlue(), alpha );
+            repaint();
+        }
     }
     
     /**
