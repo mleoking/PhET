@@ -1,18 +1,17 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
-o correct "overshoot" behavior of SpectrumSlider
 o Help based on Kathy's requirements
 o font antialiasing on Windows (and Linux?)
 
 MEDIUM:
 o optimize all image files for Web
-o optimize reuse of Photons in PhotonBeam
 o support orientation of SpectrumSlider
 o support scaling of SpectrumSlider
-o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
 
 LOW:
+o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
 o convert to PhET code formatting conventions
+o curve "hack" for antialiasing problem in SpectrumSlider
 
 
