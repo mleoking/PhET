@@ -60,6 +60,8 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
   private boolean _enabled;
   // Number of photons emitted when the light model is at 100% intensity.
   private int _maxPhotons;
+  // Previous intensity of the spotlight model.
+  private double _previousIntensity;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -83,6 +85,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     _listenerList = new EventListenerList();
     _enabled = true;
     _maxPhotons = 20;
+    _previousIntensity = 0;
   }
   
   /**
@@ -269,9 +272,9 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     
     // Determine how many photons to emit from the light source. 
     int emitCount = 0;
-    if ( _spotlightModel.getIntensity() == 0 && _perceivedIntensity != 0 )
+    if ( _spotlightModel.getIntensity() == 0 && _previousIntensity != 0 )
     {
-      // If the light intensity is changing to from non-zero to zero, 
+      // If the light intensity is changing from non-zero to zero intensity, 
       // emit one photon with zero intensity to ensure that zero intensity 
       // is perceived by the viewer.
       emitCount = 1;
@@ -488,6 +491,8 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
     {
       notifyObservers();
     }
+    
+    _previousIntensity = _spotlightModel.getIntensity();
     
   } // stepInTime
 
