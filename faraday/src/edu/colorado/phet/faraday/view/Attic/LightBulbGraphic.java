@@ -92,8 +92,8 @@ public class LightBulbGraphic extends CompositePhetGraphic implements SimpleObse
         if ( isVisible() ) {
             
             double intensity = _lightBulbModel.getIntensity();
-            assert ( intensity >= 0 && intensity <= 1 );
             System.out.println( "LightBulbGraphic.update: intensity=" + intensity ); // DEBUG
+            assert ( intensity >= 0 && intensity <= 1 );
 
             if ( intensity == 0 ) {
                 _lightEmission.setVisible( false );

@@ -27,7 +27,7 @@ public class VoltMeter extends AbstractResistor implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ICurrentSource _currentModel;
+    private IVoltageSource _voltageSourceModel;
     private double _voltage;
     
     //----------------------------------------------------------------------------
@@ -37,12 +37,12 @@ public class VoltMeter extends AbstractResistor implements ModelElement {
     /**
      * Sole constructor.
      * 
-     * @param currentModel the model of the current running through the meter
+     * @param voltageSourceModel the model of the current running through the meter
      * @param resistance the resistance of the meter
      */
-    public VoltMeter( ICurrentSource currentModel, double ohms ) {
-        super( ohms );
-        _currentModel = currentModel;
+    public VoltMeter( IVoltageSource voltageSourceModel, double resistance ) {
+        super( resistance );
+        _voltageSourceModel = voltageSourceModel;
         _voltage = 0.0;
     }
 
@@ -80,6 +80,6 @@ public class VoltMeter extends AbstractResistor implements ModelElement {
      */
     public void stepInTime( double dt ) {
         // XXX need to average voltage over time!
-        setVoltage( _currentModel.getCurrent() * getResistance() );
+        setVoltage( _voltageSourceModel.getVoltage() );
     }
 }

@@ -34,7 +34,7 @@ public class LightBulb extends AbstractResistor implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ICurrentSource _currentModel;
+    private IVoltageSource _voltageSourceModel;
     private double _intensity; // 0-1
     
     //----------------------------------------------------------------------------
@@ -44,12 +44,12 @@ public class LightBulb extends AbstractResistor implements ModelElement {
     /**
      * Sole constructor.
      * 
-     * @param currentModel the model of the current running through the bulb
+     * @param voltageSourceModel the model of the voltage across the bulb
      * @param resistance the resistance of the bulb
      */
-    public LightBulb( ICurrentSource currentModel, double resistance ) {
+    public LightBulb( IVoltageSource voltageSourceModel, double resistance ) {
         super( resistance );
-        _currentModel = currentModel;
+        _voltageSourceModel = voltageSourceModel;
         _intensity = 0.0;
     }
     
@@ -68,7 +68,7 @@ public class LightBulb extends AbstractResistor implements ModelElement {
         if ( intensity < 0 || intensity > 1 ) {
             throw new IllegalArgumentException( "intensity must be >= 0 and <= 1: " + intensity );
         }
-        if ( intensity != intensity ) {
+        if ( intensity != _intensity ) {
             _intensity = intensity;
             notifyObservers();
         }
@@ -93,7 +93,7 @@ public class LightBulb extends AbstractResistor implements ModelElement {
      */
     public void stepInTime( double dt ) {
         // XXX average intensity over time!
-        double voltage = _currentModel.getCurrent() * getResistance();
+        double voltage = _voltageSourceModel.getVoltage();
         double intensity = MathUtil.clamp( 0, (voltage / MAX_VOLTAGE), 1 );
         setIntensity( intensity );
     }

@@ -23,16 +23,15 @@ import edu.colorado.phet.common.model.ModelElement;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PickupCoil extends AbstractCoil implements ModelElement, ICurrentSource {
+public class PickupCoil extends AbstractCoil implements ModelElement, IVoltageSource {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private AbstractMagnet _magnetModel;
-    private double _current; // in amps
-    private double _EMF;
-    private double _flux;
+    private double _EMF;  // in volts
+    private double _flux; // in webers
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,11 +39,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement, ICurrentSo
     
     /**
      * Sole constructor.
+     * 
+     * @param magnetModel the magnet that is affecting the coil
      */
     public PickupCoil( AbstractMagnet magnetModel ) {
         super();
         _magnetModel = magnetModel;
-        _current = 0.0;
         _EMF = 0.0;
         _flux = 0.0;
     }
@@ -53,23 +53,29 @@ public class PickupCoil extends AbstractCoil implements ModelElement, ICurrentSo
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Gets the induced EMF.
+     * 
+     * @return the induced EMF, in volts
+     */
     public double getEMF() {
         return _EMF;
-    }
-    
-    public double getFlux() {
-        return _flux;
     }
     
     //----------------------------------------------------------------------------
     // ICurrent implementation
     //----------------------------------------------------------------------------
     
-    /*
-     * @see edu.colorado.phet.faraday.model.ICurrentSource#getCurrent()
+    /**
+     * According to Kirchhoff’s loop rule the magnitude of the induced EMF
+     * equals the potential difference across the ends of the coil
+     * (and therefore, across a lightbulb or voltmeter hooked to the ends
+     * of the coil).
+     * 
+     * @see edu.colorado.phet.faraday.model.IVoltageSource#getCurrent()
      */
-    public double getCurrent() {
-        return _current;
+    public double getVoltage() {
+        return Math.abs( _EMF );
     }
     
     //----------------------------------------------------------------------------
@@ -83,40 +89,26 @@ public class PickupCoil extends AbstractCoil implements ModelElement, ICurrentSo
      * @param dt time delta
      */
     public void stepInTime( double dt ) {
-        
-        // TODO This needs to be revisited ...  
-        // - theta should be calculated based on strength vector
-        // - doesn't handle arbitrary magnet orientation?
-        
-       // Calculate theta, angle between magnetic field and surface area vector.
-        Point2D magnetLocation = _magnetModel.getLocation();
-        Point2D coilLocation = super.getLocation();
-        double adjacent = Math.abs( magnetLocation.getY() - coilLocation.getY() );
-        double opposite = Math.abs( magnetLocation.getX() - magnetLocation.getX() );
-        double theta = Math.atan( opposite / adjacent );
+
+        // TODO handle arbitrary coil orientation
         
         // Magnetic field strength at the coil's location.
         AbstractVector2D strength = _magnetModel.getStrength( getLocation() );
         double B = strength.getMagnitude();
-        double direction = Math.toDegrees( strength.getAngle() );
-        if ( direction % 360 == 0 ) {
-            B = -B;
-        }
+        double theta = strength.getAngle();
         
-        // Calculate change in flux.
+        // Calculate the change in flux.
         double A = getArea();
         double flux = B * A * Math.cos( theta );
         double deltaFlux = flux - _flux;
         _flux = flux;
         
-        // Calculate induced EMF.
+        // Calculate the induced EMF.
         double EMF = -( getNumberOfLoops() * deltaFlux );
         if ( EMF != _EMF ) {
             notifyObservers();
+            System.out.println( "PickupCoil.stepInTime: EMF=" + EMF );  // DEBUG
         }
         _EMF = EMF;
-        
-        // Calculate induced current.
-        // XXX
     }
 }
