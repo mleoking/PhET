@@ -45,7 +45,7 @@ public class TransformerModule extends Module {
     // Locations of view components
 
     // Colors
-    private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
+    private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Instance data
