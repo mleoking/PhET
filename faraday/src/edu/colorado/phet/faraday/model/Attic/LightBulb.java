@@ -13,7 +13,7 @@ package edu.colorado.phet.faraday.model;
 
 
 /**
- * LightBulb
+ * LightBulbGraphic
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

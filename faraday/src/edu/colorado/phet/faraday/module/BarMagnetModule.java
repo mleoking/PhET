@@ -25,8 +25,7 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.PickupCoil;
-import edu.colorado.phet.faraday.view.BarMagnetGraphic;
-import edu.colorado.phet.faraday.view.PickupCoilGraphic;
+import edu.colorado.phet.faraday.view.*;
 
 
 /**
@@ -42,8 +41,8 @@ public class BarMagnetModule extends Module {
     //----------------------------------------------------------------------------
 
     // Rendering layers
-    private static final double BAR_MAGNET_LAYER = 1;
-    private static final double PICKUP_COIL_LAYER = 2;
+    private static final double PICKUP_WIDGET_LAYER = 1;
+    private static final double BAR_MAGNET_LAYER = 2;
     private static final double HELP_LAYER = Double.MAX_VALUE;
 
     // Locations of model components
@@ -57,14 +56,17 @@ public class BarMagnetModule extends Module {
 
     private static final double BAR_MAGNET_STRENGTH = 500;
     private static final double PICKUP_LOOP_RADIUS = 200;
-    private static final int PICKUP_LOOP_GAUGE = 10;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    // Model
     private BarMagnet _barMagnetModel;
     private PickupCoil _pickupCoilModel;
+    
+    // View
+    private PickupWidget _pickupWidget;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -90,17 +92,16 @@ public class BarMagnetModule extends Module {
         BaseModel model = new BaseModel();
         this.setModel( model );
         
-        // Bar Magnet model
+        // Bar Magnet
         _barMagnetModel = new BarMagnet();
         _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
         _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
         _barMagnetModel.setDirection( 0 );
         
-        // Pickup Coil model
+        // Pickup Coil
         _pickupCoilModel = new PickupCoil();
         _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
         _pickupCoilModel.setRadius( PICKUP_LOOP_RADIUS );
-        _pickupCoilModel.setGauge( PICKUP_LOOP_GAUGE );
         _pickupCoilModel.setDirection( 0 );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         _pickupCoilModel.setMagnet( _barMagnetModel );
@@ -119,20 +120,33 @@ public class BarMagnetModule extends Module {
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
         
-        // Pickup Coil
-        PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel );
-        apparatusPanel.addGraphic( pickupCoilGraphic, PICKUP_COIL_LAYER );
-        
         // Bar Magnet
         BarMagnetGraphic barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, _barMagnetModel );
         apparatusPanel.addGraphic( barMagnetGraphic, BAR_MAGNET_LAYER );
+        
+        // Pickup Coil
+        CoilGraphic coilGraphic = new CoilGraphic( apparatusPanel, _pickupCoilModel );
+        
+        // Voltmeter
+        VoltMeterGraphic meterGraphic = new VoltMeterGraphic( apparatusPanel, _pickupCoilModel );
+        
+        // Light Bulb 
+        LightBulbGraphic bulbGraphic = new LightBulbGraphic( apparatusPanel, _pickupCoilModel );
+        
+        // Pickup Coil
+        _pickupWidget = 
+            new PickupWidget( apparatusPanel, coilGraphic, meterGraphic, bulbGraphic, _pickupCoilModel );
+        apparatusPanel.addGraphic( _pickupWidget, PICKUP_WIDGET_LAYER );
         
         //----------------------------------------------------------------------------
         // Observers
         //----------------------------------------------------------------------------
         
         _barMagnetModel.addObserver( barMagnetGraphic );
-        _pickupCoilModel.addObserver( pickupCoilGraphic );
+        _pickupCoilModel.addObserver( coilGraphic );
+        _pickupCoilModel.addObserver( meterGraphic );
+        _pickupCoilModel.addObserver( bulbGraphic );
+        _pickupCoilModel.addObserver( _pickupWidget );
         
         //----------------------------------------------------------------------------
         // Listeners
@@ -152,6 +166,8 @@ public class BarMagnetModule extends Module {
         controlPanel.setBarMagnetStrengthScale( strengthScale );
         controlPanel.setLoopAreaScale( areaScale );
         controlPanel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
+        controlPanel.setBulbEnabled( true );
+        controlPanel.setMeterEnabled( false );
     }
 
     //----------------------------------------------------------------------------
@@ -183,6 +199,16 @@ public class BarMagnetModule extends Module {
     public void scalePickupLoopArea( double scale ) {
         System.out.println( "scalePickupLoopArea " + scale );
         _pickupCoilModel.setRadius( PICKUP_LOOP_RADIUS * scale );
+    }
+    
+    public void enableBulb() {
+        System.out.println( "enableBulb" );
+        _pickupWidget.enableBulb();
+    }
+    
+    public void enableMeter() {
+        System.out.println( "enableMeter" );
+        _pickupWidget.enableMeter();
     }
     
 }

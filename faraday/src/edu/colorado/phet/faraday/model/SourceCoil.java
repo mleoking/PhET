@@ -18,6 +18,6 @@ package edu.colorado.phet.faraday.model;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SourceCoil extends WireCoil {
+public class SourceCoil extends Coil {
 
 }
