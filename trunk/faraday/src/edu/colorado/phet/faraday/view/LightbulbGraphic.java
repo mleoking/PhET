@@ -164,16 +164,16 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             }
 
             // Number of rays is a function of intensity.
-            int numberOfRays = MIN_RAYS + (int)( intensity * (MAX_RAYS - MIN_RAYS) );
+            final int numberOfRays = MIN_RAYS + (int)( intensity * (MAX_RAYS - MIN_RAYS) );
 
             // Ray dimensions are a function of intensity.
-            double rayLength = MIN_RAY_LENGTH + ( intensity * (MAX_RAY_LENGTH - MIN_RAY_LENGTH) );
-            double rayWidth = MIN_RAY_WIDTH + ( intensity * (MAX_RAY_WIDTH - MIN_RAY_WIDTH) );
+            final double rayLength = MIN_RAY_LENGTH + ( intensity * (MAX_RAY_LENGTH - MIN_RAY_LENGTH) );
+            final double rayWidth = MIN_RAY_WIDTH + ( intensity * (MAX_RAY_WIDTH - MIN_RAY_WIDTH) );
             _rayStroke = new BasicStroke( (float) rayWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
             // Rays fill part of a circle, incrementing clockwise.
             double angle = RAYS_START_ANGLE;
-            double deltaAngle = RAYS_ARC_ANGLE / ( numberOfRays - 1 );
+            final double deltaAngle = RAYS_ARC_ANGLE / ( numberOfRays - 1 );
 
             // Create the rays.
             for ( int i = 0; i < numberOfRays; i++ ) {
@@ -198,7 +198,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
                 // Increment the angle.
                 angle += deltaAngle;
             }
-            
+
             repaint();
         }
         
