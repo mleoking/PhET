@@ -85,7 +85,7 @@ public class CoilGraphic implements SimpleObserver {
         _foreground.setRenderingHints( hints );
         _background.setRenderingHints( hints );
         
-        _currentAnimationEnabled = false;
+        _currentAnimationEnabled = true;  //XXX
         _loopStroke = new BasicStroke( WIRE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL );
         _foregroundColor = FOREGROUND_COLOR;
         _middlegroundColor = MIDDLEGROUND_COLOR;
@@ -320,11 +320,11 @@ public class CoilGraphic implements SimpleObserver {
         // Front of loops
         for ( int i = numberOfLoops - 1; i >= 0; i-- ) {
             
-            int offset = firstLoopCenter + ( i * loopSpacing );;
+            int xOffset = firstLoopCenter + ( i * loopSpacing );;
             
             // Right connection wire
             if ( i == numberOfLoops - 1 ) {
-                Point end1 = new Point( offset, (int) -radius ); // lower
+                Point end1 = new Point( xOffset, (int) -radius ); // lower
                 Point end2 = new Point( end1.x + 15, end1.y - 40 ); // upper
                 Point control = new Point( end1.x + 20, end1.y - 20 );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
@@ -340,13 +340,13 @@ public class CoilGraphic implements SimpleObserver {
             }
             
             // Horizontal gradient, left to right
-            Paint paint = new GradientPaint( (int)(-radius * .25) + offset, 0, _foregroundColor, (int)(-radius * .15) + offset, 0, _middlegroundColor );
+            Paint paint = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
             
             // Front top
             {
-                Point end1 = new Point( offset, (int) -radius ); // upper
-                Point end2 = new Point( (int) ( -radius * .25 ) + offset, 0 ); // lower
-                Point control = new Point( (int) ( -radius * .25 ) + offset, (int) ( -radius * 0.80) );
+                Point end1 = new Point( xOffset, (int) -radius ); // upper
+                Point end2 = new Point( (int) ( -radius * .25 ) + xOffset, 0 ); // lower
+                Point control = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( -radius * 0.80) );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
                 
@@ -362,9 +362,9 @@ public class CoilGraphic implements SimpleObserver {
 
             //  Front bottom
             {
-                Point end1 = new Point( (int) ( -radius * .25 ) + offset, 0 ); // upper
-                Point end2 = new Point( offset, (int) radius ); // lower
-                Point control = new Point( (int) ( -radius * .25 ) + offset, (int) ( radius * 0.80 ) );
+                Point end1 = new Point( (int) ( -radius * .25 ) + xOffset, 0 ); // upper
+                Point end2 = new Point( xOffset, (int) radius ); // lower
+                Point control = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( radius * 0.80 ) );
                 QuadCurve2D.Double curve = new QuadCurve2D.Double();
                 curve.setCurve( end1, control, end2 );
                 
