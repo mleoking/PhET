@@ -82,6 +82,7 @@ public class SingleAtomModule extends BaseLaserModule {
             // Add the intensity control
             JPanel sbmPanel = new JPanel();
             BeamControl sbm = new BeamControl( stimulatingBeam );
+            sbm.setWavelengthLimitingBeam( pumpingBeam );
             Dimension sbmDim = sbm.getPreferredSize();
             sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
                                 (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );

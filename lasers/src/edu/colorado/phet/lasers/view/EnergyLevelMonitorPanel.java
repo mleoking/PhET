@@ -97,9 +97,11 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         JLabel legend = new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.EnergyLevelLifetimeLabel" ) );
         legend.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ), 15, 100, 30 );
         this.add( legend );
-        middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(), this, middleLevelLine, SimStrings.get( "EnergyLevelMonitorPanel.MiddleLevelSlider" ) );
+        middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(), this, middleLevelLine,
+                                                              SimStrings.get( "EnergyLevelMonitorPanel.MiddleLevelSlider" ) );
         this.add( middleLevelLifetimeSlider );
-        highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), this, highLevelLine, SimStrings.get( "EnergyLevelMonitorPanel.HighLevelSlider" ) );
+        highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), this, highLevelLine,
+                                                            SimStrings.get( "EnergyLevelMonitorPanel.HighLevelSlider" ) );
         this.add( highLevelLifetimeSlider );
 
         this.addComponentListener( new ComponentAdapter() {
