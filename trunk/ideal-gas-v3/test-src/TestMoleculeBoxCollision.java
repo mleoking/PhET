@@ -41,11 +41,11 @@ public class TestMoleculeBoxCollision extends PhetApplication {
     static class TestIdealGasModule extends IdealGasModule {
         public TestIdealGasModule( AbstractClock clock ) {
             super( clock );
-            GasMolecule m = new HeavySpecies( new Point2D.Double( 400, 300 ),
+            GasMolecule m = new HeavySpecies( new Point2D.Double( 510, 177 ),
                                               new Vector2D.Double( 0, 0 ),
                                               new Vector2D.Double(),
                                               5 );
-            m.setVelocity( new Vector2D.Double( 200, 300 ) );
+            m.setVelocity( new Vector2D.Double( 109, -100 ) );
             PumpMoleculeCmd cmd = new PumpMoleculeCmd( (IdealGasModel)getModel(),
                                                        m,
                                                        this );
