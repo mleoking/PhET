@@ -10,7 +10,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * Photon is the model of a single photon.
  *
  * @author Chris Malley, cmalley@pixelzoom.com
- * @revision $Id$
+ * @version $Id$
  */
 public class Photon
 {

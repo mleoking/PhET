@@ -20,6 +20,9 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * A PhotonBeam is composed of a number of Photon instances.
  * Memory allocation of Photons is optimized to reuse instances when possible.
  * The photon beam may be filtered or unfiltered.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @version $Id$
  */
 public class PhotonBeam extends SimpleObservable implements SimpleObserver, ClockTickListener
 {

@@ -27,7 +27,7 @@ import javax.swing.event.EventListenerList;
  * Intensity is a percentage, with a range of 0-100 inclusive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Id$
+ * @version $Id$
  */
 public class IntensitySlider extends JPanel implements ChangeListener
 {
