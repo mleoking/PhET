@@ -15,7 +15,6 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -39,10 +38,7 @@ public class BarMagnetControlPanel extends ControlPanel {
     // Class data
     //----------------------------------------------------------------------------
 
-    public static final int STRENGTH_MAX = 1000;
-    public static final int STRENGTH_MIN = 100;
-    public static final int AREA_MAX_PERCENTAGE = 100;
-    public static final int AREA_MIN_PERCENTAGE = 50;
+    private static final String UNKNOWN_VALUE = "??????";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,9 +49,10 @@ public class BarMagnetControlPanel extends ControlPanel {
     private JSlider _strengthSlider;
     private JCheckBox _gridCheckBox;
     private JSpinner _loopsSpinner;
-    private JSlider _areaSlider;
+    private JSlider _radiusSlider;
     private JRadioButton _meterRadioButton;
     private JRadioButton _bulbRadioButton;
+    private JLabel _strengthValue, _radiusValue;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -107,25 +104,18 @@ public class BarMagnetControlPanel extends ControlPanel {
                     
                     // Slider
                     _strengthSlider = new JSlider();
-                    _strengthSlider.setMinimum( STRENGTH_MIN );
-                    _strengthSlider.setMaximum( STRENGTH_MAX );
-                    _strengthSlider.setValue( STRENGTH_MIN );
+                    _strengthSlider.setMinimum( (int)BarMagnetModule.MAGNET_STRENGTH_MIN );
+                    _strengthSlider.setMaximum( (int)BarMagnetModule.MAGNET_STRENGTH_MAX );
+                    _strengthSlider.setValue( (int)BarMagnetModule.MAGNET_STRENGTH_MIN );
                     
-                    // Slider labels
-                    Hashtable table = new Hashtable();
-                    JLabel weakerLabel = new JLabel(SimStrings.get("strengthSlider.weaker"));
-                    table.put( new Integer(STRENGTH_MIN), weakerLabel );
-                    JLabel strongerLabel = new JLabel(SimStrings.get("strengthSlider.stronger"));
-                    table.put( new Integer(STRENGTH_MAX), strongerLabel );
-                    _strengthSlider.setLabelTable( table );
-                    _strengthSlider.setPaintLabels( true );
-                    _strengthSlider.setMajorTickSpacing( STRENGTH_MAX - STRENGTH_MIN );
-                    _strengthSlider.setPaintTicks( true );
+                    // Value
+                    _strengthValue = new JLabel( UNKNOWN_VALUE );
                     
                     // Layout
                     sliderPanel.setLayout( new BoxLayout( sliderPanel, BoxLayout.X_AXIS ) );
                     sliderPanel.add( label );
                     sliderPanel.add( _strengthSlider );
+                    sliderPanel.add( _strengthValue );
                 }
                 
                 // B-Field on/off
@@ -171,29 +161,22 @@ public class BarMagnetControlPanel extends ControlPanel {
                 JPanel areaPanel = new JPanel();
                 {
                     // Label
-                    JLabel label = new JLabel( SimStrings.get( "areaSlider.label" ) );
+                    JLabel label = new JLabel( SimStrings.get( "radiusSlider.label" ) );
                     
                     // Slider
-                    _areaSlider = new JSlider();
-                    _areaSlider.setMinimum( AREA_MIN_PERCENTAGE );
-                    _areaSlider.setMaximum( AREA_MAX_PERCENTAGE );
-                    _areaSlider.setValue( AREA_MIN_PERCENTAGE );
+                    _radiusSlider = new JSlider();
+                    _radiusSlider.setMinimum( (int)BarMagnetModule.LOOP_RADIUS_MIN );
+                    _radiusSlider.setMaximum( (int)BarMagnetModule.LOOP_RADIUS_MAX );
+                    _radiusSlider.setValue( (int)BarMagnetModule.LOOP_RADIUS_MIN );
                     
-                    // Slider labels
-                    Hashtable table = new Hashtable();
-                    JLabel smallerLabel = new JLabel(SimStrings.get("areaSlider.smaller"));
-                    table.put( new Integer(AREA_MIN_PERCENTAGE), smallerLabel );
-                    JLabel largerLabel = new JLabel(SimStrings.get("areaSlider.larger"));
-                    table.put( new Integer(AREA_MAX_PERCENTAGE), largerLabel );
-                    _areaSlider.setLabelTable( table );
-                    _areaSlider.setPaintLabels( true );
-                    _areaSlider.setMajorTickSpacing( AREA_MAX_PERCENTAGE - AREA_MIN_PERCENTAGE );
-                    _areaSlider.setPaintTicks( true );
+                    // Value
+                    _radiusValue = new JLabel( UNKNOWN_VALUE );
                     
                     // Layout
                     areaPanel.setLayout( new BoxLayout( areaPanel, BoxLayout.X_AXIS ) );
                     areaPanel.add( label );
-                    areaPanel.add( _areaSlider );
+                    areaPanel.add( _radiusSlider );
+                    areaPanel.add( _radiusValue );
                 }
                 
                 // Type of "load"
@@ -238,11 +221,11 @@ public class BarMagnetControlPanel extends ControlPanel {
             _strengthSlider.addChangeListener( listener );
             _gridCheckBox.addActionListener( listener );
             _loopsSpinner.addChangeListener( listener );
-            _areaSlider.addChangeListener( listener );
+            _radiusSlider.addChangeListener( listener );
             _bulbRadioButton.addActionListener( listener );
             _meterRadioButton.addActionListener( listener );
         }
-        super.setControlPane( panel );
+        super.add( panel );
     }
     
     //----------------------------------------------------------------------------
@@ -277,11 +260,12 @@ public class BarMagnetControlPanel extends ControlPanel {
     }
     
     /**
-     * XXX
-     * @param scale
+     * Sets the loop radius
+     * 
+     * @param radius the radius
      */
-    public void setLoopAreaScale( int scale ) {
-        _areaSlider.setValue( scale );
+    public void setLoopRadius( double radius ) {
+        _radiusSlider.setValue( (int)radius );
     }
     
     /**
@@ -356,10 +340,15 @@ public class BarMagnetControlPanel extends ControlPanel {
             if ( e.getSource() == _strengthSlider ) {
                 // Magnet strength
                 _module.setMagnetStrength( _strengthSlider.getValue() );
+                Integer i = new Integer( _strengthSlider.getValue() );
+                _strengthValue.setText( i.toString() );
             }
-            else if ( e.getSource() == _areaSlider ) {
-                // Loop area
-                _module.scalePickupLoopArea( _areaSlider.getValue()/100.0 );
+            else if ( e.getSource() == _radiusSlider ) {
+                // Loop radius
+                int radius = _radiusSlider.getValue();
+                _module.setPickupLoopRadius( radius );
+                Integer i = new Integer( radius );
+                _radiusValue.setText( i.toString() );
             }
             else if ( e.getSource() == _loopsSpinner ) {
                 // Number of loops

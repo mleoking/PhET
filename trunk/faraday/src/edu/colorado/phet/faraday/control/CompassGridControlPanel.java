@@ -38,22 +38,7 @@ public class CompassGridControlPanel extends ControlPanel {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final String EMPTY_LABEL = "??????";
-    
-    private static final int MAGNET_STRENGTH_MIN = 100;
-    private static final int MAGNET_STRENGTH_MAX = 1000;
-    private static final int X_SPACING_MIN = 20;
-    private static final int X_SPACING_MAX = 200;
-    private static final int Y_SPACING_MIN = 20;
-    private static final int Y_SPACING_MAX = 200;
-    private static final int NEEDLE_WIDTH_MIN = 1;
-    private static final int NEEDLE_WIDTH_MAX = 100;
-    private static final int NEEDLE_HEIGHT_MIN = 1;
-    private static final int NEEDLE_HEIGHT_MAX = 100;
-    private static final int MAGNET_WIDTH_MIN = 1;
-    private static final int MAGNET_WIDTH_MAX = 500;
-    private static final int MAGNET_HEIGHT_MIN = 1;
-    private static final int MAGNET_HEIGHT_MAX = 200;
+    private static final String UNKNOWN_VALUE = "??????";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -111,12 +96,12 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _strengthSlider = new JSlider();
-                    _strengthSlider.setMinimum( MAGNET_STRENGTH_MIN );
-                    _strengthSlider.setMaximum( MAGNET_STRENGTH_MAX );
-                    _strengthSlider.setValue( MAGNET_STRENGTH_MIN );
+                    _strengthSlider.setMinimum( (int)CompassGridModule.MAGNET_STRENGTH_MIN );
+                    _strengthSlider.setMaximum( (int)CompassGridModule.MAGNET_STRENGTH_MAX );
+                    _strengthSlider.setValue( (int)CompassGridModule.MAGNET_STRENGTH_MIN );
                     
                     // Value
-                    _strengthValue = new JLabel( EMPTY_LABEL );
+                    _strengthValue = new JLabel( UNKNOWN_VALUE );
                              
                     // Layout
                     strengthPanel.setLayout( new BoxLayout( strengthPanel, BoxLayout.X_AXIS ) );
@@ -133,12 +118,12 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _magnetWidthSlider = new JSlider();
-                    _magnetWidthSlider.setMinimum( MAGNET_WIDTH_MIN );
-                    _magnetWidthSlider.setMaximum( MAGNET_WIDTH_MAX );
-                    _magnetWidthSlider.setValue( MAGNET_WIDTH_MIN );
+                    _magnetWidthSlider.setMinimum( CompassGridModule.MAGNET_SIZE_MIN.width );
+                    _magnetWidthSlider.setMaximum( CompassGridModule.MAGNET_SIZE_MAX.width );
+                    _magnetWidthSlider.setValue( CompassGridModule.MAGNET_SIZE_MIN.width );
                     
                     // Value
-                    _magnetWidthValue = new JLabel( EMPTY_LABEL );
+                    _magnetWidthValue = new JLabel( UNKNOWN_VALUE );
                     
                     // Layout
                     widthPanel.setLayout( new BoxLayout( widthPanel, BoxLayout.X_AXIS ) );
@@ -155,12 +140,12 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _magnetHeightSlider = new JSlider();
-                    _magnetHeightSlider.setMinimum( MAGNET_HEIGHT_MIN );
-                    _magnetHeightSlider.setMaximum( MAGNET_HEIGHT_MAX );
-                    _magnetHeightSlider.setValue( MAGNET_HEIGHT_MIN );
+                    _magnetHeightSlider.setMinimum( CompassGridModule.MAGNET_SIZE_MIN.height );
+                    _magnetHeightSlider.setMaximum( CompassGridModule.MAGNET_SIZE_MAX.height );
+                    _magnetHeightSlider.setValue( CompassGridModule.MAGNET_SIZE_MIN.height );
                     
                     // Value
-                    _magnetHeightValue = new JLabel( EMPTY_LABEL );
+                    _magnetHeightValue = new JLabel( UNKNOWN_VALUE );
                     
                     // Layout
                     heightPanel.setLayout( new BoxLayout( heightPanel, BoxLayout.X_AXIS ) );
@@ -193,12 +178,12 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _xSpacingSlider = new JSlider();
-                    _xSpacingSlider.setMinimum( X_SPACING_MIN );
-                    _xSpacingSlider.setMaximum( X_SPACING_MAX );
-                    _xSpacingSlider.setValue( X_SPACING_MIN );
+                    _xSpacingSlider.setMinimum( CompassGridModule.X_SPACING_MIN );
+                    _xSpacingSlider.setMaximum( CompassGridModule.X_SPACING_MAX );
+                    _xSpacingSlider.setValue( CompassGridModule.X_SPACING_MIN );
                     
                     // Value
-                    _xSpacingValue = new JLabel( EMPTY_LABEL );
+                    _xSpacingValue = new JLabel( UNKNOWN_VALUE );
                     
                     // Layout
                     xPanel.setLayout( new BoxLayout( xPanel, BoxLayout.X_AXIS ) );
@@ -215,12 +200,12 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _ySpacingSlider = new JSlider();
-                    _ySpacingSlider.setMinimum( Y_SPACING_MIN );
-                    _ySpacingSlider.setMaximum( Y_SPACING_MAX );
-                    _ySpacingSlider.setValue( Y_SPACING_MIN );
+                    _ySpacingSlider.setMinimum( CompassGridModule.Y_SPACING_MIN );
+                    _ySpacingSlider.setMaximum( CompassGridModule.Y_SPACING_MAX );
+                    _ySpacingSlider.setValue( CompassGridModule.Y_SPACING_MIN );
                     
                     // Value
-                    _ySpacingValue = new JLabel( EMPTY_LABEL );
+                    _ySpacingValue = new JLabel( UNKNOWN_VALUE );
                     
                     // Layout
                     yPanel.setLayout( new BoxLayout( yPanel, BoxLayout.X_AXIS ) );
@@ -237,12 +222,12 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _needleWidthSlider = new JSlider();
-                    _needleWidthSlider.setMinimum( NEEDLE_WIDTH_MIN );
-                    _needleWidthSlider.setMaximum( NEEDLE_WIDTH_MAX );
-                    _needleWidthSlider.setValue( NEEDLE_WIDTH_MIN );
+                    _needleWidthSlider.setMinimum( CompassGridModule.NEEDLE_SIZE_MIN.width );
+                    _needleWidthSlider.setMaximum( CompassGridModule.NEEDLE_SIZE_MAX.width );
+                    _needleWidthSlider.setValue( CompassGridModule.NEEDLE_SIZE_MIN.width );
                     
                     // Value
-                    _needleWidthValue = new JLabel( EMPTY_LABEL );
+                    _needleWidthValue = new JLabel( UNKNOWN_VALUE );
                     
                     // Layout
                     widthPanel.setLayout( new BoxLayout( widthPanel, BoxLayout.X_AXIS ) );
@@ -259,12 +244,12 @@ public class CompassGridControlPanel extends ControlPanel {
                     
                     // Slider
                     _needleHeightSlider = new JSlider();
-                    _needleHeightSlider.setMinimum( NEEDLE_HEIGHT_MIN );
-                    _needleHeightSlider.setMaximum( NEEDLE_HEIGHT_MAX );
-                    _needleHeightSlider.setValue( NEEDLE_HEIGHT_MIN );
+                    _needleHeightSlider.setMinimum( CompassGridModule.NEEDLE_SIZE_MIN.height );
+                    _needleHeightSlider.setMaximum( CompassGridModule.NEEDLE_SIZE_MAX.height );
+                    _needleHeightSlider.setValue( CompassGridModule.NEEDLE_SIZE_MIN.height );
                     
                     // Value
-                    _needleHeightValue = new JLabel( EMPTY_LABEL );
+                    _needleHeightValue = new JLabel( UNKNOWN_VALUE );
                     
                     // Layout
                     heightPanel.setLayout( new BoxLayout( heightPanel, BoxLayout.X_AXIS ) );
@@ -311,7 +296,7 @@ public class CompassGridControlPanel extends ControlPanel {
             _needleWidthSlider.addChangeListener( listener );
             _needleHeightSlider.addChangeListener( listener );
         }
-        super.setControlPane( panel );
+        super.add( panel );
     }
     
     //----------------------------------------------------------------------------

@@ -57,10 +57,24 @@ public class CompassGridModule extends Module {
     // Colors
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
 
-    private static final double BAR_MAGNET_STRENGTH = 350;
-    private static final Dimension BAR_MAGNET_SIZE = new Dimension( 250, 50 );
-    private static final int GRID_X_SPACING = 25;
-    private static final int GRID_Y_SPACING = 25;
+    public static final double MAGNET_STRENGTH_MIN = 100;
+    public static final double MAGNET_STRENGTH_MAX = 999;
+    private static final double MAGNET_STRENGTH = 350;
+    
+    public static final Dimension MAGNET_SIZE_MIN = new Dimension( 10, 10 );
+    public static final Dimension MAGNET_SIZE_MAX = new Dimension( 500, 200 );
+    private static final Dimension MAGNET_SIZE = new Dimension( 250, 50 );
+    
+    public static final int X_SPACING_MIN = 20;
+    public static final int X_SPACING_MAX = 200;
+    private static final int X_SPACING = 25;
+    
+    public static final int Y_SPACING_MIN = 20;
+    public static final int Y_SPACING_MAX = 200;
+    private static final int Y_SPACING = 25;
+    
+    public static final Dimension NEEDLE_SIZE_MIN = new Dimension( 1, 4 );
+    public static final Dimension NEEDLE_SIZE_MAX = new Dimension( 100, 50 );
     private static final Dimension NEEDLE_SIZE = new Dimension( 25, 5 );
     
     //----------------------------------------------------------------------------
@@ -102,18 +116,14 @@ public class CompassGridModule extends Module {
         
         // Bar Magnet
         _magnetModel = new HollywoodMagnet();
-        _magnetModel.setStrength( BAR_MAGNET_STRENGTH );
+        _magnetModel.setStrength( MAGNET_STRENGTH );
         _magnetModel.setLocation( BAR_MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
-        _magnetModel.setSize( BAR_MAGNET_SIZE );
+        _magnetModel.setSize( MAGNET_SIZE );
         
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
-
-        // Control Panel
-        _controlPanel = new CompassGridControlPanel( this );
-        this.setControlPanel( _controlPanel );
 
         // Apparatus Panel
         ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
@@ -125,10 +135,18 @@ public class CompassGridModule extends Module {
         apparatusPanel.addGraphic( magnetGraphic, BAR_MAGNET_LAYER );
         
         // Grid
-        _gridGraphic = new GridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
+        _gridGraphic = new GridGraphic( apparatusPanel, _magnetModel, X_SPACING, Y_SPACING );
         _gridGraphic.setLocation( 0, 0 );
         _gridGraphic.setNeedleSize( NEEDLE_SIZE );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
+        
+        //----------------------------------------------------------------------------
+        // Control
+        //----------------------------------------------------------------------------
+
+        // Control Panel
+        _controlPanel = new CompassGridControlPanel( this );
+        this.setControlPanel( _controlPanel );
         
         //----------------------------------------------------------------------------
         // Observers
@@ -169,9 +187,9 @@ public class CompassGridModule extends Module {
      */
     public void reset() {
         // System.out.println( "reset" ); // DEBUG
-        _controlPanel.setBarMagnetStrength( BAR_MAGNET_STRENGTH );
-        _controlPanel.setBarMagnetSize( BAR_MAGNET_SIZE );
-        _controlPanel.setGridSpacing( GRID_X_SPACING, GRID_Y_SPACING );
+        _controlPanel.setBarMagnetStrength( MAGNET_STRENGTH );
+        _controlPanel.setBarMagnetSize( MAGNET_SIZE );
+        _controlPanel.setGridSpacing( X_SPACING, Y_SPACING );
         _controlPanel.setGridNeedleSize( NEEDLE_SIZE );
     }
     

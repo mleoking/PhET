@@ -97,6 +97,7 @@ public class Coil extends SimpleObservable {
             Point2D location = new Point2D.Double( _location.getX() + (i * _spacing), _location.getY() );
             _loops.add( new Loop( _radius, location, _direction ) );
         }
+        notifyObservers();
     }
     
     /**

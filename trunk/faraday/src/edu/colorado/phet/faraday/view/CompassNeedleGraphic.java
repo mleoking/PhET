@@ -224,7 +224,8 @@ public class CompassNeedleGraphic extends PhetGraphic {
      * 
      * @return the bounds
      */
-    protected Rectangle determineBounds() {     
+    protected Rectangle determineBounds() {
+        // XXX needs to incorporate getNetTransform !
         AffineTransform transform = new AffineTransform();
         transform.translate( _location.x, _location.y );
         transform.rotate( _direction );
@@ -239,6 +240,7 @@ public class CompassNeedleGraphic extends PhetGraphic {
      * @param g2 the graphics context
      */
     public void paint( Graphics2D g2 ) {
+        // XXX needs to incorporate getNetTransform !
         if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             {
