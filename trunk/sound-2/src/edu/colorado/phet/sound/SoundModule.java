@@ -16,10 +16,13 @@ import edu.colorado.phet.sound.model.Wavefront;
 import edu.colorado.phet.sound.view.RgbReporter;
 import edu.colorado.phet.sound.view.WavefrontOscillator;
 
+import java.awt.geom.Point2D;
+
 public class SoundModule extends Module implements RgbReporter {
 
     private static WavefrontOscillator primaryOscillator = new WavefrontOscillator();
     private static WavefrontOscillator octaveOscillator = new WavefrontOscillator();
+    private Listener speakerListener;
 
     static {
         primaryOscillator.run();
@@ -35,6 +38,9 @@ public class SoundModule extends Module implements RgbReporter {
         super( name );
         this.setModel( new SoundModel( appModel.getClock() ) );
         initModel();
+        speakerListener = new Listener( (SoundModel)getModel(),
+                                        new Point2D.Double());
+        setListener( speakerListener );
     }
 
     protected SoundModel getSoundModel() {
@@ -43,8 +49,8 @@ public class SoundModule extends Module implements RgbReporter {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-        primaryOscillator.setWavefront( this.primaryWavefront );
-        octaveOscillator.setWavefront( this.octaveWavefront );
+//        primaryOscillator.setWavefront( this.primaryWavefront );
+//        octaveOscillator.setWavefront( this.octaveWavefront );
         setAudioEnabled( audioEnabled );
         if( currentListener != null ) {
             setListener( currentListener );
@@ -99,12 +105,8 @@ public class SoundModule extends Module implements RgbReporter {
 
     public void setListener( Listener listener ) {
         currentListener = listener;
-
-        primaryOscillator.setWavefront( this.primaryWavefront );
-        octaveOscillator.setWavefront( this.octaveWavefront );
-
-        getPrimaryOscillator().observe( listener );
-        getOctaveOscillator().observe( listener );
+        primaryOscillator.setListener( listener );
+        octaveOscillator.setListener( listener );
     }
 
     public Listener getCurrentListener() {

@@ -81,7 +81,6 @@ public class SoundConfig {
 
     // Screen locations
     public static int s_speakerBaseX = 100;
-    //    public static int s_speakerBaseX = 215;
     public static int s_speakerBaseY = 248;
 
     public static int s_wavefrontHeight = 150;

@@ -23,8 +23,8 @@ import java.io.IOException;
 
 public class TwoSpeakerInterferenceModule extends SoundModule {
 
-    private Listener speakerListener = new Listener();
-    private Listener headListener = new Listener();
+    private Listener speakerListener;
+    private Listener headListener;
     private Point2D.Double audioSourceA;
     private Point2D.Double audioSourceB;
     private SoundModel soundModel;
@@ -34,6 +34,12 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
     protected TwoSpeakerInterferenceModule( ApplicationModel appModel ) {
         super( appModel, "<html>Two Source<br>Interference</html>" );
         soundModel = (SoundModel)getModel();
+        speakerListener = new Listener( (SoundModel)getModel(),
+                                        new Point2D.Double());
+        setListener( speakerListener );
+        headListener = new Listener( (SoundModel)getModel(),
+                                     new Point2D.Double());
+
         setApparatusPanel( new SoundApparatusPanel( soundModel ) );
         initApparatusPanel();
         initControlPanel();

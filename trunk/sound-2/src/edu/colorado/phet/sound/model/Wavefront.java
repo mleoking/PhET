@@ -150,6 +150,7 @@ public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
      *
      * @param frequencyIdx
      * @return
+     * todo: rename this to reflect that it is at a distance, not a time
      */
     public double getFrequencyAtTime( int frequencyIdx ) {
         frequencyIdx = Math.max( 0, Math.min( s_length - 1, frequencyIdx ) );
