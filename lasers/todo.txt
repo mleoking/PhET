@@ -1,3 +1,6 @@
+- When MultipleAtomModule is activated, the number of levels needs to be set to three.
+- Remove call to clearNumInState() or whatever that is
+
 - State should know if a photon should be emitted when it is left. Currently, the Atom class makes this decision
 when theStateLifetimeManager is created.
 - SpontaneouslyEmittingState should be refactored to be a StateLifetimeManager
