@@ -30,7 +30,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
     // Coordinates of the intake port on the box
     private static boolean toolTipsSet = false;
 
-    private PumpHandleGraphic handleGraphicImage;
+//    private PumpHandleGraphic handleGraphicImage;
     private PhetImageGraphic flamesGraphicImage;
     private PhetImageGraphic iceGraphicImage;
     protected DefaultInteractiveGraphic doorGraphicImage;
@@ -39,36 +39,19 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
     /**
      *
      */
-    public BaseIdealGasApparatusPanel( Module module, Box2D box, Pump pump ) {
-        init( module, box, pump );
-    }
-
-    protected BaseIdealGasApparatusPanel( Module module, Box2D box, Pump pump, String name ) {
-        init( module, box, pump );
+    public BaseIdealGasApparatusPanel( Module module, Box2D box ) {
+        init( module, box );
     }
 
     /**
      *
      */
-    public void init( final Module module, Box2D box, Pump pump ) {
+    public void init( final Module module, Box2D box ) {
 
         // Set the background color
         this.setBackground( Color.white );
 
         try {
-
-            // Set up the graphics for the pump
-            BufferedImage pumpImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_IMAGE_FILE );
-            BufferedImage handleImg = ImageLoader.loadBufferedImage( IdealGasConfig.HANDLE_IMAGE_FILE );
-            PhetImageGraphic handleGraphic = new PhetImageGraphic( this, handleImg );
-            handleGraphicImage = new PumpHandleGraphic( pump, handleGraphic,
-                                                        IdealGasConfig.X_BASE_OFFSET + 549, IdealGasConfig.Y_BASE_OFFSET + 238,
-                                                        IdealGasConfig.X_BASE_OFFSET + 549, IdealGasConfig.Y_BASE_OFFSET + 100,
-                                                        IdealGasConfig.X_BASE_OFFSET + 549, IdealGasConfig.Y_BASE_OFFSET + 238 );
-            this.addGraphic( handleGraphicImage, -6 );
-            PhetImageGraphic pumpGraphic = new PhetImageGraphic( this, pumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
-            this.addGraphic( pumpGraphic, -4 );
-
             // Set up the stove, flames, and ice
             BufferedImage stoveImg = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_IMAGE_FILE );
             PhetImageGraphic stoveGraphic = new PhetImageGraphic( this, stoveImg, IdealGasConfig.X_BASE_OFFSET + 247,

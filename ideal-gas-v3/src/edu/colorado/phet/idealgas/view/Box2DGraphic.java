@@ -21,10 +21,9 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
     public static double s_thickness = 4;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_thickness );
     private static Color s_defaultColor = Color.black;
-//    private static float s_leaningManStateChangeScaleFactor = 1.75F;
     private Box2D box;
     private boolean graphicSelected;
-    //    private boolean initWallMovement;
+    private int wallSpeedLimit = 3;
 
     public Box2DGraphic( Component component, final Box2D box ) {
         super( null );
@@ -36,6 +35,9 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         this.addCursorHandBehavior();
         this.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
+                // Speed limit on wall
+                dx = Math.max( -wallSpeedLimit, Math.min(  dx, wallSpeedLimit ));
+
                 double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
                 box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
             }

@@ -7,6 +7,7 @@
 package edu.colorado.phet.collision;
 
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.mechanics.Body;
@@ -37,6 +38,7 @@ public class CollisionGod {
     private Rectangle2D.Double bounds;
     private double regionOverlap;
     private List collisionExperts;
+    private Box2D box;
 
 
     public CollisionGod( IdealGasModel model, double dt,
@@ -83,7 +85,36 @@ public class CollisionGod {
                 region1.clear();
             }
         }
+
+        keepMoleculesInBox( bodies );
     }
+
+    private void keepMoleculesInBox( List bodies ) {
+        // TOTAL HACK!! This code is here simply to keep molecules in the box
+        box = null;
+        if( box == null ) {
+            for( int i = 0; i < bodies.size(); i++ ) {
+                Body body = (Body)bodies.get( i );
+                if( body instanceof Box2D ) {
+                    box = (Box2D)body;
+                    break;
+                }
+            }
+        }
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            if( body instanceof GasMolecule ) {
+                GasMolecule gm = (GasMolecule)body;
+                if( gm.getPosition().getX() + gm.getRadius() > box.getMaxX() ) {
+                    gm.setPosition( box.getMaxX() - gm.getRadius(), gm.getPosition().getY() );
+                }
+                if( gm.getPosition().getY() + gm.getRadius() > box.getMaxY() ) {
+                    gm.setPosition( gm.getPosition().getX(), box.getMaxY() - gm.getRadius() );
+                }
+            }
+        }
+    }
+
 
     /**
      * Makes sure all gas molecules are in the correct regions.
@@ -194,7 +225,7 @@ public class CollisionGod {
         boolean haveCollided = false;
         // todo: I don't think the haveCollided thing does any good.
         for( int i = 0; i < collisionExperts.size(); i++ ) {
-//        for( int i = 0; i < collisionExperts.size() && !haveCollided; i++ ) {
+            //        for( int i = 0; i < collisionExperts.size() && !haveCollided; i++ ) {
             CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( i );
             haveCollided |= collisionExpert.detectAndDoCollision( body1, body2 );
         }

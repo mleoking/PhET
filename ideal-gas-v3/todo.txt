@@ -1,3 +1,4 @@
+- consolidate MoleculePanel classes in RigidHollowSphere and HeliumBalloon
 - set default energy so kinetic energy is never < 0
 - average speed doesn't report properly
 - make more versatile & robust collision detection system that works heirarchically with object types
