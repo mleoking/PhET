@@ -100,10 +100,13 @@ public class StoveControlPanel extends JPanel {
         gbc = new GridBagConstraints( 1, 0, 1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         stovePanel.add( heatSourceCB, gbc );
 
-        Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED, Color.blue, Color.black ), SimStrings.get( "IdealGasControlPanel.Heat_Control" ) );
+        Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
+                                                            new Color( 40, 20, 255 ),
+                                                            Color.black ),
+                                          SimStrings.get( "IdealGasControlPanel.Heat_Control" ) );
         stovePanel.setBorder( border );
 
-        Color background = new Color( 230, 230, 255 );
+        Color background = new Color( 240, 230, 255 );
         stovePanel.setBackground( background );
         stoveSlider.setBackground( background );
         heatSourceCB.setBackground( background );
