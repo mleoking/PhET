@@ -84,17 +84,15 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
      * Inner class that handles translation of the graphic
      */
     private class EnergyLevelTranslator implements Translatable {
+        private int minPixelsBetweenLevels = 50;
+
         public void translate( double dx, double dy ) {
             double energyChange = energyYTx.viewToModelDifferential( (int)dy );
-            double maxEnergy = Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel(),
-                                         atomicState.getEnergyLevel() + energyChange );
-            double minEnergy = Math.max( atomicState.getNextLowerEnergyState().getEnergyLevel(),
-                                         atomicState.getEnergyLevel() + energyChange );
-            double newEnergy = Math.max( Math.min( maxEnergy, atomicState.getEnergyLevel() + energyChange ),
-                                         minEnergy );
-            //            double newEnergy = Math.max(
-            //                    Math.min( AtomicState.maxEnergy, atomicState.getEnergyLevel() + energyChange ),
-            //                    AtomicState.minEnergy );
+            // Don't let one level get closer than a certain number of pixels to the one above or below
+            double minEnergyDifference = energyYTx.viewToModelDifferential( -minPixelsBetweenLevels );
+            double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference,
+                                                   atomicState.getEnergyLevel() + energyChange ),
+                                         atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference );
             atomicState.setEnergyLevel( newEnergy );
         }
     }
@@ -114,7 +112,13 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
         private void update() {
             color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
-            int y = energyYTx.modelToView( atomicState.getEnergyLevel() );
+            // We need to create a new color that can't be transparent. VisibleColor will return
+            // an "invisible" color with RGB = 0,0,0 if the wavelenght is not visible. And since our
+            // ground state has a wavelength that is below visible, and we want a black line, this
+            // is the best hack to use.
+            color = new Color( color.getRed(), color.getGreen(), color.getBlue() );
+            System.out.println( "color = " + color.getTransparency() );
+            int y = (int)Math.pow( energyYTx.modelToView( atomicState.getEnergyLevel() ), .98 );
             levelLine.setRect( xLoc, y, width, thickness );
             setBoundsDirty();
             repaint();

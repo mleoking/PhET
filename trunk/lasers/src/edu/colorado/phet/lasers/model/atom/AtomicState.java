@@ -22,7 +22,7 @@ public abstract class AtomicState {
     // Determines how often a photon contacting an atom will result in a collision
     static private double PLANCK = 6.626E-34;
     static protected double s_collisionLikelihood = 1;
-    static public final double minWavelength = 450;
+    static public final double minWavelength = 350;
     static public final double maxWavelength = 800;
     static public final double minEnergy = wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = wavelengthToEnergy( minWavelength );
@@ -35,6 +35,63 @@ public abstract class AtomicState {
     public static double wavelengthToEnergy( double wavelength ) {
         return PLANCK / wavelength;
     }
+
+    //
+    // Inner classes
+    //
+
+    /**
+     * A class that represents the highest energy and shortest wavelength we will allow
+     */
+    protected static class MaxEnergyState extends AtomicState {
+        private static MaxEnergyState instance = new MaxEnergyState();
+
+        public static MaxEnergyState instance() {
+            return instance;
+        }
+
+        private MaxEnergyState() {
+            setEnergyLevel( maxEnergy );
+        }
+
+        public void collideWithPhoton( Atom atom, Photon photon ) {
+        }
+
+        public AtomicState getNextLowerEnergyState() {
+            return null;
+        }
+
+        public AtomicState getNextHigherEnergyState() {
+            return null;
+        }
+    }
+
+    /**
+     * A class that represents the highest energy and shortest wavelength we will allow
+     */
+    protected static class MinEnergyState extends AtomicState {
+        private static MinEnergyState instance = new MinEnergyState();
+
+        public static MinEnergyState instance() {
+            return instance;
+        }
+
+        private MinEnergyState() {
+            setEnergyLevel( minEnergy );
+        }
+
+        public void collideWithPhoton( Atom atom, Photon photon ) {
+        }
+
+        public AtomicState getNextLowerEnergyState() {
+            return null;
+        }
+
+        public AtomicState getNextHigherEnergyState() {
+            return null;
+        }
+    }
+
 
     //
     // Instance

@@ -49,7 +49,7 @@ public class GroundState extends AtomicState {
     }
 
     public AtomicState getNextLowerEnergyState() {
-        return this;
+        return AtomicState.MinEnergyState.instance();
     }
 
     public AtomicState getNextHigherEnergyState() {

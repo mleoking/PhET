@@ -22,7 +22,7 @@ public class HighEnergyState extends SpontaneouslyEmittingState {
     }
 
     private HighEnergyState() {
-        setEmittedPhotonWavelength( Photon.DEEP_RED );
+        setEmittedPhotonWavelength( Photon.BLUE );
     }
 
     // TODO: This should emit a stimulated photon if hit by
@@ -36,6 +36,6 @@ public class HighEnergyState extends SpontaneouslyEmittingState {
     }
 
     public AtomicState getNextHigherEnergyState() {
-        return this;
+        return AtomicState.MaxEnergyState.instance();
     }
 }
