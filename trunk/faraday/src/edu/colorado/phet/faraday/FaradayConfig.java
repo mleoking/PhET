@@ -49,6 +49,7 @@ public class FaradayConfig {
     private static final String IMAGES_DIRECTORY = "images/";
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
     public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
+    public static final String ELECTRON_IMAGE = IMAGES_DIRECTORY + "electron.png";
     public static final String FIELD_METER_IMAGE = IMAGES_DIRECTORY + "fieldMeter.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightBulb.png";
     public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltMeter.png";
