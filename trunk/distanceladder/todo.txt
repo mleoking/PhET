@@ -1,3 +1,5 @@
+- Make widths of dialogs more reasonable.
+
 - Pull computation of brightness out of the control panel and starVeiwGraphic and put it in the photometer
 
 - Fix model so you don't have to call setStarField() to get the views to update.
