@@ -22,6 +22,18 @@ Bar Magnet module:
 - movable compass can be dragged around
 - no absolute values are shown for anything (voltage, area, field strength, etc.)
 
+Electromagnet module:
+- draggable electromagnet
+- coil with 1-4 turns, dimensions about the same as bar magnet
+- coil orientation as in "Magnet & Coil" module
+- selectable current source (DC battery or AC black box)
+- variable amplitude of the current sources
+- fixed frequency of the AC source
+- amplitude & frequency controls on the object representing the sourc
+- compass grid with show/hide control
+- compass with show/hide control
+- field meter with show/hide control
+- use bar magnet field model for electromagnet
 
 Transformer module:
 - grid, pickup coil, voltmeter, lightbulb, compass as in "Bar Magnet" module
