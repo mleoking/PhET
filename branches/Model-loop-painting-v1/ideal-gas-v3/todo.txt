@@ -9,7 +9,7 @@ x - When in constant pressure, wall does no work when it moves.
 width of upper vertical wall needs to be adjustable independently of lower
 wall, or in synch with it.
 
-counters for number of particles on either side of vertical wall centerline.
+x - counters for number of particles on either side of vertical wall centerline.
 
 vertical ruler on vertical wall.
 

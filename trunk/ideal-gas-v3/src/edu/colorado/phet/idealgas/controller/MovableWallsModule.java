@@ -24,6 +24,7 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 
 import java.awt.*;
@@ -43,6 +44,7 @@ public class MovableWallsModule extends IdealGasModule {
     //----------------------------------------------------------------
 
     private static Font readoutFont = new Font( "Lucida sans", Font.BOLD, 12 );
+    private static double s_verticalWallLayer = 1000;
 
 
     //----------------------------------------------------------------
@@ -60,7 +62,6 @@ public class MovableWallsModule extends IdealGasModule {
         super( clock, "<html><center>Potential Energy<br>Surface</center></html>" );
 
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
-
         Box2D box = super.getBox();
 
         // Create the lower vertical wall
@@ -68,12 +69,12 @@ public class MovableWallsModule extends IdealGasModule {
                                                       box.getCorner1Y() + box.getHeight() / 3,
                                                       wallThickness, box.getHeight() * 2 / 3 ),
                               box.getBoundsInternal() );
-        WallGraphic lowerWallGraphic = new WallGraphic( lowerWall, getApparatusPanel(),
+        WallGraphic lowerWallGraphic = new GraduatedWallGraphic( lowerWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
         lowerWallGraphic.setIsResizable( true );
         getModel().addModelElement( lowerWall );
-        addGraphic( lowerWallGraphic, 1000 );
+        addGraphic( lowerWallGraphic, s_verticalWallLayer );
         lowerWall.addChangeListener( new LowerWallChangeListener() );
 
         // Create the left movable floor
@@ -84,7 +85,7 @@ public class MovableWallsModule extends IdealGasModule {
                                                         Color.gray, Color.black,
                                                         WallGraphic.NORTH_SOUTH );
         getModel().addModelElement( leftFloor );
-        addGraphic( leftFloorGraphic, 1000 );
+        addGraphic( leftFloorGraphic, s_verticalWallLayer - 1 );
 
         // Create the right movable floor
         rightFloor = new Wall( new Rectangle2D.Double( lowerWall.getBounds().getMaxX(), box.getCorner2Y() - 40,
@@ -94,7 +95,7 @@ public class MovableWallsModule extends IdealGasModule {
                                                          Color.gray, Color.black,
                                                          WallGraphic.NORTH_SOUTH );
         getModel().addModelElement( rightFloor );
-        addGraphic( rightFloorGraphic, 1000 );
+        addGraphic( rightFloorGraphic, s_verticalWallLayer - 1 );
 
         // Set the region for the walls
         setWallBounds();
@@ -152,10 +153,13 @@ public class MovableWallsModule extends IdealGasModule {
         addGraphic( leftCounterReadout, IdealGasConfig.readoutLayer );
 
         PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter );
-        rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 20, 25 );
+        rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 50, 25 );
         addGraphic( rightCounterReadout, IdealGasConfig.readoutLayer );
     }
 
+    /**
+     * Adjusts the size of the regions the particle counters cover
+     */
     private void setParticleCounterRegions() {
         Rectangle2D boxBounds = getBox().getBoundsInternal();
         Rectangle2D lowerWallBounds = lowerWall.getBounds();
@@ -242,6 +246,10 @@ public class MovableWallsModule extends IdealGasModule {
             counter.addObserver( this );
             this.counter = counter;
             update();
+        }
+
+        public void paint( Graphics2D g2 ) {
+            super.paint( g2 );
         }
 
         public void update() {
