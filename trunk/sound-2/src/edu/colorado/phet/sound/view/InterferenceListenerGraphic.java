@@ -23,6 +23,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
     private Wavefront interferringWavefront;
     private Point2D.Double earLocation = new Point2D.Double();
     private SoundModel soundModel;
+    private SoundModule soundModule;
 
     /**
      *
@@ -45,6 +46,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
                   Point2D.Double audioSourceB,
                   Wavefront interferringWavefront ) {
         super( module, listener, image, x, y, minX, minY, maxX, maxY );
+        this.soundModule = module;
         this.soundModel = (SoundModel)module.getModel();
         this.audioSourceA = audioSourceA;
         this.audioSourceB = audioSourceB;
@@ -75,6 +77,8 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
      */
     private void updateAmplitude() {
 
+        // todo: this should be part of the model, not figured out here!!!
+
         // Determine the difference in distance of the listener's ear to
         // each audio source in units of phase angle of the current frequency
         earLocation.setLocation( this.getLocation().getX() + s_earOffsetX,
@@ -90,8 +94,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
         double amplitudeA = soundModel.getAmplitude();
         double maxAmplitude = amplitudeA * Math.abs( Math.cos( theta ));
 
-        // HACK!!!!
-        soundModel.getPrimaryOscillator().setAmplitude( maxAmplitude );
+        soundModule.getPrimaryOscillator().setAmplitude( maxAmplitude );
     }
 
 

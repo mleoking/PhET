@@ -7,6 +7,7 @@
 package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.model.Listener;
@@ -20,29 +21,26 @@ import java.io.IOException;
 
 public class TwoSpeakerInterferenceModule extends SoundModule {
 
-    private PhetImageGraphic speakerFrame;
-    private PhetImageGraphic speakerCone;
-    //    private AuxilliaryWaveMedium waveMedium;
-    private boolean initialized = false;
+    private Listener speakerListener = new Listener();
+    private Listener headListener = new Listener();
 
-    private WavefrontGraphic primaryWg;
+    private WaveMediumGraphic primaryWg;
     private InterferenceListenerGraphic head;
     private Point2D.Double audioSourceA;
     private Point2D.Double audioSourceB;
     private SoundModel soundModel;
+    private boolean saveInterferenceOverideEnabled = false;
 
     protected TwoSpeakerInterferenceModule( ApplicationModel appModel ) {
-        super( "<html>Two Source<br>Interference</html>" );
-        soundModel = new SoundModel( appModel.getClock() );
-        setModel( soundModel );
+        super( appModel, "<html>Two Source<br>Interference</html>" );
+        soundModel = (SoundModel)getModel();
         setApparatusPanel( new SoundApparatusPanel( soundModel ) );
-        initModel();
         initApparatusPanel();
         initControlPanel();
     }
 
     private void initControlPanel() {
-        this.setControlPanel( new SoundControlPanel( this ));
+        this.setControlPanel( new TwoSourceInterferenceControlPanel( this ) );
     }
 
     /**
@@ -50,9 +48,6 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
      * it requires the main panel to be in place.
      */
     public void initApparatusPanel() {
-        initialized = true;
-        //        super.init();
-        //
         // Determine the origins of the interferning wavefronts
         audioSourceA = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
                                            SoundConfig.s_wavefrontBaseY - 120 );
@@ -61,48 +56,73 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
 
         // Create the upper wave and speaker
         WaveMedium wm = getSoundModel().getWaveMedium();
-        WavefrontGraphic wgA = new WavefrontGraphic( wm, getApparatusPanel() );
+        WaveMediumGraphic wgA = new WaveMediumGraphic( wm, getApparatusPanel() );
         wm.addObserver( wgA );
         this.addGraphic( wgA, 5 );
         wgA.initLayout( audioSourceA,
                         SoundConfig.s_wavefrontHeight,
                         SoundConfig.s_wavefrontRadius );
         wgA.setOpacity( 0.5f );
-        //        getSoundApplication().getPrimaryWavefront().addObserver( this );
         SpeakerGraphic speakerGraphicA = new SpeakerGraphic( getApparatusPanel(), wm );
         getApparatusPanel().addGraphic( speakerGraphicA, 8 );
         speakerGraphicA.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() );
 
         // Add the lower wave and speaker
-        WavefrontGraphic wgB = new WavefrontGraphic( wm, getApparatusPanel() );
+        WaveMediumGraphic wgB = new WaveMediumGraphic( wm, getApparatusPanel() );
         wm.addObserver( wgB );
         this.addGraphic( wgB, 5 );
         wgB.initLayout( audioSourceB,
                         SoundConfig.s_wavefrontHeight,
                         SoundConfig.s_wavefrontRadius );
         wgB.setOpacity( 0.5f );
-        //        getSoundApplication().getPrimaryWavefront().addObserver( this );
         SpeakerGraphic speakerGraphicB = new SpeakerGraphic( getApparatusPanel(), wm );
         getApparatusPanel().addGraphic( speakerGraphicB, 8 );
         speakerGraphicB.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceB.getY() );
-
 
         // Set up the listener
         BufferedImage headImg = null;
         try {
             headImg = ImageLoader.loadBufferedImage( SoundConfig.LISTENER_W_EARS_IMAGE_FILE );
+            PhetImageGraphic head = new PhetImageGraphic( getApparatusPanel(), headImg );
+            head.setPosition( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
+            ListenerGraphic listenerGraphic = new InterferenceListenerGraphic( this, headListener, head,
+                                                                               (double)SoundConfig.s_headBaseX, (double)SoundConfig.s_headBaseY,
+                                                                               (double)SoundConfig.s_headBaseX - 150, (double)SoundConfig.s_headBaseY - 200,
+                                                                               (double)SoundConfig.s_headBaseX + 150, (double)SoundConfig.s_headBaseY + 200,
+                                                                               audioSourceA,
+                                                                               audioSourceB,
+                                                                               soundModel.getPrimaryWavefront() );
+            getApparatusPanel().addGraphic( listenerGraphic, 9 );
+
+            headListener.setLocation( new Point2D.Double( SoundConfig.s_headBaseX - SoundConfig.s_speakerBaseX,
+                                                          SoundConfig.s_headBaseY - SoundConfig.s_speakerBaseY ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        ListenerGraphic listenerGraphic = new InterferenceListenerGraphic( this, new Listener(),
-                                                                           new PhetImageGraphic( getApparatusPanel(), headImg ),
-                                                                           (double)SoundConfig.s_headBaseX, (double)SoundConfig.s_headBaseY,
-                                                                           (double)SoundConfig.s_headBaseX - 150, (double)SoundConfig.s_headBaseY - 200,
-                                                                           (double)SoundConfig.s_headBaseX + 150, (double)SoundConfig.s_headBaseY + 200,
-                                                                           audioSourceA,
-                                                                           audioSourceB,
-                                                                           soundModel.getPrimaryWavefront() );
-        getApparatusPanel().addGraphic( listenerGraphic, 9 );
+    }
+
+    public void setAudioSource( int source ) {
+        switch( source ) {
+            case SoundApparatusPanel.LISTENER_SOURCE:
+                setListener( headListener );
+                getPrimaryOscillator().setInterferenceOverideEnabled( true );
+                break;
+            case SoundApparatusPanel.SPEAKER_SOURCE:
+                setListener( speakerListener );
+                getPrimaryOscillator().setInterferenceOverideEnabled( false );
+                break;
+        }
+    }
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        getPrimaryOscillator().setInterferenceOverideEnabled( saveInterferenceOverideEnabled );
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        saveInterferenceOverideEnabled = getPrimaryOscillator().getInterferenceOverideEnabled();
+        getPrimaryOscillator().setInterferenceOverideEnabled( false );
     }
 }

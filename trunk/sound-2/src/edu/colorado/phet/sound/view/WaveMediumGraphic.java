@@ -1,5 +1,5 @@
 /**
- * Class: WavefrontGraphic
+ * Class: WaveMediumGraphic
  * Package: edu.colorado.phet.sound.view
  * Author: Another Guy
  * Date: Aug 4, 2004
@@ -19,7 +19,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-public class WavefrontGraphic extends PhetImageGraphic implements SimpleObserver {
+public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserver {
 
     // TODO: This should be set by a call to initLayout, not here.
     private Point2D.Double origin = new Point2D.Double( SoundConfig.s_wavefrontBaseX, SoundConfig.s_wavefrontBaseY );
@@ -49,8 +49,7 @@ public class WavefrontGraphic extends PhetImageGraphic implements SimpleObserver
     /**
      * todo: rename WaveMediumGraphic
      */
-    public WavefrontGraphic( WaveMedium waveMedium, Component component ) {
-        // These two lines are wierd.
+    public WaveMediumGraphic( WaveMedium waveMedium, Component component ) {
         super( component, createBufferedImage() );
 
         // Hook up to the WaveMedium we are observing

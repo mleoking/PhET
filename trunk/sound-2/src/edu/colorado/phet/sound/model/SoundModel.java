@@ -21,8 +21,6 @@ public class SoundModel extends BaseModel {
 
     private Wavefront primaryWavefront;
     private Wavefront octaveWavefront;
-    private WavefrontOscillator primaryOscillator;
-    private WavefrontOscillator octaveOscillator;
     private boolean octaveEnabled = false;
 
     // Used to save and restore audio state when Stop and Run are pressed
@@ -90,14 +88,6 @@ public class SoundModel extends BaseModel {
         super.stepInTime( dt );
     }
 
-    public void setAudioEnabled( boolean audioEnabled ) {
-//        if( this.initialized ) {
-            primaryOscillator.setEnabled( audioEnabled );
-            octaveOscillator.setEnabled( audioEnabled && octaveEnabled );
-//        }
-//        this.audioEnabled = audioEnabled;
-    }
-
     /**
      *
      */
@@ -141,25 +131,13 @@ public class SoundModel extends BaseModel {
         this.primaryWavefront = primaryWavefront;
     }
 
-    public WavefrontOscillator getPrimaryOscillator() {
-        return primaryOscillator;
-    }
-
-    public void setPrimaryOscillator( WavefrontOscillator primaryOscillator ) {
-        this.primaryOscillator = primaryOscillator;
-    }
-
-    public WavefrontOscillator getOctaveOscillator() {
-        return octaveOscillator;
-    }
-
-    public void setOctaveOscillator( WavefrontOscillator octaveOscillator ) {
-        this.octaveOscillator = octaveOscillator;
-    }
-
     public void setOctaveEnabled( boolean octaveEnabled ) {
-//        this.octaveEnabled = octaveEnabled;
+        this.octaveEnabled = octaveEnabled;
         this.octaveWavefront.setEnabled( octaveEnabled );
+    }
+
+    public boolean isOctaveEnabled() {
+        return octaveEnabled;
     }
 
 }

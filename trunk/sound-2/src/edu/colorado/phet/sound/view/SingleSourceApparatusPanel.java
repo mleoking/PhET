@@ -22,7 +22,7 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
 
 //    private PhetImageGraphic speakerFrame;
 //    private PhetImageGraphic speakerCone;
-    private WavefrontGraphic wavefrontGraphic = null;
+    private WaveMediumGraphic waveMediumGraphic = null;
     private BufferedImage speakerFrameImg;
     private BufferedImage speakerConeImg;
     private int audioSource = SPEAKER_SOURCE;
@@ -37,21 +37,21 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
         super( model );
         this.model = model;
         final WaveMedium waveMedium = model.getWaveMedium();
-        wavefrontGraphic = new WavefrontGraphic( waveMedium, this );
-        this.addGraphic( wavefrontGraphic, 7 );
+        waveMediumGraphic = new WaveMediumGraphic( waveMedium, this );
+        this.addGraphic( waveMediumGraphic, 7 );
         Point2D.Double audioSource = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
                                                          SoundConfig.s_wavefrontBaseY );
-        wavefrontGraphic.initLayout( audioSource,
+        waveMediumGraphic.initLayout( audioSource,
                                      SoundConfig.s_wavefrontHeight,
                                      SoundConfig.s_wavefrontRadius );
 
         // Set up the octave wavefront and graphic
-//        WavefrontGraphic wgB = new WavefrontGraphic( waveMedium, this );
-        //        wavefrontGraphic.init( waveMedium );
-        this.addGraphic( wavefrontGraphic, 7 );
+//        WaveMediumGraphic wgB = new WaveMediumGraphic( waveMedium, this );
+        //        waveMediumGraphic.init( waveMedium );
+        this.addGraphic( waveMediumGraphic, 7 );
         Point2D.Double audioSourceB = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
                                                           SoundConfig.s_wavefrontBaseY );
-        wavefrontGraphic.initLayout( audioSourceB,
+        waveMediumGraphic.initLayout( audioSourceB,
                                      SoundConfig.s_wavefrontHeight,
                                      SoundConfig.s_wavefrontRadius );
 
@@ -95,14 +95,14 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
      *
      */
     public void setWavefrontType( WavefrontType wavefrontType ) {
-        wavefrontGraphic.setPlanar( wavefrontType instanceof PlaneWavefront );
+        waveMediumGraphic.setPlanar( wavefrontType instanceof PlaneWavefront );
     }
 
     /**
      * @return
      */
-    protected WavefrontGraphic getWavefrontGraphic() {
-        return wavefrontGraphic;
+    protected WaveMediumGraphic getWavefrontGraphic() {
+        return waveMediumGraphic;
     }
 
     /**
