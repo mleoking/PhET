@@ -17,7 +17,7 @@ public class Particle extends SimpleObservable implements ModelElement {
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D acceleration = new Vector2D.Double();
     //Relying on this being null for the first iteration.
-    private Vector2D prevAcceleration;
+    private Vector2D prevAcceleration = new Vector2D.Double( );
 
     public Particle() {
     }

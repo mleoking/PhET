@@ -155,7 +155,7 @@ public class IdealGasModel extends BaseModel {
         super.addModelElement( modelElement );
         if( modelElement instanceof Body ) {
             Body body = (Body)modelElement;
-            this.box.addContainedBody( body );
+//            this.box.addContainedBody( body );
             addKineticEnergyToSystem( body.getKineticEnergy() );
             bodies.add( body );
         }
@@ -361,11 +361,7 @@ public class IdealGasModel extends BaseModel {
      * @return
      */
     public double getBodyEnergy( Body body ) {
-        //    public float getBodyEnergy( Particle body ) {
-        // The super class will give up the kinetic energy. We need to add
-        // the potential energy
-        double energy = getBodyEnergy( body ) + getPotentialEnergy( body );
-        //        float energy = super.getBodyEnergy( body ) + getPotentialEnergy( body );
+        double energy = body.getKineticEnergy() + getPotentialEnergy( body );
         return energy;
     }
 
@@ -374,7 +370,6 @@ public class IdealGasModel extends BaseModel {
      * @return
      */
     private double getPotentialEnergy( Body body ) {
-        //    private float getPotentialEnergy( Particle body ) {
         double pe = 0;
         if( this.gravity != null ) {
             double gravity = this.getGravity().getAmt();
@@ -392,9 +387,11 @@ public class IdealGasModel extends BaseModel {
      * Moves a body to a y coordinate while preserving its total energy
      */
     public void relocateBodyY( Body body, double newY ) {
-        //    public void relocateBodyY( CollidableBody body, float newY ) {
+
         double currY = body.getPosition().getY();
-        relocateBodyY( body, newY );
+
+        // todo: This was commented out, 9/14/04
+//        relocateBodyY( body, newY );
 
         // Adjust the body's kinetic energy to compensate for any change we may have
         // made in its potential ential

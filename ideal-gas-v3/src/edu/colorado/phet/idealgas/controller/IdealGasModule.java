@@ -31,16 +31,19 @@ public class IdealGasModule extends Module {
     public IdealGasModule( AbstractClock clock ) {
         super( Strings.idealGasModuleName );
 
+        // Create the model
         idealGasModel = new IdealGasModel();
         setModel( idealGasModel );
-        setApparatusPanel( new BaseIdealGasApparatusPanel( this ) );
 
-        float xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;
-        float yOrigin = 252 + IdealGasConfig.Y_BASE_OFFSET;
-        float xDiag = 434 + IdealGasConfig.X_BASE_OFFSET;
-        float yDiag = 497 + IdealGasConfig.Y_BASE_OFFSET;
+        // Create the box
+        double xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;
+        double yOrigin = 252 + IdealGasConfig.Y_BASE_OFFSET;
+        double xDiag = 434 + IdealGasConfig.X_BASE_OFFSET;
+        double yDiag = 497 + IdealGasConfig.Y_BASE_OFFSET;
         box = new PressureSensingBox( new Point2D.Double( xOrigin, yOrigin ),
                                       new Point2D.Double( xDiag, yDiag ), idealGasModel, clock );
+
+        setApparatusPanel( new BaseIdealGasApparatusPanel( this, box ) );
 
         // Set up the box
         Box2DGraphic boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
@@ -48,6 +51,5 @@ public class IdealGasModule extends Module {
 
         Mannequin pusher = new Mannequin( getApparatusPanel(), idealGasModel, box );
         addGraphic( pusher, 10 );
-
     }
 }

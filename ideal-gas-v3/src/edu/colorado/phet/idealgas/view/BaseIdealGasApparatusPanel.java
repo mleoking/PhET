@@ -20,6 +20,7 @@ import edu.colorado.phet.idealgas.IdealGasApplication;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.model.Box2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -53,12 +54,12 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
     /**
      *
      */
-    public BaseIdealGasApparatusPanel( Module module ) {
-        init( module );
+    public BaseIdealGasApparatusPanel( Module module, Box2D box ) {
+        init( module, box );
     }
 
-    protected BaseIdealGasApparatusPanel( Module module, String name ) {
-        init( module );
+    protected BaseIdealGasApparatusPanel( Module module, Box2D box, String name ) {
+        init( module, box );
     }
 
     public void repaint( int x, int y, int width, int height ) {
@@ -68,7 +69,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
     /**
      *
      */
-    public void init( final Module module ) {
+    public void init( final Module module, Box2D box ) {
         model = (IdealGasModel)module.getModel();
 
         try {
@@ -85,7 +86,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel {
             BufferedImage handleImg = ImageLoader.loadBufferedImage( IdealGasConfig.HANDLE_IMAGE_FILE );
             PhetImageGraphic handleGraphic = new PhetImageGraphic( this, handleImg );
 
-            Pump pump = new Pump( (IdealGasModel)module.getModel() );
+            Pump pump = new Pump( module, box );
             handleGraphicImage = new PumpHandleGraphic( pump, handleGraphic,
                                                         IdealGasConfig.X_BASE_OFFSET + 549, IdealGasConfig.Y_BASE_OFFSET + 238,
                                                         IdealGasConfig.X_BASE_OFFSET + 549, IdealGasConfig.Y_BASE_OFFSET + 100,
