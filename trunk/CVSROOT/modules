@@ -26,7 +26,7 @@
 # spread out over the entire source repository.
 
 # ideal gas project
-idealgas -d development ideal-gas-v3
+idealgas -d development ideal-gas-v3 
 
 # Nuclear physics project
 nuclearphysics -d development nuclearphysics
