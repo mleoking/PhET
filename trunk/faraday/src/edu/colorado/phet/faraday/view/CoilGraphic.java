@@ -161,14 +161,29 @@ public class CoilGraphic implements SimpleObserver {
         update();
     }
     
+    /**
+     * Gets the foreground color used to draw the coil.
+     * 
+     * @return the foreground color
+     */
     public Color getForegroundColor() {
         return _foregroundColor;
     }
     
+    /**
+     * Gets the middleground color used to draw the coil.
+     * 
+     * @return the middleground color
+     */
     public Color getMiddlegroundColor() {
         return _middlegroundColor;
     }
     
+    /**
+     * Gets the background color used to draw the coil.
+     * 
+     * @return the background color
+     */
     public Color getBackgroundColor() {
         return _backgroundColor;
     }
