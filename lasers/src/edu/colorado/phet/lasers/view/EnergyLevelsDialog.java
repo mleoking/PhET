@@ -19,6 +19,7 @@ public class EnergyLevelsDialog extends JDialog {
 
     public EnergyLevelsDialog( Frame parent, JPanel energyLevelsPanel, LaserModel model ) {
         super( parent, "Energy Level Populations" );
+        this.setResizable( false );
         //        this.setUndecorated( true );
         Container contentPane = this.getContentPane();
         contentPane.setLayout( new GridBagLayout() );
