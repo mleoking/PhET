@@ -11,11 +11,7 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 
@@ -28,6 +24,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
@@ -52,7 +49,7 @@ public class PickupCoilGraphic
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_FLUX = true;
+    private static boolean _displayFluxEnabled = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -128,13 +125,17 @@ public class PickupCoilGraphic
         // Interactivity
         setDraggingEnabled( true );
         
-        if ( DEBUG_FLUX ) {
+        // Area & flux display
+        {
             _fluxFormatter = new DecimalFormat( "###0.00" );
             Font font = new Font( "SansSerif", Font.PLAIN, 15 );
             
             _areaValue = new PhetTextGraphic( component, font, "WWW", Color.YELLOW, 70, -25 );
+            _areaValue.setVisible( _displayFluxEnabled );
             _fluxValue = new PhetTextGraphic( component, font, "XXX", Color.YELLOW, 70, 0 );
+            _fluxValue.setVisible( _displayFluxEnabled );
             _deltaFluxValue = new PhetTextGraphic( component, font, "YYY", Color.YELLOW, 70, 25 );
+            _deltaFluxValue.setVisible( _displayFluxEnabled );
             
             _foreground.addGraphic( _areaValue );
             _foreground.addGraphic( _fluxValue );
@@ -216,6 +217,14 @@ public class PickupCoilGraphic
         }
     }
     
+    public static void setDisplayFluxEnabled( boolean displayFluxEnabled ) {
+        _displayFluxEnabled = displayFluxEnabled;
+    }
+    
+    public static boolean isDisplayFluxEnabled() {
+        return _displayFluxEnabled;
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -242,13 +251,21 @@ public class PickupCoilGraphic
             _foreground.rotate( _pickupCoilModel.getDirection() );
             _background.rotate( _pickupCoilModel.getDirection() );
 
-            if ( DEBUG_FLUX ) {
-                double area = _pickupCoilModel.getArea();
-                double flux = _pickupCoilModel.getFlux();
-                double deltaFlux = _pickupCoilModel.getDeltaFlux();
-                _areaValue.setText( "Area = " + _fluxFormatter.format( area ) );
-                _fluxValue.setText( "Flux = " + _fluxFormatter.format( flux ) + " W" );
-                _deltaFluxValue.setText( "Delta = " + _fluxFormatter.format( deltaFlux ) + " W" );
+            // Flux display
+            {
+                _areaValue.setVisible( _displayFluxEnabled );
+                _fluxValue.setVisible( _displayFluxEnabled );
+                _deltaFluxValue.setVisible( _displayFluxEnabled );
+                
+                if ( _displayFluxEnabled ) {
+                    double area = _pickupCoilModel.getArea();
+                    double flux = _pickupCoilModel.getFlux();
+                    double deltaFlux = _pickupCoilModel.getDeltaFlux();
+
+                    _areaValue.setText( "Area = " + _fluxFormatter.format( area ) );
+                    _fluxValue.setText( "Flux = " + _fluxFormatter.format( flux ) + " W" );
+                    _deltaFluxValue.setText( "Delta Flux = " + _fluxFormatter.format( deltaFlux ) + " W" );
+                }
             }
             
             _foreground.repaint();

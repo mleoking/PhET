@@ -31,7 +31,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     private static final double MIN_STEPS_PER_CYCLE = 10;
     
     // Determines whether all critical angles will be hit.
-    private static final boolean HIT_CRITICAL_ANGLES = false;
+    private static boolean _criticalAnglesEnabled = false;
         
     //----------------------------------------------------------------------------
     // Instance data
@@ -125,6 +125,14 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         return _stepAngle;
     }
     
+    public static void setCriticalAnglesEnabled( boolean criticalAnglesEnabled ) {
+        _criticalAnglesEnabled = criticalAnglesEnabled;
+    }
+    
+    public static boolean isCriticalAnglesEnabled() {
+        return _criticalAnglesEnabled;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -148,7 +156,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
                 _angle += _deltaAngle;
 
                 // Adjust the angle so that we hit all peaks and zero crossings.
-                if ( HIT_CRITICAL_ANGLES ) {
+                if ( _criticalAnglesEnabled ) {
                     for ( int i = 1; i <= 4; i++ ) {
                         double criticalAngle = i * ( Math.PI / 2 ); // ...at 90 degree intervals
                         if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
