@@ -101,4 +101,8 @@
 	function colorChanged( wavelength:Number ):Void{
 		this.setWavelength( wavelength);
 	}
+	function onUnload(){
+		this.photonCanvas_mc.clear();
+		super.onUnload();
+	}
 }
