@@ -31,7 +31,7 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
 
         this.mirror = mirror;
         mirror.addObserver( this );
-        reflectivityTF = new JTextField( 2 );
+        reflectivityTF = new JTextField( 4 );
         reflectivityTF.setEditable( false );
         reflectivityTF.setHorizontalAlignment( JTextField.RIGHT );
         Font clockFont = reflectivityTF.getFont();
@@ -44,12 +44,11 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
                                           0,
                                           100,
                                           50 );
-        reflectivitySlider.setPreferredSize( new Dimension( 20, 50 ) );
+        reflectivitySlider.setPreferredSize( new Dimension( 40, 50 ) );
         reflectivitySlider.setPaintTicks( true );
         reflectivitySlider.setMajorTickSpacing( 10 );
         reflectivitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                //                updateReflectivity( ( (double)reflectivitySlider.getValue() ) / 100 );
                 mirror.setReflectivity( ( (double)reflectivitySlider.getValue() ) / 100 );
                 reflectivityTF.setText( Double.toString( reflectivitySlider.getValue() ) );
             }
@@ -57,18 +56,21 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
 
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
-                                                         GridBagConstraints.HORIZONTAL,
-                                                         new Insets( 0, 5, 0, 5 ), 20, 0 );
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
         this.setLayout( new GridBagLayout() );
         JLabel title = new JLabel( SimStrings.get( "RightMirrorReflectivityControlPanel.BorderTitle" ) );
         gbc.gridwidth = 2;
         this.add( title, gbc );
         gbc.gridwidth = 1;
         gbc.gridy++;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets( 0, 5, 0, 0 );
         this.add( reflectivitySlider, gbc );
         gbc.gridx++;
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets( 0, 0, 0, 5 );
         this.add( reflectivityTF, gbc );
 
         //        Border border = new TitledBorder( SimStrings.get( "RightMirrorReflectivityControlPanel.BorderTitle" ) );

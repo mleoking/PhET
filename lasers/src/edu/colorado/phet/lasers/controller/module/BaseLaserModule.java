@@ -17,8 +17,11 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.help.HelpManager;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
+import edu.colorado.phet.lasers.help.ApparatusPanelHelp;
+import edu.colorado.phet.lasers.help.EnergyLevelPanelHelp;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
@@ -81,6 +84,9 @@ public class BaseLaserModule extends Module {
     private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_DEFAULT_LIFETIME;
     private int seedBeamFanout;
     private double pumpingBeamFanout;
+    private HelpManager energyLevelsPanelHelpManager;
+    private HelpManager mainPanelHelpManager;
+    private ApparatusPanelHelp apparatusPanelHelp;
 
     /**
      *
@@ -112,9 +118,8 @@ public class BaseLaserModule extends Module {
         // Create the mirrors
         createMirrors();
 
-        // Add the control panel
-//        LaserControlPanel controlPanel = new LaserControlPanel( this );
-//        setControlPanel( controlPanel );
+        // Set up help
+        createHelp();
     }
 
     /**
@@ -195,9 +200,10 @@ public class BaseLaserModule extends Module {
         getLaserModel().setPumpingBeam( pumpingBeam );
     }
 
+    /**
+     * Creates mirrors and their associated graphics
+     */
     protected void createMirrors() {
-//        PartialMirror rightMirror = laserModel.getRightMirror();
-//        PartialMirror leftMirror = laserModel.getLeftMirror();
 
         // If there already mirrors in the model, get rid of them
         if( rightMirror != null ) {
@@ -286,8 +292,31 @@ public class BaseLaserModule extends Module {
                 externalLaserCurtainGraphic.setMaxAlpha( 1 - ( Math.pow( event.getReflectivity(), 1.5 ) ) );
             }
         } );
-
     }
+
+    //----------------------------------------------------------------
+    // Help-related methods
+    //----------------------------------------------------------------
+
+    public boolean hasHelp() {
+        return true;
+    }
+
+    private void createHelp() {
+        mainPanelHelpManager = new HelpManager( getApparatusPanel() );
+        apparatusPanelHelp = new ApparatusPanelHelp( this );
+//        new ApparatusPanelHelp( mainPanelHelpManager );
+        energyLevelsPanelHelpManager = new HelpManager( getEnergyLevelsMonitorPanel() );
+        new EnergyLevelPanelHelp( energyLevelsPanelHelpManager );
+    }
+
+    public void setHelpEnabled( boolean h ) {
+        super.setHelpEnabled( h );
+//        mainPanelHelpManager.setHelpEnabled( getApparatusPanel(), h );
+//        apparatusPanelHelp.setHelpEnabled( getApparatusPanel(), h );
+        energyLevelsPanelHelpManager.setHelpEnabled( getEnergyLevelsMonitorPanel(), h );
+    }
+
 
     //-----------------------------------------------------------------------------
     // Getter and setters
