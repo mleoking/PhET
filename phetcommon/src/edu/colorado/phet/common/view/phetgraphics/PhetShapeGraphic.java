@@ -27,20 +27,20 @@ public class PhetShapeGraphic extends PhetGraphic {
     private Paint fill;
     private Paint border;
 
-    public PhetShapeGraphic( Component component, Shape shape, Color fill ) {
+    public PhetShapeGraphic( Component component, Shape shape, Paint fill ) {
         super( component );
         this.shape = shape;
         this.fill = fill;
     }
 
-    public PhetShapeGraphic( Component component, Shape shape, Stroke stroke, Color border ) {
+    public PhetShapeGraphic( Component component, Shape shape, Stroke stroke, Paint border ) {
         super( component );
         this.shape = shape;
         this.stroke = stroke;
         this.border = border;
     }
 
-    public PhetShapeGraphic( Component component, Shape shape, Color fill, Stroke stroke, Color border ) {
+    public PhetShapeGraphic( Component component, Shape shape, Paint fill, Stroke stroke, Paint border ) {
         super( component );
         this.shape = shape;
         this.fill = fill;
