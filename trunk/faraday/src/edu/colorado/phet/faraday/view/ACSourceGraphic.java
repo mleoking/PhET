@@ -45,15 +45,18 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final double BOX_LAYER = 1;
     private static final double SLIDER_LAYER = 2;
     private static final double VALUE_LAYER = 3;
-    private static final double GRAPHIC_BACKGROUND_LAYER = 4;
-    private static final double WAVE_LAYER = 5;
-    private static final double WAVE_OVERLAY_LAYER = 6;
+    private static final double LABEL_LAYER = 4;
+    private static final double WAVE_BACKGROUND_LAYER = 5;
+    private static final double WAVE_LAYER = 6;
+    private static final double WAVE_OVERLAY_LAYER = 7;
     
+    private static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
+    private static final Color LABEL_COLOR = Color.BLACK;
     private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
     private static final Color VALUE_COLOR = Color.BLACK;
     
-    private static final double WAVE_SCALE_X = 0.18;
-    private static final double WAVE_SCALE_Y = 0.12;
+    private static final double WAVE_SCALE_X = 0.17;
+    private static final double WAVE_SCALE_Y = 0.11;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -97,6 +100,14 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         {
             _acBoxGraphic = new PhetImageGraphic( component, FaradayConfig.AC_SOURCE_IMAGE );
             addGraphic( _acBoxGraphic, BOX_LAYER );
+        }   
+        
+        // Title label
+        {
+            PhetTextGraphic title = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
+            addGraphic( title, LABEL_LAYER );            
+            title.setLocation( 55, 5 );
+            title.setText( SimStrings.get( "ACSourceGraphic.title" ) );
         }
         
         // Amplitude slider
@@ -117,9 +128,9 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
         {
             _amplitudeValue = new PhetTextGraphic( component, VALUE_FONT, "", VALUE_COLOR );
             addGraphic( _amplitudeValue, VALUE_LAYER );            
-            _amplitudeValue.setLocation( 50, 45 );
+            _amplitudeValue.setLocation( 45, 45 );
             
-            _amplitudeFormat = SimStrings.get( "ACSourceGraphic.amplitude" );
+            _amplitudeFormat = SimStrings.get( "ACSourceGraphic.amplitude.format" );
         }
         
         // Frequency slider
@@ -141,18 +152,18 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             addGraphic( _frequencyValue, VALUE_LAYER );
             _frequencyValue.setLocation( 198, 160 );
             
-            _frequencyFormat = SimStrings.get( "ACSourceGraphic.frequency" );
+            _frequencyFormat = SimStrings.get( "ACSourceGraphic.frequency.format" );
         }
         
-        // Graphic background
+        // Wave background
         {
-            Shape shape = new Rectangle( 0, 0, 131, 100 );
+            Shape shape = new Rectangle( 0, 0, 131, 90 );
             PhetShapeGraphic graphBackground = new PhetShapeGraphic( component, shape, Color.BLACK );
-            addGraphic( graphBackground, GRAPHIC_BACKGROUND_LAYER );
-            graphBackground.setLocation( 55, 15 );
+            addGraphic( graphBackground, WAVE_BACKGROUND_LAYER );
+            graphBackground.setLocation( 50, 25 );
         }
         
-        // Sin wave
+        // Wave
         {
             GeneralPath path = new GeneralPath();
             path.moveTo( 0, 0 );
@@ -168,7 +179,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             _waveGraphic.setStroke( new BasicStroke( 10f ) );
             addGraphic( _waveGraphic, WAVE_LAYER );
             _waveGraphic.setRegistrationPoint( _waveGraphic.getWidth()/2, 0 );
-            _waveGraphic.setLocation( 120, 65 );
+            _waveGraphic.setLocation( 118, 70 );
             _waveGraphic.scale( WAVE_SCALE_X, WAVE_SCALE_Y );
         }
         
@@ -233,7 +244,9 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             
             // Update the sin wave.
             _waveGraphic.clearTransform();
-            _waveGraphic.scale( frequency * WAVE_SCALE_X, maxAmplitude * WAVE_SCALE_Y );//XXX X-scale is wrong!
+            double xScale = ( 1 - frequency + FaradayConfig.AC_FREQUENCY_MIN ) * WAVE_SCALE_X;  //HACK
+            double yScale = maxAmplitude * WAVE_SCALE_Y;
+            _waveGraphic.scale( xScale, yScale );
             
             repaint();
         }
