@@ -16,23 +16,23 @@ import java.util.HashMap;
 
 public class ExerciseView {
     private JFrame owner;
-    private ExerciseModel exercise;
+    private ExerciseModel exerciseModel;
     private ExerciseDialog exerciseDlg;
 
     public ExerciseView( JFrame owner, ExerciseModel exercise ) {
         this.owner = owner;
-        this.exercise = exercise;
+        this.exerciseModel = exercise;
     }
 
     /**
-     * Displays the exercise in a non-modal dialog. Returns true or false
+     * Displays the exerciseModel in a non-modal dialog. Returns true or false
      * depending on whether the user selects the correct answer.
      *
      * @return
      */
     public boolean doIt() {
         if( exerciseDlg == null ) {
-            exerciseDlg = new ExerciseDialog( owner, exercise );
+            exerciseDlg = new ExerciseDialog( owner, exerciseModel );
             exerciseDlg.setLocationRelativeTo( owner );
         }
         exerciseDlg.present();
@@ -45,8 +45,7 @@ public class ExerciseView {
             }
         }
         exerciseDlg.setVisible( false );
-        return exercise.evaluate( exerciseDlg.getSelectedAnswer() );
-//        return exerciseDlg.getSelectedAnswer() == exercise.getCorrectAnswer();
+        return exerciseModel.evaluate( exerciseDlg.getSelectedAnswer() );
     }
 
     private class ExerciseDialog extends JDialog {
@@ -60,8 +59,8 @@ public class ExerciseView {
 
             // Don't let the user close the dialog with the icon in the upper right corner
             this.setDefaultCloseOperation( JDialog.EXIT_ON_CLOSE );
-            this.setUndecorated( true );
             this.setResizable( false );
+            this.setUndecorated( true );
             this.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
 
             // Add the question

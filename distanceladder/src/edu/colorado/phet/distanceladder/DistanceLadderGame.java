@@ -11,8 +11,7 @@ import edu.colorado.phet.distanceladder.controller.StarMapModule;
 import edu.colorado.phet.distanceladder.exercise.Exercise;
 import edu.colorado.phet.distanceladder.exercise.HtmlMessage;
 import edu.colorado.phet.distanceladder.exercise.Message;
-import edu.colorado.phet.distanceladder.levels.Level3A;
-import edu.colorado.phet.distanceladder.levels.Level3B;
+import edu.colorado.phet.distanceladder.levels.*;
 import edu.colorado.phet.distanceladder.model.*;
 
 import java.awt.*;
@@ -46,33 +45,34 @@ public class DistanceLadderGame {
         LostInSpaceApplication app = new LostInSpaceApplication( appDesc, modules, clock );
         app.startApplication( cockpitModule );
 
-        Star star = null;
 
+//        starField.reset();
+        Star star = null;
         Random random = new Random();
         for( int i = 0; i < 200; i++ ) {
             double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
             double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
             int colorIdx = random.nextInt( colors.length );
-            star = new NormalStar( colors[colorIdx], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
+            star = new NormalStar( colors[colorIdx], Config.maxStarLuminance, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
             starField.addStar( star );
         }
+        model.setStarField( model.getStarField() );
+//        model.getStarShip().setPov( new PointOfView( 0, 0, 0 ) );
 
-        model.getStarShip().setPov( new PointOfView( 0, 0, 0 ) );
+        displayMessage( new HtmlMessage( "messages/intro-1.html" ) );
+        displayMessage( new HtmlMessage( "messages/intro-2.html" ) );
+        displayMessage( new HtmlMessage( "messages/intro-3.html" ) );
 
-        starField.reset();
+        displayMessage( new HtmlMessage( "messages/level1-intro.html" ) );
+        doLevel( new Level1( app.getApplicationView().getPhetFrame(), model ) );
+        doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
 
-//        displayMessage( new HtmlMessage( "messages/intro-1.html" ) );
+        displayMessage( new HtmlMessage( "messages/level2-intro.html" ) );
+        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
+        displayMessage( new HtmlMessage( "messages/level2A-intro.html" ) );
+        doLevel( new Level2A( app.getApplicationView().getPhetFrame(), model ) );
 
-//        displayMessage( new HtmlMessage( "messages/level1-intro.html" ) );
-//        doLevel( new Level1( app.getApplicationView().getPhetFrame(), model ) );
-//        doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
-
-//        displayMessage( new HtmlMessage( "messages/level2-intro.html" ) );
-//        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
-//        displayMessage( new HtmlMessage( "messages/level2A-intro.html" ) );
-//        doLevel( new Level2A( app.getApplicationView().getPhetFrame(), model ) );
-
-//        doLevel( new Level3( app.getApplicationView().getPhetFrame(), model ) );
+        doLevel( new Level3( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level3A( app.getApplicationView().getPhetFrame(), model ) );
         doLevel( new Level3B( app.getApplicationView().getPhetFrame(), model,
                               cockpitModule, starMapModule ) );
