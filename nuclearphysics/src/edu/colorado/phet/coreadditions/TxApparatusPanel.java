@@ -9,6 +9,7 @@ package edu.colorado.phet.coreadditions;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
+import java.awt.geom.AffineTransform;
 import java.util.HashMap;
 
 /**
@@ -16,6 +17,15 @@ import java.util.HashMap;
  */
 public class TxApparatusPanel extends ApparatusPanel {
     private HashMap txGraphicMap = new HashMap();
+    private AffineTransform atx = new AffineTransform();
+
+    public AffineTransform getTransform() {
+        return atx;
+    }
+
+    public void setTransform( AffineTransform atx ) {
+        this.atx = atx;
+    }
 
     public void addGraphic( Graphic graphic, double level ) {
         super.addGraphic( graphic, level );

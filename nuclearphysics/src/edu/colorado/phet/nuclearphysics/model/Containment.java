@@ -6,12 +6,11 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.collision.Box2D;
 
 import java.awt.geom.Rectangle2D;
 
-public class Containment extends SimpleObservable implements ModelElement {
+public class Containment extends Box2D {
     private Rectangle2D bounds;
 
     public Containment( Rectangle2D bounds ) {

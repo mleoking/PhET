@@ -22,6 +22,7 @@ import java.awt.geom.Point2D;
 
 public class PhysicalPanel extends TxApparatusPanel {
     //public class PhysicalPanel extends ApparatusPanel {
+    public static Color backgroundColor = new Color( 255, 255, 230 );
 
     //    private HashMap modelElementToGraphicMap = new HashMap();
     protected Point2D.Double origin = new Point2D.Double();
@@ -104,7 +105,6 @@ public class PhysicalPanel extends TxApparatusPanel {
     //
     // Statics
     //
-    protected static Color backgroundColor = new Color( 255, 255, 230 );
 
     //    public synchronized void addOriginCenteredGraphic( Graphic graphic, double level ) {
     //        this.addGraphic( graphic, level, originTx );
@@ -112,5 +112,9 @@ public class PhysicalPanel extends TxApparatusPanel {
     public void addOriginCenteredGraphic( Graphic graphic, double level ) {
         TxGraphic txg = new TxGraphic( graphic, this.originTx );
         addGraphic( txg, level );
+    }
+
+    public AffineTransform getNucleonTx() {
+        return nucleonTx;
     }
 }
