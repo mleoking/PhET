@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.tests;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

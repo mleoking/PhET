@@ -1,8 +1,9 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.model;
 
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.movingman.MovingManModule;
 
 /**
  * User: Sam Reid

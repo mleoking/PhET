@@ -1,11 +1,13 @@
 /*PhET, 2004.*/
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
+import edu.colorado.phet.movingman.model.Man;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.*;

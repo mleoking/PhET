@@ -1,7 +1,9 @@
 /** Sam Reid*/
-package edu.colorado.phet.movingman;
+package edu.colorado.phet.movingman.model;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.movingman.MovingManModule;
 
 /**
  * User: Sam Reid
@@ -10,6 +12,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
  * Copyright (c) Oct 19, 2004 by Sam Reid
  */
 public class MovingManModel {
+    private MovingManTimeModel timeModel;
     public static final int numSmoothingPoints = 1;
     private int maxManPosition = 10;
     private Man man;
@@ -25,6 +28,7 @@ public class MovingManModel {
     private double maxTime = 20;
 
     public MovingManModel( MovingManModule movingManModule, AbstractClock clock ) {
+        timeModel = new MovingManTimeModel( movingManModule );
         this.movingManModule = movingManModule;
         this.clock = clock;
         numSmoothingPosition = numSmoothingPoints;
@@ -54,7 +58,7 @@ public class MovingManModel {
     }
 
     public void step( double dt ) {
-        position.addPoint( man.getX() );
+        position.addPoint( man.getX(), timeModel.getRecordTimer().getTime() );
         position.updateSmoothedSeries();
         position.updateDerivative( dt );
         velocity.updateSmoothedSeries();
@@ -117,4 +121,23 @@ public class MovingManModel {
         return maxManPosition;
     }
 
+    public ModelElement getMainModelElement() {
+        return timeModel.getMainModelElement();
+    }
+
+    public void fireReset() {
+        timeModel.fireReset();
+    }
+
+    public void setRecordMode() {
+        timeModel.setRecordMode();
+    }
+
+    public int getNumSmoothingPoints() {
+        return timeModel.getNumSmoothingPoints();
+    }
+
+    public MovingManTimeModel getTimeModel() {
+        return timeModel;
+    }
 }
