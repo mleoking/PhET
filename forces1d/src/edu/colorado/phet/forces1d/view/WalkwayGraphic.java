@@ -59,6 +59,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         addGraphic( treeGraphic );
         addGraphic( cottageGraphic );
         addGraphic( tickSetGraphic );
+        setCursorHand();
         update();
 
         module.getForceModel().addBoundaryConditionListener( new Force1DModel.BoundaryConditionListener() {

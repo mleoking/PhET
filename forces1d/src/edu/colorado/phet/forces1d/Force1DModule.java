@@ -135,8 +135,14 @@ public class Force1DModule extends Module {
         } );
         phetApplication.startApplication();
         new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
+        Thread.sleep( 1000 );
+        phetApplication.getPhetFrame().invalidate();
+        phetApplication.getPhetFrame().validate();
+        phetApplication.getPhetFrame().repaint();
 
-
+        phetApplication.getPhetFrame().getContentPane().invalidate();
+        phetApplication.getPhetFrame().getContentPane().validate();
+        phetApplication.getPhetFrame().getContentPane().repaint();
         //Note, this rendering strategy depends on the order of operations: PhetFrame goes to max size, then apparatusPanel gets resized.
     }
 

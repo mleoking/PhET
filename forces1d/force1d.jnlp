@@ -16,14 +16,14 @@ information.
 -->
 <jnlp
     spec="1.0+"
-    codebase="http://www.colorado.edu/physics/phet/projects/"
-    href="force1d/v1r1/force1d.jnlp">
+    codebase="http://www.colorado.edu/physics/phet/dev/"
+    href="force1d/v1r4/force1d.jnlp">
     <information>
-        <title>The Moving Man</title>
+        <title>Forces in 1D</title>
         <vendor>PhET(tm)</vendor>
         <homepage href="http://www.colorado.edu/physics/phet/"/>
-        <description>The Moving Man</description>
-        <description kind="short">The Moving Man.</description>
+        <description>Forces in 1D</description>
+        <description kind="short">Forces1D</description>
         <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/>
         <offline-allowed/>
@@ -33,12 +33,10 @@ information.
 
     <resources>
         <j2se version="1.4+"/>
-        <jar href="force1d/v1r1/force1d.jar"/>
+        <jar href="force1d/v1r4/force1d.jar"/>
         <jar href="shared/org/sourceforge/smoothmetal/v2/smoothmetal.jar"/>
-        <jar href="force1d/v1r1/lib/chart.jar"/>
-        <jar href="force1d/v1r1/lib/phetcommon.jar"/>
-        <jar href="force1d/mm-help.jar" download="lazy"/>
-        <jar href="shared/org/singularsys/jep/2.24/jep-2.24.jar" download="lazy"/>
+        <jar href="force1d/v1r4/lib/chart.jar"/>
+        <jar href="force1d/v1r4/lib/phetcommon.jar"/>
     </resources>
     <application-desc main-class="edu.colorado.phet.forces1d.Force1DModule"/>
 </jnlp>

@@ -46,11 +46,20 @@ public class Force1dControlPanel extends ControlPanel {
                 model.getBlock().setMass( value );
             }
         } );
-        ModelSlider gravity = createControl( 9.8, 0, 100, .2, "Gravity", "N/kg", new SpinnerHandler() {
+        final ModelSlider gravity = createControl( 9.8, 0, 100, .2, "Gravity", "N/kg", new SpinnerHandler() {
             public void changed( double value ) {
                 model.setGravity( value );
             }
         } );
+        model.addListener( new Force1DModel.Listener() {
+            public void appliedForceChanged() {
+            }
+
+            public void gravityChanged() {
+                gravity.setValue( model.getGravity() );
+            }
+        } );
+
 //        ModelSlider appliedForce = createControl( 0, -100, 100, .5, "Applied Force", "N", new SpinnerHandler() {
 //            public void changed( double value ) {
 //                model.setAppliedForce( value );
@@ -67,6 +76,17 @@ public class Force1dControlPanel extends ControlPanel {
             }
         } );
 
+        model.getBlock().addListener( new Block.Listener() {
+            public void positionChanged() {
+            }
+
+            public void propertyChanged() {
+                double staticFrictionVal = model.getBlock().getStaticFriction();
+                double kineticFrictionVal = model.getBlock().getKineticFriction();
+                staticFriction.setValue( staticFrictionVal );
+                kineticFriction.setValue( kineticFrictionVal );
+            }
+        } );
         VerticalLayoutPanel controls = new VerticalLayoutPanel();
         controls.add( gravity );
         controls.add( mass );
@@ -124,13 +144,10 @@ public class Force1dControlPanel extends ControlPanel {
                 staticFriction.setValue( s );
                 kineticFriction.setValue( k );
                 mass.setValue( model.getBlock().getMass() );
-
             }
         } );
         setup( module.imageElementAt( 0 ) );
 
-//        DefaultPlaybackPanel dpp = new DefaultPlaybackPanel( module.getForceModel().getPlotDeviceModel() );
-//        add( dpp );
         super.setHelpPanelEnabled( true );
     }
 

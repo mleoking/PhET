@@ -15,6 +15,7 @@ import edu.colorado.phet.forces1d.common.TitleLayout;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.phetcomponents.PhetButton;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
+import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
@@ -65,6 +66,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         walkwayTransform = new Function.LinearFunction( -12, 12, 0, 400 );
         walkwayGraphic = new WalkwayGraphic( this, module, 21, walkwayTransform );
         blockGraphic = new BlockGraphic( this, module.getForceModel().getBlock(), model, transform2D, walkwayTransform, module.imageElementAt( 0 ) );
+//        walkwayGraphic.addMouseInputListener( blockGraphic.getMouseListener() );
         arrowSetGraphic = new ArrowSetGraphic( this, blockGraphic, model, transform2D );
         leanerGraphic = new LeanerGraphic( this, blockGraphic );
         backgroundGraphic.addGraphic( walkwayGraphic );
@@ -266,6 +268,13 @@ public class Force1DPanel extends ApparatusPanel2 {
         velPlotDevice.setVisible( false );
         posPlotDevice.setVisible( false );
 //        setUseOffscreenBuffer( true );
+
+        model.getPlotDeviceModel().addListener( new PlotDeviceModel.ListenerAdapter() {
+            public void rewind() {
+                updateGraphics();
+            }
+
+        } );
     }
 
     public Force1DLookAndFeel getLookAndFeel() {
@@ -428,13 +437,12 @@ public class Force1DPanel extends ApparatusPanel2 {
     }
 
 
-    public void cursorMovedToTime( double modelX, int index ) {
+    public void cursorMovedToTime( double time, int index ) {
         model.setPlaybackIndex( index );
-        forcePlotDevice.cursorMovedToTime( modelX, index );
-        accelPlotDevice.cursorMovedToTime( modelX, index );
-        velPlotDevice.cursorMovedToTime( modelX, index );
-        posPlotDevice.cursorMovedToTime( modelX, index );
-
+        forcePlotDevice.cursorMovedToTime( time, index );
+        accelPlotDevice.cursorMovedToTime( time, index );
+        velPlotDevice.cursorMovedToTime( time, index );
+        posPlotDevice.cursorMovedToTime( time, index );
     }
 
     public void setHelpEnabled( boolean h ) {

@@ -85,7 +85,6 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             this.forceComponent = forceComponent;
             textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, Color.black, 1, 1, Color.yellow );
             shapeGraphic = new PhetShapeGraphic( component, null, color, new BasicStroke( 1 ), Color.black );
-//            shapeGraphic.setAutoRepaint( false );
             addGraphic( shapeGraphic );
             addGraphic( textGraphic );
         }
@@ -108,14 +107,12 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
 
             Shape forceArrowShape = forceArrow.getShape();
-//            Area area=new Area( forceArrowShape );
             if( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
                 shapeGraphic.setShape( forceArrowShape );
 
                 Shape forceArrowBody = forceArrow.getTailShape();
                 textGraphic.setLocation( forceArrowBody.getBounds().x, forceArrowBody.getBounds().y + textGraphic.getHeight() );
             }
-//            setBoundsDirty();
             this.lastArrow = forceArrow;
         }
 
@@ -126,8 +123,6 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         applied.update();
         total.update();
         checkTextOverlap();
-//        friction.repaint();
-//        applied.repaint();
     }
 
     private void checkTextOverlap() {

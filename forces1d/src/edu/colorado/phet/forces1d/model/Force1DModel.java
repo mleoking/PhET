@@ -33,12 +33,31 @@ public class Force1DModel implements ModelElement {
     private BoundaryCondition open = new Open();
     private BoundaryCondition walls = new Walls();
     private BoundaryCondition boundaryCondition = open;
+    private ArrayList boundaryConditionListeners = new ArrayList();
+    private SmoothDataSeries gravitySeries;
+    private SmoothDataSeries staticSeries;
+    private SmoothDataSeries kineticSeries;
+    private SmoothDataSeries massSeries;
+
+    public Force1DModel( Force1DModule module ) {
+        block = new Block( this );
+        int numSmoothingPoints = 8;
+        appliedForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
+        netForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
+        accelerationDataSeries = new SmoothDataSeries( numSmoothingPoints );
+        frictionForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
+        velocityDataSeries = new SmoothDataSeries( numSmoothingPoints );
+        positionDataSeries = new SmoothDataSeries( numSmoothingPoints );
+        plotDeviceModel = new Force1DPlotDeviceModel( module, this, MAX_TIME, 1 / 50.0 );
+        gravitySeries = new SmoothDataSeries( numSmoothingPoints );
+        staticSeries = new SmoothDataSeries( numSmoothingPoints );
+        kineticSeries = new SmoothDataSeries( numSmoothingPoints );
+        massSeries = new SmoothDataSeries( numSmoothingPoints );
+    }
 
     public interface BoundaryCondition {
         public void apply();
     }
-
-    ArrayList boundaryConditionListeners = new ArrayList();
 
     public void addBoundaryConditionListener( BoundaryConditionListener boundaryConditionListener ) {
         boundaryConditionListeners.add( boundaryConditionListener );
@@ -98,7 +117,27 @@ public class Force1DModel implements ModelElement {
             block.setAcceleration( accelerationDataSeries.smoothedPointAt( index ) );
             block.setVelocity( velocityDataSeries.smoothedPointAt( index ) );
             block.setPosition( positionDataSeries.smoothedPointAt( index ) );
+            this.appliedForceChanged();
+            double newGravity = gravitySeries.smoothedPointAt( index );
+            if( newGravity != gravity ) {
+                this.gravity = newGravity;
+                fireGravityChanged();
+            }
+            double newKinetic = kineticSeries.smoothedPointAt( index );
+            if( newKinetic != block.getStaticFriction() ) {
+                block.setKineticFriction( newKinetic );
+            }
+            double newStatic = staticSeries.smoothedPointAt( index );
+            if( newStatic != block.getStaticFriction() ) {
+                block.setStaticFriction( newStatic );
+            }
+            double newMass = massSeries.smoothedPointAt( index );
+            if( newMass != block.getMass() ) {
+                block.setMass( newMass );
+            }
+
         }//TODO else we should stop playback
+
     }
 
     public void stepInTime( double dt ) {
@@ -120,34 +159,16 @@ public class Force1DModel implements ModelElement {
         accelerationDataSeries.addPoint( block.getAcceleration() );
         velocityDataSeries.addPoint( block.getVelocity() );
         positionDataSeries.addPoint( block.getPosition() );
+        gravitySeries.addPoint( getGravity() );
+        kineticSeries.addPoint( block.getKineticFriction() );
+        staticSeries.addPoint( block.getStaticFriction() );
+        massSeries.addPoint( block.getMass() );
     }
 
-//    double time = 0;
-//    int playbackIndex = 0;
-
-    public void stepPlayback( double dt, double time, int playbackIndex ) {
-//        dt = convertTime( dt );
-//        time += dt;
-//            playbackIndex++;
+    public void stepPlayback( double time, int playbackIndex ) {
         plotDeviceModel.cursorMovedToTime( time, playbackIndex );
     }
 
-//    private double convertTime( double dt ) {
-//        return dt / 50.0;
-////        return dt / 5000.0;
-//    }
-
-    public Force1DModel( Force1DModule module ) {
-        block = new Block( this );
-        int numSmoothingPoints = 8;
-        appliedForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
-        netForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
-        accelerationDataSeries = new SmoothDataSeries( numSmoothingPoints );
-        frictionForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
-        velocityDataSeries = new SmoothDataSeries( 8 );
-        positionDataSeries = new SmoothDataSeries( 8 );
-        plotDeviceModel = new Force1DPlotDeviceModel( module, this, MAX_TIME, 1 / 50.0 );
-    }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
@@ -178,6 +199,10 @@ public class Force1DModel implements ModelElement {
         accelerationDataSeries.reset();
         positionDataSeries.reset();
         velocityDataSeries.reset();
+        gravitySeries.reset();
+        kineticSeries.reset();
+        staticSeries.reset();
+        massSeries.reset();
         updateBlock();
     }
 
@@ -192,11 +217,6 @@ public class Force1DModel implements ModelElement {
     public DataSeries getFrictionForceSeries() {
         return frictionForceDataSeries.getSmoothedDataSeries();
     }
-
-//    public void setPaused( boolean paused ) {
-//        this.paused = paused;
-//    }
-
 
     public void setPlaybackMode() {
         plotDeviceModel.setPlaybackMode();
@@ -219,10 +239,10 @@ public class Force1DModel implements ModelElement {
     public void setGravity( double gravity ) {
         this.gravity = gravity;
         updateBlock();
-        gravityChanged();
+        fireGravityChanged();
     }
 
-    private void gravityChanged() {
+    private void fireGravityChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.gravityChanged();
@@ -275,12 +295,6 @@ public class Force1DModel implements ModelElement {
             }
         }
     }
-
-//    public void stepInTime( double dt ) {
-//        if( !paused ) {
-//            mode.stepInTime( dt );
-//        }
-//    }
 
     public Block getBlock() {
         return block;

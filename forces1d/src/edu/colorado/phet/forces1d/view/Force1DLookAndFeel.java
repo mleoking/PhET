@@ -11,13 +11,14 @@ import java.awt.*;
  */
 public class Force1DLookAndFeel {
     private Color appliedForceColor = Color.blue;
-    private Color netForceColor = Color.green;
+    private Color netForceColor = new Color( 0.0f, 0.8f, 0.0f );
+//    private Color netForceColor = Color.green;
     private Color frictionForceColor = Color.red;
     private Color weightColor = Color.magenta;
     private Color normalColor = Color.orange;
     private Color accelColor = Color.blue;
     private Color velColor = Color.red;
-    private Color positionColor = Color.green;
+    private Color positionColor = netForceColor;
 
     public Color getAppliedForceColor() {
         return appliedForceColor;
