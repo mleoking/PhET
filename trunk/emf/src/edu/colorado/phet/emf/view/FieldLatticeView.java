@@ -99,6 +99,8 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
         this.sourceElectron = sourceElectron;
         sourceElectron.addObserver( this );
+
+        update();
     }
 
     public synchronized void paint( Graphics2D g2 ) {
