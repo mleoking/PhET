@@ -190,7 +190,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         }
         
         // Average the flux.
-        double flux = ( centerFlux + topFlux + bottomFlux ) / 3;
+        double flux = getNumberOfLoops() * ( centerFlux + topFlux + bottomFlux ) / 3;
         
         // Calculate the change in flux.
         _deltaFlux = flux - _flux;
@@ -199,7 +199,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         //********************************************
         // Faraday's Law - Calculate the induced EMF.
         //********************************************
-        _emf = -getNumberOfLoops() * ( _deltaFlux / dt );
+        _emf = -( _deltaFlux / dt );
         
         // Kirchhoff's rule -- voltage across the ends of the coil equals the emf.
         double voltage = _emf;
