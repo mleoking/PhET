@@ -12,6 +12,7 @@ import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.ProtonGraphic;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -68,7 +69,8 @@ public class NuclearPhysicsControlPanel extends JPanel {
             new ProtonGraphic().paint( gp, NuclearParticle.RADIUS, NuclearParticle.RADIUS );
             ImageIcon protonImg = new ImageIcon( protonBi );
 
-            this.setBorder( BorderFactory.createTitledBorder( "Legend" ) );
+            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+            this.setBorder( BorderFactory.createTitledBorder( baseBorder, "Legend" ) );
             int rowIdx = 0;
             try {
                 GraphicsUtil.addGridBagComponent( this, new JLabel( "Neutron", neutronImg, SwingConstants.LEFT ),

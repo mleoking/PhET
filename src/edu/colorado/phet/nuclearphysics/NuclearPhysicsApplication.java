@@ -12,7 +12,9 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApplicationDescriptor;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.nuclearphysics.controller.FissionModule;
+import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
+import edu.colorado.phet.nuclearphysics.controller.ProfileModificationModule;
+import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayModule;
 
 public class NuclearPhysicsApplication extends PhetApplication {
@@ -32,12 +34,14 @@ public class NuclearPhysicsApplication extends PhetApplication {
                                                                    "0.1" );
         // Note: a ThreadedClock here ends up looking balky
         AbstractClock clock = new SwingTimerClock( 10, 50, true );
-//        Module testModule = new TestModule( clock );
+        Module profileModificationModule = new ProfileModificationModule( clock );
         Module alphaModule = new AlphaDecayModule( clock );
-        Module fissionModule = new FissionModule( clock );
-        Module[] modules = new Module[]{alphaModule, fissionModule};//, testModule};
+        Module singleNucleusFissionModule = new SingleNucleusFissionModule( clock );
+        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( clock );
+        Module[] modules = new Module[]{alphaModule, singleNucleusFissionModule, multipleNucleusFissionModule, profileModificationModule};
         NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc, modules, clock );
-//        app.startApplication( fissionModule );
-        app.startApplication( alphaModule );
+//        app.startApplication( multipleNucleusFissionModule );
+        app.startApplication( singleNucleusFissionModule );
+//        app.startApplication( alphaModule );
     }
 }

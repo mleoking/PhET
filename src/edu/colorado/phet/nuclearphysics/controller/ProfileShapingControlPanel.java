@@ -1,5 +1,5 @@
 /**
- * Class: TestControlPanel
+ * Class: ProfileShapingControlPanel
  * Class: edu.colorado.phet.nuclearphysics.controller
  * User: Ron LeMaster
  * Date: Mar 1, 2004
@@ -18,23 +18,23 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-public class TestControlPanel extends JPanel {
-    private NuclearPhysicsModule module;
+public class ProfileShapingControlPanel extends JPanel {
+    private ProfileModificationModule module;
 
-    public TestControlPanel( NuclearPhysicsModule module ) {
+    public ProfileShapingControlPanel( ProfileModificationModule module ) {
         this.module = module;
         setLayout( new GridBagLayout() );
-//        int rowIdx = 0;
-//        try {
-//            GraphicsUtil.addGridBagComponent( this, new PotentialControlPanel( module.getPotentialProfile() ),
-//                                              0, rowIdx++,
-//                                              1, 1,
-//                                              GridBagConstraints.NONE,
-//                                              GridBagConstraints.CENTER );
-//        }
-//        catch( AWTException e ) {
-//            e.printStackTrace();
-//        }
+        int rowIdx = 0;
+        try {
+            GraphicsUtil.addGridBagComponent( this, new PotentialControlPanel( module.getPotentialProfile() ),
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
+        }
+        catch( AWTException e ) {
+            e.printStackTrace();
+        }
     }
 
     private class PotentialControlPanel extends JPanel {
@@ -64,14 +64,14 @@ public class TestControlPanel extends JPanel {
             } );
             module.setProfileWellDepth( wellDepthSlider.getModelValue() );
 
-//            final ModelSlider profileWidthSlider = new ModelSlider( "Width",
-//                                                                    100, 300, 200 );
-//            profileWidthSlider.addChangeListener( new ChangeListener() {
-//                public void stateChanged( ChangeEvent e ) {
-//                    module.setProfileWidth( profileWidthSlider.getModelValue() );
-//                }
-//            } );
-//            module.setProfileWidth( profileWidthSlider.getModelValue() );
+            final ModelSlider profileWidthSlider = new ModelSlider( "Width",
+                                                                    100, 300, 200 );
+            profileWidthSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    module.setProfileWidth( profileWidthSlider.getModelValue() );
+                }
+            } );
+            module.setProfileWidth( profileWidthSlider.getModelValue() );
 
 
 //            JSpinner spinner = new JSpinner();

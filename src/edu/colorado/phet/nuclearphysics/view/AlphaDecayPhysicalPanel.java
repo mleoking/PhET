@@ -22,7 +22,6 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.RevertableGraphicsSetup;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.DecayNucleus;
@@ -30,14 +29,9 @@ import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 
 public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
-    //
-    // Statics
-    //
-    private static Color backgroundColor = new Color( 255, 255, 230 );
     private static double nucleusLayer = 20;
     private static RevertableGraphicsSetup nucleusGraphicsSetup = new RevertableGraphicsSetup() {
         private Composite orgComposite;
@@ -61,16 +55,9 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
     // Instance fields and methods
     //
     private NucleusGraphic decayGraphic;
-    private Point2D.Double origin;
-    private AffineTransform originTx = new AffineTransform();
 
     public AlphaDecayPhysicalPanel() {
-        origin = new Point2D.Double( 250, 250 );
         this.setBackground( backgroundColor );
-    }
-
-    public synchronized void addOriginCenteredGraphic( Graphic graphic ) {
-        this.addGraphic( graphic, originTx );
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
@@ -92,6 +79,8 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
             decayGraphic.paint( g2, (int)nucleus.getLocation().getX(), (int)nucleus.getLocation().getY() );
             g2.setTransform( orgTx );
         }
+
+        GraphicsUtil.setAlpha( g2, 1 );
     }
 
     public synchronized void addDecayProduct( Nucleus decayNucleus ) {

@@ -11,23 +11,31 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayControlPanel;
-import edu.colorado.phet.nuclearphysics.model.DecayListener;
-import edu.colorado.phet.nuclearphysics.model.DecayProducts;
+import edu.colorado.phet.nuclearphysics.controller.ProfiledNucleusModule;
+import edu.colorado.phet.nuclearphysics.model.*;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
-public class AlphaDecayModule extends OneNucleusModule implements DecayListener {
+public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener {
 
-    //
-    // Statics
-    //
-    private static int numAlphaParticles = 4;
+    private AlphaDecayPhysicalPanel physicalPanel;
 
     public AlphaDecayModule( AbstractClock clock ) {
         super( "Alpha Radiation", clock );
+
+        getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
+        physicalPanel = new AlphaDecayPhysicalPanel();
+        super.setPhysicalPanel( physicalPanel );
+        getApparatusPanel().remove( 0 );
+        getApparatusPanel().add( physicalPanel, 0 );
+
+        setNucleus( new Uranium235( new Point2D.Double( 0, 0 ) ) );
+        setUraniumNucleus( getNucleus() );
+
         super.addControlPanelElement( new AlphaDecayControlPanel( this ) );
 
         getNucleus().addDecayListener( this );
@@ -36,6 +44,12 @@ public class AlphaDecayModule extends OneNucleusModule implements DecayListener 
             addAlphaParticle( getNucleus().getAlphaParticles()[i], getNucleus() );
         }
         addRingGraphic();
+    }
+
+    protected void addAlphaParticle( AlphaParticle alphaParticle, Nucleus nucleus ) {
+        this.getModel().addModelElement( alphaParticle );
+        physicalPanel.addAlphaParticle( alphaParticle );
+        getPotentialProfilePanel().addAlphaParticle( alphaParticle, nucleus );
     }
 
     private void addRingGraphic() {
@@ -77,12 +91,16 @@ public class AlphaDecayModule extends OneNucleusModule implements DecayListener 
 
     public void alphaDecay( DecayProducts decayProducts ) {
         getPotentialProfilePanel().addDecayProduct( decayProducts.getN2() );
+
+        // Make the nucleus shake
+//        Thread shaker = new Thread( new NucleusShaker() );
+//        shaker.run();
+
         getPhysicalPanel().addNucleus( decayProducts.getN2() );
         getModel().addModelElement( decayProducts.getN2() );
-        Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
-                                    25, 300, getPotentialProfilePanel() );
-        getPhysicalPanel().addOriginCenteredGraphic( kaboom );
-//        getPotentialProfilePanel().addOriginCenteredGraphic( kaboom );
+//        Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
+//                                    25, 300, getPotentialProfilePanel() );
+//        getPhysicalPanel().addOriginCenteredGraphic( kaboom );
     }
 
     public void run() {
@@ -92,5 +110,29 @@ public class AlphaDecayModule extends OneNucleusModule implements DecayListener 
             addAlphaParticle( getNucleus().getAlphaParticles()[i], getNucleus() );
         }
         addRingGraphic();
+    }
+
+    //
+    // Inner classes
+    //
+    private class NucleusShaker implements Runnable {
+
+        public void run() {
+            for( int i = 0; i < 20; i++ ) {
+                ArrayList graphicList = NucleusGraphic.getGraphicForNucleus( getNucleus() );
+                for( int j = 0; j < graphicList.size(); j++ ) {
+                    Graphic graphic = (Graphic)graphicList.get( j );
+                    getPhysicalPanel().removeGraphic( graphic );
+                }
+                getPhysicalPanel().addNucleus( getNucleus() );
+                getPhysicalPanel().repaint();
+                try {
+                    Thread.sleep( 200 );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

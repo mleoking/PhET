@@ -19,11 +19,18 @@ import java.util.HashMap;
 public class PhysicalPanel extends ApparatusPanel {
     private AffineTransform atx = new AffineTransform();
     private HashMap modelElementToGraphicMap = new HashMap();
-    private Point2D.Double origin = new Point2D.Double();
-    private AffineTransform originTx = new AffineTransform();
+//    private Point2D.Double origin = new Point2D.Double();
+//    private AffineTransform originTx = new AffineTransform();
+
+    //
+    // Statics
+    //
+    protected Point2D.Double origin;
+    protected AffineTransform originTx = new AffineTransform();
 
     public PhysicalPanel() {
         this.setBackground( backgroundColor );
+        origin = new Point2D.Double( 250, 250 );
     }
 
     public void addNucleus( Nucleus nucleus ) {
@@ -56,5 +63,9 @@ public class PhysicalPanel extends ApparatusPanel {
     //
     // Statics
     //
-    private static Color backgroundColor = new Color( 255, 255, 230 );
+    protected static Color backgroundColor = new Color( 255, 255, 230 );
+
+    public synchronized void addOriginCenteredGraphic( Graphic graphic ) {
+        this.addGraphic( graphic, originTx );
+    }
 }
