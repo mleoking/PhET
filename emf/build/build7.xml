@@ -44,6 +44,7 @@ ignorepath      (those elements of the ant classpath that should not be
     <!-- Set up child directories, for during the build.  -->
     <property name="src" location="${project_home}/development/src"/>
     <property name="data" location="${project_home}/development/data"/>
+    <property name="help" location="${project_home}/development/help"/>
 
     <description>
         Build File.
@@ -107,6 +108,14 @@ ignorepath      (those elements of the ant classpath that should not be
                 <attribute name="version" value="${version}"/>
                 <attribute name="build" value="${build.number}"/>
                 <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+        </jar>
+        <jar destfile="${jars}/${distname}-help.jar">
+            <fileset dir="${help}"/>
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="version" value="${version}"/>
+                <attribute name="build" value="${build.number}"/>
             </manifest>
         </jar>
     </target>

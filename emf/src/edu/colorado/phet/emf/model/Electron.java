@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.emf.model;
 
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.math.AbstractVector2D;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.emf.EmfApplication;
 import edu.colorado.phet.emf.model.movement.ManualMovement;
 import edu.colorado.phet.emf.model.movement.MovementType;
