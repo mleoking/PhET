@@ -4,11 +4,8 @@
 
 IN PROGRESS:
 
-
 HIGH PRIORITY:
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
-- add a water wheel graphic to turbine, paddles as wide as widest water stream
-- RPM readout on turbine (at center of rotation?)
 - handle for faucet that looks like the side view of a faucet handle, put slider inside handle
 - calibrate lightbulb
 - calibrate voltmeter
@@ -57,6 +54,9 @@ PHETCOMMON:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
+v0r20...
+(3/22) - add RPM readout to turbine
+(3/22) - add a water wheel graphic to turbine, paddles as wide as widest water stream
 v0r19...
 (3/21) - cursor that moves across the AC sin wave
 (3/18) - make sure that AC hits all peaks and zero-crossing values.

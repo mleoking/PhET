@@ -52,7 +52,7 @@ public class GeneratorModule extends FaradayModule {
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
     // Locations
-    private static final Point TURBINE_LOCATION = new Point( 220, 400 );
+    private static final Point TURBINE_LOCATION = new Point( 235, 400 );
     private static final Point PICKUP_COIL_LOCATION = new Point( 500, 400 );
     private static final Point COMPASS_LOCATION = new Point( 150, 200 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
