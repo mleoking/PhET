@@ -104,6 +104,10 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private HashMap wellTxs = new HashMap();
     private HashMap wellParticles = new HashMap();
 
+    // TODO: clean this up, so we don't need the cast where it is assigned
+    private AlphaParticle alphaDecayParticle;
+
+
     public PotentialProfilePanel() {
         origin = new Point2D.Double( 250, 250 );
         this.setBackground( backgroundColor );
@@ -156,11 +160,23 @@ public class PotentialProfilePanel extends ApparatusPanel {
 
         if( decayGraphic != null ) {
             AffineTransform orgTx = g2.getTransform();
-            DecayNucleus nucleus = (DecayNucleus)decayGraphic.getNucleus();
+            DecayNucleus alphaParticle = (DecayNucleus)decayGraphic.getNucleus();
             // Note: -y is needed because we're currently working in view coordinates. The profile is a cubic
             // in view coordinates
-            double y = Math.max( nucleus.getPotentialEnergy(), 0 );
-            double x = nucleus.getLocation().getX();
+
+            // THIS IS THE PROBLEM!!! I need the Uranium nucleus profile, not the one for the alpha particle. This
+            // should happen in the model, anyway!!!!
+            /*BOGUS!!!*/ PotentialProfile profile = alphaDecayParticle.getNucleus().getPotentialProfile();
+//            /*BOGUS!!!*/ PotentialProfile profile = alphaParticle.getPotentialProfile();
+//            double y = Math.max( alphaParticle.getPotentialEnergy(), 0 );
+            double x = alphaParticle.getLocation().getX();
+//            double y = profile.getHillY( x );
+            int sign = ( x > 0 ? -1 : 1 );
+            double y = -profile.getHillY( x * sign );
+            System.out.println( "x: " + x + "  y:" + y );
+            y = Double.isNaN( y ) ? 0 : y;
+//            alphaParticle.setLocation( x, y );
+
 
             // Draw a ghost coming down the profile first, then the real thing on the x axis
             g2.transform( profileTx );
@@ -203,28 +219,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
         AffineTransform wellTx = new AffineTransform();
         wellTx.setToIdentity();
         wellTxs.put( nucleus, new AffineTransform() );
-
-//        // Add leader lines from the ring up to the profile
-//        final Line2D.Double line1 = new Line2D.Double( -nucleus.getPotentialProfile().getAlphaDecayX(),
-//                                                       -1000,
-//                                                       -nucleus.getPotentialProfile().getAlphaDecayX(),
-//                                                       1000 );
-//        final Line2D.Double line2 = new Line2D.Double( nucleus.getPotentialProfile().getAlphaDecayX(),
-//                                                       -1000,
-//                                                       nucleus.getPotentialProfile().getAlphaDecayX(),
-//                                                       1000 );
-//        final Stroke leaderLineStroke = new BasicStroke( 1f );
-//        Graphic leaderLines = new Graphic() {
-//            public void paint( Graphics2D g ) {
-//                g.setColor( Color.black );
-//                g.setStroke( leaderLineStroke );
-//                GraphicsUtil.setAlpha( g, 0.3 );
-//                g.draw( line1 );
-//                g.draw( line2 );
-//                GraphicsUtil.setAlpha( g, 1 );
-//            }
-//        };
-//        this.addGraphic( leaderLines, profileTx );
     }
 
     public void addPotentialProfile( Nucleus nucleus ) {
@@ -242,6 +236,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     public synchronized void addDecayProduct( Nucleus decayNucleus ) {
+        this.alphaDecayParticle = (AlphaParticle)decayNucleus;
         this.decayGraphic = new NucleusGraphic( decayNucleus );
     }
 
