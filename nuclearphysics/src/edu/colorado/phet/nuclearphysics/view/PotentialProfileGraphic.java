@@ -64,7 +64,17 @@ public class PotentialProfileGraphic implements Graphic, SimpleObserver {
 
     public void paint( Graphics2D g ) {
         profileTx.setToIdentity();
-        profileTx.translate( nucleus.getLocation().getX(), 0 );
+
+        /**
+         *  @note: This line now puts the x location at 0, so it won't jiggle while a
+         * nucleus that is fissioning jiggles. This will not work if we want to go
+         * back to having two profiles that move away with the daughter nuclei after
+         * a fission event. To make that happen, inable the commented line of code
+         */
+        profileTx.translate( 0, 0 );
+        //        profileTx.translate( nucleus.getLocation().getX(), 0 );
+
+
         AffineTransform orgTx = g.getTransform();
         g.transform( profileTx );
         g.drawImage( image, -image.getWidth( imgObs ) / 2,
