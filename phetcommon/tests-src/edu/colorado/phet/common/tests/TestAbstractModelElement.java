@@ -12,7 +12,6 @@ package edu.colorado.phet.common.tests;
 
 import edu.colorado.phet.common.model.AbstractModelElement;
 import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 
