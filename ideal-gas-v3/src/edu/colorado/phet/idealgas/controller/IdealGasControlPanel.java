@@ -57,26 +57,22 @@ public class IdealGasControlPanel extends JPanel {
         makeParticlesControls();
 
         this.setLayout( new GridBagLayout() );
-        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+        gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                      1, 1, 1, 1,
                                       GridBagConstraints.CENTER,
                                       GridBagConstraints.HORIZONTAL,
-                                      new Insets( 0,0,0,0 ), 0, 0 );
-//                                      new Insets( 4, 4, 4, 4 ), 0, 0 );
+                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // Add control for selecting the constant parameter
-        gbc.gridy = 0;
         add( constantParamControls(), gbc );
 
         // Add controls for the number and type of molecules to put in the box
-        gbc.gridy++;
         add( particleControlsPanel, gbc );
 
         // Add miscellaneous controls (gravity, particle interactions, etc.
-        gbc.gridy++;
         this.add( miscPanel, gbc );
 
         // Add the reset and measurement panel buttons
-        gbc.gridy++;
         this.add( buttonPanel, gbc );
 
         Border border = BorderFactory.createEtchedBorder();
@@ -89,20 +85,17 @@ public class IdealGasControlPanel extends JPanel {
     private void makeParticlesControls() {
         particleControlsPanel = new JPanel( new GridBagLayout() );
 
-        particleControlsGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                 GridBagConstraints.CENTER,
-                                                                 GridBagConstraints.HORIZONTAL,
-                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
+        particleControlsGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                      1, 1, 1, 1,
+                                                      GridBagConstraints.CENTER,
+                                                      GridBagConstraints.HORIZONTAL,
+                                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // Add controls for the number and type of molecules to put in the box
         JPanel speciesButtonPanel = new PumpControlPanel( module, module.getPump() );
         speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Pump" ) ) );
-        particleControlsGbc.gridy++;
         particleControlsGbc.fill = GridBagConstraints.NONE;
         particleControlsPanel.add( speciesButtonPanel, particleControlsGbc );
-        particleControlsGbc.gridy++;
-//        particleControlsPanel.add( new NumParticlesControls2(), particleControlsGbc );
-//        particleControlsPanel.add( new NumParticlesControls(), particleControlsGbc );
     }
 
     /**
@@ -110,14 +103,14 @@ public class IdealGasControlPanel extends JPanel {
      */
     private void makeMiscControls() {
         miscPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                         1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.HORIZONTAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         JPanel gravityControls = gravityControls();
         miscPanel.add( gravityControls, gbc );
 
-        gbc.gridy++;
         ParticleInteractionControl pic = new ParticleInteractionControl();
         gbc.fill = GridBagConstraints.NONE;
         miscPanel.add( pic, gbc );
@@ -148,12 +141,13 @@ public class IdealGasControlPanel extends JPanel {
 
         // Put them on the button panel
         buttonPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                         1, 1, 1, 1,
                                                          GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                                          new Insets( 2, 2, 2, 2 ), 0, 0 );
 
         buttonPanel.add( resetBtn, gbc );
-        gbc.gridy++;
+//        gbc.gridy++;
         buttonPanel.add( measurementDlgBtn, gbc );
         buttonPanel.revalidate();
     }
@@ -195,7 +189,7 @@ public class IdealGasControlPanel extends JPanel {
     private JPanel gravityControls() {
 
         gravityControlPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+        GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.WEST,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -219,7 +213,6 @@ public class IdealGasControlPanel extends JPanel {
         labelTable.put( new Integer( s_maxGravity ), new JLabel( SimStrings.get( "Common.Max" ) ) );
         gravitySlider.setLabelTable( labelTable );
         gravitySlider.setPaintLabels( true );
-        gbc.gridx = 1;
         gravityControlPanel.add( gravitySlider, gbc );
         gravitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
@@ -259,28 +252,11 @@ public class IdealGasControlPanel extends JPanel {
         this.gravitySlider.setValue( (int)amt );
     }
 
-//    private void setNumParticlesInBox( int numParticles ) {
-//        int dn = numParticles - ( getModule().getIdealGasModel().getHeavySpeciesCnt()
-//                                  + getModule().getIdealGasModel().getLightSpeciesCnt() );
-//        if( dn > 0 ) {
-//            for( int i = 0; i < dn; i++ ) {
-//                getModule().pumpGasMolecules( 1 );
-//            }
-//        }
-//        else if( dn < 0 ) {
-//            for( int i = 0; i < -dn; i++ ) {
-//                getModule().removeGasMolecule();
-//            }
-//        }
-//    }
-//
     public void addComponent( Component component ) {
-        gbc.gridy++;
         this.add( component, gbc );
     }
 
     public void addParticleControl( Component component ) {
-        particleControlsGbc.gridy++;
         particleControlsPanel.add( component, particleControlsGbc );
     }
 
@@ -318,133 +294,6 @@ public class IdealGasControlPanel extends JPanel {
     }
 
 
-//    private class NumParticlesControls extends JPanel {
-//        NumParticlesControls() {
-//
-//            super( new GridBagLayout() );
-//            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-//                                                             GridBagConstraints.EAST,
-//                                                             GridBagConstraints.NONE,
-//                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
-//            JLabel label = new JLabel( SimStrings.get( "MeasurementControlPanel.Number_of_particles" ) );
-//            this.add( label, gbc );
-//            // Set up the spinner for controlling the number of particles in
-//            // the hollow sphere
-//            Integer value = new Integer( 0 );
-//            Integer min = new Integer( 0 );
-//            Integer max = new Integer( 1000 );
-//            Integer step = new Integer( 1 );
-//            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
-//            final JSpinner particleSpinner = new JSpinner( model );
-//            particleSpinner.setPreferredSize( new Dimension( 50, 20 ) );
-//            gbc.gridx = 1;
-//            gbc.anchor = GridBagConstraints.WEST;
-//            this.add( particleSpinner, gbc );
-//
-//            particleSpinner.addChangeListener( new ChangeListener() {
-//                public void stateChanged( ChangeEvent e ) {
-//                    setNumParticlesInBox( ( (Integer)particleSpinner.getValue() ).intValue() );
-//                }
-//            } );
-//
-//            // Hook the spinner up so it will track molecules put in the box by the pump
-//            getModule().getModel().addObserver( new SimpleObserver() {
-//                public void update() {
-//                    int h = getModule().getIdealGasModel().getHeavySpeciesCnt();
-//                    int l = getModule().getIdealGasModel().getLightSpeciesCnt();
-//                    particleSpinner.setValue( new Integer( l + h ) );
-//                }
-//            } );
-//        }
-//    }
-//
-//    private class NumParticlesControls2 extends JPanel {
-//        NumParticlesControls2() {
-//
-//            super( new GridBagLayout() );
-//            // Set up the spinner for controlling the number of particles in
-//            // the hollow sphere
-//            Integer value = new Integer( 0 );
-//            Integer min = new Integer( 0 );
-//            Integer max = new Integer( 1000 );
-//            Integer step = new Integer( 1 );
-//
-//            // Spinner for heavy species
-//            SpinnerNumberModel heavySpinnerModel = new SpinnerNumberModel( value, min, max, step );
-//            final JSpinner heavySpinner = new JSpinner( heavySpinnerModel );
-//            heavySpinner.setPreferredSize( new Dimension( 50, 20 ) );
-//            heavySpinner.addChangeListener( new ChangeListener() {
-//                public void stateChanged( ChangeEvent e ) {
-//                    int dn = ((Integer)heavySpinner.getValue()).intValue()  - ( getModule().getIdealGasModel().getHeavySpeciesCnt() );
-//                    if( dn > 0 ) {
-//                        for( int i = 0; i < dn; i++ ) {
-//                            Pump pump = getModule().getPump();
-//                            pump.setCurrentGasSpecies( HeavySpecies.class );
-//                            getModule().pumpGasMolecules( 1 );
-//                        }
-//                    }
-//                    else if( dn < 0 ) {
-//                        for( int i = 0; i < -dn; i++ ) {
-//                            getModule().removeGasMolecule( HeavySpecies.class );
-//                        }
-//                    }
-//                }
-//            } );
-//
-//            // Hook the spinner up so it will track molecules put in the box by the pump
-//            getModule().getModel().addObserver( new SimpleObserver() {
-//                public void update() {
-//                    int h = getModule().getIdealGasModel().getHeavySpeciesCnt();
-//                    heavySpinner.setValue( new Integer( h ) );
-//                }
-//            } );
-//
-//
-//            // Spinner for light species
-//            SpinnerNumberModel lightSpinnerModel = new SpinnerNumberModel( value, min, max, step );
-//            final JSpinner lightSpinner = new JSpinner( lightSpinnerModel );
-//            lightSpinner.setPreferredSize( new Dimension( 50, 20 ) );
-//            lightSpinner.addChangeListener( new ChangeListener() {
-//                public void stateChanged( ChangeEvent e ) {
-//                    int dn = ((Integer)lightSpinner.getValue()).intValue()  - ( getModule().getIdealGasModel().getLightSpeciesCnt());
-//                    if( dn > 0 ) {
-//                        for( int i = 0; i < dn; i++ ) {
-//                            Pump pump = getModule().getPump();
-//                            pump.setCurrentGasSpecies( LightSpecies.class );
-//                            getModule().pumpGasMolecules( 1 );
-//                        }
-//                    }
-//                    else if( dn < 0 ) {
-//                        for( int i = 0; i < -dn; i++ ) {
-//                            getModule().removeGasMolecule( LightSpecies.class );
-//                        }
-//                    }
-//                }
-//            } );
-//
-//            // Hook the spinner up so it will track molecules put in the box by the pump
-//            getModule().getModel().addObserver( new SimpleObserver() {
-//                public void update() {
-//                    int h = getModule().getIdealGasModel().getLightSpeciesCnt();
-//                    lightSpinner.setValue( new Integer( h ) );
-//                }
-//            } );
-//
-//
-//            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-//                                                             GridBagConstraints.EAST,
-//                                                             GridBagConstraints.NONE,
-//                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
-//            JLabel label = new JLabel( SimStrings.get( "MeasurementControlPanel.Number_of_particles" ) );
-//            this.add( label, gbc );
-//            gbc.gridx = 1;
-//            gbc.anchor = GridBagConstraints.WEST;
-//            this.add( heavySpinner, gbc );
-//
-//            gbc.gridy++;
-//            this.add( lightSpinner, gbc );
-//        }
-//    }
 }
 
 
