@@ -10,21 +10,22 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
+import edu.colorado.phet.common.view.util.ImageLoader;
+
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
-import edu.colorado.phet.common.view.util.ImageLoader;
 
 public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
     private AffineTransform transform;
     private boolean shapeDirty = true;
     private Shape shape;
+
+    protected PhetImageGraphic( Component component ) {
+        this( component, null, 0, 0 );
+    }
 
     public PhetImageGraphic( Component component, String imageResourceName ) {
         this( component, (BufferedImage)null );
@@ -57,22 +58,26 @@ public class PhetImageGraphic extends PhetGraphic {
 
     public Shape getShape() {
         if( shapeDirty ) {
+            if( image == null ) {
+                return null;
+            }
             Rectangle rect = new Rectangle( 0, 0, image.getWidth(), image.getHeight() );
             this.shape = transform.createTransformedShape( rect );
+            shapeDirty = false;
         }
         return shape;
     }
 
     public boolean contains( int x, int y ) {
-        return isVisible() && getShape().contains( x, y );
+        return isVisible() && getShape() != null && getShape().contains( x, y );
     }
 
     protected Rectangle determineBounds() {
-        return getShape().getBounds();
+        return getShape() == null ? null : getShape().getBounds();
     }
 
     public void paint( Graphics2D g ) {
-        if( isVisible() ) {
+        if( isVisible() && image != null ) {
             g.drawRenderedImage( image, transform );
         }
     }
@@ -93,12 +98,6 @@ public class PhetImageGraphic extends PhetGraphic {
         setTransform( tx );
     }
 
-//    public void setPositionCentered( int x, int y, double scale ) {
-//        AffineTransform tx=AffineTransform.getTranslateInstance( x-image.getWidth( )/2,y-image.getHeight( )/2);
-//        tx.scale( scale, scale );
-//        setTransform( tx );
-//    }
-
     public void setTransform( AffineTransform transform ) {
         if( !transform.equals( this.transform ) ) {
             this.transform = transform;
@@ -110,6 +109,8 @@ public class PhetImageGraphic extends PhetGraphic {
 
     public void setImage( BufferedImage image ) {
         this.image = image;
+        setBoundsDirty();
+        repaint();
     }
 
     public BufferedImage getImage() {
