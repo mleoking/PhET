@@ -7,13 +7,14 @@
 package edu.colorado.phet.common.view.fastpaint;
 
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
-public class FastPaintShapeGraphic extends ShapeGraphic {
+public class FastPaintShapeGraphic extends ShapeGraphic implements FastPaint.Graphic {
 
-    private Component parent;
+    private AffineTransform transform;
+    private FastPaint fastPaint;
 
     public FastPaintShapeGraphic( Shape shape, Paint fill, Component parent ) {
         super( shape, fill );
@@ -31,10 +32,12 @@ public class FastPaintShapeGraphic extends ShapeGraphic {
     }
 
     private void init( Component parent ) {
-        this.parent = parent;
+        this.fastPaint = new FastPaint( parent, this );
+        //        this.parent = parent;
+        fastPaint.repaint();
     }
 
-    public Rectangle getViewBounds() {
+    public Rectangle getBounds() {
         if( getShape() != null ) {
             Stroke stroke = super.getOutlineStroke();
             if( stroke != null ) {
@@ -51,22 +54,42 @@ public class FastPaintShapeGraphic extends ShapeGraphic {
     }
 
     public void setFillPaint( Paint fillPaint ) {
-        Rectangle viewBounds = getViewBounds();
         super.setFillPaint( fillPaint );
-        GraphicsUtil.fastRepaint( parent, viewBounds );
+        repaint();
     }
 
     public void setShape( Shape shape ) {
-        Rectangle orig = getViewBounds();
         super.setShape( shape );
-        Rectangle newRect = getViewBounds();
-        GraphicsUtil.fastRepaint( parent, orig, newRect );
+        repaint();
     }
 
     public void setOutlineStroke( Stroke outlineStroke ) {
-        Rectangle orig = getViewBounds();
         super.setOutlineStroke( outlineStroke );
-        Rectangle newRect = getViewBounds();
-        GraphicsUtil.fastRepaint( parent, orig, newRect );
+        repaint();
     }
+
+    public void repaint() {
+        fastPaint.repaint();
+    }
+
+    //    public AffineTransform getTransform() {
+    //        return transform;
+    //    }
+    //
+    //    public void setTransform( AffineTransform transform ) {
+    //        this.transform = transform;
+    //    }
+
+
+
+    //    public void paint( Graphics2D g ) {
+    //        //        AffineTransform orgTx = g.getTransform();
+    //        //        g.transform( this.transform );
+    //        //        super.paint( g );
+    //        //        g.setTransform( orgTx );
+    //    }
+
+    //    public void translate( double dx, double dy ) {
+    //        setShape( AffineTransform.getTranslateInstance( dx, dy ).createTransformedShape( getShape() ) );
+    //    }
 }

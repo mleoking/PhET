@@ -7,21 +7,25 @@
 package edu.colorado.phet.common.view.fastpaint;
 
 import edu.colorado.phet.common.view.graphics.TextGraphic;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class FastPaintTextGraphic extends TextGraphic {
-    private Component parent;
+public class FastPaintTextGraphic extends TextGraphic implements FastPaint.Graphic {
+    FastPaint fastPaint;
 
     public FastPaintTextGraphic( String text, Font font, float x, float y, Component parent ) {
         super( text, font, x, y );
-        this.parent = parent;
+        fastPaint = new FastPaint( parent, this );
+        repaint();
     }
 
-    private Rectangle getViewBounds() {
-        Rectangle2D rect2D = super.getBounds();
+    private void repaint() {
+        fastPaint.repaint();
+    }
+
+    public Rectangle getBounds() {
+        Rectangle2D rect2D = super.getBounds2D();
         Rectangle rect = null;
         if( rect2D != null ) {
             rect = new Rectangle( (int)rect2D.getX(), (int)rect2D.getY(),
@@ -31,29 +35,22 @@ public class FastPaintTextGraphic extends TextGraphic {
     }
 
     public void setText( String text ) {
-        Rectangle rectA = getViewBounds();
         super.setText( text );
-        Rectangle rectB = getViewBounds();
-        GraphicsUtil.fastRepaint( parent, rectA, rectB );
+        repaint();
     }
 
     public void setFont( Font font ) {
-        Rectangle rectA = getViewBounds();
         super.setFont( font );
-        Rectangle rectB = getViewBounds();
-        GraphicsUtil.fastRepaint( parent, rectA, rectB );
+        repaint();
     }
 
-    public void setLocation( float x, float y ) {
-        Rectangle rectA = getViewBounds();
-        super.setLocation( x, y );
-        Rectangle rectB = getViewBounds();
-        GraphicsUtil.fastRepaint( parent, rectA, rectB );
+    public void setLocation( double x, double y ) {
+        super.setLocation( (float)x, (float)y );
+        repaint();
     }
 
     public void setPaint( Paint paint ) {
-        Rectangle rect = getViewBounds();
         super.setPaint( paint );
-        GraphicsUtil.fastRepaint( parent, rect );
+        repaint();
     }
 }

@@ -16,7 +16,7 @@ public class SwingTimerClock extends AbstractClock {
     private long lastTickTime;
 
     public SwingTimerClock( double dt, int delay ) {
-        super( dt, delay, true );
+        this( dt, delay, true );
     }
 
     /**
