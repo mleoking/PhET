@@ -1,10 +1,18 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.view.phetgraphics;
 
-import edu.colorado.phet.common.view.graphics.BoundedGraphic;
+import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.mousecontrols.CompositeMouseInputListener;
+import edu.colorado.phet.common.view.graphics.mousecontrols.CursorControl;
+import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationControl;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.Stack;
 
 /**
@@ -13,7 +21,7 @@ import java.util.Stack;
  * This class manages the current and previous bounds for painting, and whether the region is dirty.
  * Testing.
  */
-public abstract class PhetGraphic implements BoundedGraphic {
+public abstract class PhetGraphic implements InteractiveGraphic {
     private Point location = new Point();
     private Rectangle lastBounds = null;
     private Rectangle bounds = null;
@@ -24,6 +32,11 @@ public abstract class PhetGraphic implements BoundedGraphic {
     private RenderingHints renderingHints;
     private Stack graphicsStates = new Stack();
     private CompositePhetGraphic parent;
+
+    /*A bit of state to facilitate interactivity.*/
+    private CompositeMouseInputListener mouseInputListener = new CompositeMouseInputListener();//delegates to
+    private CursorControl cursorControl;
+    private MouseInputAdapter popupHandler;
 
     protected PhetGraphic( Component component ) {
         this.component = component;
@@ -170,4 +183,95 @@ public abstract class PhetGraphic implements BoundedGraphic {
     public int getY() {
         return getBounds().y;
     }
+
+    /**
+     * Interactivity methods.
+     */
+
+    public void mouseClicked( MouseEvent e ) {
+        if( isVisible() ) {
+            mouseInputListener.mouseClicked( e );
+        }
+    }
+
+    public void mousePressed( MouseEvent e ) {
+        if( isVisible() ) {
+            mouseInputListener.mousePressed( e );
+        }
+    }
+
+    public void mouseReleased( MouseEvent e ) {
+        if( isVisible() ) {
+            mouseInputListener.mouseReleased( e );
+        }
+    }
+
+    public void mouseEntered( MouseEvent e ) {
+        if( isVisible() ) {
+            mouseInputListener.mouseEntered( e );
+        }
+    }
+
+    public void mouseExited( MouseEvent e ) {
+        if( isVisible() ) {
+            mouseInputListener.mouseExited( e );
+        }
+    }
+
+    public void mouseDragged( MouseEvent e ) {
+        if( isVisible() ) {
+            mouseInputListener.mouseDragged( e );
+        }
+    }
+
+    public void mouseMoved( MouseEvent e ) {
+        if( isVisible() ) {
+            mouseInputListener.mouseMoved( e );
+        }
+    }
+
+    public void setCursor( Cursor cursor ) {
+        if( cursor == null && cursorControl != null ) {
+            removeCursor();
+        }
+        if( cursorControl == null ) {
+            cursorControl = new CursorControl( cursor );
+            addMouseInputListener( cursorControl );
+        }
+    }
+
+    public void setCursorHand() {
+        setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+    }
+
+    private void removeCursor() {
+        removeMouseInputListener( cursorControl );
+    }
+
+    private void removeMouseInputListener( MouseInputListener listener ) {
+        mouseInputListener.removeMouseInputListener( listener );
+    }
+
+    private void addMouseInputListener( MouseInputListener listener ) {
+        this.mouseInputListener.addMouseInputListener( listener );
+    }
+
+    public void addTranslationBehavior( Translatable target ) {
+        addMouseInputListener( new TranslationControl( target ) );
+    }
+
+    public void setPopupMenu( final JPopupMenu menu ) {
+        if( popupHandler != null ) {
+            removeMouseInputListener( popupHandler );
+        }
+        popupHandler = new MouseInputAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                if( SwingUtilities.isRightMouseButton( e ) ) {
+                    menu.show( e.getComponent(), e.getX(), e.getY() );
+                }
+            }
+        };
+        addMouseInputListener( popupHandler );
+    }
+
 }
