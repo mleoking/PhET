@@ -8,9 +8,11 @@ package edu.colorado.phet.sound.view;
 
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
+import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.common.view.ApparatusPanel;
 
 import java.awt.geom.Point2D;
+import java.awt.*;
 
 public class SoundApparatusPanel extends ApparatusPanel {
     private int audioSource = SPEAKER_SOURCE;
@@ -31,6 +33,7 @@ public class SoundApparatusPanel extends ApparatusPanel {
 
     public SoundApparatusPanel( SoundModel model ) {
         this.model = model;
+        this.setPreferredSize( new Dimension( 600, SoundConfig.s_speakerBaseY * 3 ));
     }
 
     /**

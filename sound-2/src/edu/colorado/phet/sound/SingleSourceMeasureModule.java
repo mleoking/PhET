@@ -9,12 +9,14 @@ package edu.colorado.phet.sound;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
-import edu.colorado.phet.sound.view.ListenerGraphic;
+import edu.colorado.phet.sound.view.MeasureControlPanel;
+import edu.colorado.phet.sound.view.MeterStickGraphic;
 import edu.colorado.phet.sound.view.VerticalGuideline;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -28,14 +30,15 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         // Add the ruler
         try {
             BufferedImage bi = ImageLoader.loadBufferedImage( SoundConfig.METER_STICK_IMAGE_FILE );
-            PhetImageGraphic ruler = new PhetImageGraphic( getApparatusPanel(), bi );
+            PhetImageGraphic ruler = new PhetImageGraphic( getApparatusPanel(), bi ) {
+                public void repaint() {
+                    // Who knows why this works???????
+                }
+            };
             ruler.setPosition( SoundConfig.s_meterStickBaseX, SoundConfig.s_meterStickBaseY );
             SoundModel model = (SoundModel)getModel();
-//            MeterStickGraphic meterStrickGraphic = new MeterStrickGraphic( model, ruler,
-//                                                            SoundConfig.s_meterStickBaseX, SoundConfig.s_meterStickBaseY,
-//                                                            10, 10,
-//                                                            650, 650 );
-//            this.addGraphic( meterStrickGraphic, 9 );
+            MeterStickGraphic meterStickGraphic = new MeterStickGraphic( ruler, new Point2D.Double( 200, 100 ) );
+            this.addGraphic( meterStickGraphic, 9 );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -45,5 +48,14 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         this.addGraphic( guideline1, 10 );
         VerticalGuideline guideline2 = new VerticalGuideline( getApparatusPanel(), Color.blue, s_guidelineBaseX + 20 );
         this.addGraphic( guideline2, 10 );
+
+        //        RepaintDebugGraphic debugger=new RepaintDebugGraphic( getApparatusPanel(), appModel.getClock() );
+        //        debugger.setActive( true );
+        //        this.addGraphic( debugger, 8);
+
+
+        setControlPanel( new MeasureControlPanel( this, appModel.getClock() ) );
+        //        ClockPanelLarge cpl = new ClockPanelLarge();
+        //        ((SoundControlPanel)getControlPanel()).addPanel( cpl );
     }
 }
