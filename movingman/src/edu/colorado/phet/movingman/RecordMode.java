@@ -21,12 +21,6 @@ public class RecordMode extends Mode {
         module.setCursorsVisible( false );
         int timeIndex = module.getPosition().numSmoothedPoints() - 1;//smoothedPosition.size() - 1;
         module.setReplayTime( timeIndex );
-        module.setAccelerationPlotMagnitude( 75 );
-        module.setVelocityPlotMagnitude( 25 );
-        module.getPositionPlot().setPaintYLines( new double[]{5, 10} );
-        module.getVelocityPlot().setPaintYLines( new double[]{10, 20} );
-        module.getAccelerationPlot().setPaintYLines( new double[]{25, 50} );
-
         module.setNumSmoothingPoints( numRecordSmoothingPoints );
         module.repaintBackground();
     }
@@ -34,7 +28,6 @@ public class RecordMode extends Mode {
     public void stepInTime( double dt ) {
         if( !module.isPaused() ) {
             if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
-//                    moduleTimeFinished();
                 module.setPaused( true );
                 module.getMovingManControlPanel().finishedRecording();
                 return;

@@ -10,13 +10,13 @@ import edu.colorado.phet.movingman.MovingManModule;
  * Copyright (c) Sep 6, 2004 by Sam Reid
  */
 public class PlotsSetup {
-    double positionMagnitude;
-    double velocityMagnitude;
-    double accelerationMagnitude;
+    private double positionMagnitude;
+    private double velocityMagnitude;
+    private double accelerationMagnitude;
 
-    double[] positionLines;
-    double[] velocityLines;
-    double[] accelerationLines;
+    private double[] positionLines;
+    private double[] velocityLines;
+    private double[] accelerationLines;
 
     public PlotsSetup( double positionMagnitude, double positionGridMax,
                        double velocityMagnitude, double velocityGridMax,
@@ -37,9 +37,9 @@ public class PlotsSetup {
     }
 
     public void setup( MovingManModule module ) {
-        module.setPositionPlotMagnitude( positionMagnitude );
-        module.setVelocityPlotMagnitude( velocityMagnitude );
-        module.setAccelerationPlotMagnitude( accelerationMagnitude );
+        module.getPositionPlot().setMagnitude( positionMagnitude );
+        module.getVelocityPlot().setMagnitude( velocityMagnitude );
+        module.getAccelerationPlot().setMagnitude( accelerationMagnitude );
         module.getPositionPlot().setPaintYLines( positionLines );
         module.getVelocityPlot().setPaintYLines( velocityLines );
         module.getAccelerationPlot().setPaintYLines( accelerationLines );

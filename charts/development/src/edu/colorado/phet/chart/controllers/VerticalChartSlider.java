@@ -22,6 +22,7 @@ public class VerticalChartSlider {
     private ArrayList listeners = new ArrayList();
     private boolean visible = false;
     private int numTicks = 1000;
+    public int offsetX = 0;
 
     public VerticalChartSlider( final Chart chart ) {
         this.chart = chart;
@@ -53,15 +54,19 @@ public class VerticalChartSlider {
         } );
     }
 
+    public void setOffsetX( int offsetX ) {
+        this.offsetX = offsetX;
+    }
+
     public void update() {
         Rectangle viewBounds = chart.getViewBounds();
         int x = viewBounds.x;
         int y = viewBounds.y;
         Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
-        int insetGuess = vert.getIconHeight() / 2;
+        int insetYGuess = vert.getIconHeight() / 2;
         //TODO this crashed once with vert=null.
         int dx = vert.getIconWidth();
-        slider.reshape( x - dx, y - insetGuess, slider.getPreferredSize().width, viewBounds.height + insetGuess * 2 );
+        slider.reshape( x - dx - offsetX, y - insetYGuess, slider.getPreferredSize().width, viewBounds.height + insetYGuess * 2 );
     }
 
     public void setVisible( boolean b ) {

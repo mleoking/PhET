@@ -31,6 +31,7 @@ public class Man extends AutomatedObservable {
 
     public void setVelocity( double velocity ) {
         this.velocity = velocity;
+//        System.out.println( "SET velocity = " + velocity );
     }
 
     public boolean isGrabbed() {
@@ -66,14 +67,13 @@ public class Man extends AutomatedObservable {
         double newVelocity = velocity + acceleration * dt;
         double newX = x + velocity * dt;
 
+        if( newX > max || newX < min ) {
+            setVelocity( 0 );
+            setAcceleration( 0 );
+        }
+
         newX = Math.min( newX, max );
         newX = Math.max( newX, min );
-//        if( x == module.getMaxManPosition() ) {
-//            module.getMan().setVelocity( 0 );
-//        }
-//        if( x == -module.getMaxManPosition() ) {
-//            module.getMan().setVelocity( 0 );
-//        }
         setVelocity( newVelocity );
         setX( newX );
     }

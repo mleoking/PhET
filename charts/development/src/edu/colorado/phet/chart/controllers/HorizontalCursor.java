@@ -20,6 +20,35 @@ import java.util.ArrayList;
 public class HorizontalCursor extends DefaultInteractiveGraphic {
     private CursorGraphic cursorGraphic;
     private ArrayList listeners = new ArrayList();
+    private double minX = Double.NEGATIVE_INFINITY;
+    private double maxX = Double.POSITIVE_INFINITY;
+
+    public HorizontalCursor( final Chart chart, Color fillColor, Color outlineColor, int width ) {
+        super( new CursorGraphic( chart, fillColor, outlineColor, width ) );
+        cursorGraphic = (CursorGraphic)super.getGraphic();
+        addCursorHandBehavior();
+        addMouseInputListener( new MouseInputAdapter() {
+            public void mouseDragged( MouseEvent e ) {
+                double newX = chart.getTransform().viewToModelX( e.getX() );
+                newX = Math.max( newX, chart.getRange().getMinX() );
+                newX = Math.min( newX, chart.getRange().getMaxX() );
+                newX = Math.max( newX, minX );
+                newX = Math.min( newX, maxX );
+                if( newX != cursorGraphic.modelX ) {
+                    cursorGraphic.setModelX( newX );
+                    for( int i = 0; i < listeners.size(); i++ ) {
+                        Listener listener = (Listener)listeners.get( i );
+                        listener.modelValueChanged( newX );
+                    }
+                }
+            }
+        } );
+        chart.addListener( new Chart.Listener() {
+            public void transformChanged( Chart chart ) {
+                update();
+            }
+        } );
+    }
 
     public void update() {
         cursorGraphic.update();
@@ -37,29 +66,12 @@ public class HorizontalCursor extends DefaultInteractiveGraphic {
         listeners.add( listener );
     }
 
-    public HorizontalCursor( final Chart chart, Color fillColor, Color outlineColor, int width ) {
-        super( new CursorGraphic( chart, fillColor, outlineColor, width ) );
-        cursorGraphic = (CursorGraphic)super.getGraphic();
-        addCursorHandBehavior();
-        addMouseInputListener( new MouseInputAdapter() {
-            public void mouseDragged( MouseEvent e ) {
-                double newX = chart.getTransform().viewToModelX( e.getX() );
-                newX = Math.max( newX, chart.getRange().getMinX() );
-                newX = Math.min( newX, chart.getRange().getMaxX() );
-                if( newX != cursorGraphic.modelX ) {
-                    cursorGraphic.setModelX( newX );
-                    for( int i = 0; i < listeners.size(); i++ ) {
-                        Listener listener = (Listener)listeners.get( i );
-                        listener.modelValueChanged( newX );
-                    }
-                }
-            }
-        } );
-        chart.addListener( new Chart.Listener() {
-            public void transformChanged( Chart chart ) {
-                update();
-            }
-        } );
+    public void setMinX( double minX ) {
+        this.minX = minX;
+    }
+
+    public void setMaxX( double maxX ) {
+        this.maxX = maxX;
     }
 
     private static class CursorGraphic implements BoundedGraphic {

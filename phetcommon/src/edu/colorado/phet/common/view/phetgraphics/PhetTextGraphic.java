@@ -105,4 +105,12 @@ public class PhetTextGraphic extends PhetGraphic implements IPhetTextGraphic {
         setBoundsDirty();
         repaint();
     }
+
+    public int getHeight() {
+        return getBounds().height;
+    }
+
+    public int getWidth() {
+        return getBounds().width;
+    }
 }
