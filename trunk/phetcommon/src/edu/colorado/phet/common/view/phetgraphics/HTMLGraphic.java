@@ -1,6 +1,8 @@
 package edu.colorado.phet.common.view.phetgraphics;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicHTML;
+import javax.swing.text.View;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -13,7 +15,7 @@ public class HTMLGraphic extends CompositePhetGraphic {
     private Color color;
     private PhetImageGraphic imageGraphic;
 
-    public HTMLGraphic( Component component, String html, Font font, Color color ) {
+    public HTMLGraphic( Component component, Font font, String html, Color color ) {
         super( component );
         this.html = html;
         this.font = font;
@@ -39,47 +41,32 @@ public class HTMLGraphic extends CompositePhetGraphic {
     }
 
     public void update() {
-        imageGraphic.setImage( HTMLRenderFrame.render( color, font, html ) );
+        imageGraphic.setImage( HTMLRenderer.render( color, font, html ) );//TODO if the user is calling update a lot,
+        //todo you may want to reuse the same BufferedImage, instead of reallocating.
         setBoundsDirty();
         autorepaint();
     }
 
-    /**
-     * * Static utility to transform html into BufferedImage for quick rendering.
-     */
-    private static class HTMLRenderFrame {
-        static JFrame frame = new JFrame( "HTML Render Frame (PhET)" );
-        static JPanel content = new JPanel();
+    private static class HTMLRenderer {
 
-        static {
-            frame.setContentPane( content );
-            frame.show();//has to be visible at least once to do rendering (java 1.4.2_07), SRR
-            frame.hide();
-        }
-
-        /**
-         * Static utility to transform html into BufferedImage for quick rendering.
-         * This could fail on some systems, since it uses isShowing() to force rendering.
-         */
         public static BufferedImage render( Color color, Font font, String html ) {
-            JLabel label = new JLabel( html ) {
-                public boolean isShowing() {
-                    return true;
-                }
-            };
+            JLabel label = new JLabel( html );
             label.setFont( font );
             label.setForeground( color );
-            content.add( label );
-            frame.invalidate();
-            frame.validate();
-            frame.repaint();
+            View htmlView = BasicHTML.createHTMLView( label, html );
 
             Dimension dim = label.getPreferredSize();
             BufferedImage image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_ARGB );
             final Graphics2D g = image.createGraphics();
             g.setColor( new Color( 255, 255, 255, 0 ) );//transparent background
-            g.fill( new Rectangle( 0, 0, image.getWidth(), image.getHeight() ) );
-            label.paintAll( g );
+            g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//            g.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY );//this fails.
+            g.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
+            Rectangle s = new Rectangle( dim );
+            g.fill( s );
+            g.setClip( s );
+            htmlView.paint( g, s );
+            //the label should go out of scope, no harm done...
             return image;
         }
     }
