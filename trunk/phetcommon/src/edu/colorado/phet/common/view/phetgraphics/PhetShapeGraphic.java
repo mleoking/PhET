@@ -14,7 +14,7 @@ public class PhetShapeGraphic extends PhetGraphic {
     private Shape shape;
     private Stroke stroke;
     private Paint fill;
-    private Color border;
+    private Paint border;
 
     public PhetShapeGraphic( Component component, Shape shape, Color fill ) {
         super( component );
@@ -53,8 +53,12 @@ public class PhetShapeGraphic extends PhetGraphic {
         return stroke;
     }
 
-    public Color getBorder() {
+    public Paint getBorder() {
         return border;
+    }
+
+    public void setBorderPaint( Paint border ) {
+        this.border = border;
     }
 
     public void paint( Graphics2D g ) {
@@ -71,7 +75,7 @@ public class PhetShapeGraphic extends PhetGraphic {
                     g.fill( shape );
                 }
                 if( stroke != null ) {
-                    g.setColor( border );
+                    g.setPaint( border );
                     Stroke origStroke = g.getStroke();
                     g.setStroke( stroke );
                     g.draw( shape );
@@ -117,7 +121,6 @@ public class PhetShapeGraphic extends PhetGraphic {
         if( differentShape ) {
             this.shape = shape;
             setBoundsDirty();
-            notifyChanged();
             repaint();
         }
     }
