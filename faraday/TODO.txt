@@ -3,13 +3,11 @@
 ===============================================================================
 
 IN PROGRESS:
-- don't recreate coil when emf changes, only when physical coil properties change
-- on/off control for electrons
 - make electrons jump between front & back layers
 - make electrons look different in front and back layers
-- make QuadBezierSpline a subclass of QuadCurve.Double
 
 HIGH PRIORITY:
+- encapulate all rescaling of emf into one place
 - check performance of grid with calc disable & drawing enabled
 - cache grid needles at 1-degree angles to eliminate rotation transform
 - collision detection between compass and magnet
@@ -45,8 +43,13 @@ phetcommon:
 
 DONE:
 v0r12...
-(2/9) - 25% more space between electrons
-(2/9) - add jiggle to voltmeter needle
+(2/10) - make QuadBezierSpline a subclass of QuadCurve.Double
+(2/10) - make electrons move as a function of induced current
+(2/10) - don't recreate coil when emf changes, only when physical coil properties change
+(2/10) - on/off control for electrons
+(2/10) - 25% more space between electrons
+(2/10) - add jiggle to voltmeter needle
+(2/10) - move localization init into SimStrings
 (2/9) - move localization init into PhetApplication
 (2/9) - reposition objects in all modules
 (2/9) - localize mnemonics for menus and menu items

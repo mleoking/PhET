@@ -60,7 +60,7 @@ public class CoilGraphic implements SimpleObserver {
     private boolean _electronAnimationEnabled;
     private Stroke _loopStroke;
     private Color _foregroundColor, _middlegroundColor, _backgroundColor;
-    private ArrayList _paths; // array of QuadBezierSpline
+    private ArrayList _curves; // array of QuadBezierSpline
     private ArrayList _electrons; // array of Electron
     
     // Properties that determine the physical appearance of the coil.
@@ -101,7 +101,7 @@ public class CoilGraphic implements SimpleObserver {
         _middlegroundColor = MIDDLEGROUND_COLOR;
         _backgroundColor = BACKGROUND_COLOR;
         
-        _paths = new ArrayList();
+        _curves = new ArrayList();
         _electrons = new ArrayList();
         
         _numberOfLoops = -1; // force update
@@ -315,7 +315,7 @@ public class CoilGraphic implements SimpleObserver {
         _background.clear();
         
         // Clear the parametric path list.
-        _paths.clear();
+        _curves.clear();
         
         // Remove electrons from the model.
         for ( int i = 0; i < _electrons.size(); i ++ ) {
@@ -343,19 +343,16 @@ public class CoilGraphic implements SimpleObserver {
             if ( i == 0 ) {
                 // Left connection wire
                 {
-                    Point end1 = new Point( -loopSpacing / 2 + xOffset, (int) -radius ); // lower
-                    Point end2 = new Point( end1.x - 15, end1.y - 40 ); // upper
-                    Point control = new Point( end1.x - 20, end1.y - 20 );
-                    QuadCurve2D.Double curve = new QuadCurve2D.Double();
-                    curve.setCurve( end1, control, end2 );
-                    
+                    Point endPoint = new Point( -loopSpacing / 2 + xOffset, (int) -radius ); // lower
+                    Point startPoint = new Point( endPoint.x - 15, endPoint.y - 40 ); // upper
+                    Point controlPoint = new Point( endPoint.x - 20, endPoint.y - 20 );
+                    QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
                     if ( ELECTRONS_IN_BACK ) {
-                        QuadBezierSpline path = new QuadBezierSpline( end2, control, end1 );
-                        _paths.add( path );
+                        _curves.add( curve );
                     }
                     
                     // Horizontal gradient, left to right.
-                    Paint paint = new GradientPaint( end2.x, 0, _middlegroundColor, end1.x, 0, _backgroundColor );
+                    Paint paint = new GradientPaint( startPoint.x, 0, _middlegroundColor, endPoint.x, 0, _backgroundColor );
                     
                     PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                     shapeGraphic.setShape( curve );
@@ -366,15 +363,12 @@ public class CoilGraphic implements SimpleObserver {
                 
                 // Back top (left-most)
                 {
-                    Point end1 = new Point( -loopSpacing / 2 + xOffset, (int) -radius ); // upper
-                    Point end2 = new Point( (int) ( radius * .25 ) + xOffset, 0 ); // lower
-                    Point control = new Point( (int) ( radius * .15 ) + xOffset, (int) ( -radius * .70 ) );
-                    QuadCurve2D.Double curve = new QuadCurve2D.Double();
-                    curve.setCurve( end1, control, end2 );
-                    
+                    Point startPoint = new Point( -loopSpacing / 2 + xOffset, (int) -radius ); // upper
+                    Point endPoint = new Point( (int) ( radius * .25 ) + xOffset, 0 ); // lower
+                    Point controlPoint = new Point( (int) ( radius * .15 ) + xOffset, (int) ( -radius * .70 ) );
+                    QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
                     if ( ELECTRONS_IN_BACK ) {
-                        QuadBezierSpline path = new QuadBezierSpline( end1, control, end2 );
-                        _paths.add( path );
+                        _curves.add( curve );
                     }
                     
                     Paint paint = _backgroundColor;
@@ -388,19 +382,16 @@ public class CoilGraphic implements SimpleObserver {
             }
             else {
                 // Back top
-                Point end1 = new Point( -loopSpacing + xOffset, (int)-radius ); // upper
-                Point end2 = new Point( (int)(radius * .25) + xOffset, 0 ); // lower
-                Point control = new Point( (int)(radius * .15) + xOffset, (int)(-radius * 1.20));
-                QuadCurve2D.Double curve = new QuadCurve2D.Double();
-                curve.setCurve( end1, control, end2 );
-                
+                Point startPoint = new Point( -loopSpacing + xOffset, (int)-radius ); // upper
+                Point endPoint = new Point( (int)(radius * .25) + xOffset, 0 ); // lower
+                Point controlPoint = new Point( (int)(radius * .15) + xOffset, (int)(-radius * 1.20));
+                QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
                 if ( ELECTRONS_IN_BACK ) {
-                    QuadBezierSpline path = new QuadBezierSpline( end1, control, end2 );
-                    _paths.add( path );
+                    _curves.add( curve );
                 }
                 
                 // Diagonal gradient, upper left to lower right.
-                Paint paint = new GradientPaint( (int)(end1.x + (radius * .10)), (int)-(radius), _middlegroundColor, xOffset, (int)-(radius * 0.92), _backgroundColor );
+                Paint paint = new GradientPaint( (int)(startPoint.x + (radius * .10)), (int)-(radius), _middlegroundColor, xOffset, (int)-(radius * 0.92), _backgroundColor );
                 
                 PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( _component );
                 shapeGraphic.setShape( curve );
@@ -411,15 +402,12 @@ public class CoilGraphic implements SimpleObserver {
             
             // Back bottom
             {  
-                Point end1 = new Point( (int)(radius * .25) + xOffset, 0 ); // upper
-                Point end2 = new Point( xOffset, (int) radius ); // lower
-                Point control = new Point( (int)(radius * .35) + xOffset, (int)(radius * 1.20) );
-                QuadCurve2D.Double curve = new QuadCurve2D.Double();
-                curve.setCurve( end1, control, end2 );
-                
+                Point startPoint = new Point( (int)(radius * .25) + xOffset, 0 ); // upper
+                Point endPoint = new Point( xOffset, (int) radius ); // lower
+                Point controlPoint = new Point( (int)(radius * .35) + xOffset, (int)(radius * 1.20) );
+                QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
                 if ( ELECTRONS_IN_BACK ) {
-                    QuadBezierSpline path = new QuadBezierSpline( end1, control, end2 );
-                    _paths.add( path );
+                    _curves.add( curve );
                 }
                 
                 // Vertical gradient, upper to lower
@@ -434,14 +422,11 @@ public class CoilGraphic implements SimpleObserver {
             
             // Front bottom
             {
-                Point end1 = new Point( (int) ( -radius * .25 ) + xOffset, 0 ); // upper
-                Point end2 = new Point( xOffset, (int) radius ); // lower
-                Point control = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( radius * 0.80 ) );
-                QuadCurve2D.Double curve = new QuadCurve2D.Double();
-                curve.setCurve( end1, control, end2 );
-                
-                QuadBezierSpline path = new QuadBezierSpline( end2, control, end1 );
-                _paths.add( path );
+                Point startPoint = new Point( xOffset, (int) radius ); // lower
+                Point endPoint = new Point( (int) ( -radius * .25 ) + xOffset, 0 ); // upper
+                Point controlPoint = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( radius * 0.80 ) );
+                QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
+                _curves.add( curve );
                 
                 // Horizontal gradient, left to right
                 Paint paint = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
@@ -455,14 +440,11 @@ public class CoilGraphic implements SimpleObserver {
 
             // Front top
             {
-                Point end1 = new Point( xOffset, (int) -radius ); // upper
-                Point end2 = new Point( (int) ( -radius * .25 ) + xOffset, 0 ); // lower
-                Point control = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( -radius * 0.80) );
-                QuadCurve2D.Double curve = new QuadCurve2D.Double();
-                curve.setCurve( end1, control, end2 );
-                
-                QuadBezierSpline path = new QuadBezierSpline( end2, control, end1 );
-                _paths.add( path );
+                Point startPoint = new Point( (int) ( -radius * .25 ) + xOffset, 0 ); // lower
+                Point endPoint = new Point( xOffset, (int) -radius ); // upper
+                Point controlPoint = new Point( (int) ( -radius * .25 ) + xOffset, (int) ( -radius * 0.80) );
+                QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
+                _curves.add( curve );
                 
                 // Horizontal gradient, left to right
                 Paint paint = new GradientPaint( (int)(-radius * .25) + xOffset, 0, _foregroundColor, (int)(-radius * .15) + xOffset, 0, _middlegroundColor );
@@ -476,14 +458,11 @@ public class CoilGraphic implements SimpleObserver {
             
             // Right connection wire
             if ( i == numberOfLoops - 1 ) {
-                Point end1 = new Point( xOffset, (int) -radius ); // lower
-                Point end2 = new Point( end1.x + 15, end1.y - 40 ); // upper
-                Point control = new Point( end1.x + 20, end1.y - 20 );
-                QuadCurve2D.Double curve = new QuadCurve2D.Double();
-                curve.setCurve( end1, control, end2 );
-                
-                QuadBezierSpline path = new QuadBezierSpline( end1, control, end2 );
-                _paths.add( path );
+                Point startPoint = new Point( xOffset, (int) -radius ); // lower
+                Point endPoint = new Point( startPoint.x + 15, startPoint.y - 40 ); // upper
+                Point controlPoint = new Point( startPoint.x + 20, startPoint.y - 20 );
+                QuadBezierSpline curve = new QuadBezierSpline( startPoint, controlPoint, endPoint );
+                _curves.add( curve );
                 
                 Paint paint = _middlegroundColor;
                 
@@ -498,16 +477,19 @@ public class CoilGraphic implements SimpleObserver {
         // Add electrons.
         final int numberOfElectrons = (int) ( radius / 25 );
         final double speed = calculateElectronSpeed();
-        for ( int j = 0; j < _paths.size(); j++ ) {
+        for ( int j = 0; j < _curves.size(); j++ ) {
             for ( int i = 0; i < numberOfElectrons; i++ ) {
+                
+                // Model
                 Electron electron = new Electron();
-                electron.setCurves( _paths );
+                electron.setCurves( _curves );
                 electron.setCurveLocation( j, i / (double) numberOfElectrons );
                 electron.setSpeed( speed );
                 electron.setEnabled( _electronAnimationEnabled );
                 _electrons.add( electron );
                 _baseModel.addModelElement( electron );
 
+                // View
                 ElectronGraphic electronGraphic = new ElectronGraphic( _component, electron );
                 _foreground.addGraphic( electronGraphic );
             }
