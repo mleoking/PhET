@@ -23,12 +23,27 @@ import edu.colorado.phet.faraday.FaradayConfig;
  */
 public class SourceCoil extends AbstractCoil implements SimpleObserver {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private AbstractVoltageSource _voltageSource;
     
+    //----------------------------------------------------------------------------
+    // Constructors & finalizers
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor.
+     */
     public SourceCoil() {
         super();
     }
     
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void finalize() {
         if ( _voltageSource != null ) {
             _voltageSource.removeObserver( this );
@@ -36,6 +51,15 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the voltage source attached to the coil.
+     * 
+     * @param voltageSource
+     */
     public void setVoltageSource( AbstractVoltageSource voltageSource ) {
         assert( voltageSource != null );
         if ( voltageSource != _voltageSource ) {
@@ -49,13 +73,29 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
         }
     }
     
+    /**
+     * Gets the voltage source attached to the coil.
+     * 
+     * @return the voltage source
+     */
     public AbstractVoltageSource getVoltageSource() {
         return _voltageSource;
     }
 
+    //----------------------------------------------------------------------------
+    // SpacialObserver overrides
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Ensure that the coil is updated when inherited setters are called.
+     */
     protected void updateSelf() {
         update();
     }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
     
     /*
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
