@@ -14,9 +14,9 @@ import java.awt.image.BufferedImage;
  */
 public class TargetedImageGraphic implements Graphic {
     BufferedImage image;
-    private Rectangle2D.Double modelBounds;
+    private Rectangle2D modelBounds;
 
-    public TargetedImageGraphic( BufferedImage image, Rectangle2D.Double modelBounds ) {
+    public TargetedImageGraphic( BufferedImage image, Rectangle2D modelBounds ) {
         this.image = image;
         this.modelBounds = modelBounds;
     }
@@ -24,7 +24,7 @@ public class TargetedImageGraphic implements Graphic {
     public void paint( Graphics2D g ) {
         g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        AffineTransform at = AffineTransform.getTranslateInstance( modelBounds.x, modelBounds.y );
+        AffineTransform at = AffineTransform.getTranslateInstance( modelBounds.getX(), modelBounds.getY() );
         double sx = modelBounds.getWidth() / image.getWidth();
         double sy = modelBounds.getHeight() / image.getHeight();
         at.scale( sx, -sy );
