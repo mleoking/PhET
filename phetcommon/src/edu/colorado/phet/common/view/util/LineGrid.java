@@ -28,16 +28,18 @@ public class LineGrid extends PhetGraphic implements ApparatusPanel2.ChangeListe
     private Stroke stroke;
     private double alpha = 1;
 
-    public LineGrid( Component component, int dx, int dy, Color color ) {
+    public LineGrid( ApparatusPanel2 component, int dx, int dy, Color color ) {
         this( component, dx, dy, color, defaultStroke );
     }
 
-    public LineGrid( Component component, int dx, int dy, Color color, Stroke stroke ) {
+    public LineGrid( ApparatusPanel2 component, int dx, int dy, Color color, Stroke stroke ) {
         super( component );
         this.dx = dx;
         this.dy = dy;
         this.color = color;
         this.stroke = stroke;
+
+        setCanvasSize( component.getCanvasSize() );
     }
 
     public void setStroke( Stroke stroke ) {
