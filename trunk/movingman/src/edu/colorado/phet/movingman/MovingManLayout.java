@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class MovingManLayout {
     private int plotInsetRight = 13;
-    private int walkwayHeight = 100;
+    private int walkwayHeight = 150;
     private int topInset = 20;
     private int walkwayBottomInset = 55;
     private int spaceBetweenPlots = 20;
@@ -191,12 +191,21 @@ public class MovingManLayout {
     }
 
     public void relayout() {
+        int walkwayInsetX = 25;
         verticalLayout.layout();
         int manInset = 50;
         LinearTransform1d oldTransform = module.getManPositionTransform();
         LinearTransform1d manGraphicTransform = new LinearTransform1d( oldTransform.getMinInput(), oldTransform.getMaxInput(), manInset, panel.getWidth() - manInset );
-        module.getManGraphic().setTransform( manGraphicTransform );
-        module.setManTransform( manGraphicTransform );
+        if( module.getManGraphic() != null ) {
+            module.getManGraphic().setTransform( manGraphicTransform );
+            module.setManTransform( manGraphicTransform );
+            module.getManGraphic().setY( walkwayHeight - module.getManGraphic().getHeight() );
+        }
+        if( module.getWalkwayGraphic() != null ) {
+            WalkWayGraphic wa = module.getWalkwayGraphic();
+            wa.setBounds( walkwayInsetX, 0, panel.getWidth() - walkwayInsetX * 2, walkwayHeight );
+        }
+
     }
 
 }
