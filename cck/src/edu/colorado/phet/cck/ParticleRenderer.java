@@ -24,7 +24,6 @@ public class ParticleRenderer implements Graphic {
     }
 
     public void paint(Graphics2D g) {
-
         for (int i = 0; i < particleSet.numParticles(); i++) {
             BranchParticle bp = particleSet.particleAt(i);
             double distFromEnd = bp.getDistanceFromClosestJunction();
