@@ -19,6 +19,8 @@ public class AbsoluteFrameSetup implements FrameSetup {
         this.height = height;
     }
 
+    // todo: add test to see that the requested dimensions aren't
+    // bigger than the screen
     public void initialize( JFrame frame ) {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = tk.getScreenSize();

@@ -6,7 +6,9 @@
  */
 package edu.colorado.phet.common.view.graphics.transforms;
 
-import edu.colorado.phet.common.math.PhetVector;
+//import edu.colorado.phet.common.math.PhetVector;
+
+import edu.colorado.phet.common.math.ImmutableVector2D;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -50,7 +52,7 @@ public class ModelViewTransform2D {
         return modelToView( pt.x, pt.y );
     }
 
-    public Point modelToView( PhetVector pt ) {
+    public Point modelToView( ImmutableVector2D pt ) {
         return modelToView( pt.toPoint2D() );
     }
 

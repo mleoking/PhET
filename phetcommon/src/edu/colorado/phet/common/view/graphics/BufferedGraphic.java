@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, PhET, 2003.*/
 package edu.colorado.phet.common.view.graphics;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -12,10 +12,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
 /**
- * User: Sam Reid
- * Date: Feb 21, 2004
- * Time: 1:15:56 AM
- * Copyright (c) Feb 21, 2004 by Sam Reid
+ * This facilitates using Graphic objects to draw into a BufferedImage.
  */
 public class BufferedGraphic implements Graphic {
     BufferedImage buffer;

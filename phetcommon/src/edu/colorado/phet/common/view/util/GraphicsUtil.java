@@ -19,6 +19,18 @@ import java.util.Enumeration;
 
 public class GraphicsUtil {
 
+
+    public static void fastRepaint( Component parent, Rectangle bounds ) {
+        if( bounds != null ) {
+            parent.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
+        }
+    }
+
+    public static void fastRepaint( Component parent, Rectangle orig, Rectangle newRect ) {
+        fastRepaint( parent, orig );
+        fastRepaint( parent, newRect );
+    }
+
     /**
      * Sets the alpha for a Graphics2D
      *
@@ -97,8 +109,8 @@ public class GraphicsUtil {
     /**
      * This method turns Java strings into HTML that is Java-printable. The primary
      * use of this is to put line breaks in messages with '\n' characters.
-     *
-     * @todo rename
+     * <p/>
+     * todo rename
      */
     public static String formatMessage( String msg ) {
         StringBuffer outString = new StringBuffer( "<html>" );
@@ -151,7 +163,7 @@ public class GraphicsUtil {
     }
 
 
-    // This method maximized a frame; the iconified bit is not affected.
+    // This method maximizes a frame; the iconified bit is not affected.
     public static void maximizeFrame( Frame frame ) {
         int state = frame.getExtendedState();
         // Set the maximized bits
@@ -196,7 +208,7 @@ public class GraphicsUtil {
      * @param menuBar
      * @param index
      * @return The same JMenuBar, for cascading.
-     * @todo See if the same thing can be done with Container.add( component, index )
+     *         todo See if the same thing can be done with Container.add( component, index )
      */
     public static JMenuBar addMenuAt( JMenu newMenu, JMenuBar menuBar, int index ) {
 

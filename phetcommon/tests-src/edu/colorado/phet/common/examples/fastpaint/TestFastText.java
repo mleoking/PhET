@@ -52,7 +52,7 @@ public class TestFastText {
                         //                        ft.setPaint( color );
                         ft.setLocation( ( (float)ft.getLocation().getX() + 2 ) % 600,
                                         ( (float)ft.getLocation().getY() + 2 ) % 600 );
-                        ap.repaint();
+                        //                        ap.repaint();
                     }
                     catch( InterruptedException e ) {
                         e.printStackTrace();

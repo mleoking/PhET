@@ -11,11 +11,11 @@ import java.awt.image.BufferedImage;
  * Time: 12:35:20 AM
  * Copyright (c) Jan 2, 2004 by Sam Reid
  */
-public class SimpleBufferedImageGraphic implements BoundedGraphic {
+public class BufferedImageGraphic implements BoundedGraphic {
     BufferedImage image;
     AffineTransform transform = new AffineTransform();
 
-    public SimpleBufferedImageGraphic( BufferedImage image ) {
+    public BufferedImageGraphic( BufferedImage image ) {
         this.image = image;
         if( image == null ) {
             throw new RuntimeException( "Null image." );
@@ -26,7 +26,7 @@ public class SimpleBufferedImageGraphic implements BoundedGraphic {
         this.image = image;
     }
 
-    public SimpleBufferedImageGraphic( BufferedImage image, AffineTransform transform ) {
+    public BufferedImageGraphic( BufferedImage image, AffineTransform transform ) {
         this.image = image;
         this.transform = transform;
     }

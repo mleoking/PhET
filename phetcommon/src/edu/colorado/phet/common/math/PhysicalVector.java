@@ -11,8 +11,6 @@ package edu.colorado.phet.common.math;
  * This class represents mathmatical vectors. It has package visibility,
  * and is intended to be subclassed to represent vectors of specific
  * dimensionalities.
- *
- * @see edu.colorado.phet.common.math.Vector2D
  */
 public class PhysicalVector {
 
