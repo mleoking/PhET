@@ -94,7 +94,7 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
             arrow.drawLine( g, ideaCenter.x, ideaCenter.y, x - currentImage.getWidth() / 2, y + currentImage.getHeight() / 2 );
 
             Point motionCenter = motionIdea.getImageCenter();
-            motionArrow.drawLine( g, motionCenter.x, motionCenter.y, module.getApparatusPanel().getWidth(), 25 );
+            motionArrow.drawLine( g, motionCenter.x, motionCenter.y, module.getApparatusPanel().getWidth(), 85 );
 
         }
         cb.addPoint( x - lastx );

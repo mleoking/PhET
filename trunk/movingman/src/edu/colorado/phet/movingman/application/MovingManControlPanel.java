@@ -6,13 +6,14 @@ import edu.colorado.phet.movingman.application.motionandcontrols.AccelAndControl
 import edu.colorado.phet.movingman.application.motionandcontrols.LinearAndPanel;
 import edu.colorado.phet.movingman.application.motionandcontrols.MotionAndControls;
 import edu.colorado.phet.movingman.application.motionandcontrols.OscillateAndPanel;
+import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.common.plaf.PlafUtil;
 import edu.colorado.phet.movingman.elements.DataSeries;
 import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.StepMotion;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -39,7 +40,6 @@ public class MovingManControlPanel extends JPanel {
     MotionAndControls selectedMotion;
     private MotionActivation mact;
     private JButton slowMotion;
-//    private JComboBox comboBox;
     private ActionListener manualSetup;
     private String recordMouseString;
     private ArrayList motionButtons;
@@ -73,8 +73,8 @@ public class MovingManControlPanel extends JPanel {
         };
 
         mact = new MotionActivation( module );
-        JPanel jp = new JPanel();
-        jp.add( new JLabel( "No controls.  Click 'Run Motion' to start standing still." ) );
+        JPanel standStillPanel = new JPanel();
+        standStillPanel.add( new JLabel( "<html>No controls.<br>Click 'Run Motion' <br>to start standing still.</html>" ) );
 
         setSize( preferred );
         setPreferredSize( preferred );
@@ -163,7 +163,7 @@ public class MovingManControlPanel extends JPanel {
         boxes.add( positionBox );
         boxes.add( velocityBox );
         boxes.add( accelerationBox );
-        boxes.setBorder( BorderFactory.createTitledBorder( "Show Plots" ) );
+        boxes.setBorder( PhetLookAndFeel.createSmoothBorder( "Show Plots" ) );
         add( boxes, BorderLayout.SOUTH );
 
         startMotion = new JButton( "Go!", playIcon );
@@ -214,7 +214,7 @@ public class MovingManControlPanel extends JPanel {
                 startMotion.setEnabled( true );
             }
         } );
-        TitledBorder tb = BorderFactory.createTitledBorder( "Initial Position" );
+        Border tb = PhetLookAndFeel.createSmoothBorder( "Initial Position" );
 
         initialPositionSpinner.setBorder( tb );
         add( panel, BorderLayout.NORTH );
@@ -236,7 +236,7 @@ public class MovingManControlPanel extends JPanel {
             }
         } );
 
-        MotionAndControls still = new MotionAndControls( stay, jp ) {
+        MotionAndControls still = new MotionAndControls( stay, standStillPanel ) {
             public void collidedWithWall() {
             }
         };
@@ -249,7 +249,7 @@ public class MovingManControlPanel extends JPanel {
         };
 
         JPanel motionPanel = new JPanel();
-        motionPanel.setBorder( BorderFactory.createTitledBorder( "Motions" ) );
+        motionPanel.setBorder( PhetLookAndFeel.createSmoothBorder( "Motions" ) );
 
         motionPanel.setLayout( new BoxLayout( motionPanel, BoxLayout.Y_AXIS ) );
 
@@ -278,8 +278,13 @@ public class MovingManControlPanel extends JPanel {
         for( int i = 0; i < motions.length; i++ ) {
             motionButtons.add( new JRadioButton( motions[i].toString() ) );
         }
+
+        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
+        JLabel phetIconLabel = new JLabel( imageIcon );
+//        motionPanel.add( new JLabel( imageIcon ) );
         for( int i = 0; i < motionButtons.size(); i++ ) {
             JRadioButton jRadioButton = (JRadioButton)motionButtons.get( i );
+
             motionPanel.add( jRadioButton );
             bg.add( jRadioButton );
             jRadioButton.addActionListener( changeListener );
@@ -310,7 +315,7 @@ public class MovingManControlPanel extends JPanel {
                 MovingManModule.FRAME.setExtendedState( JFrame.MAXIMIZED_BOTH );
             }
         } ).start();
-
+        northPanel.add( phetIconLabel );
         northPanel.add( motionPanel );
         final JCheckBox invertAxes = new JCheckBox( "Invert X-Axis", false );
         invertAxes.addActionListener( new ActionListener() {

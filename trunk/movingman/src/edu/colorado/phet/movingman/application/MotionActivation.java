@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +35,32 @@ public class MotionActivation {
             dialog = null;
         }
         dialog = new JDialog( (Frame)SwingUtilities.getWindowAncestor( module.getApparatusPanel() ), "Controls", false );
+        dialog.addWindowFocusListener( new WindowFocusListener() {
+            public void windowGainedFocus( WindowEvent e ) {
+                repaintLater();
+            }
+
+            public void windowLostFocus( WindowEvent e ) {
+            }
+        } );
+        dialog.addWindowListener( new WindowAdapter() {
+            public void windowActivated( WindowEvent e ) {
+                repaintNowAndLater();
+            }
+
+            public void windowGainedFocus( WindowEvent e ) {
+                repaintNowAndLater();
+            }
+
+            public void windowOpened( WindowEvent e ) {
+                repaintNowAndLater();
+            }
+
+            public void windowDeiconified( WindowEvent e ) {
+                repaintNowAndLater();
+
+            }
+        } );
         dialogs.add( dialog );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
@@ -83,6 +110,39 @@ public class MotionActivation {
         mac.initialize( module.getMan() );
         module.setPauseMode();
         SwingUtilities.updateComponentTreeUI( dialog );
+        repaintDialog();
+        repaintLater();
+    }
+
+    private void repaintNowAndLater() {
+        repaintDialog();
+        repaintLater();
+    }
+
+    private void repaintLater() {
+        Thread t = new Thread( new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep( 150 );
+                    repaintDialog();
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
+        t.start();
+
+    }
+
+    private void repaintDialog() {
+        dialog.invalidate();
+        dialog.validate();
+        dialog.repaint();
+        Container pan = dialog.getContentPane();
+        pan.invalidate();
+        pan.validate();
+        pan.repaint();
     }
 
     private void moveRight( JDialog dialog ) {

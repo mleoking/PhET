@@ -2,11 +2,12 @@ package edu.colorado.phet.movingman.application.motionandcontrols;
 
 import edu.colorado.phet.common.view.graphics.TransformSlider;
 import edu.colorado.phet.movingman.application.MovingManModule;
+import edu.colorado.phet.movingman.common.PhetLookAndFeel;
 import edu.colorado.phet.movingman.elements.stepmotions.StepMotion;
 import edu.colorado.phet.movingman.elements.stepmotions.WalkMotion;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -54,7 +55,7 @@ public class LinearAndPanel extends MotionAndControls {
         JPanel velocityPanel = new JPanel();
         velocityPanel.setLayout( new BoxLayout( velocityPanel, BoxLayout.Y_AXIS ) );
         velocityPanel.add( velocitySpinner );
-        TitledBorder tb = BorderFactory.createTitledBorder( "Velocity" );
+        Border tb = PhetLookAndFeel.createSmoothBorder( "Velocity" );
         velocityPanel.setBorder( tb );
 
         controlPanel.add( velocityPanel );
