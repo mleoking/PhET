@@ -61,6 +61,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
         appDesc.setClock( clock );
         //        app.startApplication( multipleNucleusFissionModule );
         //        app.startApplication( singleNucleusFissionModule );
+        appDesc.setFrameSetup( new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) ) );
 
         NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc );
         try {
@@ -71,9 +72,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
         }
     }
 
-
-    public static class NuclearAppLookAndFeel extends LandF {
-        //    public static class NuclearAppLookAndFeel extends LectureLookAndFeel {
+    private static class NuclearAppLookAndFeel extends LandF {
         static Color backgroundColor = new Color( 60, 80, 60 );
         static Color buttonBackgroundColor = new Color( 100, 120, 60 );
         static Color controlTextColor = new Color( 230, 230, 230 );
@@ -81,22 +80,6 @@ public class NuclearPhysicsApplication extends PhetApplication {
 
         public NuclearAppLookAndFeel() {
             super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
-        }
-
-        protected void initComponentDefaults( UIDefaults table ) {
-
-            super.initComponentDefaults( table );
-            Font baseFont = (Font)table.get( "Label.font" );
-            Color color = (Color)table.get( "Label.foreground" );
-            Font font = new Font( baseFont.getName(), baseFont.getStyle(), 14 );
-            Object[] defaults = {
-                "TextField.font", font
-                , "Spinner.font", font
-                , "FormattedTextField.font", font
-                , "TitledBorder.font", font
-                , "TitledBorder.titleColor", color
-            };
-            table.putDefaults( defaults );
         }
     }
 

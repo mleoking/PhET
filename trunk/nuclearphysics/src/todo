@@ -5,5 +5,4 @@
 - counters on multiple nucleus panel aren't right
 - listeners and leaveSystem() implementations are spread around in odd places
 - graphics don't scale
-- tiled size of frame needs to be set
 - is more than one kaboom being made per fission?
