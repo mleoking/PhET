@@ -9,6 +9,7 @@ import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
@@ -78,6 +79,7 @@ public class MMPlot extends PhetGraphic {
     private PhetTextGraphic superScriptGraphic;
     private Font verticalTitleFont = MMFontManager.getFontSet().getVerticalTitleFont();
     private ArrayList listeners = new ArrayList();
+    private HTMLGraphic readoutUnits;
 
     public void valueChanged( double value ) {
         verticalChartSlider.setValue( value );
@@ -86,7 +88,8 @@ public class MMPlot extends PhetGraphic {
 
     public void addSuperScript( String s ) {
         Font superScriptFont = new Font( "Lucida Sans", Font.BOLD, 12 );
-        superScriptGraphic = new PhetTextGraphic( module.getApparatusPanel(), superScriptFont, s, color, 330, 230 );
+//        superScriptGraphic = new PhetTextGraphic( module.getApparatusPanel(), superScriptFont, s, color, 330, 230 );
+        superScriptGraphic = new PhetTextGraphic( module.getApparatusPanel(), superScriptFont, s, color, 330, 200 );
         module.getApparatusPanel().addGraphic( superScriptGraphic, 999 );
     }
 
@@ -208,7 +211,8 @@ public class MMPlot extends PhetGraphic {
         }
     }
 
-    public MMPlot( String title, final MovingManModule module, final DataSeries series, MMTimer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, BufferedGraphicForComponent buffer, double xShift, String units, String labelStr )
+    public MMPlot( String title, final MovingManModule module, final DataSeries series, MMTimer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, BufferedGraphicForComponent buffer, double xShift,
+                   String units, String labelStr )
             throws IOException {
         super( module.getApparatusPanel() );
         this.units = units;
@@ -290,8 +294,12 @@ public class MMPlot extends PhetGraphic {
 
         readout = new PhetTextGraphic( module.getApparatusPanel(), readoutFont, title + " = ", color, 100, 100 );
         module.getApparatusPanel().addGraphic( readout, 10000 );
+//        readoutValue = new HTMLGraphic( module.getApparatusPanel(), readoutFont, units, color );
+//        readoutValue.setLocation( 100, 100 );
         readoutValue = new PhetTextGraphic( module.getApparatusPanel(), readoutFont, units, color, 100, 100 );
+        readoutUnits = new HTMLGraphic( module.getApparatusPanel(), readoutFont, units, color );
         module.getApparatusPanel().addGraphic( readoutValue, 10000 );
+        module.getApparatusPanel().addGraphic( readoutUnits, 10000 );
         textBox = new TextBox( module, 5, labelStr );
         textBox.setHorizontalAlignment( JTextField.RIGHT );
 
@@ -351,8 +359,9 @@ public class MMPlot extends PhetGraphic {
         if( !textBox.getText().equals( valueString ) ) {
             textBox.setText( valueString );
         }
-        readoutValue.setText( valueString + " " + units );
-        moveScript();
+        readoutValue.setText( valueString + " " );// + units );
+        setUnitsLocation();
+//        moveScript();
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.nominalValueChanged( value );
@@ -766,7 +775,8 @@ public class MMPlot extends PhetGraphic {
 
         readout.setLocation( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 );
         readoutValue.setLocation( readout.getX() + readout.getWidth() + 5, readout.getY() );
-        moveScript();
+        setUnitsLocation();
+//        moveScript();
 
         int floaterX = 5;
 
@@ -782,11 +792,10 @@ public class MMPlot extends PhetGraphic {
         refitCurve();
     }
 
-    private void moveScript() {
-        if( superScriptGraphic != null ) {
-            Rectangle b = readoutValue.getBounds();
-            superScriptGraphic.setLocation( b.x + b.width, b.y + b.height / 2 );
-        }
+    private void setUnitsLocation() {
+        int yBottom = readoutValue.getY() + readoutValue.getHeight();
+        int y = yBottom - readoutUnits.getHeight();
+        readoutUnits.setLocation( readoutValue.getWidth() + readoutValue.getX(), y );
     }
 
     public void update() {

@@ -49,7 +49,7 @@ public class MovingManControlPanel extends JPanel {
         } );
 
         VerticalLayoutPanel northPanel = new VerticalLayoutPanel();
-        final JMenu viewMenu = new JMenu( SimStrings.get( "MovingManControlPanel.ViewMenu" ) );
+//        final JMenu viewMenu = new JMenu( SimStrings.get( "MovingManControlPanel.ViewMenu" ) );
 //        JMenuItem[] items = PlafUtil.getLookAndFeelItems();
 //        for( int i = 0; i < items.length; i++ ) {
 //            JMenuItem item = items[i];
@@ -66,7 +66,7 @@ public class MovingManControlPanel extends JPanel {
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
-                module.getFrame().getJMenuBar().add( viewMenu );
+//                module.getFrame().getJMenuBar().add( viewMenu );
                 module.getFrame().setExtendedState( JFrame.MAXIMIZED_HORIZ );
                 module.getFrame().setExtendedState( JFrame.MAXIMIZED_BOTH );
             }
