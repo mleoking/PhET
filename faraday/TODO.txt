@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- fix electron density in coil ends
+- when electrons jump between curves, they sometimes end up in the wrong position
 
 HIGH PRIORITY:
 - loop radius should be displayed as loop area
@@ -44,6 +44,7 @@ phetcommon:
 
 DONE:
 v0r13...
+(2/14) - fix electron density in coil ends
 v0r12...
 (2/10) - make electrons jump between front & back layers
 (2/10) - make electrons look different in front and back layers
