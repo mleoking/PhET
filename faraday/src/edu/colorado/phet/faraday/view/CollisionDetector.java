@@ -37,6 +37,9 @@ public class CollisionDetector {
     // The object that we might collide with.
     private HashSet _collidables;
     
+    // Proposed bounds for moving the object.
+    private Rectangle _proposedBounds;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -49,6 +52,7 @@ public class CollisionDetector {
     public CollisionDetector( ICollidable object ) {
         _object = object;
         _collidables = new HashSet();
+        _proposedBounds = new Rectangle();
     }
     
     //----------------------------------------------------------------------------
@@ -126,11 +130,11 @@ public class CollisionDetector {
         boolean collides = false;
         Rectangle[] bounds = _object.getCollisionBounds();
         for ( int j = 0; j < bounds.length && collides == false; j++ ) {
-            Rectangle proposedBounds = new Rectangle( bounds[j].x + dx, bounds[j].y + dy, bounds[j].width, bounds[j].height );
+            _proposedBounds.setBounds( bounds[j].x + dx, bounds[j].y + dy, bounds[j].width, bounds[j].height );
             Rectangle[] collisionBounds = candidate.getCollisionBounds();
             if ( collisionBounds != null ) {
                 for ( int i = 0; i < collisionBounds.length && collides == false; i++ ) {
-                    if ( proposedBounds.intersects( collisionBounds[i] ) ) {
+                    if ( _proposedBounds.intersects( collisionBounds[i] ) ) {
                         collides = true;
                     }
                 }
