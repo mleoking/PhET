@@ -16,10 +16,8 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.lasers.controller.module.MultipleAtomThreeLevelModule;
-import edu.colorado.phet.lasers.controller.module.MultipleAtomTwoLevelModule;
-import edu.colorado.phet.lasers.controller.module.OneAtomThreeLevelsModule;
-import edu.colorado.phet.lasers.controller.module.OneAtomTwoLevelsModule;
+import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
+import edu.colorado.phet.lasers.controller.module.OneAtomModule;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -39,16 +37,19 @@ public class LaserSimulation extends PhetApplication {
             setClock( clock );
             setFrameCenteredSize( 900, 750 );
 
-            Module singleAtomModule = new OneAtomTwoLevelsModule( clock );
-            Module oneAtomThreeLevelsModule = new OneAtomThreeLevelsModule( clock );
-            Module multipleAtomTwoLevelModule = new MultipleAtomTwoLevelModule( clock );
-            Module multipleAtomThreeLevelModule = new MultipleAtomThreeLevelModule( clock );
+            Module singleAtomModule = new OneAtomModule( clock );
+            Module multipleAtomModule = new MultipleAtomModule( clock );
+            //            Module singleAtomModule = new OneAtomTwoLevelsModule( clock );
+            //            Module oneAtomThreeLevelsModule = new OneAtomThreeLevelsModule( clock );
+            //            Module multipleAtomTwoLevelModule = new MultipleAtomTwoLevelModule( clock );
+            //            Module multipleAtomThreeLevelModule = new MultipleAtomThreeLevelModule( clock );
             //            Module testApparatusModule = new TestApparatusModule();
             Module[] modules = new Module[]{
                 singleAtomModule,
-                oneAtomThreeLevelsModule,
-                multipleAtomTwoLevelModule,
-                multipleAtomThreeLevelModule,
+                multipleAtomModule
+                //                oneAtomThreeLevelsModule,
+                //                multipleAtomTwoLevelModule,
+                //                multipleAtomThreeLevelModule,
                 //                testApparatusModule
             };
             setModules( modules );

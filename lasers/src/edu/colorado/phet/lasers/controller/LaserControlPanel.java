@@ -14,14 +14,19 @@ import edu.colorado.phet.lasers.LaserSimulation;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.view.ThreeEnergyLevelMonitorPanel;
+import edu.colorado.phet.lasers.view.TwoEnergyLevelMonitorPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class LaserControlPanel extends PhetControlPanel {
     private boolean threeEnergyLevels;
@@ -34,41 +39,47 @@ public class LaserControlPanel extends PhetControlPanel {
         super( module );
         this.laserModule = module;
         super.setControlPane( new ControlPanel( (LaserModel)module.getModel(), clock ) );
+
+        addComponentListener( new ComponentAdapter() {
+            public void componentShown( ComponentEvent e ) {
+                setThreeEnergyLevels( threeEnergyLevels );
+            }
+        } );
     }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         this.threeEnergyLevels = threeEnergyLevels;
         pumpingBeamControl.setVisible( threeEnergyLevels );
-        //        highEnergyLifetimeControl.setVisible( threeEnergyLevels );
+        if( threeEnergyLevels ) {
+            laserModule.setEnergyMonitorPanel( new ThreeEnergyLevelMonitorPanel( (LaserModel)laserModule.getModel() ) );
+        }
+        else {
+            laserModule.setEnergyMonitorPanel( new TwoEnergyLevelMonitorPanel( (LaserModel)laserModule.getModel() ) );
+        }
     }
 
     private class ControlPanel extends JPanel {
 
         ControlPanel( LaserModel model, AbstractClock clock ) {
-            this.setLayout( new GridBagLayout() );
-            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                             GridBagConstraints.CENTER,
-                                                             GridBagConstraints.HORIZONTAL,
-                                                             new Insets( 0, 0, 0, 0 ),
-                                                             0, 0 );
-            Border border = BorderFactory.createEtchedBorder();
-            this.setBorder( border );
 
-            stimulatingBeamControl = new StimulatingBeamControl( model );
-            this.add( stimulatingBeamControl, gbc );
-            //            gbc.gridy++;
-            //            this.add( new MiddleEnergyHalfLifeControl( model ), gbc );
-            gbc.gridy++;
-            pumpingBeamControl = new PumpingBeamControl( model.getPumpingBeam() );
-            this.add( pumpingBeamControl, gbc );
-            //            gbc.gridy++;
-            //            highEnergyLifetimeControl = new HighEnergyHalfLifeControl( model );
-            //            this.add( highEnergyLifetimeControl, gbc );
-            gbc.gridy++;
-            ResonatingCavity cavity = model.getResonatingCavity();
-            this.add( new RightMirrorReflectivityControlPanel( cavity ), gbc );
-            gbc.gridy++;
-            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ), gbc );
+            final JRadioButton twoLevelsRB = new JRadioButton( new AbstractAction( "Two" ) {
+                public void actionPerformed( ActionEvent e ) {
+                    setThreeEnergyLevels( false );
+                }
+            } );
+            final JRadioButton threeLevelsRB = new JRadioButton( new AbstractAction( "Three" ) {
+                public void actionPerformed( ActionEvent e ) {
+                    setThreeEnergyLevels( true );
+                }
+            } );
+            final ButtonGroup energyButtonGroup = new ButtonGroup();
+            energyButtonGroup.add( twoLevelsRB );
+            energyButtonGroup.add( threeLevelsRB );
+
+            JPanel energyButtonPanel = new JPanel();
+            energyButtonPanel.add( twoLevelsRB );
+            energyButtonPanel.add( threeLevelsRB );
+            energyButtonPanel.setBorder( new TitledBorder( "Energy Levels" ) );
 
             final String addMirrorsStr = "Add mirrors";
             final String removeMirrorsStr = "Remove mirrors";
@@ -85,20 +96,53 @@ public class LaserControlPanel extends PhetControlPanel {
                     }
                 }
             } );
-            gbc.gridy++;
-            this.add( mirrorCB, gbc );
 
             String s = GraphicsUtil.formatMessage( "Show high to\nmid emissions" );
             final JCheckBox showHighToMidEmissionCB = new JCheckBox( s );
-            gbc.gridy++;
-            this.add( showHighToMidEmissionCB, gbc );
             showHighToMidEmissionCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ( (LaserSimulation)PhetApplication.instance() ).displayHighToMidEmission( showHighToMidEmissionCB.isSelected() );
                 }
             } );
+            JPanel optionsPanel = new JPanel( new GridLayout( 2, 1 ) );
+            optionsPanel.add( mirrorCB );
+            optionsPanel.add( showHighToMidEmissionCB );
+            optionsPanel.setBorder( new TitledBorder( "Options" ) );
+
+
+            pumpingBeamControl = new PumpingBeamControl( model.getPumpingBeam() );
             pumpingBeamControl.setVisible( threeEnergyLevels );
             //            highEnergyLifetimeControl.setVisible( threeEnergyLevels );
+
+            this.setLayout( new GridBagLayout() );
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.HORIZONTAL,
+                                                             new Insets( 0, 0, 0, 0 ),
+                                                             0, 0 );
+            Border border = BorderFactory.createEtchedBorder();
+            this.setBorder( border );
+
+            this.add( energyButtonPanel, gbc );
+            gbc.gridy++;
+            this.add( optionsPanel, gbc );
+            gbc.gridy++;
+            //            this.add( showHighToMidEmissionCB, gbc );
+            //            gbc.gridy++;
+
+            stimulatingBeamControl = new StimulatingBeamControl( model );
+            this.add( stimulatingBeamControl, gbc );
+            gbc.gridy++;
+            this.add( pumpingBeamControl, gbc );
+            gbc.gridy++;
+            ResonatingCavity cavity = model.getResonatingCavity();
+            this.add( new RightMirrorReflectivityControlPanel( cavity ), gbc );
+            gbc.gridy++;
+            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ), gbc );
+
+            // Set the number of energy levels we'll see
+            twoLevelsRB.setSelected( true );
+            setThreeEnergyLevels( false );
         }
     }
 
