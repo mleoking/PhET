@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.tests;
 
 import edu.colorado.phet.common.view.components.PhetSlider;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -21,7 +21,7 @@ public class TestPhetSlider {
         jf.setContentPane( phetslider );
         jf.pack();
         jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        GraphicsUtil.centerWindowOnScreen( jf );
+        SwingUtils.centerWindowOnScreen( jf );
 //        phetslider.setPaintLabels( false );
 //        phetslider.setPaintTicks( false );
         jf.setVisible( true );
