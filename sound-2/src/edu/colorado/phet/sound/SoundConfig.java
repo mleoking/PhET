@@ -7,13 +7,14 @@
 package edu.colorado.phet.sound;
 
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 
 public class SoundConfig {
 
     public String getTitle() {
-        return TITLE;
+        return SimStrings.get( "SoundApplication.title" );
     }
 
     public double getTimeStep() {
@@ -24,9 +25,8 @@ public class SoundConfig {
         return s_waitTime;
     }
 
-    // Title and version number
-    public static final String TITLE = "Sound";
-    public static final String VERSION = "0.01";
+    // Localization
+    public static final String localizedStringsPath = "localization/SoundStrings";
 
     // Physical constants
     public static final double s_timeStep = 5;
@@ -69,8 +69,8 @@ public class SoundConfig {
     //    public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
     //    public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
     public static final String METER_STICK_IMAGE_FILE = IMAGE_DIRECTORY + "five-meter-stick.gif";
-    public static final String[] HEAD_IMAGE_FILES = {IMAGE_DIRECTORY + "head-1-small.gif",
-                                                     IMAGE_DIRECTORY + "head-2-small.gif"};
+    public static final String[] HEAD_IMAGE_FILES = {IMAGE_DIRECTORY + "head-1-small.gif" /*,
+                                                     IMAGE_DIRECTORY + "head-2-small.gif" */ };
 
     // Animation images
 

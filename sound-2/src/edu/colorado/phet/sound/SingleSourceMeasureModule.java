@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.sound.view.MeasureControlPanel;
 import edu.colorado.phet.sound.view.MeterStickGraphic;
 import edu.colorado.phet.sound.view.VerticalGuideline;
@@ -24,7 +25,7 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
     private static final int s_guidelineBaseX = 180;
 
     protected SingleSourceMeasureModule( ApplicationModel appModel ) {
-        super( appModel, "<html>Measure</html>" );
+        super( appModel, SimStrings.get( "ModuleTitle.SingleSourceMeasure" ) );
 
         // Add the ruler
         try {
@@ -36,13 +37,13 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
             this.addGraphic( meterStickGraphic, 9 );
 
             // Add help items
-            HelpItem help1 = new HelpItem( "Use meter stick to measure waves",
+            HelpItem help1 = new HelpItem( SimStrings.get( "SingleSourceMeasureModule.Help1" ),
                                            200, 100 + ruler.getImage().getHeight(),
                                            HelpItem.RIGHT, HelpItem.BELOW );
             help1.setForegroundColor( Color.white );
             addHelpItem( help1 );
 
-            HelpItem help2 = new HelpItem( "Blue lines can be moved left & right to\nhelp mark measurement points on waves",
+            HelpItem help2 = new HelpItem( SimStrings.get( "SingleSourceMeasureModule.Help2" ),
                                            s_guidelineBaseX + 30, 70,
                                            HelpItem.RIGHT, HelpItem.ABOVE );
             help2.setForegroundColor( Color.white );

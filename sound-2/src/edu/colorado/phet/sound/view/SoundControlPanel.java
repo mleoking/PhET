@@ -9,6 +9,7 @@ package edu.colorado.phet.sound.view;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.model.SoundModel;
@@ -92,6 +93,7 @@ public class SoundControlPanel extends PhetControlPanel {
     private static class FrequencyControlPanel extends JPanel {
         private JTextField frequencyTF;
         private JSlider frequencySlider;
+        private String Hertz = SimStrings.get( "SoundControlPanel.Hertz" );
 
         FrequencyControlPanel( final SoundModel model ) {
             this.setLayout( new GridLayout( 2, 1 ) );
@@ -103,7 +105,7 @@ public class SoundControlPanel extends PhetControlPanel {
             frequencyTF.setHorizontalAlignment( JTextField.RIGHT );
             Font clockFont = frequencyTF.getFont();
             frequencyTF.setFont( new Font( clockFont.getName(), Font.BOLD, 12 ) );
-            frequencyTF.setText( Integer.toString( SoundConfig.s_defaultFrequency ) + " Hz" );
+            frequencyTF.setText( Integer.toString( SoundConfig.s_defaultFrequency ) + " " + Hertz );
             frequencySlider = new JSlider( JSlider.HORIZONTAL,
                                            0,
                                            SoundConfig.s_maxFrequency,
@@ -119,7 +121,7 @@ public class SoundControlPanel extends PhetControlPanel {
             frequencySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     updateFrequency( model, frequencySlider.getValue() );
-                    frequencyTF.setText( Integer.toString( frequencySlider.getValue() ) + " Hz" );
+                    frequencyTF.setText( Integer.toString( frequencySlider.getValue() ) + " " + Hertz );
                 }
             } );
             updateFrequency( model, frequencySlider.getValue() );
@@ -128,7 +130,7 @@ public class SoundControlPanel extends PhetControlPanel {
             this.add( frequencyReadoutPanel );
             this.add( frequencySlider );
 
-            Border frequencyBorder = new TitledBorder( "Frequency" );
+            Border frequencyBorder = new TitledBorder( SimStrings.get( "SoundControlPanel.BorderTitle" ) );
             this.setBorder( frequencyBorder );
         }
 
@@ -136,7 +138,7 @@ public class SoundControlPanel extends PhetControlPanel {
          *
          */
         private void updateFrequency( SoundModel model, int sliderValue ) {
-            frequencyTF.setText( Integer.toString( sliderValue ) + " Hz" );
+            frequencyTF.setText( Integer.toString( sliderValue ) + " " + Hertz );
             model.setFrequency( sliderValue );
         }
 
@@ -173,7 +175,7 @@ public class SoundControlPanel extends PhetControlPanel {
             } );
             setModelAmplitude( amplitudeSlider.getValue() );
             this.add( amplitudeSlider );
-            Border amplitudeBorder = new TitledBorder( "Amplitude" );
+            Border amplitudeBorder = new TitledBorder( SimStrings.get( "SoundControlPanel.Amplitude" ) );
             this.setBorder( amplitudeBorder );
         }
 
@@ -215,10 +217,10 @@ public class SoundControlPanel extends PhetControlPanel {
                 }
             } );
 
-            Border amplitudeBorder = new TitledBorder( "Octave" );
+            Border amplitudeBorder = new TitledBorder( SimStrings.get( "SoundControlPanel.Octave" ) );
             this.setBorder( amplitudeBorder );
 
-            final JCheckBox enabledCB = new JCheckBox( "On" );
+            final JCheckBox enabledCB = new JCheckBox( SimStrings.get( "SoundControlPanel.Enabled" ) );
             enabledCB.addItemListener( new ItemListener() {
                 public void itemStateChanged( ItemEvent e ) {
                     model.setOctaveEnabled( enabledCB.isSelected() );
