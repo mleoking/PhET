@@ -10,21 +10,23 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.Stack;
+
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
+
 import edu.colorado.phet.common.view.graphics.mousecontrols.CompositeMouseInputListener;
 import edu.colorado.phet.common.view.graphics.mousecontrols.CursorControl;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationHandler;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
-import java.util.Stack;
 
 /**
  * PhetGraphic is the base class for all PhET graphics.
@@ -43,6 +45,7 @@ public abstract class PhetGraphic {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Point registrationPoint = new Point();
     private AffineTransform transform = new AffineTransform();
     private Rectangle lastBounds = null;
     private Rectangle bounds = null;
@@ -207,39 +210,213 @@ public abstract class PhetGraphic {
     protected boolean getVisibilityFlag() {
         return visible;
     }
-
+    
+    //----------------------------------------------------------------------------
+    // Registration Point methods
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the graphic's registration point.
+     * The registration point is the point about which transformations are applied.
+     * It is relative to the graphic's bounding box, prior to applying any transforms.
+     * 
+     * @param registrationPoint the registration point
+     */
+    public void setRegistrationPoint( Point registrationPoint) {
+        setRegistrationPoint( registrationPoint.x, registrationPoint.y );
+    }
+    
+    /**
+     * Sets the graphic's registration point.
+     * The registration point is the point about which transformations are applied.
+     * It is relative to the graphic's bounding box, prior to applying any transforms.
+     * 
+     * @param x X coordinate of the registration point
+     * @param y Y coordinate of the registration point
+     */
+    public void setRegistrationPoint( int x, int y ) {
+        registrationPoint.setLocation( x, y );
+        setBoundsDirty();
+        autorepaint();
+    }
+    
+    /**
+     * Gets a copy of the registration point.
+     * The registration point is the point about which transformations are applied.
+     * It is relative to the graphic's bounding box, prior to applying any transforms.
+     * The default is (0,0), which is the upper-left corner of the bounding box.
+     * 
+     * @return the registration point
+     */
+    public Point getRegistrationPoint() {
+        return new Point( registrationPoint );
+    }
+    
     //----------------------------------------------------------------------------
     // Transform methods
     //----------------------------------------------------------------------------
 
     /**
-     * Preconcatenates the specified transform with this object's transform.
+     * Sets this graphic's local transform.
+     * The local transform is applied relative to the registration point.
+     * 
+     * @param transform the transform
+     */
+    public void setTransform( AffineTransform transform ) {
+        this.transform = transform;
+        setBoundsDirty();
+        autorepaint();
+    }
+    
+    /**
+     * Gets a copy of the local transform.
+     * 
+     * @return the transform
+     */
+    public AffineTransform getTransform() {
+        return new AffineTransform( transform );
+    }
+    
+    /**
+     * Pre-concatenates the local transform with a specified transform.
      *
      * @param transform the transform to preconcatenate
      */
     public void transform( AffineTransform transform ) {
-        if( !transform.isIdentity() ) {//does this work properly?
-            this.transform.preConcatenate( transform );
-            setBoundsDirty();
-            autorepaint();
-        }
+        preConcatenateTransform( new AffineTransform( transform )  );
     }
     
     /**
-     * Returns the AffineTransform of this graphic, modified by all parents (if applicable).
-     *
-     * @return the complete AffineTransform of this graphic.
+     * Concatenates a transform to the local transform.
+     * 
+     * @param transform the transform to concatenate.
      */
-    protected AffineTransform getTransform() {
+    protected void concatenateTransform( AffineTransform transform ) {
+        this.transform.concatenate( transform );
+        setBoundsDirty();
+        autorepaint();
+    }
+    
+    /**
+     * Pre-concatenates a transform to the local transform.
+     * 
+     * @param transform the transform to pre-concatenate.
+     */
+    protected void preConcatenateTransform( AffineTransform transform ) {
+        this.transform.preConcatenate( transform );
+        setBoundsDirty();
+        autorepaint();
+    }
+    
+    /**
+     * Gets the "net" transform.  The net transform is the result of applying
+     * the local transform relative to the registration point, then applying
+     * the parent's net transform (if a parent exists).
+     * <p>
+     * This method should be used in methods involving painting and bounds calculations.
+     *
+     * @return the net AffineTransform of this graphic
+     */
+    protected AffineTransform getNetTransform() {
+        AffineTransform net = new AffineTransform();
+        
+        // Use preConcatenate, so that transforms are shown in the order that they will occur.
+        
+        // Center translation
+        net.preConcatenate( AffineTransform.getTranslateInstance( -registrationPoint.x, -registrationPoint.y ) );
+        // Local transform
+        net.preConcatenate( transform );
+        // Parent's net transform.
         if( parent != null ) {
-            AffineTransform parentTransform = parent.getTransform();
-            AffineTransform net = new AffineTransform( parentTransform );
-            net.concatenate( transform );
-            return net;
+            AffineTransform parentTransform = parent.getNetTransform();
+            net.preConcatenate( parentTransform );
         }
-        else {
-            return transform;
-        }
+        
+        return net;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Transform convenience methods.
+    //
+    // All of these pre-concatenate an AffineTransform to the local transform,
+    // so that transforms will occur in the order that you call these methods.
+    // Note that this is the opposite of how similar methods in Graphics2D behave.
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Pre-concatenates the current local transform with a translation transform.
+     * 
+     * @param tx the distance to translate along the x-axis
+     * @param ty the distance to translate along the y-axis
+     */
+    public void translate( double tx, double ty ) {
+        preConcatenateTransform( AffineTransform.getTranslateInstance( tx, ty ) );
+    }
+    
+    /**
+     * Pre-concatenates the current local transform with a rotation transform.
+     * 
+     * @param the angle of rotation in radians
+     */
+    public void rotate( double theta ) {
+        preConcatenateTransform( AffineTransform.getRotateInstance( theta ) );
+    }
+    
+    /**
+     * Pre-concatenates the current local transform with a translated rotation transform.
+     * Rotation is performed about the supplied origin of rotation.
+     *  
+     * @param theta the angle of rotation in radians
+     * @param x the x coordinate of the origin of the rotation
+     * @param y the y coordinate of the origin of the rotation
+     */
+    public void rotate( double theta, double x, double y ) {
+        preConcatenateTransform( AffineTransform.getRotateInstance( theta, x, y ) );
+    }
+    
+    /**
+     * Pre-concatenates the current local transform with a scale transform.
+     * 
+     * @param sx the X scaling multiplier
+     * @param sy the Y scaling multiplier
+     */
+    public void scale( double sx, double sy ) {
+        preConcatenateTransform( AffineTransform.getScaleInstance( sx, sy ) );
+    }
+    
+    /**
+     * Pre-concatenates the current local transform with a uniform scale transform.
+     * 
+     * @param s the scale multiplier, applied to both axes
+     */
+    public void scale( double s ) {
+        preConcatenateTransform( AffineTransform.getScaleInstance( s, s ) );
+    }
+    
+    /**
+     * Pre-concatenates the current local transform with a scale transform.
+     * 
+     * @param shx the X shear multiplier
+     * @param shy the Y shear multiplier
+     */
+    public void shear( double shx, double shy ) {
+        preConcatenateTransform( AffineTransform.getShearInstance( shx, shy ) );
+    }
+    
+    /**
+     * Pre-concatenates the current local transform with a uniform shear transform.
+     * 
+     * @param sh the shear multiplier, applied to both axes
+     */
+    public void shear( double sh ) {
+        preConcatenateTransform( AffineTransform.getShearInstance( sh, sh ) );
+    }
+    
+    /**
+     * Sets the local transform to the identity matrix.
+     */
+    public void clearTransform() {
+        setTransform( new AffineTransform() );
     }
     
     //----------------------------------------------------------------------------
@@ -362,6 +539,9 @@ public abstract class PhetGraphic {
     
     /**
      * Gets the top-left corner of the boundary of this PhetGraphic.
+     * Note that if any transform is set (either in this graphic or 
+     * parents) then the location may not be the same point that was
+     * set using setLocation.
      *
      * @return the location
      */
