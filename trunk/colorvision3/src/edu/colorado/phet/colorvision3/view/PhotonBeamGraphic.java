@@ -15,7 +15,6 @@ import edu.colorado.phet.colorvision3.model.Photon;
 import edu.colorado.phet.colorvision3.model.PhotonBeam;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.util.VisibleColor;
 
 /**
  * PhotonBeamGraphic provides a view of a PhotonBeam.
