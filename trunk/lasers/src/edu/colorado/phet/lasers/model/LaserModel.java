@@ -21,6 +21,7 @@ import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.collision.AtomWallCollision;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollision;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
+import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.mechanics.Body;
@@ -53,22 +54,11 @@ public class LaserModel extends BaseModel implements Atom.Listener {
      *
      */
     public LaserModel() {
-//        super( LaserConfig.instance() );
-//        this.addLaw( CollisionLaw.instance() );
-//
-//        // Set up collision classes
-//        new SphereSphereContactDetector();
-//        new SphereWallContactDetector();
-//
-//        AtomAtomCollision.register();
-//        PhotonMirrorCollision.register();
-//        AtomWallCollision.register();
-//        PhotonAtomCollision.register();
-
         final CollisionMechanism collisionMechanism = new CollisionMechanism();
         collisionMechanism.addCollisionExpert( new SphereSphereExpert() );
         collisionMechanism.addCollisionExpert( new PhotonAtomCollisonExpert() );
         collisionMechanism.addCollisionExpert( new SphereBoxExpert() );
+        collisionMechanism.addCollisionExpert( new PhotonMirrorCollisonExpert() );
         this.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 collisionMechanism.doIt( bodies );

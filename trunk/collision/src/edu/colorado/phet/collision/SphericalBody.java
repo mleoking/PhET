@@ -20,8 +20,6 @@ public class SphericalBody extends Body implements Collidable {
     private double radius;
     private CollidableAdapter collidableAdapter;
 
-    private static Point2D.Double tempVector = new Point2D.Double();
-
     public SphericalBody( double radius ) {
         this.radius = radius;
          collidableAdapter = new CollidableAdapter( this );
