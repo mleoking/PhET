@@ -11,13 +11,9 @@ import edu.colorado.phet.distanceladder.controller.StarMapModule;
 import edu.colorado.phet.distanceladder.exercise.Exercise;
 import edu.colorado.phet.distanceladder.exercise.HtmlMessage;
 import edu.colorado.phet.distanceladder.exercise.Message;
-import edu.colorado.phet.distanceladder.levels.Level1;
-import edu.colorado.phet.distanceladder.levels.Level1A;
-import edu.colorado.phet.distanceladder.levels.Level2;
-import edu.colorado.phet.distanceladder.levels.Level2A;
+import edu.colorado.phet.distanceladder.levels.Level3A;
 import edu.colorado.phet.distanceladder.model.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -51,12 +47,12 @@ public class DistanceLadderGame {
 
         Star star = null;
 
-        Random random = new Random( );
+        Random random = new Random();
         for( int i = 0; i < 200; i++ ) {
             double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
             double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
             int colorIdx = random.nextInt( colors.length );
-            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
+            star = new NormalStar( colors[colorIdx], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
             starField.addStar( star );
         }
 
@@ -71,9 +67,12 @@ public class DistanceLadderGame {
 //        doLevel( new Level1A( app.getApplicationView().getPhetFrame(), model ) );
 
 //        displayMessage( new HtmlMessage( "messages/level2-intro.html" ) );
-        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
-        displayMessage( new HtmlMessage( "messages/level2A-intro.html" ) );
-        doLevel( new Level2A( app.getApplicationView().getPhetFrame(), model ) );
+//        doLevel( new Level2( app.getApplicationView().getPhetFrame(), model ) );
+//        displayMessage( new HtmlMessage( "messages/level2A-intro.html" ) );
+//        doLevel( new Level2A( app.getApplicationView().getPhetFrame(), model ) );
+
+//        doLevel( new Level3( app.getApplicationView().getPhetFrame(), model ) );
+        doLevel( new Level3A( app.getApplicationView().getPhetFrame(), model ) );
 
         cockpitModule.activate( null );
     }
