@@ -445,6 +445,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
         photon = (Photon)_photons.get(i);
         if ( ! photon.isInUse() )
         {
+          found = true;
           photon.setInUse( true );
           photon.setFiltered( false );
           photon.setLocation( lastBlockedX, lastBlockedY );
