@@ -121,6 +121,10 @@ public class NuclearPhysicsModule extends Module {
         physicalPanel.addGraphic( n2g );
     }
 
+    protected PotentialProfilePanel getPotentialProfilePanel() {
+        return potentialProfilePanel;
+    }
+
     public void testDecay() {
         DecayProducts dp = uraniumNucleus.alphaDecay();
         getModel().removeModelElement( dp.getN0() );

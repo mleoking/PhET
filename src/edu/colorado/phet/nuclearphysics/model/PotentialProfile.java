@@ -104,10 +104,8 @@ public class PotentialProfile {
      * @return 
      */
     public double getDistFromHill( Point2D.Double pt ) {
-        testPt.setLocation( Math.abs( pt.getX() ), pt.getY() );
-        int ccw = hillBoundary.relativeCCW( testPt );
-        double result = hillBoundary.ptLineDist( testPt ) * ccw;
-        return result;
+        double dx = Math.abs( pt.getX() ) - Math.abs( this.getHillX( pt.getY() ) );
+        return dx;
     }
 
     /**
@@ -175,7 +173,7 @@ public class PotentialProfile {
      * @param y
      * @return
      */
-    private double getHillX( double y ) {
+    public double getHillX( double y ) {
         double cx, cy, bx, by, ax, ay;
         double x0 = endPt1.getX();
         double y0 = endPt1.getY();
@@ -207,7 +205,6 @@ public class PotentialProfile {
             // The proper root is in the interval [0...1]
             if( t >= 0 && t <= 1.0 ) {
                 xt[i] = ax * t * t * t + bx * t * t + cx * t + x0;
-                System.out.println( i + ": " + roots[i] + "  " + xt[i] );
                 result = xt[i];
                 break;
             }

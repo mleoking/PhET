@@ -63,14 +63,6 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
                       this );
     }
 
-    public void paintPotentialRendering( Graphics graphics, int x, int y ) {
-        Graphics2D g2 = (Graphics2D)graphics;
-        double xStat = nucleus.getStatisticalLocationOffset().getX();
-        double yStat = nucleus.getStatisticalLocationOffset().getY();
-        double d = Math.sqrt( xStat * xStat + yStat * yStat ) * ( xStat > 0 ? 1 : -1 );
-        g2.drawImage( img, x - (int)nucleus.getRadius() + (int)d, y, this );
-    }
-
     public void paint( Graphics2D g ) {
         g.drawImage( img, (int)position.getX(), (int)position.getY(), this );
     }
@@ -78,12 +70,14 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     public void update() {
         this.position.x = nucleus.getLocation().getX();
         this.position.y = nucleus.getLocation().getY();
-//        this.position.x = nucleus.getLocation().getX() + nucleus.getStatisticalLocationOffset().getX();
-//        this.position.y = nucleus.getLocation().getY() + nucleus.getStatisticalLocationOffset().getY();
+    }
+
+    public Nucleus getNucleus() {
+        return nucleus;
     }
 
     public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
     }
 
 

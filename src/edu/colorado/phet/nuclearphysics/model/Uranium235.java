@@ -22,15 +22,22 @@ public class Uranium235 extends Nucleus {
     }
 
     public void stepInTime( double dt ) {
-        if( distFromProfileHill() > NuclearParticle.RADIUS * 4 ) {
+        if( Math.abs( getStatisticalLocationOffset().getX() ) + this.getRadius()
+            - Math.abs( potentialProfile.getAlphaDecayX() ) > NuclearParticle.RADIUS * 5 ) {
+            try {
+                Thread.sleep( 500 );
+//                Thread.sleep( 2000 );
+            }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
             for( int i = 0; i < decayListeners.size(); i++ ) {
                 DecayListener decayListener = (DecayListener)decayListeners.get( i );
                 decayListener.alphaDecay( alphaDecay() );
             }
+            return;
         }
         super.stepInTime( dt );
-
-        System.out.println( "dist: " + distFromProfileHill() );
     }
 
     public DecayProducts alphaDecay() {
@@ -40,13 +47,13 @@ public class Uranium235 extends Nucleus {
         double separation = 100;
         double dx = separation * Math.cos( theta );
         double dy = separation * Math.sin( theta );
-        Nucleus n1 = new Nucleus( new Point2D.Double( this.getLocation().getX() - dx,
-                                                      this.getLocation().getY() - dy ),
-                                  n1Protons, n1Neutrons, this.getPotentialProfile() );
-        Nucleus n2 = new Nucleus( new Point2D.Double( this.getLocation().getX() + dx,
+        Nucleus n1 = new Nucleus( new Point2D.Double( this.getLocation().getX() + dx,
                                                       this.getLocation().getY() + dy ),
                                   this.getNumProtons() - n1Protons,
                                   this.getNumNeutrons() - n1Neutrons, this.getPotentialProfile() );
+        Nucleus n2 = new Nucleus( new Point2D.Double( this.getLocation().getX() - dx,
+                                                      this.getLocation().getY() - dy ),
+                                  n1Protons, n1Neutrons, this.getPotentialProfile() );
         DecayProducts products = new DecayProducts( this, n1, n2 );
         return products;
     }

@@ -28,6 +28,7 @@ public class AlphaRadiationModule extends NuclearPhysicsModule implements DecayL
 
     public void alphaDecay( DecayProducts decayProducts ) {
         super.handleDecay( decayProducts );
+        getPotentialProfilePanel().addDecayProduct( decayProducts.getN1() );
     }
 
 }
