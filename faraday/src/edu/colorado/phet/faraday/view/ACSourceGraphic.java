@@ -41,6 +41,8 @@ public class ACSourceGraphic extends PhetImageGraphic implements SimpleObserver 
         // Registration point is the bottom center of the image.
         setRegistrationPoint( getImage().getWidth() / 2, getImage().getHeight() );
         
+        scale( 0.40 ); // XXX
+        
         update();
     }
     
