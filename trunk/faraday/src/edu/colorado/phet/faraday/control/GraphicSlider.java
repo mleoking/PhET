@@ -400,9 +400,12 @@ public class GraphicSlider extends GraphicLayerSet {
      */
     private class KnobListener extends MouseInputAdapter {
 
+        private Point2D _point; // reusable point
+        
         /** Sole constructor. */
         public KnobListener() {
             super();
+            _point = new Point2D.Double();
         }
         
         /**
@@ -419,8 +422,8 @@ public class GraphicSlider extends GraphicLayerSet {
             int mouseX = 0;
             try {
                 AffineTransform transform = getNetTransform();
-                Point2D p = transform.inverseTransform( event.getPoint(), null );
-                mouseX = (int) p.getX();
+                transform.inverseTransform( event.getPoint(), _point /* destination */ );
+                mouseX = (int) _point.getX();
             }
             catch ( NoninvertibleTransformException e ) {
                 e.printStackTrace();
