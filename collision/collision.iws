@@ -388,7 +388,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1292" height="1036" extended-state="1" />
+    <frame x="0" y="0" width="1292" height="1036" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33002207" order="8" />
