@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
@@ -16,20 +15,14 @@ import edu.colorado.phet.nuclearphysics.model.Containment;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 
 public class ContainmentGraphic extends DefaultInteractiveGraphic {
     private Containment containment;
     private AffineTransform atx;
     private Rep rep;
-    private boolean leftSideDragged;
-    private boolean rightSideDragged;
-    private boolean topSideDragged;
-    private boolean bottomSideDragged;
-    private int strokeWidth = 100;
+    private int strokeWidth = 150;
+    private Stroke outlineStroke = new BasicStroke( 1 );
     private Area mouseableArea;
     private int quadrant;
 
@@ -53,6 +46,9 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
         Point2D p = new Point2D.Double( containment.getBounds2D().getX() + containment.getBounds2D().getWidth() / 2,
                                         containment.getBounds2D().getY() + containment.getBounds2D().getHeight() / 2 );
         atx.transform( p, p );
+
+        // Determine which quadrant the mouse is in. We need to know this so we will know how to resize
+        // the graphic. Note that y < 0 in quadrants I and II in Java graphics.
         quadrant = 0;
         if( e.getX() >= p.getX() && e.getY() <= p.getY() ) {
             quadrant = QUAD_1;
@@ -67,7 +63,7 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
             quadrant = QUAD_4;
         }
     }
-    
+
     //    public void mouseDragged( MouseEvent e ) {
     //        super.mouseDragged( e );
     //        // Determine which side of the box is selected
@@ -101,29 +97,29 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
             dx /= atx.getScaleX();
             dy /= atx.getScaleY();
             double dr = Math.sqrt( dx * dx + dy * dy );
-            int sx = MathUtil.getSign( dx );
-            int sy = MathUtil.getSign( dy );
+            int sx = 1;
+            int sy = 1;
             switch( quadrant ) {
                 case QUAD_1:
-                    sx *= 1;
-                    sy *= -1;
+                    sx *= -1;
+                    sy *= 1;
                     break;
                 case QUAD_2:
-                    sx *= -1;
-                    sy *= -1;
-                    break;
-                case QUAD_3:
-                    sx *= -1;
-                    sy *= 1;
-                    break;
-                case QUAD_4:
                     sx *= 1;
                     sy *= 1;
+                    break;
+                case QUAD_3:
+                    sx *= 1;
+                    sy *= -1;
+                    break;
+                case QUAD_4:
+                    sx *= -1;
+                    sy *= -1;
                     break;
             }
             Ellipse2D containmentShape = (Ellipse2D)containment.geShape();
-            containmentShape.setFrame( containmentShape.getX() - dr * sx, containmentShape.getY() - dr * sy,
-                                       containmentShape.getWidth() + dr * sx * 2, containmentShape.getHeight() + dr * sy * 2 );
+            containmentShape.setFrame( containmentShape.getX() + dx * sx, containmentShape.getY() + dy * sy,
+                                       containmentShape.getWidth() - dx * sx * 2, containmentShape.getHeight() - dy * sy * 2 );
             rep.update();
         }
     }
@@ -133,10 +129,14 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
         Ellipse2D inner = new Ellipse2D.Double();
         private Stroke stroke = new BasicStroke( strokeWidth );
         private Color color = Color.black;
+        private Color outlineColor = new Color( 255, 0, 0 );
+        private Color backgroundColor;
 
         Rep( Component component ) {
             super( component, null, null, null );
             containment.addObserver( this );
+            backgroundColor = component.getBackground();
+
             update();
         }
 
@@ -153,6 +153,15 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
             mouseableArea = new Area( outer );
             mouseableArea.subtract( new Area( inner ) );
             this.setShape( atx.createTransformedShape( mouseableArea ) );
+
+            double opacity = containment.getOpacity();
+            int redLevel = (int)( backgroundColor.getRed() * ( 1 - opacity ) );
+            int greenLevel = (int)( backgroundColor.getGreen() * ( 1 - opacity ) );
+            int blueLevel = (int)( backgroundColor.getBlue() * ( 1 - opacity ) );
+            if( opacity < 1 ) {
+                color = new Color( redLevel, greenLevel, blueLevel );
+                outlineColor = new Color( 255, greenLevel, blueLevel );
+            }
             setBoundsDirty();
             repaint();
         }
@@ -165,8 +174,22 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
             g.setStroke( stroke );
             g.fill( mouseableArea );
 
-            g.setColor( Color.red );
-            g.setStroke( new BasicStroke( 1 ) );
+            // Draw the neutron source
+            RoundRectangle2D gun = new RoundRectangle2D.Double();
+            double gunHeight = 40;
+            double gunLength = 15;
+            gun.setRoundRect( containment.getNeutronLaunchPoint().getX(),
+                              containment.getNeutronLaunchPoint().getY() - gunHeight / 2,
+                              gunLength, gunHeight, 15, 15 );
+            g.setColor( color );
+            g.fill( gun );
+            g.setStroke( outlineStroke );
+            g.setColor( outlineColor );
+            g.draw( gun );
+
+            // Outline the vessel in red
+            g.setColor( outlineColor );
+            g.setStroke( outlineStroke );
             g.draw( mouseableArea );
             restoreGraphicsState();
         }

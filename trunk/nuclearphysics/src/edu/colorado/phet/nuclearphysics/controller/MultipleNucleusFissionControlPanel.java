@@ -8,6 +8,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
 
@@ -66,7 +67,6 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             }
         } );
 
-
         // Create the controls
         JButton fireNeutronBtn = new JButton( "Fire Neutron" );
         fireNeutronBtn.addActionListener( new ActionListener() {
@@ -83,7 +83,9 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 200, 1 ) );
         numU235Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
+                int netNuclei = setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
+                //                int d = ((Integer)numU235Spinner.getValue() ).intValue() - netNuclei;
+                //                numU235Spinner.setValue( new Integer( d ));
             }
         } );
         numU235Spinner.setPreferredSize( new Dimension( 80, 30 ) );
@@ -192,16 +194,22 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         this.setBorder( titledBorder );
     }
 
-    private synchronized void setNumU235Nuclei( int num ) {
+    private synchronized int setNumU235Nuclei( int num ) {
+        int netNuclei = 0;
         int delta = num - module.getU235Nuclei().size();
         for( int i = 0; i < delta; i++ ) {
-            module.addU235Nucleus();
+            Nucleus nucleus = module.addU235Nucleus();
+            if( nucleus != null ) {
+                netNuclei++;
+            }
         }
         for( int i = 0; i < -delta; i++ ) {
             int numNuclei = module.getU235Nuclei().size();
             Uranium235 nucleus = (Uranium235)module.getU235Nuclei().get( random.nextInt( numNuclei ) );
             module.removeU235Nucleus( nucleus );
+            netNuclei--;
         }
+        return netNuclei;
     }
 
     private void setNumU238Nuclei( int num ) {

@@ -23,6 +23,7 @@ import java.util.Random;
 
 public class MultipleNucleusFissionModule extends NuclearPhysicsModule implements NeutronGun, FissionListener {
     private static Random random = new Random();
+    private static int s_maxPlacementAttempts = 100;
 
     private Neutron neutronToAdd;
     private ArrayList nuclei = new ArrayList();
@@ -131,6 +132,13 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
             Nucleus nucleus = (Nucleus)daughterNuclei.get( i );
             NucleusGraphic.removeGraphicForNucleus( nucleus );
         }
+
+        // If the containment is enabled, recreate it, so it will be fully
+        // displayed
+        if( containment != null ) {
+            enableContainment( false );
+            enableContainment( true );
+        }
         computeNeutronLaunchParams();
     }
 
@@ -160,9 +168,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
             neutron.leaveSystem();
             bodies.remove( neutron );
         }
-        //        for( int i = 0; i < neutronGraphics.size(); i++ ) {
-        //            getPhysicalPanel().removeGraphic( (Graphic)neutronGraphics.get( i ) );
-        //        }
         bodies.clear();
         nuclei.clear();
         neutrons.clear();
@@ -170,20 +175,26 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         u235Nuclei.clear();
         u238Nuclei.clear();
         daughterNuclei.clear();
-        //        neutronGraphics.clear();
     }
 
     private void computeNeutronLaunchParams() {
         // Compute how we'll fire the neutron
-        double bounds = 600 / getPhysicalPanel().getScale();
-        neutronLaunchGamma = random.nextDouble() * Math.PI * 2;
-        double x = bounds * Math.cos( neutronLaunchGamma );
-        double y = bounds * Math.sin( neutronLaunchGamma );
-        neutronLaunchPoint = new Point2D.Double( x, y );
-        neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
+        if( containment != null ) {
+            neutronLaunchPoint = containment.getNeutronLaunchPoint();
+            neutronLaunchGamma = Math.PI;
+            neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
+        }
+        else {
+            double bounds = 600 / getPhysicalPanel().getScale();
+            neutronLaunchGamma = random.nextDouble() * Math.PI * 2;
+            double x = bounds * Math.cos( neutronLaunchGamma );
+            double y = bounds * Math.sin( neutronLaunchGamma );
+            neutronLaunchPoint = new Point2D.Double( x, y );
+            neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
+        }
     }
 
-    public Line2D.Double getNeutronPath() {
+    private Line2D.Double getNeutronPath() {
         return neutronPath;
     }
 
@@ -215,18 +226,24 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         return u238Nuclei;
     }
 
-    public void addU235Nucleus() {
+    public Nucleus addU235Nucleus() {
+        Nucleus nucleus = null;
         Point2D.Double location = findLocationForNewNucleus();
-        Nucleus nucleus = new Uranium235( location, getModel() );
-        u235Nuclei.add( nucleus );
-        addNucleus( nucleus );
+        if( location != null ) {
+            nucleus = new Uranium235( location, getModel() );
+            u235Nuclei.add( nucleus );
+            addNucleus( nucleus );
+        }
+        return nucleus;
     }
 
     public void addU238Nucleus() {
         Point2D.Double location = findLocationForNewNucleus();
-        Nucleus nucleus = new Uranium238( location, getModel() );
-        u238Nuclei.add( nucleus );
-        addNucleus( nucleus );
+        if( location != null ) {
+            Nucleus nucleus = new Uranium238( location, getModel() );
+            u238Nuclei.add( nucleus );
+            addNucleus( nucleus );
+        }
     }
 
     public void addU239Nucleus( Uranium239 nucleus ) {
@@ -256,13 +273,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     public void removeNucleus( Nucleus nucleus ) {
         nuclei.remove( nucleus );
         nucleus.leaveSystem();
-
-        //        ArrayList ngList = NucleusGraphic.getGraphicForNucleus( nucleus );
-        //        for( int i = 0; i < ngList.size(); i++ ) {
-        //            NucleusGraphic ng = (NucleusGraphic)ngList.get( i );
-        //            getPhysicalPanel().removeGraphic( ng );
-        //            super.remove( nucleus, ng );
-        //        }
         getPhysicalPanel().removeNucleus( nucleus );
         getModel().removeModelElement( nucleus );
     }
@@ -318,13 +328,17 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         for( int i = 0; i < neutronProducts.length; i++ ) {
             bodies.add( neutronProducts[i] );
         }
+
+        // If the conatinment vessel is being used, make it dissovle
+        if( containment != null ) {
+            containment.dissolve();
+        }
     }
 
     private void addContainment() {
-        containment = new Containment( new Ellipse2D.Double( -300, -300, 600, 600 ) );
-        //        containment = new Containment( new Rectangle2D.Double( -300, -300, 600, 600 ) );
+        containment = new Containment( new Ellipse2D.Double( -400, -400, 800, 800 ) );
         containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel(), getPhysicalPanel().getNucleonTx() );
-        getPhysicalPanel().addGraphic( containmentGraphic, 100 );
+        getPhysicalPanel().addGraphic( containmentGraphic, 10 );
     }
 
     private void removeContainment() {
@@ -339,6 +353,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         else {
             removeContainment();
         }
+        computeNeutronLaunchParams();
     }
 
     private Point2D.Double findLocationForNewNucleus() {
@@ -359,15 +374,6 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
             bounds = containment.geShape();
         }
         else {
-            //            Rectangle2D r = getPhysicalPanel().getBounds();
-            //            AffineTransform atx = getPhysicalPanel().getNucleonTx();
-            //            try {
-            //                apparatusPanelBounds.setFrameFromDiagonal( atx.inverseTransform( new Point2D.Double( r.getMinX(), r.getMinY() ), null ),
-            //                                           atx.inverseTransform( new Point2D.Double( r.getMinX() + r.getWidth(), r.getMinY() + r.getHeight() ), null ) );
-            //            }
-            //            catch( NoninvertibleTransformException e ) {
-            //                e.printStackTrace();
-            //            }
             bounds = apparatusPanelBounds;
         }
         boolean overlapping = false;
@@ -397,10 +403,12 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
 
             // todo: the hard-coded 50 here should be replaced with the radius of a Uranium nucleus
             if( location.getX() != 0 && location.getY() != 0 ) {
-                overlapping = overlapping || getNeutronPath().ptSegDist( location ) < 50 || !bounds.contains( location );
+                overlapping = overlapping
+                              || getNeutronPath().ptSegDist( location ) < 50
+                              || location.distance( 0, 0 ) + 50 > bounds.getBounds2D().getWidth() / 2;
             }
             attempts++;
-        } while( overlapping && attempts < 50 );
+        } while( overlapping && attempts < s_maxPlacementAttempts );
 
         if( overlapping ) {
             location = null;
