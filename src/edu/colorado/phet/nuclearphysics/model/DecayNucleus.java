@@ -12,7 +12,7 @@ import edu.colorado.phet.common.math.Vector2D;
 public class DecayNucleus extends Nucleus {
 
     private double f = 300;
-    private double dx = 20;
+    private double dx = 60;
     private Vector2D toParentHat;
 
     public DecayNucleus( Nucleus coreNucleus, Vector2D toParentHat, double initPotentialEnergy ) {

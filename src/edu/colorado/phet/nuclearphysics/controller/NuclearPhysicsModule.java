@@ -13,7 +13,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.nuclearphysics.model.*;
-import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
+import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
 import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
 
@@ -32,6 +32,7 @@ public class NuclearPhysicsModule extends Module {
         super( name );
         potentialProfile = defaultProfile;
         potentialProfilePanel = new PotentialProfilePanel( potentialProfile );
+//        potentialProfilePanel = new PotentialProfilePanel( potentialProfile );
         physicalPanel = new PhysicalPanel();
         apparatusPanel = new ApparatusPanel();
         super.setApparatusPanel( apparatusPanel );
@@ -82,6 +83,13 @@ public class NuclearPhysicsModule extends Module {
         potentialProfilePanel.addAlphaParticle( alphaParticle );
     }
 
+    protected void addNeutron( NuclearParticle particle ) {
+        this.getModel().addModelElement( particle );
+        NeutronGraphic ng = new NeutronGraphic( particle );
+        potentialProfilePanel.addOriginCenteredGraphic( ng );
+        physicalPanel.addGraphic( ng );
+    }
+
     public void setProfileMaxHeight( double modelValue ) {
         potentialProfile.setMaxPotential( modelValue );
         potentialProfilePanel.repaint();
@@ -113,10 +121,6 @@ public class NuclearPhysicsModule extends Module {
         // Add the new nuclei
         getModel().addModelElement( decayProducts.getN1() );
         getModel().addModelElement( decayProducts.getN2() );
-        NucleusGraphic n1g = new NucleusGraphic( decayProducts.getN1() );
-        physicalPanel.addGraphic( n1g );
-        NucleusGraphic n2g = new NucleusGraphic( decayProducts.getN2() );
-        physicalPanel.addGraphic( n2g );
     }
 
     protected PhysicalPanel getPhysicalPanel() {

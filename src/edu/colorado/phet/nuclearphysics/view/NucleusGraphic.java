@@ -15,8 +15,27 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
+
+    private static HashMap graphicToModelMap = new HashMap();
+
+    private static void register( NucleusGraphic nucleusGraphic, Nucleus nucleus ) {
+        ArrayList al = (ArrayList)graphicToModelMap.get( nucleus );
+        if( al == null ) {
+            al = new ArrayList();
+            graphicToModelMap.put( nucleus, al );
+        }
+        al.add( nucleusGraphic );
+    }
+
+    public static ArrayList getGraphicForNucleus( Nucleus nucleus ) {
+        Object obj = graphicToModelMap.get( nucleus );
+        return (ArrayList)obj;
+    }
+
     private Point2D.Double position = new Point2D.Double();
     private Nucleus nucleus;
     private NeutronGraphic neutronGraphic;
@@ -25,6 +44,7 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
 
     public NucleusGraphic( Nucleus nucleus ) {
         nucleus.addObserver( this );
+        register( this, nucleus );
         this.nucleus = nucleus;
         this.position.x = nucleus.getLocation().getX();
         this.position.y = nucleus.getLocation().getY();
@@ -59,7 +79,9 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
 
     public void paint( Graphics graphics, int x, int y ) {
         Graphics2D g2 = (Graphics2D)graphics;
-        g2.drawImage( img, x - (int)nucleus.getRadius(), y - (int)nucleus.getRadius(),
+        g2.drawImage( img,
+                      x - (int)( nucleus.getRadius() - NuclearParticle.RADIUS ),
+                      y - (int)( nucleus.getRadius() - NuclearParticle.RADIUS ),
                       this );
     }
 
@@ -68,8 +90,8 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     }
 
     public void update() {
-        this.position.x = nucleus.getLocation().getX();
-        this.position.y = nucleus.getLocation().getY();
+        this.position.x = nucleus.getLocation().getX() - nucleus.getRadius() - NuclearParticle.RADIUS;
+        this.position.y = nucleus.getLocation().getY() - nucleus.getRadius() - NuclearParticle.RADIUS;
     }
 
     public Nucleus getNucleus() {

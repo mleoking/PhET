@@ -6,27 +6,30 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.coreadditions.Body;
+
 import java.awt.geom.Point2D;
 
-public class NuclearParticle {
-    private Point2D.Double position = new Point2D.Double();
+public class NuclearParticle extends Body {
+//    private Point2D.Double position = new Point2D.Double();
     private double radius;
 
-    public NuclearParticle( Point2D.Double position ) {
-        this.position = position;
+    public NuclearParticle( Point2D.Double location ) {
+        super( location, new Vector2D(), new Vector2D(), 0f, 0f );
         this.radius = RADIUS;
-    }
-
-    public Point2D.Double getPosition() {
-        return position;
-    }
-
-    public void setPosition( Point2D.Double position ) {
-        this.position = position;
     }
 
     public double getRadius() {
         return this.radius;
+    }
+
+    public Point2D.Double getCM() {
+        return getLocation();
+    }
+
+    public double getMomentOfInertia() {
+        return 0;
     }
 
     //

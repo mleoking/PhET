@@ -8,15 +8,18 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.coreadditions.AlphaSetter;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayControlPanel;
-import edu.colorado.phet.nuclearphysics.controller.NuclearPhysicsModule;
+import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.DecayListener;
 import edu.colorado.phet.nuclearphysics.model.DecayProducts;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
 
-import java.awt.geom.Point2D;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
-public class AlphaRadiationModule extends NuclearPhysicsModule implements DecayListener {
+public class AlphaRadiationModule extends OneNucleusModule implements DecayListener {
 
     //
     // Statics
@@ -24,47 +27,51 @@ public class AlphaRadiationModule extends NuclearPhysicsModule implements DecayL
     private static int numAlphaParticles = 4;
 
 
-    //
-    // Instance fields and methods
-    //
-    private Uranium235 nucleus;
-
     public AlphaRadiationModule( AbstractClock clock ) {
         super( "Alpha Radiation", clock );
         super.addControlPanelElement( new AlphaDecayControlPanel( this ) );
 
-        nucleus = new Uranium235( new Point2D.Double( 0, 0 ) );
-//        nucleus = new Uranium235( new Point2D.Double( 200, 400 ) );
-        setUraniumNucleus( nucleus );
-        nucleus.addDecayListener( this );
+        getNucleus().addDecayListener( this );
 
-        for( int i = 0; i < nucleus.getAlphaParticles().length; i++ ) {
-            addAlphaParticle( nucleus.getAlphaParticles()[i] );
+        for( int i = 0; i < getNucleus().getAlphaParticles().length; i++ ) {
+            addAlphaParticle( getNucleus().getAlphaParticles()[i] );
         }
+        addRingGraphic();
     }
+
+    private void addRingGraphic() {
+        // Add a ring around the nucleus to show where its alpha decay radius is
+        double radius = Math.abs( getNucleus().getPotentialProfile().getAlphaDecayX() ) + AlphaParticle.RADIUS;
+        double x = getNucleus().getLocation().getX() - radius;
+        double y = getNucleus().getLocation().getY() - radius;
+        final Ellipse2D.Double alphaRing = new Ellipse2D.Double( x, y, radius * 2, radius * 2 );
+        Graphic ringGraphic = new Graphic() {
+            public void paint( Graphics2D g ) {
+                GraphicsUtil.setAntiAliasingOn( g );
+                AlphaSetter.set( g, 0.3 );
+                g.setColor( Color.blue );
+                g.setStroke( new BasicStroke( 2f ) );
+                g.draw( alphaRing );
+                AlphaSetter.set( g, 1 );
+            }
+        };
+        this.getPotentialProfilePanel().addOriginCenteredGraphic( ringGraphic );
+    }
+
 
     public void alphaDecay( DecayProducts decayProducts ) {
         getPotentialProfilePanel().addDecayProduct( decayProducts.getN2() );
-        super.handleDecay( decayProducts );
-    }
-
-    protected void clear() {
-        getPhysicalPanel().clear();
-        getPotentialProfilePanel().clear();
-        this.getModel().removeModelElement( nucleus );
+        getPhysicalPanel().addNucleus( decayProducts.getN2() );
+        getModel().addModelElement( decayProducts.getN2() );
+//        super.handleDecay( decayProducts );
     }
 
     public void run() {
-        clear();
-
-        nucleus = new Uranium235( new Point2D.Double( 0, 0 ) );
-//        nucleus.setVelocity( 10, 10 );
-//        nucleus = new Uranium235( new Point2D.Double( 200, 400 ) );
-        setUraniumNucleus( nucleus );
-        nucleus.addDecayListener( this );
-
-        for( int i = 0; i < nucleus.getAlphaParticles().length; i++ ) {
-            addAlphaParticle( nucleus.getAlphaParticles()[i] );
+        super.run();
+        getNucleus().addDecayListener( this );
+        for( int i = 0; i < getNucleus().getAlphaParticles().length; i++ ) {
+            addAlphaParticle( getNucleus().getAlphaParticles()[i] );
         }
+        addRingGraphic();
     }
 }
