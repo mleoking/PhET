@@ -116,9 +116,6 @@ public class ElectromagnetModule extends FaradayModule {
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil appearance.
         electromagnetModel.update();
-         
-        // Rescaler
-        IRescaler rescaler = new CompassGridRescaler( electromagnetModel );
         
         // Compass model
         Compass compassModel = new Compass( electromagnetModel );
@@ -145,7 +142,7 @@ public class ElectromagnetModule extends FaradayModule {
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, 
                 electromagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescaler( rescaler );
+        gridGraphic.setRescaler( new CompassGridRescaler( electromagnetModel ) );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         apparatusPanel.addChangeListener( gridGraphic );

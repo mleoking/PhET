@@ -86,9 +86,6 @@ public class BarMagnetModule extends FaradayModule {
         barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
         barMagnetModel.setDirection( 0 /* radians */ );
         // Do NOT set the size -- size is set by the associated BarMagnetGraphic.
-
-        // Rescaler
-        IRescaler rescaler = new CompassGridRescaler( barMagnetModel );
         
         // Compass model
         Compass compassModel = new Compass( barMagnetModel );
@@ -112,7 +109,7 @@ public class BarMagnetModule extends FaradayModule {
         
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescaler( rescaler );
+        gridGraphic.setRescaler( new CompassGridRescaler( barMagnetModel ) );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         apparatusPanel.addChangeListener( gridGraphic );
