@@ -7,11 +7,11 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
-public class RoundGradientPaintFill
+public class RoundGradientPaintFillTest
         extends JFrame {
     public static void main( String[] args ) {
-        RoundGradientPaintFill f = new RoundGradientPaintFill();
-        f.setTitle( "RoundGradientPaintFill v1.0" );
+        RoundGradientPaintFillTest f = new RoundGradientPaintFillTest();
+        f.setTitle( "RoundGradientPaintFillTest v1.0" );
         f.setSize( 200, 200 );
 
         f.setVisible( true );
