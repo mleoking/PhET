@@ -13,13 +13,14 @@ package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.ModelElement;
 
 import java.awt.geom.Point2D;
 
 /**
  *
  */
-public abstract class SpontaneouslyEmittingState extends AtomicState {
+public abstract class SpontaneouslyEmittingState extends AtomicState implements ModelElement {
 
     private double lifeTime;
     private double deathTime;
@@ -49,26 +50,18 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
             Photon emittedPhoton = emitPhoton();
 
             double speed = emittedPhoton.getVelocity().getMagnitude();
-//            double speed = emittedPhoton.getVelocity().getLength();
             double theta = Math.random() * Math.PI * 2;
             double x = speed * Math.cos( theta );
             double y = speed * Math.sin( theta );
-//            double x = speed * (double) Math.cos( theta );
-//            double y = speed * (double) Math.sin( theta );
             emittedPhoton.setVelocity( x, y );
             emittedPhoton.setPosition( new Point2D.Double( getAtom().getPosition().getX(), getAtom().getPosition().getY() ));
-//            emittedPhoton.setPosition( new Vector2D( getAtom().getPosition() ));
 
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
             Vector2D vHat = new Vector2D.Double( emittedPhoton.getVelocity() ).normalize();
-//            Vector2D position = new Vector2D.Double( getAtom().getPosition() );
-//            Vector2D vHat = new Vector2D( emittedPhoton.getVelocity() ).normalize();
             Vector2D position = new Vector2D.Double( getAtom().getPosition() );
             position.add( vHat.scale( getAtom().getRadius() + 10 ));
-//            position.add( vHat.multiply( getAtom().getRadius() + 10 ));
             emittedPhoton.setPosition( position.getX(), position.getY() );
-
             getAtom().emitPhoton( emittedPhoton );
 
             // Change state
