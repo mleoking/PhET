@@ -18,7 +18,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
-import edu.colorado.phet.lasers.controller.BeamControl;
+import edu.colorado.phet.lasers.controller.BeamControl2;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.MultipleAtomControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -28,8 +28,6 @@ import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.LampGraphic;
 
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -71,7 +69,7 @@ public class MultipleAtomModule extends BaseLaserModule {
                                                                     s_boxWidth + s_laserOffsetX * 2, s_boxHeight );
         seedBeam.setBounds( seedBeamBounds );
         seedBeam.setDirection( new Vector2D.Double( 1, 0 ) );
-        seedBeam.setEnabled( true );
+        seedBeam.setEnabled( false );
         seedBeam.setPhotonsPerSecond( 1 );
 
         CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
@@ -91,25 +89,6 @@ public class MultipleAtomModule extends BaseLaserModule {
         catch( IOException e ) {
             e.printStackTrace();
         }
-
-        // Add the lamp for the seed beam
-        Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)seedBeamBounds.getX() - 100,
-                                                              (int)( seedBeamBounds.getY() ),
-                                                              100, (int)seedBeamBounds.getHeight() );
-        AffineTransform atx = new AffineTransform();
-        atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
-
-        // Add the intensity control
-        JPanel sbmPanel = new JPanel();
-        BeamControl sbm = new BeamControl( seedBeam );
-        Dimension sbmDim = sbm.getPreferredSize();
-        sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
-                            (int)sbmDim.getWidth() + 10, (int)sbmDim.getHeight() + 10 );
-        sbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-        sbmPanel.add( sbm );
-        //            sbmPanel.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-        sbmPanel.setOpaque( false );
-        //            getApparatusPanel().add( sbmPanel );
 
         // Pumping beam lamps
         int numLamps = 8;
@@ -131,18 +110,11 @@ public class MultipleAtomModule extends BaseLaserModule {
         }
 
         // Add the beam control
-        JPanel pbmPanel = new JPanel();
-        BeamControl pbm = new BeamControl( pumpingBeam, 0, LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE );
-        Dimension pbmDim = pbm.getPreferredSize();
-        AffineTransform pumpingBeamTx = new AffineTransform();
-        pumpingBeamTx.translate( getLaserOrigin().getX() + gunBI.getHeight() + s_boxWidth / 2 - gunBI.getHeight() / 2, 10 );
-        pbmPanel.setBounds( (int)( cavity.getBounds().getX() - pbmDim.getWidth() - 30 ), 10,
-                            (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
-        pbmPanel.add( pbm );
-        //            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-        pbm.setBorder( new BevelBorder( BevelBorder.RAISED ) );
-        pbmPanel.setOpaque( false );
-        getApparatusPanel().add( pbmPanel );
+        Point pumpControlLocation = new Point( (int)( cavity.getBounds().getX() - 150 ), 10 );
+        BeamControl2 pumpBeamControl = new BeamControl2( getApparatusPanel(), pumpControlLocation, pumpingBeam,
+                                                         LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE,
+                                                         null, null );
+        getApparatusPanel().addGraphic( pumpBeamControl );
 
         // Only the pumping beam is enabled for this module
         pumpingBeam.setEnabled( true );
