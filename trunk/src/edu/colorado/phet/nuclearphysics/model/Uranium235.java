@@ -11,6 +11,14 @@ import java.util.ArrayList;
 
 public class Uranium235 extends Nucleus {
 
+    //
+    // Statics
+    //
+    private static PotentialProfile potentialProfile = new PotentialProfile( 300, 400, 75 );
+
+    //
+    // Instance fields and methods
+    //
     private ArrayList decayListeners = new ArrayList();
     private AlphaParticle[] alphaParticles = new AlphaParticle[4];
 
@@ -30,20 +38,25 @@ public class Uranium235 extends Nucleus {
     }
 
     public void stepInTime( double dt ) {
-        if( Math.abs( getStatisticalLocationOffset().getX() ) + this.getRadius()
-            - Math.abs( potentialProfile.getAlphaDecayX() ) > NuclearParticle.RADIUS * 5 ) {
-            try {
-                Thread.sleep( 10 );
+        for( int j = 0; j < alphaParticles.length; j++ ) {
+            AlphaParticle alphaParticle = alphaParticles[j];
+            if( Math.abs( alphaParticle.getStatisticalLocationOffset().getX() ) + alphaParticle.getRadius()
+                > Math.abs( potentialProfile.getAlphaDecayX() ) ) {
+//            if( Math.abs( getStatisticalLocationOffset().getX() ) + this.getRadius()
+//                - Math.abs( potentialProfile.getAlphaDecayX() ) > NuclearParticle.RADIUS * 5 ) {
+                try {
+                    Thread.sleep( 10 );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+                DecayProducts decayProducts = alphaDecay();
+                for( int i = 0; i < decayListeners.size(); i++ ) {
+                    DecayListener decayListener = (DecayListener)decayListeners.get( i );
+                    decayListener.alphaDecay( decayProducts );
+                }
+                return;
             }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
-            DecayProducts decayProducts = alphaDecay();
-            for( int i = 0; i < decayListeners.size(); i++ ) {
-                DecayListener decayListener = (DecayListener)decayListeners.get( i );
-                decayListener.alphaDecay( decayProducts );
-            }
-            return;
         }
         super.stepInTime( dt );
     }
@@ -59,9 +72,9 @@ public class Uranium235 extends Nucleus {
                                                            this.getLocation().getY() + dy ),
                                        this.getNumProtons() - n1Protons,
                                        this.getNumNeutrons() - n1Neutrons, this.getPotentialProfile() );
-        Nucleus n2 = new Nucleus( new Point2D.Double( this.getLocation().getX() - dx,
-                                                      this.getLocation().getY() - dy ),
-                                  n1Protons, n1Neutrons, this.getPotentialProfile() );
+        Nucleus n2 = new DecayNucleus( new Point2D.Double( this.getLocation().getX() - dx,
+                                                           this.getLocation().getY() - dy ),
+                                       n1Protons, n1Neutrons, this.getPotentialProfile() );
         DecayProducts products = new DecayProducts( this, n1, n2 );
         return products;
     }
@@ -84,10 +97,5 @@ public class Uranium235 extends Nucleus {
         DecayProducts products = new DecayProducts( this, n1, n2 );
         return products;
     }
-
-    //
-    // Statics
-    //
-    private static PotentialProfile potentialProfile = new PotentialProfile( 300, 400, 75 );
 
 }

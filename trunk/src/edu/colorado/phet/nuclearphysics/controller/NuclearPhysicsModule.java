@@ -108,7 +108,6 @@ public class NuclearPhysicsModule extends Module {
         // Remove the old nucleus
         getModel().removeModelElement( decayProducts.getN0() );
         physicalPanel.removeNucleus( decayProducts.getN0() );
-        potentialProfilePanel.removeNucleus();
 
         // Add the new nuclei
         getModel().addModelElement( decayProducts.getN1() );
