@@ -19,7 +19,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.PhotoModule;
+import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 
@@ -28,11 +28,14 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
 public class LaserSimulation extends PhetApplication {
+    private JDialog photoDlg;
 
     public static class LaserAppModel extends ApplicationModel {
         public LaserAppModel() {
@@ -55,12 +58,10 @@ public class LaserSimulation extends PhetApplication {
 
             Module singleAtomModule = new SingleAtomModule( clock );
             Module multipleAtomModule = new MultipleAtomModule( clock );
-            Module photoModule = new PhotoModule( clock );
 //            Module kaboomModule = new TestKaboomModule();
             Module[] modules = new Module[]{
                 singleAtomModule,
                 multipleAtomModule,
-                photoModule                
 //                kaboomModule
             };
             setModules( modules );
@@ -72,6 +73,16 @@ public class LaserSimulation extends PhetApplication {
 
     public LaserSimulation( String[] args ) {
         super( new LaserAppModel(), args );
+        JButton photoBtn = new JButton( SimStrings.get( "LaserPhotoButtonLabel" ) );
+        photoBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( photoDlg == null ) {
+                    photoDlg = new PhotoWindow( getPhetFrame() );
+                }
+                photoDlg.setVisible( true );
+            }
+        } );
+        this.getPhetFrame().getClockControlPanel().add( photoBtn, BorderLayout.WEST );
     }
 
     public void displayHighToMidEmission( boolean selected ) {

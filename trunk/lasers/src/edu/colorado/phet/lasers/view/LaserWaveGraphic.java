@@ -35,7 +35,7 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
     private StandingWaveGraphic internalStandingWaveGraphic;
     private TravelingWaveGraphic externalTravelingWaveGraphic;
     // The waves that are shown when the thins is not lasing
-    private int numNonLasingExternalWaveGraphics = 5;
+    private int numNonLasingExternalWaveGraphics = 4;
     private WaveGraphic[] nonLasingExternalWaveGraphics = new WaveGraphic[numNonLasingExternalWaveGraphics];
     // Angle that is considered horizontal, for purposes of lasing
     private double angleWindow = LaserConfig.PHOTON_CHEAT_ANGLE;
@@ -72,7 +72,7 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
         int j = numNonLasingExternalWaveGraphics / 2;
         for( int i = 0; i < numNonLasingExternalWaveGraphics; i++ ) {
             double theta = ( i - j ) * dTheta;
-            double yOffset = (i - j ) * dy;
+            double yOffset = ( i - j ) * dy;
             Point2D nonLasingWaveOrigin = new Point2D.Double( cavity.getMinX() + cavity.getWidth(),
                                                               cavity.getMinY() + ( cavity.getHeight() / 2 ) + yOffset );
             WaveGraphic waveGraphic = new NonLasingWaveGraphic( apparatusPanel, nonLasingWaveOrigin, cavity.getWidth(),

@@ -113,7 +113,8 @@ public class MultipleAtomModule extends BaseLaserModule {
         }
 
         // Add the beam control
-        Point pumpControlLocation = new Point( (int)( cavity.getBounds().getX() - 150 ), 10 );
+        Point pumpControlLocation = new Point( (int)( cavity.getBounds().getMaxX() ), 10 );
+//        Point pumpControlLocation = new Point( (int)( cavity.getBounds().getX() - 150 ), 10 );
         pumpBeamControl = new BeamControl2( getApparatusPanel(), pumpControlLocation, pumpingBeam,
                                             LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE,
                                             null, null );

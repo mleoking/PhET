@@ -11,7 +11,6 @@
  */
 package edu.colorado.phet.lasers;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -19,7 +18,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.PhotoModule;
+import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 
@@ -28,47 +27,15 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
 public class LaserSimulation2 extends PhetApplication {
+    private JDialog photoDlg;
 
-//    public static class LaserAppModel extends ApplicationModel {
-//        public LaserAppModel() {
-//            super( SimStrings.get( "LasersApplication.title" ),
-//                   SimStrings.get( "LasersApplication.description" ),
-//                   SimStrings.get( "LasersApplication.version" ) );
-//
-//
-//            AbstractClock clock = new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND );
-//            setClock( clock );
-//
-//            // Determine the resolution of the screen
-//            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//            setFrameCenteredSize( 1024, 750 );
-//            if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
-//                FrameSetup fs = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 750 ) );
-//                setFrameSetup( fs );
-//            }
-//
-//
-//            Module singleAtomModule = new SingleAtomModule( clock );
-//            Module multipleAtomModule = new MultipleAtomModule( clock );
-//            Module photoModule = new PhotoModule( clock );
-////            Module kaboomModule = new TestKaboomModule();
-//            Module[] modules = new Module[]{
-//                singleAtomModule,
-//                multipleAtomModule,
-//                photoModule
-////                kaboomModule
-//            };
-//            setModules( modules );
-////            setInitialModule( multipleAtomModule );
-//            setInitialModule( singleAtomModule );
-////            setInitialModule( kaboomModule );
-//        }
-//    }
 
     public LaserSimulation2( String[] args ) {
         super( args,
@@ -76,7 +43,6 @@ public class LaserSimulation2 extends PhetApplication {
                SimStrings.get( "LasersApplication.title" ),
                SimStrings.get( "LasersApplication.description" ),
                SimStrings.get( "LasersApplication.version" ) );
-//        setClock( clock );
 
         // Determine the resolution of the screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -89,12 +55,22 @@ public class LaserSimulation2 extends PhetApplication {
 
         Module singleAtomModule = new SingleAtomModule( getClock() );
         Module multipleAtomModule = new MultipleAtomModule( getClock() );
-        Module photoModule = new PhotoModule( getClock() );
-//            Module kaboomModule = new TestKaboomModule();
         addModule( singleAtomModule );
         addModule( multipleAtomModule );
-        addModule( photoModule );
         setInitialModule( singleAtomModule );
+
+        // Set up the button to show picture of actual laser
+        JButton photoBtn = new JButton( "<html>View Picture of<br>Actual Laser</html>" );
+        photoBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( photoDlg == null ) {
+                    photoDlg = new PhotoWindow( getPhetFrame() );
+                }
+                photoDlg.setVisible( true );
+            }
+        } );
+        this.getPhetFrame().getClockControlPanel().add( photoBtn, BorderLayout.WEST );
+
     }
 
     public void displayHighToMidEmission( boolean selected ) {
