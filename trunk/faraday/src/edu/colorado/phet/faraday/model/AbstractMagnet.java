@@ -14,8 +14,7 @@ package edu.colorado.phet.faraday.model;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
@@ -155,18 +154,19 @@ public abstract class AbstractMagnet extends SpacialObservable {
      * Gets the strength vector of the magnetic field at a point in 2D space.
      * 
      * @param p the point
-     * @return the strength vector
+     * @param strengthDst strength is written here if provided, may be null
+     * @return the strength vector, strengthDst if it was provided
      */
-    public abstract AbstractVector2D getStrength( final Point2D p );
+    public abstract Vector2D getStrength( final Point2D p, Vector2D strengthDst );
     
     /**
-     * Convenience method for getting the strength at a point.
+     * Gets the strength vector of the magnetic field at a point in 2D space.
      * 
-     * @param x X coordinate
-     * @param y Y coordinate
+     * @param p the point
+     * @return the strength vector
      */
-    public AbstractVector2D getStrength( double x, double y ) {
-        return getStrength( new Point2D.Double( x, y ) );
+    public Vector2D getStrength( final Point2D p ) {
+        return getStrength( p, null );
     }
     
     /**

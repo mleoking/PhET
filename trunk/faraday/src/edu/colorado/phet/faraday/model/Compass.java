@@ -13,9 +13,9 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.faraday.util.Vector2D;
 
 /**
  * Compass is the model of a compass.
@@ -63,6 +63,9 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
     // A reusable point.
     private Point2D _point;
     
+    // A reusable vector
+    private Vector2D _emf;
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -87,8 +90,9 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
         _alpha = 0.0;
         
         _point = new Point2D.Double();
+        _emf = new Vector2D();
         
-        AbstractVector2D fieldStrength = _magnetModel.getStrength( getLocation() );
+        Vector2D fieldStrength = _magnetModel.getStrength( getLocation() );
         setDirection( fieldStrength.getAngle() );
     }
     
@@ -104,16 +108,6 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-
-    /**
-     * Gets the strength of the magnetic field at the compass location.
-     * 
-     * @return the field strength vector
-     */
-    public AbstractVector2D getFieldStrength() {
-        getLocation( _point /* destination */ );
-        return _magnetModel.getStrength( _point );
-    }
     
     /**
      * Enables and disabled the compass.
@@ -201,21 +195,22 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
 
         if ( isEnabled() ) {
             
-            AbstractVector2D emf = getFieldStrength();
+            getLocation( _point /* destination */ );
+            _emf = _magnetModel.getStrength( _point );
             
-            if ( emf.getMagnitude() == 0 ) {
+            if ( _emf.getMagnitude() == 0 ) {
                 // Do nothing if there is no magnetic field, direction should remain unchanged.
             }
             else if ( ! _rotationalKinematicsEnabled ) {
                 // If rotational kinematics is disabled, simply set the angle.
                 _omega = 0;
                 _alpha = 0;
-                setDirection( emf.getAngle() );
+                setDirection( _emf.getAngle() );
             }
             else {
                 // If rotational kinematics is enabled, use Verlet algorithm.
-                double magnitude = emf.getMagnitude();
-                double angle = emf.getAngle();
+                double magnitude = _emf.getMagnitude();
+                double angle = _emf.getAngle();
 
                 // Difference between the field angle and the compass angle.
                 double phi = ( ( magnitude == 0 ) ? 0.0 : ( angle - _theta ) );
