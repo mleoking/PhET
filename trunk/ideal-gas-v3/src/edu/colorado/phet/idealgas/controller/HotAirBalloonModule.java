@@ -12,7 +12,6 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.BoxMustContainParticle;
 import edu.colorado.phet.idealgas.model.Constraint;
@@ -29,6 +28,8 @@ public class HotAirBalloonModule extends IdealGasModule {
     private double initRadius;
     private double initX;
     private double initY;
+    private int defaultGravity = 0;
+//    private int defaultGravity = IdealGasConfig.s_maxGravity / 2;
 
     public HotAirBalloonModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.HotAirBalloon" ) );
@@ -110,7 +111,7 @@ public class HotAirBalloonModule extends IdealGasModule {
         getControlPanel().add( controlPanel );
 
         // Turn on gravity
-        setGravity( IdealGasConfig.s_maxGravity / 2 );
+        setGravity( defaultGravity );
 
     }
 

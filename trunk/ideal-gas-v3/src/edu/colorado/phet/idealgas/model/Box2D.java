@@ -37,7 +37,7 @@ public class Box2D extends CollidableBody {
         new Point2D.Double(),
         new Point2D.Double()};
 
-    private IdealGasModel model;
+    IdealGasModel model;
     private double oldMinX;
     private double minimumWidth = 100;
 

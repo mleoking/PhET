@@ -80,50 +80,89 @@ public class IdealGasModule extends Module {
     private Box2DGraphic boxGraphic;
     private JPanel pressureSlideTimeAveCtrlPane;
     private StopwatchPanel stopwatchPanel;
+    private PressureSlice gaugeSlice;
 
 
+    /**
+     * @param clock
+     */
     public IdealGasModule( AbstractClock clock ) {
         this( clock, SimStrings.get( "ModuleTitle.IdealGas" ) );
         this.clock = clock;
     }
 
-    protected IdealGasModel getIdealGasModel() {
-        return (IdealGasModel)getModel();
-    }
-
-    public IdealGasModule( AbstractClock clock, String name ) {
-        super( name );
+    /**
+     * @param clock
+     * @param name
+     */
+    protected IdealGasModule( AbstractClock clock, String name ) {
+        super( name, clock );
         this.clock = clock;
 
         // Create the model
         idealGasModel = new IdealGasModel( clock.getDt() );
         setModel( idealGasModel );
 
-        gravity = new Gravity( idealGasModel );
-        idealGasModel.addModelElement( gravity );
-
         // Add collision experts
         idealGasModel.addCollisionExpert( new SphereSphereExpert( idealGasModel, clock.getDt() ) );
         idealGasModel.addCollisionExpert( new SphereBoxExpert( idealGasModel ) );
 
-        // Create the box
-        double xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;
-        double yOrigin = 252 + IdealGasConfig.Y_BASE_OFFSET;
-        double xDiag = 434 + IdealGasConfig.X_BASE_OFFSET;
-        double yDiag = 497 + IdealGasConfig.Y_BASE_OFFSET;
-        box = new PressureSensingBox( new Point2D.Double( xOrigin, yOrigin ),
-                                      new Point2D.Double( xDiag, yDiag ), idealGasModel, clock );
-        idealGasModel.addBox( box );
-        setApparatusPanel( new BaseIdealGasApparatusPanel( this, clock, box ) );
+        // Create the box and its graphic
+        createBoxAndGraphic( clock );
 
+        // Create the pressure gauge and thermometer
+        createGauges( clock );
+
+        // Create the pump
+        createPumpAndGraphic();
+
+        // Set up gravity. Note that this must be done after the box and pump are created
+        gravity = new Gravity( idealGasModel );
+        setGravity( 0 );
+        idealGasModel.addModelElement( gravity );
+
+        // Add the animated mannequin
+        Mannequin pusher = new Mannequin( getApparatusPanel(), idealGasModel, box, boxGraphic );
+        addGraphic( pusher, 10 );
+
+        // Set up the control panel
+        idealGasControlPanel = new IdealGasControlPanel( this );
+        ControlPanel controlPanel = new ControlPanel( this );
+        controlPanel.add( idealGasControlPanel );
+        setControlPanel( controlPanel );
+
+        // Place a slider to control the stove
+        createStoveControl();
+
+        // Add help items
+        addHelp();
+    }
+
+    /**
+     * Utility method
+     *
+     * @return
+     */
+    protected IdealGasModel getIdealGasModel() {
+        return (IdealGasModel)getModel();
+    }
+
+    /**
+     * Creates the pressure gauge and thermometer
+     *
+     * @param clock
+     */
+    private void createGauges( AbstractClock clock ) {
         // Add the pressure gauge
-        PressureSlice gaugeSlice = new PressureSlice( box, idealGasModel, clock );
-        box.setGuageSlice( gaugeSlice );
+        gaugeSlice = new PressureSlice( box, idealGasModel, clock );
         gaugeSlice.setTimeAveragingWindow( 2500 * ( clock.getDt() / clock.getDelay() ) );
         gaugeSlice.setUpdateContinuously( true );
         gaugeSlice.setY( box.getMinY() + 50 );
+        box.setGuageSlice( gaugeSlice );
         idealGasModel.addModelElement( gaugeSlice );
-        PressureDialGauge pressureGauge = new PressureDialGauge( box, getApparatusPanel(), gaugeSlice );
+        PressureDialGauge pressureGauge = new PressureDialGauge( box, getApparatusPanel(),
+                                                                 new Point( (int)box.getMaxX(),
+                                                                            (int)gaugeSlice.getY() ) );
         addGraphic( pressureGauge, 20 );
 
         // Add the thermometer
@@ -133,8 +172,55 @@ public class IdealGasModule extends Module {
                                                idealGasModel, thermometerLoc,
                                                thermometerHeight, 10, true, 0, 1000E3 );
         addGraphic( thermometer, 8 );
+    }
 
-        // Create the pump
+    /**
+     * @param clock
+     */
+    private void createBoxAndGraphic( AbstractClock clock ) {
+        double xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;
+        double yOrigin = 252 + IdealGasConfig.Y_BASE_OFFSET;
+        double xDiag = 434 + IdealGasConfig.X_BASE_OFFSET;
+        double yDiag = 497 + IdealGasConfig.Y_BASE_OFFSET;
+        box = new PressureSensingBox( new Point2D.Double( xOrigin, yOrigin ),
+                                      new Point2D.Double( xDiag, yDiag ), idealGasModel, clock );
+        idealGasModel.addBox( box );
+        setApparatusPanel( new BaseIdealGasApparatusPanel( this, clock, box ) );
+
+        // Set up the box graphic
+        boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
+        addGraphic( boxGraphic, 10 );
+    }
+
+    /**
+     *
+     */
+    private void createStoveControl() {
+        StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
+        stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
+                                     IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
+//        getApparatusPanel().add( stoveControlPanel );
+
+        StoveControlPanel2 scp2 = new StoveControlPanel2( this );
+        scp2.setLocation( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 100,
+                          IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 20 );
+        getApparatusPanel().addGraphic( scp2 );
+
+        // Add buttons for selecting the species that the pump will produce
+//        PumpSpeciesSelectorPanel pumpSelectorPanel = new PumpSpeciesSelectorPanel( this );
+//        pumpSelectorPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + 590, IdealGasConfig.Y_BASE_OFFSET + 300,
+//                                     200, 150 );
+        PumpSpeciesSelectorPanel2 pumpSelectorPanel = new PumpSpeciesSelectorPanel2( this );
+        pumpSelectorPanel.setLocation( IdealGasConfig.X_BASE_OFFSET + 610, IdealGasConfig.Y_BASE_OFFSET + 300 );
+        getApparatusPanel().addGraphic( pumpSelectorPanel );
+//        getApparatusPanel().add( pumpSelectorPanel );
+        getApparatusPanel().revalidate();
+    }
+
+    /**
+     *
+     */
+    private void createPumpAndGraphic() {
         pump = new Pump( this, box, getPumpingEnergyStrategy() );
 
         // Set up the graphics for the pump
@@ -158,7 +244,6 @@ public class IdealGasModule extends Module {
 
             this.addGraphic( handleGraphicImage, -6 );
             pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
-//            PhetImageGraphic pumpGraphic = new PhetImageGraphic( getApparatusPanel(), basePumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
             this.addGraphic( pumpGraphic, -4 );
 
             if( wiggleMeGraphic == null ) {
@@ -182,45 +267,6 @@ public class IdealGasModule extends Module {
         catch( IOException e ) {
             e.printStackTrace();
         }
-
-
-        // Set up the box
-        boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
-        addGraphic( boxGraphic, 10 );
-
-        // Add the animated mannequin
-        Mannequin pusher = new Mannequin( getApparatusPanel(), idealGasModel, box, boxGraphic );
-        addGraphic( pusher, 10 );
-
-        // Set up the control panel
-        idealGasControlPanel = new IdealGasControlPanel( this );
-        ControlPanel controlPanel = new ControlPanel( this );
-        controlPanel.add( idealGasControlPanel );
-        setControlPanel( controlPanel );
-
-        // Place a slider to control the stove
-        StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
-        stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
-                                     IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
-//        getApparatusPanel().add( stoveControlPanel );
-
-        StoveControlPanel2 scp2 = new StoveControlPanel2( this );
-        scp2.setLocation( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 100,
-                          IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 20 );
-        getApparatusPanel().addGraphic( scp2 );
-
-        // Add buttons for selecting the species that the pump will produce
-//        PumpSpeciesSelectorPanel pumpSelectorPanel = new PumpSpeciesSelectorPanel( this );
-//        pumpSelectorPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + 590, IdealGasConfig.Y_BASE_OFFSET + 300,
-//                                     200, 150 );
-        PumpSpeciesSelectorPanel2 pumpSelectorPanel = new PumpSpeciesSelectorPanel2( this );
-        pumpSelectorPanel.setLocation( IdealGasConfig.X_BASE_OFFSET + 610, IdealGasConfig.Y_BASE_OFFSET + 300 );
-        getApparatusPanel().addGraphic( pumpSelectorPanel );
-//        getApparatusPanel().add( pumpSelectorPanel );
-        getApparatusPanel().revalidate();
-
-        // Add help items
-        addHelp();
     }
 
     protected Pump.PumpingEnergyStrategy getPumpingEnergyStrategy() {
@@ -301,13 +347,21 @@ public class IdealGasModule extends Module {
         ( (BaseIdealGasApparatusPanel)getApparatusPanel() ).setStove( value );
     }
 
+    /**
+     * Sets the value for garvity. Also sets the strategy used to determine what energy will
+     * be given to molecules pumped into the box, and the way that the box reports pressure
+     *
+     * @param value
+     */
     public void setGravity( double value ) {
         gravity.setAmt( value );
         if( value != 0 ) {
             pump.setPumpingEnergyStrategy( new Pump.FixedEnergyStrategy() );
+            box.setMultipleSlicesEnabled( false );
         }
         else {
             pump.setPumpingEnergyStrategy( new Pump.ConstantEnergyStrategy( getIdealGasModel() ) );
+            box.setMultipleSlicesEnabled( true );
         }
     }
 

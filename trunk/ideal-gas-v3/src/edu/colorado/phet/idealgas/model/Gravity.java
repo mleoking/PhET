@@ -16,8 +16,6 @@ import java.util.EventObject;
 import java.util.List;
 
 public class Gravity implements ModelElement {
-    //public class Gravity implements Force {
-    //public class Gravity implements Force {
 
     private Vector2D acceleration = new Vector2D.Double();
     private IdealGasModel model;
@@ -31,8 +29,8 @@ public class Gravity implements ModelElement {
         List bodies = model.getBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
-            if( body instanceof HollowSphere ) {
-                System.out.println( "Gravity.stepInTime" );
+            if( getAmt() > 0 ) {
+//                System.out.println( "Gravity.stepInTime" );
             }
             body.setAcceleration( body.getAcceleration().add( acceleration ) );
         }
