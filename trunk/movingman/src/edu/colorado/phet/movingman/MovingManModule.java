@@ -13,19 +13,15 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.BasicPhetPanel;
+import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpPanel;
-import edu.colorado.phet.common.view.plaf.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
-import edu.colorado.phet.movingman.common.CircularBuffer;
-import edu.colorado.phet.movingman.common.LinearTransform1d;
-import edu.colorado.phet.movingman.common.WiggleMe;
+import edu.colorado.phet.common.view.util.SwingUtils;
+import edu.colorado.phet.movingman.common.*;
 import edu.colorado.phet.movingman.misc.JEPFrame;
 import edu.colorado.phet.movingman.plots.MMPlot;
 import smooth.util.SmoothUtilities;
@@ -390,7 +386,7 @@ public class MovingManModule extends Module {
             JLabel label = new JLabel( new ImageIcon( image ) );
             imageFrame.setContentPane( label );
             imageFrame.pack();
-            GraphicsUtil.centerWindowOnScreen( imageFrame );
+            SwingUtils.centerWindowOnScreen( imageFrame );
             imageFrame.setVisible( true );
             imageFrame.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent e ) {
@@ -628,7 +624,7 @@ public class MovingManModule extends Module {
         }
         final JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( getApparatusPanel() );
         JPanel jp = (JPanel)parent.getContentPane();
-        BasicPhetPanel bpp = (BasicPhetPanel)jp;
+        ContentPanel contentPanel = (ContentPanel)jp;
         final JPanel appPanel = new JPanel( new BorderLayout() );
 //        appPanel.setLayout( new FlowLayout() );
         final JComponent playbackPanel = movingManControlPanel.getPlaybackPanel();
@@ -661,7 +657,8 @@ public class MovingManModule extends Module {
         HelpPanel hp = new HelpPanel( this );
 //        JButton help = new JButton( SimStrings.get( "MovingManModule.HelpButton" );
         appPanel.add( hp, BorderLayout.EAST );
-        bpp.setAppControlPanel( appPanel );
+//        contentPanel.setsetAppControlPanel( appPanel );//todo fix
+        contentPanel.setAppControlPanel( appPanel );
 //        relayout.run();
         initMediaPanel = true;
     }

@@ -3,7 +3,6 @@ package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.plaf.PlafUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,11 +50,11 @@ public class MovingManControlPanel extends JPanel {
 
         VerticalLayoutPanel northPanel = new VerticalLayoutPanel();
         final JMenu viewMenu = new JMenu( SimStrings.get( "MovingManControlPanel.ViewMenu" ) );
-        JMenuItem[] items = PlafUtil.getLookAndFeelItems();
-        for( int i = 0; i < items.length; i++ ) {
-            JMenuItem item = items[i];
-            viewMenu.add( item );
-        }
+//        JMenuItem[] items = PlafUtil.getLookAndFeelItems();
+//        for( int i = 0; i < items.length; i++ ) {
+//            JMenuItem item = items[i];
+//            viewMenu.add( item );
+//        }
 
         new Thread( new Runnable() {
             public void run() {
