@@ -270,12 +270,12 @@ public class PlayingField extends JPanel {
             g2D.setColor( new Color( 0, 125, 0 ) );
             g2D.setFont( new Font( "serif", Font.PLAIN, 110 ) );
             g2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-            g2D.drawString( HockeyStrings.get( "HockeyPlayingField.Goal" ), 3 * fieldWidth / 10, fieldHeight / 5 );
+            g2D.drawString( SimStrings.get( "HockeyPlayingField.Goal" ), 3 * fieldWidth / 10, fieldHeight / 5 );
         }
         if( hockey.getModel().getCollisionState() && !hockey.getModel().getGoalState() ) {
             g2D.setColor( Color.red );
             g2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-            g2D.drawString( HockeyStrings.get( "HockeyPlayingField.Collision" ), 2 * fieldWidth / 5, fieldHeight / 10 );
+            g2D.drawString( SimStrings.get( "HockeyPlayingField.Collision" ), 2 * fieldWidth / 5, fieldHeight / 10 );
         }
 
         //drawPath
