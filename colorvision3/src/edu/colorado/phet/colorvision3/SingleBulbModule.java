@@ -3,6 +3,7 @@
 package edu.colorado.phet.colorvision3;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import javax.swing.event.ChangeEvent;
@@ -12,16 +13,16 @@ import edu.colorado.phet.colorvision3.control.SingleBulbControlPanel;
 import edu.colorado.phet.colorvision3.control.SpectrumSlider;
 import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
 import edu.colorado.phet.colorvision3.event.ColorChangeListener;
-import edu.colorado.phet.colorvision3.model.SolidBeam;
 import edu.colorado.phet.colorvision3.model.Filter;
 import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.colorvision3.model.PhotonBeam;
+import edu.colorado.phet.colorvision3.model.SolidBeam;
 import edu.colorado.phet.colorvision3.model.Spotlight;
-import edu.colorado.phet.colorvision3.view.SolidBeamGraphic;
 import edu.colorado.phet.colorvision3.view.FilterGraphic;
 import edu.colorado.phet.colorvision3.view.PersonGraphic;
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
 import edu.colorado.phet.colorvision3.view.PipeGraphic;
+import edu.colorado.phet.colorvision3.view.SolidBeamGraphic;
 import edu.colorado.phet.colorvision3.view.SpotlightGraphic;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
@@ -62,31 +63,30 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
   // Colors
   private static Color APPARATUS_BACKGROUND = Color.black;
     
-	// Locations (screen coordinates, relative to upper left)
-	private static final int PERSON_X             = 400;
-	private static final int PERSON_Y             =  25;
-	private static final int SPOTLIGHT_X          = 120;
-	private static final int SPOTLIGHT_Y          = 325;
-	private static final int FILTER_X             = 337;
-	private static final int FILTER_Y             = 250;
-	private static final int FILTER_SLIDER_X      = 100;
-	private static final int FILTER_SLIDER_Y      = 515;
-	private static final int FILTER_PIPE_X        = 250;
-	private static final int FILTER_PIPE_Y        = 415;
-	private static final int WAVELENGTH_SLIDER_X  = 100;
-	private static final int WAVELENGTH_SLIDER_Y  = 100;
-	private static final int WAVELENGTH_PIPE_X    =  50;
-	private static final int WAVELENGTH_PIPE_Y    = 112;
+	// Locations of model components
+	private static final double PERSON_X      = 400;
+	private static final double PERSON_Y      =  25;
+	private static final double SPOTLIGHT_X   = 120;
+	private static final double SPOTLIGHT_Y   = 325;
+	private static final double FILTER_X      = 337;
+	private static final double FILTER_Y      = 250;
+	
+	// Locations of view components
+	private static final Point FILTER_SLIDER_LOCATION     = new Point( 100, 515 );
+	private static final Point FILTER_PIPE_LOCATION       = new Point( 250, 415 );
+	private static final Point WAVELENGTH_SLIDER_LOCATION = new Point( 100, 100 );
+	private static final Point WAVELENGTH_PIPE_LOCATION   = new Point(  50, 112 );
 	
   //Angles
-	private static final double SPOTLIGHT_ANGLE   = 0.0;
+	private static final double SPOTLIGHT_ANGLE = 0.0;
 	
 	// Lengths 
 	private static final int PRE_FILTER_BEAM_DISTANCE = 230;
 	private static final int POST_FILTER_BEAM_DISTANCE = 470;
 	
 	// Bounds
-	private static final Rectangle PHOTON_BEAM_BOUNDS = new Rectangle( 0, 0, PERSON_X + 160, 10000 );
+	private static final Rectangle PHOTON_BEAM_BOUNDS = 
+	  new Rectangle( 0, 0, (int) (PERSON_X + 160), 10000 );
 	
 	//----------------------------------------------------------------------------
 	// Instance data
@@ -206,7 +206,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     
     // Filter slider
     _filterSlider = new SpectrumSlider( apparatusPanel );
-    _filterSlider.setLocation( FILTER_SLIDER_X, FILTER_SLIDER_Y );
+    _filterSlider.setLocation( FILTER_SLIDER_LOCATION );
     _filterSlider.setMinimum( (int) VisibleColor.MIN_WAVELENGTH );
     _filterSlider.setMaximum( (int) VisibleColor.MAX_WAVELENGTH );
     _filterSlider.setValue( (int) VisibleColor.MIN_WAVELENGTH );
@@ -219,12 +219,12 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     _filterPipe.setThickness( 5 );
     _filterPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 110, 105 );
     _filterPipe.addSegment( PipeGraphic.VERTICAL, 100,   0, 115 );
-    _filterPipe.setPosition( FILTER_PIPE_X, FILTER_PIPE_Y );
+    _filterPipe.setLocation( FILTER_PIPE_LOCATION );
     apparatusPanel.addGraphic( _filterPipe, FILTER_PIPE_LAYER );
     
     // Wavelength slider
     _wavelengthSlider = new SpectrumSlider( apparatusPanel );
-    _wavelengthSlider.setLocation( WAVELENGTH_SLIDER_X, WAVELENGTH_SLIDER_Y );
+    _wavelengthSlider.setLocation( WAVELENGTH_SLIDER_LOCATION );
     _wavelengthSlider.setMinimum( (int) VisibleColor.MIN_WAVELENGTH );
     _wavelengthSlider.setMaximum( (int) VisibleColor.MAX_WAVELENGTH );
     _wavelengthSlider.setValue( (int) VisibleColor.MIN_WAVELENGTH );
@@ -237,7 +237,7 @@ public class SingleBulbModule extends Module implements ChangeListener, ColorCha
     _wavelengthPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 0, 100 );
     _wavelengthPipe.addSegment( PipeGraphic.VERTICAL,   0, 0, 215 );
     _wavelengthPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 210, 100 );
-    _wavelengthPipe.setPosition( WAVELENGTH_PIPE_X, WAVELENGTH_PIPE_Y );
+    _wavelengthPipe.setLocation( WAVELENGTH_PIPE_LOCATION );
     apparatusPanel.addGraphic( _wavelengthPipe, WAVELENGTH_PIPE_LAYER );
     
 		//----------------------------------------------------------------------------

@@ -57,7 +57,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
   // Event listeners
   private EventListenerList _listenerList;
   // Is the beam enabled?
-  private boolean _isEnabled;
+  private boolean _enabled;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -79,7 +79,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
     _perceivedIntensity = 0.0;
     _photons = new ArrayList();
     _listenerList = new EventListenerList();
-    _isEnabled = true;
+    _enabled = true;
   }
   
   /**
@@ -159,7 +159,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
    */
   public void setEnabled( boolean enabled )
   {
-    _isEnabled = enabled;
+    _enabled = enabled;
     notifyObservers();
   }
   
@@ -170,7 +170,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
    */
   public boolean isEnabled()
   {
-    return _isEnabled;
+    return _enabled;
   }
  
 	//----------------------------------------------------------------------------
@@ -307,7 +307,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Cloc
     {
       _perceivedColor = newPerceivedColor;
       _perceivedIntensity = newPerceivedIntensity;
-      if ( _isEnabled )
+      if ( _enabled )
       {
         ColorChangeEvent event = new ColorChangeEvent( this, _perceivedColor, _perceivedIntensity );
         fireColorChangeEvent( event );

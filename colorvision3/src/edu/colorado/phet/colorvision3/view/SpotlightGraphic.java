@@ -63,31 +63,6 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
     // Sync the view with the model.
     update();
   }
-  
-	//----------------------------------------------------------------------------
-	// Accessors
-  //----------------------------------------------------------------------------
-
-  /**
-   * Sets the location of the associated model.
-   * 
-   * @param x X coordinate
-   * @param y Y coordinate
-   */
-  public void setLocation( int x, int y )
-  {    
-    _spotlightModel.setLocation( x, y );
-  }
-  
-  /**
-   * Sets the direction.
-   * 
-   * @param direction the direction, in degrees
-   */
-  public void setDirection( double direction )
-  {
-    _spotlightModel.setDirection( direction );
-  }
 
 	//----------------------------------------------------------------------------
 	// SimpleObserver implementation

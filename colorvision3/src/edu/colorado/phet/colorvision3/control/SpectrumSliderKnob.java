@@ -23,8 +23,8 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
 	// Instance data
   //----------------------------------------------------------------------------
 
-  // Position, upper-left corner of the bounding box.
-  private Point _position;
+  // Location, upper-left corner of the bounding box.
+  private Point _location;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -40,8 +40,8 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
     super( parent, null, null );
     
     // Initialize
-    _position = new Point( 0, 0 );
-    Shape shape = genShape( _position.x, _position.y );
+    _location = new Point( 0, 0 );
+    Shape shape = genShape( _location.x, _location.y );
     setShape( shape );
     setPaint( Color.red );
     setStroke( new BasicStroke( 1f ) );
@@ -53,34 +53,34 @@ public class SpectrumSliderKnob extends PhetShapeGraphic
   //----------------------------------------------------------------------------
 
   /**
-   * Sets the knob's position.
+   * Sets the knob's location.
    * 
-   * @param position the position
+   * @param location the location
    */
-  public void setPosition( Point position )
+  public void setLocation( Point location )
   { 
-    _position = position;
-    Shape shape = genShape( _position.x, _position.y );
+    _location = location;
+    Shape shape = genShape( _location.x, _location.y );
     super.setShape( shape );
   }
   
   /**
-   * Convenience method for setting the knob's position.
+   * Convenience method for setting the knob's location.
    * 
    * @param x X coordinate
    * @param y Y coordinate
    */
-  public void setPosition( int x, int y )
+  public void setLocation( int x, int y )
   {
-    this.setPosition( new Point( x, y ) );
+    this.setLocation( new Point( x, y ) );
   }
   
   /**
-   * Gets the knob's position.
+   * Gets the knob's location.
    */
-  public Point getPosition()
+  public Point getLocation()
   {
-    return _position;
+    return _location;
   }
   
 	//----------------------------------------------------------------------------

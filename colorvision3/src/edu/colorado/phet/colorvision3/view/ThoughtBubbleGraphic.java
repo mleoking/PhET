@@ -36,8 +36,8 @@ public class ThoughtBubbleGraphic extends PhetGraphic
 	// Instance data
   //----------------------------------------------------------------------------
   
-  // Position, relative to upper-left corner of bounding box.
-  private Point _position;
+  // Location, relative to upper-left corner of bounding box.
+  private Point _location;
   // Paint used to fill the bubble.
   private Paint _fill;
   // Paint used to draw the bubble's outline.
@@ -59,7 +59,7 @@ public class ThoughtBubbleGraphic extends PhetGraphic
     super( parent );
     
     // Initialize member data.
-    _position = new Point(0,0);
+    _location = new Point(0,0);
     _border = Color.white;
     _fill = new Color( 0,0,0,0 );
     _area = new Area();
@@ -145,32 +145,31 @@ public class ThoughtBubbleGraphic extends PhetGraphic
    * 
    * @return the position
    */
-  public Point getPosition()
+  public Point getLocation()
   {
-    return _position;
+    return _location;
   }
 
   /** 
-   * Sets the position, relative to the upper left corner of the 
+   * Sets the location, relative to the upper left corner of the 
    * area's bounding rectangle.
    * 
-   * @param position the position
+   * @param location the position
    */
-  public void setPosition( Point position )
+  public void setLocation( Point location )
   {
-    _position = position;
+    _location = location;
   }
   
   /** 
-   * Sets the position, relative to the upper left corner of the 
-   * area's bounding rectangle.
+   * Convenience method for setting location.
    * 
    * @param x the X coordinate
    * @param y the Y coordinate
    */
-  public void setPosition( int x, int y )
+  public void setLocation( int x, int y )
   {
-    setPosition( new Point(x,y) );
+    setLocation( new Point(x,y) );
   }
   
 	//----------------------------------------------------------------------------
@@ -193,7 +192,7 @@ public class ThoughtBubbleGraphic extends PhetGraphic
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2.setRenderingHints( hints );
         // Translate to location.
-        g2.transform( AffineTransform.getTranslateInstance(_position.x, _position.y) );
+        g2.transform( AffineTransform.getTranslateInstance(_location.x, _location.y) );
         // Fill the area.
         g2.setPaint( _fill );
         g2.fill( _area );

@@ -128,7 +128,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     int x = (int) (fraction * _dragBounds.width) + _dragBounds.x;
     
     // Set the new slider location & color.
-    _knob.setPosition( x, _knob.getPosition().y );
+    _knob.setLocation( x, _knob.getPosition().y );
     
     // Force slider to update.
     translate( 0.0, 0.0 );
@@ -241,7 +241,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     _spectrum.setPosition( _location.x, _location.y );
     
     // Move the slider.
-    _knob.setPosition( _location.x - (_knob.getBounds().width/2), 
+    _knob.setLocation( _location.x - (_knob.getBounds().width/2), 
                          _location.y + _spectrum.getBounds().height );
     
     // Set drag bounds.
@@ -410,7 +410,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic implements Transla
     double y = Math.max( _dragBounds.y, Math.min( _dragBounds.y + _dragBounds.height, _knob.getPosition().y + dy ) );
 
     // Set the slider's location.
-    _knob.setPosition( (int)x, (int)y );
+    _knob.setLocation( (int)x, (int)y );
       
     // Change the slider color.
     VisibleColor color = new VisibleColor( getValue() );

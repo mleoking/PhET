@@ -42,8 +42,8 @@ public class PipeGraphic extends PhetShapeGraphic
   private int _thickness;
   // Arc on the pipe ends, in degrees.
   private int _arc;
-  // Position of the shape, relative to upper-left bounding box.
-  private Point _position;
+  // Location of the shape, relative to upper-left bounding box.
+  private Point _location;
   
 	//----------------------------------------------------------------------------
 	// Constructors
@@ -63,7 +63,7 @@ public class PipeGraphic extends PhetShapeGraphic
     _pipes = new ArrayList();
     _thickness = 5;
     _arc = 10;
-    _position = new Point(0,0);
+    _location = new Point(0,0);
     
     // Request antialiasing.
     RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -119,17 +119,17 @@ public class PipeGraphic extends PhetShapeGraphic
   }
   
   /**
-   * Sets the position, relative to the upper-left corner of the bounding box
+   * Sets the location, relative to the upper-left corner of the bounding box
    * that encloses all of the pipe segements.
    * 
-   * @param position the position
+   * @param location the location
    */
-  public void setPosition( Point position )
+  public void setLocation( Point location )
   {
-    int dx = position.x - _position.x;
-    int dy = position.y - _position.y;
+    int dx = location.x - _location.x;
+    int dy = location.y - _location.y;
     
-    _position = position;
+    _location = location;
     
     RoundRectangle2D.Double r;
     for ( int i = 0; i < _pipes.size(); i ++ )
@@ -143,24 +143,24 @@ public class PipeGraphic extends PhetShapeGraphic
   }
    
   /**
-   * Convenience method for setting position.
+   * Convenience method for setting location.
    * 
    * @param x X coordinate
    * @param y Y coordinate
    */
-  public void setPosition( int x, int y )
+  public void setLocation( int x, int y )
   {
-    this.setPosition( new Point( x, y ) );
+    this.setLocation( new Point( x, y ) );
   }
   
   /**
-   * Gets the position
+   * Gets the location.
    * 
-   * @return the position
+   * @return the location
    */
-  public Point getPosition()
+  public Point getLocation()
   {
-    return _position;
+    return _location;
   }
   
 	//----------------------------------------------------------------------------
@@ -181,11 +181,11 @@ public class PipeGraphic extends PhetShapeGraphic
      RoundRectangle2D.Double r;
      if ( orientation == HORIZONTAL )
      {
-       r = new RoundRectangle2D.Double( x + _position.x, y + _position.y, length, _thickness, _arc, _arc );
+       r = new RoundRectangle2D.Double( x + _location.x, y + _location.y, length, _thickness, _arc, _arc );
      }
      else if ( orientation == VERTICAL )
      {
-       r = new RoundRectangle2D.Double( x + _position.x, y + _position.y, _thickness, length, _arc, _arc );
+       r = new RoundRectangle2D.Double( x + _location.x, y + _location.y, _thickness, length, _arc, _arc );
      }
      else
      {

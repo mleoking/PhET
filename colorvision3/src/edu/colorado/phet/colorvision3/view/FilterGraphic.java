@@ -5,7 +5,6 @@ package edu.colorado.phet.colorvision3.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -62,28 +61,7 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
 	//----------------------------------------------------------------------------
 	// Accessors
   //----------------------------------------------------------------------------
-
-  /**
-   * Sets the location of the filter model.
-   * 
-   * @param location the location
-   */
-  public void setLocation( Point location )
-  {
-    _filterModel.setLocation( location.x, location.y );
-  }
-  
-  /**
-   * Convenience method for setting location.
-   * 
-   * @param x X coordinate
-   * @param y Y coordinate
-   */
-  public void setLocation( int x, int y )
-  {
-    setLocation( new Point(x,y) );
-  }
-  
+ 
   /**
    * Determines the bounds.
    * 
