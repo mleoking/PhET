@@ -12,8 +12,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - Electromagnet module
-- check performance of grid with calc disable & drawing enabled
-- check performance with a profiler
 - Transformer module requirements
 
 LOW PRIORITY:
@@ -22,7 +20,6 @@ LOW PRIORITY:
 - background color (use new PhetApplication interface)
 - disable "See Inside Magnet" control when grid is off
 - transparent bar magnet layer so that field meter looks like it's inside it
-- agree on control labels
 - remove unused images from JAR file
 - remove unused i18n strings
 - Help/MegaHelp
@@ -33,6 +30,7 @@ LOW PRIORITY:
 - move test-src programs to examples project
 
 POSSIBLE OPTIMIZATIONS:
+- use a profiler (eg JProfile) to identify bottlenecks
 - draw grid needles as images instead of shapes
 - cache grid needles at N-degree angles to eliminate rotation transform
 - eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf
@@ -57,6 +55,7 @@ v0r14...
 (2/17) - values in FieldMeter are still sitting a little high
 (2/17) - remove "See Inside" control from Magnet & Coil module
 (2/17) - field meter "off" by default in Bar Magnet module
+(2/16) - agreed on control labels @ status meeting
 (2/16) - add a strength threshold, below which compass grid won't draw needle (optimization)
 (2/16) - make CompassGrid use color saturation on black background, alpha on non-black (optimization)
 (2/16) - optimize bounds calculation in CompassGridGraphic (optimization)
