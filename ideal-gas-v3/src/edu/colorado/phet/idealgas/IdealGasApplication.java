@@ -10,9 +10,8 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.idealgas.controller.*;
+import edu.colorado.phet.idealgas.controller.MeasurementModule;
 
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class IdealGasApplication extends PhetApplication {
@@ -35,27 +34,40 @@ public class IdealGasApplication extends PhetApplication {
                                            IdealGasConfig.s_waitTime ) );
 
             // Create the modules
-            Module idealGasModule = new IdealGasModule( getClock() );
+//            Module idealGasModule = new IdealGasModule( getClock() );
             Module measurementModule = new MeasurementModule( getClock() );
-            Module rigidSphereModuleI = new RigidSphereModuleI( getClock() );
-            Module rigidSphereModuleII = new RigidHollowSphereModuleII( getClock() );
-            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
-            Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
+//            Module rigidSphereModuleI = new RigidSphereModuleI( getClock() );
+//            Module rigidSphereModuleII = new RigidHollowSphereModuleII( getClock() );
+//            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
+//            Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
             Module[] modules = new Module[]{
-                idealGasModule,
+//                idealGasModule,
                 measurementModule,
-                rigidSphereModuleI,
-                rigidSphereModuleII,
-                heliumBalloonModule,
-                hotAirBalloonModule
+//                rigidSphereModuleI,
+//                rigidSphereModuleII,
+//                heliumBalloonModule,
+//                hotAirBalloonModule
             };
             setModules( modules );
-            //            setInitialModule( heliumBalloonModule );
-            //            setInitialModule( rigidSphereModuleII );
-            //            setInitialModule( rigidSphereModuleI );
-            //            setInitialModule( measurementModule );
-            //            setInitialModule( hotAirBalloonModule );
-            setInitialModule( idealGasModule );
+//            //            setInitialModule( heliumBalloonModule );
+//            //            setInitialModule( rigidSphereModuleII );
+//            //            setInitialModule( rigidSphereModuleI );
+            setInitialModule( measurementModule );
+//            //            setInitialModule( hotAirBalloonModule );
+//            setInitialModule( idealGasModule );
+
+            // Create the clock
+//            SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.s_timeStep,
+//                                                         IdealGasConfig.s_waitTime );
+//            setClock( clock );
+//
+////             Create the modules
+//            Module idealGasModule = new IdealGasModule( getClock() );
+//            Module[] modules = new Module[]{
+//                idealGasModule
+//            };
+//            setModules( modules );
+//            setInitialModule( idealGasModule );
         }
     }
 
@@ -66,14 +78,16 @@ public class IdealGasApplication extends PhetApplication {
 
     public static void main( String[] args ) {
 
-        String test1 = System.getProperty( "java.vm.version" );
-        System.out.println( "test1 = " + test1 );
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        System.out.println( "applicationLocale = " + applicationLocale );
-
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
-        }
+//        String test1 = System.getProperty( "java.vm.version" );
+//        System.out.println( "test1 = " + test1 );
+//        String s = System.getProperty( "jnlp.locale");
+//        System.out.println( "s = " + s );
+//        String applicationLocale = System.getProperty( "jnlp.locale" );
+//        System.out.println( "applicationLocale = " + applicationLocale );
+//
+//        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+//            Locale.setDefault( new Locale( applicationLocale ) );
+//        }
 
         new IdealGasApplication();
     }

@@ -9,7 +9,6 @@ package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.idealgas.IdealGasApplication;
-import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -26,13 +25,13 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Locale;
 
 public class EnergyHistogramDialog extends JDialog {
 
     private static ResourceBundle localizedStrings;
+
     static {
-         localizedStrings = ResourceBundle.getBundle( "localization/EnergyHistogramDialog" );
+        localizedStrings = ResourceBundle.getBundle( "localization/EnergyHistogramDialog" );
     }
 
     private Histogram energyHistogram;
@@ -77,10 +76,10 @@ public class EnergyHistogramDialog extends JDialog {
                 lightSpeedLabel.setVisible( showDetails );
 
                 if( showDetails ) {
-                    detailsBtn.setText( localizedStrings.getString( "Fewer_Details" ));
+                    detailsBtn.setText( localizedStrings.getString( "Fewer_Details" ) );
                 }
                 else {
-                    detailsBtn.setText( localizedStrings.getString( "More_Details" ));
+                    detailsBtn.setText( localizedStrings.getString( "More_Details" ) );
                 }
 
                 EnergyHistogramDialog.this.pack();
@@ -122,10 +121,10 @@ public class EnergyHistogramDialog extends JDialog {
     private void layoutComponents() {
 
         if( showDetails ) {
-            detailsBtn.setText( localizedStrings.getString( "Fewer_Details" ));
+            detailsBtn.setText( localizedStrings.getString( "Fewer_Details" ) );
         }
         else {
-            detailsBtn.setText( localizedStrings.getString( "More_Details" ));
+            detailsBtn.setText( localizedStrings.getString( "More_Details" ) );
         }
 
         this.getContentPane().setLayout( new GridBagLayout() );
@@ -213,7 +212,7 @@ public class EnergyHistogramDialog extends JDialog {
             int cnt = 0;
             while( true ) {
                 try {
-                    Thread.sleep( 500 );
+                    Thread.sleep( 200 );
 
                     // If the dialog isn't visible, don't go through the work of
                     // collecting the information

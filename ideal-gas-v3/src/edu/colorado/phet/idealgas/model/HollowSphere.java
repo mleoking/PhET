@@ -21,6 +21,10 @@ public class HollowSphere extends SphericalBody {
         super( center, velocity, acceleration, mass, radius );
     }
 
+    public void stepInTime( double v ) {
+//        System.out.println( "hv = " + this.getVelocity() );
+        super.stepInTime( v );
+    }
 
     public boolean isInContactWithParticle( CollidableBody particle ) {
 

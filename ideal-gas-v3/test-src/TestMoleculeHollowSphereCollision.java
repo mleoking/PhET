@@ -21,6 +21,7 @@ import java.util.ResourceBundle;
 public class TestMoleculeHollowSphereCollision extends PhetApplication {
 
     private static ResourceBundle localizedStrings;
+
     static {
         localizedStrings = ResourceBundle.getBundle( "localization/IdealGasApplication" );
     }
@@ -81,10 +82,10 @@ public class TestMoleculeHollowSphereCollision extends PhetApplication {
             testBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     m[0] = new HeavySpecies( new Point2D.Double( box.getMinX() + box.getWidth() / 2 + 80,
-                                                                             box.getMinY() + box.getHeight() / 2 ),
-                                                      new Vector2D.Double( -500, 0 ),
-                                                      new Vector2D.Double(),
-                                                      5 );
+                                                                 box.getMinY() + box.getHeight() / 2 ),
+                                             new Vector2D.Double( -50, 0 ),
+                                             new Vector2D.Double(),
+                                             5 );
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),
 //                                                      new Vector2D.Double( -217.8, 999.85 ),
 //                                                      new Vector2D.Double(),
