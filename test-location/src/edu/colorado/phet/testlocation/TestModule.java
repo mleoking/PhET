@@ -13,10 +13,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.testlocation.control.TestControlPanel;
 import edu.colorado.phet.testlocation.model.CarModelElement;
 import edu.colorado.phet.testlocation.model.WindmillModelElement;
-import edu.colorado.phet.testlocation.view.CarOnRoadGraphic;
-import edu.colorado.phet.testlocation.view.DebuggerGraphic;
-import edu.colorado.phet.testlocation.view.SceneGraphic;
-import edu.colorado.phet.testlocation.view.WindmillGraphic;
+import edu.colorado.phet.testlocation.view.*;
 
 /**
  * TestModule is a module that demonstrates proposed changes
@@ -49,6 +46,8 @@ public class TestModule extends Module {
         this.setModel( model );
         
         // Cars
+        CarModelElement car0 = new CarModelElement( 150 /* range of travel */ );
+        model.addModelElement( car0 );
         CarModelElement car1 = new CarModelElement( 500 /* range of travel */ );
         model.addModelElement( car1 );
         CarModelElement car2 = new CarModelElement( 250 /* range of travel */ );
@@ -74,6 +73,12 @@ public class TestModule extends Module {
         ApparatusPanel apparatusPanel = new ApparatusPanel2( model, clock );
         apparatusPanel.setBackground( Color.DARK_GRAY );
         setApparatusPanel( apparatusPanel );
+        
+        // Car (no road), positioned and scaled
+        CarGraphic carGraphic0 = new CarGraphic( apparatusPanel, car0 );
+        carGraphic0.setLocation( 100, 650 );
+        carGraphic0.scale( 0.3 );
+        apparatusPanel.addGraphic( carGraphic0, CAR_LAYER );
         
         // Car on a Road
         CarOnRoadGraphic carOnRoadGraphic1 = new CarOnRoadGraphic( apparatusPanel, car1 );
@@ -114,6 +119,7 @@ public class TestModule extends Module {
         debugger.setBoundsColor( Color.RED );
         debugger.setLocationEnabled( true );
         debugger.setLocationColor( Color.GREEN );
+        debugger.add( carGraphic0 );
         debugger.add( carOnRoadGraphic1 );
         debugger.add( carOnRoadGraphic2 );
         debugger.add( windmillGraphic1 );

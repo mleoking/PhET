@@ -2,7 +2,6 @@ package edu.colorado.phet.testlocation.view;
 
 import java.awt.Component;
 
-
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.testlocation.model.CarModelElement;
@@ -17,6 +16,8 @@ import edu.colorado.phet.testlocation.model.CarModelElement;
 public class CarGraphic extends PhetImageGraphic implements SimpleObserver {
 
     private CarModelElement _carModelElement;
+    private double _previousX;
+    private double _previousDirection;
      
     public CarGraphic( Component component, CarModelElement carModelElement ) {
         super( component, "images/car.png" );
@@ -34,17 +35,22 @@ public class CarGraphic extends PhetImageGraphic implements SimpleObserver {
     }
     
     public void update() {
+        // NOTE: 
+        // All updates to loction and transform are done in a manner 
+        // that allows parent to setLocation and transforms.
         
-        int x = (int) _carModelElement.getLocation();
+        // Location
+        double currentX = _carModelElement.getLocation();
+        double deltaX = currentX - _previousX;
+        setLocation( (int)( getX() + deltaX ), getY() );
+        _previousX = currentX;
+        
+        // Direction (either left or right)
         double direction = _carModelElement.getDirection();
-        
-        clearTransform();
-        if ( direction == 0 ) {
-            scale( 1.0, 1.0 );
-        }
-        else {
+        if ( direction != _previousDirection ) {
+            // Refect, car has changed directions.
             scale( -1.0, 1.0 );
+            _previousDirection = direction;
         }
-        translate( x, 0 );
     }
 }
