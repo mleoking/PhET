@@ -1,11 +1,7 @@
 This is a summary of known and reported problems for the Color Vision simulation.
 
 KNOWN PROBLEMS:
-  
-o Filter transmission width shown on Filter Color slider is not rendered correctly.
 
-o Reported performance problem in RGB Bulb module when using Red or Blue spotlights.
-  Photon beam very slow, then speeds up after switching to other module and back.
   
 --
 end
