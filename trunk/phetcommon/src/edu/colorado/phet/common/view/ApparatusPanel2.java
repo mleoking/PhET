@@ -605,7 +605,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
 
         public void componentResized() {
-            bImg = new BufferedImage( apparatusPanel2.getWidth(), apparatusPanel2.getHeight(), BufferedImage.TYPE_INT_RGB );
+            bImg = new BufferedImage( apparatusPanel2.getWidth(), apparatusPanel2.getHeight(), BufferedImage.TYPE_INT_ARGB );
         }
     }
 
