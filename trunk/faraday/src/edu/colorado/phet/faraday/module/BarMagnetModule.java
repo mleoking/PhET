@@ -24,7 +24,10 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
-import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.model.AbstractCompass;
+import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.model.BarMagnet;
+import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -47,32 +50,17 @@ public class BarMagnetModule extends Module {
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
-    // Locations of model components
+    // Locations
     private static final Point MAGNET_LOCATION = new Point( 350, 350 );
-
-    // Locations of view components
-    private static final Point GRID_LOCATION = new Point( 0, 0 );
     private static final Point COMPASS_LOCATION = new Point( 100, 400 );
+    private static final Point GRID_LOCATION = new Point( 0, 0 );
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
 
     // Magnet parameters
     private static final double MAGNET_STRENGTH = 200;
-    public static final Dimension MAGNET_SIZE_MIN = new Dimension( 10, 10 );
-    public static final Dimension MAGNET_SIZE_MAX = new Dimension( 500, 200 );
-    private static final Dimension MAGNET_SIZE = new Dimension( 250, 50 );
-    
-    // Compass Grid parameters
-    public static final int GRID_X_SPACING_MIN = 20;
-    public static final int GRID_X_SPACING_MAX = 200;
-    private static final int GRID_X_SPACING = 40;
-    public static final int GRID_Y_SPACING_MIN = 20;
-    public static final int GRID_Y_SPACING_MAX = 200;
-    private static final int GRID_Y_SPACING = 40;
-    public static final Dimension GRID_NEEDLE_SIZE_MIN = new Dimension( 1, 4 );
-    public static final Dimension GRID_NEEDLE_SIZE_MAX = new Dimension( 100, 50 );
-    private static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 5 );
+
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -120,7 +108,7 @@ public class BarMagnetModule extends Module {
         _magnetModel.setStrength( MAGNET_STRENGTH );
         _magnetModel.setLocation( MAGNET_LOCATION );
         _magnetModel.setDirection( 0 );
-        _magnetModel.setSize( MAGNET_SIZE );
+        _magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
         model.addModelElement( _magnetModel );
         
         // Compass model
@@ -142,9 +130,10 @@ public class BarMagnetModule extends Module {
         apparatusPanel.addGraphic( _magnetGraphic, MAGNET_LAYER );
         
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, 
+                FaradayConfig.GRID_X_SPACING, FaradayConfig.GRID_Y_SPACING );
         _gridGraphic.setLocation( GRID_LOCATION );
-        _gridGraphic.setNeedleSize( GRID_NEEDLE_SIZE );
+        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
         // CompassGraphic
@@ -193,7 +182,7 @@ public class BarMagnetModule extends Module {
     public void reset() {
         // Set state.
         _magnetModel.setStrength( MAGNET_STRENGTH );
-        _magnetModel.setSize( MAGNET_SIZE );
+        _magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
         _compassModel.setEnabled( true );
         
         // Synchronize control panel.
@@ -202,8 +191,10 @@ public class BarMagnetModule extends Module {
         _controlPanel.setMagnetTransparencyEnabled( false );
         _controlPanel.setProbeEnabled( true );
         _controlPanel.setCompassEnabled( _compassModel.isEnabled() );
-        _controlPanel.setGridSpacing( GRID_X_SPACING, GRID_Y_SPACING );
-        _controlPanel.setGridNeedleSize( GRID_NEEDLE_SIZE );
+        
+        // Debug controls
+        _controlPanel.setGridSpacing( FaradayConfig.GRID_X_SPACING, FaradayConfig.GRID_Y_SPACING );
+        _controlPanel.setGridNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
     }
     
     /**

@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 
 
@@ -68,10 +69,28 @@ public class FaradayConfig {
     // Fonts
     public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
     
-    // Magnet parameters
-    public static final double MAGNET_STRENGTH_MIN = 100;
-    public static final double MAGNET_STRENGTH_MAX = 300;
-    public static final double MAX_EMF = 1.0E6;
+    // EMF parameters
+    public static final double MAX_EMF = 1.0E6; // volts
+    
+    // Magnet parameters (applicable to all magnet types)
+    public static final double MAGNET_STRENGTH_MIN = 100; // Gauss
+    public static final double MAGNET_STRENGTH_MAX = 300; // Gauss
+    
+    // Bar Magnet parameters
+    public static final Dimension BAR_MAGNET_SIZE_MIN = new Dimension( 10, 10 );
+    public static final Dimension BAR_MAGNET_SIZE_MAX = new Dimension( 500, 200 );
+    public static final Dimension BAR_MAGNET_SIZE = new Dimension( 250, 50 );
+
+    // Compass Grid parameters
+    public static final int GRID_X_SPACING_MIN = 20;
+    public static final int GRID_X_SPACING_MAX = 200;
+    public static final int GRID_X_SPACING = 40;
+    public static final int GRID_Y_SPACING_MIN = 20;
+    public static final int GRID_Y_SPACING_MAX = 200;
+    public static final int GRID_Y_SPACING = 40;
+    public static final Dimension GRID_NEEDLE_SIZE_MIN = new Dimension( 1, 4 );
+    public static final Dimension GRID_NEEDLE_SIZE_MAX = new Dimension( 100, 50 );
+    public static final Dimension GRID_NEEDLE_SIZE = new Dimension( 25, 7 );
     
     // Pickup Coil parameters
     public static final int MIN_PICKUP_LOOPS = 1;

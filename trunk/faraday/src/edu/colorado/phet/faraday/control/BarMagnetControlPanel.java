@@ -128,9 +128,9 @@ public class BarMagnetControlPanel extends ControlPanel {
 
                 // Slider
                 _magnetWidthSlider = new JSlider();
-                _magnetWidthSlider.setMinimum( BarMagnetModule.MAGNET_SIZE_MIN.width );
-                _magnetWidthSlider.setMaximum( BarMagnetModule.MAGNET_SIZE_MAX.width );
-                _magnetWidthSlider.setValue( BarMagnetModule.MAGNET_SIZE_MIN.width );
+                _magnetWidthSlider.setMinimum( FaradayConfig.BAR_MAGNET_SIZE_MIN.width );
+                _magnetWidthSlider.setMaximum( FaradayConfig.BAR_MAGNET_SIZE_MAX.width );
+                _magnetWidthSlider.setValue( FaradayConfig.BAR_MAGNET_SIZE_MIN.width );
 
                 // Value
                 _magnetWidthValue = new JLabel( UNKNOWN_VALUE );
@@ -150,9 +150,9 @@ public class BarMagnetControlPanel extends ControlPanel {
 
                 // Slider
                 _magnetHeightSlider = new JSlider();
-                _magnetHeightSlider.setMinimum( BarMagnetModule.MAGNET_SIZE_MIN.height );
-                _magnetHeightSlider.setMaximum( BarMagnetModule.MAGNET_SIZE_MAX.height );
-                _magnetHeightSlider.setValue( BarMagnetModule.MAGNET_SIZE_MIN.height );
+                _magnetHeightSlider.setMinimum( FaradayConfig.BAR_MAGNET_SIZE_MIN.height );
+                _magnetHeightSlider.setMaximum( FaradayConfig.BAR_MAGNET_SIZE_MAX.height );
+                _magnetHeightSlider.setValue( FaradayConfig.BAR_MAGNET_SIZE_MIN.height );
 
                 // Value
                 _magnetHeightValue = new JLabel( UNKNOWN_VALUE );
@@ -191,9 +191,9 @@ public class BarMagnetControlPanel extends ControlPanel {
 
                 // Slider
                 _xSpacingSlider = new JSlider();
-                _xSpacingSlider.setMinimum( BarMagnetModule.GRID_X_SPACING_MIN );
-                _xSpacingSlider.setMaximum( BarMagnetModule.GRID_X_SPACING_MAX );
-                _xSpacingSlider.setValue( BarMagnetModule.GRID_X_SPACING_MIN );
+                _xSpacingSlider.setMinimum( FaradayConfig.GRID_X_SPACING_MIN );
+                _xSpacingSlider.setMaximum( FaradayConfig.GRID_X_SPACING_MAX );
+                _xSpacingSlider.setValue( FaradayConfig.GRID_X_SPACING_MIN );
 
                 // Value
                 _xSpacingValue = new JLabel( UNKNOWN_VALUE );
@@ -213,9 +213,9 @@ public class BarMagnetControlPanel extends ControlPanel {
 
                 // Slider
                 _ySpacingSlider = new JSlider();
-                _ySpacingSlider.setMinimum( BarMagnetModule.GRID_Y_SPACING_MIN );
-                _ySpacingSlider.setMaximum( BarMagnetModule.GRID_Y_SPACING_MAX );
-                _ySpacingSlider.setValue( BarMagnetModule.GRID_Y_SPACING_MIN );
+                _ySpacingSlider.setMinimum( FaradayConfig.GRID_Y_SPACING_MIN );
+                _ySpacingSlider.setMaximum( FaradayConfig.GRID_Y_SPACING_MAX );
+                _ySpacingSlider.setValue( FaradayConfig.GRID_Y_SPACING_MIN );
 
                 // Value
                 _ySpacingValue = new JLabel( UNKNOWN_VALUE );
@@ -235,9 +235,9 @@ public class BarMagnetControlPanel extends ControlPanel {
 
                 // Slider
                 _needleWidthSlider = new JSlider();
-                _needleWidthSlider.setMinimum( BarMagnetModule.GRID_NEEDLE_SIZE_MIN.width );
-                _needleWidthSlider.setMaximum( BarMagnetModule.GRID_NEEDLE_SIZE_MAX.width );
-                _needleWidthSlider.setValue( BarMagnetModule.GRID_NEEDLE_SIZE_MIN.width );
+                _needleWidthSlider.setMinimum( FaradayConfig.GRID_NEEDLE_SIZE_MIN.width );
+                _needleWidthSlider.setMaximum( FaradayConfig.GRID_NEEDLE_SIZE_MAX.width );
+                _needleWidthSlider.setValue( FaradayConfig.GRID_NEEDLE_SIZE_MIN.width );
 
                 // Value
                 _needleWidthValue = new JLabel( UNKNOWN_VALUE );
@@ -257,9 +257,9 @@ public class BarMagnetControlPanel extends ControlPanel {
 
                 // Slider
                 _needleHeightSlider = new JSlider();
-                _needleHeightSlider.setMinimum( BarMagnetModule.GRID_NEEDLE_SIZE_MIN.height );
-                _needleHeightSlider.setMaximum( BarMagnetModule.GRID_NEEDLE_SIZE_MAX.height );
-                _needleHeightSlider.setValue( BarMagnetModule.GRID_NEEDLE_SIZE_MIN.height );
+                _needleHeightSlider.setMinimum( FaradayConfig.GRID_NEEDLE_SIZE_MIN.height );
+                _needleHeightSlider.setMaximum( FaradayConfig.GRID_NEEDLE_SIZE_MAX.height );
+                _needleHeightSlider.setValue( FaradayConfig.GRID_NEEDLE_SIZE_MIN.height );
 
                 // Value
                 _needleHeightValue = new JLabel( UNKNOWN_VALUE );
