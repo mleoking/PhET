@@ -65,10 +65,12 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
      *  This is called when the model changes, and updates the view to match the model.
      */
     public void update() {
+        double scaleX = _barMagnetModel.getWidth() / getImage().getWidth();
+        double scaleY = _barMagnetModel.getHeight() / getImage().getHeight();
+        
         clearTransform();
         rotate( Math.toRadians( _barMagnetModel.getDirection() ) );
-//XXX        scale( _barMagnetModel.getStrength() / _initialStrength );
-        scale( 0.5 ); //XXX
+        scale( scaleX, scaleY );
         translate( _barMagnetModel.getX(), _barMagnetModel.getY() );
     }
 }

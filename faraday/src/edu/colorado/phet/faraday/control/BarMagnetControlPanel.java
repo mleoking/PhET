@@ -35,8 +35,8 @@ import edu.colorado.phet.faraday.module.BarMagnetModule;
  */
 public class BarMagnetControlPanel extends ControlPanel {
     
-    public static final int STRENGTH_MAX_PERCENTAGE = 60;
-    public static final int STRENGTH_MIN_PERCENTAGE = 30;
+    public static final int STRENGTH_MAX = 1000;
+    public static final int STRENGTH_MIN = 100;
     public static final int AREA_MAX_PERCENTAGE = 100;
     public static final int AREA_MIN_PERCENTAGE = 50;
     
@@ -89,19 +89,19 @@ public class BarMagnetControlPanel extends ControlPanel {
                     
                     // Slider
                     _strengthSlider = new JSlider();
-                    _strengthSlider.setMinimum( STRENGTH_MIN_PERCENTAGE );
-                    _strengthSlider.setMaximum( STRENGTH_MAX_PERCENTAGE );
-                    _strengthSlider.setValue( STRENGTH_MIN_PERCENTAGE );
+                    _strengthSlider.setMinimum( STRENGTH_MIN );
+                    _strengthSlider.setMaximum( STRENGTH_MAX );
+                    _strengthSlider.setValue( STRENGTH_MIN );
                     
                     // Slider labels
                     Hashtable table = new Hashtable();
                     JLabel weakerLabel = new JLabel(SimStrings.get("strengthSlider.weaker"));
-                    table.put( new Integer(STRENGTH_MIN_PERCENTAGE), weakerLabel );
+                    table.put( new Integer(STRENGTH_MIN), weakerLabel );
                     JLabel strongerLabel = new JLabel(SimStrings.get("strengthSlider.stronger"));
-                    table.put( new Integer(STRENGTH_MAX_PERCENTAGE), strongerLabel );
+                    table.put( new Integer(STRENGTH_MAX), strongerLabel );
                     _strengthSlider.setLabelTable( table );
                     _strengthSlider.setPaintLabels( true );
-                    _strengthSlider.setMajorTickSpacing( STRENGTH_MAX_PERCENTAGE - STRENGTH_MIN_PERCENTAGE );
+                    _strengthSlider.setMajorTickSpacing( STRENGTH_MAX - STRENGTH_MIN );
                     _strengthSlider.setPaintTicks( true );
                     
                     // Layout
@@ -231,8 +231,8 @@ public class BarMagnetControlPanel extends ControlPanel {
         _fieldCheckBox.setSelected( enabled );
     }
     
-    public void setBarMagnetStrengthScale( int value ) {
-        _strengthSlider.setValue( value );
+    public void setBarMagnetStrength( double value ) {
+        _strengthSlider.setValue( (int)value );
     }
     
     public void setNumberOfLoops( int value ) {
@@ -275,7 +275,7 @@ public class BarMagnetControlPanel extends ControlPanel {
         
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _strengthSlider ) {
-                _module.scaleBarMagnetStrength( _strengthSlider.getValue()/100.0 );
+                _module.setBarMagnetStrength( _strengthSlider.getValue() );
             }
             else if ( e.getSource() == _areaSlider ) {
                 _module.scalePickupLoopArea( _areaSlider.getValue()/100.0 );

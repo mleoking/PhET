@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.model;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.util.SimpleObservable;
@@ -27,11 +28,13 @@ public class BarMagnet extends SimpleObservable implements IMagnet {
     private double _strength;
     private Point2D _location;
     private double _direction;
+    private Dimension _size;
     
     public BarMagnet() {
         _strength = 1;
         _location = new Point2D.Double( 0, 0 );
         _direction = 0;
+        _size = new Dimension( 250, 50 );
     }
     
     public BarMagnet( double strength ) {
@@ -39,11 +42,12 @@ public class BarMagnet extends SimpleObservable implements IMagnet {
         setStrength( strength );
     }
     
-    public BarMagnet( double strength, Point2D location, double direction ) {
+    public BarMagnet( double strength, final Point2D location, double direction, Dimension size ) {
         this();
         setStrength( strength );
         setLocation( location );
         setDirection( direction );
+        setSize( size );
     }
     
     public void setStrength( double strength ) {
@@ -59,18 +63,23 @@ public class BarMagnet extends SimpleObservable implements IMagnet {
     }
     
     // XXX fake
-    public double getStrength( Point2D p ) {
+    // Strength here is the radius (in pixels) that the magnetic field 
+    // extends out from the magnet.
+    public double getStrength( final Point2D p ) {
         double dx = p.getX() - _location.getX();
         double dy = p.getY() - _location.getY();
         double distance = Math.sqrt( Math.pow(dx,2) + Math.pow(dy,2) );
-        double strength = 0;
-        if ( distance != 0 ) {
-            strength = _strength * ( 1/distance);
+        double strength = _strength;
+        if ( distance > _strength ) {
+            strength = 0;
+        }
+        else {
+            strength = _strength - (_strength * (distance / _strength ));
         }
         return strength;
     }
     
-    public void setLocation( Point2D location ) {
+    public void setLocation( final Point2D location ) {
         setLocation( location.getX(), location.getY() );
     }
     
@@ -101,11 +110,11 @@ public class BarMagnet extends SimpleObservable implements IMagnet {
     }
     
     // XXX fake
-    public double getDirection( Point2D p ) {
+    public double getDirection( final Point2D p ) {
       
         double direction = 0.0;
-        double w = 250.0; // XXX
-        double h = 50.0; // XXX
+        double w = _size.width;
+        double h = _size.height;
         
         if ( p.getX() <= _location.getX() - w/2 ) {
             // Point is to left of magnet
@@ -137,5 +146,28 @@ public class BarMagnet extends SimpleObservable implements IMagnet {
         }
 
         return ( direction % 360 );
+    }
+    
+    public void setSize( Dimension size ) {
+        _size = new Dimension( size );
+        notifyObservers();
+    }
+    
+    public void setSize( double width, double height ) {
+        _size = new Dimension();
+        _size.setSize( width, height );
+        notifyObservers();
+    }
+    
+    public Dimension getSize() {
+        return new Dimension( _size );
+    }
+    
+    public double getWidth() {
+        return _size.width;
+    }
+    
+    public double getHeight() {
+        return _size.height;
     }
 }

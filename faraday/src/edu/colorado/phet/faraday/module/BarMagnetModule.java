@@ -160,10 +160,9 @@ public class BarMagnetModule extends Module {
         // Initalize
         //----------------------------------------------------------------------------
         
-        int strengthScale = BarMagnetControlPanel.STRENGTH_MIN_PERCENTAGE + (BarMagnetControlPanel.STRENGTH_MAX_PERCENTAGE - BarMagnetControlPanel.STRENGTH_MIN_PERCENTAGE)/2;
         int areaScale = BarMagnetControlPanel.AREA_MIN_PERCENTAGE + (BarMagnetControlPanel.AREA_MAX_PERCENTAGE - BarMagnetControlPanel.AREA_MIN_PERCENTAGE)/2;
         controlPanel.setFieldLinesEnabled( false );
-        controlPanel.setBarMagnetStrengthScale( strengthScale );
+        controlPanel.setBarMagnetStrength( BAR_MAGNET_STRENGTH );
         controlPanel.setLoopAreaScale( areaScale );
         controlPanel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
         controlPanel.setBulbEnabled( true );
@@ -181,9 +180,9 @@ public class BarMagnetModule extends Module {
         _barMagnetModel.setDirection( direction );
     }
     
-    public void scaleBarMagnetStrength( double scale ) {
-        System.out.println( "scaleBarMagnetStrength " + scale ); // DEBUG
-        _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH * scale );
+    public void setBarMagnetStrength( double value ) {
+        System.out.println( "setBarMagnetStrength " + value ); // DEBUG
+        _barMagnetModel.setStrength( value );
     }
     
     public void setFieldLinesEnabled( boolean enable ) {
