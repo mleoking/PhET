@@ -16,7 +16,10 @@ import java.awt.Dimension;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
+import edu.colorado.phet.faraday.view.DebuggerGraphic;
 
 
 /**
@@ -28,10 +31,18 @@ import edu.colorado.phet.faraday.view.CompassGridGraphic;
 public abstract class FaradayModule extends Module implements ICompassGridModule {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    protected static final double DEBUG_LAYER = Double.MAX_VALUE - 1;
+    protected static final double HELP_LAYER = Double.MAX_VALUE;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private CompassGridGraphic _gridGraphic;
+    private DebuggerGraphic _debuggerGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -52,6 +63,26 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
     
     public CompassGridGraphic getCompassGridGraphic() {
         return _gridGraphic;
+    }
+
+    //----------------------------------------------------------------------------
+    // Debugging
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Causes the graphic's location and bounds to be rendered.
+     * 
+     * @param graphic the graphic
+     */
+    protected void drawBounds( PhetGraphic graphic ) {
+        ApparatusPanel apparatusPanel = getApparatusPanel();
+        if ( _debuggerGraphic == null ) {
+            _debuggerGraphic = new DebuggerGraphic( apparatusPanel );
+            _debuggerGraphic.setLocationColor( Color.GREEN );
+            _debuggerGraphic.setBoundsColor( Color.YELLOW );
+        }
+        _debuggerGraphic.add( graphic );
+        apparatusPanel.addGraphic( _debuggerGraphic, DEBUG_LAYER );
     }
     
     //----------------------------------------------------------------------------

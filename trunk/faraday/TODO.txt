@@ -37,7 +37,6 @@ CLEANUP:
 - remove unused images and assets
 - save all images using Photoshop's "Save for Web" feature
 - remove unused i18n strings
-- remove DebuggerGraphic from modules
 - move test-src programs to examples project
 
 POSSIBLE OPTIMIZATIONS:
@@ -55,6 +54,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/26) - add FaradayModule.drawBounds, to hide use of DebuggerGraphic
 (3/26) - add loop spacing to Coil model, set differently for Source & Pickup coils, remains constant
 (3/26) - consolidate code that is duplicated between CompassNeedleGraphic and CompassGridNeedle
 (3/26) - flatten static components of CompassGraphic
