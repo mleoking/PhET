@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
@@ -20,7 +19,7 @@ import java.awt.event.ActionListener;
  * Copyright (c) Jan 11, 2005 by Sam Reid
  */
 
-public class SimpleControlPanel extends ControlPanel {
+public class SimpleControlPanel extends IForceControl {
     private FreeBodyDiagramSuite fbdSuite;
     private JCheckBox frictionCheckBox;
     private BarrierCheckBox barriers;

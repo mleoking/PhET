@@ -10,9 +10,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.common.*;
@@ -63,6 +61,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     private HelpItem2 soloGoButtonHelp;
     private boolean goButtonPressed;
     private PhetGraphic floatingControlGraphic;
+    private PhetGraphic checkBoxPanelGraphic;
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         super( module.getClock() );
@@ -102,6 +101,14 @@ public class Force1DPanel extends ApparatusPanel2 {
         forceParams.setZoomRates( 300, 100, 5000 );
 
         forcePlotDevice = new PlotDevice( forceParams, backgroundGraphic );
+        forcePlotDevice.addPhetGraphicListener( new PhetGraphicListener() {
+            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+            }
+
+            public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+                checkBoxPanelGraphic.setVisible( phetGraphic.isVisible() );
+            }
+        } );
         forcePlotDevice.removeDefaultDataSeries();
         forcePlotDevice.setAdorned( true );
         forcePlotDevice.setLabelText( "<html>Applied<br>Force</html>" );
@@ -183,7 +190,6 @@ public class Force1DPanel extends ApparatusPanel2 {
         } );
         showFrictionForce.setFont( checkBoxFont );
 
-
         final JCheckBox showAppliedForce = new JCheckBox( "<html>Show F<sub>Applied</sub></html", true );
         showAppliedForce.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -196,13 +202,23 @@ public class Force1DPanel extends ApparatusPanel2 {
         checkBoxPanel.add( showNetForce );
         checkBoxPanel.add( showFrictionForce );
         checkBoxPanel.add( showAppliedForce );
-        floatingControl = new FloatingControl( forcePlotDevice.getPlotDeviceModel(), this );
-        floatingControl.add( checkBoxPanel );
-        floatingControlGraphic = PhetJComponent.newInstance( this, floatingControl );
-//        add( floatingControl );
-        addGraphic( floatingControlGraphic, Double.POSITIVE_INFINITY );
-//        forcePlotDevice.getFloatingControl().addTo( checkBoxPanel );
 
+        checkBoxPanelGraphic = PhetJComponent.newInstance( this, checkBoxPanel );
+        floatingControl = new FloatingControl( forcePlotDevice.getPlotDeviceModel(), this );
+
+        floatingControlGraphic = PhetJComponent.newInstance( this, floatingControl );
+        floatingControlGraphic.addPhetGraphicListener( new PhetGraphicListener() {
+            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+                checkBoxPanelGraphic.setLocation( floatingControlGraphic.getX(), floatingControlGraphic.getY() + floatingControlGraphic.getHeight() + 2 );
+            }
+
+            public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+            }
+        } );
+
+
+        addGraphic( floatingControlGraphic, Double.POSITIVE_INFINITY );
+        addGraphic( checkBoxPanelGraphic, Double.POSITIVE_INFINITY );
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();
@@ -321,19 +337,23 @@ public class Force1DPanel extends ApparatusPanel2 {
         } );
 
         HelpItem2 sliderHelp = new HelpItem2( this, "<html>Use the slider<br>to set Applied Force</html>" );
-        sliderHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getVerticalChartSlider().getSlider(), this ), 30 );
+//        sliderHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getVerticalChartSlider().getSlider(), this ), 30 );
+        sliderHelp.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( forcePlotDevice.getVerticalChartSlider().getSliderGraphic() ), 30 );
 
         HelpItem2 goButtonHelp = new HelpItem2( this, "<html>Press the Go button to record</html>" );
-        goButtonHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( floatingControl.getGoButton(), this ), 30 );
+        PhetGraphic goButtonGraphic = getGoButtonGraphic();
+
+        goButtonHelp.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( goButtonGraphic ), 30 );
 
         HelpItem2 dragHelpItem = new HelpItem2( this, "<html>Apply a force to the object</html>" );
         dragHelpItem.pointUpAt( blockGraphic, 15 );
 
         HelpItem2 zoomHelpButton = new HelpItem2( this, "<html>Zoom in<br>and out.</html>" );
-        zoomHelpButton.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getChartComponent().getMagPlus(), this ), 30 );
+        zoomHelpButton.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( forcePlotDevice.getChartComponent().getMagPlusGraphic() ), 30 );
 
         HelpItem2 typeInButton = new HelpItem2( this, "<html>You can type in force values<br>While it's paused.</html>" );
-        typeInButton.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getTextBox() ), 20 );
+//        typeInButton.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getTextBox() ), 20 );
+        typeInButton.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( forcePlotDevice.getTextFieldGraphic() ), 20 );
 
         module.getHelpManager().addGraphic( sliderHelp );
         module.getHelpManager().addGraphic( goButtonHelp );
@@ -342,12 +362,18 @@ public class Force1DPanel extends ApparatusPanel2 {
         module.getHelpManager().addGraphic( typeInButton );
 
         soloGoButtonHelp = new HelpItem2( this, "<html>Press the Go button to record</html>" );
-        soloGoButtonHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( floatingControl.getGoButton(), this ), 30 );
+//        soloGoButtonHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( floatingControl.getGoButton(), this ), 30 );
+        soloGoButtonHelp.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( goButtonGraphic ), 30 );
         addGraphic( soloGoButtonHelp, Double.POSITIVE_INFINITY );
         soloGoButtonHelp.setVisible( false );
 
 //        setUseOffscreenBuffer( true );
         //TODO is offscreen buffer better here?
+    }
+
+    private PhetGraphic getGoButtonGraphic() {
+        PhetGraphic goButtonGraphic = ( (GraphicLayerSet)floatingControlGraphic ).getGraphics()[1];//TODO this will break when we fix PhetJComponent to have the right tree structure.
+        return goButtonGraphic;
     }
 
     public void paint( Graphics g ) {
@@ -438,8 +464,8 @@ public class Force1DPanel extends ApparatusPanel2 {
 
         Rectangle chartArea = new Rectangle( plotInsetX, plotY + yInsetBottom, plotWidth, height - plotY - yInsetBottom * 2 );
         if( chartArea.width > 0 && chartArea.height > 0 ) {
-
-            int separatorWidth = yInsetBottom / 2 + 10;
+            int separatorWidth = 7;
+//            System.out.println( "separatorWidth = " + separatorWidth );
             LayoutUtil layoutUtil = new LayoutUtil( chartArea.getY(), chartArea.getHeight() + chartArea.getY(), separatorWidth );
             PlotDevice[] devices = new PlotDevice[]{forcePlotDevice, accelPlotDevice, velPlotDevice, posPlotDevice};
 

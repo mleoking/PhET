@@ -3,6 +3,8 @@ package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DModule;
@@ -78,13 +80,15 @@ public class FreeBodyDiagramSuite {
                 }
             } );
 
-            fbdPanel.add( buttonPanel );
+//            fbdPanel.add( buttonPanel );
+            final PhetGraphic buttonPanelGraphic = PhetJComponent.newInstance( fbdPanel, buttonPanel );
+            fbdPanel.addGraphic( buttonPanelGraphic, Double.POSITIVE_INFINITY );
             Dimension panelDim = buttonPanel.getPreferredSize();
             buttonPanel.reshape( 0, 0, panelDim.width, panelDim.height );
-            reshapeTopRight( fbdPanel, buttonPanel, 3, 3 );
+            reshapeTopRight( fbdPanel, buttonPanelGraphic, 3, 3 );
             fbdPanel.addComponentListener( new ComponentAdapter() {
                 public void componentResized( ComponentEvent e ) {
-                    reshapeTopRight( fbdPanel, buttonPanel, 3, 3 );
+                    reshapeTopRight( fbdPanel, buttonPanelGraphic, 3, 3 );
                 }
             } );
         }
@@ -157,14 +161,24 @@ public class FreeBodyDiagramSuite {
         controlPanel.add( fbdPanel.getFBDPanel() );
     }
 
-    public void reshapeTopRight( JComponent container, JComponent movable, int dx, int dy ) {
+
+    public void reshapeTopRight( JComponent container, PhetGraphic movable, int dx, int dy ) {
         int w = container.getWidth();
         int h = container.getHeight();
-        Dimension d = movable.getPreferredSize();
+        Dimension d = movable.getSize();
         int x = w - d.width - dx;
         int y = 0 + dy;
-        movable.reshape( x, y, d.width, d.height );
+        movable.setLocation( x, y );//, d.width, d.height );
     }
+
+//    public void reshapeTopRight( JComponent container, JComponent movable, int dx, int dy ) {
+//        int w = container.getWidth();
+//        int h = container.getHeight();
+//        Dimension d = movable.getPreferredSize();
+//        int x = w - d.width - dx;
+//        int y = 0 + dy;
+//        movable.reshape( x, y, d.width, d.height );
+//    }
 
     public void reset() {
         fbdPanel.reset();

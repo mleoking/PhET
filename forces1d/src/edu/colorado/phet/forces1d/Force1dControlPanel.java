@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -25,7 +24,7 @@ import java.util.Hashtable;
  * Time: 11:11:57 AM
  * Copyright (c) Nov 22, 2004 by Sam Reid
  */
-public class Force1dControlPanel extends ControlPanel {
+public class Force1dControlPanel extends IForceControl {
     private Force1DModule module;
     private Force1DModel model;
     public static final double MAX_KINETIC_FRICTION = 2.0;

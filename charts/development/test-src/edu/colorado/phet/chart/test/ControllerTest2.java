@@ -38,6 +38,7 @@ public class ControllerTest2 {
         x = ch.getRange().getMinX();
         apparatusPanel.addGraphic( ch );
         VerticalChartSlider2 verticalChartSlider = new VerticalChartSlider2( apparatusPanel, ch );
+//        verticalChartSlider.getSlider().setBackground( );
         apparatusPanel.addGraphic( verticalChartSlider );
         ch.getVerticalTicks().setMajorOffset( -verticalChartSlider.getWidth() - 5, 0 );
         final DataSet ds = new DataSet();
