@@ -25,7 +25,7 @@ import java.awt.geom.Point2D;
  * overhead of computing AffineTransforms. (This overhead is built into PhetGraphic,
  * specifically in PhetGraphic.getNetTransform.)
  * <p>
- * This class is "streamlined" and avoid unnecessary checks and updates.
+ * This class is "streamlined" and avoids unnecessary checks and updates.
  * It assumes that CompassGridGraphic will handle saving/restoring the
  * graphics context.  And it assumes that the grid will be positioned at the
  * origin of its parent component.  These assumptions allow us to bypass most
@@ -240,7 +240,8 @@ class CompassGridNeedle {
     //----------------------------------------------------------------------------
     
     /**
-     * Draws the needle if it's strength is greater than or equal to the threshold.
+     * Draws the needle.
+     * 
      * @param g2 the graphics context
      */
     public void paint( Graphics2D g2 ) {
