@@ -12,24 +12,22 @@ import java.awt.geom.Rectangle2D;
 
 public class SphereWallExpert implements CollisionExpert, ContactDetector {
 
-    public static final int LEFT_SIDE = 1, RIGHT_SIDE = 2, TOP = 3, BOTTOM = 4, NO_CONTACT = 0;
-    private Collision collision;
+    public static final int NO_CONTACT = 0, LEFT_SIDE = 1, RIGHT_SIDE = 2, TOP = 3, BOTTOM = 4;
+
     private IdealGasModel model;
 
+    /**
+     * @param model
+     */
     public SphereWallExpert( IdealGasModel model ) {
         this.model = model;
     }
 
     public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean haveCollided = false;
-        if( applies( bodyA, bodyB ) && areInContact( bodyA, bodyB ) ) {
-            SphericalBody sphere = bodyA instanceof SphericalBody ?
-                                   (SphericalBody)bodyA : (SphericalBody)bodyB;
-            Wall wall = bodyA instanceof Wall ?
-                        (Wall)bodyA : (Wall)bodyB;
-            int contactType = getContactType( bodyA, bodyB );
-            collision = new SphereWallCollision( sphere, wall, contactType, model );
-            collision.collide();
+        ContactDescriptor contactType = getContactType( bodyA, bodyB );
+        if( contactType != null ) {
+            new SphereWallCollision( contactType.sphere, contactType.wall, contactType.type, model ).collide();
             haveCollided = true;
         }
         return haveCollided;
@@ -41,10 +39,10 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
     }
 
     public boolean areInContact( CollidableBody bodyA, CollidableBody bodyB ) {
-        return getContactType( bodyA, bodyB ) != NO_CONTACT;
+        return getContactType( bodyA, bodyB ).type != NO_CONTACT;
     }
 
-    private int getContactType( CollidableBody bodyA, CollidableBody bodyB ) {
+    private ContactDescriptor getContactType( CollidableBody bodyA, CollidableBody bodyB ) {
         int result = NO_CONTACT;
         Wall wall = null;
         SphericalBody sphere;
@@ -56,7 +54,7 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
                 sphere = (SphericalBody)bodyB;
             }
             else {
-                throw new RuntimeException( "bad args" );
+                return null;
             }
         }
         else if( bodyB instanceof Wall ) {
@@ -65,11 +63,11 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
                 sphere = (SphericalBody)bodyA;
             }
             else {
-                throw new RuntimeException( "bad args" );
+                return null;
             }
         }
         else {
-            throw new RuntimeException( "bad args" );
+            return null;
         }
 
         Rectangle2D bounds = wall.getBounds();
@@ -78,31 +76,78 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         double sphereXPrev = sphere.getPositionPrev().getX();
         double sphereY = sphere.getPosition().getY();
         double sphereYPrev = sphere.getPositionPrev().getY();
+        double sphereRadius = sphere.getRadius();
+
         // Hitting left side of wall?
-        if( sphereX + sphere.getRadius() >= bounds.getMinX() && sphereXPrev + sphere.getRadius() < prevBounds.getMinX()
-            && sphereY >= bounds.getMinY() && sphereY <= bounds.getMaxY() ) {
+//        if( sphereX + sphereRadius >= bounds.getMinX() && sphereXPrev + sphereRadius < prevBounds.getMinX()
+//            && sphereY >= bounds.getMinY() - sphereRadius && sphereY <= bounds.getMaxY() + sphereRadius ) {
+//            result = LEFT_SIDE;
+//        }
+        if( sphereX + sphereRadius >= bounds.getMinX() && sphereX + sphereRadius < bounds.getMaxX()
+            && sphere.getVelocity().getX() > 0
+            && sphereY >= bounds.getMinY() - sphereRadius && sphereY <= bounds.getMaxY() + sphereRadius
+            && result != LEFT_SIDE ) {
             result = LEFT_SIDE;
         }
 
         // Hitting right side?
-        if( sphereX - sphere.getRadius() <= bounds.getMaxX() && sphereXPrev - sphere.getRadius() > prevBounds.getMaxX()
-            && sphereY >= bounds.getMinY() && sphereY <= bounds.getMaxY() ) {
+//        if( sphereX - sphereRadius <= bounds.getMaxX() && sphereXPrev - sphereRadius > prevBounds.getMaxX()
+//            && sphereY >= bounds.getMinY() - sphereRadius && sphereY <= bounds.getMaxY() + sphereRadius ) {
+//            result = RIGHT_SIDE;
+//        }
+        if( sphereX - sphereRadius <= bounds.getMaxX() && sphereX - sphereRadius > bounds.getMinX()
+            && sphere.getVelocity().getX() < 0
+            && sphereY >= bounds.getMinY() - sphereRadius && sphereY <= bounds.getMaxY() + sphereRadius
+            && result != RIGHT_SIDE ) {
             result = RIGHT_SIDE;
         }
 
         // Hitting top?
-        if( sphereY + sphere.getRadius() >= bounds.getMinY() && sphereYPrev + sphere.getRadius() < prevBounds.getMinY()
-            && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ) {
+//        if( sphereY + sphereRadius >= bounds.getMinY() && sphereYPrev + sphereRadius < prevBounds.getMinY()
+//            && sphereX >= bounds.getMinX() - sphereRadius && sphereX <= bounds.getMaxX() + sphereRadius ) {
+//            result = TOP;
+//        }
+        if( sphereY + sphereRadius >= bounds.getMinY() && sphereY + sphereRadius < bounds.getMaxY()
+        && sphere.getVelocity().getY() > 0
+        && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ){
             result = TOP;
         }
 
+
         // Hitting bottom?
-        if( sphereY - sphere.getRadius() <= bounds.getMaxY() && sphereYPrev - sphere.getRadius() > prevBounds.getMaxY()
-            && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ) {
+//        if( sphereY - sphereRadius <= bounds.getMaxY() && sphereYPrev - sphereRadius > prevBounds.getMaxY()
+//            && sphereX >= bounds.getMinX() - sphereRadius && sphereX <= bounds.getMaxX() + sphereRadius ) {
+//            result = BOTTOM;
+//        }
+        if( sphereY - sphereRadius <= bounds.getMaxY() && sphereY - sphereRadius > bounds.getMinY()
+        && sphere.getVelocity().getY() < 0
+        && sphereX >= bounds.getMinX() && sphereX <= bounds.getMaxX() ){
             result = BOTTOM;
         }
-        return result;
+
+        ContactDescriptor contactDescriptor = null;
+        if( result != NO_CONTACT ) {
+            contactDescriptor = new ContactDescriptor( wall, sphere, result );
+        }
+        return contactDescriptor;
     }
 
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
 
+    /**
+     * Data type that describes the input parameters for a collision
+     */
+    private class ContactDescriptor {
+        Wall wall;
+        SphericalBody sphere;
+        int type;
+
+        public ContactDescriptor( Wall wall, SphericalBody sphere, int type ) {
+            this.wall = wall;
+            this.sphere = sphere;
+            this.type = type;
+        }
+    }
 }

@@ -54,7 +54,7 @@ public class MovableWallsModule extends IdealGasModule {
     private Wall lowerWall;
     private Wall leftFloor;
     private Wall rightFloor;
-    private int wallThickness = 12;
+    private int wallThickness = (int)GasMolecule.s_defaultRadius * 4;
     private ParticleCounter leftRegionParticleCounter;
     private ParticleCounter rightRegionParticleCounter;
 
@@ -69,10 +69,12 @@ public class MovableWallsModule extends IdealGasModule {
                                                       box.getCorner1Y() + box.getHeight() / 3,
                                                       wallThickness, box.getHeight() * 2 / 3 ),
                               box.getBoundsInternal() );
+        lowerWall.setMinimumWidth( wallThickness );
         WallGraphic lowerWallGraphic = new GraduatedWallGraphic( lowerWall, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.EAST_WEST );
         lowerWallGraphic.setIsResizable( true );
+
         getModel().addModelElement( lowerWall );
         addGraphic( lowerWallGraphic, s_verticalWallLayer );
         lowerWall.addChangeListener( new LowerWallChangeListener() );
@@ -127,7 +129,7 @@ public class MovableWallsModule extends IdealGasModule {
         rightFloor.setMovementBounds( new Rectangle2D.Double( lowerWallBounds.getMaxX(),
                                                               Math.max( lowerWallBounds.getMinY(), Pump.s_intakePortY + 10 ),
                                                               boxBounds.getMaxX() - lowerWallBounds.getMaxX(),
-                                                              boxBounds.getMaxY() - lowerWallBounds.getMinY() ) );
+                                                              boxBounds.getMaxY() - ( Pump.s_intakePortY + 10 ) ));
     }
 
     /**

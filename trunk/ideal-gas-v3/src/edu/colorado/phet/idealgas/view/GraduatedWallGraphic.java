@@ -41,14 +41,13 @@ public class GraduatedWallGraphic extends WallGraphic {
      * @param g2
      */
     public void paint( Graphics2D g2 ) {
-        Rectangle bounds = getBounds();
+        Rectangle bounds = getShape().getBounds();
 
         GraphicsState gs = new GraphicsState( g2 );
         super.paint( g2 );
         g2.setColor( backgroundColor );
         g2.fill( bounds );
         g2.setColor( Color.black );
-        g2.draw( bounds );
 
         // Draw minor ticks
         for( int i = 0; i < bounds.getHeight(); i += minorTickInterval ) {
@@ -67,6 +66,11 @@ public class GraduatedWallGraphic extends WallGraphic {
             g2.drawLine( (int)bounds.getMaxX(), (int)bounds.getMaxY() - i,
                          (int)bounds.getMaxX() - 5, (int)bounds.getMaxY() - i );
         }
+
+        // Draw the border. Get the color from the parent class. This ensures that if
+        // it's highlighted, we'll get the right color
+        g2.setPaint( getBorder() );
+        g2.draw( bounds );
 
         gs.restoreGraphics();
     }

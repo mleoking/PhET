@@ -39,6 +39,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     private boolean isResizingSouth = false;
     private double hotSpotRadius = 4;
     private int strokeWidth = 1;
+    private Paint normalBorderPaint;
 
     /**
      * @param wall
@@ -52,6 +53,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         this( wall, component, fill, translationDirection );
         setStroke( new BasicStroke( strokeWidth ) );
         setBorderPaint( borderPaint );
+        normalBorderPaint = borderPaint;
     }
 
     /**
@@ -66,7 +68,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         this.wall = wall;
         wall.addChangeListener( this );
 
-        setCursorHand();
+//        setCursorHand();
 
         // Add a listener for resize events
         addTranslationListener( new Resizer() );
@@ -99,16 +101,31 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         this.isResizable = isResizable;
     }
 
+    private void setHighlightWall( boolean highlightWall ) {
+        if( highlightWall ) {
+            setBorderPaint( Color.red );
+        }
+        else {
+            setBorderPaint( normalBorderPaint );
+        }
+    }
+
     //-----------------------------------------------------------------
     // Event handling
     //-----------------------------------------------------------------
+    boolean testFlag = false;
 
     public void wallChanged( Wall.ChangeEvent event ) {
         Wall wall = event.getWall();
-        setBounds( new Rectangle( (int)wall.getBounds().getX(), (int)wall.getBounds().getY(),
-                                  (int)wall.getBounds().getWidth(), (int)wall.getBounds().getHeight() ) );
+        setShape( new Rectangle( (int)wall.getBounds().getX(), (int)wall.getBounds().getY(),
+                                 (int)wall.getBounds().getWidth(), (int)wall.getBounds().getHeight() ) );
+        testFlag = true;
         setBoundsDirty();
         repaint();
+    }
+
+    protected Rectangle determineBounds() {
+        return super.determineBounds();
     }
 
     //----------------------------------------------------------------
@@ -181,7 +198,6 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
      */
     private class ResizingDetector extends MouseAdapter {
         private final Wall wall;
-        private Cursor savedCursor;
 
         public ResizingDetector( Wall wall ) {
             this.wall = wall;
@@ -228,6 +244,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
      */
     private class CursorManager implements MouseMotionListener {
         private Cursor currentCursor = Cursor.getDefaultCursor();
+        private Cursor origCursor = null;
 
         public void mouseDragged( MouseEvent e ) {
             // noop
@@ -236,11 +253,22 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         public void mouseMoved( MouseEvent e ) {
             Point mouseLoc = e.getPoint();
             if( contains( mouseLoc.x, mouseLoc.y ) ) {
+
+                // If the mouse jsut entered the wall, save the cursor so we can restore it later
+                if( origCursor == null ) {
+                    origCursor = getComponent().getCursor();
+                }
+
+                // Highlight the wall when it's painted
+                setHighlightWall( true );
+
+                // If the wall is resizable and the cursor is on or near its border, give it the
+                // correct double-arrow cursor. Otherwise, make the cursor a hand.
                 if( isResizable ) {
-                    double minX = wall.getBounds().getMinX();
-                    double maxX = wall.getBounds().getMaxX();
-                    double minY = wall.getBounds().getMinY();
-                    double maxY = wall.getBounds().getMaxY();
+                    double minX = getBounds().getMinX();
+                    double maxX = getBounds().getMaxX();
+                    double minY = getBounds().getMinY();
+                    double maxY = getBounds().getMaxY();
 
                     if( Math.abs( mouseLoc.y - minY ) <= hotSpotRadius ) {
                         currentCursor = Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR );
@@ -262,6 +290,16 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
                     currentCursor = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
                 }
                 getComponent().setCursor( currentCursor );
+            } // if( contains( mouseLoc.x, mouseLoc.y ) ) {
+
+            // If the mouse isn't in the bounds of the wall, don't highlight the wall, and
+            // make sure the cursor is correct
+            else {
+                if( origCursor != null ) {
+                    getComponent().setCursor( origCursor );
+                    origCursor = null;
+                }
+                setHighlightWall( false );
             }
         }
     }

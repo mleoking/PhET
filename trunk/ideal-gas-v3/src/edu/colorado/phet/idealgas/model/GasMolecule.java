@@ -198,4 +198,16 @@ public class GasMolecule extends SolidSphere {
         }
         return cm;
     }
+
+
+    //----------------------------------------------------------------
+    // DEEBUG
+    //----------------------------------------------------------------
+    public int numTicks;
+
+    public void stepInTime( double dt ) {
+        numTicks++;
+        super.stepInTime( dt );
+    }
+
 }
