@@ -203,7 +203,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     
     // Post-filter columnar beam
     _postFilterBeamGraphic = new SolidBeamGraphic( apparatusPanel, _postFilterBeamModel );
-    _postFilterBeamGraphic.setAlphaScale( 95 /* percent */ );
+    _postFilterBeamGraphic.setAlphaScale( 100 /* percent */ );
     apparatusPanel.addGraphic( _postFilterBeamGraphic, POST_FILTER_BEAM_LAYER );
     
     // Photon beam
