@@ -8,10 +8,11 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - requirements for Generator module (see Carl's Powerpoint slides)
-- calibration throughout
+- calibrate lightbulb
+- calibrate voltmeter
+- calibrate electron animation (move further/faster)
 - redo Turbine model, it should not extend BarMagnet (it has a BarMagnetPanel)
 - animate AC wave
-- adjust electron animation so that electrons move farther
 
 MEDIUM PRIORITY:
 - electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
