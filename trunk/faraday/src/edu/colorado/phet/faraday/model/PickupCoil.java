@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday.model;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.faraday.util.Vector2D;
 
@@ -189,9 +190,9 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         
         // Kirchhoff's rule -- voltage across the ends of the coil equals the emf.
         double voltage = emf;
-        if ( voltage > getMaxVoltage() ) {
+        if ( Math.abs( voltage ) > getMaxVoltage() ) {
 //            System.out.println( "PickupCoil.updateEmf: voltage exceeded maximum voltage: " + voltage ); //DEBUG
-            voltage = getMaxVoltage();
+            voltage = MathUtil.clamp( -getMaxVoltage(), voltage, getMaxVoltage() );
         }
         
         // Update the amplitude of this voltage source.
