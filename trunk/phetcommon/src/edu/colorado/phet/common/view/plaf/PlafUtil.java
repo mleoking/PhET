@@ -20,10 +20,10 @@ import java.util.ArrayList;
 public class PlafUtil {
 
     static {
-        UIManager.installLookAndFeel( "Canary", new ClientLookAndFeel().getClass().getName() );
-        UIManager.installLookAndFeel( "Lecture I", new LectureLookAndFeel().getClass().getName() );
-        UIManager.installLookAndFeel( "Lecture II", new LectureLookAndFeel2().getClass().getName() );
-        UIManager.installLookAndFeel( "Playful", new PlayfulLookAndFeel().getClass().getName() );
+//        UIManager.installLookAndFeel( "Canary", new ClientLookAndFeel().getClass().getName() );
+//        UIManager.installLookAndFeel( "Lecture I", new LectureLookAndFeel().getClass().getName() );
+        UIManager.installLookAndFeel( "Lecture", new LectureLookAndFeel2().getClass().getName() );
+//        UIManager.installLookAndFeel( "Playful", new PlayfulLookAndFeel().getClass().getName() );
         //        UIManager.installLookAndFeel( "Anim", new AnimFactoryLookAndFeel().getClass().getName() );
     }
 

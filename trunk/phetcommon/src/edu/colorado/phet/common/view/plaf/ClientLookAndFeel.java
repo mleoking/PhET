@@ -22,7 +22,7 @@ public class ClientLookAndFeel extends MetalLookAndFeel {
             , "RadioButton.background", background
             , "CheckBox.background", background
             , "Button.background", buttonBackground
-
+            , "ComboBox.background", background
         };
         table.putDefaults( defaults );
     }
