@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.metal.MetalButtonUI;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 
 /**
  * User: Sam Reid
@@ -16,17 +17,22 @@ import java.awt.*;
  */
 public class MyButtonUI extends MetalButtonUI {
 
-    private ImageIcon pressed;
-    private ImageIcon unpressed;
+    private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/round-button-pressed.gif" ) );
+    private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/round-button.gif" ) );
+    private JButton button;
+    private Icon origUnpressed;
+    private Icon origPressed;
+    private MouseAdapter handAdapter = new MouseHandAdapter();
 
-    public MyButtonUI() {
+    public MyButtonUI( JButton button ) {
         super();
-        pressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/down.gif" ) );
-        unpressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/up.gif" ) );
+        this.button = button;
+        origUnpressed = button.getIcon();
+        origPressed = button.getPressedIcon();
     }
 
     public static ComponentUI createUI( JComponent c ) {
-        return new MyButtonUI();
+        return new MyButtonUI( (JButton)c );
     }
 
     public void paint( Graphics g, JComponent c ) {
@@ -35,11 +41,21 @@ public class MyButtonUI extends MetalButtonUI {
         super.paint( g, c );
     }
 
+    // ********************************
+    //         Uninstall PLAF
+    // ********************************
+    public void uninstallUI( JComponent c ) {
+        super.uninstallUI( c );
+        button.setIcon( origUnpressed );
+        button.setPressedIcon( origPressed );
+        button.removeMouseListener( handAdapter );
+    }
+
     public void installUI( JComponent c ) {
         super.installUI( c );
         JButton button = (JButton)c;
-
         button.setIcon( unpressed );
         button.setPressedIcon( pressed );
+        button.addMouseListener( handAdapter );
     }
 }

@@ -4,6 +4,8 @@ package edu.colorado.phet.common.examples;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 /**
@@ -13,8 +15,7 @@ import java.awt.*;
  * Copyright (c) Apr 2, 2004 by Sam Reid
  */
 public class TestComponents {
-    public static void main( String[] args ) {
-
+    public static void main( String[] args ) throws IllegalAccessException, UnsupportedLookAndFeelException, InstantiationException, ClassNotFoundException {
         JFrame sliderFrame = new JFrame( "Test Slider UI" );
         JMenuBar jmb = new JMenuBar() {
             protected void paintComponent( Graphics g ) {
@@ -56,6 +57,22 @@ public class TestComponents {
         JCheckBox jcb = new JCheckBox( "Power" );
         contentPane.add( jcb );
 
+//        UIManager.installLookAndFeel( "Test Look And Feel", new PlayfulLookAndFeel().getClass().getName() );
+//        UIManager.setLookAndFeel( PlayfulLookAndFeel.class.getName());
+        SwingUtilities.updateComponentTreeUI( sliderFrame );
+
+        SpinnerNumberModel snm = new SpinnerNumberModel( 0, 0, 10, 1 );
+        final JSpinner spinner = new JSpinner( snm );
+        spinner.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                System.out.println( "Spinner value changed to " + spinner.getValue() );
+            }
+        } );
+//        spinner.setSize( 200,200);
+
+        JPanel spinnerPanel = new JPanel();
+        spinnerPanel.add( spinner );
+        contentPane.add( spinnerPanel );
 
         sliderFrame.setSize( 600, 600 );
         sliderFrame.setVisible( true );

@@ -25,7 +25,7 @@ public class PlafUtil {
         UIManager.installLookAndFeel( "Canary", new ClientLookAndFeel().getClass().getName() );
         UIManager.installLookAndFeel( "Lecture I", new LectureLookAndFeel().getClass().getName() );
         UIManager.installLookAndFeel( "Lecture II", new LectureLookAndFeel2().getClass().getName() );
-        UIManager.installLookAndFeel( "Test Look And Feel", new PlayfulLookAndFeel().getClass().getName() );
+        UIManager.installLookAndFeel( "Playful", new PlayfulLookAndFeel().getClass().getName() );
     }
 
     public static JMenuItem[] getLookAndFeelItems() {

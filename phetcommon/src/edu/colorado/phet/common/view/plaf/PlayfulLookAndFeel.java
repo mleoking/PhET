@@ -23,7 +23,7 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
         this.font = font;
         this.foregroundColor = foregroundColor;
         this.backgroundColor = backgroundColor;
-        install();
+//        install();
     }
 
     String[] types = new String[]{
@@ -31,9 +31,12 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
         "CheckBox", "RadioButton", "ComboBox",
         "Menu", "MenuItem", "MenuBar",
         "Slider", "Spinner", "Border", "TextField", "TextArea",
-        "Label", "TextPane", "FormattedTextField", "List"
+        "Label", "TextPane", "FormattedTextField", "List", "Spinner"
     };
 
+//    public void uninitialize() {
+//        super.uninitialize();
+//    }
 
     protected void initComponentDefaults( UIDefaults table ) {
         super.initComponentDefaults( table );
@@ -60,8 +63,17 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
 //        MetalButtonUI buttonUI=new MetalButtonUI();
         add( "ButtonUI", MyButtonUI.class.getName() );
         add( "CheckBoxUI", MyCheckBoxUI.class.getName() );
+        add( "SpinnerUI", MySpinnerUI.class.getName() );
+        //"SliderUI", metalPackageName + "MetalSliderUI",
+        add( "SliderUI", MySliderUI.class.getName() );
         add( "TitledBorder.font", fontResource );
         add( "TitledBorder.titleColor", foreground );
+        add( "Spinner.arrowButtonSize", new Dimension( 40, 40 ) );
+
+        add( "TextFieldUI", MyTextFieldUI.class.getName() );
+        add( "PanelUI", MyPanelUI.class.getName() );
+
+//        "Spinner.arrowButtonSize", new Dimension(16, 5),
 
         Object[] defaults = def.toArray();
         table.putDefaults( defaults );
@@ -72,10 +84,6 @@ public class PlayfulLookAndFeel extends MetalLookAndFeel {
     private void add( String s, Object o ) {
         def.add( s );
         def.add( o );
-    }
-
-    private void install() {
-        UIManager.installLookAndFeel( "Lecture", getClass().getName() );
     }
 
 }

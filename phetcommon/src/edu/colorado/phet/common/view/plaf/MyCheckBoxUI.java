@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.metal.MetalCheckBoxUI;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 
 /**
  * User: Sam Reid
@@ -16,17 +17,22 @@ import java.awt.*;
  */
 public class MyCheckBoxUI extends MetalCheckBoxUI {
 
-    private ImageIcon pressed;
-    private ImageIcon unpressed;
+    private static ImageIcon pressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/in.gif" ) );
+    private static ImageIcon unpressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/out.gif" ) );
+    private Icon origicon;
+    private Icon origPressed;
+    private Icon origSel;
+    private MouseAdapter handAdapter = new MouseHandAdapter();
 
-    public MyCheckBoxUI() {
+    public MyCheckBoxUI( JCheckBox box ) {
         super();
-        pressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/on.gif" ) );
-        unpressed = new ImageIcon( TestComponents.class.getClassLoader().getResource( "images/components/webt/off.gif" ) );
+        this.origicon = box.getIcon();
+        this.origPressed = box.getPressedIcon();
+        this.origSel = box.getSelectedIcon();
     }
 
     public static ComponentUI createUI( JComponent c ) {
-        return new MyCheckBoxUI();
+        return new MyCheckBoxUI( (JCheckBox)c );
     }
 
     public void paint( Graphics g, JComponent c ) {
@@ -42,5 +48,18 @@ public class MyCheckBoxUI extends MetalCheckBoxUI {
         button.setIcon( unpressed );
         button.setPressedIcon( pressed );
         button.setSelectedIcon( pressed );
+        button.addMouseListener( handAdapter );
+    }
+
+    // ********************************
+    //         Uninstall PLAF
+    // ********************************
+    public void uninstallUI( JComponent c ) {
+        super.uninstallUI( c );
+        JCheckBox box = (JCheckBox)c;
+        box.setIcon( origicon );
+        box.setPressedIcon( origPressed );
+        box.setSelectedIcon( origSel );
+        box.removeMouseListener( handAdapter );
     }
 }
