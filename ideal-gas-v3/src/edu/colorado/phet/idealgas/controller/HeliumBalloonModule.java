@@ -41,7 +41,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         double yDiag = 397;
 
         // So we'll get events sent by parent classes
-        this.addListener( this );
+        this.addResetListener( this );
 
         // Add collision experts to the model
         getIdealGasModel().addCollisionExpert( new SphereBalloonExpert( getIdealGasModel(), clock.getDt() ) );
@@ -149,6 +149,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
     class HeliumFactoryPanel extends JPanel implements IdealGasModule.ResetListener {
 
         private int currNumMolecules;
+        private JSpinner particleSpinner;
 
         HeliumFactoryPanel() {
 
@@ -167,7 +168,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
             Integer max = new Integer( 1000 );
             Integer step = new Integer( 1 );
             SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
-            final JSpinner particleSpinner = new JSpinner( model );
+            particleSpinner = new JSpinner( model );
             particleSpinner.setPreferredSize( new Dimension( 50, 20 ) );
             gbc.gridx = 1;
             gbc.anchor = GridBagConstraints.EAST;
@@ -178,6 +179,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                     setNumParticles( ( (Integer)particleSpinner.getValue() ).intValue() );
                 }
             } );
+
+            HeliumBalloonModule.this.addResetListener( this );
         }
 
         protected void setNumParticles( int numParticles ) {
@@ -210,6 +213,9 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
         public void resetOccurred( ResetEvent event ) {
             currNumMolecules = 0;
+            particleSpinner.setEnabled( false );
+            particleSpinner.setValue( new Integer( 0 ) );
+            particleSpinner.setEnabled( true );
         }
     }
 

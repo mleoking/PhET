@@ -503,15 +503,15 @@ public class IdealGasModule extends Module {
         resetListenersProxy.resetOccurred( new ResetEvent( this ) );
     }
 
-    public void addListener( EventListener listener ) {
+    public void addResetListener( ResetListener listener ) {
         resetEventChannel.addListener( listener );
     }
 
-    public void removeListener( EventListener listener ) {
+    public void removeResetListener( ResetListener listener ) {
         resetEventChannel.removeListener( listener );
     }
 
-    public void removeAllListeners() {
+    public void removeAllResetListeners() {
         resetEventChannel.removeAllListeners();
     }
 
