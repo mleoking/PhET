@@ -10,20 +10,19 @@
  */
 package edu.colorado.phet.common.view.components;
 
+import edu.colorado.phet.common.math.ModelViewTransform1D;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * ModelSlider
@@ -34,7 +33,8 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 public class ModelSlider extends JPanel {
     private JTextField textField;
     private JSlider slider;
-    private Function modelViewTransform;//goes from model to view
+//    private Function modelViewTransform;//goes from model to view
+    private ModelViewTransform1D modelViewTransform;
     private String units;
     private NumberFormat formatter;
     private static final int SLIDER_MAX = 100000000;
@@ -59,7 +59,7 @@ public class ModelSlider extends JPanel {
         this.max = max;
         this.formatter = formatter;
         this.units = units;
-        this.modelViewTransform = new Function.LinearFunction( min, max, SLIDER_MIN, SLIDER_MAX );
+        this.modelViewTransform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
         this.initialValue = initialValue;
         numMajorTicks = 10;
         int numMinorsPerMajor = 4;
@@ -87,11 +87,11 @@ public class ModelSlider extends JPanel {
         textPanel.add( unitsReadout, BorderLayout.EAST );
         try {
             SwingUtils.addGridBagComponent( this, titleLabel, 0, 0, 1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                            GridBagConstraints.NONE, GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( this, slider, 0, 1, 1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                            GridBagConstraints.NONE, GridBagConstraints.CENTER );
             SwingUtils.addGridBagComponent( this, textPanel, 0, 2, 2, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                            GridBagConstraints.NONE, GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             throw new RuntimeException( e );
@@ -139,7 +139,7 @@ public class ModelSlider extends JPanel {
         Font labelFont = new Font( "Lucida Sans", 0, 10 );
         Hashtable table = new Hashtable();
         for( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
-            double modelValue = modelViewTransform.createInverse().evaluate( value );
+            double modelValue = modelViewTransform.viewToModel( value );
             JLabel label = new JLabel( formatter.format( modelValue ) );
             label.setFont( labelFont );
             table.put( new Integer( value ), label );
@@ -151,21 +151,24 @@ public class ModelSlider extends JPanel {
     }
 
     private void createSlider() {
+        int initSliderValue = modelViewTransform.modelToView( initialValue );
+        if( initSliderValue < SLIDER_MIN || initSliderValue > SLIDER_MAX ) {
+            throw new RuntimeException( "Illegal slider value, min=" + SLIDER_MIN + ", max=" + SLIDER_MAX + ", value=" + initSliderValue );
+        }
         final JSlider slider = new JSlider( SwingConstants.HORIZONTAL,
-                                            SLIDER_MIN, SLIDER_MAX,
-                                            (int)modelViewTransform.createInverse().evaluate( initialValue ) );
+                                            SLIDER_MIN, SLIDER_MAX, initSliderValue );
 
         slider.setPaintTicks( true );
         slider.setPaintLabels( true );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double sliderValue = slider.getValue();
-                double modelValue = modelViewTransform.createInverse().evaluate( sliderValue );
+                int sliderValue = slider.getValue();
+                double modelValue = modelViewTransform.viewToModel( sliderValue );
                 setValue( modelValue );
             }
         } );
         int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
-        double modelDX = Math.abs( modelViewTransform.createInverse().evaluate( dMinor / 4 ) );
+        double modelDX = Math.abs( modelViewTransform.viewToModel( dMinor / 4 ) );
         SliderKeyHandler skh = new SliderKeyHandler( modelDX );
         slider.addKeyListener( skh );
         this.slider = slider;
@@ -242,7 +245,7 @@ public class ModelSlider extends JPanel {
         if( val > max ) {
             val = max;
         }
-        modelViewTransform = new Function.LinearFunction( min, max, SLIDER_MIN, SLIDER_MAX );
+        modelViewTransform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
         setValue( val );
     }
 
@@ -360,7 +363,7 @@ public class ModelSlider extends JPanel {
 
             this.value = newValue;
             textField.setText( string );
-            int sliderValue = (int)modelViewTransform.evaluate( value );
+            int sliderValue = modelViewTransform.modelToView( value );
             if( sliderValue != slider.getValue() ) {
                 slider.setValue( sliderValue ); //this recursively changes values
             }
