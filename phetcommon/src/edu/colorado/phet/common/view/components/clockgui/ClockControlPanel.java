@@ -13,6 +13,7 @@ package edu.colorado.phet.common.view.components.clockgui;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.model.clock.ThreadedClock;
+import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -188,5 +189,15 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
     }
 
     public void pausedStateChanged( boolean b ) {
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Event handlers
+    //
+    public void stateChanged( ClockStateEvent event ) {
+        pausedStateChanged( event.getIsPaused() );
+        dtChanged( event.getDt() );
+        delayChanged( event.getDelay() );
     }
 }

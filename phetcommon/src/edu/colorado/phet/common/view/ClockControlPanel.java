@@ -12,6 +12,7 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -87,12 +88,12 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         pause.setEnabled( true );
     }
 
-    private void setPausedState( boolean state ) {
-        clock.setPaused( state );
-        play.setEnabled( state );
-        pause.setEnabled( state );
-        step.setEnabled( state );
-    }
+//    private void setPausedState( boolean state ) {
+//        clock.setPaused( state );
+//        play.setEnabled( state );
+//        pause.setEnabled( state );
+//        step.setEnabled( state );
+//    }
 
     public void delayChanged( int waitTime ) {
     }
@@ -107,5 +108,12 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         play.setEnabled( b );
         pause.setEnabled( !b );
         step.setEnabled( b );
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Event handlers
+    //
+    public void stateChanged( ClockStateEvent event ) {
+        pausedStateChanged( event.getIsPaused() );
     }
 }
