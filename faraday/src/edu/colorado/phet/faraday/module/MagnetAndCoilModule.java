@@ -59,7 +59,7 @@ public class MagnetAndCoilModule extends Module {
     private static final Point COMPASS_LOCATION = new Point( 100, 500 );
 
     // Colors
-    private static final Color APPARATUS_BACKGROUND = FaradayConfig.APPARATUS_BACKGROUND;
+    private static final Color APPARATUS_BACKGROUND = Color.BLACK;
 
     // Magnet parameters
     private static final double MAGNET_STRENGTH = 200;
