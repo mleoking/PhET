@@ -129,7 +129,7 @@ public class MultipleAtomTwoLevelModule extends BaseLaserModule {
 
     private void setCavityHeight( double height ) {
         ResonatingCavity cavity = getLaserModel().getResonatingCavity();
-        float cavityHeight =  cavity.getHeight();
+        double cavityHeight =  cavity.getHeight();
         Point2D cavityPos = cavity.getPosition();
         double yNew = cavityPos.getY() + cavityHeight / 2 - height / 2;
         cavity.setPosition( cavityPos.getX(), yNew );

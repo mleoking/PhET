@@ -36,7 +36,7 @@ public class TestApparatusModule extends SingleAtomBaseModule {
 
         float newHeight = 100;
         ResonatingCavity cavity = this.getCavity();
-        float cavityHeight =  cavity.getHeight();
+        double cavityHeight =  cavity.getHeight();
         Point2D cavityPos = cavity.getPosition();
 //        Vector2D cavityPos = cavity.getPosition();
         double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;

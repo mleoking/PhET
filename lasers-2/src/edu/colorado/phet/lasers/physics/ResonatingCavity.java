@@ -103,12 +103,14 @@ public class ResonatingCavity extends Box2D {
      *
      * @param height
      */
-//    public void setHeight( double height ) {
-//
-//        // Reposition the walls of the cavity
-//        float yMiddle = (float)origin.getY() + this.height / 2;
-//        origin.setLocation( origin.getX(), yMiddle - height / 2 );
-//        this.height = height;
+    public void setHeight( double height ) {
+
+        // Reposition the walls of the cavity
+        double yMiddle = origin.getY() + this.height / 2;
+        origin.setLocation( origin.getX(), yMiddle - height / 2 );
+        this.height = height;
+        this.setBounds( getMinX(), origin.getY() - height / 2, getWidth(), height );
+        notifyObservers();
 //        upperWall.setLocation( origin.getX(), origin.getX() + this.width,
 //                               origin.getY(), origin.getY() );
 //        lowerWall.setLocation( origin.getX(), origin.getX() + this.width,
@@ -142,5 +144,5 @@ public class ResonatingCavity extends Box2D {
 //
 //    public float getContactOffset( Body body ) {
 //        return 0;
-//    }
+    }
 }
