@@ -6,11 +6,10 @@
  */
 package edu.colorado.phet.sound.model;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.sound.SoundConfig;
 import javasound.SrrOscillatorPlayer;
 

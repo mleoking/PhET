@@ -10,11 +10,10 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.model.Listener;
-import edu.colorado.phet.sound.model.SoundModel;
+import edu.colorado.phet.sound.view.AudioControlPanel;
 import edu.colorado.phet.sound.view.ListenerGraphic;
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
-import edu.colorado.phet.sound.view.AudioControlPanel;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -28,7 +27,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
         this( appModel, "<html>Listen to<br>Single Source</html>" );
     }
 
-    protected  SingleSourceListenModule( ApplicationModel appModel, String title ) {
+    protected SingleSourceListenModule( ApplicationModel appModel, String title ) {
         super( appModel, title );
         init();
     }
@@ -45,8 +44,8 @@ public class SingleSourceListenModule extends SingleSourceModule {
                                                                    SoundConfig.s_headBaseX - 150, SoundConfig.s_headBaseY,
                                                                    SoundConfig.s_headBaseX + 150, SoundConfig.s_headBaseY );
             this.addGraphic( listenerGraphic, 9 );
-            headListener.setLocation( new Point2D.Double(  SoundConfig.s_headBaseX - SoundConfig.s_speakerBaseX,
-                                                           SoundConfig.s_headBaseY - SoundConfig.s_speakerBaseY) );
+            headListener.setLocation( new Point2D.Double( SoundConfig.s_headBaseX - SoundConfig.s_speakerBaseX,
+                                                          SoundConfig.s_headBaseY - SoundConfig.s_speakerBaseY ) );
             speakerListener.setLocation( new Point2D.Double() );
             setAudioSource( SoundApparatusPanel.SPEAKER_SOURCE );
         }
@@ -59,7 +58,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
     }
 
     public void setAudioSource( int source ) {
-        switch (source ) {
+        switch( source ) {
             case SoundApparatusPanel.LISTENER_SOURCE:
                 setListener( headListener );
                 break;

@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
 /**
  * This is a placeholder class in the model for the person listening to the sound
  */
-public class Listener extends SimpleObservable{
+public class Listener extends SimpleObservable {
     private Point2D.Double location = new Point2D.Double();
 
     public Point2D.Double getLocation() {

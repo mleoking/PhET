@@ -23,13 +23,13 @@ public class ClockPanelLarge extends JPanel implements ClockTickListener {
 
         clock.addClockTickListener( this );
 
-        setBackground( new Color( 237, 225, 113 ));
+        setBackground( new Color( 237, 225, 113 ) );
         setBorder( BorderFactory.createRaisedBevelBorder() );
         clockTF = new JTextField( 5 );
         Font clockFont = clockTF.getFont();
-        clockTF.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ));
+        clockTF.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ) );
 
-        add( new JLabel( "Running time: "));
+        add( new JLabel( "Running time: " ) );
         clockTF.setEditable( false );
         add( clockTF );
         clockFormat.setMaximumFractionDigits( 1 );
@@ -42,8 +42,8 @@ public class ClockPanelLarge extends JPanel implements ClockTickListener {
         clockTF.setText( reading );
     }
 
-    public void setClockReading( float  reading ) {
-        setClockReading( clockFormat.format( reading ));
+    public void setClockReading( float reading ) {
+        setClockReading( clockFormat.format( reading ) );
     }
 
     public void clockTicked( AbstractClock c, double dt ) {

@@ -3,9 +3,10 @@ package jass.engine;
 import java.util.Vector;
 
 /**
- Input unit which contains Sources and does something with them in
- run().  Maintains Vector of Sources. Needs only implementation of run().
- @author Kees van den Doel (kvdoel@cs.ubc.ca)
+ * Input unit which contains Sources and does something with them in
+ * run().  Maintains Vector of Sources. Needs only implementation of run().
+ *
+ * @author Kees van den Doel (kvdoel@cs.ubc.ca)
  */
 
 public abstract class In extends Thread implements Sink {
@@ -15,24 +16,30 @@ public abstract class In extends Thread implements Sink {
         sourceContainer = new Vector();
     }
 
-    /** add source to Sink.
-     @param s Source to add.
-     @return object representing Source in Sink (may be null).
+    /**
+     * add source to Sink.
+     *
+     * @param s Source to add.
+     * @return object representing Source in Sink (may be null).
      */
-    public Object addSource(Source s) throws SinkIsFullException {
-        sourceContainer.addElement(s);
+    public Object addSource( Source s ) throws SinkIsFullException {
+        sourceContainer.addElement( s );
         return null;
     }
 
-    /** Remove Source.
-     @param s Source to remove.
+    /**
+     * Remove Source.
+     *
+     * @param s Source to remove.
      */
-    public void removeSource(Source s) {
-        sourceContainer.removeElement(s);
+    public void removeSource( Source s ) {
+        sourceContainer.removeElement( s );
     }
 
-    /** Get array of sources.
-     @return array of the Sources, null if there are none.
+    /**
+     * Get array of sources.
+     *
+     * @return array of the Sources, null if there are none.
      */
     public Object[] getSources() {
         return sourceContainer.toArray();

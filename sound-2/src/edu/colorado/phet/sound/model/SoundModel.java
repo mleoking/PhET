@@ -24,7 +24,7 @@ public class SoundModel extends BaseModel {
     private boolean octaveEnabled = false;
 
     // Used to save and restore audio state when Stop and Run are pressed
-//    private boolean savedAudioEnabledState = false;
+    //    private boolean savedAudioEnabledState = false;
 
 
     public SoundModel( AbstractClock clock ) {
@@ -65,13 +65,13 @@ public class SoundModel extends BaseModel {
         return wavefrontType;
     }
 
-//    public void setWavefrontType( WavefrontType wavefrontType ) {
-//        this.wavefrontType = wavefrontType;
-//        for( Iterator iterator = waveMedium.getWavefronts().iterator(); iterator.hasNext(); ) {
-//            Wavefront wavefront = (Wavefront)iterator.next();
-//            wavefront.setWavefrontType( wavefrontType );
-//        }
-//    }
+    //    public void setWavefrontType( WavefrontType wavefrontType ) {
+    //        this.wavefrontType = wavefrontType;
+    //        for( Iterator iterator = waveMedium.getWavefronts().iterator(); iterator.hasNext(); ) {
+    //            Wavefront wavefront = (Wavefront)iterator.next();
+    //            wavefront.setWavefrontType( wavefrontType );
+    //        }
+    //    }
 
     public void setPropagationSpeed( int propogationSpeed ) {
         for( Iterator iterator = waveMedium.getWavefronts().iterator(); iterator.hasNext(); ) {
@@ -96,7 +96,6 @@ public class SoundModel extends BaseModel {
     }
 
     /**
-     *
      * @return Maximum amplitude of the main speaker
      */
     public double getAmplitude() {
@@ -118,7 +117,7 @@ public class SoundModel extends BaseModel {
      * TODO: move to command
      */
     public void setOctaveAmplitude( double amplitude ) {
-//        this.octaveAmplitude = amplitude;
+        //        this.octaveAmplitude = amplitude;
         octaveWavefront.setMaxAmplitude( amplitude );
     }
 

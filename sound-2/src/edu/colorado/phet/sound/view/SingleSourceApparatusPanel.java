@@ -7,21 +7,17 @@
 package edu.colorado.phet.sound.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class SingleSourceApparatusPanel extends SoundApparatusPanel {
 
-//    private PhetImageGraphic speakerFrame;
-//    private PhetImageGraphic speakerCone;
+    //    private PhetImageGraphic speakerFrame;
+    //    private PhetImageGraphic speakerCone;
     private WaveMediumGraphic waveMediumGraphic = null;
     private BufferedImage speakerFrameImg;
     private BufferedImage speakerConeImg;
@@ -42,19 +38,19 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
         Point2D.Double audioSource = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
                                                          SoundConfig.s_wavefrontBaseY );
         waveMediumGraphic.initLayout( audioSource,
-                                     SoundConfig.s_wavefrontHeight,
-                                     SoundConfig.s_wavefrontRadius );
+                                      SoundConfig.s_wavefrontHeight,
+                                      SoundConfig.s_wavefrontRadius );
 
         // Set up the octave wavefront and graphic
-//        WaveMediumGraphic wgB = new WaveMediumGraphic( waveMedium, this );
+        //        WaveMediumGraphic wgB = new WaveMediumGraphic( waveMedium, this );
         //        waveMediumGraphic.init( waveMedium );
-//        this.addGraphic( waveMediumGraphic, 7 );
+        //        this.addGraphic( waveMediumGraphic, 7 );
 
-//        Point2D.Double audioSourceB = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
-//                                                          SoundConfig.s_wavefrontBaseY );
-//        waveMediumGraphic.initLayout( audioSourceB,
-//                                     SoundConfig.s_wavefrontHeight,
-//                                     SoundConfig.s_wavefrontRadius );
+        //        Point2D.Double audioSourceB = new Point2D.Double( SoundConfig.s_wavefrontBaseX,
+        //                                                          SoundConfig.s_wavefrontBaseY );
+        //        waveMediumGraphic.initLayout( audioSourceB,
+        //                                     SoundConfig.s_wavefrontHeight,
+        //                                     SoundConfig.s_wavefrontRadius );
 
         setWavefrontType( new SphericalWavefront() );
         this.setBackground( SoundConfig.MIDDLE_GRAY );
@@ -75,8 +71,8 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
     /**
      *
      */
-//    public void init() {
-//    }
+    //    public void init() {
+    //    }
 
     /**
      * @return
@@ -111,18 +107,18 @@ public class SingleSourceApparatusPanel extends SoundApparatusPanel {
      *
      * @return
      */
-//    protected PhetGraphic getSpeakerFrame() {
-//        return speakerFrame;
-//    }
+    //    protected PhetGraphic getSpeakerFrame() {
+    //        return speakerFrame;
+    //    }
 
     /**
      * TODO: refactor this class so that we don't need this to make interference work
      *
      * @return
      */
-//    protected PhetGraphic getSpeakerCone() {
-//        return speakerCone;
-//    }
+    //    protected PhetGraphic getSpeakerCone() {
+    //        return speakerCone;
+    //    }
 
     /**
      * Gets the amplitude at the speaker or the listener, depending on what is

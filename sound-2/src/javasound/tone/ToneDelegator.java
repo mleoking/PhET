@@ -5,47 +5,39 @@
 
 package javasound;
 
-import javasound.Tone;
+
 
 
 // Referenced classes of package srr.tone:
 //            Tone
 
-public class ToneDelegator extends Tone
-{
+public class ToneDelegator extends Tone {
 
-    public ToneDelegator(double v, double v1)
-    {
-        super( (float)v, (float)v1);
+    public ToneDelegator( double v, double v1 ) {
+        super( (float)v, (float)v1 );
     }
 
-    public ToneDelegator(double v, double v1, boolean b)
-    {
-        super( (float)v, (float)v1, b);
+    public ToneDelegator( double v, double v1, boolean b ) {
+        super( (float)v, (float)v1, b );
     }
 
-    public void setPitch(double v)
-    {
-        super.setPitch( (float)v);
+    public void setPitch( double v ) {
+        super.setPitch( (float)v );
     }
 
-    public void start()
-    {
+    public void start() {
         super.start();
     }
 
-    public void stop()
-    {
+    public void stop() {
         super.stop();
     }
 
-    public void setVolume(double v)
-    {
-        super.setVolume( (float)v);
+    public void setVolume( double v ) {
+        super.setVolume( (float)v );
     }
 
-    public void setMuted(boolean b)
-    {
-        super.setMuted(b);
+    public void setMuted( boolean b ) {
+        super.setMuted( b );
     }
 }

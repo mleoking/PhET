@@ -8,16 +8,17 @@ package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.sound.model.AttenuationFunction;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
-import edu.colorado.phet.sound.model.AttenuationFunction;
 import edu.colorado.phet.sound.view.SoundControlPanel;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
-import java.awt.geom.Rectangle2D;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     private AirBoxGraphic boxInteriorGraphic;
@@ -34,36 +35,34 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         Rectangle2D.Double region = new Rectangle2D.Double( SoundConfig.s_speakerBaseX - 50,
                                                             SoundConfig.s_speakerBaseY - 100,
                                                             200, 350 );
-//        Rectangle2D.Double region = new Rectangle2D.Double( 100, 200, 200, 200 );
         VariableWaveMediumAttenuationFunction attenuationFunction = new VariableWaveMediumAttenuationFunction();
         attenuationFunction.setVariableRegion( region );
         waveMedium.setAttenuationFunction( attenuationFunction );
-//        PhetShapeGraphic regionGraphic = new PhetShapeGraphic( getApparatusPanel(), region, new BasicStroke(2f),
-//                                                               Color.green );
-//        addGraphic( regionGraphic, 10 );
-        PhetShapeGraphic boxGraphic = new PhetShapeGraphic( getApparatusPanel(), region, new BasicStroke( 4f ), new Color( 200, 200, 120 ));
+        PhetShapeGraphic boxGraphic = new PhetShapeGraphic( getApparatusPanel(), region, new BasicStroke( 4f ), new Color( 200, 200, 120 ) );
         addGraphic( boxGraphic, 8 );
         boxInteriorGraphic = new AirBoxGraphic( getApparatusPanel(), region );
         addGraphic( boxInteriorGraphic, 6 );
 
         SoundControlPanel controlPanel = (SoundControlPanel)getControlPanel();
-        controlPanel.addPanel( new BoxAirDensityControlPanel( attenuationFunction ));
+        controlPanel.addPanel( new BoxAirDensityControlPanel( attenuationFunction ) );
     }
 
     static class AirBoxGraphic extends PhetShapeGraphic {
         static Color[] grayLevels = new Color[256];
+
         static {
             for( int i = 0; i < 256; i++ ) {
                 grayLevels[i] = new Color( i, i, i );
             }
         }
-        AirBoxGraphic ( Component component, Shape shape ) {
-            super( component, shape, new Color( 128, 128, 128 ), new BasicStroke( 4f ), new Color( 200, 200, 100 ));
+
+        AirBoxGraphic( Component component, Shape shape ) {
+            super( component, shape, new Color( 128, 128, 128 ), new BasicStroke( 4f ), new Color( 200, 200, 100 ) );
         }
 
         void setAirDensity( double density ) {
             int grayLevel = 255 - (int)( 128 * density );
-            this.setPaint( grayLevels[ grayLevel ] );
+            this.setPaint( grayLevels[grayLevel] );
         }
     }
 
@@ -77,11 +76,14 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
             densitySlider.setSnapToTicks( true );
             densitySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    double airDensity = ((double)densitySlider.getValue())/ maxValue;
+                    double airDensity = ( (double)densitySlider.getValue() ) / maxValue;
                     attenuationFunction.setVariableRegionAttenuation( airDensity );
                     boxInteriorGraphic.setAirDensity( airDensity );
                 }
             } );
+            this.setLayout( new GridLayout( 2, 1 ) );
+            this.setBorder( new TitledBorder( "Air Density" ) );
+            this.setPreferredSize( new Dimension( 120, 80 ) );
             this.add( densitySlider );
         }
     }
@@ -99,7 +101,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         }
 
         public double getAttenuation( double x, double y ) {
-            if( variableRegion != null && variableRegion.contains( x + SoundConfig.s_speakerBaseX, y + 201 )) {
+            if( variableRegion != null && variableRegion.contains( x + SoundConfig.s_speakerBaseX, y + 201 ) ) {
                 return variableRegionAttenuation;
             }
             else {

@@ -8,30 +8,45 @@ import java.io.File;
 import java.net.URL;
 
 /**
- A buffer from an audio file or URL, streamed off the source.
- Assumes 16 bit audio format.
- @author Kees van den Doel (kvdoel@cs.ubc.ca)
+ * A buffer from an audio file or URL, streamed off the source.
+ * Assumes 16 bit audio format.
+ *
+ * @author Kees van den Doel (kvdoel@cs.ubc.ca)
  */
 public class StreamingAudioFileBuffer {
-    /** Sampling rate  in Hertz. */
+    /**
+     * Sampling rate  in Hertz.
+     */
     public float srate;
 
-    /** Bytes per frame (2 for mono, 4 stereo, etc.) */
+    /**
+     * Bytes per frame (2 for mono, 4 stereo, etc.)
+     */
     public int bytesPerFrame;
 
-    /** # frames */
+    /**
+     * # frames
+     */
     public long nFrames;
 
-    /** bytes */
+    /**
+     * bytes
+     */
     public int numBytes;
 
-    /** Bits per sample */
+    /**
+     * Bits per sample
+     */
     public int bitsPerSample;
 
-    /** Number of channels */
+    /**
+     * Number of channels
+     */
     public int nChannels;
 
-    /** Length of buffer as floats, should be numBytes/2. */
+    /**
+     * Length of buffer as floats, should be numBytes/2.
+     */
     public int bufsz;
 
     // to get audio data
@@ -40,72 +55,85 @@ public class StreamingAudioFileBuffer {
     // temp buffer
     private byte[] audioBytes = null;
 
-    /** Construct buffer from named file.
-     @param fn Audio file name.
+    /**
+     * Construct buffer from named file.
+     *
+     * @param fn Audio file name.
      */
-    public StreamingAudioFileBuffer(String fn) throws UnsupportedAudioFileFormatException {
-        loadAudio(fn);
+    public StreamingAudioFileBuffer( String fn ) throws UnsupportedAudioFileFormatException {
+        loadAudio( fn );
     }
 
-    /** Construct buffer from  url.
-     @param url Audiofile url.
+    /**
+     * Construct buffer from  url.
+     *
+     * @param url Audiofile url.
      */
-    public StreamingAudioFileBuffer(URL url) throws UnsupportedAudioFileFormatException {
-        loadAudio(url);
+    public StreamingAudioFileBuffer( URL url ) throws UnsupportedAudioFileFormatException {
+        loadAudio( url );
     }
 
-    /** Close stream */
+    /**
+     * Close stream
+     */
     public void close() {
         try {
             audioInputStream.close();
-        } catch (Exception e) {
-            System.out.println(e);
+        }
+        catch( Exception e ) {
+            System.out.println( e );
         }
         audioInputStream = null;
     }
 
-    /** Open and read audio file properties and prepare for streaming
-     @param fn Audio file name.
+    /**
+     * Open and read audio file properties and prepare for streaming
+     *
+     * @param fn Audio file name.
      */
-    protected void loadAudio(String fn) throws UnsupportedAudioFileFormatException {
-        File fileIn = new File(fn);
+    protected void loadAudio( String fn ) throws UnsupportedAudioFileFormatException {
+        File fileIn = new File( fn );
         try {
-            audioInputStream = AudioSystem.getAudioInputStream(fileIn);
-        } catch (Exception e) {
-            System.out.println("Error reading audio file " + fn);
+            audioInputStream = AudioSystem.getAudioInputStream( fileIn );
+        }
+        catch( Exception e ) {
+            System.out.println( "Error reading audio file " + fn );
         }
         doRestOfLoad();
     }
 
-    /** Open and read audio URL properties and prepare for streaming
-     @param url Audiofile url.
+    /**
+     * Open and read audio URL properties and prepare for streaming
+     *
+     * @param url Audiofile url.
      */
-    protected void loadAudio(URL url) throws UnsupportedAudioFileFormatException {
+    protected void loadAudio( URL url ) throws UnsupportedAudioFileFormatException {
         try {
-            audioInputStream = AudioSystem.getAudioInputStream(url);
-        } catch (Exception e) {
-            System.out.println(e + " Error reading audio url " + url);
+            audioInputStream = AudioSystem.getAudioInputStream( url );
+        }
+        catch( Exception e ) {
+            System.out.println( e + " Error reading audio url " + url );
         }
         doRestOfLoad();
     }
 
     private void doRestOfLoad() throws UnsupportedAudioFileFormatException {
         bytesPerFrame = audioInputStream.getFormat().getFrameSize();
-        System.out.println("marksupported=" + audioInputStream.markSupported());
+        System.out.println( "marksupported=" + audioInputStream.markSupported() );
         bitsPerSample = audioInputStream.getFormat().getSampleSizeInBits();
-        if (bitsPerSample != 16) {
-            throw new UnsupportedAudioFileFormatException("not 16 bits audio");
+        if( bitsPerSample != 16 ) {
+            throw new UnsupportedAudioFileFormatException( "not 16 bits audio" );
         }
         nChannels = audioInputStream.getFormat().getChannels();
-        if (nChannels != 1) {
-            throw new UnsupportedAudioFileFormatException("not 1 channel audio");
+        if( nChannels != 1 ) {
+            throw new UnsupportedAudioFileFormatException( "not 1 channel audio" );
         }
-        srate = (float) audioInputStream.getFormat().getSampleRate();
+        srate = (float)audioInputStream.getFormat().getSampleRate();
         nFrames = audioInputStream.getFrameLength();
-        numBytes = (int) nFrames * bytesPerFrame;
+        numBytes = (int)nFrames * bytesPerFrame;
         bufsz = numBytes / 2;
         int readLimit = numBytes;
-        audioInputStream.mark(readLimit);
+        audioInputStream.mark( readLimit );
     }
 
 }

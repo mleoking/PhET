@@ -6,15 +6,14 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.sound.model.Wavefront;
-import edu.colorado.phet.sound.model.SoundModel;
-import edu.colorado.phet.sound.model.Listener;
-import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.sound.SoundModule;
+import edu.colorado.phet.sound.model.Listener;
+import edu.colorado.phet.sound.model.SoundModel;
+import edu.colorado.phet.sound.model.Wavefront;
 
-import java.awt.geom.Point2D;
-import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 
 public class InterferenceListenerGraphic extends ListenerGraphic {
 
@@ -26,7 +25,6 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
     private SoundModule soundModule;
 
     /**
-     *
      * @param image
      * @param x
      * @param y
@@ -40,11 +38,11 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
      */
     public InterferenceListenerGraphic( SoundModule module, Listener listener,
                                         PhetImageGraphic image, double x, double y,
-                  double minX, double minY,
-                  double maxX, double maxY,
-                  Point2D.Double audioSourceA,
-                  Point2D.Double audioSourceB,
-                  Wavefront interferringWavefront ) {
+                                        double minX, double minY,
+                                        double maxX, double maxY,
+                                        Point2D.Double audioSourceA,
+                                        Point2D.Double audioSourceB,
+                                        Wavefront interferringWavefront ) {
         super( module, listener, image, x, y, minX, minY, maxX, maxY );
         this.soundModule = module;
         this.soundModel = (SoundModel)module.getModel();
@@ -55,7 +53,6 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
     }
 
     /**
-     *
      * @param event
      */
     public void mouseDragged( MouseEvent event ) {
@@ -64,7 +61,6 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
     }
 
     /**
-     *
      * @param e
      */
     public void mouseReleased( MouseEvent e ) {
@@ -86,13 +82,13 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
         double distA = (float)earLocation.distance( audioSourceA );
         double distB = (float)earLocation.distance( audioSourceB );
 
-        double lambda = interferringWavefront.getWavelengthAtTime( 0  );
-        double theta = (( distA - distB ) / lambda ) * Math.PI;
+        double lambda = interferringWavefront.getWavelengthAtTime( 0 );
+        double theta = ( ( distA - distB ) / lambda ) * Math.PI;
 
         // The amplitude factor for max amplitude is the sum of the two wavefront
         // amplitudes times the cosine of the phase angle
         double amplitudeA = soundModel.getAmplitude();
-        double maxAmplitude = amplitudeA * Math.abs( Math.cos( theta ));
+        double maxAmplitude = amplitudeA * Math.abs( Math.cos( theta ) );
 
         soundModule.getPrimaryOscillator().setAmplitude( maxAmplitude );
     }

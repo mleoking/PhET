@@ -6,13 +6,10 @@
  */
 package edu.colorado.phet.sound;
 
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.sound.model.*;
-import edu.colorado.phet.sound.view.SingleSourceApparatusPanel;
-
-import java.awt.geom.Point2D;
 
 public class SoundModule extends Module {
     private boolean audioEnabled = false;
@@ -81,9 +78,10 @@ public class SoundModule extends Module {
 
     /**
      * Determines whether the source for audio is at the speaker or the listener
+     *
      * @param source
      */
-    public void setAudioSource( int source ){
+    public void setAudioSource( int source ) {
         // NOP  This should probably be an abstract method, or the classes refactored so this doesn't
         // need to be here at all.
     }

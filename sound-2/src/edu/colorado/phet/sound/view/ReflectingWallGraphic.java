@@ -59,7 +59,6 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
     }
 
 
-
     /**
      * @param x
      */
@@ -140,8 +139,8 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
      */
     public void paint( Graphics2D g ) {
         g.setColor( wallColor );
-//        g.draw( xformedWall );
-//        g.fill( xformedWall );
+        //        g.draw( xformedWall );
+        //        g.fill( xformedWall );
 
         // TODO: Make this a Paintable
         g.setColor( new Color( 128, 128, 128 ) );
@@ -154,7 +153,7 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
 
         if( displayHelpOrnaments ) {
             Ellipse2D.Double midPoint = new Ellipse2D.Double( getMidPoint().getX() - h, getMidPoint().getY() - h, 6, 6 );
-            g.setStroke( new BasicStroke( 2 ));
+            g.setStroke( new BasicStroke( 2 ) );
             g.setColor( Color.black );
             g.draw( midPoint );
             g.setColor( Color.yellow );
@@ -171,7 +170,7 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
                                                       getMidPoint().getY() - radius - h,
                                                       radius * 2, radius * 2,
                                                       getAngle() + 150, 60, Arc2D.OPEN );
-            g.setColor( Color.black);
+            g.setColor( Color.black );
             g.draw( upperArc );
             g.draw( lowerArc );
             popRenderingHints( g );

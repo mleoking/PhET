@@ -13,7 +13,7 @@ public class SphericalWavefront implements WavefrontType {
                                               double distance ) {
         double[] amplitudes = wavefront.getAmplitude();
         double factor = 1.0f - (double)( 0.05 * distance / amplitudes.length );
-//        double factor = 1.0 - ( (double)wavefront.getPropagationSpeed()) / ( amplitudes.length - (int)distance );
+        //        double factor = 1.0 - ( (double)wavefront.getPropagationSpeed()) / ( amplitudes.length - (int)distance );
 
         if( factor < 0 ) {
             System.out.println( "***" );
