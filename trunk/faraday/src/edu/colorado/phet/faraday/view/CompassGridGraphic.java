@@ -203,7 +203,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
      */
     public void setNeedleSize( final Dimension needleSize ) {
         assert( needleSize != null );
-        _needleSize = new Dimension( needleSize );
+        _needleSize.setSize( needleSize );
         for ( int i = 0; i < _needles.size(); i++ ) {
             CompassGridNeedle needle = (CompassGridNeedle) _needles.get(i);
             needle.setSize( _needleSize );
