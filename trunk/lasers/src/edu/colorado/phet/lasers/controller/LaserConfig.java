@@ -22,7 +22,7 @@ public class LaserConfig {
     public static final String localizedStringsPath = "localization/LasersStrings";
 
     // Physical things
-    public static Point2D.Double ORIGIN = new Point2D.Double( 150, 200 );
+    public static Point2D.Double ORIGIN = new Point2D.Double(150, 200);
 
     public static final int DEFAULT_SEED_PHOTON_RATE = 20;
     public static final int MINIMUM_SEED_PHOTON_RATE = 0;
@@ -65,8 +65,11 @@ public class LaserConfig {
 
     // Angle within which a photon is considered to be moving horizontally. This is used by the
     // mirrors to "cheat" photons into lasing, and by the wave graphic to determine its amplitude
-    public static double PHOTON_CHEAT_ANGLE = Math.toRadians( 10 );
+    public static double PHOTON_CHEAT_ANGLE = Math.toRadians(10);
 
     // Thickness of the mirror graphics
     public static final double MIRROR_THICKNESS = 15;
+
+    // Threshold number of horizontal photons that is considered "lasing"
+    public static int LASING_THRESHOLD = 100;
 }

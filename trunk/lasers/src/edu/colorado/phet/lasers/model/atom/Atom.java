@@ -31,12 +31,12 @@ public class Atom extends SphericalBody {
     static private int s_radius = 15;
     static private int s_mass = 1000;
 
-    static public void setHighEnergySpontaneousEmissionTime( double time ) {
-        HighEnergyState.instance().setMeanLifetime( time );
+    static public void setHighEnergySpontaneousEmissionTime(double time) {
+        HighEnergyState.instance().setMeanLifetime(time);
     }
 
-    static public void setMiddleEnergySpontaneousEmissionTime( double time ) {
-        MiddleEnergyState.instance().setMeanLifetime( time );
+    static public void setMiddleEnergySpontaneousEmissionTime(double time) {
+        MiddleEnergyState.instance().setMeanLifetime(time);
     }
 
     static public int getNumGroundStateAtoms() {
@@ -59,15 +59,15 @@ public class Atom extends SphericalBody {
     private AtomicState state;
     private EventRegistry eventRegistry = new EventRegistry();
 
-    public Atom( BaseModel model ) {
-        super( s_radius );
+    public Atom(BaseModel model) {
+        super(s_radius);
         this.model = model;
-        setMass( s_mass );
-        setState( GroundState.instance() );
+        setMass(s_mass);
+        setState(GroundState.instance());
     }
 
-    public void collideWithPhoton( Photon photon ) {
-        state.collideWithPhoton( this, photon );
+    public void collideWithPhoton(Photon photon) {
+        state.collideWithPhoton(this, photon);
     }
 
     public AtomicState getState() {
@@ -80,55 +80,54 @@ public class Atom extends SphericalBody {
      *
      * @param newState
      */
-    public void setState( final AtomicState newState ) {
+    public void setState(final AtomicState newState) {
         final AtomicState oldState = this.state;
-        if( oldState != null ) {
+        if (oldState != null) {
             oldState.decrementNumInState();
         }
-        if( this.stateLifetimeManager != null ) {
+        if (this.stateLifetimeManager != null) {
             stateLifetimeManager.kill();
         }
         newState.incrNumInState();
         this.state = newState;
         boolean emitPhotonOnLeavingState = false;
-        if( newState instanceof MiddleEnergyState ) {
+        if (newState instanceof MiddleEnergyState) {
             emitPhotonOnLeavingState = true;
         }
-        this.stateLifetimeManager = new StateLifetimeManager( this, emitPhotonOnLeavingState, model );
-        eventRegistry.fireEvent( new StateChangeEvent() );
+        this.stateLifetimeManager = new StateLifetimeManager(this, emitPhotonOnLeavingState, model);
+        eventRegistry.fireEvent(new StateChangeEvent());
     }
 
-    public void stepInTime( double dt ) {
-
-        super.stepInTime( dt );
+    public void stepInTime(double dt) {
+        super.stepInTime(dt);
     }
 
     /**
      *
      */
-    void emitPhoton( final Photon emittedPhoton ) {
-        eventRegistry.fireEvent( new PhotonEmittedEvent( this, emittedPhoton ) );
+    void emitPhoton(final Photon emittedPhoton) {
+        eventRegistry.fireEvent(new PhotonEmittedEvent(this, emittedPhoton));
     }
 
     public void removeFromSystem() {
         state.decrementNumInState();
-        eventRegistry.fireEvent( new RemovalEvent() );
+        eventRegistry.fireEvent(new RemovalEvent());
     }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes
-    public void addListener( EventListener listener ) {
-        eventRegistry.addListener( listener );
+    public void addListener(EventListener listener) {
+        eventRegistry.addListener(listener);
     }
 
-    public void removeListener( EventListener listener ) {
-        eventRegistry.removeListener( listener );
+    public void removeListener(EventListener listener) {
+        eventRegistry.removeListener(listener);
     }
 
     public class StateChangeEvent extends EventObject {
         public StateChangeEvent() {
-            super( Atom.this );
+            super(Atom.this);
         }
 
         public AtomicState getState() {
@@ -137,16 +136,16 @@ public class Atom extends SphericalBody {
     }
 
     public interface StateChangeListener extends EventListener {
-        void stateChangeOccurred( StateChangeEvent event );
+        void stateChangeOccurred(StateChangeEvent event);
     }
 
     public class RemovalEvent extends EventObject {
         public RemovalEvent() {
-            super( Atom.this );
+            super(Atom.this);
         }
     }
 
     public interface RemovalListener extends EventListener {
-        void removalOccurred( RemovalEvent event );
+        void removalOccurred(RemovalEvent event);
     }
 }

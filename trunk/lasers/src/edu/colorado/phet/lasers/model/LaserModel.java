@@ -35,24 +35,25 @@ import java.util.List;
 
 public class LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
 
-    static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
+    static public Point2D ORIGIN = new Point2D.Double(100, 300);
     static private int width = 800;
     static private int height = 800;
-    static private int minX = (int)LaserConfig.ORIGIN.getX() - 50;
-    static private int minY = (int)LaserConfig.ORIGIN.getY() - height / 2;
+    static private int minX = (int) LaserConfig.ORIGIN.getX() - 50;
+    static private int minY = (int) LaserConfig.ORIGIN.getY() - height / 2;
 
     private CollimatedBeam stimulatingBeam;
     private CollimatedBeam pumpingBeam;
     private ResonatingCavity resonatingCavity;
     private List bodies = new LinkedList();
-    private Rectangle2D boundingRectangle = new Rectangle2D.Double( minX,
-                                                                    minY,
-                                                                    width,
-                                                                    height );
+    private Rectangle2D boundingRectangle = new Rectangle2D.Double(minX,
+            minY,
+            width,
+            height);
     private ArrayList photons = new ArrayList();
     private ArrayList atoms = new ArrayList();
     private ArrayList mirrors = new ArrayList();
     private CollisionMechanism collisionMechanism;
+    private ResonatingCavity cavity;
 
     /**
      *
@@ -61,66 +62,71 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 
         // Set up the system of collision experts
         collisionMechanism = new CollisionMechanism();
-        collisionMechanism.addCollisionExpert( new SphereSphereExpert() );
-        collisionMechanism.addCollisionExpert( new PhotonAtomCollisonExpert() );
-        collisionMechanism.addCollisionExpert( new SphereBoxExpert() );
-        collisionMechanism.addCollisionExpert( new PhotonMirrorCollisonExpert() );
-        addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                collisionMechanism.doIt( photons, atoms );
-                collisionMechanism.doIt( photons, mirrors );
+        collisionMechanism.addCollisionExpert(new SphereSphereExpert());
+        collisionMechanism.addCollisionExpert(new PhotonAtomCollisonExpert());
+        collisionMechanism.addCollisionExpert(new SphereBoxExpert());
+        collisionMechanism.addCollisionExpert(new PhotonMirrorCollisonExpert());
+        addModelElement(new ModelElement() {
+            public void stepInTime(double dt) {
+                collisionMechanism.doIt(photons, atoms);
+                collisionMechanism.doIt(photons, mirrors);
+                collisionMechanism.doIt(atoms, atoms);
+                collisionMechanism.doIt(atoms, cavity);
             }
-        } );
+        });
     }
 
-    public void addModelElement( ModelElement modelElement ) {
-        super.addModelElement( modelElement );
-        if( modelElement instanceof Collidable ) {
-            bodies.add( modelElement );
+    public void addModelElement(ModelElement modelElement) {
+        super.addModelElement(modelElement);
+        if (modelElement instanceof Collidable) {
+            bodies.add(modelElement);
         }
-        if( modelElement instanceof Photon ) {
-            photons.add( modelElement );
+        if (modelElement instanceof Photon) {
+            photons.add(modelElement);
             // we have to listen for photons leaving the system when they
             // are absorbed by atoms
-            ( (Photon)modelElement ).addListener( this );
+            ((Photon) modelElement).addListener(this);
         }
-        if( modelElement instanceof Atom ) {
-            atoms.add( modelElement );
+        if (modelElement instanceof Atom) {
+            atoms.add(modelElement);
         }
-        if( modelElement instanceof Mirror ) {
-            mirrors.add( modelElement );
+        if (modelElement instanceof Mirror) {
+            mirrors.add(modelElement);
         }
-        if( modelElement instanceof ResonatingCavity ) {
-            this.resonatingCavity = (ResonatingCavity)modelElement;
+        if (modelElement instanceof ResonatingCavity) {
+            this.resonatingCavity = (ResonatingCavity) modelElement;
         }
-    }
-
-    public void removeModelElement( ModelElement modelElement ) {
-        super.removeModelElement( modelElement );
-        if( modelElement instanceof Collidable ) {
-            bodies.remove( modelElement );
-        }
-        if( modelElement instanceof Atom ) {
-            atoms.remove( modelElement );
-        }
-        if( modelElement instanceof Photon ) {
-            photons.remove( modelElement );
-        }
-        if( modelElement instanceof Mirror ) {
-            mirrors.remove( modelElement );
+        if (modelElement instanceof ResonatingCavity) {
+            this.cavity = (ResonatingCavity) modelElement;
         }
     }
 
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
+    public void removeModelElement(ModelElement modelElement) {
+        super.removeModelElement(modelElement);
+        if (modelElement instanceof Collidable) {
+            bodies.remove(modelElement);
+        }
+        if (modelElement instanceof Atom) {
+            atoms.remove(modelElement);
+        }
+        if (modelElement instanceof Photon) {
+            photons.remove(modelElement);
+        }
+        if (modelElement instanceof Mirror) {
+            mirrors.remove(modelElement);
+        }
+    }
+
+    public void stepInTime(double dt) {
+        super.stepInTime(dt);
 
         // Check to see if any photons need to be taken out of the system
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Object obj = bodies.get( i );
-            if( obj instanceof Photon ) {
-                Photon photon = (Photon)obj;
+        for (int i = 0; i < bodies.size(); i++) {
+            Object obj = bodies.get(i);
+            if (obj instanceof Photon) {
+                Photon photon = (Photon) obj;
                 Point2D position = photon.getPosition();
-                if( !boundingRectangle.contains( position.getX(), position.getY() ) ) {
+                if (!boundingRectangle.contains(position.getX(), position.getY())) {
                     // We don't need to remove the element right now. The photon will
                     // fire an event that we will catch
                     photon.removeFromSystem();
@@ -133,7 +139,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         return resonatingCavity;
     }
 
-    public void setResonatingCavity( ResonatingCavity resonatingCavity ) {
+    public void setResonatingCavity(ResonatingCavity resonatingCavity) {
         this.resonatingCavity = resonatingCavity;
     }
 
@@ -141,11 +147,11 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         return stimulatingBeam;
     }
 
-    public void setStimulatingBeam( CollimatedBeam stimulatingBeam ) {
-        if( stimulatingBeam != null ) {
-            removeModelElement( stimulatingBeam );
+    public void setStimulatingBeam(CollimatedBeam stimulatingBeam) {
+        if (stimulatingBeam != null) {
+            removeModelElement(stimulatingBeam);
         }
-        addModelElement( stimulatingBeam );
+        addModelElement(stimulatingBeam);
         this.stimulatingBeam = stimulatingBeam;
     }
 
@@ -153,20 +159,20 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         return pumpingBeam;
     }
 
-    public void setPumpingBeam( CollimatedBeam pumpingBeam ) {
-        if( pumpingBeam != null ) {
-            removeModelElement( pumpingBeam );
+    public void setPumpingBeam(CollimatedBeam pumpingBeam) {
+        if (pumpingBeam != null) {
+            removeModelElement(pumpingBeam);
         }
-        addModelElement( pumpingBeam );
+        addModelElement(pumpingBeam);
         this.pumpingBeam = pumpingBeam;
     }
 
-    public void setHighEnergyMeanLifetime( double time ) {
-        HighEnergyState.instance().setMeanLifetime( time );
+    public void setHighEnergyMeanLifetime(double time) {
+        HighEnergyState.instance().setMeanLifetime(time);
     }
 
-    public void setMiddleEnergyMeanLifetime( double time ) {
-        MiddleEnergyState.instance().setMeanLifetime( time );
+    public void setMiddleEnergyMeanLifetime(double time) {
+        MiddleEnergyState.instance().setMeanLifetime(time);
     }
 
     public int getNumGroundStateAtoms() {
@@ -181,46 +187,76 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         return Atom.getNumHighStateAtoms();
     }
 
-    public void setBounds( Rectangle2D bounds ) {
-        boundingRectangle.setRect( bounds );
+    public void setBounds(Rectangle2D bounds) {
+        boundingRectangle.setRect(bounds);
     }
+
 
     private class CollisionMechanism {
         private ArrayList collisionExperts = new ArrayList();
 
-        void addCollisionExpert( CollisionExpert expert ) {
-            collisionExperts.add( expert );
+        void addCollisionExpert(CollisionExpert expert) {
+            collisionExperts.add(expert);
         }
 
-        void removeCollisionExpert( CollisionExpert expert ) {
-            collisionExperts.remove( expert );
+        void removeCollisionExpert(CollisionExpert expert) {
+            collisionExperts.remove(expert);
         }
 
-        void doIt( List collidablesA, List collidablesB ) {
-            for( int i = 0; i < collidablesA.size(); i++ ) {
-                Collidable collidable1 = (Collidable)collidablesA.get( i );
-                if( !( collidable1 instanceof Photon )
-                    || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) )
-                    || ( resonatingCavity.getBounds().contains( ( (Photon)collidable1 ).getPositionPrev() ) ) ) {
-                    for( int j = 0; j < collidablesB.size(); j++ ) {
-                        Collidable collidable2 = (Collidable)collidablesB.get( j );
-                        if( !( collidable2 instanceof Photon )
-                            || ( resonatingCavity.getBounds().contains( ( (Photon)collidable2 ).getPosition() ) ) ) {
-                            for( int k = 0; k < collisionExperts.size(); k++ ) {
-                                CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( k );
-                                collisionExpert.detectAndDoCollision( collidable1, collidable2 );
+        /**
+         * Detects and computes collisions between the items in two lists of collidable objects
+         *
+         * @param collidablesA
+         * @param collidablesB
+         */
+        void doIt(List collidablesA, List collidablesB) {
+            for (int i = 0; i < collidablesA.size(); i++) {
+                Collidable collidable1 = (Collidable) collidablesA.get(i);
+                if (!(collidable1 instanceof Photon)
+                        || (resonatingCavity.getBounds().contains(((Photon) collidable1).getPosition()))
+                        || (resonatingCavity.getBounds().contains(((Photon) collidable1).getPositionPrev()))) {
+                    for (int j = 0; j < collidablesB.size(); j++) {
+                        Collidable collidable2 = (Collidable) collidablesB.get(j);
+                        if (collidable1 != collidable2
+                                && (!(collidable2 instanceof Photon)
+                                || (resonatingCavity.getBounds().contains(((Photon) collidable2).getPosition())))) {
+                            for (int k = 0; k < collisionExperts.size(); k++) {
+                                CollisionExpert collisionExpert = (CollisionExpert) collisionExperts.get(k);
+                                collisionExpert.detectAndDoCollision(collidable1, collidable2);
                             }
                         }
                     }
                 }
             }
         }
+
+        /**
+         * Detects and computes collisions between the items in a list of collidables and a specified
+         * collidaqble.
+         *
+         * @param collidablesA
+         * @param body
+         */
+        void doIt(List collidablesA, Collidable body) {
+            for (int i = 0; i < collidablesA.size(); i++) {
+                Collidable collidable1 = (Collidable) collidablesA.get(i);
+                if (!(collidable1 instanceof Photon)
+                        || (resonatingCavity.getBounds().contains(((Photon) collidable1).getPosition()))
+                        || (resonatingCavity.getBounds().contains(((Photon) collidable1).getPositionPrev()))) {
+                    for (int k = 0; k < collisionExperts.size(); k++) {
+                        CollisionExpert collisionExpert = (CollisionExpert) collisionExperts.get(k);
+                        collisionExpert.detectAndDoCollision(collidable1, body);
+                    }
+                }
+            }
+        }
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////
     // Listener implementations
 
-    public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
-        removeModelElement( event.getPhoton() );
+    public void leftSystemEventOccurred(Photon.LeftSystemEvent event) {
+        removeModelElement(event.getPhoton());
     }
 }

@@ -38,39 +38,40 @@ public class MiddleEnergyState extends AtomicState {
     private AtomicState nextHigherState = HighEnergyState.instance();
 
     private MiddleEnergyState() {
-        setEmittedPhotonWavelength( Photon.RED );
+        setEmittedPhotonWavelength(Photon.RED);
     }
 
-    public void collideWithPhoton( Atom atom, Photon photon ) {
+    public void collideWithPhoton(Atom atom, Photon photon) {
 
         // If the photon has the same energy as the difference
         // between this level and the ground state, then emit
         // a photon of that energy
-        if( isStimulatedBy( photon ) ) {
+        if (isStimulatedBy(photon)) {
 
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
-            Vector2D vHat = new Vector2D.Double( photon.getVelocity() ).normalize();
-            vHat.scale( atom.getRadius() + 10 );
-            Point2D position = new Point2D.Double( atom.getPosition().getX() + vHat.getX(),
-                                                   atom.getPosition().getY() + vHat.getY() );
-            photon.setPosition( position );
-            Photon emittedPhoton = Photon.createStimulated( photon, position );
-            atom.emitPhoton( emittedPhoton );
+            Vector2D vHat = new Vector2D.Double(photon.getVelocity()).normalize();
+            vHat.scale(atom.getRadius());
+//            vHat.scale(atom.getRadius() + 10);
+            Point2D position = new Point2D.Double(atom.getPosition().getX() + vHat.getX(),
+                    atom.getPosition().getY() + vHat.getY());
+            photon.setPosition(position);
+            Photon emittedPhoton = Photon.createStimulated(photon, position, atom);
+            atom.emitPhoton(emittedPhoton);
 
             // Change state
-            atom.setState( GroundState.instance() );
+            atom.setState(GroundState.instance());
         }
 
         // If the photon has the same energy level as the difference between
         // this state and the high energy one, then we go to that state
-        if( photon.getEnergy() == HighEnergyState.instance().getEnergyLevel() - this.getEnergyLevel() ) {
+        if (photon.getEnergy() == HighEnergyState.instance().getEnergyLevel() - this.getEnergyLevel()) {
 
             // Absorb the photon and change state
             photon.removeFromSystem();
 
             // Change state
-            atom.setState( HighEnergyState.instance() );
+            atom.setState(HighEnergyState.instance());
         }
     }
 
@@ -82,7 +83,7 @@ public class MiddleEnergyState extends AtomicState {
         return nextHigherState;
     }
 
-    public void setNextHigherEnergyState( AtomicState state ) {
+    public void setNextHigherEnergyState(AtomicState state) {
         nextHigherState = state;
     }
 }

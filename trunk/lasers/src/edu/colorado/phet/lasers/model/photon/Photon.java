@@ -12,6 +12,7 @@ package edu.colorado.phet.lasers.model.photon;
 
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
+import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventRegistry;
@@ -48,18 +49,18 @@ public class Photon extends Particle implements Collidable {
     // laser cavity
     static private Rectangle2D stimulationBounds;
 
-    public static double energyToWavelength( double energy ) {
+    public static double energyToWavelength(double energy) {
         return PLANCK / energy;
     }
 
-    public static double wavelengthToEnergy( double wavelength ) {
+    public static double wavelengthToEnergy(double wavelength) {
         return PLANCK / wavelength;
     }
 
     // Free pool of photons. We do this so we don't have to use the heap
     // at run-time
     static private int freePoolSize = 2000;
-    static private ArrayList freePool = new ArrayList( freePoolSize );
+    static private ArrayList freePool = new ArrayList(freePoolSize);
 
     // Populate the free pool
     //    static {
@@ -68,29 +69,72 @@ public class Photon extends Particle implements Collidable {
     //        }
     //    }
 
-    static public Photon create( Point2D location, Vector2D velocity ) {
+    static public Photon create(Point2D location, Vector2D velocity) {
         Photon newPhoton = new Photon();
-        newPhoton.setPosition( location );
-        newPhoton.setVelocity( velocity );
-        classEventRegistry.fireEvent( new PhotonEmittedEvent( Photon.class, newPhoton ) );
+        newPhoton.setPosition(location);
+        newPhoton.setVelocity(velocity);
+        classEventRegistry.fireEvent(new PhotonEmittedEvent(Photon.class, newPhoton));
         return newPhoton;
     }
 
-    static public Photon createStimulated( Photon stimulatingPhoton, Point2D location ) {
+    static public Photon createStimulatedNew(Photon stimulatingPhoton, Point2D location, Atom atom) {
+        // distance that the new photon is offset from the stimulating photon
+        int offset = 8;
         stimulatingPhoton.numStimulatedPhotons++;
-        Photon newPhoton = create( stimulatingPhoton.getWavelength(), location,
-                                   stimulatingPhoton.getVelocity() );
+        Photon newPhoton = create(stimulatingPhoton.getWavelength(), location, stimulatingPhoton.getVelocity());
+//        int yOffset = stimulatingPhoton.numStimulatedPhotons * offset;
+        int yOffset = (stimulatingPhoton.numStimulatedPhotons % 2) * offset;
+        int xOffset = (stimulatingPhoton.numStimulatedPhotons / 2) * offset;
+        int sign = random.nextBoolean() ? 1 : -1;
+        Vector2D v = new Vector2D.Double(newPhoton.getVelocity()).normalize();
+        v.setComponents(v.getX() + xOffset, v.getY() + yOffset);
+        v.scale(sign);
+        AbstractVector2D offsetVector = v.getRotatedInstance(Math.PI / 2);
+//        AbstractVector2D offsetVector = v.getRotatedInstance(Math.PI/2);
+//        AbstractVector2D offsetVector = new Vector2D.Double( newPhoton.getVelocity()).normalize().scale( offset * sign ).getRotatedInstance(Math.PI/2);
+//        double newY = stimulatingPhoton.getPosition().getY() + v.getY();
+//        double newX = stimulatingPhoton.getPosition().getX() + v.getX();
+        double newY = stimulatingPhoton.getPosition().getY() + offsetVector.getY();
+        double newX = stimulatingPhoton.getPosition().getX() + offsetVector.getX();
+        // Keep the photon inside the cavity.
+        // todo: if we get the photon graphic positioned better, this may change.
+//        double minY = atom.getPosition().getY() - atom.getRadius();
+//        double maxY = atom.getPosition().getY() + atom.getRadius();
+//        if (newY < minY || newY > maxY) {
+//            newY = atom.getPosition().getY();
+//            newX = atom.getPosition().getX() - 10;
+//            stimulatingPhoton.numStimulatedPhotons = 1;
+//        }
+        newPhoton.setPosition(newX, newY);
+        return newPhoton;
+    }
+
+    static public Photon createStimulated(Photon stimulatingPhoton, Point2D location, Atom atom) {
+        stimulatingPhoton.numStimulatedPhotons++;
+        Photon newPhoton = create(stimulatingPhoton.getWavelength(), location,
+                stimulatingPhoton.getVelocity());
         int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
         int sign = random.nextBoolean() ? 1 : -1;
         double dy = yOffset * sign;
         double newY = stimulatingPhoton.getPosition().getY() + dy;
+        double newX = stimulatingPhoton.getPosition().getX();
         // Keep the photon inside the cavity.
         // todo: if we get the photon graphic positioned better, this may change.
-        if( newY < stimulationBounds.getMinY() + Photon.RADIUS * 2
-            || newY > stimulationBounds.getMaxY() + Photon.RADIUS * 2 ) {
-            newY = stimulatingPhoton.getPosition().getY() - dy;
+        double minY = stimulationBounds.getMinY() + Photon.RADIUS;
+        double maxY = stimulationBounds.getMaxY();
+//        double maxY = stimulationBounds.getMaxY() - Photon.RADIUS;
+//        double minY = atom.getPosition().getY() - atom.getRadius();
+//        double maxY = atom.getPosition().getY() + atom.getRadius();
+        if (newY < minY || newY > maxY) {
+            newY = atom.getPosition().getY();
+            newX = atom.getPosition().getX() - 10;
+            stimulatingPhoton.numStimulatedPhotons = 1;
+//        if( newY < stimulationBounds.getMinY() + Photon.RADIUS * 2
+//            || newY > stimulationBounds.getMaxY() + Photon.RADIUS * 2 ) {
+//            newY = stimulatingPhoton.getPosition().getY() - dy;
         }
-        newPhoton.setPosition( stimulatingPhoton.getPosition().getX(), newY );
+        newPhoton.setPosition(newX, newY);
+//        newPhoton.setPosition( stimulatingPhoton.getPosition().getX(), newY );
         return newPhoton;
     }
 
@@ -98,17 +142,17 @@ public class Photon extends Particle implements Collidable {
      * If the photon is created by a CollimatedBeam, it should use this method,
      * so that the photon can tell the CollimatedBeam if it is leaving the system.
      */
-    static public Photon create( double wavelength, Point2D location, Vector2D velocity ) {
-        Photon newPhoton = create( location, velocity );
-        newPhoton.setWavelength( wavelength );
+    static public Photon create(double wavelength, Point2D location, Vector2D velocity) {
+        Photon newPhoton = create(location, velocity);
+        newPhoton.setWavelength(wavelength);
         return newPhoton;
     }
 
-    static public void addClassListener( EventListener listener ) {
-        classEventRegistry.addListener( listener );
+    static public void addClassListener(EventListener listener) {
+        classEventRegistry.addListener(listener);
     }
 
-    public static void setStimulationBounds( Rectangle2D stimulationBounds ) {
+    public static void setStimulationBounds(Rectangle2D stimulationBounds) {
         Photon.stimulationBounds = stimulationBounds;
     }
 
@@ -135,23 +179,23 @@ public class Photon extends Particle implements Collidable {
      * heap so hard.
      */
     private Photon() {
-        collidableAdapter = new CollidableAdapter( this );
-        setVelocity( SPEED, 0 );
+        collidableAdapter = new CollidableAdapter(this);
+        setVelocity(SPEED, 0);
         //        setMass( 1 );
     }
 
     public interface Listener {
-        void leavingSystem( Photon photon );
+        void leavingSystem(Photon photon);
     }
 
-    public void addListener( EventListener listener ) {
+    public void addListener(EventListener listener) {
         //        eventRegistry.add( listener );
-        eventRegistry.addListener( listener );
+        eventRegistry.addListener(listener);
     }
 
-    public void removeListener( EventListener listener ) {
+    public void removeListener(EventListener listener) {
         //        eventRegistry.remove( listener );
-        eventRegistry.removeListener( listener );
+        eventRegistry.removeListener(listener);
     }
 
     /**
@@ -160,7 +204,7 @@ public class Photon extends Particle implements Collidable {
      * again. This helps prevent us from flogging the heap.
      */
     public void removeFromSystem() {
-        eventRegistry.fireEvent( new LeftSystemEvent() );
+        eventRegistry.fireEvent(new LeftSystemEvent());
         //        for( int i = 0; i < eventRegistry.size(); i++ ) {
         //            EventListener eventListener = (EventListener)eventRegistry.get( i );
         //            if( eventListener instanceof LeftSystemEventListener ) {
@@ -177,23 +221,23 @@ public class Photon extends Particle implements Collidable {
         return wavelength;
     }
 
-    public void setWavelength( double wavelength ) {
+    public void setWavelength(double wavelength) {
         this.wavelength = wavelength;
     }
 
     public double getEnergy() {
-        return wavelengthToEnergy( wavelength );
+        return wavelengthToEnergy(wavelength);
     }
 
-    public boolean hasCollidedWithAtom( Atom atom ) {
-        return contactedAtoms.contains( atom );
+    public boolean hasCollidedWithAtom(Atom atom) {
+        return contactedAtoms.contains(atom);
     }
 
     public Photon getParentPhoton() {
         return parentPhoton;
     }
 
-    public void setParentPhoton( Photon parentPhoton ) {
+    public void setParentPhoton(Photon parentPhoton) {
         this.parentPhoton = parentPhoton;
     }
 
@@ -201,14 +245,14 @@ public class Photon extends Particle implements Collidable {
         return childPhoton;
     }
 
-    public void setChildPhoton( Photon childPhoton ) {
+    public void setChildPhoton(Photon childPhoton) {
         this.childPhoton = childPhoton;
     }
 
-    public void setVelocity( double vx, double vy ) {
+    public void setVelocity(double vx, double vy) {
         VelocityChangedEvent vce = new VelocityChangedEvent();
-        super.setVelocity( vx, vy );
-        eventRegistry.fireEvent( vce );
+        super.setVelocity(vx, vy);
+        eventRegistry.fireEvent(vce);
         //        for( int i = 0; i < eventRegistry.size(); i++ ) {
         //            EventListener eventListener = (EventListener)eventRegistry.get( i );
         //            if( eventListener instanceof VelocityChangedListener ) {
@@ -225,9 +269,9 @@ public class Photon extends Particle implements Collidable {
         return collidableAdapter.getPositionPrev();
     }
 
-    public void stepInTime( double dt ) {
-        collidableAdapter.stepInTime( dt );
-        super.stepInTime( dt );
+    public void stepInTime(double dt) {
+        collidableAdapter.stepInTime(dt);
+        super.stepInTime(dt);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -235,7 +279,7 @@ public class Photon extends Particle implements Collidable {
     //
     public class LeftSystemEvent extends EventObject {
         public LeftSystemEvent() {
-            super( Photon.this );
+            super(Photon.this);
         }
 
         public Photon getPhoton() {
@@ -244,12 +288,12 @@ public class Photon extends Particle implements Collidable {
     }
 
     public interface LeftSystemEventListener extends EventListener {
-        public void leftSystemEventOccurred( LeftSystemEvent event );
+        public void leftSystemEventOccurred(LeftSystemEvent event);
     }
 
     public class VelocityChangedEvent extends EventObject {
         public VelocityChangedEvent() {
-            super( Photon.this );
+            super(Photon.this);
         }
 
         public Vector2D getVelocity() {
@@ -258,7 +302,7 @@ public class Photon extends Particle implements Collidable {
     }
 
     public interface VelocityChangedListener extends EventListener {
-        public void velocityChanged( VelocityChangedEvent event );
+        public void velocityChanged(VelocityChangedEvent event);
     }
 
 }

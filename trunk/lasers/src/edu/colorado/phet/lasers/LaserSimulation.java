@@ -16,7 +16,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
@@ -35,72 +34,71 @@ public class LaserSimulation extends PhetApplication {
 
     static class LaserAppModel extends ApplicationModel {
         public LaserAppModel() {
-            super( SimStrings.get( "LasersApplication.title" ),
-                   SimStrings.get( "LasersApplication.description" ),
-                   SimStrings.get( "LasersApplication.version" ) );
+            super(SimStrings.get("LasersApplication.title"),
+                    SimStrings.get("LasersApplication.description"),
+                    SimStrings.get("LasersApplication.version"));
 
 
-            AbstractClock clock = new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND );
+            AbstractClock clock = new SwingTimerClock(12, 25, AbstractClock.FRAMES_PER_SECOND);
             //            AbstractClock clock = new SwingTimerClock( 10, 40 );
-            setClock( clock );
-            setFrameCenteredSize( 900, 600 );
+            setClock(clock);
+            setFrameCenteredSize(900, 600);
 
             // Create a frame
             //            PhetFrame frame = new PhetFrame( this );
             //            setFrame( frame );
 
-            Module singleAtomModule = new SingleAtomModule( getFrame(), clock );
-            Module multipleAtomModule = new MultipleAtomModule( getFrame(), clock );
+            Module singleAtomModule = new SingleAtomModule(getFrame(), clock);
+            Module multipleAtomModule = new MultipleAtomModule(getFrame(), clock);
             Module[] modules = new Module[]{
                 singleAtomModule,
                 multipleAtomModule
             };
-            setModules( modules );
+            setModules(modules);
 //                        setInitialModule( multipleAtomModule );
-            setInitialModule( singleAtomModule );
+            setInitialModule(singleAtomModule);
 
             // Print out frame rate for debugging
-            clock.addClockTickListener( new ClockTickListener() {
-                int frameAve = 25;
-                int tickCnt = 0;
-                long lastTickTime = System.currentTimeMillis();
-                public void clockTicked( AbstractClock c, double dt ) {
-                    if( ++tickCnt % frameAve == 0 ) {
-                        long currTime = System.currentTimeMillis();
-                        long elapsedTime = currTime - lastTickTime;
-                        lastTickTime = currTime;
-                        double rate = frameAve * 1000 / elapsedTime;
-                        System.out.println( "rate = " + rate  );
-                    }
-                }
-            } );
+//            clock.addClockTickListener( new ClockTickListener() {
+//                int frameAve = 25;
+//                int tickCnt = 0;
+//                long lastTickTime = System.currentTimeMillis();
+//                public void clockTicked( AbstractClock c, double dt ) {
+//                    if( ++tickCnt % frameAve == 0 ) {
+//                        long currTime = System.currentTimeMillis();
+//                        long elapsedTime = currTime - lastTickTime;
+//                        lastTickTime = currTime;
+//                        double rate = frameAve * 1000 / elapsedTime;
+//                        System.out.println( "rate = " + rate  );
+//                    }
+//                }
+//            } );
         }
     }
 
     public LaserSimulation() {
-        super( new LaserAppModel() );
+        super(new LaserAppModel());
     }
 
-    public void displayHighToMidEmission( boolean selected ) {
-        throw new RuntimeException( "TBI" );
+    public void displayHighToMidEmission(boolean selected) {
+        throw new RuntimeException("TBI");
     }
 
-    public static void main( String[] args ) {
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            Locale.setDefault( new Locale( applicationLocale ) );
+    public static void main(String[] args) {
+        String applicationLocale = System.getProperty("javaws.locale");
+        if (applicationLocale != null && !applicationLocale.equals("")) {
+            Locale.setDefault(new Locale(applicationLocale));
         }
         String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey ) ) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ) );
+        if (args.length > 0 && args[0].startsWith(argsKey)) {
+            String locale = args[0].substring(argsKey.length(), args[0].length());
+            Locale.setDefault(new Locale(locale));
         }
 
-        SimStrings.setStrings( LaserConfig.localizedStringsPath );
+        SimStrings.setStrings(LaserConfig.localizedStringsPath);
         try {
-            UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
-        }
-        catch( UnsupportedLookAndFeelException e ) {
+            UIManager.setLookAndFeel(new LaserAppLookAndFeel());
+        } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
 
@@ -109,11 +107,11 @@ public class LaserSimulation extends PhetApplication {
     }
 
     private static class LaserAppLookAndFeel extends LandF {
-        static Color yellowishBackground = new Color( 255, 255, 214 );
+        static Color yellowishBackground = new Color(255, 255, 214);
         //        static Color yellowishBackground = new Color( 249, 221, 162 );
-        static Color greenishBackground = new Color( 138, 156, 148 );
-        static Color greenishButtonBackground = new Color( 154, 160, 148 );
-        static Color purpleishBackground = new Color( 200, 197, 220 );
+        static Color greenishBackground = new Color(138, 156, 148);
+        static Color greenishButtonBackground = new Color(154, 160, 148);
+        static Color purpleishBackground = new Color(200, 197, 220);
         //        static Color backgroundColor = yellowishBackground;
         //        static Color backgroundColor = yellowishBackground;
         //        static Color backgroundColor = new Color( 98, 98, 98 );
@@ -125,21 +123,21 @@ public class LaserSimulation extends PhetApplication {
         //        static Color buttonBackgroundColor = new Color( 180, 170, 160 );
         //        static Color buttonBackgroundColor = new Color( 165, 160, 219 );
         //        static Color controlTextColor = new Color( 220, 220, 220 );
-        static Color controlTextColor = new Color( 38, 56, 48 );
+        static Color controlTextColor = new Color(38, 56, 48);
         //        static Color controlTextColor = yellowishBackground;
         //        static Color controlTextColor = new Color( 0, 0, 0 );
-        static Font font = new Font( "SansSerif", Font.BOLD, 12 );
+        static Font font = new Font("SansSerif", Font.BOLD, 12);
 
         public LaserAppLookAndFeel() {
-            super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
+            super(backgroundColor, buttonBackgroundColor, controlTextColor, font);
         }
     }
 
     static private class LandF extends MetalLookAndFeel {
-        Color backgroundColor = new Color( 60, 80, 60 );
-        Color buttonBackgroundColor = new Color( 60, 60, 100 );
-        Color controlTextColor = new Color( 230, 230, 230 );
-        Font controlFont = new Font( "SansSerif", Font.BOLD, 22 );
+        Color backgroundColor = new Color(60, 80, 60);
+        Color buttonBackgroundColor = new Color(60, 60, 100);
+        Color controlTextColor = new Color(230, 230, 230);
+        Font controlFont = new Font("SansSerif", Font.BOLD, 22);
         static String[] controlTypes = new String[]{
             "Menu",
             "MenuItem",
@@ -149,27 +147,27 @@ public class LaserSimulation extends PhetApplication {
             "Label"
         };
 
-        public LandF( Color backgroundColor, Color buttonBackgroundColor, Color controlTextColor, Font controlFont ) {
+        public LandF(Color backgroundColor, Color buttonBackgroundColor, Color controlTextColor, Font controlFont) {
             this.backgroundColor = backgroundColor;
             this.buttonBackgroundColor = buttonBackgroundColor;
             this.controlTextColor = controlTextColor;
             this.controlFont = controlFont;
         }
 
-        protected void initComponentDefaults( UIDefaults table ) {
-            super.initComponentDefaults( table );
+        protected void initComponentDefaults(UIDefaults table) {
+            super.initComponentDefaults(table);
             ArrayList def = new ArrayList();
-            ColorUIResource textColor = new ColorUIResource( controlTextColor );
-            FontUIResource fuir = new FontUIResource( controlFont );
-            for( int i = 0; i < controlTypes.length; i++ ) {
+            ColorUIResource textColor = new ColorUIResource(controlTextColor);
+            FontUIResource fuir = new FontUIResource(controlFont);
+            for (int i = 0; i < controlTypes.length; i++) {
                 String controlType = controlTypes[i];
-                def.add( controlType + ".foreground" );
-                def.add( textColor );
-                def.add( controlType + ".font" );
-                def.add( fuir );
+                def.add(controlType + ".foreground");
+                def.add(textColor);
+                def.add(controlType + ".font");
+                def.add(fuir);
             }
-            ColorUIResource background = new ColorUIResource( backgroundColor );
-            ColorUIResource buttonBackground = new ColorUIResource( buttonBackgroundColor );
+            ColorUIResource background = new ColorUIResource(backgroundColor);
+            ColorUIResource buttonBackground = new ColorUIResource(buttonBackgroundColor);
 
             Object[] defaults = {
                 "Panel.background", background
@@ -181,11 +179,11 @@ public class LaserSimulation extends PhetApplication {
                 , "CheckBox.background", background
                 , "Button.background", buttonBackground
             };
-            def.addAll( Arrays.asList( defaults ) );
-            table.putDefaults( def.toArray() );
+            def.addAll(Arrays.asList(defaults));
+            table.putDefaults(def.toArray());
 
-            Font font = (Font)table.get( "Label.font" );
-            Color color = (Color)table.get( "Label.foreground" );
+            Font font = (Font) table.get("Label.font");
+            Color color = (Color) table.get("Label.foreground");
             Object[] moreDefaults = {
                 "TextField.font", font
                 , "Spinner.font", font
@@ -193,7 +191,7 @@ public class LaserSimulation extends PhetApplication {
                 , "TitledBorder.font", font
                 , "TitledBorder.titleColor", color
             };
-            table.putDefaults( moreDefaults );
+            table.putDefaults(moreDefaults);
         }
     }
 }
