@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
  * Date: Jun 24, 2003
  * Time: 10:24:31 AM
  * Copyright (c) Jun 24, 2003 by Sam Reid
- * Testing commit.
  */
 public class PhetVector {
     double x;
