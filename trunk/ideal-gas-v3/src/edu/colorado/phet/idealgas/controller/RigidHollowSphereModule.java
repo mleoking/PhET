@@ -48,7 +48,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
         // Set the size of the box
         final Box2D box = getIdealGasModel().getBox();
-        //        box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
+        //        box.setRegion( 300, 100, box.getMaxX(), box.getMaxY() );
         sphere = new HollowSphere( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
                                                        box.getMinY() + box.getHeight() / 2 ),
                                    new Vector2D.Double( 0, 0 ),

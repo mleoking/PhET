@@ -13,7 +13,6 @@ import java.awt.geom.Rectangle2D;
 public class SphereWallExpert implements CollisionExpert, ContactDetector {
 
     public static final int LEFT_SIDE = 1, RIGHT_SIDE = 2, TOP = 3, BOTTOM = 4, NO_CONTACT = 0;
-//    private SphereBoxCollisionExpert detector = new SphereBoxCollisionExpert();
     private Collision collision;
     private IdealGasModel model;
 

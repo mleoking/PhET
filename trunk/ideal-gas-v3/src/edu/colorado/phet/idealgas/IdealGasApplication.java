@@ -48,7 +48,8 @@ public class IdealGasApplication extends PhetApplication {
                 diffusionModule
             };
             setModules( modules );
-            setInitialModule( diffusionModule );
+            setInitialModule( movableWallsModule );
+//            setInitialModule( diffusionModule );
 //            setInitialModule( idealGasModule );
 
             // Set the initial size
