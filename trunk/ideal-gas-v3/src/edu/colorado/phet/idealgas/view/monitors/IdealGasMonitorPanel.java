@@ -15,11 +15,17 @@ import edu.colorado.phet.idealgas.model.LightSpecies;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.ResourceBundle;
 
 /**
  *
  */
 public class IdealGasMonitorPanel extends JPanel {
+
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/IdealGasMonitorPanel" );
+    }
 
     private GasMonitorPanel globalGasMonitorPanel;
     private GasSpeciesMonitorPanel heavySpeciesPanel;
@@ -39,9 +45,9 @@ public class IdealGasMonitorPanel extends JPanel {
         //        this.add( balloonPressureMonitorPanel );
 
         JPanel speciesPanel = new JPanel( new GridLayout( 2, 1 ) );
-        heavySpeciesPanel = new GasSpeciesMonitorPanel( HeavySpecies.class, "Heavy species" );
+        heavySpeciesPanel = new GasSpeciesMonitorPanel( HeavySpecies.class, localizedStrings.getString( "Heavy_species" ));
         speciesPanel.add( heavySpeciesPanel );
-        lightSpeciesPanel = new GasSpeciesMonitorPanel( LightSpecies.class, "Light species" );
+        lightSpeciesPanel = new GasSpeciesMonitorPanel( LightSpecies.class, localizedStrings.getString( "Light_species" ));
         speciesPanel.add( lightSpeciesPanel );
 
         this.add( speciesPanel );

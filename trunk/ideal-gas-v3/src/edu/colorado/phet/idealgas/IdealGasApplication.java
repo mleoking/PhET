@@ -12,12 +12,19 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.idealgas.controller.*;
 
+import java.util.ResourceBundle;
+
 public class IdealGasApplication extends PhetApplication {
+
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/IdealGasApplication" );
+    }
 
     static class IdealGasApplicationModel extends ApplicationModel {
         public IdealGasApplicationModel() {
-            super( Strings.title,
-                   Strings.description,
+            super( localizedStrings.getString( "title" ),
+                   localizedStrings.getString( "description" ),
                    IdealGasConfig.VERSION,
                    IdealGasConfig.FRAME_SETUP );                   
 

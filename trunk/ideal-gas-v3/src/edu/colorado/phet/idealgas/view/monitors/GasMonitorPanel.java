@@ -20,11 +20,18 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
+import java.util.ResourceBundle;
+import java.util.Locale;
 
 /**
  * This panel displays the composite state of all gas species in the system
  */
 public class GasMonitorPanel extends JPanel {
+
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/GasMonitorPanel" );
+    }
 
     private Method[] temperatureMethods;
     private Method[] moleculeCountMethods;
@@ -67,7 +74,7 @@ public class GasMonitorPanel extends JPanel {
     private void init() {
 
         this.setPreferredSize( new Dimension( 400, 120 ) );
-        Border border = new TitledBorder( "Gas Properties" );
+        Border border = new TitledBorder( localizedStrings.getString( "Title" ) );
         this.setBorder( border );
         this.setLayout( new GridLayout( 1, 2 ) );
 
@@ -78,7 +85,7 @@ public class GasMonitorPanel extends JPanel {
 
         JPanel leftTemperaturePanel = new JPanel();
         leftTemperaturePanel.setPreferredSize( new Dimension( 20, 50 ) );
-        leftTemperaturePanel.add( new JLabel( "Temperature: " ) );
+        leftTemperaturePanel.add( new JLabel( localizedStrings.getString( "Temperature" ) + ": " ) );
         temperatureTF = new JTextField( 6 );
         temperatureTF.setEditable( false );
         leftTemperaturePanel.add( temperatureTF );
@@ -94,7 +101,7 @@ public class GasMonitorPanel extends JPanel {
         JPanel pressurePanel = new JPanel( new GridLayout( 1, 2 ) );
         pressureFormat.setMaximumFractionDigits( 2 );
         leftPressurePanel = new JPanel();
-        leftPressurePanel.add( new JLabel( "Pressure: " ) );
+        leftPressurePanel.add( new JLabel( localizedStrings.getString( "Pressure" ) + ": " ));
         pressureTF = new JTextField( 6 );
         pressureTF.setEditable( false );
         leftPressurePanel.add( pressureTF );
@@ -304,12 +311,12 @@ public class GasMonitorPanel extends JPanel {
 
             // Add radio buttons for scale
             JPanel scaleFactorPanel = new JPanel( new GridLayout( 2, 1 ) );
-            Action scaleFactor1 = new AbstractAction( "1X" ) {
+            Action scaleFactor1 = new AbstractAction( localizedStrings.getString( "1X" )) {
                 public void actionPerformed( ActionEvent evt ) {
                     scaleFactor = 1;
                 }
             };
-            Action scaleFactor10 = new AbstractAction( "10X" ) {
+            Action scaleFactor10 = new AbstractAction( localizedStrings.getString( "10X" )) {
                 public void actionPerformed( ActionEvent evt ) {
                     scaleFactor = 10;
                 }

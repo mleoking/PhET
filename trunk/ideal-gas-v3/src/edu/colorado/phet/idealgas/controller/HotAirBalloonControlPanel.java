@@ -18,8 +18,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Hashtable;
+import java.util.ResourceBundle;
 
 public class HotAirBalloonControlPanel extends JPanel {
+
+    private static ResourceBundle localizedStrings;
+    static {
+        localizedStrings = ResourceBundle.getBundle( "localization/HotAirBalloonControlPanel" );
+    }
 
     public HotAirBalloonControlPanel() {
         init();
@@ -57,8 +63,8 @@ public class HotAirBalloonControlPanel extends JPanel {
         stoveSlider.setMajorTickSpacing( 5 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( 0 ), new JLabel( "0" ) );
-        labelTable.put( new Integer( 40 ), new JLabel( "Add" ) );
+        labelTable.put( new Integer( 0 ), new JLabel( localizedStrings.getString( "0" )) );
+        labelTable.put( new Integer( 40 ), new JLabel( localizedStrings.getString( "Add" )) );
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
 
@@ -72,7 +78,7 @@ public class HotAirBalloonControlPanel extends JPanel {
         } );
         stovePanel.add( stoveSlider );
 
-        stovePanel.setBorder( new TitledBorder( "Hot Air Balloon" ) );
+        stovePanel.setBorder( new TitledBorder( localizedStrings.getString( "Title" )) );
         this.add( stovePanel );
     }
 
