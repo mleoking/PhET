@@ -16,8 +16,8 @@ public class GroundState extends AtomicState {
         s_numInstances++;
     }
 
-    public void stepInTime( double dt ) {
-    }
+//    public void stepInTime( double dt ) {
+//    }
 
     public void collideWithPhoton( Photon photon ) {
 
@@ -50,6 +50,10 @@ public class GroundState extends AtomicState {
 
     void decrementNumInState() {
         s_numInstances--;
+    }
+
+    int getNumAtomsInState() {
+        return getNumInstances();
     }
 
     //

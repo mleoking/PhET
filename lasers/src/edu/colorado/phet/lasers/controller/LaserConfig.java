@@ -35,7 +35,7 @@ public class LaserConfig {
 //    }
 
     // Physical things
-    public static Point2D.Double ORIGIN = new Point2D.Double( 100, 200 );
+    public static Point2D.Double ORIGIN = new Point2D.Double( 50, 150 );
 
     public static final int DEFAULT_STIMULATING_PHOTON_RATE = 20;
     public static final int MINIMUM_STIMULATING_PHOTON_RATE = 0;
