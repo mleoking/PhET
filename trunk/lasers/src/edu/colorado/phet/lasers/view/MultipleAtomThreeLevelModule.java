@@ -10,6 +10,7 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.collision.ContactDetector;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.PhetControlPanel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.ThreeLevelControlPanel;
 import edu.colorado.phet.lasers.physics.LaserModel;
@@ -30,7 +31,7 @@ public class MultipleAtomThreeLevelModule extends BaseLaserModule {
     /**
      *
      */
-    public MultipleAtomThreeLevelModule() {
+    public MultipleAtomThreeLevelModule( AbstractClock clock ) {
         super( "Multiple Atoms / Three Levels" );
 
         double newHeight = 100;
@@ -77,7 +78,7 @@ public class MultipleAtomThreeLevelModule extends BaseLaserModule {
 
 
         monitorPanel = new ThreeEnergyLevelMonitorPanel( (LaserModel)getModel());
-        controlPanel = new ThreeLevelControlPanel();
+        controlPanel = new ThreeLevelControlPanel( this, clock );
         setMonitorPanel( monitorPanel );
         setControlPanel( controlPanel );
     }

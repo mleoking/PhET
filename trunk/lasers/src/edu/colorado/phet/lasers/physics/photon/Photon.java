@@ -14,6 +14,8 @@ import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.util.ArrayList;
 import java.util.Observer;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -28,6 +30,7 @@ public class Photon extends SphericalBody {
     // If this photon has stimulated the production of another photon, this
     // is a reference to that photon
     private Photon childPhoton;
+    private boolean isCollidable;
 
     public synchronized void addObserver( SimpleObserver o ) {
         super.addObserver( o );
@@ -38,7 +41,7 @@ public class Photon extends SphericalBody {
     }
 
 
-    private float wavelength;
+    private double wavelength;
     private CollimatedBeam beam;
     // This list keeps track of atoms that the photon has collided with
     private ArrayList contactedAtoms = new ArrayList();
@@ -54,31 +57,50 @@ public class Photon extends SphericalBody {
         setMass( 1 );
     }
 
+    private List listeners = new LinkedList();
+
+    public interface Listener {
+        void leavingSystem( Photon photon );
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+
     /**
      * Rather than use the superclass behavior, the receiver
      * puts itself in the class free pool, so it can be used
      * again. This helps prevent us from flogging the heap.
      */
     public void removeFromSystem() {
-        super.removeFromSystem();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.leavingSystem( this );
+        }
+//        super.removeFromSystem();
         if( beam != null ) {
             beam.removePhoton( this );
         }
 
 //        freePool.add( this );
 //        setChanged();
-        notifyObservers( Particle.S_REMOVE_BODY );
+//        notifyObservers( Particle.S_REMOVE_BODY );
     }
 
-    public float getWavelength() {
+    public double getWavelength() {
         return wavelength;
     }
 
-    public void setWavelength( float wavelength ) {
+    public void setWavelength( double wavelength ) {
         this.wavelength = wavelength;
     }
 
-    public float getEnergy() {
+    public double getEnergy() {
         // Some function based on wavelength
         return ( 1 / getWavelength() );
     }
