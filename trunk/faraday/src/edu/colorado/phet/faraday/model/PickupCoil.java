@@ -73,7 +73,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      */
     private void setEmf( double emf ) {
         if ( emf != _emf ) {
-            // System.out.println( "PickupCoil.setEmf: emf=" + emf ); // DEBUG
+            //System.out.println( "PickupCoil.setEmf: emf=" + emf ); // DEBUG
             _emf = emf;
             notifyObservers();
         }
@@ -143,6 +143,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      * @param dt time delta
      */
     public void stepInTime( double dt ) {
+        updateEmf();
+    }
+    
+    public void updateEmf() {
 
         // TODO handle arbitrary coil orientation
         
