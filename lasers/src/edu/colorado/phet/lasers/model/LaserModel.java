@@ -54,6 +54,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private ArrayList atoms = new ArrayList();
     private ArrayList mirrors = new ArrayList();
     private CollisionMechanism collisionMechanism;
+    private int numPhotons;
 
     /**
      *
@@ -112,9 +113,11 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         super.stepInTime( dt );
 
         // Check to see if any photons need to be taken out of the system
+        numPhotons = 0;
         for( int i = 0; i < bodies.size(); i++ ) {
             Object obj = bodies.get( i );
             if( obj instanceof Photon ) {
+                numPhotons++;
                 Photon photon = (Photon)obj;
                 Point2D position = photon.getPosition();
                 if( !boundingRectangle.contains( position.getX(), position.getY() ) ) {
@@ -182,6 +185,9 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         boundingRectangle.setRect( bounds );
     }
 
+    public int getNumPhotons() {
+        return numPhotons;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////
     // Event Handling
