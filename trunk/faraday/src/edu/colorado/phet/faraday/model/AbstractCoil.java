@@ -110,6 +110,25 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
     public double getRadius() {
         return _radius;
     }
+    
+    /**
+     * Sets the surface area of one loop.
+     * 
+     * @param area the area
+     */
+    public void setLoopArea( double area ) {
+        double radius = Math.sqrt( area / Math.PI );
+        setRadius( radius );
+    }
+    
+    /**
+     * Gets the surface area of one loop.
+     * 
+     * @return the area
+     */
+    public double getLoopArea() {
+        return ( Math.PI * _radius * _radius );
+    }
 
     /**
      * Gets the total surface area of all loops in the coil.
@@ -118,7 +137,7 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
      * @return the area
      */
     public double getArea() {
-        return _numberOfLoops * ( Math.PI * _radius * _radius );
+        return _numberOfLoops * getLoopArea();
     }
     
     /**

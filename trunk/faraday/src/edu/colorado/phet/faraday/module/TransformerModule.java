@@ -65,7 +65,7 @@ public class TransformerModule extends FaradayModule {
     
     // Pickup Coil
     private static final int PICKUP_NUMBER_OF_LOOPS = 2;
-    private static final double PICKUP_LOOP_RADIUS = 0.75 * FaradayConfig.MAX_PICKUP_RADIUS;
+    private static final double PICKUP_LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -130,7 +130,7 @@ public class TransformerModule extends FaradayModule {
         // Pickup Coil
         PickupCoil pickupCoilModel = new PickupCoil( electromagnetModel );
         pickupCoilModel.setNumberOfLoops( PICKUP_NUMBER_OF_LOOPS );
-        pickupCoilModel.setRadius( PICKUP_LOOP_RADIUS );
+        pickupCoilModel.setLoopArea( PICKUP_LOOP_AREA );
         pickupCoilModel.setDirection( 0 /* radians */ );
         pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
         pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);

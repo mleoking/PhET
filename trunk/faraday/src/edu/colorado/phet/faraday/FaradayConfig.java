@@ -11,9 +11,7 @@
 
 package edu.colorado.phet.faraday;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 
 
 /**
@@ -97,8 +95,9 @@ public class FaradayConfig {
     public static final double MAX_PICKUP_EMF = 4.0E7; // volts
     public static final int MAX_PICKUP_LOOPS = 3;
     public static final int MIN_PICKUP_LOOPS = 1;
-    public static final double MAX_PICKUP_RADIUS = 125.0;
-    public static final double MIN_PICKUP_RADIUS = 0.5 * MAX_PICKUP_RADIUS;
+    private static final double MAX_PICKUP_LOOP_RADIUS = 125.0;
+    public static final double MAX_PICKUP_LOOP_AREA = Math.PI * MAX_PICKUP_LOOP_RADIUS * MAX_PICKUP_LOOP_RADIUS;
+    public static final double MIN_PICKUP_LOOP_AREA = 0.5 * MAX_PICKUP_LOOP_AREA;
 
     // Battery parameters 
     public static final double BATTERY_VOLTAGE_MAX = 10;  // volts

@@ -4,8 +4,8 @@
 
 IN PROGRESS:
 
+
 HIGH PRIORITY:
-- CoilGraphic collision bounds are incorrect, should be based on #loops, wire width, and loop spacing
 - if water wheel hits critical angles, then its rotation appears jerky at some speeds
 - make electrons move at same speed whether grid is on or off
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
@@ -15,7 +15,6 @@ HIGH PRIORITY:
 - disable lightbulb/voltmeter/electron rescaling so that their response is proportional to magnet strength
 
 MEDIUM PRIORITY:
-- redo Turbine model, it should not extend BarMagnet (it has a BarMagnet)
 - lightbulb flashes the first time that you visit each module
 - sliders sometimes remain hilited after you roll off them
 - electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
@@ -28,12 +27,11 @@ LOW PRIORITY:
 - check for unnecessary notification, events and updates
 - replace EasyGridBagLayout with SwingUtils.addGridBagComponent
 - background color (use new PhetApplication interface)
-- transparent bar magnet layer so that field meter looks like it's inside it
 - Help/MegaHelp
-- resize any scaled images
 
 CLEANUP:
 - organize imports
+- resize any scaled images
 - remove unused images and assets
 - save all images using Photoshop's "Save for Web" feature
 - remove unused i18n strings
@@ -54,6 +52,10 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/29) - optimize getCollisionBounds implementations so that rectangles are reused
+(3/29) - fixed CoilGraphic collision bounds
+(3/29) - fix area control in PickupCoilPanel so that the area (not the radius) scales correctly
+(3/29) - debug mode that shows area, flux and delta flux for the pickup coil
 (3/28) - add cache of needle shapes and colors
 (3/26) - add FaradayModule.drawBounds, to hide use of DebuggerGraphic
 (3/26) - add loop spacing to Coil model, set differently for Source & Pickup coils, remains constant
@@ -319,6 +321,8 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(3/29) - transparent bar magnet layer so that field meter looks like it's inside it (no one except Ron asked for this feature)
+(3/29) - redo Turbine model, it should not extend BarMagnet (fine as is for this simulation)
 (3/24) - cache grid needles at N-degree angles to eliminate rotation transform (rotation is not the problem, fill is the problem)
 (3/24) - draw grid needles as images instead of shapes (no improvement using images)
 (3/24) - explicitly set the initial capacity (# coordinates) in the compass needle paths (no performance improvement)

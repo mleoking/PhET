@@ -11,10 +11,13 @@
 
 package edu.colorado.phet.faraday.view;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 
 import javax.swing.event.MouseInputAdapter;
 
@@ -26,6 +29,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
@@ -45,6 +49,12 @@ public class PickupCoilGraphic
     implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final boolean DEBUG_FLUX = true;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -56,6 +66,9 @@ public class PickupCoilGraphic
     private VoltmeterGraphic _voltmeterGraphic;
     private CompositePhetGraphic _foreground, _background;
     private CollisionDetector _collisionDetector;
+    private PhetTextGraphic _areaValue;
+    private PhetTextGraphic _fluxValue, _deltaFluxValue;
+    private DecimalFormat _fluxFormatter;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -114,6 +127,19 @@ public class PickupCoilGraphic
         
         // Interactivity
         setDraggingEnabled( true );
+        
+        if ( DEBUG_FLUX ) {
+            _fluxFormatter = new DecimalFormat( "###0.00" );
+            Font font = new Font( "SansSerif", Font.PLAIN, 15 );
+            
+            _areaValue = new PhetTextGraphic( component, font, "WWW", Color.YELLOW, 70, -25 );
+            _fluxValue = new PhetTextGraphic( component, font, "XXX", Color.YELLOW, 70, 0 );
+            _deltaFluxValue = new PhetTextGraphic( component, font, "YYY", Color.YELLOW, 70, 25 );
+            
+            _foreground.addGraphic( _areaValue );
+            _foreground.addGraphic( _fluxValue );
+            _foreground.addGraphic( _deltaFluxValue );
+        }
         
         update();
     }
@@ -216,6 +242,15 @@ public class PickupCoilGraphic
             _foreground.rotate( _pickupCoilModel.getDirection() );
             _background.rotate( _pickupCoilModel.getDirection() );
 
+            if ( DEBUG_FLUX ) {
+                double area = _pickupCoilModel.getArea();
+                double flux = _pickupCoilModel.getFlux();
+                double deltaFlux = _pickupCoilModel.getDeltaFlux();
+                _areaValue.setText( "Area = " + _fluxFormatter.format( area ) );
+                _fluxValue.setText( "Flux = " + _fluxFormatter.format( flux ) + " W" );
+                _deltaFluxValue.setText( "Delta = " + _fluxFormatter.format( deltaFlux ) + " W" );
+            }
+            
             _foreground.repaint();
             _background.repaint();
         }

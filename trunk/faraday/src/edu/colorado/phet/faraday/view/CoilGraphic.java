@@ -121,7 +121,7 @@ public class CoilGraphic implements SimpleObserver {
     private IRescaler _rescaler;
     
     // Collision bounds
-    private Rectangle _topBounds, _bottomBounds;
+    private Rectangle[] _collisionBounds;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -164,9 +164,6 @@ public class CoilGraphic implements SimpleObserver {
         _wireWidth = -1; // force update
         _loopSpacing = -1; // force update
         _voltage = -1;  // force update
-        
-        _topBounds = new Rectangle();
-        _bottomBounds = new Rectangle();
         
         update();
     }
@@ -672,19 +669,25 @@ public class CoilGraphic implements SimpleObserver {
      * There is a rectangle at the top and bottom of the coil. These rectangles
      * are based on the coil's bounds, with a bit of "hand tweaking" to make 
      * them look plausible.
-     * 
+     *
      * @return array of Rectangle
      */
     public Rectangle[] getCollisionBounds() {
         if ( isVisible() ) {
+            
+            if ( _collisionBounds == null ) {
+                _collisionBounds = new Rectangle[2];
+                _collisionBounds[0] = new Rectangle();
+                _collisionBounds[1] = new Rectangle();
+            }
+            
             Rectangle b = getBounds();
+            // Rectangle at top of coil.
+            _collisionBounds[0].setBounds( b.x + 35, b.y + 38, b.width - 70, 18 );
+            // Rectangle at bottom of coil.
+            _collisionBounds[1].setBounds( b.x + 35, b.y + b.height - 19, b.width - 58, 18 );
             
-            // These values were tweaked via trial & error.
-            _topBounds.setBounds( b.x + 45, b.y + 38, b.width - 100, 18 );
-            _bottomBounds.setBounds( b.x + 45, b.y + b.height - 19, b.width - 68, 18 );
-            
-            Rectangle[] bounds = { _topBounds, _bottomBounds };
-            return bounds;
+            return _collisionBounds;
         }
         else {
             return null;

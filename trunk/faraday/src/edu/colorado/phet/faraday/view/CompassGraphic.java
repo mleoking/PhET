@@ -68,10 +68,10 @@ public class CompassGraphic extends CompositePhetGraphic
     
     private Rectangle _parentBounds;
     private Compass _compassModel;
-//    private CompassNeedle _needleDescriptor;
     private PhetShapeGraphic _needleNorthGraphic, _needleSouthGraphic;
     private CompassNeedleCache _needleCache;
     private CollisionDetector _collisionDetector;
+    private Rectangle[] _collisionBounds;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -188,12 +188,17 @@ public class CompassGraphic extends CompositePhetGraphic
      * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionBounds()
      */
     public Rectangle[] getCollisionBounds() {
-        Rectangle[] bounds = null;
         if ( isVisible() ) {
-            bounds = new Rectangle[1];
-            bounds[0] = getBounds();
+            if ( _collisionBounds == null ) {
+                _collisionBounds = new Rectangle[1];
+                _collisionBounds[0] = new Rectangle();
+            }
+            _collisionBounds[0].setBounds( getBounds() );
+            return _collisionBounds;
         }
-        return bounds;
+        else {
+            return null;
+        }
     }
     
     //----------------------------------------------------------------------------

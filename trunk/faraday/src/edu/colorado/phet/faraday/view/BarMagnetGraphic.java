@@ -51,6 +51,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
     private BarMagnet _magnetModel;
     private boolean _transparencyEnabled;
     private CollisionDetector _collisionDetector;
+    private Rectangle[] _collisionBounds;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -201,12 +202,17 @@ public class BarMagnetGraphic extends PhetImageGraphic
      * @see edu.colorado.phet.faraday.view.ICollidable#getCollisionBounds()
      */
     public Rectangle[] getCollisionBounds() {
-        Rectangle[] bounds = null;
         if ( isVisible() ) {
-            bounds = new Rectangle[1];
-            bounds[0] = getBounds();
+            if ( _collisionBounds == null ) {
+                _collisionBounds = new Rectangle[1];
+                _collisionBounds[0] = new Rectangle();
+            }
+            _collisionBounds[0].setBounds( getBounds() );
+            return _collisionBounds;
         }
-        return bounds;
+        else {
+            return null;
+        }
     }
     
     //----------------------------------------------------------------------------
