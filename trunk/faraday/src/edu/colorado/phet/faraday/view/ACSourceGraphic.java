@@ -241,7 +241,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /**
-     * SliderListener hadnles changes to the amplitude slider.
+     * SliderListener handles changes to the amplitude slider.
      */
     private class SliderListener implements ChangeListener {
         
