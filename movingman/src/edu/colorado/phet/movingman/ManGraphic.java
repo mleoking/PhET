@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,6 +36,7 @@ public class ManGraphic implements InteractiveGraphic, Observer {
     private RangeToRange inversion;
     private CircularBuffer cb = new CircularBuffer( 10 );
     private double lastx = 0;
+    private ArrayList listeners = new ArrayList();
 
     public ManGraphic( MovingManModule module, Man m, int y, RangeToRange transform ) throws IOException {
         this.module = module;
@@ -84,6 +86,10 @@ public class ManGraphic implements InteractiveGraphic, Observer {
         }
         if( oldX != x || origImage != currentImage ) {
             repaint( origRectangle, getRectangle() );
+            for( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener)listeners.get( i );
+                listener.manGraphicChanged();
+            }
         }
     }
 
@@ -102,6 +108,18 @@ public class ManGraphic implements InteractiveGraphic, Observer {
                 m.setGrabbed( true );
             }
         } );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    interface Listener {
+        void manGraphicChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 
     class DragHandler {

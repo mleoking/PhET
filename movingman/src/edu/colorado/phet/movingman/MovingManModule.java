@@ -14,8 +14,8 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.BasicPhetPanel;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
 import edu.colorado.phet.movingman.common.RangeToRange;
 import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.common.plaf.PhetLookAndFeel;
@@ -76,6 +76,7 @@ public class MovingManModule extends Module {
     private ArrayList rectList = new ArrayList();
     private MMKeySuite keySuite;
     private ArrayList pauseListeners = new ArrayList();
+    private ManGraphic.Listener wiggleMeListener;
 
     public MovingManModule( AbstractClock clock ) throws IOException {
         super( "The Moving Man" );
@@ -239,6 +240,15 @@ public class MovingManModule extends Module {
         wiggleMe = new WiggleMe( getApparatusPanel(), start,
                                  new ImmutableVector2D.Double( 0, 1 ), 15, .02, "Drag the Man" );
         setWiggleMeVisible( true );
+        this.wiggleMeListener = new ManGraphic.Listener() {
+            public void manGraphicChanged() {
+                Point2D start = manGraphic.getRectangle().getLocation();
+//                start = new Point2D.Double( start.getX() + 50, start.getY() + 50 );
+                start = new Point2D.Double( start.getX() - wiggleMe.getWidth() - 20, start.getY() + manGraphic.getRectangle().getHeight() / 2 );
+                wiggleMe.setCenter( new Point( (int)start.getX(), (int)start.getY() ) );
+            }
+        };
+        manGraphic.addListener( this.wiggleMeListener );
         getApparatusPanel().addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 getApparatusPanel().requestFocus();
@@ -261,6 +271,7 @@ public class MovingManModule extends Module {
             wiggleMe.setVisible( false );
             getApparatusPanel().removeGraphic( wiggleMe );
             getModel().removeModelElement( wiggleMe );
+            manGraphic.removeListener( wiggleMeListener );
         }
         else {
             wiggleMe.setVisible( true );

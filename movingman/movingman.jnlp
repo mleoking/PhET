@@ -17,7 +17,7 @@ information.
 <jnlp
     spec="1.0+"
     codebase="http://www.colorado.edu/physics/phet/projects/"
-    href="movingman/v12/movingman.jnlp">
+    href="movingman/v22/movingman.jnlp">
     <information>
         <title>The Moving Man</title>
         <vendor>PhET(tm)</vendor>
@@ -33,9 +33,11 @@ information.
 
     <resources>
         <j2se version="1.4+"/>
-        <jar href="movingman/v12/movingman.jar"/>
+        <jar href="movingman/v22/movingman.jar"/>
         <jar href="shared/org/sourceforge/smoothmetal/v2/smoothmetal.jar"/>
         <jar href="shared/org/singularsys/jep/2.24/jep-2.24.jar" download="lazy"/>
+        <jar href="movingman/v22/lib/chart.jar"/>
+        <jar href="movingman/v22/lib/phetcommon.jar"/>
     </resources>
-    <application-desc main-class="edu.colorado.phet.movingman.application.MovingManModule"/>
+    <application-desc main-class="edu.colorado.phet.movingman.MovingManModule"/>
 </jnlp>

@@ -74,6 +74,11 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
         this.startPt = center;
     }
 
+    public int getWidth() {
+//        int x=new PhetGraphic().get
+        return (int)textGraphic.getBounds().getWidth();
+    }
+
     static class Sine {
         private double frequency;
         private double amplitude;
