@@ -53,8 +53,8 @@ public class Chart extends PhetGraphic {
         this.transform = new ModelViewTransform2D( range.getBounds(), viewBounds );
     }
 
-    public void setVerticalTitle( String title, Color color, Font font ) {
-        setTitle( new VerticalTitle( this, title, font, color ) );
+    public void setVerticalTitle( String title, Color color, Font font, int offsetX ) {
+        setTitle( new VerticalTitle( this, title, font, color, offsetX ) );
     }
 
     public AbstractTitle getTitle() {
@@ -99,11 +99,13 @@ public class Chart extends PhetGraphic {
 
     public static class VerticalTitle extends AbstractTitle {
         private Chart chart;
+        private int offsetX;
         private PhetTextGraphic graphic;
 
-        public VerticalTitle( Chart chart, String title, Font font, Color color ) {
+        public VerticalTitle( Chart chart, String title, Font font, Color color, int offsetX ) {
             super( chart, title, font, color );
             this.chart = chart;
+            this.offsetX = offsetX;
             graphic = new PhetTextGraphic( chart.getComponent(), font, title, color, 0, 0 );
         }
 
@@ -116,6 +118,7 @@ public class Chart extends PhetGraphic {
                 frame = chart.getViewBounds();
             }
             AffineTransform at = new AffineTransform();
+//            at.translate( chartRect.x - frame.width, chartRect.y + chartRect.height - chartRect.height / 2 + rect.getBounds().width / 2 );
             at.translate( chartRect.x - frame.width, chartRect.y + chartRect.height - chartRect.height / 2 + rect.getBounds().width / 2 );
             at.rotate( -Math.PI / 2 );
             Shape trf = at.createTransformedShape( rect );
@@ -130,7 +133,7 @@ public class Chart extends PhetGraphic {
             if( frame == null ) {
                 frame = chart.getViewBounds();
             }
-            frame.width = 60;//TODO this looks like a hack.
+            frame.width = offsetX;//TODO this looks like a hack.
             g.translate( chartRect.x - frame.width, chartRect.y + chartRect.height - chartRect.height / 2 + rect.width / 2 );
             g.rotate( -Math.PI / 2 );
             graphic.paint( g );
