@@ -85,7 +85,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      */
     private void setEmf( double emf ) {
         if ( emf != _emf ) {
-            //System.out.println( "PickupCoil.setEmf: emf=" + emf ); // DEBUG
+//            System.out.println( "PickupCoil.setEmf: emf=" + emf ); // DEBUG
             _emf = emf;
             notifyObservers();
         }
@@ -148,9 +148,20 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     }
     
     //----------------------------------------------------------------------------
-    // Faraday's Law implementation
+    // Update methods
     //----------------------------------------------------------------------------
  
+    /**
+     * Causes an immediate update to happen, independent of the simulation clock.
+     * If median smoothing of data was enabled, it is temporarily disabled.
+     */
+    public void updateNow() {
+        boolean smoothingWasEnabled = isSmoothingEnabled();
+        setSmoothingEnabled( false );
+        updateEmf();
+        setSmoothingEnabled( smoothingWasEnabled );
+    }
+    
     /**
      * Updates the emf, using Faraday's Law.
      * <p>
@@ -160,7 +171,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      * the emf needs to be recomputed immediately so that we can temporarily
      * disable smoothing of emf values.
      */
-    public void updateEmf() {
+    private void updateEmf() {
         
         // Flux at the center of the coil.
         double centerFlux = 0;
