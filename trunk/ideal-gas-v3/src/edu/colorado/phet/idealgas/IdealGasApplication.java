@@ -10,7 +10,6 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.util.FrameRateReporter;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.HeliumBalloonModule;
 import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
@@ -49,13 +48,13 @@ public class IdealGasApplication extends PhetApplication {
             //                        setInitialModule( rigidSphereModule );
             setInitialModule(idealGasModule);
 
-            new FrameRateReporter( clock );
+//            new FrameRateReporter( clock );
         }
     }
 
     public IdealGasApplication() {
         super(new IdealGasApplicationModel());
-        this.getApplicationView().getPhetFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        this.getApplicationView().getPhetFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.startApplication();
     }
 

@@ -49,9 +49,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                 new Vector2D.Double(0, 0),
                 new Vector2D.Double(0, 0),
                 MASS,
-                50,
-                getIdealGasModel().getBox(),
-                clock);
+                Balloon.MIN_RADIUS,
+                getIdealGasModel().getBox() );
         getBox().setMinimumWidth(balloon.getRadius() * 3);
         getIdealGasModel().addModelElement(balloon);
         getIdealGasModel().getBox().addContainedBody(balloon);

@@ -41,8 +41,8 @@ public class IdealGasConfig {
 
     // Physical constants
 //    public static final float s_timeStep = 0.01f;
-    public static final float s_timeStep = 0.05f;
-    public static final int s_waitTime = 20;
+    public static final float s_timeStep = 0.1f;
+    public static final int s_waitTime = 40;
     public static final double temperatureScaleFactor = 20;
     public static final double MAX_GAUGE_PRESSURE = 3.0;
 

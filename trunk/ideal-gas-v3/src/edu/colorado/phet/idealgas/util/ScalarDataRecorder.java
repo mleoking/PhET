@@ -61,8 +61,6 @@ public class ScalarDataRecorder {
     }
 
     public synchronized void computeDataStatistics() {
-        //        long currTime = System.currentTimeMillis();
-        //        float currTime = PhysicalSystem.instance().getRunningTime();
         double currTime = clock.getRunningTime();
 
         // Remove entries from the data record that have aged out of the time window
