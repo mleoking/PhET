@@ -16,7 +16,6 @@ public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
     private WaveFunction waveFunction;
     private WavefrontType wavefrontType = new SphericalWavefront();
 
-    private Point2D.Double origin = new Point2D.Double();
     private double maxAmplitude = 0.5;
     private double frequency = 25.0;
     private double[] amplitude = new double[s_length];
@@ -32,18 +31,28 @@ public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
     private double[] prevMaxAmplitudeAtTime = new double[s_length];
 
     private float time = 0;
-    private int propagationSpeed = SoundConfig.PROPOGATION_SPEED;
+    private int propagationSpeed = 1;
     // "Enabled" means that the wavefront should be added into the
     // wave medium. The waveform runs continuously whether it is enabled
     // or not, so it does not get out of phase from when it was started.
     private boolean enabled = true;
+    private Point2D.Double origin;
 
-    public Wavefront() {
+
+    //    public Wavefront( Point2D.Double origin ) {
+    //        this.origin = origin;
+    //    }
+
+    public Point2D.Double getOrigin() {
+        return origin;
     }
 
     public void setOrigin( Point2D.Double origin ) {
         this.origin = origin;
     }
+    //    public Wavefront( SoundModel model ) {
+    ////        this.model = model;
+    //    }
 
     public boolean isEnabled() {
         return enabled;
@@ -217,5 +226,4 @@ public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
     // Static fields and methods
     //
     public static int s_length = 400;
-
 }

@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.sound.view;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 
@@ -16,7 +17,8 @@ public class InteractiveSpeakerGraphic extends DefaultInteractiveGraphic {
     private SpeakerGraphic speakerGraphic;
     private WaveMediumGraphicC waveMediumGraphic;
 
-    public InteractiveSpeakerGraphic( SpeakerGraphic speakerGraphic, WaveMediumGraphicC waveMediumGraphic ) {
+    public InteractiveSpeakerGraphic( SpeakerGraphic speakerGraphic,
+                                      WaveMediumGraphicC waveMediumGraphic ) {
         super( speakerGraphic );
         this.speakerGraphic = speakerGraphic;
         this.waveMediumGraphic = waveMediumGraphic;
@@ -37,7 +39,7 @@ public class InteractiveSpeakerGraphic extends DefaultInteractiveGraphic {
     private class SpeakerTranslator implements Translatable {
         public void translate( double dx, double dy ) {
             Point2D.Double p = speakerGraphic.getLocation();
-            speakerGraphic.setLocation( (int)p.getX(), (int)( p.getY() + dy ) );
+            speakerGraphic.setLocation( (int)p.getX(), (int)( p.getY() + 1 * MathUtil.getSign( dy ) ) );
             waveMediumGraphic.setOrigin( speakerGraphic.getLocation() );
         }
     }

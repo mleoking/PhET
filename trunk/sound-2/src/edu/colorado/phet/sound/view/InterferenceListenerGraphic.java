@@ -21,8 +21,8 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
     private Point2D.Double audioSourceB;
     private Wavefront interferringWavefront;
     private Point2D.Double earLocation = new Point2D.Double();
-    private SoundModel soundModel;
     private TwoSpeakerInterferenceModule soundModule;
+    private SoundModel soundModel;
 
     /**
      * @param image
@@ -92,6 +92,14 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
         double amplitudeA = soundModel.getAmplitude();
         double maxAmplitude = amplitudeA * Math.abs( Math.cos( theta ) );
         soundModule.getPrimaryOscillator().setAmplitude( maxAmplitude );
+    }
+
+    public void setAudioSourceA( Point2D.Double audioSourceA ) {
+        this.audioSourceA = audioSourceA;
+    }
+
+    public void setAudioSourceB( Point2D.Double audioSourceB ) {
+        this.audioSourceB = audioSourceB;
     }
 
     //

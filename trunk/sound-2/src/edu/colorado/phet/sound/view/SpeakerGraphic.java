@@ -63,6 +63,14 @@ public class SpeakerGraphic extends CompositePhetGraphic {
         speakerCone.setPosition( x + s_speakerConeOffsetX, y - speakerConeImg.getHeight( null ) / 2 );
     }
 
+    public Point2D.Double getLocation() {
+        return location;
+    }
+
+    protected void syncBounds() {
+        super.syncBounds();
+    }
+
     public void setConePosition( int x ) {
         speakerCone.setPosition( (int)location.getX() + s_speakerConeOffsetX + x,
                                  (int)location.getY() - speakerConeImg.getHeight( null ) / 2 );
