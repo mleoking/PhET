@@ -33,7 +33,8 @@ public class ExerciseView {
     public boolean doIt() {
         if( exerciseDlg == null ) {
             exerciseDlg = new ExerciseDialog( owner, exerciseModel );
-            exerciseDlg.setLocationRelativeTo( owner );
+            exerciseDlg.setLocation( 50, 50 );
+//            exerciseDlg.setLocationRelativeTo( owner );
         }
         exerciseDlg.present();
         while( !exerciseDlg.isSubmitted() ) {
@@ -45,6 +46,7 @@ public class ExerciseView {
             }
         }
         exerciseDlg.setVisible( false );
+        exerciseDlg.dispose();
         return exerciseModel.evaluate( exerciseDlg.getSelectedAnswer() );
     }
 

@@ -68,7 +68,7 @@ public class StarViewGraphic extends CompositeInteractiveGraphic implements Simp
             double radius = minStarRadius;
 //            double radius = Math.max( 40000 / d, minStarRadius );
 //            double radius = Math.min( 15, Math.max( 40000 / d, 2 ));
-            double brightness = Math.min( 1, ( visibleStar.getLuminance() / Config.maxStarLuminance ) * 0.25 * Config.universeWidth / visibleStar.getLocation().distance( starView.getPov() ) );
+            double brightness = Math.min( 1, ( visibleStar.getLuminance() / Config.maxStarLuminance ) * 0.35 * Config.universeWidth / visibleStar.getLocation().distance( starView.getPov() ) );
 //            double brightness = visibleStar.getLuminance() * ( 1 / visibleStar.getLocation().distanceSq( starView.getPov() ) );
             if( starGraphic == null ) {
                 starGraphic = new StarGraphic( visibleStar, radius, visibleStar.getColor(), new Point2D.Double(), brightness );

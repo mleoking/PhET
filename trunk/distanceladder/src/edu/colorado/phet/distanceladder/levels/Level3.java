@@ -19,13 +19,14 @@ import java.awt.geom.Point2D;
 
 public class Level3 extends Exercise {
 
-    private static Point2D.Double starPt = new Point2D.Double( -500, -400 );
-    private static Point2D.Double targetPt = new Point2D.Double( 1500, 500 );
+    private static Point2D.Double starPt = new Point2D.Double( -1600, -1600 );
+    private static Point2D.Double targetPt = new Point2D.Double( 1600, 1800 );
 
     private Star[] starField = new Star[]{
-        new NormalStar( Color.green, 1E6, starPt, 0 ),
-        new NormalStar( Color.yellow, 1E6, new Point2D.Double( 200, 0 ), 0 ),
-        new NormalStar( Color.red, 1E6, targetPt, 0 ),
+        new NormalStar( Color.green, 1E6, starPt, -15 ),
+        new NormalStar( Color.yellow, 1E6, new Point2D.Double( -750, -100 ), -25 ),
+        new NormalStar( Color.yellow, 1E6, new Point2D.Double( 800, 300 ), 35 ),
+        new NormalStar( Color.red, 1E6, targetPt, 20 ),
     };
 
     public Level3( JFrame frame, final UniverseModel model ) {

@@ -105,6 +105,7 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
         private Ellipse2D.Double joystickKnob = new Ellipse2D.Double();
         private double joystickMovementFactor = 10;
         private Point2D.Double dragRef = new Point2D.Double();
+        private double phi;
 
         public JoystickGraphic() {
             super( null, null );
@@ -161,6 +162,22 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
                 mouseReleased( e );
                 return;
             }
+
+//            testPt.setLocation( (double)e.getPoint().getX(), (double)e.getPoint().getY() );
+//            try {
+//                hitTx.inverseTransform( testPt, testPt );
+//            }
+//            catch( NoninvertibleTransformException e1 ) {
+//                e1.printStackTrace();
+//            }
+//            phi = Math.atan(( ( joystickTx.getTranslateY() + joystickControlOffsetY ) - testPt.getY() )
+//                                               / ( (joystickTx.getTranslateX() + joystickControlOffsetX) - testPt.getX() ));
+////            phi = Math.atan(( testPt.getY() - joystickTx.getTranslateY() - joystickControlOffsetY )
+////                                               / ( testPt.getX() - joystickTx.getTranslateX() - joystickControlOffsetX ));
+////            double phi = Math.atan( joystickDx / joystickBaseImage.getHeight() );
+//            System.out.println( "phi: " + Math.toDegrees( phi ) + "  dy: " + ( testPt.getY() - joystickControlOffsetY )
+//                        + " dx: " + ( testPt.getX() - joystickControlOffsetX ) );
+
             joystickDx = e.getPoint().getX() - dragStart.getX();
             double dx = e.getPoint().getX() - dragRef.getX();
             dragRef.setLocation( e.getPoint() );

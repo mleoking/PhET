@@ -11,6 +11,7 @@ import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.StringResourceReader;
+import edu.colorado.phet.distanceladder.exercise.HelpDialog;
 import edu.colorado.phet.distanceladder.model.*;
 import edu.colorado.phet.distanceladder.view.StarMapGraphic;
 import edu.colorado.phet.distanceladder.view.StarshipCoordsGraphic;
@@ -336,10 +337,10 @@ public class CockpitControlPanel extends JPanel {
 
             helpBtn = new JButton( new AbstractAction( "Help" ) {
                 public void actionPerformed( ActionEvent e ) {
-                    JOptionPane.showMessageDialog( ParallaxPanel.this.getRootPane(),
-                                                   new JEditorPane( "text/html; charset=iso-8859-1", parallaxHelp ),
-                                                   "Help",
-                                                   JOptionPane.INFORMATION_MESSAGE );
+                    JDialog dlg = new HelpDialog( (JFrame)SwingUtilities.getRoot( helpBtn ),
+                                                  new JEditorPane( "text/html; charset=iso-8859-1", parallaxHelp ) );
+                    dlg.setLocation( 500, 50 );
+                    dlg.setVisible( true );
                 }
             } );
 
@@ -508,6 +509,7 @@ public class CockpitControlPanel extends JPanel {
 
     private class HyperjumpPanel extends JPanel {
         private String hyperjumpHelp;
+        private JButton helpBtn;
 
         public HyperjumpPanel() {
             super( new GridBagLayout() );
@@ -532,12 +534,12 @@ public class CockpitControlPanel extends JPanel {
                 }
             } );
 
-            JButton helpBtn = new JButton( new AbstractAction( "Help" ) {
+            helpBtn = new JButton( new AbstractAction( "Help" ) {
                 public void actionPerformed( ActionEvent e ) {
-                    JOptionPane.showMessageDialog( HyperjumpPanel.this.getRootPane(),
-                                                   new JEditorPane( "text/html; charset=iso-8859-1", hyperjumpHelp ),
-                                                   "Help",
-                                                   JOptionPane.INFORMATION_MESSAGE );
+                    JDialog dlg = new HelpDialog( (JFrame)SwingUtilities.getRoot( helpBtn ),
+                                                  new JEditorPane( "text/html; charset=iso-8859-1", hyperjumpHelp ) );
+                    dlg.setLocation( 500, 50 );
+                    dlg.setVisible( true );
                 }
             } );
 
