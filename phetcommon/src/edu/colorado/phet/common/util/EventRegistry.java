@@ -15,14 +15,17 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * EventRegistry
+ * EventRegistry. This class lets instances of EventListener register to be notified of events.
+ * It's purpose is to provide a simple and easy to use mechanism for custom events conforming to the
+ * event delegation model of the AWT.
+ * When fireEvent( EventObject event ) is called on the registry, every registered EventListener that has
+ * a public method that takes that type of event as a single parameter and has a return type of void
+ * will have that method called on it.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class EventRegistry {
-
-    public final static EventRegistry instance = new EventRegistry();
+public class EventRegistry implements EventChannel {
 
     // Key: event types
     // Value: list of listener types that handle the key event
@@ -41,13 +44,12 @@ public class EventRegistry {
      *
      * @param listener
      */
-    public void addListener( EventListener listener ) {
+    public synchronized void addListener( EventListener listener ) {
         Class listenerType = listener.getClass();
         Method[] methods = listenerType.getMethods();
         for( int i = 0; i < methods.length; i++ ) {
             Method method = methods[i];
-            if( /*method.getName().endsWith( "Occurred" )
-                &&*/ method.getParameterTypes().length == 1
+            if( method.getParameterTypes().length == 1
                      && EventObject.class.isAssignableFrom( method.getParameterTypes()[0] ) ) {
 
                 // Register the listener on the event type in the method's signature
@@ -61,7 +63,7 @@ public class EventRegistry {
      *
      * @param listener
      */
-    public void removeListener( EventListener listener ) {
+    public synchronized void removeListener( EventListener listener ) {
         Class listenerType = listener.getClass();
         Set set = (Set)listenerTypeToListenersMap.get( listenerType );
         set.remove( listener );
