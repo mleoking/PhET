@@ -58,6 +58,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private ScaledComponentLayout scaledComponentLayout;
     private PanelResizeHandler panelResizeHandler;
     private MouseProcessor mouseProcessor;
+    private AbstractClock clock;
 
     /**
      * Creates a new ApparatusPanel2, observing the specified clock for paused-ness.
@@ -93,6 +94,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     protected void init( AbstractClock clock ) {
+        this.clock = clock;
         // The following lines use a mouse processor in the model loop
         mouseProcessor = new MouseProcessor( getGraphic(), clock );
         this.addMouseListener( mouseProcessor );
@@ -249,6 +251,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * taken by our superclasss' repaint() should only happen in the model loop.
      */
     public void repaint() {
+        if( clock != null && clock.isPaused() ) {
+            super.repaint();
+        }
     }
 
     /**
@@ -636,6 +641,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
             for( int i = 0; i < components.length; i++ ) {
                 Component component = components[i];
                 Point location = component.getLocation();
+
+                // TEST
+                Dimension refSize = component.getPreferredSize();
+//                component.setSize( (int)(refSize.width * scale), (int)(refSize.height * scale ));
+
                 //factor out the old scale, if any.
                 componentOrgLocationsMap.put( component, new Point( (int)( location.x / scale ), (int)( location.y / scale ) ) );
             }
