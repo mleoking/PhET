@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.common.view.components.media;
 
 import edu.colorado.phet.common.model.ApplicationModel;
@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -28,11 +29,11 @@ public class ApplicationModelControlPanel extends JPanel {
     Resettable resetHandler;
     private JButton resetButton;
 
-    public ApplicationModelControlPanel( ApplicationModel runner ) {
+    public ApplicationModelControlPanel( ApplicationModel runner ) throws IOException {
         this( runner, null );
     }
 
-    public ApplicationModelControlPanel( final ApplicationModel runner, final Resettable rh ) {
+    public ApplicationModelControlPanel( final ApplicationModel runner, final Resettable rh ) throws IOException {
         this.model = runner;
         ImageLoader cil = new ImageLoader();
 

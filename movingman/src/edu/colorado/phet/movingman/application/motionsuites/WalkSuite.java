@@ -32,7 +32,7 @@ public class WalkSuite extends MotionSuite {
 
     public WalkSuite( final MovingManModule module ) {
         super( module, "Walk" );
-        motion = new WalkMotion( module.getMotionState() );
+        motion = new WalkMotion( module );
         this.module = module;
 
         //Takes model to view.
@@ -51,7 +51,6 @@ public class WalkSuite extends MotionSuite {
         } );
 
         JPanel velocityPanel = new VerticalLayoutPanel();
-//        velocityPanel.setLayout( new BoxLayout( velocityPanel, BoxLayout.Y_AXIS ) );
         velocityPanel.add( velocitySpinner );
         Border tb = PhetLookAndFeel.createSmoothBorder( "Velocity" );
         velocityPanel.setBorder( tb );
@@ -65,18 +64,8 @@ public class WalkSuite extends MotionSuite {
 
 //Create the label table
         JLabel min = createLabel( "" + minVelocity );
-//        JLabel min=new JLabel(""+minVelocity);
-//        min.setForeground(Color.blue);
-//        min.setFont(new Font("dialog",0,20));
         transformslider.addLabel( minVelocity, min );
-//        JLabel max=new JLabel(""+maxVelocity);
-//        max.setForeground(Color.blue);
-//        max.setFont(new Font("dialog",0,20));
         transformslider.addLabel( maxVelocity, createLabel( "" + maxVelocity ) );
-//        JLabel zero=new JLabel("0.0");
-//        zero.setForeground(Color.blue);
-//        zero.setFont(new Font("dialog",0,20));
-
         transformslider.addLabel( 0, createLabel( "0.0" ) );
         slider.setPaintLabels( true );
 

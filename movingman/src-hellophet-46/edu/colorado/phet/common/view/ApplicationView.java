@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -29,7 +30,7 @@ public class ApplicationView {
 //    private ApparatusPanelContainerFactory containerStrategy;
     private PhetApplication application;
 
-    public ApplicationView( PhetApplication application ) {
+    public ApplicationView( PhetApplication application ) throws IOException {
         this.application = application;
 //        ApparatusPanelContainer appPnlContainer;
         appPnlContainer = application.getContainerStrategy().createApparatusPanelContainer( application.getModuleManager() );

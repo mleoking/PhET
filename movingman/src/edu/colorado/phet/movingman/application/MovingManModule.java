@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.movingman.application;
 
 import edu.colorado.phet.common.application.Module;
@@ -14,13 +14,13 @@ import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.movingman.application.motionsuites.MotionSuite;
 import edu.colorado.phet.movingman.elements.*;
 import edu.colorado.phet.movingman.elements.Timer;
-import edu.colorado.phet.movingman.elements.stepmotions.MotionState;
 import edu.colorado.phet.movingman.elements.stepmotions.StepMotion;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,7 +35,7 @@ public class MovingManModule extends Module {
     private int numResetPoints = 1;//number of points to use in the reset routine.
     private double maxTime = 20;//high time in seconds.
     private boolean paused = true;
-    private MotionState motionState = new MotionState();
+//    private MotionState motionState = new MotionState();
     private double playbackSpeed;
     private Man man;
     private ManGraphic manGraphic;
@@ -54,9 +54,11 @@ public class MovingManModule extends Module {
     private PlotAndText velocityPlot;
 
     private Mode mode;
+
     private Mode dragMode;
     private Mode playbackMode;
     private MotionMode motionMode;
+
     private CursorGraphic cursorGraphic;
     private MovingManControlPanel movingManControlPanel;
     private TimeGraphic timerGraphic;
@@ -70,7 +72,7 @@ public class MovingManModule extends Module {
     private Color purple;
     private PhetFrame frame;
 
-    public MovingManModule() {
+    public MovingManModule() throws IOException {
         super( "The Moving Man" );
         ApparatusPanel mypanel = new ApparatusPanel();
         super.setApparatusPanel( mypanel );
@@ -242,9 +244,9 @@ public class MovingManModule extends Module {
         return purple;
     }
 
-    public MotionState getMotionState() {
-        return motionState;
-    }
+//    public MotionState getMotionState() {
+//        return motionState;
+//    }
 
     public void setNumSmoothingPoints( int n ) {
         position.setNumSmoothingPoints( n );
@@ -386,7 +388,7 @@ public class MovingManModule extends Module {
     public void deactivate( PhetApplication app ) {
     }
 
-    public static void main( String[] args ) throws UnsupportedLookAndFeelException {
+    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         MovingManModule m = new MovingManModule();
         FrameSetup setup = new MaximizeFrame();
@@ -675,6 +677,15 @@ public class MovingManModule extends Module {
         movingManControlPanel.goPressed();
     }
 
+    public double getFinalManPosition() {
+        if( position.getData().size() > 0 ) {
+            return position.getData().getLastPoint();
+        }
+        else {
+            return man.getX();
+        }
+    }
+
     public class MotionMode extends Mode {
         private StepMotion motion;
         private int numSmoothingPointsMotion = 3;
@@ -717,10 +728,10 @@ public class MovingManModule extends Module {
             x = Math.min( x, maxManPosition );
             x = Math.max( x, -maxManPosition );
             if( x == maxManPosition ) {
-                motionState.setVelocity( 0 );
+                man.setVelocity( 0 );
             }
             if( x == -maxManPosition ) {
-                motionState.setVelocity( 0 );
+                man.setVelocity( 0 );
             }
 
             recordingTimer.stepInTime( dt );
@@ -740,12 +751,20 @@ public class MovingManModule extends Module {
 
         private void timeFinished() {
             motionSuite.timeFinished();
+            movingManControlPanel.finishedRecording();
+//            moduleTimeFinished();
+//            moduleTimeFinished();
         }
+
 
         public void collidedWithWall() {
             motionSuite.collidedWithWall();
         }
     }
+
+//    private void moduleTimeFinished() {
+//        movingManControlPanel.timeFinished();
+//    }
 
     class RecordMode extends Mode {
         private int numRecordSmoothingPoints = 12;
@@ -770,7 +789,9 @@ public class MovingManModule extends Module {
         public void stepInTime( double dt ) {
             if( !isPaused() ) {
                 if( recordingTimer.getTime() >= maxTime ) {
+//                    moduleTimeFinished();
                     setPaused( true );
+                    movingManControlPanel.finishedRecording();
                     return;
                 }
 
@@ -787,7 +808,9 @@ public class MovingManModule extends Module {
                 velocity.updateDerivative( dt * TIMER_SCALE );
                 acceleration.updateSmoothedSeries();
                 if( recordingTimer.getTime() >= maxTime ) {
+//                    moduleTimeFinished();
                     setPaused( true );
+                    movingManControlPanel.finishedRecording();
                     return;
                 }
             }
@@ -814,6 +837,7 @@ public class MovingManModule extends Module {
                 else {
                     setPaused( true );
                     movingManControlPanel.setPaused();
+                    movingManControlPanel.playbackFinished();
                 }
             }
         }

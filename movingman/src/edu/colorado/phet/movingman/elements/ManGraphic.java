@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements;
 
 import edu.colorado.phet.common.math.CircularBuffer;
@@ -17,6 +17,7 @@ import edu.colorado.phet.movingman.common.tests.IdeaGraphic2;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Observable;
 
 /**
@@ -44,14 +45,16 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
     private IdeaGraphic2 motionIdea;
     private ArrowWithFixedSizeArrowhead motionArrow;
 
-    public ManGraphic( MovingManModule module, Man m, int y, RangeToRange transform ) {
+    public ManGraphic( MovingManModule module, Man m, int y, RangeToRange transform ) throws IOException {
         this.module = module;
         this.m = m;
         this.y = y;
         this.transform = transform;
         ImageLoader loader = new ImageLoader();
-        standingMan = loader.loadBufferedImage( "images/stand-150.gif" );
-        leftMan = loader.loadBufferedImage( "images/left-150.gif" );
+//        standingMan = loader.loadBufferedImage( "images/stand-150.gif" );
+        standingMan = loader.loadBufferedImage( "images/stand-ii.gif" );
+//        leftMan = loader.loadBufferedImage( "images/left-150.gif" );
+        leftMan = loader.loadBufferedImage( "images/left-ii.gif" );
         int height = 120;
         standingMan = RescaleOp3.rescaleYMaintainAspectRatio( standingMan, height );
         leftMan = RescaleOp3.rescaleYMaintainAspectRatio( leftMan, height );
@@ -78,7 +81,13 @@ public class ManGraphic implements ObservingGraphic, InteractiveGraphic {
                 Color lightBlue = module.getPurple();
                 Font ideaFont = new Font( "Lucida", Font.ITALIC, 18 );
 
-                BufferedImage ideaImage = new ImageLoader().loadBufferedImage( "images/icons/TipOfTheDay24.gif" );
+                BufferedImage ideaImage = null;
+                try {
+                    ideaImage = new ImageLoader().loadBufferedImage( "images/icons/TipOfTheDay24.gif" );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
                 int ideaX = module.getApparatusPanel().getWidth() / 8;
                 ideaGraphic = new IdeaGraphic2( true, ideaX, y + 250, new String[]{"Drag the man"},
                                                 g.getFontRenderContext(), ideaFont, Color.black, ideaImage, lightBlue );

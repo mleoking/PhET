@@ -23,7 +23,7 @@ public class OscillateSuite extends MotionSuite {
     public OscillateSuite( MovingManModule module ) {
         super( module, "Oscillate" );
         this.module = module;
-        oscillate = new OscMotion( module.getMotionState(), .01 );
+        oscillate = new OscMotion( module, .01 );
         double min = 0;
         double max = 2;
         int numSteps = 20;

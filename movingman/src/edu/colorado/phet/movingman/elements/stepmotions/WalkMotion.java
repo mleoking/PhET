@@ -1,6 +1,7 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements.stepmotions;
 
+import edu.colorado.phet.movingman.application.MovingManModule;
 import edu.colorado.phet.movingman.elements.Man;
 
 /**
@@ -10,18 +11,17 @@ import edu.colorado.phet.movingman.elements.Man;
  * Copyright (c) Jul 15, 2003 by Sam Reid
  */
 public class WalkMotion implements StepMotion {
-    double vel = 0;
-    MotionState ms;
-//    boolean started=false;
+    private double vel = 0;
+    private MovingManModule module;
 
-    public WalkMotion( MotionState ms ) {
-        this.ms = ms;
+    public WalkMotion( MovingManModule module ) {
+        this.module = module;
     }
 
+    //TODO this is awkward.
     public double stepInTime( Man man, double dt ) {
         double newPosition = man.getX() + vel * dt;
-//        started=true;
-        ms.setVelocity( vel );
+        module.getMan().setVelocity( vel );
         return newPosition;
     }
 

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class StaticImageGraphic implements Graphic {
 
@@ -18,7 +19,7 @@ public class StaticImageGraphic implements Graphic {
     private int x;
     private int y;
 
-    public StaticImageGraphic( String imageName, int x, int y ) {
+    public StaticImageGraphic( String imageName, int x, int y ) throws IOException {
         this( new ImageLoader().loadBufferedImage( imageName ), x, y );
     }
 

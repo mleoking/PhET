@@ -34,6 +34,7 @@ public abstract class MotionSuite {
     private JDialog dialog;
     private static ArrayList dialogs = new ArrayList();
     private MovingManModule module;
+    private ChangeListener changeListener;
 
     public MotionSuite( final MovingManModule module, String name ) {
         this.module = module;
@@ -44,7 +45,7 @@ public abstract class MotionSuite {
         this.controlPanel = new VerticalLayoutPanel();
 
         initialPositionSpinner = new JSpinner( new SpinnerNumberModel( 0.0, -10, 10, 1 ) );
-        initialPositionSpinner.addChangeListener( new ChangeListener() {
+        changeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Number loc = (Number)initialPositionSpinner.getValue();
                 double init = loc.doubleValue();
@@ -54,7 +55,8 @@ public abstract class MotionSuite {
                 module.getMovingManControlPanel().setRunningState();
                 goButton.setEnabled( true );
             }
-        } );
+        };
+        initialPositionSpinner.addChangeListener( changeListener );
         Border tb = PhetLookAndFeel.createSmoothBorder( "Initial Position" );
 
         initialPositionSpinner.setBorder( tb );
@@ -115,6 +117,11 @@ public abstract class MotionSuite {
         pauseButton.setEnabled( false );
         goButton.setEnabled( true );
         setInitialPositionEnabled();
+        setValueNoNotify( initialPositionSpinner,
+//                          module.getMan().getX(),
+                          module.getFinalManPosition(),
+//                          module.getPosition().getData().getLastPoint(),
+                          changeListener );
     }
 
     protected MovingManModule getModule() {
@@ -234,6 +241,7 @@ public abstract class MotionSuite {
                 module.getMovingManControlPanel().resetComboBox();
             }
         } );
+        setValueNoNotify( initialPositionSpinner, module.getMan().getX(), changeListener );
 //        controls.getInitialPositionSpinner().setValue( new Double( module.getMan().getX() ) );
         //TODO this causes resets.
 
@@ -253,6 +261,12 @@ public abstract class MotionSuite {
         dialog.setContentPane( panel );
         dialog.setTitle( getName() );
         dialog.pack();
+    }
+
+    public static void setValueNoNotify( JSpinner spinner, double x, ChangeListener changeListener ) {
+        spinner.removeChangeListener( changeListener );
+        spinner.setValue( new Double( x ) );
+        spinner.addChangeListener( changeListener );
     }
 
     private void repaintNowAndLater() {

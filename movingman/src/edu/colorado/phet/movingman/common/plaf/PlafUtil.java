@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.movingman.common.plaf;
 
 import javax.swing.*;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class PlafUtil {
     static {
-        UIManager.installLookAndFeel( "Purple", new PurpleLookAndFeel().getClass().getName() );
+//        UIManager.installLookAndFeel( "Purple", new PurpleLookAndFeel().getClass().getName() );
         UIManager.installLookAndFeel( "Canary", new ClientLookAndFeel().getClass().getName() );
     }
 

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.movingman.common;
 
 import java.awt.*;
@@ -48,6 +48,9 @@ public class RescaleOp3 {
         BufferedImage newImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = newImage.createGraphics();
         AffineTransform at = AffineTransform.getScaleInstance( dx, dy );
+        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+        g2.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY );
+        g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY );
         g2.drawRenderedImage( in, at );
         return newImage;
     }

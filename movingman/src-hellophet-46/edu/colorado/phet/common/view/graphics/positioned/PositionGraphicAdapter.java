@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.common.view.graphics.positioned;
 
 import edu.colorado.phet.common.view.graphics.Graphic;

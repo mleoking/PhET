@@ -1,6 +1,7 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements.stepmotions;
 
+import edu.colorado.phet.movingman.application.MovingManModule;
 import edu.colorado.phet.movingman.elements.Man;
 
 /**
@@ -11,26 +12,22 @@ import edu.colorado.phet.movingman.elements.Man;
  */
 public class AccelMotion implements StepMotion {
     double accel = 0;
-    MotionState motionState;
+    private MovingManModule module;
 
-    public AccelMotion( MotionState motionState ) {
-        this.motionState = motionState;
+    public AccelMotion( MovingManModule module ) {
+        this.module = module;
     }
 
-    public AccelMotion( MotionState motionState, double accel ) {
-        this.motionState = motionState;
+    public AccelMotion( MovingManModule module, double accel ) {
+        this.module = module;
         this.accel = accel;
     }
 
     public double stepInTime( Man man, double dt ) {
-        double velocity = motionState.getVelocity() + accel * dt;
-        motionState.setVelocity( velocity );
+        double velocity = module.getMan().getVelocity() + accel * dt;
+        module.getMan().setVelocity( velocity );
         double position = man.getX() + velocity * dt;
         return position;
-    }
-
-    public MotionState getMotionState() {
-        return motionState;
     }
 
     public void setAcceleration( double accel ) {

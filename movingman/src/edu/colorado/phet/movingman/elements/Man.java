@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.movingman.elements;
 
 import edu.colorado.phet.common.model.ModelElement;
@@ -13,10 +13,19 @@ public class Man extends ModelElement {
     double x;
     double x0;
     boolean grabbed = false;
+    double velocity;
 
     public Man( double x ) {
         this.x0 = x;
         this.x = x;
+    }
+
+    public double getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity( double velocity ) {
+        this.velocity = velocity;
     }
 
     public void stepInTime( double dt ) {
