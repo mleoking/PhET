@@ -28,7 +28,6 @@ public class CompositeModelElement implements ModelElement {
         for( int i = 0; i < numModelElements(); i++ ) {
             modelElementAt( i ).stepInTime( dt );
         }
-//        updateObservers();
     }
 
     public void removeModelElement( ModelElement m ) {

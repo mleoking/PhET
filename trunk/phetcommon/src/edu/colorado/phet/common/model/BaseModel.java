@@ -1,6 +1,4 @@
 /**
- * Class: HelloPhetModel
- * Package: edu.colorado.phet.common.examples.hellophet.model
  * Author: Another Guy
  * Date: May 20, 2003
  */
