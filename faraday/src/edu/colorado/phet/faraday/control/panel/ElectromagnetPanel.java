@@ -211,6 +211,19 @@ public class ElectromagnetPanel extends FaradayPanel {
     }
     
     //----------------------------------------------------------------------------
+    // Feature controls
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Access to the "Show Field Meter" control.
+     * 
+     * @param visible true or false
+     */
+    public void setFieldMeterEnabled( boolean visible ) {
+        _fieldMeterCheckBox.setVisible( visible );
+    } 
+    
+    //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
 

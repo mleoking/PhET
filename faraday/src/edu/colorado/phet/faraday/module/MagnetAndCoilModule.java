@@ -41,10 +41,10 @@ public class MagnetAndCoilModule extends FaradayModule {
     
     // Rendering layers
     private static final double GRID_LAYER = 1;
-    private static final double COIL_BACK_LAYER = 2;
+    private static final double PICKUP_COIL_BACK_LAYER = 2;
     private static final double BAR_MAGNET_LAYER = 3;
     private static final double COMPASS_LAYER = 4;
-    private static final double COIL_FRONT_LAYER = 5;
+    private static final double PICKUP_COIL_FRONT_LAYER = 5;
     private static final double FIELD_METER_LAYER = 6;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
@@ -141,12 +141,12 @@ public class MagnetAndCoilModule extends FaradayModule {
         apparatusPanel.addChangeListener( barMagnetGraphic );
         apparatusPanel.addGraphic( barMagnetGraphic, BAR_MAGNET_LAYER );
         
-        // Pickup AbstractCoil
+        // Pickup Coil
         PickupCoilGraphic pickupCoilGraphic = 
             new PickupCoilGraphic( apparatusPanel, model, pickupCoilModel, lightbulbModel, voltmeterModel, rescaler );
         apparatusPanel.addChangeListener( pickupCoilGraphic );
-        apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), COIL_FRONT_LAYER );
-        apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), COIL_BACK_LAYER );
+        apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
+        apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
