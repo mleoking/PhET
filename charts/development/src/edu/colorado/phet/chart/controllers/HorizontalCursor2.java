@@ -66,6 +66,10 @@ public class HorizontalCursor2 extends CompositePhetGraphic {
         setModelX( x );
     }
 
+    public double getMaxX() {
+        return maxX;
+    }
+
     public interface Listener {
         public void modelValueChanged( double modelX );
     }
