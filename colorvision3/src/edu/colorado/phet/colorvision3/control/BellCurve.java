@@ -27,11 +27,11 @@ public class BellCurve extends PhetShapeGraphic
    * @param component the parent Component
    * @param x the X coordinate of the curve's location
    * @param y the Y coordinate of the curve's location
-   * @param w the width of the curve, in pixels
-   * @param h the height of the curve, in pixels
+   * @param width the width of the curve, in pixels
+   * @param height the height of the curve, in pixels
    * @param angle angle to rotate, in radians
    */
-  public BellCurve( Component component, int x, int y, int w, int h, double angle )
+  public BellCurve( Component component, int x, int y, int width, int height, double angle )
   {
     super( component, null, null );
     
@@ -45,13 +45,13 @@ public class BellCurve extends PhetShapeGraphic
     
     // Create the path that describes the curve.
     GeneralPath path = new GeneralPath();
-    path.moveTo(  -.50f * w, 1f * h ); // lower left
-    path.curveTo( -.25f * w, 1f * h,
-                  -.25f * w, 0f * h, 
-                     0f * w, 0f * h  ); // left curve
-    path.curveTo(  .25f * w, 0f * h, 
-                   .25f * w, 1f * h,
-                   .50f * w, 1f * h ); // right curve
+    path.moveTo(  -.50f * width, 1f * height ); // lower left
+    path.curveTo( -.25f * width, 1f * height,
+                  -.25f * width, 0f * height, 
+                     0f * width, 0f * height  ); // left curve
+    path.curveTo(  .25f * width, 0f * height, 
+                   .25f * width, 1f * height,
+                   .50f * width, 1f * height ); // right curve
     Shape shape = path;
     
     // Rotate and translate.
