@@ -104,7 +104,7 @@ public class BlockGraphic extends CompositePhetGraphic {
             if( obj instanceof RoundRect ) {
                 RoundRect roundRect = (RoundRect)obj;
                 return roundRect.getX() == x && roundRect.getY() == y && roundRect.getWidth() == getWidth() && roundRect.getHeight() == getHeight() &&
-                       roundRect.getArcWidth() == getArcWidth() && roundRect.getArcHeight() == getArcHeight();
+                        roundRect.getArcWidth() == getArcWidth() && roundRect.getArcHeight() == getArcHeight();
             }
             return false;
         }

@@ -1,7 +1,6 @@
 package edu.colorado.phet.forces1d.common.plotdevice;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
 
 import java.awt.*;
 
@@ -22,6 +21,6 @@ public interface PlotDeviceView {
 
     void repaintBackground( Rectangle viewBounds );
 
-    BufferedPhetGraphic getBackground();
+//    BufferedPhetGraphic getBackground();
 
 }

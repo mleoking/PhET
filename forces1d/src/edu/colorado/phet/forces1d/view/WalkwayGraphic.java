@@ -133,7 +133,13 @@ public class WalkwayGraphic extends PhetGraphic {
     }
 
     public int getPlatformY() {
+//        floor = new Rectangle( 0, height - 20, getComponent().getWidth(), floorHeight );
         floor = new Rectangle( 0, height - 20, getComponent().getWidth(), floorHeight );
         return floor.y;
+    }
+
+    public void setBounds( int x, int y, int width, int height ) {
+        floor = new Rectangle( x, y, width, height );
+        update();
     }
 }
