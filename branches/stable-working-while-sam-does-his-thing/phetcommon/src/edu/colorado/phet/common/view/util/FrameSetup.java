@@ -91,7 +91,11 @@ public interface FrameSetup {
             if( pre != null ) {
                 pre.initialize( frame );
             }
-            GraphicsUtil.maximizeFrame( frame );
+            int state = frame.getExtendedState();
+            // Set the maximized bits
+            state |= Frame.MAXIMIZED_BOTH;
+            // Maximize the frame
+            frame.setExtendedState( state );
         }
     }
 }
