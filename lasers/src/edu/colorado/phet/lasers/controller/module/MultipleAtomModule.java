@@ -96,11 +96,6 @@ public class MultipleAtomModule extends BaseLaserModule {
         Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)seedBeamBounds.getX() - 100,
                                                               (int)( seedBeamBounds.getY() ),
                                                               100, (int)seedBeamBounds.getHeight() );
-        double scaleX = allocatedBounds.getWidth() / gunBI.getWidth();
-        double scaleY = allocatedBounds.getHeight() / gunBI.getHeight();
-
-        AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ), AffineTransformOp.TYPE_BILINEAR );
-        BufferedImage beamImage = atxOp1.filter( gunBI, null );
         AffineTransform atx = new AffineTransform();
         atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
 
@@ -173,9 +168,7 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         Atom atom = null;
         atoms = new ArrayList();
-        //        int numAtoms = 1;
         int numAtoms = 20;
-        //        int numAtoms = 20;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new Atom( getModel() );
             boolean placed = false;
