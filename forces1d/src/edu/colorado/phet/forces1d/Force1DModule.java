@@ -8,6 +8,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.ColorDialog;
 import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
@@ -36,6 +37,7 @@ public class Force1DModule extends Module {
     private Force1dObject[] imageElements;
     private static boolean readyToRender = false;
     private DefaultPlaybackPanel playbackPanel;
+    private PhetFrame phetFrame;
 
     public Force1DModule( AbstractClock clock ) throws IOException {
         this( clock, "Advanced Controls" );
@@ -151,9 +153,18 @@ public class Force1DModule extends Module {
             }
         } );
         options.add( item );
+
         phetApplication.getPhetFrame().addMenu( options );
+//        PersistenceUtil.addMenuItems( phetApplication );
         phetApplication.startApplication();
+
         new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
+        simpleModule.setPhetFrame( phetApplication.getPhetFrame() );
+        module.setPhetFrame( phetApplication.getPhetFrame() );
+    }
+
+    private void setPhetFrame( PhetFrame phetFrame ) {
+        this.phetFrame = phetFrame;
     }
 
     private void showColorDialog() {
@@ -204,5 +215,7 @@ public class Force1DModule extends Module {
         return imageElements;
     }
 
-
+    public PhetFrame getPhetFrame() {
+        return phetFrame;
+    }
 }

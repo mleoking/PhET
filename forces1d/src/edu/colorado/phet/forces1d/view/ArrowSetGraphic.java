@@ -27,8 +27,8 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     private ForceArrowGraphic applied;
     private ForceArrowGraphic friction;
     private ForceArrowGraphic total;
+    private ForceArrowGraphic wall;
 
-//    public static final double forceLengthScale = 12;
     public static final double forceLengthScale = 0.5;
     private double arrowTailWidth = 30;
     private double arrowHeadHeight = 55;
@@ -54,12 +54,18 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         } );
         total = new ForceArrowGraphic( force1DPanel, "Total Force", laf.getNetForceColor(), 60, new ForceComponent() {
             public double getForce() {
-                return model.getTotalForce();
+                return model.getNetForce();
+            }
+        } );
+        wall = new ForceArrowGraphic( force1DPanel, "Wall Force", laf.getWallForceColor(), 60, new ForceComponent() {
+            public double getForce() {
+                return model.getWallForce();
             }
         } );
         addGraphic( applied );
         addGraphic( friction );
         addGraphic( total );
+        addGraphic( wall );
     }
 
     static interface ForceComponent {
@@ -92,6 +98,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
 
         public void update() {
             double force = forceComponent.getForce();
+//            System.out.println( "force: "+name+" = " + force );
             if( force == 0 ) {
                 setVisible( false );
                 return;
@@ -126,7 +133,9 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     private void updateForceArrows() {
         friction.update();
         applied.update();
+        wall.update();
         total.update();
+
         checkTextOverlap();
     }
 

@@ -56,6 +56,9 @@ public class LeanerGraphic extends PhetImageGraphic {
 
             public void gravityChanged() {
             }
+
+            public void wallForceChanged() {
+            }
         } );
     }
 

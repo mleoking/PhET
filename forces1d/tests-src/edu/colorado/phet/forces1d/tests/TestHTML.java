@@ -43,7 +43,7 @@ public class TestHTML {
 
 
 //        ap.setLayout( new BorderLayout());
-//        ap.add(button,BorderLayout.CENTER);
+//        ap.addTo(button,BorderLayout.CENTER);
         HTMLGraphic htmlGraphic = new HTMLGraphic( ap, "HELLO", new Font( "Lucida Sans", 0, 28 ), Color.black );
         htmlGraphic.setLocation( 300, 300 );
         ap.addGraphic( htmlGraphic );

@@ -15,7 +15,7 @@ import javax.swing.event.ChangeListener;
  */
 
 public class SimpleControlPanel extends ControlPanel {
-    private FreeBodyDiagramPanel freeBodyDiagramPanel;
+    private FreeBodyDiagramSuite fbdSuite;
 
     public SimpleControlPanel( final SimpleForceModule simpleForceModule ) {
         super( simpleForceModule );
@@ -26,14 +26,15 @@ public class SimpleControlPanel extends ControlPanel {
             }
         } );
 
-        freeBodyDiagramPanel = new FreeBodyDiagramPanel( simpleForceModule );
-        add( freeBodyDiagramPanel.getCheckBox() );
-        add( freeBodyDiagramPanel.getApparatusPanel() );
+        fbdSuite = new FreeBodyDiagramSuite( simpleForceModule );
+        fbdSuite.addTo( this );
         add( frictionCheckBox );
+        BarrierCheckBox barriers = new BarrierCheckBox( simpleForceModule );
+        add( barriers );
         super.setHelpPanelEnabled( true );
     }
 
     public void updateGraphics() {
-        freeBodyDiagramPanel.updateGraphics();
+        fbdSuite.updateGraphics();
     }
 }

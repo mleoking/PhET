@@ -29,7 +29,7 @@ public class BlockGraphic extends CompositePhetGraphic {
     private Force1DPanel panel;
     private Force1dObject force1dObject;
     private Point lastCenter;
-    private MouseInputAdapter mouseListener;
+    private ThresholdedDragAdapter mouseListener;
 
     public BlockGraphic( Force1DPanel panel, final Block block, final Force1DModel model,
                          ModelViewTransform2D transform2D, final Function.LinearFunction transform1d, Force1dObject force1dObject ) {
@@ -46,21 +46,28 @@ public class BlockGraphic extends CompositePhetGraphic {
 
         update();
 
-        this.mouseListener = new MouseInputAdapter() {
+        MouseInputAdapter mia = new MouseInputAdapter() {
             public void mouseDragged( MouseEvent e ) {
                 Point ctr = getCenter();
                 double dx = e.getPoint().x - ctr.x;
                 double appliedForce = dx / ArrowSetGraphic.forceLengthScale;
                 model.setAppliedForce( appliedForce );
             }
+
+            // implements java.awt.event.MouseListener
+            public void mouseReleased( MouseEvent e ) {
+                model.setAppliedForce( 0.0 );
+            }
         };
+
+        this.mouseListener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
         addMouseInputListener( this.mouseListener );
         setCursorHand();
     }
-
-    public MouseInputAdapter getMouseListener() {
-        return mouseListener;
-    }
+//
+//    public MouseInputListener getMouseListener() {
+//        return mouseListener;
+//    }
 
     public void setImage( Force1dObject force1dObject ) {
         this.force1dObject = force1dObject;
@@ -83,27 +90,6 @@ public class BlockGraphic extends CompositePhetGraphic {
     public Block getBlock() {
         return block;
     }
-
-//    //Workaround for lack of equals in java's RoundRectangle2D.
-//    public static class RoundRect extends RoundRectangle2D.Double {
-//
-//        public RoundRect( double x, double y, double w, double h, double arcw, double arch ) {
-//            super( x, y, w, h, arcw, arch );
-//        }
-//
-//        public boolean equals( Object obj ) {
-//            if( obj instanceof RoundRect ) {
-//                RoundRect roundRect = (RoundRect)obj;
-//                return roundRect.getX() == x && roundRect.getY() == y && roundRect.getWidth() == getWidth() && roundRect.getHeight() == getHeight() &&
-//                        roundRect.getArcWidth() == getArcWidth() && roundRect.getArcHeight() == getArcHeight();
-//            }
-//            return false;
-//        }
-//
-//        public String toString() {
-//            return "x=" + super.getX() + ", y=" + super.getY() + ", width=" + super.getWidth() + ", height=" + super.getHeight();
-//        }
-//    }
 
     public void update() {
         double mass = block.getMass();

@@ -7,7 +7,7 @@ import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.LayoutUtil;
@@ -50,13 +50,14 @@ public class Force1DPanel extends ApparatusPanel2 {
     private OffscreenPointerGraphic offscreenPointerGraphic;
     private BufferedPhetGraphic backgroundGraphic;
     private PlotDevice accelPlotDevice;
-    private PhetShapeGraphic debugGraphic;
+//    private PhetShapeGraphic debugGraphic;
     private PlotDevice velPlotDevice;
     private PlotDevice posPlotDevice;
     private WiggleMe wiggleMe;
     private Color top = new Color( 230, 255, 230 );
     private Color bottom = new Color( 180, 200, 180 );
     private FloatingControl floatingControl;
+    private WiggleMe fbdWiggleMe;
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         super( module.getModel(), module.getClock() );
@@ -134,6 +135,9 @@ public class Force1DPanel extends ApparatusPanel2 {
 
             public void gravityChanged() {
             }
+
+            public void wallForceChanged() {
+            }
         } );
         Font checkBoxFont = new Font( "Lucida Sans", Font.PLAIN, 14 );
 
@@ -159,7 +163,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         floatingControl = new FloatingControl( forcePlotDevice.getPlotDeviceModel(), this );
         floatingControl.add( checkBoxPanel );
         add( floatingControl );
-//        forcePlotDevice.getFloatingControl().add( checkBoxPanel );
+//        forcePlotDevice.getFloatingControl().addTo( checkBoxPanel );
 
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
@@ -190,7 +194,6 @@ public class Force1DPanel extends ApparatusPanel2 {
         repaintDebugGraphic.setActive( false );
 
         freeBodyDiagram = new FreeBodyDiagram( this, module );
-//        addGraphic( freeBodyDiagram, 50 );
 
         offscreenPointerGraphic = new OffscreenPointerGraphic( this, blockGraphic, walkwayGraphic );
         addGraphic( offscreenPointerGraphic, 1000 );
@@ -221,13 +224,27 @@ public class Force1DPanel extends ApparatusPanel2 {
             public void appliedForceChanged() {
                 wiggleMe.setVisible( false );
                 removeGraphic( wiggleMe );
+                fbdWiggleMe.setVisible( false );
+                removeGraphic( fbdWiggleMe );
             }
 
             public void gravityChanged() {
             }
+
+            public void wallForceChanged() {
+            }
         } );
-        debugGraphic = new PhetShapeGraphic( this, null, Color.red );
-        addGraphic( debugGraphic );
+
+        fbdWiggleMe = new WiggleMe( this, "Click to set Force", new WiggleMe.Target() {
+            public Point getLocation() {
+                return new Point( getWidth(), 100 );
+            }
+
+            public int getHeight() {
+                return 0;
+            }
+        } );
+        fbdWiggleMe.setVisible( false );
 
         accelPlotDevice.setVisible( false );
         velPlotDevice.setVisible( false );
@@ -295,22 +312,14 @@ public class Force1DPanel extends ApparatusPanel2 {
             backgroundGraphic.setSize( width, height );
             GradientPaint background = new GradientPaint( 0, 0, top, 0, getHeight(), bottom );
             backgroundGraphic.setBackground( background );
-//            int fbdX = 15;
             int walkwayHeight = width / 6;
-//            int fbdWidth = 0;
-//            int fbdHeight = 0;
 
-//            int fbdWalkwayInset = 7;
-//            int fbdWalkwayInset = 0;
             int walkwayInset = 5;
             int walkwayX = walkwayInset;
             int walkwayY = 0;
             int walkwayWidth = width - walkwayInset * 2;
             walkwayTransform.setOutput( walkwayX, walkwayX + walkwayWidth );
             walkwayGraphic.setBounds( walkwayX, walkwayY, walkwayWidth, walkwayHeight );
-
-//            int fbdY = 15;
-//            freeBodyDiagram.setBounds( fbdX, fbdY, fbdWidth, fbdHeight );
 
             layoutPlots( width, height );
 
@@ -397,6 +406,23 @@ public class Force1DPanel extends ApparatusPanel2 {
         repaintBuffer();
         forcePlotDevice.reset();
         repaint( 0, 0, getWidth(), getHeight() );
+        if( !freeBodyDiagram.isUserClicked() ) {//TODO maybe this should be smarter.
+            fbdWiggleMe.setVisible( true );
+            if( !containsGraphic( fbdWiggleMe ) ) {
+                addGraphic( fbdWiggleMe );
+            }
+        }
+    }
+
+    private boolean containsGraphic( PhetGraphic graphic ) {
+        PhetGraphic[] g = getGraphic().getGraphics();
+        for( int i = 0; i < g.length; i++ ) {
+            PhetGraphic phetGraphic = g[i];
+            if( phetGraphic == graphic ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Force1DModule getModule() {
