@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.sound.SoundConfig;
+import edu.colorado.phet.sound.SingleSourceModule;
 import edu.colorado.phet.sound.model.SoundModel;
 
 import javax.swing.*;
@@ -60,7 +61,7 @@ public class SoundControlPanel extends PhetControlPanel {
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new AudioControlPanel( (SoundModel)module.getModel() ),
+                GraphicsUtil.addGridBagComponent( this, new AudioControlPanel( (SingleSourceModule)module ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
@@ -202,7 +203,7 @@ public class SoundControlPanel extends PhetControlPanel {
     private static class AudioControlPanel extends JPanel {
         private JCheckBox audioOnOffCB;
 
-        AudioControlPanel( final SoundModel model ) {
+        AudioControlPanel( final SingleSourceModule module ) {
             this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
             this.setPreferredSize( new Dimension( 125, 100 ) );
 
@@ -212,7 +213,7 @@ public class SoundControlPanel extends PhetControlPanel {
             audioOnOffPanel.add( audioOnOffCB );
             audioOnOffCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
-                    model.setAudioEnabled( audioOnOffCB.isSelected() );
+                    module.setAudioEnabled( audioOnOffCB.isSelected() );
                 }
             } );
             this.add( audioOnOffCB );
@@ -234,7 +235,7 @@ public class SoundControlPanel extends PhetControlPanel {
                     int source = speakerRB.isSelected()
                                  ? SoundApparatusPanel.SPEAKER_SOURCE
                                  : SoundApparatusPanel.LISTENER_SOURCE;
-                    model.setAudioSource( source );
+                    module.setAudioSource( source );
                     //                    SingleSourceApparatusPanel sap = (SingleSourceApparatusPanel)PhetApplication.instance().getPhetMainPanel().getApparatusPanel();
                     //                    sap.determineAudioReferencPt( /*sap.getAudioReferencPt()*/ );
                     //                    sap.setPrimaryOscillatorFrequency( sap.getPrimaryOscillatorFrequency() );
@@ -247,7 +248,7 @@ public class SoundControlPanel extends PhetControlPanel {
                     int source = listenerRB.isSelected()
                                  ? SoundApparatusPanel.LISTENER_SOURCE
                                  : SoundApparatusPanel.SPEAKER_SOURCE;
-                    model.setAudioSource( source );
+                    module.setAudioSource( source );
                     //                    ( (SingleSourceApparatusPanel)application.getPhetMainPanel().getApparatusPanel() ).determineAudioReferencPt();
                 }
             } );

@@ -55,7 +55,6 @@ public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPla
         isEnabled = enabled;
         if( isEnabled ) {
             super.setAmplitude( (float)amplitudeInternal );
-            System.out.println( "amplitudeInternal = " + amplitudeInternal );
         }
         else {
             super.setAmplitude( 0 );
@@ -98,12 +97,13 @@ public class WavefrontOscillator extends /*MyOscillatorPlayer*/ SrrOscillatorPla
         // need to make this assignment so that the following if() will test false when
         // frequency == 0.
         frequency = frequency == 0 ? 0.1f : frequency;
-        if( frequency * 10 != getFrequency() ) {
-            setFrequency( (float)frequency * 10 );
+        if( frequency != getFrequency() ) {
+            setFrequency( (float)frequency );
         }
 //        amplitudeInternal = amplitude;
 //        if( isEnabled && amplitude != getAmplitude() ) {
             setAmplitude( (float)amplitude );
 //        }
+        System.out.println( "f: " + frequency + "  a: " + amplitude );
     }
 }

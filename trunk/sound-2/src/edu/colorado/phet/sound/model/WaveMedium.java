@@ -6,11 +6,9 @@
  */
 package edu.colorado.phet.sound.model;
 
-import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.SimpleObservable;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.ArrayList;
 
 public class WaveMedium extends SimpleObservable implements ModelElement {
@@ -31,6 +29,7 @@ public class WaveMedium extends SimpleObservable implements ModelElement {
 
     /**
      * Returns the length of the longest wavefront in the medium
+     *
      * @return
      */
     public int getMaxX() {
@@ -57,6 +56,7 @@ public class WaveMedium extends SimpleObservable implements ModelElement {
     /**
      * Returns the combined amplitude of all wavefronts in the medium at
      * a specified point in the medium
+     *
      * @param x
      * @return
      */
@@ -65,9 +65,9 @@ public class WaveMedium extends SimpleObservable implements ModelElement {
         int wavefrontCount = 0;
         for( int i = 0; i < wavefronts.size(); i++ ) {
             Wavefront wavefront = (Wavefront)wavefronts.get( i );
-           if( wavefront.isEnabled() ) {
+            if( wavefront.isEnabled() ) {
                 wavefrontCount++;
-               amplitude += wavefront.getAmplitude()[ (int)x ];
+                amplitude += wavefront.getAmplitude()[(int)x];
             }
         }
         amplitude /= wavefrontCount;

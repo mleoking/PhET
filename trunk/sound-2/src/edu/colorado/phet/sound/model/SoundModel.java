@@ -132,8 +132,10 @@ public class SoundModel extends BaseModel {
      *
      */
     public void setFrequency( double frequency ) {
-        primaryWavefront.setFrequency( frequency / SoundConfig.s_frequencyDisplayFactor );
-        octaveWavefront.setFrequency( 2 * frequency / SoundConfig.s_frequencyDisplayFactor );
+        primaryWavefront.setFrequency( frequency );
+//        primaryWavefront.setFrequency( frequency / SoundConfig.s_frequencyDisplayFactor );
+        octaveWavefront.setFrequency( 2 * frequency );
+//        octaveWavefront.setFrequency( 2 * frequency / SoundConfig.s_frequencyDisplayFactor );
     }
 
     /**
