@@ -19,7 +19,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class Thermometer extends PhetGraphic /*extends AbstractGauge*/ {
+public class Thermometer extends PhetGraphic {
     private static Color color = Color.red;
     private BarGauge gauge;
     private Ellipse2D.Double bulb;

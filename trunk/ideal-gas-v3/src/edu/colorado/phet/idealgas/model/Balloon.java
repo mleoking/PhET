@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
+import edu.colorado.phet.collision.CollidableBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.util.ScalarDataRecorder;
@@ -41,8 +42,8 @@ public class Balloon extends HollowSphere {
     public Balloon( Point2D center,
                     Vector2D velocity,
                     Vector2D acceleration,
-                    float mass,
-                    float radius,
+                    double mass,
+                    double radius,
                     Box2D box,
                     AbstractClock clock ) {
         super( center, velocity, acceleration, mass, radius );
@@ -66,66 +67,52 @@ public class Balloon extends HollowSphere {
                                                      0,
                                                      GasMolecule.s_defaultRadius );
 
-//    public void collideWithParticle( CollidableBody particle ) {
-//
-//        // Get the momentum of the balloon before the collision
+    public void collideWithParticle( CollidableBody particle ) {
+
+        // Get the momentum of the balloon before the collision
 //        momentumPre.setX( getVelocity().getX() );
 //        momentumPre.setY( getVelocity().getY() );
 //        momentumPre = momentumPre.scale( this.getMass() );
-//
-//        // This bizarre copying from one object to another is a total hack that
-//        // was made neccessary by the creation of the CollisionGod class, and the
-//        // fact that some of the system uses Particles from the common code, and
-//        // some of it uses Particles from the ideal gas code. It is an embarassing
-//        // mess that ought to be straightened out.
+
+        // This bizarre copying from one object to another is a total hack that
+        // was made neccessary by the creation of the CollisionGod class, and the
+        // fact that some of the system uses Particles from the common code, and
+        // some of it uses Particles from the ideal gas code. It is an embarassing
+        // mess that ought to be straightened out.
 //        sphericalBody.setPosition( particle.getPosition() );
 //        sphericalBody.setVelocity( particle.getVelocity() );
 //        super.collideWithParticle( sphericalBody );
-//
-//        // Get the new momentum of the balloon
-//        momentumPost.setX( this.getVelocity().getX() );
-//        momentumPost.setY( this.getVelocity().getY() );
-//        momentumPost = momentumPost.scale( this.getMass() );
-//
-//        // Compute the change in momentum and record it as pressure
-//        Vector2D momentumChange = momentumPost.subtract( momentumPre );
-//        double impact = momentumChange.getMagnitude();
-//        ScalarDataRecorder recorder = this.containsBody( particle )
-//                                      ? insidePressureRecorder
-//                                      : outsidePressureRecorder;
-//        recorder.addDataRecordEntry( impact );
-//    }
 
-    public void recordImpact( float impact,
-                              Body body ) {
-        ScalarDataRecorder recorder = this.containsBody( body )
+        // Get the new momentum of the balloon
+        momentumPost.setX( this.getVelocity().getX() );
+        momentumPost.setY( this.getVelocity().getY() );
+        momentumPost = momentumPost.scale( this.getMass() );
+
+        // Compute the change in momentum and record it as pressure
+        Vector2D momentumChange = momentumPost.subtract( momentumPre );
+        double impact = momentumChange.getMagnitude();
+        ScalarDataRecorder recorder = this.containsBody( particle )
                                       ? insidePressureRecorder
                                       : outsidePressureRecorder;
         recorder.addDataRecordEntry( impact );
+        momentumPre.setComponents( momentumPost.getX(), momentumPost.getY() );
     }
 
-//    /**
-//     * @return
-//     */
-//    public double getInsidePressure() {
-//        return insidePressureRecorder.getDataTotal();
-//    }
-//
-//    /**
-//     * @return
-//     */
-//    public double getOutsidePressure() {
-//        return outsidePressureRecorder.getDataTotal();
-//    }
+    public boolean containsBody( Body body ) {
+        double distSq = this.getCenter().distanceSq( body.getCM() );
+        return distSq < this.getRadius() * this.getRadius();
+    }
 
     /**
      * @param dt
      */
-    public void stepInTime( float dt ) {
+    public void stepInTime( double dt ) {
 
         super.stepInTime( dt );
 
         // Compute average pressure differential
+        insidePressureRecorder.computeDataStatistics();
+        outsidePressureRecorder.computeDataStatistics();
         double currInOutPressureRatio = insidePressureRecorder.getDataTotal() / outsidePressureRecorder.getDataTotal();
         if( !Double.isNaN( currInOutPressureRatio )
             && currInOutPressureRatio != 0
@@ -143,9 +130,9 @@ public class Balloon extends HollowSphere {
         if( timeStepsSinceLastRadiusAdjustment >= timeStepsBetweenRadiusAdjustments ) {
             timeStepsSinceLastRadiusAdjustment = 0;
 
-            float newRadius = (float)Math.min( this.getRadius() * Math.pow( aveInOutPressureRatio, dampingExponent ), maxRadius );
+            double newRadius = Math.min( this.getRadius() * Math.pow( aveInOutPressureRatio, dampingExponent ), maxRadius );
             if( !Double.isNaN( newRadius ) ) {
-                newRadius = (float)Math.min( maxRadius, Math.max( newRadius, 20 ) );
+                newRadius = Math.min( maxRadius, Math.max( newRadius, 20 ) );
                 this.setRadius( newRadius );
             }
         }

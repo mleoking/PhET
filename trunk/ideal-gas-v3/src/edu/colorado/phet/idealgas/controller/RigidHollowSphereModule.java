@@ -18,7 +18,6 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 public class RigidHollowSphereModule extends IdealGasModule implements GasSource {
 
@@ -122,49 +121,47 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                       insets, 0, 0 );
         controlPanel.add( new SpeciesSelectionPanel( RigidHollowSphereModule.this ), gbc );
-        gbc.gridy = 1;
-        controlPanel.add( new MoleculePanel( this ), gbc );
-        getControlPanel().add( controlPanel );
+        getIdealGasControlPanel().addComponent( controlPanel );
     }
 
-    private class MoleculePanel extends MoleculeFactoryPanel {
-        Random random = new Random();
-
-        MoleculePanel( IdealGasModule module ) {
-            super( module );
-
-        }
-
-        protected Class getCurrentGasSpecies() {
-            return RigidHollowSphereModule.this.gasSpecies;
-        }
-
-        protected Point2D getNewMoleculeLocation() {
-            double r = random.nextDouble() - GasMolecule.s_defaultRadius;
-            double theta = random.nextDouble() * Math.PI * 2;
-            Point2D.Double p = new Point2D.Double( sphere.getPosition().getX() + r * Math.cos( theta ),
-                                                   sphere.getPosition().getY() + r * Math.sin( theta ) );
-            return p;
-        }
-
-        protected Vector2D getNewMoleculeVelocity() {
-            double s = 0;
-            if( getCurrentGasSpecies() == HeavySpecies.class ) {
-                s = getIdealGasModel().getHeavySpeciesAveSpeed();
-                if( s == 0 ) {
-                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / HeavySpecies.getMoleculeMass() );
-                }
-            }
-            if( getCurrentGasSpecies() == LightSpecies.class ) {
-                s = getIdealGasModel().getLightSpeciesAveSpeed();
-                if( s == 0 ) {
-                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / LightSpecies.getMoleculeMass() );
-                }
-            }
-            double theta = random.nextDouble() * Math.PI * 2;
-            return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
-        }
-    }
+//    private class MoleculePanel extends MoleculeFactoryPanel {
+//        Random random = new Random();
+//
+//        MoleculePanel( IdealGasModule module ) {
+//            super( module );
+//
+//        }
+//
+//        protected Class getCurrentGasSpecies() {
+//            return RigidHollowSphereModule.this.gasSpecies;
+//        }
+//
+//        protected Point2D getNewMoleculeLocation() {
+//            double r = random.nextDouble() - GasMolecule.s_defaultRadius;
+//            double theta = random.nextDouble() * Math.PI * 2;
+//            Point2D.Double p = new Point2D.Double( sphere.getPosition().getX() + r * Math.cos( theta ),
+//                                                   sphere.getPosition().getY() + r * Math.sin( theta ) );
+//            return p;
+//        }
+//
+//        protected Vector2D getNewMoleculeVelocity() {
+//            double s = 0;
+//            if( getCurrentGasSpecies() == HeavySpecies.class ) {
+//                s = getIdealGasModel().getHeavySpeciesAveSpeed();
+//                if( s == 0 ) {
+//                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / HeavySpecies.getMoleculeMass() );
+//                }
+//            }
+//            if( getCurrentGasSpecies() == LightSpecies.class ) {
+//                s = getIdealGasModel().getLightSpeciesAveSpeed();
+//                if( s == 0 ) {
+//                    s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / LightSpecies.getMoleculeMass() );
+//                }
+//            }
+//            double theta = random.nextDouble() * Math.PI * 2;
+//            return new Vector2D.Double( s * Math.cos( theta ), s * Math.sin( theta ) );
+//        }
+//    }
 
     public void setCurrentGasSpecies( Class gasSpecies ) {
         this.gasSpecies = gasSpecies;

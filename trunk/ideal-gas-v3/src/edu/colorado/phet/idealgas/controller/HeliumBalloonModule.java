@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision.SphereHollowSphereExpert;
+import edu.colorado.phet.collision.SphereBalloonExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -36,7 +36,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
         double yDiag = 397;
 
         // Add collision experts to the model
-        getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert( getIdealGasModel(), clock.getDt() ) );
+//        getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert( getIdealGasModel(), clock.getDt() ) );
+        getIdealGasModel().addCollisionExpert( new SphereBalloonExpert( getIdealGasModel(), clock.getDt() ) );
 
         balloon = new Balloon( new Point2D.Double( 300, 350 ),
                                new Vector2D.Double( 0, 0 ),
@@ -55,7 +56,6 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
         balloon.addConstraint( constraintSpec );
 
         for( int i = 0; i < 0; i++ ) {
-//        for( int i = 0; i < 100; i++ ) {
 //        for( int i = 0; i < 50; i++ ) {
             double x = Math.random() * ( xDiag - xOrigin - 20 ) + xOrigin + 50;
             double y = Math.random() * ( yDiag - yOrigin - 20 ) + yOrigin + 10;
@@ -66,7 +66,6 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
             GasMolecule p1 = new HeavySpecies( new Point2D.Double( x, y ),
                                                new Vector2D.Double( vx, vy ),
                                                new Vector2D.Double( 0, 0 ) );
-//            getIdealGasModel().addModelElement( p1 );
             new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
             constraintSpec = new BoxMustContainParticle( getIdealGasModel().getBox(), p1, getIdealGasModel() );
             p1.addConstraint( constraintSpec );
@@ -118,9 +117,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
 //        controlPanel.add( new SpeciesSelectionPanel( HeliumBalloonModule.this ), gbc );
 //        gbc.gridy = 1;
         controlPanel.add( new HeliumBalloonModule.MoleculePanel( this ), gbc );
-        getControlPanel().add( controlPanel );
-
-
+//        getControlPanel().add( controlPanel );
+        getIdealGasControlPanel().addComponent( controlPanel );
     }
 
     public void setCurrentGasSpecies( Class gasSpecies ) {

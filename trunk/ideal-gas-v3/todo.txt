@@ -1,3 +1,7 @@
+- ScalarDataRecorder should computeDataStatistics everytime a datum is added if it isn't a clocked recorder. When I
+do it, then make computeDataStatistics() private.
+- Helium module: balloon particle control removes molecules from the box, not the balloon
+- add Help
 - smooth response of the pressure gauge
 - make needle on dial gauge triangular
 - Test setting locale via command line parameter, not property

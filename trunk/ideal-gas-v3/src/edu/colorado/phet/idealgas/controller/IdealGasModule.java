@@ -15,6 +15,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -51,6 +52,7 @@ public class IdealGasModule extends Module {
     private ArrayList visibleInstruments = new ArrayList();
     private JDialog measurementDlg;
     private JDialog speciesMonitorDlg;
+    private IdealGasControlPanel idealGasControlPanel;
 
 
     public IdealGasModule( AbstractClock clock ) {
@@ -230,7 +232,10 @@ public class IdealGasModule extends Module {
         addGraphic( pusher, 10 );
 
         // Set up the control panel
-        setControlPanel( new IdealGasControlPanel( this ) );
+        idealGasControlPanel = new IdealGasControlPanel( this );
+        PhetControlPanel controlPanel = new PhetControlPanel( this, idealGasControlPanel);
+        setControlPanel( controlPanel );
+//        setControlPanel( new IdealGasControlPanel( this ) );
 
         //        Rendered renderer = new Rendered( getApparatusPanel() );
         //        idealGasModel.addModelElement( renderer );
@@ -337,5 +342,9 @@ public class IdealGasModule extends Module {
             Component component = (Component)visibleInstruments.get( i );
             component.setVisible( false );
         }
+    }
+
+    protected IdealGasControlPanel getIdealGasControlPanel(){
+        return idealGasControlPanel;
     }
 }

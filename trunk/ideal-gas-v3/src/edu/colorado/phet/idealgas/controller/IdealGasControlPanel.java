@@ -39,6 +39,7 @@ public class IdealGasControlPanel extends JPanel {
     private JPanel gravityControlPanel;
     private IdealGasModule module;
     private IdealGasModel idealGasModel;
+    private GridBagConstraints gbc;
 
 
     public IdealGasControlPanel( IdealGasModule module ) {
@@ -50,16 +51,29 @@ public class IdealGasControlPanel extends JPanel {
 
     private void init() {
 
-        this.setLayout( new FlowLayout( FlowLayout.LEFT ) );
-        this.setPreferredSize( new Dimension( 140, 300 ) );
+//        this.setLayout( new FlowLayout( FlowLayout.LEFT ) );
+//        this.setPreferredSize( new Dimension( 140, 300 ) );
+        this.setLayout( new GridBagLayout() );
+        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                                 GridBagConstraints.CENTER,
+                                                                 GridBagConstraints.HORIZONTAL,
+                                                                 new Insets(0,0,0,0), 0, 0 );
 
-        addConstantParamControls();
-        addGravityControls();
+        add( addConstantParamControls(), gbc );
+        gbc.gridy++;
+        add( addGravityControls(), gbc );
+//        addGravityControls();
         JPanel speciesButtonPanel = new SpeciesSelectionPanel( module.getPump() );
         speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Pump" ) ) );
-        this.add( speciesButtonPanel );
-        this.add( new NumParticlesControls() );
-        addStoveControls();
+        gbc.gridy++;
+        this.add( speciesButtonPanel, gbc );
+//        this.add( speciesButtonPanel );
+        gbc.gridy++;
+        this.add( new NumParticlesControls(), gbc );
+//        this.add( new NumParticlesControls() );
+        gbc.gridy++;
+        add( addStoveControls(), gbc );
+//        addStoveControls();
         ToggleButton measurementDlgBtn = new ToggleButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
                                                       SimStrings.get( "IdealGasControlPanel.Measurement_Tools" )){
             public void onAction() {
@@ -83,7 +97,9 @@ public class IdealGasControlPanel extends JPanel {
 //                module.setMeasurementDlgVisible( true );
 //            }
 //        } );
-        this.add( measurementDlgBtn );
+        gbc.gridy++;
+        this.add( measurementDlgBtn, gbc );
+//        this.add( measurementDlgBtn );
 
         Border border = BorderFactory.createEtchedBorder();
         this.setBorder( border );
@@ -102,7 +118,7 @@ public class IdealGasControlPanel extends JPanel {
     /**
      *
      */
-    private void addConstantParamControls() {
+    private JPanel addConstantParamControls() {
         JPanel constantParamButtonPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         constantParamButtonPanel.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, 80 ) );
         final JRadioButton constantVolumeRB = new JRadioButton( SimStrings.get( "Common.Volume" ) );
@@ -130,12 +146,13 @@ public class IdealGasControlPanel extends JPanel {
             }
         } );
         constantVolumeRB.setSelected( true );
+        return constantParamButtonPanel;
     }
 
     /**
      * Create a panel with controls for gravity and add it to the IdealGasControlPanel
      */
-    private void addGravityControls() {
+    private JPanel addGravityControls() {
 
         gravityControlPanel = new JPanel( new GridLayout( 1, 2 ) );
         gravityControlPanel.setPreferredSize( new Dimension( IdealGasConfig.CONTROL_PANEL_WIDTH, s_gravityControlPanelHeight ) );
@@ -180,13 +197,14 @@ public class IdealGasControlPanel extends JPanel {
 
         Border gravityBorder = new TitledBorder( SimStrings.get( "Common.Gravity" ) );
         gravityControlPanel.setBorder( gravityBorder );
-        this.add( gravityControlPanel );
+        return gravityControlPanel;
+//        this.add( gravityControlPanel );
     }
 
     /**
      * Create a panel for controlling the stove
      */
-    private void addStoveControls() {
+    private JPanel addStoveControls() {
         JPanel stovePanel = new JPanel();
         JPanel stoveSliderPanel = new JPanel();
         JPanel iconPanel = new JPanel( new GridLayout( 3, 1 ) );
@@ -246,8 +264,10 @@ public class IdealGasControlPanel extends JPanel {
         stovePanel.add( heatSourceCB, gbc );
 
         stovePanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Heat_Control" ) ) );
-        this.add( stovePanel );
+//        this.add( stovePanel );
+        return stovePanel;
     }
+
 
     private class NumParticlesControls extends JPanel {
         NumParticlesControls() {
@@ -330,6 +350,10 @@ public class IdealGasControlPanel extends JPanel {
         }
     }
 
+    public void addComponent( Component component ) {
+        gbc.gridy++;
+        this.add( component, gbc );
+    }
 
 
     //    private void makeScreenShot() {
