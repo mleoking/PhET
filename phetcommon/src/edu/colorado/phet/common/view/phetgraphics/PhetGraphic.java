@@ -392,7 +392,7 @@ public abstract class PhetGraphic {
      *
      * @return the net AffineTransform of this graphic
      */
-    protected AffineTransform getNetTransform() {
+    public AffineTransform getNetTransform() {
         AffineTransform net = new AffineTransform();
         
         // Use preConcatenate, so that transforms are shown in the order that they will occur.
