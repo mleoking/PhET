@@ -40,7 +40,7 @@ public class SoundModule extends Module implements RgbReporter {
         this.setModel( new SoundModel( appModel.getClock() ) );
         initModel();
         speakerListener = new Listener( (SoundModel)getModel(),
-                                        new Point2D.Double());
+                                        new Point2D.Double() );
         setListener( speakerListener );
     }
 
@@ -50,8 +50,8 @@ public class SoundModule extends Module implements RgbReporter {
 
     public void activate( PhetApplication app ) {
         super.activate( app );
-//        primaryOscillator.setWavefront( this.primaryWavefront );
-//        octaveOscillator.setWavefront( this.octaveWavefront );
+        //        primaryOscillator.setWavefront( this.primaryWavefront );
+        //        octaveOscillator.setWavefront( this.octaveWavefront );
         setAudioEnabled( audioEnabled );
         if( currentListener != null ) {
             setListener( currentListener );
@@ -67,7 +67,7 @@ public class SoundModule extends Module implements RgbReporter {
     private void initModel() {
 
         // Set up the primary wavefront
-        primaryWavefront = new Wavefront( getSoundModel() );
+        primaryWavefront = new Wavefront();
         primaryWavefront.setWaveFunction( new SineWaveFunction( primaryWavefront ) );
         primaryWavefront.setEnabled( true );
         // todo: these lines should be collapsed into one call
@@ -75,7 +75,7 @@ public class SoundModule extends Module implements RgbReporter {
         getSoundModel().setPrimaryWavefront( primaryWavefront );
 
         // Set up the octave wavefront
-        octaveWavefront = new Wavefront( getSoundModel() );
+        octaveWavefront = new Wavefront();
         octaveWavefront.setWaveFunction( new SineWaveFunction( octaveWavefront ) );
         octaveWavefront.setMaxAmplitude( 0 );
         octaveWavefront.setEnabled( false );
