@@ -50,36 +50,40 @@ public class FaradayApplication extends PhetApplication {
     public FaradayApplication( FaradayApplicationModel appModel ) throws IOException {
         super( appModel );
         assert( appModel != null );
-        
-        // Menubar
-        {
-            // Options menu
-            JMenu optionsMenu = new JMenu( SimStrings.get( "OptionsMenu.title" ) );
-            optionsMenu.setMnemonic( 'O' );
-            getPhetFrame().addMenu( optionsMenu );
-            
-            // Background Color menu item
-            JMenuItem colorMenuItem = new JMenuItem( SimStrings.get( "BackgroundColor.menuItem" ) );
-            colorMenuItem.setMnemonic( 'B' );
-            colorMenuItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    handleColorMenuItem();
-                }
-            } );
-            optionsMenu.add( colorMenuItem );
-            
-            // Grid Controls dialog
-            JMenuItem gridMenuItem = new JMenuItem( SimStrings.get( "GridControls.menuItem" ) );
-            gridMenuItem.setMnemonic( 'G' );
-            gridMenuItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    handleGridControlsMenuItem();
-                }
-            } );
-            optionsMenu.add( gridMenuItem );
-        }
+        initMenubar();
     }
 
+    /**
+     * Initializes the menubar.
+     */
+    private void initMenubar() {
+        
+        // Options menu
+        JMenu optionsMenu = new JMenu( SimStrings.get( "Menubar.options" ) );
+        optionsMenu.setMnemonic( 'O' );
+        getPhetFrame().addMenu( optionsMenu );
+
+        // Background Color menu item
+        JMenuItem colorMenuItem = new JMenuItem( SimStrings.get( "Menubar.backgroundColor" ) );
+        colorMenuItem.setMnemonic( 'B' );
+        colorMenuItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                handleColorMenuItem();
+            }
+        } );
+        optionsMenu.add( colorMenuItem );
+
+        // Grid Controls dialog
+        JMenuItem gridMenuItem = new JMenuItem( SimStrings.get( "Menubar.gridControls" ) );
+        gridMenuItem.setMnemonic( 'G' );
+        gridMenuItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                handleGridControlsMenuItem();
+            }
+        } );
+        optionsMenu.add( gridMenuItem );
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -90,7 +94,6 @@ public class FaradayApplication extends PhetApplication {
      * @param color the color
      */
     private void setAllBackgrounds( Color color ) {
-        System.out.println( "background color = " + color );
         ModuleManager moduleManager = getModuleManager();
         int numberOfModules = moduleManager.numModules();
         for ( int i = 0; i < numberOfModules; i++ ) {
@@ -130,8 +133,7 @@ public class FaradayApplication extends PhetApplication {
      * Opens a dialog that contains controls for the "compass grid".
      */
     public void handleGridControlsMenuItem() {
-        String title = SimStrings.get( "GridControlsDialog.title" );
-        GridControlsDialog dialog = new GridControlsDialog( this, title );
+        GridControlsDialog dialog = new GridControlsDialog( this );
         dialog.show();
     }
     

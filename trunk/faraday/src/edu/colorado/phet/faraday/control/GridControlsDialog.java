@@ -124,13 +124,13 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
     private JPanel createInputPanel() {
         
         // Warning panel
-        JLabel warningMessage = new JLabel( SimStrings.get( "GridControlsDialog.warning.text" ) );
+        JLabel warningMessage = new JLabel( SimStrings.get( "GridControlsDialog.warning" ) );
         JPanel warningPanel = new JPanel();
         warningPanel.setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
         warningPanel.add( warningMessage );
         
         // Grid spacing
-        JLabel spacingLabel = new JLabel( SimStrings.get( "GridControlsDialog.spacing.label" ) );
+        JLabel spacingLabel = new JLabel( SimStrings.get( "GridControlsDialog.spacing" ) );
         {
             // Slider
             _spacingSlider = new JSlider();
@@ -144,7 +144,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
         }
         
         // Needle size
-        JLabel needleSizeLabel = new JLabel( SimStrings.get( "GridControlsDialog.needleSize.label" ) );
+        JLabel needleSizeLabel = new JLabel( SimStrings.get( "GridControlsDialog.needleSize" ) );
         {
             // Slider
             _needleSizeSlider = new JSlider();
@@ -196,10 +196,10 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
      */
     private JPanel createActionsPanel()
     {   
-      _okButton = new JButton( SimStrings.get( "GridControlsDialog.okButton.label" ) );
+      _okButton = new JButton( SimStrings.get( "GridControlsDialog.ok" ) );
       _okButton.addActionListener( this );
       
-      _cancelButton = new JButton( SimStrings.get( "GridControlsDialog.cancelButton.label" ) ); 
+      _cancelButton = new JButton( SimStrings.get( "GridControlsDialog.cancel" ) );
       _cancelButton.addActionListener( this );
       
       JPanel innerPanel = new JPanel( new GridLayout(1,2,10,0) );
