@@ -54,7 +54,7 @@ public class FaradayConfig {
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
-    public static final int CONTROL_PANEL_MIN_WIDTH = 150;
+    public static final int CONTROL_PANEL_MIN_WIDTH = 225;
 
     // Colors
     public static final Color LABEL_COLOR = Color.BLACK;
@@ -70,33 +70,35 @@ public class FaradayConfig {
     public static final double MAX_EMF = 4.0E7; // volts
     
     // Magnet parameters (applicable to all magnet types)
-    public static final double MAGNET_STRENGTH_MIN = 100; // Gauss
-    public static final double MAGNET_STRENGTH_MAX = 300; // Gauss
+    public static final double MAGNET_STRENGTH_MAX = 300.0; // Gauss
+    public static final double MAGNET_STRENGTH_MIN = 0.5 * MAGNET_STRENGTH_MAX; // Gauss
     
     // Bar Magnet parameters
     public static final double BAR_MAGNET_ASPECT_RATIO = 5.0/1.0;
-    public static final int BAR_MAGNET_WIDTH_MIN = 150;
     public static final int BAR_MAGNET_WIDTH_MAX = 350;
+    public static final int BAR_MAGNET_WIDTH_MIN = 150;
     private static final int BAR_MAGNET_WIDTH = 250;
     public static final Dimension BAR_MAGNET_SIZE = new Dimension( BAR_MAGNET_WIDTH, (int) ( BAR_MAGNET_WIDTH / BAR_MAGNET_ASPECT_RATIO ) );
 
     // Compass Grid parameters
-    public static final int GRID_SPACING_MIN = 35;
     public static final int GRID_SPACING_MAX = 100;
+    public static final int GRID_SPACING_MIN = 35;
     public static final int GRID_SPACING = 40;
     public static final double GRID_NEEDLE_ASPECT_RATIO = 25.0/7.0;
-    public static final int GRID_NEEDLE_WIDTH_MIN = 20;
     public static final int GRID_NEEDLE_WIDTH_MAX = 60;
+    public static final int GRID_NEEDLE_WIDTH_MIN = 20;
     private static final int GRID_NEEDLE_WIDTH = 25;
     public static final Dimension GRID_NEEDLE_SIZE = new Dimension( GRID_NEEDLE_WIDTH, (int) ( GRID_NEEDLE_WIDTH / GRID_NEEDLE_ASPECT_RATIO ) );
     
     // Pickup Coil parameters
-    public static final int MIN_PICKUP_LOOPS = 1;
     public static final int MAX_PICKUP_LOOPS = 3;
+    public static final int MIN_PICKUP_LOOPS = 1;
+    public static final double MAX_PICKUP_RADIUS = 125.0;
+    public static final double MIN_PICKUP_RADIUS = 0.5 * MAX_PICKUP_RADIUS;
     
-    // Source Coil parameters
-    public static final int MIN_SOURCE_LOOPS = 1;
-    public static final int MAX_SOURCE_LOOPS = 4;
+    // Electromagnet parameters
+    public static final int MAX_ELECTROMAGNET_LOOPS = 4;
+    public static final int MIN_ELECTROMAGNET_LOOPS = 1;
 
     //----------------------------------------------------------------------------
     // Constructors

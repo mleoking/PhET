@@ -14,9 +14,10 @@ package edu.colorado.phet.faraday.control;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -36,7 +37,7 @@ import edu.colorado.phet.faraday.view.CompassGridGraphic;
  * @version $Revision$
  */
 public class MagnetAndCoilControlPanel extends FaradayControlPanel {
-
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -122,124 +123,161 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             fillerPanel.add( Box.createHorizontalStrut( FaradayConfig.CONTROL_PANEL_MIN_WIDTH ) );
         }
         
-        // Magnet strength
-        JPanel strengthPanel = new JPanel();
+        JPanel magnetPanel = new JPanel();
         {
             // Title
-            TitledBorder border = new TitledBorder( SimStrings.get( "MagnetAndCoilModule.magnetStrength" ) );
-            strengthPanel.setBorder( border );
+            TitledBorder magnetBorder = BorderFactory.createTitledBorder( SimStrings.get( "MagnetAndCoilModule.magnetControls" ) );
+            magnetBorder.setTitleFont( getTitleFont() );
+            magnetPanel.setBorder( magnetBorder );
+            
+            // Magnet strength
+            JPanel strengthPanel = new JPanel();
+            {
+                strengthPanel.setBorder( BorderFactory.createEtchedBorder() );
 
-            // Slider
-            _strengthSlider = new JSlider();
-            _strengthSlider.setMaximum( (int) FaradayConfig.MAGNET_STRENGTH_MAX );
-            _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
-            _strengthSlider.setValue( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
-            setSliderSize( _strengthSlider, SLIDER_SIZE );
+                // Values are a percentage of the maximum.
+                int max = 100;
+                int min = (int) ( 100.0 * FaradayConfig.MAGNET_STRENGTH_MIN / FaradayConfig.MAGNET_STRENGTH_MAX );
+                int range = max - min;
+                
+                // Slider
+                _strengthSlider = new JSlider();
+                _strengthSlider.setMaximum( max );
+                _strengthSlider.setMinimum( min );
+                _strengthSlider.setValue( min );
+                
+                // Slider tick marks
+                _strengthSlider.setMajorTickSpacing( range );
+                _strengthSlider.setMinorTickSpacing( 10 );
+                _strengthSlider.setSnapToTicks( false );
+                _strengthSlider.setPaintTicks( true );
+                _strengthSlider.setPaintLabels( true );
+                
+                // Value
+                _strengthValue = new JLabel( UNKNOWN_VALUE );
 
-            // Value
-            _strengthValue = new JLabel( UNKNOWN_VALUE );
+                // Layout
+                EasyGridBagLayout layout = new EasyGridBagLayout( strengthPanel );
+                strengthPanel.setLayout( layout );
+                layout.addAnchoredComponent( _strengthValue, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _strengthSlider, 1, 0, GridBagConstraints.WEST );
+            }
+
+            //  Flip Polarity button
+            _flipPolarityButton = new JButton( SimStrings.get( "MagnetAndCoilModule.flipPolarity" ) );
+
+            // Compass Grid on/off
+            _gridCheckBox = new JCheckBox( SimStrings.get( "MagnetAndCoilModule.showGrid" ) );
+
+            // Compass on/off
+            _compassCheckBox = new JCheckBox( SimStrings.get( "MagnetAndCoilModule.showCompass" ) );
             
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( strengthPanel );
-            strengthPanel.setLayout( layout );
-            layout.addAnchoredComponent( _strengthSlider, 0, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _strengthValue, 0, 1, GridBagConstraints.WEST );
-        }
-        
-        //  Flip Polarity button
-        _flipPolarityButton = new JButton( SimStrings.get( "MagnetAndCoilModule.flipPolarity" ) );
-
-        // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( SimStrings.get( "MagnetAndCoilModule.showGrid" ) );
-
-        // Compass on/off
-        _compassCheckBox = new JCheckBox( SimStrings.get( "MagnetAndCoilModule.showCompass" ) );
-        
-        // Number of loops
-        JPanel loopsPanel = new JPanel();
-        {
-            JLabel loopsLabel = new JLabel( SimStrings.get( "MagnetAndCoilModule.numberOfLoops" ) );
-
-            // Spinner, keyboard editing disabled.
-            SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
-            spinnerModel.setMaximum( new Integer( FaradayConfig.MAX_PICKUP_LOOPS ) );
-            spinnerModel.setMinimum( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
-            spinnerModel.setValue( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
-            _loopsSpinner = new JSpinner( spinnerModel );
-            JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
-            tf.setEditable( false );
-
-            // Dimensions
-            _loopsSpinner.setPreferredSize( SPINNER_SIZE );
-            _loopsSpinner.setMaximumSize( SPINNER_SIZE );
-            _loopsSpinner.setMinimumSize( SPINNER_SIZE );
-
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( loopsPanel );
-            loopsPanel.setLayout( layout );
-            layout.addAnchoredComponent( loopsLabel, 0, 0, GridBagConstraints.EAST );
-            layout.addAnchoredComponent( _loopsSpinner, 0, 1, GridBagConstraints.WEST );
-        }
-
-        // Loop radius
-        JPanel radiusPanel = new JPanel();
-        {
-            // Title
-            TitledBorder border = new TitledBorder( SimStrings.get( "MagnetAndCoilModule.area" ) );
-            radiusPanel.setBorder( border );
-
-            // Slider
-            _radiusSlider = new JSlider();
-            _radiusSlider.setMaximum( (int) MagnetAndCoilModule.LOOP_RADIUS_MAX );
-            _radiusSlider.setMinimum( (int) MagnetAndCoilModule.LOOP_RADIUS_MIN );
-            _radiusSlider.setValue( (int) MagnetAndCoilModule.LOOP_RADIUS_MIN );
-            super.setSliderSize( _radiusSlider, SLIDER_SIZE );
-
-            // Value
-            _radiusValue = new JLabel( UNKNOWN_VALUE );
-            
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( radiusPanel );
-            radiusPanel.setLayout( layout );
-            layout.addAnchoredComponent( _radiusSlider, 0, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _radiusValue, 0, 1, GridBagConstraints.WEST );
-        }
-        
-        JPanel indicatorPanel = new JPanel();
-        {
-            // Title
-            TitledBorder border = new TitledBorder( SimStrings.get( "MagnetAndCoilModule.indicator" ) );
-            indicatorPanel.setBorder( border );
-
-            // Radio buttons
-            _lightbulbRadioButton = new JRadioButton( SimStrings.get( "MagnetAndCoilModule.lightbulb" ) );
-            _voltmeterRadioButton = new JRadioButton( SimStrings.get( "MagnetAndCoilModule.voltmeter" ) );
-            ButtonGroup group = new ButtonGroup();
-            group.add( _lightbulbRadioButton );
-            group.add( _voltmeterRadioButton );
-
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( indicatorPanel );
-            indicatorPanel.setLayout( layout );
-            layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _voltmeterRadioButton, 1, 0, GridBagConstraints.WEST );
-        }
-        
-        // Electrons on/off
-        _electronsCheckBox = new JCheckBox( SimStrings.get( "MagnetAndCoilModule.showElectrons" ) );
-
-        JPanel controlPanel = new JPanel();
-        {
-            EasyGridBagLayout layout = new EasyGridBagLayout( controlPanel );
-            controlPanel.setLayout( layout );
-            controlPanel.setBorder( new EmptyBorder( 10, 0, 0, 0 ) );
-            
+            EasyGridBagLayout layout = new EasyGridBagLayout( magnetPanel );
+            magnetPanel.setLayout( layout );
             int row = 0;
             layout.addFilledComponent( strengthPanel, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addComponent( _flipPolarityButton, row++, 0 );
             layout.addComponent( _gridCheckBox, row++, 0 );
             layout.addComponent( _compassCheckBox, row++, 0 );
-            layout.addFilledComponent( loopsPanel, row++, 0, GridBagConstraints.HORIZONTAL );
+        }
+        
+        JPanel coilPanel = new JPanel();
+        {
+            // Titled border with some space above it.
+            Border outsideBorder = BorderFactory.createEmptyBorder( 10, 0, 0, 0 );  // top, left, bottom, right
+            TitledBorder insideBorder = BorderFactory.createTitledBorder( SimStrings.get( "MagnetAndCoilModule.coilControls" ) );
+            insideBorder.setTitleFont( getTitleFont() );
+            Border coilBorder = BorderFactory.createCompoundBorder( outsideBorder, insideBorder );
+            coilPanel.setBorder( coilBorder );
+
+            // Number of loops
+            JPanel loopsPanel = new JPanel();
+            {
+                JLabel loopsLabel = new JLabel( SimStrings.get( "MagnetAndCoilModule.numberOfLoops" ) );
+
+                // Spinner, keyboard editing disabled.
+                SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
+                spinnerModel.setMaximum( new Integer( FaradayConfig.MAX_PICKUP_LOOPS ) );
+                spinnerModel.setMinimum( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
+                spinnerModel.setValue( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
+                _loopsSpinner = new JSpinner( spinnerModel );
+                JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
+                tf.setEditable( false );
+
+                // Dimensions
+                _loopsSpinner.setPreferredSize( SPINNER_SIZE );
+                _loopsSpinner.setMaximumSize( SPINNER_SIZE );
+                _loopsSpinner.setMinimumSize( SPINNER_SIZE );
+
+                // Layout
+                EasyGridBagLayout layout = new EasyGridBagLayout( loopsPanel );
+                loopsPanel.setLayout( layout );
+                layout.addAnchoredComponent( loopsLabel, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _loopsSpinner, 0, 1, GridBagConstraints.WEST );
+            }
+
+            // Loop radius
+            JPanel radiusPanel = new JPanel();
+            {
+                radiusPanel.setBorder( BorderFactory.createEtchedBorder() );
+
+                // Values are a percentage of the maximum.
+                int max = 100;
+                int min = (int) ( 100.0 * FaradayConfig.MIN_PICKUP_RADIUS / FaradayConfig.MAX_PICKUP_RADIUS );
+                int range = max - min;
+                
+                // Slider
+                _radiusSlider = new JSlider();
+                _radiusSlider.setMaximum( max );
+                _radiusSlider.setMinimum( min );
+                _radiusSlider.setValue( min );
+
+                // Slider tick marks
+                _radiusSlider.setMajorTickSpacing( range );
+                _radiusSlider.setMinorTickSpacing( 10 );
+                _radiusSlider.setSnapToTicks( false );
+                _radiusSlider.setPaintTicks( true );
+                _radiusSlider.setPaintLabels( true );
+                
+                // Value
+                _radiusValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                EasyGridBagLayout layout = new EasyGridBagLayout( radiusPanel );
+                radiusPanel.setLayout( layout );
+                layout.addAnchoredComponent( _radiusValue, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _radiusSlider, 1, 0, GridBagConstraints.WEST );
+            }
+
+            JPanel indicatorPanel = new JPanel();
+            {
+                // Title
+                TitledBorder indicatorBorder = new TitledBorder( SimStrings.get( "MagnetAndCoilModule.indicator" ) );
+                indicatorPanel.setBorder( indicatorBorder );
+
+                // Radio buttons
+                _lightbulbRadioButton = new JRadioButton( SimStrings.get( "MagnetAndCoilModule.lightbulb" ) );
+                _voltmeterRadioButton = new JRadioButton( SimStrings.get( "MagnetAndCoilModule.voltmeter" ) );
+                ButtonGroup group = new ButtonGroup();
+                group.add( _lightbulbRadioButton );
+                group.add( _voltmeterRadioButton );
+
+                // Layout
+                EasyGridBagLayout layout = new EasyGridBagLayout( indicatorPanel );
+                indicatorPanel.setLayout( layout );
+                layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _voltmeterRadioButton, 1, 0, GridBagConstraints.WEST );
+            }
+
+            // Electrons on/off
+            _electronsCheckBox = new JCheckBox( SimStrings.get( "MagnetAndCoilModule.showElectrons" ) );
+            
+            // Layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( coilPanel );
+            coilPanel.setLayout( layout );  
+            int row = 0;
+            layout.addComponent( loopsPanel, row++, 0 );
             layout.addFilledComponent( radiusPanel, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addFilledComponent( indicatorPanel, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addComponent( _electronsCheckBox, row++, 0 );
@@ -247,7 +285,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         
         // Add panels.
         addFullWidth( fillerPanel );
-        addFullWidth( controlPanel );
+        addFullWidth( magnetPanel );
+        addFullWidth( coilPanel );
 
         // Wire up event handling
         EventListener listener = new EventListener();
@@ -262,11 +301,11 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         _electronsCheckBox.addActionListener( listener );
         
         // Update control panel to match the components that it's controlling.
-        _strengthSlider.setValue( (int) _magnetModel.getStrength() );
+        _strengthSlider.setValue( (int) ( 100.0 * _magnetModel.getStrength() / FaradayConfig.MAGNET_STRENGTH_MAX ) );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _loopsSpinner.setValue( new Integer( _pickupCoilModel.getNumberOfLoops() ) );
-        _radiusSlider.setValue( (int) _pickupCoilModel.getRadius() );
+        _radiusSlider.setValue( (int) ( 100.0 * _pickupCoilModel.getRadius()  / FaradayConfig.MAX_PICKUP_RADIUS ) );
         _lightbulbRadioButton.setSelected( _lightbulbModel.isEnabled() );
         _voltmeterRadioButton.setSelected( _voltmeterModel.isEnabled() );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
@@ -340,26 +379,35 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
          */
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _strengthSlider ) {
-                // Magnet strength
-                int strength = _strengthSlider.getValue();
+                // Read the value
+                int percent = _strengthSlider.getValue();
+                // Update the model.
+                int strength = (int) ( (  percent / 100.0 ) * FaradayConfig.MAGNET_STRENGTH_MAX );
                 _magnetModel.setStrength( strength );
-                _strengthValue.setText( String.valueOf( strength ) + " " + FaradayConfig.GAUSS_LABEL );
+                // Update the label.
+                Object[] args = { new Integer( percent ) };
+                String text = MessageFormat.format( SimStrings.get( "MagnetAndCoilModule.magnetStrength" ), args );
+                _strengthValue.setText( text );
             }
             else if ( e.getSource() == _radiusSlider ) {
-                // Loop radius
-                int radius = _radiusSlider.getValue();
+                // Read the value.
+                int percent = _radiusSlider.getValue();
+                // Update the model.
+                int radius = (int) ( ( percent / 100.0 ) * FaradayConfig.MAX_PICKUP_RADIUS );
                 boolean smoothingEnabled = _pickupCoilModel.isSmoothingEnabled();
                 _pickupCoilModel.setSmoothingEnabled( false );
                 _pickupCoilModel.setRadius( radius );
                 _pickupCoilModel.updateEmf();
                 _pickupCoilModel.setSmoothingEnabled( smoothingEnabled );
-                // The value displayed is the area.
-                int area = (int) ( Math.PI * radius * radius );
-                _radiusValue.setText( String.valueOf( area ) );
+                // Update the label.
+                Object[] args = { new Integer( percent ) };
+                String text = MessageFormat.format( SimStrings.get( "MagnetAndCoilModule.radius" ), args );
+                _radiusValue.setText( text );
             }
             else if ( e.getSource() == _loopsSpinner ) {
-                // Number of loops
+                // Read the value.
                 int numberOfLoops = ( (Integer) _loopsSpinner.getValue() ).intValue();
+                // Update the model.
                 boolean smoothingEnabled = _pickupCoilModel.isSmoothingEnabled();
                 _pickupCoilModel.setSmoothingEnabled( false );
                 _pickupCoilModel.setNumberOfLoops( numberOfLoops );

@@ -59,13 +59,11 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
 
     // Magnet parameters
-    private static final double MAGNET_STRENGTH = 200;
+    private static final double MAGNET_STRENGTH = 0.75 * FaradayConfig.MAGNET_STRENGTH_MAX;
     
     // Pickup Coil parameters
     private static final int NUMBER_OF_LOOPS = 2;
-    public static final int LOOP_RADIUS_MIN = 75;
-    public static final int LOOP_RADIUS_MAX = 125;
-    private static final double LOOP_RADIUS = 100;
+    private static final double LOOP_RADIUS = 0.75 * FaradayConfig.MAX_PICKUP_RADIUS;
     
     //----------------------------------------------------------------------------
     // Instance data
