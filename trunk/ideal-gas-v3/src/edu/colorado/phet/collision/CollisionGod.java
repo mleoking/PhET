@@ -37,12 +37,15 @@ public class CollisionGod implements ModelElement {
     private double dt;
     private Rectangle2D.Double bounds;
     private double regionOverlap;
+    private CollisionFactory collisionFactory;
 
 
     public CollisionGod( IdealGasModel model, double dt,
+                         CollisionFactory collisionFactory,
                          Rectangle2D.Double bounds, int numRegionsX, int numRegionsY ) {
         this.model = model;
         this.dt = dt;
+        this.collisionFactory = collisionFactory;
         this.bounds = bounds;
         this.numRegionsX = numRegionsX;
         this.numRegionsY = numRegionsY;
@@ -96,7 +99,7 @@ public class CollisionGod implements ModelElement {
             Body body = (Body)bodies.get( i );
             if( body instanceof GasMolecule ) {
                 if( overlappingRegions ) {
-                    findRegionsFor( body );
+                    assignRegions( body );
                 }
                 else {
                     if( elementToRegionMap.containsKey( body ) ) {
@@ -192,20 +195,20 @@ public class CollisionGod implements ModelElement {
 
     private void detectAndDoCollision( CollidableBody body1, CollidableBody body2, double dt ) {
         if( body1 != body2 && ContactDetector.areContacting( body1, body2 ) ) {
-            List collisions = CollisionFactory.createCollisions( body1, body2, model, dt );
+            List collisions = collisionFactory.createCollisions( body1, body2, model, dt );
             for( int i = 0; i < collisions.size(); i++ ) {
                 ( (Collision)collisions.get( i ) ).collide();
-//            Collision collision = CollisionFactory.create( body1, body2, model, dt );
-//            if( collision != null ) {
-//                collision.collide();
-//            }
+                //            Collision collision = CollisionFactory.create( body1, body2, model, dt );
+                //            if( collision != null ) {
+                //                collision.collide();
+                //            }
             }
         }
     }
 
     private void addBody( Body body ) {
         if( overlappingRegions ) {
-            List regions = findRegionsFor( body );
+            assignRegions( body );
         }
         else {
             Region region = findRegionFor( body );
@@ -224,7 +227,6 @@ public class CollisionGod implements ModelElement {
             for( int i = 0; i < iLimit; i++ ) {
                 for( int j = 0; j < jLimit; j++ ) {
                     if( regions[i][j].contains( body ) ) {
-
                         // If we have found a region in which the particle belongs, we only have to
                         // test for membership in the next region, and no farther
                         iLimit = Math.min( ( i + 2 ), numRegionsX );
@@ -235,43 +237,14 @@ public class CollisionGod implements ModelElement {
             }
         }
         else {
-
             ( (Region)elementToRegionMap.get( body ) ).remove( body );
             elementToRegionMap.remove( body );
         }
     }
 
-    private List findRegionsForOrig( Body body ) {
-
-        // tod: clean up. Use body everywhere in this method
-        int iLimit = numRegionsX;
-        int jLimit = numRegionsY;
-        for( int i = 0; i < iLimit; i++ ) {
-            for( int j = 0; j < jLimit; j++ ) {
-                if( regions[i][j].belongsIn( body ) ) {
-
-                    // If we have found a region in which the particle belongs, we only have to
-                    // test for membership in the next region, and no farther
-                    //check for neighbors.
-
-                    iLimit = Math.min( ( i + 2 ), numRegionsX );
-                    jLimit = Math.min( ( j + 2 ), numRegionsY );
-                    if( !regions[i][j].contains( body ) ) {
-                        regions[i][j].add( body );
-                    }
-                }
-                else {
-                    regions[i][j].remove( body );
-                }
-            }
-        }
-        return null;
-    }
-
-    private List findRegionsFor( Body body ) {
+    private void assignRegions( Body body ) {
         double x = body.getPosition().getX();
         double y = body.getPosition().getY();
-
         try {
             int i = (int)( ( x - bounds.x ) / regionWidth );
             int iPrime = (int)( ( x - regionOverlap - bounds.x ) / ( regionWidth ) );
@@ -287,35 +260,10 @@ public class CollisionGod implements ModelElement {
             if( i != iPrime && j != jPrime ) {
                 regions[iPrime][jPrime].add( body );
             }
-            //        System.out.println( "i=" + i + ", j=" + j );
-            //        Region a = regions[i][j];
-            //        Region b = regions[i][jPrime];
-            //        Region c = regions[iPrime][jPrime];
-            //        Region d = regions[iPrime][j];
-            //        Set set = new HashSet();
-            //        set.add( a );
-            //        set.add( b );
-            //        set.add( c );
-            //        set.add( d );
-            //        List list = Arrays.asList( set.toArray() );
-            //        if( !a.contains( body ) ) {
-            //            a.add( body );
-            //        }
-            //        if( !b.contains( body ) ) {
-            //            b.add( body );
-            //        }
-            //        if( !c.contains( body ) ) {
-            //            c.add( body );
-            //        }
-            //        if( !d.contains( body ) ) {
-            //            d.add( body );
-            //        }
-            //        return list;
         }
         catch( ArrayIndexOutOfBoundsException aiobe ) {
-            System.out.println( "ArrayIndexOutOfBoundsException in CollisionGod.findRegionsFor()" );
+            System.out.println( "ArrayIndexOutOfBoundsException in CollisionGod.assignRegions()" );
         }
-        return null;
     }
 
     private Region findRegionFor( Body body ) {
@@ -332,9 +280,7 @@ public class CollisionGod implements ModelElement {
                         region = regions[i][j];
                     }
                 }
-
             }
-
         }
         return region;
     }

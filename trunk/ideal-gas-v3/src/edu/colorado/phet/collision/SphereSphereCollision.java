@@ -67,7 +67,7 @@ public class SphereSphereCollision extends HardsphereCollision {
     //
     private static SphereSphereCollision instance = new SphereSphereCollision();
 
-    static public void register() {
-        CollisionFactory.addPrototype( new SphereSphereCollision() );
+    static public void register( CollisionFactory collisionFactory ) {
+        collisionFactory.addPrototype( new SphereSphereCollision() );
     }
 }

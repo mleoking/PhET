@@ -85,8 +85,8 @@ public class SphereHollowSphereCollision extends HardsphereCollision {
         return collision;
     }
 
-    static public void register() {
-        CollisionFactory.addPrototype( new SphereHollowSphereCollision( null, null, null, 0 ) );
+    static public void register( CollisionFactory collisionFactory ) {
+        collisionFactory.addPrototype( new SphereHollowSphereCollision( null, null, null, 0 ) );
     }
 
 

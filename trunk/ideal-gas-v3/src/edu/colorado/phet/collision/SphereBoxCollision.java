@@ -14,8 +14,8 @@ import edu.colorado.phet.idealgas.model.SphericalBody;
 
 public class SphereBoxCollision implements Collision {
 
-    static public void register() {
-        CollisionFactory.addPrototype( new SphereBoxCollision() );
+    static public void register( CollisionFactory collisionFactory ) {
+        collisionFactory.addPrototype( new SphereBoxCollision() );
     }
 
     private SphericalBody sphere;
