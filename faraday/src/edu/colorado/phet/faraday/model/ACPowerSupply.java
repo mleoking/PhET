@@ -27,18 +27,23 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     // Class data
     //----------------------------------------------------------------------------
     
+    // The minimum number of steps used to approximate one sine wave cycle.
     private static final double MIN_STEPS_PER_CYCLE = 10;
         
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _maxAmplitude; // 0...1
-    private double _frequency; // 0...1
-    private int _sign; // -1 or +1
-    private double _angle; // radians
-    private double _deltaAngle; // radians
-    private double _stepAngle; // radians
+    // Determines how high the amplitude can go. (0...1 inclusive)
+    private double _maxAmplitude;
+    // Determines how fast the amplitude will vary. (0...1 inclusive)
+    private double _frequency;
+    // The current angle of the sine wave that describes the AC. (radians)
+    private double _angle;
+    // The change in angle that will typically occur, except possibly around peaks & zero crossings. (radians)
+    private double _deltaAngle;
+    // The change in angle that occurred the last time stepInTime was called. (radians)
+    private double _stepAngle;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,7 +56,6 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         super();
         _maxAmplitude = 1.0; // biggest
         _frequency = 1.0; // fastest
-        _sign = +1; // positive voltage
         _angle = 0.0; // radians
         _deltaAngle = ( 2 * Math.PI * _frequency ) / MIN_STEPS_PER_CYCLE; // radians
         _stepAngle = 0.0; // radians
@@ -130,6 +134,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     
     /*
      * Varies the amplitude over time, based on maxAmplitude and frequency.
+     * Guaranteed to hit all peaks and zero crossings.
      * 
      * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
      */
