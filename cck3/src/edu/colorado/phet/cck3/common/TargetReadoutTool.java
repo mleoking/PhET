@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.cck3.common;
 
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
@@ -14,7 +13,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.util.Arrays;
 
-public class TargetReadoutTool extends CompositePhetGraphic {
+public class TargetReadoutTool extends CCKCompositePhetGraphic {
     private RoundRectangle2D.Double bounds;
     private int crosshairRadius = 15;
     private int readoutWidth = 140;
