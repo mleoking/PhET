@@ -318,7 +318,6 @@ public class GraphicSlider extends GraphicLayerSet {
             
             double percent = ( tickValue - _minimum ) / (double) ( _maximum - _minimum );
             int x = (int) ( _dragBounds.x + (int) ( percent * _dragBounds.width ) );
-            System.out.println( "GraphicSlider.setTick: x=" + x );//XXX
             
             Shape shape = new Line2D.Double( x, 0, x, _tickSize.height );
             PhetShapeGraphic tick = new PhetShapeGraphic( getComponent() );
