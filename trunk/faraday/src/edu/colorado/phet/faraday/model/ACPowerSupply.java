@@ -141,33 +141,33 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     public void stepInTime( double dt ) {
         if ( isEnabled() ) {
             
-            double previousAngle = _angle;
-            
-            // Compute the angle.
-            _angle += _deltaAngle;
-            
-            // Adjust the angle so that we hit all peaks and zero crossings.
-            for ( int i = 1; i <= 4; i++ ) {
-                double criticalAngle = i * ( Math.PI / 2 );  // ...at 90 degree intervals
-                if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
-                    _angle = criticalAngle;
-                    break;
-                }
-            }
-            
-            // The actual change in angle on this tick of the simulation clock.
-            _stepAngle = _angle - previousAngle;
-
-            // Limit the angle to 360 degrees.
-            if ( _angle >= 2 * Math.PI ) {
-                _angle = _angle % ( 2 * Math.PI );
-            }
-            
-            // Calculate the amplitude.
-            if ( _maxAmplitude == 0.0 ) {
+            if ( _maxAmplitude == 0 ) {
                 setAmplitude( 0.0 );
             }
             else {
+                double previousAngle = _angle;
+
+                // Compute the angle.
+                _angle += _deltaAngle;
+
+                // Adjust the angle so that we hit all peaks and zero crossings.
+                for ( int i = 1; i <= 4; i++ ) {
+                    double criticalAngle = i * ( Math.PI / 2 ); // ...at 90 degree intervals
+                    if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
+                        _angle = criticalAngle;
+                        break;
+                    }
+                }
+
+                // The actual change in angle on this tick of the simulation clock.
+                _stepAngle = _angle - previousAngle;
+
+                // Limit the angle to 360 degrees.
+                if ( _angle >= 2 * Math.PI ) {
+                    _angle = _angle % ( 2 * Math.PI );
+                }
+
+                // Calculate and set the amplitude.
                 setAmplitude( _maxAmplitude * Math.sin( _angle ) );
             }
         }
