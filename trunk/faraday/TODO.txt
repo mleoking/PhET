@@ -8,7 +8,6 @@ IN PROGRESS:
 - make QuadBezierSpline a subclass of QuadCurve.Double
 
 HIGH PRIORITY:
-- prevent dragging of stuff out of the apparatus panel viewport
 - move grid controls to dialog accessible via Options menu, include a performance warning, change all grids
 - add Verlet behavior to voltmeter needle
 - make lightbulb ramp up/down instead of immediate on/off
@@ -41,6 +40,7 @@ phetcommon:
 
 DONE:
 v0r12...
+(2/8) - prevent dragging of stuff out of the apparatus panel viewport
 (2/8) - disable emf smoothing (median filter) in coil
 (2/8) - tune min/max number of light rays
 (2/8) - tune min/max light ray length
