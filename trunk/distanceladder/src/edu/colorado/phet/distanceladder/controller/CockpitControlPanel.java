@@ -45,6 +45,8 @@ public class CockpitControlPanel extends JPanel {
         this.model = (UniverseModel)module.getModel();
         parallaxPanel = new ParallaxPanel();
         photometerPanel = new PhotometerPanel();
+        setParallaxEnabled( false );
+        setPhotometerEnabled( false );
 
         this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
@@ -83,11 +85,13 @@ public class CockpitControlPanel extends JPanel {
     }
 
     public void setParallaxEnabled( boolean isEnabled ) {
+        parallaxPanel.setVisible( isEnabled );
         parallaxInstrumentEnabled = isEnabled;
         parallaxPanel.update();
     }
 
     public void setPhotometerEnabled( boolean isEnabled ) {
+        photometerPanel.setVisible( isEnabled );
         photometerEnabled = isEnabled;
         photometerPanel.update();
     }
@@ -547,11 +551,11 @@ public class CockpitControlPanel extends JPanel {
             starship.addObserver( this );
             this.setPreferredSize( new Dimension( 200, 200 ) );
             starMapGraphic = new StarMapGraphic( this, model.getStarField() );
-            starMapGraphic.setStarGraphicRadius( 15 );
+            starMapGraphic.setStarGraphicRadius( 20 );
 
             // Make the coordinate graphic and thicken the lines
             starshipCoordsGraphic = new StarshipCoordsGraphic( starship, this );
-            starshipCoordsGraphic.setRingStroke( new BasicStroke( 16f ) );
+            starshipCoordsGraphic.setRingStroke( new BasicStroke( 14f ) );
             setStarshipCordinateGraphicEnabled( true );
 
             this.addGraphic( starMapGraphic );

@@ -12,6 +12,7 @@ import edu.colorado.phet.distanceladder.model.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 /**
  * Class: edu.colorado.phet.distanceladder.CockpitModuleTest
@@ -50,16 +51,16 @@ public class CockpitModuleTest {
         StarView starView = cockpitModule.getStarView();
         Point2D.Double p = null;
 
-//        Random random = new Random();
-//        for( int i = 0; i < 200; i++ ) {
-//            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-//            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
-//            int colorIdx = random.nextInt( colors.length );
-//            star = new NormalStar( colors[ colorIdx ], 50, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
-//            starField.addStar( star );
-//        }
+        Random random = new Random();
+        for( int i = 0; i < 200; i++ ) {
+            double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+            double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
+            int colorIdx = random.nextInt( colors.length );
+            star = new NormalStar( colors[ colorIdx ], Config.maxStarLuminance, new Point2D.Double( x, y ), random.nextDouble() * 500 - 250 );
+            starField.addStar( star );
+        }
 
-//        placeEquidistantStars( starField );
+        placeEquidistantStars( starField );
         placeFourStars( starField );
 
 //        star = new NormalStar( Color.green, 1E6, new Point2D.Double( 100, 0 ), -45 );
@@ -114,7 +115,6 @@ public class CockpitModuleTest {
         starField.addStar( star );
         star = new NormalStar( Color.green, 1E6, new Point2D.Double( 0, -400 ), 0 );
         starField.addStar( star );
-
     }
 
     void placeEquidistantStars( StarField starField ) {

@@ -9,6 +9,7 @@ package edu.colorado.phet.distanceladder.view;
 
 import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.distanceladder.model.Star;
 import edu.colorado.phet.distanceladder.model.StarField;
 
@@ -24,7 +25,9 @@ import java.util.List;
 
 public class StarMapGraphic extends CompositeInteractiveGraphic implements ImageObserver, SimpleObserver {
 
-//    private BufferedImage mapImage;
+    private final static double starLayer = 1000;
+    private final static double coordinateOverlayLayer = 2;
+
     private AffineTransform mapTx = new AffineTransform();
     private Container container;
     private StarField starField;
@@ -37,14 +40,6 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
         this.container = container;
         this.starField = starField;
         starField.addObserver( this );
-
-//        ImageLoader imageLoader = new ImageLoader();
-//        try {
-//            mapImage = imageLoader.loadImage( "images/star-chart.gif" );
-//        }
-//        catch( IOException e ) {
-//            e.printStackTrace();
-//        }
     }
 
     public void setStarGraphicRadius( double starGraphicRadius ) {
@@ -53,8 +48,6 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
 
     public void paint( Graphics2D g ) {
 
-        // TODO: the next two sections should be moved to an update() method
-        // Add any new stars in the StarField
         AffineTransform orgTx = g.getTransform();
         g.setColor( Color.black );
 
@@ -71,16 +64,7 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
                     (int)starField.getBounds().getWidth(), (int)starField.getBounds().getHeight() );
         g.setClip( starField.getBounds() );
 
-        Iterator starIt = starToGraphicMap.keySet().iterator();
-        while( starIt.hasNext() ) {
-            Star star = (Star)starIt.next();
-            StarGraphic sg = (StarGraphic)starToGraphicMap.get( star );
-            sg.paint( g );
-        }
-
-
         super.paint( g );
-
 
         // Restore the graphics transform
         g.setTransform( orgTx );
@@ -98,6 +82,7 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
                 StarGraphic sg = new StarGraphic( star, starGraphicRadius, star.getColor(), star.getLocation(), 1 );
                 StarMapGraphic.this.addGraphic( sg );
                 starToGraphicMap.put( star, sg );
+                this.addGraphic( sg, starLayer );
             }
         }
 
@@ -108,6 +93,7 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
             Star star = (Star)starIt.next();
             if( !stars.contains( star ) ) {
                 removeList.add( star );
+                this.remove( (Graphic)starToGraphicMap.get( star ));
             }
         }
         for( int i = 0; i < removeList.size(); i++ ) {

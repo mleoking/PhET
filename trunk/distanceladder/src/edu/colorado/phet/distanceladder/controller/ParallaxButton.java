@@ -10,6 +10,7 @@ package edu.colorado.phet.distanceladder.controller;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -40,12 +41,18 @@ public class ParallaxButton extends DefaultInteractiveGraphic {
 
         Graphic graphic = new Graphic() {
             public void paint( Graphics2D g ) {
+                Object antiAliasingHint = g.getRenderingHint( RenderingHints.KEY_ANTIALIASING );
+                GraphicsUtil.setAntiAliasingOn( g );
                 AffineTransform orgTx = g.getTransform();
                 g.transform( buttonTx );
                 g.setColor( Color.red );
                 g.fill( button );
                 g.setColor( buttonBorderColor );
                 g.draw( button );
+
+                Font orgFont = g.getFont();
+                Font labelFont = orgFont.deriveFont( Font.BOLD );
+                g.setFont( labelFont );
                 FontMetrics fontMetrics = g.getFontMetrics();
                 int strWidth = fontMetrics.stringWidth( label );
                 g.drawString( label, (int)( button.getWidth() - strWidth ) / 2, 15 );
@@ -53,11 +60,13 @@ public class ParallaxButton extends DefaultInteractiveGraphic {
                 strWidth = fontMetrics.stringWidth( "Parallax Instrument" );
                 g.setColor( Color.black );
                 g.drawString( "Parallax Instrument", (int)( button.getWidth() - strWidth ) / 2, -(int)( button.getHeight() ) / 2 );
+                g.setFont( orgFont );
 
                 hitTx.setTransform( orgTx );
                 hitTx.concatenate( buttonTx );
 
                 g.setTransform( orgTx );
+                g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, antiAliasingHint );
             }
         };
         setGraphic( graphic );

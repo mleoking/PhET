@@ -1,12 +1,10 @@
--- Joystickgraphic moves the ship the amount the cursor moves, not the joystick itself. FIX IT!!!
+- Put coordinate graphic behind stars. Make lines lighter and stars bigger, especially on the cockpit panel
+
+- Joystickgraphic moves the ship the amount the cursor moves, not the joystick itself. FIX IT!!!
 
 - Add removeGraphic to CompositeGraphic
 
-- make sure coordinate graphic displays properly
-
 - fix star map so control panel stays the same width
-
-- Make widths of dialogs more reasonable.
 
 - Pull computation of brightness out of the control panel and starVeiwGraphic and put it in the photometer
 
