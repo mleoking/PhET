@@ -12,16 +12,18 @@ package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.*;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockStateEvent;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.common.util.EventChannel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.*;
@@ -49,25 +51,17 @@ import java.util.*;
 public class ApparatusPanel2 extends ApparatusPanel {
 
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
-    
     private BufferedImage bImg;
     private boolean useOffscreenBuffer = false;
     private ArrayList rectangles = new ArrayList();
     private Rectangle repaintArea;
 
-    private AffineTransform graphicTx = new AffineTransform();
-    private AffineTransform mouseTx = new AffineTransform();
+    private TransformManager transformManager;
+
     private HashMap componentOrgLocationsMap = new HashMap();
     private boolean modelPaused = false;
-    private double scale = 1.0;
-    private boolean referenceSizeSet;
     protected ClockTickListener paintTickListener;
     protected ModelElement paintModelElement;
-
-    // Bounds of the panel when scale is 1:1
-    private Rectangle referenceBounds;
-    // Size of the canvas that PhetGraphics on this panel draw to
-    private Dimension canvasSize = new Dimension();
 
     /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
@@ -100,6 +94,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
             }
         } );
         modelPaused = clock.isPaused();
+        transformManager = new TransformManager( this );
     }
 
     /**
@@ -155,8 +150,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * its current size in relation to the reference size
      */
     public void setReferenceSize() {
-        referenceSizeSet = true;
-        referenceBounds = ApparatusPanel2.this.getBounds();
+        transformManager.setReferenceSize();
         saveSwingComponentCoordinates( 1.0 );
         setScale( 1.0 );
         paintImmediately( 0, 0, getWidth(), getHeight() );
@@ -164,8 +158,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
         // Set the canvas size
         determineCanvasSize();
 
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "ApparatusPanel2.setReferenceBounds: referenceBounds=" + referenceBounds );
+        if( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "ApparatusPanel2.setReferenceBounds: referenceBounds=" + transformManager.getReferenceBounds() );
         }
     }
 
@@ -207,7 +201,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * @return
      */
     public AffineTransform getGraphicTx() {
-        return graphicTx;
+        return transformManager.getGraphicTx();
     }
 
     private void saveLocation( Component comp ) {
@@ -285,6 +279,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * Provided for backward compatibility
+     *
+     * @deprecated
      */
     public void megarepaintImmediately() {
         paintDirtyRectanglesImmediately();
@@ -312,10 +308,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
             rectangles = new ArrayList();
         }
         Rectangle r = new Rectangle( x, y, width, height );
-        if( graphicTx != null ) {
-            r = graphicTx.createTransformedShape( r ).getBounds();//TODO I thought PhetGraphics should return their exact screen bounds on a call to phetGraphic.getBounds(), which are the x,y,width,height in this method.
-            //TODO maybe if we just change the transform on the GraphicLayerSet in this object, this would be automatic, and cleaner.
-        }
+        r = transformManager.transform( r );
         rectangles.add( r );
     }
 
@@ -343,7 +336,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
 
         GraphicsState gs = new GraphicsState( g2 );
-        g2.transform( graphicTx );
+        g2.transform( transformManager.getGraphicTx() );
         if( useOffscreenBuffer && bImg != null ) {
             Graphics2D bImgGraphics = (Graphics2D)bImg.getGraphics();
             bImgGraphics.setColor( this.getBackground() );
@@ -371,6 +364,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
             Component component = components[i];
             Point origLocation = (Point)componentOrgLocationsMap.get( component );
             if( origLocation != null ) {
+                double scale = transformManager.getScale();
                 Point newLocation = new Point( (int)( origLocation.getX() * scale ), (int)( origLocation.getY() * scale ) );
                 component.setLocation( newLocation );
             }
@@ -383,7 +377,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * @return
      */
     protected Rectangle getReferenceBounds() {
-        return referenceBounds;
+        return transformManager.getReferenceBounds();
     }
 
     /**
@@ -401,7 +395,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * @return the size
      */
     public Dimension getCanvasSize() {
-        return canvasSize;
+        return transformManager.getCanvasSize();
     }
 
     //-----------------------------------------------------------------
@@ -410,11 +404,12 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     private class PanelResizeHandler extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {
-            if( !referenceSizeSet ) {
+            if( !transformManager.isReferenceSizeSet() ) {
                 setReferenceSize();
             }
             else {
                 // Setup the affine transforms for graphics and mouse events
+                Rectangle referenceBounds = transformManager.getReferenceBounds();
                 double sx = getWidth() / referenceBounds.getWidth();
                 double sy = getHeight() / referenceBounds.getHeight();
                 // Using a single scale factor keeps the aspect ratio constant
@@ -431,39 +426,18 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * If the size changed, an canvasSizeChanged is called on all ChangeListeners
      */
     private void determineCanvasSize() {
-        double refAspectRatio = referenceBounds.getHeight() / referenceBounds.getWidth();
-        double currAspectRatio = (double)getHeight() / getWidth();
-        double widthFactor = 1;
-        double heightFactor = 1;
-        if( currAspectRatio < refAspectRatio ) {
-            widthFactor = refAspectRatio / currAspectRatio;
-        }
-        else {
-            heightFactor = currAspectRatio / refAspectRatio;
-        }
-        Dimension oldSize = new Dimension( canvasSize );
-        canvasSize.setSize( referenceBounds.getWidth() * widthFactor, referenceBounds.getHeight() * heightFactor );
-        if( oldSize.width != canvasSize.width || oldSize.height != canvasSize.height ) {
-            changeListenerProxy.canvasSizeChanged( new ChangeEvent( ApparatusPanel2.this ) );
+        boolean changed = transformManager.determineCanvasSize();
+        if( changed ) {
+            changeListenerProxy.canvasSizeChanged( new ApparatusPanel2.ChangeEvent( ApparatusPanel2.this ) );
         }
     }
 
     public double getScale() {
-        return scale;
+        return transformManager.getScale();
     }
 
     public void setScale( double scale ) {
-        graphicTx = AffineTransform.getScaleInstance( scale, scale );
-        this.scale = scale;
-        if ( DEBUG_OUTPUT_ENABLED ) {
-            System.out.println( "ApparatusPanel2.setScale: scale=" + scale );
-        }
-        try {
-            mouseTx = graphicTx.createInverse();
-        }
-        catch( NoninvertibleTransformException e1 ) {
-            e1.printStackTrace();
-        }
+        transformManager.setScale( scale );
         layoutSwingComponents();
     }
 
@@ -501,6 +475,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         private void xformEventPt( MouseEvent event ) {
             Point2D.Double p = new Point2D.Double( event.getPoint().getX(), event.getPoint().getY() );
+            AffineTransform mouseTx = transformManager.getMouseTx();
             mouseTx.transform( p, p );
             int dx = (int)( p.getX() - event.getPoint().getX() );
             int dy = (int)( p.getY() - event.getPoint().getY() );
@@ -616,7 +591,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
 
         public Dimension getCanvasSize() {
-            return canvasSize;
+            return transformManager.getCanvasSize();
         }
     }
 
