@@ -92,20 +92,6 @@ public class BufferedPhetGraphic2 extends GraphicLayerSet {
 
     public void repaintBuffer() {
         doRepaint( 0, 0, getComponent().getWidth(), getComponent().getHeight() );
-//        if( getImage() == null ) {
-//            createBuffer();
-//        }
-//        Graphics2D g2 = getImage().createGraphics();
-//        BufferedImage buffer = getImage();
-//        if( background != null ) {
-//            g2.setPaint( background );
-//            g2.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
-//        }
-//
-//        if( buffer != null ) {
-//            super.paint( buffer.createGraphics() );
-//            forceRepaint();
-//        }
     }
 
     private BufferedImage getImage() {
@@ -118,10 +104,23 @@ public class BufferedPhetGraphic2 extends GraphicLayerSet {
 
     protected Rectangle determineBounds() {
         return clip;
-//        return phetImageGraphic.determineBounds();
     }
 
     public void paint( Graphics2D g ) {
         phetImageGraphic.paint( g );
+    }
+
+    public static PhetGraphic createBuffer( PhetGraphic phetGraphic, GraphicsSetup graphicsSetup, int imageType, Paint background ) {
+        PhetImageGraphic phetImageGraphic = new PhetImageGraphic( phetGraphic.getComponent() );
+        Rectangle r = phetGraphic.getBounds();
+        BufferedImage im = new BufferedImage( r.width, r.height, imageType );
+        Graphics2D g2 = im.createGraphics();
+        graphicsSetup.setup( g2 );
+        g2.setPaint( background );
+        g2.translate( -r.x, -r.y );
+        g2.fillRect( r.x, r.y, r.width, r.height );
+        phetGraphic.paint( g2 );
+        phetImageGraphic.setImage( im );
+        return phetImageGraphic;
     }
 }
