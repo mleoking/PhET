@@ -19,9 +19,9 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.clockgui.ClockParamSetterPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
+import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.forces1d.common.ShadowHTMLGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,16 +35,16 @@ public class TestPhetApplication2 {
         public TestApparatusPanel() {
 //            HTMLGraphic htmlGraphic=new HTMLGraphic( this, getFont(), "Size="+Color.blue);
             Font font = new Font( "Lucida Sans", Font.BOLD, 22 );
-            final ShadowHTMLGraphic htmlGraphic = new ShadowHTMLGraphic( this, "Size=" + getSize(), font, Color.blue, 2, 2, Color.black );
+            final HTMLGraphic htmlGraphic = new HTMLGraphic( this, font, "Size=" + getSize(), Color.blue );
             addGraphic( htmlGraphic, Double.POSITIVE_INFINITY );
             htmlGraphic.setLocation( 0, 100 );
             addComponentListener( new ComponentAdapter() {
                 public void componentResized( ComponentEvent e ) {
-                    htmlGraphic.setHTML( "Size=" + TestApparatusPanel.this.getSize() );
+                    htmlGraphic.setHtml( "Size=" + TestApparatusPanel.this.getSize() );
                 }
 
                 public void componentShown( ComponentEvent e ) {
-                    htmlGraphic.setHTML( "Size=" + TestApparatusPanel.this.getSize() );
+                    htmlGraphic.setHtml( "Size=" + TestApparatusPanel.this.getSize() );
                 }
             } );
 
