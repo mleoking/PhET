@@ -91,4 +91,8 @@ public class DoubleGeneralPath {
     public void reset() {
         path.reset();
     }
+
+    public void closePath() {
+        path.closePath();
+    }
 }
