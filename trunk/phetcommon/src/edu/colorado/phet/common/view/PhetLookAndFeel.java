@@ -57,7 +57,8 @@ public class PhetLookAndFeel {
         "CheckBox", "RadioButton", "ComboBox",
         "Menu", "MenuItem", "MenuBar",
         "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem",
-        "TextField", "TextArea", "Spinner", "Label", "TextPane"
+        "TextField", "TextArea", "Spinner", "Label", "TextPane", 
+        "TabbedPane", "OptionPane"
     };
 
     public PhetLookAndFeel() {
