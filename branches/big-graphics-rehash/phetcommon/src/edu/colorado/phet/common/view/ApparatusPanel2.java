@@ -11,6 +11,8 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,7 +53,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     // Instance fields and methods
     //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-    CompositeGraphic graphic = new CompositeGraphic();
+    GraphicLayerSet graphic;
     CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
     BufferedImage bImg;
 
@@ -68,6 +70,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     public ApparatusPanel2( BaseModel model ) {
         super( null );
+        graphic= new GraphicLayerSet(this );
         // The following lines use a mouse processor in the model loop
         MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
         model.addModelElement( mouseProcessor );
@@ -284,19 +287,19 @@ public class ApparatusPanel2 extends ApparatusPanel {
         //        System.out.println( "dt = " + dt );
     }
 
-    public void addGraphic( Graphic graphic, double level ) {
+    public void addGraphic( PhetGraphic graphic, double level ) {
         this.graphic.addGraphic( graphic, level );
     }
 
-    public void addGraphic( Graphic graphic ) {
+    public void addGraphic( PhetGraphic graphic) {
         this.addGraphic( graphic, 0 );
     }
 
-    public void removeGraphic( Graphic graphic ) {
+    public void removeGraphic( PhetGraphic graphic ) {
         this.graphic.removeGraphic( graphic );
     }
 
-    public CompositeGraphic getGraphic() {
+    public GraphicLayerSet getGraphic() {
         return graphic;
     }
 

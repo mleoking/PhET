@@ -8,9 +8,16 @@ package edu.colorado.phet.common.view.help;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 
-public class HelpManager extends CompositeGraphic {
+import java.awt.*;
+
+public class HelpManager extends GraphicLayerSet{
     double helpLayer = Double.POSITIVE_INFINITY;
+
+    public HelpManager( Component component ) {
+        super( component );
+    }
 
     public void removeHelpItem( HelpItem helpItem ) {
         super.removeGraphic( helpItem );

@@ -6,8 +6,9 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.Boundary;
+import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
@@ -18,12 +19,18 @@ import java.awt.event.MouseEvent;
  * the CompositeGraphic specified in the constructor.
  */
 public class CompositeInteractiveGraphicMouseDelegator implements MouseInputListener {
-    CompositeGraphic compositeInteractiveGraphic;
+    GraphicLayerSet compositeInteractiveGraphic;
     MouseInputListener activeUnit;
 
-    public CompositeInteractiveGraphicMouseDelegator( CompositeGraphic compositeInteractiveGraphic ) {
+    public CompositeInteractiveGraphicMouseDelegator( GraphicLayerSet compositeInteractiveGraphic ) {
         this.compositeInteractiveGraphic = compositeInteractiveGraphic;
+        if (compositeInteractiveGraphic==null){
+            throw new RuntimeException( "Null graphic");
+        }
     }
+    //    public CompositeInteractiveGraphicMouseDelegator( CompositeGraphic compositeInteractiveGraphic ) {
+    //        this.compositeInteractiveGraphic = compositeInteractiveGraphic;
+    //    }
 
     public void startDragging( MouseEvent event, MouseInputListener activeUnit ) {
         if( this.activeUnit != null ) {
@@ -62,15 +69,16 @@ public class CompositeInteractiveGraphicMouseDelegator implements MouseInputList
                 activeUnit.mouseEntered( e );
             }
         }
-//        System.out.println( "activeUnit = " + activeUnit );
+        //        System.out.println( "activeUnit = " + activeUnit );
     }
 
-    private MouseInputListener getLeaf( Point p, CompositeGraphic cig ) {
-        Graphic[] graphics = cig.getGraphics();
+    private MouseInputListener getLeaf( Point p, GraphicLayerSet cig ) {
+//        Graphic[] graphics = cig.getGraphics();
+        Graphic[] graphics = cig.getChildrenForMouseHandling();
         MouseInputListener result = null;
         for( int i = graphics.length - 1; result == null && i >= 0; i-- ) {
-            if( graphics[i] instanceof CompositeGraphic ) {
-                CompositeGraphic compositeInteractiveGraphic = (CompositeGraphic)graphics[i];
+            if( graphics[i] instanceof GraphicLayerSet ) {
+                GraphicLayerSet compositeInteractiveGraphic = (GraphicLayerSet)graphics[i];
                 if( compositeInteractiveGraphic.isVisible() ) {
                     result = getLeaf( p, compositeInteractiveGraphic );
                 }

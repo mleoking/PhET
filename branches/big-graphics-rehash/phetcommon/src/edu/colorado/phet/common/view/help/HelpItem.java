@@ -9,13 +9,15 @@ package edu.colorado.phet.common.view.help;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ShadowTextGraphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class HelpItem implements Graphic {
+public class HelpItem extends PhetGraphic{
     public final static int ABOVE = 1;
     public final static int BELOW = 2;
     public final static int LEFT = 3;
@@ -33,8 +35,8 @@ public class HelpItem implements Graphic {
     private Color foregroundColor;
     boolean inited = false;
 
-    public HelpItem( String text, double x, double y ) {
-        this( text, x, y, CENTER, CENTER );
+    public HelpItem( Component component,String text, double x, double y ) {
+        this( component, text, x, y, CENTER, CENTER );
     }
 
     /**
@@ -46,14 +48,19 @@ public class HelpItem implements Graphic {
      * @param verticalAlignment   Specifies if the help item will be displayed ABOVE
      *                            or BELOW the specified y coordinate
      */
-    public HelpItem( String text, double x, double y,
+    public HelpItem( Component component,String text, double x, double y,
                      int horizontalAlignment, int verticalAlignment ) {
+        super(component );
         this.horizontalAlignment = horizontalAlignment;
         this.verticalAlignment = verticalAlignment;
         this.text = text;
         this.location = new Point2D.Double( x, y );
         shadowColor = Color.black;
         foregroundColor = new Color( 156, 156, 0 );
+    }
+
+    protected Rectangle determineBounds() {
+        return getComponent().getBounds( );//TODO this should return the correct bounds
     }
 
     public void setLocation( int x, int y ) {

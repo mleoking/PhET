@@ -26,7 +26,7 @@ public abstract class PhetGraphic implements InteractiveGraphic {
     private Rectangle lastBounds = null;
     private Rectangle bounds = null;
     private Component component;
-    protected boolean visible = true;
+    private boolean visible = true;
     private boolean boundsDirty = true;
     private RenderingHints savedRenderingHints;
     private RenderingHints renderingHints;
@@ -93,6 +93,10 @@ public abstract class PhetGraphic implements InteractiveGraphic {
         return component;
     }
 
+    protected boolean getVisibilityFlag(){
+        return visible;
+    }
+
     public boolean isVisible() {
         // If we have a parent, check to see if it is visible
         if( parent != null ) {
@@ -147,6 +151,7 @@ public abstract class PhetGraphic implements InteractiveGraphic {
             component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
         }
         if( bounds != null ) {
+//            System.out.println( "bounds = " + bounds );
             component.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
         }
         if( bounds != null ) {

@@ -4,7 +4,6 @@ package edu.colorado.phet.common.view.phetgraphics;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.Graphic;
 
 import java.awt.*;
 
@@ -14,7 +13,7 @@ import java.awt.*;
  * Time: 3:33:37 AM
  * Copyright (c) Jul 1, 2004 by Sam Reid
  */
-public class RepaintDebugGraphic implements Graphic, ClockTickListener {
+public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListener {
     private int r = 255;
     private int g = 255;
     private int b = 255;
@@ -23,6 +22,7 @@ public class RepaintDebugGraphic implements Graphic, ClockTickListener {
     private boolean active = false;
 
     public RepaintDebugGraphic( ApparatusPanel panel, AbstractClock clock ) {
+        super( panel );
         this.panel = panel;
         this.clock = clock;
     }
@@ -53,4 +53,7 @@ public class RepaintDebugGraphic implements Graphic, ClockTickListener {
         }
     }
 
+    protected Rectangle determineBounds() {
+        return panel.getBounds();//TODO fix this for the correct rectangle.
+    }
 }

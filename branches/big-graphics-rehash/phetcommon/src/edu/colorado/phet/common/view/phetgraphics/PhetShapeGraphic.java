@@ -115,7 +115,11 @@ public class PhetShapeGraphic extends PhetGraphic {
     }
 
     public void translate( double dx, double dy ) {
+        System.out.println( "dx = " + dx );
         Shape newShape = AffineTransform.getTranslateInstance( dx, dy ).createTransformedShape( shape );
+        System.out.println( "newShape.getBounds() = " + newShape.getBounds() );
+        System.out.println( "newShape = " + newShape );
+        System.out.println( "shape= " + shape);
         setShape( newShape );
     }
 
