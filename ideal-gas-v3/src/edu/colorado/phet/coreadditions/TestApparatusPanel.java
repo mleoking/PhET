@@ -76,15 +76,15 @@ public class TestApparatusPanel extends ApparatusPanel {
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
-//        this.addMouseListener( mouseDelegator );
-//        this.addMouseMotionListener( mouseDelegator );
+        //        this.addMouseListener( mouseDelegator );
+        //        this.addMouseMotionListener( mouseDelegator );
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 //                Graphics g = PhetApplication.instance().getApplicationView().getPhetFrame().getGraphics();
                 //                myPaintComponent( g );
                 //                myPaintComponents( g );
-//                updateBuffer();
+                //                updateBuffer();
                 megapaintImmediately();
                 //                paintImmediately( 0, 0, getWidth(), getHeight() );
 
@@ -114,7 +114,9 @@ public class TestApparatusPanel extends ApparatusPanel {
                     Component[] components = TestApparatusPanel.this.getComponents();
                     for( int i = 0; i < components.length; i++ ) {
                         Component component = components[i];
-                        componentOrgLocationsMap.put( component, new Point( component.getLocation() ) );
+                        if( !componentOrgLocationsMap.containsKey( component ) ) {
+                            componentOrgLocationsMap.put( component, new Point( component.getLocation() ) );
+                        }
                     }
                 }
 
@@ -137,11 +139,28 @@ public class TestApparatusPanel extends ApparatusPanel {
                 for( int i = 0; i < components.length; i++ ) {
                     Component component = components[i];
                     Point p = (Point)componentOrgLocationsMap.get( component );
-                    Point pNew = new Point( (int)( p.getX() * s ), (int)( p.getY() * s ) );
-                    component.setLocation( pNew );
+                    if( p != null ) {
+                        Point pNew = new Point( (int)( p.getX() * s ), (int)( p.getY() * s ) );
+                        component.setLocation( pNew );
+                    }
                 }
             }
         } );
+    }
+
+    public void add( Component comp, Object constraints ) {
+        componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+        super.add( comp, constraints );
+    }
+
+    public Component add( Component comp, int index ) {
+        componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+        return super.add( comp, index );
+    }
+
+    public Component add( String name, Component comp ) {
+        componentOrgLocationsMap.put( comp, new Point( comp.getLocation() ) );
+        return super.add( name, comp );
     }
 
     public void paintImmediately() {
