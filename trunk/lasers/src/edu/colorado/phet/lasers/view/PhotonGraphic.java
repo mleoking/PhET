@@ -188,22 +188,26 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         BufferedImageOp op = new ColorFromWavelength( photon.getWavelength() );
         BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
         op.filter( s_particleImage, bi );
-        Point2D pr = new Point2D.Double( );
-        if( theta >= 0 && theta <= Math.PI / 2  ) {
-            pr.setLocation( 0, bi.getHeight( ));
+
+        // Determine the correct point of the image about which to rotate it. If we don't
+        // do this correctly, the image will get clipped when it is rotated into certain
+        // quadrants
+        Point2D pr = new Point2D.Double();
+        theta = ( theta + Math.PI * 2 ) % ( Math.PI * 2 );
+        if( theta >= 0 && theta <= Math.PI / 2 ) {
+            pr.setLocation( 0, bi.getHeight() );
         }
         if( theta > Math.PI / 2 && theta <= Math.PI ) {
-            pr.setLocation( bi.getWidth(), bi.getHeight( ));
+            pr.setLocation( bi.getWidth(), bi.getHeight() );
         }
         if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
-            pr.setLocation( 0, bi.getHeight( ));
+            pr.setLocation( bi.getWidth(), bi.getHeight() );
         }
         if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
-            pr.setLocation( bi.getWidth(), bi.getHeight( ));
+            pr.setLocation( bi.getWidth(), bi.getHeight() );
         }
 
-        // todo: The rotation point is not correct. It results in some clipping of the image
-        AffineTransform rtx = AffineTransform.getRotateInstance( theta, bi.getWidth()/2, bi.getHeight( )/2 );
+        AffineTransform rtx = AffineTransform.getRotateInstance( theta, pr.getX(), pr.getY() );
         BufferedImageOp op2 = new AffineTransformOp( rtx, AffineTransformOp.TYPE_BILINEAR );
         BufferedImage bi3 = op2.filter( bi, null );
         setImage( bi3 );
@@ -246,8 +250,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
             int numImgs = (int)( ( 20f / 680 ) * photon.getWavelength() );
             animation = new BufferedImage[numImgs];
 
-            // Compute the size of buffered image needed to hold the rotated copy of the
-            // base generator image, and create the transform op for doing the rotation
             AffineTransform xform = AffineTransform.getRotateInstance( theta, s_imgLength / 2, s_imgHeight / 2 );
             int xPrime = (int)( s_imgLength * Math.abs( Math.cos( theta ) ) + s_imgHeight * Math.abs( Math.sin( theta ) ) );
             int yPrime = (int)( s_imgLength * Math.abs( Math.sin( theta ) ) + s_imgHeight * Math.abs( Math.cos( theta ) ) );
@@ -302,21 +304,13 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         // porperly. The particle's location is its center, but the location of
         // the graphic is the upper-left corner of the bounding box.
         // TODO: coordinate the size of the particle and the image
-        double x = particle.getPosition().getX() - getImage().getWidth();/* - particle.getRadius() */;
+        double x = particle.getPosition().getX() - getImage().getWidth();/* - particle.getRadius() */
+        ;
         double y = particle.getPosition().getY() /* - particle.getRadius()*/;
         super.setPosition( (int)x, (int)y );
     }
 
     public void paint( Graphics2D g ) {
-        //        saveGraphicsState( g );
-        //        r.setRect( photon.getPosition().getX(),photon.getPosition().getY(),2,2 );
-        //        Color c = VisibleColor.wavelengthToColor( photon.getWavelength() );
-        ////        Color c = VisibleColor.wavelengthToColor( Photon.RED );
-        //        g.setColor( c );
-        //        g.fill( r );
-        //
-        //        restoreGraphicsState();
-
         super.paint( g );
     }
 }
