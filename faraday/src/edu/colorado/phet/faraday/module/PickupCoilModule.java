@@ -25,9 +25,6 @@ import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.CompassGridRescaler;
-import edu.colorado.phet.faraday.util.ElectronSpeedRescaler;
-import edu.colorado.phet.faraday.util.LightbulbRescaler;
-import edu.colorado.phet.faraday.util.VoltmeterRescaler;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -62,7 +59,7 @@ public class PickupCoilModule extends FaradayModule {
     
     // Pickup Coil parameters
     private static final int NUMBER_OF_LOOPS = 2;
-    private static final double LOOP_RADIUS = 0.75 * FaradayConfig.MAX_PICKUP_RADIUS;
+    private static final double LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -104,7 +101,7 @@ public class PickupCoilModule extends FaradayModule {
         // Pickup Coil
         PickupCoil pickupCoilModel = new PickupCoil( barMagnetModel );
         pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
-        pickupCoilModel.setRadius( LOOP_RADIUS );
+        pickupCoilModel.setLoopArea( LOOP_AREA );
         pickupCoilModel.setDirection( 0 /* radians */ );
         pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
         pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);

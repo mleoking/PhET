@@ -60,7 +60,7 @@ public class GeneratorModule extends FaradayModule {
     
     // Pickup Coil parameters
     private static final int NUMBER_OF_LOOPS = 2;
-    private static final double LOOP_RADIUS = 0.75 * FaradayConfig.MAX_PICKUP_RADIUS;
+    private static final double LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -106,7 +106,7 @@ public class GeneratorModule extends FaradayModule {
         // Pickup Coil
         PickupCoil pickupCoilModel = new PickupCoil( turbineModel );
         pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
-        pickupCoilModel.setRadius( LOOP_RADIUS );
+        pickupCoilModel.setLoopArea( LOOP_AREA );
         pickupCoilModel.setDirection( 0 /* radians */ );
         pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
         pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
