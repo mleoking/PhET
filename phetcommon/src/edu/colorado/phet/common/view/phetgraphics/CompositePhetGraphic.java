@@ -15,7 +15,7 @@ import java.awt.*;
 /**
  * A list of PhetGraphics, painted in order.
  * The CompositePhetGraphic manages interactivity for all its children.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -40,4 +40,10 @@ public class CompositePhetGraphic extends GraphicLayerSet {
         }
     }
 
+    //---------------------------------------------------------
+    // For Java Beans conformance
+    //---------------------------------------------------------
+
+    public CompositePhetGraphic() {
+    }
 }

@@ -85,4 +85,27 @@ public class PhetShadowTextGraphic extends PhetGraphic {
         setBoundsDirty();
         autorepaint();
     }
+
+    //-----------------------------------------------------------
+    // Provided for Java Beans conformance
+    //-----------------------------------------------------------
+
+    public PhetShadowTextGraphic() {
+    }
+
+    public PhetTextGraphic getForeground() {
+        return foreground;
+    }
+
+    public void setForeground( PhetTextGraphic foreground ) {
+        this.foreground = foreground;
+    }
+
+    public PhetTextGraphic getBackground() {
+        return background;
+    }
+
+    public void setBackground( PhetTextGraphic background ) {
+        this.background = background;
+    }
 }

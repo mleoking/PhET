@@ -27,6 +27,7 @@ public class PhetImageGraphic extends PhetGraphic {
     private BufferedImage image;
     private boolean shapeDirty = true;
     private Shape shape;
+    private String imageResourceName;
 
     protected PhetImageGraphic( Component component ) {
         this( component, null, 0, 0 );
@@ -34,6 +35,7 @@ public class PhetImageGraphic extends PhetGraphic {
 
     public PhetImageGraphic( Component component, String imageResourceName ) {
         this( component, (BufferedImage)null );
+        this.imageResourceName = imageResourceName;
 
         BufferedImage bufferedImage;
         try {
@@ -83,7 +85,7 @@ public class PhetImageGraphic extends PhetGraphic {
             if( hints != null ) {
                 g2.setRenderingHints( hints );
             }
-            g2.drawRenderedImage( image, getNetTransform() );        
+            g2.drawRenderedImage( image, getNetTransform() );
             super.restoreGraphicsState();
         }
     }
@@ -105,4 +107,28 @@ public class PhetImageGraphic extends PhetGraphic {
         return image;
     }
 
+
+    ///////////////////////////////////////////////////
+    // Persistence support
+    //
+
+    public PhetImageGraphic() {
+        // noop
+    }
+
+    public String getImageResourceName() {
+        return imageResourceName;
+    }
+
+    public void setImageResourceName( String imageResourceName ) {
+        this.imageResourceName = imageResourceName;
+        BufferedImage bufferedImage;
+        try {
+            bufferedImage = ImageLoader.loadBufferedImage( imageResourceName );
+        }
+        catch( IOException e ) {
+            throw new RuntimeException( "Image resource not found: " + imageResourceName );
+        }
+        setImage( bufferedImage );
+    }
 }

@@ -30,7 +30,7 @@ public class SimStrings {
     static {
         SimStrings.setStrings( "localization/CommonStrings" );
     }
-    
+
     public static void setLocale( Locale locale ) {
         localizedLocale = locale;
         // Reload all existing string resources with the new locale
@@ -39,7 +39,7 @@ public class SimStrings {
         localizedStrings = null;
         if( priorPaths != null ) {
             for( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
-                String path = (String) i.next();
+                String path = (String)i.next();
                 setStrings( path );
             }
         }
@@ -87,7 +87,7 @@ public class SimStrings {
             }
         }
 
-        if ( value == null ) {
+        if( value == null ) {
             System.err.println( "SimStrings: key not found, key = \"" + key + "\"" );
             value = key;
         }

@@ -13,6 +13,8 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.persistence.Persistent;
+import edu.colorado.phet.common.util.persistence.StateDescriptor;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
@@ -31,7 +33,7 @@ import javax.swing.*;
  * @author ?
  * @version $Revision$
  */
-public class Module {
+public class Module implements Persistent {
 
     BaseModel model;
     ApparatusPanel apparatusPanel;
@@ -41,44 +43,40 @@ public class Module {
     HelpManager helpManager;
 
 
-    public Module() {
-
-    }
-
-    protected Module(String name) {
+    protected Module( String name ) {
         this.name = name;
-        SimStrings.setStrings("localization/CommonStrings");
+        SimStrings.setStrings( "localization/CommonStrings" );
         helpManager = new HelpManager();
     }
 
-    protected void init(ApparatusPanel panel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel) {
-        setApparatusPanel(apparatusPanel);
-        setControlPanel(controlPanel);
-        setMonitorPanel(monitorPanel);
-        setModel(model);
+    protected void init( ApparatusPanel apparatusPanel, JPanel controlPanel, JPanel monitorPanel, BaseModel baseModel ) {
+        setApparatusPanel( apparatusPanel );
+        setControlPanel( controlPanel );
+        setMonitorPanel( monitorPanel );
+        setModel( baseModel );
     }
 
     /////////////////////////////////////////////////////////////////
     // Setters and getters
     //
-    protected void setApparatusPanel(ApparatusPanel apparatusPanel) {
+    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
         this.apparatusPanel = apparatusPanel;
-        helpManager = new HelpManager(apparatusPanel);//TODO fix this.
+        helpManager = new HelpManager( apparatusPanel );//TODO fix this.
     }
 
     public ApparatusPanel getApparatusPanel() {
         return apparatusPanel;
     }
 
-    protected void setMonitorPanel(JPanel monitorPanel) {
+    public void setMonitorPanel( JPanel monitorPanel ) {
         this.monitorPanel = monitorPanel;
     }
 
-    protected void setModel(BaseModel model) {
+    public void setModel( BaseModel model ) {
         this.model = model;
     }
 
-    protected void setControlPanel(JPanel controlPanel) {
+    public void setControlPanel( JPanel controlPanel ) {
         this.controlPanel = controlPanel;
     }
 
@@ -90,31 +88,26 @@ public class Module {
         return monitorPanel;
     }
 
-
-    public BaseModel getModel() {
-        return model;
-    }
-
     public String getName() {
         return name;
     }
 
-    protected void addModelElement(ModelElement modelElement) {
-        getModel().addModelElement(modelElement);
+    protected void addModelElement( ModelElement modelElement ) {
+        getModel().addModelElement( modelElement );
     }
 
-    public void addGraphic(PhetGraphic graphic, double layer) {
-        getApparatusPanel().addGraphic(graphic, layer);
+    public void addGraphic( PhetGraphic graphic, double layer ) {
+        getApparatusPanel().addGraphic( graphic, layer );
     }
 
-    protected void add(ModelElement modelElement, PhetGraphic graphic, double layer) {
-        this.addModelElement(modelElement);
-        this.addGraphic(graphic, layer);
+    protected void add( ModelElement modelElement, PhetGraphic graphic, double layer ) {
+        this.addModelElement( modelElement );
+        this.addGraphic( graphic, layer );
     }
 
-    protected void remove(ModelElement modelElement, PhetGraphic graphic) {
-        getModel().removeModelElement(modelElement);
-        getApparatusPanel().removeGraphic(graphic);
+    protected void remove( ModelElement modelElement, PhetGraphic graphic ) {
+        getModel().removeModelElement( modelElement );
+        getApparatusPanel().removeGraphic( graphic );
     }
 
     /**
@@ -123,13 +116,13 @@ public class Module {
      *
      * @param app
      */
-    public void activate(PhetApplication app) {
-        if (!moduleIsWellFormed()) {
-            throw new RuntimeException("Module missing important data, module=" + this);
+    public void activate( PhetApplication app ) {
+        if( !moduleIsWellFormed() ) {
+            throw new RuntimeException( "Module missing important data, module=" + this );
         }
-        app.getPhetFrame().getBasicPhetPanel().setControlPanel(this.getControlPanel());
-        app.getPhetFrame().getBasicPhetPanel().setMonitorPanel(this.getMonitorPanel());
-        app.addClockTickListener(model);
+        app.getPhetFrame().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
+        app.getPhetFrame().getBasicPhetPanel().setMonitorPanel( this.getMonitorPanel() );
+        app.addClockTickListener( model );
     }
 
     /**
@@ -138,8 +131,8 @@ public class Module {
      *
      * @param app
      */
-    public void deactivate(PhetApplication app) {
-        app.removeClockTickListener(model);
+    public void deactivate( PhetApplication app ) {
+        app.removeClockTickListener( model );
     }
 
     public boolean moduleIsWellFormed() {
@@ -160,6 +153,7 @@ public class Module {
 
     /**
      * Tells whether this module has on-screen help
+     *
      * @return
      */
     public boolean hasHelp() {
@@ -168,31 +162,34 @@ public class Module {
 
     /**
      * Switches the display of onscreen help off and on
+     *
      * @param h
      */
-    public void setHelpEnabled(boolean h) {
-        helpManager.setHelpEnabled(apparatusPanel, h);
+    public void setHelpEnabled( boolean h ) {
+        helpManager.setHelpEnabled( apparatusPanel, h );
     }
 
     /**
      * Adds a an onscreen help item to the module
+     *
      * @param helpItem
      */
-    public void addHelpItem(HelpItem helpItem) {
-        helpManager.addHelpItem(helpItem);
-        if (controlPanel != null && controlPanel instanceof ControlPanel ) {
-            ((ControlPanel)controlPanel).setHelpPanelEnabled(true);
+    public void addHelpItem( HelpItem helpItem ) {
+        helpManager.addHelpItem( helpItem );
+        if( controlPanel != null && controlPanel instanceof ControlPanel ) {
+            ( (ControlPanel)controlPanel ).setHelpPanelEnabled( true );
         }
     }
 
     /**
      * Removes an onscreen help item from the module
+     *
      * @param helpItem
      */
-    public void removeHelpItem(HelpItem helpItem) {
-        helpManager.removeHelpItem(helpItem);
-        if (controlPanel != null && controlPanel instanceof ControlPanel && helpManager.getNumHelpItems() == 0) {
-            ((ControlPanel)controlPanel).setHelpPanelEnabled(false);
+    public void removeHelpItem( HelpItem helpItem ) {
+        helpManager.removeHelpItem( helpItem );
+        if( controlPanel != null && controlPanel instanceof ControlPanel && helpManager.getNumHelpItems() == 0 ) {
+            ( (ControlPanel)controlPanel ).setHelpPanelEnabled( false );
         }
     }
 
@@ -204,14 +201,71 @@ public class Module {
 
     /**
      * This must be overriden by subclasses that have megahelp to return true
+     *
      * @return
      */
     public boolean hasMegaHelp() {
         return false;
     }
 
-    //////////////////////////////////////////////////////////////
-    // Getters and setters
+    ////////////////////////////////////////////////////////////////
+    // Persistence
     //
 
+    public BaseModel getModel() {
+        return model;
+    }
+
+
+    public void setState( StateDescriptor stateDescriptor ) {
+        stateDescriptor.setState( this );
+//        restoreState( (ModuleStateDescriptor)stateDescriptor );
+    }
+
+    /**
+     * Returns a ModuleStateDescriptor for this Module.
+     * <p/>
+     * This method should be extended by subclasses that have state attributes.
+     *
+     * @return
+     */
+    public StateDescriptor getState() {
+        ModuleStateDescriptor sd = new ModuleStateDescriptor( this );
+        return sd;
+    }
+
+    /**
+     * Restores the state of this Module to that specificied in a ModuleStateDescriptor
+     *
+     * @param stateDescriptor
+     */
+//    private void restoreState( ModuleStateDescriptor stateDescriptor ) {
+//
+//        // Remove and clean up the current model
+//        AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();
+//        BaseModel oldModel = getModel();
+//        oldModel.removeAllModelElements();
+//        clock.removeClockTickListener( oldModel );
+//
+//        // Set up the restored model
+//        BaseModel newModel = sd.getModel();
+//        clock.addClockTickListener( newModel );
+//        setModel( newModel );
+//
+//        // Set up the restored graphics
+//        // Hook all the graphics up to the current apparatus panel
+//        MultiMap graphicsMap = sd.getGraphicMap();
+//        Iterator it = graphicsMap.iterator();
+//        while( it.hasNext() ) {
+//            Object obj = it.next();
+//            if( obj instanceof PhetGraphic ) {
+//                PhetGraphic phetGraphic = (PhetGraphic)obj;
+//                phetGraphic.setComponent( getApparatusPanel() );
+//            }
+//        }
+//        getApparatusPanel().getGraphic().setGraphicMap( sd.getGraphicMap() );
+//
+//        // Force a repaint on the apparatus panel
+//        getApparatusPanel().repaint();
+//    }
 }

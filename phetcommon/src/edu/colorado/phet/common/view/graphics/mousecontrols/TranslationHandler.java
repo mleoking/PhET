@@ -60,4 +60,25 @@ public class TranslationHandler implements MouseInputListener {
     public void mouseExited( MouseEvent e ) {
     }
 
+    //////////////////////////////////////////////////////////
+    // Persistence support
+    //
+    public TranslationHandler() {
+    }
+
+    public TranslationListener getTranslationListener() {
+        return translationListener;
+    }
+
+    public void setTranslationListener( TranslationListener translationListener ) {
+        this.translationListener = translationListener;
+    }
+
+    public Point getLast() {
+        return last;
+    }
+
+    public void setLast( Point last ) {
+        this.last = last;
+    }
 }
