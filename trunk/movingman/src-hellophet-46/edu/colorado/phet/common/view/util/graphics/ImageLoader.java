@@ -1,10 +1,10 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.common.view.util.graphics;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 
 /**
@@ -21,8 +21,8 @@ public class ImageLoader {
         return im;
     }
 
-    public BufferedImage loadBufferedImage( String name ) {
-        return GraphicsUtil.toBufferedImage( loadImage( name ) );
+    public BufferedImage loadBufferedImage( String name ) throws IOException {
+        return ImageIO.read( getClass().getClassLoader().getResource( name ) );
     }
 
     private class ResourceLoader extends Container {

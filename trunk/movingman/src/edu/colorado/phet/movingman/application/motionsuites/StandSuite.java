@@ -15,7 +15,7 @@ import javax.swing.*;
  */
 public class StandSuite extends MotionSuite {
     public StandSuite( MovingManModule module ) {
-        super( module, "Stand Very Still" );
+        super( module, "Stand Still" );
         StepMotion stay = new StepMotion() {
             public double stepInTime( Man man, double dt ) {
                 return man.getX();
@@ -23,7 +23,7 @@ public class StandSuite extends MotionSuite {
         };
 
         JPanel standStillPanel = new JPanel();
-        standStillPanel.add( new JLabel( "<html>No controls.<br>Click 'Run Motion' <br>to start standing still.</html>" ) );
+        standStillPanel.add( new JLabel( "<html>Click 'Go!'<br>to start standing still.</html>" ) );
 
         super.setMotion( stay );
         super.setControlPanel( standStillPanel );

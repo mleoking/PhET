@@ -5,7 +5,6 @@ import edu.colorado.phet.common.view.graphics.TransformSlider;
 import edu.colorado.phet.movingman.application.MovingManModule;
 import edu.colorado.phet.movingman.elements.Man;
 import edu.colorado.phet.movingman.elements.stepmotions.AccelMotion;
-import edu.colorado.phet.movingman.elements.stepmotions.MotionState;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -29,10 +28,11 @@ public class AccelerateSuite extends MotionSuite {
     private TransformSlider transformslider;
     private JSpinner initialVelocitySpinner;
     private GridBagConstraints gridBagConstraints;
+    private ChangeListener velocityListener;
 
     public AccelerateSuite( final MovingManModule module ) {
         super( module, "Accelerate" );
-        motion = new AccelMotion( module.getMotionState() );
+        motion = new AccelMotion( module );
         this.module = module;
         Insets insets = new Insets( 0, 0, 0, 0 );
         gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0 );
@@ -40,11 +40,12 @@ public class AccelerateSuite extends MotionSuite {
         initialVelocitySpinner = new JSpinner( new SpinnerNumberModel( 0, -3, 3, .1 ) );
         Border border = PhetLookAndFeel.createSmoothBorder( "Initial Velocity" );
         initialVelocitySpinner.setBorder( border );
-        initialVelocitySpinner.addChangeListener( new ChangeListener() {
+        velocityListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setInitialVelocity();
             }
-        } );
+        };
+        initialVelocitySpinner.addChangeListener( velocityListener );
         add( initialVelocitySpinner );
 
         double minAccel = -2;
@@ -52,11 +53,12 @@ public class AccelerateSuite extends MotionSuite {
 
         SpinnerNumberModel m = new SpinnerNumberModel( 0, minAccel, maxAccel, .2 );
         accelSpinner = new JSpinner( m );
-        accelSpinner.addChangeListener( new ChangeListener() {
+        ChangeListener accelChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 doChangeEvent();
             }
-        } );
+        };
+        accelSpinner.addChangeListener( accelChangeListener );
 
         accelSpinner.setBorder( PhetLookAndFeel.createSmoothBorder( "Acceleration" ) );
         add( accelSpinner );
@@ -93,17 +95,18 @@ public class AccelerateSuite extends MotionSuite {
 
     protected void doEnable() {
         super.doEnable();
-        setInitialVelocityEnabled();
+        if( initialVelocitySpinner != null ) {
+            setInitialVelocityEnabled();
+            setValueNoNotify( initialVelocitySpinner, module.getVelocity(), velocityListener );
+        }
     }
 
     public void setInitialVelocityEnabled() {
-        if( initialVelocitySpinner != null ) {
-            if( isReset() ) {
-                initialVelocitySpinner.setEnabled( true );
-            }
-            else {
-                initialVelocitySpinner.setEnabled( false );
-            }
+        if( isReset() ) {
+            initialVelocitySpinner.setEnabled( true );
+        }
+        else {
+            initialVelocitySpinner.setEnabled( false );
         }
     }
 
@@ -114,8 +117,8 @@ public class AccelerateSuite extends MotionSuite {
 
     private void setInitialVelocity() {
         Double value = (Double)initialVelocitySpinner.getValue();
-        MotionState ms = motion.getMotionState();
-        ms.setVelocity( value.doubleValue() / 10 * .2 );
+//        MotionState ms = motion.getMotionState();
+        module.getMan().setVelocity( value.doubleValue() / 10 * .2 );
         module.setInitialPosition( module.getMan().getX() );
     }
 

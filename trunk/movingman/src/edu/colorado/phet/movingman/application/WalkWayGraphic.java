@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 /**
@@ -27,11 +28,11 @@ public class WalkWayGraphic implements Graphic {
     private BufferedImage house;
 
 //    Color textColor=Color.balc;
-    public WalkWayGraphic( MovingManModule module, int numTickMarks ) {
+    public WalkWayGraphic( MovingManModule module, int numTickMarks ) throws IOException {
         this( module, numTickMarks, -10, 10 );
     }
 
-    public WalkWayGraphic( MovingManModule module, int numTickMarks, double treex, double housex ) {
+    public WalkWayGraphic( MovingManModule module, int numTickMarks, double treex, double housex ) throws IOException {
         this.module = module;
         this.numTickMarks = numTickMarks;
         this.treex = treex;

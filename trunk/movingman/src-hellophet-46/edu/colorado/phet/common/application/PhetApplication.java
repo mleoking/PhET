@@ -13,6 +13,8 @@ import edu.colorado.phet.common.view.apparatuspanelcontainment.ApparatusPanelCon
 import edu.colorado.phet.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
 import edu.colorado.phet.common.view.apparatuspanelcontainment.TabbedApparatusPanelContainer;
 
+import java.io.IOException;
+
 public class PhetApplication {
     ApplicationView view;
     private ModuleManager moduleManager;
@@ -29,19 +31,19 @@ public class PhetApplication {
         return containerStrategy;
     }
 
-    public PhetApplication( ApplicationDescriptor descriptor, Module m ) {
+    public PhetApplication( ApplicationDescriptor descriptor, Module m ) throws IOException {
         this( descriptor, SingleApparatusPanelContainer.getFactory(), new Module[]{m} );
     }
 
     /**
      * Create a PhET Application that uses a TabbedApparatusPanelStrategy.
      */
-    public PhetApplication( ApplicationDescriptor descriptor, Module[] modules ) {
+    public PhetApplication( ApplicationDescriptor descriptor, Module[] modules ) throws IOException {
         this( descriptor, new TabbedApparatusPanelContainer.Factory(), modules );
     }
 
     public PhetApplication( ApplicationDescriptor descriptor,
-                            ApparatusPanelContainerFactory containerStrategy, Module[] modules ) {
+                            ApparatusPanelContainerFactory containerStrategy, Module[] modules ) throws IOException {
         this.descriptor = descriptor;
         this.containerStrategy = containerStrategy;
         model = new ApplicationModel();

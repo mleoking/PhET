@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*PhET, 2004.*/
 package edu.colorado.phet.movingman.application;
 
 import edu.colorado.phet.common.view.PhetFrame;
@@ -40,7 +40,6 @@ public class MovingManControlPanel extends JPanel {
 
     public void setMotionState() {
         mediaPanel.play.setEnabled( false );
-//        mediaPanel.record.setEnabled( false );
         mediaPanel.pause.setEnabled( true );
         mediaPanel.slowMotion.setEnabled( false );
     }
@@ -57,12 +56,31 @@ public class MovingManControlPanel extends JPanel {
         reset.setEnabled( true );
     }
 
+//    public void timeFinished() {
+//        mediaPanel.rewind.setEnabled( true );
+//        mediaPanel.pause.setEnabled( false );
+//        mediaPanel.play.setEnabled( false );
+//        mediaPanel.slowMotion.setEnabled( false );
+//    }
+
+    public void finishedRecording() {
+        mediaPanel.rewind.setEnabled( false );
+        mediaPanel.pause.setEnabled( false );
+        mediaPanel.play.setEnabled( true );
+        mediaPanel.slowMotion.setEnabled( true );
+    }
+
+    public void playbackFinished() {
+        mediaPanel.rewind.setEnabled( true );
+        mediaPanel.pause.setEnabled( false );
+        mediaPanel.play.setEnabled( false );
+        mediaPanel.slowMotion.setEnabled( false );
+    }
+
     public class MediaPanel extends JPanel {
 
         private JButton play;
         private JButton pause;
-//        private JButton reset;
-//        private JButton record;
         private JButton rewind;
         private JButton slowMotion;
 
@@ -77,18 +95,8 @@ public class MovingManControlPanel extends JPanel {
                     slowMotion.setEnabled( true );
                     pause.setEnabled( false );
                     rewind.setEnabled( true );
-//                    record.setEnabled( true );
                 }
             } );
-
-            ImageIcon recordIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Movie24.gif" ) );
-//            record = new JButton( "Record", recordIcon );
-//            manualSetup = new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    doManual();
-//                }
-//            };
-//            record.addActionListener( manualSetup );
 
             ImageIcon playIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Play24.gif" ) );
             play = new JButton( "Playback", playIcon );
@@ -101,24 +109,24 @@ public class MovingManControlPanel extends JPanel {
                     rewind.setEnabled( true );
                 }
             } );
-            ImageIcon resetIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Stop24.gif" ) );
-//            reset = new JButton( "Reset", resetIcon );
-//            reset.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    module.reset();
-//                }
-//            } );
 
             ImageIcon rewindIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Rewind24.gif" ) );
             rewind = new JButton( "Rewind", rewindIcon );
             rewind.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.rewind();
+                    module.setPaused( true );
                     rewind.setEnabled( false );
+                    if( module.getPosition().getData().size() > module.getNumResetPoints() + 1 ) {
+                        play.setEnabled( true );
+                        slowMotion.setEnabled( true );
+                    }
+                    else {
+                        play.setEnabled( false );
+                        slowMotion.setEnabled( false );
+                    }
                 }
             } );
-//            record.setEnabled( false );
-
 
             ImageIcon slowIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/StepForward24.gif" ) );
             slowMotion = new JButton( "Slow Playback", slowIcon );
@@ -132,18 +140,23 @@ public class MovingManControlPanel extends JPanel {
                 }
             } );
 
-//            add( record );
             add( play );
             add( slowMotion );
             add( pause );
             add( rewind );
-//            add( reset );
+            didReset();
+        }
+
+        private void didReset() {
+            play.setEnabled( false );
+            slowMotion.setEnabled( false );
+            pause.setEnabled( false );
+            rewind.setEnabled( false );
         }
 
         private void doManual() {
             module.setRecordMode();
             module.setPaused( false );
-//            record.setEnabled( false );
             pause.setEnabled( true );
             play.setEnabled( false );
             slowMotion.setEnabled( false );
@@ -276,8 +289,6 @@ public class MovingManControlPanel extends JPanel {
         motionPanel = new MotionPanel();
 
         VerticalLayoutPanel northPanel = new VerticalLayoutPanel();
-//        northPanel.setLayout( new BoxLayout( northPanel, BoxLayout.Y_AXIS ) );
-
         final JMenu viewMenu = new JMenu( "View" );
         JMenuItem[] items = PlafUtil.getLookAndFeelItems();
         for( int i = 0; i < items.length; i++ ) {
@@ -293,7 +304,7 @@ public class MovingManControlPanel extends JPanel {
                     }
                 }
                 catch( InterruptedException e ) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    e.printStackTrace();
                 }
                 MovingManModule.FRAME.getJMenuBar().add( viewMenu );
                 MovingManModule.FRAME.setExtendedState( JFrame.MAXIMIZED_HORIZ );
@@ -358,7 +369,6 @@ public class MovingManControlPanel extends JPanel {
     public void setPaused() {
         mediaPanel.pause.setEnabled( false );
         mediaPanel.play.setEnabled( true );
-//        mediaPanel.record.setEnabled( true );
     }
 
     public JComponent getMediaPanel() {
