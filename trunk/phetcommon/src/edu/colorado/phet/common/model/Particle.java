@@ -42,7 +42,7 @@ public class Particle extends SimpleObservable implements ModelElement {
         setPosition( position.getX(), position.getY() );
     }
 
-    public AbstractVector2D getVelocity() {
+    public Vector2D getVelocity() {
         return velocity;
     }
 
