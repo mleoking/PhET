@@ -18,7 +18,7 @@ import java.awt.event.ComponentEvent;
 public class ChartTest {
 
     public static void main( String[] args ) {
-        ApparatusPanel apparatusPanel = new ApparatusPanel();
+        final ApparatusPanel apparatusPanel = new ApparatusPanel();
         BasicGraphicsSetup gs = new BasicGraphicsSetup();
 
         apparatusPanel.addGraphicsSetup( gs );
@@ -44,19 +44,16 @@ public class ChartTest {
         apparatusPanel.addGraphic( chart );
 
         DataSet ds = new DataSet();
-        DataSetGraphic dsg = new ScatterPlot( ds, new ScatterPlot.CirclePaint( Color.green, 3, false ) );
+        DataSetGraphic dsg = new ScatterPlot( apparatusPanel, chart, ds, new ScatterPlot.CircleFactory( apparatusPanel, Color.green, 3 ) );
         chart.addDataSetGraphic( dsg );
 
-        apparatusPanel.addComponentListener( new ComponentAdapter() {
+        ComponentAdapter componentAdapter = new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                Rectangle viewBounds = new Rectangle( 10, 10, e.getComponent().getWidth() - 20, e.getComponent().getHeight() - 20 );
-                chart.setViewBounds( viewBounds );
-
-                Color leftColor = new Color( 255, 255, 255 );
-                Color rightColor = new Color( 140, 160, 255 );
-                chart.setBackground( new GradientPaint( 0, 0, leftColor, e.getComponent().getWidth(), e.getComponent().getHeight(), rightColor, false ) );
+                resized( apparatusPanel, chart );
             }
-        } );
+        };
+
+        apparatusPanel.addComponentListener( componentAdapter );
         double dx = .01;
         for( double x = 0; x < 10; x += dx ) {
             double y = 10 * Math.sin( x );
@@ -64,7 +61,7 @@ public class ChartTest {
         }
 
         DataSet sin2 = new DataSet();
-        DataSetGraphic sinGraphic = new LinePlot( sin2, new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{4, 5}, 0 ), Color.blue );
+        DataSetGraphic sinGraphic = new LinePlot( apparatusPanel, chart, sin2, new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{4, 5}, 0 ), Color.blue );
         chart.addDataSetGraphic( sinGraphic );
         double dx2 = .01;
         for( double x = 0; x < 10; x += dx2 ) {
@@ -74,6 +71,17 @@ public class ChartTest {
 
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        resized( apparatusPanel, chart );
+    }
+
+    private static void resized( ApparatusPanel e, Chart chart ) {
+
+        Rectangle viewBounds = new Rectangle( 30, 30, e.getWidth() - 60, e.getHeight() - 60 );
+        chart.setViewBounds( viewBounds );
+
+        Color leftColor = new Color( 255, 255, 255 );
+        Color rightColor = new Color( 140, 160, 255 );
+        chart.setBackground( new GradientPaint( 0, 0, leftColor, e.getWidth(), e.getHeight(), rightColor, false ) );
     }
     /**
      * Original client side code

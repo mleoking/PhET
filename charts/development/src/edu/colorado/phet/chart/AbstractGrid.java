@@ -1,6 +1,8 @@
 /** Sam Reid*/
 package edu.colorado.phet.chart;
 
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -10,7 +12,7 @@ import java.util.ArrayList;
  * Time: 6:25:44 AM
  * Copyright (c) Sep 21, 2004 by Sam Reid
  */
-public abstract class AbstractGrid {
+public abstract class AbstractGrid extends CompositePhetGraphic {
     private double[] lines;
     public final static int HORIZONTAL = 1;
     public final static int VERTICAL = 2;

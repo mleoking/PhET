@@ -1,7 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.chart;
 
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 /**
  * User: Sam Reid
@@ -13,42 +16,39 @@ public class Grid extends AbstractGrid {
 
     public Grid( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing, double crossesOtherAxisAt ) {
         super( chart, orientation, stroke, color, tickSpacing, crossesOtherAxisAt );
+        chart.addListener( new Chart.Listener() {
+            public void transformChanged( Chart chart ) {
+                update();
+            }
+        } );
+        update();
     }
 
-    public void paint( Graphics2D g ) {
-        if( isVisible() ) {
-            Stroke stroke = super.getStroke();
-            int orientation = super.getOrientation();
-            Color color = super.getColor();
-            double crossesOtherAxisAt = super.getCrossesOtherAxisAt();
-            Chart chart = super.getChart();
-            double tickSpacing = super.getSpacing();
-            Stroke origStroke = g.getStroke();
-            Color origColor = g.getColor();
-            g.setStroke( stroke );
-            g.setColor( color );
-            if( orientation == VERTICAL ) {
-                double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinX(), chart.getRange().getMaxX(), tickSpacing );
-
-                for( int i = 0; i < gridLines.length; i++ ) {
-                    double gridLineX = gridLines[i];
-                    Point src = chart.transform( gridLineX, chart.getRange().getMinY() );
-                    Point dst = chart.transform( gridLineX, chart.getRange().getMaxY() );
-                    g.drawLine( src.x, src.y, dst.x, dst.y );
-                }
+    void update() {
+        clear();
+        int orientation = super.getOrientation();
+        Chart chart = super.getChart();
+        if( orientation == VERTICAL ) {
+            double[] gridLines = getGridLines( getCrossesOtherAxisAt(), chart.getRange().getMinX(), chart.getRange().getMaxX(), getSpacing() );
+            for( int i = 0; i < gridLines.length; i++ ) {
+                double gridLineX = gridLines[i];
+                Point src = chart.transform( gridLineX, chart.getRange().getMinY() );
+                Point dst = chart.transform( gridLineX, chart.getRange().getMaxY() );
+                Line2D.Double line = new Line2D.Double( src.x, src.y, dst.x, dst.y );
+                PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
+                addGraphic( lineGraphic );
             }
-            else if( orientation == HORIZONTAL ) {
-                double[] gridLines = getGridLines( crossesOtherAxisAt, chart.getRange().getMinY(), chart.getRange().getMaxY(), tickSpacing );
-
-                for( int i = 0; i < gridLines.length; i++ ) {
-                    double gridLineY = gridLines[i];
-                    Point src = chart.transform( chart.getRange().getMinX(), gridLineY );
-                    Point dst = chart.transform( chart.getRange().getMaxX(), gridLineY );
-                    g.drawLine( src.x, src.y, dst.x, dst.y );
-                }
+        }
+        else if( orientation == HORIZONTAL ) {
+            double[] gridLines = getGridLines( getCrossesOtherAxisAt(), chart.getRange().getMinY(), chart.getRange().getMaxY(), getSpacing() );
+            for( int i = 0; i < gridLines.length; i++ ) {
+                double gridLineY = gridLines[i];
+                Point src = chart.transform( chart.getRange().getMinX(), gridLineY );
+                Point dst = chart.transform( chart.getRange().getMaxX(), gridLineY );
+                Line2D.Double line = new Line2D.Double( src.x, src.y, dst.x, dst.y );
+                PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
+                addGraphic( lineGraphic );
             }
-            g.setStroke( origStroke );
-            g.setColor( origColor );
         }
     }
 

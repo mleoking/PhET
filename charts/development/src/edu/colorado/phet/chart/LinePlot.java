@@ -6,37 +6,24 @@
  */
 package edu.colorado.phet.chart;
 
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+
 import java.awt.*;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 public class LinePlot extends DataSetGraphic {
     private GeneralPath generalPath;
-    private Stroke stroke;
-    private Paint paint;
-    private ArrayList observers = new ArrayList();
+    private PhetShapeGraphic phetShapeGraphic;
 
-    public LinePlot( DataSet dataSet ) {
-        this( dataSet, new BasicStroke( 1 ), Color.black );
+    public LinePlot( Component component, Chart chart, DataSet dataSet ) {
+        this( component, chart, dataSet, new BasicStroke( 1 ), Color.black );
     }
 
-    public LinePlot( DataSet dataSet, Stroke stroke, Paint paint ) {
-        super( dataSet );
-        this.stroke = stroke;
-        this.paint = paint;
-    }
-
-    /**
-     * So clients can find out exactly what part changed for repainting.
-     */
-    public static interface Observer {
-        public void plotChanged( Rectangle rect );
-    }
-
-    public void addObserver( Observer observer ) {
-        observers.add( observer );
+    public LinePlot( Component component, Chart chart, DataSet dataSet, Stroke stroke, Paint paint ) {
+        super( component, chart, dataSet );
+        phetShapeGraphic = new PhetShapeGraphic( getComponent(), null, stroke, paint );
+        addGraphic( phetShapeGraphic );
     }
 
     public void pointAdded( Point2D point ) {
@@ -47,54 +34,24 @@ public class LinePlot extends DataSetGraphic {
         if( generalPath == null ) {
             generalPath = new GeneralPath();
             generalPath.moveTo( viewLocation.x, viewLocation.y );
+            phetShapeGraphic.setShape( generalPath );
         }
         else {
             //Determine the exact region for repaint.
-            Line2D line = new Line2D.Double( generalPath.getCurrentPoint(), viewLocation );
             generalPath.lineTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
-            notifyObservers( line );
-
-            Rectangle shape = stroke.createStrokedShape( line ).getBounds();
-            getChart().getComponent().repaint( shape.x, shape.y, shape.width, shape.height );
+            phetShapeGraphic.setBoundsDirty();
+            phetShapeGraphic.autorepaint();
         }
-    }
-
-    private void notifyObservers( Line2D line ) {
-        Rectangle shape = stroke.createStrokedShape( line ).getBounds();
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
-            observer.plotChanged( shape );
-        }
-    }
-
-    public void pointRemoved( Point2D point ) {
-        generalPath = null;
-        addAllPoints();
-        getChart().getComponent().repaint();
     }
 
     public void cleared() {
-        if( generalPath != null ) {
-            Rectangle shape = stroke.createStrokedShape( generalPath ).getBounds();
-            getChart().getComponent().repaint( shape.x, shape.y, shape.width, shape.height );
-        }
+        phetShapeGraphic.setShape( null );
         generalPath = null;
-    }
-
-    public void paint( Graphics2D graphics2D ) {
-        if( generalPath != null ) {
-            Stroke oldStroke = graphics2D.getStroke();
-            Paint oldPaint = graphics2D.getPaint();
-            graphics2D.setStroke( stroke );
-            graphics2D.setPaint( paint );
-            graphics2D.draw( generalPath );
-            graphics2D.setStroke( oldStroke );
-            graphics2D.setPaint( oldPaint );
-        }
     }
 
     public void transformChanged() {
         generalPath = null;
+        phetShapeGraphic.setShape( null );
         addAllPoints();
     }
 

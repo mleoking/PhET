@@ -1,9 +1,11 @@
 /** Sam Reid*/
 package edu.colorado.phet.chart;
 
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+
 import java.awt.*;
 
-public class GridLineSet {
+public class GridLineSet extends CompositePhetGraphic {
     private Grid minorGrid;
     private Grid majorGrid;
 
@@ -25,16 +27,18 @@ public class GridLineSet {
         majorGrid = new Grid( chart, orientation, new BasicStroke( 1 ),
                               Color.black, majorTickSpacing, crossesOtherAxisAt );
         minorGrid.setVisible( false );
+        addGraphic( minorGrid );
+        addGraphic( majorGrid );
+        chart.addListener( new Chart.Listener() {
+            public void transformChanged( Chart chart ) {
+                update();
+            }
+        } );
     }
 
-    public void paint( Graphics2D graphics2D ) {
-        minorGrid.paint( graphics2D );
-        majorGrid.paint( graphics2D );
-    }
-
-    public void setVisible( boolean visible ) {
-        minorGrid.setVisible( visible );
-        majorGrid.setVisible( visible );
+    private void update() {
+        minorGrid.update();
+        majorGrid.update();
     }
 
     public void setMajorGridlinesVisible( boolean visible ) {
@@ -61,9 +65,6 @@ public class GridLineSet {
         minorGrid.setStroke( stroke );
     }
 
-//    public void setMajorTickLabelsVisible( boolean visible ) {
-//        majorGrid.setTicksVisible( visible );
-//    }
     public void setMajorGridlines( double[] lines ) {
         majorGrid.setGridlines( lines );
     }
