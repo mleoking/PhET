@@ -20,12 +20,12 @@ import edu.colorado.phet.common.util.SimpleObserver;
 
 /**
  * Electromagnet is the model of an electromagnet.
- * Magnetic field calculations are the same as a bar magnet.
+ * It is derived from the DipoleMagnet model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Electromagnet extends BarMagnet implements SimpleObserver {
+public class Electromagnet extends DipoleMagnet implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Instance data

@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- do not embed MAX_EMF in any classes, make it a settable property
 - Electromagnet module "first pass"
 
 HIGH PRIORITY:
@@ -11,6 +10,7 @@ HIGH PRIORITY:
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
+- calibrate electron speed, they move to fast at maximum settings
 - fix magnet hierarcy; Electromagnet shouldn't extend Bar Magnet
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
 - Transformer module requirements
@@ -45,6 +45,9 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/23) - fix magnet hierarcy, BarMagnet and Electromagnet are subclasses of DipoleMagnet
+(2/23) - connect Lightbulb and Voltmeter to an AbstractVoltageSource instead of a PickupCoil
+(2/23) - do not embed MAX_EMF in any classes, make it a settable property of an AbstractVoltageSource
 (2/23) - created MagneticFieldRescaler, instantiated and used throughout a module
 (2/23) - create "rescaler" hierarchy to provide better abstraction over rescaling of value for display
 (2/22) - set up control panel for Electromagnet module
