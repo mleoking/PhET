@@ -4,21 +4,17 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
-<<<<<<< ApparatusPanel2.java
  * Modified by : $Author$
  * Revision : $Revision$
  * Date modified : $Date$
-=======
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
->>>>>>> 1.26.2.1
  */
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.model.clock.*;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockStateEvent;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
@@ -45,18 +41,14 @@ import java.util.LinkedList;
  * <p/>
  * The differences between this class and ApparatusPanel are:
  * <ul>
- * <li>The graphic objects in the panel resetRenderingSize when the panel is resized
+ * <li>The graphic objects in the panel setRefernceSize when the panel is resized
  * <li>Mouse events are handled in the model loop, not the Swing event dispatch thread
  * <li>An option allows drawing to be done to an offscreen buffer, then the whole buffer
  * written at one time to the graphics card
  * </ul>
  *
  * @author Ron LeMaster
-<<<<<<< ApparatusPanel2.java
  * @version $Revision$
-=======
- * @version $Revision$
->>>>>>> 1.26.2.1
  * @see edu.colorado.phet.common.view.graphics.Graphic
  */
 public class ApparatusPanel2 extends ApparatusPanel {
@@ -74,16 +66,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     private AffineTransform graphicTx = new AffineTransform();
     private AffineTransform mouseTx = new AffineTransform();
-    private Rectangle renderedBounds;
+    private Rectangle referenceBounds;
     private HashMap componentOrgLocationsMap = new HashMap();
     private boolean modelPaused = false;
     private double scale = 1.0;
-
-    /**
-     * Privided for JavaBeans conformance
-     */
-    public ApparatusPanel2() {
-    }
+    private boolean referenceSizeSet;
 
     /**
      * This constructor adds a feature that allows PhetGraphics to get mouse events
@@ -93,8 +80,26 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * @param clock
      */
     public ApparatusPanel2( BaseModel model, AbstractClock clock ) {
-        this( model );
-        setClock( clock );
+        super( null );
+        init( model );
+        clock.addClockStateListener( new ClockStateListener() {
+            public void delayChanged( int waitTime ) {
+            }
+
+            public void dtChanged( double dt ) {
+            }
+
+            public void threadPriorityChanged( int priority ) {
+            }
+
+            public void pausedStateChanged( boolean isPaused ) {
+                modelPaused = isPaused;
+            }
+
+            public void stateChanged( ClockStateEvent event ) {
+            }
+        } );
+        modelPaused = clock.isPaused();
     }
 
     /**
@@ -103,14 +108,16 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     public ApparatusPanel2( BaseModel model ) {
         super( null );
+        init( model );
+    }
 
+    private void init( BaseModel model ) {
         // The following lines use a mouse processor in the model loop
         MouseProcessor mouseProcessor = new MouseProcessor( getGraphic() );
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
         this.addKeyListener( getGraphic().getKeyAdapter() );//TODO key events should go in processing thread as well.
-
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -127,7 +134,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 rectangles.clear();
             }
         } );
-//        model.addModelElement(new MyModelElement());
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
@@ -149,25 +155,29 @@ public class ApparatusPanel2 extends ApparatusPanel {
         this.addComponentListener( new ComponentAdapter() {
 
             public void componentResized( ComponentEvent e ) {
-                if( renderedBounds == null ) {
-                    resetRenderingSize();
+                if( !referenceSizeSet ) {
+                    setRefernceSize();
                 }
                 else {
                     // Setup the affine transforms for graphics and mouse events
-                    double sx = getWidth() / renderedBounds.getWidth();
-                    double sy = getHeight() / renderedBounds.getHeight();
+                    double sx = getWidth() / referenceBounds.getWidth();
+                    double sy = getHeight() / referenceBounds.getHeight();
                     // Using a single scale factor keeps the aspect ratio constant
                     double s = Math.min( sx, sy );
                     setScale( s );
                 }
                 bImg = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
             }
-
         } );
     }
 
-    public void resetRenderingSize() {
-        renderedBounds = ApparatusPanel2.this.getBounds();
+    /**
+     * Sets the reference size for this panel. If the panel resizes after this, it will scale its graphicsTx using
+     * its current size in relation to the reference size
+     */
+    public void setRefernceSize() {
+        referenceSizeSet = true;
+        referenceBounds = ApparatusPanel2.this.getBounds();
         saveSwingComponentCoordinates( 1.0 );
         setScale( 1.0 );
         paintImmediately( 0, 0, getWidth(), getHeight() );
@@ -183,30 +193,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
     }
 
-    public void setClock( AbstractClock clock ) {
-        clock.addClockTickListener( new TickListener() );
-        clock.addClockStateListener( new ClockStateListener() {
-            public void delayChanged( int waitTime ) {
-            }
-
-            public void dtChanged( double dt ) {
-            }
-
-            public void threadPriorityChanged( int priority ) {
-            }
-
-            public void pausedStateChanged( boolean isPaused ) {
-                modelPaused = isPaused;
-            }
-
-            public void stateChanged( ClockStateEvent event ) {
-            }
-        } );
-        modelPaused = clock.isPaused();
-    }
-
-    public void setModel( BaseModel model ) {
-
+    public boolean isUseOffscreenBuffer() {
+        return useOffscreenBuffer;
     }
 
     /**
@@ -220,10 +208,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
 //        setOpaque( useOffscreenBuffer );
         setDoubleBuffered( !useOffscreenBuffer );
         this.useOffscreenBuffer = useOffscreenBuffer;
-    }
-
-    public boolean isUseOffscreenBuffer() {
-        return useOffscreenBuffer;
     }
 
     /**
@@ -300,24 +284,27 @@ public class ApparatusPanel2 extends ApparatusPanel {
         megarepaint( r.x, r.y, r.width, r.height );
     }
 
-    public void repaint() {
-    }
-
     public void repaint( int x, int y, int width, int height ) {
         megarepaint( x, y, width, height );
     }
 
+    /**
+     * Overriden as a noop so that nothing happens if a child component calls repaint(). The actions
+     * taken by our superclasss' repaint() should only happen in the model loop.
+     */
+    public void repaint() {
+    }
+
+    /**
+     * Overriden as a noop so that nothing happens if a child component calls repaint(). The actions
+     * taken by our superclasss' repaint( long tm) should only happen in the model loop.
+     */
     public void repaint( long tm ) {
     }
 
     protected void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
-        GraphicsState gs = new GraphicsState( g2 );
-        drawIt( g2 );
-        gs.restoreGraphics();
-    }
 
-    private void drawIt( Graphics2D g2 ) {
         if( repaintArea == null ) {
             repaintArea = this.getBounds();
         }
@@ -343,6 +330,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
             getGraphic().paint( g2 );
         }
         gs.restoreGraphics();
+
+        // Draw a border around the panel
         Color origColor = g2.getColor();
         Stroke origStroke = g2.getStroke();
 
@@ -372,6 +361,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
         layoutSwingComponents();
     }
 
+    /**
+     * Adjust the locations of Swing components based on the current scale
+     */
     private void layoutSwingComponents() {
         Component[] components = ApparatusPanel2.this.getComponents();
         for( int i = 0; i < components.length; i++ ) {
@@ -383,6 +375,16 @@ public class ApparatusPanel2 extends ApparatusPanel {
             }
         }
     }
+
+    /**
+     * todo: is this used anywhere?
+     *
+     * @return
+     */
+    protected Rectangle getReferenceBounds() {
+        return referenceBounds;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Inner classes
     //
@@ -518,44 +520,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         public void mouseMoved( MouseEvent e ) {
             this.addMouseMotionEvent( e );
-        }
-    }
-
-    protected Rectangle getRenderedBounds() {
-        return renderedBounds;
-    }
-
-    //////////////////////////////////////////////////////
-    // Inner classes
-    //
-
-    /**
-     * Responds to clock ticks from the model
-     */
-    public class MyModelElement implements ModelElement {
-
-        public void stepInTime( double dt ) {
-            if( useOffscreenBuffer ) {
-                paintImmediately( 0, 0, getWidth(), getHeight() );
-            }
-            else {
-                megapaintImmediately();
-            }
-            // Clear the rectangles so they get garbage collectged
-            rectangles.clear();
-        }
-    }
-
-    public class TickListener implements ClockTickListener {
-        public void clockTicked( ClockTickEvent event ) {
-            if( useOffscreenBuffer ) {
-                paintImmediately( 0, 0, getWidth(), getHeight() );
-            }
-            else {
-                megapaintImmediately();
-            }
-            // Clear the rectangles so they get garbage collectged
-            rectangles.clear();
         }
     }
 }
