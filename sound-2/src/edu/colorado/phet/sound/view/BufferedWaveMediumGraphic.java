@@ -174,10 +174,11 @@ public class BufferedWaveMediumGraphic extends PhetImageGraphic implements Simpl
         double arcHt = height - 20;
         double rad2 = radius - 20;
         float theta = (float)Math.asin( arcHt / ( 2 * rad2 ) );
-        float c = (float)( arcHt / ( 2 * Math.tan( theta ) ) );
 
-        for( int i = arcCenters.length - 1; i > 0; i-- ) {
-            arcCenters[i] = arcCenters[i - 1];
+        for( int i = arcCenters.length - 1; i > SoundConfig.PROPOGATION_SPEED; i-- ) {
+//        for( int i = arcCenters.length - 1; i > 0; i-- ) {
+            arcCenters[i] = arcCenters[i - SoundConfig.PROPOGATION_SPEED];
+//            arcCenters[i] = arcCenters[i - 1];
         }
         for( int i = 0; i < 50; i++ ) {
             arcCenters[i] = origin;

@@ -16,6 +16,7 @@ import edu.colorado.phet.sound.model.Wavefront;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.*;
 
 public class InterferenceListenerGraphic extends ListenerGraphic implements InteractiveSpeakerGraphic.MouseReleaseListener {
 
@@ -57,14 +58,6 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
         }
     }
 
-//    public void paint( Graphics2D g ) {
-//        super.paint( g );
-//        g.setColor( Color.red );
-//        g.drawArc( (int)audioSourceA.x, (int)audioSourceA.y, 5, 5, 0, 360 );
-//        g.drawArc( (int)audioSourceB.x, (int)audioSourceB.y, 5, 5, 0, 360 );
-//        g.drawArc( (int)earLocation.x, (int)earLocation.y, 5, 5, 0, 360 );
-//    }
-
     /**
      * @param e
      */
@@ -73,6 +66,18 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
         if( soundModule.getCurrentListener() == getListener() ) {
             updateAmplitude();
         }
+    }
+
+    /**
+     * Used for debug. Draws small red circles at the audio sources and the ear location
+     * @param g
+     */
+    public void paint( Graphics2D g ) {
+//        super.paint( g );
+//        g.setColor( Color.red );
+//        g.drawArc( (int)earLocation.x - 2, (int)earLocation.y - 2, 4, 4, 0, 360 );
+//        g.drawArc( (int)audioSourceA.x - 2, (int)audioSourceA.y - 2, 4, 4, 0, 360 );
+//        g.drawArc( (int)audioSourceB.x - 2, (int)audioSourceB.y - 2, 4, 4, 0, 360 );
     }
 
     /**

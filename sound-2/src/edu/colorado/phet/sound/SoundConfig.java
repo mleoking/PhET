@@ -64,10 +64,10 @@ public class SoundConfig {
     public static final String IMAGE_DIRECTORY = "images/";
     public static final String SPEAKER_FRAME_IMAGE_FILE = IMAGE_DIRECTORY + "speaker-frame.gif";
     public static final String SPEAKER_CONE_IMAGE_FILE = IMAGE_DIRECTORY + "speaker-cone.gif";
-    public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
-    //    public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head.gif";
-    public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
-    //    public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "listener-w-ears.gif";
+    public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head-1-small.gif";
+    public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "head-1-small.gif";
+//    public static final String HEAD_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
+//    public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "head-1.gif";
     public static final String METER_STICK_IMAGE_FILE = IMAGE_DIRECTORY + "five-meter-stick.gif";
 
     // Animation images
