@@ -48,7 +48,6 @@ public class PhetLookAndFeel extends SmoothLookAndFeel {
         }
         font = uifont;
 
-//        backgroundColor = CCK3Module.backgroundColor;
         foregroundColor = Color.black;
     }
 

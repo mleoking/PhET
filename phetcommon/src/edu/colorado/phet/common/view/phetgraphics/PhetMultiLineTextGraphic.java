@@ -23,11 +23,11 @@ public class PhetMultiLineTextGraphic extends PhetGraphic {
     private int y;
     private FontMetrics fontMetrics;
 
-    public static interface IPhetTextGraphic {
-        void setPosition( int x, int y );
-
-        void setVisible( boolean visible );
-    }
+//    public static interface IPhetTextGraphic {
+//        void setLocation( int x, int y );
+//
+//        void setVisible( boolean visible );
+//    }
 
     public PhetMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color color ) {
         this( component, text, font, x, y, new Basic( component, font, color ) );
@@ -66,7 +66,7 @@ public class PhetMultiLineTextGraphic extends PhetGraphic {
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         for( int i = 0; i < textGraphics.size(); i++ ) {
-            IPhetTextGraphic iPrimaryTextGraphic = (IPhetTextGraphic)textGraphics.get( i );
+            PhetGraphic iPrimaryTextGraphic = (PhetGraphic)textGraphics.get( i );
             iPrimaryTextGraphic.setVisible( visible );
         }
     }
@@ -75,8 +75,8 @@ public class PhetMultiLineTextGraphic extends PhetGraphic {
         this.x = x;
         this.y = y;
         for( int i = 0; i < textGraphics.size(); i++ ) {
-            IPhetTextGraphic iTextGraphic = (IPhetTextGraphic)textGraphics.get( i );
-            iTextGraphic.setPosition( x, y );
+            PhetGraphic iTextGraphic = (PhetGraphic)textGraphics.get( i );
+            iTextGraphic.setLocation( x, y );
             y += fontMetrics.getDescent() + fontMetrics.getLeading() + fontMetrics.getAscent();
         }
         setBoundsDirty();

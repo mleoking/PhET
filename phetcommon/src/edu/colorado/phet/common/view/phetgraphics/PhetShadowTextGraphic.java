@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
  * Time: 11:44:02 PM
  * Copyright (c) Jun 24, 2004 by University of Colorado, PhET
  */
-public class PhetShadowTextGraphic extends PhetGraphic implements PhetMultiLineTextGraphic.IPhetTextGraphic {
+public class PhetShadowTextGraphic extends PhetGraphic {
     private PhetTextGraphic foreground;
     private PhetTextGraphic background;
     private int dx;
@@ -26,9 +26,10 @@ public class PhetShadowTextGraphic extends PhetGraphic implements PhetMultiLineT
         background = new PhetTextGraphic( component, font, text, backgroundColor, x + dx, y + dy );
     }
 
-    public void setPosition( int x, int y ) {
-        foreground.setPosition( x, y );
-        background.setPosition( x + dx, y + dy );
+    public void setLocation( int x, int y ) {
+        foreground.setLocation( x, y );
+        background.setLocation( x + dx, y + dy );
+        super.setLocation( x, y );
         super.setBoundsDirty();
         super.repaint();
     }
@@ -36,12 +37,6 @@ public class PhetShadowTextGraphic extends PhetGraphic implements PhetMultiLineT
     public void paint( Graphics2D g ) {
         background.paint( g );
         foreground.paint( g );
-    }
-
-    public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-        foreground.setVisible( visible );
-        background.setVisible( visible );
     }
 
     protected Rectangle determineBounds() {
