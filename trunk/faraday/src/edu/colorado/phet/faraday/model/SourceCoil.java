@@ -44,7 +44,7 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
             }
             _voltageSource = voltageSource;
             _voltageSource.addObserver( this );
-            notifyObservers();
+            update();
         }
     }
     
