@@ -12,7 +12,6 @@ HIGH PRIORITY:
 - magnet strength scale change to 10-100 (no units)
 - loop area change 50-150 (no units)
 - hide play/pause/stop buttons
-- rename "Connect to Coil" -> "Indicator"
 - group Coil items (Loops, Area, Indicator, Show Electrons)
 - group Magnet items (Strength, Flip Polarity, Show Field, Show Compass)
 - Wiggle Me's on magnets & coil
@@ -52,6 +51,7 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/17) - rename "Connect to Coil" -> "Indicator"
 (2/17) - values in FieldMeter are still sitting a little high
 (2/17) - remove "See Inside" control from Magnet & Coil module
 (2/17) - field meter "off" by default in Bar Magnet module
