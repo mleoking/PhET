@@ -42,13 +42,13 @@ public class TransformerModule extends FaradayModule {
     //----------------------------------------------------------------------------
 
     // Rendering layers
-    private static final double GRID_LAYER = 1;
+    private static final double COMPASS_GRID_LAYER = 1;
     private static final double ELECTROMAGNET_BACK_LAYER = 2;
     private static final double PICKUP_COIL_BACK_LAYER = 3;
     private static final double COMPASS_LAYER = 4;
     private static final double ELECTROMAGNET_FRONT_LAYER = 5;
     private static final double PICKUP_COIL_FRONT_LAYER = 6;
-    private static final double METER_LAYER = 7;
+    private static final double FIELD_METER_LAYER = 7;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
@@ -180,7 +180,7 @@ public class TransformerModule extends FaradayModule {
         gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
         gridGraphic.setVisible( false );
         apparatusPanel.addChangeListener( gridGraphic );
-        apparatusPanel.addGraphic( gridGraphic, GRID_LAYER );
+        apparatusPanel.addGraphic( gridGraphic, COMPASS_GRID_LAYER );
         super.setCompassGridGraphic( gridGraphic );
         
         // Compass
@@ -194,7 +194,7 @@ public class TransformerModule extends FaradayModule {
         fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
         fieldMeterGraphic.setVisible( false );
         apparatusPanel.addChangeListener( fieldMeterGraphic );
-        apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
+        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
         
         // Debugger
 //      DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
