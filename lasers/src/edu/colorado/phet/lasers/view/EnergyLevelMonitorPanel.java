@@ -62,13 +62,15 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     private int numLevels;
 
     private LaserModel model;
-    private double pumpingBeamEnergy;
-    private double stimulatingBeamEnergy;
+    private double pumpBeamEnergy;
+    private double seedBeamEnergy;
     private ModelViewTx1D energyYTx;
     private BufferedImage stimSquiggle;
     private BufferedImage pumpSquiggle;
     private AffineTransform stimSquiggleTx;
     private AffineTransform pumpSquiggleTx;
+    private double seedBeamWavelength;
+    private double pumpBeamWavelength;
 
     /**
      *
@@ -79,7 +81,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         this.model = model;
         model.getPumpingBeam().addListener( this );
         model.getSeedBeam().addListener( this );
-
 
         highLevelLine = new EnergyLevelGraphic( this, HighEnergyState.instance(),
                                                 Color.blue, levelLineOriginX, levelLineLength );
@@ -108,12 +109,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             public void componentResized( ComponentEvent e ) {
                 Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY(),
                                                              getBounds().getWidth(), getBounds().getHeight() * 0.85 );
-                //                Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + getBounds().getHeight() * 0.1,
-                //                                                             getBounds().getWidth(), getBounds().getHeight() * 0.8 );
                 energyYTx = new ModelViewTx1D( AtomicState.maxEnergy, AtomicState.minEnergy,
                                                (int)bounds.getBounds().getMinY(), (int)bounds.getBounds().getMaxY() );
-                //                energyYTx.setModelToViewFunction( new ModelViewTx1D.PowerFunction( 0.98 ) );
-
                 highLevelLine.update( energyYTx );
                 middleLevelLine.update( energyYTx );
                 groundLevelLine.update( energyYTx );
@@ -137,9 +134,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             default:
                 throw new RuntimeException( "Number of levels out of range" );
         }
-        //        highLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
-        //        middleLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
-        //        groundLevelLine.setBasePosition( levelLineOriginX, panelHeight - 10 );
 
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         revalidate();
@@ -212,21 +206,18 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         middleLevelLifetimeSlider.update();
         highLevelLifetimeSlider.update();
 
-        stimulatingBeamEnergy = Photon.wavelengthToEnergy( model.getSeedBeam().getWavelength() );
-
         double y0 = energyYTx.modelToView( GroundState.instance().getEnergyLevel() );
-        double y1 = energyYTx.modelToView( stimulatingBeamEnergy );
-        double y2 = energyYTx.modelToView( pumpingBeamEnergy );
+        double y1 = energyYTx.modelToView( seedBeamEnergy );
+        double y2 = energyYTx.modelToView( pumpBeamEnergy );
 
         // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
         int squiggleHeight = 10;
-        stimSquiggle = computeSquiggleImage( Photon.energyToWavelength( stimulatingBeamEnergy ), 0,
-                                             (int)( y0 - y1 ), squiggleHeight );
+        stimSquiggle = computeSquiggleImage( seedBeamWavelength, 0, (int)( y0 - y1 ), squiggleHeight );
         stimSquiggleTx = AffineTransform.getTranslateInstance( origin.getX(),
                                                                energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
         stimSquiggleTx.rotate( -Math.PI / 2 );
-        pumpSquiggle = computeSquiggleImage( Photon.energyToWavelength( pumpingBeamEnergy ), 0,
-                                             (int)( y0 - y2 ), squiggleHeight );
+
+        pumpSquiggle = computeSquiggleImage( pumpBeamWavelength, 0, (int)( y0 - y2 ), squiggleHeight );
         pumpSquiggleTx = AffineTransform.getTranslateInstance( origin.getX() + squiggleHeight * 3 / 2,
                                                                energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
         pumpSquiggleTx.rotate( -Math.PI / 2 );
@@ -284,10 +275,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
         CollimatedBeam beam = (CollimatedBeam)event.getSource();
         if( beam == model.getPumpingBeam() ) {
-            pumpingBeamEnergy = Photon.wavelengthToEnergy( beam.getWavelength() );
+            pumpBeamWavelength = beam.getWavelength();
+            pumpBeamEnergy = Photon.wavelengthToEnergy( pumpBeamWavelength );
         }
         if( beam == model.getSeedBeam() ) {
-            stimulatingBeamEnergy = Photon.wavelengthToEnergy( beam.getWavelength() );
+            seedBeamWavelength = beam.getWavelength();
+            seedBeamEnergy = Photon.wavelengthToEnergy( seedBeamWavelength );
         }
     }
 

@@ -70,12 +70,9 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
         // The wavelength has to be inverted to be used as the min and max for the slider
         // if we want red to be on the left and blue to be on the right. The scale factor
         // is needed to make things usable integers.
-        wavelengthSlider = new JSlider( (int)( wavelengthSliderScaleFactor / LaserConfig.MAX_WAVELENGTH ),
-                                        (int)( wavelengthSliderScaleFactor / LaserConfig.MIN_WAVELENGTH ),
-                                        (int)( wavelengthSliderScaleFactor / LaserConfig.MAX_WAVELENGTH ) );
-        //        wavelengthSlider = new JSlider( (int)( wavelengthSliderScaleFactor / GroundState.instance().getWavelength() ),
-        //                                        (int)( wavelengthSliderScaleFactor / LaserConfig.MIN_WAVELENGTH ),
-        //                                        (int)( wavelengthSliderScaleFactor / GroundState.instance().getWavelength() ) );
+        wavelengthSlider = new JSlider( (int)( LaserConfig.MIN_WAVELENGTH ),
+                                        (int)( LaserConfig.MAX_WAVELENGTH ),
+                                        (int)( LaserConfig.MIN_WAVELENGTH ) );
         wavelengthSlider.setPreferredSize( sliderDimension );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -83,14 +80,13 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
                 // The wavelength may be limited by the wavelength of another beam
                 if( wavelengthLimitingBeam != null && wavelengthLimitingBeam.isEnabled() ) {
                     double limitingWavelength = wavelengthLimitingBeam.getWavelength();
-                    int limitingValue = (int)( wavelengthSliderScaleFactor / limitingWavelength );
+                    int limitingValue = (int)( limitingWavelength );
                     value = Math.min( value, limitingValue );
                 }
-                beam.setWavelength( (int)( wavelengthSliderScaleFactor / value ) );
+                beam.setWavelength( (int)( value ) );
             }
         } );
-        wavelengthSlider.setValue( (int)( wavelengthSliderScaleFactor / beam.getWavelength() ) );
-
+        wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
 
         // Lay out the panel
         this.setLayout( new GridBagLayout() );
@@ -133,7 +129,7 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
 
     public void wavelengthChangeOccurred( CollimatedBeam.WavelengthChangeEvent event ) {
         wavelengthSlider.setEnabled( false );
-        wavelengthSlider.setValue( (int)( wavelengthSliderScaleFactor / beam.getWavelength() ) );
+        wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
         wavelengthSlider.setEnabled( true );
     }
 
