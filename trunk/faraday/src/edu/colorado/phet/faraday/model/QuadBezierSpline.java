@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday.model;
 import java.awt.Point;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.QuadCurve2D;
 
 
 /**
@@ -24,15 +25,7 @@ import java.awt.geom.Point2D;
  * @author Sam Reid, Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QuadBezierSpline {
-
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private Point _startPoint;
-    private Point _controlPoint;
-    private Point _endPoint;
+public class QuadBezierSpline extends QuadCurve2D.Double {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -46,9 +39,7 @@ public class QuadBezierSpline {
      * @param endPoint the end point
      */
     public QuadBezierSpline( Point startPoint, Point controlPoint, Point endPoint ) {
-        _startPoint = startPoint;
-        _controlPoint = controlPoint;
-        _endPoint = endPoint;
+        super( startPoint.x, startPoint.y, controlPoint.x, controlPoint.y, endPoint.x, endPoint.y );
     }
     
     //----------------------------------------------------------------------------
@@ -62,10 +53,14 @@ public class QuadBezierSpline {
      * 
      * @param t a value between 0 and 1
      * @return the point
+     * @throws IllegalArgumentException if t is out of range
      */
     public Point2D evaluate( double t ) {
-        double x = ( _startPoint.x * t * t ) + ( _controlPoint.x * 2 * t * ( 1 - t ) ) + ( _endPoint.x * ( 1 - t ) * ( 1 - t ) );
-        double y = ( _startPoint.y * t * t ) + ( _controlPoint.y * 2 * t * ( 1 - t ) ) + ( _endPoint.y * ( 1 - t ) * ( 1 - t ) );
+        if ( t < 0 || t > 1 ) {
+            throw new IllegalArgumentException( "t is out of range: " + t );
+        }
+        double x = ( getX1() * t * t ) + ( getCtrlX() * 2 * t * ( 1 - t ) ) + ( getX2() * ( 1 - t ) * ( 1 - t ) );
+        double y = ( getY1() * t * t ) + ( getCtrlY() * 2 * t * ( 1 - t ) ) + ( getY2() * ( 1 - t ) * ( 1 - t ) );
         return new Point2D.Double( x, y );
     }
     
