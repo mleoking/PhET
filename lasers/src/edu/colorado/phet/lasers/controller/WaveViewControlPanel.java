@@ -13,7 +13,6 @@ package edu.colorado.phet.lasers.controller;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import javax.swing.*;
@@ -109,11 +108,11 @@ public class WaveViewControlPanel extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             JRadioButton selection = SwingUtils.getSelection( lasingPhotonBG );
             if( selection == lasingPhotonViewRB ) {
-                PhotonGraphic.setAllVisible( true, MiddleEnergyState.instance().getWavelength() );
+                PhotonGraphic.setAllVisible( true, module.getLaserModel().getMiddleEnergyState().getWavelength() );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
             }
             if( selection == lasingWaveViewRB ) {
-                PhotonGraphic.setAllVisible( false, MiddleEnergyState.instance().getWavelength() );
+                PhotonGraphic.setAllVisible( false, module.getLaserModel().getMiddleEnergyState().getWavelength() );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_WAVE );
             }
         }

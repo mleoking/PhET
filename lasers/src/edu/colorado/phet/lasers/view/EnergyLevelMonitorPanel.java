@@ -1,16 +1,14 @@
-/**
- * Class: ThreeEnergyLevelPanel
- * Package: edu.colorado.phet.lasers.view
- * User: Ron LeMaster
- * Date: Mar 27, 2003
- * Time: 10:41:27 AM
- * To change this template use Options | File Templates.
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
@@ -24,9 +22,6 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.GroundState;
-import edu.colorado.phet.lasers.model.atom.HighEnergyState;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
@@ -107,15 +102,15 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         model.getSeedBeam().addWavelengthChangeListener( this );
 
         // Create a horizontal line for each energy level, then add them to the panel
-        highLevelLine = new EnergyLevelGraphic( this, HighEnergyState.instance(),
+        highLevelLine = new EnergyLevelGraphic( this, module.getLaserModel().getHighEnergyState(),
                                                 Color.blue, levelLineOriginX,
                                                 levelLineLength - levelLineOriginX,
                                                 true );
-        middleLevelLine = new EnergyLevelGraphic( this, MiddleEnergyState.instance(),
+        middleLevelLine = new EnergyLevelGraphic( this, module.getLaserModel().getMiddleEnergyState(),
                                                   Color.red, levelLineOriginX + squiggleHeight * 1.5,
                                                   levelLineLength - ( levelLineOriginX + squiggleHeight * 1.5 ),
                                                   true );
-        groundLevelLine = new EnergyLevelGraphic( this, GroundState.instance(),
+        groundLevelLine = new EnergyLevelGraphic( this, module.getLaserModel().getGroundState(),
                                                   Color.black, levelLineOriginX + squiggleHeight * 3,
                                                   levelLineLength - ( levelLineOriginX + squiggleHeight * 3 ),
                                                   false );
@@ -132,12 +127,13 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         this.addGraphic( groundLevelLine );
 
         // Add lifetime sliders and a title for them
-        middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(),
+        middleLevelLifetimeSlider = new EnergyLifetimeSlider( module.getLaserModel().getMiddleEnergyState(),
                                                               middleLevelLine,
                                                               LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
                                                               this );
         this.add( middleLevelLifetimeSlider );
-        highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), highLevelLine,
+        highLevelLifetimeSlider = new EnergyLifetimeSlider( module.getLaserModel().getHighEnergyState(),
+                                                            highLevelLine,
                                                             LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME, this );
         this.add( highLevelLifetimeSlider );
 
@@ -219,7 +215,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
      * Recomputes the squiggle images for both beams
      */
     private void updateSquiggles() {
-        double y0 = energyYTx.modelToView( GroundState.instance().getEnergyLevel() );
+        double y0 = energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() );
         double y1 = energyYTx.modelToView( seedBeamEnergy );
         double y2 = energyYTx.modelToView( pumpBeamEnergy );
 
@@ -227,14 +223,14 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
         if( y0 > y1 ) {
             stimSquiggle = computeSquiggleImage( seedBeamWavelength, 0, (int)( y0 - y1 ), squiggleHeight );
             stimSquiggleTx = AffineTransform.getTranslateInstance( middleLevelLine.getPosition().getX(),
-                                                                   energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
+                                                                   energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             stimSquiggleTx.rotate( -Math.PI / 2 );
         }
 
         if( y0 > y2 ) {
             pumpSquiggle = computeSquiggleImage( pumpBeamWavelength, 0, (int)( y0 - y2 ), squiggleHeight );
             pumpSquiggleTx = AffineTransform.getTranslateInstance( highLevelLine.getPosition().getX(),
-                                                                   energyYTx.modelToView( GroundState.instance().getEnergyLevel() ) );
+                                                                   energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             pumpSquiggleTx.rotate( -Math.PI / 2 );
         }
 
@@ -310,13 +306,13 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
 
         // Draw middle level atoms
         if( numLevels >= 2 ) {
-            Color c = VisibleColor.wavelengthToColor( MiddleEnergyState.instance().getWavelength() );
+            Color c = VisibleColor.wavelengthToColor( module.getLaserModel().getMiddleEnergyState().getWavelength() );
             drawAtomsInLevel( g2, c, middleLevelLine, numMiddleLevel );
         }
 
         // Draw high level atoms, if the level is enabled
         if( numLevels >= 3 ) {
-            Color c = VisibleColor.wavelengthToColor( HighEnergyState.instance().getWavelength() );
+            Color c = VisibleColor.wavelengthToColor( module.getLaserModel().getHighEnergyState().getWavelength() );
             drawAtomsInLevel( g2, c, highLevelLine, numHighLevel );
         }
 

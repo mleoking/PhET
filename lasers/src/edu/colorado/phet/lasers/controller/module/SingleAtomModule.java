@@ -1,4 +1,4 @@
-/* Copyright 2004, University of Colorado */
+/* Copyright 2003-2004, University of Colorado */
 
 /*
  * CVS Info -
@@ -8,6 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
+
 package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
@@ -129,13 +130,14 @@ public class SingleAtomModule extends BaseLaserModule {
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
 
         int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
-        atom = new Atom( getModel(), numEnergyLevels );
-//        atom = new Atom( getModel() );
+        atom = new Atom( getLaserModel(), numEnergyLevels );
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2 );
         atom.setVelocity( 0, 0 );
         addAtom( atom );
 
+        // Initialize to two energy levels
+        setThreeEnergyLevels( false );
     }
 
     public void activate( PhetApplication app ) {
@@ -162,7 +164,7 @@ public class SingleAtomModule extends BaseLaserModule {
         }
         if( atom != null ) {
             int numEnergyLevels = threeEnergyLevels ? 3 : 2;
-            atom.setNumEnergyLevels( numEnergyLevels );
+            atom.setNumEnergyLevels( numEnergyLevels, getLaserModel() );
         }
     }
 

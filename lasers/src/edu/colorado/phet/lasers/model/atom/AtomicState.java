@@ -1,15 +1,21 @@
-/**
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.lasers.model.atom;
 
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
+import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -35,9 +41,10 @@ public abstract class AtomicState {
     //
     private double energyLevel;
     private double wavelength;
-    private double emittedWavelength;
     private int numAtomsInState;
     private double meanLifetime = Double.POSITIVE_INFINITY;
+    private AtomicState nextHigherState;
+    private AtomicState nextLowerState;
 
     void incrNumInState() {
         numAtomsInState++;
@@ -84,20 +91,13 @@ public abstract class AtomicState {
         return wavelength;
     }
 
-    protected void setEmittedPhotonWavelength( double wavelength ) {
-        this.emittedWavelength = wavelength;
-    }
-
-    public void determineEmittedPhotonWavelength() {
+    public double determineEmittedPhotonWavelength() {
         double energy1 = Photon.wavelengthToEnergy( this.getWavelength() );
         double energy2 = Photon.wavelengthToEnergy( this.getNextLowerEnergyState().getWavelength() );
 
         // todo: this isn't right. It doesn't work for upper to middle transitions
-        emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
-                                      AtomicState.maxWavelength );
-    }
-
-    protected double getEmittedPhotonWavelength() {
+        double emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
+                                             AtomicState.maxWavelength );
         return emittedWavelength;
     }
 
@@ -105,7 +105,36 @@ public abstract class AtomicState {
         return ( Math.abs( photon.getWavelength() - this.getWavelength() ) <= wavelengthTolerance && Math.random() < s_collisionLikelihood );
     }
 
-    abstract public void collideWithPhoton( Atom atom, Photon photon );
+    public void collideWithPhoton( Atom atom, Photon photon ) {
+
+        // If the photon has the same energy as the difference
+        // between this level and the ground state, then emit
+        // a photon of that energy
+        if( isStimulatedBy( photon ) ) {
+
+            // Place the replacement photon beyond the atom, so it doesn't collide again
+            // right away
+            Vector2D vHat = new Vector2D.Double( photon.getVelocity() ).normalize();
+            vHat.scale( atom.getRadius() );
+            Point2D position = new Point2D.Double( atom.getPosition().getX() + vHat.getX(),
+                                                   atom.getPosition().getY() + vHat.getY() );
+            photon.setPosition( position );
+            Photon emittedPhoton = Photon.createStimulated( photon, position, atom );
+            atom.emitPhoton( emittedPhoton );
+
+            // Change state
+            atom.setCurrState( atom.getLowestEnergyState() );
+        }
+
+        // Is the atom raised to a higher state?
+//        else if( Math.random() < s_collisionLikelihood ) {
+//            AtomicState newState = getStimulatedState( atom, photon, 0 );
+//            if( newState != null ) {
+//                photon.removeFromSystem();
+//                atom.setCurrState( newState );
+//            }
+//        }
+    }
 
     /**
      * Searches through the states of a specified atom for one whose energy differential between it and
@@ -133,9 +162,21 @@ public abstract class AtomicState {
         return result;
     }
 
-    abstract public AtomicState getNextLowerEnergyState();
+    public AtomicState getNextLowerEnergyState() {
+        return nextLowerState;
+    }
 
-    abstract public AtomicState getNextHigherEnergyState();
+    public void setNextLowerEnergyState( AtomicState nextLowerState ) {
+        this.nextLowerState = nextLowerState;
+    }
+
+    public AtomicState getNextHigherEnergyState() {
+        return nextHigherState;
+    }
+
+    public void setNextHigherEnergyState( AtomicState state ) {
+        nextHigherState = state;
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes

@@ -1,3 +1,14 @@
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
+
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.common.math.Vector2D;
@@ -8,7 +19,11 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import java.awt.geom.Point2D;
 
 /**
- *
+ * An object that manages the lifetime of an AtomicEnergyState.
+ * <p/>
+ * When it is created, it sets a time of death for an atom's current state, and when
+ * that time comes, causes a photon to be emitted and the atom to change to the next
+ * appropriate energy state.
  */
 class StateLifetimeManager implements ModelElement {
     private Atom atom;
@@ -54,7 +69,8 @@ class StateLifetimeManager implements ModelElement {
                 double theta = Math.random() * Math.PI * 2;
                 double x = speed * Math.cos( theta );
                 double y = speed * Math.sin( theta );
-                Photon emittedPhoton = Photon.create( state.getEmittedPhotonWavelength(),
+
+                Photon emittedPhoton = Photon.create( state.determineEmittedPhotonWavelength(),
                                                       new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ),
                                                       new Vector2D.Double( x, y ) );
 

@@ -1,14 +1,14 @@
-/**
- * Class: LaserModel
- * Package: edu.colorado.phet.lasers.model
- * Author: Another Guy
- * Date: Mar 21, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.lasers.model;
 
 import edu.colorado.phet.collision.Collidable;
@@ -57,6 +57,10 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     private int numMiddleStateAtoms;
     private int numHighStateAtoms;
 
+    private GroundState groundState = new GroundState();
+    private MiddleEnergyState middleEnergyState = new MiddleEnergyState();
+    private HighEnergyState highEnergyState = new HighEnergyState();
+
     /**
      *
      */
@@ -70,6 +74,12 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         collisionMechanism.addCollisionExpert( new PhotonMirrorCollisonExpert() );
 
         addModelElement( new CollisionAgent() );
+
+        // Set the default relationships between the states
+        groundState.setNextHigherEnergyState( middleEnergyState );
+        middleEnergyState.setNextLowerEnergyState( groundState );
+        middleEnergyState.setNextHigherEnergyState( highEnergyState );
+        highEnergyState.setNextLowerEnergyState( middleEnergyState );
     }
 
     public void addModelElement( ModelElement modelElement ) {
@@ -96,13 +106,13 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         atoms.add( modelElement );
         Atom atom = (Atom)modelElement;
         atom.addChangeListener( new AtomChangeListener() );
-        if( atom.getCurrState() == GroundState.instance() ) {
+        if( atom.getCurrState() == getGroundState() ) {
             numGroundStateAtoms++;
         }
-        if( atom.getCurrState() == MiddleEnergyState.instance() ) {
+        if( atom.getCurrState() == getMiddleEnergyState() ) {
             numMiddleStateAtoms++;
         }
-        if( atom.getCurrState() == HighEnergyState.instance() ) {
+        if( atom.getCurrState() == getHighEnergyState() ) {
             numHighStateAtoms++;
         }
     }
@@ -165,7 +175,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
             Object obj = iterator.next();
             if( obj instanceof Atom ) {
                 Atom atom = (Atom)obj;
-                atom.setCurrState( GroundState.instance() );
+                atom.setCurrState( getGroundState() );
             }
         }
         Photon photon = null;
@@ -212,11 +222,11 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
     }
 
     public void setHighEnergyMeanLifetime( double time ) {
-        HighEnergyState.instance().setMeanLifetime( time );
+        getHighEnergyState().setMeanLifetime( time );
     }
 
     public void setMiddleEnergyMeanLifetime( double time ) {
-        MiddleEnergyState.instance().setMeanLifetime( time );
+        getMiddleEnergyState().setMeanLifetime( time );
     }
 
     public int getNumGroundStateAtoms() {
@@ -237,6 +247,18 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 
     public int getNumPhotons() {
         return numPhotons;
+    }
+
+    public GroundState getGroundState() {
+        return groundState;
+    }
+
+    public MiddleEnergyState getMiddleEnergyState() {
+        return middleEnergyState;
+    }
+
+    public HighEnergyState getHighEnergyState() {
+        return highEnergyState;
     }
 
     ///////////////////////////////////////////////////////////////////////////////

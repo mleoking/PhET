@@ -1,10 +1,14 @@
-/**
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -15,16 +19,8 @@ public class GroundState extends AtomicState {
         void numInstancesChanged( int numInstances );
     }
 
-    private static GroundState instance = new GroundState();
-
-    public static GroundState instance() {
-        return instance;
-    }
-
-
-    private GroundState() {
+    public GroundState() {
         setEnergyLevel( AtomicState.minEnergy );
-        setEmittedPhotonWavelength( AtomicState.maxWavelength );
         setMeanLifetime( Double.POSITIVE_INFINITY );
     }
 
@@ -42,9 +38,5 @@ public class GroundState extends AtomicState {
 
     public AtomicState getNextLowerEnergyState() {
         return AtomicState.MinEnergyState.instance();
-    }
-
-    public AtomicState getNextHigherEnergyState() {
-        return MiddleEnergyState.instance();
     }
 }
