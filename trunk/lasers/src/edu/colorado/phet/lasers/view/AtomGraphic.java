@@ -73,6 +73,7 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
     public AtomGraphic( Component component, Atom atom ) {
         super( component, null );
         this.atom = atom;
+        atom.addObserver( this );
         update();
     }
 
@@ -108,7 +109,6 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
         }
         setPosition( (int)( atom.getPosition().getX() - atom.getRadius()),
                      (int)(atom.getPosition().getY() - atom.getRadius() ));
-        System.out.println( "p->" + atom.getPosition() );
         setBoundsDirty();
         repaint();
     }

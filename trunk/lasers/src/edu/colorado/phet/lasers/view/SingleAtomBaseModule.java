@@ -26,11 +26,7 @@ public class SingleAtomBaseModule extends BaseLaserModule {
         atom.setPosition( getLaserOrigin().getX() + s_boxWidth / 2,
                           getLaserOrigin().getY() + s_boxHeight / 2  );
         atom.setVelocity( 0, 0 );
-        atom.setVelocity( 10, 0 );
         addAtom( atom );
-//        AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
-//        addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
-//        new AddAtomCmd( atom ).doIt();
 
         stimulatingBeam = ((LaserModel)getModel()).getStimulatingBeam();
         stimulatingBeam.setHeight( 10 );
