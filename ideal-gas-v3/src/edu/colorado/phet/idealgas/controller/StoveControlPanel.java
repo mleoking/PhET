@@ -36,6 +36,10 @@ public class StoveControlPanel extends JPanel {
         this.add( stovePanel );
 
         JPanel stoveSliderPanel = new JPanel();
+
+        // The following commented code is left from the days that we had small icons
+        // to the left of the slider. I'm leaving the commented code in here, just in
+        // case we want to go back to that
 //        JPanel iconPanel = new JPanel( new GridLayout( 3, 1 ) );
 //        Image stoveAndFlameImage = null;
 //        Image stoveImage = null;
