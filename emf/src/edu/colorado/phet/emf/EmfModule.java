@@ -11,6 +11,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -32,10 +33,7 @@ import edu.colorado.phet.util.StripChart;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -161,6 +159,10 @@ public class EmfModule extends Module {
         addHelpItem( helpItem1 );
     }
 
+    public ModelViewTransform2D getMvTx() {
+        return mvTx;
+    }
+
     private void createWiggleMeGraphic( final Point origin, final ModelViewTransform2D mvTx ) {
         wiggleMeGraphic = new Graphic() {
             Point2D.Double start = new Point2D.Double( 0, 0 );
@@ -193,14 +195,22 @@ public class EmfModule extends Module {
         setWiggleMeGraphicState();
     }
 
+    private Timer wiggleMeTimer = new Timer( 10, new ActionListener() {
+        public void actionPerformed( ActionEvent e ) {
+            apparatusPanel.repaint();
+        }
+    } );
+
     private void setWiggleMeGraphicState() {
         if( wiggleMeGraphic != null ) {
             if( movementStrategy == manualMovement
                 && !beenWiggled ) {
                 this.addGraphic( wiggleMeGraphic, 5 );
+                wiggleMeTimer.start();
             }
             else {
                 this.getApparatusPanel().removeGraphic( wiggleMeGraphic );
+                wiggleMeTimer.stop();
             }
         }
     }
@@ -283,12 +293,6 @@ public class EmfModule extends Module {
     }
 
     public void setMovementManual() {
-        //        setWiggleMeGraphicState();
-        //        if( setWiggleMeGraphicState && !wiggleMeShowing ) {
-        //            apparatusPanel.removeGraphic( wiggleMeGraphic );
-        //            this.addGraphic( wiggleMeGraphic, 5 );
-        //            wiggleMeShowing = true;
-        //        }
         movementStrategy = manualMovement;
         this.getModel().execute( new SetMovementCmd( (EmfModel)this.getModel(),
                                                      manualMovement ) );

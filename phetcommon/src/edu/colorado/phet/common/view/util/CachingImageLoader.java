@@ -7,7 +7,7 @@ import java.util.Hashtable;
 /**
  * Decorates ImageLoader with buffering.
  */
-public class HashedImageLoader extends ImageLoader {
+public class CachingImageLoader extends ImageLoader {
     Hashtable buffer = new Hashtable();
 
     public BufferedImage loadImage( String image ) throws IOException {

@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.common.view.graphics;
 
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.mousecontrols.CompositeMouseInputListener;
 import edu.colorado.phet.common.view.graphics.mousecontrols.HandCursorControl;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;

@@ -30,7 +30,8 @@ public class EmfModel extends BaseModel {
 //    public void clockTicked( IClock iClock, double v ) {
 
         // This makes the clock static
-        super.clockTicked( iClock, iClock.getDt() );
+        super.clockTicked( iClock, v );
+//        super.clockTicked( iClock, iClock.getDt() );
 //        super.clockTicked( iClock, iClock.getRequestedDT() );
     }
 

@@ -53,8 +53,9 @@ public class ApparatusPanel extends JPanel {
         this.addMouseListener( mouseDelegator );
         this.addMouseMotionListener( mouseDelegator );
 //        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
-        Border border = BorderFactory.createLineBorder( Color.black );
-        this.setBorder( border );
+
+//        Border border = BorderFactory.createLineBorder( Color.black );
+//        this.setBorder( border );
     }
 
     public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {
@@ -85,6 +86,11 @@ public class ApparatusPanel extends JPanel {
             graphicsSetup.setup( g2 );
         }
         graphic.paint( g2 );
+        g2.setColor( Color.black );
+        g2.setStroke( borderStroke );
+        Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1);
+        g2.draw( border );
+//        g2.draw( this.getBounds() );
     }
 
     public void addGraphic( Graphic graphic, double level ) {

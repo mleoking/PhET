@@ -285,20 +285,20 @@ public class MathUtil {
      * @param y4
      * @return true if a segment intersects a line.
      */
-    public static boolean segmentIntersectsLine( float x1, float y1,
-                                                 float x2, float y2,
-                                                 float x3, float y3,
-                                                 float x4, float y4 ) {
+    public static boolean segmentIntersectsLine( double x1, double y1,
+                                                 double x2, double y2,
+                                                 double x3, double y3,
+                                                 double x4, double y4 ) {
         boolean result = false;
-        float numA = ( x4 - x3 ) * ( y1 - y3 ) - ( y4 - y3 ) * ( x1 - x3 );
-        float denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
+        double numA = ( x4 - x3 ) * ( y1 - y3 ) - ( y4 - y3 ) * ( x1 - x3 );
+        double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
         if( denom == 0 ) {
             result = false;
         }
         else {
-            float ua = numA / denom;
+            double ua = numA / denom;
             // ub must both be in the range 0 to 1 for the segment to
             // to interesect the line
             result = ua >= 0 && ua <= 1;

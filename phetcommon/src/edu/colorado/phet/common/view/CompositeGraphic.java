@@ -10,7 +10,8 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.util.MultiMap;
 import edu.colorado.phet.common.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common.view.graphics.Boundary;
+import edu.colorado.phet.common.view.graphics.Boundary;
 
 import java.awt.*;
 import java.util.ArrayList;

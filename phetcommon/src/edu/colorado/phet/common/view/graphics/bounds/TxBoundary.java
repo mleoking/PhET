@@ -6,14 +6,23 @@
  */
 package edu.colorado.phet.common.view.graphics.bounds;
 
+import edu.colorado.phet.common.view.graphics.Boundary;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+/**
+ * @deprecated
+ */
 public class TxBoundary implements Boundary {
     AffineTransform transform;
     ModelBoundary modelBounds;
-
+    /**
+     * @deprecated 
+     * @param modelBounds
+     * @param transform
+     */
     public TxBoundary( ModelBoundary modelBounds, AffineTransform transform ) {
         this.transform = transform;
         this.modelBounds = modelBounds;

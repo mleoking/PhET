@@ -10,6 +10,8 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ThreadedClock;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -52,7 +54,8 @@ public class EmfApplication {
 //        GuidedInquiry gi = null;
 //        Script script = null;
 
-        SwingTimerClock clock = new SwingTimerClock( 1, 20, true  );
+        AbstractClock clock = new SwingTimerClock( 1.5, 60, false );
+//        SwingTimerClock clock = new SwingTimerClock( 1, 20, true  );
         Module antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel(
@@ -61,6 +64,7 @@ public class EmfApplication {
         appDescriptor.setModule( antennaModule );
         appDescriptor.setInitialModule( antennaModule );
         appDescriptor.setClock( clock );
+        appDescriptor.setName( "radiowaves" );
 
         PhetApplication application = new PhetApplication( appDescriptor );
 //        PhetApplication application = new PhetApplication( appDescriptor, antennaModule,
