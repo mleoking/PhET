@@ -105,8 +105,4 @@ public abstract class SpontaneouslyEmittingState extends AtomicState {
             s_model.removeModelElement( this );
         }
     }
-
-    //    abstract protected AtomicState getNextLowerEnergyState();
-    //
-    //    abstract protected double getEmittedPhotonWavelength();
 }

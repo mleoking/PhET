@@ -13,6 +13,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -21,6 +22,8 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.BlueBeamGraphic;
+import edu.colorado.phet.lasers.view.LampGraphic;
+import edu.colorado.phet.coreadditions.ColorFromWavelength;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -30,6 +33,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.IndexColorModel;
 import java.io.IOException;
 
 public class SingleAtomModule extends BaseLaserModule {
@@ -72,12 +76,11 @@ public class SingleAtomModule extends BaseLaserModule {
             double scale = Math.min( allocatedBounds.getWidth() / gunBI.getWidth(),
                                      allocatedBounds.getHeight() / gunBI.getHeight() );
             AffineTransformOp atxOp1 = new AffineTransformOp( AffineTransform.getScaleInstance( scale, scale ), AffineTransformOp.TYPE_BILINEAR );
-            BufferedImage stimulatingBeamLamp = atxOp1.filter( gunBI, null );
-
+            BufferedImage beamImage = atxOp1.filter( gunBI, null );
             AffineTransform atx = new AffineTransform();
             atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
-            PhetImageGraphic gunGraphic = new PhetImageGraphic( getApparatusPanel(), stimulatingBeamLamp, atx );
-            addGraphic( gunGraphic, LaserConfig.PHOTON_LAYER + 1 );
+            PhetImageGraphic stimulatingBeamGraphic = new LampGraphic( stimulatingBeam, getApparatusPanel(), beamImage, atx );
+            addGraphic( stimulatingBeamGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
             // Add the intensity control
             JPanel sbmPanel = new JPanel();
@@ -93,16 +96,18 @@ public class SingleAtomModule extends BaseLaserModule {
 
 
             // Pumping beam lamp
-            BufferedImage pumpingBeamLamp = GraphicsUtil.getRotatedImage( stimulatingBeamLamp, Math.PI / 2 );
-            AffineTransform txTx2 = AffineTransform.getTranslateInstance( getLaserOrigin().getX() + s_boxWidth / 2 - stimulatingBeamLamp.getHeight() / 2, -30 );
-            PhetImageGraphic pumpingLampGraphic = new PhetImageGraphic( getApparatusPanel(), pumpingBeamLamp, txTx2 );
+            AffineTransform pumpingBeamTx = new AffineTransform();
+            pumpingBeamTx.translate( getLaserOrigin().getX() + beamImage.getHeight() + s_boxWidth / 2 - beamImage.getHeight() / 2, 10 );
+            pumpingBeamTx.rotate( Math.PI / 2 );
+            BufferedImage pumpingBeamLamp = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_BILINEAR ).filter( beamImage, null );
+            PhetImageGraphic pumpingLampGraphic = new LampGraphic( pumpingBeam, getApparatusPanel(), pumpingBeamLamp, pumpingBeamTx );
             addGraphic( pumpingLampGraphic, LaserConfig.PHOTON_LAYER + 1 );
 
             // Add the beam control
             JPanel pbmPanel = new JPanel();
             BeamControl pbm = new BeamControl( pumpingBeam );
             Dimension pbmDim = pbm.getPreferredSize();
-            pbmPanel.setBounds( (int)( txTx2.getTranslateX() + pumpingLampGraphic.getWidth() ), 10,
+            pbmPanel.setBounds( (int)( pumpingBeamTx.getTranslateX() + pumpingLampGraphic.getWidth() ), 10,
                                 (int)pbmDim.getWidth() + 10, (int)pbmDim.getHeight() + 10 );
             pbmPanel.add( pbm );
 //            pbmPanell.setBorder( new BevelBorder( BevelBorder.RAISED ) );
