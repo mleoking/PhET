@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 
@@ -52,9 +53,6 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
     // The compass needles that are in the grid (array of FastGridNeedle).
     private ArrayList _needles;
     
-    // The original aspect ratio of the parent component, prior to any resizing.
-    private double _aspectRatio;
-    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
@@ -77,17 +75,12 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
         
         _needleSize = new Dimension( 40, 20 );
         _needles = new ArrayList();
-        _aspectRatio = 0.0;
         
         setSpacing( xSpacing, ySpacing );
         
         // Need to reset the grid when the parent component is resized.
         component.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                if ( _aspectRatio == 0.0 ) {
-                    // Save the original aspect ratio of the parent component.
-                    _aspectRatio = ((double)getComponent().getWidth()) / ((double)getComponent().getHeight());
-                }
                 resetSpacing();
             }
         });
@@ -124,26 +117,24 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
         _needles.clear();
         
         // Determine the dimensions of the parent component.
-        Component component = getComponent();
-        double width = component.getWidth();
-        double height = component.getHeight();
-        
-        // Account for potential scaling by the parent component.
-        double aspectRatio = width / height;
-        if ( aspectRatio < _aspectRatio ) {
-            width = width * (1/aspectRatio);
-            height = height * (1/aspectRatio);
-        }
-        else
+        int width, height;
         {
-            width = width * aspectRatio;
-            height = height * aspectRatio;
+            Component component = getComponent();
+            if ( component instanceof ApparatusPanel2 ) {
+                Dimension canvasSize = ( (ApparatusPanel2) component ).getVirtualCanvasSize();
+                width = canvasSize.width;
+                height = canvasSize.height;
+            }
+            else {
+                width = component.getWidth();
+                height = component.getHeight();
+            }
         }
         
         // Determine how many compasses are needed to fill the parent component.
-        int xCount = (int)(width / xSpacing) + 4;  // HACK
-        int yCount = (int)(height / ySpacing) + 4;  // HACK
-        //System.out.println( "CompassGridGraphic.setSpacing - grid is " + xCount + "x" + yCount ); // DEBUG
+        int xCount = (int)(width / xSpacing) + 1;
+        int yCount = (int)(height / ySpacing) + 1;
+//        System.out.println( "CompassGridGraphic.setSpacing - grid is " + xCount + "x" + yCount ); // DEBUG
         
         // Create the compasses.
         for ( int i = 0; i < xCount; i++ ) {
