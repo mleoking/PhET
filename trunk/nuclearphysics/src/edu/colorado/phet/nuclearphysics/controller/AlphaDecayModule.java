@@ -87,8 +87,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getPhysicalPanel().removeGraphic( ringGraphic );
         getPhysicalPanel().removeGraphic( leaderLines );
 
-        //        NucleusGraphic.removeAllGraphics();
-
         alphaDecayControlPanel.stopTimer();
     }
 
@@ -170,13 +168,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         //Remove old nucleus
         getModel().removeModelElement( decayProducts.getParent() );
-
-        //        java.util.List graphics = (java.util.List)NucleusGraphic.getGraphicForNucleus( decayProducts.getParent() );
-        //        for( int i = 0; i < graphics.size(); i++ ) {
-        //            NucleusGraphic ng = (NucleusGraphic)graphics.get( i );
-        //            getPotentialProfilePanel().removeGraphic( ng );
-        //            this.getPhysicalPanel().removeGraphic( ng );
-        //        }
         getPotentialProfilePanel().removePotentialProfile( decayProducts.getParent().getPotentialProfile() );
 
         // Bind the alpha particles to the daughter nucleus
@@ -189,8 +180,6 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
 
         // Add the daughter nucleus
         getPhysicalPanel().addNucleus( decayProducts.getDaughter() );
-        //        NucleusGraphic daughterGraphic = new NucleusGraphic( decayProducts.getDaughter() );
-        //        getPhysicalPanel().addGraphic( daughterGraphic );
         getModel().addModelElement( decayProducts.getDaughter() );
         getPotentialProfilePanel().addPotentialProfile( decayProducts.getDaughter() );
 

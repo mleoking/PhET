@@ -15,11 +15,11 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.coreadditions.TxApparatusPanel;
 import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
@@ -34,11 +34,8 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class PotentialProfilePanel extends ApparatusPanel {
+public class PotentialProfilePanel extends TxApparatusPanel {
 
-    //
-    // Statics
-    //
     private static Color axisColor = new Color( 100, 100, 100 );
     private static Stroke axisStroke = new BasicStroke( 1f );
     private static Color backgroundColor = new Color( 255, 255, 255 );
@@ -50,18 +47,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
     private static double profileLayer = 10;
     private static double nucleusLayer = 20;
     private static AffineTransform atx = new AffineTransform();
-    //    private static RevertableGraphicsSetup nucleusGraphicsSetup = new RevertableGraphicsSetup() {
-    //        private Composite orgComposite;
-    //
-    //        public void setup( Graphics2D graphics ) {
-    //            orgComposite = graphics.getComposite();
-    //            GraphicsUtil.setAlpha( graphics, 0.5 );
-    //        }
-    //
-    //        public void revert( Graphics2D graphics ) {
-    //            graphics.setComposite( orgComposite );
-    //        }
-    //    };
     private static GraphicsSetup decayProductGraphicsSetup = new GraphicsSetup() {
         public void setup( Graphics2D graphics ) {
             GraphicsUtil.setAlpha( graphics, 0.8 );
@@ -101,9 +86,6 @@ public class PotentialProfilePanel extends ApparatusPanel {
         return atx;
     }
 
-    //
-    // Instance fields and methods
-    //
     // Maps potential profiles to their graphics
     private HashMap potentialProfileMap = new HashMap();
     // Maps potential profiles to the nucleus graphics associated with them
