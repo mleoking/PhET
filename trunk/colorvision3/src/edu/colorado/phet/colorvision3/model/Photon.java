@@ -27,23 +27,31 @@ public class Photon {
     // Instance data
     //----------------------------------------------------------------------------
 
-    // Photon color
-    private VisibleColor _color;
-    // Direction in degrees
-    private double _direction;
-    // Intensity of the light source when the photon was emitted, in percent (0-100)
-    private double _intensity;
-    // False indicates the photon is available for reuse
-    private boolean _inUse;
     // Location in 2D space
     private double _x, _y;
-    // True if the photon has been previously filtered
-    private boolean _isFiltered;
+    // Direction in degrees
+    private double _direction;
+    // Color of the light source that emitted the photon.
+    private VisibleColor _color;
+    // Intensity of the light source when the photon was emitted, in percent (0-100)
+    private double _intensity;
 
-    // These things are related to how a photon is displayed, but
-    // are included here so that we can optimize by pre-computing
-    // some values.  See the setDirection method.
-    private double _deltaX, _deltaY, _width, _height;
+    /*
+     * These members are not strictly part of the Photon model.
+     * They are included here to improve performance of Photon
+     * memory management in PhotonBeam and PhotonBeamGraphic.
+     */
+    private boolean _inUse; // False indicates the photon is available for reuse
+    private boolean _isFiltered; // True if the photon has been previously filtered
+
+    /*
+     * These members are not strictly part of the Photon model.
+     * They are related to how a Photon is displayed, and are included 
+     * here so that we can optimize by pre-computing their values.  
+     * See the setDirection method.
+     */
+    private double _deltaX, _deltaY; // change in location per clock tick
+    private double _width, _height; // dimensions of the Photon's bounding box
 
     //----------------------------------------------------------------------------
     // Constructors
