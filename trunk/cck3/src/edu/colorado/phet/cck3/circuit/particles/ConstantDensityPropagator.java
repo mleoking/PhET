@@ -8,8 +8,8 @@ import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.common.model.ModelElement;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.text.DecimalFormat;
+import java.util.*;
 
 /**
  * User: Sam Reid
@@ -18,11 +18,12 @@ import java.util.Collections;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ConstantDensityPropagator implements ModelElement {
+    private CCK3Module module;
     private ParticleSet particleSet;
     private Circuit circuit;
     private double speedScale = .01;
     private double MIN_CURRENT = Math.pow( 10, -10 );
-    private double MAX_CURRENT = FireHandler.FIRE_CURRENT;
+//    private double MAX_CURRENT = FireHandler.FIRE_CURRENT;
     //    private double MAX_STEP = .15;
     //    private double MAX_STEP = .182;
     //    private double MAX_STEP = .1;
@@ -32,8 +33,56 @@ public class ConstantDensityPropagator implements ModelElement {
     //    private double MAX_STEP = .1 / 10;
     private int numEqualize = 2;
     private double scale;
+    SmoothData smoothData = new SmoothData( 30 );
 
-    public ConstantDensityPropagator( ParticleSet particleSet, Circuit circuit ) {
+    static class SmoothData {
+        private ArrayList data;
+        private int windowSize;
+
+        public SmoothData( int windowSize ) {
+            data = new ArrayList( windowSize );
+            this.windowSize = windowSize;
+        }
+
+        public int numDataPoints() {
+            return data.size();
+        }
+
+        public int getWindowSize() {
+            return windowSize;
+        }
+
+        public void addData( double d ) {
+            data.add( new Double( d ) );
+            while( numDataPoints() > getWindowSize() ) {
+                data.remove( 0 );
+            }
+        }
+
+        public double getAverage() {
+            double sum = 0;
+            for( int i = 0; i < data.size(); i++ ) {
+                java.lang.Double aDouble = (java.lang.Double)data.get( i );
+                sum += aDouble.doubleValue();
+            }
+            return sum / data.size();
+        }
+
+        public double getMedian() {
+            ArrayList list = new ArrayList( data );
+            Collections.sort( list );
+            int elm = list.size() / 2;
+            return dataAt( elm );
+        }
+
+        private double dataAt( int elm ) {
+            Double d = (Double)data.get( elm );
+            return d.doubleValue();
+        }
+    }
+
+    public ConstantDensityPropagator( CCK3Module module, ParticleSet particleSet, Circuit circuit ) {
+        this.module = module;
         this.particleSet = particleSet;
         this.circuit = circuit;
     }
@@ -46,10 +95,29 @@ public class ConstantDensityPropagator implements ModelElement {
         double maxStep = maxVelocity * dt;
         if( maxStep >= MAX_STEP ) {
             scale = MAX_STEP / maxStep;
-            System.out.println( "scale = " + scale );
         }
         else {
             scale = 1;
+        }
+        smoothData.addData( scale * 100 );
+        double avg = smoothData.getAverage();
+//        double avg=smoothData.getMedian();
+        DecimalFormat df = new DecimalFormat( "##" );
+        String percent = df.format( avg );
+        if( percent.equals( "0" ) ) {
+            percent = "1";
+        }
+        if( !percent.equals( df.format( 100 ) ) && avg < 95 ) {
+            module.getTimescaleGraphic().setText( "Animation speed limit reached! Simulation speed reduced to " + percent + "% normal!" );
+            module.getTimescaleGraphic().setVisible( true );
+        }
+        else {
+            module.getTimescaleGraphic().setText( "" );
+            module.getTimescaleGraphic().setVisible( false );
+        }
+        if( avg < 1 ) {
+
+
         }
         for( int i = 0; i < particleSet.numParticles(); i++ ) {
             Electron e = particleSet.particleAt( i );
@@ -267,27 +335,85 @@ public class ConstantDensityPropagator implements ModelElement {
     //        return false;
     //    }
 
-    private CircuitLocation chooseDestinationBranch( CircuitLocation[] loc ) {
-        if( loc.length == 1 ) {
-            return loc[0];
-        }
-        CircuitLocation bestYet = loc[0];
-        double bestValue = particleSet.distanceToClosestElectron( bestYet.getBranch(), bestYet.getX() );
+//    private CircuitLocation chooseDestinationBranchOrig( CircuitLocation[] loc ) {
+//        if( loc.length == 1 ) {
+//            return loc[0];
+//        }
+//        CircuitLocation bestYet = loc[0];
+//        double bestValue = particleSet.distanceToClosestElectron( bestYet.getBranch(), bestYet.getX() );
+//
+//        //        bestYet.distanceToClosestElectron( particleSet );
+//        //        System.out.println( "bestValue = " + bestValue );
+//        for( int i = 1; i < loc.length; i++ ) {
+//            CircuitLocation circuitLocation = loc[i];
+//            double distToElectron = particleSet.distanceToClosestElectron( circuitLocation.getBranch(), circuitLocation.getX() );
+//            //            circuitLocation.distanceToClosestElectron( particleSet );
+//            //            System.out.println( "distToElectron = " + distToElectron );
+//            if( distToElectron > bestValue ) {
+//                bestYet = circuitLocation;
+//                bestValue = distToElectron;
+//                //                System.out.println( "NEWbestValue = " + bestValue );
+//            }
+//        }
+//        return bestYet;
+//    }
 
-        //        bestYet.distanceToClosestElectron( particleSet );
-        //        System.out.println( "bestValue = " + bestValue );
-        for( int i = 1; i < loc.length; i++ ) {
-            CircuitLocation circuitLocation = loc[i];
-            double distToElectron = particleSet.distanceToClosestElectron( circuitLocation.getBranch(), circuitLocation.getX() );
-            //            circuitLocation.distanceToClosestElectron( particleSet );
-            //            System.out.println( "distToElectron = " + distToElectron );
-            if( distToElectron > bestValue ) {
-                bestYet = circuitLocation;
-                bestValue = distToElectron;
-                //                System.out.println( "NEWbestValue = " + bestValue );
-            }
+    class ValueMap {
+        Hashtable hashtable = new Hashtable();
+
+        public ValueMap() {
+
         }
-        return bestYet;
+
+        public void put( Object object, double value ) {
+            hashtable.put( object, new Double( value ) );
+        }
+
+        public Object argMax() {
+            List list = new ArrayList( hashtable.keySet() );
+            Collections.sort( list, new Comparator() {
+                public int compare( Object o1, Object o2 ) {
+                    double k1 = get( o1 );
+                    double k2 = get( o2 );
+                    return Double.compare( k1, k2 );
+                }
+            } );
+            Object last = list.get( list.size() - 1 );
+            return last;
+        }
+
+        public double get( Object object ) {
+            Double val = (Double)hashtable.get( object );
+            return val.doubleValue();
+        }
+
+        public Object argMin() {
+            List list = new ArrayList( hashtable.keySet() );
+            Collections.sort( list, new Comparator() {
+                public int compare( Object o1, Object o2 ) {
+                    double k1 = get( o1 );
+                    double k2 = get( o2 );
+                    return Double.compare( k1, k2 );
+                }
+            } );
+            return list.get( 0 );
+        }
+    }
+
+    private CircuitLocation chooseDestinationBranch( CircuitLocation[] loc ) {
+        ValueMap vm = new ValueMap();
+        for( int i = 0; i < loc.length; i++ ) {
+            CircuitLocation circuitLocation = loc[i];
+            vm.put( circuitLocation, getDensity( circuitLocation ) );
+        }
+        CircuitLocation lowestDensity = (CircuitLocation)vm.argMin();
+        return lowestDensity;
+    }
+
+    private double getDensity( CircuitLocation circuitLocation ) {
+        Branch branch = circuitLocation.getBranch();
+        double density = module.getParticleSet().getDensity( branch );
+        return density;
     }
 
     private CircuitLocation[] getLocations( Electron e, double dt, double overshoot, boolean under ) {

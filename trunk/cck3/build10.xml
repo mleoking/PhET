@@ -197,11 +197,14 @@
         <echo file="classpath.output.txt" message="${java.class.path}"></echo>
     </target>
 
-    <target name="Publish Executables" depends="Generate Jar"
+    <target name="setDestDir">
+        <property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>
+    </target>
+
+    <target name="Publish Executables" depends="Generate Jar, setDestDir"
         description="generate executables, jar files, lib files, a batchfile">
         <mkdir dir="${releases}"/>
         <property file="${build.number.txt}"/>
-        <property name="destdir" value="${releases}\${distname}${version}_exec-build-${build.number}"/>
         <mkdir dir="${destdir}"/>
         <copy todir="${destdir}">
             <fileset dir="${jars}"/>
@@ -213,7 +216,7 @@
         </copy>
         <!--        <copyclasspath directory="${destdir}/lib" ignore="${ignorepath}"/>-->
         <CreateBatchFile mainJar="${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>
-        <exec dir="${destdir}" executable="explorer">
+        <exec dir="${destdir}" executable="${browser.path}">
             <arg line="${destdir}"/>
         </exec>
     </target>
@@ -228,6 +231,42 @@
         <exec dir="${basedir}" executable="explorer">
             <arg line="${basedir}"></arg>
         </exec>
+    </target>
+
+    <!--    <scp todir="${username}:${password}@${hostname}:${hostpath}">-->
+    <!--        <fileset dir="${dist.dir}"/>-->
+    <!--    </scp>-->
+
+    <!--A downfall to this task is that it will copy up every file every time, regardless of whether the original has changed or not. This is of particular concern if you're deploying a large website or using a slow connection. But don't fear the all new <modified/> selector can be used to cut out the unnecessary bandwidth. The task now becomes: -->
+
+    <!--    <scp todir="${username}:${password}@${hostname}:${hostpath}">-->
+    <!--        <fileset dir="${dist.dir}">-->
+    <!--            <modified>-->
+    <!--                <param name="cache" value="${build.dir}/deploy.cache"/>-->
+    <!--            </modified>-->
+    <!--        </fileset>-->
+    <!--    </scp>-->
+
+    <!--You might also want to consider using the Ant1.5 <input/> task so that users are prompted for configuration details if the properties haven't already been set. A complete example follows: -->
+
+
+    <!--    <target name="get-password" unless="password">-->
+    <!--        <input message="Please enter password:" addproperty="password"/>-->
+    <!--    </target>-->
+    <target name="readBuildNumber">
+        <loadproperties srcfile="data/cck.build.number"/>
+    </target>
+
+    <target name="deploy" depends="readBuildNumber,setDestDir">
+        <loadproperties srcfile="local.build.properties"/>
+        <property name="dirname" value="v${build.number}"/>
+        <echo message="command=mkdir ${ssh.root}/${ssh.path}/${dirname}"/>
+        <!--    Timeout and fail=false are hacks to make the command exit.    -->
+        <sshexec host="${ssh.host}" username="${ssh.user}" password="${ssh.password}" trust="yes"
+            command="mkdir ${ssh.root}/${ssh.path}/${dirname}" output="ssh.output.txt" timeout="1000" failonerror="false"/>
+        <scp todir="${ssh.user}:${ssh.password}@${ssh.host}:${ssh.root}/${ssh.path}/${dirname}" trust="yes">
+            <fileset dir="${destdir}"/>
+        </scp>
     </target>
 
 </project>

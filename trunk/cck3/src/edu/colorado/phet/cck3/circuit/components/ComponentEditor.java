@@ -145,10 +145,12 @@ public abstract class ComponentEditor extends JDialog {
     }
 
     public void setVisible( boolean b ) {
-        slider.requestSliderFocus();
         super.setVisible( b );
         //ensure that the editor value is visible.
         setReadoutVisible( b );
+        if( b ) {
+            slider.requestSliderFocus();
+        }
         validateRepaint();
     }
 
@@ -166,7 +168,7 @@ public abstract class ComponentEditor extends JDialog {
 
     public static class BatteryEditor extends ComponentEditor {
         public BatteryEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) throws HeadlessException {
-            super( module, "Battery", element, parent, "Voltage", "Volts", 0, 100, 9, circuit );
+            super( module, "Battery", element, parent, "Voltage", "Volts", 0, 100, element.getVoltageDrop(), circuit );
             if( CCK3Module.SHOW_GRAB_BAG ) {
 
                 final JCheckBox hugeRange = new JCheckBox( "More Volts", false );
@@ -196,7 +198,7 @@ public abstract class ComponentEditor extends JDialog {
 
     public static class ResistorEditor extends ComponentEditor {
         public ResistorEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( module, "Resistor", element, parent, "Resistance", "Ohms", 0, 100, 10, circuit );
+            super( module, "Resistor", element, parent, "Resistance", "Ohms", 0, 100, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {
@@ -210,7 +212,7 @@ public abstract class ComponentEditor extends JDialog {
 
     public static class BulbResistanceEditor extends ComponentEditor {
         public BulbResistanceEditor( CCK3Module module, final CircuitComponent element, Component parent, Circuit circuit ) {
-            super( module, "Bulb", element, parent, "Resistance", "Ohms", 0, 100, 10, circuit );
+            super( module, "Bulb", element, parent, "Resistance", "Ohms", 0, 100, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {
