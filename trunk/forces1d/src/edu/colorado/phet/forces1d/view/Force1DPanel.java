@@ -2,7 +2,7 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
-import edu.colorado.phet.common.math.LinearTransform1d;
+import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
@@ -32,7 +32,7 @@ public class Force1DPanel extends ApparatusPanel {
     private BlockGraphic blockGraphic;
     private ArrowSetGraphic arrowSetGraphic;
     private ModelViewTransform2D transform2D;
-    private LinearTransform1d walkwayTransform;
+    private Function.LinearFunction walkwayTransform;
     private BufferedPhetGraphic bufferedPhetGraphic;
     private PlotDevice forcePlotDevice;
     private WalkwayGraphic walkwayGraphic;
@@ -45,9 +45,9 @@ public class Force1DPanel extends ApparatusPanel {
         this.module = module;
         this.model = module.getForceModel();
         addGraphicsSetup( new BasicGraphicsSetup() );
-        walkwayTransform = new LinearTransform1d( -10, 10, 0, 400 );
+        walkwayTransform = new Function.LinearFunction( -10, 10, 0, 400 );
         walkwayGraphic = new WalkwayGraphic( this, module, 21, getWalkwayTransform() );
-        blockGraphic = new BlockGraphic( this, module.getForceModel().getBlock(), model, transform2D, walkwayTransform );
+        blockGraphic = new BlockGraphic( this, module.getForceModel().getBlock(), model, transform2D, walkwayTransform, module.imageElementAt( 0 ) );
         arrowSetGraphic = new ArrowSetGraphic( this, blockGraphic, model, transform2D );
         leanerGraphic = new LeanerGraphic( this, blockGraphic );
         addGraphic( walkwayGraphic );
@@ -157,22 +157,15 @@ public class Force1DPanel extends ApparatusPanel {
         forcePlotDevice.setDataSeriesVisible( 1, selected );
         repaint();
     }
-
+//
 //    public void repaint( int x, int y, int width, int height ) {
-////        new Exception("Repaint").printStackTrace( );
 //        super.repaint( x, y, width, height );
 //        StackTraceElement[] str = new Exception( "Repaint" ).getStackTrace();
-//        for( int i = 0; i < str.length && i < 5; i++ ) {
+//        for( int i = 0; i < str.length && i < 9; i++ ) {
 //            StackTraceElement stackTraceElement = str[i];
 //            System.out.println( "" + i + ": " + stackTraceElement );
 //        }
 //        System.out.println( "..." );
-////        System.out.println( "str = " + str );
-//    }
-//
-//    public void repaint( Rectangle r ) {
-////        new Exception("Repaint").printStackTrace( );
-//        super.repaint( r );
 //    }
 
     public void relayout() {
@@ -186,14 +179,16 @@ public class Force1DPanel extends ApparatusPanel {
             int yInsetBottom = forcePlotDevice.getChart().getHorizontalTicks().getMajorTickTextBounds().height * 2;
             Rectangle newViewBounds = new Rectangle( plotInsetX, y + yInsetBottom, plotWidth, getHeight() - y - yInsetBottom * 2 );
 //            System.out.println( "newViewBounds = " + newViewBounds );
-            forcePlotDevice.setViewBounds( newViewBounds );
+            if( newViewBounds.width > 0 && newViewBounds.height > 0 ) {
+                forcePlotDevice.setViewBounds( newViewBounds );
+            }
             updateGraphics();
             repaint();
         }
 //        requestFocus();
     }
 
-    public LinearTransform1d getWalkwayTransform() {
+    public Function.LinearFunction getWalkwayTransform() {
         return walkwayTransform;
     }
 
@@ -217,5 +212,9 @@ public class Force1DPanel extends ApparatusPanel {
 
     public Force1DModule getModule() {
         return module;
+    }
+
+    public BlockGraphic getBlockGraphic() {
+        return blockGraphic;
     }
 }

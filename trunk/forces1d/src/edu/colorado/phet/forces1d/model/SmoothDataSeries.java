@@ -1,7 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.forces1d.model;
 
-import edu.colorado.phet.common.math.Average;
+import edu.colorado.phet.common.math.MathUtil;
 
 /**
  * User: Sam Reid
@@ -24,7 +24,7 @@ public class SmoothDataSeries {
     }
 
     private void updateSmoothedSeries() {
-        Average avg = new Average();
+        MathUtil.Average avg = new MathUtil.Average();
 
         int numPtsToAvg = windowSize;
         numPtsToAvg = Math.min( numPtsToAvg, data.size() );

@@ -4,8 +4,8 @@ package edu.colorado.phet.forces1d.view;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.Animation;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.view.util.FrameSequence;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 
 public class LeanerGraphic extends PhetImageGraphic {
-    private Animation animation;
+    private FrameSequence animation;
     private PhetGraphic target;
     private Force1DPanel forcePanel;
     private Force1DModule module;
@@ -30,9 +30,8 @@ public class LeanerGraphic extends PhetImageGraphic {
         this.forcePanel = forcePanel;
         this.target = target;
         this.module = forcePanel.getModule();
-        animation = new Animation( "images/pusher-leaning/pusher-leaning", 15 );
+        animation = new FrameSequence( "images/pusher-leaning/pusher-leaning", 15 );
         super.setImage( animation.getFrame( 0 ) );
-//        forcePanel.
         target.addPhetGraphicListener( new PhetGraphicListener() {
             public void phetGraphicChanged( PhetGraphic phetGraphic ) {
                 update();
@@ -42,9 +41,15 @@ public class LeanerGraphic extends PhetImageGraphic {
                 setVisible( phetGraphic.isVisible() );
             }
 
-            public void phetGraphicContentChanged( PhetGraphic phetGraphic ) {
-            }
         } );
+//        module.getForceModel().getBlock().addListener( new Block.Listener() {
+//            public void positionChanged() {
+//                update();
+//            }
+//
+//            public void propertyChanged() {
+//            }
+//        } );
         module.getForceModel().addListener( new Force1DModel.Listener() {
             public void appliedForceChanged() {
                 update();
@@ -69,17 +74,19 @@ public class LeanerGraphic extends PhetImageGraphic {
             facingRight = false;
         }
         BufferedImage frame = getFrame();
+        int x = 0;
+        int y = 0;
         if( facingRight ) {
-            int x = target.getX() - frame.getWidth();
-            int y = forcePanel.getWalkwayGraphic().getPlatformY() - getHeight();
-            setImage( frame );
-            setLocation( x, y );
+            x = target.getX() - frame.getWidth();
+            y = forcePanel.getWalkwayGraphic().getPlatformY() - getHeight();
         }
         else {
-            int x = target.getX() + target.getWidth();
-            int y = forcePanel.getWalkwayGraphic().getPlatformY() - getHeight();
-            setImage( BufferedImageUtils.flipX( frame ) );
-            setLocation( x, y );
+            x = target.getX() + target.getWidth();
+            y = forcePanel.getWalkwayGraphic().getPlatformY() - getHeight();
+            frame = BufferedImageUtils.flipX( frame );
         }
+
+        setImage( frame );
+        setLocation( x, y );
     }
 }
