@@ -8,14 +8,21 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.nuclearphysics.Config;
+import edu.colorado.phet.nuclearphysics.view.Cesium;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Uranium235 extends Nucleus {
+    private static Random random = new Random();
 
     private ArrayList decayListeners = new ArrayList();
     private AlphaParticle[] alphaParticles = new AlphaParticle[4];
+    private int morphTargetNeutrons;
+    private int morphTargetProtons;
+    private Neutron fissionInstigatingNeutron;
+
 
     public Uranium235( Point2D.Double position ) {
         super( position, 145, 92 /*, potentialProfile */ );
@@ -31,6 +38,12 @@ public class Uranium235 extends Nucleus {
 
     public void addDecayListener( DecayListener listener ) {
         this.decayListeners.add( listener );
+    }
+
+    public void fission( Neutron neutron ) {
+        morph( getNumNeutrons() - 100, getNumProtons() );
+        fissionInstigatingNeutron = neutron;
+//        super.fission( neutron );
     }
 
     public void stepInTime( double dt ) {
@@ -57,7 +70,20 @@ public class Uranium235 extends Nucleus {
                 return;
             }
         }
+
         super.stepInTime( dt );
+
+        // Handle fission morphing
+        if( morphTargetNeutrons != 0 ) {
+            int incr = 10 * Math.abs( morphTargetNeutrons ) / morphTargetNeutrons;
+            setNumNeutrons( getNumNeutrons() + incr );
+            int temp = morphTargetNeutrons;
+            morphTargetNeutrons -= incr;
+            if( temp * morphTargetNeutrons <= 0 ) {
+                super.fission( fissionInstigatingNeutron );
+            }
+        }
+
     }
 
     public DecayProducts alphaDecay( AlphaParticle alphaParticle ) {
@@ -74,5 +100,42 @@ public class Uranium235 extends Nucleus {
         DecayProducts products = new DecayProducts( this, this, n2 );
 //        DecayProducts products = new DecayProducts( this, n1, n2 );
         return products;
+    }
+
+    public FissionProducts getFissionProducts( Neutron neutron ) {
+
+        Nucleus daughter1 = new Rubidium( this.getLocation() );
+        double theta = random.nextDouble() * Math.PI;
+        double vx = Config.fissionDisplacementVelocity * Math.cos( theta );
+        double vy = Config.fissionDisplacementVelocity * Math.sin( theta );
+        daughter1.setVelocity( (float)( -vx ), (float)( -vy ) );
+
+        Nucleus daughter2 = new Cesium( this.getLocation() );
+        daughter2.setVelocity( (float)( vx ), (float)( vy ) );
+
+        Neutron[] neutronProducts = new Neutron[3];
+        for( int i = 0; i < 3; i++ ) {
+            theta = random.nextDouble() * Math.PI;
+            neutronProducts[i] = new Neutron( this.getLocation(), theta );
+        }
+
+        FissionProducts fp = new FissionProducts( this, neutron,
+                                                  daughter1,
+                                                  daughter2,
+                                                  neutronProducts );
+        return fp;
+    }
+
+
+    /**
+     * Changes the composition of the nucleus. The changes are made
+     * incrementally, one time step at a time
+     *
+     * @param numNeutrons
+     * @param numProtons
+     */
+    public void morph( int numNeutrons, int numProtons ) {
+        this.morphTargetNeutrons = numNeutrons - getNumNeutrons();
+        this.morphTargetProtons = numProtons - getNumProtons();
     }
 }

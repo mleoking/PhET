@@ -10,6 +10,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.coreadditions.Body;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 public class Nucleus extends Body {
 
@@ -18,6 +19,7 @@ public class Nucleus extends Body {
     private double radius;
     private double potentialEnergy;
     private PotentialProfile potentialProfile;
+    private ArrayList fissionListeners = new ArrayList();
 
     public Nucleus( Point2D.Double position, int numProtons, int numNeutrons ) {
         super( position, new Vector2D(), new Vector2D(), 0, 0 );
@@ -73,4 +75,20 @@ public class Nucleus extends Body {
     public void setPotentialEnergy( double energy ) {
         this.potentialEnergy = energy;
     }
+
+    public void addFissionListener( FissionListener listener ) {
+        fissionListeners.add( listener );
+    }
+
+    public void fission( Neutron neutron ) {
+        FissionProducts fissionProducts = getFissionProducts( neutron );
+        for( int i = 0; i < fissionListeners.size(); i++ ) {
+            FissionListener fissionListener = (FissionListener)fissionListeners.get( i );
+            fissionListener.fission( fissionProducts );
+        }
+    }
+
+    public FissionProducts getFissionProducts( Neutron neutron ) {
+        throw new RuntimeException( "Generic nucleus cannot undergo fission" );
+    };
 }
