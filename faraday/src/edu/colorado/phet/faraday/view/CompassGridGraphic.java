@@ -356,6 +356,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     public void update() {
         if ( isVisible() ) {
             
+            // For each needle in the grid...
             for ( int i = 0; i < _needles.size(); i++ ) {
 
                 // Next needle...
