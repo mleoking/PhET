@@ -10,8 +10,6 @@
  */
 package edu.colorado.phet.common.util;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-
 import java.util.*;
 
 /**
@@ -177,10 +175,12 @@ public class MultiMap implements Map {
      */
     private abstract class MultiMapIterator implements Iterator {
         protected long timeCreated;
-        protected Iterator myIterator;
+        protected int itCnt;        // counter of how many items have been iterated;
+        protected int size;         // number of items in the multimap when the iterator is instantiated
 
         public MultiMapIterator() {
             timeCreated = MultiMap.this.lastModified;
+            size = MultiMap.this.size();
         }
 
         protected void concurrentModificationCheck() {
@@ -189,60 +189,136 @@ public class MultiMap implements Map {
             }
         }
 
-        protected List createTotalList() {
-            ArrayList totalList = new ArrayList();
-
-            Iterator mapIterator = map.entrySet().iterator();
-            while( mapIterator.hasNext() ) {
-                Object o = mapIterator.next();
-                Entry entry = (Entry)o;
-                List list = (List)entry.getValue();
-                totalList.addAll( list );
-            }
-            return totalList;
-        }
-
         public boolean hasNext() {
             concurrentModificationCheck();
-            return myIterator.hasNext();
+            return itCnt < size;
         }
 
-        public Object next() {
+        protected void prepForNext() {
             concurrentModificationCheck();
-            return myIterator.next();
-        }
-
-        public void remove() {
-            throw new RuntimeException( "Remove not implemented through iterator" );
+            itCnt++;
         }
     }
 
-    /**
-     * This implementation takes O(n), even if you always want a low-index item.
-     */
+
     private class ForwardIterator extends MultiMapIterator {
+        private Iterator mapIterator;
+        private Iterator listIterator;
+        private ArrayList currentList;
 
         ForwardIterator() {
-            this.myIterator = createTotalList().iterator();
+            mapIterator = map.entrySet().iterator();
+            if( mapIterator.hasNext() ) {
+                nextListIterator();
+            }
         }
 
+        public Object next() {
+            prepForNext();
+            if( listIterator.hasNext() ) {
+                return listIterator.next();
+            }
+            else if( mapIterator.hasNext() ) {
+                nextListIterator();
+                return this.next();
+            }
+            return null;
+        }
+
+        public void remove() {
+            concurrentModificationCheck();
+            listIterator.remove();
+            if( currentList.size() == 0 ) {
+                mapIterator.remove();
+            }
+            MultiMap.this.lastModified++;
+
+            // Adjust size and index
+            size = MultiMap.this.size();
+            itCnt--;
+        }
+
+        private void nextListIterator() {
+            currentList = (ArrayList)( (Map.Entry)mapIterator.next() ).getValue();
+            listIterator = currentList.iterator();
+        }
     }
     // end of ForwardIterator
 
     /**
      * ReverseIterator
      */
-    /**
-     * This implementation takes O(n), even if you always want a low-index item.
-     */
     private class ReverseIterator extends MultiMapIterator {
+        private ArrayList currentList;
+        private int currentListIdx = 0;
 
-        ReverseIterator() {
-            List list = createTotalList();
-            Collections.reverse( list );
-            this.myIterator = list.iterator();
+        public ReverseIterator() {
+            if( !map.isEmpty() ) {
+                Object currentLastKey = map.lastKey();
+                if( currentLastKey != null ) {
+                    currentList = (ArrayList)map.get( currentLastKey );
+                    currentListIdx = currentList.size();
+                }
+            }
         }
 
+        public Object next() {
+            prepForNext();
+            if( currentList != null && currentListIdx > 0 ) {
+                currentListIdx--;
+                return currentList.get( currentListIdx );
+            }
+            else {
+                nextList();
+                if( currentList != null ) {
+                    currentListIdx = currentList.size();
+                    return next();
+                }
+            }
+            return null;
+        }
+
+        public void remove() {
+            concurrentModificationCheck();
+            if( currentList != null ) {
+                currentList.remove( currentListIdx );
+                if( currentList.isEmpty() ) {
+                    Iterator it = map.keySet().iterator();
+                    boolean found = false;
+                    while( it.hasNext() && !found ) {
+                        Object o = it.next();
+                        if( o == currentList ) {
+                            MultiMap.this.remove( o );
+                            found = true;
+                        }
+                    }
+                }
+                MultiMap.this.lastModified++;
+
+                // Adjust size and index
+                size = MultiMap.this.size();
+                itCnt--;
+            }
+        }
+
+        private void nextList() {
+            Iterator it = map.values().iterator();
+            ArrayList nextList = null;
+            boolean found = false;
+            while( it.hasNext() && !found ) {
+                Object o = it.next();
+                if( o == currentList ) {
+                    currentList = nextList;
+                    if( currentList != null ) {
+                        currentListIdx = currentList.size();
+                    }
+                    found = true;
+                }
+                else {
+                    nextList = (ArrayList)o;
+                }
+            }
+        }
     }
     // end of ReverseIterator
 
