@@ -14,7 +14,7 @@ MEDIUM PRIORITY:
 - bug: changing the number of loops when the AC is connected makes the grid disappear
 - bug: electrons in source coil seem to get "off" in the left-most loop
 - bug: electrons appear to flow faster in a coil with fewer loops with the same voltage
-- bug: not enough visual difference between the min & max /voltage/amplitude/frequency settings
+- bug: not enough visual difference between the min & max voltage/amplitude settings
 - show frequency & amplitude graph on the ACSourceGraphic
 - Transformer module requirements
 - Field Meter shows -0.00 and -180.00 values, should be 0.00 and 180.00
@@ -50,6 +50,7 @@ phetcommon:
 DONE:
 v0r14...
 (2/24) - bug fix: grid doesn't display until the battery voltage is changed
+(2/24) - increase frequency range of the AC source so that the change is easier to see
 (2/24) - add "Show Electrons" and "Loops" controls to Electromagnet module
 (2/24) - set a maximum position delta in Electron, so that we can see the animation at maximum speeds
 (2/24) - give CoilGraphic it's own rescaler to control "look" of electron speed
