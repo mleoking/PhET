@@ -47,7 +47,7 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
         }
         idealGasModel.getBox().addContainedBody( molecule );
         Constraint constraintSpec = new BoxMustContainParticle( idealGasModel.getBox(), molecule, idealGasModel );
-        molecule.addConstraint( constraintSpec );
+//        molecule.addConstraint( constraintSpec );
         module.getApparatusPanel().addGraphic( graphic, 10 );
     }
 
