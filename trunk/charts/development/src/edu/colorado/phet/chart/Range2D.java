@@ -91,4 +91,8 @@ public class Range2D {
     public double getHeight() {
         return maxY - minY;
     }
+
+    public String toString() {
+        return "x=[" + minX + ", " + maxX + "], y=[" + minY + ", " + maxY + "]";
+    }
 }

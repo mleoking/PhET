@@ -66,11 +66,23 @@ public class DataSet {
         void pointRemoved( Point2D point );
     }
 
+    public boolean isValid( Point2D dataPoint ) {
+        if( dataPoint == null ) {
+            return false;
+        }
+        boolean invalid = Double.isNaN( dataPoint.getX() ) || Double.isNaN( dataPoint.getY() ) || Double.isInfinite( dataPoint.getX() ) || Double.isInfinite( dataPoint.getY() );
+        return !invalid;
+    }
+
     public void addPoint( Point2D dataPoint ) {
+        if( !isValid( dataPoint ) ) {
+            throw new RuntimeException( "Illegal data point: " + dataPoint );
+        }
         if( dataPoint == null ) {
             throw new RuntimeException( "Null data Point" );
         }
-        // Iterate over observers
+
+// Iterate over observers
         dataPoints.add( dataPoint );
         notifyObservers( dataPoint );
     }
@@ -88,5 +100,9 @@ public class DataSet {
 
     public void addObserver( Observer observer ) {
         observers.add( observer );
+    }
+
+    public String toString() {
+        return dataPoints.toString();
     }
 }

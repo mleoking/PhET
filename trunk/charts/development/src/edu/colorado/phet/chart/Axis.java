@@ -66,7 +66,7 @@ public class Axis implements Graphic {
         else if( orientation == AbstractGrid.VERTICAL ) {
             Point2D.Double bottomEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMinY() );
             Point bottom = chart.transform( bottomEndOfAxis );
-            Point2D.Double topEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMaxX() );
+            Point2D.Double topEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMaxY() );
             Point top = chart.transform( topEndOfAxis );
             g.drawLine( bottom.x, bottom.y, top.x, top.y );
         }
