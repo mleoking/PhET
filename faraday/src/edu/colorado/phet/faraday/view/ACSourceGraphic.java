@@ -14,7 +14,7 @@ package edu.colorado.phet.faraday.view;
 import java.awt.Component;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.ACSource;
@@ -26,7 +26,7 @@ import edu.colorado.phet.faraday.model.ACSource;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ACSourceGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Instance data
