@@ -34,8 +34,6 @@ public class AccelerateSuite extends MotionSuite {
         super( module, "Accelerate" );
         motion = new AccelMotion( module.getMotionState() );
         this.module = module;
-//        controlPanel = new JPanel();
-//        controlPanel.setLayout( new GridBagLayout() );
         Insets insets = new Insets( 0, 0, 0, 0 );
         gridBagConstraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0 );
 
@@ -62,9 +60,7 @@ public class AccelerateSuite extends MotionSuite {
 
         accelSpinner.setBorder( PhetLookAndFeel.createSmoothBorder( "Acceleration" ) );
         add( accelSpinner );
-//        controlPanel.add( accelSpinner );
         super.setMotion( motion );
-//        super.setControlPanel( controlPanel );
 
         transformslider = new TransformSlider( minAccel, maxAccel, 200 );
         slider = transformslider.getSlider();
@@ -105,8 +101,6 @@ public class AccelerateSuite extends MotionSuite {
     }
 
     public void initialize( Man man ) {
-//        setInitialVelocity();
-
         module.getPositionPlot().getGrid().setPaintYLines( new double[]{-10, -5, 0, 5, 10} );
 
         module.setVelocityPlotMagnitude( 11 );
