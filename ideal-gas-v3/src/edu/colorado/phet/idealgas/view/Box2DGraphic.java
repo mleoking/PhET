@@ -20,8 +20,8 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
     //
     // Static fields and methods
     //
-    private static Stroke s_defaultStroke = new BasicStroke( 4.0F );
-    private static double thickness = 4;
+    public static double s_thickness = 4;
+    private static Stroke s_defaultStroke = new BasicStroke( (float)s_thickness );
     private static Color s_defaultColor = Color.black;
     private static float s_leaningManStateChangeScaleFactor = 1.75F;
 
@@ -77,8 +77,8 @@ public class Box2DGraphic extends DefaultInteractiveGraphic {
         }
 
         public void update() {
-            rect.setRect( box.getMinX() - thickness / 2,
-                          box.getMinY() - thickness / 2,
+            rect.setRect( box.getMinX() - s_thickness / 2,
+                          box.getMinY() - s_thickness / 2,
                           box.getMaxX() - box.getMinX(),
                           box.getMaxY() - box.getMinY() );
             super.setBoundsDirty();

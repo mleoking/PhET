@@ -29,7 +29,7 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
     private Point location = new Point( );
     private double lastPressure;
 
-    public Mannequin( Component component, IdealGasModel model, PressureSensingBox box, Point location ) {
+    public Mannequin( Component component, IdealGasModel model, PressureSensingBox box ) {
         super( component );
         this.model = model;
         this.box = box;
@@ -60,18 +60,13 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
         int nextLocationX = (int)box.getMinX() - currPusherFrame.getHeight( null );
         int dir = nextLocationX - location.x;
         currPusherFrame = dir == 0 ? currPusherFrame : ( dir > 0 ? pusher.getNextFrame() : pusher.getPrevFrame());
-        location.setLocation( box.getMinX() - currPusherFrame.getHeight( null ),
-                              box.getMaxY() - currPusherFrame.getWidth( null ));
+        location.setLocation( box.getMinX() - currPusherFrame.getHeight( null ) - Box2DGraphic.s_thickness,
+                              box.getMaxY() - currPusherFrame.getWidth( null ) + Box2DGraphic.s_thickness );
 
         // Update the leaner
         double newPressure = box.getPressure();
-        dir = newPressure == lastPressure ? 0 : ( newPressure > lastPressure * s_leaningManStateChangeScaleFactor ? 1 : -1 );
-//        if( newPressure > lastPressure * s_leaningManStateChangeScaleFactor ) {
-//            dir = 1;
-//        }
-//        else if( newPressure < lastPressure / s_leaningManStateChangeScaleFactor ) {
-//            dir = -1;
-//        }
+        dir = newPressure == lastPressure ? 0 :
+              ( newPressure > lastPressure * s_leaningManStateChangeScaleFactor ? 1 : -1 );
         lastPressure = newPressure;
         if( dir > 0 && leaner.getCurrFrameNum() + 1 < leaner.getNumFrames() ) {
             currLeanerFrame = leaner.getNextFrame();

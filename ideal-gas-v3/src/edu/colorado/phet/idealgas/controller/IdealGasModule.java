@@ -46,8 +46,7 @@ public class IdealGasModule extends Module {
         Box2DGraphic boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
         addGraphic( boxGraphic, 10 );
 
-        Point pusherLocation = new Point( (int)box.getMinX() - 107, 400 + IdealGasConfig.Y_BASE_OFFSET);
-        Mannequin pusher = new Mannequin( getApparatusPanel(), idealGasModel, box, pusherLocation );
+        Mannequin pusher = new Mannequin( getApparatusPanel(), idealGasModel, box );
         addGraphic( pusher, 10 );
 
     }
