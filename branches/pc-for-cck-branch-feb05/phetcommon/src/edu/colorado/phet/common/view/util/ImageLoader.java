@@ -43,7 +43,7 @@ public class ImageLoader {
         setPhetLoader();
         conversionStrategy = new ConversionStrategy() {
             public BufferedImage toBufferedImage( Image image ) {
-                return GraphicsUtil.toBufferedImage( image );
+                return SwingUtils.toBufferedImage( image );
             }
         };
     }

@@ -8,7 +8,6 @@ import edu.colorado.phet.cck3.grabbag.GrabBagButton;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.components.PhetSlider;
 import edu.colorado.phet.common.view.help.HelpPanel;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
@@ -341,7 +340,7 @@ public class CCK3ControlPanel extends JPanel {
         ServiceSource ss = new ServiceSource();
         FileOpenService fos = ss.getFileOpenService( module.getApparatusPanel() );
         FileContents open = fos.openFileDialog( SimStrings.get( "CCK3ControlPanel.OpenFileDialog" ),
-                            new String[]{ SimStrings.get( "CCK3ControlPanel.FileExtension" ) } );
+                                                new String[]{SimStrings.get( "CCK3ControlPanel.FileExtension" )} );
         if( open == null ) {
             return;
         }
@@ -375,7 +374,7 @@ public class CCK3ControlPanel extends JPanel {
         InputStream stream = new ByteArrayInputStream( circuitxml.getBytes() );
         FileContents data = new InputStreamFileContents( "circuitxml", stream );
         FileContents out = fos.saveAsFileDialog( SimStrings.get( "CCK3ControlPanel.DefaultFileName" ),
-                        new String[]{ SimStrings.get( "CCK3ControlPanel.FileExtension" ) }, data );
+                                                 new String[]{SimStrings.get( "CCK3ControlPanel.FileExtension" )}, data );
         System.out.println( "out = " + out );
     }
 
@@ -477,7 +476,7 @@ public class CCK3ControlPanel extends JPanel {
             StringWriter sw = new StringWriter();
             e.printStackTrace( new PrintWriter( sw ) );
             JOptionPane.showMessageDialog( module.getApparatusPanel(), sw.getBuffer().toString(),
-                        SimStrings.get( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
+                                           SimStrings.get( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
         }
 
     }
@@ -507,7 +506,7 @@ public class CCK3ControlPanel extends JPanel {
         String plainText = je + "\n" + le + "\n" + oh + "\n";
         JTextArea jta = new JTextArea( plainText ) {
             protected void paintComponent( Graphics g ) {
-                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
+                SwingUtils.setAntiAliasingOn( (Graphics2D)g );
                 super.paintComponent( g );
             }
         };
@@ -515,7 +514,7 @@ public class CCK3ControlPanel extends JPanel {
 //        String html = toHTML( plainText );
 //        JEditorPane jta = new JEditorPane( "text/html", html ) {
 //            protected void paintComponent( Graphics g ) {
-//                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
+//                SwingUtils.setAntiAliasingOn( (Graphics2D)g );
 //                super.paintComponent( g );
 //            }
 //        };
@@ -568,7 +567,7 @@ public class CCK3ControlPanel extends JPanel {
                 boolean needsClearing = module.getCircuit().numBranches() != 0 || module.getCircuit().numJunctions() != 0;
                 if( needsClearing ) {
                     int answer = JOptionPane.showConfirmDialog( module.getApparatusPanel(),
-                                    SimStrings.get( "CCK3ControlPanel.DeleteConfirm" ) );
+                                                                SimStrings.get( "CCK3ControlPanel.DeleteConfirm" ) );
                     if( answer == JOptionPane.OK_OPTION ) {
                         module.clear();
                     }
@@ -583,12 +582,12 @@ public class CCK3ControlPanel extends JPanel {
         //        JPanel filePanel = createJPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ), filePanelContents );
         //        filePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ) ) );
         //        filePanel.setLayout( new GridBagLayout() );
-        //                GraphicsUtil.addGridBagComponent( filePanel, Box.createRigidArea( new Dimension( ) ), );
+        //                SwingUtils.addGridBagComponent( filePanel, Box.createRigidArea( new Dimension( ) ), );
         //        Insets insets = new Insets( 0, 10, 0, 10 );
 
-        //        GraphicsUtil.addGridBagComponent( filePanel, filePanelContents, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, insets );
+        //        SwingUtils.addGridBagComponent( filePanel, filePanelContents, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, insets );
         return placeInPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ),
-                    filePanelContents, new Insets( 0, 10, 0, 10 ), GridBagConstraints.CENTER );
+                             filePanelContents, new Insets( 0, 10, 0, 10 ), GridBagConstraints.CENTER );
 //        return placeInPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ), filePanelContents, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
@@ -641,7 +640,7 @@ public class CCK3ControlPanel extends JPanel {
         circuitPanel.add( advancedControlPanel );
 
         return placeInPanel( SimStrings.get( "CCK3ControlPanel.AdvancedPanelBorder" ),
-                            circuitPanel, BASIC_INSETS, GridBagConstraints.WEST );
+                             circuitPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
     public boolean isSeriesAmmeterSelected() {
@@ -670,8 +669,8 @@ public class CCK3ControlPanel extends JPanel {
             constraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
             setLayout( new GridBagLayout() );
             resistivitySlider = new PhetSlider( SimStrings.get( "CCK3ControlPanel.WireResistivitySlider" ),
-                                SimStrings.get( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
-                                0, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
+                                                SimStrings.get( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
+                                                0, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
             resistivitySlider.setBorder( null );
             resistivitySlider.getTitleLabel().setFont( CCKLookAndFeel.getFont() );
             resistivitySlider.setNumMajorTicks( 5 );
@@ -697,7 +696,7 @@ public class CCK3ControlPanel extends JPanel {
             } );
 
             internalResistanceEnabled = new JCheckBox( SimStrings.get( "CCK3ControlPanel.InternalResistanceCheckBox" ),
-                                    module.isInternalResistanceOn() );
+                                                       module.isInternalResistanceOn() );
             internalResistanceEnabled.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setInternalResistanceOn( internalResistanceEnabled.isSelected() );
@@ -714,7 +713,7 @@ public class CCK3ControlPanel extends JPanel {
             addMe( printKirkhoffsLaws );
 
             hideElectrons = new JCheckBox( SimStrings.get( "CCK3ControlPanel.HideElectronsCheckBox" ),
-                                    !module.isElectronsVisible() );
+                                           !module.isElectronsVisible() );
             hideElectrons.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setElectronsVisible( !hideElectrons.isSelected() );

@@ -79,7 +79,7 @@ public class BufferedImageUtils {
 //            newImage = (BufferedImage)created;
 //        }
 //        else{
-//            newImage=GraphicsUtil.toBufferedImage( created );
+//            newImage=SwingUtils.toBufferedImage( created );
 //            System.out.println( "Component returned non-BufferedImage type." );
 //        }
         Graphics2D g2 = newImage.createGraphics();

@@ -8,8 +8,8 @@
 package edu.colorado.phet.common.view.components;
 
 import edu.colorado.phet.common.math.ModelViewTx1D;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -64,7 +64,7 @@ public class PhetSlider extends JPanel {
 
         titleLabel = new JLabel( title ) {
             protected void paintComponent( Graphics g ) {
-                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
+                SwingUtils.setAntiAliasingOn( (Graphics2D)g );
                 super.paintComponent( g );
             }
         };
@@ -73,7 +73,7 @@ public class PhetSlider extends JPanel {
 
         unitsReadout = new JTextField( " " + this.units ) {
             protected void paintComponent( Graphics g ) {
-                GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
+                SwingUtils.setAntiAliasingOn( (Graphics2D)g );
                 super.paintComponent( g );
             }
         };
@@ -86,12 +86,12 @@ public class PhetSlider extends JPanel {
         textPanel.add( textField, BorderLayout.WEST );
         textPanel.add( unitsReadout, BorderLayout.EAST );
         try {
-            GraphicsUtil.addGridBagComponent( this, titleLabel, 0, 0, 1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, slider, 0, 1, 1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, textPanel, 0, 2, 2, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
+            SwingUtils.addGridBagComponent( this, titleLabel, 0, 0, 1, 1,
+                                            GridBagConstraints.NONE, GridBagConstraints.CENTER );
+            SwingUtils.addGridBagComponent( this, slider, 0, 1, 1, 1,
+                                            GridBagConstraints.NONE, GridBagConstraints.CENTER );
+            SwingUtils.addGridBagComponent( this, textPanel, 0, 2, 2, 1,
+                                            GridBagConstraints.NONE, GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             throw new RuntimeException( e );
@@ -142,7 +142,7 @@ public class PhetSlider extends JPanel {
             double modelValue = transform.viewToModel( value );
             JLabel label = new JLabel( formatter.format( modelValue ) ) {
                 protected void paintComponent( Graphics g ) {
-                    GraphicsUtil.setAntiAliasingOn( (Graphics2D)g );
+                    SwingUtils.setAntiAliasingOn( (Graphics2D)g );
                     super.paintComponent( g );
                 }
             };
@@ -229,8 +229,8 @@ public class PhetSlider extends JPanel {
             String youentered = SimStrings.get( "Common.PhetSlider.YouEntered" );
             String description = SimStrings.get( "Common.PhetSlider.Description" );
             JOptionPane.showMessageDialog( this, outofrange + ".\n" + minimum + "= " + ive.getMin()
-                                + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
-                                + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );
+                                                 + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
+                                                 + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );
             double value = getValue();
             textField.setText( formatter.format( value ) );
             return false;
