@@ -53,7 +53,12 @@ public class NuclearPhysicsApplication extends PhetApplication {
         //        app.startApplication( singleNucleusFissionModule );
 
         NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc );
-        app.startApplication();
+        try {
+            app.startApplication();
+        }
+        catch( Throwable t ) {
+            t.printStackTrace();
+        }
     }
 
 

@@ -8,9 +8,9 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.GraphicsSetup;
-import edu.colorado.phet.common.view.RevertableGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 
@@ -20,18 +20,18 @@ import java.util.HashMap;
 public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
     private static double nucleusLayer = 20;
-    private static RevertableGraphicsSetup nucleusGraphicsSetup = new RevertableGraphicsSetup() {
-        private Composite orgComposite;
-
-        public void setup( Graphics2D graphics ) {
-            orgComposite = graphics.getComposite();
-            GraphicsUtil.setAlpha( graphics, 0.5 );
-        }
-
-        public void revert( Graphics2D graphics ) {
-            graphics.setComposite( orgComposite );
-        }
-    };
+    //    private static RevertableGraphicsSetup nucleusGraphicsSetup = new RevertableGraphicsSetup() {
+    //        private Composite orgComposite;
+    //
+    //        public void setup( Graphics2D graphics ) {
+    //            orgComposite = graphics.getComposite();
+    //            GraphicsUtil.setAlpha( graphics, 0.5 );
+    //        }
+    //
+    //        public void revert( Graphics2D graphics ) {
+    //            graphics.setComposite( orgComposite );
+    //        }
+    //    };
     private static GraphicsSetup decayProductGraphicsSetup = new GraphicsSetup() {
         public void setup( Graphics2D graphics ) {
             GraphicsUtil.setAlpha( graphics, 0.8 );
@@ -66,8 +66,10 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
     public synchronized void addAlphaParticle( AlphaParticle alphaParticle ) {
         NucleusGraphic graphic = new NucleusGraphic( alphaParticle );
-        this.addOriginCenteredGraphic( graphic, alphaParticleLevel );
-        particleToGraphicMap.put( alphaParticle, graphic );
+        //        this.addOriginCenteredGraphic( graphic, alphaParticleLevel );
+        TxGraphic txg = new TxGraphic( graphic, originTx );
+        particleToGraphicMap.put( alphaParticle, txg );
+        //        particleToGraphicMap.put( alphaParticle, graphic );
     }
 
     public synchronized void removeAlphaParticle( AlphaParticle alphaParticle ) {

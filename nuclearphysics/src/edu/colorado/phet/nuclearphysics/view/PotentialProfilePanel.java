@@ -239,13 +239,13 @@ public class PotentialProfilePanel extends ApparatusPanel {
         PotentialProfileGraphic ppg = new PotentialProfileGraphic( nucleus );
         nucleus.getPotentialProfile().addObserver( ppg );
         ppg.setOrigin( new Point2D.Double( 0, 0 ) );
-        potentialProfileMap.put( nucleus.getPotentialProfile(), ppg );
         TxGraphic txg = new TxGraphic( ppg, profileTx );
+        potentialProfileMap.put( nucleus.getPotentialProfile(), txg );
         addGraphic( txg, nucleusLayer );
     }
 
     public void removePotentialProfile( PotentialProfile potentialProfile ) {
-        PotentialProfileGraphic ppg = (PotentialProfileGraphic)potentialProfileMap.get( potentialProfile );
+        Graphic ppg = (Graphic)potentialProfileMap.get( potentialProfile );
         removeGraphic( ppg );
         potentialProfileMap.remove( potentialProfile );
     }
@@ -253,7 +253,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
     public void removeAllPotentialProfiles() {
         Iterator it = potentialProfileMap.values().iterator();
         while( it.hasNext() ) {
-            PotentialProfileGraphic ppg = (PotentialProfileGraphic)it.next();
+            Graphic ppg = (Graphic)it.next();
+            //            PotentialProfileGraphic ppg = (PotentialProfileGraphic)it.next();
             this.removeGraphic( ppg );
         }
         potentialProfileMap.clear();
