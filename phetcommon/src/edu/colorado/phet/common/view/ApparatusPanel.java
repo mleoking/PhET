@@ -86,10 +86,16 @@ public class ApparatusPanel extends JPanel {
             graphicsSetup.setup( g2 );
         }
         graphic.paint( g2 );
+        Color origColor = g2.getColor();
+        Stroke origStroke = g2.getStroke();
+
         g2.setColor( Color.black );
         g2.setStroke( borderStroke );
         Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
         g2.draw( border );
+
+        g2.setColor( origColor );
+        g2.setStroke( origStroke );
 //        g2.draw( this.getBounds() );
     }
 
