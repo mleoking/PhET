@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.coreadditions;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -23,10 +25,10 @@ public class Toolbox extends JToolBar {
 
         JToggleButton pressureButton = new JToggleButton( new PressureButtonAction( workingPane ) );
         this.add( pressureButton );
-        pressureButton.setText( "Pressure" );
+        pressureButton.setText( SimStrings.get( "Toolbox.PressureButton" ) );
 
-        DragButton btn = new DragButton( "drag" );
-        btn.setIcon(new ImageIcon( "C:/PhET/microwaves/development/data/images/thermometer.gif"));
+        DragButton btn = new DragButton( SimStrings.get( "Toolbox.DragButton" ) );
+        btn.setIcon(new ImageIcon( "images/thermometer.gif"));
         this.add( btn );
     }
 
@@ -271,7 +273,7 @@ public class Toolbox extends JToolBar {
 
         public PressureButtonAction( Container pane ) {
             this.pane = pane;
-            tool = new JLabel( "PRESSURE TOOL" );
+            tool = new JLabel( SimStrings.get( "Toolbox.PressureToolTitle" ) );
         }
 
         public void actionPerformed( ActionEvent e ) {
@@ -291,7 +293,7 @@ public class Toolbox extends JToolBar {
 
 
     public static void main( String[] args ) {
-        JFrame frame = new JFrame( "Toolbox" );
+        JFrame frame = new JFrame( SimStrings.get( "Toolbox.DialogTitle" ) );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         Container mainPane = frame.getContentPane();
 
