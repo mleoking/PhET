@@ -106,9 +106,7 @@ public class Atom extends SolidSphere {
         emitPhotonOnLeavingState = true;
 
         this.stateLifetimeManager = new StateLifetimeManager( this, emitPhotonOnLeavingState, model );
-        leftSystemListenerProxy.stateChanged( new LeftSystemEvent( this ) );
-
-        stateChangeListenerProxy.stateChanged( new StateChangedEvent( this, newState, oldState ) );
+        changeListenerProxy.stateChanged( new ChangeEvent( this, newState, oldState ) );
     }
 
     public void setPosition( double x, double y ) {
@@ -133,18 +131,18 @@ public class Atom extends SolidSphere {
     public void removeFromSystem() {
         state.decrementNumInState();
         leftSystemListenerProxy.leftSystem( new LeftSystemEvent( this ) );
-        stateChangeListenerProxy.stateChanged( new StateChangedEvent( this, null, this.getState() ) );
+        changeListenerProxy.stateChanged( new ChangeEvent( this, null, this.getState() ) );
     }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // LeftSystemEvent handling
-    public class StateChangedEvent extends EventObject {
+    public class ChangeEvent extends EventObject {
         private AtomicState currState;
         private AtomicState prevState;
 
-        public StateChangedEvent( Atom source, AtomicState currState, AtomicState prevState ) {
+        public ChangeEvent( Atom source, AtomicState currState, AtomicState prevState ) {
             super( source );
             this.prevState = prevState;
             this.currState = currState;
@@ -159,18 +157,18 @@ public class Atom extends SolidSphere {
         }
     }
 
-    public interface StateChangeListener extends EventListener {
-        void stateChanged( StateChangedEvent event );
+    public interface ChangeListener extends EventListener {
+        void stateChanged( ChangeEvent event );
     }
 
-    private EventChannel stateChangeChannel = new EventChannel( StateChangeListener.class );
-    private StateChangeListener stateChangeListenerProxy = (StateChangeListener)stateChangeChannel.getListenerProxy();
+    private EventChannel stateChangeChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)stateChangeChannel.getListenerProxy();
 
-    public void addStateChangeListener( StateChangeListener listener ) {
+    public void addChangeListener( ChangeListener listener ) {
         stateChangeChannel.addListener( listener );
     }
 
-    public void removeStateChangeListener( StateChangeListener listener ) {
+    public void removeChangeListener( ChangeListener listener ) {
         stateChangeChannel.removeListener( listener );
     }
 
@@ -190,7 +188,7 @@ public class Atom extends SolidSphere {
     }
 
     public interface LeftSystemListener extends EventListener {
-        void stateChanged( LeftSystemEvent leftSystemEvent );
+//        void stateChanged( LeftSystemEvent leftSystemEvent );
 
         void leftSystem( LeftSystemEvent leftSystemEvent );
     }
