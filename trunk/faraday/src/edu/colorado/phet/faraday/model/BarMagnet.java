@@ -29,11 +29,10 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
  */
 public class BarMagnet extends AbstractMagnet {
 
-    // Arbitrary positive "fudge factors".
-    // These should be adjusted so that transitions between inside and outside
+    // Arbitrary positive "fudge factor".
+    // This should be adjusted so that transitions between inside and outside
     // the magnet don't result in abrupt changes in the magnetic field.
-    private static final double C_INSIDE  = 1.0;
-    private static final double C_OUTSIDE = 5.0 * C_INSIDE;
+    private static final double FUDGE_FACTOR = 700.0;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -48,13 +47,15 @@ public class BarMagnet extends AbstractMagnet {
     //----------------------------------------------------------------------------
     
     /**
+     * Algorithm courtesy of Michael Dubson (dubson@spot.colorado.edu).
+     * <p>
      * Assumptions made by this algorithm:
      * <ul>
      * <li>the magnet's physical center is positioned at the magnet's location
      * <li>the magnet's width > height
      * </ul>
      * 
-     * @see edu.colorado.phet.faraday.model.IMagnet#getStrengthVector(java.awt.geom.Point2D)
+     * @see edu.colorado.phet.faraday.model.IMagnet#getStrength(java.awt.geom.Point2D)
      */
     public AbstractVector2D getStrength( Point2D p ) {
      
@@ -68,10 +69,10 @@ public class BarMagnet extends AbstractMagnet {
         transform.translate( -getX(), -getY() );
         Point2D p2 = transform.transform( p, null );
         
-        // Bounds that define the "inside" of the magnet. 
-        double x = -(getWidth() / 2) + (getHeight() / 2 );  // south dipole
+        // Bounds that define the "inside" of the magnet.
+        double x = -(getWidth() / 2);
         double y = -( getHeight() / 2 );
-        double width = getWidth() - getHeight();
+        double width = getWidth();
         double height = getHeight();
         Rectangle2D bounds = new Rectangle2D.Double( x, y, width, height );
               
@@ -105,7 +106,7 @@ public class BarMagnet extends AbstractMagnet {
      * @return magnetic field strength vector
      */
     private AbstractVector2D getStrengthInside( Point2D p ) {
-        return new ImmutableVector2D.Double( -(C_INSIDE), 0 );
+        return new ImmutableVector2D.Double( -(getStrength()), 0 );
     }
     
     /**
@@ -126,6 +127,9 @@ public class BarMagnet extends AbstractMagnet {
      */
     private AbstractVector2D getStrengthOutside( Point2D p ) {
         
+        // Magnet strength.
+        double magnetStrength = super.getStrength();
+        
         // Dipole locations.
         Point2D pN = new Point2D.Double( +getWidth()/2 - getHeight()/2, 0 ); // north dipole
         Point2D pS = new Point2D.Double( -getWidth()/2 + getHeight()/2, 0 ); // south dipole
@@ -135,19 +139,30 @@ public class BarMagnet extends AbstractMagnet {
         double rS = pS.distance( p ); // south dipole to point
         double L = pS.distance( pN ); // dipole to dipole
         
+        // Fudge factor
+        double C = FUDGE_FACTOR * magnetStrength;
+        
         // North dipole field strength vector.
-        double cN = +(C_OUTSIDE / Math.pow( rN, 3.0 )); // constant multiplier
+        double cN = +(C / Math.pow( rN, 3.0 )); // constant multiplier
         double xN = cN * (p.getX() - (L/2)); // X component
         double yN = cN * p.getY(); // Y component
-        AbstractVector2D nB = new ImmutableVector2D.Double( xN, yN ); // north dipole vector
+        AbstractVector2D BN = new ImmutableVector2D.Double( xN, yN ); // north dipole vector
         
         // South dipole field strength vector.
-        double cS = -(C_OUTSIDE / Math.pow( rS, 3.0 )); // constant multiplier
+        double cS = -(C / Math.pow( rS, 3.0 )); // constant multiplier
         double xS = cS * (p.getX() + (L/2)); // X component
         double yS = cS * p.getY(); // Y component
-        AbstractVector2D sB = new ImmutableVector2D.Double( xS, yS ); // south dipole vector
+        AbstractVector2D BS = new ImmutableVector2D.Double( xS, yS ); // south dipole vector
         
         // Total field strength is the vector sum.
-        return nB.getAddedInstance( sB );
+        AbstractVector2D BT = BN.getAddedInstance( BS );
+        double magnitude = BT.getMagnitude();
+        if ( magnitude > magnetStrength ) {
+            // Clamp magnitude to magnet strength.
+            BT = ImmutableVector2D.Double.parseAngleAndMagnitude( magnetStrength, BT.getAngle() );
+            System.out.println( "BarMagnet.getStrengthOutside - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
+        }
+        
+        return BT;
     }
 }

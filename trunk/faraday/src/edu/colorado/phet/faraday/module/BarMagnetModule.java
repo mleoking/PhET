@@ -24,6 +24,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
+import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.HollywoodMagnet;
@@ -129,6 +130,17 @@ public class BarMagnetModule extends Module {
         _magnetModel.setDirection( 0 );
         _magnetModel.setSize( MAGNET_SIZE );
         
+        // Compass model
+        AbstractCompass compassModel = null;
+        if ( FaradayConfig.HOLLYWOOD_ENABLED ) {
+            compassModel = new HollywoodCompass( _magnetModel );
+        }
+        else {
+            compassModel = new Compass( _magnetModel ); 
+        }
+        compassModel.setLocation( COMPASS_LOCATION );
+        model.addModelElement( compassModel );
+        
         // Pickup Coil
         _pickupCoilModel = new PickupCoil();
         _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
@@ -162,7 +174,7 @@ public class BarMagnetModule extends Module {
         apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
         // CompassGraphic
-        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _magnetModel );
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
@@ -185,8 +197,10 @@ public class BarMagnetModule extends Module {
         
         _magnetModel.addObserver( magnetGraphic );
         _magnetModel.addObserver( _gridGraphic );
-        _magnetModel.addObserver( compassGraphic );
+        _magnetModel.addObserver( compassModel );
 
+        compassModel.addObserver( compassGraphic );
+        
         _pickupCoilModel.addObserver( _pickupCoilGraphic );
         
         //----------------------------------------------------------------------------

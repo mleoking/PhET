@@ -19,7 +19,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.faraday.model.IMagnet;
@@ -195,6 +194,20 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
     }
     
     //----------------------------------------------------------------------------
+    // Override inherited methods
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates when we become visible.
+     * 
+     * @param visible true for visible, false for invisible
+     */
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        update();
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
 
@@ -210,10 +223,27 @@ public class GridGraphic extends CompositePhetGraphic implements SimpleObserver 
 
                 Point2D p = needle.getLocation();
 
-                AbstractVector2D strength = _magnetModel.getStrength( p );
-                needle.setDirection( Math.toDegrees( strength.getAngle() ) );
-                //needle.setStrength( strength.getMagnitude() / magnetStrength );
-                needle.setStrength( 1.0 );//DEBUG
+                AbstractVector2D fieldStrength = _magnetModel.getStrength( p );
+                needle.setDirection( Math.toDegrees( fieldStrength.getAngle() ) );
+                
+                /* HACK:
+                 * This is a hack to make the needles fade out linearly.
+                 * It does not take into account arbitrary rotation of the magnet.
+                 * It also does not use the magnitude component of the field strength vector.
+                 */
+                double pixelsPerGauss = 1;
+                double range = _magnetModel.getStrength() / pixelsPerGauss;
+                double dCenter = p.distance( _magnetModel.getLocation() );
+                double dSouth = p.distance( _magnetModel.getX() - (_magnetModel.getSize().width/2), _magnetModel.getY() );
+                double dNorth = p.distance( _magnetModel.getX() + (_magnetModel.getSize().width/2), _magnetModel.getY() );
+                double distance = Math.min( dCenter, Math.min( dSouth, dNorth ) );
+                if ( distance > range ) {
+                    needle.setStrength( 0.0 );
+                }
+                else {
+                    double scale = (range - distance) / range; 
+                    needle.setStrength( scale );
+                }
             }
             repaint();
         }

@@ -109,6 +109,20 @@ public class PickupCoilGraphic extends CompositePhetGraphic implements SimpleObs
     }
     
     //----------------------------------------------------------------------------
+    // Override inherited methods
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates when we become visible.
+     * 
+     * @param visible true for visible, false for invisible
+     */
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        update();
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
 

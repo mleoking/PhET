@@ -26,14 +26,14 @@ import edu.colorado.phet.common.math.AbstractVector2D;
 public interface IMagnet {
     
     /** 
-     * Sets the magnitude of the magnet's strength.
+     * Sets the magnitude of the magnet's strength, in Gauss.
      * 
      * @param strength the strength
      */
     public abstract void setStrength( double strength );
 
     /**
-     * Gets the magnitude of the magnet's strength.
+     * Gets the magnitude of the magnet's strength, in Gauss.
      * 
      * @return the strength
      */

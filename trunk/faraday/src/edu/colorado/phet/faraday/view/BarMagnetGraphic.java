@@ -69,6 +69,20 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
     }
 
     //----------------------------------------------------------------------------
+    // Override inherited methods
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates when we become visible.
+     * 
+     * @param visible true for visible, false for invisible
+     */
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        update();
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
 
@@ -77,14 +91,20 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
      */
     public void update() {
         
-        setLocation( (int)_magnetModel.getX(), (int)_magnetModel.getY() );
-        
-        // Determine how to scale the image.
-        double scaleX = _magnetModel.getWidth() / getImage().getWidth();
-        double scaleY = _magnetModel.getHeight() / getImage().getHeight();
-        
-        clearTransform();
-        rotate( Math.toRadians( _magnetModel.getDirection() ) );
-        scale( scaleX, scaleY );
+        if ( isVisible() ) {
+            
+            clearTransform();
+
+            // Rotation
+            rotate( Math.toRadians( _magnetModel.getDirection() ) );
+            
+            // Scale
+            double scaleX = _magnetModel.getWidth() / getImage().getWidth();
+            double scaleY = _magnetModel.getHeight() / getImage().getHeight();
+            scale( scaleX, scaleY );
+            
+            // Location
+            setLocation( (int) _magnetModel.getX(), (int) _magnetModel.getY() );
+        }
     }
 }

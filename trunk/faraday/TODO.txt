@@ -1,22 +1,15 @@
 "To Do" list for "faraday" simulation
 
 HIGH:
-- equation for the magnetic field of a dipole
+- determine how to make compass needles use field vector magnitude
 - averaging of values so that lightbulb & voltmeter behave smoothly
 - redo coil graphic, more of a tilt, thicker wire, copper/brown color
 - draw pickup coil correctly when loop area is changed
 - how to separate PhetCoilGraphic into foreground & background layers
 - add inertia to compass needle
 - add inertia to voltmeter needle
-(DONE) - change "loop area" control to be value-based, not scale-based
-- nail down semantics of magnet "strength"
 - calibration of everything so that sensitivity can be adjusted
-(NO) B-field lines
-(DONE) - compass
 - show electrons flowing (blue)
-(DONE) - wires connecting loop to meter/bulb
-(DONE) - alpha channel in lightbulb emission
-(DONE) - how to populate resized apparatus panel with grid?
 
 MEDIUM:
 - lightbulb emission graphic (same as CCK?)
@@ -28,3 +21,12 @@ LOW:
 - Wiggle Me's
 - Help/MegaHelp
 - correct lighting on flipped bar magnet
+
+DONE:
+(1/6) - nail down semantics of magnet "strength"
+(1/5) - equation for the magnetic field of a dipole
+(1/4) - how to populate resized apparatus panel with grid?
+(1/3) - compass
+(1/3) - wires connecting loop to meter/bulb
+(1/3) - alpha channel in lightbulb emission
+(12/28) - change "loop area" control to be value-based, not scale-based

@@ -42,6 +42,7 @@ public abstract class AbstractMagnet extends SimpleObservable implements IMagnet
      * Sole constructor
      */
     public AbstractMagnet() {
+        super();
         _strength = 1.0;
         _location = new Point2D.Double( 0, 0 );
         _direction = 0.0;
