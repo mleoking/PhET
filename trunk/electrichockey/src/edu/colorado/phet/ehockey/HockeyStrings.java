@@ -9,7 +9,6 @@ public class HockeyStrings {
 
     public static void setStrings( String stringsPath ) {
 
-
         try {
             localizedStrings = ResourceBundle.getBundle( stringsPath );
         }
@@ -21,6 +20,11 @@ public class HockeyStrings {
 
 
     public static String get( String key ) {
+
+        if ( localizedStrings == null ) {
+
+            throw new RuntimeException( "Strings not initialized" );
+        }
 
         return localizedStrings.getString( key );
     }
