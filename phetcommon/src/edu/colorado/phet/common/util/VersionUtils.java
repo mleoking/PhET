@@ -80,27 +80,31 @@ public class VersionUtils {
         if( rootInfo != null ) {
             vall.add( rootInfo );
         }
-        URL resourceList = cl.getResource( name + ".resources" );
-
-        BufferedReader br = new BufferedReader( new InputStreamReader( resourceList.openStream() ) );
-        String line = br.readLine();
-        if( line != null ) {
-            line = line.trim();
-        }
-        while( line != null ) {
-            if( line.trim().startsWith( "#" ) ) {
-                //ignore.
-            }
-            else {
-                VersionInfo vi = readVersionInfo( line, cl );
-                vall.add( vi );
-            }
-            line = br.readLine();
+        String resourceFileName = name + ".resources";
+        URL resourceList = cl.getResource( resourceFileName );
+        if( resourceList != null ) {
+            BufferedReader br = new BufferedReader( new InputStreamReader( resourceList.openStream() ) );
+            String line = br.readLine();
             if( line != null ) {
                 line = line.trim();
             }
+            while( line != null ) {
+                if( line.trim().startsWith( "#" ) ) {
+                    //ignore.
+                }
+                else {
+                    VersionInfo vi = readVersionInfo( line, cl );
+                    vall.add( vi );
+                }
+                line = br.readLine();
+                if( line != null ) {
+                    line = line.trim();
+                }
+            }
         }
-
+        else {
+            System.out.println( "No dependencies reported in " + resourceFileName );
+        }
         return (VersionInfo[])vall.toArray( new VersionInfo[0] );
     }
 
