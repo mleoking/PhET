@@ -33,6 +33,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -56,11 +57,24 @@ public class EmfModule extends Module {
     private Graphic wiggleMeGraphic;
     private boolean beenWiggled;
 
+    private ModelViewTransform2D mvTx;
+
+
     public EmfModule( AbstractClock clock ) {
         super( "EMF" );
         super.setModel( new EmfModel( clock ) );
 
         final Point origin = new Point( 125, 300 );
+
+        // Initialize the ModelViewTransform2D
+//        mvTx = new ModelViewTransform2D( new Rectangle2D.Double( -origin.getX(), -origin.getY(), fieldWidth, fieldHeight ),
+//                                         new Rectangle( 0, 0, fieldWidth, fieldHeight ) );
+        mvTx = new ModelViewTransform2D( new Point2D.Double( -origin.getX(), -origin.getY() ),
+                                         new Point2D.Double( fieldWidth - origin.getX(), fieldHeight -origin.getY()),
+                                         new Point( 0, 0 ),
+                                         new Point( fieldWidth, fieldHeight ));
+
+
         Antenna transmittingAntenna = new Antenna( new Point2D.Double( origin.getX(), origin.getY() - 100 ),
                                                    new Point2D.Double( origin.getX(), origin.getY() + 250 ) );
         electronLoc = new Point2D.Double( origin.getX(), origin.getY() );
@@ -70,17 +84,29 @@ public class EmfModule extends Module {
         new AddTransmittingElectronCmd( (EmfModel)this.getModel(), electron ).doIt();
         new DynamicFieldIsEnabledCmd( (EmfModel)getModel(), true ).doIt();
 
-        apparatusPanel = new EmfPanel( (EmfModel)this.getModel(),
-                                       electron,
-                                       origin,
-                                       fieldWidth,
-                                       fieldHeight );
+        apparatusPanel = new EmfPanel( electron, origin, fieldWidth, fieldHeight );
+        mvTx.addTransformListener( apparatusPanel );
+        apparatusPanel.addComponentListener( new ComponentAdapter() {
+                                           boolean init = false;
+                                           public void componentResized( ComponentEvent e ) {
+                                               // The model bounds are the same as the view bounds when the
+                                               // apparatus panel is first displayed
+                                               if( !init ) {
+                                                   init = true;
+                                                   double aspectRatio = ((double)fieldHeight) / ((double)fieldWidth );
+                                                   mvTx.setModelBounds( new Rectangle2D.Double( 0, 0,
+                                                                                                apparatusPanel.getWidth(),
+                                                                                                apparatusPanel.getHeight() ));
+                                               }
+                                               mvTx.setViewBounds( apparatusPanel.getBounds() );
+                                           }
+                                       } );
         super.setApparatusPanel( apparatusPanel );
-
 
         // Set up the electron graphic
         TransmitterElectronGraphic electronGraphic = new TransmitterElectronGraphic( apparatusPanel, electron, this );
         this.getApparatusPanel().addGraphic( electronGraphic, 5 );
+        mvTx.addTransformListener( electronGraphic );
 
 
         // Set up the receiving electron and antenna
@@ -99,6 +125,7 @@ public class EmfModule extends Module {
         ElectronGraphic receivingElectronGraphic = new ReceivingElectronGraphic( apparatusPanel, receivingElectron );
         receivingElectron.addObserver( receivingElectronGraphic );
         this.getApparatusPanel().addGraphic( receivingElectronGraphic, 5 );
+        mvTx.addTransformListener( receivingElectronGraphic );
 
         // Create the strip chart
         double dy = ( transmittingAntenna.getMaxY() - transmittingAntenna.getMinY() ) / 2;
@@ -118,10 +145,10 @@ public class EmfModule extends Module {
                                               this ) );
 
         // Draw the animated "Wiggle me"
-        createWiggleMeGraphic( origin );
+        createWiggleMeGraphic( origin, mvTx );
     }
 
-    private void createWiggleMeGraphic( final Point origin ) {
+    private void createWiggleMeGraphic( final Point origin, final ModelViewTransform2D mvTx ) {
         wiggleMeGraphic = new Graphic() {
             Point2D.Double start = new Point2D.Double( 0, 0 );
             Point2D.Double stop = new Point2D.Double( origin.getX() - 100, origin.getY() - 10 );
@@ -132,6 +159,8 @@ public class EmfModule extends Module {
             Font font = new Font( family, style, size );
 
             public void paint( Graphics2D g ) {
+                AffineTransform orgTx = g.getTransform();
+                g.transform( mvTx.getAffineTransform() );
                 current.setLocation( ( current.x + ( stop.x - current.x ) * .02 ),
                                      ( current.y + ( stop.y - current.y ) * .04 ) );
                 g.setFont( font );
@@ -145,6 +174,7 @@ public class EmfModule extends Module {
                 Point2D.Double arrowTip = new Point2D.Double( arrowTail.getX() + 15, arrowTail.getY() + 12 );
                 Arrow arrow = new Arrow( arrowTail, arrowTip, 6, 6, 2, 100, false );
                 g.fill( arrow.getShape() );
+                g.setTransform( orgTx );
             }
         };
         setWiggleMeGraphicState();
@@ -309,5 +339,27 @@ public class EmfModule extends Module {
         catch( IOException e ) {
             e.printStackTrace();
         }
+    }
+
+
+    public static void main( String[] args ) {
+        ModelViewTransform2D tx = new ModelViewTransform2D( new Rectangle2D.Double( -100, 50, 100, -100),
+                                                            new Rectangle( 0, 0, 100, 100 ) );
+        Point p = new Point( );
+        tx.getAffineTransform().transform( new Point( 0, 0 ), p );
+        System.out.println( "p = " + p );
+
+        ModelViewTransform2D tx2 = create( new Point2D.Double( -125, 300), new Point2D.Double( 875, -400),
+                                           new Point( 0, 0 ), new Point( 1000, 700 ) );
+        tx2.getAffineTransform().transform( new Point2D.Double( 0, 400 ), p );
+        System.out.println( "p = " + p );
+
+    }
+    
+    static ModelViewTransform2D create( Point2D.Double mp1, Point2D.Double mp2,
+                                        Point vp1, Point vp2 ) {
+        Rectangle2D.Double mr = new Rectangle2D.Double( mp1.getX(), mp1.getY(), mp2.getX() - mp1.getX(), mp2.getY() - mp1.getY());
+        Rectangle vr = new Rectangle( (int)vp1.getX(), (int)vp1.getY(), (int)( vp2.getX() - vp1.getX() ), (int)( vp2.getY() - vp1.getY() ));
+        return new ModelViewTransform2D( mr, vr );
     }
 }

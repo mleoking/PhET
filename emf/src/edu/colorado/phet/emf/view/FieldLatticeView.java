@@ -36,14 +36,13 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     private int numLatticePtsX;
     private int numLatticePtsY;
     private FieldPt[] latticePts;
-    //    private Vector2D[][] latticePts;
     private ArrayList latticePtsNeg = new ArrayList();
     private ArrayList latticePtsPos = new ArrayList();
     private AffineTransform[] latticeTx;
-    //    private AffineTransform[][] latticeTx;
     private Electron sourceElectron;
     private CubicSpline spline = new CubicSpline();
     private boolean autoscaleEnabled = false;
+    private AffineTransform atx;
 
     private ImageObserver imgObserver = new ImageObserver() {
         public boolean imageUpdate( Image img, int infoflags,
@@ -79,30 +78,19 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         numLatticePtsY = 1 + ( height - 1 ) / latticeSpacingY;
         latticePts = new FieldPt[numLatticePtsY * numLatticePtsX];
         latticeTx = new AffineTransform[numLatticePtsY * numLatticePtsX];
-        //        latticeTx = new AffineTransform[numLatticePtsY][numLatticePtsX];
-
 
         int xOffset = (int)transmittingElectronOrigin.getX() - latticeSpacingX / 2;
-        int numCtrlPtsToLeft = xOffset / latticeSpacingX;
-        int locJStart = xOffset - latticeSpacingX * numCtrlPtsToLeft;
         for( int i = 0; i < numLatticePtsY * numLatticePtsX; i++ ) {
             latticePts[i] = new FieldPt( ( i % numLatticePtsX ) * latticeSpacingX,
                                          ( i / numLatticePtsX ) * latticeSpacingY );
             latticeTx[i] = new AffineTransform();
         }
-        //                for( int i = 0; i < numLatticePtsY; i++ ) {
-        //                    for( int j = 0; j < numLatticePtsX; j++ ) {
-        //                        latticePts[i][j] = new Vector2D.Float();
-        //                        latticeTx[i][j] = new AffineTransform();
-        //                    }
-        //                }
 
         // Create field points
         Point2D.Double dp1 = new Point2D.Double( transmittingElectronOrigin.getX() - 0.001, transmittingElectronOrigin.getY() );
         FieldPt fp = new FieldPt( dp1.getX(), dp1.getY() );
         latticePtsNeg.add( fp );
         for( double x = (int)transmittingElectronOrigin.getX() - firstArrowOffset; x >= -latticeSpacingX; x -= latticeSpacingX ) {
-            //        for( double x = (int)transmittingElectronOrigin.getX() - latticeSpacingX / 2; x >= -latticeSpacingX; x -= latticeSpacingX ) {
             FieldPt fieldPt = new FieldPt( x, transmittingElectronOrigin.getY() );
             latticePtsNeg.add( fieldPt );
         }
@@ -110,7 +98,6 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         Point2D.Double dp2 = new Point2D.Double( transmittingElectronOrigin.getX() + 0.001, transmittingElectronOrigin.getY() );
         latticePtsPos.add( new FieldPt( dp2.getX(), dp2.getY() ) );
         for( double x = (int)transmittingElectronOrigin.getX() + firstArrowOffset; x < width; x += latticeSpacingX ) {
-            //        for( double x = (int)transmittingElectronOrigin.getX() + latticeSpacingX / 2; x < width; x += latticeSpacingX ) {
             FieldPt fieldPt = new FieldPt( x, transmittingElectronOrigin.getY() );
             latticePtsPos.add( fieldPt );
         }
@@ -121,6 +108,9 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
     public synchronized void paint( Graphics2D g2 ) {
         //        GraphicsUtil.setAntiAliasingOn( g2 );
+
+        AffineTransform orgTx = g2.getTransform();
+        g2.transform( atx );
 
         Color color = fieldSense == FORCE_ON_ELECTRON ? arrowRed : arrowGreen;
 
@@ -150,7 +140,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                     Arrow arrow = new Arrow( new Point2D.Double( -l / 2, 0 ), new Point2D.Double( l / 2, 0 ),
                                              maxArrowHeadWidth,
                                              maxArrowHeadWidth, 3, 0.5, true );
-                    AffineTransform orgTx = g2.getTransform();
+                    AffineTransform orgTx2 = g2.getTransform();
                     AffineTransform tx = latticePts[i].tx;
                     tx.setToTranslation( latticePts[i].location.getX(), latticePts[i].location.getY() );
                     tx.rotate( theta );
@@ -161,10 +151,11 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                     // GraphicsUtil.setAlpha( g2, 0.5 );
                     g2.fill( arrow.getShape() );
                     GraphicsUtil.setAlpha( g2, 1 );
-                    g2.setTransform( orgTx );
+                    g2.setTransform( orgTx2 );
                 }
             }
         }
+        g2.setTransform( orgTx );
     }
 
     private void evaluateFieldPt( FieldPt fieldPt ) {
@@ -299,15 +290,10 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         fieldDisplayType = display;
     }
 
-    public void paintDots( Graphics graphics ) {
-        for( int i = 0; i < numLatticePtsY; i++ ) {
-            for( int j = 0; j < numLatticePtsX; j++ ) {
-                int x = (int)transmittingElectronOrigin.getX() + j * latticeSpacingX - 1;
-                int y = (int)transmittingElectronOrigin.getY() + i * latticeSpacingY - 1;
-                graphics.drawImage( s_latticePtImg, x - 1, y - 1, imgObserver );
-            }
-        }
+    public void setTransform( AffineTransform atx ) {
+        this.atx = atx;
     }
+
 
 
     //

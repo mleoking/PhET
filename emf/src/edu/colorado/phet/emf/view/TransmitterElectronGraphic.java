@@ -29,7 +29,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
-        implements BoundedGraphic, Translatable {
+        implements BoundedGraphic, Translatable, TransformListener {
 
     private static BufferedImage image;
     static {
@@ -55,7 +55,10 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
         this.electron = electron;
         this.module = module;
         init( apparatusPanel, electron );
-//        init( apparatusPanel, origin, electron );
+    }
+
+    public void transformChanged( ModelViewTransform2D mvt ) {
+        electronGraphic.transformChanged( mvt );
     }
 
 
@@ -84,45 +87,6 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
     }
 
     public void mouseReleased( MouseEvent event ) {
-//        apparatusPanel.removeGraphic( wiggleMeGraphic );
         module.removeWiggleMeGraphic();
     }
-
-//    /**
-//     * Test to see how much more expensive it is to work with imutable Integers
-//     * rather than ints.
-//     * @param args
-//     */
-//    public static void main( String[] args ) {
-//        int c = 0;
-//        long t0 = System.currentTimeMillis();
-//        for( int i = 0; i < 100000; i++ ) {
-//            int j = i * i;
-//            if( j % 2 == 0 ) {
-//                c++;
-//            }
-//        }
-//        long t1 = System.currentTimeMillis();
-//
-//        long t2 = System.currentTimeMillis();
-//        for( int i = 0; i < 100000; i++ ) {
-//            int j = i * i;
-//            Vector2D v = new Vector2D( );
-//            if( j % 2 == 0 ) {
-//                c = (int)v.getX();
-//            }
-//        }
-////        for( Integer i1 = new Integer( 0 ); !i1.equals( new Integer( 100000 )); i1 = new Integer( i1.intValue() + 1 )) {
-////            Vector2D v = new Vector2D( );
-////            Integer j = new Integer( i1.intValue() * i1.intValue() );
-////            if( j.intValue() % 2 == 0 ) {
-////                c++;
-////                c = (int)v.getX();
-////            }
-////        }
-//        long t3 = System.currentTimeMillis();
-//        System.out.println( "loop 1: " + (t1 - t0 ) );
-//        System.out.println( "loop 2: " + (t3 - t2 ) );
-//        System.out.println( "c: " + c );
-//    }
 }
