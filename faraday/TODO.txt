@@ -8,7 +8,6 @@ IN PROGRESS:
 - make QuadBezierSpline a subclass of QuadCurve.Double
 
 HIGH PRIORITY:
-- move grid controls to dialog accessible via Options menu, include a performance warning, change all grids
 - add Verlet behavior to voltmeter needle
 - make lightbulb ramp up/down instead of immediate on/off
 - show important "spikes" in induced emf (consider totally disabling smoothing)
@@ -32,6 +31,7 @@ LOW PRIORITY:
 - Help/MegaHelp
 - resize any images that are currently scaled (eg, bar magnet)
 - remove smoothing code from PickupCoil when I'm sure I don't need it
+- delete DeveloperControlsPanel when we don't need it anymore
 
 phetcommon:
 - MathUtil.clamp behavior with Double.NaN
@@ -40,6 +40,8 @@ phetcommon:
 
 DONE:
 v0r12...
+(2/8) - disable Developer Controls panel
+(2/8) - move grid controls to dialog accessible via Options menu, include a performance warning, change all grids
 (2/8) - prevent dragging of stuff out of the apparatus panel viewport
 (2/8) - disable emf smoothing (median filter) in coil
 (2/8) - tune min/max number of light rays
