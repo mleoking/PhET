@@ -42,15 +42,17 @@ public class VersionUtils {
         }
     }
 
-    /* To be used in conjuction with this ant task:
+    /* To be used in conjuction with this ant code:
 
-        <target name="Synchronize Build meta info">
+    <property name="build.number.txt" value="${data}/${distname}.build.number"/>
+    <property name="timestamp.name" value="${data}/${distname}.build.time.stamp"/>
+
+    <target name="Generate Build Info">
+        <buildnumber file="${build.number.txt}"/>
         <tstamp>
             <format property="jar.creation.time" pattern="d-MMMM-yyyy h:mm aa" locale="en" timezone="MST"></format>
         </tstamp>
-        <echo file="build.time.stamp.txt" message="${jar.creation.time}"></echo>
-        <copy file="build.time.stamp.txt" tofile="${data}/build.time.stamp.txt"></copy>
-        <copy file="build.number" tofile="${data}/build.number"/>
+        <echo file="${timestamp.name}" message="${jar.creation.time}"></echo>
     </target>
 
     */
