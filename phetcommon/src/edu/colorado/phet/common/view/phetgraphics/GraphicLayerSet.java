@@ -215,7 +215,7 @@ public class GraphicLayerSet extends PhetGraphic {
         PhetGraphic result = null;
         for( int i = graphics.length - 1; result == null && i >= 0; i-- ) {
             PhetGraphic g = graphics[i];
-            if( g.isVisible() ) {
+            if( g.isVisible() && !g.getIgnoreMouse() ) {
                 if( g instanceof GraphicLayerSet ) {
                     GraphicLayerSet gx = (GraphicLayerSet)g;
                     result = gx.getHandler( p );
