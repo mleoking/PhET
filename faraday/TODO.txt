@@ -8,7 +8,6 @@ IN PROGRESS:
 HIGH:
 - use median values only when magnet or coil are being dragged
 - calibration of everything so that sensitivity can be adjusted
-- separate PhetCoilGraphic into foreground & background layers
 - show electrons flowing (blue) when lightbulb is enabled, keep constant size
 - keep compass from going inside magnet
 - redo coil graphic (constant wire gauge, fix colors)
@@ -30,6 +29,7 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/21) - separate PickupCoilGraphic into foreground & background layers
 (1/21) - rescale alpha values in compass grid to account for magnet strength and field dropoff
 (1/21) - redo BFieldProbe graphic, add crosshairs
 (1/21) - redo voltmeter graphic, add "volts" label

@@ -164,7 +164,8 @@ public class MagnetAndCoilModule extends Module {
         
         // Pickup AbstractCoil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel, _lightBulbModel, _voltMeterModel );
-        apparatusPanel.addGraphic( _pickupCoilGraphic, COIL_FRONT_LAYER ); // XXX
+        apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), COIL_FRONT_LAYER );
+        apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), COIL_BACK_LAYER );
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, GRID_X_SPACING, GRID_Y_SPACING );
