@@ -15,7 +15,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - CoilGraphic.getCollisionBounds isn't right for electromagnet, cuts into coil
-- consolidate code that is duplicated between CompassNeedleGraphic and CompassGridNeedle
 - redo Turbine model, it should not extend BarMagnet (it has a BarMagnet)
 - lightbulb flashes the first time that you visit each module
 - sliders sometimes remain hilited after you roll off them
@@ -55,6 +54,7 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/26) - consolidate code that is duplicated between CompassNeedleGraphic and CompassGridNeedle
 (3/26) - flatten static components of CompassGraphic
 (3/26) - document all output parameters in method definition and use
 (3/26) - reuse mutable vectors wherever possible (eg, DipoleMagnet.getStrength)

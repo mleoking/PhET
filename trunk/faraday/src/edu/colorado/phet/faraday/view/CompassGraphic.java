@@ -68,7 +68,8 @@ public class CompassGraphic extends CompositePhetGraphic
     
     private Rectangle _parentBounds;
     private Compass _compassModel;
-    private CompassNeedleGraphic _needle;
+    private CompassNeedle _needleDescriptor;
+    private PhetShapeGraphic _needleNorthGraphic, _needleSouthGraphic;
     private CollisionDetector _collisionDetector;
 
     //----------------------------------------------------------------------------
@@ -102,10 +103,26 @@ public class CompassGraphic extends CompositePhetGraphic
         addGraphic( body );
         
         // Needle
-        _needle = new CompassNeedleGraphic( component );
-        _needle.setSize( NEEDLE_SIZE );
-        _needle.setDirection( _compassModel.getDirection() );
-        addGraphic( _needle );
+        {
+            // Descriptor
+            _needleDescriptor = new CompassNeedle();
+            _needleDescriptor.setSize( NEEDLE_SIZE );
+            _needleDescriptor.setDirection( _compassModel.getDirection() );
+            _needleDescriptor.setStrength( 1 );
+            _needleDescriptor.setAlphaEnabled( false );
+            
+            // North tip
+            _needleNorthGraphic = new PhetShapeGraphic( component );
+            _needleNorthGraphic.setColor( _needleDescriptor.getNorthColor() );
+            _needleNorthGraphic.setShape( _needleDescriptor.getNorthShape() );
+            addGraphic( _needleNorthGraphic );
+            
+            // South tip
+            _needleSouthGraphic = new PhetShapeGraphic( component );
+            _needleSouthGraphic.setColor( _needleDescriptor.getSouthColor() );
+            _needleSouthGraphic.setShape( _needleDescriptor.getSouthShape() );
+            addGraphic( _needleSouthGraphic );
+        }
         
         // Thing that anchors the needle to the body.
         Shape anchorShape = new Ellipse2D.Double( -(ANCHOR_DIAMETER/2), -(ANCHOR_DIAMETER/2), ANCHOR_DIAMETER, ANCHOR_DIAMETER );
@@ -142,8 +159,12 @@ public class CompassGraphic extends CompositePhetGraphic
     public void update() {
         super.setVisible( _compassModel.isEnabled() );
         if( isVisible() ) {
-            // Rotation of the needle
-            _needle.setDirection( _compassModel.getDirection() );
+            
+            // Needle rotation
+            _needleDescriptor.setDirection( _compassModel.getDirection() );
+            _needleNorthGraphic.setShape( _needleDescriptor.getNorthShape() );
+            _needleSouthGraphic.setShape( _needleDescriptor.getSouthShape() );
+            
             // Location
             setLocation( (int) _compassModel.getX(), (int) _compassModel.getY() );
         }
