@@ -58,6 +58,15 @@ public class Thermometer extends PhetGraphic {
                                                maxScreenLevel + bulb.getHeight() );
     }
 
+    public void setLocation( Point2D.Double location ) {
+        gauge.setLocation( location );
+        this.location.setLocation( location );
+        int readoutWidth = fontMetrics.stringWidth( "XXXXXXX" );
+        boundingRect = new Rectangle2D.Double( location.getX(), location.getY(),
+                                               readoutWidth + rectBorderThickness,
+                                               maxScreenLevel + bulb.getHeight() );
+    }
+
     public void setValue( double value ) {
         this.value = Double.isNaN( value ) ? 0 : value;
         gauge.setLevel( this.value );

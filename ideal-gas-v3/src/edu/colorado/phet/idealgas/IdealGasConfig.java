@@ -94,7 +94,7 @@ public class IdealGasConfig {
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 960, 768 );
 
     // Colors
-    public static final Color helpColor = new Color( 0, 100, 0 );
+    public static final Color helpColor = new Color( 50, 150, 50 );
 
     // Sounds
     public static final String SOUND_DIRECTORY = "http://sounds/";
