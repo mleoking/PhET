@@ -327,19 +327,22 @@ public class MathUtil {
         }
         return result;
     }
-    
+
     /**
      * Clamps a value to a specified range.
-     * 
-     * @param min the minimum value	
+     *
+     * @param min   the minimum value
      * @param value the value to be clamped
-     * @param max the maximum value
+     * @param max   the maximum value
      * @return the clamped value
      */
-    public static double clamp( double min, double value, double max )
-    {
-      if ( value < min ) { return min; }
-      if ( value > max ) { return max; }
-      return value;
+    public static double clamp( double min, double value, double max ) {
+        if( value < min ) {
+            return min;
+        }
+        if( value > max ) {
+            return max;
+        }
+        return value;
     }
 }

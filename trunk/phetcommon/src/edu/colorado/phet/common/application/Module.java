@@ -4,9 +4,9 @@ package edu.colorado.phet.common.application;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpManager;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -24,11 +24,12 @@ public class Module {
     JPanel controlPanel;
     JPanel monitorPanel;
     String name;
-    HelpManager helpManager = new HelpManager();
+    HelpManager helpManager;
 
     protected Module( String name ) {
         this.name = name;
         SimStrings.setStrings( "localization/CommonStrings" );
+
     }
 
     public ApparatusPanel getApparatusPanel() {
@@ -53,6 +54,7 @@ public class Module {
 
     protected void setApparatusPanel( ApparatusPanel apparatusPanel ) {
         this.apparatusPanel = apparatusPanel;
+        helpManager = new HelpManager( apparatusPanel );//TODO fix this.
     }
 
     protected void setMonitorPanel( JPanel monitorPanel ) {
@@ -91,16 +93,16 @@ public class Module {
         getModel().addModelElement( modelElement );
     }
 
-    public void addGraphic( Graphic graphic, double layer ) {
+    public void addGraphic( PhetGraphic graphic, double layer ) {
         getApparatusPanel().addGraphic( graphic, layer );
     }
 
-    protected void add( ModelElement modelElement, Graphic graphic, double layer ) {
+    protected void add( ModelElement modelElement, PhetGraphic graphic, double layer ) {
         this.addModelElement( modelElement );
         this.addGraphic( graphic, layer );
     }
 
-    protected void remove( ModelElement modelElement, Graphic graphic ) {
+    protected void remove( ModelElement modelElement, PhetGraphic graphic ) {
         getModel().removeModelElement( modelElement );
         getApparatusPanel().removeGraphic( graphic );
     }

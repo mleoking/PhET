@@ -1,12 +1,8 @@
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Jun 25, 2004
  * Time: 5:59:39 PM
  * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
@@ -80,22 +76,6 @@ public class PhetImageGraphic extends PhetGraphic {
         if( isVisible() && image != null ) {
             g.drawRenderedImage( image, transform );
         }
-    }
-
-    public void setPosition( int x, int y, double scale ) {
-        AffineTransform tx = AffineTransform.getTranslateInstance( x, y );
-        tx.scale( scale, scale );
-        setTransform( tx );
-    }
-
-    public void setPositionCentered( int x, int y ) {
-        AffineTransform tx = AffineTransform.getTranslateInstance( x - image.getWidth() / 2, y - image.getHeight() / 2 );
-        setTransform( tx );
-    }
-
-    public void setPosition( int x, int y ) {
-        AffineTransform tx = AffineTransform.getTranslateInstance( x, y );
-        setTransform( tx );
     }
 
     public void setTransform( AffineTransform transform ) {

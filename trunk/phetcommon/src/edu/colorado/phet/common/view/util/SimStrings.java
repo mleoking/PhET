@@ -24,7 +24,7 @@ public class SimStrings {
             localizedStrings = new Vector();
             stringsPaths = new Vector();
         }
-        if ( stringsPaths.contains( stringsPath ) ) {
+        if( stringsPaths.contains( stringsPath ) ) {
             //System.out.println( "ignoring duplicate strings path: " + stringsPath );
             return;
         }

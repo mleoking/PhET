@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.common.view.util;
 
-import edu.colorado.phet.common.view.fastpaint.FastPaint;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -21,8 +19,9 @@ public class GraphicsUtil {
     /**
      * Creates and returns a buffered image that is a rotated version of a specified
      * buffered image. The transform is done so that the image is not truncated.
+     *
      * @param bImage
-     * @param theta Angle the image is to be rotated, in radians.
+     * @param theta  Angle the image is to be rotated, in radians.
      * @return
      */
     public static BufferedImage getRotatedImage( BufferedImage bImage, double theta ) {
@@ -31,7 +30,7 @@ public class GraphicsUtil {
         // quadrants
         Point2D pr = new Point2D.Double();
         // Normalize theta to be between 0 and PI*2
-        theta = ( (theta % (Math.PI * 2)) + Math.PI * 2 ) % ( Math.PI * 2 );
+        theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
         if( theta >= 0 && theta <= Math.PI / 2 ) {
             pr.setLocation( 0, bImage.getHeight() );
         }
@@ -48,17 +47,6 @@ public class GraphicsUtil {
         BufferedImageOp op = new AffineTransformOp( rtx, AffineTransformOp.TYPE_BILINEAR );
         BufferedImage result = op.filter( bImage, null );
         return result;
-    }
-
-    /**
-     * These  stubs are just so Rons code will still compile.  (For distance ladder.)
-     */
-    public static void fastRepaint( final Component parent, final Rectangle bounds ) {
-        FastPaint.fastRepaint( parent, bounds );
-    }
-
-    public static void fastRepaint( Component parent, Rectangle orig, Rectangle newRect ) {
-        FastPaint.fastRepaint( parent, orig, newRect );
     }
 
     /**

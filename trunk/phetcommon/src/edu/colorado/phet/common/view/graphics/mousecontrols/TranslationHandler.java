@@ -1,23 +1,23 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, PhET, 2003.*/
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Oct 9, 2003
  * Time: 12:43:47 AM
- * Copyright (c) Oct 9, 2003 by Sam Reid
+ * Copyright (c) Oct 9, 2003 by University of Colorado, PhET
  */
-public class TranslationControl implements MouseInputListener {
-    private Translatable t;
+public class TranslationHandler implements MouseInputListener {
+
+    TranslationListener translationListener;
     private Point last;
 
-    public TranslationControl( Translatable t ) {
-        this.t = t;
+    public TranslationHandler( TranslationListener translationListener ) {
+        this.translationListener = translationListener;
     }
 
     public void mouseDragged( MouseEvent event ) {
@@ -26,8 +26,9 @@ public class TranslationControl implements MouseInputListener {
             return;
         }
         Point modelLoc = event.getPoint();
-        Point2D.Double dx = new Point2D.Double( modelLoc.x - last.x, modelLoc.y - last.y );
-        t.translate( dx.x, dx.y );
+        Point dx = new Point( modelLoc.x - last.x, modelLoc.y - last.y );
+        TranslationEvent trEvent = new TranslationEvent( event, event.getX(), event.getY(), dx.x, dx.y );
+        translationListener.translationOccurred( trEvent );
         last = modelLoc;
     }
 

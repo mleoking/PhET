@@ -9,10 +9,10 @@ package edu.colorado.phet.common.view.graphics.transforms;
 import java.util.ArrayList;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Aug 19, 2003
  * Time: 10:26:01 AM
- * Copyright (c) Aug 19, 2003 by Sam Reid
+ * Copyright (c) Aug 19, 2003 by University of Colorado, PhET
  */
 public class CompositeTransformListener implements TransformListener {
     ArrayList listeners = new ArrayList();

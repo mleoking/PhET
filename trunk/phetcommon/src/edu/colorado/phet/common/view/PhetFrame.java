@@ -32,7 +32,7 @@ public class PhetFrame extends JFrame {
             public void windowIconified( WindowEvent e ) {
                 super.windowIconified( e );
                 paused = appDescriptor.getClock().isPaused(); // save clock state
-                if ( !paused ) {
+                if( !paused ) {
                     appDescriptor.getClock().setPaused( true );
                 }
             }
@@ -40,8 +40,8 @@ public class PhetFrame extends JFrame {
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
-                if ( !paused ) {
-                  appDescriptor.getClock().setPaused( false );
+                if( !paused ) {
+                    appDescriptor.getClock().setPaused( false );
                 }
             }
         } );

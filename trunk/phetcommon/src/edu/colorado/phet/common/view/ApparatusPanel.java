@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
@@ -42,30 +42,23 @@ public class ApparatusPanel extends JPanel {
     // Instance fields and methods
     //
     private BasicStroke borderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-    CompositeGraphic graphic = new CompositeGraphic();
-    CompositeInteractiveGraphicMouseDelegator mouseDelegator = new CompositeInteractiveGraphicMouseDelegator( this.graphic );
+    private GraphicLayerSet graphic;
 
-    ArrayList graphicsSetups = new ArrayList();
+    private ArrayList graphicsSetups = new ArrayList();
 
     protected ApparatusPanel( Object dummy ) {
         super( null );
     }
+    //aoeu
 
     public ApparatusPanel() {
         // Call superclass constructor with null so that we
         // don't get the default layout manager. This allows us
         // to lay out components with absolute coordinates
         super( null );
-        this.addMouseListener( mouseDelegator );
-        this.addMouseMotionListener( mouseDelegator );
-        //        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
-
-        //        Border border = BorderFactory.createLineBorder( Color.black );
-        //        this.setBorder( border );
-    }
-
-    public CompositeInteractiveGraphicMouseDelegator getMouseDelegator() {
-        return mouseDelegator;
+        this.graphic = new GraphicLayerSet( this );
+        this.addMouseListener( graphic.getSwingAdapter() );
+        this.addMouseMotionListener( graphic.getSwingAdapter() );
     }
 
     public void addGraphicsSetup( GraphicsSetup setup ) {
@@ -110,26 +103,23 @@ public class ApparatusPanel extends JPanel {
         state.restoreGraphics();
     }
 
-    public void addGraphic( Graphic graphic, double level ) {
+    public void addGraphic( PhetGraphic graphic, double level ) {
         this.graphic.addGraphic( graphic, level );
-        if( graphic instanceof PhetGraphic ) {
-            PhetGraphic phetGraphic = (PhetGraphic)graphic;
-            phetGraphic.repaint();
-        }
+        graphic.repaint();//Automatically repaint the added graphic.
     }
 
     /**
      * Adds a graphic to the default layer 0.
      */
-    public void addGraphic( Graphic graphic ) {
+    public void addGraphic( PhetGraphic graphic ) {
         this.addGraphic( graphic, 0 );
     }
 
-    public void removeGraphic( Graphic graphic ) {
+    public void removeGraphic( PhetGraphic graphic ) {
         this.graphic.removeGraphic( graphic );
     }
 
-    public CompositeGraphic getGraphic() {
+    public GraphicLayerSet getGraphic() {
         return graphic;
     }
 
