@@ -9,6 +9,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
@@ -79,6 +80,20 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         for( int i = 0; i < nuclei.size(); i++ ) {
             Nucleus nucleus = (Nucleus)nuclei.get( i );
             getPhysicalPanel().removeNucleus( nucleus );
+            getModel().removeModelElement( nucleus );
+        }
+        for( int i = 0; i < u235Nuclei.size(); i++ ) {
+            Nucleus nucleus = (Nucleus)u235Nuclei.get( i );
+            getPhysicalPanel().removeNucleus( nucleus );
+            // Pretty ugly, but it works
+            getPhysicalPanel().removeGraphic( ( (Graphic)( (ArrayList)NucleusGraphic.getGraphicForNucleus( nucleus ) ).get( 0 ) ) );
+            getModel().removeModelElement( nucleus );
+        }
+        for( int i = 0; i < u238Nuclei.size(); i++ ) {
+            Nucleus nucleus = (Nucleus)u238Nuclei.get( i );
+            getPhysicalPanel().removeNucleus( nucleus );
+            // Pretty ugly, but it works
+            getPhysicalPanel().removeGraphic( ( (Graphic)( (ArrayList)NucleusGraphic.getGraphicForNucleus( nucleus ) ).get( 0 ) ) );
             getModel().removeModelElement( nucleus );
         }
         nuclei.clear();
