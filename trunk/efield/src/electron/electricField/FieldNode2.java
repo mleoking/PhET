@@ -19,6 +19,7 @@ import electron.laws.ForceLawAdapter;
 import electron.particleFactory.CustomizableParticleFactory;
 import electron.particleFactory.ShowParticlePropertyDialog;
 import electron.utils.ResourceLoader;
+import phet.view.util.SimStrings;
 import phys2d.DoublePoint;
 import phys2d.Particle;
 import phys2d.System2D;
@@ -28,12 +29,27 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Locale;
 import java.util.Vector;
 
 import util.ExitOnClose;
 
 public class FieldNode2 extends JApplet {
+    // Localization
+    public static final String localizedStringsPath = "localization/ElectricFieldStrings";
+    private String applicationLocale = null;
+
     public void init() {
+        System.out.println( "applicationLocale = " + applicationLocale );
+        if ( applicationLocale == null ) {
+            applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+                Locale.setDefault( new Locale( applicationLocale ) );
+            }
+        }
+        System.out.println( "applicationLocale = " + applicationLocale );
+        SimStrings.setStrings( localizedStringsPath );
+        
         if (args == null)
             args = new String[]{"10"};
         int num = 0;
@@ -110,7 +126,7 @@ public class FieldNode2 extends JApplet {
 
         JPanel addRemovePanel = ar.getJPanel();
 
-        JButton propertyButton = new JButton("Properties");
+        JButton propertyButton = new JButton( SimStrings.get( "FieldNode2.PropertiesButton" ));
         propertyButton.addActionListener(sppd);
         addRemovePanel.add(propertyButton);
 
@@ -126,7 +142,7 @@ public class FieldNode2 extends JApplet {
         southPanel.add(fieldPanel);
 
         Border etched = BorderFactory.createEtchedBorder();
-        Border b = BorderFactory.createTitledBorder(etched, "External Field");
+        Border b = BorderFactory.createTitledBorder(etched, SimStrings.get( "FieldNode2.ExternalFieldBorder" ));
         fieldPanel.setBorder(b);
         getContentPane().add(southPanel, BorderLayout.SOUTH);
 
@@ -157,9 +173,9 @@ public class FieldNode2 extends JApplet {
         setJMenuBar(jj);
         //jj.add(emcee.getMenu(new Particle()));
         DiscreteFieldSlider dfs = new DiscreteFieldSlider(electricFieldPainter, pp);
-        JMenuItem fieldDiscretionItem = new JMenuItem("Set Field Discreteness");
+        JMenuItem fieldDiscretionItem = new JMenuItem( SimStrings.get( "FieldNode2.SetFieldDiscretenessMenuItem" ));
         fieldDiscretionItem.addActionListener(dfs);
-        JMenu fieldMenu = new JMenu("Electric Field");
+        JMenu fieldMenu = new JMenu( SimStrings.get( "FieldNode2.ElectricFieldMenuTitle" ));
         fieldMenu.add(fieldDiscretionItem);
         jj.add(fieldMenu);
 
@@ -169,10 +185,27 @@ public class FieldNode2 extends JApplet {
 
     public static void main(String[] argx) {
         args = argx;
-        JApplet j = new FieldNode2();
+
+        FieldNode2 j = new FieldNode2();
         j.setSize(new Dimension(600, 600));
+        
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            j.applicationLocale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( j.applicationLocale ));
+            if ( args.length == 1 ) {
+                args = null;
+            } else {
+                args = new String[argx.length-1];
+                for ( int i = 0; i < argx.length-1; i++ ) {
+                    args[i] = argx[i+1];
+                }
+            }
+        }
+        
         j.init();
-        JFrame f = new JFrame(j.getClass().getName());
+        
+        JFrame f = new JFrame( SimStrings.get( "EFieldApplication.title" ) );
         f.setContentPane(j);
         f.addWindowListener(new ExitOnClose());
         f.setSize(new Dimension(500, 560));

@@ -1,5 +1,7 @@
 package electron.electricField;
 
+import phet.view.util.SimStrings;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -16,9 +18,9 @@ public class DiscreteFieldSlider implements ActionListener, ChangeListener {
 
     public DiscreteFieldSlider(ElectricFieldPainter efp, Component paintMe) {
         this.paintMe = paintMe;
-        //b=new JButton("Change Electric Field");
+        //b=new JButton( SimStrings.get( "DiscreteFieldSlider.ChangeElectricFieldButton" ) );
         //b.addActionListener(this);
-        sliderFrame = new JFrame("Electric Field Discreteness(tm)");
+        sliderFrame = new JFrame( SimStrings.get( "DiscreteFieldSlider.ElectricFieldDiscretenessTitle" ));
         s = new JSlider(1, 30, 10);
         s.setMajorTickSpacing(1);
         s.setPaintTicks(true);
