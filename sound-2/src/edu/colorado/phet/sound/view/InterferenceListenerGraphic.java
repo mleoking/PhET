@@ -14,9 +14,9 @@ import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.awt.*;
 
 public class InterferenceListenerGraphic extends ListenerGraphic implements InteractiveSpeakerGraphic.MouseReleaseListener {
 
@@ -70,14 +70,15 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
 
     /**
      * Used for debug. Draws small red circles at the audio sources and the ear location
+     *
      * @param g
      */
     public void paint( Graphics2D g ) {
-//        super.paint( g );
-//        g.setColor( Color.red );
-//        g.drawArc( (int)earLocation.x - 2, (int)earLocation.y - 2, 4, 4, 0, 360 );
-//        g.drawArc( (int)audioSourceA.x - 2, (int)audioSourceA.y - 2, 4, 4, 0, 360 );
-//        g.drawArc( (int)audioSourceB.x - 2, (int)audioSourceB.y - 2, 4, 4, 0, 360 );
+        super.paint( g );
+        //        g.setColor( Color.red );
+        //        g.drawArc( (int)earLocation.x - 2, (int)earLocation.y - 2, 4, 4, 0, 360 );
+        //        g.drawArc( (int)audioSourceA.x - 2, (int)audioSourceA.y - 2, 4, 4, 0, 360 );
+        //        g.drawArc( (int)audioSourceB.x - 2, (int)audioSourceB.y - 2, 4, 4, 0, 360 );
     }
 
     /**
@@ -118,14 +119,15 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
         final double numTimeSteps = dist / SoundConfig.PROPOGATION_SPEED;
         Thread sleeper = new Thread( new Runnable() {
             int counter;
+
             public void run() {
                 ModelElement counterModelElement = new ModelElement() {
                     public synchronized void stepInTime( double dt ) {
                         counter++;
                     }
-                } ;
+                };
                 InterferenceListenerGraphic.this.soundModel.addModelElement( counterModelElement );
-                while( counter < numTimeSteps  ) {
+                while( counter < numTimeSteps ) {
                     try {
                         Thread.sleep( 50 );
                     }
@@ -138,7 +140,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic implements Inte
                 InterferenceListenerGraphic.this.updateAmplitude();
                 System.out.println( "!!!" );
             }
-        });
+        } );
         sleeper.start();
     }
 }

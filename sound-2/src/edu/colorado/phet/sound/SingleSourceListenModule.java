@@ -51,7 +51,9 @@ public class SingleSourceListenModule extends SingleSourceModule {
         headListener.addObserver( getOctaveOscillator() );
         BufferedImage headImg = null;
         try {
-            headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILE );
+            int headImageIdx = randomGenerator.nextInt( SoundConfig.HEAD_IMAGE_FILES.length );
+            headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILES[headImageIdx] );
+            //            headImg = ImageLoader.loadBufferedImage( SoundConfig.HEAD_IMAGE_FILE );
             PhetImageGraphic head = new PhetImageGraphic( getApparatusPanel(), headImg );
             head.setPosition( SoundConfig.s_headBaseX, SoundConfig.s_headBaseY );
             listenerGraphic = new ListenerGraphic( this, headListener, head,
