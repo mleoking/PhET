@@ -3,7 +3,6 @@
 	private var running:Boolean;
 	private var rate:Number;
 	private var photons:Array;
-	private var photonCanvas_mc:MovieClip;
 	private var xLoc:Number;
 	private var yLoc:Number;
 	private var theta:Number;
@@ -13,7 +12,6 @@
 	public function PhotonGenerator() {
 		rate = 1;
 		photons = new Array();
-		photonCanvas_mc = _root.createEmptyMovieClip("clock", canvasLayer++);
 		alpha = 100;
 	}
 	public function setLocation(xLoc:Number, yLoc:Number) {
@@ -40,7 +38,7 @@
 		this.color = ColorUtil.ctxToColor(ctx);
 	}
 	public function onEnterFrame() {
-		photonCanvas_mc.clear();
+		this.clear();
 		if (running == true) {
 			var c;
 			var wl;
@@ -51,30 +49,29 @@
 			else {
 				c = this.color;
 			}
+			var p:Photon;
 			for (var n = 0; n < Math.round(rate); n++) {
-				var photon = new Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), c);
-				photons.push(photon);
+				p = new Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), c);
+				photons.push(p);
 			}
 			// Paint or prune the photons, as need be
 			for (var i = 0; i < photons.length; i++) {
-				if (photons[i]._x <= _root.head._x) {
-					photons[i].paint(photonCanvas_mc);
+				p = photons[i];
+				if (p!= undefined && p.getX() <= _root.head._x) {
+					p.paint(this);
 				}
 				else {
-					var p = photons[i];
-					photons.splice(i, 1);
-					p.removeMovieClip();
+					photons.splice(i,1);
 				}
 			}
 		}
 	}
 	function stop() {
 		running = false;
-		photonCanvas_mc.stop();
+		super.stop();
 	}
 	function start() {
 		running = true;
-		photonCanvas_mc.play();
 	}
 	function isRunning():Boolean {
 		return running;
@@ -103,7 +100,7 @@
 		this.setWavelength(wavelength);
 	}
 	function onUnload() {
-		this.photonCanvas_mc.clear();
+		this.clear();
 		super.onUnload();
 	}
 }
