@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
@@ -26,6 +28,10 @@ public class PhetShapeGraphic extends PhetGraphic {
     private Stroke stroke;
     private Paint fill;
     private Paint border;
+    // The opacity of the fill paint, expressed as a fraction between 0 and 1
+    private double fillAlpha = 1;
+    // The opacity of the border paint, expressed as a fraction between 0 and 1
+    private double borderAlpha = 1;
 
     public PhetShapeGraphic( Component component, Shape shape, Paint fill ) {
         super( component );
@@ -73,6 +79,22 @@ public class PhetShapeGraphic extends PhetGraphic {
         autorepaint();
     }
 
+    public double getFillAlpha() {
+        return fillAlpha;
+    }
+
+    public void setFillAlpha( double fillAlpha ) {
+        this.fillAlpha = fillAlpha;
+    }
+
+    public double getBorderAlpha() {
+        return borderAlpha;
+    }
+
+    public void setBorderAlpha( double borderAlpha ) {
+        this.borderAlpha = borderAlpha;
+    }
+
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
             super.saveGraphicsState( g2 );
@@ -83,10 +105,18 @@ public class PhetShapeGraphic extends PhetGraphic {
             if( shape != null ) {
                 g2.transform( getNetTransform() );
                 if( fill != null ) {
+                    // Set the alpha if necessary
+                    if( fillAlpha != 1 ) {
+                        GraphicsUtil.setAlpha( g2, fillAlpha );
+                    }
                     g2.setPaint( fill );
                     g2.fill( shape );
                 }
                 if( stroke != null ) {
+                    // Set the alpha if necessary
+                    if( fillAlpha != 1 || borderAlpha != 1 ) {
+                        GraphicsUtil.setAlpha( g2, borderAlpha );
+                    }
                     g2.setPaint( border );
                     Stroke origStroke = g2.getStroke();
                     g2.setStroke( stroke );
