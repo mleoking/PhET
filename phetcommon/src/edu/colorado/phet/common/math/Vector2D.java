@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.common.math;
 
+import java.awt.geom.Point2D;
+
 public interface Vector2D extends AbstractVector2D {
 
     Vector2D add( AbstractVector2D v );
@@ -28,6 +30,14 @@ public interface Vector2D extends AbstractVector2D {
 
         public Double( double x, double y ) {
             super( x, y );
+        }
+
+        public Double( Point2D p ) {
+            super( p );
+        }
+
+        public Double( Point2D.Double src, Point2D.Double dst ) {
+            super( src, dst );
         }
 
         public Vector2D add( AbstractVector2D v ) {
