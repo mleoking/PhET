@@ -4,11 +4,11 @@ import edu.colorado.phet.batteryvoltage.Battery;
 import edu.colorado.phet.batteryvoltage.man.dir.CarryToDir;
 import edu.colorado.phet.batteryvoltage.man.dir.PropagatorDir;
 import edu.colorado.phet.batteryvoltage.man.dir.SpeedDir;
-import electron.man.Man;
-import electron.man.motions.*;
-import phys2d.DoublePoint;
-import phys2d.Propagator;
-import phys2d.System2D;
+import edu.colorado.phet.electron.man.Man;
+import edu.colorado.phet.electron.man.motions.*;
+import edu.colorado.phet.phys2d.DoublePoint;
+import edu.colorado.phet.phys2d.Propagator;
+import edu.colorado.phet.phys2d.System2D;
 
 import java.util.Hashtable;
 import java.util.Vector;

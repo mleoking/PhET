@@ -3,9 +3,9 @@ package edu.colorado.phet.batteryvoltage.man;
 import edu.colorado.phet.batteryvoltage.Battery;
 import edu.colorado.phet.batteryvoltage.ParticleMoveListener;
 import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
-import phys2d.Particle;
-import phys2d.PropagatingParticle;
-import phys2d.System2D;
+import edu.colorado.phet.phys2d.Particle;
+import edu.colorado.phet.phys2d.PropagatingParticle;
+import edu.colorado.phet.phys2d.System2D;
 
 import java.util.Enumeration;
 import java.util.Hashtable;

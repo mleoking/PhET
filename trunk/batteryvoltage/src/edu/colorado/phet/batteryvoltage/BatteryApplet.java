@@ -4,13 +4,12 @@
 
 package edu.colorado.phet.batteryvoltage;
 
-import electron.utils.ImageLoader;
-import electron.utils.ResourceLoader4;
-import phys2d.System2D;
-import phys2d.SystemRunner;
-import phys2d.gui.Range;
-import phys2d.gui.SystemRunnerControl;
-import util.ExitOnClose;
+import edu.colorado.phet.electron.utils.ImageLoader;
+import edu.colorado.phet.electron.utils.ResourceLoader4;
+import edu.colorado.phet.phys2d.System2D;
+import edu.colorado.phet.phys2d.SystemRunner;
+import edu.colorado.phet.phys2d.gui.Range;
+import edu.colorado.phet.phys2d.gui.SystemRunnerControl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,6 +59,7 @@ public class BatteryApplet extends JApplet {
         f.setContentPane( new BatteryApplet() );
         f.setSize( new Dimension( 850, 525 ) );
         f.setVisible( true );
-        f.addWindowListener( new ExitOnClose() );
+//        f.addWindowListener( new ExitOnClose() );
+        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 }

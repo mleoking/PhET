@@ -1,8 +1,8 @@
 package edu.colorado.phet.batteryvoltage.man;
 
-import electron.man.Man;
-import electron.man.motions.Location;
-import phys2d.DoublePoint;
+import edu.colorado.phet.electron.man.Man;
+import edu.colorado.phet.electron.man.motions.Location;
+import edu.colorado.phet.phys2d.DoublePoint;
 
 public class ManIsClose implements Condition {
     Man m;

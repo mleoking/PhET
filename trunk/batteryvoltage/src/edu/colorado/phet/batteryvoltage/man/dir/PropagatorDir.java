@@ -2,7 +2,7 @@ package edu.colorado.phet.batteryvoltage.man.dir;
 
 import edu.colorado.phet.batteryvoltage.man.Directional;
 import edu.colorado.phet.batteryvoltage.man.Release;
-import phys2d.Propagator;
+import edu.colorado.phet.phys2d.Propagator;
 
 public class PropagatorDir implements Directional {
     Release drop;

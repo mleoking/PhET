@@ -1,7 +1,7 @@
 package edu.colorado.phet.batteryvoltage;
 
-import phys2d.Particle;
-import phys2d.propagators.VelocityUpdate;
+import edu.colorado.phet.phys2d.Particle;
+import edu.colorado.phet.phys2d.propagators.VelocityUpdate;
 
 public class MaxSpeed implements ParticleMoveListener {
     VelocityUpdate left;
