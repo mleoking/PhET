@@ -62,11 +62,11 @@ public class HollywoodMagnet extends AbstractMagnet {
     /**
      * @see edu.colorado.phet.faraday.model.IMagnet#getStrength(java.awt.geom.Point2D)
      */
-    public Vector2D getStrength( Point2D p, Vector2D strengthDst ) {
+    public Vector2D getStrength( Point2D p, Vector2D outputVector ) {
         assert( p != null );
         
         // Result will be copied into strengthDst, if it was provided.
-        Vector2D bTotal = strengthDst;
+        Vector2D bTotal = outputVector;
         if ( bTotal == null ) {
             bTotal = new Vector2D();
         }
@@ -77,7 +77,7 @@ public class HollywoodMagnet extends AbstractMagnet {
         double fieldMagnitude = 0.0;
         {
             double strength = super.getStrength();
-            getLocation( _point /* destination */ );
+            getLocation( _point /* output */ );
             double distance = p.distance( _point );
 
             double range = strength * DISTANCE_PER_GAUSS;

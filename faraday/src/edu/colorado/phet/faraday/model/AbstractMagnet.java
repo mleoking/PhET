@@ -154,10 +154,10 @@ public abstract class AbstractMagnet extends SpacialObservable {
      * Gets the strength vector of the magnetic field at a point in 2D space.
      * 
      * @param p the point
-     * @param strengthDst strength is written here if provided, may be null
+     * @param outputVector strength is written here if provided, may be null
      * @return the strength vector, strengthDst if it was provided
      */
-    public abstract Vector2D getStrength( final Point2D p, Vector2D strengthDst );
+    public abstract Vector2D getStrength( final Point2D p, Vector2D outputVector );
     
     /**
      * Gets the strength vector of the magnetic field at a point in 2D space.

@@ -90,10 +90,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         double centerFlux = 0;
         {
             // Determine the point that corresponds to the center.
-            getLocation( _point /* destination */ );
+            getLocation( _point /* output */ );
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _point, _fieldVector /* destination */ );
+            _magnetModel.getStrength( _point, _fieldVector /* output */ );
             
             // Calculate the flux.
             double B = _fieldVector.getMagnitude();
@@ -110,10 +110,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             double y = getY() - getRadius();
             _transform.setToIdentity();
             _transform.rotate( getDirection(), getX(), getY() );
-            _transform.transform( new Point2D.Double( x, y ), _point /* destination */ );
+            _transform.transform( new Point2D.Double( x, y ), _point /* output */ );
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _point, _fieldVector /* destination */ );
+            _magnetModel.getStrength( _point, _fieldVector /* output */ );
             
             // Calculate the flux.
             double B = _fieldVector.getMagnitude();
@@ -130,10 +130,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             double y = getY() + getRadius();
             _transform.setToIdentity();
             _transform.rotate( getDirection(), getX(), getY() );
-            _transform.transform( new Point2D.Double( x, y ), _point /* destination */ );
+            _transform.transform( new Point2D.Double( x, y ), _point /* output */ );
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _point, _fieldVector /* destination */ );
+            _magnetModel.getStrength( _point, _fieldVector /* output */ );
             
             // Calculate the flux.
             double B = _fieldVector.getMagnitude();

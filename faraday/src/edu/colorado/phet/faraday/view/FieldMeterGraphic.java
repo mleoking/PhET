@@ -203,7 +203,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
             
             // Get the values, adjust the coordinate system.
             _point.setLocation( getX(), getY() );
-            _magnetModel.getStrength( _point, _fieldVector /* destination */ );
+            _magnetModel.getStrength( _point, _fieldVector /* output */ );
             double b = _fieldVector.getMagnitude();
             double bx = _fieldVector.getX();
             double by = -( _fieldVector.getY() ); // +Y is up
