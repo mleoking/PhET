@@ -4,6 +4,8 @@ java -cp %classpath%;../classes edu.colorado.phet.balloon.BalloonApplet
 
 package edu.colorado.phet.balloon;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import phet.paint.*;
 import phet.paint.particle.ParticlePainterAdapter;
 import phet.phys2d.*;
@@ -75,8 +77,8 @@ public class BalloonApplet extends JApplet {
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 SimStrings.setLocale( new Locale( applicationLocale ) );
             }
+            SimStrings.setStrings ( BalloonsConfig.localizedStringsPath );
         }
-        SimStrings.setStrings ( BalloonsConfig.localizedStringsPath );
 
         plussy.setPaint( PlusPainter.NONE );
         minnie.setPaint( MinusPainter.NONE );
@@ -286,15 +288,7 @@ public class BalloonApplet extends JApplet {
     }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException {
-        String applicationLocale = System.getProperty( "javaws.locale" );
-        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-            SimStrings.setLocale( new Locale( applicationLocale ) );
-        }
-        String argsKey = "user.language=";
-        if( args.length > 0 && args[0].startsWith( argsKey )) {
-            String locale = args[0].substring( argsKey.length(), args[0].length() );
-            SimStrings.setLocale( new Locale( locale ));
-        }
+        SimStrings.init( args, BalloonsConfig.localizedStringsPath );
 
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;
