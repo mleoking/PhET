@@ -6,23 +6,21 @@
  */
 package edu.colorado.phet.distanceladder.levels;
 
+import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.distanceladder.exercise.Answer;
 import edu.colorado.phet.distanceladder.exercise.Exercise;
 import edu.colorado.phet.distanceladder.exercise.ExerciseModel;
-import edu.colorado.phet.distanceladder.exercise.Answer;
-
-import javax.swing.*;
 
 public class Level1 extends Exercise {
 
-    public Level1() {
-        super( new Level1Model() );        
+    public Level1( PhetFrame frame ) {
+        super( new Level1Model(), frame );
     }
-
 
 
     private static class Level1Model extends ExerciseModel {
         static Answer correctAnswer = new Answer( "b", "The blue star" );
-        static Answer[] answers = new Answer[] {
+        static Answer[] answers = new Answer[]{
             new Answer( "a", "The red star" ),
             correctAnswer,
             new Answer( "c", "The gree star" )

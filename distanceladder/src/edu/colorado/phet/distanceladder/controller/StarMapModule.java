@@ -7,15 +7,16 @@
  */
 package edu.colorado.phet.distanceladder.controller;
 
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.distanceladder.model.UniverseModel;
 import edu.colorado.phet.distanceladder.view.StarMapGraphic;
 import edu.colorado.phet.distanceladder.view.StarshipCoordsGraphic;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.ApparatusPanel;
 
 public class StarMapModule extends Module {
     private UniverseModel model;
-    private double starshipCoordsLayer = Double.MAX_VALUE;
+    private double starshipCoordsLayer = Config.starLayer - 1;
     private StarshipCoordsGraphic starshipCoords;
     private StarMapGraphic starMapGraphic;
 
