@@ -42,8 +42,10 @@ public class ShapeGraphic implements BoundedGraphic {
             }
             if( outlineStroke != null ) {
                 g.setPaint( outlinePaint );
+                Stroke origStroke = g.getStroke();
                 g.setStroke( outlineStroke );
                 g.draw( shape );
+                g.setStroke( origStroke );
             }
         }
     }
