@@ -19,7 +19,7 @@ public class Particle extends SimpleObservable implements ModelElement {
     //Relying on this being null for the first iteration.
     private Vector2D prevAcceleration;
 
-    protected Particle() {
+    public Particle() {
     }
 
     protected Particle( Point2D position, Vector2D velocity,
@@ -101,6 +101,11 @@ public class Particle extends SimpleObservable implements ModelElement {
         prevAcceleration.setComponents( acceleration.getX(), acceleration.getY() );
 
         this.notifyObservers();
+    }
+
+    public void translate( double dx, double dy ) {
+        position.setLocation( position.getX() + dx, position.getY() + dy );
+        notifyObservers();
     }
 }
 
