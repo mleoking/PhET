@@ -50,8 +50,8 @@ public class ApparatusPanel extends JPanel {
         // don't get the default layout manager. This allows us
         // to lay out components with absolute coordinates
         super( null );
-//        this.addMouseListener( mouseDelegator );
-//        this.addMouseMotionListener( mouseDelegator );
+        this.addMouseListener( mouseDelegator );
+        this.addMouseMotionListener( mouseDelegator );
         //        BevelBorder border = (BevelBorder)BorderFactory.createLoweredBevelBorder();
 
         //        Border border = BorderFactory.createLineBorder( Color.black );
