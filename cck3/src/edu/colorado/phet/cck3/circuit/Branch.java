@@ -174,10 +174,6 @@ public class Branch extends SimpleObservable {
         this.endJunction = newJunction;
     }
 
-    public Junction[] getJunctions() {
-        return new Junction[]{startJunction, endJunction};
-    }
-
     public void replaceJunction( Junction junction, Junction newJ ) {
         if( junction == startJunction ) {
             setStartJunction( newJ );

@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
+import edu.colorado.phet.cck3.common.RepaintyMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.awt.*;
  * Time: 9:48:27 PM
  * Copyright (c) May 28, 2004 by Sam Reid
  */
-public class JunctionPopupMenu extends CircuitComponentInteractiveGraphic.RepaintyMenu {
+public class JunctionPopupMenu extends RepaintyMenu {
     private Junction junction;
     private CircuitGraphic circuitGraphic;
     private JunctionSplitter splitter;

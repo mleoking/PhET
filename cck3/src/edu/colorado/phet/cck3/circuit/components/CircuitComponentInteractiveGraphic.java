@@ -3,6 +3,7 @@ package edu.colorado.phet.cck3.circuit.components;
 
 import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
+import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
@@ -218,57 +219,6 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             this.res = res;
             menu = new RepaintyMenu( module.getApparatusPanel() );
             finish();
-        }
-
-    }
-
-    public static class RepaintyMenu extends JPopupMenu {
-        private Component target;
-
-        public RepaintyMenu( Component target ) {
-            this.target = target;
-            addPopupMenuListener( new PopupMenuListener() {
-                public void popupMenuCanceled( PopupMenuEvent e ) {
-                    waitValidRepaint();
-                }
-
-                public void popupMenuWillBecomeInvisible( PopupMenuEvent e ) {
-                    waitValidRepaint();
-                }
-
-                public void popupMenuWillBecomeVisible( PopupMenuEvent e ) {
-                    waitValidRepaint();
-                }
-            } );
-        }
-
-        public void waitValidRepaint() {
-            Thread thread = new Thread( new Runnable() {
-                public void run() {
-                    try {
-                        Thread.sleep( 250 );
-                    }
-                    catch( InterruptedException e ) {
-                        e.printStackTrace();
-                    }
-                    Window window = SwingUtilities.getWindowAncestor( target );
-                    if( window instanceof JFrame ) {
-                        JFrame jeff = (JFrame)window;
-                        Container jp = jeff.getContentPane();
-                        jp.invalidate();
-                        jp.validate();
-                        jp.repaint();
-                    }
-                }
-            } );
-            thread.setPriority( Thread.MAX_PRIORITY );
-            thread.start();
-        }
-
-        public void validateRepaint() {
-            super.invalidate();
-            super.validate();
-            super.repaint();
         }
 
     }

@@ -31,10 +31,6 @@ public class CCK2ImageSuite {
         return imageLoader.loadImage( "images/electron9.gif" );
     }
 
-    public int getParticleImageWidth() throws IOException {
-        return getParticleImage().getWidth();
-    }
-
     private void loadImages() throws IOException {
         resistorImage = ImageLoader.loadBufferedImage( resistorImageLocation );
         BufferedImage batteryImage = ImageLoader.loadBufferedImage( batteryImageLocation );
@@ -71,7 +67,4 @@ public class CCK2ImageSuite {
         return imageLoader;
     }
 
-    public BufferedImage getAmmeterImage() throws IOException {
-        return imageLoader.loadImage( "images/ammeterbranch.gif" );
-    }
 }

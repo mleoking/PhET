@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
+import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
@@ -80,7 +80,7 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
             }
         };
         addMouseInputListener( input );
-        CircuitComponentInteractiveGraphic.RepaintyMenu menu = new JunctionPopupMenu( getJunction(), this.circuitGraphic, module );
+        RepaintyMenu menu = new JunctionPopupMenu( getJunction(), this.circuitGraphic, module );
         addPopupMenuBehavior( menu );
     }
 
