@@ -16,6 +16,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
@@ -39,7 +40,8 @@ public class LaserSimulation extends PhetApplication {
                    SimStrings.get( "LasersApplication.version" ) );
 
 
-            AbstractClock clock = new SwingTimerClock( 7, 40 );
+            AbstractClock clock = new SwingTimerClock( 7, 25, AbstractClock.FRAMES_PER_SECOND );
+//            AbstractClock clock = new SwingTimerClock( 7, 40, AbstractClock.MILLISECONDS_PER_TICK );
             //            AbstractClock clock = new SwingTimerClock( 10, 40 );
             setClock( clock );
             setFrameCenteredSize( 900, 600 );
@@ -57,6 +59,22 @@ public class LaserSimulation extends PhetApplication {
             setModules( modules );
             //            setInitialModule( multipleAtomModule );
             setInitialModule( singleAtomModule );
+
+            // Print out frame rate for debugging
+            clock.addClockTickListener( new ClockTickListener() {
+                int frameAve = 25;
+                int tickCnt = 0;
+                long lastTickTime = System.currentTimeMillis();
+                public void clockTicked( AbstractClock c, double dt ) {
+                    if( ++tickCnt % frameAve == 0 ) {
+                        long currTime = System.currentTimeMillis();
+                        long elapsedTime = currTime - lastTickTime;
+                        lastTickTime = currTime;
+                        double rate = frameAve * 1000 / elapsedTime;
+                        System.out.println( "rate = " + rate  );
+                    }
+                }
+            } );
         }
     }
 

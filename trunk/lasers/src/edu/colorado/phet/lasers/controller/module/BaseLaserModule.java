@@ -330,7 +330,8 @@ public class BaseLaserModule extends Module {
                 // Create a photon graphic, add it to the appratus panel and attach a
                 // listener to the photon that will remove the graphic if and when the
                 // photon goes away
-                PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+                PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
+//                PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
                 photon.addListener( new PhotonLeftSystemListener( pg ) );
             }
@@ -340,7 +341,8 @@ public class BaseLaserModule extends Module {
                 // Create a photon graphic, add it to the appratus panel and attach a
                 // listener to the photon that will remove the graphic if and when the
                 // photon goes away
-                PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+                PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
+//                PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
                 photon.addListener( new PhotonLeftSystemListener( pg ) );
             }
