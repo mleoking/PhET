@@ -2,6 +2,7 @@
 package edu.colorado.phet.cck3.common;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -42,7 +43,7 @@ public class ColorDialog {
                 listener.cancelled( initialColor );
             }
         } );
-        GraphicsUtil.centerDialogInParent( dialog );
+        SwingUtils.centerDialogInParent( dialog );
         dialog.setVisible( true );
     }
 }

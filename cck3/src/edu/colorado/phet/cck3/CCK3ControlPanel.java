@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 import net.n3.nanoxml.*;
 import org.srr.localjnlp.ServiceSource;
 import org.srr.localjnlp.local.InputStreamFileContents;
@@ -462,7 +463,7 @@ public class CCK3ControlPanel extends JPanel {
             JLabel label = new JLabel( new ImageIcon( image ) );
             imageFrame.setContentPane( label );
             imageFrame.pack();
-            GraphicsUtil.centerWindowOnScreen( imageFrame );
+            SwingUtils.centerWindowOnScreen( imageFrame );
             imageFrame.setVisible( true );
             imageFrame.addWindowListener( new WindowAdapter() {
                 public void windowClosing( WindowEvent e ) {
@@ -530,7 +531,7 @@ public class CCK3ControlPanel extends JPanel {
 
         readoutFrame.setContentPane( new JScrollPane( jta ) );
         readoutFrame.pack();
-        GraphicsUtil.centerWindowOnScreen( readoutFrame );
+        SwingUtils.centerWindowOnScreen( readoutFrame );
         readoutFrame.setVisible( true );
     }
 
@@ -737,7 +738,7 @@ public class CCK3ControlPanel extends JPanel {
                 dialog.setContentPane( this );
                 SwingUtilities.updateComponentTreeUI( dialog );
                 dialog.pack();
-                GraphicsUtil.centerDialogInParent( dialog );
+                SwingUtils.centerDialogInParent( dialog );
             }
             dialog.setVisible( true );
         }

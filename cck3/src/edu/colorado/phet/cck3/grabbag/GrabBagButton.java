@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,7 +63,7 @@ public class GrabBagButton extends JButton {
         dialog.pack();
 
         SwingUtilities.updateComponentTreeUI( dialog );
-        GraphicsUtil.centerWindowOnScreen( dialog );
+        SwingUtils.centerWindowOnScreen( dialog );
         dialog.pack();
     }
 
