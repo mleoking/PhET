@@ -2,11 +2,15 @@
 package edu.colorado.phet.common.view.phetcomponents;
 
 import javax.swing.*;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.text.Caret;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  * User: Sam Reid
@@ -20,9 +24,18 @@ public class PhetJTextComponent extends PhetJComponent {
     private boolean autorepaintCaret = true;
     private Caret caret;
     private boolean hasKeyFocus = false;
+    private Timer timer;
 
+    /**
+     * Clients should use PhetJComponent.newInstance().
+     * If the client is making this, assume it's top level.
+     */
     public PhetJTextComponent( Component apparatusPanel, JTextComponent component ) {
-        super( apparatusPanel, component );
+        this( apparatusPanel, component, true );
+    }
+
+    public PhetJTextComponent( Component apparatusPanel, JTextComponent component, boolean topLevel ) {
+        super( apparatusPanel, component, topLevel );
         this.textComponent = component;
         caret = component.getCaret();
         int blinkRate = caret.getBlinkRate();
@@ -33,13 +46,26 @@ public class PhetJTextComponent extends PhetJComponent {
                 }
             }
         };
-        Timer timer = new Timer( blinkRate, actionListener );
+        timer = new Timer( blinkRate, actionListener );
         if( autorepaintCaret ) {
             timer.start();
         }
+        component.addCaretListener( new CaretListener() {
+            public void caretUpdate( CaretEvent e ) {
+                repaint();
+            }
+        } );
         caret.setVisible( false );
         caret.setSelectionVisible( true );
+        component.addFocusListener( new FocusAdapter() {
+            public void focusGained( FocusEvent e ) {
+                gainedKeyFocus();
+            }
 
+            public void focusLost( FocusEvent e ) {
+                lostKeyFocus();
+            }
+        } );
         repaint();
     }
 
@@ -58,4 +84,6 @@ public class PhetJTextComponent extends PhetJComponent {
         caret.setVisible( false );
         repaint();
     }
+
+
 }
