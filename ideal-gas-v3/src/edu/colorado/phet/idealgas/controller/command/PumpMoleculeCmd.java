@@ -10,10 +10,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.LightSpecies;
+import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 
@@ -68,6 +65,8 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
             graphic = new LightSpeciesGraphic( module.getApparatusPanel(), molecule );
         }
         idealGasModel.getBox().addContainedBody( molecule );
+        Constraint constraintSpec = new BoxMustContainParticle( idealGasModel.getBox(), molecule, idealGasModel );
+        molecule.addConstraint( constraintSpec );
         module.getApparatusPanel().addGraphic( graphic, 10 );
     }
 
