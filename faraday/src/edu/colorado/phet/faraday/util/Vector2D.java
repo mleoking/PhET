@@ -13,8 +13,6 @@ package edu.colorado.phet.faraday.util;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
-
 
 /**
  * Vector2D is a mutable vector.
@@ -111,11 +109,11 @@ public class Vector2D {
     // Operators
     //----------------------------------------------------------------------------
     
-    public void add( AbstractVector2D v ) {
+    public void add( Vector2D v ) {
         setXY( _x + v.getX(), _y + v.getY() );
     }
     
-    public void subtract( AbstractVector2D v ) {
+    public void subtract( Vector2D v ) {
         setXY( _x - v.getX(), _y - v.getY() );
     }
     
