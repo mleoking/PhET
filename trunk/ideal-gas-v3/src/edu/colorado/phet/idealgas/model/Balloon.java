@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision.CollidableBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.util.ScalarDataRecorder;
@@ -67,35 +66,35 @@ public class Balloon extends HollowSphere {
                                                      0,
                                                      GasMolecule.s_defaultRadius );
 
-    public void collideWithParticle( CollidableBody particle ) {
-
-        // Get the momentum of the balloon before the collision
-        momentumPre.setX( getVelocity().getX() );
-        momentumPre.setY( getVelocity().getY() );
-        momentumPre = momentumPre.scale( this.getMass() );
-
-        // This bizarre copying from one object to another is a total hack that
-        // was made neccessary by the creation of the CollisionGod class, and the
-        // fact that some of the system uses Particles from the common code, and
-        // some of it uses Particles from the ideal gas code. It is an embarassing
-        // mess that ought to be straightened out.
-        sphericalBody.setPosition( particle.getPosition() );
-        sphericalBody.setVelocity( particle.getVelocity() );
-        super.collideWithParticle( sphericalBody );
-
-        // Get the new momentum of the balloon
-        momentumPost.setX( this.getVelocity().getX() );
-        momentumPost.setY( this.getVelocity().getY() );
-        momentumPost = momentumPost.scale( this.getMass() );
-
-        // Compute the change in momentum and record it as pressure
-        Vector2D momentumChange = momentumPost.subtract( momentumPre );
-        double impact = momentumChange.getMagnitude();
-        ScalarDataRecorder recorder = this.containsBody( particle )
-                                      ? insidePressureRecorder
-                                      : outsidePressureRecorder;
-        recorder.addDataRecordEntry( impact );
-    }
+//    public void collideWithParticle( CollidableBody particle ) {
+//
+//        // Get the momentum of the balloon before the collision
+//        momentumPre.setX( getVelocity().getX() );
+//        momentumPre.setY( getVelocity().getY() );
+//        momentumPre = momentumPre.scale( this.getMass() );
+//
+//        // This bizarre copying from one object to another is a total hack that
+//        // was made neccessary by the creation of the CollisionGod class, and the
+//        // fact that some of the system uses Particles from the common code, and
+//        // some of it uses Particles from the ideal gas code. It is an embarassing
+//        // mess that ought to be straightened out.
+//        sphericalBody.setPosition( particle.getPosition() );
+//        sphericalBody.setVelocity( particle.getVelocity() );
+//        super.collideWithParticle( sphericalBody );
+//
+//        // Get the new momentum of the balloon
+//        momentumPost.setX( this.getVelocity().getX() );
+//        momentumPost.setY( this.getVelocity().getY() );
+//        momentumPost = momentumPost.scale( this.getMass() );
+//
+//        // Compute the change in momentum and record it as pressure
+//        Vector2D momentumChange = momentumPost.subtract( momentumPre );
+//        double impact = momentumChange.getMagnitude();
+//        ScalarDataRecorder recorder = this.containsBody( particle )
+//                                      ? insidePressureRecorder
+//                                      : outsidePressureRecorder;
+//        recorder.addDataRecordEntry( impact );
+//    }
 
     public void recordImpact( float impact,
                               Body body ) {
@@ -105,19 +104,19 @@ public class Balloon extends HollowSphere {
         recorder.addDataRecordEntry( impact );
     }
 
-    /**
-     * @return
-     */
-    public double getInsidePressure() {
-        return insidePressureRecorder.getDataTotal();
-    }
-
-    /**
-     * @return
-     */
-    public double getOutsidePressure() {
-        return outsidePressureRecorder.getDataTotal();
-    }
+//    /**
+//     * @return
+//     */
+//    public double getInsidePressure() {
+//        return insidePressureRecorder.getDataTotal();
+//    }
+//
+//    /**
+//     * @return
+//     */
+//    public double getOutsidePressure() {
+//        return outsidePressureRecorder.getDataTotal();
+//    }
 
     /**
      * @param dt

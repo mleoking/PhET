@@ -17,6 +17,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 public class HotAirBalloon extends HollowSphere {
+//public class HotAirBalloon extends HollowSphere {
 
     public static double s_heatSource = 0;
 
@@ -87,17 +88,6 @@ public class HotAirBalloon extends HollowSphere {
         double o1x = getPosition().getX() - oxOffset;
         double o1y = getPosition().getY() + oyOffset;
         opening = new Rectangle2D.Double( o1x, o1y, o2x - o1x, 20 );
-    }
-
-    public boolean isInContactWithParticle( SphericalBody particle ) {
-        boolean result = false;
-        if( isInOpening( particle ) ) {
-            result = false;
-        }
-        else {
-            result = super.isInContactWithParticle( particle );
-        }
-        return result;
     }
 
     public boolean isInOpening( SphericalBody particle ) {

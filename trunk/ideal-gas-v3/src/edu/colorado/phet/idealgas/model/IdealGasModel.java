@@ -7,7 +7,9 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.collision.*;
+import edu.colorado.phet.collision.CollidableBody;
+import edu.colorado.phet.collision.CollisionExpert;
+import edu.colorado.phet.collision.CollisionGod;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
@@ -56,15 +58,20 @@ public class IdealGasModel extends BaseModel {
                                                                  600 ),
                                          10, 10 );
 
-        collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
-        collisionExperts.add( new SphereBoxExpert( this ) );
-        collisionExperts.add( new SphereSphereExpert( this, dt ) );
+//        collisionExperts.add( new SphereSphereExpert( this, dt ) );
+//        collisionExperts.add( new SphereBoxExpert( this ) );
+//        collisionExperts.add( new SphereHotAirBalloonExpert( this, dt ) );
+//        collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
 
 //        collisionExperts.add( new SphereHollowSphereExpert( this, dt ) );
 //        collisionExperts.add( new SphereSphereExpert( this, dt ) );
 //        collisionExperts.add( new SphereBoxExpert( this ) );
 
 //        new SphereHotAirBalloonContactDetector();
+    }
+
+    public void addCollisionExpert( CollisionExpert expert ) {
+        collisionExperts.add( expert );
     }
 
     /**

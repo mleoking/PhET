@@ -1,4 +1,5 @@
 
+import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -52,6 +53,9 @@ public class TestMoleculeHollowSphereCollision extends PhetApplication {
     static class TestIdealGasModule extends IdealGasModule {
         public TestIdealGasModule( AbstractClock clock ) {
             super( clock );
+
+            // Add collision experts to the model
+            getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert( getIdealGasModel(), clock.getDt() ) );
 
             final Box2D box = getIdealGasModel().getBox();
             box.setBounds( 300, 100, box.getMaxX(), box.getMaxY() );
