@@ -8,10 +8,11 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../mechanics/development">
+      <sourceFolder url="file://$MODULE_DIR$/../../mechanics/development/src" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Mechanics" />
-    <orderEntry type="library" name="PhetCommon-2" level="application" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -21,6 +22,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="PhetCommon" />
     <orderEntryProperties />
   </component>
 </module>
