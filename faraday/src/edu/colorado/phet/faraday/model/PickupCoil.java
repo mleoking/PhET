@@ -71,7 +71,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      * 
      * @return the magnet model.
      */
-    public AbstractMagnet getMagnetModel() {
+    public AbstractMagnet getMagnet() {
         return _magnetModel;
     }
     
