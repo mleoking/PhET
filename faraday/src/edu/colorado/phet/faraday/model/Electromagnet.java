@@ -81,6 +81,5 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
         // Set the strength -- see Kirchhoff's rule.
         double strength = Math.abs( voltage );
         setStrength( strength );
-        System.out.println( "Electromagnet.update: strength=" + strength + " getStrength()=" + getStrength() );//DEBUG
     }
 }
