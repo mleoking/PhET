@@ -13,14 +13,11 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.LaserSimulation;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.controller.module.WaveViewControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,11 +29,14 @@ public class LaserControlPanel extends PhetControlPanel {
     private PumpingBeamControl pumpingBeamControl;
     private HighEnergyHalfLifeControl highEnergyLifetimeControl;
     private BaseLaserModule laserModule;
+    private GridBagConstraints gbc;
+    private ControlPanel laserControlPane;
 
     public LaserControlPanel( BaseLaserModule module, AbstractClock clock ) {
         super( module );
         this.laserModule = module;
-        super.setControlPane( new ControlPanel( (LaserModel)module.getModel(), clock ) );
+        laserControlPane = new ControlPanel( (LaserModel)module.getModel(), clock );
+        super.setControlPane( laserControlPane );
 
         addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
@@ -74,29 +74,6 @@ public class LaserControlPanel extends PhetControlPanel {
             energyButtonPanel.add( threeLevelsRB );
             energyButtonPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.EnergyLevelsBorderTitle" ) ) );
 
-            final String addMirrorsStr = SimStrings.get( "LaserControlPanel.AddMirrorsCheckBox" );
-            final String removeMirrorsStr = SimStrings.get( "LaserControlPanel.RemoveMirrorsCheckBox" );
-            final JCheckBox mirrorCB = new JCheckBox( addMirrorsStr );
-            mirrorCB.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    if( mirrorCB.isSelected() ) {
-                        mirrorCB.setText( removeMirrorsStr );
-                        laserModule.setMirrorsEnabled( true );
-                    }
-                    else {
-                        mirrorCB.setText( addMirrorsStr );
-                        laserModule.setMirrorsEnabled( false );
-                    }
-                }
-            } );
-
-            //            final JCheckBox energyDialogCB = new JCheckBox( SimStrings.get( "LaserControlPanel.EnergyLevelCheckBox" ) );
-            //            energyDialogCB.addActionListener( new ActionListener() {
-            //                public void actionPerformed( ActionEvent e ) {
-            //                    laserModule.setEnergyLevelsVisible( energyDialogCB.isSelected() );
-            //                }
-            //            } );
-
             String s = GraphicsUtil.formatMessage( SimStrings.get( "LaserControlPanel.EmissionCheckBox" ) );
             final JCheckBox showHighToMidEmissionCB = new JCheckBox( s );
             showHighToMidEmissionCB.addActionListener( new ActionListener() {
@@ -104,24 +81,19 @@ public class LaserControlPanel extends PhetControlPanel {
                     ( (LaserSimulation)PhetApplication.instance() ).displayHighToMidEmission( showHighToMidEmissionCB.isSelected() );
                 }
             } );
-            JPanel optionsPanel = new JPanel( new GridLayout( 2, 1 ) );
-            //            JPanel optionsPanel = new JPanel( new GridLayout( 3, 1 ) );
-            optionsPanel.add( mirrorCB );
+            JPanel optionsPanel = new JPanel( new GridLayout( 1, 1 ) );
             optionsPanel.add( showHighToMidEmissionCB );
-            //            optionsPanel.add( energyDialogCB );
             optionsPanel.setBorder( new TitledBorder( SimStrings.get( "LaserControlPanel.OptionsBorderTitle" ) ) );
-
 
             pumpingBeamControl = new PumpingBeamControl( model.getPumpingBeam() );
             pumpingBeamControl.setVisible( threeEnergyLevels );
-            //            highEnergyLifetimeControl.setVisible( threeEnergyLevels );
 
             this.setLayout( new GridBagLayout() );
-            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                             GridBagConstraints.CENTER,
-                                                             GridBagConstraints.HORIZONTAL,
-                                                             new Insets( 0, 0, 0, 0 ),
-                                                             0, 0 );
+            gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                          GridBagConstraints.CENTER,
+                                          GridBagConstraints.HORIZONTAL,
+                                          new Insets( 0, 0, 0, 0 ),
+                                          0, 0 );
             Border border = BorderFactory.createEtchedBorder();
             this.setBorder( border );
 
@@ -129,25 +101,16 @@ public class LaserControlPanel extends PhetControlPanel {
             gbc.gridy++;
             this.add( optionsPanel, gbc );
             gbc.gridy++;
-            //            this.add( showHighToMidEmissionCB, gbc );
-            //            gbc.gridy++;
-
-            //            stimulatingBeamControl = new StimulatingBeamControl( model );
-            //            this.add( stimulatingBeamControl, gbc );
-            //            gbc.gridy++;
             this.add( pumpingBeamControl, gbc );
-            gbc.gridy++;
-            //            ResonatingCavity cavity = model.getResonatingCavity();
-            //            PartialMirror mirror = laserModule.getRightMirror();
-            //            this.add( new RightMirrorReflectivityControlPanel( mirror ), gbc );
-            //            gbc.gridy++;
-            //            this.add( new SimulationRateControlPanel( clock, 1, 40, 10 ), gbc );
-
-            this.add( new WaveViewControlPanel( laserModule ), gbc );
 
             // Set the number of energy levels we'll see
             twoLevelsRB.setSelected( true );
             setThreeEnergyLevels( false );
         }
+    }
+
+    public void addControl( Component component ) {
+        gbc.gridy++;
+        laserControlPane.add( component, gbc );
     }
 }

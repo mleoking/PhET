@@ -49,7 +49,7 @@ public class TestApparatusModule extends SingleAtomModule {
         //        cavity.setHeight( newHeight );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
-        config.setStimulatedPhotonRate( 0.0f );
+        config.setSeedPhotonRate( 0.0f );
         config.setMiddleEnergySpontaneousEmissionTime( 10.00f );
         config.setPumpingPhotonRate( 0.0f );
         config.setReflectivity( 0.0f );

@@ -80,7 +80,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         }
         if( modelElement instanceof Photon ) {
             photons.add( modelElement );
-            ((Photon)modelElement).addListener( this );
+            ( (Photon)modelElement ).addListener( this );
         }
         if( modelElement instanceof Atom ) {
             atoms.add( modelElement );
@@ -135,7 +135,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         this.resonatingCavity = resonatingCavity;
     }
 
-    public CollimatedBeam getStimulatingBeam() {
+    public CollimatedBeam getSeedBeam() {
         return stimulatingBeam;
     }
 

@@ -16,8 +16,10 @@ import edu.colorado.phet.common.math.ModelViewTx1D;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.lasers.coreadditions.VisibleColor;
+import edu.colorado.phet.common.view.util.VisibleColor;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -82,6 +84,8 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
             double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference,
                                                    atomicState.getEnergyLevel() + energyChange ),
                                          atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference );
+            newEnergy = Math.max( newEnergy, Photon.wavelengthToEnergy( LaserConfig.MAX_WAVELENGTH ) );
+            newEnergy = Math.min( newEnergy, Photon.wavelengthToEnergy( LaserConfig.MIN_WAVELENGTH ) );
             atomicState.setEnergyLevel( newEnergy );
         }
     }

@@ -42,5 +42,6 @@ public class EnergyLevelsDialog extends JDialog {
 
         this.setResizable( false );
         this.setContentPane( energyLevelsPanel );
+        this.pack();
     }
 }

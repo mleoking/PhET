@@ -23,27 +23,26 @@ import java.awt.geom.Point2D;
 public class StandingWave extends PhetGraphic implements ModelElement {
 
     private Point2D origin;
-    private double extent;
     private double lambda;
+    private double period;
     private double amplitude;
     private Color color;
-    private Point2D[] pts;
     private double dx = 2;
-    private GeneralPath wavePath;
+    private GeneralPath wavePath = new GeneralPath();;
+    private int numPts;
+    double elapsedTime = 0;
+
 
     public StandingWave( Component component, Point2D origin, double extent,
-                         double lambda, double amplitude, Color color, BaseModel model ) {
+                         double lambda, double period, double amplitude,
+                         Color color, BaseModel model ) {
         super( component );
         this.origin = origin;
-        this.extent = extent;
         this.lambda = lambda;
+        this.period = period;
         this.amplitude = amplitude;
         this.color = color;
-        pts = new Point2D[(int)( extent / ( dx + 1 ) )];
-        for( int i = 0; i < pts.length; i++ ) {
-            pts[i] = new Point2D.Double();
-        }
-
+        numPts = (int)( extent / dx ) + 1;
         model.addModelElement( this );
     }
 
@@ -80,24 +79,21 @@ public class StandingWave extends PhetGraphic implements ModelElement {
     }
 
     public void paint( Graphics2D g2 ) {
-        if( wavePath != null ) {
-            saveGraphicsState( g2 );
-            g2.setColor( color );
-            g2.draw( wavePath );
-            restoreGraphicsState();
-        }
+        saveGraphicsState( g2 );
+        g2.setColor( color );
+        g2.draw( wavePath );
+        restoreGraphicsState();
     }
 
-    double elapsedTime = 0;
-
     public void stepInTime( double dt ) {
-        wavePath = new GeneralPath();
+        wavePath.reset();
         elapsedTime += dt;
-        wavePath.moveTo( (float)pts[0].getX(), (float)pts[0].getY() );
-        for( int i = 0; i < pts.length; i++ ) {
-            double x = origin.getX() + ( dx * i );
-            double y = origin.getY() + Math.sin( ( Math.PI / 2 ) * ( x / lambda ) ) * amplitude;
-            wavePath.lineTo( (float)x, (float)y );
+        double a = Math.sin( ( elapsedTime / period ) * Math.PI );
+        wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
+        for( int i = 0; i < numPts; i++ ) {
+            double x = dx * i;
+            double y = amplitude * ( a * Math.sin( ( x / lambda ) * Math.PI ) );
+            wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
         }
     }
 }

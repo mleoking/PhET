@@ -12,7 +12,6 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
 import javax.swing.*;
@@ -49,12 +48,12 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
         //                                        LaserConfig.CONTROL_FONT_STYLE,
         //                                        LaserConfig.CONTROL_FONT_SIZE ) );
         //
-        //        photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) );
+        //        photonRateTF.setText( Double.toString( LaserConfig.DEFAULT_SEED_PHOTON_RATE ) );
 
         // Create the intesity slider
         photonRateSlider = new JSlider( JSlider.HORIZONTAL,
-                                        LaserConfig.MINIMUM_STIMULATING_PHOTON_RATE,
-                                        LaserConfig.MAXIMUM_STIMULATING_PHOTON_RATE,
+                                        LaserConfig.MINIMUM_SEED_PHOTON_RATE,
+                                        LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
                                         0 );
 
         photonRateSlider.setPreferredSize( sliderDimension );
@@ -71,9 +70,12 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
         // The wavelength has to be inverted to be used as the min and max for the slider
         // if we want red to be on the left and blue to be on the right. The scale factor
         // is needed to make things usable integers.
-        wavelengthSlider = new JSlider( (int)( wavelengthSliderScaleFactor / GroundState.instance().getWavelength() ),
+        wavelengthSlider = new JSlider( (int)( wavelengthSliderScaleFactor / LaserConfig.MAX_WAVELENGTH ),
                                         (int)( wavelengthSliderScaleFactor / LaserConfig.MIN_WAVELENGTH ),
-                                        (int)( wavelengthSliderScaleFactor / GroundState.instance().getWavelength() ) );
+                                        (int)( wavelengthSliderScaleFactor / LaserConfig.MAX_WAVELENGTH ) );
+        //        wavelengthSlider = new JSlider( (int)( wavelengthSliderScaleFactor / GroundState.instance().getWavelength() ),
+        //                                        (int)( wavelengthSliderScaleFactor / LaserConfig.MIN_WAVELENGTH ),
+        //                                        (int)( wavelengthSliderScaleFactor / GroundState.instance().getWavelength() ) );
         wavelengthSlider.setPreferredSize( sliderDimension );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

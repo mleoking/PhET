@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.coreadditions;
 
-import edu.colorado.phet.lasers.coreadditions.VisibleColor;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
