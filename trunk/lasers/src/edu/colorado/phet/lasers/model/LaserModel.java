@@ -17,6 +17,7 @@ import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.*;
 import edu.colorado.phet.lasers.model.collision.PhotonAtomCollisonExpert;
@@ -27,10 +28,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
 
@@ -78,7 +76,15 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
             photons.add( modelElement );
             // we have to listen for photons leaving the system when they
             // are absorbed by atoms
+            Photon photon = (Photon)modelElement;
             ( (Photon)modelElement ).addLeftSystemListener( this );
+
+            // If the photon is moving nearly horizontally, consider it to be lasing
+            if( Math.abs( photon.getVelocity().getAngle() ) < angleWindow
+                || Math.abs( photon.getVelocity().getAngle() - Math.PI ) < angleWindow ) {
+                lasingPhotons.add( photon );
+                laserListenerProxy.lasingPopulationChanged( new LaserEvent( this ) );
+            }
         }
         if( modelElement instanceof Atom ) {
             atoms.add( modelElement );
@@ -206,14 +212,6 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 
     public int getNumPhotons() {
         return numPhotons;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////
-    // LeftSystemEvent Handling
-    //
-
-    public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
-        removeModelElement( event.getPhoton() );
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -370,5 +368,46 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
             return false;
         }
 
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Event Handling
+    //
+    private HashSet lasingPhotons = new HashSet();
+    private double angleWindow = LaserConfig.PHOTON_CHEAT_ANGLE;
+
+    private EventChannel laserEventChannel = new EventChannel( LaserListener.class );
+    private LaserListener laserListenerProxy = (LaserListener)laserEventChannel.getListenerProxy();
+
+    public void addLaserListener( LaserListener listener ) {
+        laserEventChannel.addListener( listener );
+    }
+
+    public void removeLaserListener( LaserListener listener ) {
+        laserEventChannel.removeListener( listener );
+    }
+
+    public class LaserEvent extends EventObject {
+        public LaserEvent( Object source ) {
+            super( source );
+        }
+
+        public int getLasingPopulation() {
+            return lasingPhotons.size();
+        }
+    }
+
+    public interface LaserListener extends EventListener {
+        void lasingPopulationChanged( LaserEvent event );
+    }
+
+    public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
+        Photon photon = event.getPhoton();
+        if( lasingPhotons.contains( photon ) ) {
+            lasingPhotons.remove( photon );
+            laserListenerProxy.lasingPopulationChanged( new LaserEvent( this ) );
+        }
+
+        removeModelElement( event.getPhoton() );
     }
 }

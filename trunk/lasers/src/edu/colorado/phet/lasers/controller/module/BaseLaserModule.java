@@ -71,8 +71,8 @@ public class BaseLaserModule extends Module {
     private JPanel reflectivityControlPanel;
     private int pumpingPhotonView;
     private int lasingPhotonView = PHOTON_DISCRETE;
-    private WaveBeamGraphic beamGraphic;
-    private StandingWaveGraphic waveGraphic;
+    private BeamCurtainGraphic beamCurtainGraphic;
+    private LaserWaveGraphic waveGraphic;
     private int numPhotons;
     private boolean displayHighLevelEmissions;
     protected boolean threeEnergyLevels;
@@ -82,7 +82,8 @@ public class BaseLaserModule extends Module {
     private int numGroundStateAtoms, numMiddleStateAtoms, numHighStateAtoms;
 
     private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
-    private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME;
+    private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_DEFAULT_LIFETIME;
+//    private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME;
 
     /**
      *
@@ -178,7 +179,7 @@ public class BaseLaserModule extends Module {
                                        s_boxWidth + s_laserOffsetX * 2,
                                        new Vector2D.Double( 1, 0 ),
                                        LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                                       30);
+                                       30 );
         seedBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         seedBeam.setEnabled( true );
         getLaserModel().setStimulatingBeam( seedBeam );
@@ -189,7 +190,7 @@ public class BaseLaserModule extends Module {
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ),
                                           LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                                          40);
+                                          40 );
         pumpingBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
@@ -234,6 +235,42 @@ public class BaseLaserModule extends Module {
         reflectivityControlPanel.setOpaque( false );
         getApparatusPanel().add( reflectivityControlPanel );
         reflectivityControlPanel.setVisible( false );
+
+        // Add the graphics for lasing
+        addLasingGraphics();
+    }
+
+    private void addLasingGraphics() {
+        double internalLaserCurtainOpacity = .7;
+        final double externalLaserCurtainOpacity = .7;
+        Rectangle cavityBounds = new Rectangle( (int)cavity.getBounds().getX(), (int)cavity.getBounds().getY(),
+                                                (int)cavity.getBounds().getWidth(), (int)cavity.getBounds().getHeight() );
+        LaserCurtainGraphic internalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
+                                                                                   cavityBounds, laserModel,
+                                                                                   MiddleEnergyState.instance(),
+                                                                                   internalLaserCurtainOpacity );
+        laserModel.addLaserListener( internalLaserCurtainGraphic );
+        addGraphic( internalLaserCurtainGraphic, LaserConfig.MIRROR_LAYER + 1 );
+
+        // TODO: put this on a listener that responds to apparatus panel resizings, rather than using a hard-coded number
+        Rectangle externalBounds = new Rectangle( (int)cavity.getBounds().getMaxX(), (int)cavity.getBounds().getY(),
+                                                  500,
+                                                  (int)cavity.getBounds().getHeight() );
+        final LaserCurtainGraphic externalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
+                                                                                         externalBounds, laserModel,
+                                                                                         MiddleEnergyState.instance(),
+                                                                                         externalLaserCurtainOpacity );
+        laserModel.addLaserListener( externalLaserCurtainGraphic );
+        addGraphic( externalLaserCurtainGraphic, LaserConfig.MIRROR_LAYER - 1 );
+
+        // Create a listener that will adjust the maximum alpha of the external beam based on the reflectivity
+        // of the right-hand mirror
+        rightMirror.addListener( new PartialMirror.Listener() {
+            public void reflectivityChanged( PartialMirror.ReflectivityChangedEvent event ) {
+                externalLaserCurtainGraphic.setMaxAlpha( 1 - ( Math.pow( event.getReflectivity(), 1.5 ) ) );
+            }
+        } );
+
     }
 
     //-----------------------------------------------------------------------------
@@ -255,8 +292,8 @@ public class BaseLaserModule extends Module {
                 break;
             case PHOTON_WAVE:
                 if( waveGraphic == null ) {
-                    waveGraphic = new StandingWaveGraphic( getApparatusPanel(), getCavity(),
-                                                           rightMirror, getLaserModel(), MiddleEnergyState.instance() );
+                    waveGraphic = new LaserWaveGraphic( getApparatusPanel(), getCavity(),
+                                                        rightMirror, getLaserModel(), MiddleEnergyState.instance() );
                 }
                 addGraphic( waveGraphic.getInternalStandingWave(), LaserConfig.MIRROR_LAYER + 1 );
                 addGraphic( waveGraphic.getExternalStandingWave(), LaserConfig.MIRROR_LAYER - 1 );
@@ -270,14 +307,14 @@ public class BaseLaserModule extends Module {
         this.pumpingPhotonView = pumpingPhotonView;
         switch( pumpingPhotonView ) {
             case PHOTON_DISCRETE:
-                getApparatusPanel().removeGraphic( beamGraphic );
+                getApparatusPanel().removeGraphic( beamCurtainGraphic );
                 PhotonGraphic.setAllVisible( true, getPumpingBeam().getWavelength() );
                 break;
             case PHOTON_CURTAIN:
-                if( beamGraphic == null ) {
-                    beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam );
+                if( beamCurtainGraphic == null ) {
+                    beamCurtainGraphic = new BeamCurtainGraphic( getApparatusPanel(), pumpingBeam );
                 }
-                addGraphic( beamGraphic, 1 );
+                addGraphic( beamCurtainGraphic, 1 );
                 PhotonGraphic.setAllVisible( false, getPumpingBeam().getWavelength() );
                 break;
             default :

@@ -96,7 +96,6 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
     }
 
     /**
-     *
      * @param threeEnergyLevels
      */
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
@@ -107,7 +106,6 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
     }
 
     /**
-     *
      * @param viewType
      */
     public void setUpperTransitionView( int viewType ) {

@@ -10,19 +10,14 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.PhotonSource;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * Class: BlueBeamGraphic
@@ -30,22 +25,21 @@ import java.awt.event.ComponentEvent;
  * Author: Another Guy
  * Date: Oct 28, 2004
  * <p/>
- * Shows a collimated beam as a rectangle of actualColor. The saturation of the actualColor corresponds to
+ * Shows a collimated beam as an area of actualColor. The saturation of the actualColor corresponds to
  * the photon rate of the beam.
  */
-public class WaveBeamGraphic extends PhetShapeGraphic implements PhotonSource.RateChangeListener,
-                                                            PhotonSource.WavelengthChangeListener {
+public class BeamCurtainGraphic extends PhetShapeGraphic implements PhotonSource.RateChangeListener,
+                                                                    PhotonSource.WavelengthChangeListener {
 
     Shape beamArea = new Rectangle();
     private Color actualColor;
     private CollimatedBeam beam;
 
     /**
-     *
      * @param component
      * @param beam
      */
-    public WaveBeamGraphic( Component component, CollimatedBeam beam ) {
+    public BeamCurtainGraphic( Component component, CollimatedBeam beam ) {
         super( component );
         this.beam = beam;
         beam.addRateChangeListener( this );
@@ -68,10 +62,10 @@ public class WaveBeamGraphic extends PhetShapeGraphic implements PhotonSource.Ra
         double beamDepth = getComponent().getHeight() - beam.getBounds().getY();
         path.moveTo( (float)beam.getBounds().getMinX(), (float)beam.getBounds().getMinY() );
         path.lineTo( (float)beam.getBounds().getMaxX(), (float)beam.getBounds().getMinY() );
-        path.lineTo( (float)( beam.getBounds().getMaxX() + beamDepth * Math.sin( beam.getFanout() / 2 )),
+        path.lineTo( (float)( beam.getBounds().getMaxX() + beamDepth * Math.sin( beam.getFanout() / 2 ) ),
                      (float)getComponent().getHeight() );
-        path.lineTo( (float)( beam.getBounds().getMinX() - beamDepth * Math.sin( beam.getFanout() / 2 )),
-                     (float)getComponent().getHeight( ));
+        path.lineTo( (float)( beam.getBounds().getMinX() - beamDepth * Math.sin( beam.getFanout() / 2 ) ),
+                     (float)getComponent().getHeight() );
         path.closePath();
         beamArea = path;
         setShape( beamArea );

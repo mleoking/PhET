@@ -49,11 +49,11 @@ public class PartialMirror extends Mirror {
         }
     }
 
-    public void addListener( EventListener listener ) {
+    public void addListener( Listener listener ) {
         eventChannel.addListener( listener );
     }
 
-    public void removeListener( EventListener listener ) {
+    public void removeListener( Listener listener ) {
         eventChannel.removeListener( listener );
     }
 

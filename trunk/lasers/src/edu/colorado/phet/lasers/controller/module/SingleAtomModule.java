@@ -13,7 +13,6 @@ package edu.colorado.phet.lasers.controller.module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -66,7 +65,7 @@ public class SingleAtomModule extends BaseLaserModule {
 
         final CollimatedBeam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
         Point2D pumpingBeamOrigin = new Point2D.Double( getLaserOrigin().getX() + s_boxWidth / 2,
-                                                        s_origin.getY() - 140 );
+                                                        s_origin.getY() - 100 );
         pumpingBeam.setBounds( new Rectangle2D.Double( pumpingBeamOrigin.getX() - Atom.getS_radius(), pumpingBeamOrigin.getY(),
                                                        2 * Atom.getS_radius(), s_boxHeight + s_laserOffsetX * 2 ) );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
@@ -108,6 +107,7 @@ public class SingleAtomModule extends BaseLaserModule {
         getApparatusPanel().addGraphic( seedBeamControl );
 
         // Pumping beam lamp
+        double yOffset = 30;
         AffineTransform pumpingBeamTx = new AffineTransform();
         pumpingBeamTx.translate( getLaserOrigin().getX() + beamImage.getHeight() + s_boxWidth / 2 - beamImage.getHeight() / 2, 10 );
         pumpingBeamTx.rotate( Math.PI / 2 );
