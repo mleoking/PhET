@@ -3,7 +3,6 @@
 HIGH:
 
 MEDIUM:
-o Ant build scripts
 
 LOW:
 o Help
