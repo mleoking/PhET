@@ -20,6 +20,7 @@ import edu.colorado.phet.common.model.ModelElement;
 
 /**
  * Electron is the model of an electron, capable of moving along some path.
+ * The path is described as a set of CurveDescriptors.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -37,11 +38,20 @@ public class Electron extends SpacialObservable implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
 
+    // Is this electron enabled?
     private boolean _enabled;
-    private ArrayList _curveDescriptors; // array of CurveDescriptor
+    
+    // Describes the electron's path (array of CurveDescriptor)
+    private ArrayList _curveDescriptors;
+    
+    // Index of the descriptor that describes the curve the electron is currently on.
     private int _curveIndex;
+    
+    // Electron's position along the current curve (0-1)
     private double _positionAlongCurve;
-    private double _speed; // -1...+1, controls speed and direction
+    
+    // Electron's speed & direction (-1...+1)
+    private double _speed;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -174,8 +184,19 @@ public class Electron extends SpacialObservable implements ModelElement {
     // ModelElement implementation
     //----------------------------------------------------------------------------
 
-    /*
-     * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
+    /**
+     * Moves the electron along the path.  
+     * <p>
+     * The electron's path is described by the CurveDescriptor array.
+     * <p>
+     * The electron's speed & direction determine its position along a curve.
+     * Speed is scaled to account for possible differences in the lengths 
+     * of the curves. Shorter curves will have a larger scaling factor.
+     * <p>
+     * When an electron gets to the end of the current curve, it jumps
+     * to the next curve, to a point that represent the "overshoot".
+     * The order of curves is determined by the order of elements in the 
+     * CurveDescription array.
      */
     public void stepInTime( double dt ) {
         if ( _enabled && _speed != 0 && _curveDescriptors != null ) {
