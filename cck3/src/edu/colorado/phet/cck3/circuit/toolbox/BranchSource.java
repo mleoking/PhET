@@ -46,7 +46,8 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
                 created = true;
                 //transfer control to the new component.
                 InteractiveGraphic g = circuitGraphic.getGraphic( b );
-                panel.getGraphic().startDragging( g, e );
+                panel.getMouseDelegator().startDragging( e, g );
+//                panel.getGraphic().startDragging( g, e );
             }
         };
         addMouseInputListener( ad );

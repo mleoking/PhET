@@ -8,7 +8,8 @@ import edu.colorado.phet.cck3.circuit.InteractiveBranchGraphic;
 import edu.colorado.phet.cck3.common.RectangleUtils;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
 import edu.colorado.phet.common.view.fastpaint.FastPaintTextGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -31,7 +32,8 @@ import java.text.DecimalFormat;
  * Time: 2:17:01 PM
  * Copyright (c) Jun 17, 2004 by Sam Reid
  */
-public class VoltmeterGraphic extends CompositeInteractiveGraphic {
+public class VoltmeterGraphic extends CompositeGraphic {
+//public class VoltmeterGraphic extends CompositeGraphic {
     UnitGraphic unitGraphic;
     private Voltmeter voltmeter;
     private ModelViewTransform2D transform;
@@ -218,7 +220,8 @@ public class VoltmeterGraphic extends CompositeInteractiveGraphic {
         return blackCableGraphic;
     }
 
-    class UnitGraphic extends CompositeInteractiveGraphic {
+    class UnitGraphic extends CompositeGraphic {
+//    class UnitGraphic extends CompositeGraphic {
         FastPaintImageGraphic unitGraphic;
         FastPaintTextGraphic textGraphic;
         Font font = new Font( "Dialog", 0, 20 );

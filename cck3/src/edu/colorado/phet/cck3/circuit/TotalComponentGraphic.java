@@ -5,7 +5,7 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
+import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 /**
@@ -14,7 +14,7 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
  * Time: 9:05:19 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class TotalComponentGraphic extends CompositeInteractiveGraphic {
+public class TotalComponentGraphic extends CompositeGraphic {
     private CircuitComponentInteractiveGraphic interactiveBranchGraphic;
     private InteractiveComponentJunctionGraphic interactiveJunctionGraphic1;
     private InteractiveComponentJunctionGraphic interactiveJunctionGraphic2;
