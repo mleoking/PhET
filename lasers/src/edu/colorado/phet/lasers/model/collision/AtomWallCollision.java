@@ -12,13 +12,11 @@
  */
 package edu.colorado.phet.lasers.model.collision;
 
-import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.collision.Collision;
-import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.collision.SphereWallCollision;
+import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.common.model.Particle;
-
-import java.awt.geom.Point2D;
+import edu.colorado.phet.lasers.model.atom.Atom;
 
 public class AtomWallCollision extends SphereWallCollision {
 
@@ -36,7 +34,6 @@ public class AtomWallCollision extends SphereWallCollision {
     }
 
     /**
-     *
      * @param particleA
      * @param particleB
      * @return
@@ -46,7 +43,7 @@ public class AtomWallCollision extends SphereWallCollision {
         if( particleA instanceof Atom && particleB instanceof Wall ) {
             result = new AtomWallCollision( (Atom)particleA, (Wall)particleB );
         }
-        else if ( particleB instanceof Wall && particleB instanceof Atom ) {
+        else if( particleB instanceof Wall && particleB instanceof Atom ) {
             result = new AtomWallCollision( (Atom)particleB, (Wall)particleA );
         }
         return result;

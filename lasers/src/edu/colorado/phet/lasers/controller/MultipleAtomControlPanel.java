@@ -5,7 +5,6 @@ import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +25,7 @@ public class MultipleAtomControlPanel extends LaserControlPanel {
 
     public MultipleAtomControlPanel( final BaseLaserModule module ) {
         super( module );
+
         // Add a controls for the mirrors and for chosing the photon view
         final String addMirrorsStr = SimStrings.get( "LaserControlPanel.AddMirrorsCheckBox" );
         final String removeMirrorsStr = SimStrings.get( "LaserControlPanel.RemoveMirrorsCheckBox" );

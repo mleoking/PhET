@@ -12,12 +12,12 @@
  */
 package edu.colorado.phet.lasers.model.collision;
 
-import edu.colorado.phet.lasers.model.mirror.PartialMirror;
-import edu.colorado.phet.lasers.model.mirror.Mirror;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.collision.Collision;
 import edu.colorado.phet.collision.SphereWallCollision;
 import edu.colorado.phet.common.model.Particle;
+import edu.colorado.phet.lasers.model.mirror.Mirror;
+import edu.colorado.phet.lasers.model.mirror.PartialMirror;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 
 public class PhotonMirrorCollision extends SphereWallCollision {
@@ -39,7 +39,6 @@ public class PhotonMirrorCollision extends SphereWallCollision {
     }
 
     /**
-     *
      * @param particleA
      * @param particleB
      * @return
@@ -49,7 +48,7 @@ public class PhotonMirrorCollision extends SphereWallCollision {
         if( particleA instanceof Photon && particleB instanceof Mirror ) {
             result = new PhotonMirrorCollision( (Photon)particleA, (PartialMirror)particleB );
         }
-        else if ( particleA instanceof Mirror && particleB instanceof Photon ) {
+        else if( particleA instanceof Mirror && particleB instanceof Photon ) {
             result = new PhotonMirrorCollision( (Photon)particleB, (PartialMirror)particleA );
         }
         return result;

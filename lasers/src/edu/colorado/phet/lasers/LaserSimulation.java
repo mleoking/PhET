@@ -112,7 +112,7 @@ public class LaserSimulation extends PhetApplication {
         String argsKey = "user.language=";
         if( args.length > 0 && args[0].startsWith( argsKey ) ) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ) );
+            SimStrings.setLocale( new Locale( locale ) );
         }
 
         SimStrings.setStrings( LaserConfig.localizedStringsPath );

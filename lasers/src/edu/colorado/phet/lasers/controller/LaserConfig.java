@@ -22,7 +22,7 @@ public class LaserConfig {
     public static final String localizedStringsPath = "localization/LasersStrings";
 
     // Physical things
-    public static Point2D.Double ORIGIN = new Point2D.Double(150, 200);
+    public static Point2D.Double ORIGIN = new Point2D.Double( 150, 200 );
 
     public static final int DEFAULT_SEED_PHOTON_RATE = 20;
     public static final int MINIMUM_SEED_PHOTON_RATE = 0;
@@ -31,12 +31,12 @@ public class LaserConfig {
 
     public static final int DEFAULT_PUMPING_PHOTON_RATE = 0;
     public static final int MINIMUM_PUMPING_PHOTON_RATE = 0;
-    public static final int MAXIMUM_PUMPING_PHOTON_RATE = 200;
+    public static final int MAXIMUM_PUMPING_PHOTON_RATE = 400;
     //    public static final int MAXIMUM_PUMPING_PHOTON_RATE = 100;
 
     // Spontaneous emission times, in milliseconds
     public static final int MAXIMUM_STATE_LIFETIME = 200;
-    public static final int MIDDLE_ENERGY_STATE_MAX_LIFETIME = 200;
+    public static final int MIDDLE_ENERGY_STATE_MAX_LIFETIME = 400;
     public static final int HIGH_ENERGY_STATE_MAX_LIFETIME = 50;
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = 50;
     //    public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = ( MINIMUM_SPONTANEOUS_EMISSION_TIME + MAXIMUM_STATE_LIFETIME ) / 2;
@@ -65,7 +65,7 @@ public class LaserConfig {
 
     // Angle within which a photon is considered to be moving horizontally. This is used by the
     // mirrors to "cheat" photons into lasing, and by the wave graphic to determine its amplitude
-    public static double PHOTON_CHEAT_ANGLE = Math.toRadians(10);
+    public static double PHOTON_CHEAT_ANGLE = Math.toRadians( 10 );
 
     // Thickness of the mirror graphics
     public static final double MIRROR_THICKNESS = 15;

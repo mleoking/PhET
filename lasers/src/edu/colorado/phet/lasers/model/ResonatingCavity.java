@@ -60,7 +60,7 @@ public class ResonatingCavity extends Box2D {
         determineBounds();
         notifyObservers();
 
-        eventRegistry.fireEvent( new ChangeEvent( this ));
+        eventRegistry.fireEvent( new ChangeEvent( this ) );
     }
 
 
@@ -86,7 +86,7 @@ public class ResonatingCavity extends Box2D {
         }
 
         public Rectangle2D getBounds() {
-            return ((ResonatingCavity)getSource()).getBounds();
+            return ( (ResonatingCavity)getSource() ).getBounds();
         }
     }
 }

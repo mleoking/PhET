@@ -22,14 +22,15 @@ import java.util.ArrayList;
  * This class represents various sorts of mirrors. The mirror is conditioned
  * by ReflectionStrategies that are added to it that determine whether the
  * mirror will reflect a particular photon.
- * <p>
+ * <p/>
  * Examples of ReflectionStrategies are
  * <ul>
  * <li>LeftReflecting
  * <li>RightReflecting
  * <li>BandPass
  * </ul>
- */public class Mirror extends Wall {
+ */
+public class Mirror extends Wall {
     // Implementation of specific reflection behaviors
     protected ArrayList reflectionStrategies = new ArrayList();
 
@@ -47,6 +48,7 @@ import java.util.ArrayList;
     /**
      * Tells if the mirror reflects a specified photon, based on the mirror's
      * ReflectionStrategies.
+     *
      * @param photon
      * @return
      */
