@@ -137,7 +137,7 @@ public class StandingWaveGraphic extends CompositePhetGraphic implements Photon.
     }
 
     private double getMaxInternalAmplitude() {
-        return 70;
+        return 60;
     }
 
 

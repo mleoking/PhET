@@ -68,5 +68,7 @@ public class LaserConfig {
     public static final double MIRROR_THICKNESS = 15;
 
     // Threshold number of horizontal photons that is considered "lasing"
-    public static int LASING_THRESHOLD = 100;
+    public static int LASING_THRESHOLD = 80;
+    // Number of photons in the system that will cause the thing to blow up
+    public static int KABOOM_THRESHOLD = 250;
 }

@@ -151,10 +151,10 @@ public class LaserControlPanel extends PhetControlPanel {
             panel.add( aveSlider, gbc );
 //            addControl( aveSlider );
 
-            final PhetSlider kaboomThresholdSlider = new PhetSlider( "Meltdown threshold", "Photons", 0, 500, Kaboom.kaboomThreshold );
+            final PhetSlider kaboomThresholdSlider = new PhetSlider( "Meltdown threshold", "Photons", 0, 500, LaserConfig.KABOOM_THRESHOLD );
             kaboomThresholdSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    Kaboom.kaboomThreshold = (int)kaboomThresholdSlider.getValue();
+                    LaserConfig.KABOOM_THRESHOLD = (int)kaboomThresholdSlider.getValue();
                 }
             } );
             panel.add( kaboomThresholdSlider, gbc );

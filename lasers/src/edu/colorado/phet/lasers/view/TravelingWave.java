@@ -90,7 +90,8 @@ public class TravelingWave extends Wave {
         Color baseColor = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
         int minLevel = 200;
         // The power function here controls the ramp-up of actualColor intensity
-        int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( getAmplitude() / getMaxInternalAmplitude() ), 1 ) ) );
+        int level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( getAmplitude() / getMaxInternalAmplitude() ), .3 ) ) );
+        System.out.println( "level = " + level );
         level = Math.min( level, 255 );
         actualColor = getActualColor( baseColor, level );
     }
