@@ -13,6 +13,8 @@ import phet.utils.ResourceLoader4;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -26,8 +28,8 @@ public class BalloonApplet extends JApplet {
     static boolean isApplet = true;
     int width;
     int height;
-    static final int W = 750;
-    static final int H = 470;
+    static final int PANEL_WIDTH = 750;
+    static final int PANEL_HEIGHT = 500;
 
     static Color red = new Color( 255, 0, 0 );
     static Color minColor = new Color( 0, 0, 255 );
@@ -70,8 +72,8 @@ public class BalloonApplet extends JApplet {
         plussy.setPaint( PlusPainter.NONE );
         minnie.setPaint( MinusPainter.NONE );
 
-        width = W;
-        height = H;
+        width = PANEL_WIDTH;
+        height = PANEL_HEIGHT;
         ImageLoader loader = new ResourceLoader4( getClass().getClassLoader(), this );
 
         BufferedImage balloon = loader.loadBufferedImage( "images/FilteredBalloon-ii.GIF" );
@@ -114,7 +116,7 @@ public class BalloonApplet extends JApplet {
         painterPanel = new PainterPanel( db );
 
         int wallWidth = 80;
-        Rectangle dragBounds = new Rectangle( 0, 0, W - balloon.getWidth() - wallWidth, H - balloon.getHeight() - 55 );
+        Rectangle dragBounds = new Rectangle( 0, 0, PANEL_WIDTH - balloon.getWidth() - wallWidth, PANEL_HEIGHT - balloon.getHeight() - 55 );
         BalloonDragger bd = new BalloonDragger( new BalloonPainter[]{b, yel}, painterPanel, dragBounds );
         painterPanel.addMouseListener( bd );
         painterPanel.addMouseMotionListener( bd );
@@ -156,13 +158,20 @@ public class BalloonApplet extends JApplet {
         bg.add( showAllCharges );
         bg.add( showNoCharges );
         bg.add( showDiff );
-        showNoCharges.setSelected( true );
+
+        showAllCharges.setSelected( true );
+        ActionListener[] al = showAllCharges.getActionListeners();
+        for( int i = 0; i < al.length; i++ ) {
+            ActionListener actionListener = al[i];
+            actionListener.actionPerformed( new ActionEvent( showAllCharges, (int)System.currentTimeMillis(), "fire" ) );
+        }
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new BoxLayout( buttonPanel, BoxLayout.X_AXIS ) );
         buttonPanel.add( showAllCharges );
         buttonPanel.add( showNoCharges );
         buttonPanel.add( showDiff );
-        buttonPanel.setBorder( BorderFactory.createTitledBorder( "Charge Display" ) );
+        buttonPanel.setBorder( PhetLookAndFeel.createSmoothBorder( "Charge Display" ) );
         JButton resetBtn = new JButton( "Reset" );
         controlPanel.add( resetBtn );
         controlPanel.add( buttonPanel );
@@ -190,8 +199,8 @@ public class BalloonApplet extends JApplet {
         controlPanel.add( showWall );
 
         int wallInset = 10;
-        Rectangle wallBounds = new Rectangle( W - wallWidth, 0, wallWidth, H );
-        Rectangle wallChargeBounds = new Rectangle( W - wallWidth + wallInset, 0, wallWidth - wallInset * 2, H );
+        Rectangle wallBounds = new Rectangle( PANEL_WIDTH - wallWidth, 0, wallWidth, PANEL_HEIGHT );
+        Rectangle wallChargeBounds = new Rectangle( PANEL_WIDTH - wallWidth + wallInset, 0, wallWidth - wallInset * 2, PANEL_HEIGHT );
         Painter wallBack = new FilledRectanglePainter( wallBounds.x, wallBounds.y, wallBounds.width, wallBounds.height, Color.yellow );
         Random r = new Random();
         Wall w = new Wall( showWall, 50, wallChargeBounds, wallBack, plussy, minnie, r, b, yel );
@@ -248,7 +257,7 @@ public class BalloonApplet extends JApplet {
         int x = dragBounds.x + dragBounds.width;
         System.err.println( "x=" + x );
         int widdie = x - sweaterImage.getWidth() / 2;
-        Rectangle bounds = new Rectangle( sweaterImage.getWidth() / 2, 0, widdie + 143, H - 50 );
+        Rectangle bounds = new Rectangle( sweaterImage.getWidth() / 2, 0, widdie + 143, PANEL_HEIGHT - 50 );
         System.err.println( "bounds=" + bounds );
         sys.addLaw( new BalloonForces( b, yel, wool, bounds, wallBounds.x, w ) );
         //sys.addLaw(new BalloonForces(b,yel,wool,dragBounds,wallBounds.x));
@@ -266,15 +275,23 @@ public class BalloonApplet extends JApplet {
         //new SizeChecker(this).start();
     }
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;
         BalloonApplet ba = new BalloonApplet();
         ba.init();
         JFrame jf = new JFrame( ba.getClass().getName() );
         jf.addWindowListener( new Exit() );
         jf.setContentPane( ba );
-        jf.setSize( W, H + 40 );
+        jf.setSize( PANEL_WIDTH, PANEL_HEIGHT + 40 );
         jf.setVisible( true );
+
+        jf.invalidate();
+        jf.validate();
+        jf.repaint();
+        jf.getContentPane().invalidate();
+        jf.getContentPane().validate();
+        jf.getContentPane().repaint();
         //System.out.println("main: height="+ba.getHeight()); //476 for full application.
     }
 

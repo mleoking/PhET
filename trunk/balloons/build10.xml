@@ -202,8 +202,8 @@
     </target>
 
     <target name="Open Explorer">
-        <exec dir="${development}" executable="explorer">
-            <arg line="${development}"></arg>
+        <exec dir="." executable="explorer">
+            <arg line="."></arg>
         </exec>
     </target>
 
