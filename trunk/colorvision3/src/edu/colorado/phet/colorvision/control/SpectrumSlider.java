@@ -111,9 +111,9 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
 
         // Initialize instance data.
         _component = component;
-        _value = 0;
         _minimum = (int) VisibleColor.MIN_WAVELENGTH;
         _maximum = (int) VisibleColor.MAX_WAVELENGTH;
+        _value = _minimum;
         _orientation = HORIZONTAL;
         _transmissionWidth = 0;
         _dragBounds = new Rectangle( 0, 0, 0, 0 ); // set correctly by setLocation
@@ -604,9 +604,6 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
     /**
      * SpectrumSliderMouseInputListener is an inner class the handles 
      * dragging of the slider knob.
-     * <p>
-     * Note that SpectrumSlider cannot implement MouseListener because
-     * its superclass already does.
      *
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Id$
