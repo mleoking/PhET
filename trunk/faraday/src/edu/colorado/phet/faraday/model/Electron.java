@@ -30,10 +30,8 @@ public class Electron extends SpacialObservable implements ModelElement {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double POSITION_DELTA = 0.01; // 100 points along each curve
-    
-    private static final double MIN_SPEED = 0.10;
-    private static final double MAX_SPEED = 0.50;
+    private static final double MIN_SPEED = 0.00;
+    private static final double MAX_SPEED = 1.00;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -56,9 +54,9 @@ public class Electron extends SpacialObservable implements ModelElement {
         super();
         _enabled = true;
         _curves = null;
-        _curveIndex = 0;
-        _positionAlongCurve = 1.0;
-        _speed = 0.0;
+        _curveIndex = 0; // first curve
+        _positionAlongCurve = 1.0; // curve's start point
+        _speed = 0.0;  // not moving
     }
 
     //----------------------------------------------------------------------------
@@ -177,18 +175,22 @@ public class Electron extends SpacialObservable implements ModelElement {
             // If we've reached the end of the current path, move to the next path.
             // Handle motion in both directions.
             if ( _positionAlongCurve <= 0 ) {
-                _positionAlongCurve = 1.0;
+                // Move to the next curve, with wrap around.
                 _curveIndex++;
                 if ( _curveIndex >= _curves.size() ) {
                     _curveIndex = 0;
                 }
+                // Set the position on the next curve.
+                _positionAlongCurve = 1.0 + _positionAlongCurve;
             }
             else if ( _positionAlongCurve >= 1 ) {
-                _positionAlongCurve = 0.0;
+                // Move to the previous curve, with wrap around.
                 _curveIndex--;
                 if ( _curveIndex < 0 ) {
                     _curveIndex = _curves.size() - 1;
                 }
+                // Set the position on the next curve.
+                _positionAlongCurve = 0.0 + ( _positionAlongCurve % 1 );
             }
 
             // Evaluate the quadratic to determine XY location.
