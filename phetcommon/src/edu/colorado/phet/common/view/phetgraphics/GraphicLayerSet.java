@@ -283,9 +283,9 @@ public class GraphicLayerSet extends PhetGraphic {
      */
     protected void handleEntranceAndExit( MouseEvent e ) {
         // Find the topmost graphic that can handle the event
-        PhetGraphic unit = getHandler( e.getPoint() );
-//        System.out.println( "unit = " + unit );
-        if( unit == null ) {
+        PhetGraphic newUnit = getHandler( e.getPoint() );
+//        System.out.println( "newUnit = " + newUnit );
+        if( newUnit == null ) {
             // If the mouse isn't over anything contained in the
             // CompositeGraphic...
             if( activeUnit != null ) {
@@ -293,19 +293,19 @@ public class GraphicLayerSet extends PhetGraphic {
                 activeUnit = null;
             }
         }
-        else {//unit was non-null.
-            if( activeUnit == unit ) {
+        else {//newUnit was non-null.
+            if( activeUnit == newUnit ) {
                 //same guy
             }
             else if( activeUnit == null ) {
-                //Fire a mouse entered, set the active unit.
-                activeUnit = unit;
+                //Fire a mouse entered, set the active newUnit.
+                activeUnit = newUnit;
                 activeUnit.fireMouseEntered( e );
             }
-            else if( activeUnit != unit ) {
+            else if( activeUnit != newUnit ) {
                 //Switch active units.
                 activeUnit.fireMouseExited( e );
-                activeUnit = unit;
+                activeUnit = newUnit;
                 activeUnit.fireMouseEntered( e );
             }
         }
@@ -422,6 +422,17 @@ public class GraphicLayerSet extends PhetGraphic {
             }
         }
 
+        /**
+         * When the user releases the mouse, the following happens:
+         * 1. The active unit gets a mouse release event.
+         * 2. If the mouse has left the active unit:
+         * a. A mouse exited event is fired on the active unit.
+         * b. We check to see if the mouse is over a different interactive graphic.  If so:
+         * ii. Fire a mouse Entered on the new unit.
+         * 3.
+         *
+         * @param e
+         */
         public void mouseReleased( MouseEvent e ) {
             if( activeUnit != null ) {
                 activeUnit.fireMouseReleased( e );
