@@ -95,6 +95,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         numU235Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int netNuclei = setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
+                System.out.println( "netNuclei = " + netNuclei );
                 percentDecayTF.setText( "0" );
             }
         } );
