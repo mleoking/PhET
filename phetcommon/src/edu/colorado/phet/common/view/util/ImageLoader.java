@@ -35,6 +35,10 @@ public class ImageLoader {
         return instance.loadImage( str );
     }
 
+    public static BufferedImage loadBufferedImage( URL url ) throws IOException {
+        return instance.loadImage( url );
+    }
+
     public ImageLoader() {
         setPhetLoader();
         conversionStrategy = new ConversionStrategy() {
@@ -57,7 +61,14 @@ public class ImageLoader {
         if( imageUrl == null ) {
             throw new IOException( "Null image URL for resource name=" + name );
         }
-        Image image = loadStrategy.loadImage( imageUrl );
+        return loadImage( imageUrl );
+    }
+
+    public BufferedImage loadImage( URL imageURL ) throws IOException {
+        if( imageURL == null ) {
+            throw new IOException( "Null image URL." );
+        }
+        Image image = loadStrategy.loadImage( imageURL );
         BufferedImage buffy = conversionStrategy.toBufferedImage( image );
         return buffy;
     }

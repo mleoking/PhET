@@ -13,10 +13,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
@@ -232,6 +229,7 @@ public class BasicGraphicsTest implements SynchronizedRepaintDelegate {
 
     public BasicGraphicsTest() {
         frame = new JFrame();
+
         panel = new ApparatusPanel() {
             protected void paintComponent( Graphics graphics ) {
                 Graphics2D g2 = (Graphics2D)graphics;
@@ -244,7 +242,11 @@ public class BasicGraphicsTest implements SynchronizedRepaintDelegate {
                 super.paintComponent( graphics );
             }
         };
-
+        panel.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                System.out.println( panel.getBounds() );
+            }
+        } );
         frame.setContentPane( panel );
         panel.setSize( 400, 400 );
         frame.setSize( 400, 400 );
