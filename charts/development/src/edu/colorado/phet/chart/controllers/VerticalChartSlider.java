@@ -55,7 +55,7 @@ public class VerticalChartSlider {
         Rectangle r = chart.getViewBounds();
         LinearTransform1d transform1d = new LinearTransform1d( 0, numTicks, r.y + r.height, r.y );
         double output = transform1d.transform( value );
-        double modelValue = chart.getTransform().viewToModelY( (int)output );
+        double modelValue = chart.getModelViewTransform().viewToModelY( (int)output );
         return modelValue;
     }
 
@@ -89,7 +89,7 @@ public class VerticalChartSlider {
     }
 
     public void setValue( double y ) {
-        double viewY = chart.getTransform().modelToViewY( y );
+        double viewY = chart.getModelViewTransform().modelToViewY( y );
         Rectangle r = chart.getViewBounds();
         LinearTransform1d transform1d = new LinearTransform1d( r.y + r.height, r.y, 0, numTicks );
         int tick = (int)transform1d.transform( viewY );
