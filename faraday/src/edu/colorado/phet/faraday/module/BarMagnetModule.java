@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Point;
 
 import edu.colorado.phet.common.application.ApplicationModel;
@@ -36,7 +37,7 @@ import edu.colorado.phet.faraday.view.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BarMagnetModule extends Module {
+public class BarMagnetModule extends Module implements ICompassGridModule {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -61,6 +62,12 @@ public class BarMagnetModule extends Module {
     // Magnet parameters
     private static final double MAGNET_STRENGTH = 200;
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private CompassGridGraphic _gridGraphic;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -114,11 +121,10 @@ public class BarMagnetModule extends Module {
         apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
         // Grid
-        CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, magnetModel, 
-                FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setLocation( GRID_LOCATION );
-        gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
-        apparatusPanel.addGraphic( gridGraphic, GRID_LAYER );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, magnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic.setLocation( GRID_LOCATION );
+        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
         
         // CompassGraphic
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
@@ -145,12 +151,51 @@ public class BarMagnetModule extends Module {
         BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this, 
                 magnetModel, compassModel, magnetGraphic, fieldMeterGraphic );
         if ( FaradayConfig.ENABLE_DEVELOPER_CONTROLS ) {
-            controlPanel.addFullWidth( new DeveloperPanel( magnetModel, gridGraphic, null, apparatusPanel ) );
+            controlPanel.addFullWidth( new DeveloperPanel( magnetModel, _gridGraphic, null, apparatusPanel ) );
         }
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+    }
+
+    //----------------------------------------------------------------------------
+    // ICompassGridModule implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * @see edu.colorado.phet.faraday.module.ICompassGridModule#setGridSpacing(int, int)
+     */
+    public void setGridSpacing( int xSpacing, int ySpacing ) {
+        _gridGraphic.setSpacing( xSpacing, ySpacing );
+    }
+
+    /*
+     * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridXSpacing()
+     */
+    public int getGridXSpacing() {
+        return _gridGraphic.getXSpacing();
+    }
+
+    /*
+     * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridYSpacing()
+     */
+    public int getGridYSpacing() {
+        return _gridGraphic.getYSpacing();
     }  
+    
+    /*
+     * @see edu.colorado.phet.faraday.module.ICompassGridModule#setGridNeedleSize(Dimension)
+     */
+    public void setGridNeedleSize( Dimension size ) {
+        _gridGraphic.setNeedleSize( size );
+    }
+
+    /*
+     * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridNeedleSize()
+     */
+    public Dimension getGridNeedleSize() {
+        return _gridGraphic.getNeedleSize();
+    }
 }
