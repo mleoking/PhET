@@ -12,18 +12,16 @@
  */
 package edu.colorado.phet.lasers.controller.module;
 
-import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
-import edu.colorado.phet.lasers.controller.TwoLevelControlPanel;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
 
 import java.awt.geom.Point2D;
 
 public class TestApparatusModule extends SingleAtomBaseModule {
 
-//    private MonitorPanel monitorPanel = new TwoEnergyLevelMonitorPanel();
-//    private PhetControlPanel controlPanel = new TwoLevelControlPanel();
+    //    private MonitorPanel monitorPanel = new TwoEnergyLevelMonitorPanel();
+    //    private PhetControlPanel controlPanel = new TwoLevelControlPanel();
 
     /**
      *
@@ -35,18 +33,18 @@ public class TestApparatusModule extends SingleAtomBaseModule {
     public void activate( PhetApplication app ) {
         super.activate( app );
 
-//        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( new TwoEnergyLevelMonitorPanel() );
-//        PhetApplication.instance().getPhetMainPanel().setControlPanel( new TwoLevelControlPanel() );
+        //        PhetApplication.instance().getPhetMainPanel().setMonitorPanel( new TwoEnergyLevelMonitorPanel() );
+        //        PhetApplication.instance().getPhetMainPanel().setControlPanel( new TwoLevelControlPanel() );
 
 
         double newHeight = 100;
         ResonatingCavity cavity = this.getCavity();
-        double cavityHeight =  cavity.getHeight();
+        double cavityHeight = cavity.getHeight();
         Point2D cavityPos = cavity.getPosition();
-//        Vector2D cavityPos = cavity.getPosition();
+        //        Vector2D cavityPos = cavity.getPosition();
         double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
         cavity.setPosition( cavityPos.getX(), yNew );
-//        cavity.setHeight( newHeight );
+        //        cavity.setHeight( newHeight );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setStimulatedPhotonRate( 0.0f );

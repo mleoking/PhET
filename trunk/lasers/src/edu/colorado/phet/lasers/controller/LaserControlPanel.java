@@ -2,12 +2,7 @@
  * Class: LaserControlPanel
  * Package: edu.colorado.phet.lasers.controller
  * Author: Another Guy
- * Date: Mar 26, 2003
- * Latest Change:
- *      $Author$
- *      $Date$
- *      $Name$
- *      $Revision$
+ * Date: Oct 27, 2004
  */
 package edu.colorado.phet.lasers.controller;
 
@@ -26,13 +21,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ThreeLevelControlPanel extends PhetControlPanel {
+public class LaserControlPanel extends PhetControlPanel {
+    private boolean threeEnergyLevels;
+    private PumpingBeamControl pumpingBeamControl;
+    private HighEnergyHalfLifeControl highEnergyLifetimeControl;
+    private StimulatingBeamControl stimulatingBeamControl;
 
-    public ThreeLevelControlPanel( Module module, AbstractClock clock ) {
-        super( module, new ControlPanel( (LaserModel)module.getModel(), clock ) );
+    public LaserControlPanel( Module module, AbstractClock clock ) {
+        super( module );
+        super.setControlPane( new ControlPanel( (LaserModel)module.getModel(), clock ) );
     }
 
-    private static class ControlPanel extends JPanel {
+    public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
+        this.threeEnergyLevels = threeEnergyLevels;
+        pumpingBeamControl.setVisible( threeEnergyLevels );
+        highEnergyLifetimeControl.setVisible( threeEnergyLevels );
+    }
+
+    private class ControlPanel extends JPanel {
+
         ControlPanel( LaserModel model, AbstractClock clock ) {
             this.setLayout( new GridBagLayout() );
             GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
@@ -43,13 +50,16 @@ public class ThreeLevelControlPanel extends PhetControlPanel {
             Border border = BorderFactory.createEtchedBorder();
             this.setBorder( border );
 
-            this.add( new PumpingBeamControl( model.getPumpingBeam() ), gbc );
-            gbc.gridy++;
-            this.add( new StimulatingBeamControl( model ), gbc );
-            gbc.gridy++;
-            this.add( new HighEnergyHalfLifeControl( model ), gbc );
+            stimulatingBeamControl = new StimulatingBeamControl( model );
+            this.add( stimulatingBeamControl, gbc );
             gbc.gridy++;
             this.add( new MiddleEnergyHalfLifeControl( model ), gbc );
+            gbc.gridy++;
+            pumpingBeamControl = new PumpingBeamControl( model.getPumpingBeam() );
+            this.add( pumpingBeamControl, gbc );
+            gbc.gridy++;
+            highEnergyLifetimeControl = new HighEnergyHalfLifeControl( model );
+            this.add( highEnergyLifetimeControl, gbc );
             gbc.gridy++;
             ResonatingCavity cavity = model.getResonatingCavity();
             this.add( new RightMirrorReflectivityControlPanel( cavity ), gbc );
@@ -65,6 +75,12 @@ public class ThreeLevelControlPanel extends PhetControlPanel {
                     ( (LaserSimulation)PhetApplication.instance() ).displayHighToMidEmission( showHighToMidEmissionCB.isSelected() );
                 }
             } );
+            pumpingBeamControl.setVisible( threeEnergyLevels );
+            highEnergyLifetimeControl.setVisible( threeEnergyLevels );
         }
+    }
+
+    public void setMaxPhotonRate( double photonsPerSecond ) {
+        stimulatingBeamControl.setMaxPhotonRate( (int)photonsPerSecond );
     }
 }

@@ -88,4 +88,8 @@ public class StimulatingBeamControl extends JPanel implements SimpleObserver {
             photonRateSlider.setValue( (int)collimatedBeam.getPhotonsPerSecond() );
         }
     }
+
+    public void setMaxPhotonRate( double photonsPerSecond ) {
+        photonRateSlider.setMaximum( (int)photonsPerSecond );
+    }
 }
