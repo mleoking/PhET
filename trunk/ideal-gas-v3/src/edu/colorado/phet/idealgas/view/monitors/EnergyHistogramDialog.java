@@ -48,6 +48,8 @@ public class EnergyHistogramDialog extends JDialog {
         this.model = model;
         this.setTitle( SimStrings.get( "EnergyHistorgramDialog.Title" ) );
 
+        this.setUndecorated( true );
+        this.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
         this.setResizable( false );
 
         // Create the histograms
