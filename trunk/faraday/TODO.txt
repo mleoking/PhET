@@ -7,10 +7,10 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - trace/scan the AC wave with a cursor that represents "now"
-- add an X/Y axis at center of the AC display, keep zero-crossing of wave at origin
+- add an X/Y axis at center of the AC display
+- keep zero-crossing of AC sine wave at origin of the XY axis
 - set low end of AC frequency to 10%
 - add playback controls to relevant modules (override Module.activate/deactivate)
-- label ACSourceGraphic with "AC Power Source"
 - look for a better AC power source graphic
 - label current source choices "DC" and "AC"
 - add a water wheel graphic to turbine, paddles as wide as widest water stream
@@ -67,6 +67,7 @@ PHETCOMMON:
 
 DONE:
 v0r19...
+(3/16) - label ACSourceGraphic with "AC Power Supply"
 (3/16) - add field meter to Transformer & Generator modules
 v0r18...
 (3/16) - used icons in control panels for selecting current source and pickup indicator
