@@ -21,7 +21,7 @@ public class Module {
 
     BaseModel model;
     ApparatusPanel apparatusPanel;
-    JPanel controlPanel;
+    JComponent controlPanel;
     JPanel monitorPanel;
     String name;
     HelpManager helpManager = new HelpManager();
@@ -47,7 +47,7 @@ public class Module {
         helpManager.removeHelpItem( helpItem );
     }
 
-    public JPanel getControlPanel() {
+    public JComponent getControlPanel() {
         return controlPanel;
     }
 
@@ -63,7 +63,7 @@ public class Module {
         this.model = model;
     }
 
-    protected void setControlPanel( JPanel controlPanel ) {
+    protected void setControlPanel( JComponent controlPanel ) {
         this.controlPanel = controlPanel;
     }
 

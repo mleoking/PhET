@@ -212,7 +212,8 @@ public class CCK3Module extends Module {
         CCK3ControlPanel controlPanel = null;
         controlPanel = new CCK3ControlPanel( this );
         this.cck3controlPanel = controlPanel;
-        setControlPanel( controlPanel );
+        JScrollPane jsp = new JScrollPane( cck3controlPanel );
+        setControlPanel( jsp );
         //        doinit();
         //        inited = true;
         messageGraphic = new PhetShadowTextGraphic( getApparatusPanel(), "text", new Font( "Lucida Sans", Font.BOLD, 16 ), 100, 100, Color.red, 1, 1, Color.black );
