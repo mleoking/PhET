@@ -11,6 +11,7 @@ HIGH:
 - alpha channel in lightbulb emission
 
 MEDIUM:
+- collision avoidance
 - correct lighting on flipped bar magnet
 - ControlPanel base class that handles layout
 - Transformer module
