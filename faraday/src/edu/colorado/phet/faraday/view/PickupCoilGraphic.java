@@ -198,9 +198,6 @@ public class PickupCoilGraphic {
                 // Position this composite graphic.
                 setLocation( (int) _coilModel.getX(), (int) _coilModel.getY() );
 
-                // Get the coil's EMF.
-                double emf = _coilModel.getEMF();
-
                 // Set the number of loops in the coil.
                 {
                     Component component = getComponent();
@@ -338,9 +335,6 @@ public class PickupCoilGraphic {
 
                 // Position this composite graphic.
                 setLocation( (int) _coilModel.getX(), (int) _coilModel.getY() );
-
-                // Get the coil's EMF.
-                double emf = _coilModel.getEMF();
 
                 // Set the number of loops in the coil.
                 {
