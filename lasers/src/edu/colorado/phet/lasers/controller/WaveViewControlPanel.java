@@ -79,9 +79,9 @@ public class WaveViewControlPanel extends JPanel {
         pumpCurtainViewRB.addActionListener( new PumpPhotonRBListener() );
 
         gbc.gridy = 0;
-        this.add( lasingViewPanel, gbc );
-        gbc.gridy++;
         this.add( pumpViewPanel, gbc );
+        gbc.gridy++;
+        this.add( lasingViewPanel, gbc );
 
         // Set the initial conditions
         pumpCurtainViewRB.setSelected( true );

@@ -199,7 +199,10 @@ public class BaseLaserModule extends Module {
         this.lasingPhotonView = lasingPhotonView;
         switch( lasingPhotonView ) {
             case PHOTON_DISCRETE:
-                getApparatusPanel().removeGraphic( waveGraphic );
+                if( waveGraphic != null ) {
+                    getApparatusPanel().removeGraphic( waveGraphic.getInternalStandingWave() );
+                    getApparatusPanel().removeGraphic( waveGraphic.getExternalStandingWave() );
+                }
                 waveGraphic = null;
                 break;
             case PHOTON_WAVE:
@@ -207,7 +210,8 @@ public class BaseLaserModule extends Module {
                     waveGraphic = new StandingWaveGraphic( getApparatusPanel(), getCavity(),
                                                            rightMirror, getModel(), MiddleEnergyState.instance() );
                 }
-                addGraphic( waveGraphic, 20 );
+                addGraphic( waveGraphic.getInternalStandingWave(), LaserConfig.MIRROR_LAYER + 1 );
+                addGraphic( waveGraphic.getExternalStandingWave(), LaserConfig.MIRROR_LAYER - 1 );
                 break;
             default :
                 throw new RuntimeException( "Invalid parameter value" );
