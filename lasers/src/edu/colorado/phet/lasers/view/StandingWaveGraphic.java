@@ -92,7 +92,12 @@ public class StandingWaveGraphic extends PhetGraphic implements Photon.LeftSyste
 
     private double getExternalAmplitude() {
         double n = getNumLasingPhotons();
-        return mirror.getReflectivity() == 1 ? 0 : n * Math.sqrt( 1 - mirror.getReflectivity() );
+        if( mirror != null ) {
+            return mirror.getReflectivity() == 1 ? 0 : n * Math.sqrt( 1 - mirror.getReflectivity() );
+        }
+        else {
+            return 0;
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////

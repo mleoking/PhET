@@ -49,8 +49,9 @@ public class BaseLaserModule extends Module {
     static protected final double s_boxWidth = 300;
     static protected final double s_laserOffsetX = 100;
 
-    static private final int PHOTON_DISCRETE = 0;
-    static private final int PHOTON_WAVE = 1;
+    static public final int PHOTON_DISCRETE = 0;
+    static public final int PHOTON_WAVE = 1;
+    static public final int PHOTON_CURTAIN = 2;
 
     private ResonatingCavity cavity;
     private Point2D laserOrigin;
@@ -64,10 +65,12 @@ public class BaseLaserModule extends Module {
     // Used to save and restore state when the module is activated and deactivated
     private boolean energyDialogIsVisible;
     private EnergyLevelMonitorPanel energyLevelsMonitorPanel;
-    private CollimatedBeam stimulatingBeam;
+    private CollimatedBeam seedBeam;
     private CollimatedBeam pumpingBeam;
     private JPanel reflectivityControlPanel;
     private int photonView;
+    private int pumpingPhotonView;
+    private int lasingPhotonView = PHOTON_DISCRETE;
     private WaveBeamGraphic beamGraphic;
     private StandingWaveGraphic waveGraphic;
 
@@ -93,14 +96,14 @@ public class BaseLaserModule extends Module {
         apparatusPanel.setBackground( Color.white );
 
         // Create the pumping and stimulating beams
-        stimulatingBeam = new CollimatedBeam( Photon.RED,
-                                              s_origin,
-                                              s_boxHeight - Photon.s_radius,
-                                              s_boxWidth + s_laserOffsetX * 2,
-                                              new Vector2D.Double( 1, 0 ) );
-        stimulatingBeam.addListener( new PhotonEmissionListener() );
-        stimulatingBeam.setEnabled( true );
-        getLaserModel().setStimulatingBeam( stimulatingBeam );
+        seedBeam = new CollimatedBeam( Photon.RED,
+                                       s_origin,
+                                       s_boxHeight - Photon.s_radius,
+                                       s_boxWidth + s_laserOffsetX * 2,
+                                       new Vector2D.Double( 1, 0 ) );
+        seedBeam.addListener( new PhotonEmissionListener() );
+        seedBeam.setEnabled( true );
+        getLaserModel().setStimulatingBeam( seedBeam );
 
         pumpingBeam = new CollimatedBeam( Photon.BLUE,
                                           new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
@@ -118,9 +121,6 @@ public class BaseLaserModule extends Module {
         getModel().addModelElement( cavity );
         ResonatingCavityGraphic cavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
         addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
-
-        // Add the mirrors
-        //        createMirrors();
 
         // Create the energy levels dialog
         energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( laserModel );
@@ -156,49 +156,65 @@ public class BaseLaserModule extends Module {
         energyLevelsDialog.setVisible( false );
     }
 
+    public int getLasingPhotonView() {
+        return lasingPhotonView;
+    }
 
-    public void setPhotonView() {
-        setPhotonView( PHOTON_DISCRETE );
-        if( beamGraphic != null ) {
-            getApparatusPanel().removeGraphic( beamGraphic );
-            beamGraphic = null;
-            getApparatusPanel().removeGraphic( waveGraphic );
-            waveGraphic = null;
+    public void setLasingPhotonView( int lasingPhotonView ) {
+        this.lasingPhotonView = lasingPhotonView;
+        switch( lasingPhotonView ) {
+            case PHOTON_DISCRETE:
+                getApparatusPanel().removeGraphic( waveGraphic );
+                waveGraphic = null;
+                break;
+            case PHOTON_WAVE:
+                waveGraphic = new StandingWaveGraphic( getApparatusPanel(), getCavity(),
+                                                       rightMirror, getModel(), MiddleEnergyState.instance() );
+                addGraphic( waveGraphic, 20 );
+                break;
+            default :
+                throw new RuntimeException( "Invalid parameter value" );
         }
     }
 
-    public void setWaveView() {
-        setPhotonView( PHOTON_WAVE );
-        beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity(), getModel() );
-        addGraphic( beamGraphic, 1 );
-        waveGraphic = new StandingWaveGraphic( getApparatusPanel(), getCavity(),
-                                               rightMirror, getModel(), MiddleEnergyState.instance() );
-        addGraphic( waveGraphic, 20 );
-    }
-
-    private void setPhotonView( int viewType ) {
-        photonView = viewType;
+    public void setPumpingPhotonView( int pumpingPhotonView ) {
+        this.pumpingPhotonView = pumpingPhotonView;
+        switch( pumpingPhotonView ) {
+            case PHOTON_DISCRETE:
+                getApparatusPanel().removeGraphic( beamGraphic );
+                beamGraphic = null;
+                break;
+            case PHOTON_CURTAIN:
+                beamGraphic = new WaveBeamGraphic( getApparatusPanel(), pumpingBeam, getCavity(), getModel() );
+                addGraphic( beamGraphic, 1 );
+                break;
+            default :
+                throw new RuntimeException( "Invalid parameter value" );
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Implementations of listeners interfaces
     //
-
     public class PhotonEmissionListener implements PhotonEmittedListener {
         public void photonEmittedEventOccurred( PhotonEmittedEvent event ) {
             Photon photon = event.getPhoton();
             getModel().addModelElement( photon );
-            if( photonView == PHOTON_DISCRETE ) {
+            // Is it a pumping beam photon, and are we viewing discrete photons?
+            if( pumpingPhotonView == PHOTON_DISCRETE
+                && photon.getWavelength() == pumpingBeam.getWavelength() ) {
                 final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
-                //                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
                 addGraphic( pg, LaserConfig.PHOTON_LAYER );
-
                 // Add a listener that will remove the graphic if the photon leaves the system
-                // todo: change to new listener model
                 photon.addListener( new PhotonLeftSystemListener( pg ) );
             }
-            else {
-
+            // Is it a lasing wavelength photon, and are we viewing discrete photons?
+            if( lasingPhotonView == PHOTON_DISCRETE
+                && photon.getWavelength() == MiddleEnergyState.instance().getWavelength() ) {
+                final PhotonGraphic pg = new PhotonGraphic( getApparatusPanel(), photon );
+                addGraphic( pg, LaserConfig.PHOTON_LAYER );
+                // Add a listener that will remove the graphic if the photon leaves the system
+                photon.addListener( new PhotonLeftSystemListener( pg ) );
             }
         }
     }

@@ -2,7 +2,6 @@ package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.controller.module.WaveViewControlPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
