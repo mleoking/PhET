@@ -88,14 +88,14 @@ public class ElectromagnetModule extends FaradayModule {
         Battery batteryModel = new Battery();
         batteryModel.setMaxVoltage( FaradayConfig.BATTERY_VOLTAGE_MAX  );
         batteryModel.setAmplitude( 1.0 );
-        batteryModel.setEnabled( false );
+        batteryModel.setEnabled( true );
         
         // AC Power Supply
         ACPowerSupply acPowerSupplyModel = new ACPowerSupply();
         acPowerSupplyModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
         acPowerSupplyModel.setMaxAmplitude( 0.5 );
         acPowerSupplyModel.setFrequency( 0.5 );
-        acPowerSupplyModel.setEnabled( true );
+        acPowerSupplyModel.setEnabled( false );
         model.addModelElement( acPowerSupplyModel );
         
         // Source Coil
@@ -176,6 +176,16 @@ public class ElectromagnetModule extends FaradayModule {
         // Collision detection
         electromagnetGraphic.getCollisionDetector().add( compassGraphic );
         compassGraphic.getCollisionDetector().add( electromagnetGraphic );
+        
+        // DEBUG
+        {
+            batteryModel.setEnabled( false );
+            acPowerSupplyModel.setEnabled( true );
+            sourceCoilModel.setVoltageSource( acPowerSupplyModel );
+            compassModel.setEnabled( false );
+            gridGraphic.setVisible( false );
+            electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( false );
+        }
         
         //----------------------------------------------------------------------------
         // Control
