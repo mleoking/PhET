@@ -12,11 +12,13 @@ package edu.colorado.phet.common.view.components.menu;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.util.VersionUtils;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * HelpMenu
@@ -25,8 +27,13 @@ import java.awt.event.ActionListener;
  * @version $Revision$
  */
 public class HelpMenu extends JMenu {
-    public HelpMenu( final ApplicationModel appDescriptor ) {
+    private ImageIcon icon;
+
+    public HelpMenu( final ApplicationModel appDescriptor ) throws IOException {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
+
+        icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" ) );
+
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
 
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
@@ -49,7 +56,8 @@ public class HelpMenu extends JMenu {
             final String msg = message;
             about.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + name, JOptionPane.INFORMATION_MESSAGE );
+
+                    JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + name, JOptionPane.INFORMATION_MESSAGE, icon );
                 }
             } );
 
