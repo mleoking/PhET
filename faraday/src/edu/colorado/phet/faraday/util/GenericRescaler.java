@@ -129,11 +129,8 @@ public class GenericRescaler implements IRescaler {
      */
     public double rescale( double scale ) {
         assert( scale >=0 && scale <= 1 );
-        double newScale;
-        if ( scale == 0 || scale == 1 ) {
-            newScale = scale;
-        }
-        else {
+        double newScale = 0;
+        if ( scale != 0 ) {
             double referenceScale = ( _reference - _minReference ) / ( _maxReference - _minReference );
             if ( scale > _threshold ) {
                 newScale = referenceScale;
