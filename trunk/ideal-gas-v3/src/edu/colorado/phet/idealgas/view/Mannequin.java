@@ -74,6 +74,7 @@ public class Mannequin extends PhetGraphic implements SimpleObserver {
             currLeanerFrame = leaner.getPrevFrame();
         }
 
+        this.setBoundsDirty();
         this.repaint();
     }
 

@@ -1,0 +1,4 @@
+- molecules can escape the box
+- hollow sphere doesn't stay in the box
+- pressure slice graphic overlays mannequin
+- when hollow sphere is only thing in the box, the gravity response is jerky

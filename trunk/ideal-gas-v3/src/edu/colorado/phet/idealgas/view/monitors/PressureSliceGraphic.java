@@ -20,9 +20,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Observable;
 
 public class PressureSliceGraphic extends DefaultInteractiveGraphic {
+
+    private float s_overlayTransparency = 0.3f;
 
     private double y;
     private Rectangle2D.Double boundingRect = new Rectangle2D.Double();
@@ -49,7 +50,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
         this.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
                 double newY = Math.min( box.getMaxY(),
-                                       Math.max( y + dy, box.getMinY() ));
+                                        Math.max( y + dy, box.getMinY() ) );
                 y = newY;
             }
         } );
@@ -81,8 +82,8 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
 
             // Clear the drawing area and rebuild it
             drawingArea.exclusiveOr( drawingArea );
-            drawingArea.add( new Area( boundingRect ));
-            drawingArea.add( new Area( readoutRectangle ));
+            drawingArea.add( new Area( boundingRect ) );
+            drawingArea.add( new Area( readoutRectangle ) );
             setBoundsDirty();
             repaint();
         }
@@ -114,7 +115,7 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
             g2.draw( boundingRect );
 
             // Draw the framing rectangle for the readout
-            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.3f ) );
+            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, s_overlayTransparency ) );
             g2.fill( readoutRectangle );
             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
             g2.draw( readoutRectangle );
@@ -124,8 +125,12 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
                                                (int)( readoutRectangle.getMinY() + borderThickness ) );
             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
             g2.drawRoundRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight, 5, 5 );
+
             g2.setColor( Color.WHITE );
+            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
             g2.fillRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight );
+
+            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
             g2.setColor( Color.yellow );
             g2.drawRoundRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight, 5, 5 );
             int strLocY = readoutLocation.y + fontMetrics.getAscent() / 2;
@@ -149,12 +154,6 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
             // assumes it is 1.
             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
         }
-
-        public void update( Observable o, Object arg ) {
-            temperature = pressureSlice.getTemperature();
-            pressure = pressureSlice.getPressure();
-        }
-
     }
 
 }

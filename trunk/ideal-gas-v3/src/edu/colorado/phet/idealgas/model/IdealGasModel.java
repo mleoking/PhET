@@ -172,20 +172,34 @@ public class IdealGasModel extends BaseModel {
     }
 
     public void addModelElement( ModelElement modelElement ) {
-        super.addModelElement( modelElement );
-        if( modelElement instanceof Body ) {
-            Body body = (Body)modelElement;
-            //            this.box.addContainedBody( body );
-            addKineticEnergyToSystem( body.getKineticEnergy() );
-            bodies.add( body );
+        if( modelElement instanceof Gravity ) {
+            addExternalForce( modelElement );
+        }
+        else {
+            super.addModelElement( modelElement );
+            if( modelElement instanceof Body ) {
+                Body body = (Body)modelElement;
+                //            this.box.addContainedBody( body );
+                addKineticEnergyToSystem( body.getKineticEnergy() );
+                bodies.add( body );
+            }
         }
     }
 
-    public synchronized /* 3/11/04 */ void addExternalForce( Force force ) {
+    public void removeModelElement( ModelElement modelElement ) {
+        if( modelElement instanceof Gravity ) {
+            removeExternalForce( modelElement );
+        }
+        else {
+            super.removeModelElement( modelElement );
+        }
+    }
+
+    public synchronized /* 3/11/04 */ void addExternalForce( ModelElement force ) {
         externalForces.add( force );
     }
 
-    public synchronized /* 3/11/04 */ void removeExternalForce( Force force ) {
+    public synchronized /* 3/11/04 */ void removeExternalForce( ModelElement force ) {
         externalForces.remove( force );
     }
 
@@ -223,6 +237,12 @@ public class IdealGasModel extends BaseModel {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             body.setAccelerationNoUpdate( 0, 0 );
+        }
+
+        // Apply external forces (e.g., gravity )
+        for( int i = 0; i < externalForces.size(); i++ ) {
+            ModelElement me = (ModelElement)externalForces.get( i );
+            me.stepInTime( dt );
         }
 
         addHeatFromStove();
