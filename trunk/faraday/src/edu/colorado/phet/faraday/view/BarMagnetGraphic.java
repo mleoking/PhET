@@ -67,7 +67,8 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
     public void update() {
         clearTransform();
         rotate( Math.toRadians( _barMagnetModel.getDirection() ) );
-        scale( _barMagnetModel.getStrength() / _initialStrength );
+//        scale( _barMagnetModel.getStrength() / _initialStrength );
+        scale( 0.5 ); //XXX
         translate( _barMagnetModel.getX(), _barMagnetModel.getY() );
     }
 }

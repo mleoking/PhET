@@ -132,9 +132,9 @@ public class CompassGridModule extends Module {
         //----------------------------------------------------------------------------
         
         apparatusPanel.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                resetGridSpacing();
-            }
+//            public void componentResized( ComponentEvent e ) {
+//                resetGridSpacing();
+//            }
             
             public void componentShown( ComponentEvent e ) {
                 resetGridSpacing();
@@ -168,7 +168,7 @@ public class CompassGridModule extends Module {
     
     public void scaleBarMagnetStrength( double scale ) {
         System.out.println( "scaleBarMagnetStrength " + scale ); // DEBUG
-        _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH * scale );
+        // XXX
     }
     
     public void setGridSpacing( int x, int y ) {
