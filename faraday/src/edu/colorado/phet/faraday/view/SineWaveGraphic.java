@@ -50,6 +50,8 @@ public class SineWaveGraphic extends PhetShapeGraphic {
     private double _startAngle;
     // The angle at the rightmost point on the wave.
     private double _endAngle;
+    // Paths that describe the two halves of the sine wave.
+    private GeneralPath _positivePath, _negativePath;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -66,8 +68,9 @@ public class SineWaveGraphic extends PhetShapeGraphic {
         assert( viewportSize != null );
         
         _viewportSize = viewportSize;
-        
         _maxCycles = 5;
+        _positivePath = new GeneralPath();
+        _negativePath = new GeneralPath();
         
         setBorderColor( Color.GREEN );
         setStroke( new BasicStroke( 1f ) );
@@ -172,27 +175,26 @@ public class SineWaveGraphic extends PhetShapeGraphic {
             final double numCycles = _frequency * _maxCycles;
             // Change in angle per change in X.
             final double deltaAngle = ( 2 * Math.PI * numCycles ) / _viewportSize.width;
-            
-            GeneralPath positivePath = new GeneralPath();
-            GeneralPath negativePath = new GeneralPath();
 
             // Start with 180 degree phase angle at (0,0).
             final double phaseAngle = Math.PI;
-            positivePath.moveTo( 0, 0 );
-            negativePath.moveTo( 0, 0 );
+            _positivePath.reset();
+            _positivePath.moveTo( 0, 0 );
+            _negativePath.reset();
+            _negativePath.moveTo( 0, 0 );
 
             // Work outwards in positive and negative X directions.
             double angle = 0;
             for ( double x = 1; x <= _viewportSize.width / 2.0; x++ ) {
                 angle = phaseAngle + ( x * deltaAngle );
                 double y = _amplitude * Math.sin( angle ) * _viewportSize.height / 2;
-                positivePath.lineTo( (float) x, (float) -y );  // +Y is up
-                negativePath.lineTo( (float) -x, (float) y );  // +Y is up
+                _positivePath.lineTo( (float) x, (float) -y );  // +Y is up
+                _negativePath.lineTo( (float) -x, (float) y );  // +Y is up
             }
             
             // Set the shape.
-            positivePath.append( negativePath, false );
-            setShape( positivePath );
+            _positivePath.append( _negativePath, false );
+            setShape( _positivePath );
 
             // Make the start & end angle positive values, maintaining phase.
             _startAngle = ( ( 2 * Math.PI ) - ( angle % ( 2 * Math.PI) ) ) % ( 2 * Math.PI );
