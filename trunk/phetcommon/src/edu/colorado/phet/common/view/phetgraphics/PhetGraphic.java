@@ -894,4 +894,29 @@ public abstract class PhetGraphic {
             lastBounds.setBounds( bounds );
         }
     }
+
+    /**
+     * Determine the Local Bounds of this PhetGraphic, ie, the bounds of this PhetGraphic without accounting for any parent transforms.
+     *
+     * @return the bounds of this PhetGraphic without accounting for parent transforms.
+     */
+
+    public Rectangle getLocalBounds() {
+        if( parent == null ) {
+            return getBounds();
+        }
+        else {
+            Rectangle global = getBounds();
+            AffineTransform parentTransform = parent.getNetTransform();
+            try {
+                AffineTransform inverse = parentTransform.createInverse();
+                Rectangle localBounds = inverse.createTransformedShape( global ).getBounds();
+                return localBounds;
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+                throw new RuntimeException( e );
+            }
+        }
+    }
 }
