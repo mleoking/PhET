@@ -7,8 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - trace/scan the AC wave with a cursor that represents "now"
-- add playback controls to relevant modules (override Module.activate/deactivate)
-- label current source choices "DC" and "AC"
 - add a water wheel graphic to turbine, paddles as wide as widest water stream
 - RPM readout on turbine (at center of rotation?)
 - tick marks around voltmeter display
@@ -62,6 +60,7 @@ PHETCOMMON:
 
 DONE:
 v0r19...
+(3/17) - label electromagnet current source choices "DC" and "AC"
 (3/17) - flatten all static graphic components of AC Power Supply
 (3/17) - keep zero-crossing of AC sine wave at origin of the XY axis
 (3/17) - fix bug in the number of cycles displayed by AC
@@ -280,6 +279,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(3/17) - add playback controls to relevant modules (code & semantics do not support this on a per-Module basis)
 (3/16) - collision detection in Generator & Transformer modules (fine as is)
 (2/23) - handle rescaling in VoltmeterGraphic instead of in Voltmeter model (rotational kinematics of needle requires rescaling)
 (2/17) - disable "See Inside Magnet" control when grid is off (control was removed)

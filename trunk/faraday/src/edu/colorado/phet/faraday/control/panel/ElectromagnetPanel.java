@@ -163,22 +163,30 @@ public class ElectromagnetPanel extends FaradayPanel {
             
             // Radio buttons
             try {
-                // Radio buttons with icons.
+                // Radio buttons with text & icons.
                 ImageIcon batteryIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.BATTERY_ICON ) );
                 ImageIcon batteryIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.BATTERY_ICON_SELECTED ) );
+                _batteryRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.dc" ), batteryIcon );
+                _batteryRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
+                _batteryRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
+                _batteryRadioButton.setSelectedIcon( batteryIconSelected );
+                
                 ImageIcon acIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.AC_POWER_SUPPLY_ICON ) );
                 ImageIcon acIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.AC_POWER_SUPPLY_ICON_SELECTED ) );
-                _batteryRadioButton = new JRadioButton( batteryIcon );
-                _batteryRadioButton.setSelectedIcon( batteryIconSelected );
-                _acRadioButton = new JRadioButton( acIcon );
+                _acRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.ac" ), acIcon );
+                _acRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
+                _acRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
                 _acRadioButton.setSelectedIcon( acIconSelected );
+                
+                // Horizontal layout
                 layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
                 layout.addAnchoredComponent( _acRadioButton, 0, 1, GridBagConstraints.WEST );
             }
-            catch ( IOException ioe ) {
+            catch ( IOException ioe ) {  /* Fallback... */
                 // Radio buttons with text.
-                _batteryRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.dcSource" ) );
-                _acRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.acSource" ) );
+                _batteryRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.dc" ) );
+                _acRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.ac" ) );
+                // Vertical layout
                 layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
                 layout.addAnchoredComponent( _acRadioButton, 1, 0, GridBagConstraints.WEST );
             }
