@@ -6,18 +6,19 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.idealgas.IdealGasConfig;
-
 import java.util.ResourceBundle;
 
 public class SimStrings {
 
     private static ResourceBundle localizedStrings;
-    static {
-        localizedStrings = ResourceBundle.getBundle( IdealGasConfig.localizedStringsPath );
+    public static void setStrings( String stringsPath ) {
+        localizedStrings = ResourceBundle.getBundle( stringsPath );
     }
 
     public static String get( String key ) {
+        if( localizedStrings == null ) {
+            throw new RuntimeException( "Strings not initialized" );
+        }
         return localizedStrings.getString( key );
     }
 }
