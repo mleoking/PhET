@@ -1,11 +1,10 @@
 "To Do" list for "faraday" simulation
 
 IN PROGRESS:
-- model element for lightbulb
 - determine how to make compass grid use field vector magnitude
 
 HIGH:
-- model element for voltmeter
+- determine the role of "current" in the model
 - add inertia to voltmeter needle
 - averaging of values so that lightbulb & voltmeter behave smoothly
 - how to separate PhetCoilGraphic into foreground & background layers
@@ -26,6 +25,8 @@ LOW:
 - correct lighting on flipped bar magnet
 
 DONE:
+(1/14) - fix PickupCoil.stepInTime to properly set EMF and induced current
+(1/14) - model elements for lightbulb and voltmeter
 (1/13) - add inertia to compass needle
 (1/12) - dipole stuff is screwed up when magnet polarity is flipped
 (1/11) - add B-field probe

@@ -15,17 +15,17 @@ import edu.colorado.phet.common.util.SimpleObservable;
 
 
 /**
- * ICurrentSource
+ * IVoltageSource
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public interface ICurrentSource {
+public interface IVoltageSource {
 
     /**
-     * Gets the current value (in ampheres) of the current source.
+     * Gets the voltage (in volts) produced.
      * 
-     * @return the current value, in amps
+     * @return the voltage, in volts
      */
-    public double getCurrent();
+    public double getVoltage();
 }
