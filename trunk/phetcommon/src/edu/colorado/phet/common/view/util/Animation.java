@@ -90,7 +90,6 @@ public class Animation {
     //
     // Static fields and methods
     //
-
     /**
      *
      */

@@ -1,7 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.common.examples;
 
-import edu.colorado.phet.common.view.plaf.AnimFactoryLookAndFeel;
+//import edu.colorado.phet.common.view.plaf.AnimFactoryLookAndFeel;
 import edu.colorado.phet.common.view.plaf.PlafUtil;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
@@ -84,7 +84,7 @@ public class TestComponents {
 //        PlafUtil.applyPlayful();
 
 
-        UIManager.setLookAndFeel( AnimFactoryLookAndFeel.class.getName() );
+//        UIManager.setLookAndFeel( AnimFactoryLookAndFeel.class.getName() );
         PlafUtil.updateFrames();
 
 
