@@ -1,3 +1,4 @@
+- Test setting locale via command line parameter, not property
 - put digital readouts on thermometer and pressure gauge. Tick marks on thermometer
 - Put pump, box and mannequin on common baseline
 - consolidate MoleculePanel classes in RigidHollowSphere and HeliumBalloon
