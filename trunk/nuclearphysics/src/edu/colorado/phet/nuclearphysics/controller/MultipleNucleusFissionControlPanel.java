@@ -50,18 +50,20 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 int modelNum = module.getU235Nuclei().size();
                 int viewNum = ( (Integer)numU235Spinner.getValue() ).intValue();
                 if( modelNum != viewNum ) {
-                    numU235Spinner.setValue( new Integer( module.getU235Nuclei().size() ) );
+//                    numU235Spinner.setValue( new Integer( module.getU235Nuclei().size() ) );
                 }
+
+                // Compute and display the number of U235 nuclei that have fissioned
+                if( startNumU235 != 0 ) {
+                    percentDecayTF.setText( Integer.toString( ( startNumU235 - modelNum ) * 100 / startNumU235 ) );
+                }
+
                 modelNum = module.getU238Nuclei().size();
                 viewNum = ( (Integer)numU238Spinner.getValue() ).intValue();
                 if( modelNum != viewNum ) {
-                    numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
+//                    numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
                 }
 
-                int currNumU235 = ( (Integer)numU235Spinner.getValue() ).intValue();
-                if( startNumU235 != 0 ) {
-                    percentDecayTF.setText( Integer.toString( ( startNumU235 - currNumU235 ) * 100 / startNumU235 ) );
-                }
             }
         } );
 
@@ -86,7 +88,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         numU235Spinner.setPreferredSize( new Dimension( 80, 30 ) );
         numU235Spinner.setFont( spinnerFont );
 
-        numU238Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 100, 1 ) );
+        numU238Spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 200, 1 ) );
         numU238Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setNumU238Nuclei( ( (Integer)numU238Spinner.getValue() ).intValue() );
@@ -100,6 +102,10 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             public void actionPerformed( ActionEvent e ) {
                 module.stop();
                 module.start();
+                startNumU235 = 0;
+                percentDecayTF.setText( "0" );
+                numU235Spinner.setValue( new Integer( 1 ) );
+                numU238Spinner.setValue( new Integer( 0 ) );
             }
         } );
 

@@ -31,6 +31,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     private ArrayList nuclei = new ArrayList();
     private ArrayList u235Nuclei = new ArrayList();
     private ArrayList u238Nuclei = new ArrayList();
+    private ArrayList neutrons = new ArrayList();
+    private ArrayList neutronGraphics = new ArrayList();
     private AbstractClock clock;
     private long orgDelay;
     private double orgDt;
@@ -77,28 +79,35 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
     }
 
     public void stop() {
+
+        // The class should be re-written so that everything is taken care
+        // of by the nuclei list, and the others don't need to be interated
+        // here
         for( int i = 0; i < nuclei.size(); i++ ) {
-            Nucleus nucleus = (Nucleus)nuclei.get( i );
-            getPhysicalPanel().removeNucleus( nucleus );
-            getModel().removeModelElement( nucleus );
+            removeNucleus( (Nucleus)nuclei.get( i ) );
         }
         for( int i = 0; i < u235Nuclei.size(); i++ ) {
-            Nucleus nucleus = (Nucleus)u235Nuclei.get( i );
-            getPhysicalPanel().removeNucleus( nucleus );
-            // Pretty ugly, but it works
-            getPhysicalPanel().removeGraphic( ( (Graphic)( (ArrayList)NucleusGraphic.getGraphicForNucleus( nucleus ) ).get( 0 ) ) );
-            getModel().removeModelElement( nucleus );
+            removeNucleus( (Nucleus)u235Nuclei.get( i ) );
         }
         for( int i = 0; i < u238Nuclei.size(); i++ ) {
-            Nucleus nucleus = (Nucleus)u238Nuclei.get( i );
-            getPhysicalPanel().removeNucleus( nucleus );
-            // Pretty ugly, but it works
-            getPhysicalPanel().removeGraphic( ( (Graphic)( (ArrayList)NucleusGraphic.getGraphicForNucleus( nucleus ) ).get( 0 ) ) );
-            getModel().removeModelElement( nucleus );
+            removeNucleus( (Nucleus)u238Nuclei.get( i ) );
+        }
+        for( int i = 0; i < daughterNuclei.size(); i++ ) {
+            removeNucleus( (Nucleus)daughterNuclei.get( i ) );
+        }
+        for( int i = 0; i < neutrons.size(); i++ ) {
+            Neutron neutron = (Neutron)neutrons.get( i );
+            getModel().removeModelElement( neutron );
+        }
+        for( int i = 0; i < neutronGraphics.size(); i++ ) {
+            getPhysicalPanel().removeGraphic( (Graphic)neutronGraphics.get( i ) );
+
         }
         nuclei.clear();
         u235Nuclei.clear();
         u238Nuclei.clear();
+        daughterNuclei.clear();
+        neutronGraphics.clear();
     }
 
     private void computeNeutronLaunchParams() {
@@ -181,6 +190,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
             getPhysicalPanel().removeGraphic( ng );
             super.remove( nucleus, ng );
         }
+        getPhysicalPanel().removeNucleus( nucleus );
+        getModel().removeModelElement( nucleus );
     }
 
     public void fireNeutron() {
@@ -190,6 +201,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
 //        double y = bounds * Math.sin( neutronLaunchGamma );
 //        neutronLaunchPoint = new Point2D.Double( x, y );
         Neutron neutron = new Neutron( neutronLaunchPoint, neutronLaunchGamma + Math.PI );
+        neutrons.add( neutron );
         super.addNeutron( neutron );
     }
 
@@ -220,6 +232,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
             NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
             getModel().addModelElement( neutronProducts[i] );
             getPhysicalPanel().addGraphic( npg );
+            neutrons.add( neutronProducts[i] );
+            neutronGraphics.add( npg );
         }
 
         // Add some pizzazz
