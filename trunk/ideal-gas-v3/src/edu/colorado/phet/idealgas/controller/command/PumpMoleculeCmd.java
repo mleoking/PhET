@@ -21,7 +21,6 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
     //public class PumpMoleculeCmd implements Command {
 
     //    protected IdealGasApplication application;
-    private IdealGasModel model;
     private GasMolecule molecule;
     private Module module;
     protected Class speciesClass;
@@ -50,7 +49,6 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
                             GasMolecule molecule,
                             Module module ) {
         super( model, molecule );
-        this.model = model;
         this.molecule = molecule;
         this.module = module;
         this.initialEnergy = DEFAULT_ENERGY;
@@ -58,7 +56,7 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
 
     public void doIt() {
         super.doIt();
-        molecule.setModel( model );
+//        molecule.setModel( model );
 
         PhetGraphic graphic = null;
         if( molecule instanceof HeavySpecies ) {

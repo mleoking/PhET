@@ -18,30 +18,21 @@ import java.util.Iterator;
  */
 public class HeavySpecies extends GasMolecule {
 
-    /**
-     * Constructor
-     */
     public HeavySpecies( Point2D position, Vector2D velocity, Vector2D acceleration, double mass ) {
         super( position, velocity, acceleration, s_defaultMass );
         init();
     }
 
-    /**
-     *
-     */
     private void init() {
         synchronized( s_instances ) {
             s_instances.add( this );
         }
     }
 
-    /**
-     *
-     */
-    public void removeFromSystem() {
-        throw new RuntimeException( "not implemented" );
-        //        super.removeFromSystem();
-        //        HeavySpecies.removeParticle( this );
+    public void removeYourselfFromSystem() {
+        super.removeYourselfFromSystem();
+        HeavySpecies.removeParticle( this );
+        notifyObservers();
     }
 
 

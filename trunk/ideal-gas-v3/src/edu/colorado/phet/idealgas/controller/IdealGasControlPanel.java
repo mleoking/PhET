@@ -27,7 +27,9 @@ import java.util.Random;
 
 public class IdealGasControlPanel extends JPanel {
 
-    //    private Gravity gravity = new Gravity( 0 );
+    private static final int s_stoveSliderHeight = 80;
+    private static final int s_gravityControlPanelHeight = 80;
+
     private NumberFormat gravityFormat = NumberFormat.getInstance();
     private JTextField gravityTF;
     private JCheckBox gravityOnCB;
@@ -56,26 +58,26 @@ public class IdealGasControlPanel extends JPanel {
         this.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         this.setPreferredSize( new Dimension( 140, 300 ) );
 
-        final JCheckBox fastPaintTestCB = new JCheckBox( "fast paint" );
-        fastPaintTestCB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                IdealGasConfig.fastPaint = fastPaintTestCB.isSelected();
-            }
-        } );
-        final JCheckBox neighbors = new JCheckBox( "Test" );
-        neighbors.setSelected( true );
-        final Random r = new Random();
-        neighbors.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                //                boolean rx = r.nextBoolean();
-                //                Config.regionTest = neighbors.isSelected();
-                //                CollisionGod.doNeighbors = neighbors.isSelected();
-                //                System.out.println( "rx = " + rx );
-            }
-        } );
+//        final JCheckBox fastPaintTestCB = new JCheckBox( "fast paint" );
+//        fastPaintTestCB.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                IdealGasConfig.fastPaint = fastPaintTestCB.isSelected();
+//            }
+//        } );
+//        this.add( fastPaintTestCB );
 
-        this.add( fastPaintTestCB );
-        //        this.add( neighbors );
+//        final JCheckBox neighbors = new JCheckBox( "Test" );
+//        neighbors.setSelected( true );
+//        final Random r = new Random();
+//        neighbors.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                //                boolean rx = r.nextBoolean();
+//                //                Config.regionTest = neighbors.isSelected();
+//                //                CollisionGod.doNeighbors = neighbors.isSelected();
+//                //                System.out.println( "rx = " + rx );
+//            }
+//        } );
+
 
         addConstantParamControls();
         addGravityControls();
@@ -399,7 +401,9 @@ public class IdealGasControlPanel extends JPanel {
         }
     }
 
-
+    protected IdealGasModule getModule() {
+        return module;
+    }
     //    private void makeScreenShot() {
     //        Window w = SwingUtilities.getWindowAncestor( this );
     //        BufferedImage bi = new BufferedImage( w.getWidth(), w.getHeight(),
@@ -427,13 +431,6 @@ public class IdealGasControlPanel extends JPanel {
     //        }
     //
     //    }
-
-    //
-    // Static fields and methods
-    //
-    private static final int s_stoveSliderHeight = 80;
-    private static final int s_gravityControlPanelHeight = 80;
-
 
 }
 

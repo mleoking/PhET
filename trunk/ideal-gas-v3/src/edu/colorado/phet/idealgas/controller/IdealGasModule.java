@@ -8,8 +8,10 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.Strings;
+import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
@@ -27,8 +29,13 @@ public class IdealGasModule extends Module {
     private Gravity gravity;
     private Pump pump;
 
+
     public IdealGasModule( AbstractClock clock ) {
-        super( Strings.idealGasModuleName );
+        this( clock, Strings.idealGasModuleName );
+    }
+
+    public IdealGasModule( AbstractClock clock, String name  ) {        
+        super( name );
 
         // Create the model
         idealGasModel = new IdealGasModel( clock.getDt() );
@@ -62,8 +69,6 @@ public class IdealGasModule extends Module {
         addGraphic( pusher, 10 );
 
         // Set up the control panel
-        //        PhetControlPanel controlPanel = new PhetControlPanel( this, new IdealGasControlPanel( this ));
-        //        setControlPanel( controlPanel );
         setControlPanel( new IdealGasControlPanel( this ) );
     }
 
@@ -95,5 +100,14 @@ public class IdealGasModule extends Module {
 
     public void setGravity( double value ) {
         gravity.setAmt( value );
+    }
+
+    public void pumpGasMolecules( int numMolecules ) {
+        pump.pump( numMolecules );
+    }
+
+    public void removeGasMolecule() {
+        Command cmd = new RemoveMoleculeCmd( idealGasModel, pump.getCurrentGasSpecies() );
+        cmd.doIt();
     }
 }

@@ -37,11 +37,14 @@ public class LightSpecies extends GasMolecule {
     /**
      *
      */
-    public void removeFromSystem() {
-        throw new RuntimeException( "not implemented" );
-        //        super.removeFromSystem();
-        //        LightSpecies.removeParticle( this );
+    /**
+     *
+     */
+    public void removeYourselfFromSystem() {
+        LightSpecies.removeParticle( this );
+        notifyObservers();
     }
+
 
 
     //
