@@ -54,7 +54,6 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
     // UI components
     private JButton _flipPolarityButton;
     private JSlider _strengthSlider;
-    private JCheckBox _seeInsideCheckBox;
     private JCheckBox _gridCheckBox;
     private JCheckBox _compassCheckBox;
     private JSpinner _loopsSpinner;
@@ -149,9 +148,6 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         
         //  Flip Polarity button
         _flipPolarityButton = new JButton( SimStrings.get( "MagnetAndCoilModule.flipPolarity" ) );
-        
-        // Magnet transparency on/off
-        _seeInsideCheckBox = new JCheckBox( SimStrings.get( "MagnetAndCoilModule.seeInside" ) );
 
         // Compass Grid on/off
         _gridCheckBox = new JCheckBox( SimStrings.get( "MagnetAndCoilModule.showGrid" ) );
@@ -241,7 +237,6 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             int row = 0;
             layout.addFilledComponent( strengthPanel, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addComponent( _flipPolarityButton, row++, 0 );
-            layout.addComponent( _seeInsideCheckBox, row++, 0 );
             layout.addComponent( _gridCheckBox, row++, 0 );
             layout.addComponent( _compassCheckBox, row++, 0 );
             layout.addFilledComponent( loopsPanel, row++, 0, GridBagConstraints.HORIZONTAL );
@@ -258,7 +253,6 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         EventListener listener = new EventListener();
         _flipPolarityButton.addActionListener( listener );
         _strengthSlider.addChangeListener( listener );
-        _seeInsideCheckBox.addActionListener( listener );
         _gridCheckBox.addActionListener( listener );
         _loopsSpinner.addChangeListener( listener );
         _radiusSlider.addChangeListener( listener );
@@ -269,7 +263,6 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         
         // Update control panel to match the components that it's controlling.
         _strengthSlider.setValue( (int) _magnetModel.getStrength() );
-        _seeInsideCheckBox.setSelected( _magnetGraphic.isTransparencyEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _loopsSpinner.setValue( new Integer( _pickupCoilModel.getNumberOfLoops() ) );
@@ -310,10 +303,6 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 _compassModel.startMovingNow();
                 _pickupCoilModel.updateEmf();
                 _pickupCoilModel.setSmoothingEnabled( smoothingEnabled );
-            }
-            else if ( e.getSource() == _seeInsideCheckBox ) {
-                // Magnet transparency
-                _magnetGraphic.setTransparencyEnabled( _seeInsideCheckBox.isSelected() );
             }
             else if ( e.getSource() == _gridCheckBox ) {
                 // Grid enable
