@@ -54,8 +54,8 @@ public class EmfApplication {
 //        GuidedInquiry gi = null;
 //        Script script = null;
 
-        AbstractClock clock = new SwingTimerClock( 1.5, 60, false );
-//        SwingTimerClock clock = new SwingTimerClock( 1, 20, true  );
+//        AbstractClock clock = new SwingTimerClock( 1.5, 60, false );
+        SwingTimerClock clock = new SwingTimerClock( 1, 20, true  );
         Module antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel(
