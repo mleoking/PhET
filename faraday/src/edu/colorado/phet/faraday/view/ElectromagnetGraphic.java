@@ -46,6 +46,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     //----------------------------------------------------------------------------
     
     private Rectangle _parentBounds;
+    private Rectangle _bounds;
     private Electromagnet _electromagnetModel;
     private CoilGraphic _coilGraphic;
     private BatteryGraphic _batteryGraphic;
@@ -72,6 +73,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         _collisionDetector = new CollisionDetector( this );
         
         _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
+        _bounds = new Rectangle();
         
         _electromagnetModel = electromagnetModel;
         _electromagnetModel.addObserver( this );
@@ -179,10 +181,10 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
             // Position the voltage sources at the top of the coil.
             _foreground.clearTransform();
             _background.clearTransform();
-            Rectangle bounds = new Rectangle( _coilGraphic.getForeground().getBounds() );
-            bounds.union( _coilGraphic.getBackground().getBounds() );
+            _bounds.setBounds( _coilGraphic.getForeground().getBounds() );
+            _bounds.union( _coilGraphic.getBackground().getBounds() );
             int x = 0;
-            int y = -( bounds.height / 2 ) - 14;
+            int y = -( _bounds.height / 2 ) - 14;
             _batteryGraphic.setLocation( x, y );
             _acPowerSupplyGraphic.setLocation( x, y );
             
