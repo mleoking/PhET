@@ -237,15 +237,15 @@ public class ApparatusPanel2 extends ApparatusPanel {
         megarepaint( r.x, r.y, r.width, r.height );
     }
 
-    public void repaint() {
-    }
+//    public void repaint() {
+//    }
 
     public void repaint( int x, int y, int width, int height ) {
         megarepaint( x, y, width, height );
     }
 
-    public void repaint( long tm ) {
-    }
+//    public void repaint( long tm ) {
+//    }
 
     protected void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
