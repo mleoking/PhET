@@ -27,8 +27,8 @@ public class DoubleGeneralPath {
         this( pt.getX(), pt.getY() );
     }
 
-    public DoubleGeneralPath( Point2D.Double pt ) {
-        this( pt.x, pt.y );
+    public DoubleGeneralPath( Point2D pt ) {
+        this( pt.getX(), pt.getY() );
     }
 
     public DoubleGeneralPath( double x, double y ) {
@@ -44,8 +44,8 @@ public class DoubleGeneralPath {
         path.lineTo( (float)x, (float)y );
     }
 
-    public void lineTo( Point2D.Double pt ) {
-        lineTo( pt.x, pt.y );
+    public void lineTo( Point2D pt ) {
+        lineTo( pt.getX(), pt.getY() );
     }
 
     public void lineToRelative( double dx, double dy ) {

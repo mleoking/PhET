@@ -76,6 +76,9 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
         addGraphic( graphic, 0 );
     }
 
+    /**
+     * Returns graphics from a forward iterator.
+     */
     public Graphic[] getGraphics() {
         Iterator it = graphicMap.iterator();
         ArrayList graphics = new ArrayList();

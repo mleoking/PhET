@@ -50,12 +50,4 @@ public class TranslationControl implements MouseInputListener {
     public void mouseExited( MouseEvent e ) {
     }
 
-    public void mouseReleased( MouseEvent event, Point2D.Double modelLoc ) {
-    }
-
-    public void mouseEntered( MouseEvent event, Point2D.Double modelLoc ) {
-    }
-
-    public void mouseExited( MouseEvent event, Point2D.Double modelLoc ) {
-    }
 }
