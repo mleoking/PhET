@@ -12,12 +12,6 @@ public class FissionModule extends NuclearPhysicsModule {
 
     public FissionModule( AbstractClock clock ) {
         super( "Fission", clock );
-
-//        setUraniumNucleus( new Uranium235( new Point2D.Double( 200, 400 ) ) );
-//        addNeucleus( getUraniumNucleus() );
-
-        
-        // Add an incoming neutron
-
+        super.addControlPanelElement( new TestControlPanel( this ) );
     }
 }

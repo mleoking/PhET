@@ -10,6 +10,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -19,15 +20,23 @@ import java.awt.geom.Point2D;
 public class PotentialProfilePanel extends ApparatusPanel {
     private NucleusGraphic nucleusGraphic;
     private PotentialProfileGraphic profileGraphic;
+    private PotentialProfile potentialProfile;
     private Point2D.Double origin;
 
-    public PotentialProfilePanel() {
+    public PotentialProfilePanel( PotentialProfile potentialProfile ) {
         origin = new Point2D.Double( 250, 600 );
         this.setBackground( backgroundColor );
+        this.potentialProfile = potentialProfile;
+        profileGraphic = new PotentialProfileGraphic( potentialProfile );
+        addGraphic( profileGraphic );
     }
 
-    private void addNucleus( NucleusGraphic nucleusGraphic ) {
+    private void setNucleusGraphic( NucleusGraphic nucleusGraphic ) {
         this.nucleusGraphic = nucleusGraphic;
+    }
+
+    public PotentialProfile getPotentialProfile() {
+        return potentialProfile;
     }
 
     public void addGraphic( Graphic graphic ) {
@@ -35,7 +44,7 @@ public class PotentialProfilePanel extends ApparatusPanel {
             addPotentialProfile( (PotentialProfileGraphic)graphic );
         }
         if( graphic instanceof NucleusGraphic ) {
-            addNucleus( (NucleusGraphic)graphic );
+            setNucleusGraphic( (NucleusGraphic)graphic );
         }
         else {
             super.addGraphic( graphic );
@@ -74,13 +83,24 @@ public class PotentialProfilePanel extends ApparatusPanel {
             AffineTransform atx = scaleInPlaceTx( .3, xWell, yWell );
             AffineTransform orgTx = g2.getTransform();
             g2.setTransform( atx );
-//            nucleusGraphic.paint( g2, (int)xWell, (int)yWell );
             nucleusGraphic.paintPotentialRendering( g2, (int)xWell, (int)yWell );
             g2.setTransform( orgTx );
         }
+
+        // Paint a dot on the hill for the spot at the same level as the well
+        double yTest = -potentialProfile.getWellPotential();
+        for( int j = 0; j < 1; j++ ) {
+            double xTest = potentialProfile.getAlphaDecayX();
+            g2.setColor( Color.red );
+            g2.fillOval( (int)xTest + (int)origin.getX() - 5, (int)origin.getY() + (int)yTest - 5, 10, 10 );
+        }
+
     }
 
     private void addPotentialProfile( PotentialProfileGraphic profileGraphic ) {
+        if( this.profileGraphic != null ) {
+            removeGraphic( this.profileGraphic );
+        }
         this.profileGraphic = profileGraphic;
         this.profileGraphic.setOrigin( origin );
         super.addGraphic( profileGraphic );
@@ -91,10 +111,14 @@ public class PotentialProfilePanel extends ApparatusPanel {
     }
 
     public void setNucleus( Nucleus nucleus ) {
-        profileGraphic = new PotentialProfileGraphic( nucleus.getPotentialProfile() );
-        this.addPotentialProfile( profileGraphic );
         nucleusGraphic = new NucleusGraphic( nucleus );
-        this.addNucleus( nucleusGraphic );
+        this.setNucleusGraphic( nucleusGraphic );
+        setPotentialProfile( nucleus.getPotentialProfile() );
+    }
+
+    public void setPotentialProfile( PotentialProfile potentialProfile ) {
+        this.potentialProfile = potentialProfile;
+        this.addPotentialProfile( new PotentialProfileGraphic( potentialProfile ) );
     }
 
     //
