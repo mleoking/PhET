@@ -76,13 +76,6 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             }
         } );
 
-//        JButton addNucleusBtn = new JButton( "Add Nucleus" );
-//        addNucleusBtn.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                addNucleus();
-//            }
-//        } );
-//
         Font spinnerFont = new Font( "SansSerif", Font.BOLD, 40 );
         numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 200, 1 ) );
         numU235Spinner.addChangeListener( new ChangeListener() {
@@ -180,13 +173,14 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     }
 
     private void setNumU238Nuclei( int num ) {
-        for( int i = 0; i < num - module.getU238Nuclei().size(); i++ ) {
+        int delta = num - module.getU238Nuclei().size();
+        for( int i = 0; i < delta; i++ ) {
             Point2D.Double location = findLocationForNewNucleus();
             if( location != null ) {
                 module.addU238Nucleus( new Uranium238( location, module.getModel() ) );
             }
         }
-        for( int i = 0; i < module.getU238Nuclei().size() - num; i++ ) {
+        for( int i = 0; i < -delta; i++ ) {
             int numNuclei = module.getU238Nuclei().size();
             Uranium238 nucleus = (Uranium238)module.getU238Nuclei().get( random.nextInt( numNuclei ) );
             module.removeU238Nucleus( nucleus );
