@@ -207,16 +207,23 @@ public abstract class PhetGraphic {
 
     private void rebuildBounds() {
         Rectangle newBounds = determineBounds();
+        boolean changed = false;
         if( newBounds != null ) {
             if( this.bounds == null ) {
                 this.bounds = new Rectangle( newBounds );
+                changed = true;
             }
             else {
                 this.bounds.setBounds( newBounds );
+                changed = true;
             }
             if( lastBounds == null ) {
                 lastBounds = new Rectangle( bounds );
+                changed = true;
             }
+        }
+        if( changed ) {
+            notifyChanged();
         }
     }
 
