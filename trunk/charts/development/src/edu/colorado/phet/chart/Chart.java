@@ -6,7 +6,8 @@
  */
 package edu.colorado.phet.chart;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
+//import edu.colorado.phet.common.view.graphics.Graphic;
+
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -82,7 +83,7 @@ public class Chart extends PhetGraphic {
         listeners.add( listener );
     }
 
-    public static abstract class AbstractTitle implements Graphic {
+    public static abstract class AbstractTitle {
         private Chart chart;
         String title;
         Font font;
@@ -96,6 +97,8 @@ public class Chart extends PhetGraphic {
         }
 
         public abstract Rectangle getBounds();
+
+        public abstract void paint( Graphics2D graphics2D );
     }
 
     public static class VerticalTitle extends AbstractTitle {
