@@ -254,10 +254,10 @@ public class FieldMeterGraphic extends CompositePhetGraphic
             _angleText.setText( angleString );
             
             // Right justify the text graphics (registration point at bottom right)
-            _bText.setRegistrationPoint( _bText.getBounds().width, _bText.getBounds().height );
-            _bxText.setRegistrationPoint( _bxText.getBounds().width, _bxText.getBounds().height );
-            _byText.setRegistrationPoint( _byText.getBounds().width, _byText.getBounds().height );
-            _angleText.setRegistrationPoint( _angleText.getBounds().width, _angleText.getBounds().height );
+            _bText.setRegistrationPoint( _bText.getWidth(), _bText.getHeight() );
+            _bxText.setRegistrationPoint( _bxText.getWidth(), _bxText.getHeight() );
+            _byText.setRegistrationPoint( _byText.getWidth(), _byText.getHeight() );
+            _angleText.setRegistrationPoint( _angleText.getWidth(), _angleText.getHeight() );
         }
     }
     
