@@ -27,25 +27,23 @@ import edu.colorado.phet.common.view.PhetControlPanel;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class RgbBulbsControlPanel extends PhetControlPanel
-{
-  /**
-   * Sole constructor.
-   * 
-   * @param module the module that this control panel is associated with.
-   */
-  public RgbBulbsControlPanel( Module module )
-  {
-    super( module );
-    
-    JPanel fillerPanel = new JPanel();
-    fillerPanel.setLayout( new BoxLayout(fillerPanel, BoxLayout.X_AXIS) );
-    fillerPanel.add( Box.createHorizontalStrut(ColorVisionConfig.CONTROL_PANEL_MIN_WIDTH) );
-    
-    // WORKAROUND: PhetControlPanel doesn't display anything unless we give it a dummy control pane.
-    this.setControlPane( fillerPanel );
-  }
+public class RgbBulbsControlPanel extends PhetControlPanel {
+
+    /**
+     * Sole constructor.
+     * 
+     * @param module the module that this control panel is associated with.
+     */
+    public RgbBulbsControlPanel( Module module ) {
+
+        super( module );
+
+        JPanel fillerPanel = new JPanel();
+        fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
+        fillerPanel.add( Box.createHorizontalStrut( ColorVisionConfig.CONTROL_PANEL_MIN_WIDTH ) );
+
+        // WORKAROUND: PhetControlPanel doesn't display anything unless we give it a dummy control pane.
+        this.setControlPane( fillerPanel );
+    }
 
 }
-
-/* end of file */

@@ -11,13 +11,7 @@
 
 package edu.colorado.phet.colorvision3.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Rectangle;
-import java.awt.Stroke;
+import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.colorvision3.model.Photon;
@@ -32,132 +26,120 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver
-{
-	//----------------------------------------------------------------------------
-	// Class data
-  //----------------------------------------------------------------------------
+public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver {
 
-  // Photon line length, for rendering.
-  public static final int PHOTON_LINE_LENGTH = 3;
-  // Stroke used from drawing photons
-  private static Stroke PHOTON_STROKE = new BasicStroke( 1f );
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
 
-	//----------------------------------------------------------------------------
-	// Instance data
-  //----------------------------------------------------------------------------
+    // Photon line length, for rendering.
+    public static final int PHOTON_LINE_LENGTH = 3;
+    // Stroke used from drawing photons
+    private static Stroke PHOTON_STROKE = new BasicStroke( 1f );
 
-  private PhotonBeam _photonBeamModel;
-  
-	//----------------------------------------------------------------------------
-	// Constructors
-  //----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
 
-  /**
-   * Sole constructor.
-   * 
-   * @param component the parent Component
-   * @param photonBeamModel the photon beam model
-   */
-  public PhotonBeamGraphic( Component component, PhotonBeam photonBeamModel )
-  {
-    super( component );
-    _photonBeamModel = photonBeamModel;
-  }
-  
-	//----------------------------------------------------------------------------
-	// Accessors
-  //----------------------------------------------------------------------------
+    private PhotonBeam _photonBeamModel;
 
-  /*
-   * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic#determineBounds()
-   */
-  protected Rectangle determineBounds()
-  {
-    return _photonBeamModel.getBounds();
-  }
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
 
-	//----------------------------------------------------------------------------
-	// SimpleObserver implementation
-  //----------------------------------------------------------------------------
-
-  /**
-   * Updates the view to match the model.
-   */
-  public void update()
-  {
-    super.repaint();  
-  }
-
-	//----------------------------------------------------------------------------
-	// Rendering
-  //----------------------------------------------------------------------------
-
-  /**
-   * Draws the photon beam.
-   * 
-   * @param g2 graphics context
-   */
-  public void paint( Graphics2D g2 )
-  {
-    if ( isVisible() && _photonBeamModel.isEnabled() )
-    {
-      // Save graphics state
-      Paint oldPaint = g2.getPaint();
-      Stroke oldStroke = g2.getStroke();
-      
-      // Use the same stroke for all photons.
-      g2.setStroke( PHOTON_STROKE );
-      
-      Photon photon = null;
-      int x, y, w, h;
-      
-      // For each photon ...
-      ArrayList photons = _photonBeamModel.getPhotons();
-      for ( int i = 0; i < photons.size(); i++ )
-      {
-        photon = (Photon) photons.get(i);
-        
-        // If the photon is in use, render it.
-        if ( photon.isInUse() )
-        {
-          x = (int) photon.getX();
-          y = (int) photon.getY();
-          w = (int) photon.getWidth();
-          h = (int) photon.getHeight();
-          
-          VisibleColor color = photon.getColor();
-          if ( color.getWavelength() == VisibleColor.WHITE_WAVELENGTH )
-          {
-            double wavelength = genWavelength();
-            color = new VisibleColor( wavelength );
-          }
-          
-          // WORKAROUND: Huge performance improvement by converting VisibleColor to Color.
-          g2.setPaint( color.toColor() );
-          // Head of photon is at (x,y), assumes left-to-right motion!
-          g2.drawLine( x, y, x-w, y-h ); 
-        }
-      }
-      
-      // Restore graphics state
-      g2.setPaint( oldPaint );
-      g2.setStroke( oldStroke );
-      
-      BoundsOutline.paint( g2, this, Color.YELLOW ); // DEBUG
+    /**
+     * Sole constructor.
+     * 
+     * @param component the parent Component
+     * @param photonBeamModel the photon beam model
+     */
+    public PhotonBeamGraphic( Component component, PhotonBeam photonBeamModel ) {
+        super( component );
+        _photonBeamModel = photonBeamModel;
     }
-  } // paint
 
-  /**
-   * Generates a random wavelength.
-   */
-  private double genWavelength()
-  {
-    double range = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
-    return (Math.random() * range) + VisibleColor.MIN_WAVELENGTH;
-  }
-  
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+
+    /*
+     * @see edu.colorado.phet.common.view.phetgraphics.PhetGraphic#determineBounds()
+     */
+    protected Rectangle determineBounds() {
+        return _photonBeamModel.getBounds();
+    }
+
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+
+    /**
+     * Updates the view to match the model.
+     */
+    public void update() {
+        super.repaint();
+    }
+
+    //----------------------------------------------------------------------------
+    // Rendering
+    //----------------------------------------------------------------------------
+
+    /**
+     * Draws the photon beam.
+     * 
+     * @param g2 graphics context
+     */
+    public void paint( Graphics2D g2 ) {
+        if( isVisible() && _photonBeamModel.isEnabled() ) {
+            // Save graphics state
+            Paint oldPaint = g2.getPaint();
+            Stroke oldStroke = g2.getStroke();
+
+            // Use the same stroke for all photons.
+            g2.setStroke( PHOTON_STROKE );
+
+            Photon photon = null;
+            int x, y, w, h;
+
+            // For each photon ...
+            ArrayList photons = _photonBeamModel.getPhotons();
+            for( int i = 0; i < photons.size(); i++ ) {
+                photon = (Photon) photons.get( i );
+
+                // If the photon is in use, render it.
+                if( photon.isInUse() ) {
+                    x = (int) photon.getX();
+                    y = (int) photon.getY();
+                    w = (int) photon.getWidth();
+                    h = (int) photon.getHeight();
+
+                    VisibleColor color = photon.getColor();
+                    if( color.getWavelength() == VisibleColor.WHITE_WAVELENGTH ) {
+                        double wavelength = genWavelength();
+                        color = new VisibleColor( wavelength );
+                    }
+
+                    // WORKAROUND: Huge performance improvement by converting VisibleColor to Color.
+                    g2.setPaint( color.toColor() );
+                    // Head of photon is at (x,y), assumes left-to-right motion!
+                    g2.drawLine( x, y, x - w, y - h );
+                }
+            }
+
+            // Restore graphics state
+            g2.setPaint( oldPaint );
+            g2.setStroke( oldStroke );
+
+            BoundsOutline.paint( g2, this, Color.YELLOW ); // DEBUG
+        }
+    } // paint
+
+    /**
+     * Generates a random wavelength.
+     */
+    private double genWavelength() {
+        double range = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
+        return ( Math.random() * range ) + VisibleColor.MIN_WAVELENGTH;
+    }
+
 }
-
-
-/* end of file */

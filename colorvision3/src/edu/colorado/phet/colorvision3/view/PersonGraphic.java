@@ -27,106 +27,94 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PersonGraphic extends CompositePhetGraphic implements SimpleObserver
-{ 
-	//----------------------------------------------------------------------------
-	// Class data
-  //----------------------------------------------------------------------------
+public class PersonGraphic extends CompositePhetGraphic implements SimpleObserver {
 
-  // Relative location of the head graphic.
-  private static final int HEAD_X_OFFSET = 0;
-  private static final int HEAD_Y_OFFSET = 165;
-  // Relative location of the thought bubble graphic.
-  private static final int THOUGHT_BUBBLE_X_OFFSET = 120;
-  private static final int THOUGHT_BUBBLE_Y_OFFSET = 5;
-   
-	//----------------------------------------------------------------------------
-	// Instance data
-  //----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
 
-  private Person _personModel;
-  private PhetImageGraphic _headBackgroundGraphic, _headForegroundGraphic;
-  private ThoughtBubbleGraphic _thoughtBubbleGraphic;
-  // Last known location of the model.
-  private double _x, _y;
-    
-	//----------------------------------------------------------------------------
-	// Constructors
-  //----------------------------------------------------------------------------
+    // Relative location of the head graphic.
+    private static final int HEAD_X_OFFSET = 0;
+    private static final int HEAD_Y_OFFSET = 165;
+    // Relative location of the thought bubble graphic.
+    private static final int THOUGHT_BUBBLE_X_OFFSET = 120;
+    private static final int THOUGHT_BUBBLE_Y_OFFSET = 5;
 
-  /**
-   * Sole constructor. Note that this graphic adds its components to the 
-   * apparatus, so that it can set up foreground and background elements.
-   * 
-   * @param apparatusPanel the apparatus panel
-   * @param backgroundLayer layer for background elements
-   * @param foregroundLayer layer for foreground elements
-   * @param personModel the model of the person
-   */
-  public PersonGraphic( 
-    ApparatusPanel apparatusPanel,
-    double backgroundLayer,
-    double foregroundLayer,
-    Person personModel )
-  {
-    super( apparatusPanel );
-    
-    // Save a reference to the model.
-    _personModel = personModel;
- 
-    // Head background graphic
-    _headBackgroundGraphic = new PhetImageGraphic( apparatusPanel, ColorVisionConfig.HEAD_BACKGROUND_IMAGE );
-    this.addGraphic( _headBackgroundGraphic );
-    
-    // Head foreground graphic
-    _headForegroundGraphic = new PhetImageGraphic( apparatusPanel, ColorVisionConfig.HEAD_FOREGROUND_IMAGE );
-    this.addGraphic( _headForegroundGraphic );
-           
-    // Thought Bubble graphic
-    _thoughtBubbleGraphic = new ThoughtBubbleGraphic( apparatusPanel );
-    this.addGraphic( _thoughtBubbleGraphic );
-    
-    // Add to the apparatus panel in correct layers.
-    apparatusPanel.addGraphic( _headBackgroundGraphic, backgroundLayer );
-    apparatusPanel.addGraphic( _headForegroundGraphic, foregroundLayer );
-    apparatusPanel.addGraphic( _thoughtBubbleGraphic, foregroundLayer );
-    
-    //  Sync the view with the model.
-    update();
-  }
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
 
-	//----------------------------------------------------------------------------
-	// SimpleObserver implementation
-  //----------------------------------------------------------------------------
+    private Person _personModel;
+    private PhetImageGraphic _headBackgroundGraphic, _headForegroundGraphic;
+    private ThoughtBubbleGraphic _thoughtBubbleGraphic;
+    // Last known location of the model.
+    private double _x, _y;
 
-  /**
-   * Synchronizes the view with the model.
-   * This method is called whenever the model changes.
-   */
-  public void update()
-  {
-    double x = _personModel.getX();
-    double y = _personModel.getY();
-    
-    // If the model has moved, then move the view.
-    if ( x != _x || y != _y )
-    {
-      _x = x;
-      _y = y;
-      
-      _headBackgroundGraphic.setPosition( (int)(x + HEAD_X_OFFSET),
-                                        (int)(y + HEAD_Y_OFFSET) );
-      _headForegroundGraphic.setPosition( (int)(x + HEAD_X_OFFSET),
-                                        (int)(y + HEAD_Y_OFFSET) );
-      _thoughtBubbleGraphic.setLocation( (int)(x + THOUGHT_BUBBLE_X_OFFSET), 
-                                       (int)(y + THOUGHT_BUBBLE_Y_OFFSET) );
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+
+    /**
+     * Sole constructor. Note that this graphic adds its components to the 
+     * apparatus, so that it can set up foreground and background elements.
+     * 
+     * @param apparatusPanel the apparatus panel
+     * @param backgroundLayer layer for background elements
+     * @param foregroundLayer layer for foreground elements
+     * @param personModel the model of the person
+     */
+    public PersonGraphic( ApparatusPanel apparatusPanel, double backgroundLayer, double foregroundLayer, Person personModel ) {
+        super( apparatusPanel );
+
+        // Save a reference to the model.
+        _personModel = personModel;
+
+        // Head background graphic
+        _headBackgroundGraphic = new PhetImageGraphic( apparatusPanel, ColorVisionConfig.HEAD_BACKGROUND_IMAGE );
+        this.addGraphic( _headBackgroundGraphic );
+
+        // Head foreground graphic
+        _headForegroundGraphic = new PhetImageGraphic( apparatusPanel, ColorVisionConfig.HEAD_FOREGROUND_IMAGE );
+        this.addGraphic( _headForegroundGraphic );
+
+        // Thought Bubble graphic
+        _thoughtBubbleGraphic = new ThoughtBubbleGraphic( apparatusPanel );
+        this.addGraphic( _thoughtBubbleGraphic );
+
+        // Add to the apparatus panel in correct layers.
+        apparatusPanel.addGraphic( _headBackgroundGraphic, backgroundLayer );
+        apparatusPanel.addGraphic( _headForegroundGraphic, foregroundLayer );
+        apparatusPanel.addGraphic( _thoughtBubbleGraphic, foregroundLayer );
+
+        //  Sync the view with the model.
+        update();
     }
-    
-    _thoughtBubbleGraphic.setPaint( _personModel.getColor().toColor() );
-    
-    super.repaint();
-  }
+
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+
+    /**
+     * Synchronizes the view with the model.
+     * This method is called whenever the model changes.
+     */
+    public void update() {
+        double x = _personModel.getX();
+        double y = _personModel.getY();
+
+        // If the model has moved, then move the view.
+        if( x != _x || y != _y ) {
+            _x = x;
+            _y = y;
+
+            _headBackgroundGraphic.setPosition( (int) ( x + HEAD_X_OFFSET ), (int) ( y + HEAD_Y_OFFSET ) );
+            _headForegroundGraphic.setPosition( (int) ( x + HEAD_X_OFFSET ), (int) ( y + HEAD_Y_OFFSET ) );
+            _thoughtBubbleGraphic.setLocation( (int) ( x + THOUGHT_BUBBLE_X_OFFSET ), (int) ( y + THOUGHT_BUBBLE_Y_OFFSET ) );
+        }
+
+        _thoughtBubbleGraphic.setPaint( _personModel.getColor().toColor() );
+
+        super.repaint();
+    }
 
 }
-
-/* end of file */
