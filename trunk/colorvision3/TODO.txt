@@ -1,17 +1,17 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
-o fix problem with PhotonBeam emitting one zero-intensity photon
-o make PhotonBeam graphic render zero-intensity photons as invisible
-o fix problem with updating sliders while simulation is paused
-o perceived color doesn't go to black when filter blocks all photons
+o change filter switch image to wall switch with ON/OFF
+(DONE) o fix problem with PhotonBeam emitting zero-intensity photons
+(DONE) o make PhotonBeam graphic render zero-intensity photons as invisible
 (DONE) o pre-fitler beam sometimes not visible
 (DONE) o photons slow way down when switching filter on
 (DONE) o new images for filter switch
-o background color on Windows
 o Help, based on Kathy's requirements
 
 MEDIUM:
+o spectrum sliders can't be moved while simulation is paused
+o background color on Windows
 (DONE) o delay in 0-photons when dragging IntensitySlider to 0
 (NTF) o SpectrumSlider jumpiness reported by Kathy
 (DONE) o wiggle me for Single Bulb module
@@ -20,8 +20,9 @@ MEDIUM:
 LOW:
 o font antialiasing on Windows (and Linux?)
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
-o convert to PhET code formatting conventions
+(DONE) o convert to PhET code formatting conventions
 (DONE) o add CVS headers
 o delete unused images & assets
+o rename BoundsOutline -> BoundsOutliner
 
 
