@@ -65,13 +65,29 @@ public class BlockGraphic extends CompositePhetGraphic {
         return new Dimension( width, height );
     }
 
+    public static class RoundRect extends RoundRectangle2D.Double {
+
+        public RoundRect( double x, double y, double w, double h, double arcw, double arch ) {
+            super( x, y, w, h, arcw, arch );
+        }
+
+        public boolean equals( Object obj ) {
+            if( obj instanceof RoundRect ) {
+                RoundRect roundRect = (RoundRect)obj;
+                return roundRect.getX() == x && roundRect.getY() == y && roundRect.getWidth() == getWidth() && roundRect.getHeight() == getHeight() &&
+                       roundRect.getArcWidth() == getArcWidth() && roundRect.getArcHeight() == getArcHeight();
+            }
+            return false;
+        }
+    }
+
     public void update() {
         float fracKinetic = (float)( block.getKineticFriction() / Force1dControlPanel.MAX_KINETIC_FRICTION );
         Color color = new Color( fracKinetic, fracKinetic / 2, .75f );
 
         Dimension dim = computeDimension();
         Point center = getCenter();
-        RoundRectangle2D r = new RoundRectangle2D.Double( 0, 0, 0, 0, dim.width * .2, dim.height * .2 );
+        RoundRectangle2D r = new RoundRect( 0, 0, 0, 0, dim.width * .2, dim.height * .2 );
         r.setFrameFromCenter( center.x, center.y, center.x + dim.width / 2, center.y + dim.height / 2 );
         graphic.setShape( r );
         graphic.setColor( color );

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
 import edu.colorado.phet.common.view.plaf.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
 
@@ -27,9 +28,11 @@ public class Force1DModule extends Module {
     private Force1DModel forceModel;
     private Force1DPanel forcePanel;
     private Force1dControlPanel forceControlPanel;
+    private AbstractClock clock;
 
-    public Force1DModule() throws IOException {
+    public Force1DModule( AbstractClock clock ) throws IOException {
         super( "Force1D" );
+        this.clock = clock;
 
         forceModel = new Force1DModel( this );
         forcePanel = new Force1DPanel( this );
@@ -71,8 +74,9 @@ public class Force1DModule extends Module {
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
-        final Force1DModule module = new Force1DModule();
         AbstractClock clock = new SwingTimerClock( 1, 30 );
+        final Force1DModule module = new Force1DModule( clock );
+
         FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 200, 200 ) );
         ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
                                                        frameSetup, module, clock );
@@ -81,6 +85,11 @@ public class Force1DModule extends Module {
         module.getForcePanel().setSize( module.getForcePanel().getSize().width - 1, module.getForcePanel().getSize().height - 1 );
         module.getForcePanel().relayout();
         module.getForcePanel().revalidate();
+//        phetApplication.getApplicationView().getPhetFrame().setExtendedState( JFrame.MAXIMIZED_BOTH );
+        GraphicsUtil.maximizeFrame( phetApplication.getApplicationView().getPhetFrame() );
     }
 
+    public AbstractClock getClock() {
+        return clock;
+    }
 }

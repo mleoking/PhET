@@ -21,17 +21,24 @@ public class Force1DModel implements ModelElement {
     private double appliedForce;
     private Block block;
     private SmoothDataSeries appliedForceDataSeries;
+    private SmoothDataSeries netForceDataSeries;
     private SmoothDataSeries accelerationDataSeries;
+    private SmoothDataSeries frictionForceDataSeries;
     private SmoothDataSeries velocityDataSeries;
     private SmoothDataSeries positionDataSeries;
     private ArrayList listeners = new ArrayList();
     public double frictionForce;
     private Force1DPlotDeviceModel plotDeviceModel;
+    private double netForce;
 
     public Force1DModel( Force1DModule module ) {
         block = new Block( this );
-        appliedForceDataSeries = new SmoothDataSeries( 8 );
-        accelerationDataSeries = new SmoothDataSeries( 8 );
+        int numSmoothingPoints = 8;
+        appliedForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
+        netForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
+        accelerationDataSeries = new SmoothDataSeries( numSmoothingPoints );
+        frictionForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
+
         velocityDataSeries = new SmoothDataSeries( 8 );
         positionDataSeries = new SmoothDataSeries( 8 );
         plotDeviceModel = new Force1DPlotDeviceModel( module, this, MAX_TIME );
@@ -54,9 +61,28 @@ public class Force1DModel implements ModelElement {
     }
 
     public void reset() {
+        appliedForce = 0;
+        frictionForce = 0;
+        netForce = 0;
         block.setPosition( 0.0 );
         block.setVelocity( 0.0 );
         plotDeviceModel.doReset();
+        netForceDataSeries.reset();
+        appliedForceDataSeries.reset();
+        frictionForceDataSeries.reset();
+        updateBlock();
+    }
+
+    public DataSeries getNetForceSeries() {
+        return netForceDataSeries.getSmoothedDataSeries();
+    }
+
+    public void addAppliedForcePoint( double value, double dt ) {
+        getAppliedForceDataSeries().addPoint( value );
+    }
+
+    public DataSeries getFrictionForceSeries() {
+        return frictionForceDataSeries.getSmoothedDataSeries();
     }
 
     public static interface Listener {
@@ -91,10 +117,8 @@ public class Force1DModel implements ModelElement {
 
     void updateBlock() {
         frictionForce = getFrictionForce();
-        double netForce = appliedForce + frictionForce;
+        netForce = appliedForce + frictionForce;
         double acc = netForce / block.getMass();
-//        double velocity = block.getVelocity();
-//        System.out.println( "frictionForce= " + frictionForce + ", appliedForce=" + appliedForce + ", netforce=" + netForce + ", acc=" + acc + ", veloc=" + velocity + ", position=" + block.getPosition() );
         block.setAcceleration( acc );
     }
 
@@ -124,6 +148,10 @@ public class Force1DModel implements ModelElement {
         updateBlock();
         block.stepInTime( dt );
         plotDeviceModel.stepInTime( dt );
+        if( plotDeviceModel.isTakingData() ) {
+            netForceDataSeries.addPoint( netForce );
+            frictionForceDataSeries.addPoint( frictionForce );
+        }
     }
 
     public Block getBlock() {
@@ -134,8 +162,8 @@ public class Force1DModel implements ModelElement {
         return appliedForceDataSeries;
     }
 
-    public SmoothDataSeries getAccelerationDataSeries() {
-        return accelerationDataSeries;
+    public DataSeries getAccelerationDataSeries() {
+        return accelerationDataSeries.getSmoothedDataSeries();
     }
 
     public SmoothDataSeries getVelocityDataSeries() {

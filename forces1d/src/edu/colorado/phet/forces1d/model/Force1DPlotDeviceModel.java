@@ -27,9 +27,7 @@ public class Force1DPlotDeviceModel extends PlotDeviceModel {
 
     protected void stepRecord( double dt ) {
         double value = model.getAppliedForce();
-
-        model.getAppliedForceDataSeries().addPoint( value );
-
+        model.addAppliedForcePoint( value, dt );
     }
 
     protected void stepPlayback( double dt ) {
