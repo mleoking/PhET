@@ -82,10 +82,6 @@ public class PhetImageGraphic extends PhetGraphic {
         }
     }
 
-    public void setLocation( Point p ) {
-        setLocation( p.x, p.y );
-    }
-
     public void setBoundsDirty() {
         super.setBoundsDirty();
         shapeDirty = true;
