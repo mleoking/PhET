@@ -30,6 +30,7 @@ import edu.colorado.phet.faraday.model.BarMagnet;
 public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver {
 
     private BarMagnet _barMagnetModel;
+    private double _initialStrength;
     
     /**
      * Sole constructor.
@@ -44,6 +45,7 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
         
         // Save a reference to the model.
         _barMagnetModel = barMagnetModel;
+        _initialStrength = barMagnetModel.getStrength();
         
         // Setup interactivity.
         super.setCursorHand();
@@ -62,10 +64,10 @@ public class BarMagnetGraphic extends PhetImageGraphic implements SimpleObserver
     /**
      *  This is called when the model changes, and updates the view to match the model.
      */
-    public void update() {      
+    public void update() {
         clearTransform();
         rotate( Math.toRadians( _barMagnetModel.getDirection() ) );
-        scale( _barMagnetModel.getStrength()/100 );
+        scale( _barMagnetModel.getStrength() / _initialStrength );
         translate( _barMagnetModel.getX(), _barMagnetModel.getY() );
     }
 }

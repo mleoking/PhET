@@ -56,6 +56,12 @@ public class FaradayConfig {
 
     // Fonts
     public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
+    
+    // Minimums & Maximums
+    public static final int MIN_PICKUP_LOOPS = 1;
+    public static final int MAX_PICKUP_LOOPS = 2;
+    public static final int MIN_SOURCE_LOOPS = 1;
+    public static final int MAX_SOURCE_LOOPS = 4;
 
     //----------------------------------------------------------------------------
     // Constructors
