@@ -44,15 +44,20 @@ public class TestParametricCoil extends JComponent {
     
     public static void main( String[] args )
     {
-        // Test parameters
-        int numberOfLoops = 4;
-        Point coilLocation = new Point( 250, 250 );
-        Dimension frameSize = new Dimension( 500, 500 );
-        Color frameBackground = Color.BLACK;
-        Dimension sliderSize = new Dimension( 150, 20 );
+        // Test harness parameters
+        final int LOOPS = 1;
+        final int MAX_LOOPS = 10;
+        final int MIN_LOOPS = 1;
+        final int RADIUS = 100;
+        final int MIN_RADIUS = 75;
+        final int MAX_RADIUS = 150;
+        final Point COIL_LOCATION = new Point( 250, 250 );
+        final Dimension FRAME_SIZE = new Dimension( 500, 500 );
+        final Color FRAME_BACKGROUND = Color.BLACK;
+        final Dimension SLIDER_SIZE = new Dimension( 150, 20 );
 
         // Create a coil.
-        final TestParametricCoil coil = new TestParametricCoil( numberOfLoops, 100, coilLocation );
+        final TestParametricCoil coil = new TestParametricCoil( LOOPS, RADIUS, COIL_LOCATION );
 
         // Number of Loops control
         Box loopsPanel = new Box( BoxLayout.X_AXIS );
@@ -62,11 +67,11 @@ public class TestParametricCoil extends JComponent {
             final JLabel value = new JLabel( String.valueOf( coil.getNumberOfLoops() ) );
             
             final JSlider slider = new JSlider();
-            slider.setMinimumSize( sliderSize );
-            slider.setMaximumSize( sliderSize );
-            slider.setPreferredSize( sliderSize );
-            slider.setMinimum( 1 );
-            slider.setMaximum( 10 );
+            slider.setMinimumSize( SLIDER_SIZE );
+            slider.setMaximumSize( SLIDER_SIZE );
+            slider.setPreferredSize( SLIDER_SIZE );
+            slider.setMinimum( MIN_LOOPS );
+            slider.setMaximum( MAX_LOOPS );
             slider.setMajorTickSpacing( 1 );
             slider.setSnapToTicks( true );
             slider.setPaintTicks( true );
@@ -92,11 +97,11 @@ public class TestParametricCoil extends JComponent {
             final JLabel value = new JLabel( String.valueOf( coil.getRadius() ) );
             
             final JSlider slider = new JSlider();
-            slider.setMinimumSize( sliderSize );
-            slider.setMaximumSize( sliderSize );
-            slider.setPreferredSize( sliderSize );
-            slider.setMinimum( 75 );
-            slider.setMaximum( 150 );
+            slider.setMinimumSize( SLIDER_SIZE );
+            slider.setMaximumSize( SLIDER_SIZE );
+            slider.setPreferredSize( SLIDER_SIZE );
+            slider.setMinimum( MIN_RADIUS );
+            slider.setMaximum( MAX_RADIUS );
             slider.setValue( coil.getRadius() );
             slider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -129,8 +134,8 @@ public class TestParametricCoil extends JComponent {
         f.getContentPane().add( panel );
         
         // Set up the frame
-        f.setBackground( frameBackground);
-        f.setSize( frameSize );
+        f.setBackground( FRAME_BACKGROUND);
+        f.setSize( FRAME_SIZE );
         f.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 f.dispose();
@@ -257,20 +262,30 @@ public class TestParametricCoil extends JComponent {
             }
             
             // Front top
+            if ( i < _numberOfLoops - 1 )
             {
                 Point e1 = new Point( (int) ( -_radius * .25 ) + offset, 0 );
                 Point e2 = new Point( (int) ( _radius * .15 ) + offset, -_radius );
                 Point c = new Point( (int) ( -_radius * .20 ) + offset, (int) ( -_radius * 1.30 ) );
                 drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
             }
-            
-            // Right connection wire
-            if ( i == (_numberOfLoops - 1) ) {
-                g2.setPaint( LOOP_MIDDLE_COLOR );
-                Point e1 = new Point( (int)(_radius * .15) + offset, -_radius );
-                Point e2 = new Point( e1.x + 10, e1.y - 40 );
-                Point c = new Point( e1.x + 20, e1.y + 20 );
-                drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
+            else {
+                // Front top of right-most loop (shorter than the others for joining with connection wire)
+                {
+                    Point e1 = new Point( (int) ( -_radius * .25 ) + offset, 0 );
+                    Point e2 = new Point( -loopSpacing + (int) ( _radius * .25 ) + offset, -_radius );
+                    Point c = new Point( (int) ( -_radius * .25 ) + offset, (int) ( -_radius * .8 ) );
+                    drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
+                }
+
+                // Right connection wire
+                {
+                    g2.setPaint( LOOP_MIDDLE_COLOR );
+                    Point e1 = new Point( -loopSpacing + (int) ( _radius * .25 ) + offset, -_radius );
+                    Point e2 = new Point( e1.x + 15, e1.y - 40 );
+                    Point c = new Point( e1.x + 20, e1.y - 20 );
+                    drawQuadCurve( g2, e1, c, e2, DRAW_POINTS );
+                }
             }
         }
         
