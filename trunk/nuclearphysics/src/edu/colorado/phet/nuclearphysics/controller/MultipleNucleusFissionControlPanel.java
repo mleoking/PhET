@@ -8,7 +8,6 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
 
@@ -20,7 +19,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.util.Random;
 
 public class MultipleNucleusFissionControlPanel extends JPanel {
@@ -65,7 +63,6 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 if( modelNum != viewNum ) {
                     //                    numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
                 }
-
             }
         } );
 
@@ -119,7 +116,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         percentDecayTF.setHorizontalAlignment( JTextField.RIGHT );
         percentDecayTF.setText( "0" );
 
-        final JCheckBox containmentCB = new JCheckBox( "Enable Containment Vessel" );
+        final JCheckBox containmentCB = new JCheckBox( "<html>Enable<br>Containment<br>Vessel</html>" );
         containmentCB.setForeground( Color.white );
         containmentCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -198,10 +195,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     private synchronized void setNumU235Nuclei( int num ) {
         int delta = num - module.getU235Nuclei().size();
         for( int i = 0; i < delta; i++ ) {
-            Point2D.Double location = findLocationForNewNucleus();
-            if( location != null ) {
-                module.addU235Nucleus( new Uranium235( location, module.getModel() ) );
-            }
+            module.addU235Nucleus();
         }
         for( int i = 0; i < -delta; i++ ) {
             int numNuclei = module.getU235Nuclei().size();
@@ -213,58 +207,12 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     private void setNumU238Nuclei( int num ) {
         int delta = num - module.getU238Nuclei().size();
         for( int i = 0; i < delta; i++ ) {
-            Point2D.Double location = findLocationForNewNucleus();
-            if( location != null ) {
-                module.addU238Nucleus( new Uranium238( location, module.getModel() ) );
-            }
+            module.addU238Nucleus();
         }
         for( int i = 0; i < -delta; i++ ) {
             int numNuclei = module.getU238Nuclei().size();
             Uranium238 nucleus = (Uranium238)module.getU238Nuclei().get( random.nextInt( numNuclei ) );
             module.removeU238Nucleus( nucleus );
         }
-    }
-
-    private Point2D.Double findLocationForNewNucleus() {
-        double width = module.getApparatusPanel().getWidth() / module.getPhysicalPanel().getScale();
-        double height = module.getApparatusPanel().getHeight() / module.getPhysicalPanel().getScale();
-        boolean overlapping = false;
-        Point2D.Double location = new Point2D.Double();
-        int attempts = 0;
-        do {
-            // If there is already a nucleus at (0,0), then generate a random location
-            boolean centralNucleusExists = false;
-            for( int i = 0; i < module.getNuclei().size() && !centralNucleusExists; i++ ) {
-                Nucleus testNucleus = (Nucleus)module.getNuclei().get( i );
-                if( testNucleus.getPosition().getX() == 0 && testNucleus.getPosition().getY() == 0 ) {
-                    centralNucleusExists = true;
-                }
-            }
-
-            double x = centralNucleusExists ? random.nextDouble() * width / 2 * ( random.nextBoolean() ? 1 : -1 ) : 0;
-            double y = centralNucleusExists ? random.nextDouble() * height / 2 * ( random.nextBoolean() ? 1 : -1 ) : 0;
-            location.setLocation( x, y );
-
-            overlapping = false;
-            for( int j = 0; j < module.getNuclei().size() && !overlapping; j++ ) {
-                Nucleus testNucleus = (Nucleus)module.getNuclei().get( j );
-                if( testNucleus.getPosition().distance( location ) < testNucleus.getRadius() * 3 ) {
-                    overlapping = true;
-                }
-            }
-
-            // todo: the hard-coded 50 here should be replaced with the radius of a Uranium nucleus
-            if( location.getX() != 0 && location.getY() != 0 ) {
-                overlapping = overlapping || module.getNeutronPath().ptSegDist( location ) < 50;
-            }
-
-
-            attempts++;
-        } while( overlapping && attempts < 50 );
-
-        if( overlapping ) {
-            location = null;
-        }
-        return location;
     }
 }

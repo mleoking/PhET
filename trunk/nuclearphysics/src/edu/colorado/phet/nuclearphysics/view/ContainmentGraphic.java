@@ -14,21 +14,25 @@ import edu.colorado.phet.nuclearphysics.model.Containment;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 public class ContainmentGraphic extends DefaultInteractiveGraphic {
     private Containment containment;
+    private AffineTransform atx;
     private Rep rep;
     private boolean leftSideDragged;
     private boolean rightSideDragged;
     private boolean topSideDragged;
     private boolean bottomSideDragged;
-    private int strokeWidth = 10;
+    private int strokeWidth = 100;
+    private Area mouseableArea;
 
-    public ContainmentGraphic( Containment containment, Component component ) {
+    public ContainmentGraphic( Containment containment, Component component, AffineTransform atx ) {
         super( null );
         this.containment = containment;
+        this.atx = atx;
         rep = new Rep( component );
         setBoundedGraphic( rep );
         addCursorHandBehavior();
@@ -66,6 +70,8 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
     private class Translator implements Translatable {
         public void translate( double dx, double dy ) {
             Rectangle2D rect = containment.getBounds();
+            dx /= atx.getScaleX();
+            dy /= atx.getScaleY();
             if( leftSideDragged ) {
                 rect.setRect( rect.getMinX() + dx, rect.getMinY(), rect.getWidth() - dx, rect.getHeight() );
             }
@@ -83,7 +89,7 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
     }
 
     private class Rep extends PhetShapeGraphic implements SimpleObserver {
-        private Area mouseableArea;
+        //        private Area mouseableArea;
         Rectangle2D outer = new Rectangle2D.Double();
         Rectangle2D inner = new Rectangle2D.Double();
         private Stroke stroke = new BasicStroke( strokeWidth );
@@ -97,25 +103,25 @@ public class ContainmentGraphic extends DefaultInteractiveGraphic {
 
         public void update() {
             Rectangle2D r = containment.getBounds();
-
-            outer.setRect( r.getMinX() - strokeWidth / 2,
-                           r.getMinY() - strokeWidth / 2,
-                           r.getWidth() + strokeWidth, r.getHeight() + strokeWidth );
-            inner.setRect( r.getMinX() + strokeWidth / 2,
-                           r.getMinY() + strokeWidth / 2,
-                           r.getWidth() - strokeWidth, r.getHeight() - strokeWidth );
+            outer.setRect( r.getMinX() - strokeWidth,
+                           r.getMinY() - strokeWidth,
+                           r.getWidth() + strokeWidth * 2, r.getHeight() + strokeWidth * 2 );
+            inner.setRect( r.getMinX(),
+                           r.getMinY(),
+                           r.getWidth(), r.getHeight() );
             mouseableArea = new Area( outer );
             mouseableArea.subtract( new Area( inner ) );
-            this.setShape( mouseableArea );
+            this.setShape( atx.createTransformedShape( mouseableArea ) );
             setBoundsDirty();
             repaint();
         }
 
         public void paint( Graphics2D g ) {
             saveGraphicsState( g );
+            g.transform( atx );
             g.setColor( color );
             g.setStroke( stroke );
-            g.draw( containment.getBounds() );
+            g.fill( mouseableArea );
 
             g.setColor( Color.red );
             g.setStroke( new BasicStroke( 1 ) );

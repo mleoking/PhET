@@ -23,7 +23,7 @@ public class Kaboom implements Graphic, Runnable {
     private static String kaboomStr = "Kaboom!!!";
     private static AffineTransform kaboomStrTx;
 
-    private static Color[] colors = new Color[256];
+    private static Color[] colors = new Color[PhysicalPanel.backgroundColor.getBlue()];
 
     static {
         for( int i = 0; i < colors.length; i++ ) {
@@ -82,7 +82,7 @@ public class Kaboom implements Graphic, Runnable {
     private void update() {
         if( kaboomAlpha > 0 ) {
             kaboomAlpha = Math.max( kaboomAlpha - 0.03, 0 );
-            color = colors[255 - (int)( kaboomAlpha * 255 )];
+            color = colors[( colors.length - 1 ) - (int)( kaboomAlpha * ( colors.length - 1 ) )];
             radius += radiusIncr;
         }
         else {

@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
+import edu.colorado.phet.collision.CollisionExpert;
+import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -16,17 +18,13 @@ import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class MultipleNucleusFissionModule extends NuclearPhysicsModule implements NeutronGun, FissionListener {
     private static Random random = new Random();
-    private static float neutronSpeed = 1f;
 
-    //    private InternalNeutronGun neutronGun;
     private Neutron neutronToAdd;
     private ArrayList nuclei = new ArrayList();
     private ArrayList u235Nuclei = new ArrayList();
@@ -58,6 +56,19 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
                 if( MultipleNucleusFissionModule.this.neutronToAdd != null ) {
                     MultipleNucleusFissionModule.this.addNeutron( neutronToAdd );
                     MultipleNucleusFissionModule.this.neutronToAdd = null;
+                }
+            }
+        } );
+
+        getModel().addModelElement( new ModelElement() {
+            private CollisionExpert expert = new SphereBoxExpert();
+
+            public void stepInTime( double dt ) {
+                if( containment != null ) {
+                    for( int i = 0; i < neutrons.size(); i++ ) {
+                        Neutron neutron = (Neutron)neutrons.get( i );
+                        boolean h = expert.detectAndDoCollision( containment, neutron );
+                    }
                 }
             }
         } );
@@ -114,7 +125,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         //        centralNucleus.addFissionListener( this );
         getPhysicalPanel().addNucleus( centralNucleus );
         getModel().addModelElement( centralNucleus );
-        addU235Nucleus( centralNucleus );
+        u235Nuclei.add( centralNucleus );
+        addNucleus( centralNucleus );
 
         // Clear out any leftover nuclei from previous runs
         for( int i = 0; i < daughterNuclei.size(); i++ ) {
@@ -203,12 +215,16 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         return u238Nuclei;
     }
 
-    public void addU235Nucleus( Uranium235 nucleus ) {
+    public void addU235Nucleus() {
+        Point2D.Double location = findLocationForNewNucleus();
+        Nucleus nucleus = new Uranium235( location, getModel() );
         u235Nuclei.add( nucleus );
         addNucleus( nucleus );
     }
 
-    public void addU238Nucleus( Uranium238 nucleus ) {
+    public void addU238Nucleus() {
+        Point2D.Double location = findLocationForNewNucleus();
+        Nucleus nucleus = new Uranium238( location, getModel() );
         u238Nuclei.add( nucleus );
         addNucleus( nucleus );
     }
@@ -311,8 +327,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     }
 
     private void addContainment() {
-        containment = new Containment( new Rectangle2D.Double( 100, 100, 100, 100 ) );
-        containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel() );
+        containment = new Containment( new Rectangle2D.Double( -300, -300, 600, 600 ) );
+        containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel(), getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( containmentGraphic, 100 );
     }
 
@@ -328,5 +344,62 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         else {
             removeContainment();
         }
+    }
+
+    private Point2D.Double findLocationForNewNucleus() {
+        // Determine the area in which the nucleus can be place. This depends on whether the
+        // containment vessel is enabled or not.
+        Rectangle2D rect = null;
+        if( containment != null ) {
+            rect = containment.getBounds();
+        }
+        else {
+            rect = new Rectangle2D.Double();
+            Rectangle2D r = getPhysicalPanel().getBounds();
+            AffineTransform atx = getPhysicalPanel().getNucleonTx();
+            try {
+                rect.setFrameFromDiagonal( atx.inverseTransform( new Point2D.Double( r.getMinX(), r.getMinY() ), null ),
+                                           atx.inverseTransform( new Point2D.Double( r.getMinX() + r.getWidth(), r.getMinY() + r.getHeight() ), null ) );
+            }
+            catch( NoninvertibleTransformException e ) {
+                e.printStackTrace();
+            }
+        }
+        boolean overlapping = false;
+        Point2D.Double location = new Point2D.Double();
+        int attempts = 0;
+        do {
+            // If there is already a nucleus at (0,0), then generate a random location
+            boolean centralNucleusExists = false;
+            for( int i = 0; i < getNuclei().size() && !centralNucleusExists; i++ ) {
+                Nucleus testNucleus = (Nucleus)getNuclei().get( i );
+                if( testNucleus.getPosition().getX() == 0 && testNucleus.getPosition().getY() == 0 ) {
+                    centralNucleusExists = true;
+                }
+            }
+
+            double x = centralNucleusExists ? random.nextDouble() * ( rect.getWidth() - 50 ) + rect.getMinX() + 25 : 0;
+            double y = centralNucleusExists ? random.nextDouble() * ( rect.getHeight() - 50 ) + rect.getMinY() + 25 : 0;
+            location.setLocation( x, y );
+
+            overlapping = false;
+            for( int j = 0; j < getNuclei().size() && !overlapping; j++ ) {
+                Nucleus testNucleus = (Nucleus)getNuclei().get( j );
+                if( testNucleus.getPosition().distance( location ) < testNucleus.getRadius() * 3 ) {
+                    overlapping = true;
+                }
+            }
+
+            // todo: the hard-coded 50 here should be replaced with the radius of a Uranium nucleus
+            if( location.getX() != 0 && location.getY() != 0 ) {
+                overlapping = overlapping || getNeutronPath().ptSegDist( location ) < 50;
+            }
+            attempts++;
+        } while( overlapping && attempts < 50 );
+
+        if( overlapping ) {
+            location = null;
+        }
+        return location;
     }
 }

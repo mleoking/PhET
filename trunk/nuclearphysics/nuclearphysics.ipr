@@ -186,6 +186,7 @@
     <modules>
       <module fileurl="file://C:/PhET/mechanics/development/Mechanics.iml" filepath="C:/PhET/mechanics/development/Mechanics.iml" />
       <module fileurl="file://C:/PhET/common2/development/PhetCommon.iml" filepath="C:/PhET/common2/development/PhetCommon.iml" />
+      <module fileurl="file://C:/PhET/collision/development/collision.iml" filepath="C:/PhET/collision/development/collision.iml" />
       <module fileurl="file://$PROJECT_DIR$/nuclearphysics.iml" filepath="$PROJECT_DIR$/nuclearphysics.iml" />
     </modules>
   </component>

@@ -103,7 +103,7 @@ public class Uranium235 extends Nucleus {
         super.stepInTime( dt );
 
         // Handle fission morphing
-        if( morphTargetNeutrons != 0 ) {
+        if( morphTargetNeutrons > 0 ) {
             setPotential( getPotential() + morphSpeedFactor );
             if( getPotential() > getPotentialProfile().getMaxPotential()
                 || !doMorph ) {
