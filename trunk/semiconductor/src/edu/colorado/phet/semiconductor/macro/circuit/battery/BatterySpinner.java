@@ -1,5 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.circuit.battery;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -25,7 +27,7 @@ public class BatterySpinner {
 //        spinner.setUI(su);
 //        spinner.revalidate();
 
-        TitledBorder border = BorderFactory.createTitledBorder( "Voltage (V)" );
+        TitledBorder border = BorderFactory.createTitledBorder( SimStrings.get( "BatterySpinner.BorderTitle" ) );
         border.setTitleFont( new Font( "Lucida Sans", 0, 18 ) );
 
         spinner.setBorder( border );

@@ -1,5 +1,7 @@
 package edu.colorado.phet.semiconductor.macro;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -19,27 +21,27 @@ public class DiodeControlPanel extends JPanel {
     public DiodeControlPanel( final SemiconductorModule module ) {
         pan.setLayout( new BoxLayout( pan, BoxLayout.Y_AXIS ) );
 
-        addJButton( "One (1)", new ActionListener() {
+        addJButton( SimStrings.get( "DiodeControlPanel.OneButton" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setSingleSection();
             }
         }, false );
-        addJButton( "Two (2)", new ActionListener() {
+        addJButton( SimStrings.get( "DiodeControlPanel.TwoButton" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setDoubleSection();
             }
         }, true );
-        addJButton( "Three (3)", new ActionListener() {
+        addJButton( SimStrings.get( "DiodeControlPanel.ThreeButton" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setTripleSection();
             }
         }, false );
-        Border b = BorderFactory.createTitledBorder( "Segments" );
+        Border b = BorderFactory.createTitledBorder( SimStrings.get( "DiodeControlPanel.SegmentBorder" ) );
         pan.setBorder( b );
 
         setBackground( new Color( 240, 230, 210 ) );
         add( pan );
-        final JCheckBox gate = new JCheckBox( "Gate" );
+        final JCheckBox gate = new JCheckBox( SimStrings.get( "DiodeControlPanel.GateCheckBox" ) );
         gate.setSelected( true );
         gate.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

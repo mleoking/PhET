@@ -24,6 +24,7 @@ import edu.colorado.phet.common.view.util.AspectRatioLayout;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.view.util.graphics.HashedImageLoader;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.macro.circuit.CircuitSection;
 import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatterySpinner;
@@ -52,6 +53,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -60,6 +62,9 @@ import java.util.ArrayList;
  * Copyright (c) Feb 7, 2004 by Sam Reid
  */
 public class SemiconductorModule extends Module implements Graphic {
+    // Localization
+    public static final String localizedStringsPath = "localization/SemiConductorStrings";
+
     CircuitSection circuitSection;
     EnergySection energySection;
     ModelViewTransform2D transform;
@@ -71,7 +76,7 @@ public class SemiconductorModule extends Module implements Graphic {
     private MagnetGraphic magnetGraphic;
 
     public SemiconductorModule( SwingTimerClock clock ) throws IOException {
-        super( "Diodes" );
+        super( SimStrings.get( "ModuleTitle.SemiconductorModule" ) );
         transform = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 10, 10 ), new Rectangle( 0, 0, 1, 1 ) );
 
 
@@ -269,10 +274,24 @@ public class SemiconductorModule extends Module implements Graphic {
     }
 
     public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
+        
 //        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
 //        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );
         FrameSetup fs = new TopOfScreen();
-        ApplicationDescriptor ad = new ApplicationDescriptor( "Diodes", "Diodes", "Diodes", fs );
+        ApplicationDescriptor ad = new ApplicationDescriptor( SimStrings.get( "SemiconductorApplication.title" ),
+                                SimStrings.get( "SemiconductorApplication.description" ),
+                                SimStrings.get( "SemiconductorApplication.version" ), fs );
         SwingTimerClock clock = new SwingTimerClock( 1, 45, true );
         SemiconductorModule module = new SemiconductorModule( clock );
         PhetApplication pa = new PhetApplication( ad, module, clock );

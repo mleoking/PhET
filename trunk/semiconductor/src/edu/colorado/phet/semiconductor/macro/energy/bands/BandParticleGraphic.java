@@ -4,6 +4,7 @@ package edu.colorado.phet.semiconductor.macro.energy.bands;
 import edu.colorado.phet.common.math.PhetVector;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 
@@ -44,7 +45,7 @@ public class BandParticleGraphic extends TransformGraphic {
         if( showExclaim && bandParticle.isExcited() ) {
             graphics2D.setColor( Color.red );
             graphics2D.setFont( exclaimFont );
-            graphics2D.drawString( "!", pt.x - 14, pt.y );
+            graphics2D.drawString( SimStrings.get( "BandParticleGraphic.ExclaimText" ), pt.x - 14, pt.y );
         }
         graphics2D.setColor( Color.black );
         graphics2D.setFont( msgFont );
