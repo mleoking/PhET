@@ -426,7 +426,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * Computes the size of the canvas on which PhetGraphics attached to this panel are drawn.
-     * If the size changed, an referenceSizeChanged is called on all ChangeListeners
+     * If the size changed, an canvasSizeChanged is called on all ChangeListeners
      */
     private void determineCanvasSize() {
         double refAspectRatio = referenceBounds.getHeight() / referenceBounds.getWidth();
@@ -442,7 +442,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         Dimension oldSize = new Dimension( canvasSize );
         canvasSize.setSize( referenceBounds.getWidth() * widthFactor, referenceBounds.getHeight() * heightFactor );
         if( oldSize.width != canvasSize.width || oldSize.height != canvasSize.height ) {
-            changeListenerProxy.referenceSizeChanged( new ChangeEvent( ApparatusPanel2.this ) );
+            changeListenerProxy.canvasSizeChanged( new ChangeEvent( ApparatusPanel2.this ) );
         }
     }
 
@@ -617,7 +617,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     public interface ChangeListener extends EventListener {
-        void referenceSizeChanged( ChangeEvent event );
+        void canvasSizeChanged( ChangeEvent event );
     }
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
