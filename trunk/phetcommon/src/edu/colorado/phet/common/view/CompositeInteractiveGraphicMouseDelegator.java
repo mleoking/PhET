@@ -7,7 +7,8 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
+import edu.colorado.phet.common.view.graphics.Boundary;
+import edu.colorado.phet.common.view.graphics.Boundary;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.*;

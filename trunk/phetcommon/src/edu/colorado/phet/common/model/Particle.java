@@ -13,7 +13,7 @@ import edu.colorado.phet.common.util.SimpleObservable;
 import java.awt.geom.Point2D;
 
 public class Particle extends SimpleObservable implements ModelElement {
-    private Point2D.Double position = new Point2D.Double();
+    private Point2D position = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D acceleration = new Vector2D.Double();
     //Relying on this being null for the first iteration.
@@ -29,7 +29,7 @@ public class Particle extends SimpleObservable implements ModelElement {
         setAcceleration( acceleration );
     }
 
-    public Point2D.Double getPosition() {
+    public Point2D getPosition() {
         return position;
     }
 

@@ -21,7 +21,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 public class FieldLatticeView implements Graphic, SimpleObserver {
@@ -44,33 +43,29 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     private boolean autoscaleEnabled = false;
     private AffineTransform atx;
 
-    private ImageObserver imgObserver = new ImageObserver() {
-        public boolean imageUpdate( Image img, int infoflags,
-                                    int x, int y, int width, int height ) {
-            return false;
-        }
-    };
     private boolean displayStaticField;
     private boolean displayDynamicField;
     private int fieldSense = FORCE_ON_ELECTRON;
     private int fieldDisplayType;
-    private int width;
     private ArrayList arrows = new ArrayList();
     private GeneralPath negPath;
     private GeneralPath posPath;
     // How far from the transmitting antenna the first field arrow is drawn
     private int firstArrowOffset = 25;
+    private Component component;
 
     public FieldLatticeView( Electron sourceElectron, Point origin,
                              int width, int height,
-                             int latticeSpacingX, int latticeSpacingY ) {
+                             int latticeSpacingX, int latticeSpacingY,
+                             Component component ) {
+        this.component = component;
 
         if( !( fieldSense == FORCE_ON_ELECTRON
                || fieldSense == ELECTRIC_FIELD ) ) {
             throw new RuntimeException( "Bad actual parameter: fieldSense " );
         }
 
-        this.width = width;
+        //        this.width = width;
         this.transmittingElectronOrigin = origin;
         this.latticeSpacingX = latticeSpacingX;
         this.latticeSpacingY = latticeSpacingY;
@@ -192,11 +187,48 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                 evaluateFieldPt( fieldPt );
             }
 
+            Rectangle oldBounds = new Rectangle();
+            if( negPath != null ) {
+                Rectangle negBounds = negPath.getBounds();
+                oldBounds.union( negBounds );
+//                component.repaint( negBounds.x, negBounds.y, negBounds.width, negBounds.height );
+            }
+            if( posPath != null ) {
+                Rectangle posBounds = posPath.getBounds();
+                oldBounds.union( posBounds );
+//                component.repaint( posBounds.x, posBounds.y, posBounds.width, posBounds.height );
+            }
+
             this.negPath = createCurves( latticePtsNeg );
             this.posPath = createCurves( latticePtsPos );
+
+            Rectangle negBounds = negPath.getBounds();
+            oldBounds.union( negBounds );
+//            component.repaint( negBounds.x, negBounds.y, negBounds.width, negBounds.height );
+            Rectangle posBounds = posPath.getBounds();
+            oldBounds.union( posBounds );
+//            component.repaint( posBounds.x, posBounds.y, posBounds.width, posBounds.height );
+
+            // For fast painting
+            for( int i = 0; i < arrows.size(); i++ ) {
+                Arrow arrow = (Arrow)arrows.get( i );
+                Rectangle arrowBounds = arrow.getShape().getBounds();
+                oldBounds.union( arrowBounds );
+//                component.repaint( arrowBounds.x, arrowBounds.y, arrowBounds.width, arrowBounds.height );
+            }
+
             arrows.clear();
             addArrows( arrows, latticePtsNeg );
             addArrows( arrows, latticePtsPos );
+
+            // For fast painting
+            for( int i = 0; i < arrows.size(); i++ ) {
+                Arrow arrow = (Arrow)arrows.get( i );
+                Rectangle arrowBounds = arrow.getShape().getBounds();
+                oldBounds.union( arrowBounds );
+//                component.repaint( arrowBounds.x, arrowBounds.y, arrowBounds.width, arrowBounds.height );
+            }
+            component.repaint( oldBounds.x, oldBounds.y, oldBounds.width, oldBounds.height );
         }
     }
 
@@ -213,6 +245,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
                                                            fieldPt.getY() + magnitude * arrowDir ),
                                        hollowArrowHeadWidth * 0.7, hollowArrowHeadWidth,
                                        hollowArrowWidth, 0.5, false ) );
+
             }
         }
     }
@@ -293,7 +326,6 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     public void setTransform( AffineTransform atx ) {
         this.atx = atx;
     }
-
 
 
     //

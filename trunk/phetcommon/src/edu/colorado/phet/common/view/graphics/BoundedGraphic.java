@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.common.view.graphics;
 
-import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 
 public interface BoundedGraphic extends Graphic, Boundary {
 }

@@ -26,15 +26,15 @@ public class HelpMenu extends JMenu {
         String version = appDescriptor.getVersion();
         String message = name + "\n" + desc + "\nVersion: " + version + "\n";
         try {
-            VersionUtils.VersionInfo[] inf = VersionUtils.readVersionInfo( appDescriptor.getName() );
-
-            for( int i = 0; i < inf.length; i++ ) {
-                VersionUtils.VersionInfo versionInfo = inf[i];
-                message += versionInfo.toString();
-                if( i < inf.length ) {
-                    message += "\n";
-                }
-            }
+//            VersionUtils.VersionInfo[] inf = VersionUtils.readVersionInfo( appDescriptor.getName() );
+//
+//            for( int i = 0; i < inf.length; i++ ) {
+//                VersionUtils.VersionInfo versionInfo = inf[i];
+//                message += versionInfo.toString();
+//                if( i < inf.length ) {
+//                    message += "\n";
+//                }
+//            }
             final String msg = message;
             about.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -43,7 +43,8 @@ public class HelpMenu extends JMenu {
             } );
 
         }
-        catch( IOException e ) {
+        catch( Exception e ) {
+//        catch( IOException e ) {
             e.printStackTrace();
             message += "Could not load version info, error=" + e.toString();
             StackTraceElement[] st = e.getStackTrace();

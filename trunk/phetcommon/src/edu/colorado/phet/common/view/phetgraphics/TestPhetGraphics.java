@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.util.ImageLoader;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 
 /**
@@ -25,7 +26,7 @@ import java.io.IOException;
 public class TestPhetGraphics {
     static double scale = 1;
 
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) throws IOException, InterruptedException {
         final ApparatusPanel panel = new ApparatusPanel();
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
 
@@ -90,11 +91,11 @@ public class TestPhetGraphics {
         Vector2D vec = new Vector2D.Double( loc, dest );
         transformText.translate( vec.getX(), vec.getY() );
 
-//        clock.addClockTickListener( new ClockTickListener() {
-//            public void clockTicked( AbstractClock c, double dt ) {
-//                transformText.rotate(.01);
-//            }
-//        } );
+        //        clock.addClockTickListener( new ClockTickListener() {
+        //            public void clockTicked( AbstractClock c, double dt ) {
+        //                transformText.rotate(.01);
+        //            }
+        //        } );
         transformText.rotate( -Math.PI / 4 );
 
         DefaultInteractiveGraphic multiLineInteraction = new DefaultInteractiveGraphic( transformText );
@@ -118,12 +119,22 @@ public class TestPhetGraphics {
         cpg.addGraphic( new PhetShapeGraphic( panel, new Rectangle( 100, 300 ), Color.blue ) );
         cpg.addGraphic( new PhetShapeGraphic( panel, new Rectangle( 300, 100 ), Color.red ) );
         panel.addGraphic( cpg, -1 );
-//        imageGraphic.setVisible( false );
+        //        imageGraphic.setVisible( false );
+
+        PhetTextGraphic textGraphic2 = new PhetTextGraphic( panel, font, "test text", Color.blue, 50, 200 );
+        panel.addGraphic( textGraphic2 );
+        textGraphic2.setVisible( true );
 
         JFrame jf = new JFrame();
         jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         jf.setContentPane( panel );
         jf.setSize( 400, 400 );
         jf.setVisible( true );
+        Thread.sleep(1000);
+
+        PhetShapeGraphic shapeG2=new PhetShapeGraphic( panel, new Ellipse2D.Double(200,200,50,80),Color.green);
+        shapeG2.setVisible( true );
+        Thread.sleep(500);
+        panel.addGraphic( shapeG2);
     }
 }

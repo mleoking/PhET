@@ -313,7 +313,8 @@ public class Electron extends Body {
         return result;
     }
 
-    public Point2D.Double getCM() {
+    public Point2D getCM() {
+//    public Point2D.Double getCM() {
         return getPosition();
     }
 

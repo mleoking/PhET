@@ -65,7 +65,9 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
     }
 
     public void translate( double dx, double dy ) {
-        electron.moveToNewPosition( new Point2D.Double( dragPt.getX(), dragPt.getY() ));
+        ModelViewTransform2D mvTx = module.getMvTx();
+        Point2D newPt = mvTx.viewToModel( dragPt.x, dragPt.y );
+        electron.moveToNewPosition( newPt );
     }
 
     public boolean contains( int x, int y ) {

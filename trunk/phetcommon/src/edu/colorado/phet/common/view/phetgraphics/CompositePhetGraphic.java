@@ -68,10 +68,10 @@ public class CompositePhetGraphic extends PhetGraphic {
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        for( int i = 0; i < list.size(); i++ ) {
-            PhetGraphic graphic = (PhetGraphic)list.get( i );
-            graphic.setVisible( visible );
-        }
+//        for( int i = 0; i < list.size(); i++ ) {
+//            PhetGraphic graphic = (PhetGraphic)list.get( i );
+//            graphic.setVisible( visible );
+//        }
     }
 
     public int numGraphics() {

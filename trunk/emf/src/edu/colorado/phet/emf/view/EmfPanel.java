@@ -43,7 +43,8 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
                                                  origin,
                                                  fieldWidth - latticeSpacingX, fieldHeight,
                                                  latticeSpacingX,
-                                                 latticeSpacingY );
+                                                 latticeSpacingY,
+                                                 this );
         addGraphic( fieldLatticeView, 4 );
 
         // Add the background

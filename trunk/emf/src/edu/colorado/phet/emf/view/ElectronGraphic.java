@@ -49,6 +49,7 @@ public class ElectronGraphic extends FastPaintImageGraphic
 
 //        Rectangle r1 = new Rectangle( location.x - getImage().getWidth( null ) / 2, location.y - getImage().getHeight( null ) / 2,
 //                                      getImage().getWidth( null ), getImage().getHeight( null ));
+
         location.x = (int)electron.getCurrentPosition().getX();
         location.y = (int)electron.getCurrentPosition().getY();
 
