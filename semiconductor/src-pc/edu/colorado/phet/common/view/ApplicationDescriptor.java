@@ -14,6 +14,7 @@ public class ApplicationDescriptor {
     String description;
     String version;
     FrameSetup frameSetup;
+    String name;
 
     public ApplicationDescriptor( String windowTitle, String description, String version, FrameSetup frameSetup ) {
         this.windowTitle = windowTitle;
@@ -36,5 +37,13 @@ public class ApplicationDescriptor {
 
     public FrameSetup getFrameSetup() {
         return frameSetup;
+    }
+    
+    public void setName( String name ) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }
