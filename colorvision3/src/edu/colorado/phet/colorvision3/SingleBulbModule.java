@@ -19,6 +19,7 @@ import edu.colorado.phet.colorvision3.model.PhotonBeam;
 import edu.colorado.phet.colorvision3.model.SolidBeam;
 import edu.colorado.phet.colorvision3.model.Spotlight;
 import edu.colorado.phet.colorvision3.view.FilterGraphic;
+import edu.colorado.phet.colorvision3.view.FilterHolderGraphic;
 import edu.colorado.phet.colorvision3.view.PersonGraphic;
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
 import edu.colorado.phet.colorvision3.view.PipeGraphic;
@@ -53,11 +54,12 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
   private static final double FILTER_PIPE_LAYER = 4;
   private static final double FILTER_SLIDER_LAYER = 5;
   private static final double POST_FILTER_BEAM_LAYER = 6;
-  private static final double FILTER_LAYER = 7;
-  private static final double PRE_FILTER_BEAM_LAYER = 8;
-  private static final double PHOTON_BEAM_LAYER = 9;
-  private static final double SPOTLIGHT_LAYER = 10;
-  private static final double PERSON_FOREGROUND_LAYER = 11;
+  private static final double FILTER_HOLDER_LAYER = 7;
+  private static final double FILTER_LAYER = 8;
+  private static final double PRE_FILTER_BEAM_LAYER = 9;
+  private static final double PHOTON_BEAM_LAYER = 10;
+  private static final double SPOTLIGHT_LAYER = 11;
+  private static final double PERSON_FOREGROUND_LAYER = 12;
   private static final double HELP_LAYER = Double.MAX_VALUE;
 
   // Colors
@@ -72,8 +74,9 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	private static final double FILTER_Y      = 250;
 	
 	// Locations of view components
+	private static final Point FILTER_HOLDER_LOCATION     = new Point( 342, 395 );
 	private static final Point FILTER_SLIDER_LOCATION     = new Point( 100, 515 );
-	private static final Point FILTER_PIPE_LOCATION       = new Point( 250, 415 );
+	private static final Point FILTER_PIPE_LOCATION       = new Point( 249, 415 );
 	private static final Point WAVELENGTH_SLIDER_LOCATION = new Point( 100, 100 );
 	private static final Point WAVELENGTH_PIPE_LOCATION   = new Point(  50, 112 );
 	
@@ -196,6 +199,11 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     _filterGraphic = new FilterGraphic( apparatusPanel, _filterModel );
     apparatusPanel.addGraphic( _filterGraphic, FILTER_LAYER );
     
+    // Filter holder
+    FilterHolderGraphic filterHolder = new FilterHolderGraphic( apparatusPanel );
+    filterHolder.setLocation( FILTER_HOLDER_LOCATION );
+    apparatusPanel.addGraphic( filterHolder, FILTER_HOLDER_LAYER );
+    
     // Pre-filter columnar beam
     _preFilterBeamGraphic = new SolidBeamGraphic( apparatusPanel, _preFilterBeamModel );
     _preFilterBeamGraphic.setAlphaScale( 95 /* percent */ );
@@ -222,7 +230,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     
     // Pipe connecting filter control to filter.
     _filterPipe = new PipeGraphic( apparatusPanel );
-    _filterPipe.setThickness( 5 );
+    _filterPipe.setThickness( 6 );
     _filterPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 110, 105 );
     _filterPipe.addSegment( PipeGraphic.VERTICAL, 100,   0, 115 );
     _filterPipe.setLocation( FILTER_PIPE_LOCATION );
@@ -239,7 +247,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     
     // Pipe connecting wavelength control to spotlight. 
     _wavelengthPipe = new PipeGraphic( apparatusPanel );
-    _wavelengthPipe.setThickness( 5 );
+    _wavelengthPipe.setThickness( 6 );
     _wavelengthPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 0, 100 );
     _wavelengthPipe.addSegment( PipeGraphic.VERTICAL,   0, 0, 215 );
     _wavelengthPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 210, 100 );
@@ -386,9 +394,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
       }
       
       // Filter enable
-      _filterModel.setEnabled( filterEnabled );
-      _filterSlider.setVisible( filterEnabled );
-      _filterPipe.setVisible( filterEnabled );  
+      _filterModel.setEnabled( filterEnabled ); 
     }
     else
     {

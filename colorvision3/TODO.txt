@@ -17,8 +17,8 @@ Single Bulb module:
 8. Move the Filter on/off control out of the control panel and into the apparatus panel.
     Locate it directly below the filter holder. Make it clear to the user how to select
     "on" and "off" states for the filter.
-9. When the filter is "off", hide only the filter.  The Filter Color slider and filter stand
-    should remain visible.
+(DONE) 9. When the filter is "off", hide only the filter.  The Filter Color slider and filter stand
+          should remain visible.
 
 Global issues;
 10. Work with Kathy on Help, defer MegaHelp.

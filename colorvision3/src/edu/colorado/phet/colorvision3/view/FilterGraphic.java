@@ -75,7 +75,7 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
     Rectangle bounds = null;
     if ( _exterior != null )
     {
-      bounds = _exterior.getBounds();
+      bounds = new Rectangle( _exterior.getBounds() );
     }
     return bounds;
   }
@@ -96,20 +96,18 @@ public class FilterGraphic extends PhetGraphic implements SimpleObserver
     // If the filter has moved, reconstruct it.
     if ( x != _x || y != y )
     {
-      // Use constructive area geomety to create the exterior shape.
-      Area area = new Area();
+      // Use constructive area geometry to create the exterior shape.
+      Area exterior = new Area();
       {
-        Ellipse2D.Double e1 = new Ellipse2D.Double( x, y, 20, LENS_HEIGHT );
-        Rectangle2D.Double r1 = new Rectangle2D.Double( x+10, y, 10, LENS_HEIGHT );
-        Ellipse2D.Double e2 = new Ellipse2D.Double( x+10, y, 20, LENS_HEIGHT );
-        Rectangle2D.Double base = new Rectangle2D.Double( x+10, y+LENS_HEIGHT, 10, 20 );
-        area.add( new Area(e1) );
-        area.add( new Area(e2) );
-        area.add( new Area(r1) );
-        area.add( new Area(base) );
+        Ellipse2D e1 = new Ellipse2D.Double( x, y, 20, LENS_HEIGHT );
+        Rectangle2D r1 = new Rectangle2D.Double( x+10, y, 10, LENS_HEIGHT );
+        Ellipse2D e2 = new Ellipse2D.Double( x+10, y, 20, LENS_HEIGHT );
+        exterior.add( new Area(e1) );
+        exterior.add( new Area(e2) );
+        exterior.add( new Area(r1) );
       }
       
-      _exterior = area;
+      _exterior = exterior;
       _interior = new Ellipse2D.Double( x, y, 20, LENS_HEIGHT );
       _lens = new Ellipse2D.Double( x+4, y+4, 12, LENS_HEIGHT-8 );
     }
