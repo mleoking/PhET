@@ -65,6 +65,14 @@ public class Chart extends PhetGraphic {
         this.title = title;
     }
 
+    public void removeDataSetGraphic( DataSetGraphic dataSetGraphic ) {
+        dataSetGraphics.remove( dataSetGraphic );
+    }
+
+    public boolean containsDataSetGraphic( DataSetGraphic dataSetGraphic ) {
+        return dataSetGraphics.contains( dataSetGraphic );
+    }
+
     public interface Listener {
         void transformChanged( Chart chart );
     }
