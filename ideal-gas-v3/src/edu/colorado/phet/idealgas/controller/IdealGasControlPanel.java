@@ -1,13 +1,19 @@
-// edu.colorado.phet.graphics.idealgas.IdealGasControlPanel
+/* Copyright 2003-2004, University of Colorado */
+
 /*
- * User: Administrator
- * Date: Nov 5, 2002
- * Time: 7:53:21 AM
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ToggleButton;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import javax.swing.*;
@@ -23,11 +29,13 @@ import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
 import java.util.Hashtable;
 
+/**
+ * The base control panel for all modules.
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class IdealGasControlPanel extends JPanel {
-
-    private static final int s_stoveSliderHeight = 80;
-    private static final int s_gravityControlPanelHeight = 80;
-    private static final int s_maxGravity = 40;
 
     private NumberFormat gravityFormat = NumberFormat.getInstance();
     private JTextField gravityTF;
@@ -43,6 +51,7 @@ public class IdealGasControlPanel extends JPanel {
     private JPanel buttonPanel;
     private GridBagConstraints particleControlsGbc;
 
+
     public IdealGasControlPanel( IdealGasModule module ) {
         super();
         this.module = module;
@@ -51,11 +60,12 @@ public class IdealGasControlPanel extends JPanel {
     }
 
     private void init() {
-
+        // Create the component panels
         makeMiscControls();
         makeButtonPanel();
         makeParticlesControls();
 
+        // Lay out the panel
         this.setLayout( new GridBagLayout() );
         gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                       1, 1, 1, 1,
@@ -147,9 +157,7 @@ public class IdealGasControlPanel extends JPanel {
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                                          new Insets( 2, 2, 2, 2 ), 0, 0 );
-
         buttonPanel.add( resetBtn, gbc );
-//        gbc.gridy++;
         buttonPanel.add( measurementDlgBtn, gbc );
         buttonPanel.revalidate();
     }
@@ -205,14 +213,14 @@ public class IdealGasControlPanel extends JPanel {
         } );
         gravityOnCB.setSelected( false );
 
-        gravitySlider = new JSlider( JSlider.VERTICAL, 0, s_maxGravity, 0 );
+        gravitySlider = new JSlider( JSlider.VERTICAL, 0, IdealGasConfig.s_maxGravity, 0 );
         gravitySlider.setPreferredSize( new Dimension( 60, 50 ) );
         gravitySlider.setPaintTicks( true );
         gravitySlider.setMajorTickSpacing( 10 );
         gravitySlider.setMinorTickSpacing( 5 );
         Hashtable labelTable = new Hashtable();
         labelTable.put( new Integer( 0 ), new JLabel( SimStrings.get( "Common.0" ) ) );
-        labelTable.put( new Integer( s_maxGravity ), new JLabel( SimStrings.get( "Common.Max" ) ) );
+        labelTable.put( new Integer( IdealGasConfig.s_maxGravity ), new JLabel( SimStrings.get( "Common.Max" ) ) );
         gravitySlider.setLabelTable( labelTable );
         gravitySlider.setPaintLabels( true );
         gravityControlPanel.add( gravitySlider, gbc );
@@ -294,8 +302,6 @@ public class IdealGasControlPanel extends JPanel {
             module.setMeasurementDlgVisible( false );
         }
     }
-
-
 }
 
 
