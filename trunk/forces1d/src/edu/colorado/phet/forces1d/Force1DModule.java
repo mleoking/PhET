@@ -70,10 +70,7 @@ public class Force1DModule extends Module {
 
         ModelElement updateGraphics = new ModelElement() {
             public void stepInTime( double dt ) {
-//                System.out.println( "Updating graphics." );
                 updateGraphics();
-
-//                forcePanel.paint();
             }
         };
 
