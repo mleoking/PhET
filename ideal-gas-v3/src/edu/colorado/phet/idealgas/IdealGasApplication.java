@@ -55,19 +55,6 @@ public class IdealGasApplication extends PhetApplication {
 //            setInitialModule( measurementModule );
 //            setInitialModule( hotAirBalloonModule );
             setInitialModule( idealGasModule );
-
-            // Create the clock
-//            SwingTimerClock clock = new SwingTimerClock( IdealGasConfig.s_timeStep,
-//                                                         IdealGasConfig.s_waitTime );
-//            setClock( clock );
-//
-////             Create the modules
-//            Module idealGasModule = new IdealGasModule( getClock() );
-//            Module[] modules = new Module[]{
-//                idealGasModule
-//            };
-//            setModules( modules );
-//            setInitialModule( idealGasModule );
         }
     }
 

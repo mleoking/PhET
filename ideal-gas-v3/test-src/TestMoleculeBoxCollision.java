@@ -56,8 +56,8 @@ public class TestMoleculeBoxCollision extends PhetApplication {
             final GasMolecule[] m = new GasMolecule[]{null};
             testBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m[0] = new HeavySpecies( new Point2D.Double( 249.204, 279.1 ),
-                                             new Vector2D.Double( -100, -10 ),
+                    m[0] = new HeavySpecies( new Point2D.Double( 500, 279.1 ),
+                                             new Vector2D.Double( -30, 0 ),
                                              new Vector2D.Double(),
                                              5 );
 //                    m[0] = new HeavySpecies( new Point2D.Double( 383.3, 389.35 ),
@@ -83,8 +83,14 @@ public class TestMoleculeBoxCollision extends PhetApplication {
 
     public TestMoleculeBoxCollision() {
         super( new TestApplicationModel() );
+
+//        getApplicationDescriptor().getClock().addClockTickListener( new ClockTickListener() {
+//            public void clockTicked( AbstractClock c, double dt ) {
+//                getApplicationView().getBasicPhetPanel().repaint();
+//            }
+//        } );
+
         this.startApplication();
-//        this.getApplicationDescriptor().getClock().setPaused( true );
     }
 
     public static void main( String[] args ) {

@@ -62,7 +62,7 @@ public class TestMoleculeHollowSphereCollision extends PhetApplication {
             HollowSphere sphere = null;
             sphere = new HollowSphere( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
                                                            box.getMinY() + box.getHeight() / 2 ),
-                                       new Vector2D.Double( 0, 0 ),
+                                       new Vector2D.Double( 0, -100 ),
                                        new Vector2D.Double( 0, 0 ),
                                        100,
                                        50 );
