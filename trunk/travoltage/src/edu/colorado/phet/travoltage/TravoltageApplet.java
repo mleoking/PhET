@@ -40,7 +40,7 @@ public class TravoltageApplet extends JApplet {
         if( applicationLocale == null ) {
             applicationLocale = Toolkit.getProperty( "javaws.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                Locale.setDefault( new Locale( applicationLocale ) );
+                SimStrings.setLocale( new Locale( applicationLocale ) );
             }
         }
         SimStrings.setStrings( localizedStringsPath );
@@ -216,14 +216,14 @@ public class TravoltageApplet extends JApplet {
         String argsKey = "user.language=";
         if( args.length > 0 && args[0].startsWith( argsKey ) ) {
             applet.applicationLocale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( applet.applicationLocale ) );
+            SimStrings.setLocale( new Locale( applet.applicationLocale ) );
         }
 
         applet.init();
         Dimension size = new Dimension( applet.getJohnWidth(), applet.getJohnHeight() );
         applet.setSize( size );
 
-        JFrame f = new JFrame( "Travoltage" );
+        JFrame f = new JFrame( SimStrings.get( "TravoltageApplication.title" ) );
         f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         f.setContentPane( applet );
         f.pack();
