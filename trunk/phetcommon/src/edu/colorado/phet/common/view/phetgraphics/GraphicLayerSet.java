@@ -32,7 +32,8 @@ import java.util.Iterator;
 public class GraphicLayerSet extends PhetGraphic {
 
     private MultiMap graphicMap = new MultiMap();
-    private PhetGraphic activeUnit;
+    private PhetGraphic activeUnit;//The unit being dragged or moused-over.
+    private PhetGraphic keyFocusUnit;//The unit that should accept key events.
     private SwingAdapter swingAdapter;
     private KeyListener keyAdapter = new KeyAdapter();
 
@@ -266,26 +267,42 @@ public class GraphicLayerSet extends PhetGraphic {
         return keyAdapter;
     }
 
+    private void setKeyFocus( PhetGraphic focus ) {
+        if( keyFocusUnit != focus ) {
+            if( keyFocusUnit != null ) {
+                keyFocusUnit.lostKeyFocus();
+            }
+
+            this.keyFocusUnit = activeUnit;
+            //Fire a focus change.
+            if( keyFocusUnit != null ) {
+                keyFocusUnit.gainedKeyFocus();
+            }
+        }
+
+    }
+
     public class KeyAdapter implements KeyListener {
         //TODO this should probably include code to have a separate key-focused handler.
         public void keyTyped( KeyEvent e ) {
-            if( activeUnit != null ) {
-                activeUnit.fireKeyTyped( e );
+            if( keyFocusUnit != null ) {
+                keyFocusUnit.fireKeyTyped( e );
             }
         }
 
         public void keyPressed( KeyEvent e ) {
-            if( activeUnit != null ) {
-                activeUnit.fireKeyPressed( e );
+            if( keyFocusUnit != null ) {
+                keyFocusUnit.fireKeyPressed( e );
             }
         }
 
         public void keyReleased( KeyEvent e ) {
-            if( activeUnit != null ) {
-                activeUnit.fireKeyReleased( e );
+            if( keyFocusUnit != null ) {
+                keyFocusUnit.fireKeyReleased( e );
             }
         }
     }
+
 
     /**
      * This class is used on a Swing component or AWT component to forward events to
@@ -299,7 +316,9 @@ public class GraphicLayerSet extends PhetGraphic {
             if( activeUnit != null ) {
                 activeUnit.fireMouseClicked( e );
             }
+            setKeyFocus( activeUnit );
         }
+
 
         public void mousePressed( MouseEvent e ) {
             handleEntranceAndExit( e );

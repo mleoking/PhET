@@ -970,4 +970,13 @@ public abstract class PhetGraphic {
             keyListener.keyReleased( e );
         }
     }
+
+    /**
+     * No-op by default (override for behavior), when it gains key focus.
+     */
+    public void gainedKeyFocus() {
+    }
+
+    public void lostKeyFocus() {
+    }
 }
