@@ -47,7 +47,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     private static final double WATER_LAYER = 2;
     private static final double FAUCET_LAYER = 3;
     private static final double SLIDER_LAYER = 4;
-    private static final double BAR_MAGNET_LAYER = 5;
+    private static final double BAR_MAGNET_LAYER = 5; // magnet in front of water!
     private static final double PIVOT_LAYER = 6;
     private static final double RPM_LAYER = 7;
     
@@ -235,11 +235,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
                 // Update the RPM readout.
                 {
                     int rpms = (int) _turbineModel.getRPM();
-
-                    // Set the text
                     _rpmValue.setText( String.valueOf( rpms ) );
-
-                    // Center justify
                     _rpmValue.centerRegistrationPoint();
                 }
 
