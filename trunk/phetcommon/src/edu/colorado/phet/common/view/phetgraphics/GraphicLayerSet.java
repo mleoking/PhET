@@ -62,7 +62,7 @@ public class GraphicLayerSet extends PhetGraphic {
      *
      * @return the SwingAdapter to listen to Components.
      */
-    public SwingAdapter getMouseAdapter() {
+    public SwingAdapter getMouseHandler() {
         return swingAdapter;
     }
 
