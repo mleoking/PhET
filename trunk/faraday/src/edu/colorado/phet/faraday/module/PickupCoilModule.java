@@ -25,9 +25,6 @@ import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.CompassGridRescaler;
-import edu.colorado.phet.faraday.util.ElectronSpeedRescaler;
-import edu.colorado.phet.faraday.util.LightbulbRescaler;
-import edu.colorado.phet.faraday.util.VoltmeterRescaler;
 import edu.colorado.phet.faraday.view.*;
 
 
