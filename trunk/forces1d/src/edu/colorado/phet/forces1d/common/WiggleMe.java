@@ -98,11 +98,13 @@ public class WiggleMe extends CompositePhetGraphic {
     }
 
     private void tick() {
-        double time = System.currentTimeMillis() - t0;
-        Point targetLoc = target.getLocation();
-        int y0 = targetLoc.y + target.getHeight() / 2 - getHeight();
-        int y = (int)( Math.sin( frequency * time ) * amplitude + y0 );
-        int x = targetLoc.x - getWidth();
-        setLocation( x, y );
+        if( isVisible() && getComponent().isShowing() ) {
+            double time = System.currentTimeMillis() - t0;
+            Point targetLoc = target.getLocation();
+            int y0 = targetLoc.y + target.getHeight() / 2 - getHeight();
+            int y = (int)( Math.sin( frequency * time ) * amplitude + y0 );
+            int x = targetLoc.x - getWidth();
+            setLocation( x, y );
+        }
     }
 }

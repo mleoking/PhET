@@ -30,10 +30,9 @@ public class Force1DPlotDeviceModel extends PlotDeviceModel {
         } );
 //        addListener( new ListenerAdapter() {
 //            public void recordingStarted() {
-//                resetRecordPointer();
+//                resetRecordPointer();  //todo this would be nice if it worked...
 //            }
 //        } );
-
     }
 
     public void resetRecordPointer() {

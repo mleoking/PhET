@@ -3,6 +3,7 @@ package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.ApparatusPanel3;
 import edu.colorado.phet.forces1d.common.WiggleMe;
@@ -68,8 +69,9 @@ public class FreeBodyDiagramPanel {
             }
         };
         freeBodyDiagram.addMouseInputListener( listener );
+        RepaintDebugGraphic.enable( fbdPanel, module.getClock() );
+        fbdPanel.setUseOffscreenBuffer( true );
     }
-
 
     public FreeBodyDiagram getFreeBodyDiagram() {
         return freeBodyDiagram;
@@ -81,8 +83,8 @@ public class FreeBodyDiagramPanel {
 
     public void updateGraphics() {
         freeBodyDiagram.updateAll();
-        if( fbdPanel.isVisible() ) {
-            fbdPanel.repaint( 0, 0, fbdPanel.getWidth(), fbdPanel.getHeight() );
+        if( fbdPanel.isShowing() ) {
+//            fbdPanel.repaint( 0, 0, fbdPanel.getWidth(), fbdPanel.getHeight() );
             fbdPanel.paint();
         }
     }

@@ -6,7 +6,6 @@ import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.ApparatusPanel3;
@@ -55,7 +54,6 @@ public class Force1DPanel extends ApparatusPanel3 {
     private Color top = new Color( 230, 255, 230 );
     private Color bottom = new Color( 180, 200, 180 );
     private FloatingControl floatingControl;
-
 
     public Force1DPanel( final Force1DModule module ) throws IOException {
         super( module.getModel(), module.getClock() );
@@ -247,6 +245,7 @@ public class Force1DPanel extends ApparatusPanel3 {
                 setReferenceSize();
             }
         } );
+        setUseOffscreenBuffer( true );
     }
 
     public Force1DLookAndFeel getLookAndFeel() {
@@ -391,17 +390,6 @@ public class Force1DPanel extends ApparatusPanel3 {
         repaintBuffer();
         forcePlotDevice.reset();
         repaint( 0, 0, getWidth(), getHeight() );
-    }
-
-    private boolean containsGraphic( PhetGraphic graphic ) {
-        PhetGraphic[] g = getGraphic().getGraphics();
-        for( int i = 0; i < g.length; i++ ) {
-            PhetGraphic phetGraphic = g[i];
-            if( phetGraphic == graphic ) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public Force1DModule getModule() {
