@@ -27,6 +27,7 @@ public class SoundApplication extends PhetApplication {
             // Specify the clock
             //            this.setClock( new ThreadedClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime, true ));
             this.setClock( new SwingTimerClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ) );
+            this.setName( "sound" );
 
             // Set up the modules
             Module singleSourceModule = new SingleSourceListenModule( this );
