@@ -291,10 +291,8 @@ public class BaseLaserModule extends Module {
         switch( lasingPhotonView ) {
             case PHOTON_DISCRETE:
                 if( waveGraphic != null ) {
-                    getApparatusPanel().removeGraphic( waveGraphic.getInternalStandingWave() );
-                    getApparatusPanel().removeGraphic( waveGraphic.getExternalStandingWave() );
+                    waveGraphic.setVisible( false );
                 }
-                waveGraphic = null;
                 seedBeam.setFanout( seedBeamFanout * 0.5 );
                 break;
             case PHOTON_WAVE:
@@ -302,8 +300,7 @@ public class BaseLaserModule extends Module {
                     waveGraphic = new LaserWaveGraphic( getApparatusPanel(), getCavity(),
                                                         rightMirror, getLaserModel(), getLaserModel().getMiddleEnergyState() );
                 }
-                addGraphic( waveGraphic.getInternalStandingWave(), LaserConfig.LEFT_MIRROR_LAYER - 1 );
-                addGraphic( waveGraphic.getExternalStandingWave(), LaserConfig.RIGHT_MIRROR_LAYER - 1 );
+                waveGraphic.setVisible( true );
                 seedBeam.setFanout( seedBeamFanout );
                 break;
             default :
@@ -473,7 +470,7 @@ public class BaseLaserModule extends Module {
 
 
     //-------------------------------------------------------------------------------------------------
-    // LeftSystemEvent handling
+    // Event handling
     //-------------------------------------------------------------------------------------------------
 
     public class InternalPhotonEmittedListener implements PhotonEmittedListener {
@@ -516,11 +513,6 @@ public class BaseLaserModule extends Module {
             // photon goes away. Set it's visibility based on the state of the simulation
             PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
             pg.setVisible( isPhotonGraphicVisible );
-
-            if( photon.getWavelength() > LaserConfig.MAX_WAVELENGTH && isPhotonGraphicVisible ) {
-                System.out.println( "BaseLaserModule$InternalPhotonEmittedListener.photonEmittedEventOccurred" );
-            }
-
             addGraphic( pg, LaserConfig.PHOTON_LAYER );
             photon.addLeftSystemListener( new PhotonLeftSystemListener( photon, pg ) );
         }

@@ -41,7 +41,6 @@ public class StandingWaveGraphic extends WaveGraphic {
     }
 
     public void stepInTime( double dt ) {
-        update();
         wavePath.reset();
         elapsedTime += dt;
         double a = Math.sin( ( elapsedTime / period ) * Math.PI );
@@ -51,8 +50,6 @@ public class StandingWaveGraphic extends WaveGraphic {
             double y = amplitude * ( a * Math.sin( ( x / lambda ) * Math.PI ) );
             wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
         }
-        listenerProxy.waveChanged( new ChangeEvent( this ) );
+        update();
     }
-
-
 }

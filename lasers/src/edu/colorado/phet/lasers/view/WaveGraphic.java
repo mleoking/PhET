@@ -120,15 +120,6 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
         restoreGraphicsState();
     }
 
-    public void energyLevelChanged( AtomicState.Event event ) {
-        double lambda = Photon.energyToWavelength( event.getEnergy() );
-        color = VisibleColor.wavelengthToColor( lambda );
-    }
-
-    public void meanLifetimechanged( AtomicState.Event event ) {
-
-    }
-
     public void addListener( Listener listener ) {
         eventChannel.addListener( listener );
     }
@@ -162,6 +153,7 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
         curtainBounds.setRect( wavePath.getBounds().getMinX(), cavity.getBounds().getMinY(),
                                wavePath.getBounds().getWidth(), cavity.getBounds().getHeight() );
         setBoundsDirty();
+        repaint();
     }
 
     private double getMaxInternalAmplitude() {
@@ -184,5 +176,15 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement, A
         public StandingWaveGraphic getStandingWave() {
             return (StandingWaveGraphic)getSource();
         }
+    }
+
+
+    public void energyLevelChanged( AtomicState.Event event ) {
+        double lambda = Photon.energyToWavelength( event.getEnergy() );
+        color = VisibleColor.wavelengthToColor( lambda );
+    }
+
+    public void meanLifetimechanged( AtomicState.Event event ) {
+
     }
 }
