@@ -33,8 +33,6 @@ public class StarMapModule extends Module {
         this.starshipCoords = new StarshipCoordsGraphic( model.getStarShip(), getApparatusPanel() );
 
         setControlPanel( new StarMapControlPanel( this ) );
-
-        model.getStarShip().setLocation( -100, 200 );
     }
 
     public void setStarshipCoordsEnabled( boolean coordsOn ) {

@@ -41,11 +41,6 @@ public class CockpitModule extends Module {
         setApparatusPanel( apparatusPanel );
         setModel( model );
 
-        activate( null );
-    }
-
-    public void activate( PhetApplication app ) {
-        ApparatusPanel apparatusPanel = getApparatusPanel();
         photometerReticle = new PhotometerReticle( apparatusPanel );
         photometerReticle.setLocation( 0, 0 );
 
@@ -58,7 +53,6 @@ public class CockpitModule extends Module {
                                                              apparatusPanel.getBounds().getWidth(),
                                                              apparatusPanel.getBounds().getHeight() );
         starView = new StarView( model.getStarShip(), starField, Config.viewAngle, bounds );
-//        starView = new StarView( model.getStarShip(), starField, Config.viewAngle, cockpitGraphic.getBounds() );
         model.getStarShip().setStarView( starView );
         model.addObserver( starView );
 
@@ -68,11 +62,9 @@ public class CockpitModule extends Module {
         apparatusPanel.addGraphic( starViewGraphic, Config.starLayer );
 
         parallaxReticle = new ParallaxReticle( apparatusPanel, Config.viewAngle );
-//        parallaxReticle = new ParallaxReticle( cockpitGraphic.getBounds(), Config.viewAngle );
 
         cockpitControlPanel = new CockpitControlPanel( this );
         setControlPanel( cockpitControlPanel );
-//        super.activate( app );
     }
 
 
@@ -113,7 +105,6 @@ public class CockpitModule extends Module {
         double dy = cockpitDx * Math.cos( this.starView.getPovTheta() );
         starView.movePov( dx, dy, gamma );
         cockpit.moveIncr( dx, dy );
-        System.out.println( "dx: " + dx + "  dy: " + dy );
         cockpit.setVelocity( (float)dx, (float)dy );
     }
 

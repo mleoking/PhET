@@ -9,10 +9,13 @@ package edu.colorado.phet.distanceladder.controller;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.distanceladder.model.*;
+import edu.colorado.phet.distanceladder.view.StarMapGraphic;
+import edu.colorado.phet.distanceladder.view.StarshipCoordsGraphic;
 import edu.colorado.phet.coreadditions.StringResourceReader;
 
 import java.util.List;
@@ -25,6 +28,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Format;
@@ -48,6 +53,11 @@ public class CockpitControlPanel extends JPanel {
         this.setLayout( new GridBagLayout() );
         int rowIdx = 0;
         try {
+            GraphicsUtil.addGridBagComponent( this, new StarMapPanel(),
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
             GraphicsUtil.addGridBagComponent( this, new ControlPanel( module ),
                                               0, rowIdx++,
                                               1, 1,
@@ -391,6 +401,7 @@ public class CockpitControlPanel extends JPanel {
             // Create controls
             brightnessTF = null;
             brightnessTF = new JTextField( 6 );
+            brightnessTF.setHorizontalAlignment( JTextField.RIGHT );
             final Format brightnessFormatter = new DecimalFormat( "###E0" );
 
             photometerObserver = new SimpleObserver() {
@@ -447,6 +458,7 @@ public class CockpitControlPanel extends JPanel {
             textFieldLabel.setEnabled( photometerEnabled );
             if( photometerEnabled ) {
                 module.getPhotometerReticle().getPhotometer().addObserver( photometerObserver );
+                photometerObserver.update();
             }
             else {
                 module.getPhotometerReticle().getPhotometer().removeObserver( photometerObserver );
@@ -501,6 +513,49 @@ public class CockpitControlPanel extends JPanel {
             catch( AWTException e ) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class StarMapPanel extends ApparatusPanel implements SimpleObserver {
+        private AffineTransform atx = new AffineTransform();
+        private Line2D.Double orientationLine = new Line2D.Double();
+        private AffineTransform lineTx = new AffineTransform();
+        private Starship starship;
+        private Stroke lineStroke = new BasicStroke( 1f );
+
+        public StarMapPanel() {
+            this.setLayout( new FlowLayout() );
+
+            starship = ((UniverseModel)module.getModel()).getStarShip();
+            starship.addObserver( this );
+            this.setPreferredSize( new Dimension( 200, 200 ));
+            StarMapGraphic starMapGraphic = new StarMapGraphic( this, ((UniverseModel)module.getModel()).getStarField() );
+            this.addGraphic( starMapGraphic, 1 );
+//            this.addGraphic( new StarshipCoordsGraphic( starship, this ), 2 );
+
+            orientationLine.setLine( 0, 0, this.getPreferredSize().getWidth(), 0 );
+        }
+
+        protected void paintComponent( Graphics graphics ) {
+            atx.setToTranslation( this.getWidth() / 2, this.getHeight() / 2 );
+
+            Graphics2D g2 = (Graphics2D)graphics;
+            AffineTransform orgTx = g2.getTransform();
+//            g2.transform( atx );
+            super.paintComponent( graphics );
+
+            lineTx.setToTranslation( this.getWidth() / 2, this.getHeight() / 2 );
+            lineTx.rotate( starship.getPov().getTheta() );
+            g2.transform( lineTx );
+            g2.setColor( Color.red );
+            g2.setStroke( lineStroke );
+            g2.draw( orientationLine );
+
+            g2.setTransform( orgTx );
+        }
+
+        public void update() {
+            this.repaint();            
         }
     }
 }
