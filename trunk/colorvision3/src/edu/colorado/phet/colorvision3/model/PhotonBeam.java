@@ -1,4 +1,4 @@
-/* PhotonBeam.java, Copyright 2004 University of Colorado */
+/* PhotonBeam.java, Copyright 2004 University of Colorado PhET */
 
 package edu.colorado.phet.colorvision3.model;
 

@@ -1,4 +1,4 @@
-/* PersonGraphic.java, Copyright 2004 University of Colorado */
+/* PersonGraphic.java, Copyright 2004 University of Colorado PhET */
 
 package edu.colorado.phet.colorvision3.view;
 
