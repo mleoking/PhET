@@ -10,18 +10,17 @@
  */
 package edu.colorado.phet.common.view;
 
-import java.awt.GridLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
-
-import javax.swing.*;
-
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.SwingUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 /**
  * PhetFrame
@@ -35,7 +34,7 @@ public class PhetFrame extends JFrame {
     private boolean paused; // state of the clock prior to being iconified
     private PhetApplication application;
     private ClockControlPanel clockControlPanel;
-    private BasicPhetPanel basicPhetPanel;
+    private ContentPanel basicPhetPanel;
 
     public PhetFrame( PhetApplication application ) throws IOException {
         super( application.getApplicationModel().getWindowTitle() );
@@ -81,8 +80,16 @@ public class PhetFrame extends JFrame {
         if( model.getUseClockControlPanel() ) {
             clockControlPanel = new ClockControlPanel( model.getClock() );
         }
-        basicPhetPanel = new BasicPhetPanel( apparatusPanelContainer, null, null, clockControlPanel );
+        basicPhetPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
         setContentPane( basicPhetPanel );
+    }
+
+    public PhetApplication getApplication() {
+        return application;
+    }
+
+    public ClockControlPanel getClockControlPanel() {
+        return clockControlPanel;
     }
 
     private JComponent createApparatusPanelContainer( PhetApplication application ) {
@@ -101,10 +108,6 @@ public class PhetFrame extends JFrame {
             return apparatusPanelContainer;
         }
 
-    }
-
-    public void setVisible( boolean b ) {
-        super.setVisible( b );
     }
 
     /**
@@ -140,7 +143,7 @@ public class PhetFrame extends JFrame {
         getJMenuBar().add( defaultFileMenu, 0 );
     }
 
-    public BasicPhetPanel getBasicPhetPanel() {
+    public ContentPanel getBasicPhetPanel() {
         return basicPhetPanel;
     }
 }
