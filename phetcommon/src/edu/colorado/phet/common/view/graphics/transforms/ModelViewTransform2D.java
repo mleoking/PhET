@@ -190,4 +190,8 @@ public class ModelViewTransform2D {
     public Shape createTransformedShape( Shape shape ) {
         return toAffineTransform().createTransformedShape( shape );
     }
+
+    public void removeTransformListener( TransformListener transformListener ) {
+        listeners.removeTransformListener( transformListener );
+    }
 }
