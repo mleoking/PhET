@@ -27,7 +27,6 @@ import edu.colorado.phet.colorvision3.view.BellCurve;
 import edu.colorado.phet.colorvision3.view.BoundsOutline;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 
