@@ -76,6 +76,7 @@ public class BaseLaserModule extends Module {
     private int numPhotons;
     private boolean displayHighLevelEmissions;
     protected boolean threeEnergyLevels;
+    private boolean mirrorsEnabled;
 
 
     /**
@@ -305,6 +306,7 @@ public class BaseLaserModule extends Module {
      * @param mirrorsEnabled
      */
     public void setMirrorsEnabled( boolean mirrorsEnabled ) {
+        this.mirrorsEnabled = mirrorsEnabled;
 
         // Regardless of the value of mirrorsEnabled, we should remove the
         // model elements and graphics for the mirrors. If mirrorsEnabled is
@@ -389,6 +391,22 @@ public class BaseLaserModule extends Module {
         leftMirror.setReflectivity( 1.0 );
 //        leftMirror.addReflectionStrategy( new RightReflecting() );
         leftMirrorGraphic = new MirrorGraphic( getApparatusPanel(), leftMirror, MirrorGraphic.RIGHT_FACING );
+    }
+
+    public void reset() {
+        laserModel.reset();
+        setSwingComponentsVisible( true );
+    }
+
+    public void setSwingComponentsVisible( boolean areVisible ) {
+        if( reflectivityControlPanel != null ) {
+            if( !areVisible ) {
+                reflectivityControlPanel.setVisible( areVisible );
+            }
+            else {
+                reflectivityControlPanel.setVisible( this.mirrorsEnabled );
+            }
+        }
     }
 
 

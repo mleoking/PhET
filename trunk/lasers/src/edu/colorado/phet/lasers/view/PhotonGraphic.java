@@ -28,6 +28,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
+import java.awt.image.ColorModel;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,9 +43,10 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
                                                                Photon.LeftSystemEventListener,
                                                                Photon.VelocityChangedListener {
 
-    //////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------
     // Class
-    //
+    //----------------------------------------------------------------
+
     static public final int s_imgHeight = (int)Photon.RADIUS;
     static public final int s_imgLength = 20;
 
@@ -80,6 +82,40 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         s_particleImage = sTxOp.filter( s_particleImage, null );
     }
 
+    // Creates an image for infrared photons
+    static BufferedImage s_IRphotonGraphic;
+
+    static {
+        int bwThreshold = 180;
+        s_IRphotonGraphic = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(),
+                                               BufferedImage.TYPE_INT_ARGB );
+        ColorModel cm = s_particleImage.getColorModel();
+        for( int x = 0; x < s_particleImage.getWidth(); x++ ) {
+            for( int y = 0; y < s_particleImage.getHeight(); y++ ) {
+                int rgb = s_particleImage.getRGB( x, y );
+                int alpha = cm.getAlpha( rgb );
+                int red = cm.getRed( rgb );
+                int green = cm.getGreen( rgb );
+                int blue = cm.getBlue( rgb );
+                int newRGB = 0;
+
+                if( alpha > 0 ) {
+                    if( red + green + blue > bwThreshold ) {
+                        alpha = 0;
+                    }
+                    else {
+                        red = green = blue = 0;
+                        alpha = 255;
+                    }
+                }
+                newRGB = alpha * 0x01000000 + 0 * 0x00010000 + 0 * 0x000000100 + 0 * 0x00000001;
+                s_IRphotonGraphic.setRGB( x, y, newRGB );
+            }
+        }
+
+    }
+
+
     // A map that matches photon wavelengths to display colors
     static HashMap colorMap = new HashMap();
 
@@ -93,7 +129,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     // by their angle of travel. The outer map keys the inner maps by color
     static HashMap s_animationMap = new HashMap();
 
-    // Generated all the photon animations
+    // Generates all the photon animations
     static {
         HashMap blueAnimationMap = new HashMap();
         s_animationMap.put( new Double( Photon.BLUE ), blueAnimationMap );
@@ -226,9 +262,10 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     }
 
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    //----------------------------------------------------------------
     // Instance
-    //
+    //----------------------------------------------------------------
+
     private double theta;
     private Rectangle2D rect = new Rectangle2D.Double();
     private Vector2D velocity;
@@ -281,14 +318,22 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         //        generateAnimation( photon );
         //        setImage( animation[0] );
 
-        // See if we've already got an image for this photon's color. If not, make one and cache it
         Double wavelength = new Double( photon.getWavelength() );
-        BufferedImage bi = (BufferedImage)s_colorToImage.get( wavelength );
-        if( bi == null ) {
-            BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
-            bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
-            op.filter( s_particleImage, bi );
-            s_colorToImage.put( wavelength, bi );
+        BufferedImage bi = null;
+        // If the wavelength is in the IR, use the special graphic
+        if( photon.getWavelength() > LaserConfig.MAX_WAVELENGTH ) {
+            bi = s_IRphotonGraphic;
+        }
+        // Otherwise, get an image that is the appropriate duotone color
+        else {
+            // See if we've already got an image for this photon's color. If not, make one and cache it
+            bi = (BufferedImage)s_colorToImage.get( wavelength );
+            if( bi == null ) {
+                BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
+                bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
+                op.filter( s_particleImage, bi );
+                s_colorToImage.put( wavelength, bi );
+            }
         }
 
         // Rotate the image

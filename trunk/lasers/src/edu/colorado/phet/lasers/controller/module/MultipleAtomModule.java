@@ -49,6 +49,8 @@ public class MultipleAtomModule extends BaseLaserModule {
     private double middleStateMeanLifetime = LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME;
     private double highStateMeanLifetime = LaserConfig.HIGH_ENERGY_STATE_MAX_LIFETIME;
     private UniversalLaserControlPanel laserControlPanel;
+    private Kaboom kaboom;
+    private BeamControl2 pumpBeamControl;
 
     /**
      *
@@ -123,9 +125,9 @@ public class MultipleAtomModule extends BaseLaserModule {
 
         // Add the beam control
         Point pumpControlLocation = new Point( (int)( cavity.getBounds().getX() - 150 ), 10 );
-        BeamControl2 pumpBeamControl = new BeamControl2( getApparatusPanel(), pumpControlLocation, pumpingBeam,
-                                                         LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE,
-                                                         null, null );
+        pumpBeamControl = new BeamControl2( getApparatusPanel(), pumpControlLocation, pumpingBeam,
+                                            LaserConfig.MAXIMUM_PUMPING_PHOTON_RATE,
+                                            null, null );
         getApparatusPanel().addGraphic( pumpBeamControl );
 
         // Set the averaging time for the energy levels display
@@ -134,7 +136,24 @@ public class MultipleAtomModule extends BaseLaserModule {
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
 
         // Add a kaboom element
-        getModel().addModelElement( new Kaboom( this ) );
+        kaboom = new Kaboom( this );
+        getModel().addModelElement( kaboom );
+    }
+
+    /**
+     * Clears out the current Kaboom instance, and creates a new one
+     */
+    public void reset() {
+        // Superclass behavior
+        super.reset();
+
+        // Clear the old kaboom stuff off the apparatus panel and out of the model
+        getModel().removeModelElement( kaboom );
+        kaboom.clearGraphics( getApparatusPanel() );
+
+        // Make a new kaboom, ready for firing
+        kaboom = new Kaboom( this );
+        getModel().addModelElement( kaboom );
     }
 
     /**
@@ -214,4 +233,8 @@ public class MultipleAtomModule extends BaseLaserModule {
         getLaserModel().getPumpingBeam().setEnabled( true );
     }
 
+    public void setSwingComponentsVisible( boolean areVisible ) {
+        super.setSwingComponentsVisible( areVisible );
+        pumpBeamControl.setVisible( areVisible );
+    }
 }

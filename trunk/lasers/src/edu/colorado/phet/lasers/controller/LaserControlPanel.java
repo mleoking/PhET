@@ -31,7 +31,7 @@ public class LaserControlPanel extends PhetControlPanel {
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                       GridBagConstraints.CENTER,
                                       GridBagConstraints.HORIZONTAL,
-                                      new Insets( 0, 0, 0, 0 ),
+                                      new Insets( 3, 0, 3, 0 ),
                                       0, 0 );
         super.setControlPane( laserControlPane );
         addDebugControls( module );
@@ -150,6 +150,14 @@ public class LaserControlPanel extends PhetControlPanel {
             aveSlider.setValue( module.getEnerglyLevelsAveragingPeriod() );
             panel.add( aveSlider, gbc );
 //            addControl( aveSlider );
+
+            final PhetSlider kaboomThresholdSlider = new PhetSlider( "Meltdown threshold", "Photons", 0, 500, Kaboom.kaboomThreshold );
+            kaboomThresholdSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    Kaboom.kaboomThreshold = (int)kaboomThresholdSlider.getValue();
+                }
+            } );
+            panel.add( kaboomThresholdSlider, gbc );
 
 //        dlg.pack();
 //        dlg.setVisible( true );
