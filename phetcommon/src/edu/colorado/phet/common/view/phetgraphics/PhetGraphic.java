@@ -310,6 +310,13 @@ public abstract class PhetGraphic {
         setBoundsDirty();
         autorepaint();
     }
+    
+    /**
+     * Convenience method for setting the registration point at the graphic's center.
+     */
+    public void centerRegistrationPoint() {
+        setRegistrationPoint( getWidth() / 2, getHeight() / 2 );
+    }
 
     /**
      * Gets a copy of the registration point.
@@ -731,8 +738,15 @@ public abstract class PhetGraphic {
      *
      * @param listener the listener to remove
      */
-    private void removeMouseInputListener( MouseInputListener listener ) {
+    public void removeMouseInputListener( MouseInputListener listener ) {
         mouseInputListener.removeMouseInputListener( listener );
+    }
+    
+    /**
+     * Removes all mouse input listeners.
+     */
+    public void removeAllMouseInputListeners() {
+        mouseInputListener.removeAllMouseInputListeners();
     }
 
     /**
@@ -905,7 +919,7 @@ public abstract class PhetGraphic {
     /**
      * Removes any custom cursor set on this graphic.
      */
-    private void removeCursor() {
+    public void removeCursor() {
         removeMouseInputListener( cursorControl );
     }
     
