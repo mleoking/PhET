@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- CompassGridGraphic shouldn't have to compute bounds, it should be the entire ApparatusPanel area
 - water wheel hitches as it rotates, because it's adjusting to hit critial angles
 - make electrons move at same speed whether grid is on or off
 - verify that AC hits zero crossings, check with lightbulb
@@ -35,7 +34,8 @@ LOW PRIORITY:
 - resize any images that are currently scaled (eg, bar magnet, electron)
 
 CLEANUP:
-- remove unused images from JAR file
+- remove unused images and assets
+- save all images using Photoshop's "Save for Web" feature
 - remove unused i18n strings
 - remove DebuggerGraphic from modules
 - move test-src programs to examples project
@@ -58,6 +58,8 @@ PHETCOMMON:
 
 DONE:
 v0r20...
+(3/23) - make compass grid use apparatus panel's canvas size to compute its bounds
+(3/23) - reduce JAR file size by 50% by saving all image files with Photoshop's "Save for Web" feature.
 (3/23) - resize barMagnet.png to eliminate need for scaling, set model size based on image size.
 (3/23) - resize electron.png to eliminate need for scaling
 (3/23) - move all knowledge of rendering strategy inside compass grid graphic
