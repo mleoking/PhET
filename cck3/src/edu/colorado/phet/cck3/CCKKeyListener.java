@@ -42,9 +42,10 @@ public class CCKKeyListener implements KeyListener {
         }
         else if( e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
             boolean orig = cck.getCircuitGraphic().isLifelike();
-            for( int i = 0; i < 100; i++ ) {
+            for( int i = 0; i < 50; i++ ) {
                 cck.setLifelike( !orig );
                 cck.setLifelike( orig );
+                System.out.println( "Lifelike count = " + i );
             }
         }
         else if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
@@ -54,6 +55,33 @@ public class CCKKeyListener implements KeyListener {
                 frame.repaint();
             }
         }
+        else if( e.getKeyCode() == KeyEvent.VK_T ) {
+            cck.addTestCircuit();
+        }
+        else if( e.getKeyCode() == KeyEvent.VK_R ) {
+            cck.clear();
+            cck.addTestCircuit();
+            for( int i = 0; i < 500; i++ ) {
+                cck.relayout( cck.getCircuit().getBranches() );
+                System.out.println( "Relayout = " + i );
+            }
+        }
+        else if( e.getKeyCode() == KeyEvent.VK_SEMICOLON ) {
+            for( int i = 0; i < 50; i++ ) {
+                cck.addTestCircuit();
+                cck.clear();
+                System.out.println( "Num Test Circuits = " + i );
+            }
+        }
+        else if( e.getKeyCode() == KeyEvent.VK_Z ) {
+            cck.clear();
+            cck.addTestCircuit();
+            for( int i = 0; i < 5000; i++ ) {
+                cck.relayout( cck.getCircuit().getBranches() );
+                System.out.println( "Relayout = " + i );
+            }
+        }
+
     }
 
     public void keyTyped( KeyEvent e ) {

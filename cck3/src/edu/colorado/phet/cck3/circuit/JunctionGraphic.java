@@ -7,6 +7,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -26,9 +27,13 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
     private double radius;
     private Circuit circuit;
     private double strokeWidthModelCoords = CCK3Module.JUNCTION_GRAPHIC_STROKE_WIDTH;
-    private SimpleObserver simpleObserver;
+    private SimpleObserver observer;
     private TransformListener transformListener;
     private PhetShapeGraphic highlightGraphic;
+    private CircuitListener circuitListener;
+    private static int instanceCount = 0;
+    private PhetTextGraphic debugGraphic;
+    private boolean showLabel = false;
 
     public JunctionGraphic( Component parent, Junction junction, ModelViewTransform2D transform, double radius, Circuit circuit ) {
         super( parent );
@@ -37,17 +42,22 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
         highlightGraphic = new PhetShapeGraphic( parent, new Area(), new BasicStroke( 4 ), Color.yellow );
         addGraphic( highlightGraphic );
         addGraphic( shapeGraphic );
+        if( showLabel ) {
+            debugGraphic = new PhetTextGraphic( getComponent(), new Font( "dialog", 0, 12 ), "", Color.black, 0, 0 );
+            addGraphic( debugGraphic );
+        }
         this.junction = junction;
         this.transform = transform;
         this.radius = radius;
         this.circuit = circuit;
-        simpleObserver = new SimpleObserver() {
+        observer = new SimpleObserver() {
             public void update() {
                 changed();
             }
         };
-        junction.addObserver( simpleObserver );
-        circuit.addCircuitListener( new CircuitListener() {
+        junction.addObserver( observer );
+        circuitListener = new CircuitListener() {
+
             public void junctionRemoved( Junction junction ) {
                 changed();
             }
@@ -71,7 +81,8 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
             public void junctionsSplit( Junction old, Junction[] j ) {
             }
 
-        } );
+        };
+        circuit.addCircuitListener( this.circuitListener );
 
         transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
@@ -79,10 +90,15 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
             }
         };
         transform.addTransformListener( transformListener );
-
-
         changed();
         setVisible( true );
+        instanceCount++;
+//        new Exception("Created JG # "+instanceCount+"").printStackTrace();
+//        System.out.println( "instanceCount = " + instanceCount );
+    }
+
+    public static int getInstanceCount() {
+        return instanceCount;
     }
 
     public void setVisible( boolean visible ) {
@@ -125,7 +141,12 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
             shapeGraphic.setBorderColor( Color.black );
             shapeGraphic.setStroke( createStroke( strokeWidthModelCoords ) );
         }
+        if( showLabel ) {
+            debugGraphic.setText( junction.getLabel() + "" );
+            debugGraphic.setPosition( shapeGraphic.getShape().getBounds().x, shapeGraphic.getShape().getBounds().y );
+        }
         super.setBoundsDirty();
+
     }
 
     public Junction getJunction() {
@@ -137,8 +158,10 @@ public class JunctionGraphic extends CCKCompositePhetGraphic {
     }
 
     public void delete() {
-        junction.removeObserver( simpleObserver );
+        junction.removeObserver( observer );
         transform.removeTransformListener( transformListener );
+        circuit.removeCircuitListener( circuitListener );
+        instanceCount--;
     }
 
     public Shape getShape() {

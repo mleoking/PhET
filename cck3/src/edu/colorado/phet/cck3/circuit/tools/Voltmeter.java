@@ -2,7 +2,7 @@
 package edu.colorado.phet.cck3.circuit.tools;
 
 import edu.colorado.phet.cck3.CCK3Module;
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
 
 import java.awt.geom.Rectangle2D;
 
@@ -49,7 +49,7 @@ public class Voltmeter {
         redLead.notifyObservers();
     }
 
-    public class VoltmeterUnit extends SimpleObservable {
+    public class VoltmeterUnit extends SimpleObservableDebug {
         double x;
         double y;
 
@@ -77,7 +77,7 @@ public class Voltmeter {
 
     }
 
-    public class Lead extends SimpleObservable {
+    public class Lead extends SimpleObservableDebug {
         double x;
         double y;
 

@@ -15,9 +15,9 @@ import java.util.Hashtable;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ParticleSetGraphic extends CompositeGraphic {
-    CCK3Module module;
+    private CCK3Module module;
     private BufferedImage image;
-    Hashtable table = new Hashtable();
+    private Hashtable table = new Hashtable();
 
     public ParticleSetGraphic( CCK3Module module ) throws IOException {
         this.module = module;
@@ -28,6 +28,7 @@ public class ParticleSetGraphic extends CompositeGraphic {
         ElectronGraphic eg = new ElectronGraphic( e, module.getTransform(), image, module.getApparatusPanel(), module );
         addGraphic( eg, 3 );
         table.put( e, eg );
+//        System.out.println( "Added Electron, table.size() = " + table.size() );
     }
 
     public boolean contains( int x, int y ) {
@@ -37,9 +38,10 @@ public class ParticleSetGraphic extends CompositeGraphic {
     public void removeGraphics( Electron[] electrons ) {
         for( int i = 0; i < electrons.length; i++ ) {
             Electron electron = electrons[i];
-            ElectronGraphic eg = (ElectronGraphic)table.get( electron );
+            ElectronGraphic eg = (ElectronGraphic)table.remove( electron );
             super.removeGraphic( eg );
             eg.delete();
         }
+//        System.out.println( "Removed electrons: table.size() = " + table.size() );
     }
 }

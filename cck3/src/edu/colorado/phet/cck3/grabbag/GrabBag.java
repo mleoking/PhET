@@ -28,7 +28,7 @@ Dog = infinite
         add( new GrabBagItem( getClass().getClassLoader().getResource( "paperclip.gif" ), "Paper Clip", CCK3Module.MIN_RESISTANCE, .7 ) );
         add( new GrabBagItem( getClass().getClassLoader().getResource( "penny.gif" ), "Penny", CCK3Module.MIN_RESISTANCE, .6 ) );
         add( new GrabBagItem( getClass().getClassLoader().getResource( "eraser.gif" ), "Eraser", Math.pow( 10, 9 ), .7 ) );
-        add( new GrabBagItem( getClass().getClassLoader().getResource( "pencil.gif" ), "Pencil Lead", 3000, 2 ) );
+        add( new GrabBagItem( getClass().getClassLoader().getResource( "pencil.gif" ), "Pencil Lead", 3000, 3.5 ) );
         add( new GrabBagItem( getClass().getClassLoader().getResource( "hand.gif" ), "Hand", Math.pow( 10, 6 ), 1 ) );
         add( new GrabBagItem( getClass().getClassLoader().getResource( "dog.gif" ), "Dog", Math.pow( 10, 9 ), 2.5 ) );
     }

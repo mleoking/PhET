@@ -25,7 +25,6 @@ import java.util.StringTokenizer;
  * Copyright (c) Jun 2, 2004 by Sam Reid
  */
 public class ReadoutGraphic implements Graphic {
-//    PhetShadowTextGraphic textGraphic;
     PhetMultiLineTextGraphic textGraphic;
     private CCK3Module module;
     Branch branch;
@@ -34,6 +33,8 @@ public class ReadoutGraphic implements Graphic {
     static Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
 
     private DecimalFormat formatter;
+    private SimpleObserver observer;
+    private TransformListener transformListener;
 
     public ReadoutGraphic( CCK3Module module, Branch branch, ModelViewTransform2D transform, ApparatusPanel panel, DecimalFormat formatter ) {
         this.module = module;
@@ -43,16 +44,20 @@ public class ReadoutGraphic implements Graphic {
         this.formatter = formatter;
 
         recompute();
-        transform.addTransformListener( new TransformListener() {
+        TransformListener transformListener = new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 recompute();
             }
-        } );
-        branch.addObserver( new SimpleObserver() {
+        };
+        this.transformListener = transformListener;
+        transform.addTransformListener( this.transformListener );
+        observer = new SimpleObserver() {
             public void update() {
                 recompute();
             }
-        } );
+        };
+        this.branch.addObserver( observer );
+        setVisible( false );
     }
 
     public boolean isVisible() {
@@ -139,6 +144,15 @@ public class ReadoutGraphic implements Graphic {
 
     public void paint( Graphics2D g ) {
         textGraphic.paint( g );
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void delete() {
+        branch.removeObserver( observer );
+        transform.removeTransformListener( transformListener );
     }
 
     public static class BatteryReadout extends ReadoutGraphic {

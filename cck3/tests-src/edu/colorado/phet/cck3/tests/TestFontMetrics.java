@@ -41,7 +41,7 @@ public class TestFontMetrics {
         panel.addGraphic( sg );
         panel.addGraphic( tmw );
 
-        final PhetMultiLineTextGraphic g = new PhetMultiLineTextGraphic( panel, new String[]{"Hello!", "This is a test."}, font, 100, 300, Color.green, 1, 1, Color.blue );
+        final PhetMultiLineTextGraphic g = new PhetMultiLineTextGraphic( panel, new String[]{"Hello!", "This is a addTestCircuit."}, font, 100, 300, Color.green, 1, 1, Color.blue );
 
         ShapeGraphic sg2 = new ShapeGraphic( g.getBounds(), Color.white );
         panel.addGraphic( sg2 );

@@ -28,6 +28,8 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
     private ModelViewTransform2D transform;
     private Point lastPoint;
     private IComponentGraphic circuitComponentGraphic;
+    private MouseInputListener mouseListener;
+    private CCKMenu menu;
 
     public CircuitComponentInteractiveGraphic( final IComponentGraphic circuitComponentGraphic, final CircuitGraphic cg ) {
         super( circuitComponentGraphic );
@@ -36,46 +38,54 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
         this.transform = circuitComponentGraphic.getModelViewTransform2D();
         this.circuitComponentGraphic = circuitComponentGraphic;
         addCursorHandBehavior();
-        MouseInputListener mouseListener = new ComponentMouseListener( cg, circuitComponentGraphic );
+        mouseListener = new ComponentMouseListener( cg, circuitComponentGraphic );
         addMouseInputListener( mouseListener );
 
         CircuitComponent cc = circuitComponentGraphic.getCircuitComponent();
         if( cc instanceof Battery ) {
             final Battery batt = (Battery)cc;
-            BatteryJMenu bj = new BatteryJMenu( batt, module );
-            addPopupMenuBehavior( bj );
+            menu = new BatteryJMenu( batt, module );
+            addPopupMenuBehavior( menu.getMenuComponent() );
         }
         else if( cc instanceof Resistor ) {
             Resistor res = (Resistor)cc;
-            ResistorMenu resistorMenu = new ResistorMenu( res, module );
-            addPopupMenuBehavior( resistorMenu.getMenu() );
+            menu = new ResistorMenu( res, module );
+            addPopupMenuBehavior( menu.getMenuComponent() );
         }
         else if( cc instanceof Switch ) {
             Switch swit = (Switch)cc;
-            SwitchMenu switchMenu = new SwitchMenu( swit, module );
-            addPopupMenuBehavior( switchMenu.getMenu() );
+            menu = new SwitchMenu( swit, module );
+            addPopupMenuBehavior( menu.getMenuComponent() );
         }
         else if( cc instanceof Bulb ) {
             Bulb bulb = (Bulb)cc;
-            BulbMenu bulbMenu = new BulbMenu( bulb, module );
-            addPopupMenuBehavior( bulbMenu.getMenu() );
+            menu = new BulbMenu( bulb, module );
+            addPopupMenuBehavior( menu.getMenuComponent() );
         }
         else if( cc instanceof SeriesAmmeter ) {
             SeriesAmmeter ammeter = (SeriesAmmeter)cc;
-            SeriesAmmeterMenu sam = new SeriesAmmeterMenu( ammeter, module );
-            addPopupMenuBehavior( sam.getMenu() );
+            menu = new SeriesAmmeterMenu( ammeter, module );
+            addPopupMenuBehavior( menu.getMenuComponent() );
         }
 
     }
 
     public void delete() {
         circuitComponentGraphic.delete();
+        if( menu != null ) {
+            menu.delete();
+        }
     }
 
-    static class ComponentMenu {
+    public CCKMenu getMenu() {
+        return menu;
+    }
+
+    static abstract class ComponentMenu implements CCKMenu {
         protected RepaintyMenu menu;
         private CCK3Module module;
         Branch branch;
+        private JCheckBoxMenuItem setVisibleItem;
 
         public ComponentMenu( Branch branch, CCK3Module module ) {
             this.branch = branch;
@@ -83,7 +93,11 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             menu = new RepaintyMenu( module.getApparatusPanel() );
         }
 
-        public static void finish( final CCK3Module module, final Branch branch, RepaintyMenu menu ) {
+        public boolean isVisiblityRequested() {
+            return setVisibleItem.isSelected();
+        }
+
+        public static JCheckBoxMenuItem finish( final CCK3Module module, final Branch branch, RepaintyMenu menu ) {
             final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( "Show Value" );
             menu.addPopupMenuListener( new PopupMenuListener() {
                 public void popupMenuCanceled( PopupMenuEvent e ) {
@@ -109,9 +123,13 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                 }
             } );
             if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) ) {
-                menu.add( showValue );
+                if( !module.isVirtualLabMode() ) {
+                    menu.add( showValue );
+                }
+
             }
             addRemoveButton( menu, module, branch );
+            return showValue;
         }
 
         static void addRemoveButton( RepaintyMenu menu, final CCK3Module module, final Branch branch ) {
@@ -130,16 +148,26 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
 
 
         protected void finish() {
-            finish( module, branch, getMenu() );
+            setVisibleItem = finish( module, branch, getMenu() );
         }
 
         public RepaintyMenu getMenu() {
             return menu;
         }
+
+        public void delete() {
+        }
+
+        public void setVisibilityRequested( boolean b ) {
+            if( setVisibleItem.isSelected() != b ) {
+                setVisibleItem.doClick( 20 );
+            }
+        }
     }
 
     static class ResistorMenu extends ComponentMenu {
         Resistor res;
+        private ComponentEditor.ResistorEditor editor;
 
         public ResistorMenu( Resistor res, CCK3Module module ) {
             super( res, module );
@@ -148,11 +176,11 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
                 addRemoveButton( getMenu(), module, res );
             }
             else {
-                final ComponentEditor.ResistorEditor re = new ComponentEditor.ResistorEditor( module, res, module.getApparatusPanel(), module.getCircuit() );
+                editor = new ComponentEditor.ResistorEditor( module, res, module.getApparatusPanel(), module.getCircuit() );
                 JMenuItem edit = new JMenuItem( "Change Resistance" );
                 edit.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        re.setVisible( true );
+                        editor.setVisible( true );
                     }
                 } );
                 menu.add( edit );
@@ -160,19 +188,31 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             }
         }
 
+        public JPopupMenu getMenuComponent() {
+            return getMenu();
+        }
+
+        public void delete() {
+            super.delete();
+            if( editor != null ) {
+                editor.delete();
+            }
+        }
+
     }
 
     static class BulbMenu extends ComponentMenu {
         CircuitComponent bulb;
+        private ComponentEditor.BulbResistanceEditor editor;
 
         public BulbMenu( final Bulb bulb, final CCK3Module module ) {
             super( bulb, module );
             this.bulb = bulb;
-            final ComponentEditor.BulbResistanceEditor re = new ComponentEditor.BulbResistanceEditor( module, bulb, module.getApparatusPanel(), module.getCircuit() );
+            editor = new ComponentEditor.BulbResistanceEditor( module, bulb, module.getApparatusPanel(), module.getCircuit() );
             JMenuItem edit = new JMenuItem( "Change Resistance" );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    re.setVisible( true );
+                    editor.setVisible( true );
                 }
             } );
             menu.add( edit );
@@ -207,6 +247,15 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             menu.add( flip );
             finish();
         }
+
+        public JPopupMenu getMenuComponent() {
+            return menu;
+        }
+
+        public void delete() {
+            super.delete();
+            editor.delete();
+        }
     }
 
     static class SwitchMenu extends ComponentMenu {
@@ -219,6 +268,9 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             finish();
         }
 
+        public JPopupMenu getMenuComponent() {
+            return getMenu();
+        }
     }
 
     static class SeriesAmmeterMenu extends ComponentMenu {
@@ -231,25 +283,30 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             finish();
         }
 
+        public JPopupMenu getMenuComponent() {
+            return getMenu();
+        }
     }
 
-    public static class BatteryJMenu extends RepaintyMenu {
+    public static class BatteryJMenu extends RepaintyMenu implements CCKMenu {
         private Battery battery;
         private CCK3Module module;
         private JMenuItem editInternal;
 
         public static final ArrayList instances = new ArrayList();
         private ComponentEditor.BatteryResistanceEditor resistanceEditor;
+        private ComponentEditor.BatteryEditor editor;
+        private JCheckBoxMenuItem setVisibleItem;
 
         public BatteryJMenu( final Battery branch, CCK3Module module ) {
             super( module.getApparatusPanel() );
             this.battery = branch;
             this.module = module;
             JMenuItem edit = new JMenuItem( "Change Voltage" );
-            final ComponentEditor.BatteryEditor be = new ComponentEditor.BatteryEditor( module, branch, module.getApparatusPanel(), module.getCircuit() );
+            editor = new ComponentEditor.BatteryEditor( module, branch, module.getApparatusPanel(), module.getCircuit() );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    be.setVisible( true );
+                    editor.setVisible( true );
                 }
             } );
             add( edit );
@@ -272,7 +329,7 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             } );
             add( reverse );
 
-            ComponentMenu.finish( module, branch, this );
+            setVisibleItem = ComponentMenu.finish( module, branch, this );
             instances.add( this );
         }
 
@@ -292,6 +349,25 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             batt.setEndJunction( start );
             batt.notifyObservers();
             batt.fireKirkhoffChange();
+        }
+
+        public JPopupMenu getMenuComponent() {
+            return this;
+        }
+
+        public void delete() {
+            resistanceEditor.delete();
+            editor.delete();
+        }
+
+        public boolean isVisiblityRequested() {
+            return setVisibleItem.isSelected();
+        }
+
+        public void setVisibilityRequested( boolean b ) {
+            if( setVisibleItem.isSelected() != b ) {
+                setVisibleItem.doClick( 20 );
+            }
         }
     }
 

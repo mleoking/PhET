@@ -58,8 +58,6 @@ public class ComponentMouseListener extends MouseInputAdapter {
             Point2D endJ = branchGraphic.getCircuitComponent().getEndJunction().getPosition();
             toStart = new ImmutableVector2D.Double( modelCoords, startJ );
             toEnd = new ImmutableVector2D.Double( modelCoords, endJ );
-//                    System.out.println( "toStart = " + toStart );
-//                    System.out.println( "toEnd = " + toEnd );
         }
         else {
             Point2D newStartPosition = toStart.getDestination( modelCoords );
@@ -70,7 +68,6 @@ public class ComponentMouseListener extends MouseInputAdapter {
             if( match == null ) {
                 BranchSet branchSet = new BranchSet( circuit, sc );
                 branchSet.translate( dx );
-//                circuit.fireJunctionsMoved();
             }
             else {
                 Vector2D vector = match.getVector();

@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
  */
 public abstract class CircuitComponent extends Branch {
     private double length;
-    double height;
+    private double height;
 
     public CircuitComponent( KirkhoffListener kl, Point2D start, AbstractVector2D dir, double length, double height ) {
         super( kl );
@@ -51,4 +51,7 @@ public abstract class CircuitComponent extends Branch {
         return getLength();
     }
 
+    public void setHeight( double height ) {
+        this.height = height;
+    }
 }

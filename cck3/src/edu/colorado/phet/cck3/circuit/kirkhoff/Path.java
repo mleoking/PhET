@@ -211,7 +211,7 @@ public class Path {
     }
 
     /*
-    This test relies on well formed paths.
+    This addTestCircuit relies on well formed paths.
     */
     private boolean loopEqualsOppositeDir( Path path ) {
         ArrayList yourBranches = path.getBranchList();

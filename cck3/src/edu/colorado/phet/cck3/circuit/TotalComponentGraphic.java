@@ -5,8 +5,6 @@ import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponent;
 import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
 /**
@@ -15,14 +13,12 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
  * Time: 9:05:19 AM
  * Copyright (c) May 24, 2004 by Sam Reid
  */
-public class TotalComponentGraphic extends CompositeGraphic {
+public class TotalComponentGraphic {
     private CircuitComponentInteractiveGraphic interactiveBranchGraphic;
-    private Graphic interactiveJunctionGraphic1;
-    private Graphic interactiveJunctionGraphic2;
-    private CircuitGraphic circuitGraphic;
+    private HasJunctionGraphic interactiveJunctionGraphic1;
+    private HasJunctionGraphic interactiveJunctionGraphic2;
 
     public TotalComponentGraphic( CircuitGraphic circuitGraphic, final CircuitComponent branch, ApparatusPanel apparatusPanel, final ModelViewTransform2D transform, IComponentGraphic bg, double junctionRadius, CCK3Module module ) {
-        this.circuitGraphic = circuitGraphic;
         interactiveBranchGraphic = new CircuitComponentInteractiveGraphic( bg, circuitGraphic );
 
         JunctionGraphic jg = new JunctionGraphic( apparatusPanel, branch.getStartJunction(), transform, junctionRadius, circuitGraphic.getCircuit() );
@@ -39,21 +35,17 @@ public class TotalComponentGraphic extends CompositeGraphic {
         else {
             interactiveJunctionGraphic2 = new InteractiveWireJunctionGraphic( circuitGraphic, jg2, transform, module );
         }
-
-        addGraphic( interactiveBranchGraphic );
-        addGraphic( interactiveJunctionGraphic1 );
-        addGraphic( interactiveJunctionGraphic2 );
     }
 
     public CircuitComponentInteractiveGraphic getInteractiveBranchGraphic() {
         return interactiveBranchGraphic;
     }
 
-    public Graphic getInteractiveJunctionGraphic1() {
+    public HasJunctionGraphic getInteractiveJunctionGraphic1() {
         return interactiveJunctionGraphic1;
     }
 
-    public Graphic getInteractiveJunctionGraphic2() {
+    public HasJunctionGraphic getInteractiveJunctionGraphic2() {
         return interactiveJunctionGraphic2;
     }
 }

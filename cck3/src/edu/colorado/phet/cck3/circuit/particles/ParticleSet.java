@@ -14,8 +14,8 @@ import java.util.ArrayList;
  * Copyright (c) Jun 1, 2004 by Sam Reid
  */
 public class ParticleSet implements ModelElement {
-    ArrayList particles = new ArrayList();
-    ConstantDensityPropagator propagator;
+    private ArrayList particles = new ArrayList();
+    private ConstantDensityPropagator propagator;
 
     public ParticleSet( Circuit circuit ) {
         propagator = new ConstantDensityPropagator( this, circuit );
@@ -47,19 +47,6 @@ public class ParticleSet implements ModelElement {
             particles.remove( electron );
             electron.delete();
         }
-//        ArrayList rem = new ArrayList();
-//        for( int i = 0; i < particles.size(); i++ ) {
-//            Electron electron = (Electron)particles.get( i );
-//            if( electron.getBranch() == branch ) {
-//                rem.add( electron );
-//            }
-//        }
-//        particles.removeAll( rem );
-//        for( int i = 0; i < rem.size(); i++ ) {
-//            Electron electron = (Electron)rem.get( i );
-//            electron.delete();
-//        }
-//        return (Electron[])rem.toArray( new Electron[0] );
         return p;
     }
 

@@ -15,7 +15,7 @@ import java.util.Arrays;
  * Copyright (c) Jun 8, 2004 by Sam Reid
  */
 public class ConstantDensityLayout extends CircuitListenerAdapter {
-    CCK3Module module;
+    private CCK3Module module;
 
     public ConstantDensityLayout( CCK3Module module ) {
         this.module = module;
@@ -25,7 +25,7 @@ public class ConstantDensityLayout extends CircuitListenerAdapter {
         ArrayList moved = new ArrayList( Arrays.asList( branches ) );
 //        int num = module.getParticleSet().numParticles();
 //        System.out.println( "num= " + num );
-//        relayout( branches );
+        relayout( branches );
         ArrayList branchesToRelayout = new ArrayList();
         Branch[] all = module.getCircuit().getBranches();
         for( int i = 0; i < all.length; i++ ) {

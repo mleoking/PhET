@@ -9,7 +9,6 @@ import edu.colorado.phet.cck3.circuit.kirkhoff.KirkhoffSolver;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -181,13 +180,10 @@ public class ConstantDensityPropagator implements ModelElement {
                 new KirkhoffSolver().apply( circuit );
                 RuntimeException re = new RuntimeException( "No outgoing wires, current=" + current );
                 re.printStackTrace();
-//                System.exit( 0 );
-                JOptionPane.showMessageDialog( null, "No outgoing wires, current=" + current );
+//                JOptionPane.showMessageDialog( null, "No outgoing wires, current=" + current );
                 return;
             }
-//            CircuitLocation chosen = loc[0];
-
-            //choose the branch with the furthest away electron, or the empty branch if no electron.
+            //choose the branch with the furthest away electron
             CircuitLocation chosen = chooseDestinationBranch( loc );
             e.setLocation( chosen.getBranch(), Math.abs( chosen.getX() ) );
         }

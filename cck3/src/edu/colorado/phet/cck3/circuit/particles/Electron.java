@@ -2,10 +2,11 @@
 package edu.colorado.phet.cck3.circuit.particles;
 
 import edu.colorado.phet.cck3.circuit.Branch;
-import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.cck3.debug.SimpleObservableDebug;
 import edu.colorado.phet.common.util.SimpleObserver;
 
 import java.awt.geom.Point2D;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -13,11 +14,11 @@ import java.awt.geom.Point2D;
  * Time: 12:19:48 AM
  * Copyright (c) May 29, 2004 by Sam Reid
  */
-public class Electron extends SimpleObservable {
+public class Electron extends SimpleObservableDebug {
     private Branch branch;
-    double distAlongWire;
-    Point2D position;
-    double radius = .1;
+    private double distAlongWire;
+    private Point2D position;
+    private double radius = .1;
     private SimpleObserver observer;
     private boolean deleted = false;
 
@@ -31,10 +32,10 @@ public class Electron extends SimpleObservable {
             throw new RuntimeException( "Electron out of bounds." );
         }
         updatePosition();
-        observer = new SimpleObserver() {
+        observer = new Observer() {
             public void update() {
                 if( deleted ) {
-                    throw new RuntimeException( "Update called on deleted electron." );
+                    new RuntimeException( "Update called on deleted electron." ).printStackTrace();
                 }
                 updatePosition();
             }
@@ -42,10 +43,23 @@ public class Electron extends SimpleObservable {
         branch.addObserver( observer );
     }
 
+    public class Observer implements SimpleObserver {
+        public void update() {
+
+            if( deleted ) {
+                new RuntimeException( "Update called on deleted electron." ).printStackTrace();
+            }
+            updatePosition();
+        }
+
+        public boolean isDeleted() {
+            return deleted;
+        }
+    }
+
     private void updatePosition() {
         Point2D pt = branch.getPosition( distAlongWire );
         if( isNaN( pt ) ) {
-            int x = 3;
             pt = branch.getPosition( distAlongWire );
             throw new RuntimeException( "Point was NaN, pt=" + pt + ", dist=" + distAlongWire + ", wire length=" + branch.getLength() );
         }
@@ -103,22 +117,28 @@ public class Electron extends SimpleObservable {
     }
 
     public void setLocation( Branch branch, double x ) {
-        if( this.branch != branch ) {
-            this.branch.removeObserver( observer );
-            branch.addObserver( observer );
-        }
         if( Double.isNaN( x ) ) {
             throw new RuntimeException( "x was NaN, for electron distance along branch." );
         }
-        if( branch.containsScalarLocation( x ) ) {
+        else if( !branch.containsScalarLocation( x ) ) {
+            throw new RuntimeException( "No location in branch." );
+        }
+        if( this.branch != branch ) {
             this.branch = branch;
-            if( distAlongWire != x ) {
-                this.distAlongWire = x;
-                updatePosition();
-            }
+            this.branch.removeObserver( observer );
+            branch.addObserver( observer );
         }
-        else {
-            throw new RuntimeException( "No such location in branch, branch length=" + branch.getLength() + ", x=" + x );
+        if( distAlongWire != x ) {
+            this.distAlongWire = x;
+            updatePosition();
         }
+    }
+
+    public String toString() {
+        return "Electron, deleted=" + deleted + ", observers= " + Arrays.asList( getObservers() );
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 }

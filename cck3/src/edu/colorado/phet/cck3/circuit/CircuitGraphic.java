@@ -334,8 +334,14 @@ public class CircuitGraphic extends CompositeGraphic {
         if( getGraphic( component.getStartJunction() ) == null ) {
             junctionLayer.addGraphic( tcg.getInteractiveJunctionGraphic1() );
         }
+        else {
+            tcg.getInteractiveJunctionGraphic1().delete();
+        }
         if( getGraphic( component.getEndJunction() ) == null ) {
             junctionLayer.addGraphic( tcg.getInteractiveJunctionGraphic2() );
+        }
+        else {
+            tcg.getInteractiveJunctionGraphic2().delete();
         }
     }
 
@@ -344,6 +350,7 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     public void removeGraphic( Junction j ) {
+//        System.out.println( "Removing graphic for junction: j = " + j );
         Graphic[] g = junctionLayer.getGraphics();
         for( int i = 0; i < g.length; i++ ) {
             HasJunctionGraphic ho = (HasJunctionGraphic)g[i];
@@ -352,6 +359,8 @@ public class CircuitGraphic extends CompositeGraphic {
                 ho.delete();
             }
         }
+        int size = junctionLayer.getGraphics().length;
+//        System.out.println( "Removed JG: Number of Junction Graphics= " + size );
     }
 
     public HasJunctionGraphic getGraphic( Junction j ) {
@@ -471,13 +480,16 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     public void convertToComponentGraphic( Junction junction, CircuitComponent branch ) {
-        JunctionGraphic jg = new JunctionGraphic( apparatusPanel, junction, getTransform(), JUNCTION_RADIUS, getCircuit() );
-        InteractiveComponentJunctionGraphic ij = new InteractiveComponentJunctionGraphic( this, jg, branch, module );
+        JunctionGraphic junctionGraphic = new JunctionGraphic( apparatusPanel, junction, getTransform(), JUNCTION_RADIUS, getCircuit() );
+        InteractiveComponentJunctionGraphic ij = new InteractiveComponentJunctionGraphic( this, junctionGraphic, branch, module );
         removeGraphic( junction );
         junctionLayer.addGraphic( ij );
     }
 
     public void collapseJunctions( Junction j1, Junction j2 ) {
+        if( !j1.getPosition().equals( j2.getPosition() ) ) {
+            throw new RuntimeException( "Juncitons Not at same coordinates." );
+        }
         remove( j1 );
         remove( j2 );
         Junction replacement = new Junction( j1.getX(), j1.getY() );
@@ -573,6 +585,10 @@ public class CircuitGraphic extends CompositeGraphic {
             throw new RuntimeException( g.getClass().getName() + " does not implement Deletable" );
         }
         ( (Deletable)g ).delete();
+        ReadoutGraphic rg = getReadoutGraphic( branch );
+        if( rg != null ) {
+            deleteReadoutGraphic( rg );
+        }
         Graphic[] fire = fires.getGraphics();
         for( int i = 0; i < fire.length; i++ ) {
             FlameGraphic graphic = (FlameGraphic)fire[i];
@@ -620,6 +636,13 @@ public class CircuitGraphic extends CompositeGraphic {
         }
     }
 
+    private void deleteReadoutGraphic( ReadoutGraphic rg ) {
+        Branch branch = rg.getBranch();
+        rg.setVisible( false );
+        readoutMap.remove( branch );
+        rg.delete();
+    }
+
     private void fireGraphicRemoved( Branch branch, InteractiveGraphic g ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             CircuitGraphicListener circuitGraphicListener = (CircuitGraphicListener)listeners.get( i );
@@ -632,6 +655,7 @@ public class CircuitGraphic extends CompositeGraphic {
     }
 
     public void setLifelike( boolean lifelike ) {
+//        System.out.println( "Before setlifelike: JunctionGraphic.getInstanceCount() = " + JunctionGraphic.getInstanceCount() );
         if( this.lifelike == lifelike ) {
             return;
         }
@@ -642,19 +666,20 @@ public class CircuitGraphic extends CompositeGraphic {
         else {
             this.graphicSource = new Schematic();
         }
-
-        //clear out all the graphics, replace with the new ones.
+        Hashtable table = new Hashtable();
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch br = circuit.branchAt( i );
-            removeGraphic( br );
-            removeGraphic( br.getStartJunction() );
-            removeGraphic( br.getEndJunction() );
+            if( br instanceof CircuitComponent ) {
+                CircuitComponent cc = (CircuitComponent)br;
+                InteractiveGraphic graphic = getGraphic( cc );
+                if( graphic instanceof CircuitComponentInteractiveGraphic ) {
+                    CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)graphic;
+                    table.put( br, new Boolean( ccig.getMenu().isVisiblityRequested() ) );
+                }
+            }
         }
-        for( int i = 0; i < circuit.numJunctions(); i++ ) {
-            Junction j = circuit.junctionAt( i );
-
-            removeGraphic( j );
-        }
+        clearAllGraphics();
+//        System.out.println( "After clear graphics: " + JunctionGraphic.getInstanceCount() );
         //have to preprocess to fix the bulb model.
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
@@ -663,10 +688,36 @@ public class CircuitGraphic extends CompositeGraphic {
                 bulb.setSchematic( !lifelike, circuit );
             }
         }
-
+//        System.out.println( "After bulbing: " + JunctionGraphic.getInstanceCount() );
         for( int i = 0; i < circuit.numBranches(); i++ ) {
             addGraphic( circuit.branchAt( i ) );
         }
+
+        Enumeration keys = table.keys();
+        while( keys.hasMoreElements() ) {
+            Branch branch = (Branch)keys.nextElement();
+            Boolean value = (Boolean)table.get( branch );
+            InteractiveGraphic graphic = getGraphic( branch );
+            if( graphic instanceof CircuitComponentInteractiveGraphic ) {
+                CircuitComponentInteractiveGraphic ccig = (CircuitComponentInteractiveGraphic)graphic;
+                ccig.getMenu().setVisibilityRequested( value.booleanValue() );
+            }
+        }
+//        System.out.println( "After setlifelike: JunctionGraphic.getInstanceCount() = " + JunctionGraphic.getInstanceCount() );
+    }
+
+    private void clearAllGraphics() {
+        for( int i = 0; i < circuit.numBranches(); i++ ) {
+            Branch br = circuit.branchAt( i );
+            removeGraphic( br.getStartJunction() );
+            removeGraphic( br.getEndJunction() );
+            removeGraphic( br );
+        }
+        for( int i = 0; i < circuit.numJunctions(); i++ ) {
+            Junction j = circuit.junctionAt( i );
+            removeGraphic( j );
+        }
+        System.out.println( "Cleared all graphics." );
     }
 
     public boolean isLifelike() {
@@ -750,6 +801,9 @@ public class CircuitGraphic extends CompositeGraphic {
 
     class Lifelike implements GraphicSource {
         double wireThickness = .3;
+
+        public Lifelike() {
+        }
 
         public void addGraphic( Branch b ) {
             if( b instanceof Battery ) {

@@ -258,4 +258,27 @@ public class Toolbox extends CompositeGraphic {
         ammeterSource.setVisible( selected );
     }
 
+    public BranchSource.WireSource getWireSource() {
+        return wireSource;
+    }
+
+    public BranchSource.BatterySource getBatterySource() {
+        return batterySource;
+    }
+
+    public BranchSource.BulbSource getBulbSource() {
+        return bulbSource;
+    }
+
+    public BranchSource.ResistorSource getResistorSource() {
+        return resistorSource;
+    }
+
+    public BranchSource.SwitchSource getSwitchSource() {
+        return switchSource;
+    }
+
+    public BranchSource.AmmeterSource getAmmeterSource() {
+        return ammeterSource;
+    }
 }
