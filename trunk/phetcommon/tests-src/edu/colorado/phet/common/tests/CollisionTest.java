@@ -1,5 +1,5 @@
 /** Sam Reid*/
-package edu.colorado.phet.common.examples.collisions;
+package edu.colorado.phet.common.tests;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
