@@ -16,10 +16,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 public class MirrorGraphic extends PhetGraphic implements PartialMirror.ReflectivityChangeListener {
@@ -78,22 +75,23 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Reflecti
         int gray = minGray - (int)( reflectivity * ( minGray - maxGray ) );
         mirrorColor = new Color( gray, gray, gray );
 
-        bounds.setFrame( 0, 0, thickness * 2 + outlineStrokeWidth, mirror.getBounds().getHeight() );
-        double xLoc = bounds.getMinX();
-        face1 = new Ellipse2D.Double( xLoc + thickness, bounds.getMinY(), thickness, bounds.getHeight() );
-        face2 = new Ellipse2D.Double( xLoc, bounds.getMinY(), thickness, bounds.getHeight() );
-        body = new Rectangle2D.Double( xLoc + thickness / 2, bounds.getMinY(),
+        bounds.setFrame( (int)( mirror.getPosition().getX() - thickness + xOffset ),
+                         (int)mirror.getPosition().getY(),
+                         thickness * 2 + outlineStrokeWidth, mirror.getBounds().getHeight() );
+        face1 = new Ellipse2D.Double( thickness, 0, thickness, bounds.getHeight() );
+        face2 = new Ellipse2D.Double( 0, 0, thickness, bounds.getHeight() );
+        body = new Rectangle2D.Double( thickness / 2, 0,
                                        thickness, bounds.getHeight() );
-        upperLine = new Line2D.Double( xLoc + thickness / 2, bounds.getMinY(),
-                                       xLoc + thickness * 3 / 2, bounds.getMinY() );
-        lowerLine = new Line2D.Double( xLoc + thickness / 2, bounds.getMinY() + bounds.getHeight(),
-                                       xLoc + thickness * 3 / 2, bounds.getMinY() + bounds.getHeight() );
-        p1 = new Point2D.Double( xLoc + thickness * 1 / 4, bounds.getMinY() + bounds.getHeight() / 2 - 0.5 );
-        p2 = new Point2D.Double( xLoc + thickness / 2, bounds.getMinY() + bounds.getHeight() / 2 );
+        upperLine = new Line2D.Double( thickness / 2, 0,
+                                       thickness * 3 / 2, 0 );
+        lowerLine = new Line2D.Double( thickness / 2, bounds.getHeight(),
+                                       thickness * 3 / 2, bounds.getHeight() );
+        p1 = new Point2D.Double( thickness * 1 / 4, bounds.getHeight() / 2 - 0.5 );
+        p2 = new Point2D.Double( thickness / 2, bounds.getHeight() / 2 );
         mirrorPaint1 = new GradientPaint( p1, mirrorColor,
                                           p2, new Color( 0, 0, 0, 0 ), false );
-        Point2D p3 = new Point2D.Double( xLoc + thickness / 2, bounds.getMinY() + bounds.getHeight() / 2 );
-        Point2D p4 = new Point2D.Double( xLoc + thickness * 3 / 4, bounds.getMinY() + bounds.getHeight() / 2 + 0.5 );
+        Point2D p3 = new Point2D.Double( thickness / 2, bounds.getHeight() / 2 );
+        Point2D p4 = new Point2D.Double( thickness * 3 / 4, bounds.getHeight() / 2 + 0.5 );
         mirrorPaint2 = new GradientPaint( p3, new Color( 0, 0, 0, 0 ),
                                           p4, mirrorColor, false );
 
