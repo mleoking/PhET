@@ -28,8 +28,8 @@ public class ValueGraphic implements ObservingGraphic {
     private String output;
     Font font = new Font( "Lucida Sans", 0, 20 );
     Color color = Color.black;
-    int x;
-    int y;
+//    int x;
+//    int y;
     private BoxedPlot offsetSource;
     private boolean visible = true;
     HTMLGraphic htmlGraphic;
@@ -41,8 +41,8 @@ public class ValueGraphic implements ObservingGraphic {
         this.series = series;
         this.pre = pre;
         this.unitsString = units;
-        this.x = x;
-        this.y = y;
+//        this.x = x;
+//        this.y = y;
         this.offsetSource = offsetSource;
         timer.addObserver( this );
         playbackTimer.addObserver( this );
@@ -62,7 +62,6 @@ public class ValueGraphic implements ObservingGraphic {
         }
         else {
             double time = playbackTimer.getTime() + offsetSource.getxShift();
-//            offsetSource.get
             index = (int)( time / MovingManModule.TIMER_SCALE );
         }
         if( series.indexInBounds( index ) ) {
@@ -77,8 +76,8 @@ public class ValueGraphic implements ObservingGraphic {
     }
 
     public void setPosition( int x, int y ) {
-        this.x = x;
-        this.y = y;
+//        this.x = x;
+//        this.y = y;
         htmlGraphic.setPosition( x, y );
     }
 

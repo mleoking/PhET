@@ -1,5 +1,6 @@
 package edu.colorado.phet.movingman.application.motionsuites;
 
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.movingman.application.MovingManModule;
@@ -26,7 +27,6 @@ public abstract class MotionSuite {
     private StepMotion motion;
     private JPanel controlPanel;
     private String name;
-
     private JSpinner initialPositionSpinner;
     private JButton pauseButton;
     private JButton goButton;
@@ -37,6 +37,9 @@ public abstract class MotionSuite {
 
     public MotionSuite( final MovingManModule module, String name ) {
         this.module = module;
+        if( module.getApparatusPanel() == null ) {
+            throw new RuntimeException( "Null apparatus panel." );
+        }
         this.name = name;
         this.controlPanel = new VerticalLayoutPanel();
 
@@ -46,7 +49,7 @@ public abstract class MotionSuite {
                 Number loc = (Number)initialPositionSpinner.getValue();
                 double init = loc.doubleValue();
                 module.setInitialPosition( init );
-                module.setPauseMode();
+                module.setPaused( true );
                 pauseButton.setEnabled( false );
                 module.getMovingManControlPanel().setRunningState();
                 goButton.setEnabled( true );
@@ -58,7 +61,7 @@ public abstract class MotionSuite {
 
         ImageIcon pauseIcon = new ImageIcon( new ImageLoader().loadImage( "images/icons/java/media/Pause24.gif" ) );
         pauseButton = new JButton( "Pause", pauseIcon );
-        pauseButton.setEnabled( false );
+
         pauseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 doPause();
@@ -76,10 +79,42 @@ public abstract class MotionSuite {
         resetButton = new JButton( "Reset", resetIcon );
         resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                doReset();
+                resetPressed();
             }
         } );
-        createDialog();
+        doEnable();
+    }
+
+    protected void resetPressed() {
+        module.reset();
+        setInitialPositionEnabled();
+    }
+
+    public boolean isReset() {
+        return module.getPosition().getData().size() <= module.getNumResetPoints() + 1;
+    }
+
+    public void setInitialPositionEnabled() {
+        if( isReset() ) {
+            initialPositionSpinner.setEnabled( true );
+        }
+        else {
+            initialPositionSpinner.setEnabled( false );
+        }
+    }
+
+    protected void doEnable() {
+        int size = module.getPosition().getData().size();
+        System.out.println( "size = " + size );
+        if( isReset() ) { //sometimes reset then accelerate gives one more point..?
+            resetButton.setEnabled( false );
+        }
+        else {
+            resetButton.setEnabled( true );
+        }
+        pauseButton.setEnabled( false );
+        goButton.setEnabled( true );
+        setInitialPositionEnabled();
     }
 
     protected MovingManModule getModule() {
@@ -92,40 +127,26 @@ public abstract class MotionSuite {
         pauseButton.setEnabled( false );
     }
 
-    private void doGo() {
+    protected void doGo() {
         module.setMotionMode( MotionSuite.this );//.getStepMotion());
         goButton.setEnabled( false );
         pauseButton.setEnabled( true );
         resetButton.setEnabled( true );
-    }
-
-    private void doReset() {
-        module.reset();
+        module.setPaused( false );
+        initialPositionSpinner.setEnabled( false );
+        module.goPressed();
     }
 
     public String toString() {
         return name;
     }
 
-    public JButton getPauseButton() {
-        return pauseButton;
-    }
-
     public JSpinner getInitialPositionSpinner() {
         return initialPositionSpinner;
     }
 
-    public MotionSuite( StepMotion motion, JPanel controlPanel ) {
-        this.motion = motion;
-        this.controlPanel = controlPanel;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName( String name ) {
-        this.name = name;
     }
 
     public StepMotion getStepMotion() {
@@ -160,8 +181,9 @@ public abstract class MotionSuite {
         module.getMovingManControlPanel().setPauseState();
         pauseButton.setEnabled( false );
         module.setMotionMode( this );//.getStepMotion());
+        module.setPaused( true );
         initialize( module.getMan() );
-        module.setPauseMode();
+        module.setPaused( true );
 
         dialog.pack();
         JFrame f = (JFrame)SwingUtilities.getWindowAncestor( module.getApparatusPanel() );
@@ -174,7 +196,7 @@ public abstract class MotionSuite {
     }
 
     private void createDialog() {
-        dialog = new JDialog( (Frame)SwingUtilities.getWindowAncestor( module.getApparatusPanel() ), "Controls", false );
+        dialog = new JDialog( MovingManModule.FRAME, getName(), false );
         dialog.addWindowFocusListener( new WindowFocusListener() {
             public void windowGainedFocus( WindowEvent e ) {
                 repaintLater();
@@ -185,27 +207,29 @@ public abstract class MotionSuite {
         } );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowActivated( WindowEvent e ) {
+                doEnable();
                 repaintNowAndLater();
             }
 
             public void windowGainedFocus( WindowEvent e ) {
+                doEnable();
                 repaintNowAndLater();
             }
 
             public void windowOpened( WindowEvent e ) {
+                doEnable();
                 repaintNowAndLater();
             }
 
             public void windowDeiconified( WindowEvent e ) {
                 repaintNowAndLater();
-
             }
         } );
         dialogs.add( dialog );
         dialog.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 if( module.isMotionMode() ) {
-                    module.setPauseMode();
+                    module.setPaused( true );
                 }
                 module.getMovingManControlPanel().resetComboBox();
             }
@@ -249,7 +273,6 @@ public abstract class MotionSuite {
             }
         } );
         t.start();
-
     }
 
     private void repaintDialog() {
@@ -277,7 +300,7 @@ public abstract class MotionSuite {
         dialog.setBounds( dialogBounds );
     }
 
-    public void hideDialogs() {
+    public static void hideDialogs() {
         for( int i = 0; i < dialogs.size(); i++ ) {
             JDialog jDialog = (JDialog)dialogs.get( i );
             jDialog.setVisible( false );
@@ -296,5 +319,9 @@ public abstract class MotionSuite {
 
     public void setControlPanel( JPanel panel ) {
         this.controlPanel = panel;
+    }
+
+    public void setFrame( PhetFrame frame ) {
+        createDialog();
     }
 }

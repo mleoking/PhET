@@ -32,28 +32,30 @@ import java.util.Observer;
  */
 public class MovingManModule extends Module {
     public static final double TIMER_SCALE = 1.0 / 50;
-    private int numResetPoints = 1;
-    private double maxTime = 20;
-
-    private int paintIndex = 0;
+    private int numResetPoints = 1;//number of points to use in the reset routine.
+    private double maxTime = 20;//high time in seconds.
+    private boolean paused = true;
     private MotionState motionState = new MotionState();
     private double playbackSpeed;
     private Man man;
     private ManGraphic manGraphic;
     private RangeToRange manPositionTransform;
+
     private DefaultSmoothedDataSeries position;
     private DefaultSmoothedDataSeries velocity;
     private DefaultSmoothedDataSeries acceleration;
+
     private Timer recordingTimer;
     private Timer playbackTimer;
     private MovingManLayout layout;
+
     private PlotAndText accelerationPlot;
     private PlotAndText positionPlot;
     private PlotAndText velocityPlot;
+
     private Mode mode;
-    private Mode recordMode;
+    private Mode dragMode;
     private Mode playbackMode;
-    private Mode pauseMode;
     private MotionMode motionMode;
     private CursorGraphic cursorGraphic;
     private MovingManControlPanel movingManControlPanel;
@@ -66,41 +68,7 @@ public class MovingManModule extends Module {
     public static PhetFrame FRAME;
     private MotionSuite motionSuite;//selected motion, or null if none selected
     private Color purple;
-
-    public Color getPurple() {
-        return purple;
-    }
-
-    public MotionState getMotionState() {
-        return motionState;
-    }
-
-    public void setNumSmoothingPoints( int n ) {
-        position.setNumSmoothingPoints( n );
-        velocity.setNumSmoothingPoints( n );
-        acceleration.setNumSmoothingPoints( n );
-        double xshiftVelocity = n * TIMER_SCALE / 2;
-        double xshiftAcceleration = ( n + n ) * TIMER_SCALE / 2;
-        velocityPlot.getPlot().setShift( xshiftVelocity );
-        accelerationPlot.getPlot().setShift( xshiftAcceleration );
-    }
-
-    /**
-     * Overrides.
-     */
-    public void activateInternal( PhetApplication app ) {
-//        System.out.println("Activate Internal" );
-        getModel().addObserver( getApparatusPanel() );
-        this.activate( app );
-    }
-
-    /**
-     * Overrides.
-     */
-    public void deactivateInternal( PhetApplication app ) {
-        getModel().deleteObserver( getApparatusPanel() );
-        this.deactivate( app );
-    }
+    private PhetFrame frame;
 
     public MovingManModule() {
         super( "The Moving Man" );
@@ -145,11 +113,16 @@ public class MovingManModule extends Module {
 
         walkwayGraphic = new WalkWayGraphic( this, 11 );
         backgroundGraphic.addGraphic( walkwayGraphic, 0 );
+
         movingManControlPanel = new MovingManControlPanel( this );
         super.setControlPanel( movingManControlPanel );
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                mode.stepInTime( dt );
+                if( paused ) {
+                }
+                else {
+                    mode.stepInTime( dt );
+                }
             }
         } );
         man.addObserver( new Observer() {
@@ -166,7 +139,6 @@ public class MovingManModule extends Module {
                 }
             }
         } );
-        //Time goes from 0..1
         //Man position goes from -10..10
         minTime = 0;
         double maxPositionView = 12;
@@ -232,11 +204,10 @@ public class MovingManModule extends Module {
                 } );
             }
         } );
-        recordMode = new RecordMode( this );
-        pauseMode = new PauseMode( this );
+        dragMode = new RecordMode( this );
         playbackMode = new PlaybackMode( this );
         motionMode = new MotionMode( this );
-        setMode( pauseMode );
+        setMode( dragMode );
 
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
             public void componentShown( ComponentEvent e ) {
@@ -255,6 +226,53 @@ public class MovingManModule extends Module {
 
     }
 
+    public int getNumResetPoints() {
+        return numResetPoints;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused( boolean paused ) {
+        this.paused = paused;
+    }
+
+    public Color getPurple() {
+        return purple;
+    }
+
+    public MotionState getMotionState() {
+        return motionState;
+    }
+
+    public void setNumSmoothingPoints( int n ) {
+        position.setNumSmoothingPoints( n );
+        velocity.setNumSmoothingPoints( n );
+        acceleration.setNumSmoothingPoints( n );
+        double xshiftVelocity = n * TIMER_SCALE / 2;
+        double xshiftAcceleration = ( n + n ) * TIMER_SCALE / 2;
+        velocityPlot.getPlot().setShift( xshiftVelocity );
+        accelerationPlot.getPlot().setShift( xshiftAcceleration );
+    }
+
+    /**
+     * Overrides.
+     */
+    public void activateInternal( PhetApplication app ) {
+//        System.out.println("Activate Internal" );
+        getModel().addObserver( getApparatusPanel() );
+        this.activate( app );
+    }
+
+    /**
+     * Overrides.
+     */
+    public void deactivateInternal( PhetApplication app ) {
+        getModel().deleteObserver( getApparatusPanel() );
+        this.deactivate( app );
+    }
+
     public void setRightDirPositive( boolean rightPos ) {
         RangeToRange newTransform;
         double appPanelWidth = getApparatusPanel().getWidth();
@@ -271,8 +289,9 @@ public class MovingManModule extends Module {
         }
         manGraphic.setTransform( newTransform );
         setManTransform( newTransform );
+        setMode( dragMode );
         reset();
-        setPauseMode();
+        setPaused( true );
     }
 
     public void repaintBackground() {
@@ -335,13 +354,11 @@ public class MovingManModule extends Module {
 
     private void setMode( Mode mode ) {
         boolean same = mode == this.mode;
-//        System.out.println( "mode = " + mode +", this.mode = " + this.mode+", same="+same );
-
         if( !same ) {
             this.mode = mode;
             this.mode.initialize();
-            System.out.println( "SET mode = " + mode );
-//            new Exception().printStackTrace( );
+            System.out.println( "Changed mode to: " + mode.getName() );
+            repaintBackground();
         }
     }
 
@@ -377,20 +394,18 @@ public class MovingManModule extends Module {
                                                                 ".01-beta-x 8-6-2004", setup );
         PhetApplication tpa = new PhetApplication( desc, m );
         tpa.startApplication( m );
-        FRAME = tpa.getApplicationView().getPhetFrame();
+        MovingManModule.FRAME = tpa.getApplicationView().getPhetFrame();
+        m.setFrame( FRAME );
+//        new JDialog( MovingManModule.FRAME, "axl", false ).setVisible( true );
+
         FRAME.setVisible( true );
-        FRAME.getContentPane().invalidate();
-        FRAME.getContentPane().validate();
-        FRAME.getContentPane().repaint();
+        fixComponent( FRAME.getContentPane() );
         FRAME.setExtendedState( JFrame.MAXIMIZED_BOTH );
         FRAME.invalidate();
         FRAME.validate();
         FRAME.repaint();
-        m.setPauseMode();
         m.repaintBackground();
-        m.recordMode.initialize();
-        m.cursorGraphic.setVisible( false );
-        m.setPauseMode();
+        m.dragMode.initialize();
         m.cursorGraphic.setVisible( false );
         m.getApparatusPanel().repaint();
         m.cursorGraphic.setVisible( false );
@@ -440,6 +455,12 @@ public class MovingManModule extends Module {
             }
         } );
         new Thread( dofix ).start();
+
+    }
+
+    private void setFrame( PhetFrame frame ) {
+        this.frame = frame;
+        movingManControlPanel.setFrame( frame );
     }
 
     public static void fixComponent( Container jc ) {
@@ -481,7 +502,6 @@ public class MovingManModule extends Module {
         getVelocityString().update( null, null );
         getAccelString().update( null, null );
         backgroundGraphic.paintBufferedImage();
-
     }
 
     private void setReplayTimeIndex( int timeIndex ) {
@@ -503,32 +523,24 @@ public class MovingManModule extends Module {
     }
 
     public void setRecordMode() {
-        setMode( recordMode );
+        setMode( dragMode );
     }
 
-    public void setPlaybackMode( double playbackSpeed ) {
+    public void startPlaybackMode( double playbackSpeed ) {
         this.playbackSpeed = playbackSpeed;
         setMode( playbackMode );
+        setPaused( false );
     }
 
     public boolean isRecording() {
-        return mode == recordMode;
+        return mode == dragMode && !isPaused();
     }
 
-    public boolean isPlaybackMode() {
-        return mode == playbackMode;
-    }
-
-    public void setPauseMode() {
-        setMode( pauseMode );
-        movingManControlPanel.setPaused();
-        cursorGraphic.updateYourself();
-    }
-
-    public void setMotionMode( MotionSuite mac ) {//StepMotion motion) {
+    public void setMotionMode( MotionSuite mac ) {
         motionMode.setMotion( mac );
         setMode( motionMode );
         movingManControlPanel.setMotionState();
+        setPaused( true );
     }
 
     public BoxedPlot getPositionGraphic() {
@@ -622,7 +634,7 @@ public class MovingManModule extends Module {
 
     public void reset() {
         reset( 0 );
-        setPauseMode();
+        setPaused( true );
         if( motionSuite != null ) {
             motionSuite.reset();
         }
@@ -657,6 +669,10 @@ public class MovingManModule extends Module {
             this.motionSuite.deactivate();
         }
         this.motionSuite = motionSuite;
+    }
+
+    public void goPressed() {
+        movingManControlPanel.goPressed();
     }
 
     public class MotionMode extends Mode {
@@ -719,6 +735,7 @@ public class MovingManModule extends Module {
                 timeFinished();
                 return;
             }
+
         }
 
         private void timeFinished() {
@@ -751,41 +768,32 @@ public class MovingManModule extends Module {
         }
 
         public void stepInTime( double dt ) {
-            if( recordingTimer.getTime() >= maxTime ) {
-                setPauseMode();
-                return;
-            }
+            if( !isPaused() ) {
+                if( recordingTimer.getTime() >= maxTime ) {
+                    setPaused( true );
+                    return;
+                }
 
-            //TODO Should fix the overshoot problem.  Test Me first!
+                //TODO Should fix the overshoot problem.  Test Me first!
 //            double newTime = recordingTimer.getTime() + dt;
 //            if( newTime > maxTime ) {
 //                dt = maxTime - recordingTimer.getTime();
 //            }
-            recordingTimer.stepInTime( dt );//this could go over the max.
-            position.addPoint( man.getX() );
-            position.updateSmoothedSeries();
-            position.updateDerivative( dt * TIMER_SCALE );
-            velocity.updateSmoothedSeries();
-            velocity.updateDerivative( dt * TIMER_SCALE );
-            acceleration.updateSmoothedSeries();
-            if( recordingTimer.getTime() >= maxTime ) {
-                setPauseMode();
-                return;
+                recordingTimer.stepInTime( dt );//this could go over the max.
+                position.addPoint( man.getX() );
+                position.updateSmoothedSeries();
+                position.updateDerivative( dt * TIMER_SCALE );
+                velocity.updateSmoothedSeries();
+                velocity.updateDerivative( dt * TIMER_SCALE );
+                acceleration.updateSmoothedSeries();
+                if( recordingTimer.getTime() >= maxTime ) {
+                    setPaused( true );
+                    return;
+                }
             }
         }
-    }
 
-    class PauseMode extends Mode {
-        public PauseMode( MovingManModule module ) {
-            super( module, "Pause" );
-        }
 
-        public void initialize() {
-            cursorGraphic.setVisible( true );
-        }
-
-        public void stepInTime( double dt ) {
-        }
     }
 
     public class PlaybackMode extends Mode {
@@ -798,13 +806,15 @@ public class MovingManModule extends Module {
         }
 
         public void stepInTime( double dt ) {
-            playbackTimer.stepInTime( dt * playbackSpeed );
-            if( playbackTimer.getTime() < recordingTimer.getTime() ) {
-                setReplayTime( playbackTimer.getTime() );
-            }
-            else {
-                setPauseMode();
-                movingManControlPanel.setPaused();
+            if( !isPaused() ) {
+                playbackTimer.stepInTime( dt * playbackSpeed );
+                if( playbackTimer.getTime() < recordingTimer.getTime() ) {
+                    setReplayTime( playbackTimer.getTime() );
+                }
+                else {
+                    setPaused( true );
+                    movingManControlPanel.setPaused();
+                }
             }
         }
     }

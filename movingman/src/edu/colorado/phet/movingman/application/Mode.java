@@ -18,10 +18,6 @@ public abstract class Mode extends ModelElement {
         this.name = name;
     }
 
-    protected MovingManModule getModule() {
-        return module;
-    }
-
     public String toString() {
         return super.toString();
     }
@@ -32,4 +28,7 @@ public abstract class Mode extends ModelElement {
 
     public abstract void initialize();
 
+    public String getName() {
+        return name;
+    }
 }
