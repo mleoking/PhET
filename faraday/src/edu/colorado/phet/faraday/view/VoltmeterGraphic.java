@@ -45,7 +45,6 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
     
     private Voltmeter _voltmeterModel;
     private AbstractMagnet _magnetModel;
-    private double _value; // -1...+1
     private PhetShapeGraphic _needle;
 
     //----------------------------------------------------------------------------
@@ -69,8 +68,6 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
         _voltmeterModel = voltmeterModel;
         _voltmeterModel.addObserver( this );
         _magnetModel = magnetModel; // No need to observe magnet.
-        
-        _value = 0.0;
         
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
@@ -124,38 +121,6 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
     }
     
     //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the value displayed by the meter.
-     * This is a relative value, and indicates how much the needle is deflected from the zero position.
-     * 
-     * @param value the relative value, between -1.0 and 1.0.
-     * @throws IllegalArgumentException if value is out of range
-     */
-    public void setValue( double value ) {
-        if ( ! (value >= -1.0 && value <= 1.0 ) ) {
-            throw new IllegalArgumentException( "meter value must be between -1.0 and +1.0: " + value );
-        }
-        if ( value != _value ) {
-            _value = value;
-            double angle = 90 * value;
-            _needle.clearTransform();
-            _needle.rotate( Math.toRadians( angle ) );
-        }
-    }
-
-    /**
-     * Gets the current meter reading.
-     * 
-     * @return a value between -1 and +1 inclusive
-     */
-    public double getValue() {
-        return _value;
-    }
-    
-    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
 
@@ -164,19 +129,11 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
      */
     public void update() {
         setVisible( _voltmeterModel.isEnabled() );
-        if ( isVisible() ) {
-            
-            // Convert the voltage to a value in the range -1...+1.
-            double value = _voltmeterModel.getVoltage() / FaradayConfig.MAX_EMF;
-
-            // Rescale the value to improve the visual effect.
-            double sign = ( value < 0 ) ? -1 : +1;
-            value = sign * FaradayUtils.rescale( Math.abs(value), _magnetModel.getStrength() );
-            value = MathUtil.clamp( -1, value, +1 );
-
-            // Set the meter value.
-            setValue( value );
-            
+        if ( isVisible() ) {     
+            double angle = _voltmeterModel.getNeedleAngle();
+            System.out.println( "VoltmeterGraphic.update - angle=" + Math.toDegrees(angle) );  // DEBUG
+            _needle.clearTransform();
+            _needle.rotate( angle );
             repaint();
         }
     }

@@ -3,23 +3,19 @@
 ===============================================================================
 
 IN PROGRESS:
-- PickupCoilGraphic leaves screen turds when it's first moved (with grid off)
 - animate electrons when lightbulb is enabled (front of coil only)
 - 50% more space between electrons
 - make QuadBezierSpline a subclass of QuadCurve.Double
 
 HIGH PRIORITY:
-- add Verlet behavior to voltmeter needle
-- make lightbulb ramp up/down instead of immediate on/off
-- show important "spikes" in induced emf (consider totally disabling smoothing)
 - collision detection between compass and magnet
 - collision detection between magnet and coil
-- remove AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf as possible optimization
-- optimize performance
 
 MEDIUM PRIORITY:
+- optimize performance
 - check performance with a profiler
 - Transformer module requirements
+- remove AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf as possible optimization
 - check for unnecessary notification, events and updates
 
 LOW PRIORITY:
@@ -35,6 +31,7 @@ LOW PRIORITY:
 - remove DebuggerGraphic from modules
 
 phetcommon:
+- ApparatusPanel2 resize problems
 - MathUtil.clamp behavior with Double.NaN
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 - fix PhetShapeGraphic.contains so that stroke width is taken into account, test with CompassGraphic
@@ -42,6 +39,7 @@ phetcommon:
 
 DONE:
 v0r12...
+(2/9) - add jiggle to voltmeter needle
 (2/9) - move localization init into PhetApplication
 (2/9) - reposition objects in all modules
 (2/9) - localize mnemonics for menus and menu items
@@ -51,6 +49,7 @@ v0r12...
 (2/8) - disable Developer Controls panel
 (2/8) - move grid controls to dialog accessible via Options menu, include a performance warning, change all grids
 (2/8) - prevent dragging of stuff out of the apparatus panel viewport
+(2/8) - show important "spikes" in induced emf (fixed when I disabling smoothing)
 (2/8) - disable emf smoothing (median filter) in coil
 (2/8) - tune min/max number of light rays
 (2/8) - tune min/max light ray length
@@ -138,6 +137,8 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(2/10) - PickupCoilGraphic leaves screen turds (ApparatusPanel2 problem)
+(2/10) - make lightbulb ramp up/down instead of immediate on/off (looks fine as is)
 (2/7) - repaint compass grid when background color changes, in case we're switching rendering strategies (no longer necessary)
 (1/28) - use offscreen buffering in apparatus panel to remove screen turds? (found GraphicLayerSet problem)
 
