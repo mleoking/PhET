@@ -42,6 +42,10 @@ public class GraphicLayerSet extends PhetGraphic {
         this.swingAdapter = new SwingAdapter();
     }
 
+    public void setComponent(Component component) {
+        super.setComponent( component );
+    }
+
     /**
      * Paints all PhetGraphics in order on the Graphics2D device
      *
