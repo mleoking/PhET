@@ -18,10 +18,12 @@ import java.awt.event.MouseListener;
  */
 public class MySpinnerUI extends BasicSpinnerUI {
 
-    static ImageIcon up = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/uparrow.gif" ) ) );
-    static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/uparrow-pressed.gif" ) ) );
-    static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/downarrow.gif" ) ) );
-    static ImageIcon downpressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/downarrow-pressed.gif" ) ) );
+//    static ImageIcon up = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/uparrow.gif" ) ) );
+    static ImageIcon up = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/up1-unpressed.gif" ) ) );
+    static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/up1-pressed.gif" ) ) );
+//    static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/downarrow.gif" ) ) );
+    static ImageIcon down = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/down1-unpressed.gif" ) ) );
+    static ImageIcon downpressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( "images/components/webt/down1-pressed.gif" ) ) );
 
     public MySpinnerUI() {
         super();
@@ -52,7 +54,7 @@ public class MySpinnerUI extends BasicSpinnerUI {
             else if( component instanceof JButton ) {
                 JButton jb = (JButton)component;
                 jb.setIcon( down );
-                jb.setPressedIcon( down );
+                jb.setPressedIcon( downpressed );
             }
         }
 
