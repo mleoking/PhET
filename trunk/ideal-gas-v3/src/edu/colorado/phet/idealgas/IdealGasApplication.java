@@ -10,8 +10,13 @@ import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.controller.*;
+import edu.colorado.phet.idealgas.controller.HeliumBalloonModule;
+import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
+import edu.colorado.phet.idealgas.controller.IdealGasModule;
+import edu.colorado.phet.idealgas.controller.RigidHollowSphereModule;
+import edu.colorado.phet.idealgas.controller.menus.OptionsMenu;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
@@ -37,20 +42,20 @@ public class IdealGasApplication extends PhetApplication {
             Module rigidSphereModule = new RigidHollowSphereModule( getClock() );
             Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
             Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
-            Module movableWallsModule = new MovableWallsModule( getClock() );
-            Module diffusionModule = new DiffusionModule( getClock() );
+//            Module movableWallsModule = new MovableWallsModule( getClock() );
+//            Module diffusionModule = new DiffusionModule( getClock() );
             Module[] modules = new Module[]{
                 idealGasModule,
                 rigidSphereModule,
                 heliumBalloonModule,
                 hotAirBalloonModule,
-                movableWallsModule,
-                diffusionModule
+//                movableWallsModule,
+//                diffusionModule
             };
             setModules( modules );
 //            setInitialModule( movableWallsModule );
-            setInitialModule( diffusionModule );
-//            setInitialModule( idealGasModule );
+//            setInitialModule( diffusionModule );
+            setInitialModule( idealGasModule );
 
             // Set the initial size
             setFrameCenteredSize( 1020, 700 );
@@ -60,6 +65,12 @@ public class IdealGasApplication extends PhetApplication {
     public IdealGasApplication( String[] args) {
         super( new IdealGasApplicationModel(), args );
 //        this.getApplicationView().getPhetFrame().setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        // Add some menus
+        PhetFrame frame = getPhetFrame();
+        frame.addMenu( new OptionsMenu( this ) );
+
+
         this.startApplication();
     }
 

@@ -32,15 +32,11 @@ public class SphereWallCollision implements Collision {
     }
 
 
-    public static int cnt = 0;
-
     public void collide() {
         double sx = sphere.getPosition().getX();
         double sy = sphere.getPosition().getY();
         double r = sphere.getRadius();
         Rectangle2D wallBounds = wall.getBounds();
-
-        cnt++;
 
         // If the sphere is hitting a corner, rather than a flat side of the wall, we need to handle
         // the collision in a special way
