@@ -23,6 +23,7 @@ public class VerticalChartSlider {
     private boolean visible = false;
     private int numTicks = 1000;
     public int offsetX = 0;
+    private boolean changed;
 
     public VerticalChartSlider( final Chart chart ) {
         this.chart = chart;
@@ -46,6 +47,7 @@ public class VerticalChartSlider {
                     Listener listener = (Listener)listeners.get( i );
                     listener.valueChanged( modelValue );
                 }
+                changed = true;
             }
         } );
     }
@@ -107,6 +109,10 @@ public class VerticalChartSlider {
             ChangeListener changeListener = s[i];
             slider.addChangeListener( changeListener );
         }
+    }
+
+    public boolean hasMoved() {
+        return changed;
     }
 
     public interface Listener {
