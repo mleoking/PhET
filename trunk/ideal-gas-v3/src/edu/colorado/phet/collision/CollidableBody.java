@@ -52,7 +52,7 @@ public abstract class CollidableBody extends Body {
         if( positionPrev == null ) {
             positionPrev = new Point2D.Double();
         }
-        positionPrev.setLocation( x, y );
+        positionPrev.setLocation( getPosition() );
         super.setPosition( x, y );
     }
 

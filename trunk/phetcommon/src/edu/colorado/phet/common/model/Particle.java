@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.common.model;
 
-import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 
@@ -16,8 +15,7 @@ public class Particle extends SimpleObservable implements ModelElement {
     private Point2D position = new Point2D.Double();
     private Vector2D velocity = new Vector2D.Double();
     private Vector2D acceleration = new Vector2D.Double();
-    //Relying on this being null for the first iteration.
-    private Vector2D prevAcceleration = new Vector2D.Double( );
+    private Vector2D prevAcceleration = new Vector2D.Double();
 
     public Particle() {
     }
@@ -87,7 +85,8 @@ public class Particle extends SimpleObservable implements ModelElement {
         double yNew = position.getY()
                       + dt * velocity.getY()
                       + dt * dt * acceleration.getY() / 2;
-        position.setLocation( xNew, yNew );
+        this.setPosition( xNew, yNew );
+        //        position.setLocation( xNew, yNew );
 
         // New velocity
         if( prevAcceleration == null ) {
@@ -95,7 +94,8 @@ public class Particle extends SimpleObservable implements ModelElement {
         }
         double vxNew = velocity.getX() + dt * ( acceleration.getX() + prevAcceleration.getX() ) / 2;
         double vyNew = velocity.getY() + dt * ( acceleration.getY() + prevAcceleration.getY() ) / 2;
-        velocity.setComponents( vxNew, vyNew );
+        setVelocity( vxNew, vyNew );
+        //        velocity.setComponents( vxNew, vyNew );
 
         // New acceleration
         prevAcceleration.setComponents( acceleration.getX(), acceleration.getY() );

@@ -204,7 +204,7 @@ public class IdealGasModel extends BaseModel {
                 Body body = (Body)element;
                 double ke = body.getKineticEnergy();
                 if( Double.isNaN( ke ) ) {
-                    System.out.println( "Total kinetic energy in system NaN" );
+                    System.out.println( "Total kinetic energy in system NaN: " + body.getClass() );
                 }
                 else {
                     totalKE += ke;
