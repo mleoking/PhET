@@ -6,17 +6,22 @@
 
 package edu.colorado.phet.signal;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.phys2d.laws.Validate;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Locale;
 
 //import edu.colorado.phet.util.ExitOnClose;
 
 public class SignalApplet extends JApplet {
     public static boolean applet = true;
+
+    // Localization
+    public static final String localizedStringsPath = "localization/SignalCircuitStrings";
 
     public SignalApplet() {
         int width = 600;
@@ -30,6 +35,14 @@ public class SignalApplet extends JApplet {
         int x = 20;
         int y = 20;
         int seed = 0;
+        
+        if ( applet ) {
+            String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+                Locale.setDefault( new Locale( applicationLocale ) );
+            }
+            SimStrings.setStrings( localizedStringsPath );
+        }
 
         Signal s = new Signal( width, height, applet );
         s.getSystem().addLaw( new Validate( this ) );
@@ -47,6 +60,18 @@ public class SignalApplet extends JApplet {
     }
 
     public static void main( String[] args ) {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
+        
         SignalApplet.applet = false;
         JFrame f = new JFrame();
         f.setContentPane( new SignalApplet() );

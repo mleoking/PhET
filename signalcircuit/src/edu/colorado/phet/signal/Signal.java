@@ -1,5 +1,6 @@
 package edu.colorado.phet.signal;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.electron.wire1d.WireParticle;
 import edu.colorado.phet.electron.wire1d.WirePatch;
 import edu.colorado.phet.electron.wire1d.WireSegment;
@@ -185,7 +186,7 @@ public class Signal extends JApplet {
         JSlider angleSlider = new JSlider( 0, 90, 45 );
         angleSlider.setMajorTickSpacing( 90 / 10 );
         angleSlider.setPaintTicks( true );
-        angleSlider.setBorder( BorderFactory.createTitledBorder( "Switch" ) );
+        angleSlider.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "Signal.SwitchSlider" ) ) );
         SegmentAngle sa = new SegmentAngle( angleSlider, seg0 );
         SwitchCloser sc = new SwitchCloser( Math.PI / 20 );
 
@@ -200,7 +201,7 @@ public class Signal extends JApplet {
         angleSlider.addChangeListener( sa );
 
         WireParticlePainter particlePainter = new WireParticlePainter( wireSystem, wp );
-        JCheckBox showElectrons = new JCheckBox( "Show Electrons", true );
+        JCheckBox showElectrons = new JCheckBox( SimStrings.get( "Signal.ShowElectronsCheckBox" ), true );
         ShowElectrons se = new ShowElectrons( showElectrons, particlePainter );
         panel.addPainter( se, 1 );
         //panel.addPainter(particlePainter,1);
@@ -245,7 +246,7 @@ public class Signal extends JApplet {
         Switch bottom = new Switch( new BufferedImagePainter( down, uncovered.x, uncovered.y ),
                                     new BufferedImagePainter( up, uncovered.x, uncovered.y ),
                                     false, angleSlider );
-        JCheckBox switchBox = new JCheckBox( "Show Inside Switch", false );
+        JCheckBox switchBox = new JCheckBox( SimStrings.get( "Signal.ShowInsideSwitchCheckBox" ), false );
         SwitchCover switchCover = new SwitchCover( top, bottom, true, switchBox, s.getPanel() );
 
         sc.addSwitchListener( switchCover );
@@ -267,11 +268,11 @@ public class Signal extends JApplet {
         sc.addSwitchListener( a );
 
         JPanel showPanel = new JPanel();
-        showPanel.setBorder( BorderFactory.createTitledBorder( "Comparison Tools" ) );
+        showPanel.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "Signal.ComparisonToolsBorder" ) ) );
         showPanel.setLayout( new BoxLayout( showPanel, BoxLayout.Y_AXIS ) );
 
-        JCheckBox arrowBox = new JCheckBox( "Show Signal Arrow" );
-        JCheckBox electronBox = new JCheckBox( "Paint Electron" );
+        JCheckBox arrowBox = new JCheckBox( SimStrings.get( "Signal.ShowSignalArrowCheckBox" ) );
+        JCheckBox electronBox = new JCheckBox( SimStrings.get( "Signal.PaintElectronCheckBox" ) );
         showPanel.add( arrowBox );
         showPanel.add( electronBox );
 
