@@ -11,6 +11,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.StimulatingBeamControl;
@@ -31,7 +32,7 @@ public class SingleAtomModule extends BaseLaserModule {
     private Atom atom;
 
     public SingleAtomModule( AbstractClock clock ) {
-        super( "One Atom", clock );
+        super( SimStrings.get( "ModuleTitle.SingleAtomModule" ), clock );
 
         Point2D beamOrigin = new Point2D.Double( s_origin.getX(),
                                                  s_origin.getY() + s_boxHeight / 2 - Photon.s_radius );

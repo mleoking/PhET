@@ -11,6 +11,7 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 
 import javax.swing.*;
@@ -87,7 +88,7 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
         gbc.fill = GridBagConstraints.HORIZONTAL;
         this.add( reflectivityTF, gbc);
 
-        Border border = new TitledBorder( "Reflectivity" );
+        Border border = new TitledBorder( SimStrings.get( "RightMirrorReflectivityControlPanel.BorderTitle" ) );
         this.setBorder( border );
 //        this.add( controlPanel );
     }

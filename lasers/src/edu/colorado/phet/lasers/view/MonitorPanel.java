@@ -10,6 +10,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -31,7 +32,7 @@ public abstract class MonitorPanel extends ApparatusPanel implements SimpleObser
     protected int numGroundLevel;
     protected int numMiddleLevel;
     protected int numHighLevel;
-    private String yAxisLabel = "Energy (ev)";
+    private String yAxisLabel = SimStrings.get( "MonitorPanel.YAxislabel" );
     private EnergyLevelGraphic elg;
 
 

@@ -12,6 +12,7 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -62,7 +63,7 @@ public class MiddleEnergyHalfLifeControl extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         this.add( spontaneousEmissionTimeTF, gbc );
 
-        Border frequencyBorder = new TitledBorder( "Middle Energy Lifetime" );
+        Border frequencyBorder = new TitledBorder( SimStrings.get( "MiddleEnergyHalfLifeControl.BorderTitle" ) );
         this.setBorder( frequencyBorder );
     }
 }

@@ -15,6 +15,7 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.coreadditions.VisibleColor;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -68,12 +69,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
         this.addGraphic( groundLevelLine );
 
         // Add lifetime sliders and a title for them
-        JLabel legend = new JLabel( "<html>Energy Level<br>Lifetime (msec)</html>" );
+        JLabel legend = new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.EnergyLevelLifetimeLabel" ) );
         legend.setBounds( (int)( levelLineOriginX + levelLineLength + 10 ), 15, 100, 30 );
         this.add( legend );
-        middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(), this, middleLevelLine, "Middle level" );
+        middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(), this, middleLevelLine, SimStrings.get( "EnergyLevelMonitorPanel.MiddleLevelSlider" ) );
         this.add( middleLevelLifetimeSlider );
-        highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), this, highLevelLine, "High level" );
+        highLevelLifetimeSlider = new EnergyLifetimeSlider( HighEnergyState.instance(), this, highLevelLine, SimStrings.get( "EnergyLevelMonitorPanel.HighLevelSlider" ) );
         this.add( highLevelLifetimeSlider );
 
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );

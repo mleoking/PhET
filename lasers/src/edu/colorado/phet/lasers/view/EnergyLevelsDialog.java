@@ -8,6 +8,7 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.MiddleEnergyHalfLifeControl;
 import edu.colorado.phet.lasers.model.LaserModel;
 
@@ -30,7 +31,7 @@ public class EnergyLevelsDialog extends JDialog {
     }
 
     public EnergyLevelsDialog( Frame parent, JPanel energyLevelsPanel, LaserModel model ) {
-        super( parent, "Energy Level Populations" );
+        super( parent, SimStrings.get( "EnergyLevelsDialog.Title" ) );
 
         addWindowListener( new WindowAdapter() {
             public void windowClosed( WindowEvent e ) {
