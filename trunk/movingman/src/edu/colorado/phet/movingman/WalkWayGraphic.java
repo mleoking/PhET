@@ -4,6 +4,7 @@ import edu.colorado.phet.common.math.LinearTransform1d;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -78,7 +79,7 @@ public class WalkWayGraphic extends PhetGraphic {
 
             String str = format.format( modelx );
             if( str.equals( "0" ) ) {
-                str = "0 meters";
+                str = "0 " + SimStrings.get( "WalkWayGraphic.MetersText" );
             }
             Rectangle2D bounds = font.getStringBounds( str, graphics2D.getFontRenderContext() );
             graphics2D.drawString( str, viewx - (int)( bounds.getWidth() / 2 ), height + (int)bounds.getHeight() );

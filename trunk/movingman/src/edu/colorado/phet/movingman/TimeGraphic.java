@@ -3,6 +3,7 @@ package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -63,7 +64,7 @@ public class TimeGraphic extends PhetGraphic {
         double scalarTime = tx.getTime();
         double seconds = scalarTime;// * timerDisplayScale; //TIMING
         Rectangle r = getShape();
-        this.timeStr = decimalFormat.format( seconds ) + " seconds";
+        this.timeStr = decimalFormat.format( seconds ) + " " + SimStrings.get( "TimeGraphic.SecondsText" );
         repaint( r, getShape() );
     }
 

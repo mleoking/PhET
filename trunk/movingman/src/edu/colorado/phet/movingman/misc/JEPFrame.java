@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman.misc;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.Mode;
 import edu.colorado.phet.movingman.MovingManModule;
 import org.nfunk.jep.JEP;
@@ -27,7 +28,7 @@ public class JEPFrame extends JDialog {
         private String expression;
 
         public EvaluationMode( MovingManModule module ) {
-            super( module, "Expression Mode", true );
+            super( module, SimStrings.get( "JEPFrame.ModeName" ), true );
             this.module = module;
         }
 
@@ -86,24 +87,24 @@ public class JEPFrame extends JDialog {
     }
 
     public JEPFrame( Frame owner, final MovingManModule module ) throws HeadlessException {
-        super( owner, "Expression Evaluator", false );
+        super( owner, SimStrings.get( "JEPFrame.DialogTitle" ), false );
         this.module = module;
         this.mode = new EvaluationMode( module );
         this.parser = new JEP();
         parser.addStandardFunctions();
         parser.addStandardConstants();
         VerticalLayoutPanel contentPanel = new VerticalLayoutPanel();
-        JLabel explanation = new JLabel( "Enter a function of time (expressed as 't')." );
+        JLabel explanation = new JLabel( SimStrings.get( "JEPFrame.ExplanationText" ) );
         JPanel horizontalLayoutPanel = new JPanel( new FlowLayout() );
 
-        String testEquation = "9*sin(t*t/pi)";
+        String testEquation = SimStrings.get( "JEPFrame.TestEquation" );
         final JTextField expression = new JTextField( testEquation, 15 );
         expression.setBackground( Color.white );
-        horizontalLayoutPanel.add( new JLabel( " x(t) = " ) );
+        horizontalLayoutPanel.add( new JLabel( " " + SimStrings.get( "JEPFrame.ResultFunctionLabel" ) + " = " ) );
         horizontalLayoutPanel.add( expression );
         contentPanel.add( explanation );
         contentPanel.add( horizontalLayoutPanel );
-        JButton go = new JButton( "Go!" );
+        JButton go = new JButton( SimStrings.get( "JEPFrame.GoButton" ) );
         go.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 mode.setExpression( expression.getText() );
@@ -111,7 +112,7 @@ public class JEPFrame extends JDialog {
                 module.setPaused( false );
             }
         } );
-        JButton reset = new JButton( "Reset" );
+        JButton reset = new JButton( SimStrings.get( "JEPFrame.ResetButton" ) );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();

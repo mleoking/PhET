@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MMTimer;
 import edu.colorado.phet.movingman.MovingManModule;
@@ -135,14 +136,14 @@ public class MMPlot extends PhetGraphic {
         public FloatingControl( final MovingManModule module ) {
             this.module = module;
 //            this.titleLabel = titleLabel;
-            pauseButton = new ControlButton( "Pause" );
+            pauseButton = new ControlButton( SimStrings.get( "MMPlot.PauseButton" ) );
             pauseButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setPaused( true );
                 }
             } );
 //            final JButton recordButton = new JButton( new ImageIcon( play ) );
-            recordButton = new ControlButton( "Go!" );
+            recordButton = new ControlButton( SimStrings.get( "MMPlot.RecordButton" ) );
             recordButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setRecordMode();
@@ -150,12 +151,15 @@ public class MMPlot extends PhetGraphic {
                 }
             } );
 
-            resetButton = new ControlButton( "Clear" );
+            resetButton = new ControlButton( SimStrings.get( "MMPlot.ResetButton" ) );
             resetButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     boolean paused = module.isPaused();
                     module.setPaused( true );
-                    int option = JOptionPane.showConfirmDialog( module.getApparatusPanel(), "Are you sure you want to clear the graphs?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION );
+                    int option = JOptionPane.showConfirmDialog( module.getApparatusPanel(),
+                                SimStrings.get( "MMPlot.ClearConfirmText" ),
+                                SimStrings.get( "MMPlot.ClearConfirmButton" ),
+                                JOptionPane.YES_NO_CANCEL_OPTION );
                     if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
                         module.reset();
                     }
@@ -248,7 +252,7 @@ public class MMPlot extends PhetGraphic {
             }
         } );
         closeButton = new CloseButton();
-        closeButton.setToolTipText( "Close Graph" );
+        closeButton.setToolTipText( SimStrings.get( "MMPlot.CloseButtonToolTipText" ) );
         module.getApparatusPanel().add( closeButton );
 
         setCloseHandler( new ActionListener() {
@@ -257,7 +261,7 @@ public class MMPlot extends PhetGraphic {
                 module.relayout();
             }
         } );
-        showButton = new ChartButton( "Show " + title );
+        showButton = new ChartButton( SimStrings.get( "MMPlot.ShowButton" ) + " " + title );
         showButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setVisible( true );
@@ -274,8 +278,8 @@ public class MMPlot extends PhetGraphic {
         ActionListener smoothNeg = new Decrement( smooth );
         ActionListener incPos = new Increment( 5 );
         ActionListener incNeg = new Decrement( 5 );
-        magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos, "Zoom In" );
-        magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, "Zoom Out" );
+        magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos, SimStrings.get( "MMPlot.ZoomInButton" ) );
+        magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, SimStrings.get( "MMPlot.ZoomOutButton" ) );
         module.getApparatusPanel().add( magPlus );
         module.getApparatusPanel().add( magMinus );
 
@@ -630,7 +634,9 @@ public class MMPlot extends PhetGraphic {
             chart.paint( g );
             Point pt = chart.getTransform().modelToView( 15, 0 );
             pt.y -= 3;
-            PhetTextGraphic ptt = new PhetTextGraphic( module.getApparatusPanel(), MMFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, pt.x, pt.y );
+            PhetTextGraphic ptt = new PhetTextGraphic( module.getApparatusPanel(),
+                            MMFontManager.getFontSet().getTimeLabelFont(),
+                            SimStrings.get( "MMPlot.TimeLabel" ), Color.red, pt.x, pt.y );
             ptt.paint( g );
             Rectangle bounds = ptt.getBounds();
             Point2D tail = RectangleUtils.getRightCenter( bounds );

@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * User: Sam Reid
@@ -13,7 +14,7 @@ public class PlaybackMode extends Mode {
     private MovingManModule module;
 
     public PlaybackMode( MovingManModule module ) {
-        super( module, "Playback", false );
+        super( module, SimStrings.get( "PlaybackMode.ModeName" ), false );
         this.module = module;
     }
 

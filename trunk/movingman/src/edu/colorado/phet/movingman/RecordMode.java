@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * User: Sam Reid
@@ -12,7 +13,7 @@ public class RecordMode extends Mode {
     private MovingManModule module;
 
     public RecordMode( final MovingManModule module ) {
-        super( module, "Record", true );
+        super( module, SimStrings.get( "RecordMode.ModeName" ), true );
         this.module = module;
         module.addListener( new MovingManModule.ListenerAdapter() {
             public void recordingStarted() {
