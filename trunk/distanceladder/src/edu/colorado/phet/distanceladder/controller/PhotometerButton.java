@@ -25,6 +25,10 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
     private String label = "On";
     private CockpitModule module;
     private AffineTransform hitTx = new AffineTransform();
+    Color buttonBorderColorBase = Color.black;
+    Color buttonBorderColorRollover = Color.white;
+    Color buttonBorderColor = buttonBorderColorBase;
+    private Boundary bounds;
 
     public PhotometerButton( CockpitModule module, Point2D.Double location ) {
         super( null, null );
@@ -39,7 +43,7 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
                 g.transform( buttonTx );
                 g.setColor( Color.green );
                 g.fill( button );
-                g.setColor( Color.black );
+                g.setColor( buttonBorderColor );
                 g.draw( button );
                 FontMetrics fontMetrics = g.getFontMetrics();
                 int strWidth = fontMetrics.stringWidth( label );
@@ -53,7 +57,7 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
         };
         setGraphic( graphic );
 
-        Boundary bounds = new Boundary() {
+        bounds = new Boundary() {
             public boolean contains( int x, int y ) {
                 Point2D.Double testPt = new Point2D.Double( x, y );
                 try {
@@ -74,6 +78,7 @@ public class PhotometerButton extends DefaultInteractiveGraphic {
     public void mousePressed( MouseEvent e ) {
         isOn = !isOn;
         module.setPhotometerReticle( isOn );
+        buttonBorderColor = isOn ? buttonBorderColorRollover : buttonBorderColorBase;
         label = isOn ? "Off" : "On";
     }
 }

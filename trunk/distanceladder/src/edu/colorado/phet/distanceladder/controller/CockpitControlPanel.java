@@ -167,7 +167,7 @@ public class CockpitControlPanel extends JPanel {
 //                                      + "<li>The distance to the star will be displayed in the &quot;Distance&quot; field.   </li>"
 //                                      + "</ol>"
 //                                      + "</html> ";
-        private double leftRightSliderFactor = 100;
+        private double leftRightSliderFactor = 1;
         private JTextField alphaTF;
         private JTextField betaTF;
 //        private JSlider leftRightSlider;
@@ -244,7 +244,7 @@ public class CockpitControlPanel extends JPanel {
             markBtn = new JButton( new AbstractAction( "Mark" ) {
                 public void actionPerformed( ActionEvent e ) {
 //                    markRef = leftRightSlider.getValue();
-//                    leftRightTF.setText( "0" );
+                    leftRightTF.setText( "0" );
                     markPov.setPointOfView( ( (UniverseModel)module.getModel() ).getStarShip().getPov() );
                 }
             } );

@@ -35,8 +35,7 @@ public class StarView extends SimpleObservable implements SimpleObserver {
         this.starField = starField;
         this.viewAngle = viewAngle;
         this.bounds = bounds;
-
-        this.apparentDistance = ( bounds.getWidth() / 2 ) / Math.tan( viewAngle / 2 );
+        this.apparentDistance = ( bounds.getWidth() / 2 ) / Math.sin( viewAngle / 2 );
     }
 
     private void setPov( PointOfView pov ) {

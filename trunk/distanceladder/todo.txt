@@ -1,5 +1,4 @@
-- Fix tranform for hit detection in Joystick. Currently using JoystickTx, but that doesn't seem
-to work.
+- Pull computation of brightness out of the control panel and starVeiwGraphic and put it in the photometer
 
 - Fix clipping at sides of StarView
 

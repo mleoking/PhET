@@ -18,6 +18,6 @@ public class Config {
     public static final double measurementInstrumentLayer = Double.MAX_VALUE;
 
 //    public static final double universeWidth = .5E3;
-    public static final double universeWidth = 1E3;
+    public static final double universeWidth = 5E3;
     public static double viewAngle = Math.PI / 2;
 }

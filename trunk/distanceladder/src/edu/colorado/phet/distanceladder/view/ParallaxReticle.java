@@ -98,12 +98,11 @@ public class ParallaxReticle extends DefaultInteractiveGraphic implements Transl
             path = new GeneralPath();
             path.moveTo( (float)-bounds.getWidth() / 2, 0 );
             path.lineTo( (float)bounds.getWidth() / 2, 0 );
-            double d = ( bounds.getWidth() / 2 ) / Math.tan( viewAngle / 2 );
+            double d = ( bounds.getWidth() / 2 ) / Math.sin( viewAngle / 2 );
 
             int tickCnt = 0;
             for( double beta = 0; beta <= viewAngle / 2; beta += viewAngle / 90 ) {
                 double e = d * Math.sin( beta );
-//                double e = d * Math.tan( beta );
                 float tickHeight = 0;
                 if( tickCnt++ % majorTickEvery == 0 ) {
                     tickHeight = majorTickHeight;
