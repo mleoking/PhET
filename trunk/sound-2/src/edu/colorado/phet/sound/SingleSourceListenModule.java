@@ -43,6 +43,7 @@ public class SingleSourceListenModule extends SingleSourceModule {
         // Add the listener
         speakerListener = new Listener( (SoundModel)getModel(),
                                         new Point2D.Double());
+        speakerListener.setLocation( new Point2D.Double() );
         setListener( speakerListener );
         headListener = new Listener( (SoundModel)getModel(),
                                      new Point2D.Double());
@@ -58,10 +59,6 @@ public class SingleSourceListenModule extends SingleSourceModule {
                                                                    SoundConfig.s_headBaseX - 150, SoundConfig.s_headBaseY + headOffsetY,
                                                                    SoundConfig.s_headBaseX + 150, SoundConfig.s_headBaseY + headOffsetY );
             this.addGraphic( listenerGraphic, 9 );
-            headListener.setLocation( new Point2D.Double( SoundConfig.s_headBaseX - SoundConfig.s_speakerBaseX,
-                                                          SoundConfig.s_headBaseY - SoundConfig.s_speakerBaseY + headOffsetY ) );
-            speakerListener.setLocation( new Point2D.Double() );
-            setAudioSource( SoundApparatusPanel.SPEAKER_SOURCE );
 
             // Add help items
             HelpItem help1 = new HelpItem( "Listener can be moved\nleft and right",
