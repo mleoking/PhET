@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
+import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
@@ -27,6 +28,12 @@ public class Force1dControlPanel extends ControlPanel {
     private Force1DModel model;
     public static final double MAX_KINETIC_FRICTION = 2.0;
     private FreeBodyDiagramSuite freeBodyDiagramSuite;
+    private JComboBox comboBox;
+    private ModelSlider mass;
+    private ModelSlider gravity;
+    private ModelSlider staticFriction;
+    private ModelSlider kineticFriction;
+    private BarrierCheckBox barriers;
 
     public Force1dControlPanel( final Force1DModule module ) {
         super( module );
@@ -35,22 +42,22 @@ public class Force1dControlPanel extends ControlPanel {
         freeBodyDiagramSuite = new FreeBodyDiagramSuite( module );
 
         freeBodyDiagramSuite.addTo( this );
-        final JComboBox jcb = new JComboBox( module.getImageElements() );
-        jcb.setBorder( PhetLookAndFeel.createSmoothBorder( "Objects" ) );
-        jcb.addItemListener( new ItemListener() {
+        comboBox = new JComboBox( module.getImageElements() );
+        comboBox.setBorder( PhetLookAndFeel.createSmoothBorder( "Objects" ) );
+        comboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
-                Object sel = jcb.getSelectedItem();
+                Object sel = comboBox.getSelectedItem();
                 setup( (Force1dObject)sel );
             }
         } );
-        add( jcb );
+        add( comboBox );
 
-        final ModelSlider mass = createControl( 5, 0.1, 1000, 1.0, "Mass", "kg", new SpinnerHandler() {
+        mass = createControl( 5, 0.1, 1000, 1.0, "Mass", "kg", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setMass( value );
             }
         } );
-        final ModelSlider gravity = createControl( 9.8, 0, 100, .2, "Gravity", "N/kg", new SpinnerHandler() {
+        gravity = createControl( 9.8, 0, 100, .2, "Gravity", "N/kg", new SpinnerHandler() {
             public void changed( double value ) {
                 model.setGravity( value );
             }
@@ -67,12 +74,12 @@ public class Force1dControlPanel extends ControlPanel {
             }
         } );
 
-        final ModelSlider staticFriction = createControl( 0.10, 0, MAX_KINETIC_FRICTION, .01, "Static Friction", "", new SpinnerHandler() {
+        staticFriction = createControl( 0.10, 0, MAX_KINETIC_FRICTION, .01, "Static Friction", "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setStaticFriction( value );
             }
         } );
-        final ModelSlider kineticFriction = createControl( 0.05, 0, MAX_KINETIC_FRICTION, .01, "Kinetic Friction", "", new SpinnerHandler() {
+        kineticFriction = createControl( 0.05, 0, MAX_KINETIC_FRICTION, .01, "Kinetic Friction", "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setKineticFriction( value );
             }
@@ -97,7 +104,7 @@ public class Force1dControlPanel extends ControlPanel {
 
 //        controls.setBorder( Force1DUtil.createTitledBorder( "Controls" ) );
 
-        BarrierCheckBox barriers = new BarrierCheckBox( module );
+        barriers = new BarrierCheckBox( module );
         add( barriers );
         add( controls );
         model.getBlock().addListener( new Block.Listener() {
@@ -129,6 +136,42 @@ public class Force1dControlPanel extends ControlPanel {
 
         super.setHelpPanelEnabled( true );
         super.removeTitle();
+
+        module.getForceModel().getPlotDeviceModel().addListener( new PlotDeviceModel.ListenerAdapter() {
+            public void recordingStarted() {
+                enableChanges();
+            }
+
+            public void playbackStarted() {
+                disableChanges();
+            }
+
+            public void playbackPaused() {
+                enableChanges();
+            }
+
+            public void playbackFinished() {
+                enableChanges();
+            }
+        } );
+    }
+
+    private void disableChanges() {
+        setChangesEnabled( false );
+    }
+
+    private void enableChanges() {
+        setChangesEnabled( true );
+    }
+
+    private void setChangesEnabled( boolean enabled ) {
+        barriers.setEnabled( enabled );
+        comboBox.setEnabled( enabled );
+        mass.setEnabled( enabled );
+        gravity.setEnabled( enabled );
+        staticFriction.setEnabled( enabled );
+        kineticFriction.setEnabled( enabled );
+        barriers.setEnabled( enabled );
     }
 
 

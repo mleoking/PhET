@@ -16,6 +16,10 @@ public class DataSeries {
     public DataSeries() {
     }
 
+    public void remove( int i ) {
+        pts.remove( i );
+    }
+
     public interface Listener {
         void changed();
     }

@@ -23,14 +23,14 @@ public abstract class PlotDeviceModel implements ModelElement {
     private Mode currentMode = recordMode;
     private ArrayList listeners = new ArrayList();
 
-    private static int instanceCount = 0;
+//    private static int instanceCount = 0;
 
-    private int myCount;
+//    private int myCount;
 
     protected PlotDeviceModel( double maxTime, double timeScale ) {
         this.maxTime = maxTime;
         this.timeScale = timeScale;
-        this.myCount = instanceCount++;
+//        this.myCount = instanceCount++;
         paused = true;
     }
 
@@ -104,6 +104,10 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     public double convertIndexToTime( int i ) {
         return i * recordMode.conversionFactor * timeScale;
+    }
+
+    public int getPlaybackIndex() {
+        return playbackMode.playbackIndex;
     }
 
     public interface Listener {
@@ -255,10 +259,14 @@ public abstract class PlotDeviceModel implements ModelElement {
         }
     }
 
+    public void resetRecordPointer() {
+        recordMode.recordIndex = playbackMode.playbackIndex;
+        recordMode.timer.setTime( playbackMode.timer.getTime() );
+    }
+
     public void doReset() {
         recordMode.reset();
         playbackMode.reset();
-
     }
 
     public void setPlaybackMode() {

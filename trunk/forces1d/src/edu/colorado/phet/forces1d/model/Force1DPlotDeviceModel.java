@@ -28,8 +28,25 @@ public class Force1DPlotDeviceModel extends PlotDeviceModel {
                 setPaused( true );
             }
         } );
+//        addListener( new ListenerAdapter() {
+//            public void recordingStarted() {
+//                resetRecordPointer();
+//            }
+//        } );
 
     }
+
+    public void resetRecordPointer() {
+        super.resetRecordPointer();
+        int index = super.getPlaybackIndex();
+        model.resetRecordPointer( index );
+    }
+
+//    private void clearFutureData() {
+//        double recordTime = super.getPlaybackTimer().getTime();
+//        super.getRecordingTimer().setTime( recordTime );
+//        //todo then clear future data.
+//    }
 
     public void reset() {
         module.reset();
