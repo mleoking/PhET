@@ -67,8 +67,9 @@ public class SingleSourceListenModule extends SingleSourceModule {
 
             // Add help items
             HelpItem help1 = new HelpItem( "Listener can be moved\nleft and right",
-                                           SoundConfig.s_headBaseX + 100,
-                                           SoundConfig.s_headBaseY + headOffsetY - 20 );
+                                           SoundConfig.s_headBaseX,
+                                           SoundConfig.s_headBaseY + headOffsetY - 20,
+                                           HelpItem.RIGHT, HelpItem.ABOVE );
             help1.setForegroundColor( Color.white );
             getApparatusPanel().addGraphic( help1, SoundConfig.HELP_LAYER );
         }

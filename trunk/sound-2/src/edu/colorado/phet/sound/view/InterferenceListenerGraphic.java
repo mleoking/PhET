@@ -7,7 +7,7 @@
 package edu.colorado.phet.sound.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.sound.SoundModule;
+import edu.colorado.phet.sound.TwoSpeakerInterferenceModule;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
@@ -22,7 +22,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
     private Wavefront interferringWavefront;
     private Point2D.Double earLocation = new Point2D.Double();
     private SoundModel soundModel;
-    private SoundModule soundModule;
+    private TwoSpeakerInterferenceModule soundModule;
 
     /**
      * @param image
@@ -36,7 +36,7 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
      * @param audioSourceB
      * @param interferringWavefront
      */
-    public InterferenceListenerGraphic( SoundModule module, Listener listener,
+    public InterferenceListenerGraphic( TwoSpeakerInterferenceModule module, Listener listener,
                                         PhetImageGraphic image, double x, double y,
                                         double minX, double minY,
                                         double maxX, double maxY,
@@ -57,7 +57,9 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
      */
     public void mouseDragged( MouseEvent event ) {
         super.mouseDragged( event );
-        updateAmplitude();
+        if( soundModule.getCurrentListener() == getListener() ) {
+            updateAmplitude();
+        }
     }
 
     /**
@@ -65,16 +67,16 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
      */
     public void mouseReleased( MouseEvent e ) {
         super.mouseReleased( e );
-        updateAmplitude();
+        if( soundModule.getCurrentListener() == getListener() ) {
+            updateAmplitude();
+        }
     }
 
     /**
      *
      */
     private void updateAmplitude() {
-
         // todo: this should be part of the model, not figured out here!!!
-
         // Determine the difference in distance of the listener's ear to
         // each audio source in units of phase angle of the current frequency
         earLocation.setLocation( this.getLocation().getX() + s_earOffsetX,
@@ -89,10 +91,8 @@ public class InterferenceListenerGraphic extends ListenerGraphic {
         // amplitudes times the cosine of the phase angle
         double amplitudeA = soundModel.getAmplitude();
         double maxAmplitude = amplitudeA * Math.abs( Math.cos( theta ) );
-
         soundModule.getPrimaryOscillator().setAmplitude( maxAmplitude );
     }
-
 
     //
     // Static fields and methods

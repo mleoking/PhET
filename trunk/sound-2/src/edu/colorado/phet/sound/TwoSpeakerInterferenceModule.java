@@ -8,6 +8,7 @@ package edu.colorado.phet.sound;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.sound.model.Listener;
@@ -15,6 +16,7 @@ import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.view.*;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -27,6 +29,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
     private Point2D.Double audioSourceB;
     private SoundModel soundModel;
     private boolean saveInterferenceOverideEnabled = false;
+    private double amplitudeAtHead;
 
     protected TwoSpeakerInterferenceModule( ApplicationModel appModel ) {
         super( appModel, "<html>Two Source<br>Interference</html>" );
@@ -59,8 +62,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         wgA.initLayout( audioSourceA,
                         SoundConfig.s_wavefrontHeight,
                         SoundConfig.s_wavefrontRadius );
-        // todo: next line is probably unnecessary now
-        wgA.setOpacity( 0.5f );
+        wgA.setOpacity( 1.0f );
         SpeakerGraphic speakerGraphicA = new SpeakerGraphic( getApparatusPanel(), wm );
         getApparatusPanel().addGraphic( speakerGraphicA, 8 );
         speakerGraphicA.setLocation( SoundConfig.s_speakerBaseX, (int)audioSourceA.getY() );
@@ -95,6 +97,14 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
 
             headListener.setLocation( new Point2D.Double( SoundConfig.s_headBaseX - SoundConfig.s_speakerBaseX,
                                                           SoundConfig.s_headBaseY - SoundConfig.s_speakerBaseY ) );
+
+            // Add help items
+            HelpItem help1 = new HelpItem( "Listener can be moved\nin all directions",
+                                           SoundConfig.s_headBaseX,
+                                           SoundConfig.s_headBaseY - 20,
+                                           HelpItem.RIGHT, HelpItem.ABOVE );
+            help1.setForegroundColor( Color.white );
+            getApparatusPanel().addGraphic( help1, SoundConfig.HELP_LAYER );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -105,6 +115,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         switch( source ) {
             case SoundApparatusPanel.LISTENER_SOURCE:
                 setListener( headListener );
+                //                getPrimaryOscillator().setAmplitude( amplitudeAtHead );
                 getPrimaryOscillator().setInterferenceOverideEnabled( true );
                 break;
             case SoundApparatusPanel.SPEAKER_SOURCE:
@@ -122,10 +133,14 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
         saveInterferenceOverideEnabled = getPrimaryOscillator().getInterferenceOverideEnabled();
-        //        getPrimaryOscillator().setInterferenceOverideEnabled( false );
     }
 
     public int rgbAt( int x, int y ) {
         return super.rgbAt( x, y ) * 3 / 2;
+    }
+
+
+    public void setAmplitudeAtHead( double amplitude ) {
+        amplitudeAtHead = amplitude;
     }
 }

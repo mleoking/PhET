@@ -146,4 +146,20 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
             }
         }
     }
+
+    /**
+     * When the mouse is released, restore the oscillator frequency to its nono-doppler value
+     *
+     * @param e
+     */
+    public void mouseReleased( MouseEvent e ) {
+        super.mouseReleased( e );
+        if( module.getCurrentListener() == this.getListener() ) {
+            module.setOscillatorFrequency( nonDopplerFrequency );
+        }
+    }
+
+    protected Listener getListener() {
+        return listener;
+    }
 }
