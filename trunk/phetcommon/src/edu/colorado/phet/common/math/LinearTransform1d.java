@@ -17,7 +17,7 @@ public class LinearTransform1d {
 
     private ArrayList transformListeners = new ArrayList();
 
-    interface Listener {
+    public interface Listener {
         void transformChanged( LinearTransform1d transform );
     }
 
