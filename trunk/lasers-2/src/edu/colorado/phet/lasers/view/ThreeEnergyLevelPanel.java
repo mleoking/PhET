@@ -24,13 +24,16 @@ public class ThreeEnergyLevelPanel extends MonitorPanel {
     private Line2D.Float highLevelLine;
     private Line2D.Float middleLevelLine;
     private Line2D.Float groundLevelLine;
+    private LaserSystem model;
 
     /**
      *
      */
-    public ThreeEnergyLevelPanel() {
+    public ThreeEnergyLevelPanel( LaserSystem model ) {
         init();
-        PhetApplication.instance().getPhysicalSystem().addObserver( this );
+        model.addObserver( this );
+        this.model = model;
+//        PhetApplication.instance().getPhysicalSystem().addObserver( this );
     }
 
     /**
@@ -96,13 +99,10 @@ public class ThreeEnergyLevelPanel extends MonitorPanel {
         }
     }
 
-    /**
-     *
-     * @param o
-     * @param arg
-     */
-    public synchronized void update( Observable o, Object arg ) {
-        LaserSystem laserSystem = (LaserSystem) o;
+    public void update() {
+//    public synchronized void update( Observable o, Object arg ) {
+        LaserSystem laserSystem = model;
+//        LaserSystem laserSystem = (LaserSystem) o;
         numGroundLevel = laserSystem.getNumGroundStateAtoms();
         numMiddleLevel = laserSystem.getNumMiddleStateAtoms();
         numHighLevel = laserSystem.getNumHighStateAtoms();

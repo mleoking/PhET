@@ -14,7 +14,7 @@ import java.util.Observable;
 
 public class LaserMainPanel extends TabbedMainPanel {
 
-    private BaseLaserApparatusPanel singleAtomApparatusPanel;
+    private BaseLaserModule singleAtomModule;
 
     private EnergyLevelsDialog energyLevelsDialog;
 
@@ -28,14 +28,14 @@ public class LaserMainPanel extends TabbedMainPanel {
     public void init() {
 
         // Set up apparatus panels
-        this.addApparatusPanel( singleAtomApparatusPanel = new OneAtomTwoLevelsApparatusPanel() );
-        this.addApparatusPanel( new OneAtomThreeLevelsApparatusPanel() );
-        this.addApparatusPanel( new MultipleAtomTwoLevelApparatusPanel() );
-        this.addApparatusPanel( new MultipleAtomThreeLevelApparatusPanel() );
-        this.addApparatusPanel( new TestApparatusPanel() );
+        this.addApparatusPanel( singleAtomModule = new OneAtomTwoLevelsModule() );
+        this.addApparatusPanel( new OneAtomThreeLevelsModule() );
+        this.addApparatusPanel( new MultipleAtomTwoLevelModule() );
+        this.addApparatusPanel( new MultipleAtomThreeLevelModule() );
+        this.addApparatusPanel( new TestApparatusModule() );
 
         super.initTabs();
-        setCurrentApparatusPanel( singleAtomApparatusPanel );
+        setCurrentApparatusPanel( singleAtomModule );
 
         // Set up the energy levels panel
 //        energyLevelsDialog = new EnergyLevelsDialog( PhetApplication.instance().getPhetFrame() );
