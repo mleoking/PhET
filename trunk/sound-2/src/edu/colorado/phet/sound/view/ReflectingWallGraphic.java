@@ -7,6 +7,7 @@
 package edu.colorado.phet.sound.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.sound.SoundConfig;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -140,13 +141,7 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
     public void paint( Graphics2D g ) {
         pushRenderingHints( g );
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-
-        g.setColor( wallColor );
-        //        g.draw( xformedWall );
-        //        g.fill( xformedWall );
-
-        // TODO: Make this a Paintable
-        g.setColor( new Color( 128, 128, 128 ) );
+        g.setColor( SoundConfig.MIDDLE_GRAY );
         synchronized( interferingWaveMask ) {
             g.fill( interferingWaveMask );
             g.setColor( wallColor );

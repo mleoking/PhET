@@ -79,10 +79,10 @@ public class SoundControlPanel extends PhetControlPanel {
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new OctaveControlPanel( (SoundModule)module ),
-                                                  0, rowIdx++,
-                                                  1, 1,
-                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                //                GraphicsUtil.addGridBagComponent( this, new OctaveControlPanel( (SoundModule)module ),
+                //                                                  0, rowIdx++,
+                //                                                  1, 1,
+                //                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
                 //                GraphicsUtil.addGridBagComponent( this, drawTestCB,
                 //                                                  0, rowIdx++,
                 //                                                  1, 1,

@@ -39,7 +39,7 @@ public class InteractiveSpeakerGraphic extends DefaultInteractiveGraphic {
     private class SpeakerTranslator implements Translatable {
         public void translate( double dx, double dy ) {
             Point2D.Double p = speakerGraphic.getLocation();
-            speakerGraphic.setLocation( (int)p.getX(), (int)( p.getY() + 1 * MathUtil.getSign( dy ) ) );
+            speakerGraphic.setLocation( (int)p.getX(), (int)( p.getY() + 2 * MathUtil.getSign( dy ) ) );
             waveMediumGraphic.setOrigin( speakerGraphic.getLocation() );
         }
     }
