@@ -11,13 +11,16 @@ import edu.colorado.phet.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.distanceladder.model.Star;
 import edu.colorado.phet.distanceladder.model.StarField;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.ImageObserver;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 
+// TODO: This should implement SimpleObserver and observe the StarField
 public class StarMapGraphic extends CompositeInteractiveGraphic implements ImageObserver {
 
 //    private BufferedImage mapImage;
@@ -27,6 +30,7 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
     private HashMap starToGraphicMap = new HashMap();
     private static double defaultStarGraphicRadius = 5;
     private double starGraphicRadius = defaultStarGraphicRadius;
+    private ArrayList removeList = new ArrayList( );
 
     public StarMapGraphic( Container container, StarField starField ) {
         this.container = container;
@@ -47,7 +51,9 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
 
     public void paint( Graphics2D g ) {
 
-        List stars = starField.getStars();
+        // TODO: the next two sections should be moved to an update() method
+        // Add any new stars in the StarField
+        final List stars = starField.getStars();
         for( int i = 0; i < stars.size(); i++ ) {
             Star star = (Star)stars.get( i );
             if( starToGraphicMap.get( star ) == null ) {
@@ -56,12 +62,19 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
                 starToGraphicMap.put( star, sg );
             }
         }
+
+        // Remove any stars that are no longer in the StarField
         Iterator starIt = starToGraphicMap.keySet().iterator();
+        removeList.clear();
         while( starIt.hasNext() ) {
             Star star = (Star)starIt.next();
             if( !stars.contains( star ) ) {
-                starToGraphicMap.remove( star );
+                removeList.add( star );
             }
+        }
+        for( int i = 0; i < removeList.size(); i++ ) {
+            Star star = (Star)removeList.get( i );
+            starToGraphicMap.remove( star );
         }
 
         AffineTransform orgTx = g.getTransform();

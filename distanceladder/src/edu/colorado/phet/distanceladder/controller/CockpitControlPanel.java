@@ -359,7 +359,7 @@ public class CockpitControlPanel extends JPanel {
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
                 GraphicsUtil.addGridBagComponent( this, helpBtn,
-                                                  0, rowIdx++, 1, 1,
+                                                  0, rowIdx++, 2, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
             }
@@ -470,12 +470,19 @@ public class CockpitControlPanel extends JPanel {
     }
 
     private class HyperjumpPanel extends JPanel {
+        private String hyperjumpHelp;
+
         public HyperjumpPanel() {
             super( new GridBagLayout() );
 
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-            Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Hyperdrive" );
+            Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Hyperjump" );
             this.setBorder( titledBorder );
+
+            // Load messages
+            StringResourceReader srr = new StringResourceReader();
+            hyperjumpHelp = srr.read( "messages/hyperjump-help.html" );
+
 
             // Create controls
             final JTextField distanceTF = new JTextField( 6 );
@@ -488,14 +495,23 @@ public class CockpitControlPanel extends JPanel {
                 }
             } );
 
+            JButton helpBtn = new JButton( new AbstractAction( "Help" ) {
+                public void actionPerformed( ActionEvent e ) {
+                    JOptionPane.showMessageDialog( HyperjumpPanel.this.getRootPane(),
+                                                   new JEditorPane( "text/html; charset=iso-8859-1", hyperjumpHelp ),
+                                                   "Help",
+                                                   JOptionPane.INFORMATION_MESSAGE );
+                }
+            } );
+
             int rowIdx = 0;
             try {
                 GraphicsUtil.addGridBagComponent( this, new JLabel( "Distance" ),
-                                                  0, rowIdx++, 1, 1,
+                                                  0, rowIdx, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
                 GraphicsUtil.addGridBagComponent( this, distanceTF,
-                                                  0, rowIdx++, 1, 1,
+                                                  1, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
 //                GraphicsUtil.addGridBagComponent( this, new JLabel( "Jump direction" ),
@@ -507,7 +523,11 @@ public class CockpitControlPanel extends JPanel {
 //                                                  GridBagConstraints.NONE,
 //                                                  GridBagConstraints.CENTER );
                 GraphicsUtil.addGridBagComponent( this, jumpBtn,
-                                                  0, rowIdx++, 1, 1,
+                                                  0, rowIdx++, 2, 1,
+                                                  GridBagConstraints.NONE,
+                                                  GridBagConstraints.CENTER );
+                GraphicsUtil.addGridBagComponent( this, helpBtn,
+                                                  0, rowIdx++, 2, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
             }
