@@ -1,7 +1,6 @@
 /** Sam Reid*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.movingman.motion.MotionSuite;
 
 /**
  * User: Sam Reid
@@ -11,7 +10,6 @@ import edu.colorado.phet.movingman.motion.MotionSuite;
  */
 public class MotionMode extends Mode {
     private int numSmoothingPointsMotion = 3;
-    private MotionSuite motionSuite;
     private MovingManModule module;
 
     public MotionMode( MovingManModule module ) {
@@ -29,7 +27,6 @@ public class MotionMode extends Mode {
         module.getVelocityPlot().setPaintYLines( new double[]{1.5, 3} );
         module.getAccelerationPlot().setPaintYLines( new double[]{1.5, 3} );
         module.setNumSmoothingPoints( numSmoothingPointsMotion );
-        motionSuite.initialize( module.getMan() );
         module.repaintBackground();
     }
 
@@ -38,21 +35,13 @@ public class MotionMode extends Mode {
         module.setReplayTime( timeIndex );
     }
 
-    public void setMotionSuite( MotionSuite motionSuite ) {
-        if( this.motionSuite != motionSuite ) {
-            if( this.motionSuite != null ) {
-                this.motionSuite.deactivate();
-            }
-            this.motionSuite = motionSuite;
-        }
-    }
-
     public void stepInTime( double dt ) {
+        StepMotion stepMotion = module.getAccelMotion();
         if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
             timeFinished();
             return;
         }
-        double x = motionSuite.getStepMotion().stepInTime( module.getMan(), dt );
+        double x = stepMotion.stepInTime( module.getMan(), dt );
         x = Math.min( x, module.getMaxManPosition() );
         x = Math.max( x, -module.getMaxManPosition() );
         if( x == module.getMaxManPosition() ) {
@@ -77,17 +66,9 @@ public class MotionMode extends Mode {
     }
 
     private void timeFinished() {
-        motionSuite.timeFinished();
         module.getMovingManControlPanel().finishedRecording();
     }
 
     public void collidedWithWall() {
-        motionSuite.collidedWithWall();
-    }
-
-    public void reset() {
-        if( motionSuite != null ) {
-            motionSuite.reset();
-        }
     }
 }

@@ -1,6 +1,5 @@
-package edu.colorado.phet.movingman.motion;
+package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.movingman.Man;
 
 /**
  * User: Sam Reid

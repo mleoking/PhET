@@ -52,6 +52,7 @@ public class Chart implements Graphic {
         public TickMarkSet( Chart chart, int orientation, double minorTickSpacing, double majorTickSpacing ) {
             minorTicks = new GridTicks( chart, orientation, new BasicStroke( 2 ), Color.black, minorTickSpacing );
             majorTicks = new GridTicks( chart, orientation, new BasicStroke( 2 ), Color.black, majorTickSpacing );
+            minorTicks.setVisible( false );
         }
 
         public void paint( Graphics2D graphics2D ) {
@@ -75,6 +76,10 @@ public class Chart implements Graphic {
         public void setMajorGridlines( double[] lines ) {
             majorTicks.setGridlines( lines );
         }
+
+        public void setMajorOffset( int dx, int dy ) {
+            majorTicks.setOffset( dx, dy );
+        }
     }
 
     public TickMarkSet getVerticalTicks() {
@@ -86,18 +91,26 @@ public class Chart implements Graphic {
     }
 
     public static class GridTicks extends AbstractTicks {
+        private int dx = 0;
+        private int dy = 0;
+
         public GridTicks( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing ) {
             super( chart, orientation, stroke, color, tickSpacing );
         }
 
+        public void setOffset( int dx, int dy ) {
+            this.dx = dx;
+            this.dy = dy;
+        }
+
         public int getVerticalTickX() {
             Chart chart = getChart();
-            return chart.transformX( chart.getRange().getMinX() );
+            return chart.transformX( chart.getRange().getMinX() ) + dx;
         }
 
         public int getHorizontalTickY() {
             Chart chart = getChart();
-            return chart.transformY( chart.getRange().getMinY() );
+            return chart.transformY( chart.getRange().getMinY() ) + dy;
         }
     }
 
@@ -157,7 +170,7 @@ public class Chart implements Graphic {
         }
     }
 
-    Component getComponent() {
+    public Component getComponent() {
         return component;
     }
 

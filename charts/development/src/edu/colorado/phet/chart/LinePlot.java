@@ -18,6 +18,10 @@ public class LinePlot extends DataSetGraphic {
     private Paint paint;
     private ArrayList observers = new ArrayList();
 
+    public LinePlot( DataSet dataSet ) {
+        this( dataSet, new BasicStroke( 1 ), Color.black );
+    }
+
     public LinePlot( DataSet dataSet, Stroke stroke, Paint paint ) {
         super( dataSet );
         this.stroke = stroke;

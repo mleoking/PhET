@@ -1,6 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -20,7 +21,6 @@ import edu.colorado.phet.movingman.common.RangeToRange;
 import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.common.plaf.PhetLookAndFeel;
 import edu.colorado.phet.movingman.misc.JEPFrame;
-import edu.colorado.phet.movingman.motion.MotionSuite;
 import edu.colorado.phet.movingman.plots.BoxedPlot;
 import edu.colorado.phet.movingman.plots.CursorGraphic;
 import edu.colorado.phet.movingman.plots.PlotAndText;
@@ -55,8 +55,8 @@ public class MovingManModule extends Module {
     private ManGraphic manGraphic;
     private RangeToRange manPositionTransform;
 
-    private MMTimer recordingMMTimer;
-    private MMTimer playbackMMTimer;
+    private MMTimer recordTimer;
+    private MMTimer playbackTimer;
     private MovingManLayout layout;
 
     private Mode mode;//the current mode.
@@ -79,6 +79,7 @@ public class MovingManModule extends Module {
     private Model model;
     private PlotSet plotSet;
     private WiggleMe wiggleMe;
+    private AccelMotion accelMotion;
 
     public void repaintBackground( Rectangle rect ) {
         backgroundGraphic.paintBufferedImage( rect );
@@ -113,39 +114,62 @@ public class MovingManModule extends Module {
             Stroke plotStroke = new BasicStroke( 3.0f );
             Rectangle2D.Double positionInputBox = new Rectangle2D.Double( minTime, -maxPositionView, maxTime - minTime, maxPositionView * 2 );
 
-            final BoxedPlot positionGraphic = new BoxedPlot( "Position", MovingManModule.this, model.position.getSmoothedDataSeries(), recordingMMTimer, Color.blue,
+            final BoxedPlot positionGraphic = new BoxedPlot( "Position", MovingManModule.this, model.position.getSmoothedDataSeries(), recordTimer, Color.blue,
                                                              plotStroke, positionInputBox, backgroundGraphic, 0 );
             positionGraphic.setPaintYLines( new double[]{5, 10} );
             Point textCoord = layout.getTextCoordinates( 0 );
-            ValueGraphic positionString = new ValueGraphic( MovingManModule.this, recordingMMTimer, playbackMMTimer, model.position.getSmoothedDataSeries(), "Position=", "m", textCoord.x, textCoord.y, positionGraphic );
+            ValueGraphic positionString = new ValueGraphic( MovingManModule.this, recordTimer, playbackTimer, model.position.getSmoothedDataSeries(), "Position=", "m", textCoord.x, textCoord.y, positionGraphic );
 
             backgroundGraphic.addGraphic( positionGraphic, 3 );
             getApparatusPanel().addGraphic( positionString, 7 );
 
             positionPlot = new PlotAndText( positionGraphic, positionString );
+            positionGraphic.addSliderListener( new VerticalChartSlider.Listener() {
+                public void valueChanged( double value ) {
+                    setMode( motionMode );
+                    getMan().setX( value );
+                    accelMotion.setVelocity( 0 );
+                    accelMotion.setAcceleration( 0 );
+                    setPaused( false );
+                }
+            } );
 
             Rectangle2D.Double velocityInputBox = new Rectangle2D.Double( minTime, -maxVelocity, maxTime - minTime, maxVelocity * 2 );
-            final BoxedPlot velocityGraphic = new BoxedPlot( "Velocity", MovingManModule.this, model.velocity.getSmoothedDataSeries(), recordingMMTimer, Color.red, plotStroke, velocityInputBox, backgroundGraphic, xshiftVelocity );
+            final BoxedPlot velocityGraphic = new BoxedPlot( "Velocity", MovingManModule.this, model.velocity.getSmoothedDataSeries(), recordTimer, Color.red, plotStroke, velocityInputBox, backgroundGraphic, xshiftVelocity );
 
             velocityGraphic.setPaintYLines( new double[]{10, 20} );
-            ValueGraphic velocityString = new ValueGraphic( MovingManModule.this, recordingMMTimer, playbackMMTimer, model.velocity.getSmoothedDataSeries(), "Velocity=", "m/s", textCoord.x, textCoord.y, velocityGraphic );
+            ValueGraphic velocityString = new ValueGraphic( MovingManModule.this, recordTimer, playbackTimer, model.velocity.getSmoothedDataSeries(), "Velocity=", "m/s", textCoord.x, textCoord.y, velocityGraphic );
 
             backgroundGraphic.addGraphic( velocityGraphic, 4 );
             getApparatusPanel().addGraphic( velocityString, 7 );
             velocityPlot = new PlotAndText( velocityGraphic, velocityString );
+            velocityGraphic.addSliderListener( new VerticalChartSlider.Listener() {
+                public void valueChanged( double value ) {
+                    setMode( motionMode );
+                    accelMotion.setAcceleration( 0 );//acceleration needs to be the dependent variable now.
+                    accelMotion.setVelocity( value * MovingManModule.TIMER_SCALE );
+                    setPaused( false );
+                }
+            } );
 
             Rectangle2D.Double accelInputBox = new Rectangle2D.Double( minTime, -maxAccel, maxTime - minTime, maxAccel * 2 );
-            BoxedPlot accelPlot = new BoxedPlot( "Acceleration", MovingManModule.this, model.acceleration.getSmoothedDataSeries(), recordingMMTimer, Color.black, plotStroke, accelInputBox, backgroundGraphic, xshiftAcceleration );
+            BoxedPlot accelPlot = new BoxedPlot( "Acceleration", MovingManModule.this, model.acceleration.getSmoothedDataSeries(), recordTimer, Color.black, plotStroke, accelInputBox, backgroundGraphic, xshiftAcceleration );
             backgroundGraphic.addGraphic( accelPlot, 5 );
 
             accelPlot.setPaintYLines( new double[]{25, 50} );
-            ValueGraphic accelString = new ValueGraphic( MovingManModule.this, recordingMMTimer, playbackMMTimer, model.acceleration.getSmoothedDataSeries(), "Acceleration=", "m/s^2", textCoord.x, textCoord.y, accelPlot );
+            ValueGraphic accelString = new ValueGraphic( MovingManModule.this, recordTimer, playbackTimer, model.acceleration.getSmoothedDataSeries(), "Acceleration=", "m/s^2", textCoord.x, textCoord.y, accelPlot );
             getApparatusPanel().addGraphic( accelString, 5 );
             accelerationPlot = new PlotAndText( accelPlot, accelString );
+            accelPlot.addSliderListener( new VerticalChartSlider.Listener() {
+                public void valueChanged( double value ) {
+                    setMode( motionMode );
+                    accelMotion.setAcceleration( value * MovingManModule.TIMER_SCALE * MovingManModule.TIMER_SCALE );
+                    setPaused( false );
+                }
+            } );
         }
 
         public void setNumSmoothingPoints( int n ) {
-
             double xshiftVelocity = n * TIMER_SCALE / 2;
             double xshiftAcceleration = ( n + n ) * TIMER_SCALE / 2;
             velocityPlot.getPlot().setShift( xshiftVelocity );
@@ -171,7 +195,6 @@ public class MovingManModule extends Module {
         }
 
         public int getVisiblePlotCount() {
-
             int sum = 0;
             if( positionPlot.isVisible() ) {
                 sum++;
@@ -240,7 +263,6 @@ public class MovingManModule extends Module {
         }
 
         public double getVelocity() {
-
             if( velocity == null ) {
                 return 0;
             }
@@ -264,6 +286,7 @@ public class MovingManModule extends Module {
 
     public MovingManModule( AbstractClock clock ) throws IOException {
         super( "The Moving Man" );
+        accelMotion = new AccelMotion( this );
         model = new Model();
         model.clock = clock;
         ApparatusPanel mypanel = new ApparatusPanel();
@@ -283,9 +306,9 @@ public class MovingManModule extends Module {
             }
         } );
         getApparatusPanel().addGraphic( manGraphic, 1 );
-        recordingMMTimer = new MMTimer( "Record", TIMER_SCALE );
-        playbackMMTimer = new MMTimer( "Playback", TIMER_SCALE );
-        timerGraphic = new TimeGraphic( this, recordingMMTimer, playbackMMTimer, 80, 40 );
+        recordTimer = new MMTimer( "Record", TIMER_SCALE );
+        playbackTimer = new MMTimer( "Playback", TIMER_SCALE );
+        timerGraphic = new TimeGraphic( this, recordTimer, playbackTimer, 80, 40 );
         getApparatusPanel().addGraphic( timerGraphic, 1 );
 
         walkwayGraphic = new WalkWayGraphic( this, 11 );
@@ -295,7 +318,6 @@ public class MovingManModule extends Module {
         layout.setApparatusPanelWidth( 400 );
         layout.setNumPlots( 3 );
         layout.relayout();
-//        setupPlots();
         plotSet = new PlotSet();
         movingManControlPanel = new MovingManControlPanel( this );
         super.setControlPanel( movingManControlPanel );
@@ -323,7 +345,7 @@ public class MovingManModule extends Module {
         };
         model.man.addObserver( crashObserver );
         Color cursorColor = Color.black;
-        cursorGraphic = new CursorGraphic( this, playbackMMTimer, cursorColor, layout.getPlotY( 0 ), layout.getTotalPlotHeight() );
+        cursorGraphic = new CursorGraphic( this, playbackTimer, cursorColor, layout.getPlotY( 0 ), layout.getTotalPlotHeight() );
         getApparatusPanel().addGraphic( cursorGraphic, 6 );
 
         getApparatusPanel().addComponentListener( new ComponentAdapter() {
@@ -344,7 +366,8 @@ public class MovingManModule extends Module {
         dragMode = new RecordMode( this );
         playbackMode = new PlaybackMode( this );
         motionMode = new MotionMode( this );
-        setMode( dragMode );
+//        setMode( dragMode );
+        setMode( motionMode );
 
         getApparatusPanel().addGraphic( backgroundGraphic, 0 );
         clock.addClockTickListener( getModel() );
@@ -512,7 +535,6 @@ public class MovingManModule extends Module {
 
     private void setFrame( PhetFrame frame ) {
         this.frame = frame;
-        movingManControlPanel.setFrame( frame );
     }
 
     public static void fixComponent( Container jc ) {
@@ -526,21 +548,21 @@ public class MovingManModule extends Module {
     }
 
     public MMTimer getRecordingTimer() {
-        return recordingMMTimer;
+        return recordTimer;
     }
 
     public void reset( double modelCoordinate ) {
         setReplayTimeIndex( 0 );
         model.reset();
-        recordingMMTimer.reset();
+        recordTimer.reset();
         for( int i = 0; i < numResetPoints; i++ ) {
             double dt = 1;
             model.man.setX( modelCoordinate );
-            recordingMMTimer.stepInTime( dt );
+            recordTimer.stepInTime( dt );
             model.step( dt );
         }
         cursorGraphic.setVisible( false );
-        playbackMMTimer.setTime( 0 );
+        playbackTimer.setTime( 0 );
         getPositionString().update( null, null );
         getVelocityString().update( null, null );
         getAccelString().update( null, null );
@@ -559,7 +581,7 @@ public class MovingManModule extends Module {
     }
 
     public void rewind() {
-        playbackMMTimer.setTime( 0 );
+        playbackTimer.setTime( 0 );
         model.man.reset();
     }
 
@@ -575,13 +597,6 @@ public class MovingManModule extends Module {
 
     public boolean isRecording() {
         return mode == dragMode && !isPaused();
-    }
-
-    public void setMotionMode( MotionSuite mac ) {
-        motionMode.setMotionSuite( mac );
-        setMode( motionMode );
-        movingManControlPanel.motionStarted();
-        setPaused( true );
     }
 
     public BoxedPlot getPositionGraphic() {
@@ -613,10 +628,10 @@ public class MovingManModule extends Module {
     }
 
     public void cursorMovedToTime( double requestedTime ) {
-        if( requestedTime < 0 || requestedTime > recordingMMTimer.getTime() ) {
+        if( requestedTime < 0 || requestedTime > recordTimer.getTime() ) {
             return;
         }
-        playbackMMTimer.setTime( requestedTime );
+        playbackTimer.setTime( requestedTime );
         int timeIndex = (int)( requestedTime / TIMER_SCALE );
         if( timeIndex < model.position.numSmoothedPoints() && timeIndex >= 0 ) {
             double x = model.position.smoothedPointAt( timeIndex );
@@ -664,7 +679,8 @@ public class MovingManModule extends Module {
     public void reset() {
         setPaused( true );
         reset( 0 );
-        motionMode.reset();
+//        motionMode.reset();
+        //TODO should reset sliders here.
     }
 
     public double getVelocity() {
@@ -687,9 +703,9 @@ public class MovingManModule extends Module {
         reset( init );
     }
 
-    public void setMotionSuite( MotionSuite motionSuite ) {
-        motionMode.setMotionSuite( motionSuite );
-    }
+//    public void setMotionSuite( MotionSuite motionSuite ) {
+//        motionMode.setMotionSuite( motionSuite );
+//    }
 
     public void goPressed() {
         movingManControlPanel.goPressed();
@@ -730,7 +746,7 @@ public class MovingManModule extends Module {
     }
 
     public MMTimer getPlaybackTimer() {
-        return playbackMMTimer;
+        return playbackTimer;
     }
 
     public boolean isDragMode() {
@@ -826,6 +842,39 @@ public class MovingManModule extends Module {
 
     }
 
+    public AccelMotion getAccelMotion() {
+        return accelMotion;
+    }
+
+    public static class AccelMotion implements StepMotion {
+        double accel = 0;
+        private MovingManModule module;
+
+        public AccelMotion( MovingManModule module ) {
+            this.module = module;
+        }
+
+        public AccelMotion( MovingManModule module, double accel ) {
+            this.module = module;
+            this.accel = accel;
+        }
+
+        public double stepInTime( Man man, double dt ) {
+            double velocity = module.getMan().getVelocity() + accel * dt;
+//        System.out.println( "velocity = " + velocity );
+            module.getMan().setVelocity( velocity );
+            double position = man.getX() + velocity * dt;
+            return position;
+        }
+
+        public void setAcceleration( double accel ) {
+            this.accel = accel;
+        }
+
+        public void setVelocity( double v ) {
+            module.getMan().setVelocity( v );
+        }
+    }
 }
 
 

@@ -4,6 +4,7 @@ package edu.colorado.phet.movingman.plots;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
@@ -13,9 +14,7 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.movingman.MMTimer;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.ObservingGraphic;
-import edu.colorado.phet.movingman.common.TransformJSlider;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -39,13 +38,12 @@ public class BoxedPlot implements ObservingGraphic {
     private double xShift;
 
     private boolean visible = true;
-    private TransformJSlider slider;
     private Chart chart;
-    private static final int SLIDER_OFFSET_X = 50;
     private DataSet dataSet;
     private float lastTime;
     private Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
     private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private VerticalChartSlider verticalChartSlider;
 
     public BoxedPlot( String title, final MovingManModule module, DataSeries dataSeries, MMTimer timer, Color color, Stroke stroke, Rectangle2D.Double inputBox, BufferedGraphicForComponent buffer, double xShift ) {
         this.title = title;
@@ -56,10 +54,10 @@ public class BoxedPlot implements ObservingGraphic {
         this.stroke = stroke;
         this.buffer = buffer;
         this.xShift = xShift;
-        slider = new TransformJSlider( -10, 10, 100 );
-        setupSlider();
+//        slider = new TransformJSlider( -10, 10, 100 );
+//        setupSlider();
         chart = new Chart( module.getApparatusPanel(), new Range2D( inputBox ), new Rectangle( 0, 0, 100, 100 ) );
-        chart.setBackground( createGradient() );
+        chart.setBackground( createBackground() );
         dataSet = new DataSet();
         setInputRange( inputBox );
         timer.addObserver( this );
@@ -68,15 +66,19 @@ public class BoxedPlot implements ObservingGraphic {
         chart.getHorizonalGridlines().setMajorGridlinesColor( Color.darkGray );
         chart.getVerticalGridlines().setMajorGridlinesColor( Color.darkGray );
         chart.getXAxis().setMajorTickFont( font );
-        chart.getVerticalTicks().setVisible( false );
+//        chart.getVerticalTicks().setVisible( false );
+        chart.getYAxis().setMajorTicksVisible( false );
         chart.getYAxis().setMinorTicksVisible( false );
         chart.getYAxis().setMajorTickFont( font );
         chart.getVerticalGridlines().setMinorGridlinesVisible( false );
         chart.getXAxis().setMajorGridlines( new double[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20} ); //to ignore the 0.0
         chart.getXAxis().setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{6, 6}, 0 ) );
+
+        verticalChartSlider = new VerticalChartSlider( chart );
+        chart.getVerticalTicks().setMajorOffset( -verticalChartSlider.getSlider().getWidth() - 5, 0 );
     }
 
-    private Paint createGradient() {
+    private Paint createBackground() {
         return Color.yellow;
 //        Rectangle rect = chart.getViewBounds();
 //        Color topleft = Color.yellow;
@@ -87,17 +89,6 @@ public class BoxedPlot implements ObservingGraphic {
 //        Paint g = new GradientPaint( rect.x, rect.y, topleft, rect.x + rect.width, rect.y + rect.height, bottomRight );
 //
 //        return g;
-    }
-
-    private void setupSlider() {
-        slider.setOrientation( JSlider.VERTICAL );
-        slider.setBackground( module.getBackgroundColor() );
-        module.getApparatusPanel().setLayout( null );
-        module.getApparatusPanel().add( slider );
-
-        slider.setAlignmentY( 0 );
-        slider.reshape( 10, 10, slider.getPreferredSize().width, slider.getPreferredSize().height );
-        slider.setVisible( false );
     }
 
     public void paint( Graphics2D g ) {
@@ -121,16 +112,8 @@ public class BoxedPlot implements ObservingGraphic {
         }
     }
 
-    public void setSliderVisible( boolean sliderVisible ) {
-        slider.setVisible( sliderVisible );
-    }
-
     public double getxShift() {
         return xShift;
-    }
-
-    public TransformJSlider getSlider() {
-        return slider;
     }
 
     public ModelViewTransform2D getTransform() {
@@ -139,6 +122,7 @@ public class BoxedPlot implements ObservingGraphic {
 
     public void setVisible( boolean visible ) {
         this.visible = visible;
+        setSliderVisible( visible );
     }
 
     public void setShift( double xShift ) {
@@ -170,9 +154,11 @@ public class BoxedPlot implements ObservingGraphic {
 
     public void setViewBounds( Rectangle rectangle ) {
         chart.setViewBounds( rectangle );
-        slider.setLocation( rectangle.x - SLIDER_OFFSET_X, rectangle.y );
-        slider.setSize( slider.getWidth(), (int)rectangle.getHeight() );
-        chart.setBackground( createGradient() );
+//        slider.setLocation( rectangle.x - SLIDER_OFFSET_X, rectangle.y );
+//        slider.setSize( slider.getWidth(), (int)rectangle.getHeight() );
+        chart.setBackground( createBackground() );
+        verticalChartSlider.update();
+        chart.getVerticalTicks().setMajorOffset( -verticalChartSlider.getSlider().getWidth() - 5, 0 );
     }
 
     public void update( Observable o, Object arg ) {
@@ -204,5 +190,14 @@ public class BoxedPlot implements ObservingGraphic {
                 module.getApparatusPanel().repaint( shape.getBounds() );
             }
         }
+    }
+
+    public void setSliderVisible( boolean b ) {
+//        System.out.println( "SetSliderVisible= " + b );
+        verticalChartSlider.setVisible( b );
+    }
+
+    public void addSliderListener( VerticalChartSlider.Listener listener ) {
+        verticalChartSlider.addListener( listener );
     }
 }

@@ -28,14 +28,15 @@ public class Axis implements Graphic {
     }
 
     public Axis( Chart chart, int orientation, Stroke stroke, Color color, double minorTickSpacing, double majorTickSpacing ) {
-        this.minorTicks = new AxisTicks( chart, orientation, stroke, color, minorTickSpacing );
+        minorTicks = new AxisTicks( chart, orientation, stroke, color, minorTickSpacing );
         minorTicks.setShowLabels( false );
-        this.majorTicks = new AxisTicks( chart, orientation, stroke, color, majorTickSpacing );
+        majorTicks = new AxisTicks( chart, orientation, stroke, color, majorTickSpacing );
         majorTicks.setShowLabels( true );
         this.stroke = stroke;
         this.orientation = orientation;
         this.chart = chart;
         this.color = color;
+        minorTicks.setVisible( false );
     }
 
     protected AxisTicks getMinorTicks() {
