@@ -9,6 +9,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -73,7 +74,8 @@ public class PotentialProfilePanel extends ApparatusPanel {
             AffineTransform atx = scaleInPlaceTx( .3, xWell, yWell );
             AffineTransform orgTx = g2.getTransform();
             g2.setTransform( atx );
-            nucleusGraphic.paint( g2, (int)xWell, (int)yWell );
+//            nucleusGraphic.paint( g2, (int)xWell, (int)yWell );
+            nucleusGraphic.paintPotentialRendering( g2, (int)xWell, (int)yWell );
             g2.setTransform( orgTx );
         }
     }
@@ -84,10 +86,16 @@ public class PotentialProfilePanel extends ApparatusPanel {
         super.addGraphic( profileGraphic );
     }
 
-    private void removeNucleus() {
+    public void removeNucleus() {
         nucleusGraphic = null;
     }
 
+    public void setNucleus( Nucleus nucleus ) {
+        profileGraphic = new PotentialProfileGraphic( nucleus.getPotentialProfile() );
+        this.addPotentialProfile( profileGraphic );
+        nucleusGraphic = new NucleusGraphic( nucleus );
+        this.addNucleus( nucleusGraphic );
+    }
 
     //
     // Statics

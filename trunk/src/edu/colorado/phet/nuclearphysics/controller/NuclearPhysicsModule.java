@@ -15,7 +15,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
-import edu.colorado.phet.nuclearphysics.view.PotentialProfileGraphic;
 import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
 
 import javax.swing.*;
@@ -24,15 +23,15 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class NuclearPhysicsModule extends Module {
-    protected ApparatusPanel apparatusPanel;
-    protected PotentialProfile potentialProfile;
-    protected PotentialProfilePanel potentialProfilePanel;
-    protected ApparatusPanel physicalPanel;
-    protected Uranium2235 uraniumNucleus;
+    private ApparatusPanel apparatusPanel;
+    private PotentialProfile potentialProfile;
+    private PotentialProfilePanel potentialProfilePanel;
+    private PhysicalPanel physicalPanel;
+    private Uranium235 uraniumNucleus;
 
     public NuclearPhysicsModule( String name, AbstractClock clock ) {
         super( name );
-        potentialProfile = new PotentialProfile( 250, 400, 75 );
+        potentialProfile = new PotentialProfile( 300, 400, 75 );
         potentialProfilePanel = new PotentialProfilePanel();
         physicalPanel = new PhysicalPanel();
         apparatusPanel = new ApparatusPanel();
@@ -51,8 +50,6 @@ public class NuclearPhysicsModule extends Module {
         apparatusPanel.add( potentialProfilePanel );
         apparatusPanel.add( physicalPanel );
 
-
-
         // Start the model
         this.setModel( new FisionModel( clock ) );
         this.getModel().addModelElement( new ModelElement() {
@@ -65,16 +62,6 @@ public class NuclearPhysicsModule extends Module {
 
         JPanel controlPanel = new NuclearPhysicsControlPanel( this );
         super.setControlPanel( controlPanel );
-
-
-        PotentialProfileGraphic ppg = new PotentialProfileGraphic( potentialProfile );
-        potentialProfilePanel.addGraphic( ppg );
-
-//
-//        uraniumNucleus = new Uranium2235(new Point2D.Double(200, 400));
-//        addNeucleus(uraniumNucleus);
-//
-
     }
 
     public void activate( PhetApplication app ) {
@@ -85,9 +72,8 @@ public class NuclearPhysicsModule extends Module {
 
     protected void addNeucleus( Nucleus nucleus ) {
         this.getModel().addModelElement( nucleus );
-        NucleusGraphic ng = new NucleusGraphic( nucleus );
-        physicalPanel.addGraphic( ng );
-        potentialProfilePanel.addGraphic( ng );
+        physicalPanel.addNucleus( nucleus );
+        potentialProfilePanel.setNucleus( nucleus );
     }
 
     public void setProfileMaxHeight( double modelValue ) {
@@ -109,29 +95,38 @@ public class NuclearPhysicsModule extends Module {
         return this.potentialProfile;
     }
 
-    public void testDecay() {
-        DecayProducts dp = uraniumNucleus.decay();
-        getModel().removeModelElement( dp.getN0() );
-        getModel().addModelElement( dp.getN1() );
-        getModel().addModelElement( dp.getN2() );
-        physicalPanel.removeGraphic( NucleusGraphic.getGraphic( dp.getN0() ) );
-        potentialProfilePanel.removeGraphic( NucleusGraphic.getGraphic( dp.getN0() ) );
-        NucleusGraphic n1g = new NucleusGraphic( dp.getN1() );
+    protected Uranium235 getUraniumNucleus() {
+        return uraniumNucleus;
+    }
+
+    protected void setUraniumNucleus( Uranium235 uraniumNucleus ) {
+        this.uraniumNucleus = uraniumNucleus;
+        addNeucleus( getUraniumNucleus() );
+    }
+
+    protected void handleDecay( DecayProducts decayProducts ) {
+        // Remove the old nucleus
+        getModel().removeModelElement( decayProducts.getN0() );
+        physicalPanel.removeNucleus( decayProducts.getN0() );
+        potentialProfilePanel.removeNucleus();
+
+        // Add the new nuclei
+        getModel().addModelElement( decayProducts.getN1() );
+        getModel().addModelElement( decayProducts.getN2() );
+        NucleusGraphic n1g = new NucleusGraphic( decayProducts.getN1() );
         physicalPanel.addGraphic( n1g );
-        NucleusGraphic n2g = new NucleusGraphic( dp.getN2() );
+        NucleusGraphic n2g = new NucleusGraphic( decayProducts.getN2() );
         physicalPanel.addGraphic( n2g );
     }
 
-
-    //
-    // Interfaces implemented
-    //
-    
-    //
-    // Static fields and methods
-    //
-    
-    //
-    // Inner classes
-    //
+    public void testDecay() {
+        DecayProducts dp = uraniumNucleus.alphaDecay();
+        getModel().removeModelElement( dp.getN0() );
+        getModel().addModelElement( dp.getN1() );
+        getModel().addModelElement( dp.getN2() );
+        physicalPanel.removeNucleus( dp.getN0() );
+        potentialProfilePanel.removeNucleus();
+        physicalPanel.addNucleus( dp.getN1() );
+        physicalPanel.addNucleus( dp.getN1() );
+    }
 }
