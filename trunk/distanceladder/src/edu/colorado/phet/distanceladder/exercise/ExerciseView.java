@@ -68,7 +68,14 @@ public class ExerciseView {
             // Add the question
             Container container = this.getContentPane();
             container.setLayout( new BorderLayout() );
-            JEditorPane questionPane = new JEditorPane( "text/html", exerciseModel.getQuestion() );
+            JEditorPane questionPane = new JEditorPane( "text/html", exerciseModel.getQuestion() ) {
+                protected void paintComponent( Graphics g ) {
+                    Graphics2D g2 = (Graphics2D)g;
+                    GraphicsUtil.setAntiAliasingOn( g2 );
+
+                    super.paintComponent( g );
+                }
+            };
             questionPane.setEditable( false );
             JScrollPane jScrollPane = new JScrollPane( questionPane );
             jScrollPane.setAutoscrolls( true );

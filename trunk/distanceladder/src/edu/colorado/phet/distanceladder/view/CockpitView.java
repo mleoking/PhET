@@ -114,7 +114,6 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
             Graphic jg = new Graphic() {
                 public void paint( Graphics2D g ) {
                     tx.setTransform( joystickTx );
-//                    double phi = Math.atan( joystickDx / joystickBaseImage.getHeight() );
                     g.drawImage( joystickBaseImage, tx, CockpitView.this );
                     tx.translate( joystickControlOffsetX, joystickControlOffsetY );
                     tx.rotate( phi, joystickControlImage.getWidth() / 2, joystickControlImage.getHeight() );

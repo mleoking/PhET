@@ -31,6 +31,18 @@ public class Message {
     public void display() {
         JEditorPane textPane = new JEditorPane( "text/html", getText() );
         textPane.setPreferredSize( new Dimension( 400, 300 ) );
-        JOptionPane.showMessageDialog( null, new JScrollPane( textPane ), "Don't Panic!", JOptionPane.PLAIN_MESSAGE );
+        int response = JOptionPane.showConfirmDialog( null,
+                                                      new JScrollPane( textPane ),
+                                                      "Don't Panic!",
+                                                      JOptionPane.OK_CANCEL_OPTION );
+        if( response == JOptionPane.CANCEL_OPTION ) {
+            int confirm = JOptionPane.showConfirmDialog( null,
+                                                         "Are you sure you want to quit the game?",
+                                                         "Confirm Exit",
+                                                         JOptionPane.YES_NO_OPTION );
+            if( confirm == JOptionPane.YES_OPTION ) {
+                System.exit( 0 );
+            }
+        }
     }
 }
