@@ -39,6 +39,7 @@ public class CockpitControlPanel extends JPanel {
     private PhotometerPanel photometerPanel;
     private UniverseModel model;
     private StarMapPanel starMapPanel;
+    private GridBagLayout layout;
 
     public CockpitControlPanel( CockpitModule module ) {
 
@@ -47,8 +48,8 @@ public class CockpitControlPanel extends JPanel {
         parallaxPanel = new ParallaxPanel();
         photometerPanel = new PhotometerPanel();
 
-        GridBagLayout layout = new GridBagLayout();
-        this.setLayout( new GridLayout( 2, 1 ) );
+        layout = new GridBagLayout();
+        this.setLayout( layout );
 //        this.setLayout( new GridBagLayout() );
         JPanel pilotingPanel = new JPanel( new GridBagLayout() );
         JPanel instrumentPanel = new JPanel( new GridBagLayout() );
@@ -64,54 +65,66 @@ public class CockpitControlPanel extends JPanel {
 //                                              GridBagConstraints.HORIZONTAL,
 //                                              GridBagConstraints.CENTER );
 //            GraphicsUtil.addGridBagComponent( this, instrumentPanel,
-//                                              0, 2,
+//                                              0, 1,
 //                                              1, 1,
 //                                              GridBagConstraints.HORIZONTAL,
 //                                              GridBagConstraints.CENTER );
-
-            GraphicsUtil.addGridBagComponent( pilotingPanel, starMapPanel,
-                                              0, 0,
-                                              1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.NORTH );
-            GraphicsUtil.addGridBagComponent( pilotingPanel, new ControlPanel( module ),
-                                              0, 1,
-                                              1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.NORTH );
-
-            GraphicsUtil.addGridBagComponent( instrumentPanel, parallaxPanel,
-                                              0, 0,
-                                              1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.NORTH );
-            GraphicsUtil.addGridBagComponent( instrumentPanel, photometerPanel,
-                                              0, 1,
-                                              1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.NORTH );
-
-
+//
 //            GraphicsUtil.addGridBagComponent( this, starMapPanel,
-//                                              0, rowIdx++,
+//                                              0, 0,
 //                                              1, 1,
-//                                              GridBagConstraints.NONE,
+//                                              GridBagConstraints.HORIZONTAL,
 //                                              GridBagConstraints.NORTH );
 //            GraphicsUtil.addGridBagComponent( this, new ControlPanel( module ),
-//                                              0, rowIdx++,
+//                                              0, 1,
+//                                              1, 1,
+//                                              GridBagConstraints.HORIZONTAL,
+//                                              GridBagConstraints.NORTH );
+//
+//            GraphicsUtil.addGridBagComponent( this, parallaxPanel,
+//                                              0, 0,
+//                                              1, 1,
+//                                              GridBagConstraints.HORIZONTAL,
+//                                              GridBagConstraints.NORTH );
+//            GraphicsUtil.addGridBagComponent( this, photometerPanel,
+//                                              0, 1,
+//                                              1, 1,
+//                                              GridBagConstraints.HORIZONTAL,
+//                                              GridBagConstraints.NORTH );
+
+
+//            GraphicsUtil.addGridBagComponent( this, pilotingPanel,
+//                                              0, 0,
+//                                              1, 1,
+//                                              GridBagConstraints.HORIZONTAL,
+//                                              GridBagConstraints.CENTER );
+//            GraphicsUtil.addGridBagComponent( this, instrumentPanel,
+//                                              0, 1,
 //                                              1, 1,
 //                                              GridBagConstraints.NONE,
-//                                              GridBagConstraints.NORTH );
-//            GraphicsUtil.addGridBagComponent( this, parallaxPanel,
-//                                              0, rowIdx++,
-//                                              1, 1,
-//                                              GridBagConstraints.HORIZONTAL,
 //                                              GridBagConstraints.CENTER );
-//            GraphicsUtil.addGridBagComponent( this, photometerPanel,
-//                                              0, rowIdx++,
-//                                              1, 1,
-//                                              GridBagConstraints.HORIZONTAL,
-//                                              GridBagConstraints.CENTER );
+
+
+            GraphicsUtil.addGridBagComponent( this, starMapPanel,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.NORTH );
+            GraphicsUtil.addGridBagComponent( this, new ControlPanel( module ),
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.NORTH );
+            GraphicsUtil.addGridBagComponent( this, parallaxPanel,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.HORIZONTAL,
+                                              GridBagConstraints.CENTER );
+            GraphicsUtil.addGridBagComponent( this, photometerPanel,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.HORIZONTAL,
+                                              GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             e.printStackTrace();

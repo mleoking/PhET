@@ -97,15 +97,15 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
         private Point2D.Double testPt = new Point2D.Double();
         private Point2D.Double knobCenter = new Point2D.Double( 40, 10 );
         private Point dragStart;
-        private double joystickDx;
         private AffineTransform tx = new AffineTransform();
         private AffineTransform hitTx = new AffineTransform();
         private double joystickControlOffsetX = 29;
         private double joystickControlOffsetY = -70;
         private Ellipse2D.Double joystickKnob = new Ellipse2D.Double();
         private double joystickMovementFactor = 10;
-        private Point2D.Double dragRef = new Point2D.Double();
         private double phi;
+        private Point2D.Double pivotPt;
+        private double lastDx = 0;
 
         public JoystickGraphic() {
             super( null, null );
@@ -114,7 +114,7 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
             Graphic jg = new Graphic() {
                 public void paint( Graphics2D g ) {
                     tx.setTransform( joystickTx );
-                    double phi = Math.atan( joystickDx / joystickBaseImage.getHeight() );
+//                    double phi = Math.atan( joystickDx / joystickBaseImage.getHeight() );
                     g.drawImage( joystickBaseImage, tx, CockpitView.this );
                     tx.translate( joystickControlOffsetX, joystickControlOffsetY );
                     tx.rotate( phi, joystickControlImage.getWidth() / 2, joystickControlImage.getHeight() );
@@ -146,11 +146,12 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
 
         public void mousePressed( MouseEvent e ) {
             dragStart = e.getPoint();
-            dragRef.setLocation( dragStart );
+            pivotPt = new Point2D.Double( dragStart.getX(), dragStart.getY() + joystickControlImage.getHeight() );
         }
 
         public void mouseReleased( MouseEvent e ) {
-            joystickDx = 0;
+            module.getApparatusPanel().repaint();
+            phi = 0;
             module.getApparatusPanel().repaint();
         }
 
@@ -163,28 +164,15 @@ public class CockpitView extends CompositeInteractiveGraphic implements ImageObs
                 return;
             }
 
-//            testPt.setLocation( (double)e.getPoint().getX(), (double)e.getPoint().getY() );
-//            try {
-//                hitTx.inverseTransform( testPt, testPt );
-//            }
-//            catch( NoninvertibleTransformException e1 ) {
-//                e1.printStackTrace();
-//            }
-//            phi = Math.atan(( ( joystickTx.getTranslateY() + joystickControlOffsetY ) - testPt.getY() )
-//                                               / ( (joystickTx.getTranslateX() + joystickControlOffsetX) - testPt.getX() ));
-////            phi = Math.atan(( testPt.getY() - joystickTx.getTranslateY() - joystickControlOffsetY )
-////                                               / ( testPt.getX() - joystickTx.getTranslateX() - joystickControlOffsetX ));
-////            double phi = Math.atan( joystickDx / joystickBaseImage.getHeight() );
-//            System.out.println( "phi: " + Math.toDegrees( phi ) + "  dy: " + ( testPt.getY() - joystickControlOffsetY )
-//                        + " dx: " + ( testPt.getX() - joystickControlOffsetX ) );
-
-            joystickDx = e.getPoint().getX() - dragStart.getX();
-            double dx = e.getPoint().getX() - dragRef.getX();
-            dragRef.setLocation( e.getPoint() );
+            testPt.setLocation( (double)e.getPoint().getX(), (double)e.getPoint().getY() );
+            double dy = Math.max( 0, pivotPt.getY() - testPt.getY() );
+            phi = -Math.atan( ( pivotPt.getX() - testPt.getX() ) / dy );
+            double dx = joystickControlImage.getHeight() * phi;
 
             PointOfView pov = module.getCockpitPov();
-            pov.setLocation( pov.getX() - ( dx / joystickMovementFactor ) * Math.sin( pov.getTheta() ),
-                             pov.getY() + ( dx / joystickMovementFactor ) * Math.cos( pov.getTheta() ) );
+            pov.setLocation( pov.getX() - ( ( dx - lastDx ) / joystickMovementFactor ) * Math.sin( pov.getTheta() ),
+                             pov.getY() + ( ( dx - lastDx ) / joystickMovementFactor ) * Math.cos( pov.getTheta() ) );
+            lastDx = dx;
             module.setPov( pov );
             module.getApparatusPanel().repaint();
         }

@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <exercise>
-	<question>
+    <question>
         <![CDATA[
-        <html>Move the ship left and right using the joystick.
-        <p>Can you tell which star is closet to you?</html>
+        <html>
+        <font face="Arial, Helvetica, sans-serif">
+        <b>
+        Move the ship left and right using the joystick.
+        <p>Can you tell which star is closest to you?
+        </html>
         ]]>
-	</question>
-	<choice id="A" >
-		<text>The red star</text>
-	</choice>
-		<choice id="B" >
-		<text>The blue star</text>
-	</choice>
-	<choice id="C" >
-		<text>The green star</text>
-	</choice>
-		<choice id="D" >
-		<text>The yellow star</text>
-	</choice>
-	<answer id="C"/>
-	<numTries num="1" />
+    </question>
+    <choice id="A">
+        <text>The red star</text>
+    </choice>
+    <choice id="B">
+        <text>The blue star</text>
+    </choice>
+    <choice id="C">
+        <text>The green star</text>
+    </choice>
+    <choice id="D">
+        <text>The yellow star</text>
+    </choice>
+    <answer id="C"/>
+    <numTries num="1"/>
 </exercise>
