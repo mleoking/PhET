@@ -11,10 +11,12 @@
 
 package edu.colorado.phet.faraday.control;
 
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -34,7 +36,7 @@ import edu.colorado.phet.faraday.view.FieldMeterGraphic;
  * @version $Revision$
  */
 public class BarMagnetControlPanel extends FaradayControlPanel {
-
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -49,7 +51,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
     private JButton _flipPolarityButton;
     private JLabel _strengthValue;
     private JSlider _strengthSlider;
-    private JCheckBox _magnetTransparencyCheckBox;
+    private JCheckBox _seeInsideCheckBox;
     private JCheckBox _fieldMeterCheckBox, _compassCheckBox; 
 
     //----------------------------------------------------------------------------
@@ -83,82 +85,85 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
         _magnetGraphic = magnetGraphic;
         _fieldMeterGraphic = fieldMeterGraphic;
 
-        // Bar Magnet panel
-        JPanel barMagnetPanel = new JPanel();
+        // Magnet strength
+        JPanel strengthPanel = new JPanel();
         {
-            // Titled border with a larger font.
-            TitledBorder border = new TitledBorder( SimStrings.get( "barMagnetPanel.title" ) );
-            border.setTitleFont( super.getTitleFont() );
-            barMagnetPanel.setBorder( border );
+            // Title
+            TitledBorder border = new TitledBorder( SimStrings.get( "BarMagnetModule.magnetStrength.label" ) );
+            strengthPanel.setBorder( border );
 
-            // Flip Polarity button
-            _flipPolarityButton = new JButton( SimStrings.get( "flipPolarityButton.label" ) );
+            // Slider
+            _strengthSlider = new JSlider();
+            _strengthSlider.setMaximum( (int) FaradayConfig.MAGNET_STRENGTH_MAX );
+            _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
+            _strengthSlider.setValue( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
+            setSliderSize( _strengthSlider, SLIDER_SIZE );
 
-            // Strength slider
-            JPanel strengthPanel = new JPanel();
-            {
-                // Label
-                JLabel label = new JLabel( SimStrings.get( "strengthSlider.label" ) );
-
-                // Slider
-                _strengthSlider = new JSlider();
-                _strengthSlider.setMaximum( (int) FaradayConfig.MAGNET_STRENGTH_MAX );
-                _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
-                _strengthSlider.setValue( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
-                setSliderSize( _strengthSlider, SLIDER_SIZE );
-
-                // Value
-                _strengthValue = new JLabel( UNKNOWN_VALUE );
-
-                // Layout
-                strengthPanel.setLayout( new BoxLayout( strengthPanel, BoxLayout.X_AXIS ) );
-                strengthPanel.add( label );
-                strengthPanel.add( _strengthSlider );
-                strengthPanel.add( _strengthValue );
-            }
-
-            // Magnet transparency on/off
-            _magnetTransparencyCheckBox = new JCheckBox( SimStrings.get( "magnetTransparencyCheckBox.label" ) );
-
+            // Value
+            _strengthValue = new JLabel( UNKNOWN_VALUE );
+            
             // Layout
-            barMagnetPanel.setLayout( new BoxLayout( barMagnetPanel, BoxLayout.Y_AXIS ) );
-            barMagnetPanel.add( strengthPanel );
-            barMagnetPanel.add( _flipPolarityButton );
-            barMagnetPanel.add( _magnetTransparencyCheckBox );
+            EasyGridBagLayout layout = new EasyGridBagLayout( strengthPanel );
+            strengthPanel.setLayout( layout );
+            
+            // Strength
+            int row = 0;
+            layout.addAnchoredComponent( _strengthSlider, row, 0, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( _strengthValue, row, 1, GridBagConstraints.WEST );
         }
+        
+        //  Flip Polarity button
+        _flipPolarityButton = new JButton( SimStrings.get( "BarMagnetModule.flipPolarityButton.label" ) );
+        
+        // Magnet transparency on/off
+        _seeInsideCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.seeInsideCheckBox.label" ) );
 
-        JPanel probePanel = new JPanel();
-        {
-            _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "meterCheckBox.label" ) );
+        // Field Meter on/off
+        _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.fieldMeterCheckBox.label" ) );
 
-            probePanel.setLayout( new BoxLayout( probePanel, BoxLayout.X_AXIS ) );
-            probePanel.add( _fieldMeterCheckBox );
+        // Compass on/off
+        _compassCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.compassCheckBox.label" ) );
+        
+        // Panel 
+        JPanel panel = new JPanel();
+        {     
+            EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+            panel.setLayout( layout );
+            panel.setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
+            
+            // Strength
+            int row = 0;
+            layout.addAnchoredComponent( strengthPanel, row, 0, GridBagConstraints.WEST );
+            
+            // Polarity
+            row++;
+            layout.addAnchoredComponent( _flipPolarityButton, row, 0, GridBagConstraints.WEST );
+            
+            // See Inside
+            row++;
+            layout.addAnchoredComponent( _seeInsideCheckBox, row, 0, GridBagConstraints.WEST );
+            
+            // Field Meter
+            row++;
+            layout.addAnchoredComponent( _fieldMeterCheckBox, row, 0, GridBagConstraints.WEST );
+            
+            // Field Meter
+            row++;
+            layout.addAnchoredComponent( _compassCheckBox, row, 0, GridBagConstraints.WEST );
         }
-
-        JPanel compassPanel = new JPanel();
-        {
-            _compassCheckBox = new JCheckBox( SimStrings.get( "compassCheckBox.label" ) );
-
-            compassPanel.setLayout( new BoxLayout( compassPanel, BoxLayout.X_AXIS ) );
-            compassPanel.add( _compassCheckBox );
-        }
-
-        // Add panels to control panel.
-        addFullWidth( barMagnetPanel );
-        addFullWidth( probePanel );
-        addFullWidth( compassPanel );
+        addFullWidth( panel );
         
         // Wire up event handling.
         EventListener listener = new EventListener();
         _flipPolarityButton.addActionListener( listener );
         _strengthSlider.addChangeListener( listener );
-        _magnetTransparencyCheckBox.addActionListener( listener );
+        _seeInsideCheckBox.addActionListener( listener );
         _fieldMeterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
 
         // Update control panel to match the components that it's controlling.
         _strengthSlider.setValue( (int) _magnetModel.getStrength() );
-        _magnetTransparencyCheckBox.setSelected( _magnetGraphic.isTransparencyEnabled() );
+        _seeInsideCheckBox.setSelected( _magnetGraphic.isTransparencyEnabled() );
         _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
     }
@@ -195,9 +200,9 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
                 _magnetModel.setDirection( _magnetModel.getDirection() + Math.PI );
                 _compassModel.startMovingNow();
             }
-            else if ( e.getSource() == _magnetTransparencyCheckBox ) {
+            else if ( e.getSource() == _seeInsideCheckBox ) {
                 // Magnet transparency enable
-                _magnetGraphic.setTransparencyEnabled( _magnetTransparencyCheckBox.isSelected() );
+                _magnetGraphic.setTransparencyEnabled( _seeInsideCheckBox.isSelected() );
             }
             else if ( e.getSource() == _fieldMeterCheckBox ) {
                 // Meter enable
@@ -227,7 +232,7 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
                 // Magnet strength
                 int strength = _strengthSlider.getValue();
                 _magnetModel.setStrength( strength );
-                _strengthValue.setText( String.valueOf( strength ) );
+                _strengthValue.setText( String.valueOf( strength ) + " " + FaradayConfig.GAUSS_LABEL );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );

@@ -37,6 +37,7 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 - fix PhetShapeGraphic.contains so that stroke width is taken into account, test with CompassGraphic
+- make PhetTextGraphic handle '\n', deprecate PhetMultiLineTextGraphic
 
 DONE:
 v0r12...

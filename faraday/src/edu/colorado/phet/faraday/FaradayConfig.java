@@ -62,6 +62,10 @@ public class FaradayConfig {
     // Fonts
     public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
     
+    // Labels
+    public static final String GAUSS_LABEL = "G";
+    public static final String VOLTS_LABEL = "v";
+    
     // EMF parameters
     public static final double MAX_EMF = 4.0E7; // volts
     
