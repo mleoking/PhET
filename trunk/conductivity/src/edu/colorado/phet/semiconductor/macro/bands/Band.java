@@ -5,6 +5,7 @@
 package edu.colorado.phet.semiconductor.macro.bands;
 
 import edu.colorado.phet.semiconductor.macro.bands.states.Speed;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.util.ArrayList;
 
@@ -24,10 +25,10 @@ public class Band {
 
     public String toString() {
         if( bandSet.getUpperBand() == this ) {
-            return "Upper";
+            return SimStrings.get( "Band.UpperLabel" );
         }
         if( bandSet.getLowerBand() == this ) {
-            return "Lower";
+            return SimStrings.get( "Band.LowerLabel" );
         }
         else {
             return super.toString();

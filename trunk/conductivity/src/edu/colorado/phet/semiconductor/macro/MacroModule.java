@@ -23,6 +23,7 @@ import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.AspectRatioLayout;
 import edu.colorado.phet.common.view.util.framesetup.FrameCenterer;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.semiconductor.Flashlight;
 import edu.colorado.phet.semiconductor.FlashlightGraphic;
 import edu.colorado.phet.semiconductor.macro.bands.DefaultBandSet;
@@ -44,15 +45,18 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Locale;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro:
 //            MacroControlPanel, MacroSystem, EnergyTextGraphic, BandSetGraphic
 
 public class MacroModule extends Module {
+    // Localization
+    public static final String localizedStringsPath = "localization/ConductivityStrings";
 
     public MacroModule( AbstractClock abstractclock )
             throws IOException {
-        super( "Semiconductors!" );
+        super( SimStrings.get( "ModuleTitle.SemiconductorsModule" ) );
         minVolts = 0.0D;
         maxVolts = 2D;
 //        initstroke = new BasicStroke( 1.0F, 2, 0 );
@@ -239,9 +243,26 @@ public class MacroModule extends Module {
 
     public static void main( String args[] )
             throws IOException {
+                
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
+        
         SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
         final MacroModule module = new MacroModule( swingtimerclock );
-        PhetApplication phetapplication = new PhetApplication( new ApplicationDescriptor( "Semiconductors!", "Apply current to a conductor, insulator or photoconductor.", "0.2", new FrameCenterer( 100, 100 ) ), module, swingtimerclock );
+        PhetApplication phetapplication = new PhetApplication( new ApplicationDescriptor(
+                                        SimStrings.get( "ConductivityApplication.title" ),
+                                        SimStrings.get( "ConductivityApplication.description" ),
+                                        SimStrings.get( "ConductivityApplication.version" ),
+                                        new FrameCenterer( 100, 100 ) ), module, swingtimerclock );
         phetapplication.startApplication( module );
         swingtimerclock.addClockTickListener( new ClockTickListener() {
 

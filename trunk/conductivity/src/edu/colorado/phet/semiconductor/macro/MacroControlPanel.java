@@ -4,6 +4,8 @@
 
 package edu.colorado.phet.semiconductor.macro;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -16,9 +18,9 @@ import java.awt.event.ActionListener;
 public class MacroControlPanel extends JPanel {
 
     public MacroControlPanel( final MacroModule macroModule ) {
-        JRadioButton jradiobutton = new JRadioButton( "Metal" );
-        JRadioButton jradiobutton1 = new JRadioButton( "Plastic" );
-        JRadioButton jradiobutton2 = new JRadioButton( "Photoconductor" );
+        JRadioButton jradiobutton = new JRadioButton( SimStrings.get( "MacroControlPanel.MetalRadioButton" ) );
+        JRadioButton jradiobutton1 = new JRadioButton( SimStrings.get( "MacroControlPanel.PlasticRadioButton" ) );
+        JRadioButton jradiobutton2 = new JRadioButton( SimStrings.get( "MacroControlPanel.PhotoconductorRadioButton" ) );
         jradiobutton.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent actionevent ) {
@@ -52,10 +54,10 @@ public class MacroControlPanel extends JPanel {
         jpanel.add( jradiobutton1 );
         jpanel.add( jradiobutton2 );
         Object obj = BorderFactory.createRaisedBevelBorder();
-        obj = BorderFactory.createTitledBorder( ( (javax.swing.border.Border)( obj ) ), "Materials" );
+        obj = BorderFactory.createTitledBorder( ( (javax.swing.border.Border)( obj ) ), SimStrings.get( "MacroControlPanel.MaterialsBorder" ) );
         jpanel.setBorder( ( (javax.swing.border.Border)( obj ) ) );
         add( jpanel );
-        lightOn = new JCheckBox( "Shine The Light" );
+        lightOn = new JCheckBox( SimStrings.get( "MacroControlPanel.ShineLightCheckBox" ) );
         lightOn.addChangeListener( new ChangeListener() {
 
             public void stateChanged( ChangeEvent changeevent ) {
@@ -64,7 +66,7 @@ public class MacroControlPanel extends JPanel {
 
         } );
         add( lightOn );
-        onePhoton = new JButton( "Fire One Photon" );
+        onePhoton = new JButton( SimStrings.get( "MacroControlPanel.FirePhotonButton" ) );
         onePhoton.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent actionevent ) {

@@ -8,32 +8,39 @@ package edu.colorado.phet.common.view.components.menu;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.VersionUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HelpMenu extends JMenu {
+    
+    static {
+        SimStrings.setStrings( "localization/ConductivityPCStrings" );
+    }
+    
     public HelpMenu( final PhetApplication app ) {
-        super( "Help" );
-        final JMenuItem about = new JMenuItem( "About" );
-        about.setMnemonic( 'a' );
-        this.setMnemonic( 'h' );
+        super( SimStrings.get( "HelpMenu.HelpMenu" ) );
+        final JMenuItem about = new JMenuItem( SimStrings.get( "HelpMenu.AboutMenuItem" ) );
+        about.setMnemonic( SimStrings.get( "HelpMenu.AboutMnemonic" ).charAt( 0 ) );
+        this.setMnemonic( SimStrings.get( "HelpMenu.HelpMnemonic" ).charAt( 0 ) );
         final String name = app.getApplicationDescriptor().getWindowTitle();
         String desc = app.getApplicationDescriptor().getDescription();
         String version = app.getApplicationDescriptor().getVersion();
-        String message = name + "\n" + desc + "\nVersion: " + version;
+        String message = name + "\n" + desc + "\n" + SimStrings.get( "HelpMenu.VersionLabel" ) + ": " + version;
         VersionUtils.VersionInfo inf = VersionUtils.readVersionInfo( app );
         if( inf == null ) {
-            message += "No Version Info";
+            message += SimStrings.get( "HelpMenu.NoVersionText" );
         }
         else {
-            message += "\nBuild Number: " + inf.getBuildNumber() + "\nBuild Time: " + inf.getBuildTime();
+            message += "\n" + SimStrings.get( "HelpMenu.BuilderNumberLabel" ) + ": " + inf.getBuildNumber();
+            message += "\n" + SimStrings.get( "HelpMenu.BuilderTimeLabel" ) + ": " + inf.getBuildTime();
         }
         final String msg = message;
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( about, msg, "About " + name, JOptionPane.INFORMATION_MESSAGE );
+                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "HelpMenu.AboutLabel" ) + " " + name, JOptionPane.INFORMATION_MESSAGE );
             }
         } );
         add( about );
