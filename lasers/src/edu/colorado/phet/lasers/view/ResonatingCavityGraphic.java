@@ -10,6 +10,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 
 import java.awt.*;
@@ -55,12 +56,11 @@ public class ResonatingCavityGraphic extends PhetGraphic implements SimpleObserv
     }
 
     public void update() {
-        double thickness = 15;
-        //        rep = cavity.getBounds();
-        rep.setRect( cavity.getMinX() + thickness / 2, cavity.getMinY(), cavity.getWidth(), cavity.getHeight() );
-        end1.setFrame( cavity.getMinX(), cavity.getMinY(),
-                       thickness, cavity.getHeight() );
-        end2.setFrame( cavity.getMinX() + cavity.getWidth(), cavity.getMinY(),
-                       thickness, cavity.getHeight() );
+        double mirrorPerspecitveWidth = LaserConfig.MIRROR_THICKNESS;
+        rep.setRect( cavity.getMinX(), cavity.getMinY(), cavity.getWidth(), cavity.getHeight() );
+        end1.setFrame( cavity.getMinX() - mirrorPerspecitveWidth / 2, cavity.getMinY(),
+                       mirrorPerspecitveWidth, cavity.getHeight() );
+        end2.setFrame( cavity.getMinX() + cavity.getWidth() - mirrorPerspecitveWidth / 2, cavity.getMinY(),
+                       mirrorPerspecitveWidth, cavity.getHeight() );
     }
 }
