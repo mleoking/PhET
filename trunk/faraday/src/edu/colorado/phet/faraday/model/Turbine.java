@@ -47,7 +47,7 @@ public class Turbine extends BarMagnet implements ModelElement {
      */
     public Turbine() {
         super();
-        _speed = 0;
+        _speed = 0.0;
         setMaxRPM( 100.0 );
     }
     
@@ -119,7 +119,30 @@ public class Turbine extends BarMagnet implements ModelElement {
      * @see edu.colorado.phet.common.model.ModelElement#stepInTime(double)
      */
     public void stepInTime( double dt ) {
-        double delta = _speed * _maxDelta;
-        setDirection( getDirection() + delta );
+        
+        if ( _speed != 0 ) {
+            
+            double previousDirection = getDirection();
+            double newDirection = getDirection() + ( _speed * _maxDelta );
+
+            // Adjust the angle so that we hit all peaks and zero crossings.
+            for ( int i = 0; i < 5; i++ ) {
+                double criticalAngle = i * ( Math.PI / 2 ); // ...at 90 degree intervals
+                if ( _speed > 0 && newDirection > criticalAngle && previousDirection < criticalAngle ) {
+                    newDirection = criticalAngle;
+                    break;
+                }
+                else if ( _speed < 0 && newDirection < -criticalAngle && previousDirection > -criticalAngle ) {
+                    newDirection = -criticalAngle;
+                    break;
+                }
+            }
+            
+            // Limit direction to -360...+360 degrees.
+            int sign = ( newDirection >= 0 ) ? +1 : -1;
+            newDirection = sign * ( Math.abs( newDirection )  % ( 2 * Math.PI ) );
+
+            setDirection( newDirection );
+        }
     }
 }
