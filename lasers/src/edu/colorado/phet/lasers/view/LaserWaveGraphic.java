@@ -34,7 +34,7 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
     private StandingWaveGraphic internalStandingWaveGraphic;
     private TravelingWaveGraphic externalTravelingWaveGraphic;
     // The waves that are shown when the thins is not lasing
-    private int numNonLasingExternalWaveGraphics = 3;
+    private int numNonLasingExternalWaveGraphics = 5;
     private WaveGraphic[] nonLasingExternalWaveGraphics = new WaveGraphic[numNonLasingExternalWaveGraphics];
     // Angle that is considered horizontal, for purposes of lasing
     private double angleWindow = LaserConfig.PHOTON_CHEAT_ANGLE;
@@ -65,7 +65,7 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
                                                                  getNumLasingPhotons(), atomicState, model );
 
         // Create the non-lasing wave graphics
-        double dTheta = 30;
+        double dTheta = 20;
         int j = numNonLasingExternalWaveGraphics / 2;
         Point2D nonLasingWaveOrigin = new Point2D.Double( cavity.getMinX() + cavity.getWidth() + LaserConfig.MIRROR_THICKNESS,
                                                           cavity.getMinY() + cavity.getHeight() / 2 );
@@ -131,7 +131,7 @@ public class LaserWaveGraphic implements LaserModel.LaserListener {
         externalTravelingWaveGraphic.setAmplitude( getExternalAmplitude() );
         for( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
             WaveGraphic waveGraphic = nonLasingExternalWaveGraphics[i];
-            int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() );
+            int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 5 );
             waveGraphic.setAmplitude( amp );
         }
     }
