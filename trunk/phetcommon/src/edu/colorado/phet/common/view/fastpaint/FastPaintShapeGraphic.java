@@ -7,6 +7,7 @@
 package edu.colorado.phet.common.view.fastpaint;
 
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 
@@ -33,12 +34,6 @@ public class FastPaintShapeGraphic extends ShapeGraphic {
         this.parent = parent;
     }
 
-    public void setFillPaint( Paint fillPaint ) {
-        Rectangle viewBounds = getViewBounds();
-        super.setFillPaint( fillPaint );
-        repaint( viewBounds );
-    }
-
     public Rectangle getViewBounds() {
         Stroke stroke = super.getOutlineStroke();
         if( stroke != null ) {
@@ -50,28 +45,23 @@ public class FastPaintShapeGraphic extends ShapeGraphic {
         }
     }
 
+    public void setFillPaint( Paint fillPaint ) {
+        Rectangle viewBounds = getViewBounds();
+        super.setFillPaint( fillPaint );
+        GraphicsUtil.fastRepaint( parent, viewBounds );
+    }
+
     public void setShape( Shape shape ) {
         Rectangle orig = getViewBounds();
         super.setShape( shape );
-        Rectangle newShape = getViewBounds();
-        repaint( orig, newShape );
+        Rectangle newRect = getViewBounds();
+        GraphicsUtil.fastRepaint( parent, orig, newRect );
     }
 
     public void setOutlineStroke( Stroke outlineStroke ) {
         Rectangle orig = getViewBounds();
         super.setOutlineStroke( outlineStroke );
         Rectangle newRect = getViewBounds();
-        repaint( orig, newRect );
-    }
-
-    private void repaint( Rectangle bounds ) {
-        if( bounds != null ) {
-            parent.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
-        }
-    }
-
-    private void repaint( Rectangle orig, Rectangle newRect ) {
-        repaint( orig );
-        repaint( newRect );
+        GraphicsUtil.fastRepaint( parent, orig, newRect );
     }
 }

@@ -7,6 +7,7 @@
 package edu.colorado.phet.common.view.fastpaint;
 
 import edu.colorado.phet.common.view.graphics.TextGraphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -33,37 +34,27 @@ public class FastPaintTextGraphic extends TextGraphic {
         Rectangle rectA = getViewBounds();
         super.setText( text );
         Rectangle rectB = getViewBounds();
-        repaint( rectA, rectB );
+        GraphicsUtil.fastRepaint( parent, rectA, rectB );
+        //        repaint( rectA, rectB );
     }
 
     public void setFont( Font font ) {
         Rectangle rectA = getViewBounds();
         super.setFont( font );
         Rectangle rectB = getViewBounds();
-        repaint( rectA, rectB );
+        GraphicsUtil.fastRepaint( parent, rectA, rectB );
     }
 
     public void setLocation( float x, float y ) {
         Rectangle rectA = getViewBounds();
         super.setLocation( x, y );
         Rectangle rectB = getViewBounds();
-        repaint( rectA, rectB );
+        GraphicsUtil.fastRepaint( parent, rectA, rectB );
     }
 
     public void setPaint( Paint paint ) {
         Rectangle rect = getViewBounds();
         super.setPaint( paint );
-        repaint( rect );
-    }
-
-    private void repaint( Rectangle bounds ) {
-        if( bounds != null ) {
-            parent.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
-        }
-    }
-
-    private void repaint( Rectangle orig, Rectangle newRect ) {
-        repaint( orig );
-        repaint( newRect );
+        GraphicsUtil.fastRepaint( parent, rect );
     }
 }

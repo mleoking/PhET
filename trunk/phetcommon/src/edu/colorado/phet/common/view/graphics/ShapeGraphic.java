@@ -16,6 +16,8 @@ public class ShapeGraphic implements BoundedGraphic {
     private Paint outlinePaint;
     private Paint fillPaint;
     private Stroke outlineStroke;
+    private boolean strokeDirty = true;
+    private Shape strokeShape;
 
     public ShapeGraphic( Shape shape, Paint fill ) {
         this( shape, fill, null, null );
@@ -49,6 +51,7 @@ public class ShapeGraphic implements BoundedGraphic {
     }
 
     public void setShape( Shape shape ) {
+        strokeDirty = true;
         this.shape = shape;
     }
 
@@ -73,11 +76,21 @@ public class ShapeGraphic implements BoundedGraphic {
     }
 
     public void setOutlineStroke( Stroke outlineStroke ) {
+        strokeDirty = true;
         this.outlineStroke = outlineStroke;
     }
 
     public boolean contains( int x, int y ) {
-        return shape.contains( x, y );
+        boolean result = false;
+        if( outlineStroke != null ) {
+            if( strokeDirty ) {
+                strokeShape = outlineStroke.createStrokedShape( this.getShape() );
+                strokeDirty = false;
+            }
+            result = strokeShape.contains( x, y );
+        }
+        result |= shape.contains( x, y );
+        return result;
     }
 
 

@@ -34,7 +34,7 @@ public class TestFastPaintShapes {
         final ArrayList fastShapes = new ArrayList();
         final Random random = new Random();
         for( int i = 0; i < 1000; i++ ) {
-            Shape shape = new Rectangle( random.nextInt( 600 ), random.nextInt( 600 ), 3, 3 );
+            Shape shape = new Rectangle( random.nextInt( 600 ), random.nextInt( 600 ), 10, 10 );
             Color color = new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) );
             FastPaintShapeGraphic fastPaintShapeGraphic = new FastPaintShapeGraphic( shape, color, ap );
             fastShapes.add( fastPaintShapeGraphic );

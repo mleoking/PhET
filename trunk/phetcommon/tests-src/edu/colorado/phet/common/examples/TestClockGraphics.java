@@ -5,7 +5,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.view.graphics.bounds.ShapeBoundary;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
@@ -36,7 +35,7 @@ public class TestClockGraphics {
             public void paint( Graphics2D g ) {
                 if( !didInit ) {
                     GlyphVector gv = font.createGlyphVector( g.getFontRenderContext(), "PhET" );
-//                    Shape sh = font.getStringBounds("PhET", g.getFontRenderContext());
+                    //                    Shape sh = font.getStringBounds("PhET", g.getFontRenderContext());
                     area.subtract( area );
                     area.add( new Area( gv.getOutline() ) );
                     AffineTransform at = AffineTransform.getTranslateInstance( 50, 50 );
@@ -54,11 +53,10 @@ public class TestClockGraphics {
         panel.addGraphic( init );
 
         ShapeGraphic sg = new ShapeGraphic( area, Color.red );
-        ShapeBoundary sb = new ShapeBoundary( area );
-        DefaultInteractiveGraphic graphic = new DefaultInteractiveGraphic( sg, sb );
+        DefaultInteractiveGraphic graphic = new DefaultInteractiveGraphic( sg );
         panel.addGraphic( graphic );
 
-//        HandCursorControl hand=new HandCursorControl();
+        //        HandCursorControl hand=new HandCursorControl();
         graphic.addCursorHandBehavior();
         graphic.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
@@ -66,12 +64,12 @@ public class TestClockGraphics {
                 panel.repaint();
             }
         } );
-//        graphic.addMouseInputListener(new BringToFront(panel.getGraphic(), graphic));
+        //        graphic.addMouseInputListener(new BringToFront(panel.getGraphic(), graphic));
 
-        DefaultInteractiveGraphic circlo = new DefaultInteractiveGraphic( new ShapeGraphic( area2, Color.green ), new ShapeBoundary( area2 ) );
+        DefaultInteractiveGraphic circlo = new DefaultInteractiveGraphic( new ShapeGraphic( area2, Color.green ) );
         circlo.addCursorHandBehavior();
 
-//        circlo.addMouseInputListener(new BringToFront(panel.getGraphic(), circlo));
+        //        circlo.addMouseInputListener(new BringToFront(panel.getGraphic(), circlo));
         circlo.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
                 area2.transform( AffineTransform.getTranslateInstance( dx, dy ) );
