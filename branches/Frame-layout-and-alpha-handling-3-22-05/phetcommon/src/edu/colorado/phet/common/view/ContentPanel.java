@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -218,14 +217,14 @@ public class ContentPanel extends JPanel {
 
 
     private JComponent createApparatusPanelContainer( PhetApplication application ) {
-        ApplicationModel model = application.getApplicationModel();
-        if( model.numModules() == 1 ) {
+//        ApplicationModel model = application.getApplicationModel();
+        if( application.numModules() == 1 ) {
             JPanel apparatusPanelContainer = new JPanel();
             apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
-            if( model.moduleAt( 0 ).getApparatusPanel() == null ) {
-                throw new RuntimeException( "Null Apparatus Panel in Module: " + model.moduleAt( 0 ).getName() );
+            if( application.moduleAt( 0 ).getApparatusPanel() == null ) {
+                throw new RuntimeException( "Null Apparatus Panel in Module: " + application.moduleAt( 0 ).getName() );
             }
-            apparatusPanelContainer.add( model.moduleAt( 0 ).getApparatusPanel() );
+            apparatusPanelContainer.add( application.moduleAt( 0 ).getApparatusPanel() );
             return apparatusPanelContainer;
         }
         else {

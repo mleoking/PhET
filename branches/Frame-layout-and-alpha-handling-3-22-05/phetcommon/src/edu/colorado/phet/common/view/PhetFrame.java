@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
@@ -41,10 +40,9 @@ public class PhetFrame extends JFrame {
      * @param application
      * @throws IOException
      */
-    public PhetFrame( PhetApplication application ) throws IOException {
-        super( application.getApplicationModel().getWindowTitle() );
+    public PhetFrame( final PhetApplication application ) throws IOException {
+        super( application.getWindowTitle() );
         this.application = application;
-        final ApplicationModel model = application.getApplicationModel();
 
         // Add a listener that will handle the following events:
         //  the frame is closed
@@ -58,9 +56,9 @@ public class PhetFrame extends JFrame {
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
                 super.windowIconified( e );
-                paused = model.getClock().isPaused(); // save clock state
+                paused = application.getClock().isPaused(); // save clock state
                 if( !paused ) {
-                    model.getClock().setPaused( true );
+                    application.getClock().setPaused( true );
                 }
             }
 
@@ -68,7 +66,7 @@ public class PhetFrame extends JFrame {
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
                 if( !paused ) {
-                    model.getClock().setPaused( false );
+                    application.getClock().setPaused( false );
                 }
             }
         } );
@@ -85,11 +83,13 @@ public class PhetFrame extends JFrame {
         menuBar.add( defaultFileMenu );
         menuBar.add( helpMenu );
         setJMenuBar( menuBar );
-        model.getFrameSetup().initialize( this );
+        if( application.getFrameSetup() != null ) {
+            application.getFrameSetup().initialize( this );
+        }
 
         // If the simulation is to have buttons for controlling the simulation clock, create it now
-        if( model.getUseClockControlPanel() ) {
-            clockControlPanel = new ClockControlPanel( model.getClock() );
+        if( application.getUseClockControlPanel() ) {
+            clockControlPanel = new ClockControlPanel( application.getClock() );
         }
 
         // Create the content pane for the frame
@@ -109,9 +109,10 @@ public class PhetFrame extends JFrame {
         return basicPhetPanel;
     }
 
-    //////////////////////////////////////////////
+
+    //----------------------------------------------------------------
     // Menu setup methods
-    //
+    //----------------------------------------------------------------
 
     /**
      * Adds a JMenu before the Help Menu.

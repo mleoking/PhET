@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import java.awt.*;
@@ -106,25 +107,46 @@ public class PhetShapeGraphic extends PhetGraphic {
                 g2.transform( getNetTransform() );
                 if( fill != null ) {
                     // Set the alpha if necessary
-                    if( fillAlpha != 1 ) {
-                        GraphicsUtil.setAlpha( g2, fillAlpha );
-                    }
+                    setAlpha( g2, fill );
+//                    if( fillAlpha != 1 ) {
+//                        GraphicsUtil.setAlpha( g2, fillAlpha );
+//                    }
                     g2.setPaint( fill );
                     g2.fill( shape );
                 }
                 if( stroke != null ) {
                     // Set the alpha if necessary
-                    if( fillAlpha != 1 || borderAlpha != 1 ) {
-                        GraphicsUtil.setAlpha( g2, borderAlpha );
-                    }
+//                    if( fillAlpha != 1 || borderAlpha != 1 ) {
+//                        GraphicsUtil.setAlpha( g2, borderAlpha );
+//                    }
                     g2.setPaint( border );
                     Stroke origStroke = g2.getStroke();
                     g2.setStroke( stroke );
+                    setAlpha( g2, border );
                     g2.draw( shape );
                     g2.setStroke( origStroke );
                 }
             }
             super.restoreGraphicsState();
+        }
+    }
+
+    private void setAlpha( Graphics2D g2, Paint paint ) {
+        Component component = getComponent();
+        if( component instanceof ApparatusPanel2 ) {
+            ApparatusPanel2 apparatusPanel2 = (ApparatusPanel2)component;
+            if( apparatusPanel2.isUseOffscreenBuffer() ) {
+                if( paint instanceof Color ) {
+                    Color color = (Color)paint;
+                    double fillAlpha = (double)color.getAlpha() / 255;
+                    Composite composite = g2.getComposite();
+                    if( composite instanceof AlphaComposite ) {
+                        AlphaComposite alphaComposite = (AlphaComposite)composite;
+                        fillAlpha *= alphaComposite.getAlpha();
+                    }
+                    GraphicsUtil.setAlpha( g2, fillAlpha );
+                }
+            }
         }
     }
 

@@ -18,7 +18,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -41,6 +40,12 @@ public class PhetApplication {
     // Class data
     //----------------------------------------------------------------
     private static final String DEBUG_MENU_ARG = "-d";
+    private static PhetApplication s_instance = null;
+
+    public static PhetApplication instance() {
+        return s_instance;
+    }
+
 
     //----------------------------------------------------------------
     // Instance data
@@ -60,11 +65,36 @@ public class PhetApplication {
     private ApplicationModel applicationModel;
     private ModuleManager moduleManager;
 
-    public PhetApplication( String args[], AbstractClock clock, String title, String description, String version ) {
+    //----------------------------------------------------------------
+    // Constructors and initialization
+    //----------------------------------------------------------------
 
+    /**
+     * @param args        Command line arguments
+     * @param clock       The simulation clock
+     * @param title
+     * @param description
+     * @param version
+     */
+    public PhetApplication( String args[], AbstractClock clock,
+                            String title, String description, String version ) {
+        this( args, clock, null, title, description, version );
+    }
+
+    /**
+     * @param args        Command line arguments
+     * @param clock       The simulation clock
+     * @param frameSetup
+     * @param title
+     * @param description
+     * @param version
+     */
+    public PhetApplication( String args[], AbstractClock clock, FrameSetup frameSetup,
+                            String title, String description, String version ) {
         moduleManager = new ModuleManager( this );
         applicationModel = new ApplicationModel( title, description, version );
         applicationModel.setClock( clock );
+        applicationModel.setFrameSetup( frameSetup );
         s_instance = this;
 
         try {
@@ -76,36 +106,20 @@ public class PhetApplication {
         parseArgs( args );
     }
 
-    protected AbstractClock getClock() {
-        return applicationModel.getClock();
-    }
-
-    public void addModule( Module module ) {
-        Module[] modules = applicationModel.getModules();
-        ArrayList ml = new ArrayList();
-        ml.addAll( Arrays.asList( modules ) );
-        applicationModel.setModules( (Module[])ml.toArray( new Module[ml.size()] ) );
-        moduleManager.addModule( module );
-    }
-
-    public void setInitialModule( Module module ) {
-        applicationModel.setInitialModule( module );
-    }
-
-    public void setClock( AbstractClock clock ) {
-        applicationModel.setClock( clock );
-    }
-
-    public void setFrameSetup( FrameSetup framesetup ) {
-        applicationModel.setFrameSetup( framesetup );
-    }
-
+    /**
+     * @param descriptor
+     * @deprecated
+     */
     public PhetApplication( ApplicationModel descriptor ) {
         this( descriptor, null );
     }
 
+    /**
+     * @param descriptor
+     * @param args
+     * @deprecated
+     */
     public PhetApplication( ApplicationModel descriptor, String args[] ) {
-
         moduleManager = new ModuleManager( this );
 
         if( descriptor.getModules() == null ) {
@@ -150,6 +164,9 @@ public class PhetApplication {
             throw new RuntimeException( "Initial module not specified." );
         }
 
+        if( frameSetup != null ) {
+            frameSetup.initialize( getPhetFrame() );
+        }
         moduleManager.setActiveModule( applicationModel.getInitialModule() );
         applicationModel.start();
         phetFrame.setVisible( true );
@@ -181,25 +198,24 @@ public class PhetApplication {
         } );
     }
 
-    public PhetFrame getPhetFrame() {
-        return phetFrame;
+    //----------------------------------------------------------------
+    // Module management
+    //----------------------------------------------------------------
+
+    public void addModule( Module module ) {
+        Module[] modules = applicationModel.getModules();
+        ArrayList ml = new ArrayList();
+        ml.addAll( Arrays.asList( modules ) );
+        applicationModel.setModules( (Module[])ml.toArray( new Module[ml.size()] ) );
+        moduleManager.addModule( module );
     }
 
-    public ModuleManager getModuleManager() {
-        return moduleManager;
+    public void setInitialModule( Module module ) {
+        applicationModel.setInitialModule( module );
     }
 
-    public ApplicationModel getApplicationModel() {
-        return this.applicationModel;
-    }
-
-//
-// Static fields and methods
-//
-    private static PhetApplication s_instance = null;
-
-    public static PhetApplication instance() {
-        return s_instance;
+    public int numModules() {
+        return moduleManager.numModules();
     }
 
     public Module moduleAt( int i ) {
@@ -218,6 +234,36 @@ public class PhetApplication {
         return moduleManager.indexOf( m );
     }
 
+
+    //----------------------------------------------------------------
+    // Setters and Getters
+    //----------------------------------------------------------------
+
+    public AbstractClock getClock() {
+        return applicationModel.getClock();
+    }
+
+    public void setClock( AbstractClock clock ) {
+        applicationModel.setClock( clock );
+    }
+
+    public void setFrameSetup( FrameSetup framesetup ) {
+        applicationModel.setFrameSetup( framesetup );
+    }
+
+    public PhetFrame getPhetFrame() {
+        return phetFrame;
+    }
+
+    public ModuleManager getModuleManager() {
+        return moduleManager;
+    }
+
+    // TODO: make this private, at least
+    public ApplicationModel getApplicationModel() {
+        return this.applicationModel;
+    }
+
     public void addClockTickListener( ClockTickListener clockTickListener ) {
         applicationModel.getClock().addClockTickListener( clockTickListener );
     }
@@ -226,139 +272,27 @@ public class PhetApplication {
         applicationModel.getClock().removeClockTickListener( clockTickListener );
     }
 
-
-    private class ApplicationModel {
-        private String name;
-        private String windowTitle;
-        private String description;
-        private String version;
-        private FrameSetup frameSetup;
-        private Module[] modules = new Module[0];
-        private Module initialModule;
-        private AbstractClock clock;
-        boolean useClockControlPanel = true;
-
-        public ApplicationModel( String windowTitle, String description, String version ) {
-            this( windowTitle, description, version, new FrameSetup.CenteredWithInsets( 200, 200 ) );
-        }
-
-        public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup ) {
-            this.windowTitle = windowTitle;
-            this.description = description;
-            this.version = version;
-            this.frameSetup = frameSetup;
-            SimStrings.setStrings( "localization/CommonStrings" );
-        }
-
-        public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, AbstractClock clock ) {
-            this( windowTitle, description, version, frameSetup );
-            setClock( clock );
-            setModules( m );
-            setInitialModule( m[0] );
-        }
-
-        public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module m, AbstractClock clock ) {
-            this( windowTitle, description, version, frameSetup );
-            setClock( clock );
-            setModule( m );
-            setInitialModule( m );
-        }
-
-        public void setName( String name ) {
-            this.name = name;
-        }
-
-        public void setModules( Module[] modules ) {
-            this.modules = modules;
-        }
-
-        public void setModule( Module module ) {
-            this.modules = new Module[]{module};
-        }
-
-        public void setInitialModule( Module initialModule ) {
-            this.initialModule = initialModule;
-        }
-
-        public Module[] getModules() {
-            return modules;
-        }
-
-        public Module getInitialModule() {
-            return initialModule;
-        }
-
-        public AbstractClock getClock() {
-            return clock;
-        }
-
-        public void setClock( AbstractClock clock ) {
-            this.clock = clock;
-        }
-
-        public String getWindowTitle() {
-            return windowTitle;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String getVersion() {
-            return version;
-        }
-
-        public FrameSetup getFrameSetup() {
-            return frameSetup;
-        }
-
-        public void start() {
-            clock.start();
-        }
-
-        public int numModules() {
-            return modules.length;
-        }
-
-        public Module moduleAt( int i ) {
-            return modules[i];
-        }
-
-        public boolean getUseClockControlPanel() {
-            return useClockControlPanel;
-        }
-
-        public void setUseClockControlPanel( boolean useClockControlPanel ) {
-            this.useClockControlPanel = useClockControlPanel;
-        }
-
-        public void setFrameSetup( FrameSetup frameSetup ) {
-            this.frameSetup = frameSetup;
-        }
-
-        public void setFrameCenteredSize( int width, int height ) {
-            setFrameSetup( new FrameSetup.CenteredWithSize( width, height ) );
-        }
-
-        public void setFrameCenteredInsets( int insetX, int insetY ) {
-            setFrameSetup( new FrameSetup.CenteredWithInsets( insetX, insetY ) );
-        }
-
-        /**
-         * The insets are a fallback-plan, when the frame is un-max-extented,
-         * the frame will be centered with these specified insets.
-         *
-         * @param insetX
-         * @param insetY
-         */
-        public void setFrameMaximized( int insetX, int insetY ) {
-            setFrameSetup( new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( insetX, insetY ) ) );
-        }
-
-        public String getName() {
-            return name;
-        }
+    public String getWindowTitle() {
+        return applicationModel.getWindowTitle();
     }
 
+    public String getDescription() {
+        return applicationModel.getDescription();
+    }
 
+    public String getVersion() {
+        return applicationModel.getVersion();
+    }
+
+    public String getName() {
+        return applicationModel.getName();
+    }
+
+    public FrameSetup getFrameSetup() {
+        return applicationModel.getFrameSetup();
+    }
+
+    public boolean getUseClockControlPanel() {
+        return applicationModel.getUseClockControlPanel();
+    }
 }

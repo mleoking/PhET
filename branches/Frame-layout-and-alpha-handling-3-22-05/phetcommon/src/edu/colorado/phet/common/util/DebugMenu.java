@@ -143,7 +143,7 @@ public class DebugMenu extends JMenu {
             this.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     frameRateDlg.setVisible( isSelected() );
-                    startRecording( app.getApplicationModel().getClock(), textArea );
+                    startRecording( app.getClock(), textArea );
                 }
             } );
 
