@@ -73,6 +73,11 @@ public class SimStrings {
             }
         }
 
+        if ( value == null ) {
+            System.err.println( "SimStrings: key not found, key = \"" + key + "\"" );
+            value = key;
+        }
+
         return value;
     }
 }
