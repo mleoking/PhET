@@ -36,7 +36,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
   // Photon delta.
   public static final int PHOTON_DS = 10;
   // White photons are culled by this amount when hitting a filter.
-  private static final double WHITE_CULL_FACTOR = 0.5;
+  private static final double WHITE_CULL_FACTOR = 0.75;
 
 	//----------------------------------------------------------------------------
 	// Instance data
@@ -385,6 +385,7 @@ public class PhotonBeam extends SimpleObservable implements SimpleObserver, Mode
         // last filtered photon was passed.
         cull = (int) (count - (count * lastPercentPassed / 100));
       }
+      System.out.println("culling " + cull );
       
       // Cull the photons by marking them as available.
       for ( int i = 0; i < cull; i++ )
