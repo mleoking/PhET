@@ -10,6 +10,8 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +40,17 @@ public class SingleNucleusFissionControlPanel extends JPanel {
         } );
 
         try {
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
             GraphicsUtil.addGridBagComponent( this, fireNeutronBtn,
+                                              0, rowIdx++,
+                                              1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.CENTER );
+            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
@@ -52,5 +64,9 @@ public class SingleNucleusFissionControlPanel extends JPanel {
         catch( AWTException e ) {
             e.printStackTrace();
         }
+
+        BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Controls" );
+        this.setBorder( titledBorder );
     }
 }
