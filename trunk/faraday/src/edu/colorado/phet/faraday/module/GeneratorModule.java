@@ -24,6 +24,7 @@ import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.TurbinePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.util.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.CompassGridRescaler;
 import edu.colorado.phet.faraday.view.*;
@@ -93,9 +94,6 @@ public class GeneratorModule extends FaradayModule {
         // Do NOT set the size -- size is set by the associated TurbineGraphic.
         model.addModelElement( turbineModel );
         
-        // Rescaler
-        IRescaler rescaler = new CompassGridRescaler( turbineModel );
-        
         // Compass
         Compass compassModel = new Compass( turbineModel ); 
         compassModel.setLocation( COMPASS_LOCATION );
@@ -115,10 +113,10 @@ public class GeneratorModule extends FaradayModule {
         // Lightbulb
         Lightbulb lightbulbModel = new Lightbulb( pickupCoilModel );
         lightbulbModel.setEnabled( true );
+        lightbulbModel.setScale( 10.0 );
         
         // Volt Meter
         Voltmeter voltmeterModel = new Voltmeter( pickupCoilModel );
-        voltmeterModel.setRescaler( rescaler );
         voltmeterModel.setRotationalKinematicsEnabled( true );
         voltmeterModel.setEnabled( false );
         model.addModelElement( voltmeterModel );
@@ -141,13 +139,16 @@ public class GeneratorModule extends FaradayModule {
         PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model,
                 pickupCoilModel, lightbulbModel, voltmeterModel, turbineModel );
         pickupCoilGraphic.setDraggingEnabled( false );
+        pickupCoilGraphic.setElectronSpeedRescaler( new ElectronSpeedRescaler( turbineModel ) );
+        pickupCoilGraphic.setLightbulbRescaler( new LightbulbRescaler( turbineModel ) );
+        pickupCoilGraphic.setVoltmeterRescaler( new VoltmeterRescaler( turbineModel) );
         apparatusPanel.addChangeListener( pickupCoilGraphic );
         apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, turbineModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescaler( rescaler );
+        gridGraphic.setRescaler( new CompassGridRescaler( turbineModel ) );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         gridGraphic.setVisible( false );

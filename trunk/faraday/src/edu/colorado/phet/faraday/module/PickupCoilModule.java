@@ -25,6 +25,9 @@ import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.CompassGridRescaler;
+import edu.colorado.phet.faraday.util.ElectronSpeedRescaler;
+import edu.colorado.phet.faraday.util.LightbulbRescaler;
+import edu.colorado.phet.faraday.util.VoltmeterRescaler;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -134,6 +137,9 @@ public class PickupCoilModule extends FaradayModule {
         // Pickup Coil
         PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
                 pickupCoilModel, lightbulbModel, voltmeterModel, barMagnetModel );
+        pickupCoilGraphic.setElectronSpeedRescaler( new ElectronSpeedRescaler( barMagnetModel ) );
+        pickupCoilGraphic.setLightbulbRescaler( new LightbulbRescaler( barMagnetModel ) );
+        pickupCoilGraphic.setVoltmeterRescaler( new VoltmeterRescaler( barMagnetModel) );
         apparatusPanel.addChangeListener( pickupCoilGraphic );
         apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );

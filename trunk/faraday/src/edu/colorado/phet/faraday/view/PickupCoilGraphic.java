@@ -24,7 +24,6 @@ import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
@@ -105,11 +104,6 @@ public class PickupCoilGraphic
         _coilGraphic = new CoilGraphic( component, pickupCoilModel, baseModel );
         _lightbulbGraphic = new LightbulbGraphic( component, lightbulbModel );;
         _voltmeterGraphic = new VoltmeterGraphic( component, voltmeterModel );
-        
-        // Rescalers
-        _coilGraphic.setRescaler( new ElectronSpeedRescaler( magnetModel ) );
-        _lightbulbGraphic.setRescaler( new LightbulbRescaler( magnetModel ) );
-        _voltmeterGraphic.setRescaler( new VoltmeterRescaler( magnetModel) );
         
         // Foreground composition
         _foreground = new CompositePhetGraphic( component );
@@ -216,10 +210,47 @@ public class PickupCoilGraphic
         }
     }
     
+    /**
+     * Sets the rescaler for electron speed.
+     * 
+     * @param rescaler
+     */
+    public void setElectronSpeedRescaler( ElectronSpeedRescaler rescaler ) {
+        _coilGraphic.setRescaler( rescaler );
+    }
+    
+    /**
+     * Sets the rescaler for the lightbulb intensity.
+     * 
+     * @param rescaler
+     */
+    public void setLightbulbRescaler( LightbulbRescaler rescaler ) {
+        _lightbulbGraphic.setRescaler( rescaler );
+    }
+    
+    /**
+     * Set the rescaler for the voltmeter reading.
+     * 
+     * @param rescaler
+     */
+    public void setVoltmeterRescaler( VoltmeterRescaler rescaler ) {
+        _voltmeterGraphic.setRescaler( rescaler );
+    }
+    
+    /**
+     * Enables or disabled the display of debugging info.
+     * 
+     * @param displayFluxEnabled true or false
+     */
     public static void setDisplayFluxEnabled( boolean displayFluxEnabled ) {
         _displayFluxEnabled = displayFluxEnabled;
     }
     
+    /**
+     * Is the display of debugging info enabled?
+     * 
+     * @return true or false
+     */
     public static boolean isDisplayFluxEnabled() {
         return _displayFluxEnabled;
     }
