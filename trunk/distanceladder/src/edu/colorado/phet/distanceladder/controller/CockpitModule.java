@@ -51,8 +51,6 @@ public class CockpitModule extends Module {
         setApparatusPanel( apparatusPanel );
         setModel( model );
 
-        setControlPanel( new CockpitControlPanel( this ) );
-
         photometerReticle = new PhotometerReticle( apparatusPanel );
         photometerReticle.setLocation( 0, 0 );
 //        photometerReticle.setLocation( 200, 200 );
@@ -71,7 +69,10 @@ public class CockpitModule extends Module {
         apparatusPanel.addGraphic( starViewGraphic, Config.starLayer );
 
         parallaxReticle = new ParallaxReticle( apparatusPanel, cockpitGraphic.getBounds(), Config.viewAngle );
-        orientationReticle = new OrientationReticle( cockpitGraphic.getBounds(), Config.viewAngle );
+        orientationReticle = new OrientationReticle( apparatusPanel, Config.viewAngle );
+//        orientationReticle = new OrientationReticle( cockpitGraphic.getBounds(), Config.viewAngle );
+
+        setControlPanel( new CockpitControlPanel( this ) );
     }
 
     public StarField getStarField() {
@@ -143,5 +144,9 @@ public class CockpitModule extends Module {
 
     public PhotometerReticle getPhotometerReticle() {
         return photometerReticle;
+    }
+
+    public Starship getStarship() {
+        return model.getStarShip();
     }
 }

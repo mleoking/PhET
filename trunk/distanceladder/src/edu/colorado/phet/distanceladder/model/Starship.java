@@ -28,6 +28,12 @@ public class Starship extends Body {
         return pov;
     }
 
+    public void setPov( double x, double y, double theta ) {
+        setLocation( x, y );
+        getPov().setLocation( x, y );
+        getPov().setTheta( theta );
+    }
+
     public void setPov( PointOfView pov ) {
         this.pov = pov;
         getLocation().setLocation( pov );
@@ -45,5 +51,11 @@ public class Starship extends Body {
 
     public void setStarView( StarView starView ) {
         this.starView = starView;
+    }
+
+    public void move( double jumpDistance, double jumpDirection ) {
+        double dx = jumpDistance * Math.cos( jumpDirection );
+        double dy = jumpDistance * Math.sin( jumpDirection );
+        setPov( getLocation().getX() + dx, getLocation().getY() + dy, getPov().getTheta() + jumpDirection ); 
     }
 }

@@ -12,7 +12,6 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.coreadditions.Body;
-import edu.colorado.phet.distanceladder.model.Star;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -36,16 +35,7 @@ public class PhotometerReticle extends DefaultInteractiveGraphic implements Tran
     }
 
     public void translate( double dx, double dy ) {
-        setLocation( location.getX() + dx, location.getY() + dy );
-        Point2D.Double newPt = new Point2D.Double();
-        try {
-            hitTx.inverseTransform( location, newPt );
-        }
-        catch( NoninvertibleTransformException e ) {
-            e.printStackTrace();
-        }
-        photometer.setLocation( newPt );
-//        photometer.setLocation( location.getX() - container.getWidth() / 2, location.getY() - container.getHeight() / 2 );
+        setLocation( location.getX() + dx / hitTx.getScaleX(), location.getY() + dy / hitTx.getScaleY() );
     }
 
     public void setLocation( Point2D.Double location ) {
@@ -55,31 +45,16 @@ public class PhotometerReticle extends DefaultInteractiveGraphic implements Tran
     public void setLocation( double x, double y ) {
         this.location.setLocation( x, y );
         photometer.setLocation( location );
-//        photometer.setLocation( location.getX() - container.getWidth() / 2, location.getY() - container.getHeight() / 2 );
         container.repaint();
     }
 
     public void paint( Graphics2D g ) {
-//        g.setColor( Color.white );
-//        Point2D.Double p = new Point2D.Double( );
-//        hitTx.transform( p, p );
-//        Ellipse2D.Double c = new Ellipse2D.Double( );
-//        c.setFrameFromCenter( location.getX(), location.getY(), location.getX() + 10, location.getY() + 10  );
-//        g.draw( c );
-
         atx.setToIdentity();
         atx.translate( location.getX(), location.getY() );
         AffineTransform orgTx = g.getTransform();
         hitTx.setTransform( orgTx );
         hitTx.translate( location.getX(), location.getY() );
         g.transform( atx );
-
-//        g.setColor( Color.white );
-//        Point2D.Double p = new Point2D.Double( );
-//        hitTx.transform( p, p );
-//        Ellipse2D.Double c = new Ellipse2D.Double( );
-//        c.setFrameFromCenter( location.getX(), location.getY(), location.getX() + 10, location.getY() + 10  );
-//        g.draw( c );
 
         super.paint( g );
         g.setTransform( orgTx );
