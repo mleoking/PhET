@@ -70,6 +70,7 @@ public class PositionedHelpItem extends CompositePhetGraphic {
             super.repaint();
         }
         setVisible( enabled && !noTarget );
+        super.setBoundsDirty();
     }
 
     public Rectangle getTextBounds() {

@@ -1,7 +1,10 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.tools;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.common.util.SimpleObservable;
+
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -13,8 +16,10 @@ public class Voltmeter {
     private VoltmeterUnit unit;
     private Lead blackLead;
     private Lead redLead;
+    private CCK3Module module;
 
-    public Voltmeter( double x, double y, double dx ) {
+    public Voltmeter( double x, double y, double dx, CCK3Module module ) {
+        this.module = module;
         this.unit = new VoltmeterUnit( x, y );
         this.blackLead = new Lead( x + dx, y );
         this.redLead = new Lead( x - dx, y );
@@ -54,9 +59,12 @@ public class Voltmeter {
         }
 
         public void translate( double dx, double dy ) {
-            x += dx;
-            y += dy;
-            notifyObservers();
+            Rectangle2D rect = module.getTransform().getModelBounds();
+            if( rect.contains( x + dx, y + dy ) ) {
+                x += dx;
+                y += dy;
+                notifyObservers();
+            }
         }
 
         public double getX() {
@@ -79,9 +87,16 @@ public class Voltmeter {
         }
 
         public void translate( double dx, double dy ) {
-            this.x += dx;
-            this.y += dy;
-            notifyObservers();
+            Rectangle2D rect = module.getTransform().getModelBounds();
+            if( rect.contains( x + dx, y + dy ) ) {
+
+                x += dx;
+                y += dy;
+                notifyObservers();
+            }
+//            this.x += dx;
+//            this.y += dy;
+//            notifyObservers();
         }
 
         public double getX() {

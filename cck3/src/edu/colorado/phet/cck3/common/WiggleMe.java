@@ -67,6 +67,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
             Arrow a = new Arrow( arrowTail, arrowTip, 8, 8, 4, 100, false );
             arrowGraphic.setShape( a.getShape() );
         }
+        super.setBoundsDirty();
     }
 
     public void setCenter( Point center ) {

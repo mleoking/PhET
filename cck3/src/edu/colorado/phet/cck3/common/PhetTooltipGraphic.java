@@ -31,5 +31,6 @@ public class PhetTooltipGraphic extends CompositePhetGraphic {
     public void setPosition( int x, int y ) {
         textGraphic.setPosition( x, y );
         backgroundGraphic.setShape( RectangleUtils.expand( textGraphic.getBounds(), 4, 4 ) );
+        super.setBoundsDirty();
     }
 }

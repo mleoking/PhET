@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3.circuit.tools;
 
+import edu.colorado.phet.cck3.CCK3Module;
 import edu.colorado.phet.cck3.circuit.*;
 import edu.colorado.phet.cck3.common.TargetReadoutTool;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
@@ -20,25 +21,30 @@ public class VirtualAmmeter extends DefaultInteractiveGraphic {
     private TargetReadoutTool trt;
     private Component panel;
     private CircuitGraphic circuitGraphic;
+    private CCK3Module module;
     private Circuit circuit;
 
-    public VirtualAmmeter( CircuitGraphic circuitGraphic, Component panel ) {
-        this( new TargetReadoutTool( panel ), panel, circuitGraphic );
+    public VirtualAmmeter( CircuitGraphic circuitGraphic, Component panel, CCK3Module module ) {
+        this( new TargetReadoutTool( panel ), panel, circuitGraphic, module );
     }
 
-    public VirtualAmmeter( TargetReadoutTool targetReadoutTool, final Component panel, final CircuitGraphic circuitGraphic ) {
+    public VirtualAmmeter( TargetReadoutTool targetReadoutTool, final Component panel, final CircuitGraphic circuitGraphic, final CCK3Module module ) {
         super( targetReadoutTool );
         this.trt = targetReadoutTool;
         this.panel = panel;
         this.circuitGraphic = circuitGraphic;
+        this.module = module;
         this.circuit = circuitGraphic.getCircuit();
         trt.setLocation( 100, 100 );
 
         addCursorHandBehavior();
         addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
-                trt.translate( (int)dx, (int)dy );
-                recompute();
+                if( module.getTransform().getViewBounds().contains( trt.getPoint().x + (int)dx, trt.getPoint().y + (int)dy ) ) {
+                    trt.translate( (int)dx, (int)dy );
+                    recompute();
+                }
+
             }
         } );
         resetText();

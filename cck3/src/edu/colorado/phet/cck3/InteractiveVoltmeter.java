@@ -1,6 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.cck3;
 
+import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.cck3.circuit.tools.Voltmeter;
 import edu.colorado.phet.cck3.circuit.tools.VoltmeterGraphic;
 import edu.colorado.phet.common.view.CompositeGraphic;
@@ -70,7 +71,7 @@ public class InteractiveVoltmeter extends CompositeGraphic {
                 setLeadsVertical( jcbmi.isSelected() );
             }
         } );
-        JPopupMenu jpm = new JPopupMenu();
+        JPopupMenu jpm = new CircuitComponentInteractiveGraphic.RepaintyMenu( module.getApparatusPanel() );
         jpm.add( jcbmi );
         unitInteraction.addPopupMenuBehavior( jpm );
         addGraphic( unitInteraction );

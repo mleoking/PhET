@@ -2,12 +2,12 @@
 package edu.colorado.phet.cck3.circuit;
 
 import edu.colorado.phet.cck3.CCK3Module;
+import edu.colorado.phet.cck3.circuit.components.CircuitComponentInteractiveGraphic;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 
-import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -80,7 +80,7 @@ public class InteractiveWireJunctionGraphic extends DefaultInteractiveGraphic im
             }
         };
         addMouseInputListener( input );
-        JPopupMenu menu = new JunctionPopupMenu( getJunction(), this.circuitGraphic, module );
+        CircuitComponentInteractiveGraphic.RepaintyMenu menu = new JunctionPopupMenu( getJunction(), this.circuitGraphic, module );
         addPopupMenuBehavior( menu );
     }
 

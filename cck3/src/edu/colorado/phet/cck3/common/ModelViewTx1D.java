@@ -19,7 +19,7 @@ public class ModelViewTx1D {
     public ModelViewTx1D( double modelValue1, double modelValue2, int viewValue1, int viewValue2 ) {
         this.modelMin = modelValue1;
         this.viewMin = viewValue1;
-         m = ( (double)( viewValue2 - viewValue1 ) ) / ( modelValue2 - modelValue1 );
+        m = ( (double)( viewValue2 - viewValue1 ) ) / ( modelValue2 - modelValue1 );
     }
 
     public double viewToModel( int view ) {

@@ -97,6 +97,18 @@ public class PhetSlider extends JPanel {
         setValue( initialValue );
     }
 
+    public JLabel getTitleLabel() {
+        return titleLabel;
+    }
+
+    public JTextField getTextField() {
+        return textField;
+    }
+
+    public JTextField getUnitsReadout() {
+        return unitsReadout;
+    }
+
     public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
         slider.setEnabled( enabled );

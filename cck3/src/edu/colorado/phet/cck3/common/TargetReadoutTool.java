@@ -88,6 +88,7 @@ public class TargetReadoutTool extends CompositePhetGraphic {
         readoutShapeGraphic.setShape( new Rectangle2D.Double( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight ) );
         textGraphic.setText( text );
         textGraphic.setPosition( readoutLocation.x + 5, readoutLocation.y + readoutHeight / 2 );
+        super.setBoundsDirty();
     }
 
     public void setLocation( int x, int y ) {

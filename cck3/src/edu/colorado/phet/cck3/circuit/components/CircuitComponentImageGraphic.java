@@ -70,6 +70,7 @@ public class CircuitComponentImageGraphic extends CompositePhetGraphic implement
         shape = new BasicStroke( 6 ).createStrokedShape( shape );
         highlightGraphic.setShape( shape );
         highlightGraphic.setVisible( component.isSelected() );
+        super.setBoundsDirty();
     }
 
     private AffineTransform createTransform() {

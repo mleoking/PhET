@@ -46,7 +46,7 @@ public class Circuit {
             fireJunctionAdded( junction );
         }
         else {
-            System.out.println( "Already contained junction." );
+//            System.out.println( "Already contained junction." );
         }
     }
 
@@ -359,9 +359,10 @@ public class Circuit {
             double va = a.getVoltageAddon();
             double vb = b.getVoltageAddon();
             double voltInit = ( -va + vb );
-
+            ArrayList ignoreCopy = new ArrayList();
+            ignoreCopy.addAll( ignore );
             double junctionAnswer = getVoltage( ignore, startJ, endJ, 0 );
-            double junctionAnswer2 = getVoltage( ignore, endJ, startJ, 0 );
+            double junctionAnswer2 = getVoltage( ignoreCopy, endJ, startJ, 0 );
             double result = Double.POSITIVE_INFINITY;
             if( !Double.isInfinite( junctionAnswer ) ) {
                 result = junctionAnswer + voltInit;
@@ -395,6 +396,7 @@ public class Circuit {
                 return getVoltage( visited, opposite, target, volts + dv );
             }
         }
+        //no novel path to target, so voltage is infinite
         return Double.POSITIVE_INFINITY;
     }
 
@@ -445,8 +447,13 @@ public class Circuit {
         }
         else if( type.equals( Battery.class.getName() ) ) {
             String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
-            double internalResistance = Double.parseDouble( resVal );
-            Battery batt = new Battery( kl, startJunction, endJunction, length, height, internalResistance );
+            double resistance = Double.parseDouble( resVal );
+
+            double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
+//            String internalResistanceOnStr = xml.getAttribute( "connectAtRight", "false" );
+//            boolean internalResistanceOn = internalResistanceOnStr != null && internalResistanceOnStr.equals( new Boolean( true ).toString() );
+            Battery batt = new Battery( kl, startJunction, endJunction, length, height, CCK3Module.MIN_RESISTANCE, module.isInternalResistanceOn() );
+            batt.setInternalResistance( internalResistance );
             String voltVal = xml.getAttribute( "voltage", Double.NaN + "" );
             double val = Double.parseDouble( voltVal );
             batt.setVoltageDrop( val );
@@ -506,8 +513,10 @@ public class Circuit {
                 branchElement.setAttribute( "height", cc.getHeight() + "" );
             }
             if( branch instanceof Battery ) {
+                Battery batt = (Battery)branch;
                 branchElement.setAttribute( "voltage", branch.getVoltageDrop() + "" );
                 branchElement.setAttribute( "resistance", branch.getResistance() + "" );
+                branchElement.setAttribute( "internalResistance", batt.getInteralResistance() + "" );
             }
             else if( branch instanceof Resistor ) {
                 branchElement.setAttribute( "resistance", branch.getResistance() + "" );

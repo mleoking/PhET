@@ -42,6 +42,7 @@ public class CCK3ControlPanel extends JPanel {
 
     public CCK3ControlPanel( final CCK3Module module ) {
         advancedControlPanel = new AdvancedControlPanel( module );
+        advancedControlPanel.setBorder( null );
         JLabel titleLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) );
         titleLabel.setToolTipText( "<html>Click to visit<br>the PhET webpage.</html>" );
         titleLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
@@ -100,7 +101,7 @@ public class CCK3ControlPanel extends JPanel {
                     double x1 = rand.nextDouble() * 10;
                     double y1 = rand.nextDouble() * 10;
                     Battery batt = new Battery( new Point2D.Double( x1, y1 ), new ImmutableVector2D.Double( 1, 0 ),
-                                                CCK3Module.BATTERY_DIMENSION.getLength(), CCK3Module.BATTERY_DIMENSION.getHeight(), module.getKirkhoffListener(), 0 );
+                                                CCK3Module.BATTERY_DIMENSION.getLength(), CCK3Module.BATTERY_DIMENSION.getHeight(), module.getKirkhoffListener(), 0, false );
                     module.getCircuit().addBranch( batt );
                     module.getCircuitGraphic().addGraphic( batt );
                     System.out.println( "i = " + i );
@@ -119,13 +120,14 @@ public class CCK3ControlPanel extends JPanel {
         GridBagConstraints constraints = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 );
         controlPanel.add( filePanel, constraints );
         constraints.gridy++;
-        controlPanel.add( circuitPanel, constraints );
-        constraints.gridy++;
         controlPanel.add( visualPanel, constraints );
         constraints.gridy++;
         controlPanel.add( toolPanel, constraints );
         constraints.gridy++;
         controlPanel.add( sizePanel, constraints );
+        constraints.gridy++;
+
+        controlPanel.add( circuitPanel, constraints );
         constraints.gridy++;
 
         add( controlPanel, BorderLayout.CENTER );
@@ -149,7 +151,7 @@ public class CCK3ControlPanel extends JPanel {
         } );
         zoom.setSize( 50, zoom.getPreferredSize().height );
         zoom.setPreferredSize( new Dimension( 50, zoom.getPreferredSize().height ) );
-        //        add( zoom );
+//                add( zoom );
 
         JPanel zoomPanel = new JPanel();
         zoomPanel.setLayout( new BoxLayout( zoomPanel, BoxLayout.Y_AXIS ) );
@@ -242,7 +244,14 @@ public class CCK3ControlPanel extends JPanel {
     }
 
     private JPanel makeVisualPanel() {
-
+        final JCheckBox showReadouts = new JCheckBox( "Show Values" );
+        showReadouts.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                boolean r = showReadouts.isSelected();
+                module.getCircuitGraphic().setAllReadoutsVisible( r );
+                module.getApparatusPanel().repaint();
+            }
+        } );
         JRadioButton lifelike = new JRadioButton( "Lifelike", true );
         JRadioButton schematic = new JRadioButton( "Schematic", false );
         ButtonGroup bg = new ButtonGroup();
@@ -262,8 +271,12 @@ public class CCK3ControlPanel extends JPanel {
         JPanel visualizationPanel = new JPanel();
 //        visualizationPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Visual" ) );
         visualizationPanel.setLayout( new BoxLayout( visualizationPanel, BoxLayout.Y_AXIS ) );
+
         visualizationPanel.add( lifelike );
         visualizationPanel.add( schematic );
+        if( !module.isVirtualLabMode() ) {
+            visualizationPanel.add( showReadouts );
+        }
 //        return placeInPanel( "Visual", visualizationPanel, new Insets( 0, 10, 0, 10 ) );
         return placeInPanel( "Visual", visualizationPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
@@ -495,7 +508,20 @@ public class CCK3ControlPanel extends JPanel {
         //        filePanel.add( save );
         //        filePanel.add( load );
 
+        JButton clear = new JButton( "Clear" );
+        clear.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                boolean needsClearing = module.getCircuit().numBranches() != 0 || module.getCircuit().numJunctions() != 0;
+                if( needsClearing ) {
+                    int answer = JOptionPane.showConfirmDialog( module.getApparatusPanel(), "Delete the entire circuit and start over?" );
+                    if( answer == JOptionPane.OK_OPTION ) {
+                        module.clear();
+                    }
+                }
+            }
+        } );
         JPanel filePanelContents = new JPanel();
+        filePanelContents.add( clear );
         filePanelContents.add( save );
         filePanelContents.add( load );
 
@@ -531,40 +557,39 @@ public class CCK3ControlPanel extends JPanel {
     }
 
     private JPanel makeCircuitPanel() {
-        JButton clear = new JButton( "Clear" );
-        clear.addActionListener( new ActionListener() {
+//        JCheckBox advanced = new JCheckBox( "Advanced", false );
+//        advanced.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                advancedControlPanel.showDialog();
+//            }
+//        } );
+
+        JPanel circuitPanel = new JPanel();
+
+        circuitPanel.setLayout( new BoxLayout( circuitPanel, BoxLayout.Y_AXIS ) );
+//        circuitPanel.add( advanced );
+        final String enable = "Enable >>";
+        final String disable = "Disable <<";
+        final JButton expand = new JButton( enable );
+        expand.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                int answer = JOptionPane.showConfirmDialog( module.getApparatusPanel(), "Delete the entire circuit and start over?" );
-                if( answer == JOptionPane.OK_OPTION ) {
-                    module.clear();
+                if( expand.getText().equals( enable ) ) {
+                    advancedControlPanel.setVisible( true );
+                    expand.setText( disable );
+                    module.setAdvancedEnabled( true );
+                }
+                else {
+                    advancedControlPanel.setVisible( false );
+                    expand.setText( enable );
+                    module.setAdvancedEnabled( false );
                 }
             }
         } );
 
-        final JCheckBox showReadouts = new JCheckBox( "Show Values" );
-        showReadouts.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                boolean r = showReadouts.isSelected();
-                module.getCircuitGraphic().setAllReadoutsVisible( r );
-                module.getApparatusPanel().repaint();
-            }
-        } );
-        JButton advanced = new JButton( "Advanced" );
-        advanced.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                advancedControlPanel.showDialog();
-            }
-        } );
-        advanced.setToolTipText( "advanced tooltip" );
-        JPanel circuitPanel = new JPanel();
-        circuitPanel.setLayout( new BoxLayout( circuitPanel, BoxLayout.Y_AXIS ) );
-//        circuitPanel.add( printKirkhoffsLaws );
-        circuitPanel.add( advanced );
-        circuitPanel.add( clear );
-        if( !module.isVirtualLabMode() ) {
-            circuitPanel.add( showReadouts );
-        }
-        return placeInPanel( "Circuit", circuitPanel, BASIC_INSETS, GridBagConstraints.WEST );
+        advancedControlPanel.setVisible( false );
+        circuitPanel.add( expand );
+        circuitPanel.add( advancedControlPanel );
+        return placeInPanel( "Advanced", circuitPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
     public boolean isSeriesAmmeterSelected() {
@@ -575,25 +600,37 @@ public class CCK3ControlPanel extends JPanel {
 
     class AdvancedControlPanel extends JPanel {
         private CCK3Module module;
-        JDialog dialog;
+        private JDialog dialog;
         private PhetSlider resistivitySlider;
-//        private PhetSlider batteryInternalResistance;
+        private GridBagConstraints constraints;
+        private JCheckBox internalResistanceEnabled;
+
+        void addMe( Component component ) {
+//            System.out.println( "constraints = " + constraints.gridy );
+            add( component, constraints );
+            constraints.gridy++;
+        }
 
         public AdvancedControlPanel( final CCK3Module module ) {
             this.module = module;
-            setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-            final JCheckBox resistivityEnabled = new JCheckBox( "Resistivity", module.getResistivityManager().isEnabled() );
-            resistivityEnabled.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    module.setResistivityEnabled( resistivityEnabled.isSelected() );
-                    resistivitySlider.setEnabled( resistivityEnabled.isSelected() );
-                    if( resistivityEnabled.isSelected() ) {
-                        resistivitySlider.requestSliderFocus();
-                    }
-                }
-            } );
-            add( resistivityEnabled );
+            Insets insets = new Insets( 0, 0, 0, 0 );
+            int gridHeight = 4;
+            constraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
+            setLayout( new GridBagLayout() );
+//            final JCheckBox resistivityEnabled = new JCheckBox( "Resistivity", module.getResistivityManager().isEnabled() );
+//            resistivityEnabled.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    module.setResistivityEnabled( resistivityEnabled.isSelected() );
+//                    resistivitySlider.setEnabled( resistivityEnabled.isSelected() );
+//                    if( resistivityEnabled.isSelected() ) {
+//                        resistivitySlider.requestSliderFocus();
+//                    }
+//                }
+//            } );
+//            addMe( resistivityEnabled );
             resistivitySlider = new PhetSlider( "Wire Resistivity", "resistance/length", 0, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
+            resistivitySlider.setBorder( null );
+            resistivitySlider.getTitleLabel().setFont( CCKLookAndFeel.getFont() );
             resistivitySlider.setNumMajorTicks( 5 );
             resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
 
@@ -604,22 +641,26 @@ public class CCK3ControlPanel extends JPanel {
             highLabel.setFont( labelFont );
 
             resistivitySlider.setExtremumLabels( lowLabel, highLabel );
-            add( resistivitySlider );
+            resistivitySlider.getTextField().setVisible( false );
+            resistivitySlider.getUnitsReadout().setVisible( false );
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+            addMe( resistivitySlider );
+            constraints.fill = GridBagConstraints.NONE;
             resistivitySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     double value = resistivitySlider.getValue();
                     module.getResistivityManager().setResistivity( value );
                 }
             } );
-            resistivitySlider.setEnabled( resistivityEnabled.isSelected() );
+//            resistivitySlider.setEnabled( resistivityEnabled.isSelected() );
 
-            final JCheckBox internalResistanceEnabled = new JCheckBox( "Battery Internal Resistance Editable", module.isInternalResistanceOn() );
+            internalResistanceEnabled = new JCheckBox( "<html>Battery<br>Internal Resistance</html>", module.isInternalResistanceOn() );
             internalResistanceEnabled.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setInternalResistanceOn( internalResistanceEnabled.isSelected() );
                 }
             } );
-            add( internalResistanceEnabled );
+            addMe( internalResistanceEnabled );
 
             JButton printKirkhoffsLaws = new JButton( "Show Equations" );
             printKirkhoffsLaws.addActionListener( new ActionListener() {
@@ -627,7 +668,7 @@ public class CCK3ControlPanel extends JPanel {
                     printEm();
                 }
             } );
-            add( printKirkhoffsLaws );
+            addMe( printKirkhoffsLaws );
 
             JButton close = new JButton( "Close" );
             close.addActionListener( new ActionListener() {
@@ -635,8 +676,6 @@ public class CCK3ControlPanel extends JPanel {
                     dialog.setVisible( false );
                 }
             } );
-            add( Box.createRigidArea( new Dimension( 0, 30 ) ) );
-            add( close );
         }
 
         public void showDialog() {
@@ -665,6 +704,10 @@ public class CCK3ControlPanel extends JPanel {
         catch( MalformedURLException e ) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isInternalResistanceEnabled() {
+        return advancedControlPanel.internalResistanceEnabled.isSelected();
     }
 }
 

@@ -29,6 +29,10 @@
         Build File.
     </description>
 
+    <taskdef name="copyclasspath" classname="org.reids.anttasks.CopyClasspath" classpath="${antutil}"/>
+    <taskdef name="createresourcetag" classname="org.reids.anttasks.CreateResourcesTag" classpath="${antutil}"/>
+    <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile" classpath="${antutil}"/>
+
     <target name="Clean Dependencies">
         <delete dir="${idea.classes}"></delete>
         <mkdir dir="${idea.classes}"></mkdir>
@@ -177,10 +181,6 @@
         <CreateBatchFile mainJar="bin/${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>
     </target>
 
-    <taskdef name="copyclasspath" classname="org.reids.anttasks.CopyClasspath"/>
-    <taskdef name="createresourcetag" classname="org.reids.anttasks.CreateResourcesTag"/>
-    <taskdef name="CreateBatchFile" classname="org.reids.anttasks.CreateBatchFile"/>
-
     <target name="Copy Classpath To lib">
         <delete dir="${lib}"/>
         <copyclasspath directory="${lib}" ignore="${ignorepath}"/>
@@ -207,7 +207,7 @@
                 <include name="${distname}.jnlp"></include>
             </fileset>
         </copy>
-        <copyclasspath directory="${destdir}/lib" ignore="${ignorepath}"/>
+        <!--        <copyclasspath directory="${destdir}/lib" ignore="${ignorepath}"/>-->
         <CreateBatchFile mainJar="${distname}.jar" libDir="${destdir}/lib" mainClassName="${main.class}" outputFile="${destdir}/run_${distname}.bat"/>
         <exec dir="${destdir}" executable="explorer">
             <arg line="${destdir}"/>
