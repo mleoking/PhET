@@ -32,8 +32,9 @@ public interface ICollidable {
     
     /**
      * Gets the bounds that define the collidable area of the object.
+     * If an object is invisible, the bounds returned should be null.
      * 
-     * @return an array of Rectangle
+     * @return an array of Rectangle, possibly null
      */
     public Rectangle[] getCollisionBounds();
 }
