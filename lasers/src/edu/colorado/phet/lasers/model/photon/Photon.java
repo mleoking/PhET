@@ -78,9 +78,12 @@ public class Photon extends Particle implements Collidable {
                                    stimulatingPhoton.getVelocity() );
         int yOffset = stimulatingPhoton.numStimulatedPhotons * 8;
         int sign = random.nextBoolean() ? 1 : -1;
-        double dy = yOffset * sign;
+        double dy = yOffset * sign * ( stimulatingPhoton.getVelocity().getX() / stimulatingPhoton.getVelocity().getMagnitude() );
+        double dx = yOffset * -sign * ( stimulatingPhoton.getVelocity().getY() / stimulatingPhoton.getVelocity().getMagnitude() );
+//        double dy = yOffset * sign * (stimulatingPhoton.getVelocity().getX() != 0 ? 1 : 0 );
+//        double dx = yOffset * sign * (stimulatingPhoton.getVelocity().getY() != 0 ? 1 : 0 );
         double newY = stimulatingPhoton.getPosition().getY() + dy;
-        double newX = stimulatingPhoton.getPosition().getX();
+        double newX = stimulatingPhoton.getPosition().getX() + dx;
         // Keep the photon inside the cavity.
         // todo: if we get the photon graphic positioned better, this may change.
         double minY = stimulationBounds.getMinY() + Photon.RADIUS;

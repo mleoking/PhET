@@ -57,9 +57,9 @@ public class HighEnergyState extends AtomicState {
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
             Vector2D vHat = new Vector2D.Double( photon.getVelocity() ).normalize();
-            vHat.scale( atom.getRadius() + 10 );
+//            vHat.scale( atom.getRadius() + 10 );
             Point2D position = new Point2D.Double( atom.getPosition().getX() + vHat.getX(),
-                                                   atom.getPosition().getY() + vHat.getY() );
+                                                   atom.getPosition().getY() + vHat.getY() + atom.getRadius() * 2 );
             photon.setPosition( position );
             Photon emittedPhoton = Photon.createStimulated( photon, position, atom );
             atom.emitPhoton( emittedPhoton );
@@ -71,14 +71,14 @@ public class HighEnergyState extends AtomicState {
         // If the photon has the same energy level as the difference between
         // this state and the high energy one, then we go to that state
         // TODO: I don't think this can ever happen, so it can come out
-        if( photon.getEnergy() == HighEnergyState.instance().getEnergyLevel() - this.getEnergyLevel() ) {
-
-            // Absorb the photon and change state
-            photon.removeFromSystem();
-
-            // Change state
-            atom.setCurrState( HighEnergyState.instance() );
-        }
+//        if( photon.getEnergy() == HighEnergyState.instance().getEnergyLevel() - this.getEnergyLevel() ) {
+//
+//            // Absorb the photon and change state
+//            photon.removeFromSystem();
+//
+//            // Change state
+//            atom.setCurrState( HighEnergyState.instance() );
+//        }
     }
 
     public AtomicState getNextLowerEnergyState() {

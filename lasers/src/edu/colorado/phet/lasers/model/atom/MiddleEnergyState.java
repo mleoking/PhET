@@ -67,11 +67,11 @@ public class MiddleEnergyState extends AtomicState {
         // If the photon has the same energy level as the difference between
         // this state and another one, then we go to that state
         // Find where we are in the list of states the atom can be in
-        AtomicState newState = getStimulatedState( atom, photon, HighEnergyState.instance().getEnergyLevel() - this.getEnergyLevel() );
-        if( newState != null ) {
-            photon.removeFromSystem();
-            atom.setCurrState( newState );
-        }
+//        AtomicState newState = getStimulatedState( atom, photon, HighEnergyState.instance().getEnergyLevel() - this.getEnergyLevel() );
+//        if( newState != null ) {
+//            photon.removeFromSystem();
+//            atom.setCurrState( newState );
+//        }
     }
 
     public AtomicState getNextLowerEnergyState() {

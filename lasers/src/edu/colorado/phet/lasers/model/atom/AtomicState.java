@@ -121,10 +121,12 @@ public abstract class AtomicState {
     public AtomicState getStimulatedState( Atom atom, Photon photon, double energy ) {
         AtomicState result = null;
         AtomicState[] states = atom.getStates();
+        double energyThreshold = 0.5E-38;
         for( int stateIdx = states.length - 1;
              stateIdx >= 0 && states[stateIdx] != this && result == null;
              stateIdx-- ) {
-            if( photon.getEnergy() == states[stateIdx].getEnergyLevel() - energy ) {
+            double de = photon.getEnergy() - ( states[stateIdx].getEnergyLevel() - energy );
+            if( Math.abs( de ) < energyThreshold ) {
                 result = states[stateIdx];
             }
         }

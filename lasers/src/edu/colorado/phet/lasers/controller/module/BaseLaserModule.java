@@ -470,6 +470,7 @@ public class BaseLaserModule extends Module {
                 Atom atom = (Atom)source;
                 if( atom.getCurrState() instanceof HighEnergyState
                     && !displayHighLevelEmissions ) {
+//                    isPhotonGraphicVisible = true;
                     isPhotonGraphicVisible = false;
                 }
                 else {
