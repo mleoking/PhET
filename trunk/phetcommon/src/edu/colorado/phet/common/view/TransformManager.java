@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -13,7 +14,7 @@ import java.awt.geom.NoninvertibleTransformException;
  * Copyright (c) Feb 27, 2005 by Sam Reid
  */
 
-class TransformManager {
+public class TransformManager {
     private JComponent component;
     private AffineTransform graphicTx = new AffineTransform();
     private AffineTransform mouseTx = new AffineTransform();
@@ -25,6 +26,7 @@ class TransformManager {
     private Dimension canvasSize = new Dimension();
     private double scale = 1.0;
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
+    private Point2D viewPointOrigin = new Point2D.Double();
 
     public TransformManager( JComponent component ) {
         this.component = component;
@@ -72,6 +74,7 @@ class TransformManager {
     public void setScale( double scale ) {
 
         graphicTx = AffineTransform.getScaleInstance( scale, scale );
+        graphicTx.translate( viewPointOrigin.getX(), viewPointOrigin.getY() );
         this.scale = scale;
         if( DEBUG_OUTPUT_ENABLED ) {
             System.out.println( "ApparatusPanel2.setScale: scale=" + scale );
@@ -89,7 +92,6 @@ class TransformManager {
     }
 
     public boolean determineCanvasSize() {
-
         double refAspectRatio = referenceBounds.getHeight() / referenceBounds.getWidth();
         double currAspectRatio = ( (double)component.getHeight() ) / component.getWidth();
         double widthFactor = 1;
@@ -106,5 +108,27 @@ class TransformManager {
             return true;
         }
         return false;
+    }
+
+    public void setReferenceSize( int width, int height ) {
+        referenceSizeSet = true;
+        referenceBounds = new Rectangle( width, height );
+
+        double asX = ( (double)width ) / component.getWidth();
+        double asY = ( (double)height ) / component.getHeight();
+        double aspectRatio = Math.min( 1.0 / asX, 1.0 / asY );
+        setScale( aspectRatio );
+        component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
+
+        System.out.println( "referenceBounds = " + referenceBounds );
+    }
+
+    public Point2D getViewPortOrigin() {
+        return viewPointOrigin;
+    }
+
+    public void setViewPortOrigin( double x, double y ) {
+        this.viewPointOrigin.setLocation( x, y );
+        setScale( getScale() );
     }
 }
