@@ -10,17 +10,14 @@
  */
 package edu.colorado.phet.idealgas.controller.menus;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.StopwatchPanel;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -43,9 +40,9 @@ public class OptionsMenu extends JMenu {
         movableWallModule = new MovableWallsModule( application.getApplicationModel().getClock() );
 
 //        this.add( new AdvancedMenu() );
-        this.add( new AdvancedPanels() );
-        this.add( new MoleculeInteractions() );
-        this.add( new Stopwatch() );
+        this.add( new AdvancedPanelsMI() );
+        this.add( new MoleculeInteractionsMI() );
+        this.add( new AddHeatFromFloorMI() );
     }
 
     //----------------------------------------------------------------
@@ -54,18 +51,17 @@ public class OptionsMenu extends JMenu {
     private class AdvancedMenu extends JMenu {
         public AdvancedMenu() {
             super( "Advanced Options" );
-            this.add( new AdvancedPanels() );
-            this.add( new MoleculeInteractions() );
-            this.add( new Stopwatch() );
+            this.add( new AdvancedPanelsMI() );
+            this.add( new MoleculeInteractionsMI() );
         }
     }
 
-    private class AdvancedPanels extends JCheckBoxMenuItem {
-        public AdvancedPanels() {
-            super( "Advanced Panels", false );
+    private class AdvancedPanelsMI extends JCheckBoxMenuItem {
+        public AdvancedPanelsMI() {
+            super( "OptionsMenu.Advanced_panels", false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if( AdvancedPanels.this.isSelected() ) {
+                    if( AdvancedPanelsMI.this.isSelected() ) {
                         application.getModuleManager().addModule( movableWallModule );
                         application.getModuleManager().addModule( diffusionModule );
                     }
@@ -78,40 +74,26 @@ public class OptionsMenu extends JMenu {
         }
     }
 
-    private class MoleculeInteractions extends JCheckBoxMenuItem {
-        public MoleculeInteractions() {
-            super( SimStrings.get( "MeasurementControlPanel.Molecules-interact" ), true );
-
+    private class MoleculeInteractionsMI extends JCheckBoxMenuItem {
+        public MoleculeInteractionsMI() {
+            super( SimStrings.get( "MeasurementControlPanel.Molecules_interact" ), true );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    GasMolecule.enableParticleParticleInteractions( MoleculeInteractions.this.isSelected() );
+                    GasMolecule.enableParticleParticleInteractions( MoleculeInteractionsMI.this.isSelected() );
                 }
             } );
         }
     }
 
-    private class Stopwatch extends JCheckBoxMenuItem {
-        private StopwatchPanel stopwatchPanel;
-
-        public Stopwatch() {
-            super( "Stopwatch", false );
-
-            ApplicationModel appModel = application.getApplicationModel();
-            stopwatchPanel = new StopwatchPanel( appModel.getClock() );
+    private class AddHeatFromFloorMI extends JCheckBoxMenuItem {
+        public AddHeatFromFloorMI() {
+            super( SimStrings.get( "OptionsMenu.Add_remove_heat_from_floor_only"), false );
             addActionListener( new ActionListener() {
-                PhetFrame frame = application.getPhetFrame();
-
                 public void actionPerformed( ActionEvent e ) {
-                    if( isSelected() ) {
-                        frame.getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
-                        frame.getClockControlPanel().revalidate();
-                    }
-                    else {
-                        frame.getClockControlPanel().remove( stopwatchPanel );
-                        frame.getClockControlPanel().revalidate();
-                    }
+                    IdealGasConfig.heatOnlyFromFloor = isSelected();
                 }
             } );
         }
     }
+
 }

@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,22 +31,28 @@ public class MeasurementDialog extends JDialog {
         GridBagConstraints gbc = null;
 
         Insets insets = new Insets( 0, 10, 0, 0 );
-        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+        gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
                                       GridBagConstraints.WEST,
                                       GridBagConstraints.NONE,
                                       insets, 0, 0 );
         panel.add( new PressureSliceControl(), gbc );
-        gbc.gridy = 2;
         panel.add( new RulerControl(), gbc );
-        gbc.gridy = 3;
         panel.add( new HistogramControlPanel(), gbc );
-        gbc.gridy = 4;
         panel.add( new CmLinesControl(), gbc );
-        gbc.gridy = 5;
         panel.add( new SpeciesMonitorControl(), gbc );
+        panel.add( new StopwatchControl(), gbc );
 
         this.pack();
     }
+
+    //----------------------------------------------------------------
+    // Controls to be put on the dialog
+    //----------------------------------------------------------------
+
+    /**
+     * These controls are each done a s JPanel, so they can have multiple widgets if necessary
+     */
+
 
     class PressureSliceControl extends JPanel {
         PressureSliceControl() {
@@ -117,6 +123,20 @@ public class MeasurementDialog extends JDialog {
                     dlg.addWindowListener( windowListener );
                 }
             } );
+        }
+    }
+
+    class StopwatchControl extends JPanel {
+
+        public StopwatchControl() {
+           final JCheckBox stopwatchCB = new JCheckBox( "MeasurementControlPanel.Stopwatch", false );
+            stopwatchCB.addActionListener( new ActionListener() {
+                PhetFrame frame = PhetApplication.instance().getPhetFrame();
+                public void actionPerformed( ActionEvent e ) {
+                    module.stopwatchEnabled( stopwatchCB.isSelected() );
+                }
+            } );
+            this.add( stopwatchCB );
         }
     }
 }

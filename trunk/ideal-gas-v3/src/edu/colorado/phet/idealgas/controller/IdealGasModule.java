@@ -8,6 +8,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.collision.SphereSphereExpert;
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
@@ -15,12 +16,14 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.StopwatchPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
@@ -76,6 +79,7 @@ public class IdealGasModule extends Module {
     private JDialog averagingControlDlg;
     private Box2DGraphic boxGraphic;
     private JPanel pressureSlideTimeAveCtrlPane;
+    private StopwatchPanel stopwatchPanel;
 
 
     public IdealGasModule( AbstractClock clock ) {
@@ -196,7 +200,7 @@ public class IdealGasModule extends Module {
 
         // Place a slider to control the stove
         StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
-        stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 80,
+        stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
                                      IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
         getApparatusPanel().add( stoveControlPanel );
 
@@ -429,6 +433,10 @@ public class IdealGasModule extends Module {
                                               (int)getApparatusPanel().getBounds().getHeight() );
     }
 
+    /**
+     * @param histogramDlgEnabled
+     * @return
+     */
     public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
         if( histogramDlg == null ) {
             histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getPhetFrame(),
@@ -442,6 +450,22 @@ public class IdealGasModule extends Module {
             visibleInstruments.remove( histogramDlg );
         }
         return histogramDlg;
+    }
+
+    public void stopwatchEnabled( boolean stopwatchEnabled ) {
+        ApplicationModel appModel = PhetApplication.instance().getApplicationModel();
+        PhetFrame frame = PhetApplication.instance().getPhetFrame();
+        if( stopwatchEnabled ) {
+            stopwatchPanel = new StopwatchPanel( appModel.getClock() );
+            frame.getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
+            frame.getClockControlPanel().revalidate();
+            visibleInstruments.add( stopwatchPanel );
+        }
+        else {
+            frame.getClockControlPanel().remove( stopwatchPanel );
+            frame.getClockControlPanel().revalidate();
+            visibleInstruments.remove( stopwatchPanel );
+        }
     }
 
     public void activate( PhetApplication app ) {

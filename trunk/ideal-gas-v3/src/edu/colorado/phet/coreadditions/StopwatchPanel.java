@@ -81,6 +81,9 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
         add( startStopBtn );
         add( resetBtn );
         add( clockTF );
+
+        // Clear the clock
+        resetClock();
     }
 
     private void resetClock() {

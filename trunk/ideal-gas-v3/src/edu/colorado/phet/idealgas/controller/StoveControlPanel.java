@@ -7,7 +7,6 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.IdealGasConfig;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -17,8 +16,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Hashtable;
@@ -45,8 +42,7 @@ public class StoveControlPanel extends JPanel {
         this.setOpaque( false );
         this.add( stovePanel );
 
-        JPanel stoveSliderPanel = new JPanel();
-
+//        JPanel stoveSliderPanel = new JPanel();
         // The following commented code is left from the days that we had small icons
         // to the left of the slider. I'm leaving the commented code in here, just in
         // case we want to go back to that
@@ -97,23 +93,14 @@ public class StoveControlPanel extends JPanel {
                 stoveSlider.setValue( 0 );
             }
         } );
-        stoveSliderPanel.add( stoveSlider );
-
-        final JCheckBox heatSourceCB = new JCheckBox( SimStrings.get( "IdealGasControlPanel.Add_remove_heat_from_floor_only" ) );
-        heatSourceCB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                IdealGasConfig.heatOnlyFromFloor = heatSourceCB.isSelected();
-            }
-        } );
+//        stoveSliderPanel.add( stoveSlider );
 
         // Put the panel together
         stovePanel.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = null;
         gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         stovePanel.add( stoveSlider, gbc );
-        stovePanel.add( stoveSliderPanel, gbc );
-        gbc = new GridBagConstraints( 1, 0, 1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        stovePanel.add( heatSourceCB, gbc );
+//        stovePanel.add( stoveSliderPanel, gbc );
 
         Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
                                                             new Color( 40, 20, 255 ),
@@ -124,7 +111,6 @@ public class StoveControlPanel extends JPanel {
         Color background = new Color( 240, 230, 255 );
         stovePanel.setBackground( background );
         stoveSlider.setBackground( background );
-        heatSourceCB.setBackground( background );
         stovePanel.getLayout().layoutContainer( this );
     }
 }
