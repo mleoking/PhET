@@ -33,13 +33,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
  * @version $Revision$
  */
 public class SineWaveGraphic extends PhetShapeGraphic {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // Change in X for each line segment drawn.
-    private static final int DX = 1;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -165,49 +158,49 @@ public class SineWaveGraphic extends PhetShapeGraphic {
     
     /**
      * Updates the graphic to match the current paramter settings.
-     * As a performance optimization, you must call this method explicitly
+     * The sine wave is approximated using a set of line segments.
+     * The zero crossing (180 phase) of the center-most cycle is at the origin.
+     * <p>
+     * NOTE! As a performance optimization, you must call this method explicitly
      * after changing paramter values.
      */
     public void update() {
         
         if ( isVisible() ) {
             
-            // Number of lines to fill the viewport.
-            final int numLines = ( _viewportSize.width / DX ) - 1;
             // Number of wave cycles to fill the viewport at the current frequency.
             final double numCycles = _frequency * _maxCycles;
             // Change in angle per change in X.
-            final double deltaAngle = Math.toRadians( numCycles * 360 / numLines );
+            final double deltaAngle = ( 2 * Math.PI * numCycles ) / _viewportSize.width;
             
-            /*
-             * Approximate the sine wave using line segments.
-             * Keep the zero-crossing of one cycle centered at the origin.
-             * Flip the sign on the Y coordinates so that +Y is up.
-             */
-            {
-                GeneralPath wavePath = new GeneralPath();
-                
-                // Move to the starting location, at the far left.
-                double angle = ( Math.PI  ) - ( deltaAngle * numLines / 2.0 );
-                double x = -( _viewportSize.width / 2.0 );
-                double y = _amplitude * Math.sin( angle ) * _viewportSize.height / 2.0;
-                wavePath.moveTo( (float) x, (float) -y );
-                
-                // Start & end angles
-                _startAngle = _endAngle = ( ( 2 * Math.PI ) - Math.abs( angle % ( 2 * Math.PI ) ) ) % ( 2 * Math.PI );
-                
-                // Add lines, moving from left to right.
-                for ( int i = 0; i < numLines; i++ ) {
-                    angle += deltaAngle;
-                    _endAngle += deltaAngle;
-                    x += DX;
-                    y = _amplitude * Math.sin( angle ) * _viewportSize.height / 2;
-                    wavePath.lineTo( (float) x, (float) -y ); 
-                }
-                
-                setShape( wavePath );
+            GeneralPath positivePath = new GeneralPath();
+            GeneralPath negativePath = new GeneralPath();
+
+            // Start with 180 degree phase angle at (0,0).
+            final double phaseAngle = Math.PI;
+            positivePath.moveTo( 0, 0 );
+            negativePath.moveTo( 0, 0 );
+
+            // Work outwards in positive and negative X directions.
+            double angle = 0;
+            for ( double x = 1; x <= _viewportSize.width / 2.0; x++ ) {
+                angle = phaseAngle + ( x * deltaAngle );
+                double y = _amplitude * Math.sin( angle ) * _viewportSize.height / 2;
+                positivePath.lineTo( (float) x, (float) -y );  // +Y is up
+                negativePath.lineTo( (float) -x, (float) y );  // +Y is up
             }
             
+            // Set the shape.
+            positivePath.append( negativePath, false );
+            setShape( positivePath );
+
+            /* 
+             * Make start & end angle positive value,
+             * effectively shifts the values right while maintaining phase.
+             */
+            _startAngle = ( ( 2 * Math.PI ) - ( angle % ( 2 * Math.PI) ) ) % ( 2 * Math.PI );
+            _endAngle = _startAngle + ( 2 * ( angle - phaseAngle ) );
+   
             repaint();
         }
     }
