@@ -28,4 +28,8 @@ public class UniverseModel extends BaseModel {
     public Starship getStarShip() {
         return starShip;
     }
+
+    public void setStarField( StarField starField ) {
+        this.starField = starField;
+    }
 }

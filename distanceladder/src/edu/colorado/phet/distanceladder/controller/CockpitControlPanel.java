@@ -8,10 +8,12 @@
 package edu.colorado.phet.distanceladder.controller;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.distanceladder.model.*;
+import edu.colorado.phet.coreadditions.StringResourceReader;
 
 import java.util.List;
 import javax.swing.*;
@@ -26,6 +28,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Format;
 import java.text.DecimalFormat;
+import java.net.URL;
+import java.io.*;
 
 public class CockpitControlPanel extends JPanel {
     private CockpitModule module;
@@ -124,17 +128,19 @@ public class CockpitControlPanel extends JPanel {
         private String disableString = "Disable";
 
         private JButton parallaxReticleBtn;
-        private String parallaxHelp = "<html>"
-                                      + "<h2>How to Measure Distances Using Parallax</h2>"
-                                      + "<ol>"
-                                      + "<li>Display the measuring reticle.</li><li>Using the slider, line up the star whose distance you would like to measure with one of the vertical reticle lines.</li>"
-                                      + "<li>Press the &quot;Mark&quot; button to set the offset readout to 0.</li>"
-                                      + "<li>Move the slider left or right until the star you are measuring lines up with another verticle reticle line.</li>"
-                                      + "<li>Count the number of verticle reticle lines through which the star moved and enter this number in the &quot;Reticle Offset&quot; field.</li>"
-                                      + "<li>Click on the &quot;Compute&quot; button.</li>"
-                                      + "<li>The distance to the star will be displayed in the &quot;Distance&quot; field.   </li>"
-                                      + "</ol>"
-                                      + "</html> ";
+        private String parallaxHelp;
+        ;
+//        private String parallaxHelp = "<html>"
+//                                      + "<h2>How to Measure Distances Using Parallax</h2>"
+//                                      + "<ol>"
+//                                      + "<li>Display the measuring reticle.</li><li>Using the slider, line up the star whose distance you would like to measure with one of the vertical reticle lines.</li>"
+//                                      + "<li>Press the &quot;Mark&quot; button to set the offset readout to 0.</li>"
+//                                      + "<li>Move the slider left or right until the star you are measuring lines up with another verticle reticle line.</li>"
+//                                      + "<li>Count the number of verticle reticle lines through which the star moved and enter this number in the &quot;Reticle Offset&quot; field.</li>"
+//                                      + "<li>Click on the &quot;Compute&quot; button.</li>"
+//                                      + "<li>The distance to the star will be displayed in the &quot;Distance&quot; field.   </li>"
+//                                      + "</ol>"
+//                                      + "</html> ";
         private double leftRightSliderFactor = 100;
         private JTextField alphaTF;
         private JTextField betaTF;
@@ -148,6 +154,10 @@ public class CockpitControlPanel extends JPanel {
 
         public ParallaxPanel() {
             super( new GridBagLayout() );
+
+            // Load messages
+            StringResourceReader srr = new StringResourceReader();
+            parallaxHelp = srr.read( "messages/parallax-help.html" );
 
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Parallax Instrument" );
@@ -192,11 +202,11 @@ public class CockpitControlPanel extends JPanel {
             } );
 
             markBtn = new JButton( new AbstractAction( "Mark" ) {
-                            public void actionPerformed( ActionEvent e ) {
-                                markRef = leftRightSlider.getValue();
-                                leftRightTF.setText( "0" );
-                            }
-                        } );
+                public void actionPerformed( ActionEvent e ) {
+                    markRef = leftRightSlider.getValue();
+                    leftRightTF.setText( "0" );
+                }
+            } );
 
 
             alphaTF = new JTextField( 6 );
@@ -210,23 +220,23 @@ public class CockpitControlPanel extends JPanel {
             final Format distFormatter = new DecimalFormat( "##.0" );
 
             computeBtn = new JButton( new AbstractAction( "Compute" ) {
-                            public void actionPerformed( ActionEvent e ) {
-                                double b = Double.parseDouble( leftRightTF.getText() ) / leftRightSliderFactor;
-                                double alpha = Math.toRadians( Double.parseDouble( alphaTF.getText() ));
-                                double beta = Math.toRadians( Double.parseDouble( betaTF.getText() ));
-                                double d = b / ( Math.tan( beta ) - Math.tan( alpha ));
-                                resultTF.setText( distFormatter.format( new Double( d )));
-                            }
-                        } );
+                public void actionPerformed( ActionEvent e ) {
+                    double b = Double.parseDouble( leftRightTF.getText() ) / leftRightSliderFactor;
+                    double alpha = Math.toRadians( Double.parseDouble( alphaTF.getText() ) );
+                    double beta = Math.toRadians( Double.parseDouble( betaTF.getText() ) );
+                    double d = b / ( Math.tan( beta ) - Math.tan( alpha ) );
+                    resultTF.setText( distFormatter.format( new Double( d ) ) );
+                }
+            } );
             computeBtn.setEnabled( false );
 
             alphaTF.getDocument().addDocumentListener( new DocumentListener() {
                 public void changedUpdate( DocumentEvent e ) {
-                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) && !betaTF.getText().equals( "" ));
+                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) && !betaTF.getText().equals( "" ) );
                 }
 
                 public void insertUpdate( DocumentEvent e ) {
-                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) && !betaTF.getText().equals( "" ));
+                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) && !betaTF.getText().equals( "" ) );
                 }
 
                 public void removeUpdate( DocumentEvent e ) {
@@ -249,13 +259,13 @@ public class CockpitControlPanel extends JPanel {
             } );
 
             helpBtn = new JButton( new AbstractAction( "Help" ) {
-                            public void actionPerformed( ActionEvent e ) {
-                                JOptionPane.showMessageDialog( ParallaxPanel.this.getRootPane(),
-                                                               new JEditorPane( "text/html; charset=iso-8859-1", parallaxHelp ),
-                                                               "Help",
-                                                               JOptionPane.INFORMATION_MESSAGE );
-                            }
-                        } );
+                public void actionPerformed( ActionEvent e ) {
+                    JOptionPane.showMessageDialog( ParallaxPanel.this.getRootPane(),
+                                                   new JEditorPane( "text/html; charset=iso-8859-1", parallaxHelp ),
+                                                   "Help",
+                                                   JOptionPane.INFORMATION_MESSAGE );
+                }
+            } );
 
             int rowIdx = 0;
             try {
@@ -417,11 +427,11 @@ public class CockpitControlPanel extends JPanel {
                     module.getStarship().move( jumpDistance );
                     module.getStarView().update();
                 }
-            });
+            } );
 
             int rowIdx = 0;
             try {
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Jump distance"),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( "Jump distance" ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
@@ -429,7 +439,7 @@ public class CockpitControlPanel extends JPanel {
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Jump direction"),
+                GraphicsUtil.addGridBagComponent( this, new JLabel( "Jump direction" ),
                                                   0, rowIdx++, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );

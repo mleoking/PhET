@@ -23,4 +23,8 @@ public class Exercise extends FsmState {
 //            FsmTransition transition = new FsmTransition( new Choice( model.getChoices()[i]) );
 //        }
     }
+
+    public void doIt() {
+        view.doIt();
+    }
 }

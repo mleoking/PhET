@@ -7,8 +7,6 @@
  */
 package edu.colorado.phet.distanceladder.exercise;
 
-import edu.colorado.phet.coreadditions.fsm.FsmState;
-
 public class ExerciseModel {
     private String question;
     private Answer[] choices;
