@@ -221,8 +221,8 @@ public class Electron extends Body {
         if( distanceFromSource == 0.0 ) {
             distanceFromSource = 1;
         }
-        //        float dubsonFactor = (float)( Math.abs( location.getX() - this.getStartPosition().getX() ) / distanceFromSource );
-        //        dynamicFieldStrength.multiply( dubsonFactor );
+        float dubsonFactor = (float)( Math.abs( location.getX() - this.getStartPosition().getX() ) / distanceFromSource );
+        dynamicFieldStrength.scale( dubsonFactor );
 
         return dynamicFieldStrength;
     }
