@@ -15,6 +15,9 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.LineGrid;
 import edu.colorado.phet.common.view.util.MouseTracker;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -39,6 +42,7 @@ public class DebugMenu extends JMenu {
 
         this.add( new GridMenuItem() );
         this.add( new MouseTrackerMenuItem() );
+        this.add( new FrameRateMenuItem() );
     }
 
     private ApparatusPanel getApparatusPanel() {
@@ -51,6 +55,9 @@ public class DebugMenu extends JMenu {
     // Menu Items
     //----------------------------------------------------------------
 
+    /**
+     * Displays/hides a 100 pixel-spaced grid
+     */
     private class GridMenuItem extends JCheckBoxMenuItem {
         public GridMenuItem() {
             super( "Grid" );
@@ -82,6 +89,9 @@ public class DebugMenu extends JMenu {
 
     }
 
+    /**
+     * Shows/hides a MouseTracker
+     */
     private class MouseTrackerMenuItem extends JCheckBoxMenuItem {
         private HashMap appPanelToTracker = new HashMap();
 
@@ -103,6 +113,53 @@ public class DebugMenu extends JMenu {
                             appPanel.removeGraphic( tracker );
                             appPanelToTracker.remove( appPanel );
                         }
+                    }
+                }
+            } );
+        }
+    }
+
+    /**
+     * Shows/hides a window that reports the frame rate every second
+     */
+    private class FrameRateMenuItem extends JCheckBoxMenuItem {
+        private JDialog frameRateDlg;
+
+        public FrameRateMenuItem() {
+            super( "Show frame rate" );
+            this.setMnemonic( 'f' );
+            frameRateDlg = new JDialog( app.getPhetFrame(), "Frame Rate", false );
+            JTextArea textArea = new JTextArea( 10, 5 );
+            frameRateDlg.getContentPane().add( new JScrollPane( textArea,
+                                                                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                                                                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+            frameRateDlg.setUndecorated( true );
+            frameRateDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
+            frameRateDlg.pack();
+
+            this.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                        frameRateDlg.setVisible( isSelected() );
+                }
+            } );
+
+            startRecording( app.getApplicationModel().getClock(), textArea );
+        }
+
+        void startRecording( AbstractClock clock, final JTextArea textArea ) {
+            clock.addClockTickListener( new ClockTickListener() {
+                int frameCnt = 0;
+                long lastTickTime = System.currentTimeMillis();
+                long averagingTime = 1000;
+
+                public void clockTicked( ClockTickEvent event ) {
+                    frameCnt++;
+                    long currTime = System.currentTimeMillis();
+                    if( currTime - lastTickTime > averagingTime ) {
+                        double rate = frameCnt * 1000 / ( currTime - lastTickTime );
+                        lastTickTime = currTime;
+                        frameCnt = 0;
+                        textArea.append( "    " + Double.toString( rate ) + "\n" );
                     }
                 }
             } );
