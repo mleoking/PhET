@@ -21,6 +21,7 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
+/**Test comment.*/
 public class TestClock extends PhetApplication {
 
     public TestClock(ApplicationDescriptor descriptor, Module m, AbstractClock clock) {
