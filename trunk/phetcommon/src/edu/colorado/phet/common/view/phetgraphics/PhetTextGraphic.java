@@ -31,7 +31,16 @@ public class PhetTextGraphic extends PhetGraphic {
         this.text = text;
         this.color = color;
         this.fontMetrics = component.getFontMetrics( font );
+        resetRegistrationPoint();
         setLocation( x, y );
+    }
+
+    private void resetRegistrationPoint() {
+        int ascent = fontMetrics.getAscent();
+        int descent = fontMetrics.getDescent();
+        int leading = fontMetrics.getLeading();
+        int height = ascent + descent + leading;
+        setRegistrationPoint( 0, -height );
     }
 
     public void paint( Graphics2D g ) {
@@ -98,6 +107,8 @@ public class PhetTextGraphic extends PhetGraphic {
         this.fontMetrics = getComponent().getFontMetrics( font );
         setBoundsDirty();
         autorepaint();
+        //TODO should we keep whatever registration point the user may have set?
+        resetRegistrationPoint();
     }
 
 }
