@@ -101,7 +101,7 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
             Point p = getLocation();
             AbstractVector2D strength = _magnetModel.getStrength( p );
             _needle.setDirection( Math.toDegrees( strength.getAngle() ) );
-            //System.out.println( "B = " + strength.getMagnitude() + " @ " + Math.toDegrees( strength.getAngle() ) ); // DEBUG
+            System.out.println( "B = " + strength.getMagnitude() + " @ " + Math.toDegrees( strength.getAngle() ) ); // DEBUG
         }
     }
 
