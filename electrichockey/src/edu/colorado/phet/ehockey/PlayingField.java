@@ -1,5 +1,7 @@
 package edu.colorado.phet.ehockey;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
