@@ -58,6 +58,9 @@ public class ImageLoader {
     public BufferedImage loadImage( String name ) throws IOException {
         ClassLoader cl = this.getClass().getClassLoader();
         URL imageUrl = cl.getResource( name );
+        if( imageUrl == null ) {
+            throw new IOException( "Null image URL for resource name=" + name );
+        }
         Image image = loadStrategy.loadImage( imageUrl );
         BufferedImage buffy = conversionStrategy.toBufferedImage( image );
         return buffy;
@@ -128,8 +131,7 @@ public class ImageLoader {
                 Image image = null;
                 try {
                     if( imageLocation == null ) {
-                        System.out.println( "Image resource not found: " + imageLocation );
-                        throw new IOException( "Image resource not found: " + imageLocation );
+                        throw new IOException( "Image resource not found: Null imagelocation URL" );
                     }
                     else {
                         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -146,6 +148,9 @@ public class ImageLoader {
         }
 
         public Image loadImage( URL location ) throws IOException {
+            if( location == null ) {
+                throw new IOException( "Null URL Location" );
+            }
             Image im = null;
             try {
                 ResourceLoader r = new ResourceLoader();
