@@ -5,7 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- water wheel hitches as it rotates, because it's adjusting to hit critial angles
+- if water wheel hits critical angles, then its rotation appears jerky at some speeds
 - make electrons move at same speed whether grid is on or off
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 - calibrate lightbulb
@@ -41,7 +41,6 @@ CLEANUP:
 POSSIBLE OPTIMIZATIONS:
 - use a profiler (eg JProfile) to identify bottlenecks
 - draw grid needles as images instead of shapes
-- draw the needles into a buffered image, then blit it to the screen
 - cache grid needles at N-degree angles to eliminate rotation transform
 - eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf
 
@@ -306,6 +305,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(3/23) - draw the needles into a buffered image, then blit it to the screen (slower)
 (3/23) - flatten static components of TurbineGraphic (water needs to be between wheel and magnet)
 (3/17) - add playback controls to relevant modules (code & semantics do not support this on a per-Module basis)
 (3/16) - collision detection in Generator & Transformer modules (fine as is)
