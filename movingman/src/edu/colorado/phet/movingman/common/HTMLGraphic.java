@@ -56,4 +56,21 @@ public class HTMLGraphic {
         this.x = x;
         this.y = y;
     }
+
+    public Rectangle getShape() {
+        Dimension d = label.getPreferredSize();
+        return new Rectangle( x, y - d.height, d.width, d.height );
+    }
+
+    public String getText() {
+        return label.getText();
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

@@ -3,11 +3,11 @@ package edu.colorado.phet.movingman.elements;
 
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
+import edu.colorado.phet.movingman.application.MovingManModule;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
-import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.Observable;
@@ -20,6 +20,7 @@ import java.util.Observable;
  */
 public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
     String timeStr;
+    private MovingManModule module;
     Timer recordingTimer;
     int x;
     int y;
@@ -28,7 +29,8 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
     DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
     private FontRenderContext frc;
 
-    public TimeGraphic( Timer recordingTimer, Timer playbackTimer, int x, int y ) {
+    public TimeGraphic( MovingManModule module, Timer recordingTimer, Timer playbackTimer, int x, int y ) {
+        this.module = module;
         this.recordingTimer = recordingTimer;
         this.x = x;
         this.y = y;
@@ -42,8 +44,10 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
         this.frc = g.getFontRenderContext();
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g.setFont( f );
-
         g.drawString( timeStr, x, y );
+        g.setColor( Color.green );
+        g.setStroke( new BasicStroke() );
+        g.draw( getShape() );
     }
 
     public void update( Observable o, Object arg ) {
@@ -51,7 +55,18 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
         Timer tx = (Timer)o;
         double scalarTime = tx.getTime();
         double seconds = scalarTime;// * timerDisplayScale; //TIMING
+        Rectangle r = getShape();
         this.timeStr = decimalFormat.format( seconds ) + " seconds";
+        paintImmediately( r, getShape() );
+    }
+
+    private void paintImmediately( Rectangle r, Rectangle r2 ) {
+        if( r == null || r2 == null ) {
+            return;
+        }
+        Rectangle union = r2.union( r );
+//        System.out.println( "union = " + union );
+        module.getApparatusPanel().paintImmediately( union );
     }
 
     public boolean canHandleMousePress( MouseEvent event ) {
@@ -73,18 +88,17 @@ public class TimeGraphic implements InteractiveGraphic, ObservingGraphic {
     public void mouseExited( MouseEvent event ) {
     }
 
-    public Area getClipArea() {
+    public Rectangle getShape() {
         if( frc == null ) {
-            return new Area();
+            return null;
         }
         else {
             Rectangle2D bound = f.getStringBounds( this.timeStr, frc );
             Rectangle2D.Double out = new Rectangle2D.Double( bound.getX(), bound.getY(), bound.getWidth(), bound.getHeight() );
             out.x = x;
-            out.y = y;
-            return new Area( out );
+            out.y = y - out.height;
+            return new Rectangle( (int)out.x, (int)out.y, (int)out.width, (int)out.height );
         }
-
     }
 
 }

@@ -7,10 +7,7 @@ import edu.colorado.phet.common.view.graphics.ObservingGraphic;
 import edu.colorado.phet.movingman.application.MovingManModule;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.IllegalPathStateException;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -89,7 +86,6 @@ public class BoxedPlot implements ObservingGraphic {
             Shape origClip = g.getClip();
             g.setClip( getOutputBox() );
             g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-//            g.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
             g.draw( path );
             g.setClip( origClip );
             g.setStroke( origStroke );
@@ -97,6 +93,7 @@ public class BoxedPlot implements ObservingGraphic {
     }
 
     public void update( Observable o, Object arg ) {
+//        Rectangle repaintRect = null;
         if( transform == null ) {
             return;
         }
@@ -112,6 +109,7 @@ public class BoxedPlot implements ObservingGraphic {
             rawData = new ArrayList();
         }
         else {
+            Rectangle s1 = null;
             float position = (float)mh.getLastPoint();// * scale + yoffset;
             Point2D.Double pt = new Point2D.Double( time - xShift, position );
             rawData.add( pt );
@@ -123,7 +121,6 @@ public class BoxedPlot implements ObservingGraphic {
             }
             else if( started ) {
                 if( visible && buffer.getImage() != null ) {
-
                     Point2D.Double a = (Point2D.Double)transformedData.get( transformedData.size() - 2 );
                     Point2D.Double b = (Point2D.Double)transformedData.get( transformedData.size() - 1 );
                     this.bufferGraphic = (Graphics2D)buffer.getImage().getGraphics();
@@ -132,17 +129,36 @@ public class BoxedPlot implements ObservingGraphic {
                     bufferGraphic.setColor( color );
                     bufferGraphic.setStroke( stroke );
                     bufferGraphic.setClip( outputBox );
-                    bufferGraphic.drawLine( (int)b.x, (int)b.y, (int)a.x, (int)a.y );
+                    Line2D.Double line = new Line2D.Double( b.x, b.y, a.x, a.y );
+                    bufferGraphic.draw( line );
+                    s1 = stroke.createStrokedShape( line ).getBounds();
                     bufferGraphic.setStroke( origStroke );
                 }
                 try {
+                    Point2D curpt = path.getCurrentPoint();
                     path.lineTo( (float)pt.x, (float)pt.y );
+                    Point2D pt2 = path.getCurrentPoint();
+                    Line2D.Double newLine = new Line2D.Double( curpt, pt2 );
+
+                    Rectangle s2 = stroke.createStrokedShape( newLine ).getBounds();
+                    if( s1 != null ) {
+                        s2 = s1.union( s2 );
+                    }
+                    paintImmediately( s2 );
                 }
                 catch( IllegalPathStateException ipse ) {
                     ipse.printStackTrace();
                 }
             }
         }
+    }
+
+    private Rectangle expand( Rectangle repaintRect, int dx, int dy ) {
+        return new Rectangle( repaintRect.x - dx / 2, repaintRect.y - dy / 2, repaintRect.width + dx, repaintRect.height + dy );
+    }
+
+    private void paintImmediately( Rectangle rect ) {
+        module.getApparatusPanel().paintImmediately( rect );
     }
 
     public Rectangle2D.Double getInputBounds() {

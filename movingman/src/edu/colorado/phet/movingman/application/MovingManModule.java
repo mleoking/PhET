@@ -6,10 +6,12 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.transforms.functions.RangeToRange;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Clock;
+import edu.colorado.phet.common.model.ClockTickListener;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.command.Command;
 import edu.colorado.phet.common.view.*;
 import edu.colorado.phet.common.view.graphics.BufferedGraphicForComponent;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.movingman.application.motionsuites.MotionSuite;
 import edu.colorado.phet.movingman.elements.*;
@@ -75,9 +77,53 @@ public class MovingManModule extends Module {
     private int numAccSmoothPoints;
     private static boolean addJEP = true;
 
+    class RepaintDebugPanel extends ApparatusPanel {
+        public RepaintDebugPanel() {
+            super.setDoubleBuffered( false );
+        }
+
+        public void repaint( long tm, int x, int y, int width, int height ) {
+            super.repaint( tm, x, y, width, height );
+        }
+
+        public void repaint( Rectangle r ) {
+            super.repaint( r );
+        }
+
+        public void repaint() {
+            super.repaint();
+        }
+
+        public void repaint( long tm ) {
+            super.repaint( tm );
+        }
+
+        public void repaint( int x, int y, int width, int height ) {
+            super.repaint( x, y, width, height );
+        }
+
+        public void paintImmediately( int x, int y, int w, int h ) {
+            super.paintImmediately( x, y, w, h );
+        }
+
+        public void paintImmediately( final Rectangle r ) {
+//            repaint( r.x,r.y,r.width, r.height);
+//            if( mode instanceof PlaybackMode ) {
+//                RepaintDebugPanel.super.paintImmediately( r );
+//            }
+//            else {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    RepaintDebugPanel.super.paintImmediately( r );
+                }
+            } );
+        }
+//        }
+    }
+
     public MovingManModule() throws IOException {
         super( "The Moving Man" );
-        ApparatusPanel mypanel = new ApparatusPanel();
+        ApparatusPanel mypanel = new RepaintDebugPanel();
         mypanel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
         super.setApparatusPanel( mypanel );
         final BaseModel model = new BaseModel() {
@@ -105,10 +151,15 @@ public class MovingManModule extends Module {
 
         manPositionTransform = new RangeToRange( -maxManPosition, maxManPosition, 50, 600 );
         manGraphic = new ManGraphic( this, man, 0, manPositionTransform );
+        getModel().addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                manGraphic.update();
+            }
+        } );
         getApparatusPanel().addGraphic( manGraphic, 1 );
         recordingTimer = new Timer( TIMER_SCALE );
         playbackTimer = new Timer( TIMER_SCALE );
-        timerGraphic = new TimeGraphic( recordingTimer, playbackTimer, 80, 40 );
+        timerGraphic = new TimeGraphic( this, recordingTimer, playbackTimer, 80, 40 );
         getApparatusPanel().addGraphic( timerGraphic, 1 );
 
         walkwayGraphic = new WalkWayGraphic( this, 11 );
@@ -227,7 +278,7 @@ public class MovingManModule extends Module {
         GridLineGraphic accelGrid = new GridLineGraphic( accelGraphic, new BasicStroke( 1.0f ), Color.gray, 10, 5, Color.yellow, "Acceleration" );
         accelGrid.setPaintYLines( new double[]{-50, -25, 0, 25, 50} );
         backgroundGraphic.addGraphic( accelGrid, 2 );
-        ValueGraphic accelString = new ValueGraphic( this, recordingTimer, playbackTimer, acceleration.getSmoothedDataSeries(), "Acceleration=", "<html>m/s<sup>2</html>", textCoord.x, textCoord.y, accelGraphic );
+        ValueGraphic accelString = new ValueGraphic( this, recordingTimer, playbackTimer, acceleration.getSmoothedDataSeries(), "Acceleration=", "m/s^2", textCoord.x, textCoord.y, accelGraphic );
         getApparatusPanel().addGraphic( accelString, 5 );
         accelerationPlot = new PlotAndText( accelGraphic, accelString, accelGrid );
     }
@@ -262,12 +313,12 @@ public class MovingManModule extends Module {
      * Overrides.
      */
     public void activateInternal( PhetApplication app ) {
-        getModel().addObserver( getApparatusPanel() );
+//        getModel().addObserver( getApparatusPanel() );
         this.activate( app );
     }
 
     public void deactivateInternal( PhetApplication app ) {
-        getModel().deleteObserver( getApparatusPanel() );
+//        getModel().deleteObserver( getApparatusPanel() );
         this.deactivate( app );
     }
 
@@ -365,17 +416,7 @@ public class MovingManModule extends Module {
         Component c = getApparatusPanel();
         backgroundGraphic.setSize( c.getWidth(), c.getHeight() );
         backgroundGraphic.paintBufferedImage();
-        new Thread( new Runnable() {
-            public void run() {
-                try {
-                    Thread.sleep( 100 );
-                    backgroundGraphic.paintBufferedImage();
-                }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-                }
-            }
-        } ).start();
+        getApparatusPanel().repaint();
     }
 
     public void activate( PhetApplication app ) {
@@ -689,6 +730,9 @@ public class MovingManModule extends Module {
             }
         } );
         new Thread( dofix ).start();
+//        RepaintDebugGraphic rdp = new RepaintDebugGraphic( m, m.getApparatusPanel(), tpa.getApplicationModel().getClock() );
+//        m.backgroundGraphic.addGraphic( rdp, -100 );
+
     }
 
     private static void addJEP( MovingManModule module ) {
@@ -728,6 +772,60 @@ public class MovingManModule extends Module {
     public void disableIdeaGraphics() {
         manGraphic.setShowIdea( false );
     }
+
+
+    /**
+     * User: Sam Reid
+     * Date: Jul 1, 2004
+     * Time: 3:33:37 AM
+     * Copyright (c) Jul 1, 2004 by Sam Reid
+     */
+    public static class RepaintDebugGraphic implements Graphic, ClockTickListener {
+        private int r = 255;
+        private int g = 255;
+        private int b = 255;
+        private MovingManModule module;
+        private ApparatusPanel panel;
+        private boolean active = false;
+        private Clock clock;
+
+        public RepaintDebugGraphic( MovingManModule module, ApparatusPanel panel, Clock clock ) {
+            this.module = module;
+            this.panel = panel;
+            this.clock = clock;
+            setActive( true );
+        }
+
+        public void paint( Graphics2D gr ) {
+            gr.setColor( new Color( r, g, b ) );
+            gr.fillRect( 0, 0, panel.getWidth(), panel.getHeight() );
+        }
+
+        public void clockTicked( Clock c, double dt ) {
+            r = ( r - 1 + 255 ) % 255;
+            g = ( g - 2 + 255 ) % 255;
+            b = ( b - 3 + 255 ) % 255;
+            module.repaintBackground();
+        }
+
+        public void setActive( boolean active ) {
+            if( this.active == active ) {
+                return;
+            }
+            this.active = active;
+            if( active ) {
+                clock.addClockTickListener( this );
+                panel.addGraphic( this, -100 );
+            }
+            else {
+                clock.removeClockTickListener( this );
+                panel.removeGraphic( this );
+            }
+        }
+
+    }
+
+
 }
 
 

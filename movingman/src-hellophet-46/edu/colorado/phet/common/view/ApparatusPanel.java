@@ -46,14 +46,6 @@ public class ApparatusPanel extends JPanel implements Observer {
     private CompositeGraphic compositeGraphic = new CompositeGraphic();
 
     /**
-     * @param observable
-     */
-    public ApparatusPanel( Observable observable ) {
-        this();
-        observable.addObserver( this );
-    }
-
-    /**
      *
      */
     public ApparatusPanel() {
