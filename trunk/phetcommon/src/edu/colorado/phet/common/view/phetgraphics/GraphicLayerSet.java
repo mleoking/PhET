@@ -75,13 +75,14 @@ public class GraphicLayerSet extends PhetGraphic {
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
             super.saveGraphicsState( g2 );
+
             // Apply rendering hints to all children.
             RenderingHints hints = getRenderingHints();
             if( hints != null ) {
                 g2.setRenderingHints( hints );
             }
-            // Iterate over each child graphic.
 
+            // Iterate over each child graphic.
             Iterator it = graphicMap.iterator();
             while( it.hasNext() ) {
                 PhetGraphic graphic = (PhetGraphic)it.next();
@@ -109,7 +110,7 @@ public class GraphicLayerSet extends PhetGraphic {
     }
 
     /**
-     * Used to see if the mouse is in component InteractiveGraphic
+     * Used to see if the mouse is in one of our child graphics
      *
      * @param x
      * @param y
@@ -422,6 +423,7 @@ public class GraphicLayerSet extends PhetGraphic {
         }
 
         public void mouseReleased( MouseEvent e ) {
+            handleEntranceAndExit( e );
             if( activeUnit != null ) {
                 activeUnit.fireMouseReleased( e );
                 activeUnit = null;//needs to stop getting drag events.
