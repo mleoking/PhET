@@ -18,7 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
 
 /**
  * User: Sam Reid
@@ -81,6 +80,6 @@ public class TestPhetTextField {
         PhetTextField ptf = new PhetTextField( panel, new Font( "Lucida Sans", 0, 28 ), "Hello", Color.blue, 0, 0 );
         panel.addGraphic( ptf );
         ptf.setLocation( 100, 400 );
-        ptf.transform( AffineTransform.getRotateInstance( Math.PI / 32 ) );
+//        ptf.transform( AffineTransform.getRotateInstance( Math.PI / 32 ) );
     }
 }
