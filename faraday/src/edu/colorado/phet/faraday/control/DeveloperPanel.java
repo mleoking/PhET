@@ -225,7 +225,7 @@ public class DeveloperPanel extends JPanel {
          */
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _coilForeColorButton ) {
-                ColorDialog.Listener listener = new ColorDialog.Listener() {
+                ColorChooserFactory.Listener listener = new ColorChooserFactory.Listener() {
                     public void colorChanged( Color color ) {
                         _coilGraphic.setColors( color, null, null );
                     }
@@ -236,10 +236,10 @@ public class DeveloperPanel extends JPanel {
                         _coilGraphic.setColors( color, null, null );
                     }  
                 };
-                ColorDialog.showDialog( "Coil Foreground Color", _apparatusPanel, _coilGraphic.getForegroundColor(), listener );
+                ColorChooserFactory.showDialog( "Coil Foreground Color", _apparatusPanel, _coilGraphic.getForegroundColor(), listener );
             }
             else if ( e.getSource() == _coilMiddleColorButton ) {
-                ColorDialog.Listener listener = new ColorDialog.Listener() {
+                ColorChooserFactory.Listener listener = new ColorChooserFactory.Listener() {
                     public void colorChanged( Color color ) {
                         _coilGraphic.setColors( null, color, null );
                     }
@@ -250,10 +250,10 @@ public class DeveloperPanel extends JPanel {
                         _coilGraphic.setColors( null, color, null );
                     }  
                 };
-                ColorDialog.showDialog( "Coil Middleground Color", _apparatusPanel, _coilGraphic.getMiddlegroundColor(), listener );
+                ColorChooserFactory.showDialog( "Coil Middleground Color", _apparatusPanel, _coilGraphic.getMiddlegroundColor(), listener );
             }
             else if ( e.getSource() == _coilBackColorButton ) {
-                ColorDialog.Listener listener = new ColorDialog.Listener() {
+                ColorChooserFactory.Listener listener = new ColorChooserFactory.Listener() {
                     public void colorChanged( Color color ) {
                         _coilGraphic.setColors( null, null, color );
                     }
@@ -264,7 +264,7 @@ public class DeveloperPanel extends JPanel {
                         _coilGraphic.setColors( null, null, color );
                     }  
                 };
-                ColorDialog.showDialog( "Coil Background Color", _apparatusPanel, _coilGraphic.getBackgroundColor(), listener );
+                ColorChooserFactory.showDialog( "Coil Background Color", _apparatusPanel, _coilGraphic.getBackgroundColor(), listener );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );

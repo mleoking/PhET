@@ -25,19 +25,15 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 
 
 /**
- * ColorDialog is a color chooser and associated listener.
- * Implementation courtesy of Sam Reid.
+ * ColorChooserFactory create color chooser dialogs.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author Sam Reid, Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ColorDialog {
+public class ColorChooserFactory {
 
     /**
      * ColorDialog.Listener is the interface that all client must implement.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
      */
     public interface Listener {
         /** Called when the user selects a color. */
@@ -45,18 +41,21 @@ public class ColorDialog {
         /** Called when the user presses the OK button. */
         void ok( Color color );
         /** Called when the user pressed the Cancel button. */
-        void cancelled( Color orig );
+        void cancelled( Color originalColor );
     }
     
+    /* Not intended for instantiation */
+    private ColorChooserFactory() {}
+    
     /**
-     * Shows a color chooser dialog.
+     * Creates a color chooser dialog.
      * 
      * @param title
      * @param parent
      * @param initialColor
      * @param listener
      */
-    public static void showDialog( String title, Component parent, 
+    public static JDialog createDialog( String title, Component parent, 
             final Color initialColor, final Listener listener ) {
         
         final JColorChooser jcc = new JColorChooser( initialColor );
@@ -80,6 +79,20 @@ public class ColorDialog {
             } );
         
         SwingUtils.centerDialogInParent( dialog );
-        dialog.setVisible( true );
+        return dialog;
+    }
+    
+    /**
+     * Creates a color chooser dialog and makes it visible.
+     * 
+     * @param title
+     * @param parent
+     * @param initialColor
+     * @param listener
+     */
+    public static void showDialog( String title, Component parent, 
+            final Color initialColor, final Listener listener ) {
+        JDialog dialog = ColorChooserFactory.createDialog( title, parent, initialColor, listener );
+        dialog.show();
     }
 }
