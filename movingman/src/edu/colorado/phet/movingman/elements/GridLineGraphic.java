@@ -28,7 +28,8 @@ public class GridLineGraphic implements Graphic {
     DecimalFormat yformat = new DecimalFormat( "#0.##" );
     private boolean visible = true;
     private double[] ylines;
-    private Stroke thickStroke = new BasicStroke( 2 );
+//    private Stroke thickStroke = new BasicStroke( 2 );
+    private Stroke thickStroke = new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 3, new float[]{10, 3}, 0 );
 
     public GridLineGraphic( BoxedPlot target, Stroke stroke, Color color, int nx, int ny, Color backgroundColor, String title ) {
         this.target = target;
