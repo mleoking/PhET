@@ -55,6 +55,7 @@ public class BarMagnetControlPanel extends ControlPanel {
     private JLabel _strengthValue, _magnetWidthValue, _magnetHeightValue;
     private JLabel _xSpacingValue, _ySpacingValue, _needleWidthValue,
             _needleHeightValue;
+    private JCheckBox _probeCheckBox;
     private JButton _resetButton;
 
     //----------------------------------------------------------------------------
@@ -273,6 +274,14 @@ public class BarMagnetControlPanel extends ControlPanel {
             gridPanel.add( heightPanel );
         }
 
+        JPanel probePanel = new JPanel();
+        {
+            _probeCheckBox = new JCheckBox( SimStrings.get( "probeCheckBox.label" ) );
+            
+            probePanel.setLayout( new BoxLayout( probePanel, BoxLayout.X_AXIS ) );
+            probePanel.add( _probeCheckBox );
+        }
+        
         // Reset panel
         JPanel resetPanel = new JPanel();
         {
@@ -285,6 +294,7 @@ public class BarMagnetControlPanel extends ControlPanel {
 
         // Add panels to control panel.
         addFullWidth( barMagnetPanel );
+        addFullWidth( probePanel );
         if ( ENABLE_DEBUG_CONTROLS ) {
             addFullWidth( gridPanel );
             addFullWidth( resetPanel );
@@ -302,6 +312,7 @@ public class BarMagnetControlPanel extends ControlPanel {
         _ySpacingSlider.addChangeListener( listener );
         _needleWidthSlider.addChangeListener( listener );
         _needleHeightSlider.addChangeListener( listener );
+        _probeCheckBox.addActionListener( listener );
     }
 
     //----------------------------------------------------------------------------
@@ -357,6 +368,15 @@ public class BarMagnetControlPanel extends ControlPanel {
         _needleHeightSlider.setValue( size.height );
     }
 
+    /**
+     * Enables or disabled the B-Field Probe.
+     * 
+     * @param enabled true to enable, false to disable
+     */
+    public void setProbeEnabled( boolean enabled ) {
+        _probeCheckBox.setSelected( enabled );
+    }
+    
     //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
@@ -385,8 +405,12 @@ public class BarMagnetControlPanel extends ControlPanel {
                 _module.flipMagnetPolarity();
             }
             else if ( e.getSource() == _magnetTransparencyCheckBox ) {
-                // Grid enable
+                // Magnet transparency enable
                 _module.setMagnetTransparencyEnabled( _magnetTransparencyCheckBox.isSelected() );
+            }
+            else if ( e.getSource() == _probeCheckBox ) {
+                // Probe enable
+                _module.setProbeEnabled( _probeCheckBox.isSelected() );
             }
             else if ( e.getSource() == _resetButton ) {
                 // Reset
