@@ -86,54 +86,19 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
         update();
     }
 
-
-    //    public static BufferedImage getImage() {
-    ////    protected Image getImage() {
-    //        if( s_particleImage == null ) {
-    ////            ResourceLoader loader = new ResourceLoader();
-    ////            ResourceLoader.LoadedImageDescriptor imageDescriptor = loader.loadImage( s_imageName );
-    ////            s_particleImage = imageDescriptor.getImage();
-    //            try {
-    //                s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
-    //            }
-    //            catch( IOException e ) {
-    //                e.printStackTrace();
-    //            }
-    //            this.s_radius = s_particleImage.getWidth( null ) / 2;
-    ////            this.s_radius = imageDescriptor.getWidth() / 2;
-    //        }
-    //        return s_particleImage;
-    //    }
-
     public void update() {
         if( atomicState != atom.getState() ) {
             atomicState = atom.getState();
             double energyRatio = atom.getState().getEnergyLevel() / GroundState.instance().getEnergyLevel();
-            double energyRepRad = energyRatio * ( groundImg.getWidth() / 2 );
+            double energyRepRad = Math.pow( energyRatio, .5 ) * ( groundImg.getWidth() / 2 );
             energyRep = new Ellipse2D.Double( atom.getPosition().getX() - energyRepRad, atom.getPosition().getY() - energyRepRad,
                                               energyRepRad * 2, energyRepRad * 2 );
             energyRepColor = VisibleColor.wavelengthToColor( atom.getState().getWavelength() );
-            setPosition( (int)( atom.getPosition().getX() - atom.getRadius() ),
-                         (int)( atom.getPosition().getY() - atom.getRadius() ) );
+            setPosition( (int)( atom.getPosition().getX() - getImage().getWidth() / 2 ),
+                         (int)( atom.getPosition().getY() - getImage().getHeight() / 2 ) );
             setBoundsDirty();
             repaint();
         }
-        //        AtomicState state = atom.getState();
-        //        if( true || getImage() != middleImg ) {
-        //            if( state instanceof GroundState ) {
-        //                super.setImage( groundImg );
-        //            }
-        //            if( state instanceof HighEnergyState ) {
-        //                super.setImage( highImg );
-        //            }
-        //            if( state instanceof MiddleEnergyState ) {
-        //                super.setImage( middleImg );
-        //            }
-        //            setPosition( (int)( atom.getPosition().getX() - atom.getRadius() ),
-        //                         (int)( atom.getPosition().getY() - atom.getRadius() ) );
-        //            setBoundsDirty();
-        //            repaint();
-        //        }
     }
 
     public void paint( Graphics2D g ) {
@@ -142,7 +107,12 @@ public class AtomGraphic extends PhetImageGraphic implements SimpleObserver {
         g.setColor( energyRepColor );
         g.fill( energyRep );
         restoreGraphicsState();
+
         super.paint( g );
+
+        // Debug: draws a dot at the center of the atom
+//        g.setColor( Color.RED );
+//        g.drawArc( (int)atom.getPosition().getX()-2, (int)atom.getPosition().getY()-2, 4, 4, 0, 360 );
     }
 }
 
