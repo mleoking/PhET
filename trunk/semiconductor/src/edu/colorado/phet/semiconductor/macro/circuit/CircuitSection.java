@@ -123,7 +123,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         double height = circuit.getResistor().getHeight();
 
         RoundRectangle2D.Double rect = createCenteredRect( center, segmentWidth, height, .3, .3 );
-//        System.out.println( "x=" + rect.getX() + ", y=" + rect.getY() + ", width=" + rect.getWidth() + ", h=" + rect.getHeight() );
+//        System.out.println( "x=" + rect.getX() + ", y=" + rect.getY() + ", width=" + rect.getWidth() + ", h=" + rect.getNumFilledLevels() );
         return rect;
     }
 

@@ -38,6 +38,7 @@ import java.util.ArrayList;
  */
 public class EnergySection implements ModelElement, Graphic, DopantChangeListener, BatteryListener {
     ArrayList conductionListeners = new ArrayList();
+
     ArrayList bandSets = new ArrayList();
     ArrayList bandSetGraphics = new ArrayList();
 
@@ -63,7 +64,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     private Rectangle2D.Double bounds;
     private BucketSection bucketSection;
     InternalBiasManager biasManager = new InternalBiasManager();
-    StateModelSet stateModelSet;
+//    StateModelSet stateModelSet;
 
     public EnergySection( ModelViewTransform2D transform, double particleWidth, Battery battery, Speed speed, Rectangle2D.Double bounds ) throws IOException {
         this.particleWidth = particleWidth;
@@ -77,7 +78,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         PhetVector textLocation = new PhetVector( .65, 1 );
         energyTextGraphic = new EnergyTextGraphic( transform, textLocation );
         bucketSection = new BucketSection( transform, this, particleImage );
-        stateModelSet = new StateModelSet( this );
+//        stateModelSet = new StateModelSet( this );
         //TODO
         //stateModel = stateModelSet.getNullModel();
     }
@@ -865,6 +866,17 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
             }
         }
         throw new RuntimeException( "No case found." );
+    }
+
+    public BandParticle[] getParticles( SemiconductorBandSet bandSet ) {
+        ArrayList list=new ArrayList( );
+        for (int i=0;i<numParticles();i++){
+            BandParticle bp=particleAt( i );
+            if (bp.getBandSet()==bandSet){
+                list.add(bp);
+            }
+        }
+        return (BandParticle[])list.toArray( new BandParticle[0] );
     }
 
 

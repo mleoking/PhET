@@ -24,8 +24,8 @@ public class StateModelSet {
         this.energySection = energySection;
         int bot = energySection.bandSetAt( 0 ).bandAt( 0 ).numEnergyLevels();
         int val = energySection.bandSetAt( 0 ).bandAt( 1 ).numEnergyLevels();
-        int dop = SemiconductorBandSet.NUM_DOPING_LEVELS;
-
+//        int dop = SemiconductorBandSet.NUM_DOPING_LEVELS;
+        int dop=999;//TODO this won't work.
         int nLvl = bot + val + dop - 1;
         int pLvl = bot + val - dop;
 

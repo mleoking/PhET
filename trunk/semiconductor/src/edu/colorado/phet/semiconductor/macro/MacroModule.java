@@ -92,7 +92,7 @@ public class MacroModule extends Module {
         getApparatusPanel().addGraphic( circuitGraphic.getBatteryGraphic(), 2 );
         getApparatusPanel().addGraphic( circuitGraphic.getResistorGraphic(), RESISTOR_LAYER );
 
-        getModel().addModelElement( model );
+//        getModel().addModelElement( model );
 
         double dx = .05;
         double length = circuit.getLength();
@@ -101,7 +101,7 @@ public class MacroModule extends Module {
         for( int i = 0; i < numParticles; i++ ) {
             WireParticle p = new WireParticle( particleX, circuit );
             getModel().addModelElement( p );
-            model.particles.add( p );
+//            model.particles.add( p );
             Graphic wireParticleGraphic = new WireParticleGraphic( p, transform, MacroCircuitGraphic.getParticleImage() );
             getApparatusPanel().addGraphic( wireParticleGraphic, 3 );
             particleX += dx;
@@ -122,10 +122,10 @@ public class MacroModule extends Module {
         addCableGraphic();
 //        setConductor();
         setPhotoconductor();
-        Rectangle2D.Double bounds = model.getBandSetBounds();
-        PhetVector textLocation = new PhetVector( bounds.x, bounds.y );
-        EnergyTextGraphic etg = new EnergyTextGraphic( transform, textLocation );
-        getApparatusPanel().addGraphic( etg, 1000 );
+//        Rectangle2D.Double bounds = model.getBandSetBounds();
+//        PhetVector textLocation = new PhetVector( bounds.x, bounds.y );
+//        EnergyTextGraphic etg = new EnergyTextGraphic( transform, textLocation );
+//        getApparatusPanel().addGraphic( etg, 1000 );
 
         getApparatusPanel().addGraphic( dopantPanel, 100000 );
 
@@ -321,7 +321,7 @@ public class MacroModule extends Module {
 //    }
 
     public void setPhotoconductor() {
-        model.removeBandSets();
+//        model.removeBandSets();
         Rectangle2D.Double bounds = new Rectangle2D.Double( 0, 0, 1, 1 );
 //        SemiconductorBandSet pbs=new SemiconductorBandSet(imageHeightModelCoords, bounds);
 //        model.addBandSet(pbs);

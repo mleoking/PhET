@@ -32,7 +32,7 @@ public class VerticalTearLine {
 
 //    static void test(Rectangle2D bounds){
 //        PhetVector src=new PhetVector(bounds.getX()+bounds.getWidth()/2,bounds.getEnergy());
-//        PhetVector dst=new PhetVector(bounds.getX()+bounds.getWidth()/2,bounds.getEnergy()+bounds.getHeight());
+//        PhetVector dst=new PhetVector(bounds.getX()+bounds.getWidth()/2,bounds.getEnergy()+bounds.getNumFilledLevels());
 //        VerticalTearLine vtl=new VerticalTearLine(src, dst,bounds.getWidth()/10,10);
 //
 //    }

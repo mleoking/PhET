@@ -156,7 +156,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         this.excited = excited;
     }
 
-    public BandSet getBandSet() {
+    public SemiconductorBandSet getBandSet() {
         if( getEnergyCell() == null ) {
             return null;
         }
