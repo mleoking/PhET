@@ -121,6 +121,10 @@ public class NuclearPhysicsModule extends Module {
         physicalPanel.addGraphic( n2g );
     }
 
+    protected PhysicalPanel getPhysicalPanel() {
+        return physicalPanel;
+    }
+
     protected PotentialProfilePanel getPotentialProfilePanel() {
         return potentialProfilePanel;
     }

@@ -35,7 +35,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
         Module alphaModule = new AlphaRadiationModule( clock );
         Module[] modules = new Module[]{alphaModule, fissionModule};
         NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc, modules, clock );
-        app.startApplication( fissionModule );
-//        app.startApplication( alphaModule );
+//        app.startApplication( fissionModule );
+        app.startApplication( alphaModule );
     }
 }

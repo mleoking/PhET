@@ -79,14 +79,4 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
         return false;
     }
-
-
-    //
-    // Statics
-    //
-//    private static HashMap modelElementToGraphicMap = new HashMap();
-//
-//    public static Graphic getGraphic( Nucleus nucleus ) {
-//        return (Graphic)modelElementToGraphicMap.get( nucleus );
-//    }
 }

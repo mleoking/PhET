@@ -8,9 +8,9 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.coreadditions.Body;
-import edu.colorado.phet.coreadditions.RandomGaussian;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 public class Nucleus extends Body {
     private int numProtons;
@@ -62,12 +62,17 @@ public class Nucleus extends Body {
         return this.potentialEnergy;
     }
 
+    public void setPotentialEnergy( double energy ) {
+        this.potentialEnergy = energy;
+    }
+
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        double d = ( RandomGaussian.get() * potentialProfile.getAlphaDecayX() / 3 ) * ( Math.random() > 0.5 ? 1 : -1 );
+        double d = ( random.nextGaussian() * potentialProfile.getAlphaDecayX() / 3 ) * ( Math.random() > 0.5 ? 1 : -1 );
         double theta = Math.random() * Math.PI * 2;
         double dx = d * Math.cos( theta );
         double dy = d * Math.sin( theta );
+//        statisticalLocationOffset.setLocation( statisticalLocationOffset.getX() - 2 , 0 );
         statisticalLocationOffset.setLocation( dx, dy );
     }
 
@@ -80,4 +85,5 @@ public class Nucleus extends Body {
     // Statics
     //
     private static double maxStatisticalLocationOffset = 200;
+    private static Random random = new Random();
 }
