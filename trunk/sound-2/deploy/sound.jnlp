@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?> 
-<!-- JNLP File for SwingSet2 Demo Application --> 
 <jnlp 
   spec="1.0+" 
-  codebase="file:///C:/PhETDevelopment/Web"
+  codebase="http://www.colorado.edu/physics/phet/simulations"
   href="sound/sound.jnlp"> 
   <information> 
     <title>Sound</title> 
     <vendor>University of Colorado, Department of Physics</vendor> 
-    <homepage href="docs/help.html"/> 
+    <homepage href="http://www.colorado.edu/physics/phet"/> 
     <description>Sound</description> 
     <description kind="short">An interactive demonstration of how sound works.</description> 
     <icon href="icons/PhET.gif"/> 
@@ -26,7 +25,7 @@
 
   <application-desc main-class="edu.colorado.phet.sound.SoundApplication">
   <!-- uncomment to specify user language
-      <argument>user.language=test</argument>
+    <argument>user.language=test</argument>
   -->
   </application>
 </jnlp> 
