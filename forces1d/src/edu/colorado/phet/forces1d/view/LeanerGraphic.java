@@ -49,14 +49,6 @@ public class LeanerGraphic extends PhetImageGraphic {
             }
 
         } );
-//        module.getForceModel().getBlock().addListener( new Block.Listener() {
-//            public void positionChanged() {
-//                update();
-//            }
-//
-//            public void propertyChanged() {
-//            }
-//        } );
         module.getForceModel().addListener( new Force1DModel.Listener() {
             public void appliedForceChanged() {
                 update();
@@ -88,11 +80,13 @@ public class LeanerGraphic extends PhetImageGraphic {
         int x = 0;
         int y = 0;
         if( facingRight ) {
-            x = target.getX() - frame.getWidth();
+//            x = target.getX() - frame.getWidth();
+            x = (int)( target.getBounds().getX() - frame.getWidth() );
             y = forcePanel.getWalkwayGraphic().getFloorY() - getHeight();
         }
         else {
-            x = target.getX() + target.getWidth();
+//            x = target.getX() + target.getWidth();
+            x = (int)( target.getBounds().getX() + target.getWidth() );
             y = forcePanel.getWalkwayGraphic().getFloorY() - getHeight();
             frame = flippedAnimation.getFrame( index );
         }

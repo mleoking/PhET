@@ -15,9 +15,12 @@ public class TitleLayout {
     public static void layout( final PhetGraphic title, final PhetGraphic target ) {
         PhetGraphicListener phetGraphicListener = new PhetGraphicListener() {
             public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+                target.setBoundsDirty();
                 Rectangle targetBounds = target.getBounds();
                 if( targetBounds != null ) {
-                    title.setLocation( targetBounds.x, targetBounds.y - title.getHeight() );
+                    int x = targetBounds.x;
+                    int y = targetBounds.y - title.getHeight();
+                    title.setLocation( x, y );
                 }
             }
 

@@ -6,9 +6,12 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.model.Force1DModel;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -37,7 +40,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         this( panel, module, numTickMarks, -10, 10, transform );
     }
 
-    public WalkwayGraphic( ApparatusPanel panel, Force1DModule module, int numTickMarks, double treex, double housex, Function.LinearFunction transform ) throws IOException {
+    public WalkwayGraphic( ApparatusPanel panel, final Force1DModule module, int numTickMarks, double treex, double housex, Function.LinearFunction transform ) throws IOException {
         super( panel );
         this.treex = treex;
         this.housex = housex;
@@ -57,6 +60,42 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         addGraphic( cottageGraphic );
         addGraphic( tickSetGraphic );
         update();
+
+        module.getForceModel().addBoundaryConditionListener( new Force1DModel.BoundaryConditionListener() {
+            public void boundaryConditionOpen() {
+
+                try {
+                    treeGraphic.setImage( ImageLoader.loadBufferedImage( "images/tree.gif" ) );
+                    treeGraphic.setTransform( new AffineTransform() );
+//                    treeGraphic.scale( 0.5);
+                    cottageGraphic.setImage( ImageLoader.loadBufferedImage( "images/cottage.gif" ) );
+                    cottageGraphic.setTransform( new AffineTransform() );
+                    module.getForcePanel().repaintBuffer();
+                    setBoundsDirty();
+                    autorepaint();
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
+
+            public void boundaryConditionWalls() {
+                try {
+                    treeGraphic.setImage( ImageLoader.loadBufferedImage( "images/barrier.jpg" ) );
+                    treeGraphic.setTransform( new AffineTransform() );
+                    treeGraphic.scale( 0.5 );
+                    cottageGraphic.setImage( ImageLoader.loadBufferedImage( "images/barrier.jpg" ) );
+                    cottageGraphic.setTransform( new AffineTransform() );
+                    cottageGraphic.scale( 0.5 );
+                    module.getForcePanel().repaintBuffer();
+                    setBoundsDirty();
+                    autorepaint();
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
     }
 
     public int getFloorY() {
@@ -170,74 +209,4 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         repaint();
     }
 
-//    public void setTreeX( double treex ) {
-//        this.treex = treex;
-//    }
-//
-//    public void setHouseX( double housex ) {
-//        this.housex = housex;
-//    }
-
-//    public void paint( Graphics2D graphics2D ) {
-//        GraphicsState graphicsState = new GraphicsState( graphics2D );
-//        graphics2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-//        double modelRange = transform.getInputRange();
-//        double modelDX = modelRange / ( numTickMarks - 1 );
-//        graphics2D.setColor( Color.black );
-//        graphics2D.setFont( font );
-
-
-//        Rectangle rect = determineBounds();
-//        Color lightBLue = new Color( 150, 120, 255 );
-//        graphics2D.setPaint( new GradientPaint( rect.x, rect.y, lightBLue, rect.x, rect.y + rect.y, Color.white ) );
-//        graphics2D.fill( rect );
-//        graphics2D.setColor( Color.blue );
-//        graphics2D.setStroke( borderStroke );
-//        graphics2D.drawLine( 0, rect.y + rect.y, rect.width, rect.y + rect.y );
-//        graphics2D.setColor( Color.black );
-//
-//        for( int i = 0; i < numTickMarks; i++ ) {
-//            double modelx = transform.getMinInput() + i * modelDX;
-//            int viewx = (int)transform.evaluate( modelx );
-//
-//            Point dst = new Point( viewx, y - 20 );
-//            graphics2D.drawLine( viewx, y, dst.x, dst.y );
-//
-//            String str = format.format( modelx );
-//            if( str.equals( "0" ) ) {
-//                str = "0 meters";
-//            }
-//            Rectangle2D bounds = font.getStringBounds( str, graphics2D.getFontRenderContext() );
-//            graphics2D.drawString( str, viewx - (int)( bounds.getWidth() / 2 ), y + (int)bounds.getHeight() );
-//        }
-//        getFloorY();
-//        floor = new Rectangle( 0, y - 20, module.getApparatusPanel().getWidth(), floorHeight );
-//        Color root = new Color( 100, 100, 255 );
-//        graphics2D.setPaint( new GradientPaint( floor.x, floor.y, root, floor.x, floor.y + floor.y, Color.white ) );
-//        graphics2D.fill( floor );
-//        //Tree at -10.
-//        int treex = (int)( transform.evaluate( this.treex ) - tree.getWidth() / 2 );
-//        int treey = 10;
-//        int housex = (int)( transform.evaluate( this.housex ) - house.getWidth() / 2 );
-//        int housey = 10;
-//        graphics2D.drawImage( tree, treex, treey, null );
-//        graphics2D.drawImage( house, housex, housey, null );
-//        graphicsState.restoreGraphics();
-//    }
-
-//    protected Rectangle determineBounds() {
-//        int cw = getComponent() == null ? 0 : getComponent().getWidth();
-//        return new Rectangle( 0, 0, cw, y + 30 );
-//    }
-
-//    public Rectangle createFloorShape() {
-////        floor = new Rectangle( 0, y - 20, getComponent().getWidth(), floorHeight );
-//        return new Rectangle( 0, y - 20, getComponent().getWidth(), floorHeight );
-//
-//    }
-
-//    public void setBounds( int x, int y, int width, int y ) {
-//        floor = new Rectangle( x, y, width, y );
-//        update();
-//    }
 }

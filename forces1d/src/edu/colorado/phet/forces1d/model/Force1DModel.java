@@ -30,7 +30,112 @@ public class Force1DModel implements ModelElement {
     public double frictionForce;
     private Force1DPlotDeviceModel plotDeviceModel;
     private double netForce;
-    private boolean paused = false;
+    private BoundaryCondition open = new Open();
+    private BoundaryCondition walls = new Walls();
+    private BoundaryCondition boundaryCondition = open;
+
+    public interface BoundaryCondition {
+        public void apply();
+    }
+
+    ArrayList boundaryConditionListeners = new ArrayList();
+
+    public void addBoundaryConditionListener( BoundaryConditionListener boundaryConditionListener ) {
+        boundaryConditionListeners.add( boundaryConditionListener );
+    }
+
+    public static interface BoundaryConditionListener {
+        void boundaryConditionOpen();
+
+        void boundaryConditionWalls();
+    }
+
+    public class Open implements BoundaryCondition {
+
+        public void apply() {
+        }
+    }
+
+    public class Walls implements BoundaryCondition {
+
+        public void apply() {
+            if( block.getPosition() > 10 ) {
+                block.setPosition( 10 );
+                block.setAcceleration( 0.0 );
+                block.setVelocity( 0.0 );
+            }
+            else if( block.getPosition() < -10 ) {
+                block.setPosition( -10 );
+                block.setAcceleration( 0.0 );
+                block.setVelocity( 0.0 );
+            }
+        }
+    }
+
+    public void setBoundsOpen() {
+        this.boundaryCondition = open;
+        for( int i = 0; i < boundaryConditionListeners.size(); i++ ) {
+            BoundaryConditionListener boundaryConditionListener = (BoundaryConditionListener)boundaryConditionListeners.get( i );
+            boundaryConditionListener.boundaryConditionOpen();
+        }
+    }
+
+    public void setBoundsWalled() {
+        this.boundaryCondition = walls;
+        for( int i = 0; i < boundaryConditionListeners.size(); i++ ) {
+            BoundaryConditionListener boundaryConditionListener = (BoundaryConditionListener)boundaryConditionListeners.get( i );
+            boundaryConditionListener.boundaryConditionWalls();
+        }
+    }
+
+    public void setPlaybackIndex( int index ) {
+        int numDataPoints = netForceDataSeries.numSmoothedPoints();
+        if( index < numDataPoints ) {
+            this.netForce = netForceDataSeries.smoothedPointAt( index );
+            this.frictionForce = frictionForceDataSeries.smoothedPointAt( index );
+            setAppliedForce( appliedForceDataSeries.smoothedPointAt( index ) );
+//        setGravity( );//TODO do we want provisions for changing gravity?
+            block.setAcceleration( accelerationDataSeries.smoothedPointAt( index ) );
+            block.setVelocity( velocityDataSeries.smoothedPointAt( index ) );
+            block.setPosition( positionDataSeries.smoothedPointAt( index ) );
+        }//TODO else we should stop playback
+    }
+
+    public void stepInTime( double dt ) {
+        plotDeviceModel.stepInTime( dt );
+    }
+
+    public void stepRecord( double dt ) {
+        updateBlock();
+        block.stepInTime( dt );
+        boundaryCondition.apply();
+        if( plotDeviceModel.isTakingData() ) {
+            netForceDataSeries.addPoint( netForce );
+            frictionForceDataSeries.addPoint( frictionForce );
+        }
+
+        double value = getAppliedForce();
+        addAppliedForcePoint( value, dt );
+
+        accelerationDataSeries.addPoint( block.getAcceleration() );
+        velocityDataSeries.addPoint( block.getVelocity() );
+        positionDataSeries.addPoint( block.getPosition() );
+    }
+
+//    double time = 0;
+//    int playbackIndex = 0;
+
+    public void stepPlayback( double dt, double time, int playbackIndex ) {
+//        dt = convertTime( dt );
+//        time += dt;
+//            playbackIndex++;
+        plotDeviceModel.cursorMovedToTime( time, playbackIndex );
+    }
+
+//    private double convertTime( double dt ) {
+//        return dt / 50.0;
+////        return dt / 5000.0;
+//    }
 
     public Force1DModel( Force1DModule module ) {
         block = new Block( this );
@@ -39,10 +144,9 @@ public class Force1DModel implements ModelElement {
         netForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
         accelerationDataSeries = new SmoothDataSeries( numSmoothingPoints );
         frictionForceDataSeries = new SmoothDataSeries( numSmoothingPoints );
-
         velocityDataSeries = new SmoothDataSeries( 8 );
         positionDataSeries = new SmoothDataSeries( 8 );
-        plotDeviceModel = new Force1DPlotDeviceModel( module, this, MAX_TIME );
+        plotDeviceModel = new Force1DPlotDeviceModel( module, this, MAX_TIME, 1 / 50.0 );
     }
 
     public void addListener( Listener listener ) {
@@ -71,6 +175,9 @@ public class Force1DModel implements ModelElement {
         netForceDataSeries.reset();
         appliedForceDataSeries.reset();
         frictionForceDataSeries.reset();
+        accelerationDataSeries.reset();
+        positionDataSeries.reset();
+        velocityDataSeries.reset();
         updateBlock();
     }
 
@@ -86,8 +193,17 @@ public class Force1DModel implements ModelElement {
         return frictionForceDataSeries.getSmoothedDataSeries();
     }
 
+//    public void setPaused( boolean paused ) {
+//        this.paused = paused;
+//    }
+
+
+    public void setPlaybackMode() {
+        plotDeviceModel.setPlaybackMode();
+    }
+
     public void setPaused( boolean paused ) {
-        this.paused = paused;
+        plotDeviceModel.setPaused( paused );
     }
 
     public static interface Listener {
@@ -118,9 +234,11 @@ public class Force1DModel implements ModelElement {
     }
 
     public void setAppliedForce( double appliedForce ) {
-        this.appliedForce = appliedForce;
-        updateBlock();
-        appliedForceChanged();
+        if( appliedForce != this.appliedForce ) {
+            this.appliedForce = appliedForce;
+            updateBlock();
+            appliedForceChanged();
+        }
     }
 
     private void appliedForceChanged() {
@@ -158,18 +276,11 @@ public class Force1DModel implements ModelElement {
         }
     }
 
-    public void stepInTime( double dt ) {
-        if( !paused ) {
-            dt /= 50.0;
-            updateBlock();
-            block.stepInTime( dt );
-            plotDeviceModel.stepInTime( dt );
-            if( plotDeviceModel.isTakingData() ) {
-                netForceDataSeries.addPoint( netForce );
-                frictionForceDataSeries.addPoint( frictionForce );
-            }
-        }
-    }
+//    public void stepInTime( double dt ) {
+//        if( !paused ) {
+//            mode.stepInTime( dt );
+//        }
+//    }
 
     public Block getBlock() {
         return block;

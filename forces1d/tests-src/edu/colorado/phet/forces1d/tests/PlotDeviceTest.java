@@ -8,9 +8,11 @@ import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetcomponents.PhetButton;
 import edu.colorado.phet.common.view.phetcomponents.PhetTextField;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.common.TitleGraphic;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice2;
 
@@ -48,8 +50,8 @@ public class PlotDeviceTest {
     private static ApparatusPanel createPanel() {
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         final BaseModel model = new BaseModel();
-//        ApparatusPanel2 panel = new ApparatusPanel2( model, clock );
-        ApparatusPanel panel = new ApparatusPanel();
+        final ApparatusPanel2 panel = new ApparatusPanel2( model, clock );
+//        ApparatusPanel panel = new ApparatusPanel();
         panel.addGraphicsSetup( new BasicGraphicsSetup() );
         panel.addRepaintDebugGraphic( clock );
         final PhetButton button = new PhetButton( panel, "Test Button" );
@@ -95,15 +97,23 @@ public class PlotDeviceTest {
         ptf.transform( AffineTransform.getRotateInstance( Math.PI / 32 ) );
 
         final PlotDevice2 device = new PlotDevice2( panel, new Range2D( -10, -10, 10, 10 ) );
+        device.setRegistrationPoint( RectangleUtils.getCenter( device.getBounds() ) );
+//        panel.getGraphic().setRegistrationPoint( 300,300);
         panel.addGraphic( device );
         device.setLocation( 200, 200 );
-//        Timer timer=new Timer( 30,new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
+        Timer timer = new Timer( 30, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
 //                device.rotate( Math.PI/464);
-//            }
-//        } );
-//        device.rotate( Math.PI/8);
-//        timer.start();
+                device.rotate( Math.PI / 464 );
+//                panel.getGraphic().rotate( Math.PI/200);
+            }
+        } );
+        device.rotate( Math.PI / 8 );
+        timer.start();
+
+//        RepaintDebugGraphic repaintDebugGraphic=new RepaintDebugGraphic( panel, clock);
+//        panel.addGraphic( repaintDebugGraphic,Double.POSITIVE_INFINITY );
+//        panel.
         return panel;
     }
 }

@@ -15,15 +15,17 @@ import java.util.ArrayList;
 public abstract class PlotDeviceModel implements ModelElement {
     private double minTime = 0;
     private double maxTime;
+    private double timeScale;
     private boolean paused = true;
 
-    private Mode recordMode = new RecordMode();
-    private Mode playbackMode = new PlaybackMode();
+    private RecordMode recordMode = new RecordMode();
+    private PlaybackMode playbackMode = new PlaybackMode();
     private Mode currentMode = recordMode;
     private ArrayList listeners = new ArrayList();
 
-    protected PlotDeviceModel( double maxTime ) {
+    protected PlotDeviceModel( double maxTime, double timeScale ) {
         this.maxTime = maxTime;
+        this.timeScale = timeScale;
     }
 
     public void setPaused( boolean paused ) {
@@ -48,7 +50,7 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     public void stepInTime( double dt ) {
         if( currentMode != null && !isPaused() ) {
-            currentMode.stepInTime( dt );
+            currentMode.stepInTime( dt * timeScale );
         }
     }
 
@@ -80,9 +82,17 @@ public abstract class PlotDeviceModel implements ModelElement {
         return maxTime;
     }
 
-    public abstract void cursorMovedToTime( double time );
+    public abstract void cursorMovedToTime( double time, int index );
 
     public abstract void reset();
+
+    public int convertTimeToIndex( double modelX ) {
+        return (int)( modelX / playbackMode.conversionFactor );
+    }
+
+    public double convertIndexToTime( int i ) {
+        return i * recordMode.conversionFactor * timeScale;
+    }
 
     public interface Listener {
         public void recordingStarted();
@@ -143,19 +153,27 @@ public abstract class PlotDeviceModel implements ModelElement {
 
         public void reset() {
             timer.reset();
+            cursorMovedToTime( 0, 0 );
         }
     }
 
     private class RecordMode extends Mode {
+        int recordIndex = 0;
+        private double conversionFactor;
 
         public RecordMode() {
             super( "record" );
         }
 
         public void stepInTime( double dt ) {
-//            double data=recordDataPoint();
             timer.stepInTime( dt );
             stepRecord( dt );
+            if( recordIndex == 0 ) {
+                conversionFactor = 1.0;
+            }
+            else {
+                conversionFactor = timer.getTime() / ( recordIndex );
+            }
         }
 
         public void firePaused() {
@@ -171,21 +189,38 @@ public abstract class PlotDeviceModel implements ModelElement {
                 listener.recordingStarted();
             }
         }
+
+        public void reset() {
+            recordIndex = 0;
+            super.reset();
+        }
     }
 
     protected abstract void stepRecord( double dt );
 
-    protected abstract void stepPlayback( double dt );
+    protected abstract void stepPlayback( double dt, double time, int playbackIndex );
 
     private class PlaybackMode extends Mode {
+        int playbackIndex = 0;
+        private double conversionFactor;
 
         public PlaybackMode() {
             super( "playback" );
         }
 
+        public void rewind() {
+            playbackIndex = 0;
+            timer.reset();
+        }
+
         public void stepInTime( double dt ) {
             timer.stepInTime( dt );
-            stepPlayback( dt );
+
+            conversionFactor = timer.getTime() / playbackIndex;
+
+            stepPlayback( dt, timer.getTime(), playbackIndex++ );
+            //assume linear
+
         }
 
         public void firePaused() {
@@ -201,6 +236,11 @@ public abstract class PlotDeviceModel implements ModelElement {
                 listener.playbackStarted();
             }
         }
+
+        public void reset() {
+            playbackIndex = 0;
+            super.reset();
+        }
     }
 
     public void doReset() {
@@ -208,4 +248,21 @@ public abstract class PlotDeviceModel implements ModelElement {
         playbackMode.reset();
 
     }
+
+    public void setPlaybackMode() {
+        currentMode = playbackMode;
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.playbackStarted();
+        }
+    }
+
+    public void rewind() {
+        playbackMode.rewind();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.rewind();
+        }
+    }
+
 }

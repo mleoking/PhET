@@ -10,11 +10,17 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
+import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
 import edu.colorado.phet.forces1d.view.Force1dObject;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -30,6 +36,7 @@ public class Force1DModule extends Module {
     private Force1dControlPanel forceControlPanel;
     private AbstractClock clock;
     private Force1dObject[] imageElements;
+    private static boolean readyToRender = false;
 
     public Force1DModule( AbstractClock clock ) throws IOException {
         super( "Force1D" );
@@ -43,7 +50,6 @@ public class Force1DModule extends Module {
             new Force1dObject( "images/phetbook.gif", "Textbook", 0.8, 10, 0.3, 0.25 ),
             new Force1dObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2 ),
             new Force1dObject( "images/ollie.gif", "Sleepy Dog", 0.5, 25, 0.1, 0.1 ),
-//            new Force1dObject( "images/ollie-poster.gif", "Sleepy Dog", 0.5 )
         };
 
 
@@ -53,9 +59,7 @@ public class Force1DModule extends Module {
 
 
         forceControlPanel = new Force1dControlPanel( this );
-
         setControlPanel( forceControlPanel );
-
         addModelElement( forceModel );
 
         ModelElement updateGraphics = new ModelElement() {
@@ -65,6 +69,11 @@ public class Force1DModule extends Module {
         };
 
         addModelElement( updateGraphics );
+    }
+
+    public void setHelpEnabled( boolean h ) {
+        super.setHelpEnabled( h );
+        forcePanel.setHelpEnabled( h );
     }
 
     public Force1DModel getForceModel() {
@@ -80,15 +89,17 @@ public class Force1DModule extends Module {
         forcePanel.reset();
     }
 
-    public void cursorMovedToTime( double modelX ) {
+    public void cursorMovedToTime( double modelX, int index ) {
+        forcePanel.cursorMovedToTime( modelX, index );
     }
 
-    public void relayout() {
+    public void relayoutPlots() {
+        if( forcePanel != null ) {
+            forcePanel.layoutPlots();
+            forcePanel.invalidate();
+            forcePanel.repaint();
+        }
     }
-
-//    public BufferedPhetGraphic getBackground() {
-//        return forcePanel.getBufferedGraphic();
-//    }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException, InterruptedException, InvocationTargetException {
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
@@ -96,32 +107,46 @@ public class Force1DModule extends Module {
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         final Force1DModule module = new Force1DModule( clock );
 
-        FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 200, 200 ) );
+        module.getApparatusPanel().getGraphic().setVisible( false );
+//        FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 200, 200 ) );
+        FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
         ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
                                                        frameSetup, module, clock );
         final PhetApplication phetApplication = new PhetApplication( model );
-        phetApplication.startApplication();
-        module.getForcePanel().setSize( module.getForcePanel().getSize().width - 1, module.getForcePanel().getSize().height - 1 );
-        module.getForcePanel().relayout();
-        module.getForcePanel().revalidate();
-//        phetApplication.getApplicationView().getPhetFrame().setExtendedState( JFrame.MAXIMIZED_BOTH );
-        new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
+        phetApplication.getPhetFrame().getBasicPhetPanel().setAppControlPanel( new DefaultPlaybackPanel( module.getForceModel().getPlotDeviceModel() ) );
+        phetApplication.getPhetFrame().addWindowStateListener( new WindowStateListener() {
+            public void windowStateChanged( WindowEvent e ) {
+                int oldState = e.getOldState();
+                int newState = e.getNewState();
+                if( ( oldState & Frame.MAXIMIZED_BOTH ) == 0 &&
+                        ( newState & Frame.MAXIMIZED_BOTH ) != 0 ) {
+                    readyToRender = true;
+                }
 
-//        UIManager.getLookAndFeel().
-//        UIManager.setLookAndFeel( new PhetLookAndFeelForWindows() );
-//        SwingUtilities.updateComponentTreeUI(phetApplication.getPhetFrame() );
-        final Force1DPanel p = module.getForcePanel();
-//        p.resetRenderingSize();
-//        p.resetDidLayout();
-        SwingUtilities.invokeAndWait( new Runnable() {
-            public void run() {
-                new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
-                p.forceLayout();
             }
         } );
+        module.getApparatusPanel().addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                if( readyToRender ) {
+                    setup( module );
+                    readyToRender = false;
+                }
+            }
+        } );
+        phetApplication.startApplication();
+        new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
 
+
+        //Note, this rendering strategy depends on the order of operations: PhetFrame goes to max size, then apparatusPanel gets resized.
+    }
+
+    private static void setup( Force1DModule module ) {
+        final Force1DPanel p = module.getForcePanel();
         p.resetRenderingSize();
+        p.forceLayout();
 
+        module.getApparatusPanel().getGraphic().setVisible( true );
+        p.paintImmediately( 0, 0, p.getWidth(), p.getHeight() );
     }
 
     public AbstractClock getClock() {
@@ -135,4 +160,6 @@ public class Force1DModule extends Module {
     public Force1dObject[] getImageElements() {
         return imageElements;
     }
+
+
 }
