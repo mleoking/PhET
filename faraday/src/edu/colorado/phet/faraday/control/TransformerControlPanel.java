@@ -57,33 +57,26 @@ public class TransformerControlPanel extends ControlPanel {
      * @param module the module that this control panel is associated with.
      */
     public TransformerControlPanel( TransformerModule module ) {
-        
+
         super( module );
-        
+
         _module = module;
-        
-        JPanel panel = new JPanel();
+
+        Font defaultFont = this.getFont();
+        Font titleFont = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
+
+        JPanel fillerPanel = new JPanel();
         {
-            Font defaultFont = panel.getFont();
-            Font titleFont = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
-            
-            JPanel fillerPanel = new JPanel();
-            {
-              fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
-              // WORKAROUND: Filler to set consistent panel width
-              fillerPanel.add( Box.createHorizontalStrut( FaradayConfig.CONTROL_PANEL_MIN_WIDTH ) );
-            }
-            
-            // Layout so that control groups fill horizontal space.
-            BorderLayout layout = new BorderLayout();
-            layout.setVgap( 20 ); // vertical space between control groups
-            panel.setLayout( layout );
-            panel.add( fillerPanel, BorderLayout.NORTH );
-            
-            // Wire up event handling
-            EventListener listener = new EventListener();
+            fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
+            // WORKAROUND: Filler to set consistent panel width
+            fillerPanel.add( Box.createHorizontalStrut( FaradayConfig.CONTROL_PANEL_MIN_WIDTH ) );
         }
-        super.add( panel );
+
+        // Add panels to control panel.
+        addFullWidth( fillerPanel );
+
+        // Wire up event handling
+        EventListener listener = new EventListener();
     }
     
     //----------------------------------------------------------------------------
