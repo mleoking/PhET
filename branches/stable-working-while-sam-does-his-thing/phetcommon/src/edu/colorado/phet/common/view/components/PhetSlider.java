@@ -10,21 +10,20 @@
  */
 package edu.colorado.phet.common.view.components;
 
+import edu.colorado.phet.common.math.ModelViewTx1D;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.common.math.ModelViewTx1D;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
-import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.util.SwingUtils;
 
 /**
  * PhetSlider
@@ -33,13 +32,15 @@ import edu.colorado.phet.common.view.util.SwingUtils;
  * @version $Revision$
  */
 public class PhetSlider extends JPanel {
+
+    private static final int s_defaultSliderMax = 100000000;
     private JTextField textField;
     private JSlider slider;
     private ModelViewTx1D transform;
     private String units;
     private NumberFormat formatter;
-    private static final int SLIDER_MAX = 100000000;
-    private static final int SLIDER_MIN = 0;
+    private int sliderMax = s_defaultSliderMax;
+    private int sliderMin = 0;
     private double min;
     private double max;
     private double initialValue;
@@ -51,16 +52,18 @@ public class PhetSlider extends JPanel {
     private JTextField unitsReadout;
 
     public PhetSlider( String title, String units, final double min, final double max, double initial ) {
-        this( title, units, min, max, initial, new DecimalFormat( "0.0#" ) );
+        this( title, units, min, max, initial, new DecimalFormat( "0.0#" ),
+              (max - min ) /(double)s_defaultSliderMax) ;
     }
 
     public PhetSlider( String title, String units, final double min, final double max,
-                       double initialValue, NumberFormat formatter ) {
+                       double initialValue, NumberFormat formatter, double sliderIncr ) {
         this.min = min;
         this.max = max;
         this.formatter = formatter;
         this.units = units;
-        this.transform = new ModelViewTx1D( min, max, SLIDER_MIN, SLIDER_MAX );
+        this.sliderMax = (int)((max - min ) / sliderIncr); 
+        this.transform = new ModelViewTx1D( min, max, sliderMin, sliderMax );
         this.initialValue = initialValue;
         numMajorTicks = 10;
         int numMinorsPerMajor = 4;
@@ -145,11 +148,11 @@ public class PhetSlider extends JPanel {
     }
 
     private void relabelSlider() {
-        int dMajor = SLIDER_MAX / ( numMajorTicks - 1 );
-        int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
+        int dMajor = sliderMax / ( numMajorTicks - 1 );
+        int dMinor = sliderMax / ( numMinorTicks - 1 );
         Font labelFont = new Font( "Lucida Sans", 0, 10 );
         Hashtable table = new Hashtable();
-        for( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
+        for( int value = 0; value <= sliderMax; value += dMajor ) {
             double modelValue = transform.viewToModel( value );
             JLabel label = new JLabel( formatter.format( modelValue ) ) {
                 protected void paintComponent( Graphics g ) {
@@ -168,7 +171,7 @@ public class PhetSlider extends JPanel {
 
     private void createSlider() {
         final JSlider slider = new JSlider( SwingConstants.HORIZONTAL,
-                                            SLIDER_MIN, SLIDER_MAX,
+                                            sliderMin, sliderMax,
                                             transform.modelToView( initialValue ) );
 
         slider.setPaintTicks( true );
@@ -179,9 +182,8 @@ public class PhetSlider extends JPanel {
                 setValue( modelValue );
             }
         } );
-        int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
+        int dMinor = sliderMax / ( numMinorTicks - 1 );
         double modelDX = transform.viewToModelDifferential( dMinor / 4 );
-//        System.out.println( "modelDX = " + modelDX );
         SliderKeyHandler skh = new SliderKeyHandler( modelDX );
         slider.addKeyListener( skh );
         this.slider = slider;
@@ -258,7 +260,7 @@ public class PhetSlider extends JPanel {
         if( val > max ) {
             val = max;
         }
-        transform = new ModelViewTx1D( min, max, SLIDER_MIN, SLIDER_MAX );
+        transform = new ModelViewTx1D( min, max, sliderMin, sliderMax );
         setValue( val );
 
     }

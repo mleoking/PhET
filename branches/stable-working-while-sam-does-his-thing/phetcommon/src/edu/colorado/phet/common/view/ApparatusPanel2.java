@@ -27,6 +27,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -117,6 +118,13 @@ public class ApparatusPanel2 extends ApparatusPanel {
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 if( useOffscreenBuffer ) {
+                    // Make Swing components repaint, too
+                    Iterator it = componentOrgLocationsMap.keySet().iterator();
+                    while( it.hasNext() ) {
+                        Component component = (Component)it.next();
+                        component.repaint();
+                    }
+
                     paintImmediately( 0, 0, getWidth(), getHeight() );
                 }
                 else {

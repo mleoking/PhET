@@ -1,5 +1,7 @@
 - averaging control on pressure slice tool
 
+- make pressure slice tool transparent
+
 done - remove "units"
 
 - Get rid of vestigial classes - make jar smaller
