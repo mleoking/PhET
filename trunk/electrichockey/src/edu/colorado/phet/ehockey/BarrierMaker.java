@@ -19,7 +19,7 @@ public class BarrierMaker extends JFrame {
     edu.colorado.phet.ehockey.PaintPanel paintPnl;			//
 
     public BarrierMaker() {
-        super( HockeyStrings.get( "HockeyBarrierMaker.MakeBarriers" ) );
+        super( SimStrings.get( "HockeyBarrierMaker.MakeBarriers" ) );
         setSize( BarrierMaker.fullWidth + 20, BarrierMaker.fullHeight + 50 );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         paintPnl = new edu.colorado.phet.ehockey.PaintPanel();
@@ -31,7 +31,7 @@ public class BarrierMaker extends JFrame {
 
 
     public static void main( String[] args ) {
-        HockeyStrings.setStrings( HockeyConfig.localizedStringPath );
+        SimStrings.setStrings( HockeyConfig.localizedStringPath );
         BarrierMaker barriers1 = new BarrierMaker();
     }
 }//end of public class
@@ -47,7 +47,7 @@ class PaintPanel extends JPanel
     int endY;			//corner two of rectang
     Point p;
     // gmwb - calling static method before PaintPanel construction?
-    JButton finishBtn = new JButton( HockeyStrings.get( "HockeyBarrierMaker.Finished" ) );
+    JButton finishBtn = new JButton( SimStrings.get( "HockeyBarrierMaker.Finished" ) );
 
     boolean finished;		//job done, write to file
     private Rectangle goal;
