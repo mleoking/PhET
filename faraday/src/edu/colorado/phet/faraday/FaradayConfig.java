@@ -34,7 +34,7 @@ public class FaradayConfig {
 
     // Clock constants
     public static final double TIME_STEP = 1;
-    public static final int WAIT_TIME = 50; //DEBUG
+    public static final int WAIT_TIME = 16;
 
     // Layers
     public static final double DEBUG_LAYER = Double.MAX_VALUE - 1;
@@ -68,15 +68,19 @@ public class FaradayConfig {
     // Fonts
     public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
     
-    // Minimums & Maximums
+    // Magnet parameters
     public static final double MAGNET_STRENGTH_MIN = 100;
     public static final double MAGNET_STRENGTH_MAX = 300;
-    public static final int MIN_PICKUP_LOOPS = 1;
-    public static final int MAX_PICKUP_LOOPS = 2;
-    public static final int MIN_SOURCE_LOOPS = 1;
-    public static final int MAX_SOURCE_LOOPS = 4;
     public static final double MAX_EMF = 1.0E5;
     
+    // Pickup Coil parameters
+    public static final int MIN_PICKUP_LOOPS = 1;
+    public static final int MAX_PICKUP_LOOPS = 2;
+    
+    // Source Coil parameters
+    public static final int MIN_SOURCE_LOOPS = 1;
+    public static final int MAX_SOURCE_LOOPS = 4;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
