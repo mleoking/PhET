@@ -1,6 +1,5 @@
 /**
- * Class: PressureSliceGraphic
- * Package: edu.colorado.phet.idealgas.graphics
+ *
  * Author: Another Guy
  * Date: Jan 13, 2004
  */
@@ -11,6 +10,7 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.model.Box2D;
 
@@ -139,18 +139,22 @@ public class PressureSliceGraphic extends DefaultInteractiveGraphic {
             g2.setColor( Color.yellow );
             g2.drawRoundRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight, 5, 5 );
             int strLocY = readoutLocation.y + fontMetrics.getAscent() / 2;
-            String pressureStr = "p = " + pressureFormatter.format( pressure );
+            String pressureStr = "P = " + pressureFormatter.format( pressure ) + " Atm";
             g2.setColor( Color.black );
             strLocY += borderThickness;
             g2.drawString( pressureStr, readoutLocation.x + 5, strLocY );
 
-            String temperatureStr = "t = " + pressureFormatter.format( temperature );
+            if( Double.isInfinite( temperature ) || Double.isNaN( temperature ) ) {
+                temperature = 0.0;
+            }
+            String temperatureStr = "T = " + pressureFormatter.format( temperature ) + " ºK";
             g2.setColor( Color.black );
             strLocY += fontMetrics.getHeight();
             g2.drawString( temperatureStr, readoutLocation.x + 5, strLocY );
 
             // y location must be converted to units compatible with the graphic ruler
-            String heightStr = "h = " + heightFormatter.format( ( ( ( boxLowerEdge - y ) - 3.3 ) / 70.857 ) );
+            String heightStr = "z = " + heightFormatter.format( ( ( ( boxLowerEdge - y ) - 3.3 ) / 70.857 ) )
+                               + " " + SimStrings.get( "PressTempTool.units" );
             g2.setColor( Color.black );
             strLocY += fontMetrics.getHeight();
             g2.drawString( heightStr, readoutLocation.x + 5, strLocY );

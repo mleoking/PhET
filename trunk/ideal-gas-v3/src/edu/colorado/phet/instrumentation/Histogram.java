@@ -22,14 +22,13 @@ public class Histogram extends JPanel {
     private int maxBuckHeight;
 
     /**
-     *
-     * @param displayWidth  How wide the histogram will appear on the screen, in pixels
-     * @param displayHeight How high the histogram will appear on the screen, in pixels
-     * @param lowerBound    The lower bound of data values to be put in the histogram
-     * @param upperBound    The upper bound of data values to be put in the histogram
-     * @param numBins       The number of bins in the histogram
-     * @param clippingHeight    The maximum bin count beyond which the histogram will clip
-     * @param color         The color of the histogram bars
+     * @param displayWidth   How wide the histogram will appear on the screen, in pixels
+     * @param displayHeight  How high the histogram will appear on the screen, in pixels
+     * @param lowerBound     The lower bound of data values to be put in the histogram
+     * @param upperBound     The upper bound of data values to be put in the histogram
+     * @param numBins        The number of bins in the histogram
+     * @param clippingHeight The maximum bin count beyond which the histogram will clip
+     * @param color          The color of the histogram bars
      */
     public Histogram( int displayWidth, int displayHeight,
                       double lowerBound, double upperBound,
@@ -44,7 +43,7 @@ public class Histogram extends JPanel {
         this.color = color;
         this.bucketWidth = displayWidth / model.getNumIntervals();
         this.maxBuckHeight = displayHeight;
-        setPreferredSize( new Dimension(  plotULC.x * 2 + displayWidth, plotULC.y * 2 + displayHeight ));
+        setPreferredSize( new Dimension( plotULC.x * 2 + displayWidth, plotULC.y * 2 + displayHeight ) );
     }
 
     public void paintComponent( Graphics g ) {
@@ -66,6 +65,7 @@ public class Histogram extends JPanel {
 
     /**
      * Adds a datum to the histogram
+     *
      * @param datum
      */
     public void add( double datum ) {
@@ -74,6 +74,7 @@ public class Histogram extends JPanel {
 
     /**
      * Sets the count within a bin beyond which the histogram clips
+     *
      * @param clippingLevel
      */
     public void setClippingLevel( int clippingLevel ) {

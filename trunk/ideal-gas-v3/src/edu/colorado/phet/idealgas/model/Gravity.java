@@ -21,16 +21,16 @@ public class Gravity extends AbstractModelElement {
     private Vector2D acceleration = new Vector2D.Double();
     private IdealGasModel model;
 
-    public Gravity(IdealGasModel model) {
+    public Gravity( IdealGasModel model ) {
         this.model = model;
-        this.setAmt(0);
+        this.setAmt( 0 );
     }
 
-    public void stepInTime(double dt) {
+    public void stepInTime( double dt ) {
         List bodies = model.getBodies();
-        for (int i = 0; i < bodies.size(); i++) {
-            Body body = (Body) bodies.get(i);
-            body.setAcceleration(body.getAcceleration().add(acceleration));
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            body.setAcceleration( body.getAcceleration().add( acceleration ) );
         }
     }
 
@@ -38,11 +38,11 @@ public class Gravity extends AbstractModelElement {
         return acceleration.getY();
     }
 
-    public void setAmt(double amt) {
+    public void setAmt( double amt ) {
         double oldAmt = acceleration.getMagnitude();
-        this.acceleration = new Vector2D.Double(0, amt);
+        this.acceleration = new Vector2D.Double( 0, amt );
         double change = acceleration.getMagnitude() - oldAmt;
-        fireEvent(new ChangeEvent(this, change));
+        fireEvent( new ChangeEvent( this, change ) );
     }
 
 
@@ -50,14 +50,14 @@ public class Gravity extends AbstractModelElement {
     // Inner classes
 
     public interface ChangeListener extends EventListener {
-        void gravityChanged(Gravity.ChangeEvent event);
+        void gravityChanged( Gravity.ChangeEvent event );
     }
 
     public class ChangeEvent extends EventObject {
         private double change;
 
-        public ChangeEvent(Object source, double change) {
-            super(source);
+        public ChangeEvent( Object source, double change ) {
+            super( source );
             this.change = change;
         }
 

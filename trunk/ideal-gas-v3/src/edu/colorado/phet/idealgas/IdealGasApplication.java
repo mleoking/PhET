@@ -49,7 +49,7 @@ public class IdealGasApplication extends PhetApplication {
             //                        setInitialModule( rigidSphereModule );
             setInitialModule( idealGasModule );
 
-            new FrameRateReporter( clock );
+//            new FrameRateReporter( clock );
         }
     }
 

@@ -38,36 +38,36 @@ public class Balloon extends HollowSphere {
      * @param mass
      * @param radius
      */
-    public Balloon(Point2D center,
-                   Vector2D velocity,
-                   Vector2D acceleration,
-                   double mass,
-                   double radius,
-                   Box2D box ) {
-        super(center, velocity, acceleration, mass, radius);
+    public Balloon( Point2D center,
+                    Vector2D velocity,
+                    Vector2D acceleration,
+                    double mass,
+                    double radius,
+                    Box2D box ) {
+        super( center, velocity, acceleration, mass, radius );
         this.box = box;
     }
 
     /**
      * Records the impact on the inside or outside of the balloon
      */
-    public void collideWithParticle(CollidableBody particle) {
+    public void collideWithParticle( CollidableBody particle ) {
 
         // Get the new momentum of the balloon
-        momentumPost.setX(this.getVelocity().getX());
-        momentumPost.setY(this.getVelocity().getY());
-        momentumPost = momentumPost.scale(this.getMass());
+        momentumPost.setX( this.getVelocity().getX() );
+        momentumPost.setY( this.getVelocity().getY() );
+        momentumPost = momentumPost.scale( this.getMass() );
 
         // Compute the change in momentum and record it as pressure
-        Vector2D momentumChange = momentumPost.subtract(momentumPre);
+        Vector2D momentumChange = momentumPost.subtract( momentumPre );
         double impact = momentumChange.getMagnitude();
         // todo: change this to a test that relies on containsBody, when that is correctly implemented
-        int sign = this.contains(particle) ? 1 : -1;
+        int sign = this.contains( particle ) ? 1 : -1;
         accumulatedImpact += impact * sign;
-        momentumPre.setComponents(momentumPost.getX(), momentumPost.getY());
+        momentumPre.setComponents( momentumPost.getX(), momentumPost.getY() );
 
         // Adjust the size of the balloon
-        if (timeStepsSinceLastRadiusAdjustment >= timeStepsBetweenRadiusAdjustments) {
+        if( timeStepsSinceLastRadiusAdjustment >= timeStepsBetweenRadiusAdjustments ) {
             adjustRadius();
             // Reset accumulators
             accumulatedImpact = 0;
@@ -78,26 +78,26 @@ public class Balloon extends HollowSphere {
     private void adjustRadius() {
         // Adjust the radius of the balloon
         //Make sure the balloon doesn't expand beyond the box
-        double maxRadius = Math.min((box.getMaxX() - box.getMinX()) / 2,
-                (box.getMaxY() - box.getMinY()) / 2);
-        double dr = Math.pow(Math.abs(accumulatedImpact), dampingExponent) * MathUtil.getSign(accumulatedImpact);
-        double newRadius = Math.min(this.getRadius() + dr, maxRadius);
-        if (!Double.isNaN(newRadius)) {
-            newRadius = Math.min(maxRadius, Math.max(newRadius, MIN_RADIUS));
-            this.setRadius(newRadius);
+        double maxRadius = Math.min( ( box.getMaxX() - box.getMinX() ) / 2,
+                                     ( box.getMaxY() - box.getMinY() ) / 2 );
+        double dr = Math.pow( Math.abs( accumulatedImpact ), dampingExponent ) * MathUtil.getSign( accumulatedImpact );
+        double newRadius = Math.min( this.getRadius() + dr, maxRadius );
+        if( !Double.isNaN( newRadius ) ) {
+            newRadius = Math.min( maxRadius, Math.max( newRadius, MIN_RADIUS ) );
+            this.setRadius( newRadius );
         }
     }
 
-    private boolean contains(Body body) {
-        double distSq = this.getCenter().distanceSq(body.getCM());
+    private boolean contains( Body body ) {
+        double distSq = this.getCenter().distanceSq( body.getCM() );
         return distSq < this.getRadius() * this.getRadius();
     }
 
     /**
      * @param dt
      */
-    public void stepInTime(double dt) {
-        super.stepInTime(dt);
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
         timeStepsSinceLastRadiusAdjustment++;
     }
 }

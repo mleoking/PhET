@@ -74,7 +74,7 @@ public class MoleculeFactoryPanel extends JPanel {
 
     protected void reset() {
         particleSpinner.setEnabled( false );
-        particleSpinner.setValue( new Integer( 0 ));
+        particleSpinner.setValue( new Integer( 0 ) );
         particleSpinner.setEnabled( true );
     }
 

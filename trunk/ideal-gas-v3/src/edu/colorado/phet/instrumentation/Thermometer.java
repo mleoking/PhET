@@ -81,13 +81,13 @@ public class Thermometer extends PhetGraphic {
         int readoutHeight = fontMetrics.getHeight() + fontMetrics.getMaxDescent();
         int readoutWidth = fontMetrics.stringWidth( "XXXXXXX" );
         int yLoc = Math.max( (int)( location.getY() + maxScreenLevel - readoutHeight - value * scale ),
-                             (int)( location.getY() - readoutHeight ));
+                             (int)( location.getY() - readoutHeight ) );
 
         readoutRect.setRoundRect( location.getX() + thickness,
-                           yLoc - rectBorderThickness,
-                           readoutWidth + rectBorderThickness * 2,
-                           readoutHeight + rectBorderThickness * 2,
-                           4, 4 );
+                                  yLoc - rectBorderThickness,
+                                  readoutWidth + rectBorderThickness * 2,
+                                  readoutHeight + rectBorderThickness * 2,
+                                  4, 4 );
         innerRect.setRoundRect( location.getX() + thickness + 3,
                                 yLoc,
                                 readoutWidth, readoutHeight,
@@ -97,7 +97,7 @@ public class Thermometer extends PhetGraphic {
         g.setStroke( rectStroke );
         g.draw( readoutRect );
         g.setColor( Color.black );
-        g.setStroke( new BasicStroke( 0.5f ));
+        g.setStroke( new BasicStroke( 0.5f ) );
         g.draw( readoutRect );
         g.setColor( rectColor );
         g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.3f ) );

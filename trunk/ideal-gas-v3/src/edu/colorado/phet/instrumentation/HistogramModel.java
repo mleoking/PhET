@@ -76,7 +76,7 @@ public class HistogramModel {
     }
 
     public int valueAt( int i ) {
-        return ((Bucket)buckets.get(i)).getCount();
+        return ( (Bucket)buckets.get( i ) ).getCount();
     }
 
     public int getNumIntervals() {

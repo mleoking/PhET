@@ -54,9 +54,9 @@ public class HollowSphereGraphic extends PhetShapeGraphic implements SimpleObser
         g.fill( rep );
 
         if( sphere.contactPt != null ) {
-        GraphicsUtil.setAlpha( g, 1 );
-        g.setColor( Color.red );
-        g.fillArc( (int)sphere.contactPt.getX() - 1, (int)sphere.contactPt.getY() - 1, 2, 2, 0, 360 );
+            GraphicsUtil.setAlpha( g, 1 );
+            g.setColor( Color.red );
+            g.fillArc( (int)sphere.contactPt.getX() - 1, (int)sphere.contactPt.getY() - 1, 2, 2, 0, 360 );
         }
 
         restoreGraphicsState();
