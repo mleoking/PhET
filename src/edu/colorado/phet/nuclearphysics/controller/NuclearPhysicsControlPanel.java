@@ -118,14 +118,14 @@ public class NuclearPhysicsControlPanel extends JPanel {
             } );
             module.setProfileWellDepth( wellDepthSlider.getModelValue() );
 
-            final ModelSlider profileWidthSlider = new ModelSlider( "Width",
-                                                                    100, 300, 200 );
-            profileWidthSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    module.setProfileWidth( profileWidthSlider.getModelValue() );
-                }
-            } );
-            module.setProfileWidth( profileWidthSlider.getModelValue() );
+//            final ModelSlider profileWidthSlider = new ModelSlider( "Width",
+//                                                                    100, 300, 200 );
+//            profileWidthSlider.addChangeListener( new ChangeListener() {
+//                public void stateChanged( ChangeEvent e ) {
+//                    module.setProfileWidth( profileWidthSlider.getModelValue() );
+//                }
+//            } );
+//            module.setProfileWidth( profileWidthSlider.getModelValue() );
 
             // Lay out the panel
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
@@ -144,11 +144,11 @@ public class NuclearPhysicsControlPanel extends JPanel {
                                                   1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, profileWidthSlider,
-                                                  1, rowIdx++,
-                                                  1, 1,
-                                                  GridBagConstraints.NONE,
-                                                  GridBagConstraints.CENTER );
+//                GraphicsUtil.addGridBagComponent( this, profileWidthSlider,
+//                                                  1, rowIdx++,
+//                                                  1, 1,
+//                                                  GridBagConstraints.NONE,
+//                                                  GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
                 e.printStackTrace();

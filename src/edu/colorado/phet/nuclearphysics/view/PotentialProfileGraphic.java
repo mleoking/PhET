@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
 public class PotentialProfileGraphic implements Graphic {
 
     private Color color = Color.blue;
-    private Stroke stroke = new BasicStroke(2f);
+    private Stroke stroke = new BasicStroke( 2f );
 
     private PotentialProfile profile;
     private Point2D.Double origin;
@@ -31,11 +31,11 @@ public class PotentialProfileGraphic implements Graphic {
     private Point2D.Double ctrlPt3 = new Point2D.Double();
     AffineTransform profileTx = new AffineTransform();
 
-    public PotentialProfileGraphic(PotentialProfile profile) {
+    public PotentialProfileGraphic( PotentialProfile profile ) {
         this.profile = profile;
     }
 
-    public void setOrigin(Point2D.Double origin) {
+    public void setOrigin( Point2D.Double origin ) {
         this.origin = origin;
     }
 
@@ -43,53 +43,53 @@ public class PotentialProfileGraphic implements Graphic {
         return profile;
     }
 
-    public void paint(Graphics2D g) {
-        GraphicsUtil.setAntiAliasingOn(g);
-        g.setColor(color);
-        g.setStroke(stroke);
+    public void paint( Graphics2D g ) {
+        GraphicsUtil.setAntiAliasingOn( g );
+        g.setColor( color );
+        g.setStroke( stroke );
 
         // Draw the curve going up the left side of the potential profile
         endPt1.x = origin.getX() - profile.getWidth() / 2;
         endPt1.y = origin.getY();
-        endPt2.x = origin.getX() - profile.getWidth() / 6;
+        endPt2.x = origin.getX() - profile.getWidth() / 10;
         endPt2.y = origin.getY() - profile.getMaxPotential();
 
-        ctrlPt1.x = endPt1.getX() + ((endPt2.getX() - endPt1.getX()) / 3);
+        ctrlPt1.x = endPt1.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 3 );
         ctrlPt1.y = endPt1.getY();
-        ctrlPt2A.x = endPt2.getX() - ((endPt2.getX() - endPt1.getX()) / 3);
+        ctrlPt2A.x = endPt2.getX() - ( ( endPt2.getX() - endPt1.getX() ) / 3 );
         ctrlPt2A.y = endPt2.getY();
 
-        CubicCurve2D.Double c1 = new CubicCurve2D.Double(endPt1.x, endPt1.y,
-                ctrlPt1.x, ctrlPt1.y,
-                ctrlPt2A.x, ctrlPt2A.y,
-                endPt2.x, endPt2.y);
+        CubicCurve2D.Double c1 = new CubicCurve2D.Double( endPt1.x, endPt1.y,
+                                                          ctrlPt1.x, ctrlPt1.y,
+                                                          ctrlPt2A.x, ctrlPt2A.y,
+                                                          endPt2.x, endPt2.y );
 
         // Draw the curve down into the left side of the potential well
         endPt3.x = origin.getX();
         endPt3.y = origin.getY() - profile.getWellPotential();
 
-        ctrlPt2B.x = endPt2.getX() + ((endPt2.getX() - endPt1.getX()) / 3);
+        ctrlPt2B.x = endPt2.getX() + ( ( endPt2.getX() - endPt1.getX() ) / 4 );
         ctrlPt2B.y = endPt2.getY();
-        ctrlPt3.x = endPt3.getX() - ((endPt3.getX() - endPt2.getX()) / 3);
+        ctrlPt3.x = endPt3.getX() - ( ( endPt3.getX() - endPt2.getX() ) / 2 );
         ctrlPt3.y = endPt3.getY();
 
-        CubicCurve2D.Double c2 = new CubicCurve2D.Double(endPt2.x, endPt2.y,
-                ctrlPt2B.x, ctrlPt2B.y,
-                ctrlPt3.x, ctrlPt3.y,
-                endPt3.x, endPt3.y);
+        CubicCurve2D.Double c2 = new CubicCurve2D.Double( endPt2.x, endPt2.y,
+                                                          ctrlPt2B.x, ctrlPt2B.y,
+                                                          ctrlPt3.x, ctrlPt3.y,
+                                                          endPt3.x, endPt3.y );
 
         // draw the curve for the right side of the well
         profileTx.setToIdentity();
-        profileTx.translate(origin.getX() + 1, origin.getY());
-        profileTx.scale(-1, 1);
-        profileTx.translate(-origin.getX(), -origin.getY());
+        profileTx.translate( origin.getX() + 1, origin.getY() );
+        profileTx.scale( -1, 1 );
+        profileTx.translate( -origin.getX(), -origin.getY() );
 
-        Shape c3 = profileTx.createTransformedShape(c2);
-        Shape c4 = profileTx.createTransformedShape(c1);
+        Shape c3 = profileTx.createTransformedShape( c2 );
+        Shape c4 = profileTx.createTransformedShape( c1 );
 
-        g.draw(c1);
-        g.draw(c2);
-        g.draw(c3);
-        g.draw(c4);
+        g.draw( c1 );
+        g.draw( c2 );
+        g.draw( c3 );
+        g.draw( c4 );
     }
 }
