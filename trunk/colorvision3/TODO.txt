@@ -1,7 +1,7 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
-o change filter switch image to wall switch with ON/OFF
+(DONE) o change filter switch image to wall switch with ON/OFF
 (DONE) o fix problem with PhotonBeam emitting zero-intensity photons
 (DONE) o make PhotonBeam graphic render zero-intensity photons as invisible
 (DONE) o pre-fitler beam sometimes not visible
@@ -23,6 +23,6 @@ o move "inUse" and "filtered" flags out of Photon model; manage separate lists i
 (DONE) o convert to PhET code formatting conventions
 (DONE) o add CVS headers
 o delete unused images & assets
-o rename BoundsOutline -> BoundsOutliner
+(DONE) o rename BoundsOutline -> BoundsOutliner
 
 
