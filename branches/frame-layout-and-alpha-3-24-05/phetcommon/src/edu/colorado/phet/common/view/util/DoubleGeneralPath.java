@@ -58,6 +58,10 @@ public class DoubleGeneralPath {
         moveTo( vec.getX(), vec.getY() );
     }
 
+    public void quadTo( double x1, double y1, double x2, double y2 ) {
+        path.quadTo( (float)x1, (float)y1, (float)x2, (float)y2 );
+    }
+
     public void lineTo( double x, double y ) {
         path.lineTo( (float)x, (float)y );
     }

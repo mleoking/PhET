@@ -21,6 +21,7 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.ParticleCounter;
 
 import java.awt.*;
+import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -61,12 +62,12 @@ public class AdvancedModule extends IdealGasModule {
         setParticleCounterRegions();
 
         // Put readouts on the apparatus panel
-        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter );
-        leftCounterReadout.setLocation( (int)boxBounds.getMinX() + 5, (int)boxBounds.getMaxY() + 7 );
+        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter, "Reactants: " );
+        leftCounterReadout.setLocation( (int)boxBounds.getMinX() + 0, (int)boxBounds.getMaxY() + 7 );
         addGraphic( leftCounterReadout, IdealGasConfig.readoutLayer );
 
-        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter );
-        rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 50, (int)boxBounds.getMaxY() + 7 );
+        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, "Products: " );
+        rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 110, (int)boxBounds.getMaxY() + 7 );
         addGraphic( rightCounterReadout, IdealGasConfig.readoutLayer );
     }
 
@@ -92,21 +93,30 @@ public class AdvancedModule extends IdealGasModule {
      */
     private class ReadoutGraphic extends CompositePhetGraphic implements SimpleObserver {
         private ParticleCounter counter;
+        private PhetTextGraphic labelGraphic;
         private PhetTextGraphic readout;
         private PhetShapeGraphic border;
+        private String label;
 
-        public ReadoutGraphic( ParticleCounter counter ) {
+        public ReadoutGraphic( ParticleCounter counter, String label ) {
             super( getApparatusPanel() );
+            this.label = label;
+            labelGraphic = new PhetTextGraphic( getApparatusPanel(), readoutFont, label, Color.black);
+            this.addGraphic( labelGraphic, 10 );
             readout = new PhetTextGraphic( getApparatusPanel(), readoutFont, "", Color.black );
             this.addGraphic( readout, 10 );
             border = new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 40, 15 ), Color.white, new BasicStroke( 1f ), Color.black );
             this.addGraphic( border, 5 );
+            border.setLocation( 20, 0);
             counter.addObserver( this );
             this.counter = counter;
             update();
         }
 
         public void paint( Graphics2D g2 ) {
+            FontRenderContext frc = g2.getFontRenderContext();
+            border.setLocation( (int)( readoutFont.getStringBounds( label, frc ).getMaxX() + 5 ), 0 );
+            readout.setLocation( (int)( readoutFont.getStringBounds( label, frc ).getMaxX() + 8 ), 0 );
             super.paint( g2 );
         }
 
