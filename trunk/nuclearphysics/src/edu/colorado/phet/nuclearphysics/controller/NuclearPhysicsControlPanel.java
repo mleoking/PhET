@@ -28,10 +28,12 @@ public class NuclearPhysicsControlPanel extends PhetControlPanel {
     public NuclearPhysicsControlPanel( NuclearPhysicsModule module ) {
         super( module );
         this.module = module;
-        setLayout( new BorderLayout() );
-        add( new LegendPanel(), BorderLayout.NORTH );
+        JPanel panel = new JPanel();
+        panel.setLayout( new BorderLayout() );
+        panel.add( new LegendPanel(), BorderLayout.NORTH );
         mainPanel = new JPanel( new GridBagLayout() );
-        add( mainPanel, BorderLayout.CENTER );
+        panel.add( mainPanel, BorderLayout.CENTER );
+        super.setControlPane( panel );
     }
 
     protected NuclearPhysicsModule getModule() {

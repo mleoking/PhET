@@ -84,8 +84,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         numU235Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int netNuclei = setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
-                //                int d = ((Integer)numU235Spinner.getValue() ).intValue() - netNuclei;
-                //                numU235Spinner.setValue( new Integer( d ));
+                percentDecayTF.setText( "0" );
             }
         } );
         numU235Spinner.setPreferredSize( new Dimension( 80, 30 ) );
@@ -95,6 +94,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         numU238Spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setNumU238Nuclei( ( (Integer)numU238Spinner.getValue() ).intValue() );
+                percentDecayTF.setText( "0" );
             }
         } );
         numU238Spinner.setPreferredSize( new Dimension( 80, 30 ) );

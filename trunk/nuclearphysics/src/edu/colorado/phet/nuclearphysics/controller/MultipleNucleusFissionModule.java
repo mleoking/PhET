@@ -21,7 +21,8 @@ import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MultipleNucleusFissionModule extends NuclearPhysicsModule implements NeutronGun, FissionListener {
+public class MultipleNucleusFissionModule extends NuclearPhysicsModule
+        implements NeutronGun, FissionListener, Containment.ResizeListener {
     private static Random random = new Random();
     private static int s_maxPlacementAttempts = 100;
 
@@ -336,7 +337,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
     }
 
     private void addContainment() {
-        containment = new Containment( new Ellipse2D.Double( -400, -400, 800, 800 ) );
+        containment = new Containment( new Point2D.Double( 0, 0 ), 400 );
+        containment.addResizeListener( this );
         containmentGraphic = new ContainmentGraphic( containment, getPhysicalPanel(), getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( containmentGraphic, 10 );
     }
@@ -371,7 +373,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
         }
         Shape bounds = null;
         if( containment != null ) {
-            bounds = containment.geShape();
+            bounds = containment.getShape();
         }
         else {
             bounds = apparatusPanelBounds;
@@ -414,5 +416,27 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule implement
             location = null;
         }
         return location;
+    }
+
+    public void resized( Containment containment ) {
+        Shape bounds = containment.getShape();
+        ArrayList removeList = new ArrayList();
+        for( int i = 0; i < nuclei.size(); i++ ) {
+            Nucleus nucleus = (Nucleus)nuclei.get( i );
+            if( nucleus.getPosition().distance( 0, 0 ) + 50 > bounds.getBounds2D().getWidth() / 2 ) {
+                removeList.add( nucleus );
+            }
+        }
+        for( int i = 0; i < removeList.size(); i++ ) {
+            Nucleus nucleus = (Nucleus)removeList.get( i );
+            // This is lazy and crude, but let's just remove from all the lists, so
+            // we don't have to check types, use logic, etc.
+            nuclei.remove( nucleus );
+            u235Nuclei.remove( nucleus );
+            u238Nuclei.remove( nucleus );
+            u239Nuclei.remove( nucleus );
+            bodies.remove( nucleus );
+            nucleus.leaveSystem();
+        }
     }
 }
