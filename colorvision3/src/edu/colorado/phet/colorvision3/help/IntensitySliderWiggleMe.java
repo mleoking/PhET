@@ -1,4 +1,4 @@
-/* SliderWiggleMeGraphic.java, Copyright 2004 University of Colorado PhET */
+/* IntensitySliderWiggleMe.java, Copyright 2004 University of Colorado PhET */
 
 package edu.colorado.phet.colorvision3.help;
 
@@ -20,14 +20,14 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
- * SliderWiggleMeGraphic is a help graphic that tells the user to move a slider.
+ * IntensitySliderWiggleMe is a help graphic that tells the user to move a slider.
  * This class sets up the "look" of the graphic, while the superclass handles
  * the animation behavior.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @revision $Id$ $Name$
  */
-public class SliderWiggleMeGraphic extends WiggleMeGraphic
+public class IntensitySliderWiggleMe extends WiggleMe
 {
 	//----------------------------------------------------------------------------
 	// Class data
@@ -48,7 +48,7 @@ public class SliderWiggleMeGraphic extends WiggleMeGraphic
 	 * @param component the parent Component
 	 * @param model the module model
 	 */
-  public SliderWiggleMeGraphic( Component component, BaseModel model )
+  public IntensitySliderWiggleMe( Component component, BaseModel model )
   {
     super( component, model );
     
