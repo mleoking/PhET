@@ -36,7 +36,7 @@ public class ExerciseView {
             exerciseDlg.setLocationRelativeTo( owner );
         }
         exerciseDlg.present();
-        while( exerciseDlg.getSelectedAnswer() == null ) {
+        while( !exerciseDlg.isSubmitted() ) {
             try {
                 Thread.sleep( 500 );
             }
@@ -45,13 +45,15 @@ public class ExerciseView {
             }
         }
         exerciseDlg.setVisible( false );
-        return exerciseDlg.getSelectedAnswer() == exercise.getCorrectAnswer();
+        return exercise.evaluate( exerciseDlg.getSelectedAnswer() );
+//        return exerciseDlg.getSelectedAnswer() == exercise.getCorrectAnswer();
     }
 
     private class ExerciseDialog extends JDialog {
         private ButtonGroup choiceBG = new ButtonGroup();
         private HashMap rbToAnswerMap = new HashMap();
         private Answer selectedAnswer;
+        private boolean submitted = false;
 
         public ExerciseDialog( JFrame owner, ExerciseModel exerciseModel ) {
             super( owner, false );
@@ -88,6 +90,7 @@ public class ExerciseView {
                 public void actionPerformed( ActionEvent e ) {
                     JRadioButton selectedRB = GraphicsUtil.getSelection( choiceBG );
                     selectedAnswer = (Answer)rbToAnswerMap.get( selectedRB );
+                    submitted = true;
                 }
             } );
             JPanel buttonPane = new JPanel();
@@ -102,8 +105,13 @@ public class ExerciseView {
         }
 
         public void present() {
+            submitted = false;
             selectedAnswer = null;
             exerciseDlg.setVisible( true );
+        }
+
+        boolean isSubmitted() {
+            return submitted;
         }
     }
 }

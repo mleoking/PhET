@@ -30,7 +30,6 @@ public class Level1 extends Exercise {
 
     public Level1( JFrame frame, UniverseModel model ) {
         super( frame, new XmlExercise( "exercises/level1.xml" ) );
-//        super( frame, new Level1Model() );
         model.getStarField().reset();
         for( int i = 0; i < starField.length; i++ ) {
             Star star = starField[i];
@@ -40,17 +39,17 @@ public class Level1 extends Exercise {
     }
 
 
-    private static class Level1Model extends ExerciseModel {
-        static Answer correctAnswer = new Answer( "b", "The blue star" );
-        static Answer[] answers = new Answer[]{
-            new Answer( "a", "The red star" ),
-            correctAnswer,
-            new Answer( "c", "The gree star" )
-        };
-
-        Level1Model() {
-            super( "Which star is closest?", answers, correctAnswer );
-        }
-    }
+//    private static class Level1Model extends ExerciseModel {
+//        static Answer correctAnswer = new Answer( "b", "The blue star" );
+//        static Answer[] answers = new Answer[]{
+//            new Answer( "a", "The red star" ),
+//            correctAnswer,
+//            new Answer( "c", "The gree star" )
+//        };
+//
+//        Level1Model() {
+//            super( "Which star is closest?", answers, correctAnswer );
+//        }
+//    }
 
 }

@@ -18,10 +18,6 @@ public class Exercise extends FsmState {
     public Exercise( JFrame frame, ExerciseModel model ) {
         this.model = model;
         view = new ExerciseView( frame, model );
-//
-//        for( int i = 0; i < model.getChoices().length; i++ ){
-//            FsmTransition transition = new FsmTransition( new Choice( model.getChoices()[i]) );
-//        }
     }
 
     public boolean doIt() {

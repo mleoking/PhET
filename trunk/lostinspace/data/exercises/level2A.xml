@@ -13,9 +13,9 @@
         </html>
         ]]>
 	</question>
-	<choice id="A" >
-		<text>50 parsecs</text>
-	</choice>
+<!--	<choice id="A" >-->
+<!--		<text>50 parsecs</text>-->
+<!--	</choice>-->
 <!--		<choice id="B" >-->
 <!--		<text>100 parsecs</text>-->
 <!--	</choice>-->
@@ -25,6 +25,6 @@
 <!--		<choice id="D" >-->
 <!--		<text>400 parsecs</text>-->
 <!--	</choice>-->
-	<answer id="A"/>
+<!--	<answer id="A"/>-->
 <!--	<numTries num="1" />-->
 </exercise>

@@ -38,12 +38,15 @@ public class XmlExercise extends ExerciseModel {
                 Answer answer = new Answer( id, text );
                 choiceArray[i] = answer;
             }
-            String correctAnswerId = root.getChild( "answer" ).getAttributeValue( "id" );
+            Element correctAnswerElement = root.getChild( "answer" );
             Answer correctAnswer = null;
-            for( int i = 0; i < choiceArray.length; i++ ) {
-                Answer answer = choiceArray[i];
-                if( correctAnswerId.equals( answer.getId() ) ) {
-                    correctAnswer = answer;
+            if( correctAnswerElement != null ) {
+                String correctAnswerId = correctAnswerElement.getAttributeValue( "id" );
+                for( int i = 0; i < choiceArray.length; i++ ) {
+                    Answer answer = choiceArray[i];
+                    if( correctAnswerId.equals( answer.getId() ) ) {
+                        correctAnswer = answer;
+                    }
                 }
             }
 
@@ -56,4 +59,7 @@ public class XmlExercise extends ExerciseModel {
         }
     }
 
+    public boolean evaluate( Answer choice ) {
+        return choice == getCorrectAnswer();
+    }
 }
