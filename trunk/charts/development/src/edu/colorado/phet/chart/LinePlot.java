@@ -49,11 +49,11 @@ public class LinePlot extends DataSetGraphic {
             generalPath.moveTo( viewLocation.x, viewLocation.y );
         }
         else {
-            Line2D line = new Line2D.Double( generalPath.getCurrentPoint(), point );
+            //Determine the exact region for repaint.
+            Line2D line = new Line2D.Double( generalPath.getCurrentPoint(), viewLocation );
             generalPath.lineTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
             notifyObservers( line );
 
-            //TODO this should get the specific rectangle for repainting.
             Rectangle shape = stroke.createStrokedShape( line ).getBounds();
             getChart().getComponent().repaint( shape.x, shape.y, shape.width, shape.height );
         }
