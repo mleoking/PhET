@@ -22,7 +22,6 @@ public class SphereSphereCollision implements Collision {
     private SphericalBody sphereA;
     private SphericalBody sphereB;
     private Vector2D loa = new Vector2D.Double();
-    private SphereHollowSphereContactDetector contactDetector = new SphereHollowSphereContactDetector();
 
     public SphereSphereCollision( SphericalBody sphereA, SphericalBody sphereB ) {
         this.sphereA = sphereA;
@@ -82,12 +81,12 @@ public class SphereSphereCollision implements Collision {
 //        Point2D.Double linePtB = new Point2D.Double( contactPt.getX() - (contactPt.getX() - prevPosB.getX()) * sB,
 //                                                contactPt.getY() - (contactPt.getY() - prevPosB.getY()) * sB );
         double offsetB = this.sphereB.getPositionPrev().distance( this.sphereA.getPositionPrev() ) < this.sphereA.getRadius() ?
-                        -this.sphereB.getRadius() : this.sphereB.getRadius();
+                         -this.sphereB.getRadius() : this.sphereB.getRadius();
         double offsetXB = n.getX() * offsetB;
         double offsetYB = n.getY() * offsetB;
         Point2D.Double linePtB = new Point2D.Double( contactPt.getX() - offsetXB, contactPt.getY() - offsetYB );
         Point2D pB = MathUtil.reflectPointAcrossLine( sphereB.getPosition(), linePtB,
-                                                     Math.atan2( tangentVector.getY(), tangentVector.getX() ) );
+                                                      Math.atan2( tangentVector.getY(), tangentVector.getX() ) );
 //        System.out.println( "\nbodyB old position: " + sphereB.getPosition() );
         sphereB.setPosition( pB );
 //        System.out.println( "sphereB new position: " + sphereB.getPosition() );
@@ -99,16 +98,16 @@ public class SphereSphereCollision implements Collision {
         Point2D prevPosA = sphereA.getPositionPrev();
         double prevDistA = prevPosA.distance( contactPt );
         double sA = sphereA.getRadius() / prevDistA;
-        Point2D.Double linePtA = new Point2D.Double( contactPt.getX() - (contactPt.getX() - prevPosA.getX()) * sA,
-                                                contactPt.getY() - (contactPt.getY() - prevPosA.getY()) * sA );
+        Point2D.Double linePtA = new Point2D.Double( contactPt.getX() - ( contactPt.getX() - prevPosA.getX() ) * sA,
+                                                     contactPt.getY() - ( contactPt.getY() - prevPosA.getY() ) * sA );
         double offsetA = -this.sphereA.getRadius();
 //        double offsetA = this.sphereB.getPositionPrev().distance( this.sphereA.getPositionPrev() ) < this.sphereA.getRadius() ?
 //                        -this.sphereA.getRadius() : this.sphereA.getRadius();
-        double offsetXA = (n.getX() * offsetA);
-        double offsetYA = (n.getY() * offsetA);
+        double offsetXA = ( n.getX() * offsetA );
+        double offsetYA = ( n.getY() * offsetA );
 //        Point2D.Double linePtA = new Point2D.Double( contactPt.getX() - offsetXA, contactPt.getY() - offsetYA );
         Point2D pA = MathUtil.reflectPointAcrossLine( sphereA.getPosition(), linePtA,
-                                                     Math.atan2( tangentVector.getY(), tangentVector.getX() ) );
+                                                      Math.atan2( tangentVector.getY(), tangentVector.getX() ) );
         sphereA.setPosition( pA );
 
         // Compute the relative velocities of the contact points

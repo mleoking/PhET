@@ -35,6 +35,7 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
     private double min;
     private double max;
     private NeedleGraphic needleGraphic;
+    private FaceGraphic faceGraphic;
 
     public DialGauge( ScalarObservable dataSource, Component component,
                       double x, double y, double diam, double min, double max,
@@ -49,12 +50,23 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
         this.diam = diam;
         this.min = min;
         this.max = max;
-        this.addGraphic( new FaceGraphic() );
+        faceGraphic = new FaceGraphic();
+        this.addGraphic( faceGraphic );
         needleGraphic = new NeedleGraphic();
         this.addGraphic( needleGraphic );
 
         update();
     }
+
+    public void update() {
+        double datum = dataSource.getValue();
+        datum = Math.max( Math.min( datum, max ), min );
+        double p = ( max - datum ) / ( max - min );
+        double theta = -( ( Math.PI * 5 / 4 ) + ( Math.PI * 3 / 2 ) * p ) - Math.PI / 2;
+        needleGraphic.update( theta );
+        faceGraphic.repaint();
+    }
+
 
     private class NeedleGraphic extends PhetShapeGraphic {
         private Rectangle.Double needle;
@@ -87,6 +99,7 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
         void update( double theta ) {
             needleTx = AffineTransform.getRotateInstance( theta, x, y );
             pivot.setFrameFromCenter( x, y, x + 2, y + 2 );
+            repaint();
         }
     }
 
@@ -147,13 +160,5 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
 
             popRenderingHints( g );
         }
-    }
-
-    public void update() {
-        double datum = dataSource.getValue();
-        datum = Math.max( Math.min( datum, max ), min );
-        double p = ( max - datum ) / ( max - min );
-        double theta = -( ( Math.PI * 5 / 4 ) + ( Math.PI * 3 / 2 ) * p ) - Math.PI / 2;
-        needleGraphic.update( theta );
     }
 }
