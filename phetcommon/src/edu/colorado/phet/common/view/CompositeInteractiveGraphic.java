@@ -111,6 +111,18 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
         this.graphicMap.add( new Double( layer ), graphic );
     }
 
+    /**
+Alternative to a large many to many composite interactive graphic implementation.
+
+     We will also need to handle transforming mouse events, etc...
+ */
+    public void addGraphic2(Graphic graphic, double layer,AffineTransform atx,RevertableGraphicsSetup graphicSetup){
+        addGraphic(new RevertibleGraphic(graphic,atx,graphicSetup),layer);
+        /**Doing this keeps the mappings 1-1, not many to many, and keeps the paint method here nice and small, as it should be.*/
+//        this.graphicMap.add( new Double( layer ), graphic );
+//        this.graphicTxMap.put( graphic, atx );
+//        this.graphicSetupMap.put( graphic, graphicSetup );
+    }
     public void addGraphic( Graphic graphic, double layer,
                             AffineTransform atx, RevertableGraphicsSetup graphicSetup ) {
         this.graphicMap.add( new Double( layer ), graphic );
