@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.colorvision3;
 
+import java.awt.Dimension;
+
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;

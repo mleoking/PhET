@@ -4,6 +4,7 @@ package edu.colorado.phet.colorvision3;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import javax.swing.JSlider;
@@ -55,21 +56,22 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
   // Colors 
 	private static final Color APPARATUS_BACKGROUND = Color.black;
 
-	// Locations (screen coordinates, relative to upper left)
-	private static final int PERSON_X             = 400;
-	private static final int PERSON_Y             =  25;
-	private static final int RED_SPOTLIGHT_X      = 120;
-	private static final int RED_SPOTLIGHT_Y      = 105;
-	private static final int GREEN_SPOTLIGHT_X    = RED_SPOTLIGHT_X;
-	private static final int GREEN_SPOTLIGHT_Y    = RED_SPOTLIGHT_Y + 220;
-	private static final int BLUE_SPOTLIGHT_X     = RED_SPOTLIGHT_X;
-	private static final int BLUE_SPOTLIGHT_Y     = GREEN_SPOTLIGHT_Y + (GREEN_SPOTLIGHT_Y - RED_SPOTLIGHT_Y);
-	private static final int RED_SLIDER_X        = 50;
-	private static final int RED_SLIDER_Y        = 85;
-	private static final int GREEN_SLIDER_X      = RED_SLIDER_X;
-	private static final int GREEN_SLIDER_Y      = 260;
-	private static final int BLUE_SLIDER_X       = RED_SLIDER_X;
-	private static final int BLUE_SLIDER_Y       = 435;
+	// Locations of model components
+	private static final double PERSON_X             = 400;
+	private static final double PERSON_Y             =  25;
+	private static final double SPOTLIGHT_X          = 120;
+	private static final double RED_SPOTLIGHT_X      = SPOTLIGHT_X;
+	private static final double RED_SPOTLIGHT_Y      = 105;
+	private static final double GREEN_SPOTLIGHT_X    = SPOTLIGHT_X;
+	private static final double GREEN_SPOTLIGHT_Y    = 325;
+	private static final double BLUE_SPOTLIGHT_X     = SPOTLIGHT_X;
+	private static final double BLUE_SPOTLIGHT_Y     = 545;
+	
+	// Locations of view components
+	private static final int SLIDER_X                = 50;
+	private static final Point RED_SLIDER_LOCATION   = new Point( SLIDER_X, 85 );
+	private static final Point GREEN_SLIDER_LOCATION = new Point( SLIDER_X, 260 );
+	private static final Point BLUE_SLIDER_LOCATION  = new Point( SLIDER_X, 435 );
 	
 	// Angles
 	private static final double RED_SPOTLIGHT_ANGLE   = 27.0;
@@ -77,7 +79,8 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
 	private static final double BLUE_SPOTLIGHT_ANGLE  = -(RED_SPOTLIGHT_ANGLE);
 
 	// Bounds
-	private static final Rectangle BEAM_BOUNDS = new Rectangle( 0, 0, PERSON_X + 160, 10000 );
+	private static final Rectangle BEAM_BOUNDS = 
+	  new Rectangle( 0, 0, (int) (PERSON_X + 160), 10000 );
 	private static final Dimension INTENSITY_SLIDER_SIZE = new Dimension(20,100);
 	
 	//----------------------------------------------------------------------------
@@ -196,17 +199,17 @@ public class RgbBulbsModule extends Module implements ChangeListener, ColorChang
 
     // Red intensity control
     _redSlider = new IntensitySlider( VisibleColor.RED, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
-    _redSlider.setLocation( RED_SLIDER_X, RED_SLIDER_Y );
+    _redSlider.setLocation( RED_SLIDER_LOCATION );
     apparatusPanel.add( _redSlider );
        
     // Green intensity control
     _greenSlider = new IntensitySlider( VisibleColor.GREEN, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
-    _greenSlider.setLocation( GREEN_SLIDER_X, GREEN_SLIDER_Y );
+    _greenSlider.setLocation( GREEN_SLIDER_LOCATION );
     apparatusPanel.add( _greenSlider );
  
     // Blue intensity control
     _blueSlider = new IntensitySlider( VisibleColor.BLUE, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
-    _blueSlider.setLocation( BLUE_SLIDER_X, BLUE_SLIDER_Y );
+    _blueSlider.setLocation( BLUE_SLIDER_LOCATION );
     apparatusPanel.add( _blueSlider );
     
 		//----------------------------------------------------------------------------

@@ -8,7 +8,6 @@ o make all control panels the same size, so that apparatus doesn't resize when s
 o Ant build scripts
 
 LOW:
-o use Point and Point2D.Double for specifying positions
 o Help
 
 ENHANCEMENTS:

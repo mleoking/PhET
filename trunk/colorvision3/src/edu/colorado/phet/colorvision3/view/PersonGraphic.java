@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.colorvision3.view;
 
-import java.awt.Point;
-
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
 import edu.colorado.phet.colorvision3.model.Person;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -85,31 +83,6 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
     //  Sync the view with the model.
     update();
   }
- 
-	//----------------------------------------------------------------------------
-	// Accessors
-  //----------------------------------------------------------------------------
-
-  /**
-   * Sets the location of the associated model.
-   *
-   * @param location the location
-   */
-  public void setLocation( Point location )
-  {
-    _personModel.setLocation( location.x, location.y );
-  }
-  
-  /**
-   * Convenience method for setting location.
-   *
-   * @param x X coordinate
-   * @param y Y coordinate
-   */
-  public void setLocation( int x, int y )
-  {
-    setLocation( new Point(x,y) );
-  }
 
 	//----------------------------------------------------------------------------
 	// SimpleObserver implementation
@@ -125,7 +98,7 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
                                         (int)(_personModel.getY() + HEAD_Y_OFFSET) );
     _headForegroundGraphic.setPosition( (int)(_personModel.getX() + HEAD_X_OFFSET),
                                         (int)(_personModel.getY() + HEAD_Y_OFFSET) );
-    _thoughtBubbleGraphic.setPosition( (int)(_personModel.getX() + THOUGHT_BUBBLE_X_OFFSET), 
+    _thoughtBubbleGraphic.setLocation( (int)(_personModel.getX() + THOUGHT_BUBBLE_X_OFFSET), 
                                       (int)(_personModel.getY() + THOUGHT_BUBBLE_Y_OFFSET) );
     _thoughtBubbleGraphic.setFill( _personModel.getColor() );
     
