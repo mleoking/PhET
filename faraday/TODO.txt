@@ -14,8 +14,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - compass grid does not fill the apparatus panel
-- is CompassGraphic.setVisible needed?
-- disable "See Inside Magnet" control when grid is off
 - optimize performance
 - check performance with a profiler
 - Transformer module requirements
@@ -23,6 +21,7 @@ MEDIUM PRIORITY:
 - check for unnecessary notification, events and updates
 
 LOW PRIORITY:
+- disable "See Inside Magnet" control when grid is off
 - transparent bar magnet layer so that field meter looks like it's inside it
 - agree on control labels
 - Wiggle Me's
@@ -43,6 +42,7 @@ phetcommon:
 
 DONE:
 v0r13...
+(2/14) - remove CompassGraphic.setVisible override, not needed
 (2/14) - loop radius should be displayed as loop area
 (2/14) - fix electron density in coil ends
 v0r12...
