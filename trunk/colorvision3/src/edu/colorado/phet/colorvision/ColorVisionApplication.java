@@ -54,25 +54,7 @@ public class ColorVisionApplication extends PhetApplication {
         BoundsOutliner.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
 
         // Initialize localization.
-        {
-            // Get the default locale from property javaws.locale.
-            String applicationLocale = System.getProperty( "javaws.locale" );
-            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                SimStrings.setLocale( new Locale( applicationLocale ) );
-            }
-
-            // Override default locale using "user.language=" command line
-            // argument.
-            String argsKey = "user.language=";
-            if( args.length > 0 && args[0].startsWith( argsKey ) ) {
-                String locale = args[0].substring( argsKey.length(), args[0].length() );
-                SimStrings.setLocale( new Locale( locale ) );
-            }
-
-            // Initialize simulation strings using resource bundle for the
-            // locale.
-            SimStrings.setStrings( ColorVisionConfig.LOCALIZATION_BUNDLE_BASENAME );
-        }
+        PhetApplication.initLocalization( args, ColorVisionConfig.LOCALIZATION_BUNDLE_BASENAME );
 
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "ColorVisionApplication.title" );
