@@ -15,7 +15,7 @@ public class SimpleForceModule extends Force1DModule {
     private SimpleControlPanel forceControlPanel;
 
     public SimpleForceModule( AbstractClock clock ) throws IOException {
-        super( clock, "Simple Force Module" );
+        super( clock, "Forces in 1-D" );
 
         forceControlPanel = new SimpleControlPanel( this );
         setControlPanel( forceControlPanel );
@@ -32,4 +32,14 @@ public class SimpleForceModule extends Force1DModule {
         super.reset();
         forceControlPanel.reset();
     }
+
+
+    public void updateControlPanelGraphics() {
+        forceControlPanel.updateGraphics();
+    }
+
+    public void handleControlPanelInputs() {
+        forceControlPanel.handleUserInput();
+    }
+
 }

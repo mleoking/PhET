@@ -21,6 +21,15 @@ public abstract class RelativeLocationSetter {
         public Rectangle getBounds();
 
         public void addBoundsObserver( BoundsObserver boundsObserver );
+
+        void addVisibilityObserver( VisibilityObserver visibilityObserver );
+
+        boolean isVisible();
+    }
+
+    public static interface VisibilityObserver {
+
+        void visibilityChanged();
     }
 
     public static interface BoundsObserver {
@@ -28,7 +37,9 @@ public abstract class RelativeLocationSetter {
     }
 
     public static interface Movable extends Target {
-        public void setLocation( int x, int y );
+        void setLocation( int x, int y );
+
+        void setVisible( boolean visible );
     }
 
     public static class PhetGraphicTarget implements Target {
@@ -52,6 +63,21 @@ public abstract class RelativeLocationSetter {
                 }
             } );
         }
+
+        public void addVisibilityObserver( final VisibilityObserver visibilityObserver ) {
+            phetGraphic.addPhetGraphicListener( new PhetGraphicListener() {
+                public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+                }
+
+                public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+                    visibilityObserver.visibilityChanged();
+                }
+            } );
+        }
+
+        public boolean isVisible() {
+            return phetGraphic.isVisible();
+        }
     }
 
     public static class MovablePhetGraphic extends PhetGraphicTarget implements Movable {
@@ -73,6 +99,10 @@ public abstract class RelativeLocationSetter {
 
             Point location = phetGraphic.getLocation();
             phetGraphic.setLocation( location.x + dx, location.y + dy );
+        }
+
+        public void setVisible( boolean visible ) {
+            phetGraphic.setVisible( visible );
         }
 
     }
@@ -176,6 +206,11 @@ public abstract class RelativeLocationSetter {
                 rel.layout( target, tomove );
             }
         } );
+        target.addVisibilityObserver( new VisibilityObserver() {
+            public void visibilityChanged() {
+                tomove.setVisible( target.isVisible() );
+            }
+        } );
         rel.layout( target, tomove );
     }
 
@@ -196,6 +231,14 @@ public abstract class RelativeLocationSetter {
 
         public void addBoundsObserver( BoundsObserver boundsObserver ) {
             //no-op for regular rectangles.
+        }
+
+        public void addVisibilityObserver( VisibilityObserver visibilityObserver ) {
+            //no-op
+        }
+
+        public boolean isVisible() {
+            return true;
         }
     }
 
@@ -239,6 +282,22 @@ public abstract class RelativeLocationSetter {
                     }
                 } );
             }
+        }
+
+        public void addVisibilityObserver( final VisibilityObserver visibilityObserver ) {
+            jComponent.addComponentListener( new ComponentAdapter() {
+                public void componentShown( ComponentEvent e ) {
+                    visibilityObserver.visibilityChanged();
+                }
+
+                public void componentHidden( ComponentEvent e ) {
+                    visibilityObserver.visibilityChanged();
+                }
+            } );
+        }
+
+        public boolean isVisible() {
+            return jComponent.isVisible();
         }
     }
 }
