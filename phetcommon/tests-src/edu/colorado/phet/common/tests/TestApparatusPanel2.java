@@ -6,6 +6,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -33,7 +34,7 @@ public class TestApparatusPanel2 {
         public TestAppModel() {
             super( "", "", "" );
             this.setClock( new SwingTimerClock( 10, 40, true ) );
-            TestModule module = new TestModule();
+            TestModule module = new TestModule( this );
             setModule( module );
             setFrameCenteredSize( 400, 300 );
             setInitialModule( module );
@@ -42,14 +43,15 @@ public class TestApparatusPanel2 {
 
     static class TestModule extends Module {
 
-        protected TestModule() {
+        protected TestModule( TestAppModel model ) {
             super( "ApparatusPanel2 Test" );
 
-            BaseModel model = new BaseModel();
-            ApparatusPanel ap = new ApparatusPanel();
-//            ApparatusPanel ap = new ApparatusPanel2( model );
+//            BaseModel model = new BaseModel();
+//            ApparatusPanel ap = new ApparatusPanel();
+            BaseModel baseModel = new BaseModel();
+            ApparatusPanel ap = new ApparatusPanel2( baseModel, model.getClock() );
             setApparatusPanel( ap );
-            setModel( model );
+            setModel( baseModel );
 
             String family = "Serif";
             int style = Font.PLAIN;
@@ -90,9 +92,9 @@ public class TestApparatusPanel2 {
             setColor( Color.blue );
         }
 
-        public void fireMouseExited(MouseEvent e) {
-            super.fireMouseExited(e);
-            setColor( Color.red );            
+        public void fireMouseExited( MouseEvent e ) {
+            super.fireMouseExited( e );
+            setColor( Color.red );
         }
     }
 
