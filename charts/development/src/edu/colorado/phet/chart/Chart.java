@@ -249,7 +249,8 @@ public class Chart extends GraphicLayerSet {
         this.yAxis = yAxis;
     }
 
-    public void setViewBounds( Rectangle viewBounds ) {
+    public void setChartSize( int width, int height ) {
+        Rectangle viewBounds = new Rectangle( width, height );
         backgroundGraphic.setShape( viewBounds );
         frameGraphic.setShape( viewBounds );
         this.viewBounds = viewBounds;
@@ -259,8 +260,24 @@ public class Chart extends GraphicLayerSet {
         autorepaint();
     }
 
+    /**
+     * @param viewBounds //     * @deprecated, use setChartSize and setLocation()
+     */
+    public void setViewBounds( Rectangle viewBounds ) {
+        setChartSize( viewBounds.width, viewBounds.height );
+        setLocation( viewBounds.x, viewBounds.y );
+
+//        backgroundGraphic.setShape( viewBounds );
+//        frameGraphic.setShape( viewBounds );
+//        this.viewBounds = viewBounds;
+//        transform.setViewBounds( viewBounds );
+//        fireTransformChanged();
+//        setBoundsDirty();
+//        autorepaint();
+    }
+
     public Rectangle getChartBounds() {
-        return getNetTransform().createTransformedShape( getViewBounds() ).getBounds();
+        return getNetTransform().createTransformedShape( viewBounds ).getBounds();
     }
 
     private void fireTransformChanged() {
@@ -291,7 +308,11 @@ public class Chart extends GraphicLayerSet {
     }
 
     public Rectangle getViewBounds() {
-        return viewBounds;
+        return getChartBounds();
+//        Rectangle vb = new Rectangle( getX(), getY(), viewBounds.width, viewBounds.height );
+//        return vb;
+//           Rectangle vb = new Rectangle( getX(), getY(), viewBounds.width, viewBounds.height );
+//        return vb;
     }
 
 }

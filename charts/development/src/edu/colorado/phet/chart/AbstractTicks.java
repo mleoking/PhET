@@ -60,7 +60,7 @@ public abstract class AbstractTicks extends AbstractGrid {
 
                 String string = format.format( gridLineX );
                 PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
-                labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 + labelGraphic.getHeight() );
+                labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
                 labelGraphics.addGraphic( labelGraphic );
             }
         }
@@ -76,7 +76,7 @@ public abstract class AbstractTicks extends AbstractGrid {
 
                 String string = format.format( gridLineY );
                 PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
-                labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y + labelGraphic.getHeight() / 2 );
+                labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
                 labelGraphics.addGraphic( labelGraphic );
             }
         }

@@ -2,7 +2,7 @@
 package edu.colorado.phet.chart.test;
 
 import edu.colorado.phet.chart.*;
-import edu.colorado.phet.chart.controllers.VerticalChartSlider2;
+import edu.colorado.phet.chart.controllers.ChartSlider;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
@@ -37,14 +37,14 @@ public class ControllerTest2 {
         final Chart ch = new Chart( apparatusPanel, new Range2D( -10, -10, 10, 10 ), new Rectangle( 50, 50, 400, 400 ) );
         x = ch.getRange().getMinX();
         apparatusPanel.addGraphic( ch );
-        VerticalChartSlider2 verticalChartSlider = new VerticalChartSlider2( apparatusPanel, ch );
-//        verticalChartSlider.getSlider().setBackground( );
-        apparatusPanel.addGraphic( verticalChartSlider );
-        ch.getVerticalTicks().setMajorOffset( -verticalChartSlider.getWidth() - 5, 0 );
+        ChartSlider chartSlider = new ChartSlider( apparatusPanel, ch );
+//        chartSlider.getSlider().setBackground( );
+        apparatusPanel.addGraphic( chartSlider );
+        ch.getVerticalTicks().setMajorOffset( -chartSlider.getWidth() - 5, 0 );
         final DataSet ds = new DataSet();
         DataSetGraphic dsg = new LinePlot( apparatusPanel, ch, ds, new BasicStroke( 3 ), Color.red );
         ch.addDataSetGraphic( dsg );
-        verticalChartSlider.addListener( new VerticalChartSlider2.Listener() {
+        chartSlider.addListener( new ChartSlider.Listener() {
             public void valueChanged( double value ) {
                 ds.addPoint( x, value );
                 x += .07;

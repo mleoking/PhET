@@ -2,7 +2,7 @@
 package edu.colorado.phet.chart.test;
 
 import edu.colorado.phet.chart.*;
-import edu.colorado.phet.chart.controllers.HorizontalCursor2;
+import edu.colorado.phet.chart.controllers.ChartCursor;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
@@ -52,8 +52,8 @@ public class CursorRectangleTest {
         VerticalChartSlider verticalChartSlider = new VerticalChartSlider( ch );
 
 //        HorizontalCursor cursor = new HorizontalCursor( ch, new Color( 200, 200, 0, 150 ), new Color( 150, 150, 0, 50 ), 8 );
-        HorizontalCursor2 cursor = new HorizontalCursor2( apparatusPanel, ch, new Color( 200, 200, 255, 120 ), new Color( 150, 150, 255, 255 ), 8 );
-        cursor.addListener( new HorizontalCursor2.Listener() {
+        ChartCursor cursor = new ChartCursor( apparatusPanel, ch, new Color( 200, 200, 255, 120 ), new Color( 150, 150, 255, 255 ), 8 );
+        cursor.addListener( new ChartCursor.Listener() {
             public void modelValueChanged( double modelX ) {
                 System.out.println( "modelX = " + modelX );
             }
