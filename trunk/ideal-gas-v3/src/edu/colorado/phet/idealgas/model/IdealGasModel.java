@@ -220,10 +220,10 @@ public class IdealGasModel extends BaseModel {
         double totalPreKE = this.getTotalKineticEnergy();
 
         // Clear the accelerations on the bodies in the model
-        //        for( int i = 0; i < bodies.size(); i++ ) {
-        //            Body body = (Body)bodies.get( i );
-        //            body.setAccelerationNoUpdate( 0, 0 );
-        //        }
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            body.setAccelerationNoUpdate( 0, 0 );
+        }
 
         addHeatFromStove();
 

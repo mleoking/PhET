@@ -33,7 +33,6 @@ public class SphereWallCollision extends HardsphereCollision {
 
     public SphereWallCollision( SphericalBody sphere, Wall wall,
                                 IdealGasModel model, double dt ) {
-        //    public SphereWallCollision( Sphere sphere, Wall wall ) {
         this.sphere = sphere;
         this.wall = wall;
         this.model = model;
@@ -47,22 +46,19 @@ public class SphereWallCollision extends HardsphereCollision {
         Wall wall = particleA instanceof Wall ? (Wall)particleA : (Wall)particleB;
         loa.setX( (float)( wall.getEnd1().getY() - wall.getEnd2().getY() ) );
         loa.setY( (float)( wall.getEnd1().getX() - wall.getEnd2().getX() ) );
-        //        Vector2D loa = new Vector2D( (float)( wall.getEnd1().getY() - wall.getEnd2().getY() ),
-        //                                     (float)( wall.getEnd1().getX() - wall.getEnd2().getX() ));
         return loa;
     }
 
     public void collide() {
 
         // Set the "position" of the wall to be the point where the LOA goes through the wall.
-        float dx = (float)( wall.getEnd1().getX() - wall.getEnd2().getX() );
-        float dy = (float)( wall.getEnd1().getY() - wall.getEnd2().getY() );
+        double dx = wall.getEnd1().getX() - wall.getEnd2().getX();
+        double dy = wall.getEnd1().getY() - wall.getEnd2().getY();
 
         Point2D.Double p1 = new Point2D.Double( sphere.getPosition().getX(), sphere.getPosition().getY() );
         Point2D.Double p2 = new Point2D.Double( sphere.getPosition().getX() + dy, sphere.getPosition().getY() + dx );
 
         Point2D.Double intersection = MathUtil.getLinesIntersection( p1, p2, wall.getEnd1(), wall.getEnd2() );
-        wall.setPosition( intersection );
         wall.setPosition( intersection );
 
         super.collide( sphere, wall, getLoa( sphere, wall ), dt, model );
@@ -78,10 +74,8 @@ public class SphereWallCollision extends HardsphereCollision {
                                          IdealGasModel model, double dt ) {
         Collision result = null;
         if( particleA instanceof SphericalBody && particleB instanceof Wall ) {
-            //        if( particleA instanceof Sphere && particleB instanceof Wall ) {
             result = new SphereWallCollision( (SphericalBody)particleA, (Wall)particleB,
                                               model, dt );
-            //            result = new SphereWallCollision( (Sphere)particleA, (Wall)particleB );
         }
         if( particleB instanceof SphericalBody && particleA instanceof Wall ) {
             result = new SphereWallCollision( (SphericalBody)particleB, (Wall)particleA,

@@ -236,7 +236,6 @@ public class CollisionGod implements ModelElement {
     }
 
     private List findRegionsForOrig( Body body ) {
-
         IdealGasParticle igp = (IdealGasParticle)body;
         int iLimit = numRegionsX;
         int jLimit = numRegionsY;
@@ -266,44 +265,49 @@ public class CollisionGod implements ModelElement {
         double x = body.getPosition().getX();
         double y = body.getPosition().getY();
 
-        int i = (int)( ( x - bounds.x ) / regionWidth );
-        int iPrime = (int)( ( x - regionOverlap - bounds.x ) / ( regionWidth ) );
-        int j = (int)( ( y - bounds.y ) / regionHeight );
-        int jPrime = (int)( ( y - regionOverlap - bounds.y ) / ( regionHeight ) );
-        regions[i][j].add( body );
-        if( i != iPrime ) {
-            regions[iPrime][j].add( body );
+        try {
+            int i = (int)( ( x - bounds.x ) / regionWidth );
+            int iPrime = (int)( ( x - regionOverlap - bounds.x ) / ( regionWidth ) );
+            int j = (int)( ( y - bounds.y ) / regionHeight );
+            int jPrime = (int)( ( y - regionOverlap - bounds.y ) / ( regionHeight ) );
+            regions[i][j].add( body );
+            if( i != iPrime ) {
+                regions[iPrime][j].add( body );
+            }
+            if( j != jPrime ) {
+                regions[i][jPrime].add( body );
+            }
+            if( i != iPrime && j != jPrime ) {
+                regions[iPrime][jPrime].add( body );
+            }
+            //        System.out.println( "i=" + i + ", j=" + j );
+            //        Region a = regions[i][j];
+            //        Region b = regions[i][jPrime];
+            //        Region c = regions[iPrime][jPrime];
+            //        Region d = regions[iPrime][j];
+            //        Set set = new HashSet();
+            //        set.add( a );
+            //        set.add( b );
+            //        set.add( c );
+            //        set.add( d );
+            //        List list = Arrays.asList( set.toArray() );
+            //        if( !a.contains( body ) ) {
+            //            a.add( body );
+            //        }
+            //        if( !b.contains( body ) ) {
+            //            b.add( body );
+            //        }
+            //        if( !c.contains( body ) ) {
+            //            c.add( body );
+            //        }
+            //        if( !d.contains( body ) ) {
+            //            d.add( body );
+            //        }
+            //        return list;
         }
-        if( j != jPrime ) {
-            regions[i][jPrime].add( body );
+        catch( ArrayIndexOutOfBoundsException aiobe ) {
+            System.out.println( "ArrayIndexOutOfBoundsException in CollisionGod.findRegionsFor()" );
         }
-        if( i != iPrime && j != jPrime ) {
-            regions[iPrime][jPrime].add( body );
-        }
-        //        System.out.println( "i=" + i + ", j=" + j );
-        //        Region a = regions[i][j];
-        //        Region b = regions[i][jPrime];
-        //        Region c = regions[iPrime][jPrime];
-        //        Region d = regions[iPrime][j];
-        //        Set set = new HashSet();
-        //        set.add( a );
-        //        set.add( b );
-        //        set.add( c );
-        //        set.add( d );
-        //        List list = Arrays.asList( set.toArray() );
-        //        if( !a.contains( body ) ) {
-        //            a.add( body );
-        //        }
-        //        if( !b.contains( body ) ) {
-        //            b.add( body );
-        //        }
-        //        if( !c.contains( body ) ) {
-        //            c.add( body );
-        //        }
-        //        if( !d.contains( body ) ) {
-        //            d.add( body );
-        //        }
-        //        return list;
         return null;
     }
 
