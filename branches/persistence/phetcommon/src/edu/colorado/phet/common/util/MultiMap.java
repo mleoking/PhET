@@ -166,28 +166,6 @@ public class MultiMap implements Map {
 
     public void setMap( TreeMap map ) {
         this.map = map;
-
-        removeNullValues();
-
-    }
-
-    private void removeNullValues() {
-        Set keys = map.keySet();
-
-        for( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
-            Object o = iterator.next();
-            Object list = map.get( o );
-            if( list instanceof List ) {
-                List myList = (List)list;
-                for( int i = 0; i < myList.size(); i++ ) {
-                    Object o1 = myList.get( i );
-                    if( o1 == null ) {
-                        myList.remove( i );
-                        i = -1;
-                    }
-                }
-            }
-        }
     }
 
     ///////////////////////////////////////////////////////

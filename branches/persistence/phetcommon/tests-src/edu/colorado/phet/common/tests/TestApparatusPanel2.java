@@ -6,6 +6,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -46,8 +47,8 @@ public class TestApparatusPanel2 {
             super( "ApparatusPanel2 Test" );
 
             BaseModel model = new BaseModel();
-            ApparatusPanel ap = new ApparatusPanel();
-//            ApparatusPanel ap = new ApparatusPanel2( model );
+//            ApparatusPanel ap = new ApparatusPanel();
+            ApparatusPanel ap = new ApparatusPanel2( model );
             setApparatusPanel( ap );
             setModel( model );
 

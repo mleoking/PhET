@@ -19,4 +19,9 @@ import edu.colorado.phet.common.model.BaseModel;
  * @version $Revision$
  */
 public class TestModel extends BaseModel {
+
+    //Not allowed to mess with the way we call our abstract method.
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+    }
 }

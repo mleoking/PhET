@@ -29,12 +29,12 @@ public class TestMultiMap {
         System.out.println( "contains(4): " + mm.containsValue( "4" ) );
 
         i = mm.iterator();
-        while( i.hasNext() ) {
-            if( i.next().equals( "6" ) ) {
-                i.remove();
-                break;
-            }
-        }
+//        while( i.hasNext() ) {
+////            if( i.next().equals( "6" ) ) {
+////                i.remove();
+////                break;
+////            }
+//        }
 
         System.out.println( "" );
         i = mm.iterator();
@@ -43,12 +43,6 @@ public class TestMultiMap {
         }
 
         Iterator ri = mm.reverseIterator();
-        while( ri.hasNext() ) {
-            if( ri.next().equals( "6" ) ) {
-                ri.remove();
-                break;
-            }
-        }
 
         ri = mm.reverseIterator();
         System.out.println( "" );

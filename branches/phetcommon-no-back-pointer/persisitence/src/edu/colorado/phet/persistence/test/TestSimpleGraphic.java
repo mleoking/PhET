@@ -45,9 +45,9 @@ import java.util.Vector;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class TestSaveState extends PhetApplication {
+public class TestSimpleGraphic extends PhetApplication {
 
-    public TestSaveState( ApplicationModel descriptor ) {
+    public TestSimpleGraphic( ApplicationModel descriptor ) {
         super( descriptor );
     }
 
@@ -68,18 +68,11 @@ public class TestSaveState extends PhetApplication {
             setClock( clock );
 
             setFrameCenteredSize( 600, 500 );
-
-            Module_A module1 = new Module_A( this );
-            Module_B module2 = new Module_B( this );
-            Module_C module3 = new Module_C( this );
-            Module_D module4 = new Module_D( this );
+            Module module = new SimpleGraphicModule( this );
             setModules( new Module[]{
-                module1,
-                module2,
-                module3,
-                module4,
+                module,
             } );
-            setInitialModule( module4 );
+            setInitialModule( module );
         }
     }
 
@@ -169,32 +162,8 @@ public class TestSaveState extends PhetApplication {
 
 //        beanTest2();
 
-        PhetApplication app = new TestSaveState( new AppModel() );
-        JMenuItem mi2 = new JMenuItem( "Restore state" );
-        mi2.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                PhetApplication.instance().getModuleManager().restoreState( "/temp/ttt.xml" );
-            }
-        } );
-        app.getPhetFrame().addFileMenuItem( mi2 );
-
-        JMenuItem mi = new JMenuItem( "Save state" );
-        mi.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                PhetApplication.instance().getModuleManager().saveState( "/temp/ttt.xml" );
-            }
-        } );
-        app.getPhetFrame().addFileMenuItem( mi );
-        app.getPhetFrame().addFileMenuSeparatorAfter( mi2 );
-
-//        app.getModuleManager().saveStateToConsole( "/temp/ttt.xml");
+        PhetApplication app = new TestSimpleGraphic( new AppModel() );
+        PersistenceUtil.addMenuItems( app );
         app.startApplication();
-    }
-
-
-    public static class MyObserver implements SimpleObserver {
-        public void update() {
-            System.out.println( "TestSaveState$MyObserver.update" );
-        }
     }
 }
