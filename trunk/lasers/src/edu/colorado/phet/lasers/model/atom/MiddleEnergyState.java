@@ -38,6 +38,7 @@ public class MiddleEnergyState extends AtomicState {
     private AtomicState nextHigherState = HighEnergyState.instance();
 
     private MiddleEnergyState() {
+        setEnergyLevel( Photon.wavelengthToEnergy( Photon.RED ) );
         setEmittedPhotonWavelength( Photon.RED );
     }
 

@@ -13,6 +13,7 @@ package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.collision.SolidSphere;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
@@ -62,6 +63,8 @@ public class Atom extends SolidSphere {
     private BaseModel model;
     private AtomicState state;
     private EventRegistry eventRegistry = new EventRegistry();
+    private EventChannel stateChangeChannel = new EventChannel( StateChangeListener.class );
+    private StateChangeListener stateChangeListenerProxy = (StateChangeListener)stateChangeChannel.getListenerProxy();
 
     public Atom( BaseModel model ) {
         super( s_radius );
@@ -100,7 +103,10 @@ public class Atom extends SolidSphere {
         if( newState instanceof MiddleEnergyState ) {
             emitPhotonOnLeavingState = true;
         }
+
+        // DEBUG.
         emitPhotonOnLeavingState = true;
+
         this.stateLifetimeManager = new StateLifetimeManager( this, emitPhotonOnLeavingState, model );
         eventRegistry.fireEvent( new StateChangeEvent() );
     }

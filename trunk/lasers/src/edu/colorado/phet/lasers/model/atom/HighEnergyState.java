@@ -38,7 +38,8 @@ public class HighEnergyState extends AtomicState {
     private AtomicState nextHigherState = MaxEnergyState.instance();
 
     private HighEnergyState() {
-        setEmittedPhotonWavelength( Photon.BLUE );
+
+        setEnergyLevel( Photon.wavelengthToEnergy( Photon.BLUE ) );
 
         // Set the wavelength of photon we emit when we drop to the next lower energy state
         double energy1 = Photon.wavelengthToEnergy( this.getWavelength() );

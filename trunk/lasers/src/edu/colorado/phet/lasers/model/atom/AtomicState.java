@@ -33,6 +33,7 @@ public abstract class AtomicState {
     //
     private double energyLevel;
     private double wavelength;
+    private double emittedWavelength;
     private int numAtomsInState;
     private EventRegistry eventRegistry = new EventRegistry();
     private double meanLifetime = Double.POSITIVE_INFINITY;
@@ -84,7 +85,6 @@ public abstract class AtomicState {
     public void setEnergyLevel( double energyLevel ) {
         this.energyLevel = energyLevel;
         this.wavelength = Photon.energyToWavelength( energyLevel );
-        //        fireEnergyLevelChangeEvent( new EnergyLevelChangeEvent( this ) );
         eventRegistry.fireEvent( new EnergyLevelChangeEvent( this ) );
     }
 
@@ -93,12 +93,11 @@ public abstract class AtomicState {
     }
 
     protected void setEmittedPhotonWavelength( double wavelength ) {
-        this.wavelength = wavelength;
-        this.energyLevel = Photon.wavelengthToEnergy( wavelength );
+        this.emittedWavelength = wavelength;
     }
 
     protected double getEmittedPhotonWavelength() {
-        return wavelength;
+        return emittedWavelength;
     }
 
     protected boolean isStimulatedBy( Photon photon ) {
@@ -114,6 +113,7 @@ public abstract class AtomicState {
     //////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes
     //
+
     /**
      * A class that represents the highest energy and shortest wavelength we will allow
      */
@@ -179,6 +179,10 @@ public abstract class AtomicState {
             return AtomicState.this.getMeanLifeTime();
         }
     }
+
+    //-------------------------------------------------------------------
+    // Events and event handling
+    //-------------------------------------------------------------------
 
     public interface EnergyLevelChangeListener extends EventListener {
         void energyLevelChangeOccurred( EnergyLevelChangeEvent event );

@@ -77,6 +77,7 @@ public class BaseLaserModule extends Module {
     private WaveBeamGraphic beamGraphic;
     private StandingWaveGraphic waveGraphic;
     private int numPhotons;
+    private boolean displayHighLevelEmissions;
 
 
     /**
@@ -260,6 +261,9 @@ public class BaseLaserModule extends Module {
         atom.removeFromSystem();
     }
 
+    public void setDisplayHighLevelEmissions( boolean display ) {
+        displayHighLevelEmissions = display;
+    }
 
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         if( threeEnergyLevels ) {
@@ -352,25 +356,40 @@ public class BaseLaserModule extends Module {
             // Track the number of photons
             BaseLaserModule.this.numPhotons++;
 
+            Object source = event.getSource();
+
             Photon photon = event.getPhoton();
             getModel().addModelElement( photon );
-            boolean isPhotonGraphicVisible = false;
+            boolean isPhotonGraphicVisible = true;
+
+            // Determine if we should display a photon graphic, or some other representations
+            // This is awful code. TODO: refactor!!!
+            if( source instanceof Atom ) {
+                Atom atom = (Atom)source;
+                if( atom.getState() instanceof HighEnergyState
+                    && !displayHighLevelEmissions ) {
+                    isPhotonGraphicVisible = false;
+                }
+            }
+
             // Is it a pumping beam photon, and are we viewing discrete photons?
-            if( pumpingPhotonView == PHOTON_DISCRETE
-                && photon.getWavelength() == pumpingBeam.getWavelength() ) {
-                isPhotonGraphicVisible = true;
+            if( !( source instanceof Atom ) ) {
+                if( pumpingPhotonView != PHOTON_DISCRETE
+                    || photon.getWavelength() != pumpingBeam.getWavelength() ) {
+                    isPhotonGraphicVisible = true;
+                }
+                // Is it a lasing wavelength photon, and are we viewing discrete photons?
+                else if( lasingPhotonView == PHOTON_DISCRETE
+                         && photon.getWavelength() == MiddleEnergyState.instance().getWavelength() ) {
+                    isPhotonGraphicVisible = true;
+                }
+                // Is it a photon from the seed beam?
+                else if( seedBeam.isEnabled()
+                         && photon.getWavelength() == seedBeam.getWavelength() ) {
+                    isPhotonGraphicVisible = true;
+                }
             }
-            // Is it a lasing wavelength photon, and are we viewing discrete photons?
-            else if( lasingPhotonView == PHOTON_DISCRETE
-                     && photon.getWavelength() == MiddleEnergyState.instance().getWavelength() ) {
-                isPhotonGraphicVisible = true;
-            }
-            // Is it a photon from the seed beam?
-            else if( seedBeam.isEnabled()
-                     && photon.getWavelength() == seedBeam.getWavelength() ) {
-                isPhotonGraphicVisible = true;
-            }
-            
+
             // Create a photon graphic, add it to the appratus panel and attach a
             // listener to the photon that will remove the graphic if and when the
             // photon goes away. Set it's visibility based on the state of the simulation

@@ -40,6 +40,7 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
     public EnergyLevelGraphic( final Component component, AtomicState atomicState, Color color, double xLoc, double width ) {
         super( null );
+
         this.atomicState = atomicState;
         atomicState.addListener( this );
         this.color = color;
@@ -102,10 +103,12 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
 
         protected EnergyLevelRep( Component component ) {
             super( component );
+            color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
         }
 
         private void update() {
             color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
+
             // We need to create a new color that can't be transparent. VisibleColor will return
             // an "invisible" color with RGB = 0,0,0 if the wavelenght is not visible. And since our
             // ground state has a wavelength that is below visible, and we want a black line, this
