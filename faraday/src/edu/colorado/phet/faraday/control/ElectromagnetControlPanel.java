@@ -153,10 +153,10 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( magnetPanel );
             magnetPanel.setLayout( layout );
             int row = 0;
-            layout.addFilledComponent( sourcePanel, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addComponent( _gridCheckBox, row++, 0 );
             layout.addComponent( _compassCheckBox, row++, 0 );
             layout.addComponent( _fieldMeterCheckBox, row++, 0 );
+            layout.addFilledComponent( sourcePanel, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
         // Battery panel
@@ -258,14 +258,14 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
                 
                 // Range of values
                 int max = (int) FaradayConfig.AC_FREQUENCY_MAX;
-                int min = (int) -FaradayConfig.AC_FREQUENCY_MAX;
-                int range = (int) ( 2 * FaradayConfig.AC_FREQUENCY_MAX );
+                int min = (int) FaradayConfig.AC_FREQUENCY_MIN;
+                int range = (int) (FaradayConfig.AC_FREQUENCY_MAX - FaradayConfig.AC_FREQUENCY_MIN );
 
                 // Slider
                 _frequencySlider = new JSlider();
                 _frequencySlider.setMaximum( max );
                 _frequencySlider.setMinimum( min );
-                _frequencySlider.setValue( min );
+                _frequencySlider.setValue( max );
 
                 // Slider tick marks
                 _frequencySlider.setMajorTickSpacing( range );
@@ -316,7 +316,7 @@ public class ElectromagnetControlPanel extends FaradayControlPanel {
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _voltageSlider.setValue( (int) _batteryModel.getVoltage() );
         _amplitudeSlider.setValue( 0 ); // XXX get value from model
-        _frequencySlider.setValue( 0 ); // XXX get value from model
+        _frequencySlider.setValue( (int) FaradayConfig.AC_FREQUENCY_MIN ); // XXX get value from model
         
         _batteryPanel.setVisible( _batteryRadioButton.isSelected() );
         _acPanel.setVisible( _acRadioButton.isSelected() );
