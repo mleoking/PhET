@@ -46,7 +46,7 @@ public class TestApparatusModule extends SingleAtomBaseModule {
 //        Vector2D cavityPos = cavity.getPosition();
         double yNew = cavityPos.getY() + cavityHeight / 2 - newHeight / 2;
         cavity.setPosition( cavityPos.getX(), yNew );
-        cavity.setHeight( newHeight );
+//        cavity.setHeight( newHeight );
 
         ApparatusConfiguration config = new ApparatusConfiguration();
         config.setStimulatedPhotonRate( 0.0f );

@@ -15,7 +15,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.LaserControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -24,13 +23,12 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 
 /**
  *
  */
-public abstract class BaseLaserModule extends Module implements CollimatedBeam.Listener{
+public abstract class BaseLaserModule extends Module implements CollimatedBeam.Listener {
 //public class BaseLaserModule extends ApparatusPanel {
 
     static protected final Point2D s_origin = LaserConfig.ORIGIN;
@@ -54,62 +52,38 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         laserModel = new LaserModel();
         setModel( laserModel );
 
-
         ApparatusPanel apparatusPanel = new ApparatusPanel();
         setApparatusPanel( apparatusPanel );
-
 
         incomingBeam = new CollimatedBeam( getLaserModel(),
                                            Photon.RED,
                                            s_origin,
-                                           s_boxHeight,
+                                           s_boxHeight - Photon.s_radius,
                                            s_boxWidth + s_laserOffsetX * 2,
                                            new Vector2D.Double( 1, 0 ) );
-        incomingBeam.setPosition( s_origin );
-        incomingBeam.setHeight( s_boxHeight - Photon.s_radius );
-        incomingBeam.setPhotonsPerSecond( 0 );
         incomingBeam.addListener( this );
+        incomingBeam.setActive( true );
+        getLaserModel().setStimulatingBeam( incomingBeam );
 
         pumpingBeam = new CollimatedBeam( getLaserModel(),
                                           Photon.BLUE,
-                                          s_origin,
-                                          s_boxHeight,
+                                          new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX) ,
+                                          s_boxHeight + s_laserOffsetX * 2,
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ) );
-        // TODO: Get rid of hard-coded 100
-        pumpingBeam.setPosition( s_origin.getX() + 100,
-                                 s_origin.getY() - s_boxHeight / 2 );
-        pumpingBeam.setPhotonsPerSecond( 0 );
         pumpingBeam.addListener( this );
 
-
         // Add the laser
-        laserOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX ,
-                                         s_origin.getY() );
+        laserOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX,
+                                          s_origin.getY() );
         cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
         getModel().addModelElement( cavity );
         ResonatingCavityGraphic cavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
         addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
 
-//        cavityGraphic.init( cavity );
-//        new AddResonatingCavityCmd( cavity ).doIt();
-
-        // Add the low energy beam
-        incomingBeam.setActive( true );
-        getLaserModel().setStimulatingBeam( incomingBeam );
-//        new SetStimulatingBeamCmd( incomingBeam ).doIt();
-
         // Add the pump beam
         pumpingBeam.setActive( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
-//        new SetPumpingBeamCmd( pumpingBeam ).doIt();
-
-        
-//        laserControlPanel = new LaserControlPanel( );
-//        laserControlPanel = new LaserControlPanel( PhetApplication.instance() );
-//        setControlPanel( laserControlPanel );
-
-
     }
 
     /**
@@ -118,56 +92,6 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     public void activate( PhetApplication app ) {
 
         super.activate( app );
-
-//        LaserModel laserSystem = (LaserModel)PhetApplication.instance().getPhysicalSystem();
-//        laserSystem.removeAtoms();
-//        laserModel.removeAtoms();
-
-        // Set up the control panel
-//        PhetApplication.instance().getPhetMainPanel().setControlPanel( laserControlPanel );
-
-//        incomingBeam = new CollimatedBeam( getLaserModel(),
-//                                           Photon.RED,
-//                                           s_origin,
-//                                           s_boxHeight,
-//                                           s_boxWidth,
-//                                           new Vector2D.Double( 1, 0 ) );
-//        incomingBeam.setPosition( s_origin );
-//        incomingBeam.setHeight( s_boxHeight - Photon.s_radius );
-//        incomingBeam.setPhotonsPerSecond( 0 );
-//
-//        pumpingBeam = new CollimatedBeam( getLaserModel(),
-//                                          Photon.BLUE,
-//                                          s_origin,
-//                                          s_boxHeight,
-//                                          s_boxWidth,
-//                                          new Vector2D.Double( 0, 1 ) );
-//        // TODO: Get rid of hard-coded 100
-//        pumpingBeam.setPosition( (double)s_origin.getX() + 100,
-//                                 (double)s_origin.getY() - s_boxHeight / 2 );
-//        pumpingBeam.setPhotonsPerSecond( 0 );
-//
-//
-//        // Add the laser
-//        laserOrigin = new Point2D.Double( s_origin.getX() + s_laserOffsetX ,
-//                                         s_origin.getY() );
-//        cavity = new ResonatingCavity( laserOrigin, s_boxWidth, s_boxHeight );
-//        getModel().addModelElement( cavity );
-//        ResonatingCavityGraphic cavityGraphic = new ResonatingCavityGraphic( getApparatusPanel(), cavity );
-//        addGraphic( cavityGraphic, LaserConfig.CAVITY_LAYER );
-////        cavityGraphic.init( cavity );
-////        new AddResonatingCavityCmd( cavity ).doIt();
-//
-//        // Add the low energy beam
-//        incomingBeam.setActive( true );
-//        getLaserModel().setStimulatingBeam( incomingBeam );
-////        new SetStimulatingBeamCmd( incomingBeam ).doIt();
-//
-//        // Add the pump beam
-//        pumpingBeam.setActive( true );
-//        getLaserModel().setPumpingBeam( pumpingBeam );
-////        new SetPumpingBeamCmd( pumpingBeam ).doIt();
-//
     }
 
     /**
@@ -177,11 +101,6 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
         super.deactivate( app );
         incomingBeam.setActive( false );
         pumpingBeam.setActive( false );
-
-//        PhetApplication.instance().getPhysicalSystem().addPrepCmd( new ClearPhotonsCmd() );
-//        PhetApplication.instance().getPhysicalSystem().clearParticles();
-
-//        laserModel.clearParticles();
     }
 
     protected Point2D getLaserOrigin() {
@@ -212,6 +131,7 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
     public void photonCreated( CollimatedBeam beam, Photon photon ) {
         final PhotonGraphic photonGraphic = new PhotonGraphic( getApparatusPanel(), photon );
         addGraphic( photonGraphic, LaserConfig.PHOTON_LAYER );
+        
         // Add a listener that will remove the graphic from the apparatus panel when the
         // photon leaves the system
         photon.addListener( new Photon.Listener() {
@@ -219,8 +139,5 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
                 getApparatusPanel().removeGraphic( photonGraphic );
             }
         } );
-    }
-
-    public void leavingSystem( Photon photon ) {
     }
 }

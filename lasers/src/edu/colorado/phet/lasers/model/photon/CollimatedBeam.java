@@ -34,12 +34,11 @@ public class CollimatedBeam extends Particle {
 
     private double nextTimeToProducePhoton = 0;
     private int wavelength;
-    private Point2D origin;
+//    private Point2D origin;
     private double height;
     private double width;
     private Rectangle2D bounds;
     private Vector2D velocity;
-//    private ArrayList photons = new ArrayList();
     // The rate at which the beam produces photons
     private double timeSinceLastPhotonProduced = 0;
     // Used to deterimine when photons should be produced
@@ -48,10 +47,9 @@ public class CollimatedBeam extends Particle {
     private boolean isActive;
     private LaserModel model;
     private LinkedList listeners = new LinkedList();
-    private Photon.Listener photonListener;
     private LinkedList photons = new LinkedList();
 
-    public interface Listener extends Photon.Listener {
+    public interface Listener {
         void photonCreated( CollimatedBeam beam, Photon photon );
     }
 
@@ -59,19 +57,11 @@ public class CollimatedBeam extends Particle {
         this.model = model;
         this.wavelength = wavelength;
         this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
-        this.origin = origin;
+//        this.origin = origin;
+        this.setPosition( origin );
         this.height = height;
         this.width = width;
         this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.s_speed );
-
-        photonListener = new Photon.Listener() {
-                    public void leavingSystem( Photon photon ) {
-                        for( int i = 0; i < listeners.size(); i++ ) {
-                            Listener listener = (Listener)listeners.get( i );
-                            listener.leavingSystem( photon );
-                        }
-                    }
-                };
     }
 
     public void addListener( Listener listener ) {
@@ -82,14 +72,14 @@ public class CollimatedBeam extends Particle {
         listeners.remove( listener );
     }
 
-    public Point2D getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin( Point2D origin ) {
-        this.origin = origin;
-    }
-
+//    public Point2D getOrigin() {
+//        return origin;
+//    }
+//
+//    public void setOrigin( Point2D origin ) {
+//        this.origin = origin;
+//    }
+//
     public double getHeight() {
         return height;
     }
@@ -131,7 +121,6 @@ public class CollimatedBeam extends Particle {
         newPhoton.setVelocity( new Vector2D.Double( velocity ) );
         newPhoton.setWavelength( this.wavelength );
         model.addModelElement( newPhoton );
-        newPhoton.addListener( this.photonListener );
         photons.add( newPhoton );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
@@ -179,7 +168,7 @@ public class CollimatedBeam extends Particle {
 
     private double genPositionY() {
         double yDelta = velocity.getX() != 0 ? Math.random() * height : 0;
-        return this.getPosition().getY() + yDelta - height / 2;
+        return this.getPosition().getY() + yDelta;
     }
 
     private double genPositionX() {
