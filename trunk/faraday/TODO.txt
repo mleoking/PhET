@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet
+- Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 
 HIGH PRIORITY:
 - requirements for Generator module (see Carl's Powerpoint slides)
@@ -11,7 +11,7 @@ HIGH PRIORITY:
 - calibrate voltmeter
 - calibrate electron animation (move further/faster)
 - redo Turbine model, it should not extend BarMagnet (it has a BarMagnetPanel)
-- animate AC wave
+- trace/scan the AC wave with a cursor that represents "now"
 
 MEDIUM PRIORITY:
 - electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
@@ -54,6 +54,7 @@ PHETCOMMON:
 
 DONE:
 v0r17...
+(3/15) - draw the AC sine wave so that it fills the "scope" viewport
 (3/14) - increase bar magnet strength range to 25-100%
 (3/14) - calibrate compass grid
 (3/14) - fix: electrons in electromagnet coil loops don't line up with each other (due to ends being shorter)

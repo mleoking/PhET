@@ -54,8 +54,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     private static final Color VALUE_COLOR = Color.GREEN;
     
-    private static final double WAVE_SCALE_X = 0.20;
-    private static final double WAVE_SCALE_Y = 0.15;
+    private static final Dimension WAVE_VIEWPORT_SIZE = new Dimension( 155, 120 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -67,7 +66,7 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
     private FaradaySlider _frequencySlider;
     private PhetTextGraphic _amplitudeValue;
     private PhetTextGraphic _frequencyValue;
-    private PhetShapeGraphic _waveGraphic;
+    private SineWaveGraphic _waveGraphic;
     private String _amplitudeFormat;
     private String _frequencyFormat;
     
@@ -157,25 +156,14 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
             _frequencyFormat = SimStrings.get( "ACSourceGraphic.frequency.format" );
         }
         
-        // Wave
+        // Sine Wave
         {
-            GeneralPath path = new GeneralPath();
-            path.moveTo( 0, 0 );
-            int x = 0;
-            for ( int angle = 0; angle < 360; angle++ ) {
-                int y = (int) ( 360 * Math.sin( Math.toRadians( angle ) ) );
-                path.lineTo( x, -y );
-                x += 2;
-            }
-            _waveGraphic = new PhetShapeGraphic( component );
-            _waveGraphic.setShape( path );
-            _waveGraphic.setBorderColor( Color.GREEN );
-            _waveGraphic.setStroke( new BasicStroke( 10f ) );
+            _waveGraphic = new SineWaveGraphic( component, WAVE_VIEWPORT_SIZE );
+            final double maxCycles = 5;
+            _waveGraphic.setMaxCycles( maxCycles );
+            _waveGraphic.setMinCycles( maxCycles / 100.0 );
+            _waveGraphic.setLocation( 55, 163 );
             addGraphic( _waveGraphic, WAVE_LAYER );
-            
-            _waveGraphic.setRegistrationPoint( _waveGraphic.getWidth()/2, 0 );
-            _waveGraphic.setLocation( 134, 102 );
-            _waveGraphic.scale( WAVE_SCALE_X, WAVE_SCALE_Y );
         }
         
         // Registration point is the bottom center.
@@ -237,20 +225,12 @@ public class ACSourceGraphic extends GraphicLayerSet implements SimpleObserver {
                 _frequencyValue.setRegistrationPoint( rx, ry );
             }
             
-            // Update the sin wave.
-            _waveGraphic.clearTransform();
-            double xScale = ( 1 - frequency + FaradayConfig.AC_FREQUENCY_MIN ) * WAVE_SCALE_X;  //HACK
-            double yScale = maxAmplitude * WAVE_SCALE_Y;
+            // Update the sine wave.
             {
-                // WORKAROUND: Scaling by 0 or Double.MIN_VALUE causes an exception on Windows & Linux.
-                if ( xScale == 0 ) {
-                    xScale = .001;
-                }
-                if ( yScale == 0 ) {
-                    yScale = .001;
-                }
+                _waveGraphic.setAmplitude( maxAmplitude );
+                _waveGraphic.setFrequency( frequency );
+                _waveGraphic.update();
             }
-            _waveGraphic.scale( xScale, yScale );
             
             repaint();
         }
