@@ -13,14 +13,19 @@ package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.ElectromagnetControlPanel;
+import edu.colorado.phet.faraday.control.GraphicSlider;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
@@ -93,9 +98,9 @@ public class ElectromagnetModule extends FaradayModule {
         // Battery
         Battery batteryModel = new Battery();
         batteryModel.setMaxVoltage( FaradayConfig.BATTERY_VOLTAGE_MAX  );
-        batteryModel.setAmplitude( 0.5 );
+        batteryModel.setAmplitude( 1.0 );
         
-        // AC Source 
+        // AC Source
         ACSource acSourceModel = new ACSource();
         acSourceModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
         acSourceModel.setMaxAmplitude( 0.5 );
@@ -168,6 +173,23 @@ public class ElectromagnetModule extends FaradayModule {
         fieldMeterGraphic.setVisible( false );
         apparatusPanel.addChangeListener( fieldMeterGraphic );
         apparatusPanel.addGraphic( fieldMeterGraphic, METER_LAYER );
+          
+//        // XXX Slider test
+//        {
+//            PhetGraphic knob = new PhetShapeGraphic( apparatusPanel, new Ellipse2D.Double( 0, 0, 25, 25 ), Color.RED );
+//            PhetGraphic track = new PhetShapeGraphic( apparatusPanel, new Rectangle( 0, 0, 165, 5 ), Color.YELLOW );
+//            PhetGraphic background = new PhetShapeGraphic( apparatusPanel, new Rectangle( 0, 0, 200, 50 ), Color.BLUE );
+//            GraphicSlider slider = new GraphicSlider( apparatusPanel );
+//            slider.setBackground( background );
+//            slider.setTrack( track );
+//            slider.setKnob( knob );
+//            slider.setLocation( 50, 400 );
+//            slider.rotate( Math.PI / 4 );
+//            slider.setMinimum( -100 );
+//            slider.setMaximum( 100 );
+//            slider.setValue( 75 );
+//            apparatusPanel.addGraphic( slider, DEBUG_LAYER );
+//        }
         
         // Debugger
 //      DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );

@@ -4,8 +4,9 @@
 
 IN PROGRESS:
 
+
 HIGH PRIORITY:
-- put controls directly on AC & DC graphics
+- put controls directly on AC graphic
 - show frequency & amplitude graph on the ACSourceGraphic
 - adjust electron animation so that electrons move farther
 - label battery amplitude in volts, -10 to +10
@@ -51,7 +52,10 @@ phetcommon:
 
 DONE:
 v0r16...
-(2/28) - Field Meter shows -0.00 and -180.00 values, should be 0.00 and 180.00
+(3/4) - put amplitude control directly on battery graphic
+(3/4) - create a phetgraphic-based slider
+(3/3) - change GraphicLayerSet so that it handles mouse events if none of its children does
+(2/28) - fix Field Meter so that it doesn't display -0.00 and -180.00 values
 (2/28) - redo battery graphic to include a "clip" to hold battery and connect to coil
 (2/28) - add skeleton for Generator module
 (2/28) - move strength threshold into CompassGridGraphic, adjust value for better look
