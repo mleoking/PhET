@@ -110,7 +110,7 @@ public class IdealGasModule extends Module {
         box = new PressureSensingBox( new Point2D.Double( xOrigin, yOrigin ),
                                       new Point2D.Double( xDiag, yDiag ), idealGasModel, clock );
         idealGasModel.addBox( box );
-        setApparatusPanel( new BaseIdealGasApparatusPanel( this, box ) );
+        setApparatusPanel( new BaseIdealGasApparatusPanel( this, clock, box ) );
 
         // Add the pressure gauge
         PressureSlice gaugeSlice = new PressureSlice( box, idealGasModel, clock );
