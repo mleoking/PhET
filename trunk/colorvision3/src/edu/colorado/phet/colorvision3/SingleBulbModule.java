@@ -147,7 +147,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 		_spotlightModel.setIntensity( Spotlight.INTENSITY_MAX );
 		_spotlightModel.setLocation( SPOTLIGHT_X, SPOTLIGHT_Y );
 		_spotlightModel.setDirection( SPOTLIGHT_ANGLE );
-		_spotlightModel.setIntensity( 50 /* percent */ ); // to limit number of photons
+		_spotlightModel.setIntensity( 100 );
 		
 		// Filter model
 		_filterModel = new Filter();
