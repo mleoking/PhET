@@ -23,16 +23,13 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-//public class PhysicalPanel extends ApparatusPanel2 {
-
 public class PhysicalPanel extends TxApparatusPanel {
     //public class PhysicalPanel extends ApparatusPanel {
     public static Color backgroundColor = new Color( 255, 255, 230 );
 
-    protected Point2D.Double origin = new Point2D.Double();
-    //    protected AffineTransform originTx;
+    protected boolean init = false;
+    protected Point2D.Double origin;
     protected AffineTransform originTx = new AffineTransform();
-    boolean txInit = false;
     protected AffineTransform scaleTx = new AffineTransform();
     protected AffineTransform nucleonTx = new AffineTransform();
     private double nucleusLevel = Config.nucleusLevel;
@@ -44,13 +41,13 @@ public class PhysicalPanel extends TxApparatusPanel {
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                if( !txInit ) {
-                    origin.setLocation( getWidth() / 2, getHeight() / 2 );
+                if( !init ) {
+                    init = true;
+                    origin = new Point2D.Double( getWidth() / 2, getHeight() / 2 );
                     originTx.setToTranslation( origin.getX(), origin.getY() );
                     nucleonTx.setToIdentity();
                     nucleonTx.concatenate( originTx );
                     nucleonTx.concatenate( scaleTx );
-                    txInit = true;
                 }
             }
         } );
@@ -79,27 +76,12 @@ public class PhysicalPanel extends TxApparatusPanel {
         addGraphic( txg, nucleusLevel );
     }
 
-    //    public void removeNucleus( Nucleus nucleus ) {
-    //        //        removeGraphic( (Graphic)modelElementToGraphicMap.get( nucleus ) );
-    //        //        modelElementToGraphicMap.remove( nucleus );
-    //        return;
-    //    }
-
     public synchronized void addGraphic( Graphic graphic ) {
         TxGraphic txg = new TxGraphic( graphic, nucleonTx );
         super.addGraphic( txg );
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
-        //        if( originTx == null ) {
-        //            originTx = new AffineTransform();
-        //            origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );
-        //            originTx.setToTranslation( origin.getX(), origin.getY() );
-        //            nucleonTx.setToIdentity();
-        //            nucleonTx.concatenate( originTx );
-        //            nucleonTx.concatenate( scaleTx );
-        //        }
-
         Graphics2D g2 = (Graphics2D)graphics;
         GraphicsState gs = new GraphicsState( g2 );
         GraphicsUtil.setAlpha( (Graphics2D)graphics, 1 );
@@ -107,11 +89,8 @@ public class PhysicalPanel extends TxApparatusPanel {
         gs.restoreGraphics();
     }
 
-    //
-    // Statics
-    //
     public void addOriginCenteredGraphic( Graphic graphic, double level ) {
-        TxGraphic txg = new TxGraphic( graphic, this.originTx );
+        TxGraphic txg = new TxGraphic( graphic, this.nucleonTx );
         addGraphic( txg, level );
     }
 

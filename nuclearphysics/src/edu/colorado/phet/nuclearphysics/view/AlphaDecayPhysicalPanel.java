@@ -19,29 +19,13 @@ import java.awt.*;
 public class AlphaDecayPhysicalPanel extends PhysicalPanel {
 
     private static double nucleusLayer = 20;
-    //    private static RevertableGraphicsSetup nucleusGraphicsSetup = new RevertableGraphicsSetup() {
-    //        private Composite orgComposite;
-    //
-    //        public void setup( Graphics2D graphics ) {
-    //            orgComposite = graphics.getComposite();
-    //            GraphicsUtil.setAlpha( graphics, 0.5 );
-    //        }
-    //
-    //        public void revert( Graphics2D graphics ) {
-    //            graphics.setComposite( orgComposite );
-    //        }
-    //    };
     private static GraphicsSetup decayProductGraphicsSetup = new GraphicsSetup() {
         public void setup( Graphics2D graphics ) {
             GraphicsUtil.setAlpha( graphics, 0.8 );
         }
     };
 
-    //
-    // Instance fields and methods
-    //
-    private NucleusGraphic decayGraphic;
-    //    private HashMap particleToGraphicMap = new HashMap();
+
     private double alphaParticleLevel = Config.alphaParticleLevel;
 
     public AlphaDecayPhysicalPanel( BaseModel model ) {
@@ -73,10 +57,5 @@ public class AlphaDecayPhysicalPanel extends PhysicalPanel {
                 alphaParticle.removeListener( this );
             }
         } );
-    }
-
-    public void clear() {
-        this.decayGraphic = null;
-        this.removeAllGraphics();
     }
 }

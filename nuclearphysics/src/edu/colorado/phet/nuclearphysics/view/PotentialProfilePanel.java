@@ -49,6 +49,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     //    private static float ghostAlpha = 0.6f;
     private static double profileLayer = 10;
     private static double nucleusLayer = 20;
+    private static AffineTransform atx = new AffineTransform();
     private static GraphicsSetup decayProductGraphicsSetup = new GraphicsSetup() {
         public void setup( Graphics2D graphics ) {
             GraphicsUtil.setAlpha( graphics, 0.8 );
@@ -71,6 +72,23 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         arrowhead.closePath();
     }
 
+
+    public static AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
+        atx.setToIdentity();
+        atx.translate( x, y );
+        atx.scale( scale, scale );
+        atx.translate( -x, -y );
+        return atx;
+    }
+
+    public static AffineTransform rotateInPlace( double theta, double x, double y ) {
+        atx.setToIdentity();
+        atx.translate( x, y );
+        atx.rotate( theta );
+        atx.translate( -x, -y );
+        return atx;
+    }
+
     // Maps potential profiles to their graphics
     private HashMap potentialProfileMap = new HashMap();
     // Maps potential profiles to the nucleus graphics associated with them
@@ -81,59 +99,47 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     private Line2D.Double yAxis = new Line2D.Double();
     private AffineTransform profileTx = new AffineTransform();
     private HashMap wellParticles = new HashMap();
-    private static AffineTransform atx = new AffineTransform();
-    private boolean txInit = false;
+    private boolean init = false;
+    private Rectangle orgBounds;
 
     public PotentialProfilePanel( BaseModel model ) {
         super( model );
-        origin = new Point2D.Double( 250, 250 );
+        //        origin = new Point2D.Double( 250, 250 );
         this.setBackground( backgroundColor );
 
-        this.addComponentListener( new ComponentAdapter() {
+        addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                if( !txInit ) {
-                    origin.setLocation( getWidth() / 2, getHeight() * 0.8 );
+                if( !init ) {
+                    orgBounds = new Rectangle( getBounds() );
+                    origin = new Point2D.Double( getWidth() / 2, getHeight() * 0.8 );
+                    //            origin = new Point2D.Double( 250, 250 );
                     profileTx.setToTranslation( origin.getX(),
                                                 origin.getY() );
-                    txInit = true;
+                    init = true;
                 }
             }
+
+            public void componentShown( ComponentEvent e ) {
+            }
         } );
-    }
-
-
-    public AffineTransform scaleInPlaceTx( double scale, double x, double y ) {
-        atx.setToIdentity();
-        atx.translate( x, y );
-        atx.scale( scale, scale );
-        atx.translate( -x, -y );
-        return atx;
-    }
-
-    public AffineTransform rotateInPlace( double theta, double x, double y ) {
-        atx.setToIdentity();
-        atx.translate( x, y );
-        atx.rotate( theta );
-        atx.translate( -x, -y );
-        return atx;
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
         GraphicsState gs = new GraphicsState( g2 );
 
-        // Center the profile in the panel
-        //        origin.setLocation( this.getWidth() / 2, this.getHeight() * 0.8 );
-        //        profileTx.setToTranslation( origin.getX(),
-        //                                    origin.getY() );
-
         // Draw everything that isn't special to this panel. This includes the
         // profiles themselves
         GraphicsUtil.setAlpha( g2, 1 );
         g2.setColor( backgroundColor );
+        GraphicsState gs2 = new GraphicsState( g2 );
+        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         super.paintComponent( g2 );
+        gs2.restoreGraphics();
 
         // Draw axes
+        AffineTransform gTx = getGraphicTx();
+        g2.transform( gTx );
         drawAxes( g2 );
 
         // Draw nuclei
@@ -172,9 +178,11 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     }
 
     private void drawAxes( Graphics2D g2 ) {
+        GraphicsState gs = new GraphicsState( g2 );
         AffineTransform orgTx = g2.getTransform();
         int arrowOffset = 20;
 
+        g2.transform( profileTx );
         g2.setColor( axisColor );
         g2.setStroke( axisStroke );
 
@@ -182,12 +190,11 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         int xAxisMax = this.getWidth() / 2 - arrowOffset;
         double yRat = profileTx.getTranslateY() / this.getHeight();
 
-        int yAxisMin = -(int)( this.getHeight() * yRat ) + arrowOffset;
-        int yAxisMax = yAxisMin + this.getHeight() - 2 * arrowOffset;
+        int yAxisMin = -(int)( profileTx.getTranslateY() ) + arrowOffset;
+        int yAxisMax = (int)orgBounds.getHeight() - (int)profileTx.getTranslateY() - 2 * arrowOffset;
 
         xAxis.setLine( xAxisMin, 0, xAxisMax, 0 );
         yAxis.setLine( 0, yAxisMin, 0, yAxisMax );
-        g2.transform( profileTx );
         g2.draw( xAxis );
         g2.draw( yAxis );
         AffineTransform tempTx = g2.getTransform();
@@ -207,22 +214,22 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         g2.transform( AffineTransform.getRotateInstance( Math.PI ) );
         g2.fill( arrowhead );
 
-        g2.setTransform( orgTx );
-
         // Draw labels
         g2.setFont( axisLabelFont );
         g2.setColor( Color.black );
         FontMetrics fm = g2.getFontMetrics();
 
-        // todo: replace the 250 in the next line with something better
-        strLoc.setLocation( origin.getX(), profileTx.getTranslateY() - 220 );
+        strLoc.setLocation( profileTx.getTranslateX() + fm.getHeight(), 0 );
+        strLoc.setLocation( 10, 120 );
         AffineTransform strTx = rotateInPlace( -Math.PI / 2, strLoc.getX(), strLoc.getY() );
         g2.transform( strTx );
         g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
         g2.setTransform( orgTx );
-        strLoc.setLocation( this.getWidth() / 2 + 10,
+        strLoc.setLocation( profileTx.getTranslateX() + 10,
                             profileTx.getTranslateY() + fm.getHeight() );
         g2.drawString( xAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
+
+        gs.restoreGraphics();
     }
 
     public void addPotentialProfile( Nucleus nucleus ) {
