@@ -12,6 +12,7 @@
 package edu.colorado.phet.lasers.model.atom;
 
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.coreadditions.ListenerMechanism;
 import edu.colorado.phet.collision.SphericalBody;
 
 import java.util.LinkedList;
@@ -46,8 +47,9 @@ public class Atom extends SphericalBody {
 
 
     private AtomicState state;
-    private LinkedList listeners = new LinkedList();
-
+//    private LinkedList listeners = new LinkedList();
+//
+    ListenerMechanism listenerMechanism = new ListenerMechanism();
     public interface Listener {
         void photonEmitted( Atom atom, Photon photon );
         void leftSystem( Atom atom );
@@ -60,11 +62,13 @@ public class Atom extends SphericalBody {
     }
 
     public void addListener( Listener listner ) {
-        listeners.add( listner );
+        listenerMechanism.addListener( listner );
+//        listeners.add( listner );
     }
 
     public void removeListener( Listener listener ) {
-        listeners.remove( listener );
+        listenerMechanism.removeListener( listener );
+//        listeners.remove( listener );
     }
 
     public void collideWithPhoton( Photon photon ) {
@@ -83,28 +87,38 @@ public class Atom extends SphericalBody {
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        state.stepInTime( dt );
+//        state.stepInTime( dt );
     }
 
     /**
      *
      */
-    void emitPhoton( Photon emittedPhoton ) {
+    void emitPhoton( final Photon emittedPhoton ) {
 //        emittedPhoton.setPosition( getPosition().getX(),
 //                                   getPosition().getY() );
         emittedPhoton.collideWithAtom( this );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.photonEmitted( this, emittedPhoton );
-        }
+//        for( int i = 0; i < listeners.size(); i++ ) {
+//            Listener listener = (Listener)listeners.get( i );
+//            listener.photonEmitted( this, emittedPhoton );
+//        }
+        listenerMechanism.notifyListeners( new ListenerMechanism.Notifier() {
+            public void doNotify( Object obj ) {
+                ((Listener)obj).photonEmitted( Atom.this, emittedPhoton );
+            }
+        } );
 //        new AddParticleCmd( emittedPhoton ).doIt();
     }
 
     public void removeFromSystem() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.leftSystem( this );
-        }
+//        for( int i = 0; i < listeners.size(); i++ ) {
+//            Listener listener = (Listener)listeners.get( i );
+//            listener.leftSystem( this );
+//        }
+        listenerMechanism.notifyListeners( new ListenerMechanism.Notifier() {
+            public void doNotify( Object obj ) {
+                ((Listener)obj).leftSystem( Atom.this );
+            }
+        } );
 //        super.removeFromSystem();
         state.decrementNumInState();
     }
