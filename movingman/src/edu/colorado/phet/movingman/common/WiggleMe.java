@@ -40,7 +40,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
         oscillationVector = oscillationDir.getInstanceOfMagnitude( amplitude );
         current = new Point2D.Double( startPt.getX(), startPt.getY() );
         arrowGraphic = new PhetShapeGraphic( parent, new Area(), Color.black );
-        textGraphic = new PhetShadowTextGraphic( getComponent(), text, font, 0, 0, Color.blue, 1, 1, Color.black );
+        textGraphic = new PhetShadowTextGraphic( getComponent(), font, text, Color.blue, 1, 1, Color.black );
         stepInTime( 0 );
         addGraphic( arrowGraphic );
         addGraphic( textGraphic );
