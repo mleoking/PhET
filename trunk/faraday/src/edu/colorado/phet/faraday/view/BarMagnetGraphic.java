@@ -24,6 +24,7 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.model.BarMagnet;
 
 
 /**
@@ -48,7 +49,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
     //----------------------------------------------------------------------------
 
     private Rectangle _parentBounds;
-    private AbstractMagnet _magnetModel;
+    private BarMagnet _magnetModel;
     private boolean _transparencyEnabled;
     private CollisionDetector _collisionDetector;
     
@@ -62,7 +63,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
      * @param component the parent Component
      * @param barMagnetModel model of the bar magnet
      */
-    public BarMagnetGraphic( Component component, AbstractMagnet magnetModel ) {
+    public BarMagnetGraphic( Component component, BarMagnet magnetModel ) {
         super( component, FaradayConfig.BAR_MAGNET_IMAGE );
         
         assert( component != null );

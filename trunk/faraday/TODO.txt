@@ -13,6 +13,7 @@ MEDIUM PRIORITY:
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
 - Electromagnet module "first pass"
 - Transformer module requirements
+- If field strength is 0, all values in Field Meter should read as zero.
 
 LOW PRIORITY:
 - check for unnecessary notification, events and updates
@@ -43,6 +44,8 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/21) - made Rescaler less specific to magnet strength, can use any reference value
+(2/21) - move more of the rescaling interface into AbstractMagnet model
 (2/18) - after a collision, don't start dragging again until cursor is over the object
 (2/18) - remove data smoothing code from PickupCoil, nothing but problems
 (2/18) - "spike" emf changes are not being displayed

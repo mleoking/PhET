@@ -288,7 +288,6 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
             super.setBoundsDirty();
             _bounds = new Rectangle();
             
-            double magnetStrength = _magnetModel.getStrength();
             for ( int i = 0; i < _needles.size(); i++ ) {
 
                 // Next needle...
@@ -309,11 +308,18 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
                 // Set the needle's strength.
                 {
                     // Convert the field strength to a value in the range 0...+1.
-                    double scale = ( magnitude / magnetStrength );
+                    double magnetStrength = _magnetModel.getStrength();
+                    double scale = 0;
+                    if ( magnetStrength != 0 ) {
+                        
+                        scale = ( magnitude / magnetStrength );
+                        
+                        // Adjust the scale to improve the visual effect.
+                        scale = _magnetModel.rescale( scale );
+                        scale = MathUtil.clamp( 0, scale, 1 );
+                    }
                     
-                    // Adjust the scale to improve the visual effect.
-                    scale = Rescaler.rescale( scale, magnetStrength );
-                    scale = MathUtil.clamp( 0, scale, 1 );
+
                     
                     // Set the needle strength.
                     needle.setStrength( scale );

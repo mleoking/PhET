@@ -46,7 +46,7 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
 
     // Rendering layers
     private static final double GRID_LAYER = 1;
-    private static final double MAGNET_LAYER = 2;
+    private static final double BAR_MAGNET_LAYER = 2;
     private static final double COMPASS_LAYER = 3;
     private static final double METER_LAYER = 4;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
@@ -59,9 +59,6 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
-
-    // Magnet parameters
-    private static final double MAGNET_STRENGTH = 0.75 * FaradayConfig.MAGNET_STRENGTH_MAX;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -95,15 +92,17 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         this.setModel( model );
         
         // Bar Magnet
-        AbstractMagnet magnetModel = new BarMagnet();
-        magnetModel.setStrength( MAGNET_STRENGTH );
-        magnetModel.setLocation( MAGNET_LOCATION );
-        magnetModel.setDirection( 0 /* radians */ );
-        magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
-        model.addModelElement( magnetModel );
+        BarMagnet barMagnetModel = new BarMagnet();
+        barMagnetModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        barMagnetModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
+        barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        barMagnetModel.setLocation( MAGNET_LOCATION );
+        barMagnetModel.setDirection( 0 /* radians */ );
+        barMagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
+        model.addModelElement( barMagnetModel );
         
         // Compass model
-        Compass compassModel = new Compass( magnetModel );
+        Compass compassModel = new Compass( barMagnetModel );
         compassModel.setLocation( COMPASS_LOCATION );
         compassModel.setRotationalKinematicsEnabled( true );
         model.addModelElement( compassModel );
@@ -118,12 +117,12 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         this.setApparatusPanel( apparatusPanel );
 
         // Bar Magnet
-        BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, magnetModel );
-        apparatusPanel.addChangeListener( magnetGraphic );
-        apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
+        BarMagnetGraphic barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, barMagnetModel );
+        apparatusPanel.addChangeListener( barMagnetGraphic );
+        apparatusPanel.addGraphic( barMagnetGraphic, BAR_MAGNET_LAYER );
         
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, magnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         _gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
         apparatusPanel.addChangeListener( _gridGraphic );
@@ -136,7 +135,7 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
         // Field Meter
-        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, magnetModel );
+        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, barMagnetModel );
         fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
         fieldMeterGraphic.setVisible( false );
         apparatusPanel.addChangeListener( fieldMeterGraphic );
@@ -150,8 +149,8 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
 //        apparatusPanel.addGraphic( debugger, DEBUG_LAYER );
         
         // Collision detection
-        magnetGraphic.getCollisionDetector().add( compassGraphic );
-        compassGraphic.getCollisionDetector().add( magnetGraphic );
+        barMagnetGraphic.getCollisionDetector().add( compassGraphic );
+        compassGraphic.getCollisionDetector().add( barMagnetGraphic );
         
         //----------------------------------------------------------------------------
         // Control
@@ -159,7 +158,7 @@ public class BarMagnetModule extends Module implements ICompassGridModule {
 
         // Control Panel
         BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this, 
-                magnetModel, compassModel, magnetGraphic, fieldMeterGraphic );
+                barMagnetModel, compassModel, barMagnetGraphic, fieldMeterGraphic );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
