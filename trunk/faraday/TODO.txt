@@ -4,21 +4,14 @@
 
 IN PROGRESS:
 
-
 HIGH PRIORITY:
-- make sure that AC amplitude always hits exactly zero as it modulates
-- coils should not be subclassed from AbstractVoltageSource
-- set Electromagnet model size based on size of the coil in the Electromagnet graphic
-- changing number of loops doesn't visibly change the magnetic field
-- grid doesn't gradually dim as amplitude approaches zero, turns abruptly off at zero
-- bug: electrons in source coil seem to get "off" in the left-most loop
 - bug: electrons appear to flow faster in a coil with fewer loops with the same voltage (frame rate issue)
-- bug: not enough visual difference between the min & max voltage/amplitude settings
-- when a collision occurs, don't ignore the translate, move the object as close as possible
+- when a drag collision occurs, don't ignore the translate, move the object as close as possible
 - Wiggle Me's on magnets & coil
 
 MEDIUM PRIORITY:
-
+- better graphic for AC source
+- put controls directly on AC & DC graphics
 - show frequency & amplitude graph on the ACSourceGraphic
 - Transformer module requirements
 - Field Meter shows -0.00 and -180.00 values, should be 0.00 and 180.00
@@ -53,6 +46,9 @@ phetcommon:
 
 DONE:
 v0r14...
+(2/28) - grid doesn't gradually dim as amplitude approaches zero, turns abruptly off at zero
+(2/28) - make sure that AC amplitude always hits exactly zero as it modulates
+(2/28) - set Electromagnet model size based on size of the coil in the Electromagnet graphic
 (2/28) - redo battery graphic
 (2/25) - move ICompassGridModule implementation into FaradayModule
 (2/25) - bug fix: changing the number of loops when the AC is connected makes the grid disappear (integer math)
