@@ -74,8 +74,17 @@ public class PhetImageGraphic extends PhetGraphic {
 
     public void paint( Graphics2D g ) {
         if( isVisible() && image != null ) {
+            Point loc = getLocation();
+            g.translate( loc.x, loc.y );
             g.drawRenderedImage( image, transform );
+            g.translate( -loc.x, -loc.y );
         }
+    }
+
+    public void setLocation( Point p ) {
+        super.setLocation( p );
+        setBoundsDirty();
+        repaint();
     }
 
     public void setTransform( AffineTransform transform ) {

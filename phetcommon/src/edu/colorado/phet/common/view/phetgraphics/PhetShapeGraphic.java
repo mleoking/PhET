@@ -37,6 +37,10 @@ public class PhetShapeGraphic extends PhetGraphic {
         this.border = border;
     }
 
+    public PhetShapeGraphic( Component component ) {
+        this( component, null, null );
+    }
+
     public Shape getShape() {
         return shape;
     }
