@@ -317,6 +317,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   
   /**
    * Sets the slider's spectrum graphic size.
+   * Note that these are the dimensions of a spectrum with HORIZONTAL orientation.
    * 
    * @param size the desired size
    */
@@ -350,6 +351,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic
   
   /**
    * Sets the size of the slider knob.
+   * Note that these are the dimension of a knob with HORIZONTAL orientation.
    * 
    * @param knobSize the dimensions of the knob
    */
