@@ -7,10 +7,14 @@ package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.collision.CollidableBody;
 import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.EventListener;
+import java.util.EventObject;
+
 
 /**
  * A 2 dimensional box
@@ -69,6 +73,7 @@ public class Box2D extends CollidableBody {
 
     public void setBounds( double minX, double minY, double maxX, double maxY ) {
         this.setState( new Point2D.Double( minX, minY ), new Point2D.Double( maxX, maxY ) );
+        changeListenerProxy.boundsChanged( new ChangeEvent( this ) );
     }
 
     public void notifyObservers() {
@@ -227,58 +232,32 @@ public class Box2D extends CollidableBody {
     //        addContainedBody( body );
     //    }
 
-    /**
-     * @param particle
-     */
-    //    public Wall collideWithParticle( SphericalBody particle, double dt ) {
-    //
-    //        if( true ) {
-    //            throw new RuntimeException( "to be removed" );
-    //        }
-    //        // Since we can collide with more than one wall in a time step, and we try to handle that in this method, we
-    //        // also have to make sure that we don't thing we've hit a second wall, when we actually only hit one, but the
-    //        // timing of the collision was such that it happened exactly at the end of the time step. In such a case, the
-    //        // particle will still be in contact with the wall at the end of the time step, and we do not want to treat
-    //        // this as another collision. The following variable is used to handle this.
-    //        Wall collidingWall = null;
-    //        Wall previousCollidingWall = null;
-    //
-    //        if( !isInOpening( particle ) ) {
-    //
-    //            boolean hasCollision = false;
-    //            int cnt = 0;
-    //            do {
-    //                hasCollision = false;
-    //
-    //                // See if the particle is hitting any of the walls of the box. If it hits more than one,
-    //                // determine which it hit first
-    ////                for( int i = 0; i < walls.length; i++ ) {
-    ////                    Wall wall = walls[i];
-    ////                    if( detector.areInContact( particle, wall ) ) {
-    ////                        collidingWall = wall;
-    ////                        break;
-    ////                    }
-    ////                }
-    ////                if( collidingWall != null && collidingWall != previousCollidingWall ) {
-    ////                    previousCollidingWall = collidingWall;
-    ////                    hasCollision = true;
-    ////                    cnt++;
-    ////                    CollisionFactory.create( collidingWall, particle, model, dt ).collide();
-    ////
-    ////                    // Handle giving particle kinetic energy if the wall is moving
-    ////                    if( collidingWall == leftWall ) {
-    ////                        double vx0 = particle.getVelocity().getX();
-    ////                        double vx1 = vx0 + leftWallVx;
-    ////                        particle.setVelocity( vx1, particle.getVelocity().getY() );
-    ////
-    ////                        // Add the energy to the system, so it doesn't get
-    ////                        // taken back out when energy conservation is performed
-    ////                        model.addKineticEnergyToSystem( leftWallVx );
-    ////                    }
-    ////                }
-    //            } while( hasCollision && cnt < 2 );
-    //        } // if( !isInOpening( particle ) )
-    //        return collidingWall;
-    //    }
 
+    //-----------------------------------------------------------------
+    // Events and event handling
+    //-----------------------------------------------------------------
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public Box2D getBox2D() {
+            return (Box2D)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void boundsChanged( ChangeEvent event );
+    }
+
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
 }
