@@ -1,32 +1,30 @@
-/* Person2D.java */
+/* Person.java */
 
 package edu.colorado.phet.colorvision3.model;
-
-import java.awt.Color;
 
 import edu.colorado.phet.common.util.SimpleObservable;
 
 /**
- * Person2D is the model of the person who is perceiving some color.
- * * Any changes to the models properties (via its setters or getters)
+ * Person is the model of the person who is perceiving some color.
+ * Any changes to the model's properties (via its setters or getters)
  * results in the notification of all registered observers.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @revision $Id$
  */
-public class Person2D extends SimpleObservable
+public class Person extends SimpleObservable
 {
-  private Color _color;
+  private VisibleColor _color;
   private double _x, _y;
   
   /**
    * Sole constructor.
    * Creates a person who is located at (0,0) and is seeing no color.
    */
-  public Person2D()
+  public Person()
   {
     // Initialize member data.
-    _color = new Color(0,0,0,0);
+    _color = VisibleColor.INVISIBLE;
     _x = _y = 0.0;
   }
 
@@ -35,7 +33,7 @@ public class Person2D extends SimpleObservable
    * 
    * @return the color
    */
-  public Color getColor()
+  public VisibleColor getColor()
   {
     return _color;
   }
@@ -45,7 +43,7 @@ public class Person2D extends SimpleObservable
    * 
    * @param color the color
    */
-  public void setColor( Color color )
+  public void setColor( VisibleColor color )
   {
     _color = color;
     notifyObservers();

@@ -8,21 +8,20 @@ import java.awt.Rectangle;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.colorvision3.event.IntensityChangeEvent;
-import edu.colorado.phet.colorvision3.event.IntensityChangeListener;
+import edu.colorado.phet.colorvision3.event.ColorChangeEvent;
+import edu.colorado.phet.colorvision3.event.ColorChangeListener;
 import edu.colorado.phet.colorvision3.model.Filter;
-import edu.colorado.phet.colorvision3.model.Person2D;
-import edu.colorado.phet.colorvision3.model.Spotlight2D;
-import edu.colorado.phet.colorvision3.util.ColorUtil;
+import edu.colorado.phet.colorvision3.model.Person;
+import edu.colorado.phet.colorvision3.model.Spotlight;
+import edu.colorado.phet.colorvision3.model.VisibleColor;
 import edu.colorado.phet.colorvision3.view.ColumnarBeamGraphic;
 import edu.colorado.phet.colorvision3.view.FilterGraphic;
-import edu.colorado.phet.colorvision3.view.FilterPipeGraphic;
 import edu.colorado.phet.colorvision3.view.PersonGraphic;
 import edu.colorado.phet.colorvision3.view.PhotonBeamGraphic;
+import edu.colorado.phet.colorvision3.view.PipeGraphic;
 import edu.colorado.phet.colorvision3.view.SingleBulbControlPanel;
 import edu.colorado.phet.colorvision3.view.SpectrumControl;
 import edu.colorado.phet.colorvision3.view.SpotlightGraphic;
-import edu.colorado.phet.colorvision3.view.WavelengthPipeGraphic;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
@@ -38,7 +37,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Id$
  */
-public class SingleBulbModule extends Module  implements ChangeListener, IntensityChangeListener
+public class SingleBulbModule extends Module  implements ChangeListener, ColorChangeListener
 {
 	// Rendering layers
   private static final double PERSON_BACKGROUND_LAYER = 1;
@@ -84,8 +83,8 @@ public class SingleBulbModule extends Module  implements ChangeListener, Intensi
 	private static final Rectangle PHOTON_BEAM_BOUNDS = new Rectangle( 0, 0, PERSON_X + 160, 10000 );
 	
 	// Models 
-	private Person2D _personModel;
-	private Spotlight2D _spotlightModel;
+	private Person _personModel;
+	private Spotlight _spotlightModel;
 	private Filter _filterModel;
 	
 	// Controls
@@ -95,8 +94,8 @@ public class SingleBulbModule extends Module  implements ChangeListener, Intensi
 	
 	// Graphics that require control
 	FilterGraphic _filterGraphic;
-	FilterPipeGraphic _filterPipe;
-	WavelengthPipeGraphic _wavelengthPipe;
+	PipeGraphic _filterPipe;
+	PipeGraphic _wavelengthPipe;
 	ColumnarBeamGraphic _preFilterBeam;
 	ColumnarBeamGraphic _postFilterBeam;
 	PhotonBeamGraphic _photonBeam;
@@ -122,19 +121,20 @@ public class SingleBulbModule extends Module  implements ChangeListener, Intensi
 		this.setModel( model );
 
 		// Person model
-	  _personModel = new Person2D();
+	  _personModel = new Person();
 		_personModel.setLocation( PERSON_X, PERSON_Y );
 		
-		// Red Spotlight model
-		_spotlightModel = new Spotlight2D();
-		_spotlightModel.setColor( Color.red );
-		_spotlightModel.setIntensity( Spotlight2D.INTENSITY_MAX );
+		// Spotlight model
+		_spotlightModel = new Spotlight();
+		_spotlightModel.setColor( VisibleColor.WHITE );
+		_spotlightModel.setIntensity( Spotlight.INTENSITY_MAX );
 		_spotlightModel.setLocation( SPOTLIGHT_X, SPOTLIGHT_Y );
 		_spotlightModel.setDirection( SPOTLIGHT_ANGLE );
 		_spotlightModel.setIntensity( 50 ); // to limit number of photons
 		
 		// Filter model
 		_filterModel = new Filter();
+    _filterModel.setLocation( FILTER_X, FILTER_Y );
 		
 		//----------------------------------------------------------------------------
 		// View
@@ -158,10 +158,14 @@ public class SingleBulbModule extends Module  implements ChangeListener, Intensi
     SpotlightGraphic spotlightGraphic = new SpotlightGraphic( apparatusPanel, _spotlightModel );
     apparatusPanel.addGraphic( spotlightGraphic, SPOTLIGHT_LAYER );
     
+    // Filter
+    _filterGraphic = new FilterGraphic( apparatusPanel, _filterModel );
+    apparatusPanel.addGraphic( _filterGraphic, FILTER_LAYER );
+    
     // Pre-filter columnar beam
     _preFilterBeam = new ColumnarBeamGraphic( apparatusPanel, _spotlightModel );
     _preFilterBeam.setDistance( PRE_FILTER_BEAM_DISTANCE );
-    _preFilterBeam.setAlphaScale( 100 );
+    _preFilterBeam.setAlphaScale( 90 );
     apparatusPanel.addGraphic( _preFilterBeam, PRE_FILTER_BEAM_LAYER );
     
     // Post-filter columnar beam
@@ -171,42 +175,44 @@ public class SingleBulbModule extends Module  implements ChangeListener, Intensi
     apparatusPanel.addGraphic( _postFilterBeam, POST_FILTER_BEAM_LAYER );
     
     // Photon beam
-    _photonBeam = new PhotonBeamGraphic( apparatusPanel, _spotlightModel );
+    _photonBeam = new PhotonBeamGraphic( apparatusPanel, _spotlightModel, _filterModel );
     _photonBeam.setBounds( PHOTON_BEAM_BOUNDS );
     apparatusPanel.addGraphic( _photonBeam, PHOTON_BEAM_LAYER );
     
     // Filter control
     _filterControl = new SpectrumControl( apparatusPanel );
     _filterControl.setLocation( FILTER_CONTROL_X, FILTER_CONTROL_Y );
-    _filterControl.setMinimum( (int) ColorUtil.MIN_WAVELENGTH ); // XXX remove cast
-    _filterControl.setMaximum( (int) ColorUtil.MAX_WAVELENGTH ); // XXX remove cast
-    _filterControl.setValue( (int) ColorUtil.MIN_WAVELENGTH );   // XXX remove cast
+    _filterControl.setMinimum( (int) VisibleColor.MIN_WAVELENGTH ); // XXX remove cast
+    _filterControl.setMaximum( (int) VisibleColor.MAX_WAVELENGTH ); // XXX remove cast
+    _filterControl.setValue( (int) VisibleColor.MIN_WAVELENGTH );   // XXX remove cast
     _filterControl.setLabel( SimStrings.get("FilterControl.label") );
     apparatusPanel.addGraphic( _filterControl, FILTER_CONTROL_LAYER );
     
-    // Filter pipe
-    _filterPipe = new FilterPipeGraphic( apparatusPanel );
+    // Pipe connecting filter control to filter.
+    _filterPipe = new PipeGraphic( apparatusPanel );
+    _filterPipe.setThickness( 5 );
+    _filterPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 110, 105 );
+    _filterPipe.addSegment( PipeGraphic.VERTICAL, 100,   0, 115 );
     _filterPipe.setPosition( FILTER_PIPE_X, FILTER_PIPE_Y );
     apparatusPanel.addGraphic( _filterPipe, FILTER_PIPE_LAYER );
     
     // Wavelength control
     _wavelengthControl = new SpectrumControl( apparatusPanel );
     _wavelengthControl.setLocation( WAVELENGTH_CONTROL_X, WAVELENGTH_CONTROL_Y );
-    _wavelengthControl.setMinimum( (int) ColorUtil.MIN_WAVELENGTH ); // XXX remove cast
-    _wavelengthControl.setMaximum( (int) ColorUtil.MAX_WAVELENGTH ); // XXX remove cast
-    _wavelengthControl.setValue( (int) ColorUtil.MIN_WAVELENGTH );   // XXX remove cast
+    _wavelengthControl.setMinimum( (int) VisibleColor.MIN_WAVELENGTH ); // XXX remove cast
+    _wavelengthControl.setMaximum( (int) VisibleColor.MAX_WAVELENGTH ); // XXX remove cast
+    _wavelengthControl.setValue( (int) VisibleColor.MIN_WAVELENGTH );   // XXX remove cast
     _wavelengthControl.setLabel( SimStrings.get("WavelengthControl.label") );
     apparatusPanel.addGraphic( _wavelengthControl, WAVELENGTH_CONTROL_LAYER );
     
-    // Wavelength pipe 
-    _wavelengthPipe = new WavelengthPipeGraphic( apparatusPanel );
+    // Pipe connecting wavelength control to spotlight. 
+    _wavelengthPipe = new PipeGraphic( apparatusPanel );
+    _wavelengthPipe.setThickness( 5 );
+    _wavelengthPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 0, 100 );
+    _wavelengthPipe.addSegment( PipeGraphic.VERTICAL,   0, 0, 215 );
+    _wavelengthPipe.addSegment( PipeGraphic.HORIZONTAL, 0, 210, 100 );
     _wavelengthPipe.setPosition( WAVELENGTH_PIPE_X, WAVELENGTH_PIPE_Y );
     apparatusPanel.addGraphic( _wavelengthPipe, WAVELENGTH_PIPE_LAYER );
-    
-    // Filter
-    _filterGraphic = new FilterGraphic( apparatusPanel, _filterModel );
-    _filterGraphic.setPosition( FILTER_X, FILTER_Y );
-    apparatusPanel.addGraphic( _filterGraphic, FILTER_LAYER );
     
 		//----------------------------------------------------------------------------
 		// Observers
@@ -243,8 +249,8 @@ public class SingleBulbModule extends Module  implements ChangeListener, Intensi
 		_controlPanel.setBulbType( SingleBulbControlPanel.WHITE_BULB );
 		_controlPanel.setBeamType( SingleBulbControlPanel.SOLID_BEAM );
 		_controlPanel.setFilterEnabled( true );
-		_filterControl.setValue( (int) ColorUtil.MIN_WAVELENGTH );  // XXX remove cast
-		_wavelengthControl.setValue( (int) ColorUtil.MIN_WAVELENGTH ); // XXX remove cast
+		_filterControl.setValue( (int) VisibleColor.MIN_WAVELENGTH );  // XXX remove cast
+		_wavelengthControl.setValue( (int) VisibleColor.MIN_WAVELENGTH ); // XXX remove cast
 		
 		update();
 	}
@@ -260,19 +266,18 @@ public class SingleBulbModule extends Module  implements ChangeListener, Intensi
   }
   
   /**
-   * Handles an IntensityChangeEvent.
+   * Handles a ColorChangeEvent.
    * 
    * @param event the event
    */
-  public void intensityChanged( IntensityChangeEvent event )
+  public void colorChanged( ColorChangeEvent event )
   {
-		update();
+    update();
   }
   
   /**
-   * Updates all model and view components based on some event.
-   * Since there are relatively few parameters, it's easier to 
-   * just consult and poke everything.
+   * Updates all model and view components.
+   * Since there are relatively few parameters, it's easier to poke everything.
    */
   private void update()
   {
@@ -280,29 +285,25 @@ public class SingleBulbModule extends Module  implements ChangeListener, Intensi
     int bulbType = _controlPanel.getBulbType();
     int beamType = _controlPanel.getBeamType();
     boolean filterEnabled = _controlPanel.getFilterEnabled();
-    Color bulbColor = Color.white;
-    double bulbWavelength = ColorUtil.WHITE_WAVELENGTH;
-    Color filterColor = Color.white;
-    double filterWavelength = ColorUtil.WHITE_WAVELENGTH;
 
     // Update the spotlight.
+    VisibleColor bulbColor = VisibleColor.WHITE;;
     if ( bulbType == SingleBulbControlPanel.WHITE_BULB )
     {
       _wavelengthControl.setVisible( false );
       _wavelengthPipe.setVisible( false );
-      bulbColor = Color.white;
-      bulbWavelength = ColorUtil.WHITE_WAVELENGTH;
+      bulbColor = VisibleColor.WHITE;
     }
     else
     {
       _wavelengthControl.setVisible( true );
       _wavelengthPipe.setVisible( true );
-      bulbColor = _wavelengthControl.getColor();
-      bulbWavelength = _wavelengthControl.getValue();
+      bulbColor = new VisibleColor( _wavelengthControl.getValue() );
     }
     _spotlightModel.setColor( bulbColor );
+    _preFilterBeam.setColor( bulbColor );
        
-    // Update the beam.
+    // Update the beam visibility.
     if ( beamType == SingleBulbControlPanel.SOLID_BEAM )
     {
       _preFilterBeam.setVisible( filterEnabled );
@@ -322,41 +323,47 @@ public class SingleBulbModule extends Module  implements ChangeListener, Intensi
     _filterControl.setVisible( filterEnabled );
     _filterPipe.setVisible( filterEnabled );
     _filterGraphic.setVisible( filterEnabled );
+    _filterModel.setEnabled( filterEnabled );
     if ( filterEnabled )
     {
-      filterWavelength = _filterControl.getValue();
+      double filterWavelength = _filterControl.getValue();
       _filterModel.setTransmissionPeak( filterWavelength );
     }
     
-    // Calculate the perceived color.
-    Color perceivedColor = bulbColor;
+    // Update the post-filter beam color.
+    VisibleColor postFilterColor = bulbColor;
     if ( filterEnabled )
     {
-      if ( bulbWavelength == ColorUtil.WHITE_WAVELENGTH )
+      if ( bulbColor == VisibleColor.WHITE )
       {
         // With a white bulb, the perceived color is the filter's color.
-        perceivedColor = ColorUtil.wavelengthToColor( _filterModel.getTransmissionPeak() );
+        postFilterColor = _filterModel.getTransmissionPeak();
       }
       else
       {
-        // With a colored bulb, the filter passes some percentage of the bulb color.
-        // To be physically correct, we set RGBA to zero when the filter passes 0%.
-        double percentPassed = _filterModel.calculatePercentPassed( bulbWavelength );
-        if ( percentPassed == 0 )
-        {
-          perceivedColor = new Color(0,0,0,0);
-        }
-        else
-        {
-          int alpha = (int)( percentPassed / 100 * 255 );
-          perceivedColor = new Color( bulbColor.getRed(), bulbColor.getGreen(), bulbColor.getBlue(), alpha );
-        }
+        // With a monochromatic bulb, the filter passes some percentage of the bulb color.
+        postFilterColor = _filterModel.colorPassed( bulbColor );
       }
     }
+    _postFilterBeam.setColor( postFilterColor );
     
-    // Update displayed colors.
-    _preFilterBeam.setColor( bulbColor );
-    _postFilterBeam.setColor( perceivedColor );
+    // Update the color perceived by the person.
+    VisibleColor perceivedColor = postFilterColor;
+    if ( beamType == SingleBulbControlPanel.PHOTONS_BEAM )
+    {
+      /*
+      VisibleColor color = _photonBeam.getPerceivedColor();
+      double intensity = _photonBeam.getPerceivedIntensity();
+      
+      int r = color.getRed();
+      int g = color.getGreen();
+      int b = color.getBlue();
+      int a = (int) (intensity / 100 * 255);
+      
+      perceivedColor = new VisibleColor( r, g, b, a );
+      */
+      perceivedColor = _photonBeam.getPerceivedColor();
+    }
     _personModel.setColor( perceivedColor );
   }
   

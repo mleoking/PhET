@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.colorvision3.ColorVisionConfig;
-import edu.colorado.phet.colorvision3.model.Spotlight2D;
+import edu.colorado.phet.colorvision3.model.Spotlight;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -24,7 +24,7 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
   /** How far the bulb is inside the spotlight, in pixels. */
   private static final int BULB_OFFSET = 130;
   
-  private Spotlight2D _model;
+  private Spotlight _model;
   private PhetImageGraphic _spotlightGraphic;
   private AffineTransform _rotate;
     
@@ -34,7 +34,7 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
    * @param apparatus the apparatus panel
    * @param model the associated spotlight model
    */
-  public SpotlightGraphic( ApparatusPanel apparatus, Spotlight2D model )
+  public SpotlightGraphic( ApparatusPanel apparatus, Spotlight model )
   {
     super( apparatus );
     
@@ -61,26 +61,6 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
   }
   
   /**
-   * Gets the X coordinate of the associated model's location.
-   * 
-   * @return the X coordinate
-   */
-  public int getX()
-  {
-    return (int)_model.getX();
-  }
-  
-  /**
-   * Gets the Y coordinate of the associated model's location.
-   * 
-   * @return the Y coordinate
-   */
-  public int getY()
-  {
-    return (int)_model.getY();
-  }
-  
-  /**
    * Sets the direction.
    * 
    * @param direction the direction, in degrees
@@ -88,16 +68,6 @@ public class SpotlightGraphic extends CompositePhetGraphic implements SimpleObse
   public void setDirection( double direction )
   {
     _model.setDirection( direction );
-  }
-  
-  /**
-   * Gets the direction.
-   * 
-   * @return the direction, in degrees
-   */
-  public double getDirection()
-  {
-    return _model.getDirection();
   }
 
   /**

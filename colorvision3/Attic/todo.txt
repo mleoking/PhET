@@ -1,17 +1,14 @@
 "To Do" list for "colorvision3" project
 
 HIGH:
-o make photon beam interact with filter
-o make photon beam send an event when perceived color or intensity changes (currently only intensity)
+o show filter transmission width on filter spectrum slider
 
 MEDIUM:
-o split filter graphic into foreground/background so photons appear to go thru filter
-o make pre-filter solid beam slightly transparent, clip post-filter beam
-o show filter transmission width on filter spectrum slider
+o get rid of ColorChangeListener and replace with Observer
 
 LOW:
 o use Point for specifying locations that are based on int
-o add a UI control for filter transmission width (in nm)
 
 IDEAS:
 o put bulb color & filter color on a single spectrum slider so it's easier to see how they compare
+o add a UI control for filter transmission width (in nm)

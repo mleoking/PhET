@@ -21,7 +21,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.colorvision3.model.Spotlight2D;
+import edu.colorado.phet.colorvision3.model.Spotlight;
 
 /**
  * IntensityControl is the user interface component used to
@@ -34,7 +34,7 @@ public class IntensityControl extends JPanel implements ChangeListener
 {
   private static Stroke STROKE = new BasicStroke( 1f );
   
-  private Spotlight2D _model;
+  private Spotlight _model;
   private JPanel _containerPanel;
   private JSlider _slider;
   private JLabel _label;
@@ -45,7 +45,7 @@ public class IntensityControl extends JPanel implements ChangeListener
    * @param model the associated spotlight model
    * @param orientation orientation of the control (JSlider.HORIZONTAL or JSlider.VERTICAL)
    */
-  public IntensityControl( Spotlight2D model, int orientation, Dimension size )
+  public IntensityControl( Spotlight model, int orientation, Dimension size )
   {
     _model = model;
      
