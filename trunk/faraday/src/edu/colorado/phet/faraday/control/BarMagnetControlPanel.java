@@ -12,6 +12,7 @@
 package edu.colorado.phet.faraday.control;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +24,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.module.BarMagnetModule;
 
 /**
@@ -38,6 +38,7 @@ public class BarMagnetControlPanel extends ControlPanel {
     // Class data
     //----------------------------------------------------------------------------
 
+    private static final boolean ENABLE_DEBUG_CONTROLS = false;
     private static final String UNKNOWN_VALUE = "??????";
 
     //----------------------------------------------------------------------------
@@ -47,12 +48,13 @@ public class BarMagnetControlPanel extends ControlPanel {
     private BarMagnetModule _module;
     private JButton _flipPolarityButton;
     private JSlider _strengthSlider;
-    private JCheckBox _gridCheckBox;
-    private JSpinner _loopsSpinner;
-    private JSlider _radiusSlider;
-    private JRadioButton _meterRadioButton;
-    private JRadioButton _bulbRadioButton;
-    private JLabel _strengthValue, _radiusValue;
+    private JSlider _magnetWidthSlider, _magnetHeightSlider;
+    private JSlider _xSpacingSlider, _ySpacingSlider;
+    private JSlider _needleWidthSlider, _needleHeightSlider;
+    private JLabel _strengthValue, _magnetWidthValue, _magnetHeightValue;
+    private JLabel _xSpacingValue, _ySpacingValue, _needleWidthValue,
+            _needleHeightValue;
+    private JButton _resetButton;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -75,14 +77,6 @@ public class BarMagnetControlPanel extends ControlPanel {
         Font defaultFont = super.getFont();
         Font titleFont = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
 
-
-        JPanel fillerPanel = new JPanel();
-        {
-            fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
-            // WORKAROUND: Filler to set consistent panel width
-            fillerPanel.add( Box.createHorizontalStrut( FaradayConfig.CONTROL_PANEL_MIN_WIDTH ) );
-        }
-
         // Bar Magnet panel
         JPanel barMagnetPanel = new JPanel();
         {
@@ -95,7 +89,7 @@ public class BarMagnetControlPanel extends ControlPanel {
             _flipPolarityButton = new JButton( SimStrings.get( "flipPolarityButton.label" ) );
 
             // Strength slider
-            JPanel sliderPanel = new JPanel();
+            JPanel strengthPanel = new JPanel();
             {
                 // Label
                 JLabel label = new JLabel( SimStrings.get( "strengthSlider.label" ) );
@@ -110,173 +104,242 @@ public class BarMagnetControlPanel extends ControlPanel {
                 _strengthValue = new JLabel( UNKNOWN_VALUE );
 
                 // Layout
-                sliderPanel.setLayout( new BoxLayout( sliderPanel, BoxLayout.X_AXIS ) );
-                sliderPanel.add( label );
-                sliderPanel.add( _strengthSlider );
-                sliderPanel.add( _strengthValue );
+                strengthPanel.setLayout( new BoxLayout( strengthPanel, BoxLayout.X_AXIS ) );
+                strengthPanel.add( label );
+                strengthPanel.add( _strengthSlider );
+                strengthPanel.add( _strengthValue );
             }
 
-            // B-Field on/off
-            _gridCheckBox = new JCheckBox( SimStrings.get( "gridCheckBox.label" ) );
+            // Magnet width
+            JPanel widthPanel = new JPanel();
+            {
+                // Label
+                JLabel label = new JLabel( SimStrings.get( "magnetWidth.label" ) );
+
+                // Slider
+                _magnetWidthSlider = new JSlider();
+                _magnetWidthSlider.setMinimum( BarMagnetModule.MAGNET_SIZE_MIN.width );
+                _magnetWidthSlider.setMaximum( BarMagnetModule.MAGNET_SIZE_MAX.width );
+                _magnetWidthSlider.setValue( BarMagnetModule.MAGNET_SIZE_MIN.width );
+
+                // Value
+                _magnetWidthValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                widthPanel.setLayout( new BoxLayout( widthPanel, BoxLayout.X_AXIS ) );
+                widthPanel.add( label );
+                widthPanel.add( _magnetWidthSlider );
+                widthPanel.add( _magnetWidthValue );
+            }
+
+            // Magnet height
+            JPanel heightPanel = new JPanel();
+            {
+                // Label
+                JLabel label = new JLabel( SimStrings.get( "magnetHeight.label" ) );
+
+                // Slider
+                _magnetHeightSlider = new JSlider();
+                _magnetHeightSlider.setMinimum( BarMagnetModule.MAGNET_SIZE_MIN.height );
+                _magnetHeightSlider.setMaximum( BarMagnetModule.MAGNET_SIZE_MAX.height );
+                _magnetHeightSlider.setValue( BarMagnetModule.MAGNET_SIZE_MIN.height );
+
+                // Value
+                _magnetHeightValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                heightPanel.setLayout( new BoxLayout( heightPanel, BoxLayout.X_AXIS ) );
+                heightPanel.add( label );
+                heightPanel.add( _magnetHeightSlider );
+                heightPanel.add( _magnetHeightValue );
+            }
 
             // Layout
             barMagnetPanel.setLayout( new BoxLayout( barMagnetPanel, BoxLayout.Y_AXIS ) );
-            barMagnetPanel.add( sliderPanel );
             barMagnetPanel.add( _flipPolarityButton );
-            barMagnetPanel.add( _gridCheckBox );
+            barMagnetPanel.add( strengthPanel );
+            if ( ENABLE_DEBUG_CONTROLS ) {
+                barMagnetPanel.add( widthPanel );
+                barMagnetPanel.add( heightPanel );
+            }
         }
 
-        // Pickup Coil panel
-        JPanel pickupCoilPanel = new JPanel();
+        // Grid panel
+        JPanel gridPanel = new JPanel();
         {
             // Titled border with a larger font.
-            TitledBorder border = new TitledBorder( SimStrings.get( "pickupCoilPanel.title" ) );
+            TitledBorder border = new TitledBorder( SimStrings.get( "gridPanel.title" ) );
             border.setTitleFont( titleFont );
-            pickupCoilPanel.setBorder( border );
+            gridPanel.setBorder( border );
 
-            // Number of loops
-            JPanel loopsPanel = new JPanel();
-            {
-                // Label 
-                JLabel label = new JLabel( SimStrings.get( "numberOfLoops.label" ) );
-
-                // Spinner, keyboard editing disabled
-                SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
-                spinnerModel.setMinimum( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
-                spinnerModel.setMaximum( new Integer( FaradayConfig.MAX_PICKUP_LOOPS ) );
-                spinnerModel.setValue( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
-                _loopsSpinner = new JSpinner( spinnerModel );
-                JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
-                tf.setEditable( false );
-
-                // Layout
-                loopsPanel.setLayout( new BoxLayout( loopsPanel, BoxLayout.X_AXIS ) );
-                loopsPanel.add( label );
-                loopsPanel.add( _loopsSpinner );
-            }
-
-            // Loop Area
-            JPanel areaPanel = new JPanel();
+            // X axis density
+            JPanel xPanel = new JPanel();
             {
                 // Label
-                JLabel label = new JLabel( SimStrings.get( "radiusSlider.label" ) );
+                JLabel label = new JLabel( SimStrings.get( "xSpacing.label" ) );
 
                 // Slider
-                _radiusSlider = new JSlider();
-                _radiusSlider.setMinimum( (int) BarMagnetModule.LOOP_RADIUS_MIN );
-                _radiusSlider.setMaximum( (int) BarMagnetModule.LOOP_RADIUS_MAX );
-                _radiusSlider.setValue( (int) BarMagnetModule.LOOP_RADIUS_MIN );
+                _xSpacingSlider = new JSlider();
+                _xSpacingSlider.setMinimum( BarMagnetModule.GRID_X_SPACING_MIN );
+                _xSpacingSlider.setMaximum( BarMagnetModule.GRID_X_SPACING_MAX );
+                _xSpacingSlider.setValue( BarMagnetModule.GRID_X_SPACING_MIN );
 
                 // Value
-                _radiusValue = new JLabel( UNKNOWN_VALUE );
+                _xSpacingValue = new JLabel( UNKNOWN_VALUE );
 
                 // Layout
-                areaPanel.setLayout( new BoxLayout( areaPanel, BoxLayout.X_AXIS ) );
-                areaPanel.add( label );
-                areaPanel.add( _radiusSlider );
-                areaPanel.add( _radiusValue );
+                xPanel.setLayout( new BoxLayout( xPanel, BoxLayout.X_AXIS ) );
+                xPanel.add( label );
+                xPanel.add( _xSpacingSlider );
+                xPanel.add( _xSpacingValue );
             }
 
-            // Type of "load"
-            JPanel loadPanel = new JPanel();
+            // Y axis density
+            JPanel yPanel = new JPanel();
             {
-                // Titled border with a larger font.
-                TitledBorder border2 = new TitledBorder( SimStrings.get( "loadPanel.title" ) );
-                border.setTitleFont( titleFont );
-                loadPanel.setBorder( border2 );
+                // Label
+                JLabel label = new JLabel( SimStrings.get( "ySpacing.label" ) );
 
-                // Radio buttons
-                _bulbRadioButton = new JRadioButton( SimStrings.get( "bulbRadioButton.label" ) );
-                _meterRadioButton = new JRadioButton( SimStrings.get( "meterRadioButton.label" ) );
-                ButtonGroup group = new ButtonGroup();
-                group.add( _bulbRadioButton );
-                group.add( _meterRadioButton );
+                // Slider
+                _ySpacingSlider = new JSlider();
+                _ySpacingSlider.setMinimum( BarMagnetModule.GRID_Y_SPACING_MIN );
+                _ySpacingSlider.setMaximum( BarMagnetModule.GRID_Y_SPACING_MAX );
+                _ySpacingSlider.setValue( BarMagnetModule.GRID_Y_SPACING_MIN );
+
+                // Value
+                _ySpacingValue = new JLabel( UNKNOWN_VALUE );
 
                 // Layout
-                loadPanel.setLayout( new BoxLayout( loadPanel, BoxLayout.Y_AXIS ) );
-                loadPanel.add( _bulbRadioButton );
-                loadPanel.add( _meterRadioButton );
+                yPanel.setLayout( new BoxLayout( yPanel, BoxLayout.X_AXIS ) );
+                yPanel.add( label );
+                yPanel.add( _ySpacingSlider );
+                yPanel.add( _ySpacingValue );
+            }
+
+            // Needle width
+            JPanel widthPanel = new JPanel();
+            {
+                // Label
+                JLabel label = new JLabel( SimStrings.get( "needleWidth.label" ) );
+
+                // Slider
+                _needleWidthSlider = new JSlider();
+                _needleWidthSlider.setMinimum( BarMagnetModule.GRID_NEEDLE_SIZE_MIN.width );
+                _needleWidthSlider.setMaximum( BarMagnetModule.GRID_NEEDLE_SIZE_MAX.width );
+                _needleWidthSlider.setValue( BarMagnetModule.GRID_NEEDLE_SIZE_MIN.width );
+
+                // Value
+                _needleWidthValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                widthPanel.setLayout( new BoxLayout( widthPanel, BoxLayout.X_AXIS ) );
+                widthPanel.add( label );
+                widthPanel.add( _needleWidthSlider );
+                widthPanel.add( _needleWidthValue );
+            }
+
+            // Needle height
+            JPanel heightPanel = new JPanel();
+            {
+                // Label
+                JLabel label = new JLabel( SimStrings.get( "needleHeight.label" ) );
+
+                // Slider
+                _needleHeightSlider = new JSlider();
+                _needleHeightSlider.setMinimum( BarMagnetModule.GRID_NEEDLE_SIZE_MIN.height );
+                _needleHeightSlider.setMaximum( BarMagnetModule.GRID_NEEDLE_SIZE_MAX.height );
+                _needleHeightSlider.setValue( BarMagnetModule.GRID_NEEDLE_SIZE_MIN.height );
+
+                // Value
+                _needleHeightValue = new JLabel( UNKNOWN_VALUE );
+
+                // Layout
+                heightPanel.setLayout( new BoxLayout( heightPanel, BoxLayout.X_AXIS ) );
+                heightPanel.add( label );
+                heightPanel.add( _needleHeightSlider );
+                heightPanel.add( _needleHeightValue );
             }
 
             // Layout
-            pickupCoilPanel.setLayout( new BoxLayout( pickupCoilPanel, BoxLayout.Y_AXIS ) );
-            pickupCoilPanel.add( loopsPanel );
-            pickupCoilPanel.add( areaPanel );
-            pickupCoilPanel.add( loadPanel );
+            gridPanel.setLayout( new BoxLayout( gridPanel, BoxLayout.Y_AXIS ) );
+            gridPanel.add( xPanel );
+            gridPanel.add( yPanel );
+            gridPanel.add( widthPanel );
+            gridPanel.add( heightPanel );
+        }
+
+        // Reset panel
+        JPanel resetPanel = new JPanel();
+        {
+            // Reset button
+            _resetButton = new JButton( SimStrings.get( "resetButton.label" ) );
+
+            resetPanel.setLayout( new BoxLayout( resetPanel, BoxLayout.X_AXIS ) );
+            resetPanel.add( _resetButton );
         }
 
         // Add panels to control panel.
-        addFullWidth( fillerPanel );
         addFullWidth( barMagnetPanel );
-        addFullWidth( pickupCoilPanel );
+        if ( ENABLE_DEBUG_CONTROLS ) {
+            addFullWidth( gridPanel );
+            addFullWidth( resetPanel );
+        }
 
-        // Wire up event handling
+        // Wire up event handling.
         EventListener listener = new EventListener();
+        _resetButton.addActionListener( listener );
         _flipPolarityButton.addActionListener( listener );
         _strengthSlider.addChangeListener( listener );
-        _gridCheckBox.addActionListener( listener );
-        _loopsSpinner.addChangeListener( listener );
-        _radiusSlider.addChangeListener( listener );
-        _bulbRadioButton.addActionListener( listener );
-        _meterRadioButton.addActionListener( listener );
+        _magnetWidthSlider.addChangeListener( listener );
+        _magnetHeightSlider.addChangeListener( listener );
+        _xSpacingSlider.addChangeListener( listener );
+        _ySpacingSlider.addChangeListener( listener );
+        _needleWidthSlider.addChangeListener( listener );
+        _needleHeightSlider.addChangeListener( listener );
     }
 
     //----------------------------------------------------------------------------
-    // Controller methods
+    // Setters
     //----------------------------------------------------------------------------
 
     /**
-     * Enables/disables the compass grid.
+     * Sets the bar magnet strength.
      * 
-     * @param enable true to enable, false to disable
+     * @param value the value
      */
-    public void setCompassGridEnabled( boolean enabled ) {
-        _gridCheckBox.setSelected( enabled );
+    public void setBarMagnetStrength( double value ) {
+        _strengthSlider.setValue( (int) value );
     }
 
     /**
-     * Sets the magnet strength.
+     * Sets the bar magnet size.
      * 
-     * @param strength the strength
+     * @param size the size
      */
-    public void setMagnetStrength( double strength ) {
-        _strengthSlider.setValue( (int) strength );
+    public void setBarMagnetSize( Dimension size ) {
+        _magnetWidthSlider.setValue( size.width );
+        _magnetHeightSlider.setValue( size.height );
     }
 
     /**
-     * Sets the number of loops in the pickup coil.
+     * Sets the compass grid spacing.
      * 
-     * @param numberOfLoops the number of loops
+     * @param x space between compasses in X direction
+     * @param y space between compasses in Y direction
      */
-    public void setNumberOfLoops( int numberOfLoops ) {
-        _loopsSpinner.setValue( new Integer( numberOfLoops ) );
+    public void setGridSpacing( int x, int y ) {
+        _xSpacingSlider.setValue( x );
+        _ySpacingSlider.setValue( y );
     }
 
     /**
-     * Sets the loop radius
+     * Sets the size of the compass needles in the grid.
      * 
-     * @param radius the radius
+     * @param size the size
      */
-    public void setLoopRadius( double radius ) {
-        _radiusSlider.setValue( (int) radius );
-    }
-
-    /**
-     * Enables/disabled the lightbulb.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setBulbEnabled( boolean enabled ) {
-        _bulbRadioButton.setSelected( enabled );
-    }
-
-    /**
-     * Enables/disables the voltmeter.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setMeterEnabled( boolean enabled ) {
-        _meterRadioButton.setSelected( enabled );
+    public void setGridNeedleSize( Dimension size ) {
+        _needleWidthSlider.setValue( size.width );
+        _needleHeightSlider.setValue( size.height );
     }
 
     //----------------------------------------------------------------------------
@@ -306,17 +369,9 @@ public class BarMagnetControlPanel extends ControlPanel {
                 // Magnet polarity
                 _module.flipMagnetPolarity();
             }
-            else if ( e.getSource() == _gridCheckBox ) {
-                // Grid enable
-                _module.setCompassGridEnabled( _gridCheckBox.isSelected() );
-            }
-            else if ( e.getSource() == _bulbRadioButton ) {
-                // Lightbulb enable
-                _module.setBulbEnabled( _bulbRadioButton.isSelected() );
-            }
-            else if ( e.getSource() == _meterRadioButton ) {
-                // Voltmeter enable
-                _module.setMeterEnabled( _meterRadioButton.isSelected() );
+            else if ( e.getSource() == _resetButton ) {
+                // Reset
+                _module.reset();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
@@ -336,17 +391,29 @@ public class BarMagnetControlPanel extends ControlPanel {
                 Integer i = new Integer( _strengthSlider.getValue() );
                 _strengthValue.setText( i.toString() );
             }
-            else if ( e.getSource() == _radiusSlider ) {
-                // Loop radius
-                int radius = _radiusSlider.getValue();
-                _module.setPickupLoopRadius( radius );
-                Integer i = new Integer( radius );
-                _radiusValue.setText( i.toString() );
+            else if ( e.getSource() == _magnetWidthSlider || e.getSource() == _magnetHeightSlider ) {
+                // Magnet dimensions
+                int width = _magnetWidthSlider.getValue();
+                int height = _magnetHeightSlider.getValue();
+                _module.setMagnetSize( new Dimension( width, height ) );
+                _magnetWidthValue.setText( String.valueOf( width ) );
+                _magnetHeightValue.setText( String.valueOf( height ) );
             }
-            else if ( e.getSource() == _loopsSpinner ) {
-                // Number of loops
-                int value = ( (Integer) _loopsSpinner.getValue() ).intValue();
-                _module.setNumberOfPickupLoops( value );
+            else if ( e.getSource() == _xSpacingSlider || e.getSource() == _ySpacingSlider ) {
+                // Grid spacing
+                int x = _xSpacingSlider.getValue();
+                int y = _ySpacingSlider.getValue();
+                _module.setGridSpacing( x, y );
+                _xSpacingValue.setText( String.valueOf( x ) );
+                _ySpacingValue.setText( String.valueOf( y ) );
+            }
+            else if ( e.getSource() == _needleWidthSlider || e.getSource() == _needleHeightSlider ) {
+                // CompassGraphic Needle dimensions
+                int width = _needleWidthSlider.getValue();
+                int height = _needleHeightSlider.getValue();
+                _module.setGridNeedleSize( new Dimension( width, height ) );
+                _needleWidthValue.setText( String.valueOf( width ) );
+                _needleHeightValue.setText( String.valueOf( height ) );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
