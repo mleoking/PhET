@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
@@ -16,7 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class WiggleMeGraphic implements Graphic, Runnable {
+public class WiggleMeGraphic extends PhetGraphic implements Runnable {
 
     private Runnable loop;
     private Component component;
@@ -27,12 +27,20 @@ public class WiggleMeGraphic implements Graphic, Runnable {
     Font font = new Font( family, style, size );
     private Point2D.Double startLocation;
     private Color color = IdealGasConfig.helpColor;
+    private Rectangle redrawArea;
 
     public WiggleMeGraphic( Component component, Point2D.Double startLocation ) {
+        super( component );
         this.component = component;
         loop = this;
         this.startLocation = startLocation;
         current.setLocation( startLocation );
+        redrawArea = new Rectangle( (int)startLocation.getX(), (int)startLocation.getY(),
+                                    200, 30 );
+    }
+
+    protected Rectangle determineBounds() {
+        return redrawArea;
     }
 
     public void kill() {
@@ -50,8 +58,10 @@ public class WiggleMeGraphic implements Graphic, Runnable {
             }
             cnt += 0.2;
             current.setLocation( startLocation.getX() + 30 * Math.cos( cnt ),
-                                 startLocation.getY() + 15 * Math.sin( cnt ));
-            component.repaint();
+                                 startLocation.getY() + 15 * Math.sin( cnt ) );
+            //            component.invalidate();
+            //            component.repaint();
+            repaint();
         }
     }
 
