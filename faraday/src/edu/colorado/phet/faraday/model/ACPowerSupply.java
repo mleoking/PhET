@@ -125,10 +125,23 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         return _stepAngle;
     }
     
+    /**
+     * Enables or disables critical angles.
+     * When enabled, the delta angle may be adjusted so that the amplitude
+     * hits all peaks and zero crossings on the sine wave.
+     * 
+     * @param criticalAnglesEnabled true or false
+     */
     public static void setCriticalAnglesEnabled( boolean criticalAnglesEnabled ) {
         _criticalAnglesEnabled = criticalAnglesEnabled;
     }
     
+    /**
+     * Determines whether critical angles are enabled.
+     * 
+     * @return true or false
+     * @see setCriticalAnglesEnabled
+     */
     public static boolean isCriticalAnglesEnabled() {
         return _criticalAnglesEnabled;
     }
