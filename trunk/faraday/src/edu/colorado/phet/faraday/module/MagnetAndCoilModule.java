@@ -66,8 +66,9 @@ public class MagnetAndCoilModule extends Module {
     private static final double MAGNET_STRENGTH = 200;
     
     // Pickup Coil parameters
+    private static final int NUMBER_OF_LOOPS = 2;
     public static final int LOOP_RADIUS_MIN = 75;
-    public static final int LOOP_RADIUS_MAX = 150;
+    public static final int LOOP_RADIUS_MAX = 125;
     private static final double LOOP_RADIUS = 100;
     
     //----------------------------------------------------------------------------
@@ -110,7 +111,7 @@ public class MagnetAndCoilModule extends Module {
         
         // Pickup Coil
         PickupCoil pickupCoilModel = new PickupCoil( magnetModel );
-        pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
+        pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
         pickupCoilModel.setRadius( LOOP_RADIUS );
         pickupCoilModel.setDirection( 0 );
         pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
