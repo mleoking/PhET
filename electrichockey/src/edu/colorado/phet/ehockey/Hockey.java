@@ -4,6 +4,9 @@ package edu.colorado.phet.ehockey;
 
 //import edu.colorado.phet.utils.edu.colorado.phet.ehockey.ResourceLoader4;
 
+// Only import this while using Enumeration class to test bundle strings
+import java.util.Enumeration;
+
 import javax.swing.*;
 import java.applet.AudioClip;
 import java.awt.*;
@@ -29,18 +32,29 @@ public class Hockey extends JApplet implements Runnable {
 
     public void init() {
 
-
         //width = getWidth();
         //height = getHeight();
         width = 700;
         height = 600;
+
+        HockeyStrings.setStrings( HockeyConfig.localizedStringPath );
+
+        // Verify all I18N keywords have valid values (by visual inspection).
+        Enumeration keys = HockeyStrings.getKeys();
+        int ki = 1;
+        while (keys.hasMoreElements()) {
+            String key = (String)keys.nextElement();
+            String value = HockeyStrings.get(key);
+            System.out.println("HockeyStrings key-value " + ki + " " + key + " " + value);
+            ki++;
+        }
+
         barrierList = new BarrierList( this );
         model = new Model( width, height, this );
         controlPanel = new ControlPanel( this );
 
         playingField = new PlayingField( width, height, this );
         fieldGrid = new FieldGrid( width, height, this );
-
 
         ClassLoader cl = getClass().getClassLoader();
         this.mcl = new MyClipLoader( cl, this );
@@ -56,7 +70,6 @@ public class Hockey extends JApplet implements Runnable {
         pane.setLayout( new BorderLayout() );
         pane.add( playingField, BorderLayout.CENTER );
         pane.add( controlPanel, BorderLayout.SOUTH );
-
     }
 
     public AudioClip getAudioClip( MyClipLoader mcl, String name ) {
@@ -88,13 +101,28 @@ public class Hockey extends JApplet implements Runnable {
     }
 
     public static void main( String[] args ) {
+
+
+        // Currently: "all or nothing" - specify locale via both language
+        //     and country, or use defaults ( en US ).
+        // To Do: support the usage "java Hockey [ language [ country ] ]"
+        //     instead of forcing user to specify both language and country.
+        // To Do: get local from environment if not specified on command line.
+        if ( args.length == 2 ) {
+            HockeyStrings.setLocale( args[0], args[1] );
+        }
+        else {
+            HockeyStrings.setLocale( "en", "US" );
+        }
+
+        System.out.println( new HockeyStrings().toString() );
+
         JFrame f = new JFrame();
         Hockey mg = new Hockey();
         f.setContentPane( mg );
         f.setSize( 800, 750 );
         f.setVisible( true );
         mg.init();
-
 
         f.addWindowListener( new Exit() );
         f.invalidate();
@@ -133,6 +161,4 @@ public class Hockey extends JApplet implements Runnable {
         }
 
     }
-
-
 }

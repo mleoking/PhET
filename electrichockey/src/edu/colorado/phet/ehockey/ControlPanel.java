@@ -49,23 +49,25 @@ public class ControlPanel extends JPanel {
 
     public ControlPanel( final Hockey hockey ) {
         this.hockey = hockey;
-        startBtn = new JButton( "Start" );
-        resetBtn = new JButton( "Reset" );
+        startBtn = new JButton( HockeyStrings.get( "HockeyControlPanel.Start" ) );
+        resetBtn = new JButton( HockeyStrings.get( "HockeyControlPanel.Reset" ) );
         nbrTries = 0;
-        nbrTriesLbl = new JLabel( " Tries: 0" );
+        nbrTriesLbl = new JLabel( HockeyStrings.get( "HockeyControlPanel.Tries" ) + nbrTries );
 
-        clearBtn = new JButton( "Clear" );
+        clearBtn = new JButton( HockeyStrings.get( "HockeyControlPanel.Clear" ) );
         //pauseBtn = new JButton("Pause");
-        pauseChkBox = new JCheckBox( "Pause", false );
+        pauseChkBox = new JCheckBox( HockeyStrings.get( "HockeyControlPanel.Pause"), false );
         pauseChkBox.setBackground( Color.yellow );
         //togglePause = true;
 
-        traceChkBox = new JCheckBox( "Trace ", false );
+        // traceChkBox = new JCheckBox( "Trace ", false ); gmwb - extra space at end of Trace ?
+        traceChkBox = new JCheckBox( HockeyStrings.get( "HockeyControlPanel.Trace" ), false );
         traceChkBox.setBackground( Color.yellow );
         //traceBtn = new JButton("Trace On");
         toggleTrace = false;
 
-        final JCheckBox positivePuck = new JCheckBox( "Puck is Positive", true );
+        final JCheckBox positivePuck = new JCheckBox(
+            HockeyStrings.get( "HockeyControlPanel.PuckIsPositive" ), true );
         positivePuck.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean sel = positivePuck.isSelected();
@@ -83,18 +85,20 @@ public class ControlPanel extends JPanel {
         } );
         positivePuck.setBackground( Color.yellow );
 
-        fieldGridChkBox = new JCheckBox( "Field", false );
+        fieldGridChkBox = new JCheckBox( HockeyStrings.get( "HockeyControlPanel.Field" ), false );
         fieldGridChkBox.setBackground( Color.yellow );
         showField = false;
 
-        radio0 = new JRadioButton( "Practice   ", true );
+        radio0 = new JRadioButton( HockeyStrings.get( "HockeyControlPanel.Practice" ), true );
         radio1 = new JRadioButton( "1", false );
         radio2 = new JRadioButton( "2", false );
         radio3 = new JRadioButton( "3", false );
 
-        difficultyLbl = new JLabel( "Difficulty:" );
+        difficultyLbl = new JLabel( HockeyStrings.get( "HockeyControlPanel.Difficulty" ) );
 
-        String str = "  Charges: " + hockey.getModel().getChargeListSize();
+        String str = HockeyStrings.get( "HockeyControlPanel.Charges" ) +
+                        hockey.getModel().getChargeListSize();
+
         nbrChargesLbl = new JLabel( str );
         nbrChargesLbl.setBackground( Color.green );
 
@@ -111,10 +115,14 @@ public class ControlPanel extends JPanel {
         btnGroup.add( radio2 );
         btnGroup.add( radio3 );
 
-        massLbl = new JLabel( "Mass" );
+        massLbl = new JLabel( HockeyStrings.get( "HockeyControlPanel.Mass" ) );
         massLbl.setBackground( Color.green );
-        massText = new JTextField( " 25", 3 );
-        massSlider = new JSlider( 1, 100, 25 );
+        // gmwb - leading space?
+        // massText = new JTextField( " 25", 3 );
+        // massSlider = new JSlider( 1, 100, 25 );
+        int massInitValue = 25;
+        massText = new JTextField( Integer.toString( massInitValue ), 3 );
+        massSlider = new JSlider( 1, 100, massInitValue );
         massSlider.setMajorTickSpacing( 10 );
         massSlider.setMinorTickSpacing( 1 );
         massSlider.setBackground( Color.green );
@@ -365,11 +373,11 @@ public class ControlPanel extends JPanel {
     }
 
     public void setNbrTriesLbl() {
-        nbrTriesLbl.setText( " Tries: " + new Integer( nbrTries ).toString() );
+        nbrTriesLbl.setText( HockeyStrings.get( "HockeyControlPanel.Tries" ) + new Integer( nbrTries ).toString() );
     }
 
     public void setNbrChargesLbl( int n ) {
-        nbrChargesLbl.setText( "  Charges: " + new Integer( n ).toString() );
+        nbrChargesLbl.setText( HockeyStrings.get( "HockeyControlPanel.Charges" ) + new Integer( n ).toString() );
     }
 
     public void prt( String str ) {

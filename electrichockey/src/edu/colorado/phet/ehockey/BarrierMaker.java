@@ -19,7 +19,7 @@ public class BarrierMaker extends JFrame {
     edu.colorado.phet.ehockey.PaintPanel paintPnl;			//
 
     public BarrierMaker() {
-        super( "Make Barriers" );
+        super( HockeyStrings.get( "HockeyBarrierMaker.MakeBarriers" ) );
         setSize( BarrierMaker.fullWidth + 20, BarrierMaker.fullHeight + 50 );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         paintPnl = new edu.colorado.phet.ehockey.PaintPanel();
@@ -45,7 +45,9 @@ class PaintPanel extends JPanel
     int endX;
     int endY;			//corner two of rectang
     Point p;
-    JButton finishBtn = new JButton( "Finished" );
+    // gmwb - calling static method before PaintPanel construction?
+    JButton finishBtn = new JButton( HockeyStrings.get( "HockeyBarrierMaker.Finished" ) );
+
     boolean finished;		//job done, write to file
     private Rectangle goal;
 
@@ -130,7 +132,9 @@ class PaintPanel extends JPanel
     }
 
     public void mouseClicked( MouseEvent mevt ) {
+
         System.out.println( "Mouse clicked" );
+
         int x = mevt.getX();
         int y = mevt.getY();
         Point myPoint = new Point( x, y );
@@ -153,12 +157,16 @@ class PaintPanel extends JPanel
     }
 
     public void mousePressed( MouseEvent mevt ) {
+
         System.out.println( "Mouse pressed" );
+
         startX = del * ( mevt.getX() / del );
         startY = del * ( mevt.getY() / del );
     }
 
     public void mouseReleased( MouseEvent mevt ) {
+
+        System.out.println( "Mouse released" );
 
         endX = del * ( mevt.getX() / del );
         endY = del * ( mevt.getY() / del );
@@ -175,6 +183,9 @@ class PaintPanel extends JPanel
     }
 
     public void mouseDragged( MouseEvent mevt ) {
+
+        System.out.println( "Mouse dragged" );
+
         endX = del * ( mevt.getX() / del );
         endY = del * ( mevt.getY() / del );
         repaint();
