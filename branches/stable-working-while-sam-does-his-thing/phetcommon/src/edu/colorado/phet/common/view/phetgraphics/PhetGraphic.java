@@ -87,6 +87,14 @@ public abstract class PhetGraphic implements BoundedGraphic {
         return component;
     }
 
+    /**
+     * Provided to support object pooling in concrete subclasses
+     * @param component
+     */
+    protected void setComponent( Component component ) {
+        this.component = component;
+    }
+
     public boolean isVisible() {
         return visible;
     }
