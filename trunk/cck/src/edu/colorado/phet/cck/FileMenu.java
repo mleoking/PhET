@@ -5,13 +5,12 @@ import edu.colorado.phet.cck.elements.circuit.Circuit;
 import edu.colorado.phet.cck.io.FileOpen;
 import edu.colorado.phet.cck.io.FileSave;
 import edu.colorado.phet.persistence.CckRemotePersistence;
+import org.exolab.castor.xml.MarshalException;
+import org.exolab.castor.xml.ValidationException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import org.exolab.castor.xml.ValidationException;
-import org.exolab.castor.xml.MarshalException;
 
 /**
  * User: Sam Reid
@@ -62,11 +61,10 @@ public class FileMenu extends JMenu {
                 } else {
                     try {
                         String xml = new FileSave().toXMLString(module.getCircuit());
-                        CckRemotePersistence crp = new CckRemotePersistence(
-                                "http://cosmos.colorado.edu/phet/cckStore",
+                        CckRemotePersistence crp = new CckRemotePersistence("http://cosmos.colorado.edu/phet/cckStore",
                                 name);
                         crp.store(xml);
-                        JOptionPane.showMessageDialog(submit, "Submission Complete for: "+name);
+                        JOptionPane.showMessageDialog(submit, "Submission Complete for: " + name);
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(submit, "Could not submit because of: " + ex.toString());
                     }

@@ -1,5 +1,5 @@
 /*Copyright, Sam Reid, 2003.*/
-package edu.colorado.phet.common;
+package edu.colorado.phet.cck.common;
 
 import edu.colorado.phet.cck.util.CommonImageLoader;
 import edu.colorado.phet.cck.util.ImageLoader;

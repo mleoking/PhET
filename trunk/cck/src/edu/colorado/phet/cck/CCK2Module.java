@@ -19,7 +19,6 @@ import edu.colorado.phet.cck.elements.particles.ParticleLayout;
 import edu.colorado.phet.cck.elements.particles.ParticleSet;
 import edu.colorado.phet.cck.elements.particles.ParticleSetGraphic;
 import edu.colorado.phet.cck.util.MyConsoleHandler;
-import edu.colorado.phet.common.VersionUtils;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.math.PhetVector;
