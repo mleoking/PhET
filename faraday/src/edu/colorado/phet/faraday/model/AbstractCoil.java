@@ -90,6 +90,7 @@ public class AbstractCoil extends SpacialObservable {
         }
         if ( numberOfLoops != _numberOfLoops ) {
             _numberOfLoops = numberOfLoops;
+            updateSelf();
             notifyObservers();
         }
     }
@@ -116,6 +117,7 @@ public class AbstractCoil extends SpacialObservable {
         }
         if ( radius != _radius ) {
             _radius = radius;
+            updateSelf();
             notifyObservers();
         }
     }
@@ -151,6 +153,7 @@ public class AbstractCoil extends SpacialObservable {
         }
         if ( spacing != _spacing ) {
             _spacing = spacing;
+            updateSelf();
             notifyObservers();
         }
     }
