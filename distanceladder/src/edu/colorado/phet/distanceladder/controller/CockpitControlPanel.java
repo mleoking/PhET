@@ -13,7 +13,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.StringResourceReader;
 import edu.colorado.phet.distanceladder.model.*;
 import edu.colorado.phet.distanceladder.view.StarMapGraphic;
-import edu.colorado.phet.distanceladder.Config;
+import edu.colorado.phet.distanceladder.view.StarshipCoordsGraphic;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -172,6 +172,7 @@ public class CockpitControlPanel extends JPanel {
         private JButton helpBtn;
         private JLabel reticleLabel1;
         private JLabel reticleLabel2;
+        JLabel distanceLabel = new JLabel( "Distance" );
 
 
         public ParallaxPanel() {
@@ -269,15 +270,15 @@ public class CockpitControlPanel extends JPanel {
 
             alphaTF.getDocument().addDocumentListener( new DocumentListener() {
                 public void changedUpdate( DocumentEvent e ) {
-                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) /*&& !betaTF.getText().equals( "" ) */);
+                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) /*&& !betaTF.getText().equals( "" ) */ );
                 }
 
                 public void insertUpdate( DocumentEvent e ) {
-                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) /*&& !betaTF.getText().equals( "" ) */);
+                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) /*&& !betaTF.getText().equals( "" ) */ );
                 }
 
                 public void removeUpdate( DocumentEvent e ) {
-                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) /* && !betaTF.getText().equals( "" ) */);
+                    computeBtn.setEnabled( !alphaTF.getText().equals( "" ) /* && !betaTF.getText().equals( "" ) */ );
                 }
             } );
 
@@ -349,7 +350,7 @@ public class CockpitControlPanel extends JPanel {
                                                   0, rowIdx++, 2, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new JLabel( "Distance" ),
+                GraphicsUtil.addGridBagComponent( this, distanceLabel,
                                                   0, rowIdx, 1, 1,
                                                   GridBagConstraints.NONE,
                                                   GridBagConstraints.CENTER );
@@ -377,6 +378,7 @@ public class CockpitControlPanel extends JPanel {
             computeBtn.setEnabled( parallaxInstrumentEnabled );
             helpBtn.setEnabled( parallaxInstrumentEnabled );
             reticleLabel1.setEnabled( parallaxInstrumentEnabled );
+            distanceLabel.setEnabled( parallaxInstrumentEnabled );
 //            reticleLabel2.setEnabled( parallaxInstrumentEnabled );
 //            leftRightSlider.setEnabled( parallaxInstrumentEnabled );
 //            module.setParallaxReticleOn( parallaxInstrumentEnabled );
@@ -529,28 +531,35 @@ public class CockpitControlPanel extends JPanel {
             starship.addObserver( this );
             this.setPreferredSize( new Dimension( 200, 200 ) );
             StarMapGraphic starMapGraphic = new StarMapGraphic( this, model.getStarField() );
+            StarshipCoordsGraphic starshipCoordsGraphic = new StarshipCoordsGraphic( starship, this );
+            // Thicken the lines in the coordinate graphic
+            starshipCoordsGraphic.setRingStroke( new BasicStroke( 12f ) );
+
             this.addGraphic( starMapGraphic );
+            starMapGraphic.addGraphic( starshipCoordsGraphic );
             orientationLine.setLine( 0, 0, this.getPreferredSize().getWidth(), 0 );
         }
 
-        protected void paintComponent( Graphics graphics ) {
-            atx.setToTranslation( this.getWidth() / 2, this.getHeight() / 2 );
-
-            Graphics2D g2 = (Graphics2D)graphics;
-            AffineTransform orgTx = g2.getTransform();
-            super.paintComponent( graphics );
-
-            double scale = this.getWidth() / Config.universeWidth;
-            lineTx.setToTranslation( this.getWidth() / 2 + starship.getPov().getX() * scale,
-                                     this.getHeight() / 2 + starship.getPov().getY() * scale );
-            lineTx.rotate( starship.getPov().getTheta() );
-            g2.transform( lineTx );
-            g2.setColor( Color.red );
-            g2.setStroke( lineStroke );
-            g2.draw( orientationLine );
-
-            g2.setTransform( orgTx );
-        }
+//        protected void paintComponent( Graphics graphics ) {
+//            atx.setToTranslation( this.getWidth() / 2, this.getHeight() / 2 );
+//
+//            Graphics2D g2 = (Graphics2D)graphics;
+//            AffineTransform orgTx = g2.getTransform();
+//            super.paintComponent( graphics );
+//
+//            // Draw a red line to reinforce the orientation line in the coordinate graphic,
+//            // which is too faint
+////            double scale = this.getWidth() / Config.universeWidth;
+////            lineTx.setToTranslation( this.getWidth() / 2 + starship.getPov().getX() * scale,
+////                                     this.getHeight() / 2 + starship.getPov().getY() * scale );
+////            lineTx.rotate( starship.getPov().getTheta() );
+////            g2.transform( lineTx );
+////            g2.setColor( Color.red );
+////            g2.setStroke( lineStroke );
+////            g2.draw( orientationLine );
+//
+//            g2.setTransform( orgTx );
+//        }
 
         public void update() {
             this.repaint();

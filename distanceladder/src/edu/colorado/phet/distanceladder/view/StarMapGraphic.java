@@ -75,6 +75,7 @@ public class StarMapGraphic extends CompositeInteractiveGraphic implements Image
         g.transform( mapTx );
         g.fillRect( (int)-starField.getBounds().getWidth() / 2, (int)-starField.getBounds().getHeight() / 2,
                     (int)starField.getBounds().getWidth(), (int)starField.getBounds().getHeight() );
+        g.setClip( starField.getBounds() );
         super.paint( g );
 
         // Restore the graphics transform
