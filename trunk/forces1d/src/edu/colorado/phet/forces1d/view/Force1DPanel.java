@@ -2,9 +2,7 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
-import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.Function;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
@@ -15,7 +13,6 @@ import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
-import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
 import javax.swing.*;
@@ -44,157 +41,125 @@ public class Force1DPanel extends ApparatusPanel {
     private PlotDeviceView plotDeviceView;
     private RepaintDebugGraphic repaintDebugGraphic;
     private FreeBodyDiagram freeBodyDiagram;
-    private FreeBodyDiagram.ForceArrow mg;
-    private FreeBodyDiagram.ForceArrow normal;
 
-    public Force1DPanel( final Force1DModule module ) throws IOException {
+    public Force1DPanel(final Force1DModule module) throws IOException {
         this.module = module;
         this.model = module.getForceModel();
-        addGraphicsSetup( new BasicGraphicsSetup() );
-        walkwayTransform = new Function.LinearFunction( -10, 10, 0, 400 );
-        walkwayGraphic = new WalkwayGraphic( this, module, 21, getWalkwayTransform() );
-        blockGraphic = new BlockGraphic( this, module.getForceModel().getBlock(), model, transform2D, walkwayTransform, module.imageElementAt( 0 ) );
-        arrowSetGraphic = new ArrowSetGraphic( this, blockGraphic, model, transform2D );
-        leanerGraphic = new LeanerGraphic( this, blockGraphic );
-        addGraphic( walkwayGraphic );
-        addGraphic( blockGraphic );
-        addGraphic( leanerGraphic, 1000 );
-        leanerGraphic.setLocation( 400, 100 );
+        addGraphicsSetup(new BasicGraphicsSetup());
+        walkwayTransform = new Function.LinearFunction(-10, 10, 0, 400);
+        walkwayGraphic = new WalkwayGraphic(this, module, 21, getWalkwayTransform());
+        blockGraphic = new BlockGraphic(this, module.getForceModel().getBlock(), model, transform2D, walkwayTransform, module.imageElementAt(0));
+        arrowSetGraphic = new ArrowSetGraphic(this, blockGraphic, model, transform2D);
+        leanerGraphic = new LeanerGraphic(this, blockGraphic);
+        addGraphic(walkwayGraphic);
+        addGraphic(blockGraphic);
+        addGraphic(leanerGraphic, 1000);
+        leanerGraphic.setLocation(400, 100);
 
-        addGraphic( arrowSetGraphic );
+        addGraphic(arrowSetGraphic);
 
-        addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
+        addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
                 relayout();
             }
 
-            public void componentShown( ComponentEvent e ) {
+            public void componentShown(ComponentEvent e) {
                 relayout();
             }
 
-            public void componentHidden( ComponentEvent e ) {
+            public void componentHidden(ComponentEvent e) {
                 relayout();
             }
-        } );
+        });
 
 //        int strokeWidth=2;
         int strokeWidth = 3;
-        plotDeviceView = new Force1DPlotDeviceView( module, this );
-        PlotDevice.ParameterSet params = new PlotDevice.ParameterSet( this, "Applied Force", model.getPlotDeviceModel(),
-                                                                      plotDeviceView, model.getAppliedForceDataSeries().getSmoothedDataSeries(), model.getPlotDeviceModel().getRecordingTimer(),
-                                                                      Color.red, new BasicStroke( strokeWidth ),
-                                                                      new Rectangle2D.Double( 0, -10, model.getPlotDeviceModel().getMaxTime(), 20 ),
-                                                                      0, "N", "applied force" );
-        forcePlotDevice = new PlotDevice( params );
-        forcePlotDevice.setLabelText( "<html>Applied<br>Force</html>" );
-        forcePlotDevice.addDataSeries( model.getNetForceSeries(), Color.blue, "Total Force", new BasicStroke( strokeWidth ) );
-        forcePlotDevice.addDataSeries( model.getFrictionForceSeries(), Color.green, "Friction Force", new BasicStroke( strokeWidth ) );
+        plotDeviceView = new Force1DPlotDeviceView(module, this);
+        PlotDevice.ParameterSet params = new PlotDevice.ParameterSet(this, "Applied Force", model.getPlotDeviceModel(),
+                plotDeviceView, model.getAppliedForceDataSeries().getSmoothedDataSeries(), model.getPlotDeviceModel().getRecordingTimer(),
+                Color.red, new BasicStroke(strokeWidth),
+                new Rectangle2D.Double(0, -10, model.getPlotDeviceModel().getMaxTime(), 20),
+                0, "N", "applied force");
+        forcePlotDevice = new PlotDevice(params);
+        forcePlotDevice.setLabelText("<html>Applied<br>Force</html>");
+        forcePlotDevice.addDataSeries(model.getNetForceSeries(), Color.blue, "Total Force", new BasicStroke(strokeWidth));
+        forcePlotDevice.addDataSeries(model.getFrictionForceSeries(), Color.green, "Friction Force", new BasicStroke(strokeWidth));
 
-        addGraphic( forcePlotDevice );
-        forcePlotDevice.addSliderListener( new VerticalChartSlider.Listener() {
-            public void valueChanged( double value ) {
+        addGraphic(forcePlotDevice);
+        forcePlotDevice.addSliderListener(new VerticalChartSlider.Listener() {
+            public void valueChanged(double value) {
                 double appliedForce = value;
-                model.setAppliedForce( appliedForce );
+                model.setAppliedForce(appliedForce);
             }
-        } );
-        Font checkBoxFont = new Font( "Lucida Sans", Font.PLAIN, 14 );
+        });
+        Font checkBoxFont = new Font("Lucida Sans", Font.PLAIN, 14);
 
-        final JCheckBox showNetForce = new JCheckBox( "Net Force", true );
+        final JCheckBox showNetForce = new JCheckBox("Net Force", true);
 
-        showNetForce.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setShowNetForce( showNetForce.isSelected() );
+        showNetForce.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setShowNetForce(showNetForce.isSelected());
             }
-        } );
+        });
 
-        showNetForce.setFont( checkBoxFont );
-        final JCheckBox showFrictionForce = new JCheckBox( "Friction Force", true );
-        showFrictionForce.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setShowFrictionForce( showFrictionForce.isSelected() );
+        showNetForce.setFont(checkBoxFont);
+        final JCheckBox showFrictionForce = new JCheckBox("Friction Force", true);
+        showFrictionForce.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setShowFrictionForce(showFrictionForce.isSelected());
             }
-        } );
-        showFrictionForce.setFont( checkBoxFont );
+        });
+        showFrictionForce.setFont(checkBoxFont);
         JPanel checkBoxPanel = new VerticalLayoutPanel();
-        checkBoxPanel.add( showNetForce );
-        checkBoxPanel.add( showFrictionForce );
-        forcePlotDevice.getFloatingControl().add( checkBoxPanel );
+        checkBoxPanel.add(showNetForce);
+        checkBoxPanel.add(showFrictionForce);
+        forcePlotDevice.getFloatingControl().add(checkBoxPanel);
 
-        bufferedPhetGraphic = new BufferedPhetGraphic( this, new Graphic() {
-            public void paint( Graphics2D g ) {
+        bufferedPhetGraphic = new BufferedPhetGraphic(this, new Graphic() {
+            public void paint(Graphics2D g) {
             }
-        }, Color.white );
+        }, Color.white);
         relayout();
-        addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
                 requestFocus();
             }
-        } );
-        addKeyListener( new KeyListener() {
-            public void keyTyped( KeyEvent e ) {
+        });
+        addKeyListener(new KeyListener() {
+            public void keyTyped(KeyEvent e) {
             }
 
-            public void keyPressed( KeyEvent e ) {
+            public void keyPressed(KeyEvent e) {
             }
 
-            public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
-                    if( repaintDebugGraphic.isActive() ) {
-                        removeGraphic( repaintDebugGraphic );
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    if (repaintDebugGraphic.isActive()) {
+                        removeGraphic(repaintDebugGraphic);
+                    } else {
+                        addGraphic(repaintDebugGraphic, 15000);
                     }
-                    else {
-                        addGraphic( repaintDebugGraphic, 15000 );
-                    }
-                    repaintDebugGraphic.setActive( !repaintDebugGraphic.isActive() );
+                    repaintDebugGraphic.setActive(!repaintDebugGraphic.isActive());
                 }
             }
-        } );
-        repaintDebugGraphic = new RepaintDebugGraphic( Force1DPanel.this, module.getClock() );
-        repaintDebugGraphic.setTransparency( 128 );
-        repaintDebugGraphic.setActive( false );
+        });
+        repaintDebugGraphic = new RepaintDebugGraphic(Force1DPanel.this, module.getClock());
+        repaintDebugGraphic.setTransparency(128);
+        repaintDebugGraphic.setActive(false);
 
-        freeBodyDiagram = new FreeBodyDiagram( this, module );
-        addGraphic( freeBodyDiagram, Double.POSITIVE_INFINITY );
-        mg = new FreeBodyDiagram.ForceArrow( this, freeBodyDiagram, Color.blue, "mg", new Vector2D.Double( 0, 80 ) );
-        freeBodyDiagram.addForceArrow( mg );
+        freeBodyDiagram = new FreeBodyDiagram(this, module);
+        addGraphic(freeBodyDiagram, Double.POSITIVE_INFINITY);
 
-        normal = new FreeBodyDiagram.ForceArrow( this, freeBodyDiagram, Color.green, "N", new Vector2D.Double( 0, 80 ) );
-        freeBodyDiagram.addForceArrow( normal );
-        model.addListener( new Force1DModel.Listener() {
-            public void appliedForceChanged() {
-            }
-
-            public void gravityChanged() {
-                updateMG();
-            }
-        } );
-        model.getBlock().addListener( new Block.Listener() {
-            public void positionChanged() {
-            }
-
-            public void propertyChanged() {
-                updateMG();
-            }
-        } );
     }
 
-    private void updateMG() {
-        double gravity = model.getGravity();
-        double mass = model.getBlock().getMass();
-        double scale = 1.0 / 30.0;
-        Vector2D.Double m = new Vector2D.Double( 0, gravity * mass * scale );
-        AbstractVector2D n = m.getScaledInstance( -1 );
-        mg.setVector( m );
-        normal.setVector( n );
-    }
 
-    private void setShowFrictionForce( boolean selected ) {
-        forcePlotDevice.setDataSeriesVisible( 2, selected );
+    private void setShowFrictionForce(boolean selected) {
+        forcePlotDevice.setDataSeriesVisible(2, selected);
         repaint();
     }
 
-    private void setShowNetForce( boolean selected ) {
-        forcePlotDevice.setDataSeriesVisible( 1, selected );
+    private void setShowNetForce(boolean selected) {
+        forcePlotDevice.setDataSeriesVisible(1, selected);
         repaint();
     }
 //
@@ -209,18 +174,18 @@ public class Force1DPanel extends ApparatusPanel {
 //    }
 
     public void relayout() {
-        if( getWidth() > 0 && getHeight() > 0 ) {
-            bufferedPhetGraphic.setSize( getWidth(), getHeight() );
+        if (getWidth() > 0 && getHeight() > 0) {
+            bufferedPhetGraphic.setSize(getWidth(), getHeight());
             int insetX = 50;
-            walkwayTransform.setOutput( 0 + insetX, getWidth() - insetX );
+            walkwayTransform.setOutput(0 + insetX, getWidth() - insetX);
             int plotInsetX = 200;
             int plotWidth = getWidth() - plotInsetX - 25;
             int y = walkwayGraphic.getHeight() + 20 + walkwayGraphic.getY();
             int yInsetBottom = forcePlotDevice.getChart().getHorizontalTicks().getMajorTickTextBounds().height * 2;
-            Rectangle newViewBounds = new Rectangle( plotInsetX, y + yInsetBottom, plotWidth, getHeight() - y - yInsetBottom * 2 );
+            Rectangle newViewBounds = new Rectangle(plotInsetX, y + yInsetBottom, plotWidth, getHeight() - y - yInsetBottom * 2);
 //            System.out.println( "newViewBounds = " + newViewBounds );
-            if( newViewBounds.width > 0 && newViewBounds.height > 0 ) {
-                forcePlotDevice.setViewBounds( newViewBounds );
+            if (newViewBounds.width > 0 && newViewBounds.height > 0) {
+                forcePlotDevice.setViewBounds(newViewBounds);
             }
             updateGraphics();
             repaint();
@@ -243,11 +208,12 @@ public class Force1DPanel extends ApparatusPanel {
     public void updateGraphics() {
         arrowSetGraphic.updateGraphics();
         blockGraphic.update();
+        freeBodyDiagram.updateAll();
     }
 
     public void reset() {
         forcePlotDevice.reset();
-        repaint( 0, 0, getWidth(), getHeight() );
+        repaint(0, 0, getWidth(), getHeight());
     }
 
     public Force1DModule getModule() {
