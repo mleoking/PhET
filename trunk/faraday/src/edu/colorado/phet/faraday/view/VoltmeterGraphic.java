@@ -44,18 +44,18 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
     // Class data
     //----------------------------------------------------------------------------
     
-    // Pivot point
+    // Pivot point, the point about which the needle pivots.
     private static final Point PIVOT_POINT = new Point( 85, 82 );
-
-    // Screw that anchors needle.
-    private static final Color SCREW_COLOR = Color.BLUE;
-    private static final int SCREW_RADIUS = 5;
     
     // Needle
     private static final Color NEEDLE_COLOR = Color.BLUE;
     private static final int NEEDLE_LENGTH = 66;
     private static final Dimension NEEDLE_HEAD_SIZE = new Dimension( 12, 15 );
     private static final int NEEDLE_TAIL_WIDTH = 3;
+
+    // Screw that holds the needle in place.
+    private static final Color SCREW_COLOR = Color.BLUE;
+    private static final int SCREW_DIAMETER = 10;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -93,16 +93,6 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             addGraphic( background );
         }
         
-        // Screw that holds the needle in place.
-        {
-            PhetShapeGraphic screw = new PhetShapeGraphic( component );
-            addGraphic( screw );
-            screw.setShape( new Ellipse2D.Double( 0, 0, 2 * SCREW_RADIUS, 2 * SCREW_RADIUS ) );
-            screw.setPaint( SCREW_COLOR );
-            screw.centerRegistrationPoint();
-            screw.setLocation( PIVOT_POINT );
-        }
-        
         // Needle
         {
             Point2D tail = new Point2D.Double( 0, 0 );
@@ -114,7 +104,17 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             _needle.setPaint( NEEDLE_COLOR );
             _needle.setLocation( PIVOT_POINT );
         }
-
+        
+        // Screw that holds the needle in place.
+        {
+            PhetShapeGraphic screw = new PhetShapeGraphic( component );
+            addGraphic( screw );
+            screw.setShape( new Ellipse2D.Double( 0, 0, SCREW_DIAMETER, SCREW_DIAMETER ) );
+            screw.setPaint( SCREW_COLOR );
+            screw.centerRegistrationPoint();
+            screw.setLocation( PIVOT_POINT );
+        }
+        
         // Registration point at bottom center.
         int rx = getWidth() / 2;
         int ry = getHeight();
