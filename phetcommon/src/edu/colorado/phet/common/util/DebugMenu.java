@@ -18,6 +18,7 @@ import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.LineGrid;
 import edu.colorado.phet.common.view.util.MouseTracker;
 
@@ -45,7 +46,24 @@ public class DebugMenu extends JMenu {
         this.add( new GridMenuItem() );
         this.add( new MouseTrackerMenuItem() );
         this.add( new FrameRateMenuItem() );
-        this.add( new OffscreenBufferMenuItem() );
+
+        OffscreenBufferMenuItem menuItem = new OffscreenBufferMenuItem( "OffscreenBuffer", true );
+        OffscreenBufferMenuItem menuItem2 = new OffscreenBufferMenuItem( "Paint directly to screen.", false );
+        OffscreenBufferDirtyItem menuItem4 = new OffscreenBufferDirtyItem();
+
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add( menuItem );
+        buttonGroup.add( menuItem2 );
+        buttonGroup.add( menuItem4 );
+
+        this.addSeparator();
+        this.add( menuItem );
+        this.add( menuItem2 );
+        this.add( menuItem4 );
+        this.addSeparator();
+
+
+        this.add( new DebugMenu.ShortCircuitRectangles() );
     }
 
     private ApparatusPanel getApparatusPanel() {
@@ -135,14 +153,14 @@ public class DebugMenu extends JMenu {
             JTextArea textArea = new JTextArea( 10, 5 );
             frameRateDlg.getContentPane().add( new JScrollPane( textArea,
                                                                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                                                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER));
+                                                                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
             frameRateDlg.setUndecorated( true );
             frameRateDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
             frameRateDlg.pack();
 
             this.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                        frameRateDlg.setVisible( isSelected() );
+                    frameRateDlg.setVisible( isSelected() );
                 }
             } );
 
@@ -169,9 +187,12 @@ public class DebugMenu extends JMenu {
         }
     }
 
-    private class OffscreenBufferMenuItem extends JCheckBoxMenuItem {
-        public OffscreenBufferMenuItem() {
-            super("Use offscreen buffer");
+    private class OffscreenBufferMenuItem extends JRadioButtonMenuItem {
+        private boolean useOffscreenBuffer;
+
+        public OffscreenBufferMenuItem( String name, final boolean useOffscreenBuffer ) {
+            super( name );
+            this.useOffscreenBuffer = useOffscreenBuffer;
             this.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     PhetApplication app = PhetApplication.instance();
@@ -181,7 +202,7 @@ public class DebugMenu extends JMenu {
                         ApparatusPanel ap = module.getApparatusPanel();
                         if( ap instanceof ApparatusPanel2 ) {
                             ApparatusPanel2 ap2 = (ApparatusPanel2)ap;
-                            ap2.setUseOffscreenBuffer( isSelected() );
+                            ap2.setUseOffscreenBuffer( useOffscreenBuffer );
                             ap2.revalidate();
                             ap2.repaint( ap2.getBounds() );
                         }
@@ -190,4 +211,34 @@ public class DebugMenu extends JMenu {
             } );
         }
     }
+
+
+    public class OffscreenBufferDirtyItem extends JRadioButtonMenuItem {
+        public OffscreenBufferDirtyItem() {
+            super( "OffscreenBuffer-(Dirty Regions Only)" );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    for( int i = 0; i < PhetApplication.instance().getModuleManager().numModules(); i++ ) {
+                        ApparatusPanel ap = PhetApplication.instance().getModuleManager().moduleAt( i ).getApparatusPanel();
+                        if( ap instanceof ApparatusPanel2 ) {
+                            ( (ApparatusPanel2)ap ).setUseOffscreenBufferDirtyRegion();
+                        }
+                    }
+                }
+            } );
+        }
+    }
+
+    public class ShortCircuitRectangles extends JCheckBoxMenuItem {
+        public ShortCircuitRectangles() {
+            super( "Skip Rectangle Computation", PhetGraphic.SKIP_RECTANGLE_COMPUTATION );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    PhetGraphic.SKIP_RECTANGLE_COMPUTATION = isSelected();
+                }
+            } );
+        }
+    }
+
+
 }
