@@ -14,9 +14,11 @@ public class SwingTimerClock extends AbstractClock {
 
     Timer timer;
     private long lastTickTime;
+    private int nominalWaitTime;
 
     public SwingTimerClock( double dt, int delay ) {
         this( dt, delay, true );
+        nominalWaitTime = delay;
     }
 
     /**
@@ -64,6 +66,7 @@ public class SwingTimerClock extends AbstractClock {
             if( isRunning() ) {
                 long tickTime = System.currentTimeMillis();
                 long actualWaitTime = tickTime - lastTickTime;
+                timer.setDelay( Math.max( nominalWaitTime - (int)actualWaitTime, 5 ));
                 lastTickTime = tickTime;
                 if( isRunning() ) {
                     clockTicked( getSimulationTime( actualWaitTime ) );
