@@ -10,6 +10,7 @@ package edu.colorado.phet.collision;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.common.math.MathUtil;
 
 public class SphereBoxCollision implements Collision {
 
@@ -69,6 +70,8 @@ public class SphereBoxCollision implements Collision {
             double dy = wy - ( sy - r );
             double newY = sy + ( dy * 2 );
             sphere.setPosition( sphere.getPosition().getX(), newY );
+            // Adjust y velocity for potential energy
+            adjustDyForGravity( dy * 2 );
         }
 
         // Collision with bottom wall?
@@ -76,8 +79,10 @@ public class SphereBoxCollision implements Collision {
             sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             double wy = box.getMaxY();
             double dy = ( sy + r ) - wy;
-            double newY = sy - ( dy - 2 );
+            double newY = sy - ( dy * 2 );
             sphere.setPosition( sphere.getPosition().getX(), newY );
+            // Adjust y velocity for potential energy
+            adjustDyForGravity( dy * 2 );
 
             // Here's where we handle adding heat on the floor
             // todo: probably not the best place for this
@@ -87,6 +92,35 @@ public class SphereBoxCollision implements Collision {
                 double incrKE = sphere.getKineticEnergy() - preKE;
                 model.addKineticEnergyToSystem( incrKE );
             }
+        }
+    }
+
+    /**
+     * Returns the new velocity of a particle reflected off the top or bottom of the box, adjusted for potential
+     * energy, and gravity. The velocity of the sphere is assumed to be what it was if the sphere had not been
+     * reflected against a horizontal surface. That is, if it is bouncing off the floor of the box, it will be going
+     * as fast as it would if the floor were note there. But since it woulb actually be above the floor, it should
+     * be going much slower. We make the correctin by changing the kinetic energy of the sphere in the y direction
+     * by an amount equal to the change in kinetic energy that would occur if the sphere were moved from the
+     * non-reflected position to its actual, reflected, position
+     *
+     * @param dy The vertical distance the molecule has been moved byt the collision.
+     */
+    private void adjustDyForGravity( double dy ) {
+        double m = sphere.getMass();
+        double g = model.getGravity().getAmt();
+        // Kinetic energy of sphere prior to correction
+        double ke = sphere.getMass() * sphere.getVelocity().getY() * sphere.getVelocity().getY() / 2;
+        // Change in potential energy when sphere is reflected
+        double dpe = dy * g * sphere.getMass();
+        double vy = 0;
+        if( ke >= dpe ) {
+            vy = Math.sqrt( ( 2 / m ) * ( ke - dpe ) ) * MathUtil.getSign( sphere.getVelocity().getY() );
+            sphere.setVelocity( sphere.getVelocity().getX(), vy );
+        }
+        else {
+            // This indicates an anomoly in the collision. Right now, I don't know just what to do about it 
+//            System.out.println( "ke < dpe" );
         }
     }
 }
