@@ -8,7 +8,7 @@ package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
+import edu.colorado.phet.common.view.graphics.BufferedImageGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -20,7 +20,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class ElectronGraphic extends FastPaintImageGraphic
+public class ElectronGraphic extends BufferedImageGraphic
         implements SimpleObserver, TransformListener {
 
     private Point location = new Point();
@@ -30,7 +30,7 @@ public class ElectronGraphic extends FastPaintImageGraphic
     private AffineTransform containerTx;
 
     public ElectronGraphic( ApparatusPanel apparatusPanel, BufferedImage image, Electron electron ) {
-        super( image, apparatusPanel );
+        super( image );
         this.apparatusPanel = apparatusPanel;
         this.electron = electron;
         electron.addObserver( this );

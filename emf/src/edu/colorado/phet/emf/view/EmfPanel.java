@@ -7,7 +7,7 @@
 package edu.colorado.phet.emf.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.fastpaint.FastPaintImageGraphic;
+import edu.colorado.phet.common.view.graphics.BufferedImageGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
@@ -26,7 +26,7 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
     private BufferedImage bi;
     private boolean useBufferedImage = false;
     private AffineTransform atx;
-    private FastPaintImageGraphic backgroundImg;
+    private BufferedImageGraphic backgroundImg;
 
     public void setUseBufferedImage( boolean useBufferedImage ) {
         this.useBufferedImage = useBufferedImage;
@@ -50,9 +50,9 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
         // Add the background
         final BufferedImage im;
         try {
-            im = GraphicsUtil.toBufferedImage( ImageLoader.loadBufferedImage( "images/background.gif" ) );
+            im = ImageLoader.loadBufferedImage( "images/background.gif" );
             this.setPreferredSize( new Dimension( im.getWidth(), im.getHeight() ) );
-            backgroundImg = new FastPaintImageGraphic( im, this );
+            backgroundImg = new BufferedImageGraphic( im );
             addGraphic( backgroundImg, 0 );
         }
         catch( IOException e ) {
