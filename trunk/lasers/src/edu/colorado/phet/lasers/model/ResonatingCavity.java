@@ -11,14 +11,17 @@
 package edu.colorado.phet.lasers.model;
 
 import edu.colorado.phet.collision.Box2D;
+import edu.colorado.phet.common.util.EventRegistry;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.EventListener;
+import java.util.EventObject;
 
 public class ResonatingCavity extends Box2D {
     //public class ResonatingCavity extends Body {
 
-
+    private EventRegistry eventRegistry = new EventRegistry();
     private Point2D origin;
     private double width;
     private double height;
@@ -56,5 +59,34 @@ public class ResonatingCavity extends Box2D {
         super.setBounds( getMinX(), origin.getY() - height / 2, getWidth(), height );
         determineBounds();
         notifyObservers();
+
+        eventRegistry.fireEvent( new ChangeEvent( this ));
+    }
+
+
+    public void addCavityChangeListener( ChangeListener listener ) {
+        eventRegistry.addListener( listener );
+    }
+
+    public void removeListener( ChangeListener listener ) {
+        eventRegistry.removeListener( listener );
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    // Inner classes
+    //
+    public interface ChangeListener extends EventListener {
+        void CavityChanged( ResonatingCavity.ChangeEvent event );
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public Rectangle2D getBounds() {
+            return ((ResonatingCavity)getSource()).getBounds();
+        }
     }
 }
