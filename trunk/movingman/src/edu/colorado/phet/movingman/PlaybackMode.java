@@ -38,8 +38,7 @@ public class PlaybackMode extends Mode {
             }
             else {
                 module.setPaused( true );
-                module.getMovingManControlPanel().setPaused();
-                module.getMovingManControlPanel().playbackFinished();
+                module.firePlaybackFinished();
             }
         }
     }

@@ -10,10 +10,8 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
  * Copyright (c) Oct 19, 2004 by Sam Reid
  */
 public class MovingManModel {
-    public static final int numSmoothingPoints = 10;
+    public static final int numSmoothingPoints = 1;
     private int maxManPosition = 10;
-    public static final double TIMER_SCALE = 1.0 / 50;
-
     private Man man;
     private AbstractClock clock;
     private SmoothDataSeries position;
@@ -58,9 +56,9 @@ public class MovingManModel {
     public void step( double dt ) {
         position.addPoint( man.getX() );
         position.updateSmoothedSeries();
-        position.updateDerivative( dt * TIMER_SCALE );
+        position.updateDerivative( dt );
         velocity.updateSmoothedSeries();
-        velocity.updateDerivative( dt * TIMER_SCALE );
+        velocity.updateDerivative( dt );
         acceleration.updateSmoothedSeries();
     }
 
@@ -80,15 +78,6 @@ public class MovingManModel {
         }
         else {
             return velocity.smoothedPointAt( velocity.numSmoothedPoints() - 1 );
-        }
-    }
-
-    public double getFinalManPosition() {
-        if( position.getData().size() > 0 ) {
-            return position.getData().getLastPoint();
-        }
-        else {
-            return man.getX();
         }
     }
 
@@ -127,4 +116,5 @@ public class MovingManModel {
     public double getMaxManPosition() {
         return maxManPosition;
     }
+
 }

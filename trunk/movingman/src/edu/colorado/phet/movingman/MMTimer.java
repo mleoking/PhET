@@ -2,7 +2,8 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.movingman.common.AutomatedObservable;
+
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -10,20 +11,33 @@ import edu.colorado.phet.movingman.common.AutomatedObservable;
  * Time: 12:45:47 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class MMTimer extends AutomatedObservable implements ModelElement {
+public class MMTimer implements ModelElement {
     private double time = 0;
     private String name;
-    private double timerScale;
+    private ArrayList listeners = new ArrayList();
 
-    public MMTimer( String name, double timerScale ) {
+    public MMTimer( String name ) {
         this.name = name;
-        this.timerScale = timerScale;
+    }
+
+    public static interface Listener {
+        void timeChanged();
     }
 
     public void stepInTime( double dt ) {
-        time += dt * timerScale;
-//        System.out.println( "this = " + this+", stepping in time" );
+        time += dt;
         updateObservers();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    private void updateObservers() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.timeChanged();
+        }
     }
 
     public String toString() {
@@ -43,6 +57,5 @@ public class MMTimer extends AutomatedObservable implements ModelElement {
         this.time = time;
         updateObservers();
     }
-
 
 }

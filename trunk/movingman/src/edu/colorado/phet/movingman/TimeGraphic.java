@@ -1,16 +1,13 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * User: Sam Reid
@@ -18,26 +15,36 @@ import java.util.Observer;
  * Time: 12:46:15 AM
  * Copyright (c) Jun 30, 2003 by Sam Reid
  */
-public class TimeGraphic implements InteractiveGraphic, Observer {
+public class TimeGraphic implements Graphic {
     private String timeStr;
     private MovingManModule module;
-    private MMTimer recordingMMTimer;
+//    private MMTimer recordingMMTimer;
     private int x;
     private int y;
     private Font f = new Font( "Lucida Sans", 0, 36 );
-    private Color c = Color.black;
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
     private FontRenderContext frc;
 
-    public TimeGraphic( MovingManModule module, MMTimer recordingMMTimer, MMTimer playbackMMTimer, int x, int y ) {
+    public TimeGraphic( MovingManModule module, final MMTimer recordingMMTimer, final MMTimer playbackMMTimer, int x, int y ) {
         this.module = module;
-        this.recordingMMTimer = recordingMMTimer;
+//        this.recordingMMTimer = recordingMMTimer;
         this.x = x;
         this.y = y;
-        recordingMMTimer.addObserver( this );
-        recordingMMTimer.updateObservers();
-        playbackMMTimer.addObserver( this );
-        update( recordingMMTimer, null );
+        MMTimer.Listener recordListener = new MMTimer.Listener() {
+            public void timeChanged() {
+                update( recordingMMTimer );
+            }
+        };
+        MMTimer.Listener playListener = new MMTimer.Listener() {
+            public void timeChanged() {
+                update( playbackMMTimer );
+            }
+        };
+        recordingMMTimer.addListener( recordListener );
+//        Observer( this );
+//        recordingMMTimer.updateObservers();
+        playbackMMTimer.addListener( playListener );
+        update( recordingMMTimer );
     }
 
     public void paint( Graphics2D g ) {
@@ -49,9 +56,9 @@ public class TimeGraphic implements InteractiveGraphic, Observer {
         gs.restoreGraphics();
     }
 
-    public void update( Observable o, Object arg ) {
+    public void update( MMTimer tx ) {
 //        System.out.println( "recordingMMTimerer.getTime() = " + recordingMMTimerer.getTime() );
-        MMTimer tx = (MMTimer)o;
+//        MMTimer tx = (MMTimer)o;
         double scalarTime = tx.getTime();
         double seconds = scalarTime;// * timerDisplayScale; //TIMING
         Rectangle r = getShape();
@@ -69,31 +76,6 @@ public class TimeGraphic implements InteractiveGraphic, Observer {
         module.getApparatusPanel().repaint( union );
     }
 
-    public boolean canHandleMousePress( MouseEvent event ) {
-        return false;
-    }
-
-    public void mouseClicked( MouseEvent e ) {
-    }
-
-    public void mousePressed( MouseEvent event ) {
-    }
-
-    public void mouseDragged( MouseEvent event ) {
-    }
-
-    public void mouseMoved( MouseEvent e ) {
-    }
-
-    public void mouseReleased( MouseEvent event ) {
-    }
-
-    public void mouseEntered( MouseEvent event ) {
-    }
-
-    public void mouseExited( MouseEvent event ) {
-    }
-
     public Rectangle getShape() {
         if( frc == null ) {
             return null;
@@ -107,7 +89,4 @@ public class TimeGraphic implements InteractiveGraphic, Observer {
         }
     }
 
-    public boolean contains( int x, int y ) {
-        return false;
-    }
 }

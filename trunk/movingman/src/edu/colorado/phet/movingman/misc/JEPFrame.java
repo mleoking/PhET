@@ -3,7 +3,6 @@ package edu.colorado.phet.movingman.misc;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.movingman.Mode;
-import edu.colorado.phet.movingman.MovingManModel;
 import edu.colorado.phet.movingman.MovingManModule;
 import org.nfunk.jep.JEP;
 
@@ -61,9 +60,9 @@ public class JEPFrame extends JDialog {
             module.getMan().setX( x );
             module.getPosition().addPoint( module.getMan().getX() );
             module.getPosition().updateSmoothedSeries();
-            module.getPosition().updateDerivative( dt * MovingManModel.TIMER_SCALE );
+            module.getPosition().updateDerivative( dt );
             module.getVelocityData().updateSmoothedSeries();
-            module.getVelocityData().updateDerivative( dt * MovingManModel.TIMER_SCALE );
+            module.getVelocityData().updateDerivative( dt );
             module.getAcceleration().updateSmoothedSeries();
             if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
                 timeFinished();
@@ -72,9 +71,13 @@ public class JEPFrame extends JDialog {
         }
 
         private void timeFinished() {
-//            motionSuite.timeFinished();
-            module.getMovingManControlPanel().finishedRecording();
+            //TODO handle the end of time.
         }
+
+//        private void timeFinished() {
+////            motionSuite.timeFinished();
+//            module.getMovingManControlPanel().finishedRecording();
+//        }
 
 
         public void setExpression( String expression ) {
@@ -91,16 +94,12 @@ public class JEPFrame extends JDialog {
         parser.addStandardConstants();
         VerticalLayoutPanel contentPanel = new VerticalLayoutPanel();
         JLabel explanation = new JLabel( "Enter a function of time (expressed as 't')." );
-//        HorizontalLayoutPanel horizontalLayoutPanel=new HorizontalLayoutPanel();
         JPanel horizontalLayoutPanel = new JPanel( new FlowLayout() );
 
         String testEquation = "9*sin(t*t/pi)";
         final JTextField expression = new JTextField( testEquation, 15 );
         expression.setBackground( Color.white );
-//        horizontalLayoutPanel.setAnchor( GridBagConstraints.EAST );
-//        horizontalLayoutPanel.setFill( GridBagConstraints.HORIZONTAL );
         horizontalLayoutPanel.add( new JLabel( " x(t) = " ) );
-//        horizontalLayoutPanel.setAnchor( GridBagConstraints.CENTER );
         horizontalLayoutPanel.add( expression );
         contentPanel.add( explanation );
         contentPanel.add( horizontalLayoutPanel );

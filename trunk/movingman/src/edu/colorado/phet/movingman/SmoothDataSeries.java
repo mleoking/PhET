@@ -24,13 +24,12 @@ public class SmoothDataSeries {
         this.derivative = derivative;
     }
 
-    public DataSeries getData() {
-        return data;
-    }
-
     public void updateSmoothedSeries() {
         Average avg = new Average();
-        for( int i = 0; i < numSmoothingPoints && i < data.size(); i++ ) {
+
+        int numPtsToAvg = numSmoothingPoints;
+        numPtsToAvg = Math.min( numPtsToAvg, data.size() );
+        for( int i = 0; i < numPtsToAvg; i++ ) {
             avg.update( data.lastPointAt( i ) );
         }
         double value = avg.value();
@@ -45,21 +44,18 @@ public class SmoothDataSeries {
     }
 
     public void updateDerivative( double dt ) {
-        if( smoothed.size() >= 2 ) {
-            double x1 = smoothed.lastPointAt( 0 );
-            double x0 = smoothed.lastPointAt( 1 );
+        DataSeries dataToDerive = this.smoothed;
+        if( dataToDerive.size() > 2 ) {
+            double x1 = dataToDerive.lastPointAt( 0 );
+            double x0 = dataToDerive.lastPointAt( 2 );
             double dx = x1 - x0;
-            double vel = dx / dt;
+            double vel = dx / dt / 2;
             derivative.addPoint( vel );
         }
     }
 
     public void addPoint( double pt ) {
         data.addPoint( pt );
-    }
-
-    public int numSmoothingPoints() {
-        return numSmoothingPoints;
     }
 
     public int numSmoothedPoints() {
@@ -78,4 +74,5 @@ public class SmoothDataSeries {
     public void setNumSmoothingPoints( int numSmoothingPoints ) {
         this.numSmoothingPoints = numSmoothingPoints;
     }
+
 }

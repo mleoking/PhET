@@ -9,44 +9,47 @@ package edu.colorado.phet.movingman;
  * Copyright (c) Aug 15, 2004 by Sam Reid
  */
 public class RecordMode extends Mode {
-    private int numRecordSmoothingPoints = 12;
     private MovingManModule module;
 
-    public RecordMode( MovingManModule module ) {
+    public RecordMode( final MovingManModule module ) {
         super( module, "Record", true );
         this.module = module;
+        module.addListener( new MovingManModule.ListenerAdapter() {
+            public void recordingStarted() {
+                module.setNumSmoothingPoints( 2 );
+            }
+        } );
     }
 
     public void initialize() {
         module.setCursorsVisible( false );
         int timeIndex = module.getPosition().numSmoothedPoints() - 1;//smoothedPosition.size() - 1;
         module.setReplayTime( timeIndex );
-        module.setNumSmoothingPoints( numRecordSmoothingPoints );
         module.repaintBackground();
     }
 
     public void stepInTime( double dt ) {
+        double recorderTime = module.getRecordingTimer().getTime();
+        double maxTime = module.getMaxTime();
         if( !module.isPaused() ) {
-            if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
-                module.setPaused( true );
-                module.getMovingManControlPanel().finishedRecording();
+            if( recorderTime >= maxTime ) {
+                module.recordingFinished();
                 return;
             }
 
-            //TODO Should fix the overshoot problem.  Test Me first!
-//            double newTime = recordingTimer.getTime() + dt;
-//            if( newTime > maxTime ) {
-//                dt = maxTime - recordingTimer.getTime();
-//            }
+            double newTime = recorderTime + dt;// * timer.getTimerScale();
+            if( newTime > maxTime ) {
+                dt = ( maxTime - recorderTime );// / timer.getTimerScale();
+            }
             module.getRecordingTimer().stepInTime( dt );//this could go over the max.
+            module.getMan().stepInTime( dt );
             module.step( dt );
-            if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
-                module.setPaused( true );
-                module.getMovingManControlPanel().finishedRecording();
+
+            if( newTime >= maxTime ) {
+                module.recordingFinished();
                 return;
             }
         }
     }
-
 
 }
