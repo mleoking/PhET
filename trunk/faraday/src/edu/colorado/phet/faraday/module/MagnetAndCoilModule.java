@@ -194,10 +194,6 @@ public class MagnetAndCoilModule extends FaradayModule {
             barMagnetModel, compassModel, barMagnetGraphic, gridGraphic, fieldMeterGraphic, 
             pickupCoilModel, pickupCoilGraphic.getCoilGraphic(), lightbulbModel, voltmeterModel );
         this.setControlPanel( controlPanel );
-        
-        //----------------------------------------------------------------------------
-        // Listeners
-        //----------------------------------------------------------------------------
 
         //----------------------------------------------------------------------------
         // Help
