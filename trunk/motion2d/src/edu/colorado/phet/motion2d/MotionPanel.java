@@ -12,10 +12,10 @@ import java.awt.event.ComponentEvent;
 
 public class MotionPanel extends JPanel implements ActionListener //, Runnable
 {
-    private Thread motionThread;
+//    private Thread motionThread;
     private MyJPanel myJP;
-    private VelAccAvg vaa;
-    private int motionTimeStep;
+//    private VelAccAvg vaa;
+//    private int motionTimeStep;
     private JRadioButton constAIRadBtn, constAIIRadBtn, sHMRadBtn, circularRadBtn, stopRadBtn;
     private double amplitude;		//amplitude of motion for either SHM or constant acceleration
     private double tNow;			//motion time
@@ -35,9 +35,9 @@ public class MotionPanel extends JPanel implements ActionListener //, Runnable
     public MotionPanel( final MyJPanel myJP, VelAccAvg vaa, int width, int height ) {
         this.width = width;
         this.height = height;
-        motionThread = null;
+//        motionThread = null;
         this.myJP = myJP;
-        this.vaa = vaa;
+//        this.vaa = vaa;
         motionOn = false;
         setBackground( Color.orange );
 
@@ -216,12 +216,12 @@ public class MotionPanel extends JPanel implements ActionListener //, Runnable
         return yNow;
     }
 
-    public void prt( String str ) {
-        System.out.println( str );
-    }
+//    public void prt( String str ) {
+//        System.out.println( str );
+//    }
 
-    public void prt( int n ) {
-        System.out.println( n );
-    }
+//    public void prt( int n ) {
+//        System.out.println( n );
+//    }
 
 }//end of public class

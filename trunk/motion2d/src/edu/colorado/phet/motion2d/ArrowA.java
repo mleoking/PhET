@@ -7,12 +7,11 @@ import java.awt.*;
 public class ArrowA {
 
     protected double L;  	//length of arrow
-    protected double thta;//angle of of arrow
+//    protected double thta;//angle of of arrow
     protected int x0, y0;			//origin of arrow
     protected int xFinal, yFinal;	//head of arrow
     protected double w;		//width of arrow
     protected double h;		//length of arrow head
-    protected double pi = Math.PI;
     protected int[] xInt = new int[8];	//positions of arrow corners for polygon()
     protected int[] yInt = new int[8];
 

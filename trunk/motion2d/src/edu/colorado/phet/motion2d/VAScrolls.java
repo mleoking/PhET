@@ -12,7 +12,9 @@ public class VAScrolls extends JFrame implements ChangeListener {
     private JSlider velFactorBar, accFactorBar;
     private int nPoints, nRadius, nGroup, timeStep, velFactor, accFactor;
     private Label label1, label2, label3, label4;
-    private TextField field1, field2, field3, field4, field5, field6;
+    private TextField
+//            field1, field2, field3, field4,
+            field5, field6;
     private VelAccAvg vaa;
     private MyJPanel myJP;
     private Container scrollPane;
@@ -33,14 +35,14 @@ public class VAScrolls extends JFrame implements ChangeListener {
         accFactorBar = new JSlider( JSlider.HORIZONTAL, 2, 36, (int)myJP.getAccFactor() );
 
 
-        String str2 = "nRadius: " + ( new Integer( vaa.getNA() ) ).toString();
-        field2 = new TextField( str2, 3 );
-
-        String str3 = "nGroup: " + ( new Integer( vaa.getNGroup() ) ).toString();
-        field3 = new TextField( str3, 3 );
-
-        String str4 = "speed: " + ( new Integer( myJP.getTimeStep() ) ).toString();		//time step(ms)
-        field4 = new TextField( str4, 3 );
+//        String str2 = "nRadius: " + ( new Integer( vaa.getNA() ) ).toString();
+//        field2 = new TextField( str2, 3 );
+//
+//        String str3 = "nGroup: " + ( new Integer( vaa.getNGroup() ) ).toString();
+//        field3 = new TextField( str3, 3 );
+//
+//        String str4 = "speed: " + ( new Integer( myJP.getTimeStep() ) ).toString();		//time step(ms)
+//        field4 = new TextField( str4, 3 );
 
         String str5 = "Velocity scale: " + ( new Integer( (int)myJP.getVelFactor() ) ).toString() + "X";
         field5 = new TextField( str5, 3 );
@@ -48,11 +50,11 @@ public class VAScrolls extends JFrame implements ChangeListener {
         String str6 = "Accel scale: " + ( new Integer( (int)myJP.getAccFactor() ) ).toString() + "X";
         field6 = new TextField( str6, 3 );
 
-        field4.setEditable( false );
+//        field4.setEditable( false );
         field5.setEditable( false );
         field6.setEditable( false );
 
-        field4.setBackground( Color.white );
+//        field4.setBackground( Color.white );
         field5.setBackground( Color.white );
         field6.setBackground( Color.white );
 
@@ -65,7 +67,7 @@ public class VAScrolls extends JFrame implements ChangeListener {
         //scrollPane.add(nRadiusBar);
         //scrollPane.add(field3);
         //scrollPane.add(nGroupBar);
-        scrollPane.add( field4 );
+//        scrollPane.add( field4 );
         scrollPane.add( timeStepBar );
         scrollPane.add( field5 );
         scrollPane.add( velFactorBar );
@@ -93,21 +95,21 @@ public class VAScrolls extends JFrame implements ChangeListener {
             //System.out.println("2");
             nRadius = nRadiusBar.getValue();
             Integer i2 = new Integer( nRadius );
-            field2.setText( "nRadius: " + i2.toString() );
+//            field2.setText( "nRadius: " + i2.toString() );
             vaa.setNA( nRadius );
         }
         else if( e.getSource() == nGroupBar ) {
             //System.out.println("3");
             nGroup = nGroupBar.getValue();
             Integer i3 = new Integer( nGroup );
-            field3.setText( "nGroup: " + i3.toString() );
+//            field3.setText( "nGroup: " + i3.toString() );
             vaa.setNGroup( nGroup );
         }
         else if( e.getSource() == timeStepBar ) {
             //System.out.println("4");
             timeStep = timeStepBar.getValue();
             Integer i4 = new Integer( timeStep );
-            field4.setText( "smoothness: " + i4.toString() );
+//            field4.setText( "smoothness: " + i4.toString() );
             myJP.setTimeStep( timeStep );
         }
         else if( e.getSource() == velFactorBar ) {
