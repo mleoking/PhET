@@ -205,11 +205,11 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             layout.addAnchoredComponent( _radiusValue, 0, 1, GridBagConstraints.WEST );
         }
         
-        JPanel connectionPanel = new JPanel();
+        JPanel indicatorPanel = new JPanel();
         {
             // Title
-            TitledBorder border = new TitledBorder( SimStrings.get( "MagnetAndCoilModule.connectToCoil" ) );
-            connectionPanel.setBorder( border );
+            TitledBorder border = new TitledBorder( SimStrings.get( "MagnetAndCoilModule.indicator" ) );
+            indicatorPanel.setBorder( border );
 
             // Radio buttons
             _lightbulbRadioButton = new JRadioButton( SimStrings.get( "MagnetAndCoilModule.lightbulb" ) );
@@ -219,8 +219,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             group.add( _voltmeterRadioButton );
 
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( connectionPanel );
-            connectionPanel.setLayout( layout );
+            EasyGridBagLayout layout = new EasyGridBagLayout( indicatorPanel );
+            indicatorPanel.setLayout( layout );
             layout.addAnchoredComponent( _lightbulbRadioButton, 0, 0, GridBagConstraints.WEST );
             layout.addAnchoredComponent( _voltmeterRadioButton, 1, 0, GridBagConstraints.WEST );
         }
@@ -241,7 +241,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
             layout.addComponent( _compassCheckBox, row++, 0 );
             layout.addFilledComponent( loopsPanel, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addFilledComponent( radiusPanel, row++, 0, GridBagConstraints.HORIZONTAL );
-            layout.addFilledComponent( connectionPanel, row++, 0, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( indicatorPanel, row++, 0, GridBagConstraints.HORIZONTAL );
             layout.addComponent( _electronsCheckBox, row++, 0 );
         }
         
