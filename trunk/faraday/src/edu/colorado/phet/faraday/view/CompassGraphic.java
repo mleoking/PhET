@@ -19,6 +19,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -203,12 +204,25 @@ public class CompassGraphic extends CompositePhetGraphic implements SimpleObserv
                 // Ignore the translate if it would result in a collision.
                 update();
             }
-            else if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
-                // Translate if the mouse cursor is inside the parent component.
-                double x = _compassModel.getX() + e.getDx();
-                double y = _compassModel.getY() + e.getDy();
-                _compassModel.setLocation( x, y );
-            }  
+            else {
+                Component component = getComponent();
+                if ( component instanceof ApparatusPanel2 ) {
+                    // Translate if the mouse cursor is inside the canvas.
+                    Dimension d = ((ApparatusPanel2)component).getVirtualCanvasSize();
+                    Rectangle r = new Rectangle( 0, 0, d.width, d.height );
+                    if ( r.contains( e.getMouseEvent().getPoint() ) ) {
+                        double x = _compassModel.getX() + e.getDx();
+                        double y = _compassModel.getY() + e.getDy();
+                        _compassModel.setLocation( x, y );
+                    }
+                }
+                else if ( component.contains( e.getMouseEvent().getPoint() ) ) {
+                    // Translate if the mouse cursor is inside the parent component.
+                    double x = _compassModel.getX() + e.getDx();
+                    double y = _compassModel.getY() + e.getDy();
+                    _compassModel.setLocation( x, y );
+                }
+            }
         }
     }
 }
