@@ -26,9 +26,10 @@ import java.util.*;
  * will have that method called on it.
  *
  * @author Ron LeMaster
+ * @deprecated
  * @version $Revision$
  */
-public class EventRegistry implements EventChannel {
+public class EventRegistry extends EventChannel {
 
     // Key: event types
     // Value: list of listener types that handle the key event
