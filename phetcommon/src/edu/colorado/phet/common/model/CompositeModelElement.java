@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.model;
 
+import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
+
 import java.util.ArrayList;
 
 /**
@@ -9,7 +11,7 @@ import java.util.ArrayList;
  * Time: 5:38:59 PM
  * To change this template use Options | File Templates.
  */
-public class CompositeModelElement implements ModelElement {
+public class CompositeModelElement extends SimpleObservable implements ModelElement {
     ArrayList modelElements = new ArrayList();
 
     public void addModelElement( ModelElement aps ) {
