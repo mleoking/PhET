@@ -9,6 +9,7 @@ package edu.colorado.phet.sound;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.common.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.sound.model.SoundModel;
@@ -23,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 public class WallInterferenceModule extends SoundModule {
@@ -34,14 +36,13 @@ public class WallInterferenceModule extends SoundModule {
     private static double s_wallOffsetX = 170;
     private static double s_wallOffsetY = 300;
     private static double s_wallThickness = 650;
-    private static double s_wallHeight = 2;
+    private static double s_wallHeight = 6;
     private static double s_initialWallAngle = 60;
 
 
     private SoundModel soundModel;
     private ReflectingWallGraphic wallGraphic;
     private double wallAngle = s_initialWallAngle;
-//    private Point2D.Double wallLocation;
     private WaveMediumGraphic interferringWaverfrontGraphic;
     private Point2D.Double p;
     private Point2D.Double pp;
@@ -56,29 +57,22 @@ public class WallInterferenceModule extends SoundModule {
         setApparatusPanel( new SingleSourceApparatusPanel( soundModel ) );
 
         // Set up the wall
-//        wallLocation = new Point2D.Double( s_wallOffsetX, s_wallOffsetY );
         wallGraphic = new ReflectingWallGraphic( getApparatusPanel(), Color.blue,
                                                  SoundConfig.s_wavefrontBaseX + s_wallOffsetX,
                                                  SoundConfig.s_wavefrontBaseY + s_wallOffsetY,
-//                                                 SoundConfig.s_wavefrontBaseX + wallLocation.getX(),
-//                                                 SoundConfig.s_wavefrontBaseY + wallLocation.getY(),
                                                  s_wallThickness,
                                                  s_wallHeight,
                                                  s_initialWallAngle );
-        DefaultInteractiveGraphic interactiveWallGraphic = new DefaultInteractiveGraphic( wallGraphic );
+        DefaultInteractiveGraphic interactiveWallGraphic = new InteractiveWallGraphic( wallGraphic );
         interactiveWallGraphic.addCursorHandBehavior();
         interactiveWallGraphic.addTranslationBehavior( new WallTranslator( wallGraphic ));
         addGraphic( interactiveWallGraphic, 8 );
-//        addGraphic( wallGraphic, 8 );
 
         // Set up the interferring wavefront graphic
         interferringWaverfrontGraphic = new WaveMediumGraphic( soundModel.getWaveMedium(),
                                                                getApparatusPanel() );
-        WaveMedium wm = soundModel.getWaveMedium();
-        wm.addObserver( interferringWaverfrontGraphic );
         this.addGraphic( interferringWaverfrontGraphic, 7 );
         positionInterferingWavefront();
-
 
         // Create a control panel element for the wall
         WallTiltControlPanel wallControlPanel = new WallTiltControlPanel();
@@ -87,6 +81,25 @@ public class WallInterferenceModule extends SoundModule {
         panel.add( new WallTranslateControlPanel() );
         PhetControlPanel controlPanel = new PhetControlPanel( this, panel );
         setControlPanel( controlPanel );
+    }
+
+    private class InteractiveWallGraphic extends DefaultInteractiveGraphic {
+        private ReflectingWallGraphic reflectingWallGraphic;
+
+        public InteractiveWallGraphic( ReflectingWallGraphic wallGraphic ) {
+            super( wallGraphic );
+            this.reflectingWallGraphic = wallGraphic;
+        }
+
+        public void mouseEntered( MouseEvent e ) {
+            super.mouseEntered( e );
+            reflectingWallGraphic.setDisplayHelpOrnaments( true );            
+        }
+
+        public void mouseExited( MouseEvent e ) {
+            super.mouseExited( e );
+            reflectingWallGraphic.setDisplayHelpOrnaments( false );
+        }
     }
 
     public class WallTiltControlPanel extends JPanel {
@@ -151,10 +164,17 @@ public class WallInterferenceModule extends SoundModule {
         }
 
         public void translate( double dx, double dy ) {
-//            setWallLocation( (float)( wallGraphic.getPosition().getX() + dx ));
-            double theta = Math.atan2( dy, dx );
-            System.out.println( "theta = " + theta );
-            setWallAngle( (float)Math.toDegrees( theta ));
+//            double beta = Math.atan2( dy, dx );
+//            dx *= Math.sin( beta );
+//            dx = Math.sqrt( dx*dx + dy*dy) * MathUtil.getSign( dx );
+
+            dx -= SoundConfig.s_wavefrontBaseX;
+            setWallLocation( (float)( wallGraphic.getLocation() + dx ));
+
+//            Point2D.Double mp = wallGraphic.getMidPoint();
+//            double theta = Math.atan2( dy, dx );
+//            System.out.println( "theta = " + theta );
+//            setWallAngle( (float)Math.toDegrees( theta ));
 
 //            WallInterferenceModule.this.setWallLocation( (float)( graphic.getPosition().getX() + dx ));
 
@@ -163,6 +183,8 @@ public class WallInterferenceModule extends SoundModule {
 //            positionInterferingWavefront();
         }
     }
+
+
     /**
      *
      */
@@ -197,7 +219,6 @@ public class WallInterferenceModule extends SoundModule {
      * @param x
      */
     public void setWallLocation( float x ) {
-        wallGraphic.setLocation( x );
         wallGraphic.setLocation( SoundConfig.s_wavefrontBaseX + x );
         positionInterferingWavefront();
     }
