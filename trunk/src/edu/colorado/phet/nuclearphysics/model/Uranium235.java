@@ -6,6 +6,9 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.nuclearphysics.Config;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -14,7 +17,7 @@ public class Uranium235 extends Nucleus {
     //
     // Statics
     //
-    private static PotentialProfile potentialProfile = new PotentialProfile( 300, 400, 75 );
+    private static PotentialProfile potentialProfile = Config.u235PotentialProfile;
 
     //
     // Instance fields and methods
@@ -25,7 +28,8 @@ public class Uranium235 extends Nucleus {
     public Uranium235( Point2D.Double position ) {
         super( position, 145, 92, potentialProfile );
         for( int i = 0; i < alphaParticles.length; i++ ) {
-            alphaParticles[i] = new AlphaParticle( position, potentialProfile.getAlphaDecayX() / 3 );
+            alphaParticles[i] = new AlphaParticle( position,
+                                                   potentialProfile.getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
         }
     }
 
@@ -52,10 +56,7 @@ public class Uranium235 extends Nucleus {
                 // way to do things, now that there are alpha particles jumping around and causing the
                 // decay in the first place. But this hacked up system still seems to work, so I'm
                 // sticking with it for now.
-                DecayProducts decayProducts = alphaDecay();
-                // Give the new alpha particle the same offset as the old one
-//                decayProducts.getN1().setStatisticalLocationOffset( alphaParticle.getStatisticalLocationOffset() );
-//                decayProducts.getN2().setStatisticalLocationOffset( alphaParticle.getStatisticalLocationOffset() );
+                DecayProducts decayProducts = alphaDecay( alphaParticle );
                 for( int i = 0; i < decayListeners.size(); i++ ) {
                     DecayListener decayListener = (DecayListener)decayListeners.get( i );
                     decayListener.alphaDecay( decayProducts );
@@ -66,41 +67,15 @@ public class Uranium235 extends Nucleus {
         super.stepInTime( dt );
     }
 
-    public DecayProducts alphaDecay() {
-        int n1Protons = 2;
-        int n1Neutrons = 2;
-        double theta = Math.random() * Math.PI * 2;
-        double separation = 100;
-        double dx = separation * Math.cos( theta );
-        double dy = separation * Math.sin( theta );
-        Nucleus n1 = new DecayNucleus( new Point2D.Double( this.getLocation().getX() + dx,
-                                                           this.getLocation().getY() + dy ),
-                                       this.getNumProtons() - n1Protons,
-                                       this.getNumNeutrons() - n1Neutrons, this.getPotentialProfile() );
-        Nucleus n2 = new DecayNucleus( new Point2D.Double( this.getLocation().getX() - dx,
-                                                           this.getLocation().getY() - dy ),
-                                       n1Protons, n1Neutrons, this.getPotentialProfile() );
+    public DecayProducts alphaDecay( AlphaParticle alphaParticle ) {
+        Vector2D sep = new Vector2D( (float)( alphaParticle.getLocation().getX() - this.getLocation().getX() ),
+                                     (float)( alphaParticle.getLocation().getY() - this.getLocation().getY() ) );
+        sep.normalize();
+        Nucleus n1 = new DecayNucleus( this, sep, this.getPotentialProfile().getWellPotential() );
+
+        // n2 is the alpha particle
+        Nucleus n2 = new DecayNucleus( alphaParticle, sep, this.getPotentialProfile().getWellPotential() );
         DecayProducts products = new DecayProducts( this, n1, n2 );
         return products;
     }
-
-    public DecayProducts decay() {
-        // Create two new nuclei
-        int n1Protons = 60;
-        int n1Neutrons = 40;
-        double theta = Math.random() * Math.PI * 2;
-        double separation = 100;
-        double dx = separation * Math.cos( theta );
-        double dy = separation * Math.sin( theta );
-        Nucleus n1 = new Nucleus( new Point2D.Double( this.getLocation().getX() - dx,
-                                                      this.getLocation().getY() - dy ),
-                                  n1Protons, n1Neutrons, this.getPotentialProfile() );
-        Nucleus n2 = new Nucleus( new Point2D.Double( this.getLocation().getX() + dx,
-                                                      this.getLocation().getY() + dy ),
-                                  this.getNumProtons() - n1Protons,
-                                  this.getNumNeutrons() - n1Neutrons, this.getPotentialProfile() );
-        DecayProducts products = new DecayProducts( this, n1, n2 );
-        return products;
-    }
-
 }

@@ -7,54 +7,31 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import java.awt.geom.Point2D;
+import edu.colorado.phet.common.math.Vector2D;
 
 public class DecayNucleus extends Nucleus {
 
-    private double dx = 0.1;
+    private double f = 300;
+    private double dx = 20;
+    private Vector2D toParentHat;
 
-    public DecayNucleus( Point2D.Double position, int numProtons, int numNeutrons, PotentialProfile potentialProfile ) {
-        super( position, numProtons, numNeutrons, potentialProfile );
+    public DecayNucleus( Nucleus coreNucleus, Vector2D toParentHat, double initPotentialEnergy ) {
+        super( coreNucleus.getLocation(), coreNucleus.getNumProtons(),
+               coreNucleus.getNumNeutrons(), coreNucleus.getPotentialProfile() );
+        this.toParentHat = toParentHat;
+        this.setPotentialEnergy( initPotentialEnergy );
     }
 
     public DecayNucleus( Nucleus nucleus ) {
         super( nucleus.getLocation(), nucleus.getNumProtons(), nucleus.getNumNeutrons(), nucleus.getPotentialProfile() );
-//        Thread decayThread = new Thread( this );
-//        decayThread.start();
     }
 
     public void stepInTime( double dt ) {
         this.setPotentialEnergy( Math.max( this.getPotentialEnergy() - dx, 0 ) );
-        dx += .5;
-//        this.setVelocity( this.getVelocity().multiply( 5 ) );
+        double a = f / ( this.getLocation().getX() * this.getLocation().getX() );
+        Vector2D acceleration = new Vector2D( (float)a * toParentHat.getX(),
+                                              (float)a * toParentHat.getY() );
+        this.setAcceleration( acceleration );
         super.stepInTime( dt );
     }
-
-    //
-    // Interfaces implemented
-    //
-//    public void run() {
-//        this.setPotentialEnergy( getPotentialProfile().getWellPotential() );
-//        this.setVelocity( 0.01f, 0f );
-//        while( this.getPotentialEnergy() > 0 ) {
-//            try {
-//                Thread.sleep( sleepTime );
-//                this.setPotentialEnergy( this.getPotentialEnergy() - dx );
-//                this.setVelocity( this.getVelocity().multiply( 5 ) );
-//            }
-//            catch( Exception e ) {
-//                e.printStackTrace();
-//            }
-//        }
-//        this.setPotentialEnergy( 0.1 );
-//    }
-
-    //
-    // Static fields and methods
-    //
-    private static long sleepTime = 50;
-
-    //
-    // Inner classes
-    //
 }

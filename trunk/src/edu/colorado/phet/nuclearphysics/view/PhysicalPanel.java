@@ -12,11 +12,14 @@ import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 
 public class PhysicalPanel extends ApparatusPanel {
-
+    private AffineTransform atx = new AffineTransform();
     private HashMap modelElementToGraphicMap = new HashMap();
+    private Point2D.Double origin = new Point2D.Double();
 
     public PhysicalPanel() {
         this.setBackground( backgroundColor );
@@ -43,7 +46,14 @@ public class PhysicalPanel extends ApparatusPanel {
     }
 
     protected synchronized void paintComponent( Graphics graphics ) {
+        origin.setLocation( this.getWidth() / 2, this.getHeight() / 2 );
+        Graphics2D g2 = (Graphics2D)graphics;
+        AffineTransform orgTx = g2.getTransform();
+        atx.setToIdentity();
+        atx.translate( -origin.getX(), -origin.getY() );
+//        g2.setTransform( atx );
         super.paintComponent( graphics );    //To change body of overridden methods use File | Settings | File Templates.
+//        g2.setTransform( orgTx );
     }
 
     public void clear() {
