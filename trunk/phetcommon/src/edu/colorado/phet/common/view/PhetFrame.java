@@ -19,6 +19,7 @@ import java.awt.event.WindowEvent;
 public class PhetFrame extends JFrame {
     HelpMenu helpMenu;
     private JMenu defaultFileMenu;
+    private boolean paused; // state of the clock prior to being iconified
 
     public PhetFrame( final ApplicationModel appDescriptor ) {
         super( appDescriptor.getWindowTitle() );
@@ -27,16 +28,21 @@ public class PhetFrame extends JFrame {
                 System.exit( 0 );
             }
 
-            // Pause the clock if the simulation window is minimized
+            // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
                 super.windowIconified( e );
-                appDescriptor.getClock().setPaused( false );
+                paused = appDescriptor.getClock().isPaused(); // save clock state
+                if ( !paused ) {
+                    appDescriptor.getClock().setPaused( true );
+                }
             }
 
-            // Unpause the clock if the simulation window is restored
+            // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
-                appDescriptor.getClock().setPaused( true );
+                if ( !paused ) {
+                  appDescriptor.getClock().setPaused( false );
+                }
             }
         } );
         JMenuBar menuBar = new JMenuBar();
