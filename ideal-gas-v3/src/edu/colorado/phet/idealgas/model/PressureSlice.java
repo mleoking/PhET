@@ -17,6 +17,9 @@ import edu.colorado.phet.mechanics.Body;
 
 import java.util.List;
 
+/**
+ * This is an instrument that measures pressure and temperature across the box at a specific height.
+ */
 public class PressureSlice extends SimpleObservable implements ModelElement {
     private double y;
     private ScalarDataRecorder pressureRecorder;
@@ -43,8 +46,6 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
      */
     public void stepInTime( double dt ) {
         List bodies = model.getBodies();
-        //        List bodies = PhysicalSystem.instance().getBodies();
-        int bodiesRecorded = 0;
         double momentum = 0;
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
@@ -52,7 +53,6 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
                 GasMolecule gm = (GasMolecule)body;
                 if( gm.getPositionPrev() != null &&
                     ( gm.getPositionPrev().getY() - y ) * ( gm.getPosition().getY() - y ) < 0 ) {
-                    bodiesRecorded++;
                     momentum += Math.abs( body.getVelocity().getY() * body.getMass() );
                     momentum = Math.abs( body.getVelocity().getY() * body.getMass() );
                     pressureRecorder.addDataRecordEntry( momentum );
@@ -60,28 +60,17 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
                 }
             }
         }
-
-//        System.out.println( "bodiesRecorded = " + bodiesRecorded );
-
-        //        if( bodiesRecorded > 0 ) {
-        //            pressureRecorder.addDataRecordEntry( momentum / bodiesRecorded );
-        //            temperatureRecorder.addDataRecordEntry( ke / bodiesRecorded );
-        //        }
-        //        setChanged();
+        pressureRecorder.computeDataStatistics();
+        temperatureRecorder.computeDataStatistics();
         notifyObservers();
     }
 
     public double getPressure() {
-        //        System.out.println( "ts: " +  pressureRecorder.getTimeSpanOfEntries() );
         double pressure = pressureRecorder.getDataTotal();
-
-        //        float pressure = pressureRecorder.getDataTotal() / pressureRecorder.getTimeSpanOfEntries();
         double sliceLength = box.getMaxX() - box.getMinX();
 
         // This is so cobbled up it's embarassing!!! The factors here just work. I'm not sure why
         return pressure * 0.31f / ( sliceLength );
-        //        return pressure * 1750 / ( sliceLength );
-        //        return pressure / sliceLength / 2;
     }
 
     public double getTemperature() {

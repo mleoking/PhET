@@ -28,16 +28,16 @@ public class ScalarDataRecorder {
     private double dataAverage;
     // Size, in milliseconds, of the sliding window over which samples are averaged
     private double timeWindow = 5;
-    //    private long timeWindow = 5000;
     private double timeSpanOfEntries;
     private AbstractClock clock;
-    //    private long timeSpanOfEntries;
 
     public ScalarDataRecorder( AbstractClock clock ) {
         this.clock = clock;
-        new PeriodicDataComputer().start();
     }
 
+    public ScalarDataRecorder( AbstractClock clock, int updatePeriod ) {
+        new PeriodicDataComputer( updatePeriod ).start();
+    }
     /**
      *
      */
@@ -67,7 +67,7 @@ public class ScalarDataRecorder {
         return timeSpanOfEntries;
     }
 
-    private synchronized void computeDataStatistics( LinkedList dataRecord ) {
+    public synchronized void computeDataStatistics() {
         //        long currTime = System.currentTimeMillis();
         //        float currTime = PhysicalSystem.instance().getRunningTime();
         double currTime = clock.getRunningTime();
@@ -103,7 +103,6 @@ public class ScalarDataRecorder {
      */
     public synchronized void addDataRecordEntry( double value ) {
         DataRecordEntry entry = new DataRecordEntry( clock.getRunningTime(), value );
-        //        DataRecordEntry entry = new DataRecordEntry( PhysicalSystem.instance().getRunningTime(), value );
         dataRecord.addLast( entry );
     }
 
@@ -145,10 +144,10 @@ public class ScalarDataRecorder {
         Timer timer;
         AbstractClock clock;
 
-        public PeriodicDataComputer() {
-            this.timer = new Timer( 1000, new ActionListener() {
+        public PeriodicDataComputer( int updatePeriod ) {
+            this.timer = new Timer( updatePeriod, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    computeDataStatistics( dataRecord );
+                    computeDataStatistics();
                 }
             } );
         }
