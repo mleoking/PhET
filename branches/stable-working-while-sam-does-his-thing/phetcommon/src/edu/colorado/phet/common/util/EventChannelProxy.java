@@ -8,53 +8,53 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.common.util.proxy;
-
-import edu.colorado.phet.common.util.EventChannel;
+package edu.colorado.phet.common.util;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
 
 /**
  * EventChannelProxy
- * <p>
+ * <p/>
  * A proxy that broadcasts method calls to registered objects that implement
  * a specified interface. The primary use of this class is for doing event firing/handling.
  * It eliminates the need for clients to manage lists of listeners, and iterate those lists
  * and cast their elements when clients want to send events to those listeners.
- * <p>
+ * <p/>
  * Some oddities in this class' use are due to the way the Proxy and InvocationHandler
  * classes work.
- * <p>
+ * <p/>
  * Example of use:
- * <p>
+ * <p/>
  * <code>
  * public class TestProxy {
- *
- *     public static void main( String[] args ) {
- *         // Create a channel and get a reference to its proxy
- *         EventChannelProxy eventChannel = new EventChannelProxy( ITestListener.class );
- *         ITestListener testListenersProxy = (ITestListener)eventChannel.getProxy();
- *
- *         // Create a listener, and attach it to the channel
- *         TestListener testListener = new TestListener();
- *         eventChannel.addListener( testListener );
- *
- *         // Invoke a method on all listeners attached to the channel
- *         testListenersProxy.aHappened( "FOO" );
- *     }
- *
- *     public interface ITestListener extends EventListener {
- *         void aHappened( String s );
- *     }
- *
- *     public static class TestListener implements ITestListener {
- *         public void aHappened( String s ) {
- *             System.out.println( "TestProxy$TestListener.aHappened: " + s );
- *         }
- *     }
+ * <p/>
+ * public static void main( String[] args ) {
+ * // Create a channel and get a reference to its proxy
+ * EventChannelProxy eventChannel = new EventChannelProxy( ITestListener.class );
+ * ITestListener testListenersProxy = (ITestListener)eventChannel.getProxy();
+ * <p/>
+ * // Create a listener, and attach it to the channel
+ * TestListener testListener = new TestListener();
+ * eventChannel.addListener( testListener );
+ * <p/>
+ * // Invoke a method on all listeners attached to the channel
+ * testListenersProxy.aHappened( "FOO" );
+ * }
+ * <p/>
+ * public interface ITestListener extends EventListener {
+ * void aHappened( String s );
+ * }
+ * <p/>
+ * public static class TestListener implements ITestListener {
+ * public void aHappened( String s ) {
+ * System.out.println( "TestProxy$TestListener.aHappened: " + s );
+ * }
+ * }
  * }
  * </code>
  *
@@ -69,6 +69,7 @@ public class EventChannelProxy implements InvocationHandler {
 
     /**
      * Creates a proxy for a list of objects that implement a specified interface
+     *
      * @param interf
      */
     public EventChannelProxy( Class interf ) {
@@ -77,7 +78,7 @@ public class EventChannelProxy implements InvocationHandler {
         }
         targetInterface = interf;
         proxy = Proxy.newProxyInstance( interf.getClassLoader(),
-                                               new Class[]{interf, EventChannel.class }, this );
+                                        new Class[]{interf, EventChannel.class}, this );
     }
 
     /**
@@ -120,6 +121,7 @@ public class EventChannelProxy implements InvocationHandler {
 
     /**
      * Returns the interface for which this object acts as a proxy.
+     *
      * @return
      */
     public Class getInterface() {
@@ -128,6 +130,7 @@ public class EventChannelProxy implements InvocationHandler {
 
     /**
      * Returns a reference to the proxy
+     *
      * @return
      */
     public Object getProxy() {

@@ -13,7 +13,7 @@ package edu.colorado.phet.lasers.model.photon;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.util.EventRegistry;
+import edu.colorado.phet.common.util.EventChannelProxy;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -99,13 +99,13 @@ public class CollimatedBeam extends Particle {
         }
         this.photonsPerSecond = photonsPerSecond;
         nextTimeToProducePhoton = getNextTimeToProducePhoton();
-        eventRegistry.fireEvent( new RateChangeEvent() );
+        rateChangeListenerProxy.rateChangeOccurred( new RateChangeEvent() );
     }
 
     public void setWavelength( double wavelength ) {
         this.wavelength = wavelength;
         WavelengthChangeEvent event = new WavelengthChangeEvent();
-        eventRegistry.fireEvent( event );
+        wavelengthChangeListenerProxy.wavelengthChanged( new WavelengthChangeEvent() );
     }
 
     public double getWavelength() {
@@ -123,7 +123,7 @@ public class CollimatedBeam extends Particle {
                 final Photon newPhoton = Photon.create( this.getWavelength(),
                                                         new Point2D.Double( genPositionX(), genPositionY() ),
                                                         new Vector2D.Double( velocity ) );
-                eventRegistry.fireEvent( new PhotonEmittedEvent( this, newPhoton ) );
+                photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, newPhoton ) );
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
             }
         }
@@ -163,17 +163,33 @@ public class CollimatedBeam extends Particle {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////
-    // Inner classes
-    //
-    private EventRegistry eventRegistry = new EventRegistry();
+    //---------------------------------------------------------------------
+    // Event Handling
+    //---------------------------------------------------------------------
 
-    public void addListener( EventListener listener ) {
-        eventRegistry.addListener( listener );
+    private EventChannelProxy rateChangeEventChannel = new EventChannelProxy( RateChangeListener.class );
+    private RateChangeListener rateChangeListenerProxy = (RateChangeListener)rateChangeEventChannel.getProxy();
+
+    private EventChannelProxy wavelengthChangeEventChannel = new EventChannelProxy( WavelengthChangeListener.class );
+    private WavelengthChangeListener wavelengthChangeListenerProxy = (WavelengthChangeListener)wavelengthChangeEventChannel.getProxy();
+
+    private EventChannelProxy photonEmittedEventChannel = new EventChannelProxy( PhotonEmittedListener.class );
+    private PhotonEmittedListener photonEmittedListenerProxy = (PhotonEmittedListener)photonEmittedEventChannel.getProxy();
+
+    public void addRateChangeListner( RateChangeListener rateChangeListener ) {
+        rateChangeEventChannel.addListener( rateChangeListener );
+    }
+
+    public void addWavelengthChangeListener( WavelengthChangeListener wavelengthChangeListener ) {
+        wavelengthChangeEventChannel.addListener( wavelengthChangeListener );
+    }
+
+    public void addPhotonEmittedListener( PhotonEmittedListener photonEmittedListener ) {
+        photonEmittedEventChannel.addListener( photonEmittedListener );
     }
 
     public void removeListener( EventListener listener ) {
-        eventRegistry.removeListener( listener );
+        rateChangeEventChannel.removeListener( listener );
     }
 
     public class RateChangeEvent extends EventObject {

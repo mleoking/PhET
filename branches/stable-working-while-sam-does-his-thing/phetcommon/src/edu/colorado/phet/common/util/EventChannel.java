@@ -11,7 +11,6 @@
 package edu.colorado.phet.common.util;
 
 import java.util.EventListener;
-import java.util.EventObject;
 
 /**
  * EventChannel
@@ -21,8 +20,10 @@ import java.util.EventObject;
  */
 public interface EventChannel {
     void addListener( EventListener listener );
+
     void removeListener( EventListener listener );
+
     void removeAllListeners();
-    void fireEvent( EventObject event );
-    int getNumListeners();
+//    void fireEvent( EventObject event );
+//    int getNumListeners();
 }

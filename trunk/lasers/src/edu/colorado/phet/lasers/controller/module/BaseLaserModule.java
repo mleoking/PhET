@@ -105,7 +105,7 @@ public class BaseLaserModule extends Module {
                                        s_boxHeight - Photon.RADIUS,
                                        s_boxWidth + s_laserOffsetX * 2,
                                        new Vector2D.Double( 1, 0 ) );
-        seedBeam.addListener( new PhotonEmissionListener() );
+        seedBeam.addPhotonEmittedListener( new PhotonEmissionListener() );
         seedBeam.setEnabled( true );
         getLaserModel().setStimulatingBeam( seedBeam );
 
@@ -114,7 +114,7 @@ public class BaseLaserModule extends Module {
                                           s_boxHeight + s_laserOffsetX * 2,
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ) );
-        pumpingBeam.addListener( new PhotonEmissionListener() );
+        pumpingBeam.addPhotonEmittedListener( new PhotonEmissionListener() );
         pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );
 
@@ -374,7 +374,7 @@ public class BaseLaserModule extends Module {
             PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
             pg.setVisible( isPhotonGraphicVisible );
             addGraphic( pg, LaserConfig.PHOTON_LAYER );
-            photon.addListener( new PhotonLeftSystemListener( pg ) );
+            photon.addLeftSystemListener( new PhotonLeftSystemListener( pg ) );
         }
     }
 
