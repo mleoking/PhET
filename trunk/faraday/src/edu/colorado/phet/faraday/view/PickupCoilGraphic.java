@@ -150,10 +150,10 @@ public class PickupCoilGraphic {
             _coilFront = null;
 
             // Lightbulb
-            _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, coilModel.getMagnet() );
+            _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, coilModel.getMagnetModel() );
 
             // Voltmeter
-            _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, coilModel.getMagnet() );
+            _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, coilModel.getMagnetModel() );
 
             // Interactivity
             super.setCursorHand();
@@ -250,6 +250,8 @@ public class PickupCoilGraphic {
 
                 // Show electrons only if the lightbulb is enabled.
                 _electronsFront.setVisible( _lightBulbModel.isEnabled() );
+                
+                repaint();
             }
         }
     } // class ForegroundGraphic
@@ -384,6 +386,8 @@ public class PickupCoilGraphic {
 
                 // Show electrons only if the lightbulb is enabled.
                 _electronsBack.setVisible( _lightBulbModel.isEnabled() );
+                
+                repaint();
             }
         }
     } // class BacgroundGraphic
