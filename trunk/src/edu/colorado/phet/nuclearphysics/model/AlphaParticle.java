@@ -27,7 +27,7 @@ public class AlphaParticle extends Nucleus {
     public boolean isInNucleus = true;
 
     public AlphaParticle( Point2D.Double position, double statisticalPositionSigma ) {
-        super( position, 2, 2, new PotentialProfile( 1, 1, 1 ) );
+        super( position, 2, 2 );
         this.statisticalPositionSigma = statisticalPositionSigma;
     }
 

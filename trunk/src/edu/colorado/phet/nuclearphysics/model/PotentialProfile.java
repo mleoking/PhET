@@ -9,6 +9,7 @@ package edu.colorado.phet.nuclearphysics.model;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObservable;
 import edu.colorado.phet.common.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.coreadditions.CubicUtil;
+import edu.colorado.phet.nuclearphysics.Config;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -58,15 +59,14 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
     public PotentialProfile( Nucleus nucleus ) {
         this.nucleus = nucleus;
         nucleus.addObserver( this );
-        this.width = 500;
+        this.width = Config.defaultProfileWidth;
         this.maxPotential = 2 * nucleus.getNumProtons();
         this.wellDepth = 0.5 * nucleus.getNumNeutrons();
         this.generate();
     }
 
     public PotentialProfile( double width, double maxPotential, double wellDepth ) {
-        this.width = 500;
-//        this.width = width;
+        this.width = width;
         this.maxPotential = maxPotential;
         this.wellDepth = wellDepth;
 
@@ -295,7 +295,7 @@ public class PotentialProfile extends SimpleObservable implements SimpleObserver
 
 
     public void update() {
-        this.width = 300;
+        this.width = Config.defaultProfileWidth;
         if( this.maxPotential != 2 * nucleus.getNumProtons()
             || this.wellDepth != 0.5 * nucleus.getNumNeutrons() ) {
             this.maxPotential = 2 * nucleus.getNumProtons();

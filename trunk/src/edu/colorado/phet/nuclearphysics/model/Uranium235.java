@@ -14,22 +14,14 @@ import java.util.ArrayList;
 
 public class Uranium235 extends Nucleus {
 
-    //
-    // Statics
-    //
-    private static PotentialProfile potentialProfile = Config.u235PotentialProfile;
-
-    //
-    // Instance fields and methods
-    //
     private ArrayList decayListeners = new ArrayList();
     private AlphaParticle[] alphaParticles = new AlphaParticle[4];
 
     public Uranium235( Point2D.Double position ) {
-        super( position, 145, 92, potentialProfile );
+        super( position, 145, 92 /*, potentialProfile */ );
         for( int i = 0; i < alphaParticles.length; i++ ) {
             alphaParticles[i] = new AlphaParticle( position,
-                                                   potentialProfile.getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
+                                                   getPotentialProfile().getAlphaDecayX() * Config.AlphaLocationUncertaintySigmaFactor );
         }
     }
 
@@ -45,7 +37,8 @@ public class Uranium235 extends Nucleus {
         for( int j = 0; j < alphaParticles.length; j++ ) {
             AlphaParticle alphaParticle = alphaParticles[j];
             if( alphaParticle.getLocation().distanceSq( this.getLocation() ) + alphaParticle.getRadius()
-                > potentialProfile.getAlphaDecayX() * potentialProfile.getAlphaDecayX() ) {
+                > getPotentialProfile().getAlphaDecayX() * getPotentialProfile().getAlphaDecayX() ) {
+//                > potentialProfile.getAlphaDecayX() * potentialProfile.getAlphaDecayX() ) {
 //                try {
 //                    Thread.sleep( 1000 );
 //                }
@@ -71,13 +64,15 @@ public class Uranium235 extends Nucleus {
         Vector2D sep = new Vector2D( (float)( alphaParticle.getLocation().getX() - this.getLocation().getX() ),
                                      (float)( alphaParticle.getLocation().getY() - this.getLocation().getY() ) );
         sep.normalize();
+        // Change the composition of the nucleus. Do this so that the profile will change
+        // the way we'd like
         this.setNumProtons( this.getNumProtons() - 2 );
-        this.setNumNeutrons( this.getNumNeutrons() - 2 );
-        Nucleus n1 = new DecayNucleus( this, sep, this.getPotentialProfile().getWellPotential() );
+        this.setNumNeutrons( this.getNumNeutrons() + 200 );
 
         // n2 is the alpha particle
         Nucleus n2 = new DecayNucleus( alphaParticle, sep, this.getPotentialProfile().getWellPotential() );
-        DecayProducts products = new DecayProducts( this, n1, n2 );
+        DecayProducts products = new DecayProducts( this, this, n2 );
+//        DecayProducts products = new DecayProducts( this, n1, n2 );
         return products;
     }
 }
