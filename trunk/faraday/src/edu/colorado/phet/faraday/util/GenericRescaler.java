@@ -135,14 +135,16 @@ public class GenericRescaler implements IRescaler {
         if ( scale == 0 || scale == 1 ) {
             newScale = scale;
         }
-        else if ( scale > _threshold ) {
-            newScale = 1.0;
-        }
         else {
             double referenceScale = ( _reference - _minReference ) / ( _maxReference - _minReference );
-            double exponent = _maxExponent - ( referenceScale * ( _maxExponent - _minExponent ) );
-            newScale = Math.pow( scale / _threshold, exponent );
-            newScale = MathUtil.clamp( 0, newScale, 1 );
+            if ( scale > _threshold ) {
+                newScale = referenceScale;
+            }
+            else {
+                double exponent = _maxExponent - ( referenceScale * ( _maxExponent - _minExponent ) );
+                newScale = Math.pow( scale / _threshold, exponent );
+                newScale = MathUtil.clamp( 0, newScale, 1 );
+            }
         }
         return newScale;
     }
