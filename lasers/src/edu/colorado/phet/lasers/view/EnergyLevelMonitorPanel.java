@@ -57,8 +57,10 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
 
     private int atomDiam = 14;
 
-    private double panelWidth = 400;
-    private double panelHeight = 200;
+    private double panelWidth = 300;
+    private double panelHeight = 100;
+//    private double panelWidth = 400;
+//    private double panelHeight = 200;
     private double sliderWidth = 100;
     private int squiggleHeight = 10;
 
@@ -109,16 +111,15 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                                                   Color.red, levelLineOriginX + squiggleHeight * 2, levelLineLength );
         groundLevelLine = new EnergyLevelGraphic( this, GroundState.instance(),
                                                   Color.black, levelLineOriginX + squiggleHeight * 4, levelLineLength );
-
         this.setBackground( Color.white );
         this.addGraphic( highLevelLine );
         this.addGraphic( middleLevelLine );
         this.addGraphic( groundLevelLine );
 
         // Add lifetime sliders and a title for them
-        JLabel legend = new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.EnergyLevelLifetimeLabel" ) );
-        legend.setBounds( (int)( levelLineOriginX + levelLineLength ), 15, 150, 30 );
-        this.add( legend );
+//        JLabel legend = new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.EnergyLevelLifetimeLabel" ) );
+//        legend.setBounds( (int)( levelLineOriginX + levelLineLength ), 15, 150, 30 );
+//        this.add( legend );
         middleLevelLifetimeSlider = new EnergyLifetimeSlider( MiddleEnergyState.instance(),
                                                               middleLevelLine,
                                                               LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME );
@@ -342,8 +343,11 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
                 e.printStackTrace();
             }
         }
-        MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
         BufferedImage atomImg = new BufferedImage( baseSphereImg.getWidth(), baseSphereImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
+//        AffineTransformOp atxOp = new AffineTransformOp( AffineTransform.getScaleInstance( 0.6, 0.6 ), AffineTransformOp.TYPE_BILINEAR );
+//        atxOp.filter( baseSphereImg, atomImg );
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
+//        op.filter( atomImg, atomImg );
         op.filter( baseSphereImg, atomImg );
         return atomImg;
     }
@@ -403,7 +407,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     // Inner classes
     //
     public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listener {
-//    public class EnergyLifetimeSlider extends JSlider implements AtomicState.MeanLifetimeChangeListener {
         private EnergyLevelGraphic graphic;
         private int sliderHeight = 50;
         private int maxSliderWidth = 100;
@@ -420,10 +423,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
             setValue( maxLifetime / 2 );
             setMajorTickSpacing( maxLifetime );
             setMinorTickSpacing( maxLifetime / 10 );
-            setPaintTicks( true );
+//            setPaintTicks( true );
 //            setPaintLabels( true );
-            setPaintTrack( true );
+//            setPaintTrack( true );
             this.graphic = graphic;
+            this.setLayout( new BorderLayout() );
+            this.add( new JLabel( SimStrings.get( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), BorderLayout.NORTH );
 
             this.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
