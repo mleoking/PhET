@@ -40,6 +40,11 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      */
     private static final double FUDGE_FACTOR = 700.0;
     
+    /*
+     * Magnetic field strength drops off by this power.
+     */
+    private static final double DEFAULT_DISTANCE_EXPONENT = 3.0;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -68,8 +73,17 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     //----------------------------------------------------------------------------
     // AbstractMagnet implementation
     //----------------------------------------------------------------------------
+
+    /*
+     * See AbstractMagnet.getStrength.
+     */
+    public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */ ) {
+        return getStrength( p, outputVector, DEFAULT_DISTANCE_EXPONENT );
+    }   
     
-    /**
+    /*
+     * See AbstractMagnet.getStrength.
+     * <p>
      * Algorithm courtesy of Michael Dubson (dubson@spot.colorado.edu).
      * <p>
      * Assumptions made by this algorithm:
@@ -77,10 +91,9 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * <li>the magnet's physical center is positioned at the magnet's location
      * <li>the magnet's width > height
      * </ul>
-     * 
-     * @see edu.colorado.phet.faraday.model.IMagnet#getStrength(java.awt.geom.Point2D)
      */
-    public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */ ) {
+    public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */, double distanceExponent ) {
+
         assert( p != null );
         assert( getWidth() > getHeight() );
  
@@ -109,7 +122,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         }
         else
         {
-            getStrengthOutside( _normalizedPoint, fieldVector /* output */ );
+            getStrengthOutside( _normalizedPoint, fieldVector /* output */, distanceExponent );
         }
         
         // Adjust the field vector to match the magnet's direction.
@@ -161,8 +174,10 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * 
      * @param p the point
      * @param outputVector write the result into this vector
+     * @param distanceExponent exponent that determines how the field strength decreases
+     * with the distance from the magnet
      */
-    private void getStrengthOutside( Point2D p, Vector2D outputVector /* output */ ) {
+    private void getStrengthOutside( Point2D p, Vector2D outputVector /* output */, double distanceExponent ) {
         assert( p != null );
         assert( outputVector != null );
         assert( getWidth() > getHeight() );
@@ -183,13 +198,13 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         double C = FUDGE_FACTOR * magnetStrength;
         
         // North dipole field strength vector.
-        double cN = +( C / Math.pow( rN, 3.0 ) ); // constant multiplier
+        double cN = +( C / Math.pow( rN, distanceExponent ) ); // constant multiplier
         double xN = cN * ( p.getX() - ( L / 2 ) ); // X component
         double yN = cN * p.getY(); // Y component
         _northVector.setXY( xN, yN ); // north dipole vector
         
         // South dipole field strength vector.
-        double cS = -( C / Math.pow( rS, 3.0 ) ); // constant multiplier
+        double cS = -( C / Math.pow( rS, distanceExponent ) ); // constant multiplier
         double xS = cS * ( p.getX() + ( L / 2 ) ); // X component
         double yS = cS * p.getY(); // Y component
         _southVector.setXY( xS, yS ); // south dipole vector

@@ -160,6 +160,18 @@ public abstract class AbstractMagnet extends SpacialObservable {
     public abstract Vector2D getStrength( final Point2D p, Vector2D outputVector );
     
     /**
+     * Gets the strength vector of the magnetic field at a point in 2D space,
+     * using a specified exponent for computing how the field strength decreases
+     * with the distance.
+     * 
+     * @param p the point
+     * @param outputVector strength is written here if provided, may be null
+     * @param distanceExponent the distance exponent
+     * @return the strength vector, strengthDst if it was provided
+     */
+    public abstract Vector2D getStrength( final Point2D p, Vector2D outputVector, double distanceExponent );
+    
+    /**
      * Gets the strength vector of the magnetic field at a point in 2D space.
      * 
      * @param p the point
@@ -167,6 +179,19 @@ public abstract class AbstractMagnet extends SpacialObservable {
      */
     public Vector2D getStrength( final Point2D p ) {
         return getStrength( p, null );
+    }
+    
+    /**
+     * Gets the strength vector of the magnetic field at a point in 2D space,
+     * using a specified exponent for computing how the field strength decreases
+     * with the distance.
+     * 
+     * @param p the point
+     * @param distanceExponent the distance exponent
+     * @return the strength vector
+     */
+    public Vector2D getStrength( final Point2D p, double distanceExponent ) {
+        return getStrength( p, null, distanceExponent );
     }
     
     /**
