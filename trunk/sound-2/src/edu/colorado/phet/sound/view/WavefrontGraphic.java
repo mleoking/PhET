@@ -197,7 +197,7 @@ public class WavefrontGraphic extends PhetImageGraphic implements SimpleObserver
     //
     // Abstract methods
     //
-    //    protected void setPosition( Particle body ) {
+    //    protected void setConePosition( Particle body ) {
     //    }
 
     /**

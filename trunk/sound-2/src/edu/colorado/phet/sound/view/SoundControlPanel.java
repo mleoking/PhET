@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.SingleSourceModule;
+import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.sound.model.SoundModel;
 
 import javax.swing.*;
@@ -61,7 +62,7 @@ public class SoundControlPanel extends PhetControlPanel {
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                GraphicsUtil.addGridBagComponent( this, new AudioControlPanel( (SingleSourceModule)module ),
+                GraphicsUtil.addGridBagComponent( this, new AudioControlPanel( (SoundModule)module ),
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
@@ -134,14 +135,22 @@ public class SoundControlPanel extends PhetControlPanel {
 
     private static class AmplitudeControlPanel extends JPanel {
         private JSlider amplitudeSlider;
+        private int sliderMax = 10;
+        private int sliderMin = 0;
+        private int sliderDefault = 5;
+        private SoundModel model;
 
         AmplitudeControlPanel( final SoundModel model ) {
+            this.model = model;
             this.setLayout( new GridLayout( 1, 2 ) );
             this.setPreferredSize( new Dimension( 125, 60 ) );
             amplitudeSlider = new JSlider( JSlider.HORIZONTAL,
-                                           0,
-                                           SoundConfig.s_maxAmplitude,
-                                           SoundConfig.s_defaultAmplitude );
+                                           sliderMin,
+                                           sliderMax,
+                                           sliderDefault );
+//                                           0,
+//                                           SoundConfig.s_maxAmplitude,
+//                                           SoundConfig.s_defaultAmplitude );
             amplitudeSlider.setPreferredSize( new Dimension( 25, 100 ) );
             amplitudeSlider.setPaintTicks( true );
             amplitudeSlider.setMajorTickSpacing( 5 );
@@ -153,26 +162,42 @@ public class SoundControlPanel extends PhetControlPanel {
             } );
             amplitudeSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    model.setAmplitude( amplitudeSlider.getValue() );
+                    setModelAmplitude( amplitudeSlider.getValue() );
+//                    model.setModelAmplitude( amplitudeSlider.getValue() );
                 }
             } );
-            model.setAmplitude( amplitudeSlider.getValue() );
+            setModelAmplitude( amplitudeSlider.getValue() );
+//            model.setModelAmplitude( amplitudeSlider.getValue() );
             this.add( amplitudeSlider );
             Border amplitudeBorder = new TitledBorder( "Amplitude" );
             this.setBorder( amplitudeBorder );
         }
+
+        private void setModelAmplitude( int sliderValue ) {
+            double amplitude = ((double)sliderValue) * ( SoundConfig.s_maxAmplitude ) / (sliderMax - sliderMin );
+            model.setAmplitude( amplitude );
+        }
     }
 
     private static class OctaveControlPanel extends JPanel {
+        private SoundModel model;
+        private int sliderMax = 10;
+        private int sliderMin = 0;
+        private int sliderDefault = 5;
 
         OctaveControlPanel( final SoundModel model ) {
+            this.model = model;
             this.setLayout( new GridLayout( 2, 1 ) );
             this.setPreferredSize( new Dimension( 125, 80 ) );
 
             final JSlider octaveAmplitudeSlider = new JSlider( JSlider.HORIZONTAL,
-                                                               0,
-                                                               SoundConfig.s_maxAmplitude,
-                                                               SoundConfig.s_defaultAmplitude );
+                                           sliderMin,
+                                           sliderMax,
+                                           sliderDefault );
+//            final JSlider octaveAmplitudeSlider = new JSlider( JSlider.HORIZONTAL,
+//                                                               0,
+//                                                               SoundConfig.s_maxAmplitude,
+//                                                               SoundConfig.s_defaultAmplitude );
             octaveAmplitudeSlider.setPreferredSize( new Dimension( 25, 60 ) );
             octaveAmplitudeSlider.setPaintTicks( true );
             octaveAmplitudeSlider.setMajorTickSpacing( 5 );
@@ -191,19 +216,26 @@ public class SoundControlPanel extends PhetControlPanel {
                 public void itemStateChanged( ItemEvent e ) {
                     model.setOctaveEnabled( enabledCB.isSelected() );
                     if( enabledCB.isSelected() ) {
-                        model.setOctaveAmplitude( octaveAmplitudeSlider.getValue() );
+                        setModelAmplitude( octaveAmplitudeSlider.getValue() );
+//                        model.setOctaveAmplitude( octaveAmplitudeSlider.getValue() );
                     }
                 }
             } );
+            setModelAmplitude( octaveAmplitudeSlider.getValue() );
             this.add( enabledCB );
             this.add( octaveAmplitudeSlider );
+        }
+
+        private void setModelAmplitude( int sliderValue ) {
+            double amplitude = ((double)sliderValue) * ( SoundConfig.s_maxAmplitude ) / (sliderMax - sliderMin );
+            model.setOctaveAmplitude( amplitude );
         }
     }
 
     private static class AudioControlPanel extends JPanel {
         private JCheckBox audioOnOffCB;
 
-        AudioControlPanel( final SingleSourceModule module ) {
+        AudioControlPanel( final SoundModule module ) {
             this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
             this.setPreferredSize( new Dimension( 125, 100 ) );
 

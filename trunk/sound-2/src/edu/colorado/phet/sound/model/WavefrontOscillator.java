@@ -35,12 +35,12 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
     /**
      *
      */
-    public void setAmplitude( float amplitude ) {
+    public void setAmplitude( double amplitude ) {
         if( amplitude < 0 ) {
             throw new RuntimeException( "amplitude < 0" );
         }
         amplitude = amplitude / SoundConfig.s_maxAmplitude;
-        super.setAmplitude( isEnabled ? amplitude : 0 );
+        super.setAmplitude( isEnabled ? (float)amplitude : 0 );
         amplitudeInternal = amplitude;
     }
 

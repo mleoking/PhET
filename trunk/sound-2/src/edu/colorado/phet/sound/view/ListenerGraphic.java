@@ -45,6 +45,10 @@ public class ListenerGraphic extends DefaultInteractiveGraphic {
         this.listener = listener;
     }
 
+    public Point2D.Double getLocation() {
+        return location;
+    }
+
     private class ListenerTranslationBehavior implements Translatable {
         private double minX;
         private double minY;

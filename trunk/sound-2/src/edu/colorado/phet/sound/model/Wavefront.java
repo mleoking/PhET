@@ -8,6 +8,7 @@ package edu.colorado.phet.sound.model;
 
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.sound.SoundConfig;
 
 import java.util.ArrayList;
 
@@ -188,8 +189,10 @@ public class Wavefront extends SimpleObservable implements ModelElement {
      *
      * @return
      */
-    public double getWavelengthAtTime( int t, double dt ) {
-        double lambda = propagationSpeed / ( dt * getFrequencyAtTime( t ) );
+    public double getWavelengthAtTime( int t ) {
+//    public double getWavelengthAtTime( int t, double dt ) {
+        double lambda = propagationSpeed / ( SoundConfig.s_timeStep * getFrequencyAtTime( t ) );
+//        double lambda = propagationSpeed / ( dt * getFrequencyAtTime( t ) );
 
         // I'm sorry to say I'm not sure just why 6.2 is the right factor here, but
         // it works

@@ -75,10 +75,7 @@ public class SoundApparatusPanel extends ApparatusPanel {
                 this.audioReferencePt = new Point2D.Double( 0, 0 );
                 break;
             case LISTENER_SOURCE:
-//                ListenerGraphic listenerGraphic = (ListenerGraphic)getGraphicOfType( ListenerGraphic.class );
-//                if( listenerGraphic != null ) {
 //                    this.audioReferencePt = listenerGraphic.getLocationInRange();
-//                }
                 break;
             default:
                 throw new RuntimeException( "Bad parameter value" );
