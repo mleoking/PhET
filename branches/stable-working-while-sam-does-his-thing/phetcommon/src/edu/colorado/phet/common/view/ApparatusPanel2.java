@@ -88,9 +88,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
             public void threadPriorityChanged( int priority ) {
             }
 
-            public void pausedStateChanged( boolean b ) {
-                modelPaused = b;
-                System.out.println( "b = " + b );
+            public void pausedStateChanged( boolean isPaused ) {
+                modelPaused = isPaused;
             }
         } );
         modelPaused = clock.isPaused();
@@ -103,14 +102,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         super( null );
 
         // The following lines use a mouse processor in the model loop
-        //        this.addMouseListener( mouseDelegator );
-        //        this.addMouseMotionListener( mouseDelegator );
         MouseProcessor mouseProcessor = new MouseProcessor( mouseDelegator );
         model.addModelElement( mouseProcessor );
         this.addMouseListener( mouseProcessor );
         this.addMouseMotionListener( mouseProcessor );
-        //        this.addMouseListener( mouseDelegator );
-        //        this.addMouseMotionListener( mouseDelegator );
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
