@@ -12,11 +12,9 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 
 import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -27,10 +25,6 @@ import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
 import edu.colorado.phet.faraday.view.*;
-import edu.colorado.phet.faraday.view.BarMagnetGraphic;
-import edu.colorado.phet.faraday.view.CompassGraphic;
-import edu.colorado.phet.faraday.view.CompassGridGraphic;
-import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
 
 /**
@@ -51,6 +45,7 @@ public class MagnetAndCoilModule extends FaradayModule {
     private static final double BAR_MAGNET_LAYER = 3;
     private static final double COMPASS_LAYER = 4;
     private static final double COIL_FRONT_LAYER = 5;
+    private static final double FIELD_METER_LAYER = 6;
     private static final double DEBUG_LAYER = FaradayConfig.DEBUG_LAYER;
     private static final double HELP_LAYER = FaradayConfig.HELP_LAYER;
 
@@ -58,6 +53,7 @@ public class MagnetAndCoilModule extends FaradayModule {
     private static final Point MAGNET_LOCATION = new Point( 200, 400 );
     private static final Point PICKUP_COIL_LOCATION = new Point( 500, 400 );
     private static final Point COMPASS_LOCATION = new Point( 150, 200 );
+    private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -168,6 +164,13 @@ public class MagnetAndCoilModule extends FaradayModule {
         apparatusPanel.addChangeListener( compassGraphic );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
 
+        // Field Meter
+        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, barMagnetModel );
+        fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        fieldMeterGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( fieldMeterGraphic );
+        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
+        
         // Debugger
 //        DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
 //        debugger.add( pickupCoilGraphic.getForeground(), Color.RED, Color.RED );
@@ -188,8 +191,8 @@ public class MagnetAndCoilModule extends FaradayModule {
         
         // Control Panel
         MagnetAndCoilControlPanel controlPanel = new MagnetAndCoilControlPanel( this, 
-            barMagnetModel, compassModel, pickupCoilModel, lightbulbModel, voltmeterModel,
-            barMagnetGraphic, gridGraphic, pickupCoilGraphic.getCoilGraphic() );
+            barMagnetModel, compassModel, barMagnetGraphic, gridGraphic, fieldMeterGraphic, 
+            pickupCoilModel, pickupCoilGraphic.getCoilGraphic(), lightbulbModel, voltmeterModel );
         this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------

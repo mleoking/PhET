@@ -22,8 +22,8 @@ import javax.swing.JMenuItem;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.control.BackgroundColorDialog;
-import edu.colorado.phet.faraday.control.GridControlsDialog;
+import edu.colorado.phet.faraday.control.dialog.BackgroundColorDialog;
+import edu.colorado.phet.faraday.control.dialog.GridControlsDialog;
 
 /**
  * FaradayApplication is the main application for the PhET
