@@ -1,6 +1,8 @@
-﻿class Photon extends MovieClip {
-	private var ds:Number = 15;
-	private var s:Number = 20;
+﻿class Photon {
+	private var xLoc:Number;
+	private var yLoc:Number;
+	private var ds:Number = 10;
+	private var s:Number = 15;
 	private var rgb:Number;
 	private var theta:Number;
 	private static var instances:Array = new Array();
@@ -25,23 +27,26 @@
 		return result;
 	}
 	function Photon(x, y, theta, rgb) {
-		this._x = x;
-		this._y = y;
+		this.xLoc = x;
+		this.yLoc = y;
 		this.theta = theta;
 		this.rgb = rgb;
 		Photon.instances.push(this);
+	}
+	function getX():Number{
+		return xLoc;
 	}
 	function setRgb(rgb) {
 		this.rgb = rgb;
 	}
 	function stepInTime() {
-		this._x += ds * Math.cos(this.theta);
-		this._y += ds * Math.sin(this.theta);
+		this.xLoc += ds * Math.cos(this.theta);
+		this.yLoc += ds * Math.sin(this.theta);
 	}
 	function paint(g) {
 		this.stepInTime();
 		g.lineStyle(1, this.rgb, 100);
-		g.moveTo(this._x, this._y);
-		g.lineTo(this._x - s * Math.cos(this.theta), this._y - s * Math.sin(this.theta));
+		g.moveTo(this.xLoc, this.yLoc);
+		g.lineTo(this.xLoc - s * Math.cos(this.theta), this.yLoc - s * Math.sin(this.theta));
 	}
 }
