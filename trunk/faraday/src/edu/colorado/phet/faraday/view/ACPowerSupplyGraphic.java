@@ -40,7 +40,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     //----------------------------------------------------------------------------
     
     // Debugging
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     
     // Layers
     private static final double BACKGROUND_LAYER = 1;
