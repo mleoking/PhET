@@ -11,7 +11,7 @@ HIGH:
 - separate PhetCoilGraphic into foreground & background layers
 - show electrons flowing (blue) when lightbulb is enabled, keep constant size
 - keep compass from going inside magnet
-- redo BFieldProbe graphic, use CCK probe
+
 - redo coil graphic (constant wire gauge, fix colors)
 
 MEDIUM:
@@ -29,6 +29,7 @@ phetcommon:
 - MathUtil.clamp behavior with Double.NaN
 
 DONE:
+(1/21) - redo BFieldProbe graphic, add crosshairs
 (1/21) - redo voltmeter graphic, add "volts" label
 (1/20) - when flipping polarity, jiggle the compass so that it starts moving sooner
 (1/20) - control to turn BFieldProbe on/off
