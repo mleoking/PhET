@@ -14,13 +14,11 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Point;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.control.GeneratorControlPanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;

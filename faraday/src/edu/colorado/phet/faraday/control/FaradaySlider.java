@@ -15,8 +15,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Area;
-import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;

@@ -14,8 +14,6 @@ package edu.colorado.phet.faraday.model;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.util.IRescaler;
 
 

@@ -13,7 +13,6 @@ package edu.colorado.phet.faraday.model;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.view.CoilGraphic;
 
 
 /**

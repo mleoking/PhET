@@ -12,8 +12,6 @@
 package edu.colorado.phet.faraday.util;
 
 import edu.colorado.phet.common.math.MathUtil;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 
 /** 

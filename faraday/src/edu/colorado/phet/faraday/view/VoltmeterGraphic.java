@@ -25,7 +25,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.Voltmeter;
-import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**

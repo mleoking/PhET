@@ -17,8 +17,6 @@ import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-import edu.colorado.phet.common.application.Module;
-
 
 /**
  * FaradayPanel
