@@ -22,7 +22,6 @@ public class Uranium235 extends Nucleus {
     }
 
     public void stepInTime( double dt ) {
-        System.out.println( "dist: " + distFromProfileHill() );
         if( distFromProfileHill() > NuclearParticle.RADIUS * 4 ) {
             for( int i = 0; i < decayListeners.size(); i++ ) {
                 DecayListener decayListener = (DecayListener)decayListeners.get( i );
@@ -30,6 +29,8 @@ public class Uranium235 extends Nucleus {
             }
         }
         super.stepInTime( dt );
+
+        System.out.println( "dist: " + distFromProfileHill() );
     }
 
     public DecayProducts alphaDecay() {

@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NucleusGraphic;
 import edu.colorado.phet.nuclearphysics.view.PhysicalPanel;
+import edu.colorado.phet.nuclearphysics.view.PotentialProfileGraphic;
 import edu.colorado.phet.nuclearphysics.view.PotentialProfilePanel;
 
 import javax.swing.*;
@@ -41,17 +42,19 @@ public class NuclearPhysicsModule extends Module {
         Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Potential Energy Profile" );
         potentialProfilePanel.setBorder( titledBorder );
 
+        // For testing only!!!
+        potentialProfilePanel.addGraphic( new PotentialProfileGraphic( potentialProfile ) );
+
         BevelBorder baseBorder2 = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         Border titledBorder2 = BorderFactory.createTitledBorder( baseBorder2, "Physical System" );
         physicalPanel.setBorder( titledBorder2 );
-
 
         apparatusPanel.setLayout( new GridLayout( 1, 2 ) );
         apparatusPanel.add( potentialProfilePanel );
         apparatusPanel.add( physicalPanel );
 
         // Start the model
-        this.setModel( new FisionModel( clock ) );
+        this.setModel( new FissionModel( clock ) );
         this.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 apparatusPanel.repaint();
