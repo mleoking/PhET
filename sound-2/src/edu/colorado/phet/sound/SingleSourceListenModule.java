@@ -13,6 +13,8 @@ import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.view.ListenerGraphic;
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
+import edu.colorado.phet.sound.view.SoundControlPanel;
+import edu.colorado.phet.sound.view.AudioControlPanel;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -44,6 +46,9 @@ public class SingleSourceListenModule extends SingleSourceModule {
         catch( IOException e ) {
             e.printStackTrace();
         }
+
+        SoundControlPanel controlPanel = (SoundControlPanel)getControlPanel();
+        controlPanel.addPanel( new AudioControlPanel( this ) );
     }
 
     public void setAudioSource( int source ) {

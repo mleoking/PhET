@@ -92,6 +92,7 @@ public class SoundModel extends BaseModel {
      *
      */
     public void setFrequency( double frequency ) {
+        System.out.println( "frequency = " + frequency );
         primaryWavefront.setFrequency( frequency / SoundConfig.s_frequencyDisplayFactor );
         octaveWavefront.setFrequency( 2 * frequency / SoundConfig.s_frequencyDisplayFactor );
     }

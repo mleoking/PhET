@@ -8,6 +8,7 @@ package edu.colorado.phet.sound.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.model.Wavefront;
@@ -38,6 +39,8 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     private AffineTransform lineRotationXform;
     private WaveMedium waveMedium;
 
+    static public boolean drawTest;
+
     private static BufferedImage createBufferedImage() {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gs = ge.getDefaultScreenDevice();
@@ -63,6 +66,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         g2DBuffImg.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED );
         g2DBuffImg.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
         g2DBuffImg.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
+//        g2DBuffImg.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2DBuffImg.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
         g2DBuffImg.setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE );
         g2DBuffImg.setRenderingHint( RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED );
@@ -152,13 +156,15 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         // it doesn't work right
         lineRotationXform = AffineTransform.getRotateInstance( -Math.toRadians( rotationAngle ),
                                                                origin.getX(), origin.getY() );
-        boolean drawTest = false;
         if( drawTest ) {
-            int dx = 1;
-            int dy = 1;
+            int dx = 2;
+            int dy = 2;
             Graphics2D gBi = (Graphics2D)buffImg.getGraphics();
-            for( int x = 0; x < waveMedium.getMaxX(); x += dx ) {
-                for( int y = -100; y < 100; y += dy ) {
+            for( int x = (int)rad2; x < waveMedium.getMaxX(); x += dx ) {
+                double yStart = x * Math.tan( Math.toRadians( -alpha + rotationAngle ));
+                double yStop = x * Math.tan( Math.toRadians( alpha + rotationAngle ));
+                for( int y = (int)yStart; y < (int)yStop; y += dy ) {
+//                for( int y = -100; y < 100; y += dy ) {
                     cnt++;
                     double distSq = ( x * x ) + ( y * y );
                     int dist = (int)Math.sqrt( distSq );
@@ -166,7 +172,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
                         double normalizedAmplitude = amplitudes[dist] / SoundConfig.s_maxAmplitude * s_lineColor.length / 2;
                         int colorIndex = (int)( ( normalizedAmplitude ) + s_lineColor.length / 2 );
                         gBi.setColor( s_lineColor[colorIndex] );
-                        gBi.fillRect( x, y, dx, dy );
+                        gBi.fillRect( (int)origin.getX() + x, (int)origin.getY() + y, dx, dy );
                     }
                 }
             }
