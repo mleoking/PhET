@@ -93,17 +93,11 @@ public class SwingTimerClock extends AbstractClock {
 
     protected void doPause() {
         timer.stop();
-        for( int i = 0; i < getClockStateListeners().size(); i++ ) {
-            fireClockStateEvent();
-        }
     }
 
     protected void doUnpause() {
         lastTickTime = System.currentTimeMillis();
         timer.restart();
-        for( int i = 0; i < getClockStateListeners().size(); i++ ) {
-            fireClockStateEvent();
-        }
     }
 
     private static interface DelayStrategy {
@@ -150,7 +144,6 @@ public class SwingTimerClock extends AbstractClock {
             long nextRequest = delay - dt;
             int result = Math.min( delay, Math.max( (int)nextRequest, min ) );
             lastRequestedDelay = result;
-//            System.out.println("result = " + result);
             return result;
         }
     }
