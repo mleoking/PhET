@@ -1,3 +1,4 @@
+- while() in ProfilePanel.paintComponent() never gets entered?
 - Make NucleusGraphic a PhetImageGraphic for performance?
 - Alpha particles don't rattle around on the physical panel
 - Single fission doesn't work

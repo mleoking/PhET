@@ -8,7 +8,6 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 
 import java.awt.*;
@@ -17,7 +16,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
-import java.util.HashMap;
 
 public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
 
@@ -41,11 +39,11 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
         }
     }
 
-    private static HashMap graphicToModelMap = new HashMap();
+    //    private static HashMap graphicToModelMap = new HashMap();
 
-    public static NeutronGraphic getGraphicForNeutron( Neutron neutron ) {
-        return (NeutronGraphic)graphicToModelMap.get( neutron );
-    }
+    //    public static NeutronGraphic getGraphicForNeutron( Neutron neutron ) {
+    //        return (NeutronGraphic)graphicToModelMap.get( neutron );
+    //    }
 
     public NeutronGraphic() {
         super( color );
@@ -53,7 +51,7 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
 
     public NeutronGraphic( NuclearParticle particle ) {
         super( particle, NeutronGraphic.color );
-        graphicToModelMap.put( particle, this );
+        //        graphicToModelMap.put( particle, this );
     }
 
     public void paint( Graphics2D g, double x, double y ) {

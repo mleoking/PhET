@@ -70,7 +70,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         Nucleus nucleus = getNucleus();
         getModel().removeModelElement( nucleus );
 
-        getModel().removeNuclearPartilces();
+        ( (NuclearPhysicsModel)getModel() ).removeNuclearPartilces();
 
         getPotentialProfilePanel().removeAllAlphaParticles();
         getPotentialProfilePanel().removeAllPotentialProfiles();
@@ -123,7 +123,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 }
             }
         };
-        this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic, ringLevel );        
+        this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic, ringLevel );
 
         // Add leader lines from the ring up to the profile
         float miterLimit = 10f;
