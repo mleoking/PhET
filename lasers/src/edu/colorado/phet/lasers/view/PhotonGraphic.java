@@ -302,8 +302,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver {
         // porperly. The particle's location is its center, but the location of
         // the graphic is the upper-left corner of the bounding box.
         // TODO: coordinate the size of the particle and the image
-        double x = particle.getPosition().getX() - particle.getRadius();
-        double y = particle.getPosition().getY() - particle.getRadius();
+        double x = particle.getPosition().getX() /* - particle.getRadius() */;
+        double y = particle.getPosition().getY() /* - particle.getRadius()*/;
         setPosition( (int)x, (int)y );
     }
 }

@@ -9,7 +9,7 @@
  *      $Name$
  *      $Revision$
  */
-package edu.colorado.phet.lasers.view;
+package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -22,6 +22,9 @@ import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
+import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import java.awt.geom.Point2D;
 import java.awt.*;

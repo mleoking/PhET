@@ -16,6 +16,7 @@ import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -46,7 +47,8 @@ public class CollimatedBeam extends Particle {
     // Is the collimated beam currently generating photons?
     private boolean isActive;
     private LaserModel model;
-    private LinkedList listeners = new LinkedList();
+    private SubscriptionService bulletinBoard = new SubscriptionService();
+//    private LinkedList bulletinBoard = new LinkedList();
     private LinkedList photons = new LinkedList();
 
     public interface Listener {
@@ -57,7 +59,6 @@ public class CollimatedBeam extends Particle {
         this.model = model;
         this.wavelength = wavelength;
         this.bounds = new Rectangle2D.Double( origin.getX(), origin.getY(), width, height );
-//        this.origin = origin;
         this.setPosition( origin );
         this.height = height;
         this.width = width;
@@ -65,21 +66,13 @@ public class CollimatedBeam extends Particle {
     }
 
     public void addListener( Listener listener ) {
-        listeners.add( listener );
+        bulletinBoard.addListener( listener );
     }
 
     public void removeListener( Listener listener ) {
-        listeners.remove( listener );
+        bulletinBoard.removeListener( listener );
     }
 
-//    public Point2D getOrigin() {
-//        return origin;
-//    }
-//
-//    public void setOrigin( Point2D origin ) {
-//        this.origin = origin;
-//    }
-//
     public double getHeight() {
         return height;
     }
@@ -116,16 +109,17 @@ public class CollimatedBeam extends Particle {
     }
 
     public void addPhoton() {
-        Photon newPhoton = Photon.create( this );
-        newPhoton.setPosition( genPositionX(), genPositionY() + newPhoton.getRadius() );
+        final Photon newPhoton = Photon.create( this );
+        newPhoton.setPosition( genPositionX(), genPositionY() /* + newPhoton.getRadius() */);
         newPhoton.setVelocity( new Vector2D.Double( velocity ) );
         newPhoton.setWavelength( this.wavelength );
         model.addModelElement( newPhoton );
         photons.add( newPhoton );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
-            listener.photonCreated( this, newPhoton );
-        }
+        bulletinBoard.notifyListeners( new SubscriptionService.Notifier() {
+            public void doNotify( Object obj ) {
+                ((Listener)obj).photonCreated( CollimatedBeam.this, newPhoton );
+            }
+        } );
     }
 
     public void removePhoton( Photon photon ) {

@@ -4,13 +4,14 @@
  * Author: Another Guy
  * Date: Apr 1, 2003
  */
-package edu.colorado.phet.lasers.view;
+package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.view.BaseLaserModule;
 
 import java.awt.geom.Point2D;
 

@@ -11,10 +11,7 @@
  */
 package edu.colorado.phet.lasers.model;
 
-import edu.colorado.phet.collision.SphereSphereContactDetector;
-import edu.colorado.phet.collision.SphereSphereExpert;
-import edu.colorado.phet.collision.CollisionExpert;
-import edu.colorado.phet.collision.Collidable;
+import edu.colorado.phet.collision.*;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -70,6 +67,7 @@ public class LaserModel extends BaseModel {
         final CollisionMechanism collisionMechanism = new CollisionMechanism();
         collisionMechanism.addCollisionExpert( new SphereSphereExpert() );
         collisionMechanism.addCollisionExpert( new PhotonAtomCollisonExpert() );
+        collisionMechanism.addCollisionExpert( new SphereBoxExpert() );
         this.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 collisionMechanism.doIt( bodies );

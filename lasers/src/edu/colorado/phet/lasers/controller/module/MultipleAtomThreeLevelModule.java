@@ -10,7 +10,7 @@
  *      $Name$
  *      $Revision$
  */
-package edu.colorado.phet.lasers.view;
+package edu.colorado.phet.lasers.controller.module;
 
 import edu.colorado.phet.collision.ContactDetector;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -21,6 +21,9 @@ import edu.colorado.phet.lasers.controller.ThreeLevelControlPanel;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.view.BaseLaserModule;
+import edu.colorado.phet.lasers.view.MonitorPanel;
+import edu.colorado.phet.lasers.view.ThreeEnergyLevelMonitorPanel;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
