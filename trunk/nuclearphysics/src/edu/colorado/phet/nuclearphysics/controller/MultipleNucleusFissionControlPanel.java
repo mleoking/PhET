@@ -7,6 +7,7 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
@@ -79,7 +80,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         } );
 
         // Create the controls
-        JButton fireNeutronBtn = new JButton( "Fire Neutron" );
+        JButton fireNeutronBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.FireButton" ) );
         fireNeutronBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.fireNeutron();
@@ -112,7 +113,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         numU238Spinner.setPreferredSize( new Dimension( 80, 30 ) );
         numU238Spinner.setFont( spinnerFont );
 
-        JButton resetBtn = new JButton( "Reset" );
+        JButton resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.stop();
@@ -130,7 +131,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         percentDecayTF.setHorizontalAlignment( JTextField.RIGHT );
         percentDecayTF.setText( "0" );
 
-        final JCheckBox containmentCB = new JCheckBox( "<html>Enable<br>Containment Vessel</html>" );
+        final JCheckBox containmentCB = new JCheckBox( SimStrings.get( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" ) );
         containmentCB.setForeground( Color.white );
         containmentCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -151,15 +152,15 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                                                                new Insets( 5, 5, 5, 5 ), 5, 5 );
         add( containmentCB, gbcCenter );
         gbcLeft.gridy = 1;
-        add( new JLabel( "<html>Number of<br><sup><font size=-1>235</font></sup>U nulcei</html>" ), gbcLeft );
+        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.235ULabel" ) ), gbcLeft );
         gbcRight.gridy = 1;
         add( numU235Spinner, gbcRight );
         gbcLeft.gridy = 2;
-        add( new JLabel( "<html>Number of<br><sup><font size=-1>238</font></sup>U nulcei</html>" ), gbcLeft );
+        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.238ULabel" ) ), gbcLeft );
         gbcRight.gridy = 2;
         add( numU238Spinner, gbcRight );
         gbcLeft.gridy = 3;
-        add( new JLabel( "<html>Percent<br><sup><font size=-1>235</font></sup>U nuclei<br>fissioned</html>" ), gbcLeft );
+        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.FissionPercentLabel" ) ), gbcLeft );
         gbcRight.gridy = 3;
         add( percentDecayTF, gbcRight );
         gbcCenter.gridy = 4;
@@ -167,7 +168,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         gbcCenter.gridy = 5;
         add( resetBtn, gbcCenter );
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Controls" );
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "MultipleNucleusFissionControlPanel.ControlBorder" ) );
         this.setBorder( titledBorder );
     }
 

@@ -7,6 +7,7 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -32,7 +33,7 @@ public class AlphaDecayControlPanel extends JPanel {
         timerTF.setHorizontalAlignment( JTextField.RIGHT );
         timerTF.setPreferredSize( new Dimension( 80, 30 ) );
 
-        JButton replayBtn = new JButton( "Reset" );
+        JButton replayBtn = new JButton( SimStrings.get( "AlphaDecayControlPanel.ResetButton" ) );
         replayBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.stop();
@@ -48,7 +49,7 @@ public class AlphaDecayControlPanel extends JPanel {
                                               1, 1,
                                               GridBagConstraints.NONE,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "<html>Running time<br> to decay (msec)" ),
+            GraphicsUtil.addGridBagComponent( this, new JLabel( SimStrings.get( "AlphaDecayControlPanel.RunningTimeLabel" ) ),
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.NONE,
@@ -73,7 +74,7 @@ public class AlphaDecayControlPanel extends JPanel {
             e.printStackTrace();
         }
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, "Controls" );
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "AlphaDecayControlPanel.ControlBorder" ) );
         this.setBorder( titledBorder );
     }
 

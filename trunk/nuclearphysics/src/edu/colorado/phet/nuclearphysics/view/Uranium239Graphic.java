@@ -7,6 +7,7 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -35,10 +36,10 @@ public class Uranium239Graphic extends NucleusGraphic {
         g.setColor( color );
         g.setFont( isotopeFont );
         FontMetrics fm = g.getFontMetrics();
-        g.drawString( "239", -fm.stringWidth( "239" ), 0 );
+        g.drawString( SimStrings.get( "Uranium239Graphic.Number" ), -fm.stringWidth( SimStrings.get( "Uranium239Graphic.Number" ) ), 0 );
         int dy = fm.getHeight() * 3 / 4;
         g.setFont( elementFont );
-        g.drawString( "U", 0, dy );
+        g.drawString( SimStrings.get( "Uranium239Graphic.Symbol" ), 0, dy );
 
         g.setTransform( orgTx );
     }

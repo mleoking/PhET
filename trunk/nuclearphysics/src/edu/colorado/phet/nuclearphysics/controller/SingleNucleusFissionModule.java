@@ -11,6 +11,7 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
@@ -30,7 +31,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
     public SingleNucleusFissionModule( AbstractClock clock ) {
 
-        super( "Fission: One Nucleus", clock );
+        super( SimStrings.get( "ModuleTitle.SingleNucleusFissionModule" ), clock );
         this.clock = clock;
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
         getModel().addModelElement( new ModelElement() {

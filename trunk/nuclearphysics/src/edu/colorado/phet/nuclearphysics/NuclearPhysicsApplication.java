@@ -12,6 +12,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
@@ -23,8 +24,12 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class NuclearPhysicsApplication extends PhetApplication {
+
+    // Localization
+    public static final String localizedStringsPath = "localization/NuclearPhysicsStrings";
 
     public NuclearPhysicsApplication( ApplicationModel descriptor ) {
         super( descriptor );
@@ -32,16 +37,28 @@ public class NuclearPhysicsApplication extends PhetApplication {
 
     public static void main( String[] args ) {
 
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
+        
         try {
             UIManager.setLookAndFeel( new NuclearAppLookAndFeel() );
         }
         catch( UnsupportedLookAndFeelException e ) {
             e.printStackTrace();
         }
-        String desc = GraphicsUtil.formatMessage( "An investigation of\nnuclear fision and fusion" );
-        ApplicationModel appDesc = new ApplicationModel( "Nuclear Physics",
+        String desc = GraphicsUtil.formatMessage( SimStrings.get( "NuclearPhysicsApplication.description" ) );
+        ApplicationModel appDesc = new ApplicationModel( SimStrings.get( "NuclearPhysicsApplication.title" ),
                                                          desc,
-                                                         "0.1",
+                                                         SimStrings.get( "NuclearPhysicsApplication.version" ),
                                                          new FrameSetup.MaxExtent() );
         // Note: a ThreadedClock here ends up looking balky
         SwingTimerClock clock = new SwingTimerClock( 10, 20, true );

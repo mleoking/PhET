@@ -8,6 +8,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
 
 public class ProfileModificationModule extends ProfiledNucleusModule {
@@ -21,7 +22,7 @@ public class ProfileModificationModule extends ProfiledNucleusModule {
     private PotentialProfile potentialProfile;
 
     public ProfileModificationModule( AbstractClock clock ) {
-        super( "Profile Shaping", clock );
+        super( SimStrings.get( "ModuleTitle.ProfileModificationModule" ), clock );
         potentialProfile = defaultProfile;
         super.addControlPanelElement( new ProfileShapingControlPanel( this ) );
     }
