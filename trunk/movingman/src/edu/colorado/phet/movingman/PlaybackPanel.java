@@ -4,7 +4,6 @@ package edu.colorado.phet.movingman;
 import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -58,16 +57,14 @@ public class PlaybackPanel extends JPanel {
             }
         } );
 
-        ImageIcon imageIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.jpg" ) );
-        JLabel phetIconLabel = new JLabel( imageIcon );
         add( play );
         add( slowMotion );
         add( pause );
         add( rewind );
-        JLabel separator = new JLabel();
-        separator.setPreferredSize( new Dimension( 20, 10 ) );
-        add( separator );
-        add( phetIconLabel );
+//        JLabel separator = new JLabel();
+//        separator.setPreferredSize( new Dimension( 20, 10 ) );
+//        add( separator );
+//        add( phetIconLabel );
 
         MovingManModule.Listener listener = new MovingManModule.Listener() {
             public void recordingStarted() {

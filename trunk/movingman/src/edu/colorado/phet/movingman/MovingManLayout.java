@@ -1,7 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.movingman.common.RangeToRange;
+import edu.colorado.phet.common.math.LinearTransform1d;
 import edu.colorado.phet.movingman.plots.MMPlot;
 
 import javax.swing.*;
@@ -15,12 +15,12 @@ import java.util.ArrayList;
  * Copyright (c) Jul 1, 2003 by Sam Reid
  */
 public class MovingManLayout {
+    private int plotInsetRight = 13;
     private int walkwayHeight = 100;
     private int topInset = 20;
     private int walkwayBottomInset = 55;
     private int spaceBetweenPlots = 20;
-//    private int plotInsetX = 90;
-    private int plotInsetX = 137;
+    private int plotInsetX = 150;
 
     private MMVerticalLayout verticalLayout;
     private MovingManModule module;
@@ -53,7 +53,7 @@ public class MovingManLayout {
     class ChartLayoutItem implements LayoutItem {
         private MMPlot plot;
         private JComponent component;
-        private int plotInsetRight = 5;
+
         private MMPlot.ChartButton chartButton;
 
         public ChartLayoutItem( JComponent component, MMPlot plot ) {
@@ -193,8 +193,8 @@ public class MovingManLayout {
     public void relayout() {
         verticalLayout.layout();
         int manInset = 50;
-        RangeToRange oldTransform = module.getManPositionTransform();
-        RangeToRange manGraphicTransform = new RangeToRange( oldTransform.getLowInputPoint(), oldTransform.getHighInputPoint(), manInset, panel.getWidth() - manInset );
+        LinearTransform1d oldTransform = module.getManPositionTransform();
+        LinearTransform1d manGraphicTransform = new LinearTransform1d( oldTransform.getMinInput(), oldTransform.getMaxInput(), manInset, panel.getWidth() - manInset );
         module.getManGraphic().setTransform( manGraphicTransform );
         module.setManTransform( manGraphicTransform );
     }

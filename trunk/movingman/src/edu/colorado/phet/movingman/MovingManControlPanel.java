@@ -101,7 +101,7 @@ public class MovingManControlPanel extends JPanel {
         panel.add( northPanel, BorderLayout.NORTH );
     }
 
-    public JComponent getMediaPanel() {
+    public JComponent getPlaybackPanel() {
         return playbackPanel;
     }
 

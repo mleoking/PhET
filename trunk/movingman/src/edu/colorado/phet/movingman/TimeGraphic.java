@@ -21,7 +21,7 @@ public class TimeGraphic implements Graphic {
 //    private MMTimer recordingMMTimer;
     private int x;
     private int y;
-    private Font f = new Font( "Lucida Sans", 0, 36 );
+    private Font f = MMFontManager.getFontSet().getTimeFont();
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
     private FontRenderContext frc;
 

@@ -15,7 +15,6 @@ import edu.colorado.phet.common.view.util.RectangleUtils;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class Chart implements Graphic {
@@ -107,9 +106,9 @@ public class Chart implements Graphic {
             }
 //            g.translate( chartRect.x - rect.getHeight() - frame.width * 1.2, chartRect.y + chartRect.height - chartRect.height / 2 + rect.width / 2 );
             AffineTransform at = new AffineTransform();
-            at.translate( chartRect.x - frame.width, chartRect.y + chartRect.height - chartRect.height / 2 + rect.getBounds().width/ 2 );
+            at.translate( chartRect.x - frame.width, chartRect.y + chartRect.height - chartRect.height / 2 + rect.getBounds().width / 2 );
             at.rotate( -Math.PI / 2 );
-            Shape trf=at.createTransformedShape( rect );
+            Shape trf = at.createTransformedShape( rect );
             return trf.getBounds();
 //            ptg.paint( g );
 //            state.restoreGraphics();
@@ -336,14 +335,34 @@ public class Chart implements Graphic {
     }
 
     public void setViewBounds( Rectangle viewBounds ) {
+        Rectangle r = getVisibleBounds();
         this.viewBounds = viewBounds;
         transform.setViewBounds( viewBounds );
         fireTransformChanged();
-        repaint();
+        Rectangle r2 = getViewBounds();
+        if( r != null ) {
+            component.repaint( r.x, r.y, r.width, r.height );
+        }
+        if( r2 != null ) {
+            component.repaint( r2.x, r2.y, r2.width, r2.height );
+        }
+//        repaint();
+    }
+
+    public Rectangle getVisibleBounds() {
+        Rectangle r = getViewBounds();
+        Rectangle vert = verticalTicks.getMajorTickTextBounds();
+        Rectangle horiz = horizontalTicks.getMajorTickTextBounds();
+        Rectangle union = RectangleUtils.union( new Rectangle[]{r, vert, horiz} );
+        return union;
     }
 
     private void repaint() {
-        component.repaint( viewBounds.x, viewBounds.y, viewBounds.width, viewBounds.height );
+        Rectangle r = getViewBounds();
+        Rectangle vert = verticalTicks.getMajorTickTextBounds();
+        Rectangle horiz = horizontalTicks.getMajorTickTextBounds();
+        Rectangle union = RectangleUtils.union( new Rectangle[]{r, vert, horiz} );
+        component.repaint( union.x, union.y, union.width, union.height );
     }
 
     private void fireTransformChanged() {
@@ -355,6 +374,11 @@ public class Chart implements Graphic {
             Listener listener = (Listener)listeners.get( i );
             listener.transformChanged( this );
         }
+    }
+
+
+    public DataSetGraphic dataSetGraphicAt( int i ) {
+        return (DataSetGraphic)dataSetGraphics.get( i );
     }
 
     public int transformY( double gridLineY ) {

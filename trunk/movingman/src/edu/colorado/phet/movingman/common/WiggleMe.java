@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.movingman.MMFontManager;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -23,7 +24,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     private Sine sine;
     private double time = 0;
     private Point2D.Double current;
-    private Font font = new Font( "Sans Serif", Font.BOLD, 16 );
+    private Font font = MMFontManager.getFontSet().getWiggleMeFont();
     private AbstractVector2D oscillationVector;
     private Point2D startPt;
     private PhetShadowTextGraphic textGraphic;

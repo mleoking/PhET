@@ -41,7 +41,7 @@ public class RecordMode extends Mode {
             if( newTime > maxTime ) {
                 dt = ( maxTime - recorderTime );// / timer.getTimerScale();
             }
-            module.getRecordingTimer().stepInTime( dt );//this could go over the max.
+            module.getRecordingTimer().stepInTime( dt, maxTime );//this could go over the max.
             module.getMan().stepInTime( dt );
             module.step( dt );
 

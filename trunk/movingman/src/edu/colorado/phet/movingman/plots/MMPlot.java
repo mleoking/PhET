@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MMTimer;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.BufferedGraphicForComponent;
@@ -51,10 +52,10 @@ public class MMPlot implements Graphic {
     private Chart chart;
     private DataSet dataSet;
     private float lastTime;
-    private Font axisFont = new Font( "Lucida Sans", Font.BOLD, 14 );
-//    private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 16 );
-    private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
-    private Font readoutFont = new Font( "Lucida Sans", Font.BOLD, 22 );
+    private Font axisFont = MMFontManager.getFontSet().getAxisFont();
+    private Font titleFont = MMFontManager.getFontSet().getTitleFont();
+    private Font readoutFont = MMFontManager.getFontSet().getReadoutFont();
+
     private VerticalChartSlider verticalChartSlider;
     private HorizontalCursor horizontalCursor;
     private GeneralPath path = new GeneralPath();
@@ -72,17 +73,38 @@ public class MMPlot implements Graphic {
     private FloatingControl floatingControl;
     private String units;
     private JLabel titleLable;
+    private PhetTextGraphic superScriptGraphic;
+    private Font verticalTitleFont = MMFontManager.getFontSet().getVerticalTitleFont();
+    private ArrayList listeners = new ArrayList();
 
     public void valueChanged( double value ) {
         verticalChartSlider.setValue( value );
         setTextValue( value );
     }
 
+    public void addSuperScript( String s ) {
+        Font superScriptFont = new Font( "Lucida Sans", Font.BOLD, 12 );
+        superScriptGraphic = new PhetTextGraphic( module.getApparatusPanel(), superScriptFont, s, color, 330, 230 );
+        module.getApparatusPanel().addGraphic( superScriptGraphic, 999 );
+    }
+
+    public JButton getCloseButton() {
+        return closeButton;
+    }
+
+    public static interface Listener {
+        void nominalValueChanged( double value );
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
     static class FloatingControl extends VerticalLayoutPanel {
         static BufferedImage play;
         static BufferedImage pause;
         private MovingManModule module;
-        private JLabel titleLabel;
+//        private JLabel titleLabel;
         private JButton pauseButton;
         private JButton recordButton;
         private JButton resetButton;
@@ -95,13 +117,10 @@ public class MMPlot implements Graphic {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-
         }
 
         static class ControlButton extends JButton {
-//            static Font font=new Font( "Lucida Sans",Font.PLAIN, 6);
-//            static Font font = new Font( "Lucida Sans", Font.PLAIN, 10 );
-            static Font font = new Font( "Lucida Sans", Font.PLAIN, 14 );
+            static Font font = MMFontManager.getFontSet().getControlButtonFont();
 
             public ControlButton( String text ) {
                 super( text );
@@ -109,11 +128,9 @@ public class MMPlot implements Graphic {
             }
         }
 
-        public FloatingControl( final MovingManModule module, JLabel titleLabel ) {
+        public FloatingControl( final MovingManModule module ) {
             this.module = module;
-            this.titleLabel = titleLabel;
-
-//            final JButton pauseButton = new JButton( new ImageIcon( pause ) );
+//            this.titleLabel = titleLabel;
             pauseButton = new ControlButton( "Pause" );
             pauseButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -121,7 +138,7 @@ public class MMPlot implements Graphic {
                 }
             } );
 //            final JButton recordButton = new JButton( new ImageIcon( play ) );
-            recordButton = new ControlButton( "Record" );
+            recordButton = new ControlButton( "Go!" );
             recordButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setRecordMode();
@@ -129,7 +146,7 @@ public class MMPlot implements Graphic {
                 }
             } );
 
-            resetButton = new ControlButton( "Reset" );
+            resetButton = new ControlButton( "Clear" );
             resetButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     boolean paused = module.isPaused();
@@ -164,7 +181,7 @@ public class MMPlot implements Graphic {
                     setButtons( true, false, true );
                 }
             } );
-            add( titleLabel );
+//            add( titleLabel );
             add( recordButton );
             add( pauseButton );
             add( resetButton );
@@ -216,6 +233,8 @@ public class MMPlot implements Graphic {
         chart.getXAxis().setMajorGridlines( new double[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20} ); //to ignore the 0.0
         chart.getXAxis().setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{6, 6}, 0 ) );
 
+        chart.setVerticalTitle( title, color, verticalTitleFont );
+
         verticalChartSlider = new VerticalChartSlider( chart );
         chart.getVerticalTicks().setMajorOffset( -verticalChartSlider.getSlider().getWidth() - 5, 0 );
         horizontalCursor.addListener( new HorizontalCursor.Listener() {
@@ -240,8 +259,11 @@ public class MMPlot implements Graphic {
             }
         } );
 
-        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/mag-plus-10.gif" );
-        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/mag-minus-10.gif" );
+
+//        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/mag-plus-10.gif" );
+//        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/mag-minus-10.gif" );
+        BufferedImage imgPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+        BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
         final double smooth = 1;
         ActionListener smoothPos = new Increment( smooth );
         ActionListener smoothNeg = new Decrement( smooth );
@@ -277,8 +299,10 @@ public class MMPlot implements Graphic {
         titleLable.setFont( titleFont );
         titleLable.setBackground( module.getBackgroundColor() );
         titleLable.setOpaque( true );
-        titleLable.setForeground( color );
-        floatingControl = new FloatingControl( module, titleLable );
+        titleLable.setForeground( color );//TODO titleLabel
+
+        module.getApparatusPanel().add( titleLable );
+        floatingControl = new FloatingControl( module );//, titleLable );
         module.getApparatusPanel().add( floatingControl );
         module.addListener( new MovingManModule.ListenerAdapter() {
             public void rewind() {
@@ -294,7 +318,10 @@ public class MMPlot implements Graphic {
         }
         else {
             double time = module.getPlaybackTimer().getTime() + getxShift();
-            index = (int)time;//(int)( time / MovingManModel.TIMER_SCALE );
+            double maxTime = module.getRecordingTimer().getTime();
+            time = Math.min( time, maxTime );
+            index = (int)( time / MovingManModule.TIME_SCALE );
+//            System.out.println( "index = " + index );
         }
         if( series.indexInBounds( index ) ) {
             value = series.pointAt( index );
@@ -302,7 +329,7 @@ public class MMPlot implements Graphic {
         }
     }
 
-    private void setTextValue( double value ) {
+    public void setTextValue( double value ) {
         String valueString = format.format( value );
         if( valueString.equals( "-0.00" ) ) {
             valueString = "0.00";
@@ -311,6 +338,11 @@ public class MMPlot implements Graphic {
             textBox.setText( valueString );
         }
         readoutValue.setText( valueString + " " + units );
+        moveScript();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.nominalValueChanged( value );
+        }
     }
 
     public TextBox getTextBox() {
@@ -322,9 +354,10 @@ public class MMPlot implements Graphic {
     }
 
     public static class TextBox extends JPanel {
+        boolean changedByUser;
         JTextField textField;
         JLabel label;
-        static Font font = new Font( "Lucida Sans", Font.PLAIN, 11 );
+        static Font font = MMFontManager.getFontSet().getTextBoxFont();
         private MovingManModule module;
 
         public TextBox( MovingManModule module, int text, String labelText ) {
@@ -337,6 +370,17 @@ public class MMPlot implements Graphic {
                     if( isEnabled() ) {
                         textField.selectAll();
                     }
+                }
+            } );
+            textField.addKeyListener( new KeyListener() {
+                public void keyTyped( KeyEvent e ) {
+                    changedByUser = true;
+                }
+
+                public void keyPressed( KeyEvent e ) {
+                }
+
+                public void keyReleased( KeyEvent e ) {
                 }
             } );
             label.setFont( font );
@@ -377,6 +421,14 @@ public class MMPlot implements Graphic {
                     textField.setEditable( true );
                 }
             } );
+        }
+
+        public void clearChangedByUser() {
+            changedByUser = false;
+        }
+
+        public boolean isChangedByUser() {
+            return changedByUser;
         }
 
         public synchronized void addKeyListener( KeyListener l ) {
@@ -509,7 +561,7 @@ public class MMPlot implements Graphic {
     }
 
     public static class ChartButton extends JButton {
-        private static Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
+        private static Font font = MMFontManager.getFontSet().getChartButtonFont();//new Font( "Lucida Sans", Font.BOLD, 14 );
 
         public ChartButton( String label ) throws IOException {
             super( label, new ImageIcon( ImageLoader.loadBufferedImage( "images/arrow-right.gif" ) ) );
@@ -573,7 +625,7 @@ public class MMPlot implements Graphic {
             chart.paint( g );
             Point pt = chart.getTransform().modelToView( 15, 0 );
             pt.y -= 3;
-            PhetTextGraphic ptt = new PhetTextGraphic( module.getApparatusPanel(), new Font( "Lucida Sans", Font.BOLD, 16 ), "Time", Color.red, pt.x, pt.y );
+            PhetTextGraphic ptt = new PhetTextGraphic( module.getApparatusPanel(), MMFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, pt.x, pt.y );
             ptt.paint( g );
             Rectangle bounds = ptt.getBounds();
             Point2D tail = RectangleUtils.getRightCenter( bounds );
@@ -623,6 +675,10 @@ public class MMPlot implements Graphic {
         readoutValue.setVisible( visible );
 
         floatingControl.setVisible( visible );
+        titleLable.setVisible( visible );
+        if( superScriptGraphic != null ) {
+            superScriptGraphic.setVisible( visible );
+        }
     }
 
     public void setShift( double xShift ) {
@@ -668,7 +724,7 @@ public class MMPlot implements Graphic {
     public void setViewBounds( Rectangle rectangle ) {
         chart.setViewBounds( rectangle );
         chart.setBackground( createBackground() );
-        verticalChartSlider.setOffsetX( chart.getVerticalTicks().getMajorTickTextBounds().width + 5 );
+        verticalChartSlider.setOffsetX( chart.getVerticalTicks().getMajorTickTextBounds().width + chart.getTitle().getBounds().width );
         verticalChartSlider.update();
         chart.getVerticalTicks().setMajorOffset( 0, 0 );
         Rectangle vb = chart.getViewBounds();
@@ -688,15 +744,27 @@ public class MMPlot implements Graphic {
 
         readout.setPosition( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 );
         readoutValue.setPosition( readout.getX() + readout.getWidth() + 5, readout.getY() );
+        moveScript();
 
         int floaterX = 5;
-        floatingControl.reshape( floaterX, chart.getViewBounds().y, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
+
+        titleLable.reshape( floaterX, chart.getViewBounds().y, titleLable.getPreferredSize().width, titleLable.getPreferredSize().height );
         textBox.reshape( floaterX,
-                         chart.getViewBounds().y + floatingControl.getPreferredSize().height + 5,
+                         titleLable.getY() + titleLable.getHeight() + 5,
                          textBox.getPreferredSize().width,
                          textBox.getPreferredSize().height );
+        int dw = Math.abs( textBox.getWidth() - floatingControl.getPreferredSize().width );
+        int floatX = floaterX + dw / 2;
+        floatingControl.reshape( floatX, textBox.getY() + textBox.getHeight() + 5, floatingControl.getPreferredSize().width, floatingControl.getPreferredSize().height );
 
         refitCurve();
+    }
+
+    private void moveScript() {
+        if( superScriptGraphic != null ) {
+            Rectangle b = readoutValue.getBounds();
+            superScriptGraphic.setPosition( b.x + b.width, b.y + b.height / 2 );
+        }
     }
 
     public void update() {
@@ -759,9 +827,13 @@ public class MMPlot implements Graphic {
         verticalChartSlider.addListener( listener );
     }
 
+    public VerticalChartSlider getVerticalChartSlider() {
+        return verticalChartSlider;
+    }
+
     public void updateSlider() {
         JSlider js = verticalChartSlider.getSlider();
-        if( !js.hasFocus() && dataSet.size() > 0 ) {
+        if( !js.getValueIsAdjusting() && dataSet.size() > 0 ) {
             double lastY = dataSet.getLastPoint().getY();
             verticalChartSlider.setValue( lastY );
         }

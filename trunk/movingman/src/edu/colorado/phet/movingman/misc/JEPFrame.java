@@ -56,7 +56,7 @@ public class JEPFrame extends JDialog {
                 module.getMan().setVelocity( 0 );
             }
 
-            module.getRecordingTimer().stepInTime( dt );
+            module.getRecordingTimer().stepInTime( dt, module.getMaxTime() );
             module.getMan().setX( x );
             module.getPosition().addPoint( module.getMan().getX() );
             module.getPosition().updateSmoothedSeries();

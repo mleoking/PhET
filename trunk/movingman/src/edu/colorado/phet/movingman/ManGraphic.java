@@ -1,12 +1,12 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman;
 
+import edu.colorado.phet.common.math.LinearTransform1d;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.common.CircularBuffer;
-import edu.colorado.phet.movingman.common.RangeToRange;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -26,17 +26,18 @@ public class ManGraphic implements InteractiveGraphic {
     private BufferedImage rightMan;
     private int x;
     private int y;
-    private RangeToRange transform;//from man to graphics device.
+    private LinearTransform1d transform;//from man to graphics device.
     private MovingManModule module;
     private Man m;
     private DragHandler dragHandler;
     private BufferedImage currentImage;
-    private RangeToRange inversion;
-    private CircularBuffer buffer = new CircularBuffer( 4 );
+    private LinearTransform1d inversion;
+//    private CircularBuffer buffer = new CircularBuffer( 4 );
+    private CircularBuffer buffer = new CircularBuffer( 6 );
     private double lastx = 0;
     private ArrayList listeners = new ArrayList();
 
-    public ManGraphic( MovingManModule module, Man m, int y, RangeToRange transform ) throws IOException {
+    public ManGraphic( MovingManModule module, Man m, int y, LinearTransform1d transform ) throws IOException {
         this.module = module;
         this.m = m;
         this.y = y;
@@ -60,7 +61,7 @@ public class ManGraphic implements InteractiveGraphic {
             public void accelerationChanged( double acceleration ) {
             }
         } );
-        inversion = transform.invert();
+        inversion = transform.getInvertedInstance();
         positionChanged();
     }
 
@@ -110,11 +111,8 @@ public class ManGraphic implements InteractiveGraphic {
         listeners.remove( listener );
     }
 
-    public void stepInTime( double dt ) {
+    public void setVelocity( double velocity ) {
         Rectangle rect = getRectangle();
-        buffer.addPoint( x - lastx );
-        lastx = x;
-        double velocity = buffer.average();
         BufferedImage origImage = currentImage;
         if( velocity == 0 && currentImage != this.standingMan ) {
             currentImage = this.standingMan;
@@ -195,9 +193,9 @@ public class ManGraphic implements InteractiveGraphic {
         event.getComponent().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
     }
 
-    public void setTransform( RangeToRange transform ) {
+    public void setTransform( LinearTransform1d transform ) {
         this.transform = transform;
-        this.inversion = transform.invert();
+        this.inversion = transform.getInvertedInstance();
         positionChanged();
     }
 

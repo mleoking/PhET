@@ -23,6 +23,60 @@ public class PlotSet {
     private MovingManModule module;
     private MovingManModel movingManModel;
 
+    public void enterTextBoxValues() {
+        if( positionPlot.getTextBox().isChangedByUser() ) {
+            try {
+                String x = positionPlot.getTextBox().getText();
+                double xVal = Double.parseDouble( x );
+                module.getMan().setX( xVal );
+            }
+            catch( NumberFormatException nfe ) {
+                positionPlot.setTextValue( module.getMan().getX() );
+            }
+            positionPlot.getTextBox().clearChangedByUser();
+        }
+        if( velocityPlot.getTextBox().isChangedByUser() ) {
+            try {
+                String v = velocityPlot.getTextBox().getText();
+                double vVal = Double.parseDouble( v );
+                module.getMan().setVelocity( vVal );
+            }
+            catch( NumberFormatException nfe ) {
+                positionPlot.setTextValue( module.getMan().getX() );
+            }
+            velocityPlot.getTextBox().clearChangedByUser();
+        }
+        if( accelerationPlot.getTextBox().isChangedByUser() ) {
+            try {
+                String a = accelerationPlot.getTextBox().getText();
+                double aVal = Double.parseDouble( a );
+                module.getMan().setAcceleration( aVal );
+            }
+            catch( NumberFormatException nfe ) {
+                positionPlot.setTextValue( module.getMan().getX() );
+            }
+            accelerationPlot.getTextBox().clearChangedByUser();
+        }
+    }
+
+//    public void manCrashedPositive() {
+//        if( velocityPlot.getVerticalChartSlider().getValue() > 0 ) {
+//            velocityPlot.getVerticalChartSlider().setValue( 0.0 );
+//        }
+//        if( accelerationPlot.getVerticalChartSlider().getValue() > 0 ) {
+//            accelerationPlot.getVerticalChartSlider().setValue( 0.0 );
+//        }
+//    }
+//
+//    public void manCrashedNegative() {
+//        if( velocityPlot.getVerticalChartSlider().getValue() < 0 ) {
+//            velocityPlot.getVerticalChartSlider().setValue( 0.0 );
+//        }
+//        if( accelerationPlot.getVerticalChartSlider().getValue() < 0 ) {
+//            accelerationPlot.getVerticalChartSlider().setValue( 0.0 );
+//        }
+//    }
+
     static interface ManSetter {
         void setValue( Man man, double value );
     }
@@ -38,7 +92,6 @@ public class PlotSet {
 
         public void valueChanged( double value ) {
             module.setRecordMode();
-//            module.getMan().setX( value );
             manSetter.setValue( module.getMan(), value );
             module.setNumSmoothingPoints( 12 );
         }
@@ -65,7 +118,6 @@ public class PlotSet {
             if( e.getKeyCode() == KeyEvent.VK_ENTER ) {
                 String str = textBox.getText();
                 double value = Double.parseDouble( str );
-//                module.getMan().setX( value );
                 manSetter.setValue( module.getMan(), value );
                 module.setNumSmoothingPoints( 2 );
             }
@@ -87,27 +139,17 @@ public class PlotSet {
 
         positionPlot = new MMPlot( "Position", module, movingManModel.getPosition().getSmoothedDataSeries(), module.getRecordingTimer(), Color.blue, plotStroke, positionInputBox, module.getBackground(), 0, "m", "x=" );
         final MMPlot.TextBox positionBox = positionPlot.getTextBox();
-        TextHandler textHandler = new TextHandler( positionBox, module, new ManSetter() {
+        ManSetter positionSetter = new ManSetter() {
             public void setValue( Man man, double value ) {
                 man.setX( value );
             }
-        } );
+        };
+        TextHandler textHandler = new TextHandler( positionBox, module, positionSetter );
         positionBox.addKeyListener( textHandler );
 
         positionPlot.setPaintYLines( new double[]{5, 10} );
         module.getBackground().addGraphic( positionPlot, 3 );
-        positionPlot.addSliderListener( new SliderHandler( module, new ManSetter() {
-            public void setValue( Man man, double value ) {
-                man.setX( value );
-            }
-        } ) );
-//        positionPlot.addSliderListener( new VerticalChartSlider.Listener() {
-//            public void valueChanged( double value ) {
-//                module.setRecordMode();
-//                module.getMan().setX( value );
-//                module.setNumSmoothingPoints( 12 );
-//            }
-//        } );
+        positionPlot.addSliderListener( new SliderHandler( module, positionSetter ) );
 
         Rectangle2D.Double velocityInputBox = new Rectangle2D.Double( minTime, -maxVelocity, movingManModel.getMaxTime() - minTime, maxVelocity * 2 );
         velocityPlot = new MMPlot( "Velocity", module, movingManModel.getVelocitySeries().getSmoothedDataSeries(), module.getRecordingTimer(), Color.red, plotStroke, velocityInputBox, module.getBackground(), xshiftVelocity, "m/s", "v=" );
@@ -115,52 +157,31 @@ public class PlotSet {
         velocityPlot.setPaintYLines( new double[]{5, 10} );
         module.getBackground().addGraphic( velocityPlot, 4 );
         final MMPlot.TextBox velocityBox = velocityPlot.getTextBox();
-        velocityBox.addKeyListener( new TextHandler( velocityBox, module, new ManSetter() {
+        ManSetter velSetter = new ManSetter() {
             public void setValue( Man man, double value ) {
                 man.setVelocity( value );
                 man.setAcceleration( 0.0 );
             }
-        } ) );
-        velocityPlot.addSliderListener( new SliderHandler( module, new ManSetter() {
-            public void setValue( Man man, double value ) {
-                man.setVelocity( value );
-                man.setAcceleration( 0.0 );
-            }
-        } ) );
-//        velocityPlot.addSliderListener( new VerticalChartSlider.Listener() {
-//            public void valueChanged( double value ) {
-//                module.setRecordMode();
-//                module.getMan().setVelocity( value );
-//                module.getMan().setAcceleration( 0 );
-//                module.setNumSmoothingPoints( 12 );
-//            }
-//        } );
+        };
+        velocityBox.addKeyListener( new TextHandler( velocityBox, module, velSetter ) );
+        velocityPlot.addSliderListener( new SliderHandler( module, velSetter ) );
 
         Rectangle2D.Double accelInputBox = new Rectangle2D.Double( minTime, -maxAccel, movingManModel.getMaxTime() - minTime, maxAccel * 2 );
-        accelerationPlot = new MMPlot( "Acceleration", module, movingManModel.getAcceleration().getSmoothedDataSeries(), module.getRecordingTimer(), Color.black, plotStroke, accelInputBox, module.getBackground(), xshiftAcceleration, "m/s^2", "a=" );
+        accelerationPlot = new MMPlot( "Acceleration", module, movingManModel.getAcceleration().getSmoothedDataSeries(), module.getRecordingTimer(), Color.black, plotStroke, accelInputBox, module.getBackground(), xshiftAcceleration, "m/s", "a=" );
+        accelerationPlot.addSuperScript( "2" );
         module.getBackground().addGraphic( accelerationPlot, 5 );
 
         accelerationPlot.setPaintYLines( new double[]{5, 10} );
         accelerationPlot.setMagnitude( 12 );
 
         final MMPlot.TextBox accelBox = accelerationPlot.getTextBox();
-        accelBox.addKeyListener( new TextHandler( accelBox, module, new ManSetter() {
+        ManSetter accSetter = new ManSetter() {
             public void setValue( Man man, double value ) {
                 man.setAcceleration( value );
             }
-        } ) );
-        accelerationPlot.addSliderListener( new SliderHandler( module, new ManSetter() {
-            public void setValue( Man man, double value ) {
-                man.setAcceleration( value );
-            }
-        } ) );
-//        accelerationPlot.addSliderListener( new VerticalChartSlider.Listener() {
-//            public void valueChanged( double value ) {
-//                module.setRecordMode();
-//                module.getMan().setAcceleration( value );
-//                module.setNumSmoothingPoints( 12 );
-//            }
-//        } );
+        };
+        accelBox.addKeyListener( new TextHandler( accelBox, module, accSetter ) );
+        accelerationPlot.addSliderListener( new SliderHandler( module, accSetter ) );
 
         module.getMan().addListener( new Man.Listener() {
             public void positionChanged( double x ) {
@@ -181,10 +202,16 @@ public class PlotSet {
                 }
             }
         } );
+//        velocityPlot.getVerticalChartSlider().getSlider().addMouseListener( new MouseAdapter() {
+//            public void mouseReleased( MouseEvent e ) {
+//                if( module.getMan().getX() >= 9.9 && velocityPlot.getVerticalChartSlider().getValue() > 0 ) {
+//                    velocityPlot.getVerticalChartSlider().setValue( 0.0 );
+//                }
+//            }
+//        } );
     }
 
     public void setNumSmoothingPoints( int n ) {
-//        System.out.println( "n = " + n );
         double velocityOffset = n / 2 * MovingManModule.TIME_SCALE;
         double accelOffset = n * MovingManModule.TIME_SCALE;
         velocityPlot.setShift( velocityOffset );
