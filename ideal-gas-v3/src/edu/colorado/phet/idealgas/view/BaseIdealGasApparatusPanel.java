@@ -44,7 +44,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
         super( clock );
         init( module, box );
 
-//        setBackground( Color.black );
+        setBackground( IdealGasConfig.BACKGROUND_COLOR );
 
 //        setUseOffscreenBuffer( true );
     }

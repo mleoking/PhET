@@ -56,9 +56,9 @@ public class PumpSpeciesSelectorPanel2 extends GraphicLayerSet {
                                           SimStrings.get( "IdealGasControlPanel.Pump_Gas" ) );
         basePanel.setBorder( border );
 
-//        backgroundColor = new Color( 240, 230, 255 );
+//        BACKGROUND_COLOR = new Color( 240, 230, 255 );
         basePanel.setBackground( backgroundColor );
-//        buttonPanel.setBackground( backgroundColor );
+//        buttonPanel.setBackground( BACKGROUND_COLOR );
 
         PhetGraphic basePanelPJC = PhetJComponent.newInstance( module.getApparatusPanel(), basePanel );
         this.addGraphic( basePanelPJC );
