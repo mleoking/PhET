@@ -23,6 +23,14 @@ public class TxGraphic implements Graphic {
         this.transform = transform;
     }
 
+    public void setGraphic( Graphic graphic ) {
+        this.graphic = graphic;
+    }
+
+    public void setTransform( AffineTransform transform ) {
+        this.transform = transform;
+    }
+
     public void paint( Graphics2D g ) {
         AffineTransform orgTx = g.getTransform();
         g.transform( transform );
