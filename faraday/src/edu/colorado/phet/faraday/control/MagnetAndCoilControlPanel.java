@@ -189,7 +189,7 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         JPanel radiusPanel = new JPanel();
         {
             // Title
-            TitledBorder border = new TitledBorder( SimStrings.get( "MagnetAndCoilModule.radius" ) );
+            TitledBorder border = new TitledBorder( SimStrings.get( "MagnetAndCoilModule.area" ) );
             radiusPanel.setBorder( border );
 
             // Slider
@@ -364,8 +364,9 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 _pickupCoilModel.setRadius( radius );
                 _pickupCoilModel.updateEmf();
                 _pickupCoilModel.setSmoothingEnabled( smoothingEnabled );
-                Integer i = new Integer( radius );
-                _radiusValue.setText( i.toString() );
+                // The value displayed is the area.
+                int area = (int) ( Math.PI * radius * radius );
+                _radiusValue.setText( String.valueOf( area ) );
             }
             else if ( e.getSource() == _loopsSpinner ) {
                 // Number of loops
