@@ -12,17 +12,15 @@
 package edu.colorado.phet.lasers.model.photon;
 
 
-import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.lasers.model.LaserModel;
+import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.lasers.coreadditions.SubscriptionService;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.LinkedList;
+import java.util.Random;
 
 /**
  * A CollimatedBeam is a collection of photons that all have identical
@@ -35,7 +33,7 @@ public class CollimatedBeam extends Particle {
 
     private double nextTimeToProducePhoton = 0;
     private int wavelength;
-//    private Point2D origin;
+    //    private Point2D origin;
     private double height;
     private double width;
     private Rectangle2D bounds;
@@ -48,7 +46,7 @@ public class CollimatedBeam extends Particle {
     private boolean isActive;
     private LaserModel model;
     private SubscriptionService bulletinBoard = new SubscriptionService();
-//    private LinkedList bulletinBoard = new LinkedList();
+    //    private LinkedList bulletinBoard = new LinkedList();
     private LinkedList photons = new LinkedList();
 
     public interface Listener {
@@ -110,14 +108,14 @@ public class CollimatedBeam extends Particle {
 
     public void addPhoton() {
         final Photon newPhoton = Photon.create( this );
-        newPhoton.setPosition( genPositionX(), genPositionY() /* + newPhoton.getRadius() */);
+        newPhoton.setPosition( genPositionX(), genPositionY() /* + newPhoton.getRadius() */ );
         newPhoton.setVelocity( new Vector2D.Double( velocity ) );
         newPhoton.setWavelength( this.wavelength );
         model.addModelElement( newPhoton );
         photons.add( newPhoton );
         bulletinBoard.notifyListeners( new SubscriptionService.Notifier() {
             public void doNotify( Object obj ) {
-                ((Listener)obj).photonCreated( CollimatedBeam.this, newPhoton );
+                ( (Listener)obj ).photonCreated( CollimatedBeam.this, newPhoton );
             }
         } );
     }
@@ -134,7 +132,7 @@ public class CollimatedBeam extends Particle {
         if( isActive() ) {
             timeSinceLastPhotonProduced += dt;
             int numPhotons = (int)( photonsPerSecond * timeSinceLastPhotonProduced );
-//            for( int i = 0; i < numPhotons; i++ ) {
+            //            for( int i = 0; i < numPhotons; i++ ) {
             if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
                 timeSinceLastPhotonProduced = 0;
                 this.addPhoton();
@@ -145,7 +143,7 @@ public class CollimatedBeam extends Particle {
         // Remove ones that have gotten beyond the bounds
         for( int i = 0; i < photons.size(); i++ ) {
             Photon photon = (Photon)photons.get( i );
-            if( !this.bounds.contains( photon.getPosition() )) {
+            if( !this.bounds.contains( photon.getPosition() ) ) {
                 photon.removeFromSystem();
                 this.photons.remove( photon );
             }
@@ -174,6 +172,6 @@ public class CollimatedBeam extends Particle {
 
     private double getNextTimeToProducePhoton() {
         double temp = ( gaussianGenerator.nextGaussian() + 1.0 );
-        return temp / photonsPerSecond;
+        return temp / ( photonsPerSecond / 1000 );
     }
 }

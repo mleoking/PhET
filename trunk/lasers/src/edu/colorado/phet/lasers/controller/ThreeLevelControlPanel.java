@@ -13,11 +13,12 @@ package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.PhetControlPanel;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.lasers.LaserSimulation;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.LaserApplication;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -25,7 +26,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ThreeLevelControlPanel extends LaserControlPanel {
+public class ThreeLevelControlPanel extends PhetControlPanel {
 
     public ThreeLevelControlPanel( Module module, AbstractClock clock ) {
         super( module, new ControlPanel( (LaserModel)module.getModel(), clock ) );
@@ -33,7 +34,6 @@ public class ThreeLevelControlPanel extends LaserControlPanel {
 
     private static class ControlPanel extends JPanel {
         ControlPanel( LaserModel model, AbstractClock clock ) {
-//            this.setLayout( new GridLayout( 7, 1 ) );
             this.setLayout( new GridBagLayout() );
             GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                              GridBagConstraints.CENTER,
@@ -62,7 +62,7 @@ public class ThreeLevelControlPanel extends LaserControlPanel {
             this.add( showHighToMidEmissionCB, gbc );
             showHighToMidEmissionCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    ( (LaserApplication)PhetApplication.instance() ).displayHighToMidEmission( showHighToMidEmissionCB.isSelected() );
+                    ( (LaserSimulation)PhetApplication.instance() ).displayHighToMidEmission( showHighToMidEmissionCB.isSelected() );
                 }
             } );
         }

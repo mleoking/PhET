@@ -8,20 +8,15 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.lasers.model.LaserModel;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class EnergyLevelsDialog extends JDialog {
 
-    private ThreeEnergyLevelPanel energyLevelsPanel;
-
-    public EnergyLevelsDialog( Frame parent, LaserModel model ) {
-        super( parent, "Energy Level Populations");
-        energyLevelsPanel = new ThreeEnergyLevelPanel( model );
+    public EnergyLevelsDialog( Frame parent, JPanel energyLevelsPanel ) {
+        super( parent, "Energy Level Populations" );
+        //        this.setUndecorated( true );
         this.getContentPane().add( energyLevelsPanel );
-        Dimension d = energyLevelsPanel.getSize();
         setSize( energyLevelsPanel.getSize() );
         pack();
     }
