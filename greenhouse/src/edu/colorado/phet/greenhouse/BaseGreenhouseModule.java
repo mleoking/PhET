@@ -13,6 +13,7 @@ import edu.colorado.phet.common.view.FlipperAffineTransformFactory;
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.instrumentation.ThermometerGraphic;
@@ -319,8 +320,9 @@ public abstract class BaseGreenhouseModule extends Module {
                 }
 
                 // Put up a dialog prompting the user to kick things off
-                String[] options = new String[] { "Fly me in", "Beam me down, Scotty!" };
-                JOptionPane jop = new JOptionPane( "How would you like to get to Earth?", JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0] );
+                String[] options = new String[] { SimStrings.get( "BaseGreenhouseModule.FlyMeInText" ),
+                                                  SimStrings.get( "BaseGreenhouseModule.BeamMeDownText" ) };
+                JOptionPane jop = new JOptionPane( SimStrings.get( "BaseGreenhouseModule.QuestionText" ), JOptionPane.QUESTION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, options, options[0] );
                 JDialog zoomDialog = jop.createDialog( PhetApplication.instance().getApplicationView().getPhetFrame(), "" );
                 Point p = PhetApplication.instance().getApplicationView().getPhetFrame().getLocation();
                 zoomDialog.setLocation( p.x + 50, p.y + 50 );

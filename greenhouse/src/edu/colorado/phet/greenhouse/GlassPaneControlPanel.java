@@ -7,6 +7,7 @@
 package edu.colorado.phet.greenhouse;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.MessageFormatter;
 
 import javax.swing.*;
@@ -41,10 +42,10 @@ public class GlassPaneControlPanel extends JPanel {
             }
         } );
         glassPanePanel.add( glassPaneSpinner );
-        glassPanePanel.add( new JLabel( MessageFormatter.format( "Number of\nGlass Panes" )));
+        glassPanePanel.add( new JLabel( MessageFormatter.format( SimStrings.get( "GlassPaneControlPanel.GlassPaneLabel" ) )));
 
         // Show/hide thermometer
-        final JCheckBox thermometerCB = new JCheckBox( "Thermometer" );
+        final JCheckBox thermometerCB = new JCheckBox( SimStrings.get( "GlassPaneControlPanel.ThermometerCheckbox" ) );
         thermometerCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.thermometerEnabled( thermometerCB.isSelected() );
@@ -53,7 +54,7 @@ public class GlassPaneControlPanel extends JPanel {
         thermometerCB.setSelected( module.isThermometerEnabled() );
 
         // Ratio of photons to see
-        final JCheckBox allPhotonsCB = new JCheckBox( "View all photons" );
+        final JCheckBox allPhotonsCB = new JCheckBox( SimStrings.get( "GlassPaneControlPanel.ViewPhotonsCheckbox" ) );
         allPhotonsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( allPhotonsCB.isSelected() ) {
