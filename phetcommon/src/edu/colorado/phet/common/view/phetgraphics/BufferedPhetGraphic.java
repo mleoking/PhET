@@ -10,28 +10,33 @@ import java.awt.image.BufferedImage;
 /**
  *
  */
-public class PhetBufferedGraphic extends PhetImageGraphic {
+public class BufferedPhetGraphic extends PhetImageGraphic {
     private Paint background;
     private BufferedImage buffer;
     private Graphic graphic;
     private int type;
     private GraphicsSetup graphicsSetup;
 
-    public PhetBufferedGraphic( Component component, Graphic graphic, Paint background ) {
+    public BufferedPhetGraphic( Component component, Graphic graphic, Paint background ) {
         this( component, component.getWidth(), component.getHeight(), graphic );
         setSize( component.getWidth(), component.getHeight() );
         this.background = background;
     }
 
-    public PhetBufferedGraphic( Component component, int width, int height, Graphic graphic ) {
+    public BufferedPhetGraphic( Component component, int width, int height, Graphic graphic ) {
         this( component, width, height, graphic, BufferedImage.TYPE_INT_RGB );
     }
 
-    public PhetBufferedGraphic( Component component, int width, int height, Graphic graphic, int type ) {
+    public BufferedPhetGraphic( Component component, int width, int height, Graphic graphic, int type ) {
         super( component );
         this.graphic = graphic;
-        buffer = new BufferedImage( width, height, type );
-        setImage( buffer );
+        if( width > 0 && height > 0 ) {
+            buffer = new BufferedImage( width, height, type );
+            setImage( buffer );
+        }
+        else {
+            buffer = null;
+        }
         this.type = type;
     }
 
@@ -41,13 +46,17 @@ public class PhetBufferedGraphic extends PhetImageGraphic {
             g2.setPaint( background );
             g2.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
         }
-        graphic.paint( buffer.createGraphics() );
-        forceRepaint();
+        if( buffer != null && graphic != null ) {
+            graphic.paint( buffer.createGraphics() );
+            forceRepaint();
+        }
     }
 
     public void setSize( int width, int height ) {
-        buffer = new BufferedImage( width, height, type );
-        repaintBuffer();
+        if( width > 0 && height > 0 ) {
+            buffer = new BufferedImage( width, height, type );
+            repaintBuffer();
+        }
     }
 
     public BufferedImage getBuffer() {
