@@ -10,46 +10,48 @@ import edu.colorado.phet.lasers.physics.LaserSystem;
 import edu.colorado.phet.lasers.view.LaserGraphicFactory;
 import edu.colorado.phet.lasers.view.LaserMainPanel;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.view.PhetFrame;
 
 import javax.swing.*;
 
 public class LaserApplication extends PhetApplication {
 
+    static class LaserAppModel extends ApplicationModel {
+        public LaserAppModel() {
+            super( "Lasers", "Lasers", "0.1" );
+        }
+    }
 
     public LaserApplication() {
-        super( new LaserSystem() );
-        this.run();
-    }
-
-    public void start() {
-        super.start();
-    }
-
-    protected PhetMainPanel createMainPanel() {
-        return new LaserMainPanel( this );
-    }
-
-    protected JMenu createControlsMenu( PhetFrame phetFrame ) {
-        return new ControlsMenu( phetFrame, this );
+        super( new LaserAppModel() );
     }
 
 
-    protected JMenu createTestMenu() {
-        return null;
-    }
+//    protected PhetMainPanel createMainPanel() {
+//        return new LaserMainPanel( this );
+//    }
+//
+//    protected JMenu createControlsMenu( PhetFrame phetFrame ) {
+//        return new ControlsMenu( phetFrame, this );
+//    }
+//
+//
+//    protected JMenu createTestMenu() {
+//        return null;
+//    }
+//
+//    public GraphicFactory getGraphicFactory() {
+//        return LaserGraphicFactory.instance();
+//    }
+//
+//    protected PhetAboutDialog getAboutDialog( PhetFrame phetFrame ) {
+//        return null;
+//    }
 
-    public GraphicFactory getGraphicFactory() {
-        return LaserGraphicFactory.instance();
-    }
-
-    protected PhetAboutDialog getAboutDialog( PhetFrame phetFrame ) {
-        return null;
-    }
-
-    protected Config getConfig() {
-        return LaserConfig.instance();
-    }
+//    protected Config getConfig() {
+//        return LaserConfig.instance();
+//    }
 
 
     public void displayHighToMidEmission( boolean selected ) {
@@ -61,6 +63,6 @@ public class LaserApplication extends PhetApplication {
     //
     public static void main( String[] args ) {
         LaserApplication application = new LaserApplication();
-        application.start();
+        application.startApplication();
     }
 }
