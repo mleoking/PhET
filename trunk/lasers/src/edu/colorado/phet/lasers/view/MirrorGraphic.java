@@ -23,7 +23,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-public class MirrorGraphic extends PhetGraphic implements PartialMirror.ReflectivityChangeListener {
+public class MirrorGraphic extends PhetGraphic implements PartialMirror.Listener {
 
     private final static double thickness = LaserConfig.MIRROR_THICKNESS;
     public final static int LEFT_FACING = 1;

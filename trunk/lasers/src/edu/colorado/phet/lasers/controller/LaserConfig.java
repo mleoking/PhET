@@ -55,8 +55,8 @@ public class LaserConfig {
     //    public static final String RAY_GUN_IMAGE_FILE = IMAGE_DIRECTORY + "ray-gun-1A.png";
 
     // Graphics layers
-    public static final double CAVITY_LAYER = 12;
-    public static final double ATOM_LAYER = 11;
+    public static final double CAVITY_LAYER = 11;
+    public static final double ATOM_LAYER = 12;
     public static final double PHOTON_LAYER = 13;
     public static final double MIRROR_LAYER = 14;
 

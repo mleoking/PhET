@@ -402,7 +402,7 @@ public class BaseLaserModule extends Module {
             PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
             pg.setVisible( isPhotonGraphicVisible );
             addGraphic( pg, LaserConfig.PHOTON_LAYER );
-            photon.addLeftSystemListener( new PhotonLeftSystemListener( pg ) );
+            photon.addLeftSystemListener( new PhotonLeftSystemListener( photon, pg ) );
         }
     }
 
@@ -427,22 +427,13 @@ public class BaseLaserModule extends Module {
         public void photonEmitted( Atom.Event event ) {
         }
     }
-//    public class AtomRemovalListener implements Atom.RemovalListener {
-//        private AtomGraphic atomGraphic;
-//
-//        public AtomRemovalListener( AtomGraphic atomGraphic ) {
-//            this.atomGraphic = atomGraphic;
-//        }
-//
-//        public void removalOccurred( Atom.RemovalEvent event ) {
-//            getApparatusPanel().removeGraphic( atomGraphic );
-//        }
-//    }
 
     public class PhotonLeftSystemListener implements Photon.LeftSystemEventListener {
+        private Photon photon;
         private PhotonGraphic graphic;
 
-        public PhotonLeftSystemListener( PhotonGraphic graphic ) {
+        public PhotonLeftSystemListener( Photon photon, PhotonGraphic graphic ) {
+            this.photon = photon;
             this.graphic = graphic;
         }
 
@@ -451,8 +442,13 @@ public class BaseLaserModule extends Module {
             // Track number of photons
             BaseLaserModule.this.numPhotons--;
 
+            // Get rid of the graphic
             getApparatusPanel().removeGraphic( graphic );
             getApparatusPanel().repaint( graphic.getBounds() );
+
+            // Take us off the listener list of the photon
+            photon.removeLeftSystemListener( this );
+            graphic = null;
         }
     }
 }

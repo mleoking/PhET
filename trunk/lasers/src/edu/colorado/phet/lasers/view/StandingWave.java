@@ -10,7 +10,7 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.util.EventRegistry;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -43,7 +43,7 @@ public class StandingWave extends PhetGraphic implements ModelElement,
     private GeneralPath wavePath = new GeneralPath();;
     private int numPts;
     private double elapsedTime = 0;
-    private EventRegistry eventRegistry = new EventRegistry();
+//    private EventRegistry eventRegistry = new EventRegistry();
 
 
     public StandingWave( Component component, Point2D origin, double extent,
@@ -59,10 +59,6 @@ public class StandingWave extends PhetGraphic implements ModelElement,
         model.addModelElement( this );
 
         atomicState.addListener( this );
-    }
-
-    public void addListener( ChangeListener listener ) {
-        eventRegistry.addListener( listener );
     }
 
     public Point2D getOrigin() {
@@ -114,7 +110,7 @@ public class StandingWave extends PhetGraphic implements ModelElement,
             double y = amplitude * ( a * Math.sin( ( x / lambda ) * Math.PI ) );
             wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
         }
-        eventRegistry.fireEvent( new ChangeEvent( this ) );
+        listenerProxy.waveChanged( new ChangeEvent( this ) );
     }
 
     public void energyLevelChanged( AtomicState.Event event ) {
@@ -127,9 +123,21 @@ public class StandingWave extends PhetGraphic implements ModelElement,
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////
+    //-----------------------------------------------------------------------
     // Inner classes
-    public interface ChangeListener extends EventListener {
+    //-----------------------------------------------------------------------
+    private EventChannel eventChannel = new EventChannel( Listener.class );
+    private Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+
+    public void addListener( Listener listener ) {
+        eventChannel.addListener( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        eventChannel.removeListener( listener );
+    }
+
+    public interface Listener extends EventListener {
         public void waveChanged( StandingWave.ChangeEvent event );
     }
 
