@@ -89,6 +89,9 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 	  new Rectangle( (int)SPOTLIGHT_X, (int)(SPOTLIGHT_Y - 75), 
 	                 (int)(PERSON_X - SPOTLIGHT_X + 100), 150 );
 	
+	// Limits
+	private static final int MAX_PHOTONS = 15;
+	
 	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
@@ -155,6 +158,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
 		
 		// Photon beam model
 		_photonBeamModel = new PhotonBeam( _spotlightModel, _filterModel );
+		_photonBeamModel.setMaxPhotons( MAX_PHOTONS );
 		_photonBeamModel.setBounds( PHOTON_BEAM_BOUNDS );
 		model.addModelElement( _photonBeamModel );
 		

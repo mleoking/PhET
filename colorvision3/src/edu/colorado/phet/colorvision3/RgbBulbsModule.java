@@ -84,6 +84,9 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
 	  new Rectangle( (int)SPOTLIGHT_X,  (int)RED_SPOTLIGHT_Y, 
 	                 (int)(PERSON_X - SPOTLIGHT_X + 100), (int)(BLUE_SPOTLIGHT_Y - RED_SPOTLIGHT_Y) );
 
+	// Limits
+	private static final int MAX_PHOTONS = 15;
+	
 	//----------------------------------------------------------------------------
 	// Instance data
   //----------------------------------------------------------------------------
@@ -147,16 +150,19 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
 		
     // Red photon beam model
     _redPhotonBeamModel = new PhotonBeam( _redSpotlightModel );
+    _redPhotonBeamModel.setMaxPhotons( MAX_PHOTONS );
     _redPhotonBeamModel.setBounds( BEAM_BOUNDS );
     model.addModelElement( _redPhotonBeamModel );
 
     // Green photon beam model
     _greenPhotonBeamModel = new PhotonBeam( _greenSpotlightModel );
+    _greenPhotonBeamModel.setMaxPhotons( MAX_PHOTONS );
     _greenPhotonBeamModel.setBounds( BEAM_BOUNDS );
     model.addModelElement( _greenPhotonBeamModel );
     
     // Blue photon beam model
     _bluePhotonBeamModel = new PhotonBeam( _blueSpotlightModel );
+    _bluePhotonBeamModel.setMaxPhotons( MAX_PHOTONS );
     _bluePhotonBeamModel.setBounds( BEAM_BOUNDS );
     model.addModelElement( _bluePhotonBeamModel );
 		
