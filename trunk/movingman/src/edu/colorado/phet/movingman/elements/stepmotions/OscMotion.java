@@ -13,7 +13,7 @@ import edu.colorado.phet.movingman.elements.Man;
 public class OscMotion implements StepMotion {
     double k;//spring constant.
     double center = 0;
-    private double initX = 2;
+    private double initX = 5;
     private MovingManModule module;
 
     public OscMotion( MovingManModule module, double k ) {
@@ -22,6 +22,7 @@ public class OscMotion implements StepMotion {
     }
 
     public double stepInTime( Man man, double dt ) {
+        dt = dt * MovingManModule.TIMER_SCALE;
         double x = man.getX() - center;
         double acceleration = -k * x;
         double vnew = module.getMan().getVelocity() + acceleration * dt;
