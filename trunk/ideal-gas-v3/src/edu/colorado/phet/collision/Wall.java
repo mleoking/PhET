@@ -34,6 +34,7 @@ public class Wall extends CollidableBody {
     private Rectangle2D movementBounds;
     private Rectangle2D prevRep = new Rectangle2D.Double();
     private double minimumWallThickness;
+    private WallFixupStrategy fixupStrategy = new NullFixupStrategy();
 
     /**
      * @param bounds
@@ -153,6 +154,17 @@ public class Wall extends CollidableBody {
         super.translate( dx, dy );
     }
 
+    //----------------------------------------------------------------
+    // Code for fixing up collision anomolies
+    //----------------------------------------------------------------
+    public void setFixupStrategy( WallFixupStrategy fixupStrategy ) {
+        this.fixupStrategy = fixupStrategy;
+    }
+
+    public void fixup( SphericalBody sphere ) {
+        fixupStrategy.fixup( this, sphere );
+    }
+    
     //----------------------------------------------------------------
     // Event-related data, classes, and methods
     //----------------------------------------------------------------

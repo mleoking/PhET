@@ -48,8 +48,13 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         return getContactType( bodyA, bodyB ).type != NO_CONTACT;
     }
 
-    int leftCnt = 0;
-
+    /**
+     * Determines if the sphere is hitting the wall and returns an object that describes the
+     * nature of the contact.
+     * @param bodyA
+     * @param bodyB
+     * @return
+     */
     private ContactDescriptor getContactType( CollidableBody bodyA, CollidableBody bodyB ) {
         int result = NO_CONTACT;
         Wall wall = null;
@@ -86,7 +91,13 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         return contactDescriptor;
     }
 
-
+    /**
+     * Determines if the sphere is hitting the wall and if it is, which side of the wall it's hitting
+     *
+     * @param sphere
+     * @param wall
+     * @return
+     */
     private int check3( SphericalBody sphere, Wall wall ) {
         int result = NO_CONTACT;
 
@@ -113,118 +124,44 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         if( PQ.intersectsLine( wallDesc.AD ) && sphere.getVelocity().getX() > 0 ) {
             result = LEFT_SIDE;
         }
-//        if( wallDesc.contactBounds.contains( sphere.getPosition() ) ) {
-//            // P is the previous position of the sphere
-//            // Q is the current position of the sphere
-//            Point2D Q = sphere.getPosition();
-//            double Qx = Q.getX();
-//            double Qy = Q.getY();
-//
-//            Vector2D v = new Vector2D.Double( -sphere.getVelocity().getX(), -sphere.getVelocity().getY() ).normalize().scale( 1000 );
-//            Point2D P = new Point2D.Double( Qx + v.getX(), Qy + v.getY() );
-//            Point2D R = sphere.getPositionPrev();
-//            Line2D PQ = new Line2D.Double( Q, P );
-//            Line2D RQ = new Line2D.Double( Q, R );
-//            if( PQ.intersectsLine( wallDesc.AB ) || RQ.intersectsLine( wallDesc.AB ) ) {
-//                result = TOP;
-//            }
-//            if( PQ.intersectsLine( wallDesc.BC ) || RQ.intersectsLine( wallDesc.BC ))  {
-//                result = RIGHT_SIDE;
-//            }
-//            if( PQ.intersectsLine( wallDesc.CD ) || RQ.intersectsLine( wallDesc.CD )) {
-//                result = BOTTOM;
-//            }
-//            if( PQ.intersectsLine( wallDesc.AD ) || RQ.intersectsLine( wallDesc.AD )) {
-//                result = LEFT_SIDE;
-//            }
-//        }
         return result;
     }
 
-    private int check2( SphericalBody sphere, Wall wall ) {
-        int result = NO_CONTACT;
+    /**
+     * Last-ditch method to get a sphere out of the wall. A total hack.
+     * @param wall
+     * @param sphere
+     */
+    public void fixup( Wall wall, SphericalBody sphere ) {
+        WallDescriptor wallDesc = new WallDescriptor( wall, sphere.getRadius() );
 
-        // P is the previous position of the sphere
-        // Q is the current position of the sphere
-        // A is the upper left corner of the wall
-        // B is the upper right corner of the wall
-        // C is the lower right corner of the wall
-        // D is the lower left corner of the wall
-        Point2D P = sphere.getPositionPrev();
-        double Px = P.getX();
-        double Py = P.getY();
+        // Figure out which boundary of the wall the sphere crossed to get inside
+        Vector2D v = new Vector2D.Double( -sphere.getVelocity().getX(), -sphere.getVelocity().getY() ).normalize().scale( 1000 );
         Point2D Q = sphere.getPosition();
-        double Qx = Q.getX();
-        double Qy = Q.getY();
-//        Vector2D v = new Vector2D.Double();
-        Vector2D v = new Vector2D.Double( sphere.getVelocity() ).normalize();
-        double r = sphere.getRadius();
-
-        Point2D A = new Point2D.Double( wall.getBounds().getMinX(), wall.getBounds().getMinY() );
-        double Ax = A.getX();
-        double Ay = A.getY();
-        Point2D B = new Point2D.Double( wall.getBounds().getMaxX(), wall.getBounds().getMinY() );
-        double Bx = B.getX();
-        double By = B.getY();
-        Point2D C = new Point2D.Double( wall.getBounds().getMaxX(), wall.getBounds().getMaxY() );
-        double Cx = C.getX();
-        double Cy = C.getY();
-        Point2D D = new Point2D.Double( wall.getBounds().getMinX(), wall.getBounds().getMaxY() );
-        double Dx = D.getX();
-        double Dy = D.getY();
-
-//        System.out.println( "=====" );
-//        System.out.println( "cnt++ = " + cnt++ );
-//        System.out.println( "Py = " + Py );
-//        System.out.println( "Qy = " + Qy );
-//        System.out.println( "Ay = " + Ay );
-//        System.out.println( "Dy = " + Dy );
-//        System.out.println( "Px = " + Px );
-//        System.out.println( "Qx = " + Qx );
-//        System.out.println( "Ax = " + Ax );
-//
-//        if( cnt >= 592 && cnt % 3 == 1 ) {
-//            System.out.println( "stop!" );
-//        }
-        if( SphereWallCollision.cnt >= 56 ) {
-            System.out.println( "SphereWallExpert.check2" );
+        Point2D P = new Point2D.Double( Q.getX() + v.getX(), Q.getY() + v.getY() );
+        Line2D PQ = new Line2D.Double( Q, P );
+        if( PQ.intersectsLine( wallDesc.AB )) {
+            sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY());
+            sphere.setPosition( sphere.getPosition().getX(), wallDesc.AB.getY1() );
+            System.out.println( "SphereWallExpert.fixup: AB" );
         }
-
-        if( Py + r * v.getY() <= Dy && Qy + r * v.getY() >= Ay
-            || Py - r * v.getY() >= Ay && Qy - r * v.getY() <= Dy ) {
-            if( Px + r < Ax
-                && Qx + r >= Ax ) {
-//            if( Px + r * v.getX() < Ax
-//                && Qx + r * v.getX() >= Ax ) {
-                result = LEFT_SIDE;
-            }
-
-            if( Px - r > Bx
-                && Qx - r <= Bx ) {
-//            if( Px + r * v.getX() > Bx
-//                && Qx + r * v.getX() <= Bx ) {
-                result = RIGHT_SIDE;
-            }
+        if( PQ.intersectsLine( wallDesc.BC )) {
+            sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY());
+            sphere.setPosition( wallDesc.BC.getX1(), sphere.getPosition().getY() );
+            System.out.println( "SphereWallExpert.fixup: BC" );
         }
-
-        if( Px + r * v.getX() <= Bx && Qx + r * v.getX() >= Ax
-            || Px - r * v.getX() >= Ax && Qx - r * v.getX() <= Bx ) {
-            if( Py + r < Ay
-                && Qy + r >= Ay ) {
-//            if( Py + r * v.getY() < Ay
-//                && Qy + r * v.getY() >= Ay ) {
-                result = TOP;
-            }
-
-            if( Py - r > Dy
-                && Qy - r <= Dy ) {
-//            if( Py + r * v.getY() > Dy
-//                && Qy + r * v.getY() <= Dy ) {
-                result = BOTTOM;
-            }
+        if( PQ.intersectsLine( wallDesc.CD )) {
+            sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY());
+            sphere.setPosition( sphere.getPosition().getX(), wallDesc.CD.getY1() );
+            System.out.println( "SphereWallExpert.fixup: CD" );
         }
-        return result;
+        if( PQ.intersectsLine( wallDesc.AD )) {
+            sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY());
+            sphere.setPosition( wallDesc.AD.getX1(), sphere.getPosition().getY() );
+            System.out.println( "SphereWallExpert.fixup: AD" );
+        }
     }
+
 
     //----------------------------------------------------------------
     // Inner classes
@@ -247,20 +184,30 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
 
     /**
      * Describes the contact bounds of a wall, and line segments that constitute those bounds
+     *
+     * The descriptor contains line segments that represent a rectangle around the wall that
+     * a particle's center of mass would be inside of if the particle were to be in contact
+     * with the wall. The line segments are labeled according to the corners of that rectangle
+     * that they connect.
+     * A is the upper left corner of the wall
+     * B is the upper right corner of the wall
+     * C is the lower right corner of the wall
+     * D is the lower left corner of the wall
      */
     private class WallDescriptor implements Wall.ChangeListener {
         Rectangle2D contactBounds;
-        // A is the upper left corner of the wall
-        // B is the upper right corner of the wall
-        // C is the lower right corner of the wall
-        // D is the lower left corner of the wall
         Line2D AB;
         Line2D BC;
         Line2D CD;
         Line2D AD;
         private double contactRadius;
 
-        public WallDescriptor( Wall wall, double contactRadius ) {
+        /**
+         *
+         * @param wall
+         * @param contactRadius The radius of the particles that are hitting the wall
+         */
+        WallDescriptor( Wall wall, double contactRadius ) {
             this.contactRadius = contactRadius;
             computeDescriptor( wall );
             wall.addChangeListener( this );
