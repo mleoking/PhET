@@ -23,15 +23,15 @@ public class Motion2D {
     public static final String localizedStringsPath = "localization/Motion2dStrings";
     
     public static void main( String[] args ) {
-        Motion2DApplet ja = new Motion2DApplet();
-        ja.init();
-        
         String argsKey = "user.language=";
         if( args.length > 0 && args[0].startsWith( argsKey )) {
             String locale = args[0].substring( argsKey.length(), args[0].length() );
-            Locale.setDefault( new Locale( locale ));
+            SimStrings.setLocale( new Locale( locale ));
         }
 
+        Motion2DApplet ja = new Motion2DApplet();
+        ja.init();
+        
         JFrame f = new JFrame( SimStrings.get( "Motion2dApplication.title" ) );
 
         f.setContentPane( ja );
