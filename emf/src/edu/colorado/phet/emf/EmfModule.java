@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.coreadditions.PhetControlPanel;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.emf.command.SetMovementCmd;
@@ -69,8 +70,6 @@ public class EmfModule extends Module {
         final Point origin = new Point( 125, 300 );
 
         // Initialize the ModelViewTransform2D
-        //        mvTx = new ModelViewTransform2D( new Rectangle2D.Double( -origin.getX(), -origin.getY(), fieldWidth, fieldHeight ),
-        //                                         new Rectangle( 0, 0, fieldWidth, fieldHeight ) );
         mvTx = new ModelViewTransform2D( new Point2D.Double( -origin.getX(), -origin.getY() ),
                                          new Point2D.Double( fieldWidth - origin.getX(), fieldHeight - origin.getY() ),
                                          new Point( 0, 0 ),
@@ -150,6 +149,16 @@ public class EmfModule extends Module {
 
         // Draw the animated "Wiggle me"
         createWiggleMeGraphic( origin, mvTx );
+
+        // Create some help items
+        HelpItem helpItem1 = new HelpItem( "Move the electron with the mouse,\n" +
+                                           "or click on \"Oscillate\" on the \n" +
+                                           "control panel",
+                                           origin.getX() + 15, origin.getY() + 10,
+                                           HelpItem.CENTER, HelpItem.CENTER );
+        helpItem1.setForegroundColor( Color.black);
+        helpItem1.setShadowColor( Color.gray);
+        addHelpItem( helpItem1 );
     }
 
     private void createWiggleMeGraphic( final Point origin, final ModelViewTransform2D mvTx ) {
