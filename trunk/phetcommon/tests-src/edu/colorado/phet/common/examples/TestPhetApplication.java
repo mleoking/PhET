@@ -16,6 +16,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.components.clockgui.ClockControlPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
@@ -69,7 +70,7 @@ public class TestPhetApplication {
     static class Photon extends SimpleObservable implements ModelElement {
         double x;
         double y;
-
+        double speed = 1.0;
         Random rand = new Random();
 
         public Photon( double x, double y ) {
@@ -80,7 +81,11 @@ public class TestPhetApplication {
         public void stepInTime( double dt ) {
             //            x += ( rand.nextDouble() - .5 ) * 5;
             //            y += ( rand.nextDouble() - .5 ) * 5;
-            x = ++x % 600;
+            x = x + speed * dt;
+            if( x > 600 ) {
+                x = 0;
+            }
+//                    x = ++x % 600;
             //            if( x > 100 ) {
             //                x = 100;
             //            }
@@ -158,6 +163,15 @@ public class TestPhetApplication {
 
         PhetApplication app = new PhetApplication( applicationModel );
         app.startApplication();
+
+        ClockControlPanel ccp = new ClockControlPanel( clock );
+        JFrame jeff = new JFrame( "CCP" );
+        jeff.setContentPane( ccp );
+
+
+        jeff.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        jeff.pack();
+        jeff.setVisible( true );
     }
 
 }

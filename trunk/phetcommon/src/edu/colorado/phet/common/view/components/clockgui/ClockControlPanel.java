@@ -11,9 +11,9 @@
 package edu.colorado.phet.common.view.components.clockgui;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.model.clock.ThreadedClock;
-import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -32,7 +32,7 @@ import java.awt.event.ActionListener;
 public class ClockControlPanel extends JPanel implements ClockStateListener {
 
     private AbstractClock clock;
-    private SpinnerNumberModel spinnerModelDT;
+    private SpinnerNumberModel spinnerModelDT = new SpinnerNumberModel( 1, 0, 100, .01 );
     private JSpinner dtSpinner;
     private SpinnerNumberModel spinnerModelWT;
     JSpinner waitTimeSpinner = new JSpinner();
@@ -47,7 +47,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
 
     Font bigfont = new Font( "dialog", 0, 20 );
 
-    public ClockControlPanel( ThreadedClock clock ) {
+    public ClockControlPanel( AbstractClock clock ) {
         super( new FlowLayout() );
         spinnerModelWT = new SpinnerNumberModel( (int)clock.getDelay(), 0, 1000, 5 );
         dtSpinner = new JSpinner( spinnerModelDT );
