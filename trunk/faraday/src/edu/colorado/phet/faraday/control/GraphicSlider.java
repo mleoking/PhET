@@ -61,8 +61,6 @@ public class GraphicSlider extends GraphicLayerSet {
     private int _minimum, _maximum;
     // The current value.
     private int _value;
-    // Location of the mouse relative to the knob when a drag is started.
-    private int _mouseOffset;
     // Event listeners.
     private EventListenerList _listenerList;
 
@@ -86,7 +84,6 @@ public class GraphicSlider extends GraphicLayerSet {
         _minimum = 0;
         _maximum = 100;
         _value = ( _maximum - _minimum ) / 2;
-        _mouseOffset = 0;
         _listenerList = new EventListenerList();
         
         // Enable anti-aliasing.
@@ -379,11 +376,8 @@ public class GraphicSlider extends GraphicLayerSet {
                 e.printStackTrace();
             }
             
-            // Calculate the proposed knob position.
-            int knobX = mouseX - _mouseOffset;
-            
             // Constrain the knob position to the drag boundaries.
-            int x = (int) Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, knobX ) );
+            int x = (int) Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, mouseX ) );
 
             // Determine the value that corresponds to the constrained location.
             double percent = ( x - _dragBounds.x ) / (double) ( _dragBounds.width );
@@ -391,22 +385,6 @@ public class GraphicSlider extends GraphicLayerSet {
 
             // Set the new value.
             setValue( value );
-        }
-
-        /**
-         * Handles mouse press events.
-         * Remembers how far the mouse was from the knob's 
-         * registration point at when the drag began.
-         * 
-         * @param event the mouse event
-         */
-        public void mousePressed( MouseEvent event )  {
-            if ( _knob != null ) {
-                _mouseOffset = event.getX() - _knob.getBounds().x - _knob.getRegistrationPoint().x;
-            }
-            else {
-                _mouseOffset = 0;
-            }
         }
         
         /**
