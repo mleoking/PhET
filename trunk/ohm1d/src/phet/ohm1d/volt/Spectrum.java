@@ -58,9 +58,6 @@ public class Spectrum implements ColorMap {
         return new Color( rgb[0], rgb[1], rgb[2] );
     }
 
-//    public boolean isChanging() {
-//        return true;
-//    }
     public boolean isChanging() {
         if( numSame < series.numElements() ) {
             return true;
