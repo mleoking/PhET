@@ -10,5 +10,4 @@ import edu.colorado.phet.movingman.elements.Man;
  */
 public interface StepMotion {
     public double stepInTime( Man man, double dt );
-//    void setInitialPosition(double x);
 }

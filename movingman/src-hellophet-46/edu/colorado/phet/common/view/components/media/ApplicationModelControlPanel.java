@@ -127,7 +127,4 @@ public class ApplicationModelControlPanel extends JPanel {
         }
     }
 
-//    public void setModel(BaseModel model) {
-//        this.model = model;
-//    }
 }
