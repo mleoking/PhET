@@ -133,7 +133,7 @@ public class GraphicLayerSet extends PhetGraphic {
      *
      * @return the union of child graphics bounds.
      */
-    public Rectangle determineBounds() {
+    protected Rectangle determineBounds() {
         PhetGraphic[] ch = getGraphics();
         Rectangle[] r = new Rectangle[ch.length];
         for( int i = 0; i < r.length; i++ ) {
