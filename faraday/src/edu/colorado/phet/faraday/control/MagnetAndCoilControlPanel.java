@@ -11,9 +11,7 @@
 
 package edu.colorado.phet.faraday.control;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,10 +20,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.module.MagnetAndCoilModule;
+import edu.colorado.phet.faraday.view.BarMagnetGraphic;
+import edu.colorado.phet.faraday.view.CompassGridGraphic;
 
 /**
  * MagnetAndCoilControlPanel is the control panel for the "Magnet & Coil" module.
@@ -47,14 +47,23 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private MagnetAndCoilModule _module;
+    // Model & view components to be controlled.
+    private AbstractMagnet _magnetModel;
+    private AbstractCompass _compassModel;
+    private PickupCoil _pickupCoilModel;
+    private LightBulb _lightBulbModel;
+    private VoltMeter _voltMeterModel;
+    private BarMagnetGraphic _magnetGraphic;
+    private CompassGridGraphic _gridGraphic;
+    
+    // UI components
     private JButton _flipPolarityButton;
     private JSlider _strengthSlider;
     private JCheckBox _magnetTransparencyCheckBox, _gridCheckBox, _compassCheckBox;
     private JSpinner _loopsSpinner;
     private JSlider _radiusSlider;
-    private JRadioButton _meterRadioButton;
-    private JRadioButton _bulbRadioButton;
+    private JRadioButton _voltMeterRadioButton;
+    private JRadioButton _lightBulbRadioButton;
     private JLabel _strengthValue, _radiusValue;
 
     //----------------------------------------------------------------------------
@@ -68,12 +77,42 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
      * reflects the structure of the panel.
      * 
      * @param module the module that this control panel is associated with.
+     * @param magnetModel
+     * @param compassModel
+     * @param pickupCoilModel
+     * @param lightBulbModel
+     * @param voltMeterModel
+     * @param magnetGraphic
+     * @param gridGraphic
      */
-    public MagnetAndCoilControlPanel( MagnetAndCoilModule module ) {
+    public MagnetAndCoilControlPanel( 
+        MagnetAndCoilModule module,
+        AbstractMagnet magnetModel,
+        AbstractCompass compassModel,
+        PickupCoil pickupCoilModel,
+        LightBulb lightBulbModel,
+        VoltMeter voltMeterModel,
+        BarMagnetGraphic magnetGraphic,
+        CompassGridGraphic gridGraphic ) {
 
         super( module );
 
-        _module = module;
+        assert( magnetModel != null );
+        assert( compassModel != null );
+        assert( pickupCoilModel != null );
+        assert( lightBulbModel != null );
+        assert( voltMeterModel != null );
+        assert( magnetGraphic != null );
+        assert( gridGraphic != null );
+
+        // Things we'll be controlling.
+        _magnetModel = magnetModel;
+        _compassModel = compassModel;
+        _pickupCoilModel = pickupCoilModel;
+        _lightBulbModel = lightBulbModel;
+        _voltMeterModel = voltMeterModel;
+        _magnetGraphic = magnetGraphic;
+        _gridGraphic = gridGraphic;
 
         JPanel fillerPanel = new JPanel();
         {
@@ -101,8 +140,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
 
                 // Slider
                 _strengthSlider = new JSlider();
-                _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
                 _strengthSlider.setMaximum( (int) FaradayConfig.MAGNET_STRENGTH_MAX );
+                _strengthSlider.setMinimum( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
                 _strengthSlider.setValue( (int) FaradayConfig.MAGNET_STRENGTH_MIN );
                 super.setSliderSize( _strengthSlider, SLIDER_SIZE );;
 
@@ -146,8 +185,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
 
                 // Spinner, keyboard editing disabled.
                 SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
-                spinnerModel.setMinimum( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
                 spinnerModel.setMaximum( new Integer( FaradayConfig.MAX_PICKUP_LOOPS ) );
+                spinnerModel.setMinimum( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
                 spinnerModel.setValue( new Integer( FaradayConfig.MIN_PICKUP_LOOPS ) );
                 _loopsSpinner = new JSpinner( spinnerModel );
                 JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
@@ -172,8 +211,8 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
 
                 // Slider
                 _radiusSlider = new JSlider();
-                _radiusSlider.setMinimum( (int) MagnetAndCoilModule.LOOP_RADIUS_MIN );
                 _radiusSlider.setMaximum( (int) MagnetAndCoilModule.LOOP_RADIUS_MAX );
+                _radiusSlider.setMinimum( (int) MagnetAndCoilModule.LOOP_RADIUS_MIN );
                 _radiusSlider.setValue( (int) MagnetAndCoilModule.LOOP_RADIUS_MIN );
                 super.setSliderSize( _radiusSlider, SLIDER_SIZE );
 
@@ -196,16 +235,16 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
                 loadPanel.setBorder( border2 );
 
                 // Radio buttons
-                _bulbRadioButton = new JRadioButton( SimStrings.get( "bulbRadioButton.label" ) );
-                _meterRadioButton = new JRadioButton( SimStrings.get( "meterRadioButton.label" ) );
+                _lightBulbRadioButton = new JRadioButton( SimStrings.get( "bulbRadioButton.label" ) );
+                _voltMeterRadioButton = new JRadioButton( SimStrings.get( "meterRadioButton.label" ) );
                 ButtonGroup group = new ButtonGroup();
-                group.add( _bulbRadioButton );
-                group.add( _meterRadioButton );
+                group.add( _lightBulbRadioButton );
+                group.add( _voltMeterRadioButton );
 
                 // Layout
                 loadPanel.setLayout( new BoxLayout( loadPanel, BoxLayout.Y_AXIS ) );
-                loadPanel.add( _bulbRadioButton );
-                loadPanel.add( _meterRadioButton );
+                loadPanel.add( _lightBulbRadioButton );
+                loadPanel.add( _voltMeterRadioButton );
             }
 
             // Layout
@@ -237,85 +276,26 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         _gridCheckBox.addActionListener( listener );
         _loopsSpinner.addChangeListener( listener );
         _radiusSlider.addChangeListener( listener );
-        _bulbRadioButton.addActionListener( listener );
-        _meterRadioButton.addActionListener( listener );
+        _lightBulbRadioButton.addActionListener( listener );
+        _voltMeterRadioButton.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
-    }
-
-    //----------------------------------------------------------------------------
-    // Controller methods
-    //----------------------------------------------------------------------------
-
-    /**
-     * Enables/disables the compass grid.
-     * 
-     * @param enable true to enable, false to disable
-     */
-    public void setCompassGridEnabled( boolean enabled ) {
-        _gridCheckBox.setSelected( enabled );
+        
+        // Call this after wiring up listeners.
+        update();
     }
 
     /**
-     * Sets the magnet strength.
-     * 
-     * @param strength the strength
+     * Update control panel to match the components that it's controlling.
      */
-    public void setMagnetStrength( double strength ) {
-        _strengthSlider.setValue( (int) strength );
-    }
-
-    /**
-     * Sets the magnet transparency checkbox.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setMagnetTransparencyEnabled( boolean enabled ) {
-        _magnetTransparencyCheckBox.setSelected( enabled );
-    }
-    
-    /**
-     * Sets the number of loops in the pickup coil.
-     * 
-     * @param numberOfLoops the number of loops
-     */
-    public void setNumberOfLoops( int numberOfLoops ) {
-        _loopsSpinner.setValue( new Integer( numberOfLoops ) );
-    }
-
-    /**
-     * Sets the loop radius
-     * 
-     * @param radius the radius
-     */
-    public void setLoopRadius( double radius ) {
-        _radiusSlider.setValue( (int) radius );
-    }
-
-    /**
-     * Enables/disabled the lightbulb.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setBulbEnabled( boolean enabled ) {
-        _bulbRadioButton.setSelected( enabled );
-    }
-
-    /**
-     * Enables/disables the voltmeter.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setMeterEnabled( boolean enabled ) {
-        _meterRadioButton.setSelected( enabled );
-    }
-
-    /**
-     * Enables or disabled the compass.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setCompassEnabled( boolean enabled ) {
-        _compassCheckBox.setSelected( enabled );
+    public void update() {
+        _strengthSlider.setValue( (int) _magnetModel.getStrength() );
+        _magnetTransparencyCheckBox.setSelected( _magnetGraphic.isTransparencyEnabled() );
+        _compassCheckBox.setSelected( _compassModel.isEnabled() );
+        _gridCheckBox.setSelected( _gridGraphic.isVisible() );
+        _loopsSpinner.setValue( new Integer( _pickupCoilModel.getNumberOfLoops() ) );
+        _radiusSlider.setValue( (int) _pickupCoilModel.getRadius() );
+        _lightBulbRadioButton.setSelected( _lightBulbModel.isEnabled() );
+        _voltMeterRadioButton.setSelected( _voltMeterModel.isEnabled() );
     }
     
     //----------------------------------------------------------------------------
@@ -343,27 +323,35 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _flipPolarityButton ) {
                 // Magnet polarity
-                _module.flipMagnetPolarity();
+                _pickupCoilModel.setSmoothingEnabled( false );
+                double direction = _magnetModel.getDirection();
+                direction = ( direction + 180 ) % 360;
+                _magnetModel.setDirection( direction );
+                _pickupCoilModel.updateEmf();
+                _pickupCoilModel.setSmoothingEnabled( true );
             }
             else if ( e.getSource() == _magnetTransparencyCheckBox ) {
-                // Grid enable
-                _module.setMagnetTransparencyEnabled( _magnetTransparencyCheckBox.isSelected() );
+                // Magnet transparency
+                _magnetGraphic.setTransparencyEnabled( _magnetTransparencyCheckBox.isSelected() );
             }
             else if ( e.getSource() == _gridCheckBox ) {
                 // Grid enable
-                _module.setCompassGridEnabled( _gridCheckBox.isSelected() );
+                _gridGraphic.resetSpacing();
+                _gridGraphic.setVisible( _gridCheckBox.isSelected() );
             }
             else if ( e.getSource() == _compassCheckBox ) {
-                // Grid enable
-                _module.setCompassEnabled( _compassCheckBox.isSelected() );
+                // Compass enable
+                _compassModel.setEnabled( _compassCheckBox.isSelected() );
             }
-            else if ( e.getSource() == _bulbRadioButton ) {
+            else if ( e.getSource() == _lightBulbRadioButton ) {
                 // Lightbulb enable
-                _module.setBulbEnabled( _bulbRadioButton.isSelected() );
+                _lightBulbModel.setEnabled( _lightBulbRadioButton.isSelected() );
+                _voltMeterModel.setEnabled( !_lightBulbRadioButton.isSelected() );
             }
-            else if ( e.getSource() == _meterRadioButton ) {
+            else if ( e.getSource() == _voltMeterRadioButton ) {
                 // Voltmeter enable
-                _module.setMeterEnabled( _meterRadioButton.isSelected() );
+                _voltMeterModel.setEnabled( _voltMeterRadioButton.isSelected() );
+                _lightBulbModel.setEnabled( !_voltMeterRadioButton.isSelected() );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
@@ -379,26 +367,31 @@ public class MagnetAndCoilControlPanel extends FaradayControlPanel {
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _strengthSlider ) {
                 // Magnet strength
-                _module.setMagnetStrength( _strengthSlider.getValue() );
-                Integer i = new Integer( _strengthSlider.getValue() );
-                _strengthValue.setText( i.toString() );
+                int strength = _strengthSlider.getValue();
+                _magnetModel.setStrength( strength );
+                _strengthValue.setText( String.valueOf( strength ) );
             }
             else if ( e.getSource() == _radiusSlider ) {
                 // Loop radius
                 int radius = _radiusSlider.getValue();
-                _module.setPickupLoopRadius( radius );
+                _pickupCoilModel.setSmoothingEnabled( false );
+                _pickupCoilModel.setRadius( radius );
+                _pickupCoilModel.updateEmf();
+                _pickupCoilModel.setSmoothingEnabled( true );
                 Integer i = new Integer( radius );
                 _radiusValue.setText( i.toString() );
             }
             else if ( e.getSource() == _loopsSpinner ) {
                 // Number of loops
-                int value = ( (Integer) _loopsSpinner.getValue() ).intValue();
-                _module.setNumberOfPickupLoops( value );
+                int numberOfLoops = ( (Integer) _loopsSpinner.getValue() ).intValue();
+                _pickupCoilModel.setSmoothingEnabled( false );
+                _pickupCoilModel.setNumberOfLoops( numberOfLoops );
+                _pickupCoilModel.updateEmf();
+                _pickupCoilModel.setSmoothingEnabled( true );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
             }
         }
     }
-
 }

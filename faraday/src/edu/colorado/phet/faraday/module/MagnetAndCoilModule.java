@@ -70,25 +70,6 @@ public class MagnetAndCoilModule extends Module {
     private static final double LOOP_RADIUS = 100;
     
     //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    // Model
-    private AbstractMagnet _magnetModel;
-    private AbstractCompass _compassModel;
-    private LightBulb _lightBulbModel;
-    private VoltMeter _voltMeterModel;
-    private PickupCoil _pickupCoilModel;
-    
-    // View
-    private BarMagnetGraphic _magnetGraphic;
-    private PickupCoilGraphic _pickupCoilGraphic;
-    private CompassGridGraphic _gridGraphic;
-    
-    // Control
-    private MagnetAndCoilControlPanel _controlPanel;
-    
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -114,31 +95,33 @@ public class MagnetAndCoilModule extends Module {
         this.setModel( model );
         
         // Bar Magnet
-        _magnetModel = new BarMagnet();
-        _magnetModel.setStrength( MAGNET_STRENGTH );
-        _magnetModel.setLocation( MAGNET_LOCATION );
-        _magnetModel.setDirection( 0 );
-        _magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
-        model.addModelElement( _magnetModel );
+        AbstractMagnet magnetModel = new BarMagnet();
+        magnetModel.setStrength( MAGNET_STRENGTH );
+        magnetModel.setLocation( MAGNET_LOCATION );
+        magnetModel.setDirection( 0 );
+        magnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
+        model.addModelElement( magnetModel );
         
         // Compass
-        _compassModel = new Compass( _magnetModel ); 
-        _compassModel.setLocation( COMPASS_LOCATION );
-        model.addModelElement( _compassModel );
+        Compass compassModel = new Compass( magnetModel ); 
+        compassModel.setLocation( COMPASS_LOCATION );
+        model.addModelElement( compassModel );
         
         // Pickup Coil
-        _pickupCoilModel = new PickupCoil( _magnetModel );
-        _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
-        _pickupCoilModel.setRadius( LOOP_RADIUS );
-        _pickupCoilModel.setDirection( 0 );
-        _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
-        model.addModelElement( _pickupCoilModel );
+        PickupCoil pickupCoilModel = new PickupCoil( magnetModel );
+        pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
+        pickupCoilModel.setRadius( LOOP_RADIUS );
+        pickupCoilModel.setDirection( 0 );
+        pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
+        model.addModelElement( pickupCoilModel );
        
         // Lightbulb
-        _lightBulbModel = new LightBulb( _pickupCoilModel );
+        LightBulb lightBulbModel = new LightBulb( pickupCoilModel );
+        lightBulbModel.setEnabled( true );
         
         // Volt Meter
-        _voltMeterModel = new VoltMeter( _pickupCoilModel );
+        VoltMeter voltMeterModel = new VoltMeter( pickupCoilModel );
+        voltMeterModel.setEnabled( false );
         
         //----------------------------------------------------------------------------
         // View
@@ -150,23 +133,24 @@ public class MagnetAndCoilModule extends Module {
         this.setApparatusPanel( apparatusPanel );
         
         // Bar Magnet
-        _magnetGraphic = new BarMagnetGraphic( apparatusPanel, _magnetModel );
-        apparatusPanel.addGraphic( _magnetGraphic, MAGNET_LAYER );
+        BarMagnetGraphic magnetGraphic = new BarMagnetGraphic( apparatusPanel, magnetModel );
+        apparatusPanel.addGraphic( magnetGraphic, MAGNET_LAYER );
         
         // Pickup AbstractCoil
-        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, _pickupCoilModel, _lightBulbModel, _voltMeterModel );
-        apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), COIL_FRONT_LAYER );
-        apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), COIL_BACK_LAYER );
+        PickupCoilGraphic pickupCoilGraphic = 
+            new PickupCoilGraphic( apparatusPanel, pickupCoilModel, lightBulbModel, voltMeterModel );
+        apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), COIL_FRONT_LAYER );
+        apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), COIL_BACK_LAYER );
         
         // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, _magnetModel, 
-                FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        _gridGraphic.setLocation( GRID_LOCATION );
-        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
-        apparatusPanel.addGraphic( _gridGraphic, GRID_LAYER );
+        CompassGridGraphic gridGraphic = 
+            new CompassGridGraphic( apparatusPanel, magnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        gridGraphic.setLocation( GRID_LOCATION );
+        gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        apparatusPanel.addGraphic( gridGraphic, GRID_LAYER );
         
         // CompassGraphic
-        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
@@ -181,8 +165,10 @@ public class MagnetAndCoilModule extends Module {
         //----------------------------------------------------------------------------
         
         // Control Panel
-        _controlPanel = new MagnetAndCoilControlPanel( this );
-        this.setControlPanel( _controlPanel );
+        MagnetAndCoilControlPanel controlPanel = new MagnetAndCoilControlPanel( this, 
+            magnetModel, compassModel, pickupCoilModel, lightBulbModel, voltMeterModel,
+            magnetGraphic, gridGraphic );
+        this.setControlPanel( controlPanel );
         
         //----------------------------------------------------------------------------
         // Listeners
@@ -191,142 +177,5 @@ public class MagnetAndCoilModule extends Module {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
-        
-        //----------------------------------------------------------------------------
-        // Initalize
-        //----------------------------------------------------------------------------
-        
-        reset();
-    }
-
-    //----------------------------------------------------------------------------
-    // Controller methods
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Resets everything to the initial state.
-     */
-    public void reset() {
-        // Set state.
-        _magnetModel.setStrength( MAGNET_STRENGTH );
-        _pickupCoilModel.setRadius( (int)LOOP_RADIUS );
-        _pickupCoilModel.setNumberOfLoops( FaradayConfig.MIN_PICKUP_LOOPS );
-        _lightBulbModel.setEnabled( true );
-        _voltMeterModel.setEnabled( false );
-        _gridGraphic.setVisible( true );
-        _compassModel.setEnabled( true );
-        
-        // Synchronize control panel.
-        _controlPanel.setMagnetStrength( _magnetModel.getStrength() );
-        _controlPanel.setLoopRadius( _pickupCoilModel.getRadius() );
-        _controlPanel.setNumberOfLoops( _pickupCoilModel.getNumberOfLoops() );
-        _controlPanel.setBulbEnabled( _lightBulbModel.isEnabled() );
-        _controlPanel.setMeterEnabled( _voltMeterModel.isEnabled() );
-        _controlPanel.setCompassGridEnabled( _gridGraphic.isVisible() );
-        _controlPanel.setCompassEnabled( _compassModel.isEnabled() );
-    }
-    
-    /**
-     * Flips the magnet's polarity.
-     */
-    public void flipMagnetPolarity() {
-        setSmoothingEnabled( false );
-        double direction = _magnetModel.getDirection();
-        direction = ( direction + 180 ) % 360;
-        _magnetModel.setDirection( direction );
-        _pickupCoilModel.updateEmf();
-        setSmoothingEnabled( true );
-    }
-    
-    /**
-     * Sets the magnet's strength.
-     * 
-     * @param strength the strength value
-     */
-    public void setMagnetStrength( double strength ) {
-        setSmoothingEnabled( false );
-        _magnetModel.setStrength( strength );
-        _pickupCoilModel.updateEmf();
-        setSmoothingEnabled( true );
-    }
-    
-    /**
-     * Set the transparency of the magnet graphic.
-     * 
-     * @param enabled true for transparent, false for opaque
-     */
-    public void setMagnetTransparencyEnabled( boolean enabled ) {
-        _magnetGraphic.setTransparencyEnabled( enabled );
-    }
-    
-    /**
-     * Enables/disables the compass grid.
-     * 
-     * @param enable true to enable, false to disable
-     */
-    public void setCompassGridEnabled( boolean enable ) {
-        _gridGraphic.resetSpacing();
-        _gridGraphic.setVisible( enable );
-    }
-    
-    /**
-     * Enables and disables the compass.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setCompassEnabled( boolean enabled ) {
-        _compassModel.setEnabled( enabled );
-    }
-    
-    /**
-     * Sets the number of loops in the pickup coil.
-     * 
-     * @param numberOfLoops the number of loops
-     */
-    public void setNumberOfPickupLoops( int numberOfLoops ) {
-        setSmoothingEnabled( false );
-        _pickupCoilModel.setNumberOfLoops( numberOfLoops );
-        _pickupCoilModel.updateEmf();
-        setSmoothingEnabled( true );
-    }
-    
-    /**
-     * Sets the radius used for all loops in the pickup coil.
-     * 
-     * @param radius the radius
-     */
-    public void setPickupLoopRadius( double radius ) {
-        setSmoothingEnabled( false );
-        _pickupCoilModel.setRadius( radius );
-        _pickupCoilModel.updateEmf();
-        setSmoothingEnabled( true );
-    }
-    
-    /**
-     * Enables the light bulb.
-     */
-    public void setBulbEnabled( boolean enabled ) {
-        _lightBulbModel.setEnabled( enabled );
-        _voltMeterModel.setEnabled( !enabled );
-    }
-    
-    /**
-     * Enables the volt meter.
-     */
-    public void setMeterEnabled( boolean enabled ) {
-        setBulbEnabled( !enabled );
-    }
-    
-    /*
-     * Enabled and disables "smoothing" of data in model elements.
-     * When smoothing is enabled, a median value is used, effectively
-     * eliminating spikes in the data history.  But sometimes these 
-     * spike are desirable (for example, when flipping magnet polarity).
-     * In these cases, we need to temporarily disable smoothing. 
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    private void setSmoothingEnabled( boolean enabled ) {
-        _pickupCoilModel.setSmoothingEnabled( enabled );
     }
 }
