@@ -41,7 +41,7 @@ public class DragToCreate implements MouseInputListener {
     public void mouseDragged( MouseEvent e ) {
         InteractiveGraphic graphic = interactiveGraphicCreator.newInstance();
         target.addGraphic( graphic, layer );
-        target.getMouseManager().startDragging( graphic, e );
+        target.startDragging( graphic, e );
     }
 
     public void mouseMoved( MouseEvent e ) {
