@@ -12,11 +12,7 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
-
-import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
@@ -141,7 +137,7 @@ public class MagnetAndCoilModule extends Module {
         
         // Pickup AbstractCoil
         PickupCoilGraphic pickupCoilGraphic = 
-            new PickupCoilGraphic( apparatusPanel, pickupCoilModel, lightBulbModel, voltMeterModel );
+            new PickupCoilGraphic( apparatusPanel, model, pickupCoilModel, lightBulbModel, voltMeterModel );
         apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), COIL_BACK_LAYER );
         
@@ -156,7 +152,7 @@ public class MagnetAndCoilModule extends Module {
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
-        
+
         // Debugger
         DebuggerGraphic debugger = new DebuggerGraphic( apparatusPanel );
 //        debugger.add( _pickupCoilGraphic.getForeground(), Color.RED, Color.RED );
