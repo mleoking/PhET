@@ -14,7 +14,7 @@ click on "Setup & Troubleshooting" for more
 information.
 
 -->
-<!-- JNLP File for PhET Color Vision simulation --> 
+<!-- JNLP File for PhET Faraday's Law simulation --> 
 <jnlp 
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations"
@@ -23,7 +23,7 @@ information.
     <title>Faraday&apos;s Law</title>
     <vendor>University of Colorado, Department of Physics</vendor> 
     <homepage href="docs/help.html"/> 
-    <description>Color Vision simulation</description> 
+    <description>Faraday&apos;s Law simulation</description> 
     <description kind="short">An interactive demonstration of Faraday&apos;s Law.</description> 
     <icon href="icons/PhET.gif"/> 
     <icon kind="splash" href="icons/PhET.gif"/> 
