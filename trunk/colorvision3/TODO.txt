@@ -2,18 +2,19 @@
 
 HIGH:
 (DONE) o pre-fitler beam sometimes not visible
-o photons slow way down when switching filter on
-o Help based on Kathy's requirements
-o font antialiasing on Windows (and Linux?)
+(DONE) o photons slow way down when switching filter on
+o Help, based on Kathy's requirements
 
 MEDIUM:
 (DONE) o delay in 0-photons when dragging IntensitySlider to 0
-o SpectrumSlider jumpiness reported by Kathy
-o wiggle me for Single Bulb module
+(NTF) o SpectrumSlider jumpiness reported by Kathy
+(DONE) o wiggle me for Single Bulb module
 o optimize all image files for Web
 
 LOW:
+o font antialiasing on Windows (and Linux?)
 o move "inUse" and "filtered" flags out of Photon model; manage separate lists in PhotonBeam model
 o convert to PhET code formatting conventions
+o add CVS headers
 
 
