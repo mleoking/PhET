@@ -25,7 +25,6 @@
 # or
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 
-#ALL mail -s "CVS commit" ronlemaster
 
 ^phetcommon\(/\|$\) mail -s "CVS commit" ronlemaster
 ^phetcommon\(/\|$\) mail -s "CVS commit" malleyc
