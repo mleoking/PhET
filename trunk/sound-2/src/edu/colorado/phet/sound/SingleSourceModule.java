@@ -16,14 +16,25 @@ import edu.colorado.phet.sound.model.WavefrontOscillator;
 import edu.colorado.phet.sound.view.SingleSourceApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
 
+import java.awt.*;
+
 public abstract class SingleSourceModule extends Module {
 
     protected SingleSourceModule( ApplicationModel appModel, String name ) {
         super( name );
 
         this.setModel( new SoundModel( appModel.getClock() ) );
-        this.setApparatusPanel( new SingleSourceApparatusPanel( (SoundModel)getModel() ) );
-
+        SingleSourceApparatusPanel apparatusPanel = new SingleSourceApparatusPanel( (SoundModel)getModel() );
+//        SingleSourceApparatusPanel apparatusPanel = new SingleSourceApparatusPanel( (SoundModel)getModel() ) {
+//            public void repaint( int x, int y, int width, int height ) {
+//                super.repaint( x, y, width, height );
+//            }
+//
+//            protected void paintComponent( Graphics graphics ) {
+//                super.paintComponent( graphics );
+//            }
+//        };
+        this.setApparatusPanel( apparatusPanel );
         initApparatusPanel();
         initControlPanel();
     }

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.ThreadedClock;
 
 public class SoundApplication extends PhetApplication {
 
@@ -23,6 +24,7 @@ public class SoundApplication extends PhetApplication {
             super( windowTitle, description, version );
 
             // Specify the clock
+//            this.setClock( new ThreadedClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime, true ));
             this.setClock( new SwingTimerClock( SoundConfig.s_timeStep, SoundConfig.s_waitTime ));
 //            this.setClock( new SwingTimerClock( 1, 20, true ));
 //            this.setClock( new SwingTimerClock( 5, 50 ));

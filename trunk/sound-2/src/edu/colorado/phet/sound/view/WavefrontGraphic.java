@@ -43,6 +43,7 @@ public class WavefrontGraphic extends PhetImageGraphic implements SimpleObserver
         GraphicsDevice gs = ge.getDefaultScreenDevice();
         GraphicsConfiguration gc = gs.getDefaultConfiguration();
         return gc.createCompatibleImage( 800, 800 );
+//        return gc.createCompatibleImage( 300, 200 );
     }
 
     /**
