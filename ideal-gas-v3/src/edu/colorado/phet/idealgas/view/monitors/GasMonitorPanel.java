@@ -156,6 +156,7 @@ public class GasMonitorPanel extends PhetMonitorPanel implements SimpleObserver 
     public void update() {
 //    public void update( Observable observable, Object o ) {
 
+        
         // Get the temperature
         double temperature = this.getTemperature();
 

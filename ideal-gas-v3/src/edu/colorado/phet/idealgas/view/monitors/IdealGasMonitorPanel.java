@@ -5,7 +5,7 @@
  * Created by: Ron LeMaster
  * Date: Oct 30, 2002
  */
-package edu.colorado.phet.idealgas.view;
+package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.model.Gravity;
