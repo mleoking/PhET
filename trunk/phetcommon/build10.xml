@@ -1,4 +1,4 @@
-<project name="General Ant Build Script" default="Release With Lib" basedir=".">
+<project name="General Ant Build Script" default="Publish Executables" basedir=".">
 
     <property file="build.properties"/>
     <property file="build.number"/>
