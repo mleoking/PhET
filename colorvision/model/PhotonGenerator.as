@@ -1,10 +1,7 @@
-﻿class PhotonGenerator extends MovieClip {
+﻿class PhotonGenerator extends MovieClip implements ColorListener {
 	private var running:Boolean;
 	private var rate:Number;
-//	private var greenRate:Number;
-//	private var blueRate:Number;
 	private var photons:Array;
-	private var clock_mc:MovieClip;
 	private var photonCanvas_mc:MovieClip;
 	private var redColor:Color;
 	private var red = {rb:255, gb:0, bb:0};
@@ -15,10 +12,7 @@
 	private var wavelength:Number;
 	public function PhotonGenerator() {
 		rate = 4;
-//		blueRate = 4;
-//		greenRate = 4;
 		photons = new Array();
-		this.clock_mc = _root.createEmptyMovieClip("clock", 0);
 		photonCanvas_mc = _root.createEmptyMovieClip("clock", 1);
 		redColor = new Color(photonCanvas_mc);
 		redColor.setTransform(red);
@@ -34,6 +28,11 @@
 	}
 	public function setColor( color:Number){
 		this.color = color;
+		var ctx = ColorUtil.colorToCtx(color);		
+		this.wavelength = ColorUtil.ctxToWavelength(ctx);
+		if(color == 0xFFFFFF) {
+			this.wavelength = 0;
+		}
 	}
 	public function setWavelength( wavelength:Number){
 		this.wavelength = wavelength;
@@ -54,13 +53,13 @@
 			}
 				
 			for (var n = 0; n < rate; n++) {
-				var redPhoton = new _root.Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), c);
-				photons.push(redPhoton);
+				var photon = new Photon(xLoc, yLoc, genTheta(theta * Math.PI / 180), c);
+				photons.push(photon);
 			}
 			// Paint the photons we've got
 			for (var i = 0; i < photons.length; i++) {
 				// Paint or prune the photons, as need be
-				if (photons[i].x <= _root.head._x) {
+				if (photons[i]._x <= _root.head._x) {
 					photons[i].paint(photonCanvas_mc);
 				}
 				else {
@@ -94,19 +93,12 @@
 	function setRate(rate:Number) {
 		rate = rate;
 	}
-/*	
-	function getFilteredCtx() {
-		var red = (redRate / this.getMaxRate()) * 255;
-		var green = (greenRate / this.getMaxRate()) * 255;
-		var blue = (blueRate / this.getMaxRate()) * 255;
-		var alpha = (Math.max(red, Math.max(green, blue))) * 100 / 255;
-		var ctx = {rb:red, gb:green, bb:blue, aa:alpha};
-		return ctx;
-	}
-*/	
 	function genTheta(theta0) {
 		var d_theta = Math.random() * Math.PI / 16 - Math.PI / 32;
 		var angle = theta0 + d_theta;
 		return angle;
+	}
+	function colorChanged( wavelength:Number ):Void{
+		this.setWavelength( wavelength);
 	}
 }
