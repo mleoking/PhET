@@ -10,19 +10,7 @@
  */
 package edu.colorado.phet.coreadditions;
 
-
-/**
- * Created by IntelliJ IDEA.
- * User: Another Guy
- * Date: Mar 5, 2003
- * Time: 4:16:28 PM
- * To change this template use Options | File Templates.
- */
-
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickEvent;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.util.EventChannel;
 
 import javax.swing.*;
@@ -34,7 +22,12 @@ import java.text.NumberFormat;
 import java.util.EventListener;
 import java.util.EventObject;
 
-public class StopwatchPanel extends JPanel implements ClockTickListener {
+/**
+ * A stopwatch panel.
+ * <p>
+ * The panel has its own clock that has the same dt as the clock provided as a parameter in the constructor.
+ */
+public class StopwatchPanel extends JPanel implements ClockTickListener, ClockStateListener {
 
     private int numSigDigits = 4;
     private JTextField clockTF = new JTextField();
@@ -45,9 +38,10 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
     private StopwatchListener stopwatchListenerProxy = (StopwatchListener)stopwatchEventChannel.getListenerProxy();
     private JButton resetBtn;
 
-    public StopwatchPanel( AbstractClock clock ) {
-        this.clock = new SwingTimerClock( clock.getDt(), 100 );
+    public StopwatchPanel( AbstractClock simulationClock ) {
+        this.clock = new SwingTimerClock( simulationClock.getDt(), 100 );
         this.clock.addClockTickListener( this );
+        simulationClock.addClockStateListener( this );
         setBackground( new Color( 237, 225, 113 ) );
 
         // Clock readout
@@ -59,7 +53,7 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
         clockTF.setHorizontalAlignment( JTextField.RIGHT );
 
         // Initialize the contents of the clockTF
-        clockTicked( new ClockTickEvent( clock, 0 ) );
+        clockTicked( new ClockTickEvent( simulationClock, 0 ) );
 
         // Start/stop button
         startStopStr = new String[2];
@@ -93,13 +87,6 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
         event.setReset( true );
         event.setRunning( false );
         stopwatchListenerProxy.reset( event );
-    }
-
-    public void clockTicked( ClockTickEvent event ) {
-        AbstractClock c = (AbstractClock)event.getSource();
-        // TODO: scale factor goes here
-        String s = clockFormat.format( c.getRunningTime() );
-        clockTF.setText( s );
     }
 
     public void setClockPanelVisible( boolean isVisible ) {
@@ -147,8 +134,38 @@ public class StopwatchPanel extends JPanel implements ClockTickListener {
         }
     }
 
+    //----------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------
+    boolean savedResetState;
+    /**
+     * Responds to state changes in the simulation clock
+     * @param event
+     */
+    public void stateChanged( ClockStateEvent event ) {
+        this.clock.setPaused( event.getIsPaused() );
+        if( event.getIsPaused() ) {
+            savedResetState = resetBtn.isEnabled();
+            resetBtn.setEnabled( true );
+        }
+        else {
+            resetBtn.setEnabled( savedResetState );
+        }
+    }
+
+    /**
+     * Responds to ticks of the stopwatch clock
+     * @param event
+     */
+    public void clockTicked( ClockTickEvent event ) {
+        AbstractClock c = (AbstractClock)event.getSource();
+        // TODO: scale factor goes here
+        String s = clockFormat.format( c.getRunningTime() );
+        clockTF.setText( s );
+    }
+
     //-----------------------------------------------------------------
-    // Event stuff
+    // Event and Listener definitions
     //-----------------------------------------------------------------
     public interface StopwatchListener extends EventListener {
         void start( StopwatchEvent event );

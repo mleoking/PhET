@@ -48,7 +48,8 @@ public class IdealGasConfig {
     public static final float s_timeStep = 0.1f;
     public static final int s_waitTime = 40;
     public static final double temperatureScaleFactor = 20;
-    public static final double MAX_GAUGE_PRESSURE = 3.0;
+    public static final double MAX_GAUGE_PRESSURE = 6.0;
+//    public static final double MAX_GAUGE_PRESSURE = 3.0;
     public static final int s_maxGravity = 40;
 
     // Title, description and version number
@@ -87,6 +88,7 @@ public class IdealGasConfig {
     public static final String PUSHER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher/pusher-3";
     public static final int NUM_LEANER_ANIMATION_FRAMES = 15;
     public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning/pusher-leaning";
+    public static final String PUSHER_ANIMATION_IMAGE_FILE_TYPE = "png";
 
     // Offset for locating objects in the apparatus panel
     public static final int X_BASE_OFFSET = 30;

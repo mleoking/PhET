@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.HeliumBalloonModule;
 import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
+import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.RigidHollowSphereModule;
 import edu.colorado.phet.idealgas.controller.menus.OptionsMenu;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
@@ -37,16 +38,19 @@ public class BuoyancyApplication extends PhetApplication {
             setClock( clock );
 
             // Create the modules
+            Module idealgasModule = new IdealGasModule( getClock() );
             Module rigidSphereModule = new RigidHollowSphereModule( getClock() );
             Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
             Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
             Module[] modules = new Module[]{
+                idealgasModule,
                 rigidSphereModule,
                 heliumBalloonModule,
                 hotAirBalloonModule,
             };
             setModules( modules );
-            setInitialModule( rigidSphereModule );
+            setInitialModule( hotAirBalloonModule );
+//            setInitialModule( rigidSphereModule );
 
             // Set the initial size
             setFrameCenteredSize( 1020, 700 );
