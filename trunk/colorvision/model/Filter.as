@@ -85,10 +85,11 @@
 		this.alpha = alpha;
 		return alpha;
 	}
-	
+
+	var cnt;
 	function onEnterFrame(){
 		var photons:Array = Photon.getInstances();
-		trace("filter: " + photons);
+//		trace("filter: " + cnt++ + " : " + photons);
 		for(var i=0; i<photons.length; i++){
 			trace("filter: " + photons[i]._x);
 			if(photons[i]._x > this.xLoc){

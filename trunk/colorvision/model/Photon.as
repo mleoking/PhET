@@ -14,6 +14,7 @@
 		}
 	}
 	static function getInstances() {
+//		trace("photon: " + instances.length );
 		return instances;
 	}
 	static function getPhotonsWithinBounds(x, y, w, h) {
