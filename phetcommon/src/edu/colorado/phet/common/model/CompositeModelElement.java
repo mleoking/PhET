@@ -31,6 +31,10 @@ public class CompositeModelElement extends SimpleObservable implements ModelElem
         return (ModelElement)modelElements.get( i );
     }
 
+    public boolean containsModelElement( ModelElement modelElement ) {
+        return modelElements.contains( modelElement );
+    }
+
     public int numModelElements() {
         return modelElements.size();
     }
