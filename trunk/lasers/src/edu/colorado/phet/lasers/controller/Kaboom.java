@@ -44,9 +44,6 @@ import java.util.Random;
  */
 public class Kaboom implements ModelElement {
 
-    // Number of photons in the system that will cause the thing to blow up
-    public static int kaboomThreshold = 150;
-
     private MultipleAtomModule module;
     private LaserModel model;
     private PhetImageGraphic graphic;
@@ -69,7 +66,7 @@ public class Kaboom implements ModelElement {
 
     public void stepInTime( double dt ) {
         int numPhotons = model.getNumPhotons();
-        if( numPhotons > kaboomThreshold && !kaboomed ) {
+        if( numPhotons > LaserConfig.KABOOM_THRESHOLD && !kaboomed ) {
             kaboom3();
             kaboomed = true;
         }
