@@ -1,13 +1,24 @@
-/**
- * Class: ImmutableVector2D
- * Package: edu.colorado.phet.common.math
- * Author: Another Guy
- * Date: May 21, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
+
 package edu.colorado.phet.common.math;
 
 import java.awt.geom.Point2D;
 
+/**
+ * ImmutableVector2D
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public interface ImmutableVector2D extends AbstractVector2D {
 
     public class Double extends AbstractVector2D.Double implements ImmutableVector2D {

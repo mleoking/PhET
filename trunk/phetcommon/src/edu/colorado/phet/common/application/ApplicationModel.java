@@ -1,4 +1,14 @@
-/* Copyright University of Colorado, 2003 */
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+ */
+
 package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -8,6 +18,9 @@ import edu.colorado.phet.common.view.util.SimStrings;
 /**
  * This class is essentially a data structure that contains specifications for the top-level
  * elements of a PhetApplication.
+ * 
+ * @author ?
+ * @version $Revision$
  */
 public class ApplicationModel {
     private String name;
