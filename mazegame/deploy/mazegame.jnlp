@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+  spec="1.0+"
+  codebase="http://www.colorado.edu/physics/phet/simulations"
+  href="mazegame/mazegame.jnlp">
+  <information>
+    <title>Maze Game</title> 
+    <vendor>University of Colorado, Department of Physics</vendor> 
+    <homepage href="http://www.colorado.edu/physics/phet"/> 
+    <description>Control a particle's position, velocity or acceleration to reach the goal.</description> 
+    <description kind="short">A position, velocity and acceleration demo.</description> 
+    <icon href="icons/PhET.gif"/> 
+    <icon kind="splash" href="icons/PhET.gif"/> 
+    <offline-allowed/>
+  </information>
+
+  <security>
+  </security>
+
+  <resources>
+    <j2se version="1.4+"/>
+    <jar href="mazegame/mazegame.jar"/>
+
+  </resources>
+
+  <application-desc main-class="edu.colorado.phet.mazegame.MazeGameApplet"> 
+  <!-- uncomment to specify user language
+    <argument>user.language=test</argument>
+  -->
+  </application>
+</jnlp>
+
+
+
