@@ -1,0 +1,22 @@
+===============================================================================
+"To Do" list for "faraday" simulation
+===============================================================================
+
+IN PROGRESS:
+
+HIGH PRIORITY:
+
+MEDIUM PRIORITY:
+
+LOW PRIORITY:
+
+CLEANUP:
+
+POSSIBLE OPTIMIZATIONS:
+
+PHETCOMMON:
+
+DONE:
+(3/30) - set up basic application framework
+
+NO:
