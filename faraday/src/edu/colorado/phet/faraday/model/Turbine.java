@@ -31,7 +31,7 @@ public class Turbine extends BarMagnet implements ModelElement {
     private static final double DEFAULT_MAX_ROTATION_DELTA = Math.PI / 3;  // radians
     
     // Determines whether all critical angles will be hit.
-    private static final boolean HIT_CRITICAL_ANGLES = false;
+    private static boolean _criticalAnglesEnabled = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -114,6 +114,14 @@ public class Turbine extends BarMagnet implements ModelElement {
         return Math.abs( _speed * _maxRPM );
     }
     
+    public static void setCriticalAnglesEnabled( boolean criticalAnglesEnabled ) {
+        _criticalAnglesEnabled = criticalAnglesEnabled;
+    }
+    
+    public static boolean isCriticalAnglesEnabled() {
+        return _criticalAnglesEnabled;
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -129,7 +137,7 @@ public class Turbine extends BarMagnet implements ModelElement {
             double newDirection = getDirection() + ( _speed * _maxDelta );
 
             // Adjust the angle so that we hit all peaks and zero crossings.
-            if ( HIT_CRITICAL_ANGLES ) {
+            if ( _criticalAnglesEnabled ) {
                 for ( int i = 0; i < 5; i++ ) {
                     double criticalAngle = i * ( Math.PI / 2 ); // ...at 90 degree intervals
                     if ( _speed > 0 && newDirection > criticalAngle && previousDirection < criticalAngle ) {
