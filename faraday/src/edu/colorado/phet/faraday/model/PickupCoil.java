@@ -189,6 +189,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         
         // Kirchhoff's rule -- voltage across the ends of the coil equals the emf.
         double voltage = emf;
+        if ( voltage > getMaxVoltage() ) {
+//            System.out.println( "PickupCoil.updateEmf: voltage exceeded maximum voltage: " + voltage ); //DEBUG
+            voltage = getMaxVoltage();
+        }
         
         // Update the amplitude of this voltage source.
         setAmplitude( voltage / getMaxVoltage() );
