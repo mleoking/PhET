@@ -21,9 +21,10 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class HeliumBalloonModule extends IdealGasModule implements GasSource {
+public class HeliumBalloonModule extends IdealGasModule implements GasSource, IdealGasModule.ResetListener {
 
     private static final float initialVelocity = 30;
+    private static double MASS = 500;
 
     private HollowSphere balloon;
     private Class gasSpecies = LightSpecies.class;
@@ -37,6 +38,9 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
         double xDiag = 434;
         double yDiag = 397;
 
+        // So we'll get events sent by parent classes
+        this.addListener(this);
+
         // Add collision experts to the model
 //        getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert( getIdealGasModel(), clock.getDt() ) );
         getIdealGasModel().addCollisionExpert(new SphereBalloonExpert(getIdealGasModel(), clock.getDt()));
@@ -44,7 +48,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
         balloon = new Balloon(new Point2D.Double(300, 350),
                 new Vector2D.Double(0, 0),
                 new Vector2D.Double(0, 0),
-                100,
+                MASS,
                 50,
                 getIdealGasModel().getBox(),
                 clock);
@@ -178,5 +182,12 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource {
             currNumMolecules = 0;
             super.reset();
         }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Event handling
+    //
+    public void resetOccurred(ResetEvent event) {
+        balloon.setRadius(Balloon.MIN_RADIUS);
     }
 }
