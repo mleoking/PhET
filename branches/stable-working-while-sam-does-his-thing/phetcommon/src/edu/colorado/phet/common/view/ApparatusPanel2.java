@@ -7,7 +7,7 @@
  * Modified by : $Author$
  * Revision : $Revision$
  * Date modified : $Date$
- */
+*/
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.BaseModel;
@@ -135,24 +135,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
             }
         } );
 
-        this.addComponentListener( new ComponentAdapter() {
-            public void componentShown( ComponentEvent e ) {
-                if( strategy == null ) {
-                    strategy = SwingUtilities.getWindowAncestor( ApparatusPanel2.this ).getBufferStrategy();
-//                    if (!strategy.getCapabilities().isPageFlipping()) {
-//                        System.out.println("Page flipping not supported.");
-//                    }
-//                    if (strategy.getCapabilities().isFullScreenRequired()) {
-//                        System.out.println("Full screen is required for buffering.");
-//                    }
-//                    System.out.println("strategy = " + strategy);
-                }
-
-
-            }
-        } );
-
-
+        // Add a listener that will adjust things when the panel is resized
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 if( orgBounds == null || orgBounds.getWidth() <= 0 || orgBounds.getHeight() <= 0 ) {
@@ -198,6 +181,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 }
             }
         } );
+
+        // Prevents repaint messages that come from the OS from being causing a repaint. Used from
+        // recommendation in "Java 1.4 Game Programming", Mulholland & Murphy
+        this.setIgnoreRepaint( true );
     }
 
     public boolean isUseOffscreenBuffer() {
@@ -206,7 +193,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     public void setUseOffscreenBuffer( boolean useOffscreenBuffer ) {
         // Todo: Determine if the following two lines help or not
-//        setOpaque( useOffscreenBuffer );
+        setOpaque( useOffscreenBuffer );
         setDoubleBuffered( !useOffscreenBuffer );
         this.useOffscreenBuffer = useOffscreenBuffer;
     }
@@ -308,17 +295,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
 
     private void drawIt( Graphics2D g2 ) {
-        //        Graphics2D gImg = (Graphics2D)bImg.getGraphics();
-        //        GraphicsState gs2 = new GraphicsState( gImg );
-        //        gImg.transform( graphicTx );
-        //        graphic.paint( gImg );
-        //        gs2.restoreGraphics();
-        ////        g2.setClip( repaintArea );
+        GraphicsState graphicsState = new GraphicsState( g2 );
 
         if( repaintArea == null ) {
             repaintArea = this.getBounds();
         }
-        long now = System.currentTimeMillis();
         g2.setBackground( super.getBackground() );
         g2.clearRect( 0, 0, this.getWidth(), this.getHeight() );
         g2.clearRect( repaintArea.x, repaintArea.y, repaintArea.width, repaintArea.height );
@@ -328,17 +309,21 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
 
         GraphicsState gs = new GraphicsState( g2 );
-        g2.transform( graphicTx );
-        //        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+//        g2.transform( graphicTx );
         if( useOffscreenBuffer && bImg != null ) {
+
+            g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+
             bImgGraphics = (Graphics2D)bImg.getGraphics();
             bImgGraphics.setColor( this.getBackground() );
             bImgGraphics.fillRect( bImg.getMinX(), bImg.getMinY(), bImg.getWidth(), bImg.getHeight() );
             graphic.paint( bImgGraphics );
-            g2.drawImage( bImg, new AffineTransform(), null );
+//            g2.drawImage( bImg, new AffineTransform( ), null );
+            g2.drawImage( bImg, graphicTx, null );
             bImgGraphics.dispose();
         }
         else {
+            g2.transform( graphicTx );
             graphic.paint( g2 );
         }
         gs.restoreGraphics();
@@ -361,6 +346,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         //        long dt=System.currentTimeMillis()-now;
         //        System.out.println( "dt = " + dt );
+        graphicsState.restoreGraphics();
     }
 
     public void addGraphic( Graphic graphic, double level ) {
