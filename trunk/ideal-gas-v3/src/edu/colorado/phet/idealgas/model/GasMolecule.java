@@ -20,7 +20,20 @@ import java.util.List;
  */
 public abstract class GasMolecule extends IdealGasParticle {
 
-//    private IdealGasModel model;
+    public static Point2D getCm( List instances ) {
+        Point2D cm = new Point2D.Double();
+        for( int i = 0; i < instances.size(); i++ ) {
+            GasMolecule molecule = (GasMolecule)instances.get( i );
+            cm.setLocation( cm.getX() + molecule.getPosition().getX(),
+                            cm.getY() + molecule.getPosition().getY() );
+        }
+        if( instances.size() != 0 ) {
+            cm.setLocation( cm.getX() / instances.size(),
+                            cm.getY() / instances.size() );
+        }
+        return cm;
+    }
+
     // List of contraints that must be applied to the IdealGasParticle's state
     // at the end of each stepInTime
     protected ArrayList constraints = new ArrayList();

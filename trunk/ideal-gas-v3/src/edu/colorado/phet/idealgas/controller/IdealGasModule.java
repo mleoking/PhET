@@ -19,6 +19,7 @@ import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.BaseIdealGasApparatusPanel;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.Mannequin;
+import edu.colorado.phet.idealgas.view.monitors.CmLines;
 import edu.colorado.phet.idealgas.view.monitors.IdealGasMonitorPanel;
 
 import java.awt.geom.Point2D;
@@ -28,7 +29,8 @@ public class IdealGasModule extends Module {
     private PressureSensingBox box;
     private Gravity gravity;
     private Pump pump;
-//    private DefaultInteractiveGraphic rulerGraphic;
+    private CmLines cmLines;
+    //    private DefaultInteractiveGraphic rulerGraphic;
 
 
     public IdealGasModule( AbstractClock clock ) {
@@ -77,8 +79,17 @@ public class IdealGasModule extends Module {
         pump.setCurrentGasSpecies( moleculeClass );
     }
 
-    public void setCmLinesOn( boolean selected ) {
-        System.out.println( "not implemented" );
+    public void setCmLinesOn( boolean cmLinesOn ) {
+        if( cmLines == null ) {
+            cmLines = new CmLines( getApparatusPanel(), idealGasModel );
+        }
+        if( cmLinesOn ) {
+            addGraphic( cmLines, 20 );
+        }
+        else {
+            getApparatusPanel().removeGraphic( cmLines );
+        }
+
     }
 
     public void setStove( int value ) {
@@ -91,23 +102,23 @@ public class IdealGasModule extends Module {
     //        idealGasModel.setGravity( gravity );
     //    }
 
-//    public void setPressureSliceEnabled( boolean selected ) {
-//        System.out.println( "not implemented" );
-//    }
-//
-//    public void setRulerEnabed( boolean rulerEnabled ) {
-//        if( rulerGraphic == null ) {
-//            rulerGraphic = new RulerGraphic( getApparatusPanel() );
-//        }
-//        if( rulerEnabled ) {
-//            getApparatusPanel().addGraphic( rulerGraphic, Integer.MAX_VALUE );
-//        }
-//        else {
-//            getApparatusPanel().removeGraphic( rulerGraphic );
-//        }
-//        getApparatusPanel().repaint();
-//    }
-//
+    //    public void setPressureSliceEnabled( boolean selected ) {
+    //        System.out.println( "not implemented" );
+    //    }
+    //
+    //    public void setRulerEnabed( boolean rulerEnabled ) {
+    //        if( rulerGraphic == null ) {
+    //            rulerGraphic = new RulerGraphic( getApparatusPanel() );
+    //        }
+    //        if( rulerEnabled ) {
+    //            getApparatusPanel().addGraphic( rulerGraphic, Integer.MAX_VALUE );
+    //        }
+    //        else {
+    //            getApparatusPanel().removeGraphic( rulerGraphic );
+    //        }
+    //        getApparatusPanel().repaint();
+    //    }
+    //
     public void setGravity( double value ) {
         gravity.setAmt( value );
     }

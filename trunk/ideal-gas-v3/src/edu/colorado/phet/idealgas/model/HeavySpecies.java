@@ -11,7 +11,6 @@ import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  *
@@ -84,18 +83,7 @@ public class HeavySpecies extends GasMolecule {
         s_instances.remove( particle );
     }
 
-    // todo: float this up to the superclass
-    public static Vector2D getCm() {
-        Vector2D cm = new Vector2D.Double();
-        for( Iterator it = s_instances.iterator(); it.hasNext(); ) {
-            HeavySpecies heavySpecies = (HeavySpecies)it.next();
-            s_tempVector.setComponents( heavySpecies.getPosition().getX(),
-                                        heavySpecies.getPosition().getY() );
-            cm = cm.add( s_tempVector );
-        }
-        if( s_instances.size() != 0 ) {
-            cm.scale( 1.0 / s_instances.size() );
-        }
-        return cm;
+    public static Point2D getCm() {
+        return GasMolecule.getCm( s_instances );
     }
 }
