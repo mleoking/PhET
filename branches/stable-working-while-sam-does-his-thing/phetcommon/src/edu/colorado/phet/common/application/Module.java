@@ -26,7 +26,7 @@ import javax.swing.*;
  * a complete virtual experiment. This includes, but is not limited to, the
  * on-screen controls and view elements that go along with the
  * experiment. Each module has its own model.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -155,5 +155,6 @@ public class Module {
     }
 
     public void showMegaHelp() {
+        JOptionPane.showMessageDialog( null, "<html><center>Megahelp not available<br>for this simulation</center></html>" );
     }
 }
