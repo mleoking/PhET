@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 
 public class HelpMenu extends JMenu {
     public HelpMenu( final ApplicationModel appDescriptor ) {
-        //    public HelpMenu( final PhetApplication app ) {
         super( "Help" );
         this.setMnemonic( 'h' );
 

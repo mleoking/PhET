@@ -133,7 +133,6 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
 
     public void addPopupMenuBehavior( final JPopupMenu menu ) {
         MouseInputAdapter adapter = new MouseInputAdapter() {
-            // implements java.awt.event.MouseListener
             public void mouseReleased( MouseEvent e ) {
                 if( SwingUtilities.isRightMouseButton( e ) ) {
                     menu.show( e.getComponent(), e.getX(), e.getY() );

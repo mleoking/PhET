@@ -21,9 +21,6 @@ public class TargetedImageGraphic extends BufferedImageGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        //        g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-        //        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-
         BufferedImage image = getBufferedImage();
 
         AffineTransform at = AffineTransform.getTranslateInstance( modelBounds.getX(), modelBounds.getY() );
@@ -33,16 +30,11 @@ public class TargetedImageGraphic extends BufferedImageGraphic {
         at.translate( 0, -image.getHeight() );
 
         super.setTransform( at );
-        //        g.drawRenderedImage( image, at );
         super.paint( g );
     }
 
     public void setRect( Rectangle2D.Double rect ) {
         this.modelBounds = rect;
     }
-
-    //    public boolean contains( int x, int y ) {
-    //        return modelBounds.contains( x, y );
-    //    }
 
 }

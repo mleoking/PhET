@@ -72,10 +72,10 @@ public class VersionUtils {
             }
         }
         catch( FileNotFoundException e ) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            e.printStackTrace();
         }
         catch( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            e.printStackTrace();
         }
 
         InputStream buildTimeURL = cl.getResourceAsStream( "build.time.stamp" );

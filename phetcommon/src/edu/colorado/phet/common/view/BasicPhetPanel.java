@@ -27,7 +27,7 @@ public class BasicPhetPanel extends JPanel {
             phetLogo = new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" );
         }
         catch( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            e.printStackTrace();
         }
     }
 
@@ -145,7 +145,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
-        //        getApparatusPanelContainer().remove( 0 );
+        //        getApparatusPanelContainer().remove( 0 );//TODO don't we need this line?
         getApparatusPanelContainer().add( apparatusPanel, 0 );
     }
 }

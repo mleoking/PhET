@@ -10,7 +10,6 @@ package edu.colorado.phet.common.view.components.clockgui;
 import javax.swing.*;
 import java.awt.*;
 import java.text.NumberFormat;
-import java.util.Observable;
 
 public class ClockTimeReadout extends JPanel {
 
@@ -31,9 +30,6 @@ public class ClockTimeReadout extends JPanel {
         clockFormat.setMaximumFractionDigits( 1 );
     }
 
-    /**
-     *
-     */
     public void setClockReading( String reading ) {
         clockTF.setText( reading );
     }
@@ -42,20 +38,10 @@ public class ClockTimeReadout extends JPanel {
         setClockReading( clockFormat.format( reading ) );
     }
 
-    public void update( Observable o, Object arg ) {
-        //        setClockReading(PhysicalSystem.instance().getSystemClock().getRunningTime());
-    }
-
-    /**
-     *
-     */
     public void setClockPanelVisible( boolean isVisible ) {
         setVisible( isVisible );
     }
 
-    /**
-     *
-     */
     public boolean isClockPanelVisible() {
         return isVisible();
     }

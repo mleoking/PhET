@@ -61,8 +61,6 @@ public class ClockDialog extends JDialog {
     private void updateClock() {
         clock.setDt( clockControlPanel.getDt() );
         clock.setDelay( clockControlPanel.getSleepInterval() );
-        //        clock.setRequestedDT(clockControlPanel.getDt());
-        //        clock.setRequestedWaitTime(clockControlPanel.getSleepInterval());
         this.hide();
     }
 
@@ -71,13 +69,4 @@ public class ClockDialog extends JDialog {
         clockControlPanel.setClock( c );
     }
 
-    //    public void delayChanged(int waitTime) {
-    //        clockControlPanel.
-    //    }
-    //
-    //    public void dtChanged(double dt) {
-    //    }
-    //
-    //    public void threadPriorityChanged(ThreadPriority tp) {
-    //    }
 }
