@@ -37,7 +37,7 @@ public class LaserControlPanel extends PhetControlPanel {
         Border border = BorderFactory.createEtchedBorder();
         this.setBorder( border );
 
-//        LaserSystem laserSystem = (LaserSystem)PhetApplication.instance().getPhysicalSystem();
+//        LaserModel laserSystem = (LaserModel)PhetApplication.instance().getPhysicalSystem();
 //        this.add( new StimulatingBeamControl( laserSystem.getStimulatingBeam() ) );
 //        this.add( new PumpingBeamControl() );
 //        this.add( new SpontaneousEmissionTimeControlPanel() );

@@ -7,7 +7,6 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.lasers.controller.command.SetCavityReflectivityCmd;
 import edu.colorado.phet.lasers.physics.ResonatingCavity;
 
 import javax.swing.*;
@@ -26,7 +25,7 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
     /**
      * @param cavity
      */
-    public RightMirrorReflectivityControlPanel( ResonatingCavity cavity ) {
+    public RightMirrorReflectivityControlPanel( final ResonatingCavity cavity ) {
 
         if( cavity != null ) {
             cavity.addObserver( this );
@@ -57,7 +56,8 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
         reflectivitySlider.setMajorTickSpacing( 10 );
         reflectivitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateReflectivity( ( (float)reflectivitySlider.getValue() ) / 100 );
+//                updateReflectivity( ( (float)reflectivitySlider.getValue() ) / 100 );
+                cavity.setReflectivity(( (float)reflectivitySlider.getValue() ) / 100  );
                 reflectivityTF.setText( Float.toString( reflectivitySlider.getValue() ) );
             }
         } );
@@ -71,9 +71,9 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
         this.add( controlPanel );
     }
 
-    private void updateReflectivity( float reflectivity ) {
-        new SetCavityReflectivityCmd( reflectivity ).doIt();
-    }
+//    private void updateReflectivity( float reflectivity ) {
+//        new SetCavityReflectivityCmd( reflectivity ).doIt();
+//    }
 
     public void update() {
         int reflectivity = (int)( cavity.getReflectivity() * 100 );

@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.lasers.physics.LaserSystem;
+import edu.colorado.phet.lasers.physics.LaserModel;
 import edu.colorado.phet.lasers.physics.atom.HighEnergyState;
 import edu.colorado.phet.lasers.physics.atom.MiddleEnergyState;
 
@@ -67,7 +67,7 @@ public class ApparatusConfiguration {
         this.reflectivity = reflectivity;
     }
 
-    public void configureSystem( LaserSystem model ) {
+    public void configureSystem( LaserModel model ) {
         HighEnergyState.setSpontaneousEmmisionHalfLife( getHighEnergySpontaneousEmissionTime() );
         MiddleEnergyState.setSpontaneousEmmisionHalfLife( getMiddleEnergySpontaneousEmissionTime() );
         model.getPumpingBeam().setPhotonsPerSecond( getPumpingPhotonRate() );

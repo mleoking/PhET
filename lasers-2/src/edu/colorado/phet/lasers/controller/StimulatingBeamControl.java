@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.command.SetPhotonRateCmd;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.physics.photon.CollimatedBeam;
+import edu.colorado.phet.lasers.physics.LaserModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,22 +17,23 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.util.Observer;
-import java.util.Observable;
 
 /**
  *
  */
-public class StimulatingBeamControl extends JPanel implements Observer {
+public class StimulatingBeamControl extends JPanel implements SimpleObserver {
 
     private JSlider photonRateSlider;
     private JTextField photonRateTF;
+    private CollimatedBeam collimatedBeam;
 
-    public StimulatingBeamControl( CollimatedBeam collimatedBeam ) {
+    public StimulatingBeamControl( final LaserModel model ) {
 
+        collimatedBeam = model.getStimulatingBeam();
         if( collimatedBeam != null ) {
             collimatedBeam.addObserver( this );
         }
+        this.collimatedBeam = collimatedBeam;
 
         JPanel photonRateControlPanel = new JPanel( new GridLayout( 1, 2 ) );
         photonRateControlPanel.setPreferredSize( new Dimension( 125, 70 ) );
@@ -44,7 +45,7 @@ public class StimulatingBeamControl extends JPanel implements Observer {
         Font clockFont = photonRateTF.getFont();
         photonRateTF.setFont( new Font( clockFont.getName(),
                                         LaserConfig.CONTROL_FONT_STYLE,
-                                        LaserConfig.CONTROL_FONT_SIZE ));
+                                        LaserConfig.CONTROL_FONT_SIZE ) );
 
         photonRateTF.setText( Float.toString( LaserConfig.DEFAULT_STIMULATING_PHOTON_RATE ) + " photon/sec" );
 
@@ -58,7 +59,9 @@ public class StimulatingBeamControl extends JPanel implements Observer {
         photonRateSlider.setMajorTickSpacing( 10 );
         photonRateSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updatePhotonRate( photonRateSlider.getValue() );
+//                updatePhotonRate( photonRateSlider.getValue() );
+                CollimatedBeam beam = model.getStimulatingBeam();
+                beam.setPhotonsPerSecond( photonRateSlider.getValue() );
                 photonRateTF.setText( Integer.toString( photonRateSlider.getValue() ) );
             }
         } );
@@ -72,17 +75,10 @@ public class StimulatingBeamControl extends JPanel implements Observer {
         this.add( photonRateControlPanel );
     }
 
-    private void updatePhotonRate( int rate ) {
-        new SetPhotonRateCmd( rate ).doIt();
-    }
-
-    public void update( Observable o, Object arg ) {
-        if( o instanceof CollimatedBeam ) {
-            CollimatedBeam collimatedBeam = (CollimatedBeam)o;
-            if( photonRateSlider.getValue() != (int)collimatedBeam.getPhotonsPerSecond() ) {
-                photonRateTF.setText( Float.toString( collimatedBeam.getPhotonsPerSecond() ));
-                photonRateSlider.setValue( (int)collimatedBeam.getPhotonsPerSecond() );
-            }
+    public void update() {
+        if( photonRateSlider.getValue() != (int)collimatedBeam.getPhotonsPerSecond() ) {
+            photonRateTF.setText( Float.toString( collimatedBeam.getPhotonsPerSecond() ) );
+            photonRateSlider.setValue( (int)collimatedBeam.getPhotonsPerSecond() );
         }
     }
 }

@@ -36,7 +36,7 @@ public class Atom extends SphericalBody {
 
     public void setState( AtomicState newState ) {
         this.state = newState;
-        setChanged();
+//        setChanged();
         notifyObservers();
     }
 

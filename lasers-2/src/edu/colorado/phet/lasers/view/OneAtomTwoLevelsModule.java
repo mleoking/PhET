@@ -10,9 +10,10 @@ package edu.colorado.phet.lasers.view;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.TwoLevelControlPanel;
 import edu.colorado.phet.lasers.physics.ResonatingCavity;
-import edu.colorado.phet.lasers.physics.LaserSystem;
+import edu.colorado.phet.lasers.physics.LaserModel;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 
 import java.awt.geom.Point2D;
 
@@ -24,12 +25,12 @@ public class OneAtomTwoLevelsModule extends SingleAtomBaseModule {
     /**
      *
      */
-    public OneAtomTwoLevelsModule() {
+    public OneAtomTwoLevelsModule( AbstractClock clock) {
         super( "One Atom / Two Energy Levels" );
 
-        monitorPanel = new TwoEnergyLevelMonitorPanel( (LaserSystem)getModel() );
+        monitorPanel = new TwoEnergyLevelMonitorPanel( (LaserModel)getModel() );
         setMonitorPanel( monitorPanel );
-        setControlPanel( new TwoLevelControlPanel() );
+        setControlPanel( new TwoLevelControlPanel( this, clock ) );
     }
 
     public void activate( PhetApplication app ) {
@@ -54,6 +55,6 @@ public class OneAtomTwoLevelsModule extends SingleAtomBaseModule {
         config.setMiddleEnergySpontaneousEmissionTime( 0.500f );
         config.setPumpingPhotonRate( 0.0f );
         config.setReflectivity( 0.7f );
-        config.configureSystem();
+        config.configureSystem( getLaserModel() );
     }
 }
