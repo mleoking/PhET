@@ -6,10 +6,9 @@ IN PROGRESS:
 - Lightbulb & Voltmeter beat with a false peak, especially visible with AC electromagnet (100% amp, 33% freq)
 
 HIGH PRIORITY:
-- trace/scan the AC wave with a cursor that represents "now"
+- cursor that moves across the AC sin wave
 - add a water wheel graphic to turbine, paddles as wide as widest water stream
 - RPM readout on turbine (at center of rotation?)
-- tick marks around voltmeter display
 - handle for faucet that looks like the side view of a faucet handle, put slider inside handle
 - requirements for Generator module
 - calibrate lightbulb
@@ -60,6 +59,9 @@ PHETCOMMON:
 
 DONE:
 v0r19...
+(3/17) - flatten all static graphics in voltmeter
+(3/17) - add tick marks around voltmeter display, convert guage to Java shapes
+(3/17) - fix case where Field Meter displays B=0.00 and a non-zero theta
 (3/17) - label electromagnet current source choices "DC" and "AC"
 (3/17) - flatten all static graphic components of AC Power Supply
 (3/17) - keep zero-crossing of AC sine wave at origin of the XY axis

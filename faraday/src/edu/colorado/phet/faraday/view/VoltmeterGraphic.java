@@ -11,22 +11,24 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.RenderingHints;
+import java.awt.*;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.Voltmeter;
 import edu.colorado.phet.faraday.util.IRescaler;
-
 
 /**
  * VoltmeterGraphic is the graphic representation of a voltmeter.
@@ -37,6 +39,23 @@ import edu.colorado.phet.faraday.util.IRescaler;
  * @version $Revision$
  */
 public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObserver {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // Pivot point
+    private static final Point PIVOT_POINT = new Point( 85, 82 );
+
+    // Screw that anchors needle.
+    private static final Color SCREW_COLOR = Color.BLUE;
+    private static final int SCREW_RADIUS = 5;
+    
+    // Needle
+    private static final Color NEEDLE_COLOR = Color.BLUE;
+    private static final int NEEDLE_LENGTH = 66;
+    private static final Dimension NEEDLE_HEAD_SIZE = new Dimension( 12, 15 );
+    private static final int NEEDLE_TAIL_WIDTH = 3;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -68,42 +87,39 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
-        // Meter body
+        // Background, contains all of the static graphic components.
         {
-            PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.VOLTMETER_IMAGE );
-            addGraphic( body );
-            int rx = body.getImage().getWidth() / 2;
-            int ry = body.getImage().getHeight();
-            body.setRegistrationPoint( rx, ry );
+            BackgroundGraphic background = new BackgroundGraphic( component );
+            addGraphic( background );
         }
         
         // Screw that holds the needle in place.
         {
-            int diameter = 11;
             PhetShapeGraphic screw = new PhetShapeGraphic( component );
             addGraphic( screw );
-            screw.setShape( new Ellipse2D.Double( 0, 0, diameter, diameter ) );
-            screw.setPaint( Color.BLUE );
-            int rx = ( diameter / 2 ) + 1;
-            int ry = rx;
-            screw.setRegistrationPoint( rx, ry );
-            screw.setLocation( 0, -23 );
+            screw.setShape( new Ellipse2D.Double( 0, 0, 2 * SCREW_RADIUS, 2 * SCREW_RADIUS ) );
+            screw.setPaint( SCREW_COLOR );
+            screw.centerRegistrationPoint();
+            screw.setLocation( PIVOT_POINT );
         }
         
         // Needle
         {
             Point2D tail = new Point2D.Double( 0, 0 );
-            Point2D tip = new Point2D.Double( 0, -70 );
-            Dimension headSize = new Dimension( 12, 15 );
-            int tailWidth = 3;
-            Arrow arrow = new Arrow( tail, tip, headSize.height, headSize.width, tailWidth );
+            Point2D tip = new Point2D.Double( 0, -NEEDLE_LENGTH );
+            Arrow arrow = new Arrow( tail, tip, NEEDLE_HEAD_SIZE.height, NEEDLE_HEAD_SIZE.width, NEEDLE_TAIL_WIDTH );
             _needle = new PhetShapeGraphic( component );
             addGraphic( _needle );
             _needle.setShape( arrow.getShape() );
-            _needle.setPaint( Color.BLUE );
-            _needle.setLocation( 0, -23 );
+            _needle.setPaint( NEEDLE_COLOR );
+            _needle.setLocation( PIVOT_POINT );
         }
-        
+
+        // Registration point at bottom center.
+        int rx = getWidth() / 2;
+        int ry = getHeight();
+        setRegistrationPoint( rx, ry );
+
         update();
     }
 
@@ -146,4 +162,136 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             repaint();
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /**
+     * BackgroundGraphic creates a background image from a bunch of static 
+     * graphic components.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private static class BackgroundGraphic extends PhetImageGraphic {
+        
+        // Guage
+        private static final int GUAGE_RADIUS = NEEDLE_LENGTH;
+        private static final Color GUAGE_COLOR = Color.BLACK;
+        private static final Stroke GUAGE_STROKE = new BasicStroke( 1f );
+        
+        // Title
+        private static final Font TITLE_FONT = new Font( "SansSerif", Font.PLAIN, 14 );
+        private static final Color TITLE_COLOR = Color.WHITE;
+        
+        // Tick marks
+        private static final double MINOR_TICK_SPACING = 180.0 / 40; // degrees
+        private static final int MINOR_TICKS_PER_MAJOR_TICK = 4;
+        private static final int MAJOR_TICK_LENGTH = 8;
+        private static final int MINOR_TICK_LENGTH = 4;
+        private static final Color MAJOR_TICK_COLOR = Color.BLACK;
+        private static final Color MINOR_TICK_COLOR = Color.BLACK;
+        private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
+        private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
+            
+        /**
+         * Sole constructor.
+         * 
+         * @param component
+         */
+        public BackgroundGraphic( Component component ) {
+            super( component );
+            
+            // This will be flattened after we've added graphics to it.
+            GraphicLayerSet graphicLayerSet = new GraphicLayerSet( component );
+            
+            // Meter body
+            PhetImageGraphic body = new PhetImageGraphic( component, FaradayConfig.VOLTMETER_IMAGE );
+            graphicLayerSet.addGraphic( body );
+            
+            // Title label
+            {
+                String s = SimStrings.get( "VoltmeterGraphic.title" );
+                PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
+                title.centerRegistrationPoint();
+                title.setLocation( body.getWidth() / 2, body.getHeight() + 3 );
+                graphicLayerSet.addGraphic( title );
+            }
+            
+            // Meter guage, a 180-degree chorded arc.
+            {
+                PhetShapeGraphic guage = new PhetShapeGraphic( component );
+                double diameter = 2 * GUAGE_RADIUS;
+                guage.setShape( new Arc2D.Double( 0, 0, diameter, diameter, 0, 180, Arc2D.CHORD ) );
+                guage.setBorderColor( GUAGE_COLOR );
+                guage.setStroke( GUAGE_STROKE );
+                guage.centerRegistrationPoint();
+                guage.setLocation( PIVOT_POINT );
+                graphicLayerSet.addGraphic( guage );
+            }
+            
+            // Vertical line at zero-point of guage.
+            {
+                PhetShapeGraphic line = new PhetShapeGraphic( component );
+                line.setShape( new Line2D.Double( 0, 0, 0, -GUAGE_RADIUS ) );
+                line.setBorderColor( GUAGE_COLOR );
+                line.setStroke( GUAGE_STROKE );
+                line.setLocation( PIVOT_POINT );
+                graphicLayerSet.addGraphic( line );
+            }
+            
+            // Major and minor tick marks around the outside of the guage.
+            {
+                double angle = MINOR_TICK_SPACING;
+                double tickCount = 1;
+                while ( angle < 90 ) {
+                    
+                    // Major or minor tick mark?
+                    int length = MINOR_TICK_LENGTH;
+                    Color color = MINOR_TICK_COLOR;
+                    Stroke stroke = MINOR_TICK_STROKE;
+                    if ( tickCount % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
+                        length = MAJOR_TICK_LENGTH;
+                        color = MAJOR_TICK_COLOR;
+                        stroke = MAJOR_TICK_STROKE;
+                    }
+                    
+                    // Positive tick mark
+                    PhetShapeGraphic positiveTick = new PhetShapeGraphic( component );
+                    positiveTick.setShape( new Line2D.Double( 0, 0, 0, length ) );
+                    positiveTick.setBorderColor( color );
+                    positiveTick.setStroke( stroke );
+                    positiveTick.setLocation( PIVOT_POINT );
+                    positiveTick.translate( 0, -GUAGE_RADIUS );
+                    positiveTick.rotate( Math.toRadians( angle ) );
+                    graphicLayerSet.addGraphic( positiveTick );
+                    
+                    // Negative tick mark
+                    PhetShapeGraphic negativeTick = new PhetShapeGraphic( component );
+                    negativeTick.setShape( new Line2D.Double( 0, 0, 0, length ) );
+                    negativeTick.setBorderColor( color );
+                    negativeTick.setStroke( stroke );
+                    negativeTick.setLocation( PIVOT_POINT );
+                    negativeTick.translate( 0, -GUAGE_RADIUS );
+                    negativeTick.rotate( Math.toRadians( -angle ) );
+                    graphicLayerSet.addGraphic( negativeTick );
+                    
+                    angle += MINOR_TICK_SPACING;
+                    tickCount++;
+                }
+            }
+            
+            // Flatten the graphic layer set.
+            {
+                Dimension size = graphicLayerSet.getSize();
+                BufferedImage bufferedImage = new BufferedImage( size.width, size.height, BufferedImage.TYPE_INT_ARGB );
+                Graphics2D g2 = bufferedImage.createGraphics();
+                RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                g2.setRenderingHints( hints );
+                graphicLayerSet.paint( g2 );
+                setImage( bufferedImage );
+            }
+        }
+    } // class Background
 }
