@@ -335,13 +335,6 @@
   </component>
   <component name="FileEditorManager" split-orientation="horizontal" split-proportion="0.5">
     <first-group selected-file="file://$PROJECT_DIR$/.cvsignore">
-      <entry file="file://$PROJECT_DIR$/src-hellophet-46/edu/colorado/phet/common/math/Average.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="4" column="13" selection-start="83" selection-end="83" vertical-scroll-proportion="0.13178295">
-            <folding />
-          </state>
-        </provider>
-      </entry>
       <entry file="file://$PROJECT_DIR$/src-hellophet-46/edu/colorado/phet/common/math/DoubleSeries.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
           <state line="4" column="13" selection-start="136" selection-end="136" vertical-scroll-proportion="0.13178295">
@@ -392,7 +385,14 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/.cvsignore" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="4" column="7" selection-start="79" selection-end="79" vertical-scroll-proportion="0.13178295">
+          <state line="4" column="0" selection-start="72" selection-end="72" vertical-scroll-proportion="0.13178295">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/Moving Man.iml" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="13" column="43" selection-start="701" selection-end="701" vertical-scroll-proportion="0.44111776">
             <folding />
           </state>
         </provider>
@@ -626,20 +626,21 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1288" height="972" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.18446602" order="1" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="6" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.2249191" order="0" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.37322274" order="1" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.24979919" order="1" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.27606636" order="8" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="5" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.18446602" order="1" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.24974722" order="2" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="6" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.2249191" order="0" />
+      <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="-1" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.30578512" order="3" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.24979919" order="1" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.37322274" order="1" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.4" order="5" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.27606636" order="8" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="2" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="4" />
@@ -654,7 +655,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="ACTIVE_VCS_NAME" value="" />
+    <option name="ACTIVE_VCS_NAME" value="CVS" />
   </component>
   <component name="VssConfiguration">
     <CheckoutOptions>
@@ -741,13 +742,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="133" selection-end="133" vertical-scroll-proportion="0.13572854">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build10.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="234" column="41" selection-start="10807" selection-end="10807" vertical-scroll-proportion="0.6986028">
@@ -847,7 +841,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.cvsignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="7" selection-start="79" selection-end="79" vertical-scroll-proportion="0.13178295">
+        <state line="4" column="0" selection-start="72" selection-end="72" vertical-scroll-proportion="0.13178295">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Moving Man.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="43" selection-start="701" selection-end="701" vertical-scroll-proportion="0.44111776">
           <folding />
         </state>
       </provider>
