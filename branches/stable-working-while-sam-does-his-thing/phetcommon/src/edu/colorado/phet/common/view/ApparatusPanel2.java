@@ -252,7 +252,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     public void repaint( Rectangle r ) {
         megarepaint( r.x, r.y, r.width, r.height );
-        System.out.println( "r = " + r );
     }
 
     public void repaint() {
