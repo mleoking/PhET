@@ -150,10 +150,10 @@ public class PickupCoilGraphic {
             _coilFront = null;
 
             // Lightbulb
-            _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, coilModel.getMagnetModel() );
+            _lightBulbGraphic = new LightBulbGraphic( component, lightBulbModel, coilModel.getMagnet() );
 
             // Voltmeter
-            _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, coilModel.getMagnetModel() );
+            _voltMeterGraphic = new VoltMeterGraphic( component, voltMeterModel, coilModel.getMagnet() );
 
             // Interactivity
             super.setCursorHand();
