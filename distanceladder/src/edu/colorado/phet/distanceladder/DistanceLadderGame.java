@@ -12,8 +12,12 @@ import edu.colorado.phet.distanceladder.exercise.Exercise;
 import edu.colorado.phet.distanceladder.exercise.HtmlMessage;
 import edu.colorado.phet.distanceladder.exercise.Message;
 import edu.colorado.phet.distanceladder.levels.*;
-import edu.colorado.phet.distanceladder.model.*;
+import edu.colorado.phet.distanceladder.model.NormalStar;
+import edu.colorado.phet.distanceladder.model.Star;
+import edu.colorado.phet.distanceladder.model.StarField;
+import edu.colorado.phet.distanceladder.model.UniverseModel;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -45,8 +49,6 @@ public class DistanceLadderGame {
         LostInSpaceApplication app = new LostInSpaceApplication( appDesc, modules, clock );
         app.startApplication( cockpitModule );
 
-
-//        starField.reset();
         Star star = null;
         Random random = new Random();
         for( int i = 0; i < 200; i++ ) {
@@ -86,9 +88,13 @@ public class DistanceLadderGame {
 
     private void doLevel( Exercise level ) {
         while( !level.doIt() ) {
-            new HtmlMessage( "messages/incorrect-msg-1.html" ).display();
+            JOptionPane.showMessageDialog( null, "Sorry, wrong answer.", "Results",
+                                           JOptionPane.ERROR_MESSAGE );
+//            new HtmlMessage( "messages/incorrect-msg-1.html" ).display();
         }
-        new HtmlMessage( "messages/correct-msg-1.html" ).display();
+        JOptionPane.showMessageDialog( null, "Correct!", "Results",
+                                       JOptionPane.INFORMATION_MESSAGE );
+//        new HtmlMessage( "messages/correct-msg-1.html" ).display();
     }
 
     public static void main( String[] args ) {

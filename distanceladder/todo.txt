@@ -1,4 +1,4 @@
-- Put coordinate graphic behind stars. Make lines lighter and stars bigger, especially on the cockpit panel
+- Get rid of media control panel
 
 - Joystickgraphic moves the ship the amount the cursor moves, not the joystick itself. FIX IT!!!
 
