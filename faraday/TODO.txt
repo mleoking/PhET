@@ -18,11 +18,12 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - check performance with a profiler
-- beautify Control Panels
 - Transformer module requirements
 - check for unnecessary notification, events and updates
 
 LOW PRIORITY:
+- LightBulb -> Lightbulb
+- VoltMeter -> Voltmeter
 - transparent bar magnet layer so that field meter looks like it's inside it
 - agree on control labels
 - Wiggle Me's
@@ -41,6 +42,7 @@ phetcommon:
 
 DONE:
 v0r12...
+(2/9) - beautify Control Panels
 (2/8) - disable Developer Controls panel
 (2/8) - move grid controls to dialog accessible via Options menu, include a performance warning, change all grids
 (2/8) - prevent dragging of stuff out of the apparatus panel viewport

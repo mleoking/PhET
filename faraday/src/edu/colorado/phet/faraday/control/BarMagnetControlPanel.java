@@ -85,11 +85,18 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
         _magnetGraphic = magnetGraphic;
         _fieldMeterGraphic = fieldMeterGraphic;
 
+        JPanel fillerPanel = new JPanel();
+        {
+            fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
+            // WORKAROUND: Filler to set consistent panel width
+            fillerPanel.add( Box.createHorizontalStrut( FaradayConfig.CONTROL_PANEL_MIN_WIDTH ) );
+        }
+        
         // Magnet strength
         JPanel strengthPanel = new JPanel();
         {
             // Title
-            TitledBorder border = new TitledBorder( SimStrings.get( "BarMagnetModule.magnetStrength.label" ) );
+            TitledBorder border = new TitledBorder( SimStrings.get( "BarMagnetModule.magnetStrength" ) );
             strengthPanel.setBorder( border );
 
             // Slider
@@ -105,53 +112,40 @@ public class BarMagnetControlPanel extends FaradayControlPanel {
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( strengthPanel );
             strengthPanel.setLayout( layout );
-            
-            // Strength
-            int row = 0;
-            layout.addAnchoredComponent( _strengthSlider, row, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _strengthValue, row, 1, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( _strengthSlider, 0, 0, GridBagConstraints.WEST );
+            layout.addAnchoredComponent( _strengthValue, 0, 1, GridBagConstraints.WEST );
         }
         
         //  Flip Polarity button
-        _flipPolarityButton = new JButton( SimStrings.get( "BarMagnetModule.flipPolarityButton.label" ) );
+        _flipPolarityButton = new JButton( SimStrings.get( "BarMagnetModule.flipPolarity" ) );
         
         // Magnet transparency on/off
-        _seeInsideCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.seeInsideCheckBox.label" ) );
+        _seeInsideCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.seeInside" ) );
 
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.fieldMeterCheckBox.label" ) );
+        _fieldMeterCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.showFieldMeter" ) );
 
         // Compass on/off
-        _compassCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.compassCheckBox.label" ) );
+        _compassCheckBox = new JCheckBox( SimStrings.get( "BarMagnetModule.showCompass" ) );
         
         // Panel 
-        JPanel panel = new JPanel();
+        JPanel controlPanel = new JPanel();
         {     
-            EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-            panel.setLayout( layout );
-            panel.setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
+            EasyGridBagLayout layout = new EasyGridBagLayout( controlPanel );
+            controlPanel.setLayout( layout );
+            controlPanel.setBorder( new EmptyBorder( 10, 0, 0, 0 ) );
             
-            // Strength
             int row = 0;
-            layout.addAnchoredComponent( strengthPanel, row, 0, GridBagConstraints.WEST );
-            
-            // Polarity
-            row++;
-            layout.addAnchoredComponent( _flipPolarityButton, row, 0, GridBagConstraints.WEST );
-            
-            // See Inside
-            row++;
-            layout.addAnchoredComponent( _seeInsideCheckBox, row, 0, GridBagConstraints.WEST );
-            
-            // Field Meter
-            row++;
-            layout.addAnchoredComponent( _fieldMeterCheckBox, row, 0, GridBagConstraints.WEST );
-            
-            // Field Meter
-            row++;
-            layout.addAnchoredComponent( _compassCheckBox, row, 0, GridBagConstraints.WEST );
+            layout.addFilledComponent( strengthPanel, row++, 0, GridBagConstraints.HORIZONTAL );
+            layout.addComponent( _flipPolarityButton, row++, 0 );
+            layout.addComponent( _seeInsideCheckBox, row++, 0 );
+            layout.addComponent( _fieldMeterCheckBox, row++, 0 );
+            layout.addComponent( _compassCheckBox, row++, 0 );
         }
-        addFullWidth( panel );
+        
+        // Add panels.
+        addFullWidth( fillerPanel );
+        addFullWidth( controlPanel );
         
         // Wire up event handling.
         EventListener listener = new EventListener();
