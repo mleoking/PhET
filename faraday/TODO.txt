@@ -3,12 +3,12 @@
 ===============================================================================
 
 IN PROGRESS:
+- PickupCoilGraphic leaves screen turds when it's first moved (with grid off)
 - animate electrons when lightbulb is enabled (front of coil only)
 - 50% more space between electrons
 - make QuadBezierSpline a subclass of QuadCurve.Double
 
 HIGH PRIORITY:
-- PickupCoilGraphic leaves screen turds when it's first moved (with grid off)
 - add Verlet behavior to voltmeter needle
 - make lightbulb ramp up/down instead of immediate on/off
 - show important "spikes" in induced emf (consider totally disabling smoothing)
@@ -42,6 +42,7 @@ phetcommon:
 
 DONE:
 v0r12...
+(2/9) - move localization init into PhetApplication
 (2/9) - reposition objects in all modules
 (2/9) - localize mnemonics for menus and menu items
 (2/9) - lightBulb -> lightbulb, voltMeter -> voltmeter
