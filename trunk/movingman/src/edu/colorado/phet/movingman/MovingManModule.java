@@ -41,6 +41,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * User: Sam Reid
@@ -84,6 +85,9 @@ public class MovingManModule extends Module {
     public static final double TIME_SCALE = 1.0 / 50.0;
     private int numSmoothingPoints;
     private HelpItem closeHelpItem;
+
+    // Localization
+    public static final String localizedStringsPath = "localization/MovingManStrings";
 
     public int getNumSmoothingPoints() {
         return numSmoothingPoints;
@@ -169,7 +173,7 @@ public class MovingManModule extends Module {
     }
 
     public MovingManModule( AbstractClock clock ) throws IOException {
-        super( "The Moving Man" );
+        super( SimStrings.get( "ModuleTitle.MovingManModule" ) );
         model = new MovingManModel( this, clock );
         mypanel = new DebugApparatusPanel();
 
@@ -188,8 +192,8 @@ public class MovingManModule extends Module {
         manGraphic = new ManGraphic( this, model.getMan(), 0, manPositionTransform );
 
         getApparatusPanel().addGraphic( manGraphic, 1 );
-        recordTimer = new MMTimer( "Record" );//, MovingManModel.TIMER_SCALE );
-        playbackTimer = new MMTimer( "Playback" );//, MovingManModel.TIMER_SCALE );
+        recordTimer = new MMTimer( SimStrings.get( "MovingManModule.RecordTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
+        playbackTimer = new MMTimer( SimStrings.get( "MovingManModule.PlaybackTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
         timerGraphic = new TimeGraphic( this, recordTimer, playbackTimer, 80, 40 );
         getApparatusPanel().addGraphic( timerGraphic, 1 );
 
@@ -233,7 +237,7 @@ public class MovingManModule extends Module {
         Point2D start = manGraphic.getRectangle().getLocation();
         start = new Point2D.Double( start.getX() + 50, start.getY() + 50 );
         wiggleMe = new WiggleMe( getApparatusPanel(), start,
-                                 new ImmutableVector2D.Double( 0, 1 ), 15, .02, "Drag the Man" );
+                                 new ImmutableVector2D.Double( 0, 1 ), 15, .02, SimStrings.get( "MovingManModule.DragTheManText" ) );
         wiggleMe.setVisible( false );//TODO don't delete this line.
         addListener( new ListenerAdapter() {
             public void recordingStarted() {
@@ -256,7 +260,7 @@ public class MovingManModule extends Module {
             }
         } );
 
-        closeHelpItem = new HelpItem( getApparatusPanel(), "Close this plot", 250, 450 );
+        closeHelpItem = new HelpItem( getApparatusPanel(), SimStrings.get( "MovingManModule.CloseHelpText" ), 250, 450 );
         closeHelpItem.setForegroundColor( Color.red );
         closeHelpItem.setShadowColor( Color.black );
         addHelpItem( closeHelpItem );
@@ -346,7 +350,7 @@ public class MovingManModule extends Module {
             StringWriter sw = new StringWriter();
             e.printStackTrace( new PrintWriter( sw ) );
             JOptionPane.showMessageDialog( getApparatusPanel(), sw.getBuffer().toString(),
-                                           SimStrings.get( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
+                                           SimStrings.get( "MovingManModule.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
         }
 
     }
@@ -601,7 +605,7 @@ public class MovingManModule extends Module {
 
         appPanel.add( phetIconLabel, BorderLayout.WEST );
         HelpPanel hp = new HelpPanel( this );
-//        JButton help = new JButton( "Help" );
+//        JButton help = new JButton( SimStrings.get( "MovingManModule.HelpButton" );
         appPanel.add( hp, BorderLayout.EAST );
         bpp.setAppControlPanel( appPanel );
 //        relayout.run();
@@ -785,6 +789,17 @@ public class MovingManModule extends Module {
     }
 
     public static void main( String[] args ) throws Exception {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            Locale.setDefault( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            Locale.setDefault( new Locale( locale ));
+        }
+
+        SimStrings.setStrings( localizedStringsPath );
         SmoothUtilities.setFractionalMetrics( false );
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         AbstractClock clock = new SwingTimerClock( 1, 30, true );
@@ -793,8 +808,9 @@ public class MovingManModule extends Module {
         final MovingManModule m = new MovingManModule( clock );
         FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
 
-        ApplicationModel desc = new ApplicationModel( "The Moving Man", "The Moving Man Application.",
-                                                      ".02-beta-x 10-18-2004", setup, m, clock );
+        ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ),
+                                SimStrings.get( "MovingManApplication.description" ),
+                                SimStrings.get( "MovingManApplication.version" ), setup, m, clock );
         PhetApplication tpa = new PhetApplication( desc );
 
         final PhetFrame frame = tpa.getApplicationView().getPhetFrame();
@@ -890,9 +906,9 @@ public class MovingManModule extends Module {
 
     private static void addJEP( final MovingManModule module ) {
         final JFrame frame = module.getFrame();
-        JMenu misc = new JMenu( "Special Features" );
-        misc.setMnemonic( 'S' );
-        JMenuItem jep = new JMenuItem( "Expression Evaluator" );
+        JMenu misc = new JMenu( SimStrings.get( "MovingManModule.SpecialFeaturesMenu" ) );
+        misc.setMnemonic( SimStrings.get( "MovingManModule.SpecialFeaturesMenuMnemonic" ).charAt( 0 ) );
+        JMenuItem jep = new JMenuItem( SimStrings.get( "MovingManModule.ExprEvalMenuItem" ) );
         misc.add( jep );
         final JEPFrame jef = new JEPFrame( frame, module );
         jep.addActionListener( new ActionListener() {
@@ -901,7 +917,7 @@ public class MovingManModule extends Module {
             }
         } );
 
-        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( "Invert X-Axis", false );
+        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.get( "MovingManModule.InvertXAxisMenuItem" ), false );
         jcbmi.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 module.setRightDirPositive( !jcbmi.isSelected() );
