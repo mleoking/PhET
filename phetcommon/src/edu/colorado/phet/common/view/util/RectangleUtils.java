@@ -13,6 +13,7 @@ package edu.colorado.phet.common.view.util;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 /**
  * RectangleUtils
@@ -110,5 +111,16 @@ public class RectangleUtils {
         else {
             return a.equals( b );
         }
+    }
+
+    public static Rectangle union( ArrayList rectangles ) {
+        if( rectangles.size() == 0 ) {
+            return null;
+        }
+        Rectangle union = (Rectangle)rectangles.remove( 0 );
+        while( rectangles.size() > 0 ) {
+            union = union.union( (Rectangle)rectangles.remove( 0 ) );
+        }
+        return union;
     }
 }
