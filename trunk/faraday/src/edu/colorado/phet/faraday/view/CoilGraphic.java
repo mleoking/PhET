@@ -14,7 +14,6 @@ package edu.colorado.phet.faraday.view;
 import java.awt.*;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -24,7 +23,7 @@ import edu.colorado.phet.faraday.model.AbstractCoil;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
 import edu.colorado.phet.faraday.model.QuadBezierSpline;
-import edu.colorado.phet.faraday.util.GenericRescaler;
+import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -73,11 +72,6 @@ public class CoilGraphic implements SimpleObserver {
     private static final int ELECTRONS_IN_LEFT_END = 2;
     private static final int ELECTRONS_IN_RIGHT_END = 2;
     
-    // Electron speed rescaler
-    private static final double RESCALER_THRESHOLD = 1.0;
-    private static final double RESCALER_MIN_EXPONENT = 0.25;
-    private static final double RESCALER_MAX_EXPONENT = 0.7;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -121,8 +115,8 @@ public class CoilGraphic implements SimpleObserver {
     // Used to determine if the voltage across the coil has changed.
     private double _voltage;
     
-    // Rescales the electron speed.
-    private GenericRescaler _rescaler;
+    // Rescales the electron animation speed.
+    private IRescaler _rescaler;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -132,25 +126,19 @@ public class CoilGraphic implements SimpleObserver {
      * Sole constructor.
      * 
      * @param component parent Component
-     * @param baseModel
      * @param coilModel the coil that this graphic is watching
-     * @param rescaler
+     * @param baseModel
      */
-    public CoilGraphic( Component component, BaseModel baseModel, AbstractCoil coilModel ) {
+    public CoilGraphic( Component component, AbstractCoil coilModel, BaseModel baseModel ) {
         assert( component != null );
-        assert( baseModel != null );
         assert( coilModel != null );
+        assert( baseModel != null );
         
         _component = component;
         _baseModel = baseModel;
         
         _coilModel = coilModel;
         _coilModel.addObserver( this );
-        
-        // Rescaler for smoothing out electron speed.
-        _rescaler = new GenericRescaler();
-        _rescaler.setThreshold( RESCALER_THRESHOLD );
-        _rescaler.setExponents( RESCALER_MIN_EXPONENT, RESCALER_MAX_EXPONENT );
         
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ); 
         _foreground = new CompositePhetGraphic( _component );
@@ -314,6 +302,24 @@ public class CoilGraphic implements SimpleObserver {
      */
     public Rectangle getBounds() {
         return _foreground.getBounds().union( _background.getBounds() );
+    }
+    
+    /**
+     * Sets the rescaler used to rescale the electron speed.
+     * 
+     * @param rescaler the rescaler
+     */
+    public void setRescaler( IRescaler rescaler ) {
+        _rescaler = rescaler;
+    }
+    
+    /**
+     * Gets the rescaler used to rescale the electron speed.
+     * 
+     * @param the rescaler
+     */
+    public IRescaler getRescaler() {
+        return _rescaler;
     }
     
     //----------------------------------------------------------------------------
@@ -640,12 +646,13 @@ public class CoilGraphic implements SimpleObserver {
      */
     private double calculateElectronSpeed() {
         
-        double speed = _coilModel.getVoltage() / _coilModel.getMaxVoltage();
-        speed = MathUtil.clamp( -1, speed, +1 );
+        double speed = _coilModel.getAmplitude();
         
         // Rescale the speed to improve the visual effect.
-        double sign = ( speed < 0 ) ? -1 : +1;
-        speed = sign * _rescaler.rescale( Math.abs( speed ) );
+        if ( _rescaler != null ) {
+            double sign = ( speed < 0 ) ? -1 : +1;
+            speed = sign * _rescaler.rescale( Math.abs( speed ) );
+        }
 
         return speed;
     }
