@@ -581,10 +581,10 @@ public class CoilGraphic implements SimpleObserver {
                     _baseModel.addModelElement( electron );
 
                     // View
-                    ElectronPathDescriptor d = electron.getPathDescriptor();
-                    CompositePhetGraphic parent = d.getParent();
+                    ElectronPathDescriptor descriptor = electron.getPathDescriptor();
+                    CompositePhetGraphic parent = descriptor.getParent();
                     ElectronGraphic electronGraphic = new ElectronGraphic( _component, parent, electron );
-                    d.getParent().addGraphic( electronGraphic );
+                    descriptor.getParent().addGraphic( electronGraphic );
                 }
             }
         }
