@@ -43,11 +43,10 @@ public class FaradayApplicationModel extends ApplicationModel {
         this.setClock( new SwingTimerClock( FaradayConfig.TIME_STEP, FaradayConfig.WAIT_TIME, fixedDelay ) );
 
         // Simulation Modules
-        SomeModule someModule1 = new SomeModule( this );
-        SomeModule someModule2 = new SomeModule( this );
-        this.setModules( new Module[] { someModule1, someModule2 } );
+        BarMagnetModule twoCoilsModule = new BarMagnetModule( this );
+        this.setModules( new Module[] { twoCoilsModule } );
 
         // Initial module to be displayed.
-        this.setInitialModule( someModule1 );
+        this.setInitialModule( twoCoilsModule );
     }
 }

@@ -38,7 +38,12 @@ public class FaradayConfig {
 
     // Images
     public static final String IMAGES_DIRECTORY = "images/";
-    public static final String XXX_IMAGE = IMAGES_DIRECTORY + "XXX.png";  // XXX
+    public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
+    public static final String BFIELD_IMAGE = IMAGES_DIRECTORY + "bField.png";
+    public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightBulb.png";
+    public static final String LOOP_IMAGE = IMAGES_DIRECTORY + "loop.png";
+    public static final String SOURCE_COIL_IMAGE = IMAGES_DIRECTORY + "sourceCoil.png";
+    public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltMeter.png";
 
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;
@@ -46,8 +51,8 @@ public class FaradayConfig {
     public static final int CONTROL_PANEL_MIN_WIDTH = 150;
 
     // Colors
-    public static final Color APPARATUS_BACKGROUND = Color.BLACK;
-    public static final Color LABEL_COLOR = Color.WHITE;
+    public static final Color APPARATUS_BACKGROUND = Color.WHITE;
+    public static final Color LABEL_COLOR = Color.BLACK;
 
     // Fonts
     public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
