@@ -19,6 +19,7 @@ public abstract class PhetGraphic implements BoundedGraphic {
     protected boolean visible = true;
     private boolean boundsDirty = true;
     private RenderingHints savedRenderingHints;
+    private GraphicsState graphicsState;
 
     protected PhetGraphic( Component component ) {
         this.component = component;
@@ -27,6 +28,14 @@ public abstract class PhetGraphic implements BoundedGraphic {
     public Rectangle getBounds() {
         syncBounds();
         return bounds;
+    }
+
+    protected void pushGraphicsState( Graphics2D graphics2D ) {
+        graphicsState = new GraphicsState( graphics2D );
+    }
+
+    protected void popGraphicsState() {
+        graphicsState.restoreGraphics();
     }
 
     protected void pushRenderingHints( Graphics2D g ) {
@@ -111,4 +120,34 @@ public abstract class PhetGraphic implements BoundedGraphic {
 
     protected abstract Rectangle determineBounds();
 
+
+    //
+    // Inner Classes
+    //
+
+    /**
+     * A utilitye class for saving and restoring the state of Graphics2D objects
+     */
+    private class GraphicsState {
+        private Graphics2D graphics2D;
+        private RenderingHints renderingHints;
+        private Paint paint;
+        private Color color;
+        private Stroke stroke;
+
+        GraphicsState( Graphics2D graphics2D ) {
+            this.graphics2D = graphics2D;
+            renderingHints = graphics2D.getRenderingHints();
+            paint = graphics2D.getPaint();
+            color = graphics2D.getColor();
+            stroke = graphics2D.getStroke();
+        }
+
+        void restoreGraphics() {
+            graphics2D.setRenderingHints( graphicsState.renderingHints );
+            graphics2D.setPaint( graphicsState.paint );
+            graphics2D.setColor( graphicsState.color );
+            graphics2D.setStroke( graphicsState.stroke );
+        }
+    }
 }
