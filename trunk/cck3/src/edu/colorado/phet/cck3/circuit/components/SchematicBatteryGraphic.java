@@ -24,6 +24,7 @@ public class SchematicBatteryGraphic extends FastPaintShapeGraphic implements IC
     private CircuitComponent component;
     private ModelViewTransform2D transform;
     private double wireThickness;
+    private Area mouseArea;
 
     public SchematicBatteryGraphic( Component parent, CircuitComponent component, ModelViewTransform2D transform, double wireThickness ) {
         super( new Area(), Color.black, parent );
@@ -49,7 +50,7 @@ public class SchematicBatteryGraphic extends FastPaintShapeGraphic implements IC
         Point2D dstpt = transform.toAffineTransform().transform( component.getEndJunction().getPosition(), null );
         double viewThickness = transform.modelToViewDifferentialY( wireThickness );
 
-        double fracDistToCathode = .35;
+        double fracDistToCathode = .395;
         double fracDistToAnode = ( 1 - fracDistToCathode );
         ImmutableVector2D vector = new ImmutableVector2D.Double( srcpt, dstpt );
         Point2D cat = vector.getScaledInstance( fracDistToCathode ).getDestination( srcpt );
@@ -64,11 +65,14 @@ public class SchematicBatteryGraphic extends FastPaintShapeGraphic implements IC
         Point2D anoHat = north.getInstanceOfMagnitude( anoHeight ).getDestination( ano );
         Point2D anotail = north.getInstanceOfMagnitude( anoHeight ).getScaledInstance( -1 ).getDestination( ano );
 
+        double battThickness = viewThickness / 2;
         Area area = new Area();
         area.add( new Area( LineSegment.getSegment( srcpt, cat, viewThickness ) ) );
         area.add( new Area( LineSegment.getSegment( ano, dstpt, viewThickness ) ) );
-        area.add( new Area( LineSegment.getSegment( catHat, cattail, viewThickness ) ) );
-        area.add( new Area( LineSegment.getSegment( anoHat, anotail, viewThickness ) ) );
+        area.add( new Area( LineSegment.getSegment( catHat, cattail, battThickness ) ) );
+        area.add( new Area( LineSegment.getSegment( anoHat, anotail, battThickness ) ) );
+        mouseArea = new Area( area );
+        mouseArea.add( new Area( LineSegment.getSegment( srcpt, dstpt, viewThickness ) ) );
         super.setShape( area );
     }
 
@@ -78,5 +82,9 @@ public class SchematicBatteryGraphic extends FastPaintShapeGraphic implements IC
 
     public CircuitComponent getComponent() {
         return component;
+    }
+
+    public boolean contains( int x, int y ) {
+        return mouseArea.contains( x, y );
     }
 }

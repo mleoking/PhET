@@ -55,6 +55,11 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
             BulbMenu bulbMenu = new BulbMenu( bulb, module );
             addPopupMenuBehavior( bulbMenu.getMenu() );
         }
+        else if( cc instanceof SchematicBulb ) {
+            SchematicBulb bulb = (SchematicBulb)cc;
+            BulbMenu bulbMenu = new BulbMenu( bulb, module );
+            addPopupMenuBehavior( bulbMenu.getMenu() );
+        }
         else if( cc instanceof SeriesAmmeter ) {
             SeriesAmmeter ammeter = (SeriesAmmeter)cc;
             SeriesAmmeterMenu sam = new SeriesAmmeterMenu( ammeter, module );
@@ -112,9 +117,9 @@ public class CircuitComponentInteractiveGraphic extends DefaultInteractiveGraphi
     }
 
     static class BulbMenu extends ComponentMenu {
-        Bulb res;
+        CircuitComponent res;
 
-        public BulbMenu( Bulb res, CCK3Module module ) {
+        public BulbMenu( CircuitComponent res, CCK3Module module ) {
             super( res, module );
             this.res = res;
             final ComponentEditor.ResistorEditor re = new ComponentEditor.ResistorEditor( res, module.getApparatusPanel() );

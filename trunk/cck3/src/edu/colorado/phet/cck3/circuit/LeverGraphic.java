@@ -32,7 +32,6 @@ public class LeverGraphic extends FastPaintImageGraphic {
     double relativeAngle = OPEN_ANGLE;
     private Point2D modelPivot;
     private Point2D viewPivot;
-    private static final double THRESHOLD = Math.PI / 4;
     private Switch aSwitch;
 
     public LeverGraphic( CircuitComponentImageGraphic baseGraphic, BufferedImage image, Component parent, ModelViewTransform2D transform, double length, double height ) {
@@ -47,12 +46,20 @@ public class LeverGraphic extends FastPaintImageGraphic {
                 changed();
             }
         } );
-        changed();
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 changed();
             }
         } );
+
+        Switch swit = aSwitch;
+        if( swit.isClosed() ) {
+            relativeAngle = CLOSED_ANGLE;
+        }
+        else {
+            relativeAngle = OPEN_ANGLE;
+        }
+        changed();
     }
 
     private void changed() {

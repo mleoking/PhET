@@ -57,7 +57,7 @@ public class CircuitComponentImageGraphic extends FastPaintImageGraphic implemen
         double diff = Math.abs( length - dist );
 
         if( diff > Double.parseDouble( "1E-10" ) ) {
-            throw new RuntimeException( "Components moved to a weird place, dist=" + dist + ", length=" + length + ", diff=" + diff );
+            throw new RuntimeException( "Components moved to a weird place, Dist between junctions=" + dist + ", Requested Length=" + length + ", diff=" + diff );
         }
 
         double newHeight = transform.modelToViewDifferentialY( component.getHeight() );
@@ -90,4 +90,5 @@ public class CircuitComponentImageGraphic extends FastPaintImageGraphic implemen
     public CircuitComponent getComponent() {
         return component;
     }
+
 }

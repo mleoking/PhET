@@ -86,6 +86,7 @@ public class CCK3Module extends Module {
     private VirtualAmmeter virtualAmmeter;
     private InteractiveVoltmeter interactiveVoltmeter;
     private VoltmeterGraphic voltmeterGraphic;
+    public static final double SCH_BULB_DIST = 1;
 
 
     public CCK3Module() throws IOException {
@@ -392,9 +393,13 @@ public class CCK3Module extends Module {
         virtualAmmeter.setVisible( visible );
     }
 
-    public void removeBranch( Branch branch ) {
+    public void removeParticlesAndGraphics( Branch branch ) {
         Electron[] out = particleSet.removeParticles( branch );
         circuitGraphic.getParticleSetGraphic().removeGraphics( out );
+    }
+
+    public void removeBranch( Branch branch ) {
+        removeParticlesAndGraphics( branch );
         circuitGraphic.removeGraphic( branch );
         circuit.remove( branch );
         //see if the adjacent junctions are free.
@@ -444,31 +449,16 @@ public class CCK3Module extends Module {
         }
     }
 
-//    boolean lifelike=true;
     public void setLifelike( boolean lifelike ) {
         circuitGraphic.setLifelike( lifelike );
+        circuit.fireBranchesMoved( circuit.getBranches() );
+        circuit.fireKirkhoffChanged();
         getApparatusPanel().repaint();
-//        if( lifelike == circuitGraphic.isLifelike() ) {
-//            return;
-//        }
-//        getApparatusPanel().removeGraphic( circuitGraphic );
-//        try {
-//            circuitGraphic = new CircuitGraphic( this );
-//            for( int i = 0; i < circuit.numBranches(); i++ ) {
-//                Branch b = circuit.branchAt( i );
-//                circuitGraphic.addGraphic( b );
-//            }
-//        }
-//        catch( IOException e ) {
-//            e.printStackTrace();
-//        }
         //rebuild the graphics, based on lifelike-ness.
-//        getApparatusPanel().removeGraphic( circuitGraphic );
+
         //TODO graphic elements should remove themselves as observers of model elemnts
         //so we don't bog down.
 
-//        circuitGraphic.clear();
-//        circuitGraphic.
     }
 
 }
