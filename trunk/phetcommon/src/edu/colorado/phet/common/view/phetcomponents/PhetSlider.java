@@ -26,6 +26,8 @@ import java.util.ArrayList;
  * - where functionality is similar to JSlider, use the same method signature
  * - change the background and knob
  * - optional major/min tick marks
+ *
+ * @deprecated Use PhetJComponent with a slider.
  */
 
 public class PhetSlider extends GraphicLayerSet {
