@@ -1,0 +1,230 @@
+// Decompiled by Jad v1.5.8e2. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://kpdus.tripod.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   CollisionGod.java
+
+package edu.colorado.phet.idealgas.physics.collision;
+
+import edu.colorado.phet.controller.Config;
+import edu.colorado.phet.idealgas.physics.GasMolecule;
+import edu.colorado.phet.physics.Law;
+import edu.colorado.phet.physics.PhysicalSystem;
+import edu.colorado.phet.physics.body.Body;
+import edu.colorado.phet.physics.collision.Collision;
+import edu.colorado.phet.physics.collision.CollisionFactory;
+import edu.colorado.phet.physics.collision.ContactDetector;
+
+import java.util.*;
+
+public class CollisionGod
+        implements Law {
+
+    public CollisionGod( java.awt.geom.Rectangle2D.Double bounds, int numRegionsX, int numRegionsY ) {
+        elementToRegionMap = new HashMap();
+        removalList = new ArrayList();
+        this.bounds = bounds;
+        this.numRegionsX = numRegionsX;
+        this.numRegionsY = numRegionsY;
+        regions = new Region[numRegionsX][numRegionsY];
+        regionWidth = bounds.getWidth() / (double)numRegionsX;
+        regionHeight = bounds.getHeight() / (double)numRegionsY;
+        for( int i = 0; i < numRegionsX; i++ ) {
+            for( int j = 0; j < numRegionsY; j++ ) {
+                regions[i][j] = new Region( bounds.getX() + (double)i * regionWidth,
+                                            ( bounds.getX() + (double)( i + 1 ) * regionWidth ) - Double.MIN_VALUE,
+                                            bounds.getY() + (double)j * regionHeight,
+                                            ( bounds.getY() + (double)( j + 1 ) * regionHeight ) - Double.MIN_VALUE );
+            }
+
+        }
+
+    }
+
+    public void apply( float time, PhysicalSystem system ) {
+        List bodies = system.getBodies();
+        adjustRegionMembership( bodies );
+        doMiscCollisions( bodies );
+        doGasToGasCollisions();
+    }
+
+    private void adjustRegionMembership( List bodies ) {
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body)bodies.get( i );
+            if( body instanceof GasMolecule ) {
+                if( elementToRegionMap.containsKey( body ) ) {
+                    placeBody( body );
+                }
+                else {
+                    addBody( body );
+                }
+            }
+        }
+
+        removalList.clear();
+        Set placedBodies = elementToRegionMap.keySet();
+        for( Iterator iterator = placedBodies.iterator(); iterator.hasNext(); ) {
+            Object o = iterator.next();
+            if( ( o instanceof GasMolecule ) && !bodies.contains( o ) ) {
+                removalList.add( o );
+            }
+        }
+
+        Body body;
+        for( ; !removalList.isEmpty(); removeBody( body ) ) {
+            body = (Body)removalList.remove( 0 );
+        }
+
+    }
+
+    private void doMiscCollisions( List bodies ) {
+        ArrayList nonGasBodies = new ArrayList();
+        for( int i = 0; i < bodies.size(); i++ ) {
+            Object o = bodies.get( i );
+            if( !( o instanceof GasMolecule ) ) {
+                nonGasBodies.add( o );
+            }
+        }
+
+        for( int i = 0; i < nonGasBodies.size(); i++ ) {
+            Body body1 = (Body)nonGasBodies.get( i );
+            for( int j = 0; j < bodies.size(); j++ ) {
+                Body body2 = (Body)bodies.get( j );
+                if( body1 != body2 ) {
+                    detectAndDoCollision( body1, body2 );
+                }
+            }
+
+        }
+
+    }
+
+    private void doGasToGasCollisions() {
+        for( int i = 0; i < numRegionsX; i++ ) {
+            for( int j = 0; j < numRegionsY; j++ ) {
+                doRegionToRegionCollision( regions[i][j], regions[i][j] );
+                if( doNeighbors ) {
+                    if( i < numRegionsX - 1 ) {
+                        doRegionToRegionCollision( regions[i][j], regions[i + 1][j] );
+                    }
+                    if( j < numRegionsY - 1 ) {
+                        doRegionToRegionCollision( regions[i][j], regions[i][j + 1] );
+                    }
+                    if( i < numRegionsX - 1 && j < numRegionsY - 1 ) {
+                        doRegionToRegionCollision( regions[i][j], regions[i + 1][j + 1] );
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void doRegionToRegionCollision( Region region1, Region region2 ) {
+        for( int i = 0; i < region1.size(); i++ ) {
+            Body body1 = (Body)region1.get( i );
+            int jStart = region1 != region2 ? 0 : i + 1;
+            if( Config.jStartTest ) {
+                jStart = i + 1;
+            }
+            for( int j = 0; j < region2.size(); j++ ) {
+                cnt++;
+                Body body2 = (Body)region2.get( j );
+                if( body1 != body2 ) {
+                    detectAndDoCollision( body1, body2 );
+                }
+            }
+
+        }
+
+    }
+
+    private void detectAndDoCollision( Body body1, Body body2 ) {
+        if( body1 != body2 && ContactDetector.areContacting( body1, body2 ) ) {
+            Collision collision = CollisionFactory.create( body1, body2 );
+            if( collision != null ) {
+                collision.collide();
+            }
+        }
+    }
+
+    private void addBody( Body body ) {
+        Region region = findRegionFor( body );
+        elementToRegionMap.put( body, region );
+        if( region == null ) {
+            System.out.println( "halt" );
+        }
+        region.add( body );
+    }
+
+    private void removeBody( Body body ) {
+        ( (Region)elementToRegionMap.get( body ) ).remove( body );
+        elementToRegionMap.remove( body );
+    }
+
+    private Region findRegionFor( Body body ) {
+        Region region = null;
+        if( Config.regionTest ) {
+            int i = (int)( (double)body.getPosition().getX() / regionWidth );
+            int j = (int)( (double)body.getPosition().getY() / regionHeight );
+            region = regions[i][j];
+        }
+        else {
+            for( int i = 0; region == null && i < numRegionsX; i++ ) {
+                for( int j = 0; region == null && j < numRegionsY; j++ ) {
+                    if( regions[i][j].belongsIn( body ) ) {
+                        region = regions[i][j];
+                    }
+                }
+
+            }
+
+        }
+        return region;
+    }
+
+    private void placeBody( Body body ) {
+        Region currRegion = (Region)elementToRegionMap.get( body );
+        if( currRegion == null ) {
+            addBody( body );
+        }
+        else if( !currRegion.belongsIn( body ) ) {
+            currRegion.remove( body );
+            addBody( body );
+        }
+    }
+
+    private int numRegionsX;
+    private int numRegionsY;
+    private Region regions[][];
+    private HashMap elementToRegionMap;
+    private ArrayList removalList;
+    public static boolean doNeighbors = true;
+    private double regionWidth;
+    private double regionHeight;
+    private java.awt.geom.Rectangle2D.Double bounds;
+    int cnt;
+
+    //    public Region[] getRegions() {
+    //        ArrayList
+    //    }
+
+    private class Region extends LinkedList {
+
+        boolean belongsIn( Body body ) {
+            boolean result = (double)body.getPosition().getX() >= xMin && (double)body.getPosition().getX() <= xMax && (double)body.getPosition().getY() >= yMin && (double)body.getPosition().getY() <= yMax;
+            return result;
+        }
+
+        double xMin;
+        double xMax;
+        double yMin;
+        double yMax;
+
+        Region( double xMin, double xMax, double yMin,
+                double yMax ) {
+            this.xMin = xMin;
+            this.xMax = xMax;
+            this.yMin = yMin;
+            this.yMax = yMax;
+        }
+    }
+}
