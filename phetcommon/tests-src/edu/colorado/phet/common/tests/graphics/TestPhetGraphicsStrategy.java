@@ -87,7 +87,7 @@ public class TestPhetGraphicsStrategy extends JFrame {
         };
         final RepaintStrategy rs = new RepaintStrategy.ImmediateUnion( panel );
 //        final RepaintStrategy rs=new RepaintStrategy.RepaintUnion( panel );
-        Component fa = new FalseComponent( rs );
+        Component fa = new RepaintStrategy.FalseComponent( rs );
         for( int i = 0; i < graphics.length; i++ ) {
             TestPhetGraphicSource graphic = graphics[i];
             final PhetGraphic pg = graphic.createGraphic( fa );

@@ -31,7 +31,7 @@ public class BufferedPhetGraphic2 extends GraphicLayerSet {
     private Rectangle clip;
     private GraphicsSetup graphicsSetup = new BasicGraphicsSetup();
 
-    private FalseComponent falseComponent = new FalseComponent( new RepaintStrategy() {
+    private RepaintStrategy.FalseComponent falseComponent = new RepaintStrategy.FalseComponent( new RepaintStrategy() {
         public void repaint( int x, int y, int width, int height ) {
             doRepaint( x, y, width, height );
         }
