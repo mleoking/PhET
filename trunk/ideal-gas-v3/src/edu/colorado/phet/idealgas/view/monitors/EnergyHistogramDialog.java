@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.idealgas.model.GasMolecule;
@@ -22,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,58 +120,87 @@ public class EnergyHistogramDialog extends JDialog {
         }
 
         this.getContentPane().setLayout( new GridBagLayout() );
-        try {
-            int rowIdx = 0;
-            SwingUtils.addGridBagComponent( this.getContentPane(),
-                                            energyHistogram,
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.WEST );
-            SwingUtils.addGridBagComponent( this.getContentPane(),
-                                            new JLabel( SimStrings.get( "EnergyHistorgramDialog.Energy_Distribution" ) ),
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.WEST );
-            SwingUtils.addGridBagComponent( this.getContentPane(),
-                                            speedHistogram,
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.WEST );
-            SwingUtils.addGridBagComponent( this.getContentPane(),
-                                            new JLabel( SimStrings.get( "EnergyHistorgramDialog.Speed_Distribution" ) ),
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.WEST );
-            SwingUtils.addGridBagComponent( this.getContentPane(),
-                                            heavySpeedHistogram,
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.WEST );
-            heavySpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Heavy_Speed_label" ) );
-            SwingUtils.addGridBagComponent( this.getContentPane(),
-                                            heavySpeedLabel,
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.WEST );
-            SwingUtils.addGridBagComponent( this.getContentPane(),
-                                            lightSpeedHistogram,
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.WEST );
-            lightSpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Light_Speed_label" ) );
-            SwingUtils.addGridBagComponent( this.getContentPane(),
-                                            lightSpeedLabel,
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.WEST );
-            SwingUtils.addGridBagComponent( this.getContentPane(),
-                                            detailsBtn,
-                                            0, rowIdx++, 1, 1,
-                                            GridBagConstraints.NONE,
-                                            GridBagConstraints.CENTER );
-        }
-        catch( AWTException e ) {
-            e.printStackTrace();
+
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+
+        heavySpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Heavy_Speed_label" ) );
+        lightSpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Light_Speed_label" ) );
+
+        Container contentPane = getContentPane();
+        // Upper histogram
+        gbc.gridx = 0;
+        contentPane.add( new rotatedTextLabel(), gbc );
+        gbc.gridx = 1;
+        contentPane.add( energyHistogram, gbc );
+        gbc.gridy++;
+        contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Energy_Distribution" ) ), gbc );
+
+        // Second histogram
+        gbc.gridx = 0;
+        gbc.gridy++;
+        contentPane.add( new rotatedTextLabel(), gbc );
+        gbc.gridx = 1;
+        contentPane.add( speedHistogram, gbc );
+        gbc.gridy++;
+        contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Speed_Distribution" ) ), gbc );
+
+        if( false ) {
+            try {
+                int rowIdx = 0;
+                SwingUtils.addGridBagComponent( this.getContentPane(),
+                                                energyHistogram,
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( this.getContentPane(),
+                                                new JLabel( SimStrings.get( "EnergyHistorgramDialog.Energy_Distribution" ) ),
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( this.getContentPane(),
+                                                speedHistogram,
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( this.getContentPane(),
+                                                new JLabel( SimStrings.get( "EnergyHistorgramDialog.Speed_Distribution" ) ),
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( this.getContentPane(),
+                                                heavySpeedHistogram,
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.WEST );
+//                heavySpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Heavy_Speed_label" ) );
+                SwingUtils.addGridBagComponent( this.getContentPane(),
+                                                heavySpeedLabel,
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( this.getContentPane(),
+                                                lightSpeedHistogram,
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.WEST );
+//                lightSpeedLabel = new JLabel( SimStrings.get( "EnergyHistorgramDialog.Light_Speed_label" ) );
+                SwingUtils.addGridBagComponent( this.getContentPane(),
+                                                lightSpeedLabel,
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.WEST );
+                SwingUtils.addGridBagComponent( this.getContentPane(),
+                                                detailsBtn,
+                                                0, rowIdx++, 1, 1,
+                                                GridBagConstraints.NONE,
+                                                GridBagConstraints.CENTER );
+            }
+            catch( AWTException e ) {
+                e.printStackTrace();
+            }
         }
         this.repaint();
     }
@@ -310,6 +341,29 @@ public class EnergyHistogramDialog extends JDialog {
             else {
                 return -1;
             }
+        }
+    }
+
+    private static class rotatedTextLabel extends JPanel {
+        public rotatedTextLabel() {
+            super( null );
+            setPreferredSize( new Dimension( 20, 150 ) );
+        }
+
+        public void paint( Graphics g ) {
+            Graphics2D g2 = (Graphics2D)g;
+            GraphicsState gs = new GraphicsState( g2 );
+            JLabel dummyLabel = new JLabel( );
+            Font font = dummyLabel.getFont();
+//                super.paint( g );
+            int x = 20;
+            int y = 150;
+            AffineTransform at = new AffineTransform();
+            at.setToRotation( -Math.PI / 2.0, x, y );
+            g2.transform( at );
+            g2.setFont( font );
+            g2.drawString( "Number of Particles", x, y );
+            gs.restoreGraphics();
         }
     }
 }
