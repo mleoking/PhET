@@ -143,4 +143,11 @@ public abstract class AbstractCoil extends SpacialObservable {
      * @return voltage across the ends of the coil, in volts
      */
     public abstract double getVoltage();
+    
+    /**
+     * Gets the magnet associated with the coil, if there is one.
+     * 
+     * @return the magnet, possibly null
+     */
+    public abstract AbstractMagnet getMagnet();
 }
