@@ -17,9 +17,12 @@ import java.awt.Point;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.PickupCoilControlPanel;
+import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
+import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
+import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
@@ -185,10 +188,23 @@ public class PickupCoilModule extends FaradayModule {
         //----------------------------------------------------------------------------
         
         // Control Panel
-        PickupCoilControlPanel controlPanel = new PickupCoilControlPanel( this, 
-            barMagnetModel, compassModel, barMagnetGraphic, gridGraphic, fieldMeterGraphic, 
-            pickupCoilModel, pickupCoilGraphic.getCoilGraphic(), lightbulbModel, voltmeterModel );
-        this.setControlPanel( controlPanel );
+        {
+            ControlPanel controlPanel = new ControlPanel( this );
+
+            BarMagnetPanel barMagnetPanel = new BarMagnetPanel(
+                    barMagnetModel, compassModel, barMagnetGraphic, gridGraphic, fieldMeterGraphic );
+            barMagnetPanel.setSeeInsideVisible( false );
+            barMagnetPanel.setFieldMeterEnabled( false );
+            controlPanel.addFullWidth( barMagnetPanel );
+            
+            controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
+            
+            PickupCoilPanel pickupCoilPanel = new PickupCoilPanel( 
+                    pickupCoilModel, pickupCoilGraphic, lightbulbModel, voltmeterModel );
+            controlPanel.addFullWidth( pickupCoilPanel );
+            
+            this.setControlPanel( controlPanel );
+        }
 
         //----------------------------------------------------------------------------
         // Help

@@ -30,6 +30,7 @@ import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.SourceCoil;
 import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
+import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
 import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 
@@ -73,7 +74,7 @@ public class ElectromagnetPanel extends FaradayPanel {
      * @param sourceCoilModel
      * @param batteryModel
      * @param acSourceModel
-     * @param coilGrpahic
+     * @param electromagnetGraphic
      * @param gridGraphic
      * @param fieldMeterGraphic
      */
@@ -82,7 +83,7 @@ public class ElectromagnetPanel extends FaradayPanel {
             Battery batteryModel,
             ACSource acSourceModel,
             Compass compassModel,
-            CoilGraphic coilGraphic,
+            ElectromagnetGraphic electromagnetGraphic,
             CompassGridGraphic gridGraphic, 
             FieldMeterGraphic fieldMeterGraphic ) {
         
@@ -90,7 +91,7 @@ public class ElectromagnetPanel extends FaradayPanel {
         assert ( batteryModel != null );
         assert ( acSourceModel != null );
         assert ( compassModel != null );
-        assert ( coilGraphic != null );
+        assert ( electromagnetGraphic != null );
         assert ( gridGraphic != null );
         assert ( fieldMeterGraphic != null );
 
@@ -99,7 +100,7 @@ public class ElectromagnetPanel extends FaradayPanel {
         _batteryModel = batteryModel;
         _acSourceModel = acSourceModel;
         _compassModel = compassModel;
-        _coilGraphic = coilGraphic;
+        _coilGraphic = electromagnetGraphic.getCoilGraphic();
         _gridGraphic = gridGraphic;
         _fieldMeterGraphic = fieldMeterGraphic;
         

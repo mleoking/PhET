@@ -17,9 +17,10 @@ import java.awt.Point;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.BarMagnetControlPanel;
+import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.util.IRescaler;
@@ -149,9 +150,14 @@ public class BarMagnetModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        BarMagnetControlPanel controlPanel = new BarMagnetControlPanel( this, 
-                barMagnetModel, compassModel, barMagnetGraphic, gridGraphic, fieldMeterGraphic );
-        this.setControlPanel( controlPanel );
+        {
+            ControlPanel controlPanel = new ControlPanel( this );
+            BarMagnetPanel barMagnetPanel = new BarMagnetPanel( 
+                    barMagnetModel, compassModel, 
+                    barMagnetGraphic, gridGraphic, fieldMeterGraphic );
+            controlPanel.addFullWidth( barMagnetPanel );
+            setControlPanel( controlPanel );
+        }
         
         //----------------------------------------------------------------------------
         // Help

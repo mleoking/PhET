@@ -17,9 +17,12 @@ import java.awt.Point;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.GeneratorControlPanel;
+import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
+import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
+import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
@@ -132,9 +135,9 @@ public class GeneratorModule extends FaradayModule {
         this.setApparatusPanel( apparatusPanel );
 
         // Turbine
-        TurbineGraphic generatorGraphic = new TurbineGraphic( apparatusPanel, turbineModel );
-        apparatusPanel.addChangeListener( generatorGraphic );
-        apparatusPanel.addGraphic( generatorGraphic, TURBINE_LAYER );
+        TurbineGraphic turbineGraphic = new TurbineGraphic( apparatusPanel, turbineModel );
+        apparatusPanel.addChangeListener( turbineGraphic );
+        apparatusPanel.addGraphic( turbineGraphic, TURBINE_LAYER );
         
         // Pickup Coil
         PickupCoilGraphic pickupCoilGraphic = 
@@ -180,10 +183,25 @@ public class GeneratorModule extends FaradayModule {
         //----------------------------------------------------------------------------
         
         // Control Panel
-        GeneratorControlPanel controlPanel = new GeneratorControlPanel( this, 
-            turbineModel, compassModel, generatorGraphic, gridGraphic, fieldMeterGraphic, 
-            pickupCoilModel, pickupCoilGraphic.getCoilGraphic(), lightbulbModel, voltmeterModel );
-        this.setControlPanel( controlPanel );
+        {
+            ControlPanel controlPanel = new ControlPanel( this );
+            
+            BarMagnetPanel barMagnetPanel = new BarMagnetPanel(
+                    turbineModel, compassModel,
+                    turbineGraphic.getBarMagnetGraphic(), gridGraphic, fieldMeterGraphic );
+            barMagnetPanel.setFlipPolarityVisible( false );
+            barMagnetPanel.setSeeInsideVisible( false );
+            barMagnetPanel.setFieldMeterEnabled( false );
+            controlPanel.addFullWidth( barMagnetPanel );
+            
+            controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
+            
+            PickupCoilPanel pickupCoilPanel = new PickupCoilPanel(
+                    pickupCoilModel, pickupCoilGraphic, lightbulbModel, voltmeterModel );
+            controlPanel.addFullWidth( pickupCoilPanel );
+            
+            this.setControlPanel( controlPanel );
+        }
         
         //----------------------------------------------------------------------------
         // Help

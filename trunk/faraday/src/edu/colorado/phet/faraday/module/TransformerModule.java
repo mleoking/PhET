@@ -17,9 +17,12 @@ import java.awt.Point;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.TransformerControlPanel;
+import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
+import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
+import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
@@ -213,11 +216,23 @@ public class TransformerModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        TransformerControlPanel controlPanel = new TransformerControlPanel( this,
-                sourceCoilModel, batteryModel, acSourceModel, compassModel,
-                electromagnetGraphic.getCoilGraphic(), gridGraphic, fieldMeterGraphic,
-                pickupCoilModel, pickupCoilGraphic.getCoilGraphic(), lightbulbModel, voltmeterModel );
-        this.setControlPanel( controlPanel );
+        {
+            ControlPanel controlPanel = new ControlPanel( this );
+            
+            ElectromagnetPanel electromagnetPanel = new ElectromagnetPanel(
+                    sourceCoilModel, batteryModel, acSourceModel, compassModel,
+                    electromagnetGraphic, gridGraphic, fieldMeterGraphic );
+            electromagnetPanel.setFieldMeterEnabled( false );
+            controlPanel.addFullWidth( electromagnetPanel );
+            
+            controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
+            
+            PickupCoilPanel pickupCoilPanel = new PickupCoilPanel( 
+                    pickupCoilModel, pickupCoilGraphic, lightbulbModel, voltmeterModel );
+            controlPanel.addFullWidth( pickupCoilPanel );
+            
+            this.setControlPanel( controlPanel );
+        }
         
         //----------------------------------------------------------------------------
         // Help
