@@ -187,7 +187,7 @@ public class ModuleManager {
                 ex.printStackTrace();
             }
             Module module = getActiveModule();
-            StateDescriptor sd = module.getState();
+            ModuleStateDescriptor sd = module.getState();
             encoder.writeObject( sd );
             encoder.close();
         }
@@ -236,7 +236,7 @@ public class ModuleManager {
             for( int i = 0; i < modules.size(); i++ ) {
                 Module module = (Module)modules.get( i );
                 if( module.getClass().getName().equals( sd.getModuleClassName() ) ) {
-                    sd.setState( module );
+                    sd.setModuleState( module );
                     forceSetActiveModule( module );
                 }
             }

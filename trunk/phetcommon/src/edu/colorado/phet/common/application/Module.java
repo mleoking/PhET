@@ -33,7 +33,7 @@ import javax.swing.*;
  * @author ?
  * @version $Revision$
  */
-public class Module implements Persistent {
+public class Module {
 
     BaseModel model;
     ApparatusPanel apparatusPanel;
@@ -217,10 +217,10 @@ public class Module implements Persistent {
     }
 
 
-    public void setState( StateDescriptor stateDescriptor ) {
-        stateDescriptor.setState( this );
-//        restoreState( (ModuleStateDescriptor)stateDescriptor );
-    }
+//    public void setState( StateDescriptor stateDescriptor ) {
+//        stateDescriptor.setState( this );
+////        restoreState( (ModuleStateDescriptor)stateDescriptor );
+//    }
 
     /**
      * Returns a ModuleStateDescriptor for this Module.
@@ -229,7 +229,7 @@ public class Module implements Persistent {
      *
      * @return
      */
-    public StateDescriptor getState() {
+    public ModuleStateDescriptor getState() {
         ModuleStateDescriptor sd = new ModuleStateDescriptor( this );
         return sd;
     }
