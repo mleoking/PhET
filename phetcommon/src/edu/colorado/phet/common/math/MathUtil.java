@@ -33,6 +33,33 @@ public class MathUtil {
     }
 
     /**
+     * Returns +1 or -1, reflecting the sign of the argument
+     *
+     * @param f
+     * @return +1 or -1
+     */
+    public static int getSign( float f ) {
+        if( f != 0
+            && !Float.isNaN( f )
+            && !Float.isInfinite( f ) ) {
+            return (int)( Math.abs( f ) / f );
+        }
+        else {
+            return 1;
+        }
+    }
+
+    /**
+     * Returns +1 or -1, reflecting the sign of the argument
+     *
+     * @param i
+     * @return +1 or -1
+     */
+    public static int getSign( int i ) {
+        return i >= 0 ? 1 : -1;
+    }
+
+    /**
      * Finds the roots of a quadratic equation.
      *
      * @param quadRoots An array in which the roots are to be returned
