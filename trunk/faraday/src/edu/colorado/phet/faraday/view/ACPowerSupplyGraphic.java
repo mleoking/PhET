@@ -363,11 +363,10 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     graphicLayerSet.addGraphic( xAxis, AXES_LAYER );
                     
                     // Tick marks -- start at the origin and move out in both directions.
-                    int x = 0;
+                    int x = TICK_SPACING;
                     int y = TICK_LENGTH / 2;
-                    while ( x <= xLength / 2 ) {
-                        x += TICK_SPACING;
-                        
+                    while ( x < xLength / 2 ) {
+
                         PhetShapeGraphic positiveTick = new PhetShapeGraphic( component );
                         positiveTick.setShape( new Line2D.Double( x, -y, x, y  ) );
                         positiveTick.setBorderColor( TICK_COLOR );
@@ -381,6 +380,8 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                         negativeTick.setStroke( TICK_STROKE );
                         negativeTick.setLocation( WAVE_ORIGIN );
                         graphicLayerSet.addGraphic( negativeTick, TICK_LAYER );
+                        
+                        x += TICK_SPACING;
                     }
                 }
 
@@ -396,9 +397,8 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     
                     // Tick marks -- start at the origin and move out in both directions.
                     int x = TICK_LENGTH / 2;
-                    int y = 0;
-                    while ( y <= yLength / 2 ) {
-                        y += TICK_SPACING;
+                    int y = TICK_SPACING;
+                    while ( y < yLength / 2 ) {
 
                         PhetShapeGraphic positiveTick = new PhetShapeGraphic( component );
                         positiveTick.setShape( new Line2D.Double( -x, y, x, y  ) );
@@ -413,6 +413,8 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                         negativeTick.setStroke( TICK_STROKE );
                         negativeTick.setLocation( WAVE_ORIGIN );
                         graphicLayerSet.addGraphic( negativeTick, TICK_LAYER );
+                        
+                        y += TICK_SPACING;
                     }
                 }
             }
@@ -422,6 +424,8 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                 Dimension size = graphicLayerSet.getSize();
                 BufferedImage bufferedImage = new BufferedImage( size.width, size.height, BufferedImage.TYPE_INT_ARGB );
                 Graphics2D g2 = bufferedImage.createGraphics();
+                RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                g2.setRenderingHints( hints );
                 graphicLayerSet.paint( g2 );
                 setImage( bufferedImage );
             }
