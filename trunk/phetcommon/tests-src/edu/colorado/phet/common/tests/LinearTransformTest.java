@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.common.tests;
 
+
 import edu.colorado.phet.common.math.LinearTransform1D;
 
 /**
