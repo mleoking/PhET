@@ -12,8 +12,11 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.util.MultiMap;
 import edu.colorado.phet.common.util.persistence.StateDescriptor;
@@ -31,8 +34,7 @@ import java.util.Iterator;
 public class ModuleStateDescriptor implements StateDescriptor {
     private BaseModel model;
     private String moduleClassName;
-    private MultiMap graphicMap;
-//    private ApparatusPanel apparatusPanel;
+    private GraphicLayerSet graphic;
 
     public ModuleStateDescriptor() {
     }
@@ -40,8 +42,7 @@ public class ModuleStateDescriptor implements StateDescriptor {
     protected ModuleStateDescriptor( Module module ) {
         setModel( module.getModel() );
         setModuleClassName( module.getClass().getName() );
-        setGraphicMap( module.getApparatusPanel().getGraphic().getGraphicMap() );
-//        setApparatusPanel( module.getApparatusPanel() );
+        setGraphic( module.getApparatusPanel().getGraphic() );
     }
 
     public BaseModel getModel() {
@@ -60,22 +61,13 @@ public class ModuleStateDescriptor implements StateDescriptor {
         this.moduleClassName = moduleClassName;
     }
 
-    public MultiMap getGraphicMap() {
-        return graphicMap;
+    public GraphicLayerSet getGraphic() {
+        return graphic;
     }
 
-    public void setGraphicMap( MultiMap graphicMap ) {
-        this.graphicMap = graphicMap;
+    public void setGraphic( GraphicLayerSet graphic ) {
+        this.graphic = graphic;
     }
-
-//    public ApparatusPanel getApparatusPanel() {
-//        return apparatusPanel;
-//    }
-//
-//    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
-//        this.apparatusPanel = apparatusPanel;
-//    }
-
 
     public void setState( Persistent persistentObject ) {
         Module module = (Module)persistentObject;
@@ -92,21 +84,9 @@ public class ModuleStateDescriptor implements StateDescriptor {
         module.setModel( newModel );
 
         // Set up the restored graphics
-        // Hook all the graphics up to the current apparatus panel
-        MultiMap graphicsMap = this.getGraphicMap();
-        Iterator it = graphicsMap.iterator();
-        while( it.hasNext() ) {
-            Object obj = it.next();
-            if( obj instanceof PhetGraphic ) {
-                PhetGraphic phetGraphic = (PhetGraphic)obj;
-                phetGraphic.setComponent( module.getApparatusPanel() );
-            }
-        }
-        module.getApparatusPanel().getGraphic().setGraphicMap( this.getGraphicMap() );
+        module.getApparatusPanel().setGraphic( graphic );
 
         // Force a repaint on the apparatus panel
-        module.getApparatusPanel().repaint();
-
-
+        module.getApparatusPanel().paintImmediately( module.getApparatusPanel().getBounds() );
     }
 }

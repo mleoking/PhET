@@ -34,7 +34,9 @@ import java.awt.geom.*;
  * @version $Revision$
  */
 public class ModuleManager {
-//    private class ModuleManager {
+
+    public static boolean USE_GZIP_STREAMS = true;
+
     private ArrayList modules = new ArrayList();
     private Module activeModule;
     private ArrayList observers = new ArrayList();
@@ -135,6 +137,7 @@ public class ModuleManager {
 
     /**
      * Saves the state of the active module.
+     *
      * @param fileName
      */
     public void saveState( String fileName ) {
@@ -151,8 +154,12 @@ public class ModuleManager {
                     pd.setValue( "transient", Boolean.TRUE );
                 }
             }
-//            encoder = new XMLEncoder( new BufferedOutputStream( new FileOutputStream( fileName ) ) );
-            encoder = new XMLEncoder( new GZIPOutputStream( new BufferedOutputStream( new FileOutputStream( fileName ) ) ));
+
+            OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( fileName ) );
+            if( USE_GZIP_STREAMS ) {
+                outputStream = new GZIPOutputStream( outputStream );
+            }
+            encoder = new XMLEncoder( outputStream );
 
             encoder.setPersistenceDelegate( AffineTransform.class, new AffineTransformPersistenceDelegate() );
             encoder.setPersistenceDelegate( BasicStroke.class, new BasicStrokePersistenceDelegate() );
@@ -178,13 +185,17 @@ public class ModuleManager {
     /**
      * Sets the active module to the one specified in the named file, and sets the state of the
      * module to that specified in the file.
+     *
      * @param fileName
      */
     public void restoreState( String fileName ) {
         XMLDecoder decoder = null;
         try {
-//            decoder = new XMLDecoder( new BufferedInputStream( new FileInputStream( fileName ) ) );
-            decoder = new XMLDecoder( new BufferedInputStream( new GZIPInputStream( new FileInputStream( fileName ) ) ));
+            InputStream inputStream = new BufferedInputStream( new FileInputStream( fileName ) );
+            if( USE_GZIP_STREAMS ) {
+                inputStream = new GZIPInputStream( inputStream ) ;
+            }
+            decoder = new XMLDecoder( inputStream );
         }
         catch( FileNotFoundException e ) {
             e.printStackTrace();

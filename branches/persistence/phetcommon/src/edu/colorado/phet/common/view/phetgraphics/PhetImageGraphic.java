@@ -3,10 +3,23 @@
 /*
  * CVS Info -
  * Filename : $Source$
+<<<<<<< PhetImageGraphic.java
  * Branch : $Name$
  * Modified by : $Author$
  * Revision : $Revision$
  * Date modified : $Date$
+=======
+ * Branch : $Name$
+<<<<<<< PhetImageGraphic.java
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+>>>>>>> 1.17
+=======
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
+>>>>>>> 1.17.2.2
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
@@ -56,8 +69,8 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     public Shape getShape() {
-        AffineTransform transform = getNetTransform();
         if( shapeDirty ) {
+            AffineTransform transform = getNetTransform();
             if( image == null ) {
                 return null;
             }

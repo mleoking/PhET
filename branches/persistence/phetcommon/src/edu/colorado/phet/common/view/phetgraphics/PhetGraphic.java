@@ -48,7 +48,6 @@ public abstract class PhetGraphic {
     
     private Point location = new Point();
     private Point registrationPoint = new Point();
-//    private PersistentAffineTransform transform = new PersistentAffineTransform();
     private AffineTransform transform = new AffineTransform();
     private Rectangle lastBounds = new Rectangle();
     private Rectangle bounds = new Rectangle();
@@ -112,14 +111,21 @@ public abstract class PhetGraphic {
     }
 
     /**
-     * Sets the parent of this Graphic.
+     * Sets the parent of this Graphic. Public for Java Beans conformance
      *
      * @param parent the Parent that contains this graphic.
      */
-    protected void setParent( GraphicLayerSet parent ) {
+    public void setParent( GraphicLayerSet parent ) {
         this.parent = parent;
     }
 
+    /**
+     * Provided for Java Beans conformance
+     * @return
+     */
+    public GraphicLayerSet getParent() {
+        return parent;
+    }
 
     public boolean isAutorepaint() {
         return autorepaint;
@@ -133,13 +139,22 @@ public abstract class PhetGraphic {
         return listeners;
     }
 
+    public void setListeners( ArrayList listeners ) {
+        this.listeners = listeners;
+    }
+
     public void setBounds( Rectangle bounds ) {
         this.bounds = bounds;
     }
 
-    public void setListeners( ArrayList listeners ) {
-        this.listeners = listeners;
+    public Rectangle getLastBounds() {
+        return lastBounds;
     }
+
+    public void setLastBounds( Rectangle lastBounds ) {
+        this.lastBounds = lastBounds;
+    }
+
 
     //----------------------------------------------------------------------------
     // Graphics Context methods
@@ -317,7 +332,6 @@ public abstract class PhetGraphic {
     public void setTransform( AffineTransform transform ) {
         if( !transform.equals( this.transform ) ) {
             this.transform = new AffineTransform( transform );
-//            this.transform = new PersistentAffineTransform( transform );
             setBoundsDirty();
             autorepaint();
         }
@@ -330,7 +344,6 @@ public abstract class PhetGraphic {
      */
     public AffineTransform getTransform() {
         return new AffineTransform( transform );
-//        return new PersistentAffineTransform( transform );
     }
 
     /**
@@ -395,11 +408,11 @@ public abstract class PhetGraphic {
         net.preConcatenate( AffineTransform.getTranslateInstance( location.x, location.y ) );
 
         // todo: Not needed, because GraphicLayerSets apply their transforms to the graphics before we get here
-        // Apply parent's net transform
-//        if( parent != null ) {
-//            AffineTransform parentTransform = parent.getNetTransform();
-//            net.preConcatenate( parentTransform );
-//        }
+        // Apply parent's net transform - rjl
+        if( parent != null ) {
+            AffineTransform parentTransform = parent.getNetTransform();
+            net.preConcatenate( parentTransform );
+        }
 
         return net;
     }
@@ -485,7 +498,6 @@ public abstract class PhetGraphic {
      * Sets the local transform to the identity matrix.
      */
     public void clearTransform() {
-//        setTransform( new PersistentAffineTransform() );
         setTransform( new AffineTransform() );
     }
     
