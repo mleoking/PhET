@@ -45,25 +45,9 @@ public class PhetLookAndFeel extends SmoothLookAndFeel {
 
     static {
         String fontName = "Lucida Sans";
-//        String fontName="Tahoma";
-        Font font1280 = new Font( fontName, Font.PLAIN, 16 );
-        Font font1040 = new Font( fontName, Font.PLAIN, 12 );
-        Font font800 = new Font( fontName, Font.PLAIN, 8 );
-
-        Font uifont = font1040;
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        System.out.println( "d = " + d );
-        if( d.width > 1024 ) {
-            uifont = font1280;
-            System.out.println( "Chose font for width> 1280" );
-        }
-        else if( d.width <= 800 ) {
-            uifont = font800;
-            System.out.println( "Chose font for <=800" );
-        }
-        else {
-            System.out.println( "Chose font for width between between 800 and 1280" );
-        }
+        ScreenSizeHandlerFactory.ScreenSizeHandler handler = ScreenSizeHandlerFactory.getScreenSizeHandler();
+        int fontSize = handler.getDefaultSwingFontSize();
+        Font uifont = new Font( fontName, Font.PLAIN, fontSize );
         font = uifont;
 
         foregroundColor = Color.black;
