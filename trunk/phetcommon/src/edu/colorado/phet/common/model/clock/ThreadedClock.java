@@ -47,6 +47,7 @@ public class ThreadedClock extends AbstractClock implements Runnable {
     protected void doUnpause() {
         this.selfInterrupt = true;
         t.interrupt();
+        fireClockStateEvent();
     }
 
     public void run() {
@@ -78,10 +79,7 @@ public class ThreadedClock extends AbstractClock implements Runnable {
         t.setPriority( tp );
         this.priority = tp;
         for( int i = 0; i < getClockStateListeners().size(); i++ ) {
-            ClockStateListener clockStateListener = (ClockStateListener)getClockStateListeners().get( i );
-
-            // todo: implement this
-//            clockStateListener.threadPriorityChanged( tp );
+            fireClockStateEvent();
         }
     }
 
