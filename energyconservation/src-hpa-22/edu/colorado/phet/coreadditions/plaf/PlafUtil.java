@@ -1,6 +1,8 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.coreadditions.plaf;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,10 +21,11 @@ import java.util.ArrayList;
  */
 public class PlafUtil {
     static {
-        UIManager.installLookAndFeel( "Purple", new PurpleLookAndFeel().getClass().getName() );
-        UIManager.installLookAndFeel( "Canary", new ClientLookAndFeel().getClass().getName() );
-        UIManager.installLookAndFeel( "Lecture I", new LectureLookAndFeel().getClass().getName() );
-        UIManager.installLookAndFeel( "Lecture II", new LectureLookAndFeel2().getClass().getName() );
+        SimStrings.setStrings( "localization/HPA-22Strings" );
+        UIManager.installLookAndFeel( SimStrings.get( "PlafUtil.PurpleLabel" ), new PurpleLookAndFeel().getClass().getName() );
+        UIManager.installLookAndFeel( SimStrings.get( "PlafUtil.CanaryLabel" ), new ClientLookAndFeel().getClass().getName() );
+        UIManager.installLookAndFeel( SimStrings.get( "PlafUtil.Lecture1Label" ), new LectureLookAndFeel().getClass().getName() );
+        UIManager.installLookAndFeel( SimStrings.get( "PlafUtil.Lecture2Label" ), new LectureLookAndFeel2().getClass().getName() );
     }
 
     public static JMenuItem[] getLookAndFeelItems() {

@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec2;
 
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.graphics.RescaleOp2;
 import edu.colorado.phet.ec2.common.measuringtape.MeasuringTapeInteractiveGraphic;
 import edu.colorado.phet.ec2.elements.DeveloperPanel;
@@ -35,7 +36,7 @@ public class ECControlPanel extends JPanel {
     public ECControlPanel( final EC2Module module ) {
         this.module = module;
 
-        autoscale = new JCheckBox( "Autoscale", false );
+        autoscale = new JCheckBox( SimStrings.get( "ECControlPanel.AutoscaleCheckBox" ), false );
         autoscale.setEnabled( false );
         autoscale.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -49,14 +50,14 @@ public class ECControlPanel extends JPanel {
         gbc.gridheight = 100;
         gbc.fill = GridBagConstraints.CENTER;
 
-        clearHistory = new JButton( "Clear History" );
+        clearHistory = new JButton( SimStrings.get( "ECControlPanel.ClearHistoryButton" ) );
         clearHistory.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.clearHistory();
             }
         } );
 
-        activeHistory = new JCheckBox( "Record", module.isHistoryActive() );
+        activeHistory = new JCheckBox( SimStrings.get( "ECControlPanel.RecordButton" ), module.isHistoryActive() );
         activeHistory.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clickHistory();
@@ -67,13 +68,13 @@ public class ECControlPanel extends JPanel {
 
         JPanel historyPanel = new JPanel();
 
-        lots = new JRadioButton( "Lots", true );
+        lots = new JRadioButton( SimStrings.get( "ECControlPanel.LotsRadioButton" ), true );
         lots.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEnergyDotDT( 0 );
             }
         } );
-        few = new JRadioButton( "Few", false );
+        few = new JRadioButton( SimStrings.get( "ECControlPanel.FewRadioButton" ), false );
         few.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setEnergyDotDT( .1 );
@@ -90,10 +91,10 @@ public class ECControlPanel extends JPanel {
         historyPanel.add( clearHistory );
 
         historyPanel.setLayout( new BoxLayout( historyPanel, BoxLayout.Y_AXIS ) );
-        historyPanel.setBorder( BorderFactory.createTitledBorder( "History" ) );
+        historyPanel.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "ECControlPanel.HistoryBorder" ) ) );
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
-        final JCheckBox chartVisible = new JCheckBox( "Show", module.isChartVisible() );
+        final JCheckBox chartVisible = new JCheckBox( SimStrings.get( "ECControlPanel.EnergyChartCheckBox" ), module.isChartVisible() );
         chartVisible.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 module.setEnergyChartVisible( chartVisible.isSelected() );
@@ -108,9 +109,9 @@ public class ECControlPanel extends JPanel {
         chartPanel.add( autoscale );
         chartPanel.add( chartVisible );
 
-        chartPanel.setBorder( BorderFactory.createTitledBorder( "Chart" ) );
+        chartPanel.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "ECControlPanel.ChartBorder" ) ) );
 
-        JButton reset = new JButton( "Reset Everything" );
+        JButton reset = new JButton( SimStrings.get( "ECControlPanel.ResetButton" ) );
         reset.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
@@ -137,7 +138,7 @@ public class ECControlPanel extends JPanel {
             }
         } );
 
-        final JCheckBox showBackground = new JCheckBox( "Background", true );
+        final JCheckBox showBackground = new JCheckBox( SimStrings.get( "ECControlPanel.BackgroundCheckBox" ), true );
         showBackground.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setShowBackground( showBackground.isSelected() );
@@ -145,12 +146,12 @@ public class ECControlPanel extends JPanel {
         } );
 
         developerPanel = new DeveloperPanel( module );
-        final JFrame devFrame = new JFrame( "Developer Tool" );
+        final JFrame devFrame = new JFrame( SimStrings.get( "ECControlPanel.DeveloperToolTitle" ) );
         devFrame.setContentPane( developerPanel );
         devFrame.pack();
         devFrame.setVisible( false );
 
-        final JButton show = new JButton( "Show DeveloperPanel" );
+        final JButton show = new JButton( SimStrings.get( "ECControlPanel.DeveloperPanelButton" ) );
         show.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 devFrame.setVisible( true );
@@ -159,7 +160,7 @@ public class ECControlPanel extends JPanel {
 
         JPanel massPanel = new JPanel();
         massPanel.setLayout( new BoxLayout( massPanel, BoxLayout.Y_AXIS ) );
-        JRadioButton light = new JRadioButton( "1 kilogram", true );
+        JRadioButton light = new JRadioButton( SimStrings.get( "ECControlPanel.1KilogramRadioButton" ), true );
         light.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getCar().setMass( 1 );
@@ -167,7 +168,7 @@ public class ECControlPanel extends JPanel {
                 module.setChartRange();
             }
         } );
-        JRadioButton heavy = new JRadioButton( "1650 kilograms" );
+        JRadioButton heavy = new JRadioButton( SimStrings.get( "ECControlPanel.1650KilogramsButton" ) );
         heavy.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getCar().setMass( 1650 );
@@ -181,16 +182,16 @@ public class ECControlPanel extends JPanel {
         massPanel.add( light );
         massPanel.add( heavy );
 
-        massPanel.setBorder( BorderFactory.createTitledBorder( "Mass" ) );
+        massPanel.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "ECControlPanel.MassBorder" ) ) );
 
-        JButton showHelp = new JButton( "Show Help" );
+        JButton showHelp = new JButton( SimStrings.get( "ECControlPanel.HelpButton" ) );
         showHelp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.showStartupGraphic();
             }
         } );
 
-        JButton clearFriction = new JButton( "Clear Heat" );
+        JButton clearFriction = new JButton( SimStrings.get( "ECControlPanel.ClearHeatButton" ) );
         clearFriction.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getCar().setFriction( 0 );
@@ -204,7 +205,7 @@ public class ECControlPanel extends JPanel {
 //        tapePanel.setl
         tapePanel.add( new JLabel( new ImageIcon( im ) ) );
 
-        final JCheckBox tape = new JCheckBox( "Measure" );
+        final JCheckBox tape = new JCheckBox( SimStrings.get( "ECControlPanel.MeasureCheckBox" ) );
         tapePanel.add( tape );
 
         tape.setSelected( MeasuringTapeInteractiveGraphic.visible );
@@ -213,13 +214,13 @@ public class ECControlPanel extends JPanel {
                 MeasuringTapeInteractiveGraphic.visible = tape.isSelected();
             }
         } );
-        JRadioButton gameMode = new JRadioButton( "Gamestyle" );
+        JRadioButton gameMode = new JRadioButton( SimStrings.get( "ECControlPanel.GamestyleRadioButton" ) );
         gameMode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setGameMode();
             }
         } );
-        JRadioButton freeMode = new JRadioButton( "Freestyle" );
+        JRadioButton freeMode = new JRadioButton( SimStrings.get( "ECControlPanel.FreestyleRadioButton" ) );
         freeMode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setOpenMode();
@@ -232,7 +233,7 @@ public class ECControlPanel extends JPanel {
         jp.setLayout( new BoxLayout( jp, BoxLayout.Y_AXIS ) );
         jp.add( gameMode );
         jp.add( freeMode );
-        jp.setBorder( BorderFactory.createTitledBorder( "Mode" ) );
+        jp.setBorder( BorderFactory.createTitledBorder( SimStrings.get( "ECControlPanel.ModeBorder" ) ) );
 
         if( !EC2Module.WENDY_MODE ) {
             add( chartPanel );
@@ -244,7 +245,7 @@ public class ECControlPanel extends JPanel {
         add( reset );
         add( clearFriction );
         add( jp );
-        final JCheckBox audio = new JCheckBox( "Audio" );
+        final JCheckBox audio = new JCheckBox( SimStrings.get( "ECControlPanel.AudioCheckBox" ) );
         audio.setSelected( EC2Module.audioEnabled );
         audio.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

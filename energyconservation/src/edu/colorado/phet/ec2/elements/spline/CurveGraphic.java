@@ -4,6 +4,7 @@ package edu.colorado.phet.ec2.elements.spline;
 import edu.colorado.phet.common.view.graphics.DragHandler;
 import edu.colorado.phet.common.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.ObservingGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.graphics.arrows.Arrow;
 import edu.colorado.phet.coreadditions.graphics.positioned.CenteredCircleGraphic2;
 import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
@@ -53,13 +54,13 @@ public class CurveGraphic implements InteractiveGraphic, ObservingGraphic {
         this.transform = transform;
         this.parent = parentGraphic;
         this.spline = spline;
-        popup = newJPopupMenu( "Curve" );
-        JMenuItem remove = newMenuItem( "Remove", new ActionListener() {
+        popup = newJPopupMenu( SimStrings.get( "CurveGraphic.PopUpMenuTitle" ) );
+        JMenuItem remove = newMenuItem( SimStrings.get( "CurveGraphic.RemoveMenuItem" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 parent.remove();
             }
         } );
-        JMenuItem addControlPoint = newMenuItem( "Add Control Point", new ActionListener() {
+        JMenuItem addControlPoint = newMenuItem( SimStrings.get( "CurveGraphic.AddControlPointMenuItem" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 Point pt = popupLocation;
                 int index = determineNewControlPointIndex( pt );
@@ -67,7 +68,7 @@ public class CurveGraphic implements InteractiveGraphic, ObservingGraphic {
                 spline.insertControlPoint( index, modelCoords.x, modelCoords.y );
             }
         } );
-        JMenuItem copySpline = newMenuItem( "Copy", new ActionListener() {
+        JMenuItem copySpline = newMenuItem( SimStrings.get( "CurveGraphic.CopyMenuItem" ), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 Spline copy = spline.copySpline();
                 for( int i = 0; i < copy.numPoints(); i++ ) {

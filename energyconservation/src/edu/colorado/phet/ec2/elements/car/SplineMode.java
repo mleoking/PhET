@@ -1,6 +1,7 @@
 /*Copyright, Sam Reid, 2003.*/
 package edu.colorado.phet.ec2.elements.car;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.graphics.DifferentialDragHandler;
 import edu.colorado.phet.coreadditions.math.PhetVector;
 import edu.colorado.phet.coreadditions.physics1d.Particle1d;
@@ -321,7 +322,7 @@ public class SplineMode implements CarMode {
             dh = new DifferentialDragHandler( event.getPoint() );
             cg.getCar().setGrabbed( true );
             cg.getCar().setFriction( 0 );
-            EC2Module.setMessage( "Setting Initial Velocity." );
+            EC2Module.setMessage( SimStrings.get( "CarMode.InitialVelocityText" ) );
 
             healEnergy = false;
             cursorHandler.setCursor( Cursor.CROSSHAIR_CURSOR, event.getComponent() );
@@ -355,7 +356,9 @@ public class SplineMode implements CarMode {
 
             double mph = modelSpeed * 2.23693629205;
 //            Point initvel=new Point(velocityVector.getX(),velocityVector.getY());
-            EC2Module.setMessage( "Initial Speed=" + df.format( modelSpeed ) + " m/s   ( " + df.format( mph ) + " mph )", 1000 );
+            EC2Module.setMessage( SimStrings.get( "CarMode.InitialSpeedLabel" ) + "=" + df.format( modelSpeed )
+                        + " " + SimStrings.get( "CarMode.MetersPerSecondAbbrev" ) + "   ( " + df.format( mph )
+                        + " " + SimStrings.get( "CarMode.MilesPerHourAbbrev" ) + " )", 1000 );
 //            dh = new DifferentialDragHandler(event.getPoint());
         }
 

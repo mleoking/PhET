@@ -1,5 +1,7 @@
 package edu.colorado.phet.coreadditions.plaf;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
@@ -13,6 +15,10 @@ public class LectureLookAndFeel2 extends MetalLookAndFeel {
     Color foregroundColor;
     Color backgroundColor;
     private ArrayList def;
+
+    static {
+        SimStrings.setStrings( "localization/HPA-22Strings" );
+    }
 
     public LectureLookAndFeel2() {
         this( new Font( "Lucida Sans", 0, 26 ), new Color( 225, 240, 230 ), new Color( 85, 70, 95 ) );
@@ -62,7 +68,7 @@ public class LectureLookAndFeel2 extends MetalLookAndFeel {
     }
 
     private void install() {
-        UIManager.installLookAndFeel( "Lecture", getClass().getName() );
+        UIManager.installLookAndFeel( SimStrings.get( "LectureLookAndFeel2.LectureLabel" ), getClass().getName() );
     }
 
 

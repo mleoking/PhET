@@ -2,6 +2,7 @@
 package edu.colorado.phet.ec2.elements.scene;
 
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.math.PhetVector;
 import edu.colorado.phet.ec2.EC2Module;
 import edu.colorado.phet.ec2.elements.car.Car;
@@ -61,7 +62,7 @@ public class RectangularBound extends ModelElement {
             double c2 = car.getMechanicalEnergy();
             double fric = carEnergy - c2;
             car.addFriction( fric );
-            EC2Module.setMessage( "Crash!", 1000 );
+            EC2Module.setMessage( SimStrings.get( "RectangularBound.CrashText" ), 1000 );
         }
     }
 

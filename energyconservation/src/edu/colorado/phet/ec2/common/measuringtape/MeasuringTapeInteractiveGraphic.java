@@ -3,6 +3,7 @@ package edu.colorado.phet.ec2.common.measuringtape;
 
 import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.util.graphics.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.controllers.DefaultControlGraphic;
 import edu.colorado.phet.coreadditions.controllers.MouseHandler;
 import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
@@ -115,7 +116,7 @@ public class MeasuringTapeInteractiveGraphic extends CompositeGraphic {
         imageGraphic.setTransform( imageTrf );
         double dist = tape.getMagnitude();
         String text = decimalFormat.format( dist );
-        textGraphic.setText( text + " meters" );
+        textGraphic.setText( text + " " + SimStrings.get( "MeasuringTapeInteractiveGraphic.MetersLabel" ) );
         int height = textGraphic.getBoundsHeight();
         textGraphic.setPosition( src.x, src.y + height );
 

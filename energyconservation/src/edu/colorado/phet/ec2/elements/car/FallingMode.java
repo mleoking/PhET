@@ -3,6 +3,7 @@ package edu.colorado.phet.ec2.elements.car;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.graphics.DragHandler;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.coreadditions.math.PhetVector;
 import edu.colorado.phet.ec2.EC2Module;
@@ -92,7 +93,7 @@ public class FallingMode implements CarMode {
             dh = new DragHandler( event.getPoint(), cg.getCarViewLocation() );
             cg.getCar().setGrabbed( true );
             cg.getCar().setFriction( 0 );
-            EC2Module.setMessage( "Setting Initial Velocity." );
+            EC2Module.setMessage( SimStrings.get( "CarMode.InitialVelocityText" ) );
         }
 
         public void mouseReleased( CarGraphic cg, MouseEvent event ) {
@@ -126,7 +127,9 @@ public class FallingMode implements CarMode {
             double speed = velocityVector.getMagnitude() / scale;
             double mph = speed * 2.23693629205;
 //            Point initvel=new Point(velocityVector.getX(),velocityVector.getY());
-            EC2Module.setMessage( "Initial Speed=" + df.format( speed ) + " m/s   ( " + df.format( mph ) + " mph )", 1000 );
+            EC2Module.setMessage( SimStrings.get( "CarMode.InitialSpeedLabel" ) + "=" + df.format( speed )
+                        + " " + SimStrings.get( "CarMode.MetersPerSecondAbbrev" ) + "   ( " + df.format( mph )
+                        + " " + SimStrings.get( "CarMode.MilesPerHourAbbrev" ) + " )", 1000 );
         }
     }
 
@@ -166,10 +169,10 @@ public class FallingMode implements CarMode {
 
             double height = c.getHeightAboveGround();
             if( height > lastHeight ) {
-                EC2Module.setMessage( "Adding energy from external source.", 1000 );
+                EC2Module.setMessage( SimStrings.get( "CarMode.AddingEnergyText" ), 1000 );
             }
             else if( height < lastHeight ) {
-                EC2Module.setMessage( "Releasing energy to external source.", 1000 );
+                EC2Module.setMessage( SimStrings.get( "CarMode.ReleasingEnergyText" ), 1000 );
             }
             else {
             }
