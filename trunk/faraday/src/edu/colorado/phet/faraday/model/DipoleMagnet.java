@@ -103,6 +103,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         if ( fieldVector == null ) {
             fieldVector = new Vector2D();
         }
+        fieldVector.zero();
         
         // All of our calculations are based a magnet located at the origin,
         // with the north pole pointing down the X-axis.
