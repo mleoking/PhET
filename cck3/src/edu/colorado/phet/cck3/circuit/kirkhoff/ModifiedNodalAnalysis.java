@@ -10,7 +10,6 @@ import edu.colorado.phet.common.math.Vector2D;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -22,8 +21,6 @@ import java.util.Hashtable;
  */
 public class ModifiedNodalAnalysis extends KirkhoffSolver {
     public static boolean debugging = false;
-    private Hashtable branchMap;
-    private Hashtable internalMap;
 
     /*
 The x matrix:
@@ -70,14 +67,14 @@ through the m independent voltage sources in the circuit.
     private void solve( Circuit subCircuit ) {
         //        new Throwable( ).printStackTrace( );
         //        System.out.println( "circuit = " + circuit );
-        Circuit equivalentCircuit = getEquivalentCircuit( subCircuit );
+        EquivalentCircuit equivalentCircuit = getEquivalentCircuit( subCircuit );
         //        System.out.println( "circuit = " + circuit );
         //        System.out.println( "equivalentCircuit = " + equivalentCircuit );
-        applyOrig( equivalentCircuit );
-        Enumeration keys = branchMap.keys();
+        applyOrig( equivalentCircuit.getCircuit() );
+        Enumeration keys = equivalentCircuit.branchMap.keys();
         while( keys.hasMoreElements() ) {
             Branch branch = (Branch)keys.nextElement();
-            Branch value = (Branch)branchMap.get( branch );
+            Branch value = (Branch)equivalentCircuit.branchMap.get( branch );
             branch.setKirkhoffEnabled( false );
             branch.setCurrent( value.getCurrent() );
             branch.setVoltageDrop( value.getVoltageDrop() );
@@ -109,9 +106,35 @@ through the m independent voltage sources in the circuit.
         }
     }
 
-    private Circuit getEquivalentCircuit( Circuit circuit ) {
-        branchMap = new Hashtable();
-        internalMap = new Hashtable();
+    class EquivalentCircuit {
+        private Hashtable branchMap;
+        private Hashtable internalMap;
+        private Circuit circuit;
+
+        public EquivalentCircuit() {
+            this.branchMap = new Hashtable();
+            this.internalMap = new Hashtable();
+        }
+
+        public void setCircuit( Circuit circuit ) {
+            this.circuit = circuit;
+        }
+
+        public Circuit getCircuit() {
+            return circuit;
+        }
+
+        public Hashtable getBranchMap() {
+            return branchMap;
+        }
+
+        public Hashtable getInternalMap() {
+            return internalMap;
+        }
+    }
+
+    private EquivalentCircuit getEquivalentCircuit( Circuit circuit ) {
+        EquivalentCircuit equivalentCircuit = new EquivalentCircuit();
 
         Circuit c = new Circuit( new KirkhoffListener() {
             public void circuitChanged() {
@@ -122,7 +145,7 @@ through the m independent voltage sources in the circuit.
             if( branch instanceof Battery ) {
                 Battery batt = (Battery)branch;
                 Battery idealBattery = new Battery( batt.getVoltageDrop(), 0 );
-                branchMap.put( branch, idealBattery );
+                equivalentCircuit.branchMap.put( branch, idealBattery );
                 double internalResistance = CCK3Module.MIN_RESISTANCE;
                 if( batt.isInternalResistanceOn() ) {
                     internalResistance = batt.getInteralResistance();
@@ -130,11 +153,11 @@ through the m independent voltage sources in the circuit.
                 InternalResistor fakeResistor = new InternalResistor( internalResistance );
                 c.addBranch( fakeResistor );
                 c.addBranch( idealBattery );
-                internalMap.put( idealBattery, fakeResistor );
+                equivalentCircuit.internalMap.put( idealBattery, fakeResistor );
             }
             else {
                 Resistor fakeResistor = new Resistor( branch.getResistance() );
-                branchMap.put( branch, fakeResistor );
+                equivalentCircuit.branchMap.put( branch, fakeResistor );
                 c.addBranch( fakeResistor );
             }
         }
@@ -149,7 +172,7 @@ through the m independent voltage sources in the circuit.
             c.addJunction( jBar );
             for( int k = 0; k < neighbors.length; k++ ) {
                 Branch neighbor = neighbors[k];
-                Branch neighborBar = (Branch)branchMap.get( neighbor );
+                Branch neighborBar = (Branch)equivalentCircuit.branchMap.get( neighbor );
                 if( neighbor.getStartJunction() == j ) {
                     neighborBar.setStartJunction( jBar );
                 }
@@ -159,10 +182,10 @@ through the m independent voltage sources in the circuit.
             }
         }
         //all wired up, now fix the batteries.
-        Enumeration en = internalMap.keys();
+        Enumeration en = equivalentCircuit.internalMap.keys();
         while( en.hasMoreElements() ) {
             Battery idealBatt = (Battery)en.nextElement();
-            InternalResistor internalResistor = (InternalResistor)internalMap.get( idealBatt );
+            InternalResistor internalResistor = (InternalResistor)equivalentCircuit.internalMap.get( idealBatt );
             Junction internal = new Junction( 0, 0 );
             Junction start = idealBatt.getStartJunction();
             internalResistor.setStartJunction( start );
@@ -170,7 +193,8 @@ through the m independent voltage sources in the circuit.
             idealBatt.setStartJunction( internal );
             c.addJunction( internal );
         }
-        return c;
+        equivalentCircuit.setCircuit( c );
+        return equivalentCircuit;
     }
 
     public void applyOrig( final Circuit circuit ) {

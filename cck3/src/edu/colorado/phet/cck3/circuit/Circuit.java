@@ -280,10 +280,6 @@ public class Circuit {
             if( !visited.contains( branch ) ) {
                 visited.add( branch );
                 getConnectedSubgraph( visited, opposite );
-                //                if( branch instanceof CircuitComponent ) {
-                //                    visited.add( branch );
-                //                    getStrongConnections( visited, opposite );
-                //                }//Wires end the connectivity.
             }
         }
     }
@@ -385,65 +381,10 @@ public class Circuit {
     }
 
     public double getVoltage( VoltmeterGraphic.Connection a, VoltmeterGraphic.Connection b ) {
-        if( a.equals( b ) ) {
-            return 0;
-        }
-        else {
-            Junction startJ = a.getJunction();
-            Junction endJ = b.getJunction();
-            Branch[] ignore1 = a.getBranchesToIgnore();
-            Branch[] ignore2 = b.getBranchesToIgnore();
-            ArrayList ignore = new ArrayList();
-            ignore.addAll( Arrays.asList( ignore1 ) );
-            ignore.addAll( Arrays.asList( ignore2 ) );
-            double va = a.getVoltageAddon();
-            double vb = b.getVoltageAddon();
-            double voltInit = ( -va + vb );
-            ArrayList ignoreCopy = new ArrayList();
-            ignoreCopy.addAll( ignore );
-            double junctionAnswer = getVoltage( ignore, startJ, endJ, 0 );
-            double junctionAnswer2 = getVoltage( ignoreCopy, endJ, startJ, 0 );
-            double result = Double.POSITIVE_INFINITY;
-            if( !Double.isInfinite( junctionAnswer ) ) {
-                result = junctionAnswer + voltInit;
-            }
-            else if( !Double.isInfinite( junctionAnswer2 ) ) {
-                result = junctionAnswer2 + voltInit;
-            }
-            //            return result;
-            return -result;
-        }
+        VoltageCalculation vc = new VoltageCalculation( this );
+        return vc.getVoltage( a, b );
     }
 
-    private double getVoltage( ArrayList visited, Junction at, Junction target, double volts ) {
-        if( at == target ) {
-            return volts;
-        }
-        Branch[] out = getAdjacentBranches( at );
-        for( int i = 0; i < out.length; i++ ) {
-            Branch branch = out[i];
-            Junction opposite = branch.opposite( at );
-            if( !visited.contains( branch ) ) {  //don't cross the same bridge twice.
-                //                visited.add( branch );
-                double dv = branch.getVoltageDrop();
-                if( branch instanceof Battery ) {
-                    Battery batt = (Battery)branch;
-                    dv = batt.getEffectiveVoltageDrop();
-                }
-                if( branch.getEndJunction() == opposite ) {
-                    dv *= -1;
-                }
-                ArrayList copy = new ArrayList( visited );
-                copy.add( branch );
-                double result = getVoltage( copy, opposite, target, volts + dv );
-                if( !Double.isInfinite( result ) ) {
-                    return result;
-                }
-            }
-        }
-        //no novel path to target, so voltage is infinite
-        return Double.POSITIVE_INFINITY;
-    }
 
     public static Circuit parseXML( IXMLElement xml, KirkhoffListener kl, CCK3Module module ) {
         Circuit cir = new Circuit( kl );

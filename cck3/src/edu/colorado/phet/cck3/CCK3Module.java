@@ -122,7 +122,8 @@ public class CCK3Module extends Module {
     public static boolean SHOW_GRAB_BAG = false;
     private MagicalRepaintPanel magicPanel;
     private static CCK3Module module;
-    public static final boolean DEBUG_ALL = false;
+    public static final boolean GRAPHICAL_DEBUG = false;
+//    public static final boolean GRAPHICAL_DEBUG = true;
 
     public MagicalRepaintPanel getMagicPanel() {
         return magicPanel;
