@@ -131,7 +131,7 @@ public class BaseLaserModule extends Module implements CollimatedBeam.Listener {
 
         // Add the control panel
         LaserControlPanel controlPanel = new LaserControlPanel( this, clock );
-        controlPanel.setMaxPhotonRate( 5 );
+        //        controlPanel.setMaxPhotonRate( 5 );
         setControlPanel( controlPanel );
     }
 

@@ -13,12 +13,15 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.lasers.controller.ApparatusConfiguration;
 import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.controller.StimulatingBeamControl;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.BlueBeamGraphic;
 
+import javax.swing.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -54,11 +57,24 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Add the ray gun for firing photons
         try {
+            Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)stimulatingBeam.getPosition().getX() - 25,
+                                                                  (int)( stimulatingBeam.getPosition().getY() - Photon.s_radius ),
+                                                                  100, 100 );
             BufferedImage gunBI = ImageLoader.loadBufferedImage( LaserConfig.RAY_GUN_IMAGE_FILE );
-            PhetImageGraphic gunGraphic = new PhetImageGraphic( getApparatusPanel(), gunBI,
-                                                                (int)stimulatingBeam.getPosition().getX() - 25,
-                                                                (int)( stimulatingBeam.getPosition().getY() - Photon.s_radius ) );
+            double scale = Math.min( allocatedBounds.getWidth() / gunBI.getWidth(),
+                                     allocatedBounds.getHeight() / gunBI.getHeight() );
+            AffineTransform atx = new AffineTransform();
+            atx.translate( allocatedBounds.getX(), allocatedBounds.getY() );
+            atx.scale( scale, scale );
+            PhetImageGraphic gunGraphic = new PhetImageGraphic( getApparatusPanel(), gunBI, atx );
             addGraphic( gunGraphic, LaserConfig.PHOTON_LAYER + 1 );
+
+            JPanel sbmPanel = new JPanel();
+            StimulatingBeamControl sbm = new StimulatingBeamControl( getLaserModel() );
+            sbmPanel.setBounds( (int)allocatedBounds.getX(), (int)( allocatedBounds.getY() + allocatedBounds.getHeight() ),
+                                150, 85 );
+            sbmPanel.add( sbm );
+            getApparatusPanel().add( sbmPanel );
         }
         catch( IOException e ) {
             e.printStackTrace();
