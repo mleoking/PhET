@@ -178,17 +178,27 @@ public class DialGauge extends CompositeGraphic implements ScalarObserver {
 //                          (float)( x + Math.cos( maxTickTheta ) * ( diam / 2 ) * radRatio ) - (float)bounds.getWidth() / 2,
 //                          (float)( y + Math.sin( maxTickTheta ) * ( diam / 2 ) * radRatio ) + (float)bounds.getHeight() );
 
-            // Paint units label
-            String datumString = formatter.format( datum ) + " " + units;
-            bounds = font.getStringBounds( datumString, frc );
-            g.drawString( datumString,
-                          (float)x - (float)bounds.getWidth() / 2,
-                          (float)( y + ( ( diam / 4 ) * radRatio ) ) );
+            // Paint value, and units label
             RoundRectangle2D rect = new RoundRectangle2D.Double( 0, 0, 0, 0, 3, 3 );
             rect.setFrameFromCenter( x, y + 10, x + 30, y + 17 );
+            g.setColor( Color.white );
+            g.fill( rect );
             g.setColor( Color.yellow );
             g.setStroke( new BasicStroke( 3f ) );
             g.draw( rect );
+            g.setColor( Color.black );
+            g.setStroke( new BasicStroke( 0.5f ) );
+            g.draw( rect );
+            String datumString = formatter.format( datum ) + " " + units;
+            bounds = font.getStringBounds( datumString, frc );
+            g.setColor( Color.black );
+            g.drawString( datumString,
+                          (float)x - (float)bounds.getWidth() / 2,
+                          (float)( y + ( ( diam / 4 ) * radRatio ) ) );
+//            rect.setFrameFromCenter( x, y + 10, x + 30, y + 17 );
+//            g.setColor( Color.yellow );
+//            g.setStroke( new BasicStroke( 3f ) );
+//            g.draw( rect );
 
 //            double dy = bounds.getHeight();
 //            bounds = font.getStringBounds( units, frc );
