@@ -2,20 +2,17 @@ package edu.colorado.phet.ehockey;
 
 //Mediator applet for Electric edu.colorado.phet.ehockey.Hockey
 
-//import edu.colorado.phet.utils.edu.colorado.phet.ehockey.ResourceLoader4;
-
-// Only import this while using Enumeration class to test bundle strings
-// import java.util.Enumeration;
-
 import javax.swing.*;
 import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Locale;
 
 //Need File class
 
 public class Hockey extends JApplet implements Runnable {
+    static boolean isApplet = true;
     private int width;
     private int height;
     private PlayingField playingField;
@@ -37,19 +34,13 @@ public class Hockey extends JApplet implements Runnable {
         width = 700;
         height = 600;
 
-        HockeyStrings.setStrings( HockeyConfig.localizedStringPath );
-
-        // Verify all I18N keywords have valid values (by visual inspection of
-        // the values sent to stdout).
-        //
-        // Enumeration keys = HockeyStrings.getKeys();
-        // int ki = 1;
-        // while (keys.hasMoreElements()) {
-        //     String key = (String)keys.nextElement();
-        //     String value = HockeyStrings.get(key);
-        //     System.out.println("HockeyStrings key-value " + ki + " " + key + " " + value);
-        //     ki++;
-        // }
+        if ( isApplet ) {
+            String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+                SimStrings.setLocale( new Locale( applicationLocale ) );
+            }
+            SimStrings.setStrings( HockeyConfig.localizedStringPath );
+        }
 
         barrierList = new BarrierList( this );
         model = new Model( width, height, this );
@@ -104,8 +95,20 @@ public class Hockey extends JApplet implements Runnable {
 
     public static void main( String[] args ) {
 
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            SimStrings.setLocale( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            SimStrings.setLocale( new Locale( locale ));
+        }
 
-        JFrame f = new JFrame( "Electric Hockey - derived from work by Ruth Chabay");
+        SimStrings.setStrings( HockeyConfig.localizedStringPath );
+        isApplet = false;
+
+        JFrame f = new JFrame( SimStrings.get( "HockeyApplication.Title" ) );
         Hockey mg = new Hockey();
         f.setContentPane( mg );
         f.setSize( 800, 750 );
