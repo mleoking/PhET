@@ -12,6 +12,7 @@ package edu.colorado.phet.common.model.clock;
 
 import edu.colorado.phet.common.util.EventRegistry;
 
+import javax.swing.event.EventListenerList;
 import java.util.ArrayList;
 
 /**
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 public abstract class AbstractClock {
 //    private CompositeClockTickListener timeListeners = new CompositeClockTickListener();
     private double runningTime;
-    private ArrayList clockStateListeners = new ArrayList();
     private TickConverter tickConverter;
     private int delay;
     private static final int NOT_STARTED = 1;
@@ -32,7 +32,7 @@ public abstract class AbstractClock {
     private static final int DEAD = 3;
     private int executionState = NOT_STARTED;
     private double dt;
-    private EventRegistry eventRegistry = new EventRegistry();
+    private EventListenerList eventRegistry = new EventListenerList();
 
     public AbstractClock( double dt, int delay, boolean isFixed ) {
         if( isFixed ) {
@@ -67,10 +67,6 @@ public abstract class AbstractClock {
 
     public boolean hasStarted() {
         return executionState != NOT_STARTED;
-    }
-
-    public void addClockStateListener( ClockStateListener csl ) {
-        clockStateListeners.add( csl );
     }
 
     public double getRunningTime() {
@@ -134,7 +130,13 @@ public abstract class AbstractClock {
 
     protected void clockTicked( double dt ) {
         runningTime += dt;
-        eventRegistry.fireEvent( new ClockTickEvent( this, dt ) );
+        ClockTickEvent event = new ClockTickEvent( this, dt );
+        Object[] listeners = eventRegistry.getListenerList();
+        for( int i = 0; i < listeners.length; i+=2 ) {
+            if( listeners[i] == ClockTickListener.class ) {
+                ((ClockTickListener)listeners[i+1]).clockTicked( event );
+            }
+        }
     }
 
     public String toString() {
@@ -146,6 +148,14 @@ public abstract class AbstractClock {
     }
 
     protected ArrayList getClockStateListeners() {
+        ArrayList clockStateListeners = new ArrayList( );
+        Object[] listeners = eventRegistry.getListenerList();
+        for( int i = 0; i < listeners.length; i++ ) {
+            Object listener = listeners[i];
+            if( listener instanceof ClockStateListener ) {
+                clockStateListeners.add( listener );
+            }
+        }
         return clockStateListeners;
     }
 
@@ -159,37 +169,39 @@ public abstract class AbstractClock {
 
     public void setDt( double dt ) {
         this.dt = dt;
-        for( int i = 0; i < clockStateListeners.size(); i++ ) {
-            ClockStateListener clockStateListener = (ClockStateListener)clockStateListeners.get( i );
-            clockStateListener.dtChanged( dt );
-        }
+        fireClockStateEvent();
     }
 
     public void setDelay( int delay ) {
         this.delay = delay;
-        for( int i = 0; i < clockStateListeners.size(); i++ ) {
-            ClockStateListener clockStateListener = (ClockStateListener)clockStateListeners.get( i );
-            clockStateListener.delayChanged( delay );
+        fireClockStateEvent();
+    }
+
+    protected void fireClockStateEvent() {
+        ClockStateEvent event = new ClockStateEvent( this );
+        Object[] listeners = eventRegistry.getListenerList();
+        for( int i = 0; i < listeners.length; i+=2 ) {
+            if( listeners[i] == ClockStateListener.class ) {
+                ((ClockStateListener )listeners[i+1]).stateChanged( event );
+            }
         }
     }
 
     public void removeClockTickListener( ClockTickListener listener ) {
-//        timeListeners.removeClockTickListener( listener );
-        eventRegistry.removeListener( listener );
+        eventRegistry.remove( ClockTickListener.class, listener );
     }
 
     public void addClockTickListener( ClockTickListener tickListener ) {
-//        timeListeners.addClockTickListener( tickListener );
-        eventRegistry.addListener( tickListener );
+        eventRegistry.add( ClockTickListener.class, tickListener );
     }
 
-//    public void addListener( EventListener listener ) {
-//        eventRegistry.addListener( listener );
-//    }
-//
-//    public void removeListener( EventListener listener ) {
-//        eventRegistry.removeListener( listener );
-//    }
+    public void addClockStateListener( ClockStateListener csl ) {
+        eventRegistry.add( ClockStateListener.class, csl );
+    }
+
+    public void removeClockStateListener( ClockStateListener csl ) {
+        eventRegistry.remove( ClockStateListener.class, csl );
+    }
 
     ///////////////////////////////////////////////////////////////////////
     // Inner classes

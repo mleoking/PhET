@@ -10,19 +10,16 @@
  */
 package edu.colorado.phet.common.model.clock;
 
+import java.util.EventListener;
+
 
 /**
  * ClockStateListener
  *
- * @author ?
+ * @author Ron LeMaster
  * @version $Revision$
  */
-public interface ClockStateListener {
-    void delayChanged( int waitTime );
+public interface ClockStateListener extends EventListener {
 
-    void dtChanged( double dt );
-
-    void threadPriorityChanged( int priority );
-
-    void pausedStateChanged( boolean b );
+    void stateChanged( ClockStateEvent event );
 }

@@ -79,7 +79,9 @@ public class ThreadedClock extends AbstractClock implements Runnable {
         this.priority = tp;
         for( int i = 0; i < getClockStateListeners().size(); i++ ) {
             ClockStateListener clockStateListener = (ClockStateListener)getClockStateListeners().get( i );
-            clockStateListener.threadPriorityChanged( tp );
+
+            // todo: implement this
+//            clockStateListener.threadPriorityChanged( tp );
         }
     }
 
