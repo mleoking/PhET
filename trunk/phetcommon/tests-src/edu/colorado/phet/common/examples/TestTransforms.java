@@ -46,7 +46,7 @@ public class TestTransforms extends Module {
         Shape centeredShape = new Ellipse2D.Double( 5 - w / 2, 5 - h / 2, w, h );
         //        ShapeGraphic shapeGraphic = new ShapeGraphic( centeredShape, fill, outline, modelStroke );
 
-        ControlPanel cp = new ControlPanel();
+        JPanel cp = new JPanel();
         setControlPanel( cp );
         //        getApparatusPanel().addGraphic( shapeGraphic );
 
@@ -135,7 +135,4 @@ public class TestTransforms extends Module {
         pa.startApplication();
     }
 
-    class ControlPanel extends JPanel {
-
-    }
 }
