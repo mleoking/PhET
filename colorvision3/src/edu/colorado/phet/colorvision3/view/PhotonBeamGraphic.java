@@ -3,6 +3,7 @@
 package edu.colorado.phet.colorvision3.view;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -122,6 +123,8 @@ public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver
         }
       }
       super.restoreGraphicsState();
+      
+      BoundsOutline.paint( g2, this, Color.YELLOW ); // DEBUG
     }
   } // paint
 
