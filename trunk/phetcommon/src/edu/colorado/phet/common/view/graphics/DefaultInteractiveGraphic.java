@@ -99,6 +99,11 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
         this.boundary = boundary;
     }
 
+    public void setBoundedGraphic( BoundedGraphic boundedGraphic ) {
+        setGraphic( boundedGraphic );
+        setBoundary( boundedGraphic );
+    }
+
     /**
      * Cause the cursor to turn into a hand when within the boundary.
      */

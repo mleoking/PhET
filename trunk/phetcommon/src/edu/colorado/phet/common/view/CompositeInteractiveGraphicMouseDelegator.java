@@ -30,6 +30,8 @@ public class CompositeInteractiveGraphicMouseDelegator implements MouseInputList
             activeUnit.mouseExited( event );
         }
         this.activeUnit = activeUnit;
+        activeUnit.mouseEntered( event );
+        activeUnit.mousePressed( event );
         activeUnit.mouseDragged( event );
     }
 
