@@ -27,7 +27,7 @@ public class TwoEnergyLevelMonitorPanel extends MonitorPanel {
     static private double s_panelHeight = 100;
     //    static private double s_panelHeight = 150;
 
-    static private double s_highLevelLineOriginX = 50;
+    static private double s_highLevelLineOriginX = 80;
     static private double s_highLevelLineOriginY = 30;
     static private double s_highLevelLineLength = s_panelWidth * 0.4f;
 
@@ -35,7 +35,7 @@ public class TwoEnergyLevelMonitorPanel extends MonitorPanel {
     static private double s_middleLevelLineOriginY = s_highLevelLineOriginY;// + ( s_panelHeight / 3 );
     static private double s_middleLevelLineLength = s_highLevelLineLength;
 
-    static private double s_groundLevelLineOriginX = 10;
+    static private double s_groundLevelLineOriginX = 30;
     static private double s_groundLevelLineOriginY = s_panelHeight - 20;
     static private double s_groundLevelLineLength = s_panelWidth - 40;
 
