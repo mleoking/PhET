@@ -89,6 +89,10 @@ public class CompositeInteractiveGraphic implements InteractiveGraphic {
         this.graphicMap.add(new Double(layer), graphic);
     }
 
+    public void addGraphic(Graphic graphic) {
+        this.addGraphic(graphic, 0);
+    }
+
     public void moveToTop(Graphic target) {
         this.remove(target);
         graphicMap.add(graphicMap.lastKey(), target);
