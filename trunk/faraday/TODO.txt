@@ -15,6 +15,8 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- get rid of rescaler stuff in voltmeter, lightbulb and electrons (model, view, modules), remove those rescaler classes
+- integrate CompassGridRescaler into CompassGridGraphic
 - use PhetGraphic.skipRectangleComputations to bypass calls to AffineTransform.createTransformedShape
 - optimize PickupCoil.updateEmf so that it doesn't do anything if it doesn't have to
 - switch to a dynamic clock with median filtering of dt
