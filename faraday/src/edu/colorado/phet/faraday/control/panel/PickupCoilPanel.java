@@ -33,7 +33,7 @@ import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
 
 /**
- * PickupCoilPanel
+ * PickupCoilPanel contains the controls for the pickup coil.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
