@@ -95,6 +95,8 @@ public class PickupCoilGraphic implements SimpleObserver {
         };
         _foreground.addTranslationListener( listener );
         _background.addTranslationListener( listener );
+        
+        update();
     }
     
     /**
@@ -144,17 +146,24 @@ public class PickupCoilGraphic implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     public void update() {
-        
+
+        // Location
         _foreground.setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
         _background.setLocation( (int) _pickupCoilModel.getX(), (int) _pickupCoilModel.getY() );
         
-        // Position the bulb and meter so that they are at the top of the coil.
+        // Position the lightbulb and voltmeter at the top of the coil.
+        _foreground.clearTransform();
+        _background.clearTransform();
         Rectangle bounds = new Rectangle( _coilGraphic.getForeground().getBounds() );
         bounds.union( _coilGraphic.getBackground().getBounds() );
         int x = -10;
         int y = -( bounds.height / 2 ) - 5;
         _lightBulbGraphic.setLocation( x, y );
         _voltMeterGraphic.setLocation( x, y );
+        
+        // Direction (do this *after* positioning lightbulb and voltmeter!)
+        _foreground.rotate( _pickupCoilModel.getDirection() );
+        _background.rotate( _pickupCoilModel.getDirection() );
         
         _foreground.repaint();
         _background.repaint();
