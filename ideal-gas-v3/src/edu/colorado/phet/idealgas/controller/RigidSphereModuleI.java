@@ -42,6 +42,7 @@ public class RigidSphereModuleI extends IdealGasModule {
                                    50 );
 
         new AddModelElementCmd( getIdealGasModel(), sphere ).doIt();
+        getIdealGasModel().getBox().addContainedBody( sphere );
         addGraphic( new HollowSphereGraphic( getApparatusPanel(), sphere ), 20 );
 
         //        Constraint constraintSpec = new BoxMustContainParticle( box, sphere, getIdealGasModel() );

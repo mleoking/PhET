@@ -22,7 +22,6 @@ import edu.colorado.phet.idealgas.model.Wall;
  */
 public class SphereWallContactDetector extends ContactDetector {
 
-    //    private Point2D.Double tempVector = new Point2D.Double();
     private Vector2D tempVector = new Vector2D.Double();
 
     /**
@@ -68,30 +67,43 @@ public class SphereWallContactDetector extends ContactDetector {
         if( wall instanceof VerticalWall ) {
             double d = ( wall.getPosition().getX() - sphere.getPosition().getX() )
                        * ( wall.getPosition().getX() - sphere.getPositionPrev().getX() );
-            //            if( d < 0 ) {
-            //                System.out.println( "VVVV" );
-            //            }
             result |= ( d < 0 );
         }
         if( wall instanceof HorizontalWall ) {
             double d = ( wall.getPosition().getY() - sphere.getPosition().getY() )
                        * ( wall.getPosition().getY() - sphere.getPositionPrev().getY() );
-            //            if( d < 0 ) {
-            //                System.out.println( "HHHH" );
-            //            }
+//            if( d < 0 ){
+//                System.out.println( "@@@" );
+//            }
             result |= ( d < 0 );
         }
 
-        // If the previous result is true, determine if a line through the sphere's
-        // CM perpendicular to the line on which the wall lies passes through the
-        // wall itself
+//        // If the previous result is true, determine if a line through the sphere's
+//        // CM perpendicular to the line on which the wall lies passes through the
+//        // wall itself
+//        if( result ) {
+//            double dx = wall.getEnd1().getX() - wall.getEnd2().getX();
+//            double dy = wall.getEnd1().getY() - wall.getEnd2().getY();
+//            double xSphere = sphere.getPosition().getX();
+//            double ySphere = sphere.getPosition().getY();
+//            double xSphere2 = xSphere + dy;
+//            double ySphere2 = ySphere + dx;
+//            result &= MathUtil.segmentIntersectsLine( wall.getEnd1().getX(),
+//                                                      wall.getEnd1().getY(),
+//                                                      wall.getEnd2().getX(),
+//                                                      wall.getEnd2().getY(),
+//                                                      xSphere, ySphere,
+//                                                      xSphere2, ySphere2 );
+//        }
+        // If the previous result is true, determine if a line connecting the sphere's
+        // previous and current positions passes through the wall itself
         if( result ) {
             double dx = wall.getEnd1().getX() - wall.getEnd2().getX();
             double dy = wall.getEnd1().getY() - wall.getEnd2().getY();
             double xSphere = sphere.getPosition().getX();
             double ySphere = sphere.getPosition().getY();
-            double xSphere2 = xSphere + dy;
-            double ySphere2 = ySphere + dx;
+            double xSphere2 = sphere.getPositionPrev().getX();
+            double ySphere2 = sphere.getPositionPrev().getY();
             result &= MathUtil.segmentIntersectsLine( wall.getEnd1().getX(),
                                                       wall.getEnd1().getY(),
                                                       wall.getEnd2().getX(),

@@ -66,4 +66,8 @@ public abstract class CollidableBody extends Body {
 
     public abstract double getContactOffset( Body body );
 
+    public void stepInTimeNoNotify( double dt ) {
+        // Get the observers and save them
+        this.stepInTime( dt );
+    }
 }
