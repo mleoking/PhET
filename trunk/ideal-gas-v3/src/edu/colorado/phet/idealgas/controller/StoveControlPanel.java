@@ -119,8 +119,5 @@ public class StoveControlPanel extends JPanel {
         stoveSlider.setBackground( background );
         heatSourceCB.setBackground( background );
         stovePanel.getLayout().layoutContainer( this );
-
-        revalidate();
-        repaint();
     }
 }

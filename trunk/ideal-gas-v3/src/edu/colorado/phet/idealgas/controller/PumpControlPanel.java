@@ -44,8 +44,8 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
 
     protected void createMolecule( Class moleculeClass ) {
         Pump pump = getModule().getPump();
-        pump.setCurrentGasSpecies( moleculeClass );
-        getModule().pumpGasMolecules( 1 );
+//        pump.setCurrentGasSpecies( moleculeClass );
+        getModule().pumpGasMolecules( 1, moleculeClass );
     }
 
     protected void removeMolecule( Class moleculeClass ) {
@@ -65,9 +65,9 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
     //--------------------------------------------------------------
     public void moleculesAdded( Pump.MoleculeEvent event ) {
         Class species = event.getSpecies();
-        if( HeavySpecies.class.isAssignableFrom( species)) {
-            int cnt = ((Integer)getHeavySpinner().getValue()).intValue();
-            getHeavySpinner().setValue( new Integer( cnt + event.getNumMolecules() ));
+        if( HeavySpecies.class.isAssignableFrom( species ) ) {
+            int cnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
+            getHeavySpinner().setValue( new Integer( cnt + event.getNumMolecules() ) );
         }
     }
 }

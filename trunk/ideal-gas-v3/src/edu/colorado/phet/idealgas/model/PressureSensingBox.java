@@ -9,15 +9,16 @@ package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.idealgas.PressureSlice;
+import edu.colorado.phet.idealgas.util.ScalarDataRecorder;
 
 import java.awt.geom.Point2D;
 
 /**
- *
+ * A Box2D that reports pressure. Note that a PressureSlice instance must be assigned to the box
+ * before it can report pressure.
  */
 public class PressureSensingBox extends Box2D {
 
-//    private ScalarDataRecorder pressureRecorder;
     private PressureSlice pressureSlice;
 
     /**
@@ -25,10 +26,12 @@ public class PressureSensingBox extends Box2D {
      */
     public PressureSensingBox( Point2D corner1, Point2D corner2, IdealGasModel model, AbstractClock clock ) {
         super( corner1, corner2, model );
+//        pressureRecorder = new ScalarDataRecorder( 400 );
 //        pressureRecorder = new ScalarDataRecorder( clock );
-        pressureSlice = new PressureSlice( this, model, clock );
+//        pressureSlice = new PressureSlice( this, model, clock );
 //        model.addModelElement( pressureSlice );
-        pressureSlice.setY( ( corner1.getY() + corner2.getY() ) / 2 );
+//        pressureSlice.setY( ( corner1.getY() + corner2.getY() ) / 2 );
+//        pressureSlice.setTimeAveragingWindow( 2000 );
     }
 
     /**
@@ -51,5 +54,14 @@ public class PressureSensingBox extends Box2D {
         ////        return pressure / pressureLength;
         //      return pressure / perimeter;
         return pressureSlice.getPressure();
+    }
+
+    /**
+     * Sets the PressureSlice that the box is to use to report pressure
+     *
+     * @param gaugeSlice
+     */
+    public void setGuageSlice( PressureSlice gaugeSlice ) {
+        pressureSlice = gaugeSlice;
     }
 }

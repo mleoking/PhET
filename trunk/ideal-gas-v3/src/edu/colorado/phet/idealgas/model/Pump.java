@@ -39,6 +39,11 @@ public class Pump extends SimpleObservable implements GasSource {
     private Module module;
     private PumpingEnergyStrategy pumpingEnergyStrategy;
 
+    /**
+     * @param module
+     * @param box
+     * @param pumpingEnergyStrategy
+     */
     public Pump( Module module, Box2D box, PumpingEnergyStrategy pumpingEnergyStrategy ) {
         this.pumpingEnergyStrategy = pumpingEnergyStrategy;
         if( box == null ) {
@@ -49,11 +54,27 @@ public class Pump extends SimpleObservable implements GasSource {
         this.box = box;
     }
 
+    /**
+     * Creates a specified number of gas moleculese of the pump's current
+     * species
+     *
+     * @param numMolecules
+     */
     public void pump( int numMolecules ) {
+        pump( numMolecules, currentGasSpecies );
+    }
+
+    /**
+     * Creates a specified number of gas molecules of a specified species
+     *
+     * @param numMolecules
+     * @param species
+     */
+    public void pump( int numMolecules, Class species ) {
         for( int i = 0; i < numMolecules; i++ ) {
-            this.pumpGasMolecule();
+            this.pumpGasMolecule( species );
         }
-        MoleculeEvent event = new MoleculeEvent( this, currentGasSpecies, numMolecules );
+        MoleculeEvent event = new MoleculeEvent( this, species, numMolecules );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.moleculesAdded( event );
@@ -62,20 +83,23 @@ public class Pump extends SimpleObservable implements GasSource {
     }
 
     /**
-     * Creates a gas molecule of the proper species
+     * Creates a gas molecule of the pump's current species
      */
     protected GasMolecule pumpGasMolecule() {
+        return pumpGasMolecule( this.currentGasSpecies );
+    }
 
+    /**
+     * Creates a gas molecule of a specified species
+     *
+     * @param species
+     * @return
+     */
+    protected GasMolecule pumpGasMolecule( Class species ) {
         // Give the new molecule the same energy as the average of all molecules in the system.
         // If there aren't any other molecules in the system, use the default energy
         double moleculeEnergy = pumpingEnergyStrategy.getMoleculeEnergy();
-//        if( model.getNumMolecules() > 0 ) {
-//            moleculeEnergy = model.getAverageEnergy();
-//        }
-//        else {
-//            moleculeEnergy = IdealGasModel.DEFAULT_ENERGY;
-//        }
-        GasMolecule newMolecule = createMolecule( this.currentGasSpecies, moleculeEnergy );
+        GasMolecule newMolecule = createMolecule( species, moleculeEnergy );
         new PumpMoleculeCmd( model, newMolecule, module ).doIt();
 
         // Constrain the molecule to be inside the box
