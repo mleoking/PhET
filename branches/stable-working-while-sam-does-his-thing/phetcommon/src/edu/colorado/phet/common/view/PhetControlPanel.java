@@ -156,6 +156,7 @@ public class PhetControlPanel extends JPanel {
         centerPane.add( controlPane );
         JScrollPane scrollPane = new JScrollPane( centerPane );
         scrollPane.setBorder( null );
+        this.controlPane = controlPane;
         this.add( scrollPane, BorderLayout.CENTER );
     }
 

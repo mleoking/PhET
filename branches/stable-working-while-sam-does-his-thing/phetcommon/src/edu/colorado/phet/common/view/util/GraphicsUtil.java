@@ -10,9 +10,7 @@
  */
 package edu.colorado.phet.common.view.util;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**
@@ -65,9 +63,40 @@ public class GraphicsUtil {
         return atx;
     }
 
-    // Sets anti-aliasing on for a specified Graphics2D
+    /**
+     * Sets anti-aliasing on for a specified Graphics2D
+     *
+     * @param g2
+     * @return
+     */
     public static Graphics2D setAntiAliasingOn( Graphics2D g2 ) {
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         return g2;
+    }
+
+    /**
+     * Add a component to a container with a GridBagLayout, creating
+     * GridBagConstraints for it.
+     *
+     * @param container
+     * @param component
+     * @param gridX
+     * @param gridY
+     * @param gridWidth
+     * @param gridHeight
+     * @param fill
+     * @param anchor
+     * @throws java.awt.AWTException
+     * @deprecated
+     */
+    public static void addGridBagComponent( Container container,
+                                            Component component,
+                                            int gridX, int gridY,
+                                            int gridWidth, int gridHeight,
+                                            int fill, int anchor )
+
+            throws AWTException {
+        SwingUtils.addGridBagComponent( container, component, gridX, gridY,
+                                        gridWidth, gridHeight, fill, anchor, new Insets( 0, 0, 0, 0 ) );
     }
 }
