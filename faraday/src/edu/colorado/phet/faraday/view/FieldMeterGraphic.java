@@ -144,17 +144,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObs
         
         // Setup interactivity.
         super.setCursorHand();
-        super.addTranslationListener( new TranslationListener() {
-            public void translationOccurred( TranslationEvent e ) {
-                // Translate if the mouse cursor is inside the parent component.
-                if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
-                    int x = getX() + e.getDx();
-                    int y = getY() + e.getDy();
-                    setLocation( x, y );
-                    update();
-                }
-            }
-        } );
+        super.addTranslationListener( new InteractivityHandler() );
         
         // Synchronize view with model.
         update();
@@ -198,6 +188,31 @@ public class FieldMeterGraphic extends CompositePhetGraphic implements SimpleObs
             _bxText.setRegistrationPoint( _bxText.getBounds().width, _bxText.getBounds().height );
             _byText.setRegistrationPoint( _byText.getBounds().width, _byText.getBounds().height );
             _angleText.setRegistrationPoint( _angleText.getBounds().width, _angleText.getBounds().height );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /**
+     * InteractivityHandler is an inner class that handles interactivity.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private class InteractivityHandler implements TranslationListener {
+        
+        public InteractivityHandler() {}
+        
+        public void translationOccurred( TranslationEvent e ) {
+            if ( getComponent().contains( e.getMouseEvent().getPoint() ) ) {
+                // Translate if the mouse cursor is inside the parent component.
+                int x = getX() + e.getDx();
+                int y = getY() + e.getDy();
+                setLocation( x, y );
+                update();
+            }
         }
     }
 }

@@ -39,6 +39,7 @@ public class PickupCoilGraphic implements SimpleObserver, ICollidable {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Component _component;
     private PickupCoil _pickupCoilModel;
     private CoilGraphic _coilGraphic;
     private LightbulbGraphic _lightbulbGraphic;
@@ -74,6 +75,8 @@ public class PickupCoilGraphic implements SimpleObserver, ICollidable {
         
         _collisionDetector = new CollisionDetector( this );
         
+        _component = component;
+        
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
         
@@ -95,24 +98,7 @@ public class PickupCoilGraphic implements SimpleObserver, ICollidable {
         // Interactivity
         _foreground.setCursorHand();
         _background.setCursorHand();
-        TranslationListener listener = new TranslationListener() {
-            public void translationOccurred( TranslationEvent e ) {
-                int dx = e.getDx();
-                int dy = e.getDy();
-                boolean collidesNow = _collisionDetector.collidesNow();
-                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
-                if ( !collidesNow && wouldCollide ) {
-                    // Ignore the translate if it would result in a collision.
-                    update();
-                }
-                else if ( component.contains( e.getMouseEvent().getPoint() ) ) {
-                    // Translate if the mouse cursor is inside the parent component.
-                    double x = _pickupCoilModel.getX() + e.getDx();
-                    double y = _pickupCoilModel.getY() + e.getDy();
-                    _pickupCoilModel.setLocation( x, y );
-                } 
-            }
-        };
+        InteractivityHandler listener = new InteractivityHandler();
         _foreground.addTranslationListener( listener );
         _background.addTranslationListener( listener );
         
@@ -205,5 +191,37 @@ public class PickupCoilGraphic implements SimpleObserver, ICollidable {
      */
     public Rectangle[] getCollisionBounds() {
        return _coilGraphic.getCollisionBounds();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /**
+     * InteractivityHandler is an inner class that handles interactivity.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private class InteractivityHandler implements TranslationListener {
+        
+        public InteractivityHandler() {}
+        
+        public void translationOccurred( TranslationEvent e ) {
+            int dx = e.getDx();
+            int dy = e.getDy();
+            boolean collidesNow = _collisionDetector.collidesNow();
+            boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
+            if ( !collidesNow && wouldCollide ) {
+                // Ignore the translate if it would result in a collision.
+                update();
+            }
+            else if ( _component.contains( e.getMouseEvent().getPoint() ) ) {
+                // Translate if the mouse cursor is inside the parent component.
+                double x = _pickupCoilModel.getX() + e.getDx();
+                double y = _pickupCoilModel.getY() + e.getDy();
+                _pickupCoilModel.setLocation( x, y );
+            } 
+        }
     }
 }
