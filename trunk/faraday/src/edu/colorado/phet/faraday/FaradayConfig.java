@@ -45,17 +45,25 @@ public class FaradayConfig {
     // Images
     private static final String IMAGES_DIRECTORY = "images/";
     public static final String AC_SOURCE_IMAGE = IMAGES_DIRECTORY + "acSource.png";
+    public static final String AC_SOURCE_ICON = IMAGES_DIRECTORY + "acSource_icon.png";
+    public static final String AC_SOURCE_ICON_SELECTED = IMAGES_DIRECTORY + "acSource_icon_selected.png";
     public static final String BAR_MAGNET_IMAGE = IMAGES_DIRECTORY + "barMagnet.png";
     public static final String BATTERY_IMAGE = IMAGES_DIRECTORY + "battery.png";
+    public static final String BATTERY_ICON = IMAGES_DIRECTORY + "battery_icon.png";
+    public static final String BATTERY_ICON_SELECTED = IMAGES_DIRECTORY + "battery_icon_selected.png";
     public static final String COMPASS_IMAGE = IMAGES_DIRECTORY + "compass.png";
     public static final String ELECTRON_IMAGE = IMAGES_DIRECTORY + "electron.png";
     public static final String FAUCET_IMAGE = IMAGES_DIRECTORY + "faucet.png";
     public static final String FIELD_METER_IMAGE = IMAGES_DIRECTORY + "fieldMeter.png";
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightbulb.png";
+    public static final String LIGHTBULB_ICON = IMAGES_DIRECTORY + "lightbulb_icon.png";
+    public static final String LIGHTBULB_ICON_SELECTED = IMAGES_DIRECTORY + "lightbulb_icon_selected.png";
     public static final String SLIDER_KNOB_IMAGE = IMAGES_DIRECTORY + "sliderKnob.png";
     public static final String SLIDER_KNOB_RED_IMAGE = IMAGES_DIRECTORY + "sliderKnobHighlight.png";
     public static final String TURBINE_PIVOT_IMAGE = IMAGES_DIRECTORY + "turbinePivot.png";
     public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltmeter.png";
+    public static final String VOLTMETER_ICON = IMAGES_DIRECTORY + "voltmeter_icon.png";
+    public static final String VOLTMETER_ICON_SELECTED = IMAGES_DIRECTORY + "voltmeter_icon_selected.png";
 
     // Dimensions
     public static final int APP_FRAME_WIDTH = 1024;

@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -22,6 +23,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.ACSource;
@@ -155,18 +157,36 @@ public class ElectromagnetPanel extends FaradayPanel {
             TitledBorder indicatorBorder = new TitledBorder( SimStrings.get( "ElectromagnetPanel.currentSource" ) );
             sourcePanel.setBorder( indicatorBorder );
 
-            // Radio buttons
-            _batteryRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.dcSource" ) );
-            _acRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.acSource" ) );
-            ButtonGroup group = new ButtonGroup();
-            group.add( _batteryRadioButton );
-            group.add( _acRadioButton );
-
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( sourcePanel );
             sourcePanel.setLayout( layout );
-            layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( _acRadioButton, 1, 0, GridBagConstraints.WEST );
+            
+            // Radio buttons
+            try {
+                // Radio buttons with icons.
+                ImageIcon batteryIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.BATTERY_ICON ) );
+                ImageIcon batteryIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.BATTERY_ICON_SELECTED ) );
+                ImageIcon acSourceIcon = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.AC_SOURCE_ICON ) );
+                ImageIcon acSourceIconSelected = new ImageIcon( ImageLoader.loadBufferedImage( FaradayConfig.AC_SOURCE_ICON_SELECTED ) );
+                _batteryRadioButton = new JRadioButton( batteryIcon );
+                _batteryRadioButton.setSelectedIcon( batteryIconSelected );
+                _acRadioButton = new JRadioButton( acSourceIcon );
+                _acRadioButton.setSelectedIcon( acSourceIconSelected );
+                layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _acRadioButton, 0, 1, GridBagConstraints.WEST );
+            }
+            catch ( IOException ioe ) {
+                // Radio buttons with text.
+                _batteryRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.dcSource" ) );
+                _acRadioButton = new JRadioButton( SimStrings.get( "ElectromagnetPanel.acSource" ) );
+                layout.addAnchoredComponent( _batteryRadioButton, 0, 0, GridBagConstraints.WEST );
+                layout.addAnchoredComponent( _acRadioButton, 1, 0, GridBagConstraints.WEST );
+            }
+            
+            // Button group
+            ButtonGroup group = new ButtonGroup();
+            group.add( _batteryRadioButton );
+            group.add( _acRadioButton );
         }
             
         // Layout
