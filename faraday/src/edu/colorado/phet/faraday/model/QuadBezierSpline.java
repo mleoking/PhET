@@ -52,16 +52,21 @@ public class QuadBezierSpline extends QuadCurve2D.Double {
      * t=1 is at the start point, and t=0 is at the end point.
      * 
      * @param t a value between 0 and 1
+     * @param pointDst point that stores the result (optional)
      * @return the point
      * @throws IllegalArgumentException if t is out of range
      */
-    public Point2D evaluate( double t ) {
+    public Point2D evaluate( double t, Point2D pointDst ) {
         if ( t < 0 || t > 1 ) {
             throw new IllegalArgumentException( "t is out of range: " + t );
         }
         double x = ( getX1() * t * t ) + ( getCtrlX() * 2 * t * ( 1 - t ) ) + ( getX2() * ( 1 - t ) * ( 1 - t ) );
         double y = ( getY1() * t * t ) + ( getCtrlY() * 2 * t * ( 1 - t ) ) + ( getY2() * ( 1 - t ) * ( 1 - t ) );
-        return new Point2D.Double( x, y );
+        if ( pointDst == null ) {
+            pointDst = new Point2D.Double();
+        }
+        pointDst.setLocation( x, y );
+        return pointDst;
     }
     
     /**
@@ -74,7 +79,7 @@ public class QuadBezierSpline extends QuadCurve2D.Double {
         double detailBias = 1.0 / numberOfLines;
         GeneralPath path = null;
         for ( double t = 0.0; t <= 1.0; t += detailBias ) {
-            Point2D pt = evaluate( t );
+            Point2D pt = evaluate( t, null );
             if ( path == null ) {
                 path = new GeneralPath();
                 path.moveTo( (float) pt.getX(), (float) pt.getY() );

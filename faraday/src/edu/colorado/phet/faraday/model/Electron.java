@@ -51,6 +51,9 @@ public class Electron extends SpacialObservable implements ModelElement {
     
     // Electron's speed & direction (-1...+1)
     private double _speed;
+    
+    // A reusable point.
+    private Point2D _point;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -66,6 +69,7 @@ public class Electron extends SpacialObservable implements ModelElement {
         _pathIndex = 0; // first curve
         _pathPosition = 1.0; // curve's start point
         _speed = 0.0;  // not moving
+        _point = new Point2D.Double();
     }
 
     //----------------------------------------------------------------------------
@@ -140,8 +144,8 @@ public class Electron extends SpacialObservable implements ModelElement {
         // Evaluate the quadratic to determine XY location.
         ElectronPathDescriptor descriptor = (ElectronPathDescriptor) _path.get( _pathIndex );
         QuadBezierSpline curve = descriptor.getCurve();
-        Point2D location = curve.evaluate( _pathPosition );
-        super.setLocation( location );
+        curve.evaluate( _pathPosition, _point );
+        super.setLocation( _point );
     }
     
     /**
@@ -206,8 +210,8 @@ public class Electron extends SpacialObservable implements ModelElement {
             // Evaluate the quadratic to determine XY location.
             ElectronPathDescriptor descriptor = (ElectronPathDescriptor)_path.get( _pathIndex );
             QuadBezierSpline curve = descriptor.getCurve();
-            Point2D location = curve.evaluate( _pathPosition );
-            super.setLocation( location );
+            curve.evaluate( _pathPosition, _point );
+            super.setLocation( _point );
         }
     }
     
