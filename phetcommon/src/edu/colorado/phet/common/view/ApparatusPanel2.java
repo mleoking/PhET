@@ -163,7 +163,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         megapaintImmediately();
     }
 
-    private void megapaintImmediately() {
+    public void megapaintImmediately() {
         if( rectangles.size() == 0 ) {
             return;
         }
@@ -198,6 +198,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
             rectangles = new ArrayList();
         }
         Rectangle r = new Rectangle( x, y, width, height );
+        if( graphicTx != null ) {
+            r = graphicTx.createTransformedShape( r ).getBounds();
+        }
         rectangles.add( r );
     }
 
