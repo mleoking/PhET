@@ -15,7 +15,6 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJTextComponent;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
@@ -114,7 +113,8 @@ public class PlotDevice extends GraphicLayerSet {
         } );
         showButtonGraphic = PhetJComponent.newInstance( panel, showButton );
         verticalChartSlider = new VerticalChartSlider2( panel, chartComponent.getChart() );
-        verticalChartSlider.getSlider().setBackground( PhetLookAndFeel.backgroundColor );
+//        verticalChartSlider.getSlider().setBackground( PhetLookAndFeel.backgroundColor );
+        //TODO do we need to change the backgound of the slider?
 //        addGraphic( verticalChartSlider, Double.POSITIVE_INFINITY );
         verticalChartSlider.addListener( new VerticalChartSlider2.Listener() {
             public void valueChanged( double value ) {

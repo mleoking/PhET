@@ -4,7 +4,6 @@ package edu.colorado.phet.forces1d;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.forces1d.common.PhetLookAndFeel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -255,9 +254,9 @@ public class Force1dControlPanel extends IForceControl {
         modelSlider.setNumMajorTicks( 5 );
         modelSlider.setNumMinorTicks( 0 );
         if( modelSlider.getUnitsReadout() != null ) {
-            modelSlider.getUnitsReadout().setBackground( PhetLookAndFeel.backgroundColor );
+            modelSlider.getUnitsReadout().setBackground( module.getPhetLookAndFeel().getBackgroundColor() );
         }
-        modelSlider.setTitleFont( PhetLookAndFeel.getFont() );
+        modelSlider.setTitleFont( module.getPhetLookAndFeel().getFont() );
         return modelSlider;
     }
 

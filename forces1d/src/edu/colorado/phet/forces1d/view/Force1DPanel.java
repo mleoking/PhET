@@ -424,8 +424,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     public void forceLayout( int width, int height ) {
         if( getWidth() > 0 && getHeight() > 0 ) {
             backgroundGraphic.setSize( width, height );
-//            GradientPaint background = new GradientPaint( 0, 0, top, 0, getHeight(), bottom );
-            Paint background = PhetLookAndFeel.backgroundColor;
+            Paint background = module.getPhetLookAndFeel().getBackgroundColor();
             backgroundGraphic.setBackground( background );
             int walkwayHeight = width / 6;
 

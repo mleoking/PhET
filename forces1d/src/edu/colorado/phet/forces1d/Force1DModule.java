@@ -11,6 +11,7 @@ import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.util.QuickTimer;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.ColorDialog;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
@@ -18,7 +19,6 @@ import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
-import smooth.windows.SmoothLookAndFeel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +33,7 @@ import java.util.Arrays;
  * Copyright (c) Nov 12, 2004 by Sam Reid
  */
 public class Force1DModule extends Module {
+    private PhetLookAndFeel phetLookAndFeel;
     private Force1DModel forceModel;
     protected Force1DPanel forcePanel;
     private Force1dControlPanel fullControlPanel;
@@ -45,12 +46,13 @@ public class Force1DModule extends Module {
     private int objectIndex;
     private IForceControl currentControlPanel;
 
-    public Force1DModule( AbstractClock clock ) throws IOException {
-        this( clock, "Force1D" );
+    public Force1DModule( AbstractClock clock, PhetLookAndFeel phetLookAndFeel ) throws IOException {
+        this( clock, "Force1D", phetLookAndFeel );
     }
 
-    public Force1DModule( AbstractClock clock, String name ) throws IOException {
+    public Force1DModule( AbstractClock clock, String name, PhetLookAndFeel phetLookAndFeel ) throws IOException {
         super( name, clock );
+        this.phetLookAndFeel = phetLookAndFeel;
 //        this.clock = clock;
 
         forceModel = new Force1DModel( this );
@@ -117,28 +119,26 @@ public class Force1DModule extends Module {
         }
     }
 
-    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException,
-                                                    IllegalAccessException, InstantiationException, ClassNotFoundException {
-        String os = "";
-        try {
-            os = System.getProperty( "os.name" ).toLowerCase();
-        }
-        catch( Throwable t ) {
-            t.printStackTrace();
-        }
+    public PhetLookAndFeel getPhetLookAndFeel() {
+        return phetLookAndFeel;
+    }
 
-        //could request a look and feel from the command line..
-        if( os.indexOf( "windows" ) >= 0 ) {
-            UIManager.setLookAndFeel( new SmoothLookAndFeel() );
-        }
-        else {
-            UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-        }
+    public static void main( String[] args ) throws IOException {
+        //Choose the default look and feel for your system, adding text antialias for windows.
+        //This must be done early in the application so no components get constructed with the wrong UI.
+        PhetLookAndFeel.setLookAndFeel();
+        //Create the usual PhetLookAndFeel (whatever we deem that to be)
+        PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
+        //customize it here for your own application.
+        lookAndFeel.setBackgroundColor( Color.blue );
+        lookAndFeel.setForegroundColor( Color.red );
+        lookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 20 ) );
+        //Apply the total look and feel (the usual PhetLookAndFeel + your changes)
+        // to your system defaults.
+        lookAndFeel.apply();
 
         AbstractClock clock = new SwingTimerClock( 1, 30 );
-//        UIManager.setLookAndFeel( new PhetLookAndFeel() );
-
-        final Force1DModule module = new Force1DModule( clock );
+        final Force1DModule module = new Force1DModule( clock, lookAndFeel );
         module.getApparatusPanel().getGraphic().setVisible( false );
         FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
 //        final Force1DModule simpleModule = new SimpleForceModule( clock );
@@ -147,6 +147,7 @@ public class Force1DModule extends Module {
 
         ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
                                                        frameSetup, m, clock );
+        model.setName( "force1d" );
         final PhetApplication phetApplication = new PhetApplication( model );
 
         phetApplication.getPhetFrame().addWindowStateListener( new WindowStateListener() {
