@@ -14,6 +14,7 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.lasers.model.photon.CollimatedBeam;
 
@@ -47,8 +48,21 @@ public class LampGraphic extends PhetImageGraphic implements CollimatedBeam.Wave
         if( currWavelength != beam.getWavelength() ) {
             currWavelength = beam.getWavelength();
             color = VisibleColor.wavelengthToColor( currWavelength );
+            color = getDuotone( color );
             repaint();
         }
+    }
+
+    public static Color getDuotone( Color baseColor ) {
+        // Need to figure out how to shade the color. Take a look at MakeDuotoneOp.
+        double grayRefLevel = MakeDuotoneImageOp.getGrayLevel( baseColor );
+        int newRGB = MakeDuotoneImageOp.getDuoToneRGB( baseColor.getRed(),
+                                                       baseColor.getGreen(),
+                                                       baseColor.getBlue(),
+                                                       baseColor.getAlpha(),
+                                                       grayRefLevel,
+                                                       baseColor );
+        return new Color( newRGB );
     }
 
     public void paint( Graphics2D g ) {

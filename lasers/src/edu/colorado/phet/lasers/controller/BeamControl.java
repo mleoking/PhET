@@ -43,7 +43,7 @@ public class BeamControl extends JPanel implements CollimatedBeam.WavelengthChan
     public BeamControl( final CollimatedBeam beam, int minRate, int maxRate ) {
         this.beam = beam;
         beam.addWavelengthChangeListener( this );
-        beam.addRateChangeListner( this );
+        beam.addRateChangeListener( this );
 
         //        photonRateTF = new JTextField( 3 );
         //        photonRateTF.setEditable( false );
