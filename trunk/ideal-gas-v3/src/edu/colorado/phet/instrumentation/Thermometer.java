@@ -23,42 +23,25 @@ public class Thermometer extends PhetGraphic /*extends AbstractGauge*/ {
     private static Color color = Color.red;
     private BarGauge gauge;
     private Ellipse2D.Double bulb;
-    private NumberFormat formatter = new DecimalFormat( "#0.00" );
+    private NumberFormat formatter = new DecimalFormat( "#0" );
     private Point2D location;
     private double scale;
     private double maxScreenLevel;
     private double thickness;
-    private double min;
-    private double max;
-    double value;
-    private double numMaj;
-    private double numMin;
+    private double value;
     private Rectangle2D boundingRect;
     private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
     private FontMetrics fontMetrics;
     private int rectBorderThickness = 3;
-
-    public void setMin( double min ) {
-        this.min = min;
-    }
-
-    public void setMax( double max ) {
-        this.max = max;
-    }
-
-
-    public void setNumMaj( double numMaj ) {
-        this.numMaj = numMaj;
-    }
-
-    public void setNumMin( double numMin ) {
-        this.numMin = numMin;
-    }
+    private RoundRectangle2D.Double rect = new RoundRectangle2D.Double();
+    private RoundRectangle2D.Double innerRect = new RoundRectangle2D.Double();
+    private BasicStroke rectStroke = new BasicStroke( 1 );
+    private BasicStroke columnStroke = new BasicStroke( 1 );
+    private Color rectColor = Color.yellow;
 
 
     public Thermometer( Component component, Point2D.Double location, double maxScreenLevel, double thickness,
                         boolean isVertical, double minLevel, double maxLevel ) {
-
         super( component );
         gauge = new BarGauge( location, maxScreenLevel, color, thickness, isVertical,
                               minLevel, maxLevel );
@@ -76,8 +59,8 @@ public class Thermometer extends PhetGraphic /*extends AbstractGauge*/ {
     }
 
     public void setValue( double value ) {
-        gauge.setLevel( Double.isNaN( value ) ? 0 : value );
-        this.value = value;
+        this.value = Double.isNaN( value ) ? 0 : value;
+        gauge.setLevel( this.value );
     }
 
     public void paint( Graphics2D g ) {
@@ -89,17 +72,17 @@ public class Thermometer extends PhetGraphic /*extends AbstractGauge*/ {
         int readoutWidth = fontMetrics.stringWidth( "XXXXXXX" );
         int yLoc = (int)( location.getY() + maxScreenLevel - readoutHeight - value * scale );
 
-        RoundRectangle2D.Double rect = new RoundRectangle2D.Double( location.getX() + thickness,
-                                                                    yLoc - rectBorderThickness,
-                                                                    readoutWidth + rectBorderThickness * 2,
-                                                                    readoutHeight + rectBorderThickness * 2,
-                                                                    4, 4 );
-        RoundRectangle2D.Double innerRect = new RoundRectangle2D.Double( location.getX() + thickness + 3,
-                                                                         yLoc,
-                                                                         readoutWidth, readoutHeight,
-                                                                         4, 4 );
-        g.setColor( Color.yellow );
-        g.setStroke( new BasicStroke( 2f ) );
+        rect.setRoundRect( location.getX() + thickness,
+                           yLoc - rectBorderThickness,
+                           readoutWidth + rectBorderThickness * 2,
+                           readoutHeight + rectBorderThickness * 2,
+                           4, 4 );
+        innerRect.setRoundRect( location.getX() + thickness + 3,
+                                yLoc,
+                                readoutWidth, readoutHeight,
+                                4, 4 );
+        g.setColor( rectColor );
+        g.setStroke( rectStroke );
         g.draw( rect );
         g.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.3f ) );
         g.fill( rect );
@@ -108,13 +91,12 @@ public class Thermometer extends PhetGraphic /*extends AbstractGauge*/ {
         g.fill( innerRect );
 
         double v = Double.isNaN( value ) ? 0 : value / 1000;
-        String temperatureStr = formatter.format( v );
+        String temperatureStr = formatter.format( v ) + '\u00b0' + "K";
         g.setColor( Color.black );
         int strLocY = (int)innerRect.getMinY() + fontMetrics.getHeight();
         g.drawString( temperatureStr, (int)innerRect.getMaxX() - 5 - fontMetrics.stringWidth( temperatureStr ), strLocY );
 
-
-        g.setStroke( new BasicStroke( 0.5f ) );
+        g.setStroke( columnStroke );
         gauge.paint( g );
         g.setColor( color );
         g.fill( bulb );

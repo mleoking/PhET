@@ -9,7 +9,7 @@ package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.IdealGasApplication;
+import edu.colorado.phet.idealgas.controller.ParticleInteractionControl;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -43,6 +43,7 @@ public class EnergyHistogramDialog extends JDialog {
     private JLabel lightSpeedLabel;
     private JLabel heavySpeedLabel;
     private IdealGasModel model;
+    private JPanel collisionControl;
 
     public EnergyHistogramDialog( Frame owner, IdealGasModel model ) throws HeadlessException {
         super( owner );
@@ -56,6 +57,9 @@ public class EnergyHistogramDialog extends JDialog {
         speedHistogram = new Histogram( 200, 150, 0, 70, 20, initialSpeedClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
         heavySpeedHistogram = new Histogram( 200, 150, 0, 70, 20, initialSpeedClippingLevel * averagingRatio, new Color( 20, 0, 200 ) );
         lightSpeedHistogram = new Histogram( 200, 150, 0, 70, 20, initialSpeedClippingLevel * averagingRatio, new Color( 200, 0, 20 ) );
+
+        // Add a control to enable or disable collisions between molecules
+        collisionControl = new ParticleInteractionControl();
 
         // Add a button for hiding/displaying the individual species
         detailsBtn = new JButton();
@@ -92,11 +96,8 @@ public class EnergyHistogramDialog extends JDialog {
         this.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent evt ) {
                 JDialog dlg = (JDialog)evt.getSource();
-
-                // Hide the frame
+                // Hide the frame and dispose it
                 dlg.setVisible( false );
-
-                // If the frame is no longer needed, call dispose
                 dlg.dispose();
             }
         } );
@@ -122,6 +123,11 @@ public class EnergyHistogramDialog extends JDialog {
         this.getContentPane().setLayout( new GridBagLayout() );
         try {
             int rowIdx = 0;
+            GraphicsUtil.addGridBagComponent( this.getContentPane(),
+                                              collisionControl,
+                                              0, rowIdx++, 1, 1,
+                                              GridBagConstraints.NONE,
+                                              GridBagConstraints.WEST );
             GraphicsUtil.addGridBagComponent( this.getContentPane(),
                                               energyHistogram,
                                               0, rowIdx++, 1, 1,
@@ -241,7 +247,6 @@ public class EnergyHistogramDialog extends JDialog {
         }
     }
 
-
     private class EnergyUpdaterClient extends UpdaterClient {
         private IdealGasModel model;
 
@@ -281,7 +286,6 @@ public class EnergyHistogramDialog extends JDialog {
 
         abstract double getBodyAttribute( Body body );
     }
-
 
     private class SpeedUpdaterClient extends UpdaterClient {
         SpeedUpdaterClient( Histogram histogram ) {
