@@ -100,9 +100,6 @@ public class WavefrontOscillator extends SrrOscillatorPlayer implements SimpleOb
             setFrequency( (float)frequency );
         }
         setAmplitude( amplitude );
-        //        if( isEnabled && amplitude != getAmplitude() && !interferenceOverideEnabled ) {
-        //            setAmplitude( (float)amplitude );
-        //        }
     }
 
     public void setListener( Listener listener ) {

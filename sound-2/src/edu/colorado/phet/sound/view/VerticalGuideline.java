@@ -53,9 +53,6 @@ public class VerticalGuideline extends DefaultInteractiveGraphic {
 
         public void setLocation( int xLocation ) {
             line.setRect( xLocation, 0, 1, 800 );
-            //            line.setLine( xLocation, 0, 1, 800 );
-            //            line.setLine( xLocation, 0, xLocation, 800 );
-            //            line.setLine( xLocation, 0, xLocation, getComponent().getBounds().getMaxY() );
             super.repaint();
         }
     }

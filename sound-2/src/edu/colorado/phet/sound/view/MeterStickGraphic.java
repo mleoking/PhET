@@ -28,12 +28,6 @@ public class MeterStickGraphic extends DefaultInteractiveGraphic {
         super.mouseDragged( e );
         component.repaint();
     }
-    //    int cnt = 0;
-    //    public void mouseDragged( MouseEvent e ) {
-    //        if( cnt++ % 3 == 0 ) {
-    //            super.mouseDragged( e );
-    //        }
-    //    }
 
     private class ImageTranslator implements Translatable {
         private PhetImageGraphic img;

@@ -82,14 +82,6 @@ public class SoundControlPanel extends PhetControlPanel {
                                                   0, rowIdx++,
                                                   1, 1,
                                                   GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                //                GraphicsUtil.addGridBagComponent( this, new OctaveControlPanel( (SoundModule)module ),
-                //                                                  0, rowIdx++,
-                //                                                  1, 1,
-                //                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
-                //                GraphicsUtil.addGridBagComponent( this, drawTestCB,
-                //                                                  0, rowIdx++,
-                //                                                  1, 1,
-                //                                                  GridBagConstraints.NONE, GridBagConstraints.CENTER );
             }
             catch( AWTException e ) {
                 e.printStackTrace();
@@ -106,15 +98,12 @@ public class SoundControlPanel extends PhetControlPanel {
             this.setPreferredSize( new Dimension( 125, 80 ) );
 
             JPanel frequencyReadoutPanel = new JPanel( new BorderLayout() );
-            //        JPanel frequencyReadoutPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
             frequencyTF = new JTextField( 4 );
             frequencyTF.setEditable( false );
             frequencyTF.setHorizontalAlignment( JTextField.RIGHT );
             Font clockFont = frequencyTF.getFont();
             frequencyTF.setFont( new Font( clockFont.getName(), Font.BOLD, 12 ) );
-
             frequencyTF.setText( Integer.toString( SoundConfig.s_defaultFrequency ) + " Hz" );
-
             frequencySlider = new JSlider( JSlider.HORIZONTAL,
                                            0,
                                            SoundConfig.s_maxFrequency,
@@ -168,9 +157,6 @@ public class SoundControlPanel extends PhetControlPanel {
                                            sliderMin,
                                            sliderMax,
                                            sliderDefault );
-            //                                           0,
-            //                                           SoundConfig.s_maxAmplitude,
-            //                                           SoundConfig.s_defaultAmplitude );
             amplitudeSlider.setPreferredSize( new Dimension( 25, 100 ) );
             amplitudeSlider.setPaintTicks( true );
             amplitudeSlider.setMajorTickSpacing( 5 );
@@ -183,11 +169,9 @@ public class SoundControlPanel extends PhetControlPanel {
             amplitudeSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     setModelAmplitude( amplitudeSlider.getValue() );
-                    //                    model.setAmplitude( amplitudeSlider.getValue() );
                 }
             } );
             setModelAmplitude( amplitudeSlider.getValue() );
-            //            model.setAmplitude( amplitudeSlider.getValue() );
             this.add( amplitudeSlider );
             Border amplitudeBorder = new TitledBorder( "Amplitude" );
             this.setBorder( amplitudeBorder );
