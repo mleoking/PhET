@@ -257,16 +257,16 @@
         <loadproperties srcfile="data/cck.build.number"/>
     </target>
 
-    <target name="deploy" depends="readBuildNumber,setDestDir">
-        <loadproperties srcfile="local.build.properties"/>
-        <property name="dirname" value="v${build.number}"/>
-        <echo message="command=mkdir ${ssh.root}/${ssh.path}/${dirname}"/>
-        <!--    Timeout and fail=false are hacks to make the command exit.    -->
-        <sshexec host="${ssh.host}" username="${ssh.user}" password="${ssh.password}" trust="yes"
-            command="mkdir ${ssh.root}/${ssh.path}/${dirname}" output="ssh.output.txt" timeout="1000" failonerror="false"/>
-        <scp todir="${ssh.user}:${ssh.password}@${ssh.host}:${ssh.root}/${ssh.path}/${dirname}" trust="yes">
-            <fileset dir="${destdir}"/>
-        </scp>
-    </target>
+    <!--    <target name="deploy" depends="readBuildNumber,setDestDir">-->
+    <!--        <loadproperties srcfile="local.build.properties"/>-->
+    <!--        <property name="dirname" value="v${build.number}"/>-->
+    <!--        <echo message="command=mkdir ${ssh.root}/${ssh.path}/${dirname}"/>-->
+    <!--        <!--    Timeout and fail=false are hacks to make the command exit.    -->-->
+    <!--        <sshexec host="${ssh.host}" username="${ssh.user}" password="${ssh.password}" trust="yes"-->
+    <!--            command="mkdir ${ssh.root}/${ssh.path}/${dirname}" output="ssh.output.txt" timeout="1000" failonerror="false"/>-->
+    <!--        <scp todir="${ssh.user}:${ssh.password}@${ssh.host}:${ssh.root}/${ssh.path}/${dirname}" trust="yes">-->
+    <!--            <fileset dir="${destdir}"/>-->
+    <!--        </scp>-->
+    <!--    </target>-->
 
 </project>
