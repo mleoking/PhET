@@ -103,11 +103,12 @@ public class AlphaDecayControlPanel extends JPanel {
 
     private class Timer implements Runnable {
         private boolean running = false;
-        private Format formatter = new DecimalFormat( "##" );
+        private Format formatter = new DecimalFormat( "####" );
 
         public void run() {
             double startTime = module.getModel().getClock().getRunningTime();
 
+            System.out.println( "@@@@@" );
             running = true;
             while( running ) {
                 try {
@@ -119,6 +120,9 @@ public class AlphaDecayControlPanel extends JPanel {
                 final double runningTime = module.getModel().getClock().getRunningTime() - startTime;
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
+//                        timerTF.setText( Double.toString( runningTime ) );
+//                        timerTF.setText( "foo");
+                        System.out.println( "!!!!!" );
                         timerTF.setText( formatter.format( new Double( runningTime ) ) );
                         AlphaDecayControlPanel.this.repaint();
                     }
