@@ -1,5 +1,7 @@
 package phet.ohm1d.volt;
 
+import edu.colorado.phet.common.view.util.SimStrings;
+
 import phet.ohm1d.gui.VoltageListener;
 import phet.paint.Painter;
 import phet.paint.TextPainter;
@@ -44,6 +46,6 @@ public class VoltageOnBattery implements Painter, VoltageListener {
         }
         val = Math.abs( val );
         String str = nf.format( val );
-        tp.setText( str + " V" );
+        tp.setText( str + " " + SimStrings.get( "VoltageOnBattery.VoltsAbbreviation" ) );
     }
 }
