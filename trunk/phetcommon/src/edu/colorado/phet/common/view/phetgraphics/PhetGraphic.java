@@ -54,7 +54,6 @@ public abstract class PhetGraphic {
     private RenderingHints renderingHints;
     private Stack graphicsStates = new Stack();
     private GraphicLayerSet parent;
-//    private boolean autoRepaint = true;//TODO we may want this functionality in the near future.
 
     /*A bit of state to facilitate interactivity.*/
     protected CompositeMouseInputListener mouseInputListener = new CompositeMouseInputListener();//delegate
