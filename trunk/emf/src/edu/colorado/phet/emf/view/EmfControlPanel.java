@@ -9,6 +9,7 @@ package edu.colorado.phet.emf.view;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.coreadditions.MessageFormatter;
 import edu.colorado.phet.emf.Config;
 import edu.colorado.phet.emf.EmfModule;
@@ -220,7 +221,7 @@ public class EmfControlPanel extends JPanel {
         }
 
         private void setDisplayType() {
-            JRadioButton rb = GraphicsUtil.getSelection( fieldDisplayRBGroup );
+            JRadioButton rb = SwingUtils.getSelection( fieldDisplayRBGroup );
             int display = EmfPanel.NO_FIELD;
             display = rb == fullFieldRB ? EmfPanel.FULL_FIELD : display;
             display = rb == splineCurveRB ? EmfPanel.CURVE : display;

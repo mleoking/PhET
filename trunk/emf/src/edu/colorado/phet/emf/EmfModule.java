@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.util.SwingUtils;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.coreadditions.PhetControlPanel;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
@@ -274,7 +275,7 @@ public class EmfModule extends Module {
 
             stripChartDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
             stripChartDlg.pack();
-            GraphicsUtil.centerDialogInParent( stripChartDlg );
+            SwingUtils.centerDialogInParent( stripChartDlg );
 
         }
 
