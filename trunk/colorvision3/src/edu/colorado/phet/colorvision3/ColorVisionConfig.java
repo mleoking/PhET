@@ -40,8 +40,8 @@ public class ColorVisionConfig
 	public static final int CONTROL_PANEL_MIN_WIDTH = 150;
 
   // Colors
-  public static Color APPARATUS_BACKGROUND = Color.BLACK;
-  public static Color LABEL_COLOR = Color.WHITE;
+  public static final Color APPARATUS_BACKGROUND = Color.BLACK;
+  public static final Color LABEL_COLOR = Color.WHITE;
     
   // Fonts
   public static Font LABEL_FONT = new Font("SansSerif", Font.PLAIN, 18 );
