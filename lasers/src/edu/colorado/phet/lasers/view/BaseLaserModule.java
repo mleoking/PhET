@@ -74,6 +74,7 @@ public abstract class BaseLaserModule extends Module implements CollimatedBeam.L
                                           s_boxHeight,
                                           s_boxWidth,
                                           new Vector2D.Double( 0, 1 ) );
+        pumpingBeam.addListener( this );
         // TODO: Get rid of hard-coded 100
         pumpingBeam.setPosition( s_origin.getX() + 100,
                                  s_origin.getY() - s_boxHeight / 2 );
