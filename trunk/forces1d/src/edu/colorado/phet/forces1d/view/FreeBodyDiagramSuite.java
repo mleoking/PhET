@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.forces1d.Force1DModule;
+import edu.colorado.phet.forces1d.common.ApparatusPanel3;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -75,7 +75,7 @@ public class FreeBodyDiagramSuite {
         insetX = 15;
         insetY = 15;
 
-        ApparatusPanel2 windowAP = diagramPanel.getFBDPanel();
+        ApparatusPanel3 windowAP = diagramPanel.getFBDPanel();
         Dimension preferredSize = new Dimension( windowAP.getWidth() + insetX * 2, windowAP.getHeight() + insetY * 2 );
         dialogContentPane.setSize( preferredSize );
         dialogContentPane.setPreferredSize( preferredSize );
