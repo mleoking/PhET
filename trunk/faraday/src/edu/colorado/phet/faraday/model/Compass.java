@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.faraday.model;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -50,13 +52,16 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
     private boolean _rotationalKinematicsEnabled;
     
     // Angle of needle orientation (in radians)
-    protected double _theta;
+    private double _theta;
     
     // Angular velocity, the change in angle over time.
-    protected double _omega;
+    private double _omega;
     
     // Angular accelaration, the change in angular velocity over time.
-    protected double _alpha; 
+    private double _alpha; 
+    
+    // A reusable point.
+    private Point2D _point;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -81,6 +86,8 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
         _omega = 0.0;
         _alpha = 0.0;
         
+        _point = new Point2D.Double();
+        
         AbstractVector2D fieldStrength = _magnetModel.getStrength( getLocation() );
         setDirection( fieldStrength.getAngle() );
     }
@@ -104,7 +111,8 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
      * @return the field strength vector
      */
     public AbstractVector2D getFieldStrength() {
-        return _magnetModel.getStrength( getLocation() );
+        getLocation( _point /* destination */ );
+        return _magnetModel.getStrength( _point );
     }
     
     /**
