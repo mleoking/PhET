@@ -102,7 +102,10 @@ public class PotentialProfilePanel extends ApparatusPanel {
     //
     // Instance fields and methods
     //
+    // Maps potential profiles to their graphics
     private HashMap potentialProfileMap = new HashMap();
+    // Maps potential profiles to the nucleus graphics associated with them
+    private HashMap profileNucleusMap = new HashMap();
     private Point2D.Double origin;
     private Point2D.Double strLoc = new Point2D.Double();
     private Line2D.Double xAxis = new Line2D.Double();
@@ -123,13 +126,30 @@ public class PotentialProfilePanel extends ApparatusPanel {
         profileTx.setToTranslation( origin.getX(),
                                     origin.getY() );
 
-        // Draw everything that isn't special to this panel
+        // Draw everything that isn't special to this panel. This includes the
+        // profiles themselves
         GraphicsUtil.setAlpha( g2, 1 );
         g2.setColor( backgroundColor );
         super.paintComponent( g2 );
 
         // Draw axes
         drawAxes( g2 );
+
+        // Draw nuclei
+        Iterator nucleusIt = profileNucleusMap.keySet().iterator();
+        while( nucleusIt.hasNext() ) {
+            Nucleus nucleus = (Nucleus)nucleusIt.next();
+            Graphic ng = (Graphic)profileNucleusMap.get( nucleus );
+            AffineTransform orgTx = g2.getTransform();
+            AffineTransform nucleusTx = new AffineTransform();
+            nucleusTx.concatenate( profileTx );
+            nucleusTx.translate( 0, -nucleus.getPotential() );
+            nucleusTx.scale( 0.5, 0.5 );
+            nucleusTx.translate( nucleus.getLocation().getX(), -nucleus.getLocation().getY() );
+            g2.transform( nucleusTx );
+            ng.paint( g2 );
+            g2.setTransform( orgTx );
+        }
 
         // Draw "ghost" alpha particles in the potential well
         Iterator wellParticlesIt = wellParticles.keySet().iterator();
@@ -200,11 +220,13 @@ public class PotentialProfilePanel extends ApparatusPanel {
         g2.transform( strTx );
         g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
         g2.setTransform( orgTx );
-        strLoc.setLocation( this.getWidth() - fm.stringWidth( xAxisLabel ) - 10,
+        strLoc.setLocation( this.getWidth() / 2 + 10,
+//        strLoc.setLocation( this.getWidth() - fm.stringWidth( xAxisLabel ) - 10,
                             profileTx.getTranslateY() + fm.getHeight() );
         g2.drawString( xAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
     }
 
+    // todo: replace calls to this with call to addPotentialProfile
     public synchronized void addNucleus( Nucleus nucleus ) {
         addPotentialProfile( nucleus );
     }
@@ -250,7 +272,42 @@ public class PotentialProfilePanel extends ApparatusPanel {
         this.removeAllGraphics();
     }
 
+    public void removeAllGraphics() {
+        profileNucleusMap.clear();
+        potentialProfileMap.clear();
+        wellParticles.clear();
+        super.removeAllGraphics();
+    }
+
     public void addOriginCenteredGraphic( Graphic leaderLines ) {
         this.addGraphic( leaderLines, profileTx );
+    }
+
+    public void addNucleusGraphic( Nucleus nucleus ) {
+        NucleusGraphic ng = new NucleusGraphic( nucleus );
+        profileNucleusMap.put( nucleus, ng );
+    }
+
+    public void removeNucleusGraphic( Nucleus nucleus ) {
+        profileNucleusMap.remove( nucleus );
+    }
+
+    /**
+     * Adds a nucleus and its potential profile to the panel. The color
+     * parameter specifies the color in which the profile is to be drawn.
+     * If it is null, no profile is drawn.
+     *
+     * @param nucleus
+     * @param color
+     */
+    public void addNucleus( Nucleus nucleus, Color color ) {
+        this.addNucleus( nucleus );
+        if( color == null ) {
+            removePotentialProfile( nucleus.getPotentialProfile() );
+        }
+        else {
+            PotentialProfileGraphic ppg = (PotentialProfileGraphic)potentialProfileMap.get( nucleus.getPotentialProfile() );
+            ppg.setColor( color );
+        }
     }
 }

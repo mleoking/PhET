@@ -18,7 +18,7 @@ import java.util.Random;
 public class Uranium235 extends Nucleus {
     private static Random random = new Random();
     // Regulates how fast the profile rises when fission occurs
-    private static final int morphSpeedFactor = 20;
+    private static final int morphSpeedFactor = 5;
 
     private ArrayList decayListeners = new ArrayList();
     private AlphaParticle[] alphaParticles = new AlphaParticle[4];
@@ -27,7 +27,6 @@ public class Uranium235 extends Nucleus {
     private Neutron fissionInstigatingNeutron;
     private BaseModel model;
     private boolean doMorph = false;
-
 
     public Uranium235( Point2D.Double position, BaseModel model ) {
         super( position, 92, 143 );
@@ -59,7 +58,7 @@ public class Uranium235 extends Nucleus {
     }
 
     public void fission( Neutron neutron ) {
-        morph( getNumNeutrons() - 200, getNumProtons() );
+        morph( getNumNeutrons() - 100, getNumProtons() );
         fissionInstigatingNeutron = neutron;
         // Move the neutron way, way away so it doesn't show and doesn't
         // cause another fission event. It will be destroyed later.
@@ -107,14 +106,26 @@ public class Uranium235 extends Nucleus {
 
         // Handle fission morphing
         if( morphTargetNeutrons != 0 ) {
-            // The morphSpeedFactor regulates how fast the profile rises
-            int incr = morphSpeedFactor * Math.abs( morphTargetNeutrons ) / morphTargetNeutrons;
-            setNumNeutrons( getNumNeutrons() + incr );
-            int temp = morphTargetNeutrons;
-            morphTargetNeutrons -= incr;
-            if( temp * morphTargetNeutrons <= 0 ) {
+            setPotential( getPotential() + morphSpeedFactor );
+            if( getPotential() > getPotentialProfile().getMaxPotential() ) {
                 super.fission( fissionInstigatingNeutron );
             }
+
+            // The code here morphs the profile
+            // The morphSpeedFactor regulates how fast the profile rises
+            int incr = morphSpeedFactor * Math.abs( morphTargetNeutrons ) / morphTargetNeutrons;
+//            setNumNeutrons( getNumNeutrons() + incr );
+            int temp = morphTargetNeutrons;
+            morphTargetNeutrons -= incr;
+
+            // Jiggle the nucleus
+//            double d = 0.5;
+//            double dx = random.nextGaussian() * d * ( random.nextBoolean() ? 1 : -1 );
+//            double dy = random.nextGaussian() * d * ( random.nextBoolean() ? 1 : -1 );
+//            this.setLocation( getLocation().getX() + dx, getLocation().getY() + dy );
+//            if( temp * morphTargetNeutrons <= 0 ) {
+//                super.fission( fissionInstigatingNeutron );
+//            }
         }
     }
 
@@ -125,9 +136,11 @@ public class Uranium235 extends Nucleus {
         double vx = Config.fissionDisplacementVelocity * Math.cos( theta );
         double vy = Config.fissionDisplacementVelocity * Math.sin( theta );
         daughter1.setVelocity( (float)( -vx ), (float)( -vy ) );
+        daughter1.setPotential( this.getPotential() );
 
         Nucleus daughter2 = new Cesium( this.getLocation() );
         daughter2.setVelocity( (float)( vx ), (float)( vy ) );
+        daughter2.setPotential( this.getPotential() );
 
         Neutron[] neutronProducts = new Neutron[3];
         for( int i = 0; i < 3; i++ ) {

@@ -7,6 +7,7 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.nuclearphysics.model.*;
@@ -47,8 +48,10 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
 
     public void start() {
         Uranium235 nucleus = new Uranium235( new Point2D.Double( 0, 0 ), getModel() );
+        nucleus.setPotential( nucleus.getPotentialProfile().getWellPotential() );
         setNucleus( nucleus );
         setUraniumNucleus( nucleus );
+        getPotentialProfilePanel().addNucleusGraphic( nucleus );
         nucleus.addFissionListener( this );
         nucleus.setDoMorph( true );
         nucleus.addObserver( getNucleus().getPotentialProfile() );
@@ -74,7 +77,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         super.addNeutron( neutron );
     }
 
-    public void fission( FissionProducts products ) {
+    public void fission( final FissionProducts products ) {
 
         // Constrain velocity of the daughter nuclei to be more or less horizontal
         double theta = ( random.nextDouble() * Math.PI / 2 ) - ( Math.PI / 4 );
@@ -98,13 +101,13 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
         }
         NeutronGraphic ng = (NeutronGraphic)NeutronGraphic.getGraphicForNeutron( products.getInstigatingNeutron() );
         this.getPhysicalPanel().removeGraphic( ng );
+        getPotentialProfilePanel().removeNucleusGraphic( products.getParent() );
 
-        // Remove the potential profile for the old nucleus
-        potentialProfilePanel.removePotentialProfile( products.getParent().getPotentialProfile() );
+        // Remove the potential profile for the old nucleus and replace it with a gray one
+//        potentialProfilePanel.removePotentialProfile( products.getParent().getPotentialProfile() );
+//        potentialProfilePanel.addNucleus( products.getParent(), Color.gray );
 
         // Add fission products
-        super.addNucleus( products.getDaughter1() );
-        super.addNucleus( products.getDaughter2() );
         Neutron[] neutronProducts = products.getNeutronProducts();
         for( int i = 0; i < neutronProducts.length; i++ ) {
             NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
@@ -112,10 +115,45 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule
             getPhysicalPanel().addGraphic( npg );
         }
 
+        // Add a model element that will make the daughter nuclei slide down the
+        // profile
+        getModel().addModelElement( new ModelElement() {
+            private double forceScale = 0.0005;
+
+            public void stepInTime( double dt ) {
+                stepDaughterNucleus( products.getParent(), products.getDaughter1() );
+                stepDaughterNucleus( products.getParent(), products.getDaughter2() );
+            }
+
+            private void stepDaughterNucleus( Nucleus parent, Nucleus daughter ) {
+                double d = daughter.getLocation().distance( parent.getLocation() );
+                PotentialProfile profile = parent.getPotentialProfile();
+                double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
+                force = Double.isNaN( force ) ? 0 : force;
+                Vector2D a = null;
+                if( daughter.getVelocity().getX() == 0 && daughter.getVelocity().getY() == 0 ) {
+                    double dx = daughter.getLocation().getX() - parent.getLocation().getX();
+                    double dy = daughter.getLocation().getY() - parent.getLocation().getY();
+                    a = new Vector2D( (float)dx, (float)dy ).normalize().multiply( (float)force );
+                }
+                else {
+                    a = new Vector2D( daughter.getVelocity() ).normalize().multiply( (float)force );
+                }
+                daughter.setAcceleration( a );
+                double potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
+                daughter.setPotential( potential );
+            }
+        } );
+
+        super.addNucleus( products.getDaughter1(), null );
+        super.addNucleus( products.getDaughter2(), null );
+        getPotentialProfilePanel().addNucleusGraphic( products.getDaughter1() );
+        getPotentialProfilePanel().addNucleusGraphic( products.getDaughter2() );
+
+
         // Add some pizzazz
         Kaboom kaboom = new Kaboom( new Point2D.Double( 0, 0 ),
                                     25, 300, getPhysicalPanel() );
-//                                    25, 300, getApparatusPanel() );
         getPhysicalPanel().addGraphic( kaboom );
     }
 
