@@ -309,6 +309,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
    */
   public void colorChanged( VisibleColorChangeEvent event )
   {
+    //System.out.println( "colorChanged " + event );
     if ( event.getSource() == _photonBeamModel || event.getSource() == _postFilterBeamModel )
     {
       _personModel.setColor( event.getColor() );
@@ -327,6 +328,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
    */
   public void stateChanged( ChangeEvent event )
   {
+    //System.out.println( "stateChanged " + event );
     if (event.getSource() == _filterSlider )
     {
       // The filter slider was moved.
