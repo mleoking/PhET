@@ -5,7 +5,7 @@ import java.awt.*;
 
 /**
  * This graphic class auto-magically repaints itself in the appropriate bounds,
- * using component.paint(int x,int y,int width,int height).
+ * using component.repaint(int x,int y,int width,int height).
  * This class manages the current and previous bounds for painting, and whether the region is dirty.
  * Testing.
  */
@@ -58,7 +58,7 @@ public abstract class PhetGraphic {
     public void setVisible( boolean visible ) {
         if( visible != this.visible ) {
             this.visible = visible;
-            forceRepaint();//if we just turned invisible, we need to paint over ourselves, and vice versa.
+            forceRepaint();//if we just turned invisible, we need to repaint over ourselves, and vice versa.
         }
     }
 

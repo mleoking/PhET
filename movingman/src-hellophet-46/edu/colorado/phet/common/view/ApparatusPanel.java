@@ -80,7 +80,7 @@ public class ApparatusPanel extends JPanel implements Observer {
         Graphics2D g2 = (Graphics2D)graphics;
         GraphicsRestore gr = new GraphicsRestore( g2 );
         super.paintComponent( graphics );
-        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+//        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         compositeGraphic.paint( (Graphics2D)graphics );
         gr.restore();
     }

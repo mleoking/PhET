@@ -103,7 +103,7 @@ public class BufferedGraphicForComponent implements Graphic {
 
     public void paint( Graphics2D graphics2D ) {
         graphicsState.saveState( graphics2D );
-//        this.compositeGraphic.paint( graphics2D );
+//        this.compositeGraphic.repaint( graphics2D );
         if( !inited ) {
             setSize( width, height );
             inited = true;
@@ -135,7 +135,7 @@ public class BufferedGraphicForComponent implements Graphic {
 //            graphics2D.setColor( Color.blue );
 //            graphics2D.setStroke( new BasicStroke( 7 ) );
 //            graphics2D.draw( clip );
-//            System.out.println( "paint time=" + ( now - time ) + ", clip area=" + size + ",  clip bounds=" + bounds );
+//            System.out.println( "repaint time=" + ( now - time ) + ", clip area=" + size + ",  clip bounds=" + bounds );
 //            graphics2D.drawRenderedImage( image, AffineTransform.getTranslateInstance( x,y) );
         }
         graphicsState.restoreState( graphics2D );

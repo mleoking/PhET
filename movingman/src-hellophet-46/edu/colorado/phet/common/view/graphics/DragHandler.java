@@ -1,6 +1,6 @@
 /**
  * Class: DragHandler
- * Package: edu.colorado.phet.common.view.graphics.paint
+ * Package: edu.colorado.phet.common.view.graphics.repaint
  * Author: Another Guy
  * Date: May 22, 2003
  */
