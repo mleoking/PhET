@@ -21,6 +21,9 @@ public class RectangleUtils {
     }
 
     public static Rectangle toRectangle( Rectangle2D b ) {
+        if( b == null ) {
+            return null;
+        }
         if( b instanceof Rectangle ) {
             return (Rectangle)b;
         }

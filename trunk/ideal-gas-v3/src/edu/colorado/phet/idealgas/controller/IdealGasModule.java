@@ -174,9 +174,10 @@ public class IdealGasModule extends Module {
         // Add the thermometer
         double thermometerHeight = 100;
         Point2D.Double thermometerLoc = new Point2D.Double( box.getMaxX() - 30, box.getMinY() - thermometerHeight );
-        Thermometer thermometer = new IdealGasThermometer( idealGasModel, thermometerLoc,
+        Thermometer thermometer = new IdealGasThermometer( getApparatusPanel(),
+                                                           idealGasModel, thermometerLoc,
                                                            thermometerHeight, 10, true, 0, 1000E3 );
-        addGraphic( thermometer, 20 );
+        addGraphic( thermometer, 8 );
 
         // Create the pump
         pump = new Pump( this, box );

@@ -6,18 +6,19 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.instrumentation.Thermometer;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 class IdealGasThermometer extends Thermometer implements SimpleObserver {
     private IdealGasModel idealGasModel;
 
-    public IdealGasThermometer( IdealGasModel idealGasModel, Point2D.Double location, double maxScreenLevel, double thickness, boolean isVertical, double minLevel, double maxLevel ) {
-        super( location, maxScreenLevel, thickness, isVertical, minLevel, maxLevel );
+    public IdealGasThermometer( Component component, IdealGasModel idealGasModel, Point2D.Double location, double maxScreenLevel, double thickness, boolean isVertical, double minLevel, double maxLevel ) {
+        super( component, location, maxScreenLevel, thickness, isVertical, minLevel, maxLevel );
         this.idealGasModel = idealGasModel;
         idealGasModel.addObserver( this );
     }
@@ -31,5 +32,6 @@ class IdealGasThermometer extends Thermometer implements SimpleObserver {
         // Scale to appropriate units
         temperature *= IdealGasConfig.temperatureScaleFactor;
         super.setValue( temperature );
+        repaint();
     }
 }
