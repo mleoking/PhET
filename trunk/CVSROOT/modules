@@ -62,13 +62,13 @@ battery-voltage batteryvoltage
 balloons balloons
 
 # Ideal gas 
-ideal-gas ideal-gas-v3
+ideal-gas ideal-gas-v3 &phetcommon &mechanics &collision
 
 # Nuclear physics 
 nuclear-physics nuclearphysics &phetcommon &mechanics
 
 # Sound
-sound sound-2
+sound sound-2 &phetcommon
 
 # John Travoltage
 john-travoltage travoltage
