@@ -128,9 +128,9 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
      * @return
      */
     public boolean contains( int x, int y ) {
-        if( visible ) {
+        if( isVisible() ) {
             syncBounds();
-            return bounds.contains( x, y );
+            return bounds != null && bounds.contains( x, y );
         }
         else {
             return false;
@@ -270,7 +270,7 @@ public abstract class PhetGraphic implements MouseInputListener, Graphic {
         mouseInputListener.removeMouseInputListener( listener );
     }
 
-    private void addMouseInputListener( MouseInputListener listener ) {
+    public void addMouseInputListener( MouseInputListener listener ) {
         this.mouseInputListener.addMouseInputListener( listener );
     }
 
