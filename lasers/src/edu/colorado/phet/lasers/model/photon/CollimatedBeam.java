@@ -144,7 +144,7 @@ public class CollimatedBeam extends Particle {
 
     private double genPositionY() {
         double yDelta = 0;
-        // Things are different if we're firing horizontally or vertically
+        // Things are different if we're firing horizontally
         if( velocity.getX() != 0 ) {
             yDelta = Math.random() * bounds.getHeight();
         }
@@ -152,8 +152,8 @@ public class CollimatedBeam extends Particle {
     }
 
     private double genPositionX() {
-        // Things are different if we're firing horizontally or vertically
         double xDelta = 0;
+        // Things are different if we're vertically
         if( velocity.getY() != 0 ) {
             xDelta = Math.random() * bounds.getWidth();
         }
