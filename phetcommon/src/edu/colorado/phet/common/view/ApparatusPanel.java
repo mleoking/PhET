@@ -10,7 +10,6 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.view.graphics.Graphic;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -22,6 +21,7 @@ import java.util.ArrayList;
  * contain any number of Graphic objects, and each layer has an integer "level"
  * associated with it. Layers are drawn in ascending order of their levels. The order
  * in which objects in a given level are drawn is undefined.
+ * Test Comment.
  * <p/>
  *
  * @see edu.colorado.phet.common.view.graphics.Graphic
@@ -88,7 +88,7 @@ public class ApparatusPanel extends JPanel {
         graphic.paint( g2 );
         g2.setColor( Color.black );
         g2.setStroke( borderStroke );
-        Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1);
+        Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
         g2.draw( border );
 //        g2.draw( this.getBounds() );
     }
