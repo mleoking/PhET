@@ -6,6 +6,7 @@ import edu.colorado.phet.cck3.common.RepaintyMenu;
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -59,7 +60,7 @@ public class InteractiveBranchGraphic extends DefaultInteractiveGraphic implemen
             super( module.getApparatusPanel() );
             this.circuit = circuit;
             this.branch = branch;
-            JMenuItem item = new JMenuItem( "Remove" );
+            JMenuItem item = new JMenuItem( SimStrings.get( "InteractiveBranchGraphic.RemoveMenuItem" ) );
             item.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.removeBranch( branch );

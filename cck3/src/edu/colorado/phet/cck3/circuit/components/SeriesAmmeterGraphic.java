@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTransformGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -35,7 +36,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
     private Stroke stroke = new BasicStroke( 5 );
     private Font font = new Font( "Lucida Sans", Font.BOLD, 17 );
     private Shape shape;
-    private String text = "Ammeter";
+    private String text = SimStrings.get( "SeriesAmmeterGraphic.Ammeter" );
     private String fixedMessage;
     private SimpleObserver simpleObserver;
     private TransformListener transformListener;
@@ -77,7 +78,7 @@ public class SeriesAmmeterGraphic extends CCKCompositePhetGraphic implements ICo
             public void finishedKirkhoff() {
                 DecimalFormat df = module.getDecimalFormat();
                 String form = df.format( Math.abs( component.getCurrent() ) );
-                text = "" + form + " Amps";
+                text = "" + form + " " + SimStrings.get( "SeriesAmmeterGraphic.Amps" );
                 changed();
             }
         };

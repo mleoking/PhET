@@ -8,6 +8,7 @@ import edu.colorado.phet.common.view.CompositeGraphic;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -65,7 +66,7 @@ public class InteractiveVoltmeter extends CompositeGraphic {
                 }
             }
         } );
-        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( "Vertical Leads" );
+        final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.get( "InteractiveVoltmeter.VerticalLeadsCheckBox" ) );
         jcbmi.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setLeadsVertical( jcbmi.isSelected() );

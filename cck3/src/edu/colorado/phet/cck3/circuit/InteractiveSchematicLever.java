@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.CursorControl;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
@@ -35,7 +36,7 @@ public class InteractiveSchematicLever extends DefaultInteractiveGraphic impleme
         BufferedImage image = null;
         try {
             image = ImageLoader.loadBufferedImage( "images/hand40.gif" );
-            rotate = Toolkit.getDefaultToolkit().createCustomCursor( image, new Point(), "rotator2" );
+            rotate = Toolkit.getDefaultToolkit().createCustomCursor( image, new Point(), SimStrings.get( "InteractiveSchematicLever.CursorName" ) );
         }
         catch( IOException e ) {
             throw new RuntimeException( e );

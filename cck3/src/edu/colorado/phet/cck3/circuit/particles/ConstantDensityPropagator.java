@@ -7,6 +7,7 @@ import edu.colorado.phet.cck3.circuit.Branch;
 import edu.colorado.phet.cck3.circuit.Circuit;
 import edu.colorado.phet.cck3.circuit.Junction;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.text.DecimalFormat;
 import java.util.*;
@@ -108,7 +109,8 @@ public class ConstantDensityPropagator implements ModelElement {
             percent = "1";
         }
         if( !percent.equals( df.format( 100 ) ) && avg < 95 ) {
-            module.getTimescaleGraphic().setText( "Animation speed limit reached! Simulation speed reduced to " + percent + "% normal!" );
+            module.getTimescaleGraphic().setText( SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached1" )
+                    + " " + percent + SimStrings.get( "ConstantDensityPropagator.SpeedLimitReached2" ) );
             module.getTimescaleGraphic().setVisible( true );
         }
         else {

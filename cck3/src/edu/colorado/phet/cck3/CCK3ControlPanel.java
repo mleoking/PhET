@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.components.PhetSlider;
 import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import net.n3.nanoxml.*;
 import org.srr.localjnlp.ServiceSource;
 import org.srr.localjnlp.local.InputStreamFileContents;
@@ -50,7 +51,7 @@ public class CCK3ControlPanel extends JPanel {
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
         JLabel titleLabel = new JLabel( new ImageIcon( getClass().getClassLoader().getResource( "images/phet-cck-small.gif" ) ) );
-        titleLabel.setToolTipText( "<html>Click to visit<br>the PhET webpage.</html>" );
+        titleLabel.setToolTipText( SimStrings.get( "CCK3ControlPanel.PhETToolTip" ) );
         titleLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
         titleLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
         titleLabel.addMouseListener( new MouseAdapter() {
@@ -68,13 +69,13 @@ public class CCK3ControlPanel extends JPanel {
         JPanel toolPanel = makeToolPanel();
         JPanel sizePanel = makeSizePanel();
 
-        JButton jb = new JButton( "Local Help" );
+        JButton jb = new JButton( SimStrings.get( "CCK3ControlPanel.LocalHelpButton" ) );
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showHelpImage();
             }
         } );
-        JButton browserGIF = new JButton( "GIF Help" );
+        JButton browserGIF = new JButton( SimStrings.get( "CCK3ControlPanel.GIFHelpButton" ) );
         browserGIF.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showHelpGIF();
@@ -83,7 +84,7 @@ public class CCK3ControlPanel extends JPanel {
 
         HelpPanel hp = new HelpPanel( module );
 
-        JButton xml = new JButton( "Show XML" );
+        JButton xml = new JButton( SimStrings.get( "CCK3ControlPanel.ShowXMLButton" ) );
         xml.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getCircuit().toXML();
@@ -91,7 +92,7 @@ public class CCK3ControlPanel extends JPanel {
         } );
         //        add( xml );
 
-        JButton changeBunch = new JButton( "Change view 200x" );
+        JButton changeBunch = new JButton( SimStrings.get( "CCK3ControlPanel.ChangeViewButton" ) );
         changeBunch.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 int IMAX = 200;
@@ -102,7 +103,7 @@ public class CCK3ControlPanel extends JPanel {
             }
         } );
         //        add( changeBunch );
-        JButton manyComp = new JButton( "add 100 batteries" );
+        JButton manyComp = new JButton( SimStrings.get( "CCK3ControlPanel.AddBatteriesButton" ) );
         final Random rand = new Random( 0 );
         manyComp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -204,19 +205,19 @@ public class CCK3ControlPanel extends JPanel {
         zoomPanel.setLayout( new BoxLayout( zoomPanel, BoxLayout.Y_AXIS ) );
 //        zoomPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Size" ) );
         ButtonGroup zoomGroup = new ButtonGroup();
-        JRadioButton small = new JRadioButton( "Small" );
+        JRadioButton small = new JRadioButton( SimStrings.get( "CCK3ControlPanel.SmallRadioButton" ) );
         small.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( 2 );
             }
         } );
-        JRadioButton medium = new JRadioButton( "Medium" );
+        JRadioButton medium = new JRadioButton( SimStrings.get( "CCK3ControlPanel.MediumRadioButton" ) );
         medium.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( 1 );
             }
         } );
-        JRadioButton large = new JRadioButton( "Large" );
+        JRadioButton large = new JRadioButton( SimStrings.get( "CCK3ControlPanel.LargeRadioButton" ) );
         large.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 zoom( .5 );
@@ -229,8 +230,8 @@ public class CCK3ControlPanel extends JPanel {
         zoomPanel.add( large );
         zoomPanel.add( medium );
         zoomPanel.add( small );
-//        return placeInPanel( "Size", zoomPanel, new Insets( 0, 10, 0, 10 ) );
-        return placeInPanel( "Size", zoomPanel, BASIC_INSETS, GridBagConstraints.WEST );
+//        return placeInPanel( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ), zoomPanel, new Insets( 0, 10, 0, 10 ) );
+        return placeInPanel( SimStrings.get( "CCK3ControlPanel.SizePanelBorder" ), zoomPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
     private JPanel makeToolPanel() {
@@ -246,7 +247,7 @@ public class CCK3ControlPanel extends JPanel {
         ImageIcon nonContactAmmIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/va-thumb.gif" ) );
         ImageIcon ammIcon = new ImageIcon( getClass().getClassLoader().getResource( "images/ammeter60.gif" ) );
 
-        final JCheckBox voltmeter = new JCheckBox( "Voltmeter", false );
+        final JCheckBox voltmeter = new JCheckBox( SimStrings.get( "CCK3ControlPanel.VoltmeterCheckBox" ), false );
         voltmeter.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setVoltmeterVisible( voltmeter.isSelected() );
@@ -254,13 +255,13 @@ public class CCK3ControlPanel extends JPanel {
             }
         } );
 
-        final JCheckBox virtualAmmeter = new JCheckBox( "<html>Non-Contact<br>Ammeter</html>", false );
+        final JCheckBox virtualAmmeter = new JCheckBox( SimStrings.get( "CCK3ControlPanel.NonContactAmmeterCheckBox" ), false );
         virtualAmmeter.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setVirtualAmmeterVisible( virtualAmmeter.isSelected() );
             }
         } );
-        seriesAmmeter = new JCheckBox( "Ammeter(s)", false );
+        seriesAmmeter = new JCheckBox( SimStrings.get( "CCK3ControlPanel.AmmeterCheckBox" ), false );
         seriesAmmeter.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setSeriesAmmeterVisible( seriesAmmeter.isSelected() );
@@ -285,13 +286,13 @@ public class CCK3ControlPanel extends JPanel {
             toolPanel.add( new JLabel( nonContactAmmIcon ), lhs );
         }
 
-//        toolPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Tools" ) );
-//        return placeInPanel( "Tools", toolPanel, new Insets( 0, 10, 0, 10 ) );
-        return placeInPanel( "Tools", toolPanel, BASIC_INSETS, GridBagConstraints.WEST );
+//        toolPanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ) ) );
+//        return placeInPanel( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel, new Insets( 0, 10, 0, 10 ) );
+        return placeInPanel( SimStrings.get( "CCK3ControlPanel.ToolsPanelBorder" ), toolPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
     private JPanel makeVisualPanel() {
-        final JCheckBox showReadouts = new JCheckBox( "Show Values" );
+        final JCheckBox showReadouts = new JCheckBox( SimStrings.get( "CCK3ControlPanel.ShowValuesCheckBox" ) );
         showReadouts.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean r = showReadouts.isSelected();
@@ -299,8 +300,8 @@ public class CCK3ControlPanel extends JPanel {
                 module.getApparatusPanel().repaint();
             }
         } );
-        JRadioButton lifelike = new JRadioButton( "Lifelike", true );
-        JRadioButton schematic = new JRadioButton( "Schematic", false );
+        JRadioButton lifelike = new JRadioButton( SimStrings.get( "CCK3ControlPanel.LIfelikeRadioButton" ), true );
+        JRadioButton schematic = new JRadioButton( SimStrings.get( "CCK3ControlPanel.SchematicRadioButton" ), false );
         ButtonGroup bg = new ButtonGroup();
         bg.add( lifelike );
         bg.add( schematic );
@@ -326,8 +327,8 @@ public class CCK3ControlPanel extends JPanel {
         if( !module.isVirtualLabMode() || CCK3Module.SHOW_GRAB_BAG ) {
             visualizationPanel.add( showReadouts );
         }
-//        return placeInPanel( "Visual", visualizationPanel, new Insets( 0, 10, 0, 10 ) );
-        return placeInPanel( "Visual", visualizationPanel, BASIC_INSETS, GridBagConstraints.WEST );
+//        return placeInPanel( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel, new Insets( 0, 10, 0, 10 ) );
+        return placeInPanel( SimStrings.get( "CCK3ControlPanel.VisualPanelBorder" ), visualizationPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
     public class GridBagLayoutHelper extends GridBagConstraints {
@@ -338,7 +339,8 @@ public class CCK3ControlPanel extends JPanel {
     private void load() throws IOException, XMLException {
         ServiceSource ss = new ServiceSource();
         FileOpenService fos = ss.getFileOpenService( module.getApparatusPanel() );
-        FileContents open = fos.openFileDialog( "Open Which CCK File?", new String[]{"cck"} );
+        FileContents open = fos.openFileDialog( SimStrings.get( "CCK3ControlPanel.OpenFileDialog" ),
+                            new String[]{ SimStrings.get( "CCK3ControlPanel.FileExtension" ) } );
         if( open == null ) {
             return;
         }
@@ -371,7 +373,8 @@ public class CCK3ControlPanel extends JPanel {
         String circuitxml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + sw.toString();
         InputStream stream = new ByteArrayInputStream( circuitxml.getBytes() );
         FileContents data = new InputStreamFileContents( "circuitxml", stream );
-        FileContents out = fos.saveAsFileDialog( "circuit.cck", new String[]{"cck"}, data );
+        FileContents out = fos.saveAsFileDialog( SimStrings.get( "CCK3ControlPanel.DefaultFileName" ),
+                        new String[]{ SimStrings.get( "CCK3ControlPanel.FileExtension" ) }, data );
         System.out.println( "out = " + out );
     }
 
@@ -382,7 +385,7 @@ public class CCK3ControlPanel extends JPanel {
         URL url = null;
         try {
             //            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/cck.pdf" );
-            url = new URL( "http://www.colorado.edu/physics/phet/projects/cck/v8/cck-help.gif" );
+            url = new URL( SimStrings.get( "CCK3ControlPanel.CCKHelpGifURL" ) );
             System.out.println( "url = " + url );
             bs.showDocument( url );
         }
@@ -394,7 +397,7 @@ public class CCK3ControlPanel extends JPanel {
     private void download() {
         DownloadService ds = null;
         try {
-            ds = (DownloadService)ServiceManager.lookup( "javax.jnlp.DownloadService" );
+            ds = (DownloadService)ServiceManager.lookup( SimStrings.get( "CCK3ControlPanel.JnlpDownloadService" ) );
         }
         catch( UnavailableServiceException e ) {
             ds = null;
@@ -406,7 +409,7 @@ public class CCK3ControlPanel extends JPanel {
 
                 // determine if a particular resource is cached
                 final URL url =
-                        new URL( "http://www.colorado.edu/physics/phet/projects/cck/v8/help.jar" );
+                        new URL( SimStrings.get( "CCK3ControlPanel.CCKHelpJarURL" ) );
                 //                        new URL( "http://www.colorado.edu/physics/phet/projects/cck/v8/help.jar" );
                 boolean cached = ds.isResourceCached( url, "1.0" );
                 System.out.println( "cached = " + cached );
@@ -472,7 +475,8 @@ public class CCK3ControlPanel extends JPanel {
             e.printStackTrace();
             StringWriter sw = new StringWriter();
             e.printStackTrace( new PrintWriter( sw ) );
-            JOptionPane.showMessageDialog( module.getApparatusPanel(), sw.getBuffer().toString(), "Error Loading Help", JOptionPane.ERROR_MESSAGE );
+            JOptionPane.showMessageDialog( module.getApparatusPanel(), sw.getBuffer().toString(),
+                        SimStrings.get( "CCK3ControlPanel.ErrorLoadingHelpDialog" ), JOptionPane.ERROR_MESSAGE );
         }
 
     }
@@ -491,14 +495,14 @@ public class CCK3ControlPanel extends JPanel {
         KirkhoffSolver.Equation[] loopEquations = ks.getLoopEquations( circuit, mt );
         KirkhoffSolver.Equation[] ohmsLaws = ks.getOhmsLaw( circuit, mt );
 
-        String je = mt.describe( junctionEquations, "Junction Equations" );
-        String le = mt.describe( loopEquations, "Loop Equations" );
-        String oh = mt.describe( ohmsLaws, "Ohm's Law Equations" );
+        String je = mt.describe( junctionEquations, SimStrings.get( "CCK3ControlPanel.JunctionEquations" ) );
+        String le = mt.describe( loopEquations, SimStrings.get( "CCK3ControlPanel.LoopEquations" ) );
+        String oh = mt.describe( ohmsLaws, SimStrings.get( "CCK3ControlPanel.OhmsLawEquations" ) );
         System.out.println( je );
         System.out.println( le );
         System.out.println( oh );
 
-        JFrame readoutFrame = new JFrame( "Circuit Equations" );
+        JFrame readoutFrame = new JFrame( SimStrings.get( "CCK3ControlPanel.CircuitEquationsFrame" ) );
         String plainText = je + "\n" + le + "\n" + oh + "\n";
         JTextArea jta = new JTextArea( plainText ) {
             protected void paintComponent( Graphics g ) {
@@ -532,7 +536,7 @@ public class CCK3ControlPanel extends JPanel {
 
 
     private JPanel makeFilePanel() {
-        JButton save = new JButton( "Save" );
+        JButton save = new JButton( SimStrings.get( "CCK3ControlPanel.SaveButton" ) );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -543,7 +547,7 @@ public class CCK3ControlPanel extends JPanel {
                 }
             }
         } );
-        JButton load = new JButton( "Load" );
+        JButton load = new JButton( SimStrings.get( "CCK3ControlPanel.LoadButton" ) );
         load.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -557,12 +561,13 @@ public class CCK3ControlPanel extends JPanel {
         //        filePanel.add( save );
         //        filePanel.add( load );
 
-        JButton clear = new JButton( "Clear" );
+        JButton clear = new JButton( SimStrings.get( "CCK3ControlPanel.ClearButton" ) );
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean needsClearing = module.getCircuit().numBranches() != 0 || module.getCircuit().numJunctions() != 0;
                 if( needsClearing ) {
-                    int answer = JOptionPane.showConfirmDialog( module.getApparatusPanel(), "Delete the entire circuit and start over?" );
+                    int answer = JOptionPane.showConfirmDialog( module.getApparatusPanel(),
+                                    SimStrings.get( "CCK3ControlPanel.DeleteConfirm" ) );
                     if( answer == JOptionPane.OK_OPTION ) {
                         module.clear();
                     }
@@ -574,15 +579,16 @@ public class CCK3ControlPanel extends JPanel {
         filePanelContents.add( save );
         filePanelContents.add( load );
 
-        //        JPanel filePanel = createJPanel( "File", filePanelContents );
-        //        filePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "File" ) );
+        //        JPanel filePanel = createJPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ), filePanelContents );
+        //        filePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ) ) );
         //        filePanel.setLayout( new GridBagLayout() );
         //                GraphicsUtil.addGridBagComponent( filePanel, Box.createRigidArea( new Dimension( ) ), );
         //        Insets insets = new Insets( 0, 10, 0, 10 );
 
         //        GraphicsUtil.addGridBagComponent( filePanel, filePanelContents, 0, 0, 1, 1, GridBagConstraints.NONE, GridBagConstraints.CENTER, insets );
-        return placeInPanel( "File", filePanelContents, new Insets( 0, 10, 0, 10 ), GridBagConstraints.CENTER );
-//        return placeInPanel( "File", filePanelContents, BASIC_INSETS, GridBagConstraints.WEST );
+        return placeInPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ),
+                    filePanelContents, new Insets( 0, 10, 0, 10 ), GridBagConstraints.CENTER );
+//        return placeInPanel( SimStrings.get( "CCK3ControlPanel.FilePanelBorder" ), filePanelContents, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
     private static JPanel placeInPanel( String title, JPanel contents, Insets insets, int anchor ) {
@@ -610,8 +616,8 @@ public class CCK3ControlPanel extends JPanel {
 
         circuitPanel.setLayout( new BoxLayout( circuitPanel, BoxLayout.Y_AXIS ) );
 //        circuitPanel.add( advanced );
-        final String enable = "Enable >>";
-        final String disable = "Disable <<";
+        final String enable = SimStrings.get( "CCK3ControlPanel.Enable" );
+        final String disable = SimStrings.get( "CCK3ControlPanel.Disable" );
         final JButton expand = new JButton( enable );
         expand.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -633,7 +639,8 @@ public class CCK3ControlPanel extends JPanel {
         circuitPanel.add( expand );
         circuitPanel.add( advancedControlPanel );
 
-        return placeInPanel( "Advanced", circuitPanel, BASIC_INSETS, GridBagConstraints.WEST );
+        return placeInPanel( SimStrings.get( "CCK3ControlPanel.AdvancedPanelBorder" ),
+                            circuitPanel, BASIC_INSETS, GridBagConstraints.WEST );
     }
 
     public boolean isSeriesAmmeterSelected() {
@@ -661,16 +668,18 @@ public class CCK3ControlPanel extends JPanel {
             Insets insets = new Insets( 0, 0, 0, 0 );
             constraints = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
             setLayout( new GridBagLayout() );
-            resistivitySlider = new PhetSlider( "Wire Resistivity", "resistance/length", 0, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
+            resistivitySlider = new PhetSlider( SimStrings.get( "CCK3ControlPanel.WireResistivitySlider" ),
+                                SimStrings.get( "CCK3ControlPanel.WireResistivitySliderMeasure" ),
+                                0, 1, module.getResistivityManager().getResistivity(), new DecimalFormat( "0.00" ) );
             resistivitySlider.setBorder( null );
             resistivitySlider.getTitleLabel().setFont( CCKLookAndFeel.getFont() );
             resistivitySlider.setNumMajorTicks( 5 );
             resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
 
             Font labelFont = new Font( "Lucida Sans", Font.PLAIN, 10 );
-            JLabel lowLabel = new JLabel( "Almost None" );
+            JLabel lowLabel = new JLabel( SimStrings.get( "CCK3ControlPanel.AlmostNoneLabel" ) );
             lowLabel.setFont( labelFont );
-            JLabel highLabel = new JLabel( "Lots" );
+            JLabel highLabel = new JLabel( SimStrings.get( "CCK3ControlPanel.LotsLabel" ) );
             highLabel.setFont( labelFont );
 
             resistivitySlider.setExtremumLabels( lowLabel, highLabel );
@@ -686,7 +695,8 @@ public class CCK3ControlPanel extends JPanel {
                 }
             } );
 
-            internalResistanceEnabled = new JCheckBox( "<html>Battery<br>Internal Resistance</html>", module.isInternalResistanceOn() );
+            internalResistanceEnabled = new JCheckBox( SimStrings.get( "CCK3ControlPanel.InternalResistanceCheckBox" ),
+                                    module.isInternalResistanceOn() );
             internalResistanceEnabled.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setInternalResistanceOn( internalResistanceEnabled.isSelected() );
@@ -694,7 +704,7 @@ public class CCK3ControlPanel extends JPanel {
             } );
             addMe( internalResistanceEnabled );
 
-            JButton printKirkhoffsLaws = new JButton( "Show Equations" );
+            JButton printKirkhoffsLaws = new JButton( SimStrings.get( "CCK3ControlPanel.ShowEquationsButton" ) );
             printKirkhoffsLaws.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     printEm();
@@ -702,14 +712,15 @@ public class CCK3ControlPanel extends JPanel {
             } );
             addMe( printKirkhoffsLaws );
 
-            hideElectrons = new JCheckBox( "Hide Electrons", !module.isElectronsVisible() );
+            hideElectrons = new JCheckBox( SimStrings.get( "CCK3ControlPanel.HideElectronsCheckBox" ),
+                                    !module.isElectronsVisible() );
             hideElectrons.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setElectronsVisible( !hideElectrons.isSelected() );
                 }
             } );
             addMe( hideElectrons );
-            JButton close = new JButton( "Close" );
+            JButton close = new JButton( SimStrings.get( "CCK3ControlPanel.CloseButton" ) );
             close.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     dialog.setVisible( false );
@@ -720,7 +731,7 @@ public class CCK3ControlPanel extends JPanel {
         public void showDialog() {
             if( dialog == null ) {
                 Window parent = SwingUtilities.getWindowAncestor( module.getApparatusPanel() );
-                dialog = new JDialog( (Frame)parent, "Advanced Controls" );
+                dialog = new JDialog( (Frame)parent, SimStrings.get( "CCK3ControlPanel.AdvancedControlsDialog" ) );
                 dialog.setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
                 dialog.setModal( false );
                 dialog.setContentPane( this );
@@ -736,7 +747,7 @@ public class CCK3ControlPanel extends JPanel {
         ServiceSource ss = new ServiceSource();
         BasicService bs = ss.getBasicService();
         try {
-            URL url = new URL( "http://phet.colorado.edu" );
+            URL url = new URL( SimStrings.get( "CCK3ControlPanel.PhETURL" ) );
             bs.showDocument( url );
         }
         catch( MalformedURLException e ) {

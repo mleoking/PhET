@@ -21,6 +21,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
@@ -144,7 +145,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private double finalLength;
 
         public WireSource( Branch branch, PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, KirkhoffListener kl, double finalLength, CCK3Module module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Wire", module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Wire" ), module );
             this.finalLength = finalLength;
         }
 
@@ -163,7 +164,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         private ComponentDimension finalDim;
 
         public BatterySource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, ComponentDimension finalDim, KirkhoffListener kl, CCK3Module module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Battery", module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Battery" ), module );
             this.finalDim = finalDim;
         }
 
@@ -183,7 +184,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         public BulbSource( PhetGraphic boundedGraphic, CircuitGraphic circuitGraphic,
                            ApparatusPanel panel, Bulb branch, PhetGraphic schematic, ComponentDimension finalDim, KirkhoffListener kl,
                            double distBetweenJunctions, CCK3Module module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Light Bulb", module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.LightBulb" ), module );
             this.finalDim = finalDim;
             this.distBetweenJunctions = distBetweenJunctions;
         }
@@ -212,7 +213,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         public ResistorSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic,
                                ApparatusPanel panel, Branch branch, KirkhoffListener kl, ComponentDimension cd, CCK3Module module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Resistor", module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Resistor" ), module );
             this.cd = cd;
         }
 
@@ -229,7 +230,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
         Switch myswitch;
 
         public SwitchSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Switch branch, KirkhoffListener kl, ComponentDimension cd, CCK3Module module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Switch", module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Switch" ), module );
             this.cd = cd;
             this.myswitch = branch;
         }
@@ -250,7 +251,7 @@ public abstract class BranchSource extends DefaultInteractiveGraphic {
 
         public AmmeterSource( PhetGraphic boundedGraphic, PhetGraphic schematic, CircuitGraphic circuitGraphic, ApparatusPanel panel, Branch branch, KirkhoffListener kl,
                               AbstractVector2D dir, double length, double height, CCK3Module module ) {
-            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, "Ammeter", module );
+            super( boundedGraphic, schematic, circuitGraphic, panel, branch, kl, SimStrings.get( "BranchSource.Ammeter" ), module );
             this.dir = dir;
             this.length = length;
             this.height = height;
