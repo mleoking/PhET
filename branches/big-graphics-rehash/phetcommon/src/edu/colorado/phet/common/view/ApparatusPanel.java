@@ -51,6 +51,7 @@ public class ApparatusPanel extends JPanel {
     protected ApparatusPanel( Object dummy ) {
         super( null );
     }
+    //aoeu
 
     public ApparatusPanel() {
         // Call superclass constructor with null so that we
