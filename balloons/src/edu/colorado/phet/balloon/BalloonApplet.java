@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -69,6 +70,12 @@ public class BalloonApplet extends JApplet {
     }
 
     public void init() {
+        if ( isApplet ) {
+            String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
+            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+                SimStrings.setLocale( new Locale( applicationLocale ) );
+            }
+        }
         SimStrings.setStrings ( BalloonsConfig.localizedStringsPath );
 
         plussy.setPaint( PlusPainter.NONE );
@@ -279,6 +286,16 @@ public class BalloonApplet extends JApplet {
     }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException {
+        String applicationLocale = System.getProperty( "javaws.locale" );
+        if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            SimStrings.setLocale( new Locale( applicationLocale ) );
+        }
+        String argsKey = "user.language=";
+        if( args.length > 0 && args[0].startsWith( argsKey )) {
+            String locale = args[0].substring( argsKey.length(), args[0].length() );
+            SimStrings.setLocale( new Locale( locale ));
+        }
+
         UIManager.setLookAndFeel( new PhetLookAndFeel() );
         isApplet = false;
         BalloonApplet ba = new BalloonApplet();
