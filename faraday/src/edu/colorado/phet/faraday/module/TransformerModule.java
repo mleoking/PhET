@@ -24,6 +24,7 @@ import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.util.*;
 import edu.colorado.phet.faraday.util.IRescaler;
 import edu.colorado.phet.faraday.util.CompassGridRescaler;
 import edu.colorado.phet.faraday.view.*;
@@ -116,9 +117,6 @@ public class TransformerModule extends FaradayModule {
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil appearance.
         electromagnetModel.update();
-         
-        // Rescaler
-        IRescaler rescaler = new CompassGridRescaler( electromagnetModel );
         
         // Compass model
         Compass compassModel = new Compass( electromagnetModel );
@@ -142,7 +140,6 @@ public class TransformerModule extends FaradayModule {
         
         // Volt Meter
         Voltmeter voltmeterModel = new Voltmeter( pickupCoilModel );
-        voltmeterModel.setRescaler( rescaler );
         voltmeterModel.setRotationalKinematicsEnabled( true );
         voltmeterModel.setEnabled( false );
         model.addModelElement( voltmeterModel );
@@ -166,6 +163,9 @@ public class TransformerModule extends FaradayModule {
         // Pickup Coil
         PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
                 pickupCoilModel, lightbulbModel, voltmeterModel, electromagnetModel );
+        pickupCoilGraphic.setElectronSpeedRescaler( new ElectronSpeedRescaler( electromagnetModel ) );
+        pickupCoilGraphic.setLightbulbRescaler( new LightbulbRescaler( electromagnetModel ) );
+        pickupCoilGraphic.setVoltmeterRescaler( new VoltmeterRescaler( electromagnetModel) );
         apparatusPanel.addChangeListener( pickupCoilGraphic );
         apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
@@ -173,7 +173,7 @@ public class TransformerModule extends FaradayModule {
         // Grid
         CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, 
                 electromagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescaler( rescaler );
+        gridGraphic.setRescaler( new CompassGridRescaler( electromagnetModel ) );
         gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
         gridGraphic.setVisible( false );
