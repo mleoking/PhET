@@ -36,7 +36,7 @@ public interface Vector2D extends AbstractVector2D {
             super( p );
         }
 
-        public Double( Point2D.Double src, Point2D.Double dst ) {
+        public Double( Point2D src, Point2D dst ) {
             super( src, dst );
         }
 
@@ -92,6 +92,10 @@ public interface Vector2D extends AbstractVector2D {
 
         public Float( double x, double y ) {
             super( (float)x, (float)y );
+        }
+
+        public Float( Point2D src, Point2D dst ) {
+            super( src, dst );
         }
 
         public Vector2D add( AbstractVector2D v ) {

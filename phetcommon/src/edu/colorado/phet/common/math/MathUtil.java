@@ -194,8 +194,8 @@ public class MathUtil {
      * @param p4 Point on line
      * @return the intersection of a segment with a line.
      */
-    public static Point2D.Double getSegmentLineIntersection( Point2D.Double p1, Point2D.Double p2,
-                                                             Point2D.Double p3, Point2D.Double p4 ) {
+    public static Point2D.Double getSegmentLineIntersection( Point2D p1, Point2D p2,
+                                                             Point2D p3, Point2D p4 ) {
         Point2D.Double result = new Point2D.Double();
         double x1 = p1.getX();
         double y1 = p1.getY();
@@ -242,8 +242,8 @@ public class MathUtil {
      * @param p4
      * @return the intersection of two lines.
      */
-    public static Point2D.Double getLinesIntersection( Point2D.Double p1, Point2D.Double p2,
-                                                       Point2D.Double p3, Point2D.Double p4 ) {
+    public static Point2D.Double getLinesIntersection( Point2D p1, Point2D p2,
+                                                       Point2D p3, Point2D p4 ) {
         Point2D.Double result = new Point2D.Double();
         double x1 = p1.getX();
         double y1 = p1.getY();

@@ -216,22 +216,6 @@ public class GraphicsUtil {
             throws AWTException {
         addGridBagComponent( container, component, gridX, gridY,
                              gridWidth, gridHeight, fill, anchor, new Insets( 0, 0, 0, 0 ) );
-        //        LayoutManager lm = container.getLayout();
-        //        if( !( lm instanceof GridBagLayout ) ) {
-        //            throw new AWTException( "Invalid layout: " + lm );
-        //        }
-        //        else {
-        //            GridBagConstraints gbc = getGridBagConstraints( gridX, gridY,
-        //                                                            gridWidth, gridHeight, fill, anchor );
-        ////            gbc.gridx = gridX;
-        ////            gbc.gridy = gridY;
-        ////            gbc.gridwidth = gridWidth;
-        ////            gbc.gridheight = gridHeight;
-        ////            gbc.fill = fill;
-        ////            gbc.anchor = anchor;
-        //            ( (GridBagLayout)lm ).setConstraints( component, gbc );
-        //            container.add( component );
-        //        }
     }
 
     public static void addGridBagComponent( Container container,

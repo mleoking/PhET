@@ -22,7 +22,7 @@ public class Particle extends SimpleObservable implements ModelElement {
     protected Particle() {
     }
 
-    protected Particle( Point2D.Double position, Vector2D velocity,
+    protected Particle( Point2D position, Vector2D velocity,
                         Vector2D acceleration ) {
         setPosition( position );
         setVelocity( velocity );
@@ -38,8 +38,8 @@ public class Particle extends SimpleObservable implements ModelElement {
         notifyObservers();
     }
 
-    public void setPosition( Point2D.Double position ) {
-        setPosition( position.x, position.y );
+    public void setPosition( Point2D position ) {
+        setPosition( position.getX(), position.getY() );
     }
 
     public AbstractVector2D getVelocity() {

@@ -206,6 +206,10 @@ public interface AbstractVector2D {
             this( p.getX(), p.getY() );
         }
 
+        public Float( Point2D initialPt, Point2D finalPt ) {
+            this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
+        }
+
         public boolean equals( Object obj ) {
             boolean result = true;
             if( this.getClass() != obj.getClass() ) {

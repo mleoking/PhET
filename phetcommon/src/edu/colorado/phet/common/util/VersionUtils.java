@@ -30,6 +30,10 @@ public class VersionUtils {
         public String getBuildTime() {
             return buildTime;
         }
+
+        public String toString() {
+            return "Build Number = " + buildNumber + ", Build Time = " + buildTime;
+        }
     }
 
     /* To be used in conjuction with this ant task:
@@ -52,11 +56,9 @@ public class VersionUtils {
     public static VersionInfo readVersionInfo() {
         VersionUtils vu = new VersionUtils();
         ClassLoader cl = vu.getClass().getClassLoader();
-        //        System.out.println( "cl = " + cl );
-        //        ClassLoader cl = new Object().getClass().getClassLoader();
         URL buildNumberURL = cl.getResource( "build.number" );
 
-        System.out.println( "buildNumberURL = " + buildNumberURL );
+        System.out.println( "PhET Application Loading, BuildURL = " + buildNumberURL );
         int buildNum = -1;
         try {
             BufferedReader br = new BufferedReader( new InputStreamReader( buildNumberURL.openStream() ) );
@@ -82,9 +84,11 @@ public class VersionUtils {
             buildTimeStr = new BufferedReader( new InputStreamReader( buildTimeURL ) ).readLine();
         }
         catch( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+            e.printStackTrace();
         }
-        return new VersionInfo( buildNum, buildTimeStr );
-        //        return new VersionInfo( 0, "" );
+        VersionInfo vi = new VersionInfo( buildNum, buildTimeStr );
+        System.out.println( "PhET Application Loaded: " + vi );
+        return vi;
     }
+
 }
