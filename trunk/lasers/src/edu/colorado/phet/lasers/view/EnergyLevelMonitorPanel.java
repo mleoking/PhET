@@ -138,7 +138,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel {
         gs.restoreGraphics();
     }
 
-    public synchronized void update() {
+    public void update() {
         numGroundLevel = model.getNumGroundStateAtoms();
         numMiddleLevel = model.getNumMiddleStateAtoms();
         numHighLevel = model.getNumHighStateAtoms();

@@ -70,7 +70,22 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
     /**
      * The graphic class itself
      */
+    private static double maxEnergy = 350;
+    private static double minEnergy = 0;
+    private static double maxBlueLevel = maxEnergy;
+    private static double maxRedLevel = maxEnergy / 2;
+    private static int numColors = (int)maxEnergy;
+    private static Color[] colors = new Color[numColors];
+    static{
+        for( int i = 0; i < numColors; i++ ) {
+            int red = Math.abs( i - numColors / 2 );
+            int green = 0;
+            int blue = Math.max( 0, (i - numColors / 2));
+        }
+    }
     private class EnergyLevelRep extends PhetGraphic {
+
+
         private Rectangle2D levelLine = new Rectangle2D.Double();
         private double thickness = 2;
 
@@ -80,6 +95,13 @@ public class EnergyLevelGraphic extends DefaultInteractiveGraphic implements Ato
         }
 
         private void update() {
+
+            int blueLevel = (int)Math.max( 0, Math.min( 255* ( atomicState.getEnergyLevel() - maxRedLevel ) / (maxBlueLevel - maxRedLevel), 255));
+            int redLevel = (int)Math.max( 0, Math.min( 255* ( atomicState.getEnergyLevel() - minEnergy ) / (maxRedLevel - minEnergy), 255));
+            color = new Color( redLevel, 0, blueLevel );
+
+//            color = colors[ (int)Math.min( atomicState.getEnergyLevel(), maxEnergy - 1)];
+
             Rectangle frameOfReference = getComponent().getBounds();
             double yLoc = frameOfReference.getY() + frameOfReference.getHeight() - atomicState.getEnergyLevel();
             levelLine.setRect( xLoc, yLoc, width, thickness );
