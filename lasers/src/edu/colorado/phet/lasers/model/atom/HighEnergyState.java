@@ -40,29 +40,7 @@ public class HighEnergyState extends AtomicState {
      * We need to define a next higher state that allows the HighEnergyState to be adjusted upward a reasonable
      * way
      */
-    private AtomicState nextHigherState = new AtomicState() {
-        public void collideWithPhoton( Atom atom, Photon photon ) {
-            // noop
-        }
-
-        public AtomicState getNextLowerEnergyState() {
-            return null;
-        }
-
-        public AtomicState getNextHigherEnergyState() {
-            return null;
-        }
-
-        public double getWavelength() {
-            // The hard-coded number here is a hack so the energy level graphic can be adjusted up to the top of
-            // the window. This is not great programming
-            return minWavelength - 80;
-        }
-
-        public double getEnergyLevel() {
-            return Photon.wavelengthToEnergy( getWavelength() );
-        }
-    };
+    private AtomicState nextHigherState = AtomicState.MaxEnergyState.instance();
 
     private HighEnergyState() {
         setEnergyLevel( Photon.wavelengthToEnergy( Photon.BLUE ) );
