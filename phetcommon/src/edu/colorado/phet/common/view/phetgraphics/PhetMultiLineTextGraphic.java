@@ -1,4 +1,4 @@
-/** Sam Reid*/
+/** University of Colorado, PhET*/
 package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.view.graphics.Graphic;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Jun 24, 2004
  * Time: 10:45:57 PM
- * Copyright (c) Jun 24, 2004 by Sam Reid
+ * Copyright (c) Jun 24, 2004 by University of Colorado, PhET
  */
 public class PhetMultiLineTextGraphic extends PhetGraphic {
     private ArrayList textGraphics = new ArrayList();
@@ -22,6 +22,12 @@ public class PhetMultiLineTextGraphic extends PhetGraphic {
     private int x;
     private int y;
     private FontMetrics fontMetrics;
+
+    public static interface IPhetTextGraphic {
+        void setPosition( int x, int y );
+
+        void setVisible( boolean visible );
+    }
 
     public PhetMultiLineTextGraphic( Component component, String[] text, Font font, int x, int y, Color color ) {
         this( component, text, font, x, y, new Basic( component, font, color ) );

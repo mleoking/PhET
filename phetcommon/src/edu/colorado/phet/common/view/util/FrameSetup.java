@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Jun 12, 2003
  * Time: 7:38:54 AM
- * Copyright (c) Jun 12, 2003 by Sam Reid
+ * Copyright (c) Jun 12, 2003 by University of Colorado, PhET
  */
 public interface FrameSetup {
     public void initialize( JFrame frame );

@@ -78,7 +78,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
                     c.setThreadPriority( Thread.NORM_PRIORITY );
                 }
             } );
-            max = new JRadioButton( SimStrings.get( "Common.ClockControlPanel.Maximum") );
+            max = new JRadioButton( SimStrings.get( "Common.ClockControlPanel.Maximum" ) );
             max.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     c.setThreadPriority( Thread.MAX_PRIORITY );
@@ -101,7 +101,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
             bg.add( max );
             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ),
-                                        SimStrings.get( "Common.ClockControlPanel.BorderTitle" ) ) );
+                                                         SimStrings.get( "Common.ClockControlPanel.BorderTitle" ) ) );
             add( max );
             add( norm );
             add( min );

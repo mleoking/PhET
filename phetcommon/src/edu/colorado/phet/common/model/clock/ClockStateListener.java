@@ -2,10 +2,10 @@ package edu.colorado.phet.common.model.clock;
 
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Jun 11, 2003
  * Time: 10:45:32 AM
- * Copyright (c) Jun 11, 2003 by Sam Reid
+ * Copyright (c) Jun 11, 2003 by University of Colorado, PhET
  */
 public interface ClockStateListener {
     void delayChanged( int waitTime );

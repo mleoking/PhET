@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, PhET, 2003.*/
 package edu.colorado.phet.common.view.util;
 
 import javax.imageio.ImageIO;
@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Apr 16, 2003
  * Time: 9:34:20 AM
- * Copyright (c) Apr 16, 2003 by Sam Reid
+ * Copyright (c) Apr 16, 2003 by University of Colorado, PhET
  * This level of granularity is required because different loaders return different
  * pixel data, and the final result is highly dependent on that
  * and the conversion mechanism.
@@ -26,7 +26,7 @@ public class ImageLoader {
     /**
      * A convenience instance, public for customization.
      */
-    public static final ImageLoader instance = new ImageLoader();
+    public static final ImageLoader instance = new CachingImageLoader();
 
     /**
      * Convenience method, uses the static instance to load a buffered image.

@@ -1,23 +1,23 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, PhET, 2003.*/
 package edu.colorado.phet.common.view.graphics.mousecontrols;
 
-import edu.colorado.phet.common.view.CompositeGraphic;
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: Oct 9, 2003
  * Time: 1:07:02 AM
- * Copyright (c) Oct 9, 2003 by Sam Reid
+ * Copyright (c) Oct 9, 2003 by University of Colorado, PhET
  */
 public class BringToFront implements MouseInputListener {
-    private CompositeGraphic graphicTree;
-    private Graphic target;
+    private GraphicLayerSet graphicTree;
+    private PhetGraphic target;
 
-    public BringToFront( CompositeGraphic graphicTree, Graphic target ) {
+    public BringToFront( GraphicLayerSet graphicTree, PhetGraphic target ) {
         this.graphicTree = graphicTree;
         this.target = target;
     }

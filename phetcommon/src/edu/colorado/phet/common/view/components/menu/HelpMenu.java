@@ -17,10 +17,10 @@ import java.awt.event.ActionListener;
 public class HelpMenu extends JMenu {
     public HelpMenu( final ApplicationModel appDescriptor ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
-        this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt(0) );
+        this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
 
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
-        about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt(0) );
+        about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
         final String name = appDescriptor.getWindowTitle();
         String desc = appDescriptor.getDescription();
         String version = appDescriptor.getVersion();

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, PhET, 2003.*/
 package edu.colorado.phet.common.view.util;
 
 import edu.colorado.phet.common.math.AbstractVector2D;

@@ -1,4 +1,4 @@
-/*Copyright, Sam Reid, 2003.*/
+/*Copyright, University of Colorado, PhET, 2003.*/
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -14,10 +14,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * User: Sam Reid
+ * User: University of Colorado, PhET
  * Date: May 18, 2003
  * Time: 10:24:21 PM
- * Copyright (runner) May 18, 2003 by Sam Reid
+ * Copyright (runner) May 18, 2003 by University of Colorado, PhET
  */
 public class ClockControlPanel extends JPanel implements ClockStateListener {
     private JButton play;

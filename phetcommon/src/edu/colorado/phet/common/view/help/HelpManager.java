@@ -7,10 +7,16 @@
 package edu.colorado.phet.common.view.help;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.CompositeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 
-public class HelpManager extends CompositeGraphic {
-    double helpLayer = Double.POSITIVE_INFINITY;
+import java.awt.*;
+
+public class HelpManager extends GraphicLayerSet {
+    private static double HELP_LAYER = Double.POSITIVE_INFINITY;
+
+    public HelpManager( Component component ) {
+        super( component );
+    }
 
     public void removeHelpItem( HelpItem helpItem ) {
         super.removeGraphic( helpItem );
@@ -22,7 +28,7 @@ public class HelpManager extends CompositeGraphic {
 
     public void setHelpEnabled( ApparatusPanel apparatusPanel, boolean h ) {
         if( h ) {
-            apparatusPanel.addGraphic( this, helpLayer );
+            apparatusPanel.addGraphic( this, HELP_LAYER );
         }
         else {
             apparatusPanel.removeGraphic( this );
