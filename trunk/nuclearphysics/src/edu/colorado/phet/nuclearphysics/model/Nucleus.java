@@ -7,7 +7,7 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.coreadditions.Body;
+import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -21,9 +21,10 @@ public class Nucleus extends Body {
     private PotentialProfile potentialProfile;
     private ArrayList fissionListeners = new ArrayList();
 
-    public Nucleus( Point2D.Double position, int numProtons, int numNeutrons ) {
-        super( position, new Vector2D(), new Vector2D(), 0, 0 );
-        this.setLocation( position.getX(), position.getY() );
+    public Nucleus( Point2D position, int numProtons, int numNeutrons ) {
+        super( position, new Vector2D.Double(), new Vector2D.Double(), 0, 0 );
+        //        super( position, new Vector2D.Double(), new Vector2D.Double(), 0, 0 );
+        this.setPosition( position.getX(), position.getY() );
         this.numProtons = numProtons;
         this.numNeutrons = numNeutrons;
         this.potentialProfile = new PotentialProfile( this );
@@ -31,11 +32,11 @@ public class Nucleus extends Body {
         int numParticles = getNumNeutrons() + getNumProtons();
         double particleArea = ( Math.PI * NuclearParticle.RADIUS * NuclearParticle.RADIUS ) * numParticles;
         radius = Math.sqrt( particleArea / Math.PI ) / 3;
-//        radius = Math.sqrt( particleArea / Math.PI ) / 2;
+        //        radius = Math.sqrt( particleArea / Math.PI ) / 2;
     }
 
-    public Point2D.Double getCM() {
-        return getLocation();
+    public Point2D getCM() {
+        return getPosition();
     }
 
     public double getMomentOfInertia() {
@@ -56,12 +57,12 @@ public class Nucleus extends Body {
 
     public void setNumProtons( int numProtons ) {
         this.numProtons = numProtons;
-        updateObservers();
+        notifyObservers();
     }
 
     public void setNumNeutrons( int numNeutrons ) {
         this.numNeutrons = numNeutrons;
-        updateObservers();
+        notifyObservers();
     }
 
     public double getPotential() {

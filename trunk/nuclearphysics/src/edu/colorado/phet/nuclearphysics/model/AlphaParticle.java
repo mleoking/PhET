@@ -46,7 +46,7 @@ public class AlphaParticle extends Nucleus {
     }
 
     public void setLocation( double x, double y ) {
-        super.setLocation( x, y );
+        super.setPosition( x, y );
     }
 
     public void stepInTime( double dt ) {
@@ -65,19 +65,19 @@ public class AlphaParticle extends Nucleus {
                 // Accelerate the alpha particle away from the nucleus, with a force
                 // proportional to its height on the profile
                 PotentialProfile profile = nucleus.getPotentialProfile();
-                double d = this.getLocation().distance( nucleus.getLocation() );
+                double d = this.getPosition().distance( nucleus.getPosition() );
 
                 double force = Math.abs( profile.getHillY( -d ) ) * forceScale;
                 force = Double.isNaN( force ) ? 0 : force;
                 force = -profile.getDyDx( -d ) * forceScale;
                 Vector2D a = null;
                 if( this.getVelocity().getX() == 0 && this.getVelocity().getY() == 0 ) {
-                    double dx = this.getLocation().getX() - nucleus.getLocation().getX();
-                    double dy = this.getLocation().getY() - nucleus.getLocation().getY();
-                    a = new Vector2D( (float)dx, (float)dy ).normalize().multiply( (float)force );
+                    double dx = this.getPosition().getX() - nucleus.getPosition().getX();
+                    double dy = this.getPosition().getY() - nucleus.getPosition().getY();
+                    a = new Vector2D.Double( dx, dy ).normalize().scale( (float)force );
                 }
                 else {
-                    a = new Vector2D( this.getVelocity() ).normalize().multiply( (float)force );
+                    a = new Vector2D.Double( this.getVelocity() ).normalize().scale( (float)force );
                 }
                 this.setAcceleration( a );
                 double potential = Double.isNaN( -profile.getHillY( -d ) ) ? 0 : -profile.getHillY( -d );
@@ -89,8 +89,8 @@ public class AlphaParticle extends Nucleus {
     //
     // Interfaces implemented
     //
-    public Point2D.Double getCM() {
-        return getLocation();
+    public Point2D getCM() {
+        return getPosition();
     }
 
     public double getMomentOfInertia() {

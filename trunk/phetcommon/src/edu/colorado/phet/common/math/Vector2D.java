@@ -28,7 +28,7 @@ public interface Vector2D extends AbstractVector2D {
         public Double() {
         }
 
-        public Double( Vector2D.Double v ) {
+        public Double( Vector2D v ) {
             this( v.getX(), v.getY() );
         }
 

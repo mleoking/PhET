@@ -106,7 +106,7 @@ public class AlphaDecayControlPanel extends JPanel {
         private Format formatter = new DecimalFormat( "####" );
 
         public void run() {
-            double startTime = module.getModel().getClock().getRunningTime();
+            double startTime = module.getClock().getRunningTime();
             running = true;
             while( running ) {
                 try {
@@ -115,7 +115,7 @@ public class AlphaDecayControlPanel extends JPanel {
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
-                final double runningTime = module.getModel().getClock().getRunningTime() - startTime;
+                final double runningTime = module.getClock().getRunningTime() - startTime;
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         timerTF.setText( formatter.format( new Double( runningTime ) ) );

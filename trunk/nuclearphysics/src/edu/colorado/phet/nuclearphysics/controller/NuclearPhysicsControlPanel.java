@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
+import edu.colorado.phet.common.view.PhetControlPanel;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
@@ -19,12 +20,13 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-public class NuclearPhysicsControlPanel extends JPanel {
+public class NuclearPhysicsControlPanel extends PhetControlPanel {
     private NuclearPhysicsModule module;
     private int rowIdx = 0;
     private JPanel mainPanel;
 
     public NuclearPhysicsControlPanel( NuclearPhysicsModule module ) {
+        super( module );
         this.module = module;
         setLayout( new BorderLayout() );
         add( new LegendPanel(), BorderLayout.NORTH );
@@ -71,7 +73,7 @@ public class NuclearPhysicsControlPanel extends JPanel {
             Icon alphaParticleImg = AlphaParticleGraphic.getIcon();
 
             Nucleus u235 = new Uranium235( new Point2D.Double(), null );
-            u235.setLocation( u235.getRadius(), u235.getRadius() );
+            u235.setPosition( u235.getRadius(), u235.getRadius() );
             Uranium235Graphic u235G = new Uranium235Graphic( u235 );
             BufferedImage u235Img = new BufferedImage( (int)u235.getRadius(), (int)u235.getRadius(), BufferedImage.TYPE_INT_ARGB );
             Graphics2D gu235 = (Graphics2D)u235Img.getGraphics();
@@ -80,7 +82,7 @@ public class NuclearPhysicsControlPanel extends JPanel {
             ImageIcon u235Icon = new ImageIcon( u235Img );
 
             Nucleus u238 = new Uranium235( new Point2D.Double(), null );
-            u238.setLocation( u238.getRadius(), u238.getRadius() );
+            u238.setPosition( u238.getRadius(), u238.getRadius() );
             Uranium238Graphic u238G = new Uranium238Graphic( u238 );
             BufferedImage u238Img = new BufferedImage( (int)u238.getRadius(), (int)u238.getRadius(), BufferedImage.TYPE_INT_ARGB );
             Graphics2D gu238 = (Graphics2D)u238Img.getGraphics();
@@ -89,7 +91,7 @@ public class NuclearPhysicsControlPanel extends JPanel {
             ImageIcon u238Icon = new ImageIcon( u238Img );
 
             Nucleus u239 = new Uranium235( new Point2D.Double(), null );
-            u239.setLocation( u239.getRadius(), u239.getRadius() );
+            u239.setPosition( u239.getRadius(), u239.getRadius() );
             Uranium239Graphic u239G = new Uranium239Graphic( u239 );
             BufferedImage u239Img = new BufferedImage( (int)u239.getRadius(), (int)u239.getRadius(), BufferedImage.TYPE_INT_ARGB );
             Graphics2D gu239 = (Graphics2D)u239Img.getGraphics();

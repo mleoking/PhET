@@ -28,7 +28,7 @@ public class Uranium238 extends Nucleus {
             ModelElement me = model.modelElementAt( i );
             if( me instanceof Neutron ) {
                 Neutron neutron = (Neutron)me;
-                if( neutron.getLocation().distanceSq( this.getLocation() )
+                if( neutron.getPosition().distanceSq( this.getPosition() )
                     < this.getRadius() * this.getRadius() ) {
                     this.fission( neutron );
                 }
@@ -39,7 +39,7 @@ public class Uranium238 extends Nucleus {
     public void fission( Neutron neutron ) {
         // Move the neutron way, way away so it doesn't show and doesn't
         // cause another fission event. It will be destroyed later.
-        neutron.setLocation( 100E3, 100E3 );
+        neutron.setPosition( 100E3, 100E3 );
         neutron.setVelocity( 0, 0 );
     }
 }

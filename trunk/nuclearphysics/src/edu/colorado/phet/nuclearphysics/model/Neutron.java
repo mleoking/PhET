@@ -12,14 +12,14 @@ import java.awt.geom.Point2D;
 
 public class Neutron extends NuclearParticle {
 
-    public Neutron( Point2D.Double location ) {
+    public Neutron( Point2D location ) {
         super( location );
         setVelocity( (float)Config.neutronSpeed, 0 );
     }
 
-    public Neutron( Point2D.Double location, double theta ) {
+    public Neutron( Point2D location, double theta ) {
         super( location );
-//        setVelocity( (float)Config.neutronSpeed, 0 );
+        //        setVelocity( (float)Config.neutronSpeed, 0 );
         setVelocity( theta );
     }
 

@@ -23,9 +23,9 @@ public class FissionDetector implements ModelElement {
                 for( int j = 0; j < model.numModelElements(); j++ ) {
                     ModelElement me2 = model.modelElementAt( j );
                     if( me2 instanceof Uranium235 ) {
-                        if( ( (Neutron)me ).getLocation().distanceSq( ( (Nucleus)me2 ).getLocation() )
+                        if( ( (Neutron)me ).getPosition().distanceSq( ( (Nucleus)me2 ).getPosition() )
                             < ( (Nucleus)me2 ).getRadius() * ( (Nucleus)me2 ).getRadius() ) {
-//                            fission( (Nucleus)me2, (Neutron)me );
+                            //                            fission( (Nucleus)me2, (Neutron)me );
                         }
                     }
                 }

@@ -8,7 +8,6 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -31,6 +30,7 @@ public class NuclearPhysicsModule extends Module {
         super.setApparatusPanel( apparatusPanel );
 
         // Start the model
+        //        this.setModel();
         this.setModel( new FissionModel( clock ) );
         this.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -49,12 +49,9 @@ public class NuclearPhysicsModule extends Module {
         super.setControlPanel( controlPanel );
     }
 
-    public void activate( PhetApplication app ) {
+    public AbstractClock getClock() {
+        return clock;
     }
-
-    public void deactivate( PhetApplication app ) {
-    }
-
 
     public void setPhysicalPanel( PhysicalPanel physicalPanel ) {
         apparatusPanel.remove( physicalPanel );
@@ -64,6 +61,7 @@ public class NuclearPhysicsModule extends Module {
 
     protected void addControlPanelElement( JPanel panel ) {
         ( (NuclearPhysicsControlPanel)getControlPanel() ).addPanelElement( panel );
+        //        ( (NuclearPhysicsControlPanel)getControlPanel() ).addPanelElement( panel );
     }
 
     protected void addNucleus( Nucleus nucleus ) {

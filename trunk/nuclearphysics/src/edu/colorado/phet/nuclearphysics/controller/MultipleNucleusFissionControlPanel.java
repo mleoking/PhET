@@ -52,7 +52,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 int modelNum = module.getU235Nuclei().size();
                 int viewNum = ( (Integer)numU235Spinner.getValue() ).intValue();
                 if( modelNum != viewNum ) {
-//                    numU235Spinner.setValue( new Integer( module.getU235Nuclei().size() ) );
+                    //                    numU235Spinner.setValue( new Integer( module.getU235Nuclei().size() ) );
                 }
 
                 // Compute and display the number of U235 nuclei that have fissioned
@@ -63,7 +63,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
                 modelNum = module.getU238Nuclei().size();
                 viewNum = ( (Integer)numU238Spinner.getValue() ).intValue();
                 if( modelNum != viewNum ) {
-//                    numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
+                    //                    numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
                 }
 
             }
@@ -223,7 +223,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             boolean centralNucleusExists = false;
             for( int i = 0; i < module.getNuclei().size() && !centralNucleusExists; i++ ) {
                 Nucleus testNucleus = (Nucleus)module.getNuclei().get( i );
-                if( testNucleus.getLocation().getX() == 0 && testNucleus.getLocation().getY() == 0 ) {
+                if( testNucleus.getPosition().getX() == 0 && testNucleus.getPosition().getY() == 0 ) {
                     centralNucleusExists = true;
                 }
             }
@@ -235,7 +235,7 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
             overlapping = false;
             for( int j = 0; j < module.getNuclei().size() && !overlapping; j++ ) {
                 Nucleus testNucleus = (Nucleus)module.getNuclei().get( j );
-                if( testNucleus.getLocation().distance( location ) < testNucleus.getRadius() * 3 ) {
+                if( testNucleus.getPosition().distance( location ) < testNucleus.getRadius() * 3 ) {
                     overlapping = true;
                 }
             }

@@ -7,15 +7,15 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.coreadditions.Body;
+import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Point2D;
 
 public class NuclearParticle extends Body {
     private double radius;
 
-    public NuclearParticle( Point2D.Double location ) {
-        super( location, new Vector2D(), new Vector2D(), 0f, 0f );
+    public NuclearParticle( Point2D location ) {
+        super( location, new Vector2D.Double(), new Vector2D.Double(), 0f, 0f );
         this.radius = RADIUS;
     }
 
@@ -23,8 +23,8 @@ public class NuclearParticle extends Body {
         return this.radius;
     }
 
-    public Point2D.Double getCM() {
-        return getLocation();
+    public Point2D getCM() {
+        return getPosition();
     }
 
     public double getMomentOfInertia() {
