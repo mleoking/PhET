@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.faraday.view.Rescaler;
+import edu.colorado.phet.faraday.util.GenericRescaler;
 
 
 /**
@@ -227,16 +227,6 @@ public abstract class AbstractMagnet extends SpacialObservable implements ModelE
      */
     public double getHeight() {
         return _size.getHeight();
-    }
-    
-    /**
-     * Rescales a scale value to make it more visually useful.
-     * 
-     * @param scale value from 0...+1 inclusive
-     * @return rescaled value from 0...+1 inclusive
-     */
-    public double rescale( double scale ) {
-        return Rescaler.rescale( scale, _strength, _minStrength, _maxStrength );
     }
     
     //----------------------------------------------------------------------------

@@ -24,6 +24,9 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.MagnetAndCoilControlPanel;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.util.IRescaler;
+import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
+import edu.colorado.phet.faraday.view.*;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -104,6 +107,9 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         barMagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE );
         model.addModelElement( barMagnetModel );
         
+        // Rescaler
+        IRescaler rescaler = new MagneticFieldRescaler( barMagnetModel );
+        
         // Compass
         Compass compassModel = new Compass( barMagnetModel ); 
         compassModel.setLocation( COMPASS_LOCATION );
@@ -125,6 +131,7 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         
         // Volt Meter
         Voltmeter voltmeterModel = new Voltmeter( pickupCoilModel );
+        voltmeterModel.setRescaler( rescaler );
         voltmeterModel.setRotationalKinematicsEnabled( true );
         voltmeterModel.setEnabled( false );
         model.addModelElement( voltmeterModel );
@@ -137,6 +144,7 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
+
         
         // Bar Magnet
         BarMagnetGraphic barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, barMagnetModel );
@@ -145,13 +153,14 @@ public class MagnetAndCoilModule extends Module implements ICompassGridModule {
         
         // Pickup AbstractCoil
         PickupCoilGraphic pickupCoilGraphic = 
-            new PickupCoilGraphic( apparatusPanel, model, pickupCoilModel, lightbulbModel, voltmeterModel );
+            new PickupCoilGraphic( apparatusPanel, model, pickupCoilModel, lightbulbModel, voltmeterModel, rescaler );
         apparatusPanel.addChangeListener( pickupCoilGraphic );
         apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), COIL_BACK_LAYER );
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic.setRescaler( rescaler );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         _gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
         _gridGraphic.setVisible( false );

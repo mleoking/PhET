@@ -27,6 +27,8 @@ import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.Electromagnet;
 import edu.colorado.phet.faraday.model.SourceCoil;
+import edu.colorado.phet.faraday.util.IRescaler;
+import edu.colorado.phet.faraday.util.MagneticFieldRescaler;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -120,6 +122,9 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         electromagnetModel.setSize( FaradayConfig.BAR_MAGNET_SIZE ); // XXX
         model.addModelElement( electromagnetModel );
          
+        // Rescaler
+        IRescaler rescaler = new MagneticFieldRescaler( electromagnetModel );
+        
         // Compass model
         Compass compassModel = new Compass( electromagnetModel );
         compassModel.setLocation( COMPASS_LOCATION );
@@ -137,12 +142,14 @@ public class ElectromagnetModule extends Module implements ICompassGridModule {
         
         // Bar Magnet
         ElectromagnetGraphic electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, electromagnetModel, sourceCoilModel, batteryModel );
+        electromagnetGraphic.setRescaler( rescaler );
         apparatusPanel.addChangeListener( electromagnetGraphic );
         apparatusPanel.addGraphic( electromagnetGraphic.getForeground(), ELECTROMAGNET_FRONT_LAYER );
         apparatusPanel.addGraphic( electromagnetGraphic.getBackground(), ELECTROMAGNET_BACK_LAYER );
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, electromagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic.setRescaler( rescaler );
         _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
         _gridGraphic.setAlphaEnabled( ! APPARATUS_BACKGROUND.equals( Color.BLACK ) );
         apparatusPanel.addChangeListener( _gridGraphic );

@@ -24,8 +24,8 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.Lightbulb;
+import edu.colorado.phet.faraday.util.IRescaler;
 
 
 /**
@@ -66,7 +66,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     //----------------------------------------------------------------------------
     
     private Lightbulb _lightBulbModel;
-    private AbstractMagnet _magnetModel;
+    private IRescaler _rescaler;
     private double _previousIntensity;
     private ArrayList _rays; // array of PhetShapeGraphic
     private Color _rayColor;
@@ -80,17 +80,17 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
      * Sole constructor.
      * 
      * @param component the parent Component
+     * @param lightBulbModel
      */
-    public LightbulbGraphic( Component component, Lightbulb lightBulbModel, AbstractMagnet magnetModel ) {
+    public LightbulbGraphic( Component component, Lightbulb lightBulbModel ) {
         super( component );
         
         assert( component != null );
         assert( lightBulbModel !=  null );
-        assert( magnetModel != null );
         
         _lightBulbModel = lightBulbModel;
         _lightBulbModel.addObserver( this );
-        _magnetModel = magnetModel; // No need to observer magnet.
+
         _rays = new ArrayList();
        
         // Light bulb
@@ -117,6 +117,19 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     }
 
     //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Set the rescaler, applied to the intensity.
+     * 
+     * @param rescaler
+     */
+    public void setRescaler( IRescaler rescaler ) {
+        _rescaler = rescaler;
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
 
@@ -138,11 +151,9 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             double intensity = _lightBulbModel.getIntensity();
             
             // Rescale the intensity to improve the visual effect.
-            intensity = _magnetModel.rescale( intensity );
-            intensity = MathUtil.clamp( 0, intensity, 1 );
-            if ( intensity == Double.NaN ) {
-                System.out.println( "WARNING - LightBulbGraphic.update: intensity=NaN" );
-                return;
+            if ( _rescaler != null ) {
+                intensity = _rescaler.rescale( intensity );
+                intensity = MathUtil.clamp( 0, intensity, 1 );
             }
 
             // If the intensity hasn't changed, do nothing.
