@@ -213,6 +213,12 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     
     /*
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     * 
+     * NOTES:<br>
+     * If maxAmplitude and frequency are both unchanged, then we assume that 
+     * the model's amplitude has changed as the result of a simulation clock tick.<br>
+     * If either the maxAmplitude or frequency has changed, then we assume that 
+     * the user moved a slider and caused the model to be updated.
      */
     public void update() {
         
@@ -223,66 +229,72 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             double maxAmplitude = _acPowerSupplyModel.getMaxAmplitude();
             double frequency = _acPowerSupplyModel.getFrequency();
             
-            // Update the max amplitude display.
-            if ( maxAmplitude != _previousMaxAmplitude ) {
-                // Format the text
-                int value = (int) ( maxAmplitude * 100 );
-                Object[] args = { new Integer( value ) };
-                String text = MessageFormat.format( _amplitudeFormat, args );
-                _maxAmplitudeValue.setText( text );
+            if ( maxAmplitude == _previousMaxAmplitude && frequency == _previousFrequency ) {
+                // The simulation clock ticked.
                 
-                // Right justify
-                int rx = _maxAmplitudeValue.getBounds().width;
-                int ry = _maxAmplitudeValue.getBounds().height;
-                _maxAmplitudeValue.setRegistrationPoint( rx, ry ); // lower right
-            }
-            
-            // Update the frequency display.
-            if ( frequency != _previousFrequency ) {
-                // Format the text
-                int value = (int) ( 100 * frequency );
-                Object[] args = { new Integer( value ) };
-                String text = MessageFormat.format( _frequencyFormat, args );
-                _frequencyValue.setText( text );
+                // Update the moving cursor.
+                updateCursor();
                 
-                // Right justify
-                int rx = _frequencyValue.getBounds().width;
-                int ry = _frequencyValue.getBounds().height;
-                _frequencyValue.setRegistrationPoint( rx, ry );
-            }
-            
-            // Update the sine wave.
-            if ( maxAmplitude != _previousMaxAmplitude || frequency != _previousFrequency ) {
-                _waveGraphic.setAmplitude( maxAmplitude );
-                _waveGraphic.setFrequency( frequency );
-                _waveGraphic.update();
-            }
-            
-            // Update the amplitude display on every clock tick.
-            if ( _amplitudeValue.isVisible() ) {
-                // Format the text
-                int value = (int) ( amplitude * 100 );
-                Object[] args = { new Integer( value ) };
-                String text = MessageFormat.format( _amplitudeFormat, args );
-                _amplitudeValue.setText( text );
-                
-                // Right justify
-                int rx = _amplitudeValue.getBounds().width;
-                int ry = _amplitudeValue.getBounds().height;
-                _amplitudeValue.setRegistrationPoint( rx, ry ); // lower right
-            }
-            
-            // Update the cursor position on every clock tick.
-            if ( maxAmplitude != _previousMaxAmplitude || frequency != _previousFrequency ) {
-                _cursorAngle = 0.0;
-                _cursorGraphic.setVisible( false );
+                // Update the current amplitude display.
+                if ( _amplitudeValue.isVisible() ) {
+                    // Format the text
+                    int value = (int) ( amplitude * 100 );
+                    Object[] args = { new Integer( value ) };
+                    String text = MessageFormat.format( _amplitudeFormat, args );
+                    _amplitudeValue.setText( text );
+                    
+                    // Right justify
+                    int rx = _amplitudeValue.getBounds().width;
+                    int ry = _amplitudeValue.getBounds().height;
+                    _amplitudeValue.setRegistrationPoint( rx, ry ); // lower right
+                }
             }
             else {
-                updateCursor();
+                // maxAmplitude and/or frequency was changed.
+
+                // Reset the cursor.
+                _cursorAngle = 0.0;
+                _cursorGraphic.setVisible( false );
+
+                // Update the sine wave.
+                {
+                    _waveGraphic.setAmplitude( maxAmplitude );
+                    _waveGraphic.setFrequency( frequency );
+                    _waveGraphic.update();
+                }
+                
+                // Update the max amplitude display.
+                if ( maxAmplitude != _previousMaxAmplitude ) {
+                    // Format the text
+                    int value = (int) ( maxAmplitude * 100 );
+                    Object[] args = { new Integer( value ) };
+                    String text = MessageFormat.format( _amplitudeFormat, args );
+                    _maxAmplitudeValue.setText( text );
+
+                    // Right justify
+                    int rx = _maxAmplitudeValue.getBounds().width;
+                    int ry = _maxAmplitudeValue.getBounds().height;
+                    _maxAmplitudeValue.setRegistrationPoint( rx, ry ); // lower right
+                }
+
+                // Update the frequency display.
+                if ( frequency != _previousFrequency ) {
+                    // Format the text
+                    int value = (int) ( 100 * frequency );
+                    Object[] args = { new Integer( value ) };
+                    String text = MessageFormat.format( _frequencyFormat, args );
+                    _frequencyValue.setText( text );
+
+                    // Right justify
+                    int rx = _frequencyValue.getBounds().width;
+                    int ry = _frequencyValue.getBounds().height;
+                    _frequencyValue.setRegistrationPoint( rx, ry );
+                }
+                
+                // Save the new values.
+                _previousMaxAmplitude = maxAmplitude;
+                _previousFrequency = frequency;
             }
-            
-            _previousMaxAmplitude = maxAmplitude;
-            _previousFrequency = frequency;
             
             repaint();
         }
@@ -298,6 +310,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         double endAngle = _waveGraphic.getEndAngle();
         double stepAngle = _acPowerSupplyModel.getStepAngle();
         
+        // Add the stepAngle first, because ACPowerSupply.stepInTime adds its delta first.
         _cursorAngle += stepAngle;
         
         if ( _cursorAngle < startAngle ) {
