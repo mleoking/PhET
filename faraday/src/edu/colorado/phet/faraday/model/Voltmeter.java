@@ -14,6 +14,7 @@ package edu.colorado.phet.faraday.model;
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.faraday.util.IRescaler;
 
 
@@ -23,7 +24,7 @@ import edu.colorado.phet.faraday.util.IRescaler;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Voltmeter extends SimpleObservable implements ModelElement {
+public class Voltmeter extends SimpleObservable implements ModelElement, SimpleObserver {
   
     //----------------------------------------------------------------------------
     // Class data
@@ -91,10 +92,20 @@ public class Voltmeter extends SimpleObservable implements ModelElement {
         assert( voltageSourceModel != null );
         
         _voltageSourceModel = voltageSourceModel;
+        _voltageSourceModel.addObserver( this );
         
         _enabled = true;
         _rotationalKinematicsEnabled = false; // expensive, so disabled by default
         _needleAngle = ZERO_NEEDLE_ANGLE;
+    }
+    
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void finalize() {
+        _voltageSourceModel.removeObserver( this );
+        _voltageSourceModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -250,4 +261,15 @@ public class Voltmeter extends SimpleObservable implements ModelElement {
            }
        }
     } // stepInTime
+
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     */
+    public void update() {
+        // Do nothing, handled by stepInTime.       
+    }
 }
