@@ -23,10 +23,8 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
-import edu.colorado.phet.faraday.view.BarMagnetGraphic;
-import edu.colorado.phet.faraday.view.CompassGraphic;
-import edu.colorado.phet.faraday.view.CompassGridGraphic;
-import edu.colorado.phet.faraday.view.FieldMeterGraphic;
+import edu.colorado.phet.faraday.util.Vector2D;
+import edu.colorado.phet.faraday.view.*;
 
 
 /**
@@ -48,8 +46,8 @@ public class BarMagnetModule extends FaradayModule {
     private static final double FIELD_METER_LAYER = 4;
 
     // Locations
-    private static final Point BAR_MAGNET_LOCATION = new Point( 400, 300 );
-    private static final Point COMPASS_LOCATION = new Point( 150, 200 );
+    private static final Point BAR_MAGNET_LOCATION = new Point( 450, 300 );
+    private static final Point COMPASS_LOCATION = new Point( 150, 300 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
     
     // Colors
@@ -148,5 +146,14 @@ public class BarMagnetModule extends FaradayModule {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+        
+        WiggleMeGraphic wiggleMe = new WiggleMeGraphic( apparatusPanel, model );
+        wiggleMe.setText( SimStrings.get( "BarMagnetModule.wiggleMe" ) );
+        wiggleMe.addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -40, 50 ) );
+        wiggleMe.addArrow( WiggleMeGraphic.BOTTOM_RIGHT, new Vector2D( 40, 50 ) );
+        wiggleMe.setLocation( 250, 175 );
+        wiggleMe.setRange( 20, 10 );
+        wiggleMe.setEnabled( true );
+        apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
 }
