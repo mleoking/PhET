@@ -66,6 +66,12 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
     // Space between the text and the arrows.
     private static final int TEXT_MARGIN = 10;
     
+    // Default duration of 1 complete wiggle cycle, in clock ticks.
+    private static final int DEFAULT_CYCLE_DURATION = 15;
+    
+    // Default wiggle range.
+    private static final Dimension DEFAULT_RANGE = new Dimension( 20, 20 );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -100,9 +106,9 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
         
         _model = model;
         _textGraphic = new PhetTextGraphic( component, DEFAULT_TEXT_FONT, "", DEFAULT_TEXT_COLOR );
-        _range = new Dimension( 20, 20 );
+        _range = new Dimension( DEFAULT_RANGE );
         _cycles = 0;
-        _cycleDuration = 20;
+        _cycleDuration = DEFAULT_CYCLE_DURATION;
         _enabled = false;
         _startLocation = new Point( getX(), getY() );
         _direction = CLOCKWISE;
