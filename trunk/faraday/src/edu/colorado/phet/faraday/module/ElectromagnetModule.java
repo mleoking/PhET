@@ -12,28 +12,22 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Point;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.Vector2D;
 import edu.colorado.phet.faraday.view.*;
-import edu.colorado.phet.faraday.view.CompassGraphic;
-import edu.colorado.phet.faraday.view.CompassGridGraphic;
-import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
-import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 
 /**
@@ -198,13 +192,56 @@ public class ElectromagnetModule extends FaradayModule {
         // Help
         //----------------------------------------------------------------------------
         
-        WiggleMeGraphic wiggleMe = new WiggleMeGraphic( apparatusPanel, model );
-        wiggleMe.setText( SimStrings.get( "ElectromagnetModule.wiggleMe" ) );
-        wiggleMe.addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -50, 50 ) );
-        wiggleMe.setLocation( 500, 150 );
-        wiggleMe.setRange( 25, 0 );
-        wiggleMe.setCycleDuration( 5 );
-        wiggleMe.setEnabled( true );
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, batteryModel );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+    }
+    
+    /**
+     * ThisWiggleMeGraphic is the wiggle me for this module.
+     * It disappears when the electromagnet battery's voltage is changed, or the battery is disabled.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private static class ThisWiggleMeGraphic extends WiggleMeGraphic implements SimpleObserver {
+
+        private Battery _batteryModel;
+        private double _batteryVoltage;
+
+        /**
+         * Sole constructor.
+         * 
+         * @param component
+         * @param model
+         * @param batteryModel
+         */
+        public ThisWiggleMeGraphic( Component component, BaseModel model, Battery batteryModel ) {
+            super( component, model );
+
+            _batteryModel = batteryModel;
+            _batteryVoltage = batteryModel.getVoltage();
+            batteryModel.addObserver( this );
+            
+            setText( SimStrings.get( "ElectromagnetModule.wiggleMe" ) );
+            addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -50, 50 ) );
+            setLocation( 500, 150 );
+            setRange( 25, 0 );
+            setCycleDuration( 5 );
+            setEnabled( true );
+        }
+
+        /*
+         * @see edu.colorado.phet.common.util.SimpleObserver#update()
+         * 
+         * If the battery voltage changes or the battery is disabled, disable and unwire the wiggle me.
+         */
+        public void update() {
+            if ( _batteryVoltage != _batteryModel.getVoltage() || ! _batteryModel.isEnabled() ) {
+                // Disable
+                setEnabled( false );
+                // Unwire
+                _batteryModel.removeObserver( this );
+            }
+        }
     }
 }

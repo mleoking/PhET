@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- make wiggle me's disappear at the appropriate time
+- make wiggle me's fade out instead of blinking off
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - add a dialog that warns about performance implications of turning on grid
@@ -48,6 +48,7 @@ PHETCOMMON:
 
 DONE:
 v0r21...
+(4/7) - wire up wiggle me's so that they disappear at the appropriate time
 (4/7) - add wiggle me's to all modules, but not wired to disappear
 (4/7) - create WiggleMeGraphic to use for all wiggle me's
 (4/6) - add debug code to draw the bounds of the electromagnet model
