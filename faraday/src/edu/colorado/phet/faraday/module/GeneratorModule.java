@@ -210,6 +210,7 @@ public class GeneratorModule extends FaradayModule {
         wiggleMe.addArrow( WiggleMeGraphic.MIDDLE_LEFT, new Vector2D( -80, 0 ) );
         wiggleMe.setLocation( 240, 60 );
         wiggleMe.setRange( 25, 0 );
+        wiggleMe.setCycleDuration( 10 );
         wiggleMe.setEnabled( true );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
