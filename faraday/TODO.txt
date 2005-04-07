@@ -53,6 +53,7 @@ PHETCOMMON:
 
 DONE:
 v0r21...
+(4/7) - create WiggleMeGraphic to use for all wiggle me's
 (4/6) - add debug code to draw the bounds of the electromagnet model
 (4/6) - add Vector2D.zero
 (4/6) - change coil collision bounds to include the coil ends

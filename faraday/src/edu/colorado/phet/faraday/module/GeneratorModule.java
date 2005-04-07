@@ -29,6 +29,7 @@ import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.control.panel.TurbinePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.util.Vector2D;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -203,5 +204,13 @@ public class GeneratorModule extends FaradayModule {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+        
+        WiggleMeGraphic wiggleMe = new WiggleMeGraphic( apparatusPanel, model );
+        wiggleMe.setText( SimStrings.get( "GeneratorModule.wiggleMe" ) );
+        wiggleMe.addArrow( WiggleMeGraphic.MIDDLE_LEFT, new Vector2D( -80, 0 ) );
+        wiggleMe.setLocation( 240, 60 );
+        wiggleMe.setRange( 25, 0 );
+        wiggleMe.setEnabled( true );
+        apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
 }

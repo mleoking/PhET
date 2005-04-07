@@ -25,6 +25,7 @@ import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.util.Vector2D;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -230,5 +231,12 @@ public class TransformerModule extends FaradayModule {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+        
+        WiggleMeGraphic wiggleMe = new WiggleMeGraphic( apparatusPanel, model );
+        wiggleMe.setText( SimStrings.get( "TransformerModule.wiggleMe" ) );
+        wiggleMe.setLocation( 250, 50 );
+        wiggleMe.setRange( 20, 20 );
+        wiggleMe.setEnabled( true );
+        apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
 }

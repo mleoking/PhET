@@ -28,6 +28,8 @@ import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.util.Vector2D;
+import edu.colorado.phet.faraday.view.*;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
@@ -195,5 +197,13 @@ public class ElectromagnetModule extends FaradayModule {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+        
+        WiggleMeGraphic wiggleMe = new WiggleMeGraphic( apparatusPanel, model );
+        wiggleMe.setText( SimStrings.get( "ElectromagnetModule.wiggleMe" ) );
+        wiggleMe.addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -50, 50 ) );
+        wiggleMe.setLocation( 500, 150 );
+        wiggleMe.setRange( 20, 0 );
+        wiggleMe.setEnabled( true );
+        apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
 }

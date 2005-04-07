@@ -29,6 +29,7 @@ import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.util.Vector2D;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -206,5 +207,14 @@ public class PickupCoilModule extends FaradayModule {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+        
+        WiggleMeGraphic wiggleMe = new WiggleMeGraphic( apparatusPanel, model );
+        wiggleMe.setText( SimStrings.get( "PickupCoilModule.wiggleMe" ) );
+        wiggleMe.addArrow( WiggleMeGraphic.BOTTOM_CENTER, new Vector2D( 0, 75 ) );
+        wiggleMe.addArrow( WiggleMeGraphic.MIDDLE_RIGHT, new Vector2D( 75, 0 ) );
+        wiggleMe.setLocation( 150, 250 );
+        wiggleMe.setRange( 20, 10 );
+        wiggleMe.setEnabled( true );
+        apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
 }
