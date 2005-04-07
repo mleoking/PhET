@@ -12,10 +12,13 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -147,13 +150,65 @@ public class BarMagnetModule extends FaradayModule {
         // Help
         //----------------------------------------------------------------------------
         
-        WiggleMeGraphic wiggleMe = new WiggleMeGraphic( apparatusPanel, model );
-        wiggleMe.setText( SimStrings.get( "BarMagnetModule.wiggleMe" ) );
-        wiggleMe.addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -40, 50 ) );
-        wiggleMe.addArrow( WiggleMeGraphic.BOTTOM_RIGHT, new Vector2D( 40, 50 ) );
-        wiggleMe.setLocation( 250, 175 );
-        wiggleMe.setRange( 20, 10 );
-        wiggleMe.setEnabled( true );
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, barMagnetModel, compassModel );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+    }
+    
+    /**
+     * ThisWiggleMeGraphic is the wiggle me for this module.
+     * It disappears when the bar magnet or compass is moved.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private static class ThisWiggleMeGraphic extends WiggleMeGraphic implements SimpleObserver {
+
+        private BarMagnet _barMagnetModel;
+        private Point2D _barMagnetLocation;
+        private Compass _compassModel;
+        private Point2D _compassLocation;
+
+        /**
+         * Sole constructor.
+         * 
+         * @param component
+         * @param model
+         * @param barMagnetModel
+         * @param compassModel
+         */
+        public ThisWiggleMeGraphic( Component component, BaseModel model, BarMagnet barMagnetModel, Compass compassModel ) {
+            super( component, model );
+
+            _barMagnetModel = barMagnetModel;
+            _barMagnetLocation = barMagnetModel.getLocation();
+            barMagnetModel.addObserver( this );
+            
+            _compassModel = compassModel;
+            _compassLocation = compassModel.getLocation();
+            compassModel.addObserver( this );
+            
+            setText( SimStrings.get( "BarMagnetModule.wiggleMe" ) );
+            addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -40, 50 ) );
+            addArrow( WiggleMeGraphic.BOTTOM_RIGHT, new Vector2D( 40, 50 ) );
+            setLocation( 250, 175 );
+            setRange( 20, 10 );
+            setEnabled( true );
+        }
+
+        /*
+         * @see edu.colorado.phet.common.util.SimpleObserver#update()
+         * 
+         * If the bar magnet or compass is moved, disable and unwire the wiggle me.
+         */
+        public void update() {
+            if ( !_barMagnetLocation.equals( _barMagnetModel.getLocation() ) ||
+                 !_compassLocation.equals( _compassModel.getLocation() ) ) {
+                // Disable
+                setEnabled( false );
+                // Unwire
+                _barMagnetModel.removeObserver( this );
+                _compassModel.removeObserver( this );
+            }
+        }
     }
 }

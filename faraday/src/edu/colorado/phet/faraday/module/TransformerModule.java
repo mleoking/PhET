@@ -12,10 +12,12 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Point;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -25,7 +27,6 @@ import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.util.Vector2D;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -232,11 +233,61 @@ public class TransformerModule extends FaradayModule {
         // Help
         //----------------------------------------------------------------------------
         
-        WiggleMeGraphic wiggleMe = new WiggleMeGraphic( apparatusPanel, model );
-        wiggleMe.setText( SimStrings.get( "TransformerModule.wiggleMe" ) );
-        wiggleMe.setLocation( 250, 50 );
-        wiggleMe.setRange( 20, 20 );
-        wiggleMe.setEnabled( true );
+        
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, lightbulbModel );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+    }
+    
+    /**
+     * ThisWiggleMeGraphic is the wiggle me for this module.
+     * It disappears when the lightbulb lights, or the lightbulb is disabled.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private static class ThisWiggleMeGraphic extends WiggleMeGraphic implements SimpleObserver {
+
+        private Lightbulb _lightbulbModel;
+        private int _count;
+
+        /**
+         * Sole constructor.
+         * 
+         * @param component
+         * @param model
+         * @param turbineModel
+         */
+        public ThisWiggleMeGraphic( Component component, BaseModel model, Lightbulb lightbulbModel ) {
+            super( component, model );
+
+            _lightbulbModel = lightbulbModel;
+            lightbulbModel.addObserver( this );
+            
+            _count = 0;
+            
+            setText( SimStrings.get( "TransformerModule.wiggleMe" ) );
+            setLocation( 250, 50 );
+            setRange( 20, 20 );
+            setEnabled( true );
+        }
+
+        /*
+         * @see edu.colorado.phet.common.util.SimpleObserver#update()
+         * 
+         * If the lightbulb lights or the lightbulb is disabled, disable and unwire the wiggle me.
+         */
+        public void update() {
+            /*
+             * A bit of a hack here... 
+             * The lightbulb lights when we first enter the module, before the user has done anything.
+             * So we need to wait for the second time that the lightbulb lights.
+             */
+            if ( ( _lightbulbModel.getIntensity() != 0 && ++_count == 2 ) || !_lightbulbModel.isEnabled() ) {
+                // Disable
+                setEnabled( false );
+                // Unwire
+                _lightbulbModel.removeObserver( this );
+            }
+        }
     }
 }
