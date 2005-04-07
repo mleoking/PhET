@@ -202,7 +202,8 @@ public class ElectromagnetModule extends FaradayModule {
         wiggleMe.setText( SimStrings.get( "ElectromagnetModule.wiggleMe" ) );
         wiggleMe.addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -50, 50 ) );
         wiggleMe.setLocation( 500, 150 );
-        wiggleMe.setRange( 20, 0 );
+        wiggleMe.setRange( 25, 0 );
+        wiggleMe.setCycleDuration( 5 );
         wiggleMe.setEnabled( true );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
