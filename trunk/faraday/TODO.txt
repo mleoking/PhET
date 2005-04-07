@@ -6,20 +6,15 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- make wiggle me's disappear at the appropriate time
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - add a dialog that warns about performance implications of turning on grid
 - make electrons move at same speed whether grid is on or off
 
 MEDIUM PRIORITY:
-- BarMagnet Wiggle Me: "Move me or me", 2 arrows
-- Pickup Coil Wiggle Me: "Move me or me", 2 arrows
-- Electromagnet Wiggle Me: "Adjust the voltage", 1 arrow
-- Transformer Wiggle Me: "Make the lightbulb light", no arrows
-- Generator Wiggle Me: "Turn on the faucet", 1 arrow
 - relocate voltage rescaling from Voltmeter model to Voltmeter view, so that all rescaling is done in the view
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
-- Wiggle Me's
 
 LOW PRIORITY:
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
@@ -53,6 +48,7 @@ PHETCOMMON:
 
 DONE:
 v0r21...
+(4/7) - add wiggle me's to all modules, but not wired to disappear
 (4/7) - create WiggleMeGraphic to use for all wiggle me's
 (4/6) - add debug code to draw the bounds of the electromagnet model
 (4/6) - add Vector2D.zero
