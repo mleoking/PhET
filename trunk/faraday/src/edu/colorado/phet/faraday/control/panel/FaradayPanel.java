@@ -32,7 +32,7 @@ public class FaradayPanel extends JPanel {
 
     public static final Dimension SLIDER_SIZE = new Dimension( 100, 20 );
     public static final Dimension SPINNER_SIZE = new Dimension( 50, 20 );
-    public static final String UNKNOWN_VALUE = "??????";
+    public static final String UNKNOWN_VALUE = "??";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -50,7 +50,7 @@ public class FaradayPanel extends JPanel {
     public FaradayPanel() {
         super();
         Font defaultFont = super.getFont();
-        _titleFont = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
+        _titleFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 4 );
     }
     
     //----------------------------------------------------------------------------
@@ -64,22 +64,5 @@ public class FaradayPanel extends JPanel {
      */
     public Font getTitleFont() {
         return _titleFont; // Fonts are immutable
-    }
-    
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Sets a slider to a fixed size.
-     * 
-     * @param slider the slider
-     * @param size the size
-     */
-    public static void setSliderSize( JSlider slider, Dimension size ) {
-        assert( slider != null );
-        slider.setPreferredSize( size );
-        slider.setMaximumSize( size );
-        slider.setMinimumSize( size );
     }
 }

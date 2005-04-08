@@ -6,14 +6,12 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- make wiggle me's fade out instead of blinking off
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
-- add a dialog that warns about performance implications of turning on grid
 - make electrons move at same speed whether grid is on or off
 
 MEDIUM PRIORITY:
-- relocate voltage rescaling from Voltmeter model to Voltmeter view, so that all rescaling is done in the view
+- add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
 LOW PRIORITY:
@@ -48,6 +46,8 @@ PHETCOMMON:
 
 DONE:
 v0r21...
+(4/8) - clean up FaradayPanel base class
+(4/8) - clear up localization file, remove unused strings
 (4/7) - wire up wiggle me's so that they disappear at the appropriate time
 (4/7) - add wiggle me's to all modules, but not wired to disappear
 (4/7) - create WiggleMeGraphic to use for all wiggle me's
@@ -347,6 +347,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(4/8) - make wiggle me's fade out instead of blinking off (no one asked for this, different than other sims)
 (4/6) - put compass in top layer so it doesn't get hidden behind larger objects (compass needs to move through coil)
 (4/5) - lightbulb flashes the first time that you visit each module (Carl likes this, leave it in)
 (4/4) - eliminate AffineTransform from BarMagnet.getStrength(Point2D) and PickupCoil.updateEmf (not possible)
