@@ -47,6 +47,7 @@ PHETCOMMON:
 
 DONE:
 v0r21...
+(4/8) - LightBulbGraphic leaves screen turds (fixed GraphicLayerSet.clear)
 (4/8) - minimize memory allocation in LightbulbGraphic
 (4/8) - clean up FaradayPanel base class
 (4/8) - clear up localization file, remove unused strings
