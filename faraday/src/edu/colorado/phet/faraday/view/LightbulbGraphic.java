@@ -220,6 +220,10 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
         
     } // update
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
     /**
      * Ray is the graphical representation of a light ray.
      *
