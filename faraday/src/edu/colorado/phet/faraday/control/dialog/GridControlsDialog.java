@@ -139,7 +139,9 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
             _spacingSlider.setMinimum( FaradayConfig.GRID_SPACING_MIN );
             _spacingSlider.setMaximum( FaradayConfig.GRID_SPACING_MAX );
             _spacingSlider.setValue( _xSpacing );
-            FaradayPanel.setSliderSize( _spacingSlider, FaradayPanel.SLIDER_SIZE );
+            _spacingSlider.setPreferredSize( FaradayPanel.SLIDER_SIZE );
+            _spacingSlider.setMaximumSize( FaradayPanel.SLIDER_SIZE );
+            _spacingSlider.setMinimumSize( FaradayPanel.SLIDER_SIZE );
 
             // Value
             _gridSpacingValue = new JLabel( String.valueOf( _xSpacing) );
@@ -153,7 +155,9 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
             _needleSizeSlider.setMinimum( FaradayConfig.GRID_NEEDLE_WIDTH_MIN );
             _needleSizeSlider.setMaximum( FaradayConfig.GRID_NEEDLE_WIDTH_MAX );
             _needleSizeSlider.setValue( _needleSize.width );
-            FaradayPanel.setSliderSize( _needleSizeSlider, FaradayPanel.SLIDER_SIZE );
+            _needleSizeSlider.setPreferredSize( FaradayPanel.SLIDER_SIZE );
+            _needleSizeSlider.setMaximumSize( FaradayPanel.SLIDER_SIZE );
+            _needleSizeSlider.setMinimumSize( FaradayPanel.SLIDER_SIZE );
 
             // Value
             String value = String.valueOf( _needleSize.width ) + "x" + String.valueOf( _needleSize.height );
