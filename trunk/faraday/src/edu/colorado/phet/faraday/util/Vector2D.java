@@ -233,6 +233,38 @@ public class Vector2D {
     }
     
     //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the point that corresponds to the tip of the vector
+     * after the vector has been moved to a new origin.
+     * 
+     * @param origin
+     * @return Point2D
+     */
+    public Point2D getTransformedPoint( Point2D origin ) {
+        return getTransformedPoint( origin, null );
+    }
+    
+    /**
+     * Gets the point that corresponds to the tip of the vector
+     * after the vector has been moved to a new origin.
+     * 
+     * @param origin
+     * @param destination result is written here, if provided
+     * @return destination if it was provided, otherwise a new point
+     */
+    public Point2D getTransformedPoint( Point2D origin, Point2D destination /* output */ ) {
+        Point2D p = destination;
+        if ( p == null ) {
+            p = new Point2D.Double();
+        }
+        p.setLocation( origin.getX() + getX(), origin.getY() + getY() );
+        return p;
+    }
+    
+    //----------------------------------------------------------------------------
     // Object overrides
     //----------------------------------------------------------------------------
 
