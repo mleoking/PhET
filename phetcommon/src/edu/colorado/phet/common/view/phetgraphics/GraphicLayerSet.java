@@ -161,7 +161,16 @@ public class GraphicLayerSet extends PhetGraphic {
      * Remove all graphics from this GraphicLayerSet.
      */
     public void clear() {
-        graphicMap.clear();//TODO shouldn't this repaint as well? And set parents to null?
+        Iterator i = graphicMap.iterator();
+        PhetGraphic graphic;
+        while ( i.hasNext() ) {
+            // Do everything that removeGraphic method does.
+            graphic = (PhetGraphic) i.next();
+            graphic.setParent( null );
+            setBoundsDirty();
+            graphic.autorepaint();//Automatically repaint.
+        }
+        graphicMap.clear();
     }
 
     /**
