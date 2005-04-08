@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- reduce memory allocation in LightbulbGraphic, could be causing Generator to hitch
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - make electrons move at same speed whether grid is on or off
@@ -46,6 +47,7 @@ PHETCOMMON:
 
 DONE:
 v0r21...
+(4/8) - minimize memory allocation in LightbulbGraphic
 (4/8) - clean up FaradayPanel base class
 (4/8) - clear up localization file, remove unused strings
 (4/7) - wire up wiggle me's so that they disappear at the appropriate time

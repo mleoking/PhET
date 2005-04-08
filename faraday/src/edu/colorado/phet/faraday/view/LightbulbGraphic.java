@@ -24,6 +24,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.Lightbulb;
+import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
@@ -46,6 +47,9 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     
     // These parameters affect an individual ray.
     private static final Color RAY_COLOR = Color.YELLOW;
+    private static final Stroke RAY_STROKE_BIG = new BasicStroke( 3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    private static final Stroke RAY_STROKE_MEDIUM = new BasicStroke( 2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    private static final Stroke RAY_STROKE_SMALL = new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final int MAX_RAY_LENGTH = 500;
     private static final int MIN_RAY_LENGTH = 0;
     private static final double MAX_RAY_WIDTH = 4.0;
@@ -58,16 +62,20 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     private static final double RAYS_ARC_ANGLE = Math.toRadians( 270 );
     private static final Point2D RAYS_ORIGIN = new Point2D.Double( 0, -90 );
     private static final double BULB_RADIUS = 30.0;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private Lightbulb _lightBulbModel;
     private double _previousIntensity;
-    private ArrayList _rays; // array of PhetShapeGraphic
+    private CompositePhetGraphic _raysGraphic;
     private Color _rayColor;
-    private Stroke _rayStroke;
+    
+    // Reusable objects, to reduce memory allocation
+    private Vector2D _someVector1, _someVector2;
+    private Point2D _somePoint1, _somePoint2;
+    private ArrayList _rays; // array of Ray
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -88,9 +96,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
         _lightBulbModel = lightBulbModel;
         _lightBulbModel.addObserver( this );
 
-        _rays = new ArrayList();
-       
-        // Light bulb
+        // Lightbulb
         {
             PhetImageGraphic lightBulbGraphic = new PhetImageGraphic( component, FaradayConfig.LIGHTBULB_IMAGE );
             super.addGraphic( lightBulbGraphic, BULB_LAYER );
@@ -99,7 +105,20 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             lightBulbGraphic.setRegistrationPoint( rx, ry );
         }
         
+        // Rays
+        {
+            _raysGraphic = new CompositePhetGraphic();
+            addGraphic( _raysGraphic, RAYS_LAYER );
+        }
+        
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        
+        // Reusable objects
+        _someVector1 = new Vector2D();
+        _someVector2 = new Vector2D();
+        _somePoint1 = new Point2D.Double();
+        _somePoint2 = new Point2D.Double();
+        _rays = new ArrayList();
         
         update();
     }
@@ -141,10 +160,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             _previousIntensity = intensity;
 
             // Remove existing rays.
-            for ( int i = 0; i < _rays.size(); i++ ) {
-                removeGraphic( (PhetShapeGraphic) _rays.get(i) );
-            }
-            _rays.clear();
+            _raysGraphic.clear();
 
             // If intensity is zero, we're done.
             if ( intensity == 0 ) {
@@ -155,10 +171,17 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             // Number of rays is a function of intensity.
             final int numberOfRays = MIN_RAYS + (int)( intensity * (MAX_RAYS - MIN_RAYS) );
 
-            // Ray dimensions are a function of intensity.
+            // Ray length is a function of intensity.
             final double rayLength = MIN_RAY_LENGTH + ( intensity * (MAX_RAY_LENGTH - MIN_RAY_LENGTH) );
-            final double rayWidth = MIN_RAY_WIDTH + ( intensity * (MAX_RAY_WIDTH - MIN_RAY_WIDTH) );
-            _rayStroke = new BasicStroke( (float) rayWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+            
+            // Pick one of 3 pre-allocated ray widths.
+            Stroke rayStroke = RAY_STROKE_SMALL;
+            if ( rayLength > ( MAX_RAY_LENGTH * 0.6 ) ) {
+                rayStroke = RAY_STROKE_BIG;
+            }
+            else if ( rayLength > ( MAX_RAY_LENGTH * 0.3 ) ) {
+                rayStroke = RAY_STROKE_MEDIUM;
+            }
 
             // Rays fill part of a circle, incrementing clockwise.
             double angle = RAYS_START_ANGLE;
@@ -167,22 +190,26 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             // Create the rays.
             for ( int i = 0; i < numberOfRays; i++ ) {
                 
-                // Each ray's shape is a line.
-                AbstractVector2D vec = ImmutableVector2D.Double.parseAngleAndMagnitude( BULB_RADIUS, angle );
-                AbstractVector2D vec1 = ImmutableVector2D.Double.parseAngleAndMagnitude( rayLength + BULB_RADIUS, angle );
-                Point2D end = vec.getDestination( RAYS_ORIGIN );
-                Point2D end2 = vec1.getDestination( RAYS_ORIGIN );
-                Line2D.Double line = new Line2D.Double( end, end2 );
+                // Determine the end points of the ray.
+                _someVector1.setMagnitudeAngle( BULB_RADIUS, angle );
+                _someVector2.setMagnitudeAngle( rayLength + BULB_RADIUS, angle );
+                _someVector1.getTransformedPoint( RAYS_ORIGIN , _somePoint1 /* output */ );
+                _someVector2.getTransformedPoint( RAYS_ORIGIN , _somePoint2 /* output */ );
                 
-                // Each ray is a PhetShapeGraphic.
-                PhetShapeGraphic ray = new PhetShapeGraphic( getComponent() );
-                ray.setShape( line );
-                ray.setPaint( RAY_COLOR );
-                ray.setStroke( _rayStroke );
+                // Get a Ray from the list of reusable rays.
+                Ray ray = null;
+                if ( i < _rays.size() ) {
+                    ray = (Ray) _rays.get( i );
+                }
+                else {
+                    // If we don't have enough rays, then make one.
+                    ray = new Ray( getComponent() );
+                    _rays.add( ray );
+                }
+                ray.setLine( _somePoint1, _somePoint2, rayStroke );
                 
-                // Add the ray to the composite graphic and to the array.
-                addGraphic( ray, RAYS_LAYER );
-                _rays.add( ray );
+                // Add the ray to the composite graphic.
+                _raysGraphic.addGraphic( ray, RAYS_LAYER );
 
                 // Increment the angle.
                 angle += deltaAngle;
@@ -192,4 +219,39 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
         }
         
     } // update
+    
+    /**
+     * Ray is the graphical representation of a light ray.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private static class Ray extends PhetShapeGraphic {
+        
+        private Line2D _line; // reusable line
+        
+        /**
+         * Sole constructor.
+         * 
+         * @param component
+         */
+        public Ray( Component component ) {
+            super( component );
+            _line = new Line2D.Double();
+            setShape( _line );
+            setPaint( RAY_COLOR );
+        }
+        
+        /**
+         * Sets the end points and stroke that describe the ray's line.
+         * 
+         * @param p1
+         * @param p2
+         * @param stroke
+         */
+        public void setLine( Point2D p1, Point2D p2, Stroke stroke ) {
+            _line.setLine( p1.getX(), p1.getY(), p2.getX(), p2.getY() );
+            setStroke( stroke );
+        }
+    }
 }
