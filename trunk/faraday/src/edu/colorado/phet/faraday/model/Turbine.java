@@ -162,7 +162,7 @@ public class Turbine extends BarMagnet implements ModelElement {
             }
             
             // Limit direction to -360...+360 degrees.
-            int sign = ( newDirection >= 0 ) ? +1 : -1;
+            int sign = ( newDirection < 0 ) ? -1 : +1;
             newDirection = sign * ( Math.abs( newDirection )  % ( 2 * Math.PI ) );
 
             setDirection( newDirection );
