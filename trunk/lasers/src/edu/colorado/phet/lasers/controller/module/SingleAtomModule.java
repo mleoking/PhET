@@ -145,11 +145,15 @@ public class SingleAtomModule extends BaseLaserModule {
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
         setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
+        setThreeEnergyLevels( false );
 
         // Add the Wiggle-me
         addWiggleMe( seedBeam );
     }
 
+    /**
+     * @param seedBeam
+     */
     private void addWiggleMe( final CollimatedBeam seedBeam ) {
         Point2D wiggleMeLoc = new Point2D.Double( seedBeamControl.getBounds().getMinX() + seedBeamControl.getWidth() / 2,
                                                   seedBeamControl.getBounds().getMaxY() + 30 );
