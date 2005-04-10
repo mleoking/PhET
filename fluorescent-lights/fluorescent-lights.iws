@@ -131,7 +131,7 @@
     <first-group selected-file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/ElectronSource.java">
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/ElectronSource.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="57" column="31" selection-start="1770" selection-end="1770" vertical-scroll-proportion="0.4398093">
+          <state line="57" column="31" selection-start="1770" selection-end="1770" vertical-scroll-proportion="0.47429305">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -140,21 +140,21 @@
       </entry>
       <entry file="file://C:/PhET/phetcommon/src/edu/colorado/phet/common/util/EventChannel.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="177" column="0" selection-start="5129" selection-end="5129" vertical-scroll-proportion="1.0131109">
+          <state line="177" column="0" selection-start="5129" selection-end="5129" vertical-scroll-proportion="1.092545">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://C:/PhET/phetcommon/src/edu/colorado/phet/common/application/ModuleManager.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="74" column="0" selection-start="2045" selection-end="2045" vertical-scroll-proportion="0.33492252">
+          <state line="74" column="0" selection-start="2045" selection-end="2045" vertical-scroll-proportion="0.3611825">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/Electron.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="89" column="49" selection-start="2536" selection-end="2536" vertical-scroll-proportion="1.0131109">
+          <state line="89" column="49" selection-start="2536" selection-end="2536" vertical-scroll-proportion="1.092545">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -163,7 +163,7 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/view/ElectronGraphic.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="43" column="0" selection-start="1256" selection-end="1256" vertical-scroll-proportion="0.6889154">
+          <state line="43" column="0" selection-start="1256" selection-end="1256" vertical-scroll-proportion="0.7429306">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -172,7 +172,7 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/ModuleA.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="51" column="36" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.8510131">
+          <state line="51" column="36" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.9177378">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -181,7 +181,7 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/Cathode.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="24" column="40" selection-start="566" selection-end="566" vertical-scroll-proportion="0.30393326">
+          <state line="24" column="40" selection-start="566" selection-end="566" vertical-scroll-proportion="0.3277635">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -231,12 +231,34 @@
     </navigator>
   </component>
   <component name="PropertiesComponent">
+    <property name="vcs_file_view_treeWidth2" value="98" />
+    <property name="vcs_file_view_flatOrder1" value="1" />
     <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="vcs_file_view_treeOrder4" value="4" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="vcs_file_view_flatWidth2" value="113" />
+    <property name="vcs_file_view_flatWidth5" value="112" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="vcs_file_view_flatOrder3" value="3" />
+    <property name="vcs_file_view_treeWidth0" value="271" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="vcs_file_view_treeOrder0" value="0" />
+    <property name="vcs_file_view_flatOrder4" value="4" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="vcs_file_view_flatOrder5" value="5" />
+    <property name="vcs_file_view_treeOrder3" value="3" />
+    <property name="vcs_file_view_flatWidth4" value="113" />
+    <property name="vcs_file_view_treeWidth1" value="99" />
+    <property name="vcs_file_view_flatOrder2" value="2" />
+    <property name="vcs_file_view_treeWidth4" value="103" />
+    <property name="vcs_file_view_treeOrder2" value="2" />
+    <property name="vcs_file_view_flatWidth3" value="112" />
+    <property name="vcs_file_view_treeWidth3" value="104" />
+    <property name="vcs_file_view_flatOrder0" value="0" />
+    <property name="vcs_file_view_flatWidth0" value="113" />
+    <property name="vcs_file_view_treeOrder1" value="1" />
+    <property name="vcs_file_view_flatWidth1" value="112" />
   </component>
   <component name="RunManager">
     <activeType name="Application" />
@@ -340,12 +362,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1288" height="1032" extended-state="1" />
+    <frame x="-4" y="-4" width="1288" height="1032" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.2394822" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.10194175" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.32964602" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.32964602" order="8" />
@@ -353,7 +375,7 @@
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.34955752" order="2" />
-      <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="-1" />
+      <window_info id="CVS File View" active="true" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.5606796" order="-1" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25020242" order="2" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.40044248" order="4" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.4" order="0" />
@@ -491,7 +513,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/ElectronSource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="31" selection-start="1770" selection-end="1770" vertical-scroll-proportion="0.4398093">
+        <state line="57" column="31" selection-start="1770" selection-end="1770" vertical-scroll-proportion="0.47429305">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -500,21 +522,21 @@
     </entry>
     <entry file="file://C:/PhET/phetcommon/src/edu/colorado/phet/common/util/EventChannel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="177" column="0" selection-start="5129" selection-end="5129" vertical-scroll-proportion="1.0131109">
+        <state line="177" column="0" selection-start="5129" selection-end="5129" vertical-scroll-proportion="1.092545">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/phetcommon/src/edu/colorado/phet/common/application/ModuleManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="0" selection-start="2045" selection-end="2045" vertical-scroll-proportion="0.33492252">
+        <state line="74" column="0" selection-start="2045" selection-end="2045" vertical-scroll-proportion="0.3611825">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/Electron.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="49" selection-start="2536" selection-end="2536" vertical-scroll-proportion="1.0131109">
+        <state line="89" column="49" selection-start="2536" selection-end="2536" vertical-scroll-proportion="1.092545">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -523,7 +545,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/view/ElectronGraphic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="1256" selection-end="1256" vertical-scroll-proportion="0.6889154">
+        <state line="43" column="0" selection-start="1256" selection-end="1256" vertical-scroll-proportion="0.7429306">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -532,7 +554,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/ModuleA.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="36" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.8510131">
+        <state line="51" column="36" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.9177378">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -541,7 +563,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/Cathode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="40" selection-start="566" selection-end="566" vertical-scroll-proportion="0.30393326">
+        <state line="24" column="40" selection-start="566" selection-end="566" vertical-scroll-proportion="0.3277635">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
