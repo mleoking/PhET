@@ -33,7 +33,7 @@ import java.util.Random;
 public class CollimatedBeam extends Particle implements PhotonSource {
 
     //-----------------------------------------------------------------
-    // Class datat
+    // Class data
     //-----------------------------------------------------------------
     private static Random gaussianGenerator = new Random();
     private static Random angleGenerator = new Random();
