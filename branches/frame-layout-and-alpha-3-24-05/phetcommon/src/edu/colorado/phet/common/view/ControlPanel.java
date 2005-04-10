@@ -22,11 +22,11 @@ import java.util.HashMap;
 
 /**
  * ControlPanel
- * <p>
+ * <p/>
  * The panel that sits on the right side of the frame and contains the controls for the simulation.
- * <p>
+ * <p/>
  * By default, the panel has the PhET logo at the top. This can be over-ridden with removeTitle().
- * <p>
+ * <p/>
  * A panel with a button for showing/hiding help cna be displayed with setHelpPanelEnabled().
  *
  * @author Ron LeMaster
@@ -53,7 +53,7 @@ public class ControlPanel extends JPanel {
         this.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
 
@@ -90,6 +90,7 @@ public class ControlPanel extends JPanel {
 
     /**
      * Makes the help button visible/invisible
+     *
      * @param isEnabled
      */
     public void setHelpPanelEnabled( boolean isEnabled ) {
@@ -122,7 +123,8 @@ public class ControlPanel extends JPanel {
     public Component addFullWidth( Component comp ) {
         GridBagConstraints gbc = new GridBagConstraints( 0, controls.indexOf( comp ),
                                                          1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
+                                                         GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
+//                                                         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
         return add( comp, gbc );
     }
 
@@ -155,7 +157,8 @@ public class ControlPanel extends JPanel {
     public Component add( Component comp, Insets insets ) {
         GridBagConstraints gbc = new GridBagConstraints( 0, controls.indexOf( comp ),
                                                          1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
+                                                         GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0 );
+//                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
         return add( comp, gbc );
     }
 
