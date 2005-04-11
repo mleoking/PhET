@@ -84,10 +84,9 @@ public class BarMagnetGraphic extends PhetImageGraphic
         centerRegistrationPoint();
 
         // Setup interactivity.
-        InteractivityListener listener = new InteractivityListener();
+        MouseHandler mouseHandler = new MouseHandler();
         super.setCursorHand();
-        super.addTranslationListener( listener );
-        super.addMouseInputListener( listener );
+        super.addMouseInputListener( mouseHandler );
         
         // Use the opaque image by default.
         setTransparencyEnabled( false );
@@ -231,26 +230,41 @@ public class BarMagnetGraphic extends PhetImageGraphic
     //----------------------------------------------------------------------------
     
     /**
-     * InteractivityListener is an inner class that handles interactivity.
+     * MouseHandler handles mouse events.
      *
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private class InteractivityListener extends MouseInputAdapter implements TranslationListener {
+    private class MouseHandler extends MouseInputAdapter {
 
         private boolean _dragEnabled;
+        private Point _previousPoint;
         
-        public InteractivityListener() {
+        public MouseHandler() {
             super();
             _dragEnabled = true;
+            _previousPoint = new Point();
         }
+        
+        public void mousePressed( MouseEvent event ) {
+            _dragEnabled = true;
+            _previousPoint.setLocation( event.getPoint() );
+        }
+        
+        public void mouseDragged( MouseEvent event ) {
 
-        public void translationOccurred( TranslationEvent e ) {
+            if ( !_dragEnabled && getBounds().contains( event.getPoint() ) ) {
+                _dragEnabled = true;
+            }
+            
             if ( _dragEnabled ) {
 
-                boolean inApparatusPanel = _parentBounds.contains( e.getMouseEvent().getPoint() );
+                int dx = event.getX() - _previousPoint.x;
+                int dy = event.getY() - _previousPoint.y;
+                
+                boolean inApparatusPanel = _parentBounds.contains( event.getPoint() );
                 boolean collidesNow = _collisionDetector.collidesNow();
-                boolean wouldCollide = _collisionDetector.wouldCollide( e.getDx(), e.getDy() );
+                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
                 
                 if ( !inApparatusPanel || ( !collidesNow && wouldCollide ) ) {
                     // Ignore the translate if the mouse is outside the apparatus panel or 
@@ -259,21 +273,13 @@ public class BarMagnetGraphic extends PhetImageGraphic
                 }
                 else {
                     // Translate if the mouse cursor is inside the parent component.
-                    double x = _magnetModel.getX() + e.getDx();
-                    double y = _magnetModel.getY() + e.getDy();
+                    double x = _magnetModel.getX() + dx;
+                    double y = _magnetModel.getY() + dy;
                     _magnetModel.setLocation( x, y );
                 }
             }
-        }
-        
-        public void mouseDragged( MouseEvent event ) {
-            if ( !_dragEnabled && getBounds().contains( event.getPoint() ) ) {
-                _dragEnabled = true;
-            }
-        }
-        
-        public void mouseReleased( MouseEvent event ) {
-            _dragEnabled = true;
+
+            _previousPoint.setLocation( event.getPoint() );
         }
     }
 }
