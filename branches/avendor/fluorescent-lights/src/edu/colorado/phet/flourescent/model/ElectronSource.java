@@ -17,6 +17,7 @@ import edu.colorado.phet.mechanics.Body;
 
 import java.util.EventObject;
 import java.util.EventListener;
+import java.util.Random;
 import java.awt.geom.Point2D;
 
 /**
@@ -26,12 +27,27 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public abstract class ElectronSource extends Body {
+
+    private Random random = new Random( System.currentTimeMillis() );
+
     private double electronsPerSecond;
     private double timeSincelastElectronEmitted;
+
+    private Point2D p1;
+    private Point2D p2;
+
     private BaseModel model;
 
-    protected ElectronSource( BaseModel model) {
+    /**
+     * Emits electrons along a line between two points
+     * @param model
+     * @param p1 One endpoint of the line
+     * @param p2 The other endpoint of the line
+     */
+    protected ElectronSource( BaseModel model, Point2D p1, Point2D p2) {
         this.model = model;
+        this.p1 = p1;
+        this.p2 = p2;
     }
 
     //----------------------------------------------------------------
@@ -42,7 +58,7 @@ public abstract class ElectronSource extends Body {
 
     public void stepInTime( double dt ) {
         timeSincelastElectronEmitted += dt;
-        if( timeSincelastElectronEmitted > 1 / electronsPerSecond ) {
+        if( 1 / timeSincelastElectronEmitted < electronsPerSecond ) {
             int numElectrons = (int)( electronsPerSecond * timeSincelastElectronEmitted );
             timeSincelastElectronEmitted = 0;
             for( int i = 0; i < numElectrons; i++ ) {
@@ -54,9 +70,14 @@ public abstract class ElectronSource extends Body {
     /**
      * Produce an electron, and notify all listeners that it has happened
      */
-    private void produceElectron() {
+    public void produceElectron() {
         Electron electron = new Electron();
-        electron.setPosition( this.getPosition() );
+//        electron.setPosition( this.getPosition() );
+
+        // Determine where the electron will be emitted from
+        double x = random.nextDouble() * (p2.getX() - p1.getX() ) + p1.getX();
+        double y = random.nextDouble() * (p2.getY() - p1.getY() ) + p1.getY();
+        electron.setPosition( x, y );
         electron.setVelocity( 1, 0 );
         model.addModelElement( electron );
         listenerProxy.electronProduced( new ElectronSourceEvent( this, electron ));

@@ -11,7 +11,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="PhET Common NWO" />
-    <orderEntry type="module" module-name="Mechanics" />
     <orderEntry type="module" module-name="collision" />
     <orderEntry type="module" module-name="Lasers" />
     <orderEntry type="module-library">
@@ -23,6 +22,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="mechanics" />
+    <orderEntry type="module" module-name="controls-NWO" />
     <orderEntryProperties />
   </component>
 </module>
