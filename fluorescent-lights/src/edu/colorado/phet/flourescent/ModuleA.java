@@ -10,28 +10,28 @@
  */
 package edu.colorado.phet.flourescent;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.flourescent.model.*;
 import edu.colorado.phet.flourescent.view.ElectronGraphic;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.GroundState;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
-import edu.colorado.phet.lasers.model.atom.HighEnergyState;
-import edu.colorado.phet.lasers.view.ResonatingGraphic;
-import edu.colorado.phet.lasers.view.AtomGraphic;
-import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
+import edu.colorado.phet.lasers.view.ResonatingGraphic;
 
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -40,10 +40,9 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ModuleA extends BaseLaserModule implements ElectronSource.Listener {
-//public class ModuleA extends Module implements ElectronSource.Listener {
+public class ModuleA extends BaseLaserModule implements ElectronSource.ElectronProductionListener {
     private ElectronSink anode;
-    private Cathode cathode;
+    private ElectronSource cathode;
     private double s_maxSpeed = 0.1;
 
     protected ModuleA( AbstractClock clock ) {
@@ -62,27 +61,73 @@ public class ModuleA extends BaseLaserModule implements ElectronSource.Listener 
         apparatusPanel.addGraphic( circuitGraphic, FluorescentLightsConfig.CIRCUIT_LAYER );
 
         // Add the cathode to the model
-        Cathode cathode = addCathode( model, apparatusPanel );
+        addCathode( model, apparatusPanel );
 
         // Add the anode to the model
         addAnode( model, apparatusPanel, cathode );
 
+        // Set the cathode to listen for potential changes relative to the anode
+        hookCathodeToAnode();
+
         // Add the tube
+        ResonatingCavity tube = addTube( model, apparatusPanel );
+
+        // Add some atoms
+        addAtoms( tube );
+
+        // Set up the control panel
+        addControls();
+    }
+
+    /**
+     * Sets up the control panel
+     */
+    private void addControls() {
+        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0 );
+        batterySlider.setPreferredSize( new Dimension( 200, 70 ) );
+        ControlPanel controlPanel = (ControlPanel)getControlPanel();
+        controlPanel.add( batterySlider );
+
+        batterySlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                cathode.setPotential( batterySlider.getValue() );
+                anode.setPotential( 0 );
+            }
+        } );
+    }
+
+    /**
+     * Creates the tube, adds it to the model and creates a graphic for it
+     * @param model
+     * @param apparatusPanel
+     * @return
+     */
+    private ResonatingCavity addTube( FluorescentLightModel model, ApparatusPanel apparatusPanel ) {
         ResonatingCavity tube = new ResonatingCavity( FluorescentLightsConfig.TUBE_ULC,
                                                       FluorescentLightsConfig.TUBE_LENGTH,
                                                       FluorescentLightsConfig.TUBE_HEIGHT );
         model.addModelElement( tube );
         ResonatingGraphic tubeGraphic = new ResonatingGraphic( getApparatusPanel(), tube );
         apparatusPanel.addGraphic( tubeGraphic, FluorescentLightsConfig.TUBE_LAYER );
+        return tube;
+    }
 
-        // Add some atoms
-        Atom atom = null;
+    /**
+     * Adds some atoms and their graphics
+     * @param tube
+     */
+    private void addAtoms( ResonatingCavity tube ) {
+        DischargeLampAtom atom = null;
         ArrayList atoms = new ArrayList();
         Rectangle2D tubeBounds = tube.getBounds();
+//        int numAtoms = 1;
         int numAtoms = 30;
         int numEnergyLevels = 3;
         for( int i = 0; i < numAtoms; i++ ) {
-            atom = new Atom( getModel(), numEnergyLevels );
+            atom = new DischargeLampAtom( getModel(), numEnergyLevels );
+//            atom.setPosition( ( tubeBounds.getX() + 150 ),
+//                              ( tubeBounds.getY() + tubeBounds.getHeight() / 2 - atom.getRadius()));
+//            atom.setVelocity( 0,0 );
             atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
                               ( tubeBounds.getY() + ( Math.random() ) * ( tubeBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
             atom.setVelocity( (float)( Math.random() - 0.5 ) * s_maxSpeed,
@@ -92,13 +137,25 @@ public class ModuleA extends BaseLaserModule implements ElectronSource.Listener 
         }
     }
 
+    /**
+     * Creates a listener that manages the production rate of the cathode based on its potential
+     * relative to the anode
+     */
+    private void hookCathodeToAnode() {
+        anode.addStateChangeListener( new Electrode.StateChangeListener() {
+            public void stateChanged( Electrode.StateChangeEvent event ) {
+                double anodePotential = event.getElectrode().getPotential();
+                cathode.setSinkPotential( anodePotential );
+            }
+        } );
+    }
 
     /**
      * @param model
      * @param apparatusPanel
      * @param cathode
      */
-    private void addAnode( FluorescentLightModel model, ApparatusPanel apparatusPanel, Cathode cathode ) {
+    private void addAnode( FluorescentLightModel model, ApparatusPanel apparatusPanel, ElectronSource cathode ) {
         ElectronSink anode = new ElectronSink( model,
                                                FluorescentLightsConfig.ANODE_LINE.getP1(),
                                                FluorescentLightsConfig.ANODE_LINE.getP2() );
@@ -117,14 +174,20 @@ public class ModuleA extends BaseLaserModule implements ElectronSource.Listener 
      * @param apparatusPanel
      * @return
      */
-    private Cathode addCathode( FluorescentLightModel model, ApparatusPanel apparatusPanel ) {
-        Cathode cathode = new Cathode( model,
+    private ElectronSource addCathode( FluorescentLightModel model, ApparatusPanel apparatusPanel ) {
+
+        Point2D p0 = new Point2D.Double( FluorescentLightsConfig.CATHODE_LINE.getP1().getX(),
+                                         (FluorescentLightsConfig.CATHODE_LINE.getP1().getY() +
+                                       FluorescentLightsConfig.CATHODE_LINE.getP2().getY() ) / 2  - 20);
+
+//        cathode = new ElectronSource( model,
+//                                       p0, p0 );
+        cathode = new ElectronSource( model,
                                        FluorescentLightsConfig.CATHODE_LINE.getP1(),
                                        FluorescentLightsConfig.CATHODE_LINE.getP2() );
         model.addModelElement( cathode );
         cathode.addListener( this );
-        this.cathode = cathode;
-        this.cathode.setElectronsPerSecond( 0.01 );
+        cathode.setElectronsPerSecond( 0.01 );
         cathode.setPosition( FluorescentLightsConfig.CATHODE_LOCATION );
         PhetGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode.png" );
         cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
@@ -134,14 +197,18 @@ public class ModuleA extends BaseLaserModule implements ElectronSource.Listener 
         return cathode;
     }
 
+
     //----------------------------------------------------------------
     // Interface implementations
     //----------------------------------------------------------------
 
-    public void electronProduced( ElectronSource.ElectronSourceEvent event ) {
-        ElectronGraphic graphic = new ElectronGraphic( getApparatusPanel(), event.getElectron() );
+    public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
+        Electron electron = event.getElectron();
+
+        // Create a graphic for the electron
+        ElectronGraphic graphic = new ElectronGraphic( getApparatusPanel(), electron );
         getApparatusPanel().addGraphic( graphic, FluorescentLightsConfig.ELECTRON_LAYER );
-        anode.addListener( new AbsorptionListener( event.getElectron(), graphic ) );
+        anode.addListener( new AbsorptionElectronAbsorptionListener( electron, graphic ) );
     }
 
     //-----------------------------------------------------------------
@@ -152,16 +219,16 @@ public class ModuleA extends BaseLaserModule implements ElectronSource.Listener 
      * Listens for the absorption of an electron. When such an event happens,
      * its graphic is taken off the apparatus panel
      */
-    private class AbsorptionListener implements ElectronSink.Listener {
+    private class AbsorptionElectronAbsorptionListener implements ElectronSink.ElectronAbsorptionListener {
         private Electron electron;
         private ElectronGraphic graphic;
 
-        AbsorptionListener( Electron electron, ElectronGraphic graphic ) {
+        AbsorptionElectronAbsorptionListener( Electron electron, ElectronGraphic graphic ) {
             this.electron = electron;
             this.graphic = graphic;
         }
 
-        public void electronAbsorbed( ElectronSink.ElectronSinkEvent event ) {
+        public void electronAbsorbed( ElectronSink.ElectronAbsorptionEvent event ) {
             if( event.getElectron() == electron ) {
                 getApparatusPanel().removeGraphic( graphic );
                 anode.removeListener( this );

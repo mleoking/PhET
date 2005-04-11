@@ -10,18 +10,18 @@
  */
 package edu.colorado.phet.flourescent.model;
 
-import edu.colorado.phet.mechanics.Body;
-import edu.colorado.phet.common.model.Particle;
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.flourescent.FluorescentLightsConfig;
+import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.model.atom.GroundState;
 
 import java.awt.geom.Point2D;
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * Electron
@@ -31,6 +31,7 @@ import java.util.EventListener;
  */
 public class Electron extends SphericalBody implements Collidable {
     private CollidableAdapter collidableAdapter;
+    private double energy = Photon.wavelengthToEnergy( Photon.RED ) - Photon.wavelengthToEnergy( GroundState.instance().getWavelength());
 
     public Electron() {
         super( FluorescentLightsConfig.ELECTRON_RADIUS );
@@ -63,6 +64,10 @@ public class Electron extends SphericalBody implements Collidable {
 
     public Point2D getPositionPrev() {
         return collidableAdapter.getPositionPrev();
+    }
+
+    public double getEnergy() {
+        return energy;
     }
 
     //----------------------------------------------------------------

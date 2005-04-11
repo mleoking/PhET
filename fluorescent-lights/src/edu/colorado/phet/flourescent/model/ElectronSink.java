@@ -25,7 +25,7 @@ import java.awt.geom.Line2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ElectronSink extends Body implements ElectronSource.Listener {
+public class ElectronSink extends Electrode implements ElectronSource.ElectronProductionListener {
 
     private Point2D p1;
     private Point2D p2;
@@ -52,7 +52,6 @@ public class ElectronSink extends Body implements ElectronSource.Listener {
      * @param dt
      */
     public void stepInTime( double dt ) {
-        super.stepInTime( dt );
 
         // Look for electrons that should be absorbed
         for( int i = 0; i < electrons.size(); i++ ) {
@@ -60,7 +59,7 @@ public class ElectronSink extends Body implements ElectronSource.Listener {
             if( line.intersectsLine( electron.getPosition().getX(), electron.getPosition().getY(),
                                  electron.getPositionPrev().getX(), electron.getPositionPrev().getY() )) {
                 model.removeModelElement( electron );
-                listenerProxy.electronAbsorbed( new ElectronSinkEvent( this, electron ) );
+                electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
             }
         }
     }
@@ -68,28 +67,20 @@ public class ElectronSink extends Body implements ElectronSource.Listener {
     //----------------------------------------------------------------
     // Events and listeners
     //----------------------------------------------------------------
-    private EventChannel listenerChannel = new EventChannel( Listener.class );
-    private Listener listenerProxy = (Listener)listenerChannel.getListenerProxy();
+    private EventChannel listenerChannel = new EventChannel( ElectronAbsorptionListener.class );
+    private ElectronAbsorptionListener electronAbsorptionListenerProxy = (ElectronAbsorptionListener)listenerChannel.getListenerProxy();
 
-    public interface Listener extends EventListener {
-        void electronAbsorbed( ElectronSinkEvent event );
-    }
-
-    public Point2D getCM() {
-        return getPosition();
-    }
-
-    public double getMomentOfInertia() {
-        return 0;
+    public interface ElectronAbsorptionListener extends EventListener {
+        void electronAbsorbed( ElectronAbsorptionEvent event );
     }
 
     /**
      * Event class for the removal of electrons
      */
-    public class ElectronSinkEvent extends EventObject {
+    public class ElectronAbsorptionEvent extends EventObject {
         private Electron electron;
 
-        public ElectronSinkEvent( Object source, Electron electron ) {
+        public ElectronAbsorptionEvent( Object source, Electron electron ) {
             super( source );
             this.electron = electron;
         }
@@ -99,18 +90,18 @@ public class ElectronSink extends Body implements ElectronSource.Listener {
         }
     }
 
-    public void addListener( Listener listener ) {
-        listenerChannel.addListener( listener );
+    public void addListener( ElectronAbsorptionListener electronAbsorptionListener ) {
+        listenerChannel.addListener( electronAbsorptionListener );
     }
 
-    public void removeListener( Listener listener ) {
-        listenerChannel.removeListener( listener );
+    public void removeListener( ElectronAbsorptionListener electronAbsorptionListener ) {
+        listenerChannel.removeListener( electronAbsorptionListener );
     }
 
     //-----------------------------------------------------------------
-    // ElectronSource.Listener implementation
+    // ElectronSource.StateChangeListener implementation
     //-----------------------------------------------------------------
-    public void electronProduced( ElectronSource.ElectronSourceEvent event ) {
+    public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
         electrons.add( event.getElectron() );
     }
 }

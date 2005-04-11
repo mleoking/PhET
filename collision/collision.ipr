@@ -5,6 +5,7 @@
     <buildFile url="file://$PROJECT_DIR$/build/PhetBuild.xml">
       <additionalClassPath>
         <entry path="file://C:/PhET/util/build/antutil-29/antutil.jar" />
+        <entry path="file://C:/PhET/util/ant/antutil0.0.7_build-23/bin/antutil.jar" />
       </additionalClassPath>
       <antReference projectDefault="true" />
       <customJdkName value="" />
@@ -183,12 +184,12 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:/PhET/mechanics/development/Mechanics.iml" filepath="C:/PhET/mechanics/development/Mechanics.iml" />
-      <module fileurl="file://C:/PhET/common2/development/PhetCommon.iml" filepath="C:/PhET/common2/development/PhetCommon.iml" />
+      <module fileurl="file://C:/PhET/common2/development/Phet Common 2.iml" filepath="C:/PhET/common2/development/Phet Common 2.iml" />
       <module fileurl="file://$PROJECT_DIR$/collision.iml" filepath="$PROJECT_DIR$/collision.iml" />
+      <module fileurl="file://C:/PhET/mechanics/development/mechanics.iml" filepath="C:/PhET/mechanics/development/mechanics.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="false" jdk-15="false" project-jdk-name="java version &quot;1.4.2_04&quot;" />
+  <component name="ProjectRootManager" version="2" assert-keyword="false" jdk-15="false" project-jdk-name="java version &quot;1.4.2_03&quot;" />
   <component name="RmicSettings">
     <option name="IS_EANABLED" value="false" />
     <option name="DEBUGGING_INFO" value="true" />
