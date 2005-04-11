@@ -33,6 +33,7 @@ public abstract class AtomicState {
     static public final double minEnergy = Photon.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = Photon.wavelengthToEnergy( minWavelength );
     static protected double s_collisionLikelihood = 1;
+    static protected final double wavelengthTolerance = 10;
     //        static protected double s_collisionLikelihood = 0.2;
 
 

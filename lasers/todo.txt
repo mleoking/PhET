@@ -12,7 +12,7 @@ a AtomicState.PopulationChangeListener, or the EnergyLevelGraphics should be, an
 - unify use of ModelViewTx1D in EnergyLevelGraphic and EnergyLevelMonitorPanel. The latter should set the transform
 and send it to the former.
 
-- AtomGraphic should just be a listener, not a SimpleObserver
+- AtomGraphic should just be a electronAbsorptionListenerAbsorptionListener, not a SimpleObserver
 - Put off..max labels on intensity slider
 - color control under the lamp, intensity on top
 

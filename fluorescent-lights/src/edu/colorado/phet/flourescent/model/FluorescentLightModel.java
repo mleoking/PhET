@@ -36,7 +36,8 @@ public class FluorescentLightModel extends LaserModel implements Electrode.State
 
 
     public FluorescentLightModel() {
-        MiddleEnergyState.instance().setMeanLifetime( .00001 );
+        // This is the place to set the mean lifetime for the various atomic states
+//        MiddleEnergyState.instance().setMeanLifetime( .00001 );
     }
 
     /**

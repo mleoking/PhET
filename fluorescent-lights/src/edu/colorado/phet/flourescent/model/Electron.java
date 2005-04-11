@@ -31,7 +31,7 @@ import java.util.EventObject;
  */
 public class Electron extends SphericalBody implements Collidable {
     private CollidableAdapter collidableAdapter;
-    private double energy = Photon.wavelengthToEnergy( Photon.RED ) - Photon.wavelengthToEnergy( GroundState.instance().getWavelength());
+    private double energy = Photon.wavelengthToEnergy( Photon.RED ) - Photon.wavelengthToEnergy( new GroundState().getEnergyLevel());
 
     public Electron() {
         super( FluorescentLightsConfig.ELECTRON_RADIUS );
