@@ -18,6 +18,8 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.flourescent.FluorescentLightsConfig;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.atom.GroundState;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -31,7 +33,7 @@ import java.util.EventObject;
  */
 public class Electron extends SphericalBody implements Collidable {
     private CollidableAdapter collidableAdapter;
-    private double energy = Photon.wavelengthToEnergy( Photon.RED ) - Photon.wavelengthToEnergy( new GroundState().getEnergyLevel());
+    private double energy = Photon.wavelengthToEnergy( Photon.RED ) - AtomicState.minEnergy ;
 
     public Electron() {
         super( FluorescentLightsConfig.ELECTRON_RADIUS );
