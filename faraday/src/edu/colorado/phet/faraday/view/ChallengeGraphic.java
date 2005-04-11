@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.view;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import edu.colorado.phet.common.model.BaseModel;
