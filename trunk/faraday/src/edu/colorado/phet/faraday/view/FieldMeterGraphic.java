@@ -12,8 +12,11 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+
+import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -160,8 +163,10 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         }
         
         // Setup interactivity.
+        InteractivityListener listener = new InteractivityListener();
         super.setCursorHand();
-        super.addTranslationListener( new InteractivityHandler() );
+        super.addTranslationListener( listener );
+        super.addMouseInputListener( listener );
         
         // Synchronize view with model.
         update();
@@ -283,23 +288,45 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     //----------------------------------------------------------------------------
     
     /**
-     * InteractivityHandler is an inner class that handles interactivity.
+     * InteractivityListener is an inner class that handles interactivity.
      *
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private class InteractivityHandler implements TranslationListener {
+    private class InteractivityListener extends MouseInputAdapter implements TranslationListener {
         
-        public InteractivityHandler() {}
-
+        private boolean _dragEnabled;
+        
+        public InteractivityListener() {
+            super();
+            _dragEnabled = true;
+        }
+        
         public void translationOccurred( TranslationEvent e ) {
-            if ( _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
-                // Translate if the mouse cursor is inside the parent component.
-                int x = getX() + e.getDx();
-                int y = getY() + e.getDy();
-                setLocation( x, y );
-                update();
+            if ( _dragEnabled ) {
+                
+                if ( ! _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
+                    // Ignore the translate if the mouse is outside the apparatus panel.
+                    _dragEnabled = false;
+                }
+                else {
+                    // Translate if the mouse cursor is inside the parent component.
+                    int x = getX() + e.getDx();
+                    int y = getY() + e.getDy();
+                    setLocation( x, y );
+                    update();
+                }
             }
+        }
+        
+        public void mouseDragged( MouseEvent event ) {
+            if ( !_dragEnabled && getBounds().contains( event.getPoint() ) ) {
+                _dragEnabled = true;
+            }
+        }
+        
+        public void mouseReleased( MouseEvent event ) {
+            _dragEnabled = true;
         }
     }
 }

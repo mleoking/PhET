@@ -6,11 +6,15 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- make Eletromagnet wiggle me go away if location changes
+- objects can be dragged off the apparatus panel in certain situations
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - make electrons move at same speed whether grid is on or off
 
 MEDIUM PRIORITY:
+- graph of field strength over time on the Field Meter
+- keep a minimum of N pixels of a draggable graphic within the apparatus panel
 - optimize rendering of LightBulbGraphic (~50 rays drawn at max settings)
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
@@ -46,6 +50,8 @@ PHETCOMMON:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
+v0r22...
+(4/11) - fix: objects can be dragged off the apparatus panel in certain situations
 v0r21...
 (4/8) - LightBulbGraphic leaves screen turds (fixed GraphicLayerSet.clear)
 (4/8) - minimize memory allocation in LightbulbGraphic

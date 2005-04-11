@@ -253,39 +253,42 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
      */
     private class InteractivityListener extends MouseInputAdapter implements TranslationListener {
         
-        private boolean _stopDragging;
+        private boolean _dragEnabled;
         
         public InteractivityListener() {
             super();
-            _stopDragging = false;
+            _dragEnabled = true;
         }
-        
+
         public void translationOccurred( TranslationEvent e ) {
-            int dx = e.getDx();
-            int dy = e.getDy();
-            boolean collidesNow = _collisionDetector.collidesNow();
-            boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
-            if ( !collidesNow && wouldCollide ) {
-                // Ignore the translate if it would result in a collision.
-                _stopDragging = true;
-                update();
-            }
-            else if ( !_stopDragging && _parentBounds.contains( e.getMouseEvent().getPoint() ) ) {
-                // Translate if the mouse cursor is inside the parent component.
-                double x = _electromagnetModel.getX() + e.getDx();
-                double y = _electromagnetModel.getY() + e.getDy();
-                _electromagnetModel.setLocation( x, y );
+            if ( _dragEnabled ) {
+
+                boolean inApparatusPanel = _parentBounds.contains( e.getMouseEvent().getPoint() );
+                boolean collidesNow = _collisionDetector.collidesNow();
+                boolean wouldCollide = _collisionDetector.wouldCollide( e.getDx(), e.getDy() );
+                
+                if ( !inApparatusPanel || ( !collidesNow && wouldCollide ) ) {
+                    // Ignore the translate if the mouse is outside the apparatus panel or 
+                    // if the tanslate would result in a collision.
+                    _dragEnabled = false;
+                }
+                else {
+                    // Translate if the mouse cursor is inside the parent component.
+                    double x = _electromagnetModel.getX() + e.getDx();
+                    double y = _electromagnetModel.getY() + e.getDy();
+                    _electromagnetModel.setLocation( x, y );
+                }
             }
         }
         
         public void mouseDragged( MouseEvent event ) {
-            if ( _stopDragging && contains( event.getPoint() ) ) {
-                _stopDragging = false;
+            if ( !_dragEnabled && contains( event.getPoint() ) ) {
+                _dragEnabled = true;
             }
         }
         
         public void mouseReleased( MouseEvent event ) {
-            _stopDragging = false;
+            _dragEnabled = true;
         }
     }
 }
