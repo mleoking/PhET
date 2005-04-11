@@ -190,6 +190,10 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
         numPhotons = 0;
     }
 
+    protected void addCollisionExpert( CollisionExpert collisionExpert ) {
+        collisionMechanism.addCollisionExpert( collisionExpert );
+    }
+
     //----------------------------------------------------------------
     // Getters and setters
     //----------------------------------------------------------------        
@@ -308,7 +312,7 @@ public class LaserModel extends BaseModel implements Photon.LeftSystemEventListe
 
         /**
          * Detects and computes collisions between the items in a list of collidables and a specified
-         * collidaqble.
+         * collidable.
          *
          * @param collidablesA
          * @param body

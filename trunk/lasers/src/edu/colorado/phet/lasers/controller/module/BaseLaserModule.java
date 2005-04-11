@@ -112,7 +112,6 @@ public class BaseLaserModule extends Module {
         createCavity();
 
         // Create the energy levels dialog
-        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( this, clock );
         createEnergyLevelsDialog( clock, null );
 
         // Create the mirrors
@@ -155,7 +154,8 @@ public class BaseLaserModule extends Module {
      * @param clock
      * @param frame
      */
-    private void createEnergyLevelsDialog( AbstractClock clock, PhetFrame frame ) {
+    protected void createEnergyLevelsDialog( AbstractClock clock, PhetFrame frame ) {
+        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( this, clock );
         energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
     }
 

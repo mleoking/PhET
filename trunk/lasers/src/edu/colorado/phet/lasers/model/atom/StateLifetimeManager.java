@@ -65,6 +65,7 @@ class StateLifetimeManager implements ModelElement {
         if( lifeTime >= deathTime ) {
 
             if( emitOnStateChange ) {
+                System.out.println( "photon emitted" );
                 double speed = Photon.SPEED;
                 double theta = Math.random() * Math.PI * 2;
                 double x = speed * Math.cos( theta );

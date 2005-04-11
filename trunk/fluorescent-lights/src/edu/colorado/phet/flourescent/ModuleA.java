@@ -21,8 +21,9 @@ import edu.colorado.phet.flourescent.model.*;
 import edu.colorado.phet.flourescent.view.ElectronGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
-import edu.colorado.phet.lasers.view.ResonatingGraphic;
+import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -107,7 +108,7 @@ public class ModuleA extends BaseLaserModule implements ElectronSource.ElectronP
                                                       FluorescentLightsConfig.TUBE_LENGTH,
                                                       FluorescentLightsConfig.TUBE_HEIGHT );
         model.addModelElement( tube );
-        ResonatingGraphic tubeGraphic = new ResonatingGraphic( getApparatusPanel(), tube );
+        ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
         apparatusPanel.addGraphic( tubeGraphic, FluorescentLightsConfig.TUBE_LAYER );
         return tube;
     }
@@ -124,7 +125,7 @@ public class ModuleA extends BaseLaserModule implements ElectronSource.ElectronP
         int numAtoms = 30;
         int numEnergyLevels = 3;
         for( int i = 0; i < numAtoms; i++ ) {
-            atom = new DischargeLampAtom( getModel(), numEnergyLevels );
+            atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
 //            atom.setPosition( ( tubeBounds.getX() + 150 ),
 //                              ( tubeBounds.getY() + tubeBounds.getHeight() / 2 - atom.getRadius()));
 //            atom.setVelocity( 0,0 );
