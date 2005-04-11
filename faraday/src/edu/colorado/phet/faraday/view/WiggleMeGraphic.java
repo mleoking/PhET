@@ -59,8 +59,8 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
     // Fonts and Colors
     private static final Font DEFAULT_TEXT_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
     private static final Color DEFAULT_TEXT_COLOR = Color.YELLOW;
-    private static final Color DEFAULT_ARROW_FILL = Color.YELLOW;
-    private static final Color DEFAULT_ARROW_BORDER = Color.BLACK;
+    private static final Color DEFAULT_ARROW_FILL_COLOR = Color.YELLOW;
+    private static final Color DEFAULT_ARROW_BORDER_COLOR = Color.BLACK;
     private static final Stroke DEFAULT_ARROW_STROKE = new BasicStroke( 1f );
     
     // Space between the text and the arrows.
@@ -214,7 +214,7 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
      * @throws IllegalArgumentException if origin is not a legal value
      */
     public void addArrow( int origin, Vector2D vector ) {
-        addArrow( origin, vector, DEFAULT_ARROW_FILL, DEFAULT_ARROW_BORDER );
+        addArrow( origin, vector, DEFAULT_ARROW_FILL_COLOR, DEFAULT_ARROW_BORDER_COLOR );
     }
     
     /**
@@ -222,11 +222,11 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
      * 
      * @param origin one of the TOP_*, MIDDLE_*, or BOTTOM_* constants
      * @param vector
-     * @param fill
-     * @param border
+     * @param fillColor
+     * @param borderColor
      * @throws IllegalArgumentException if origin is not a legal value
      */
-    public void addArrow( int origin, Vector2D vector, Paint fill, Paint border ) {
+    public void addArrow( int origin, Vector2D vector, Color fillColor, Color borderColor ) {
         
         Point2D tail = new Point2D.Double( 0, 0 );
         switch ( origin ) {
@@ -263,8 +263,8 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
         
         PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( getComponent() );
         arrowGraphic.setShape( arrow.getShape() );
-        arrowGraphic.setPaint( fill );
-        arrowGraphic.setBorderPaint( border );
+        arrowGraphic.setPaint( fillColor );
+        arrowGraphic.setBorderPaint( borderColor );
         arrowGraphic.setStroke( DEFAULT_ARROW_STROKE );
         addGraphic( arrowGraphic );
     }
