@@ -233,19 +233,19 @@ public class TransformerModule extends FaradayModule {
         // Help
         //----------------------------------------------------------------------------
         
-        
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, lightbulbModel );
-        apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+        // Challenge
+        ThisChallengeGraphic challenge = new ThisChallengeGraphic( apparatusPanel, model, lightbulbModel );
+        apparatusPanel.addGraphic( challenge, HELP_LAYER );
     }
     
     /**
-     * ThisWiggleMeGraphic is the wiggle me for this module.
+     * ThisChallengeGraphic is the "challenge" for this module.
      * It disappears when the lightbulb lights, or the lightbulb is disabled.
      *
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private static class ThisWiggleMeGraphic extends WiggleMeGraphic implements SimpleObserver {
+    private static class ThisChallengeGraphic extends ChallengeGraphic implements SimpleObserver {
 
         private Lightbulb _lightbulbModel;
         private int _count;
@@ -257,7 +257,7 @@ public class TransformerModule extends FaradayModule {
          * @param model
          * @param turbineModel
          */
-        public ThisWiggleMeGraphic( Component component, BaseModel model, Lightbulb lightbulbModel ) {
+        public ThisChallengeGraphic( Component component, BaseModel model, Lightbulb lightbulbModel ) {
             super( component, model );
 
             _lightbulbModel = lightbulbModel;
@@ -265,7 +265,7 @@ public class TransformerModule extends FaradayModule {
             
             _count = 0;
             
-            setText( SimStrings.get( "TransformerModule.wiggleMe" ) );
+            setText( SimStrings.get( "TransformerModule.challenge" ) );
             setLocation( 250, 50 );
             setRange( 20, 20 );
             setEnabled( true );
@@ -274,7 +274,7 @@ public class TransformerModule extends FaradayModule {
         /*
          * @see edu.colorado.phet.common.util.SimpleObserver#update()
          * 
-         * If the lightbulb lights or the lightbulb is disabled, disable and unwire the wiggle me.
+         * If the lightbulb lights or the lightbulb is disabled, disable and unwire the challenge.
          */
         public void update() {
             /*
