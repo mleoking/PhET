@@ -121,18 +121,43 @@ public class ModuleA extends BaseLaserModule implements ElectronSource.ElectronP
         DischargeLampAtom atom = null;
         ArrayList atoms = new ArrayList();
         Rectangle2D tubeBounds = tube.getBounds();
-//        int numAtoms = 1;
         int numAtoms = 30;
         int numEnergyLevels = 3;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
-//            atom.setPosition( ( tubeBounds.getX() + 150 ),
-//                              ( tubeBounds.getY() + tubeBounds.getHeight() / 2 - atom.getRadius()));
-//            atom.setVelocity( 0,0 );
             atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
                               ( tubeBounds.getY() + ( Math.random() ) * ( tubeBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
             atom.setVelocity( (float)( Math.random() - 0.5 ) * s_maxSpeed,
                               (float)( Math.random() - 0.5 ) * s_maxSpeed );
+            atoms.add( atom );
+            addAtom( atom );
+        }
+    }
+
+    /**
+     * Adds some atoms and their graphics
+     * @param tube
+     */
+    private void addDebugAtoms( ResonatingCavity tube ) {
+
+
+        Point2D p0 = new Point2D.Double( FluorescentLightsConfig.CATHODE_LINE.getP1().getX(),
+                                         (FluorescentLightsConfig.CATHODE_LINE.getP1().getY() +
+                                       FluorescentLightsConfig.CATHODE_LINE.getP2().getY() ) / 2  - 20);
+
+        cathode = new ElectronSource( getModel(), p0, p0 );
+
+        DischargeLampAtom atom = null;
+        ArrayList atoms = new ArrayList();
+        Rectangle2D tubeBounds = tube.getBounds();
+        int numAtoms = 1;
+//        int numAtoms = 30;
+        int numEnergyLevels = 3;
+        for( int i = 0; i < numAtoms; i++ ) {
+            atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
+            atom.setPosition( ( tubeBounds.getX() + 150 ),
+                              ( tubeBounds.getY() + tubeBounds.getHeight() / 2 - atom.getRadius()));
+            atom.setVelocity( 0,0 );
             atoms.add( atom );
             addAtom( atom );
         }
@@ -176,19 +201,12 @@ public class ModuleA extends BaseLaserModule implements ElectronSource.ElectronP
      * @return
      */
     private ElectronSource addCathode( FluorescentLightModel model, ApparatusPanel apparatusPanel ) {
-
-        Point2D p0 = new Point2D.Double( FluorescentLightsConfig.CATHODE_LINE.getP1().getX(),
-                                         (FluorescentLightsConfig.CATHODE_LINE.getP1().getY() +
-                                       FluorescentLightsConfig.CATHODE_LINE.getP2().getY() ) / 2  - 20);
-
-//        cathode = new ElectronSource( model,
-//                                       p0, p0 );
         cathode = new ElectronSource( model,
                                        FluorescentLightsConfig.CATHODE_LINE.getP1(),
                                        FluorescentLightsConfig.CATHODE_LINE.getP2() );
         model.addModelElement( cathode );
         cathode.addListener( this );
-        cathode.setElectronsPerSecond( 0.01 );
+        cathode.setElectronsPerSecond( 0 );
         cathode.setPosition( FluorescentLightsConfig.CATHODE_LOCATION );
         PhetGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode.png" );
         cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
