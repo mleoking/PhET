@@ -11,8 +11,8 @@ HIGH PRIORITY:
 - make electrons move at same speed whether grid is on or off
 
 MEDIUM PRIORITY:
-- graph of field strength over time on the Field Meter
 - optimize rendering of LightBulbGraphic (~50 rays drawn at max settings)
+- graph of field strength over time on the Field Meter
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
