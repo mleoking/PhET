@@ -207,6 +207,7 @@ public class PickupCoilModule extends FaradayModule {
         // Help
         //----------------------------------------------------------------------------
         
+        // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, barMagnetModel, pickupCoilModel );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }

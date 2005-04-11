@@ -203,6 +203,7 @@ public class GeneratorModule extends FaradayModule {
         // Help
         //----------------------------------------------------------------------------
         
+        // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, turbineModel );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }

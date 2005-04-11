@@ -193,6 +193,7 @@ public class ElectromagnetModule extends FaradayModule {
         // Help
         //----------------------------------------------------------------------------
         
+        // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, batteryModel, electromagnetModel );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }

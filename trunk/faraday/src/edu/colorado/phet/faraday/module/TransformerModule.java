@@ -265,7 +265,7 @@ public class TransformerModule extends FaradayModule {
             
             _count = 0;
             
-            setText( SimStrings.get( "TransformerModule.challenge" ) );
+            setText( SimStrings.get( "TransformerModule.challenge" ), null, Color.RED );
             setLocation( 250, 50 );
             setRange( 20, 20 );
             setEnabled( true );

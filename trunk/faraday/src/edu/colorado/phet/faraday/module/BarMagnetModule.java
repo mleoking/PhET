@@ -150,6 +150,7 @@ public class BarMagnetModule extends FaradayModule {
         // Help
         //----------------------------------------------------------------------------
         
+        // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, barMagnetModel, compassModel );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }

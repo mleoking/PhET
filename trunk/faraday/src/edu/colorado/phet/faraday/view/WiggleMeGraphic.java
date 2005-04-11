@@ -154,8 +154,20 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
      */
     public void setText( String text, Font font, Color color ) {
         _textGraphic.setText( text );
-        _textGraphic.setFont( font );
-        _textGraphic.setColor( color );
+        
+        if ( font != null ) {
+            _textGraphic.setFont( font );
+        }
+        else {
+            _textGraphic.setFont( DEFAULT_TEXT_FONT );  
+        }
+        
+        if ( color != null ) {
+            _textGraphic.setColor( color );
+        }
+        else {
+            _textGraphic.setColor( DEFAULT_TEXT_COLOR );
+        }
     }
 
     /**
@@ -189,6 +201,7 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
         }
         _direction = direction;
     }
+    
     //----------------------------------------------------------------------------
     // Arrows
     //----------------------------------------------------------------------------
