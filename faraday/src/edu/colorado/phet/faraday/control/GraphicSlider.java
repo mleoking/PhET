@@ -66,6 +66,8 @@ public class GraphicSlider extends GraphicLayerSet {
     private Dimension _tickSize;
     // Event listeners.
     private EventListenerList _listenerList;
+    // Listener for knob mouse events.
+    private KnobListener _knobListener;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -89,6 +91,7 @@ public class GraphicSlider extends GraphicLayerSet {
         _value = ( _maximum - _minimum ) / 2;
         _tickSize = new Dimension( 1, 12 );
         _listenerList = new EventListenerList();
+        _knobListener = new KnobListener();
         
         // Enable anti-aliasing.
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -114,7 +117,7 @@ public class GraphicSlider extends GraphicLayerSet {
         if ( _knob != null ) {
             addGraphic( knob, KNOB_LAYER );
             _knob.setCursorHand();
-            _knob.addMouseInputListener( new KnobListener() );
+            _knob.addMouseInputListener( _knobListener );
         }
         update();
     }
@@ -142,7 +145,7 @@ public class GraphicSlider extends GraphicLayerSet {
             addGraphic( knobHighlight, KNOB_HIGHLIGHT_LAYER );
             _knobHighlight.setVisible( false );
             _knobHighlight.setCursorHand();
-            _knobHighlight.addMouseInputListener( new KnobListener() );
+            _knobHighlight.addMouseInputListener( _knobListener );
         }
         update();
     }
@@ -400,12 +403,12 @@ public class GraphicSlider extends GraphicLayerSet {
      */
     private class KnobListener extends MouseInputAdapter {
 
-        private Point2D _point; // reusable point
+        private Point2D _somePoint; // reusable point
         
         /** Sole constructor. */
         public KnobListener() {
             super();
-            _point = new Point2D.Double();
+            _somePoint = new Point2D.Double();
         }
         
         /**
@@ -414,7 +417,7 @@ public class GraphicSlider extends GraphicLayerSet {
          * All calculations are performed relative to a slider in its default
          * (horizontal) orientation.
          * 
-         * @param event the mouse event
+         * @param event the MouseEvent
          */
         public void mouseDragged( MouseEvent event ) {
             
@@ -422,8 +425,8 @@ public class GraphicSlider extends GraphicLayerSet {
             int mouseX = 0;
             try {
                 AffineTransform transform = getNetTransform();
-                transform.inverseTransform( event.getPoint(), _point /* output */ );
-                mouseX = (int) _point.getX();
+                transform.inverseTransform( event.getPoint(), _somePoint /* output */ );
+                mouseX = (int) _somePoint.getX();
             }
             catch ( NoninvertibleTransformException e ) {
                 e.printStackTrace();
@@ -442,6 +445,8 @@ public class GraphicSlider extends GraphicLayerSet {
         
         /**
          * Turns on the knob highlight when the mouse enters the knob.
+         * 
+         * @param event the MouseEvent
          */
         public void mouseEntered( MouseEvent event ) {
             if ( _knob != null && _knobHighlight != null ) {
@@ -452,6 +457,8 @@ public class GraphicSlider extends GraphicLayerSet {
         
         /**
          * Turns off the knob highlight when the mouse exits the knob.
+         * 
+         * @param event the MouseEvent
          */
         public void mouseExited( MouseEvent event ) {
             if ( _knob != null && _knobHighlight != null ) {
