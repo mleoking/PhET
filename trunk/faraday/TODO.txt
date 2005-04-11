@@ -12,13 +12,13 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - graph of field strength over time on the Field Meter
-- keep a minimum of N pixels of a draggable graphic within the apparatus panel
 - optimize rendering of LightBulbGraphic (~50 rays drawn at max settings)
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
 LOW PRIORITY:
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
+- keep a minimum of N pixels of a draggable graphic within the apparatus panel
 - check for unnecessary notification, events and updates
 - replace EasyGridBagLayout with SwingUtils.addGridBagComponent
 - background color (use PhetLookAndFeel)
@@ -49,6 +49,7 @@ PHETCOMMON:
 
 DONE:
 v0r22...
+(4/11) - create a ChallengeGraphic, so that challenges are distinct from wiggle mes
 (4/11) - make Eletromagnet wiggle me go away if location changes
 (4/11) - fix: objects can be dragged off the apparatus panel in certain situations
 v0r21...
