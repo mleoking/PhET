@@ -196,11 +196,9 @@ public class PickupCoilGraphic
             // Interactivity
             _foreground.setCursorHand();
             _background.setCursorHand();
-            InteractivityListener listener = new InteractivityListener();
-            _foreground.addTranslationListener( listener );
-            _foreground.addMouseInputListener( listener );
-            _background.addTranslationListener( listener );
-            _background.addMouseInputListener( listener );
+            MouseHandler mouseHandler = new MouseHandler();
+            _foreground.addMouseInputListener( mouseHandler );
+            _background.addMouseInputListener( mouseHandler );
         }
         else {
             _foreground.removeAllMouseInputListeners();
@@ -309,26 +307,41 @@ public class PickupCoilGraphic
     //----------------------------------------------------------------------------
     
     /**
-     * InteractivityListener is an inner class that handles interactivity.
+     * MouseHandler handles mouse events.
      *
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private class InteractivityListener extends MouseInputAdapter implements TranslationListener {
+    private class MouseHandler extends MouseInputAdapter {
         
         private boolean _dragEnabled;
+        private Point _previousPoint;
         
-        public InteractivityListener() {
+        public MouseHandler() {
             super();
             _dragEnabled = true;
+            _previousPoint = new Point();
         }
         
-        public void translationOccurred( TranslationEvent e ) {
+        public void mousePressed( MouseEvent event ) {
+            _dragEnabled = true;
+            _previousPoint.setLocation( event.getPoint() );
+        }
+        
+        public void mouseDragged( MouseEvent event ) {
+
+            if ( !_dragEnabled && contains( event.getPoint() ) ) {
+                _dragEnabled = true;
+            }
+            
             if ( _dragEnabled ) {
 
-                boolean inApparatusPanel = _parentBounds.contains( e.getMouseEvent().getPoint() );
+                int dx = event.getX() - _previousPoint.x;
+                int dy = event.getY() - _previousPoint.y;
+                
+                boolean inApparatusPanel = _parentBounds.contains( event.getPoint() );
                 boolean collidesNow = _collisionDetector.collidesNow();
-                boolean wouldCollide = _collisionDetector.wouldCollide( e.getDx(), e.getDy() );
+                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
                 
                 if ( !inApparatusPanel || ( !collidesNow && wouldCollide ) ) {
                     // Ignore the translate if the mouse is outside the apparatus panel or 
@@ -337,21 +350,13 @@ public class PickupCoilGraphic
                 }
                 else {
                     // Translate if the mouse cursor is inside the parent component.
-                    double x = _pickupCoilModel.getX() + e.getDx();
-                    double y = _pickupCoilModel.getY() + e.getDy();
+                    double x = _pickupCoilModel.getX() + dx;
+                    double y = _pickupCoilModel.getY() + dy;
                     _pickupCoilModel.setLocation( x, y );
                 }
             }
-        }
-        
-        public void mouseDragged( MouseEvent event ) {
-            if ( !_dragEnabled && contains( event.getPoint() ) ) {
-                _dragEnabled = true;
-            }
-        }
-        
-        public void mouseReleased( MouseEvent event ) {
-            _dragEnabled = true;
+            
+            _previousPoint.setLocation( event.getPoint() );
         }
     }
 }
