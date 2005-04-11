@@ -4,7 +4,14 @@
   <component name="BookmarkManager">
     <editor_bookmark url="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/Electron.java" line="90" number="9" />
   </component>
-  <component name="CheckinPanelState" />
+  <component name="CheckinPanelState">
+    <Excluded key="C:/PhET/lasers/development/src/edu/colorado/phet/lasers/controller/module/BaseLaserModule.java" />
+    <Excluded key="C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/atom/Atom.java" />
+    <Excluded key="C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/atom/AtomicState.java" />
+    <Excluded key="C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/atom/StateLifetimeManager.java" />
+    <Excluded key="C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/LaserModel.java" />
+    <Excluded key="C:/PhET/lasers/development/todo.txt" />
+  </component>
   <component name="Commander">
     <leftPanel />
     <rightPanel />
@@ -131,7 +138,7 @@
     <first-group selected-file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/ElectronSource.java">
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/ModuleA.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="187" column="40" selection-start="7791" selection-end="7791" vertical-scroll-proportion="0.8149466">
+          <state line="187" column="40" selection-start="7783" selection-end="7783" vertical-scroll-proportion="0.8149466">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -140,7 +147,7 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/ElectronSource.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="55" column="25" selection-start="1491" selection-end="1491" vertical-scroll-proportion="0.6370107">
+          <state line="55" column="25" selection-start="1483" selection-end="1483" vertical-scroll-proportion="0.6370107">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -149,7 +156,7 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/FluorescentLightModel.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="38" column="59" selection-start="1368" selection-end="1368" vertical-scroll-proportion="0.28942809">
+          <state line="38" column="59" selection-start="1360" selection-end="1360" vertical-scroll-proportion="0.28942809">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -190,7 +197,7 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/Electron.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="33" column="136" selection-start="1224" selection-end="1224" vertical-scroll-proportion="0.18149467">
+          <state line="33" column="136" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.18149467">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -543,7 +550,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/Electron.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="136" selection-start="1224" selection-end="1224" vertical-scroll-proportion="0.18149467">
+        <state line="33" column="136" selection-start="1216" selection-end="1216" vertical-scroll-proportion="0.18149467">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -568,7 +575,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/FluorescentLightModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="59" selection-start="1368" selection-end="1368" vertical-scroll-proportion="0.28942809">
+        <state line="38" column="59" selection-start="1360" selection-end="1360" vertical-scroll-proportion="0.28942809">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -577,7 +584,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/ElectronSource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="25" selection-start="1491" selection-end="1491" vertical-scroll-proportion="0.6370107">
+        <state line="55" column="25" selection-start="1483" selection-end="1483" vertical-scroll-proportion="0.6370107">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -586,7 +593,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/ModuleA.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="187" column="40" selection-start="7791" selection-end="7791" vertical-scroll-proportion="0.8149466">
+        <state line="187" column="40" selection-start="7783" selection-end="7783" vertical-scroll-proportion="0.8149466">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
