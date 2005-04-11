@@ -45,7 +45,8 @@ public class FaradayApplicationModel extends ApplicationModel {
 
         // Clock
         boolean fixedDelay = true;
-        AbstractClock clock = new SwingTimerClock( FaradayConfig.TIME_STEP, FaradayConfig.WAIT_TIME, fixedDelay );
+        int waitTime = ( 1000 / FaradayConfig.FRAME_RATE ); // in milliseconds
+        AbstractClock clock = new SwingTimerClock( FaradayConfig.TIME_STEP, waitTime, fixedDelay );
         setClock( clock );
 
         // Clock control panel is disabled.

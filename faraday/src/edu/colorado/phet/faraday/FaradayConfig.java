@@ -38,7 +38,6 @@ public class FaradayConfig {
     // Clock constants
     public static final double TIME_STEP = 1;
     public static final int FRAME_RATE = 25;  // frames per second
-    public static final int WAIT_TIME = ( 1000 / FRAME_RATE );  // milliseconds
     
     // Images
     private static final String IMAGES_DIRECTORY = "images/";
