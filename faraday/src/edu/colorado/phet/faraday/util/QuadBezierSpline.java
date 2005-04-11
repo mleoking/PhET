@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.faraday.model;
+package edu.colorado.phet.faraday.util;
 
 import java.awt.Point;
 import java.awt.geom.GeneralPath;

@@ -24,7 +24,7 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractCoil;
 import edu.colorado.phet.faraday.model.Electron;
 import edu.colorado.phet.faraday.model.ElectronPathDescriptor;
-import edu.colorado.phet.faraday.model.QuadBezierSpline;
+import edu.colorado.phet.faraday.util.QuadBezierSpline;
 
 
 /**
