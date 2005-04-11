@@ -177,14 +177,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://C:/PhET/lasers/Lasers.iml" filepath="C:/PhET/lasers/Lasers.iml" />
-      <module fileurl="file://C:/PhET/mechanics/development/Mechanics.iml" filepath="C:/PhET/mechanics/development/Mechanics.iml" />
       <module fileurl="file://C:/PhET/phetcommon/PhET Common NWO.iml" filepath="C:/PhET/phetcommon/PhET Common NWO.iml" />
       <module fileurl="file://C:/PhET/collision/development/collision.iml" filepath="C:/PhET/collision/development/collision.iml" />
-      <module fileurl="file://C:/PhET/controls/controls.iml" filepath="C:/PhET/controls/controls.iml" />
+      <module fileurl="file://C:/PhET/controls-NWO/controls-NWO.iml" filepath="C:/PhET/controls-NWO/controls-NWO.iml" />
       <module fileurl="file://$PROJECT_DIR$/fluorescent-lights.iml" filepath="$PROJECT_DIR$/fluorescent-lights.iml" />
+      <module fileurl="file://C:/PhET/mechanics/development/mechanics.iml" filepath="C:/PhET/mechanics/development/mechanics.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="false" jdk-15="false" project-jdk-name="java version &quot;1.4.2_06&quot;" />
+  <component name="ProjectRootManager" version="2" assert-keyword="false" jdk-15="false" project-jdk-name="java version &quot;1.4.2_03&quot;" />
   <component name="RmicSettings">
     <option name="IS_EANABLED" value="false" />
     <option name="DEBUGGING_INFO" value="true" />

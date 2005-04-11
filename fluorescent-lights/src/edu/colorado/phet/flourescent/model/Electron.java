@@ -16,6 +16,8 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
+import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.flourescent.FluorescentLightsConfig;
 
 import java.awt.geom.Point2D;
 import java.util.EventObject;
@@ -27,10 +29,11 @@ import java.util.EventListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Electron extends Particle implements Collidable {
+public class Electron extends SphericalBody implements Collidable {
     private CollidableAdapter collidableAdapter;
 
     public Electron() {
+        super( FluorescentLightsConfig.ELECTRON_RADIUS );
         collidableAdapter = new CollidableAdapter( this );
     }
 
