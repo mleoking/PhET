@@ -12,8 +12,10 @@ package edu.colorado.phet.flourescent.model;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -24,11 +26,23 @@ import java.util.ArrayList;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class FluorescentLightModel extends LaserModel {
+public class FluorescentLightModel extends LaserModel implements Electrode.StateChangeListener {
     private List atoms = new ArrayList();
     private List electrons = new ArrayList();
     private ElectronAtomCollisionExpert electronAtomCollisionExpert = new ElectronAtomCollisionExpert();
+    private ElectronSource cathode;
+    private ElectronSink anode;
+    private Vector2D electronAcceleration = new Vector2D.Double();
 
+
+    public FluorescentLightModel() {
+        MiddleEnergyState.instance().setMeanLifetime( .00001 );
+    }
+
+    /**
+     * Detects and handles collisions between atoms and electrons
+     * @param dt
+     */
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
 
@@ -42,16 +56,36 @@ public class FluorescentLightModel extends LaserModel {
         }
     }
 
+    /**
+     * Extends the parent behavior by detecting the addition of certain types of
+     * model elements
+     * @param modelElement
+     */
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
         if( modelElement instanceof Atom ) {
             atoms.add( modelElement );
         }
         if( modelElement instanceof Electron ) {
-            electrons.add( modelElement );
+            Electron electron = (Electron)modelElement;
+            electron.setAcceleration( getElectronAcceleration() );
+            electrons.add( electron );
+        }
+        if( modelElement instanceof ElectronSource ) {
+            cathode = (ElectronSource)modelElement;
+            cathode.addStateChangeListener( this );
+        }
+        if( modelElement instanceof ElectronSink ) {
+            anode = (ElectronSink)modelElement;
+            anode.addStateChangeListener( this );
         }
     }
 
+    /**
+     * Extends the parent behavior by detecting the removal of certain types of
+     * model elements
+     * @param modelElement
+     */
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
         if( modelElement instanceof Atom ) {
@@ -59,6 +93,32 @@ public class FluorescentLightModel extends LaserModel {
         }
         if( modelElement instanceof Electron ) {
             electrons.remove( modelElement );
+        }
+    }
+
+    private void setElectronAcceleration( double potentialDiff ) {
+        electronAcceleration.setComponents( potentialDiff / 10, 0 );
+    }
+
+    private Vector2D getElectronAcceleration() {
+        return electronAcceleration;
+    }
+
+
+    //-----------------------------------------------------------------
+    // Event handling
+    //-----------------------------------------------------------------
+
+    /**
+     * Handles changes in the electrode potentials
+     * @param event
+     */
+    public void stateChanged( Electrode.StateChangeEvent event ) {
+        double potentialDiff = cathode.getPotential() - anode.getPotential();
+        setElectronAcceleration( potentialDiff );
+        for( int i = 0; i < electrons.size(); i++ ) {
+            Electron electron = (Electron)electrons.get( i );
+            electron.setAcceleration( getElectronAcceleration() );
         }
     }
 }

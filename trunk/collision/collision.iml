@@ -10,8 +10,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="PhetCommon" />
-    <orderEntry type="module" module-name="Mechanics" />
+    <orderEntry type="module" module-name="mechanics" />
+    <orderEntry type="module" module-name="PhET Common NWO" />
     <orderEntryProperties />
   </component>
 </module>

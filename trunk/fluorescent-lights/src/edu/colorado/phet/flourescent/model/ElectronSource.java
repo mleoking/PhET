@@ -26,7 +26,8 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public abstract class ElectronSource extends Body {
+public class ElectronSource extends Electrode {
+//public class ElectronSource extends Body {
 
     private Random random = new Random( System.currentTimeMillis() );
 
@@ -40,49 +41,51 @@ public abstract class ElectronSource extends Body {
 
     /**
      * Emits electrons along a line between two points
+     *
      * @param model
-     * @param p1 One endpoint of the line
-     * @param p2 The other endpoint of the line
+     * @param p1    One endpoint of the line
+     * @param p2    The other endpoint of the line
      */
-    protected ElectronSource( BaseModel model, Point2D p1, Point2D p2) {
+    public ElectronSource( BaseModel model, Point2D p1, Point2D p2 ) {
         this.model = model;
         this.p1 = p1;
         this.p2 = p2;
     }
 
-    //----------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------
-    private EventChannel listenerChannel = new EventChannel( Listener.class );
-    private Listener listenerProxy = (Listener)listenerChannel.getListenerProxy();
-
+    /**
+     * Produces electrons when the time is right
+     *
+     * @param dt
+     */
     public void stepInTime( double dt ) {
         timeSincelastElectronEmitted += dt;
+
+        // Note that we only produce one electron at a time. Otherwise, we get a bunch of
+        // electrons produced if the electronsPerSecond is suddently increased, especially
+        // if it had been 0.
         if( 1 / timeSincelastElectronEmitted < electronsPerSecond ) {
-            int numElectrons = (int)( electronsPerSecond * timeSincelastElectronEmitted );
             timeSincelastElectronEmitted = 0;
-            for( int i = 0; i < numElectrons; i++ ) {
-                produceElectron();
-            }
+            produceElectron();
         }
     }
 
     /**
-     * Produce an electron, and notify all listeners that it has happened
+     * Produce a single electron, and notify all listeners that it has happened
      */
     public void produceElectron() {
         Electron electron = new Electron();
-//        electron.setPosition( this.getPosition() );
 
         // Determine where the electron will be emitted from
-        double x = random.nextDouble() * (p2.getX() - p1.getX() ) + p1.getX();
-        double y = random.nextDouble() * (p2.getY() - p1.getY() ) + p1.getY();
+        double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
+        double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
         electron.setPosition( x, y );
-        electron.setVelocity( 1, 0 );
         model.addModelElement( electron );
-        listenerProxy.electronProduced( new ElectronSourceEvent( this, electron ));
+        electronProductionListenerProxy.electronProduced( new ElectronProductionEvent( this, electron ) );
     }
 
+    //-----------------------------------------------------------------
+    // Getters and setters
+    //-----------------------------------------------------------------
     public double getElectronsPerSecond() {
         return electronsPerSecond;
     }
@@ -91,25 +94,28 @@ public abstract class ElectronSource extends Body {
         this.electronsPerSecond = electronsPerSecond;
     }
 
-    public interface Listener extends EventListener {
-        void electronProduced( ElectronSourceEvent event );
+    public void setSinkPotential( double sinkPotential ) {
+        setElectronsPerSecond( this.getPotential() - sinkPotential );
     }
 
-    public Point2D getCM() {
-        return getPosition();
-    }
 
-    public double getMomentOfInertia() {
-        return 0;
+    //----------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------
+    private EventChannel listenerChannel = new EventChannel( ElectronProductionListener.class );
+    private ElectronProductionListener electronProductionListenerProxy = (ElectronProductionListener)listenerChannel.getListenerProxy();
+
+    public interface ElectronProductionListener extends EventListener {
+        void electronProduced( ElectronProductionEvent event );
     }
 
     /**
      * Event class for the production of electrons
      */
-    public class ElectronSourceEvent extends EventObject {
+    public class ElectronProductionEvent extends EventObject {
         private Electron electron;
 
-        public ElectronSourceEvent( Object source, Electron electron ) {
+        public ElectronProductionEvent( Object source, Electron electron ) {
             super( source );
             this.electron = electron;
         }
@@ -119,11 +125,11 @@ public abstract class ElectronSource extends Body {
         }
     }
 
-    public void addListener( Listener listener ) {
-        listenerChannel.addListener( listener );
+    public void addListener( ElectronProductionListener electronProductionListener ) {
+        listenerChannel.addListener( electronProductionListener );
     }
 
-    public void removeListener( Listener listener ) {
-        listenerChannel.removeListener( listener );
+    public void removeListener( ElectronProductionListener electronProductionListener ) {
+        listenerChannel.removeListener( electronProductionListener );
     }
 }
