@@ -49,7 +49,7 @@ PHETCOMMON:
 
 DONE:
 v0r22...
-(4/11) - replace all implementations of TranslationListener with and extension of MouseInputAdapter
+(4/11) - replace all implementations of TranslationListener with an extension of MouseInputAdapter
 (4/11) - use red color for Challenges
 (4/11) - create a ChallengeGraphic, so that challenges are distinct from wiggle mes
 (4/11) - make Eletromagnet wiggle me go away if location changes
