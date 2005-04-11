@@ -6,8 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- make Eletromagnet wiggle me go away if location changes
-- objects can be dragged off the apparatus panel in certain situations
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - make electrons move at same speed whether grid is on or off
@@ -51,6 +49,7 @@ PHETCOMMON:
 
 DONE:
 v0r22...
+(4/11) - make Eletromagnet wiggle me go away if location changes
 (4/11) - fix: objects can be dragged off the apparatus panel in certain situations
 v0r21...
 (4/8) - LightBulbGraphic leaves screen turds (fixed GraphicLayerSet.clear)
