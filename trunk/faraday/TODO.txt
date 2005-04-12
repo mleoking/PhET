@@ -8,7 +8,8 @@ IN PROGRESS:
 HIGH PRIORITY:
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
-- make electrons move at same speed whether grid is on or off
+- compass doesn't look right in the Generator module
+- performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
 - optimize rendering of LightBulbGraphic using Graphics.drawLine (~50 rays drawn at max settings)
