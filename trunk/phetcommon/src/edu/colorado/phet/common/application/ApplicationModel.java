@@ -66,15 +66,53 @@ public class ApplicationModel {
         this.name = name;
     }
 
+    /**
+     * Sets the modules for this application.
+     * The initial module defaults to the first module in the specified array.
+     * 
+     * @param modules
+     */
     public void setModules( Module[] modules ) {
         this.modules = modules;
+        this.initialModule = modules[0];
     }
 
+    /**
+     * Sets the module for this application.
+     *
+     * @param module
+     */
     public void setModule( Module module ) {
         this.modules = new Module[]{module};
+        this.initialModule = module;
     }
 
+    /**
+     * Sets the initial module for this application,
+     * the first module that is displayed when the application is started.
+     * The initial module must be one of the modules that was specified
+     * using setModules or setModule.
+     * 
+     * @param initialModule
+     * @throws IllegalStateException if no modules have been set
+     * @throws IllegalArgumentException if the module is not one of the application's modules
+     */
     public void setInitialModule( Module initialModule ) {
+        if ( modules == null ) {
+            throw new IllegalStateException( "no modules have been set" );
+        }
+        
+        boolean found = false;
+        for ( int i = 0; i < modules.length; i++ ) {
+            if ( initialModule == modules[i] ) {
+                found = true;
+                break;
+            }
+        }
+        if ( !found ) {
+            throw new IllegalArgumentException( "module is not part of this ApplicationModel" );
+        }
+        
         this.initialModule = initialModule;
     }
 
