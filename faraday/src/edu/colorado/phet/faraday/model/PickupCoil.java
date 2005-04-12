@@ -42,9 +42,11 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     private double _flux; // in webers
     private double _deltaFlux; // in webers
     private double _emf; // in volts
-    private AffineTransform _transform; // a reusable transform
-    private Point2D _point; // a reusable point
-    private Vector2D _fieldVector; // a reusable vector
+    
+    // Reusable objects
+    private AffineTransform _someTransform;
+    private Point2D _somePoint;
+    private Vector2D _someVector;
     
     // Debugging stuff...
     private double _maxEmf;
@@ -61,13 +63,16 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     public PickupCoil( AbstractMagnet magnetModel ) {
         super();
         assert( magnetModel != null );
+        
         _magnetModel = magnetModel;
         _flux = 0.0;
         _deltaFlux = 0.0;
         _emf = 0.0;
-        _transform = new AffineTransform();
-        _point = new Point2D.Double();
-        _fieldVector = new Vector2D();
+        
+        // Reusable objects
+        _someTransform = new AffineTransform();
+        _somePoint = new Point2D.Double();
+        _someVector = new Vector2D();
         
         // loosely packed loops
         setLoopSpacing( 1.5 * getWireWidth() );
@@ -132,14 +137,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         double centerFlux = 0;
         {
             // Determine the point that corresponds to the center.
-            getLocation( _point /* output */ );
+            getLocation( _somePoint /* output */ );
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
+            _magnetModel.getStrength( _somePoint, _someVector /* output */, DISTANCE_EXPONENT );
             
             // Calculate the flux.
-            double B = _fieldVector.getMagnitude();
-            double theta = Math.abs( _fieldVector.getAngle() - getDirection() );
+            double B = _someVector.getMagnitude();
+            double theta = Math.abs( _someVector.getAngle() - getDirection() );
             centerFlux = B * A * Math.cos( theta );
         }
         
@@ -149,20 +154,20 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             // Determine the point that corresponds to the top edge.
             double x = getX();
             double y = getY() - getRadius();
-            _point.setLocation( x, y );
+            _somePoint.setLocation( x, y );
             if ( getDirection() != 0 ) {
                 // Adjust for rotation.
-                _transform.setToIdentity();
-                _transform.rotate( getDirection(), getX(), getY() );
-                _transform.transform( _point, _point /* output */);
+                _someTransform.setToIdentity();
+                _someTransform.rotate( getDirection(), getX(), getY() );
+                _someTransform.transform( _somePoint, _somePoint /* output */);
             }
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT  );
+            _magnetModel.getStrength( _somePoint, _someVector /* output */, DISTANCE_EXPONENT  );
             
             // Calculate the flux.
-            double B = _fieldVector.getMagnitude();
-            double theta = Math.abs( _fieldVector.getAngle() - getDirection() );
+            double B = _someVector.getMagnitude();
+            double theta = Math.abs( _someVector.getAngle() - getDirection() );
             topFlux = B * A * Math.cos( theta );
         }
         
@@ -172,25 +177,38 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             // Determine the point that corresponds to the bottom edge.
             double x = getX();
             double y = getY() + getRadius();
-            _point.setLocation( x, y );
+            _somePoint.setLocation( x, y );
             if ( getDirection() != 0 ) {
                 // Adjust for rotation.
-                _transform.setToIdentity();
-                _transform.rotate( getDirection(), getX(), getY() );
-                _transform.transform( _point, _point /* output */);
+                _someTransform.setToIdentity();
+                _someTransform.rotate( getDirection(), getX(), getY() );
+                _someTransform.transform( _somePoint, _somePoint /* output */);
             }
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT  );
+            _magnetModel.getStrength( _somePoint, _someVector /* output */, DISTANCE_EXPONENT  );
             
             // Calculate the flux.
-            double B = _fieldVector.getMagnitude();
-            double theta = Math.abs( _fieldVector.getAngle() - getDirection() );
+            double B = _someVector.getMagnitude();
+            double theta = Math.abs( _someVector.getAngle() - getDirection() );
             bottomFlux = B * A * Math.cos( theta ); 
         }
         
-        // Average the flux.
-        double flux = getNumberOfLoops() * ( centerFlux + topFlux + bottomFlux ) / 3;
+        /* 
+         * Calculate the total flux of the coil.
+         * Use the sample point with the largest flux. 
+         * (If we try to average the sample points, things get squirrelly near the coil.
+         * As the sample points become perpendicular to the coil, their flux becomes zero.
+         * And this causes the induced emf to actually decrease.)
+         */
+        double loopFlux = centerFlux;
+        if ( Math.abs( topFlux ) > Math.abs( loopFlux ) ) {
+            loopFlux = topFlux;
+        }
+        if ( Math.abs( bottomFlux ) > Math.abs( loopFlux ) ) {
+            loopFlux = bottomFlux;
+        }
+        double flux = getNumberOfLoops() * loopFlux;
         
         // Calculate the change in flux.
         _deltaFlux = flux - _flux;
