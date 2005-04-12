@@ -47,9 +47,9 @@ public class FluorescentLightsApp extends PhetApplication {
         }
         setFrameSetup( frameSetup );
 
-        ModuleA moduleA = new ModuleA( getClock() );
-        addModule( moduleA );
-        setInitialModule( moduleA );
+        DischargeLampModule dischargeLampModule = new DischargeLampModule( getClock() );
+        addModule( dischargeLampModule );
+        setInitialModule( dischargeLampModule );
 
         getPhetFrame().pack();
     }
@@ -70,12 +70,12 @@ public class FluorescentLightsApp extends PhetApplication {
             }
             setFrameSetup( frameSetup );
 
-            ModuleA moduleA = new ModuleA( getClock() );
+            DischargeLampModule dischargeLampModule = new DischargeLampModule( getClock() );
             setModules( new Module[] {
-                moduleA }
+                dischargeLampModule }
             );
 
-            setInitialModule( moduleA );
+            setInitialModule( dischargeLampModule );
         }
     }
 

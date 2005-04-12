@@ -63,8 +63,6 @@ public class ElectronAtomCollisionExpert implements CollisionExpert {
                 double atomRadSq = atom.getRadius() * atom.getRadius();
                 if( distSq <= atomRadSq && prevDistSq > atomRadSq ) {
                     atom.collideWithElectron( electron );
-//                    utilPhoton.setWavelength( Photon.RED );
-//                    atom.collideWithPhoton( utilPhoton );
                 }
             }
         }
