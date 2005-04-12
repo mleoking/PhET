@@ -11,7 +11,7 @@ HIGH PRIORITY:
 - make electrons move at same speed whether grid is on or off
 
 MEDIUM PRIORITY:
-- optimize rendering of LightBulbGraphic (~50 rays drawn at max settings)
+- optimize rendering of LightBulbGraphic using Graphics.drawLine (~50 rays drawn at max settings)
 - add a graph of field strength over time to the Field Meter
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
@@ -46,6 +46,7 @@ PHETCOMMON:
 
 DONE:
 v0r22...
+(4/12) - optimize LightbulbGraphic by drawing rays using Graphics.drawLine
 (4/12) - add debug code to display the pickup coil sample points
 (4/12) - crank up the compass grid rescaling a little so that it fills more of the apparatus panel
 (4/12) - bug: hand cursor accidentally moves another object when you release mouse (ApparatusPanel2 bug)
