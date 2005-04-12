@@ -38,7 +38,7 @@ POSSIBLE OPTIMIZATIONS:
 - switch to offscreen buffer
 
 PHETCOMMON:
-- bug: sliders sometimes remain hilited after you roll off them
+- bug: mouse event handling is convoluted and sometimes incorrect
 - bug: hand cursor accidentally picks another object when you release mouse
 - bug: ApparatusPanel2 resize problems
 - bug: MathUtil.clamp behavior with Double.NaN
@@ -49,6 +49,7 @@ PHETCOMMON:
 
 DONE:
 v0r22...
+(4/11) - fix sliders do that they always unhighlight wehn you roll off them
 (4/11) - replace all implementations of TranslationListener with an extension of MouseInputAdapter
 (4/11) - use red color for Challenges
 (4/11) - create a ChallengeGraphic, so that challenges are distinct from wiggle mes
