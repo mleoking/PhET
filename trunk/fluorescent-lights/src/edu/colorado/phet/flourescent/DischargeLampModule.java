@@ -20,33 +20,29 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.flourescent.model.*;
 import edu.colorado.phet.flourescent.view.ElectronGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
+import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
- * ModuleA
+ * DischargeLampModule
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ModuleA extends BaseLaserModule implements ElectronSource.ElectronProductionListener {
+public class DischargeLampModule extends BaseLaserModule implements ElectronSource.ElectronProductionListener {
     private ElectronSink anode;
     private ElectronSource cathode;
     private double s_maxSpeed = 0.1;
 
-    protected ModuleA( AbstractClock clock ) {
+    protected DischargeLampModule( AbstractClock clock ) {
         super( "Module A", clock );
 
         ApparatusPanel apparatusPanel = new ApparatusPanel2( clock );

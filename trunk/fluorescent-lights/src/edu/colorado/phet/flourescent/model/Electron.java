@@ -16,10 +16,8 @@ import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.flourescent.FluorescentLightsConfig;
-import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -32,12 +30,16 @@ import java.util.EventObject;
  * @version $Revision$
  */
 public class Electron extends SphericalBody implements Collidable {
+
+    private static final double ELECTRON_MASS = 1;
+
     private CollidableAdapter collidableAdapter;
-    private double energy = Photon.wavelengthToEnergy( Photon.RED ) - AtomicState.minEnergy ;
+    private double energy = Photon.wavelengthToEnergy( Photon.RED ) - AtomicState.minEnergy;
 
     public Electron() {
         super( FluorescentLightsConfig.ELECTRON_RADIUS );
         collidableAdapter = new CollidableAdapter( this );
+        setMass( ELECTRON_MASS );
     }
 
     public void setPosition( double x, double y ) {
@@ -72,6 +74,15 @@ public class Electron extends SphericalBody implements Collidable {
         return energy;
     }
 
+    public void setEnergy( double e ) {
+        double de = energy - e;
+
+        // adjust the electron's velocity
+        double vNewMag = Math.sqrt( getVelocity().getMagnitudeSq() + ( 2 * de / getMass() ));
+        double vCurrMag = Math.sqrt( getVelocity().getMagnitudeSq() );
+        setVelocity( getVelocity().scale( vCurrMag / vNewMag ) );
+    }
+
     //----------------------------------------------------------------
     // Events and Listeners
     //----------------------------------------------------------------
@@ -81,7 +92,7 @@ public class Electron extends SphericalBody implements Collidable {
         }
 
         public Electron getElectrion() {
-            return(Electron)getSource();
+            return (Electron)getSource();
         }
     }
 

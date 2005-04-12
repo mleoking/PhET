@@ -23,7 +23,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="mechanics" />
-    <orderEntry type="module" module-name="controls-NWO" />
+    <orderEntry type="module" module-name="Mechanics" />
     <orderEntryProperties />
   </component>
 </module>

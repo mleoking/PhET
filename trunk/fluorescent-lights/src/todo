@@ -1,0 +1,2 @@
+- Arbitrary number of energy levels for Atom
+- DischargeLampAtom should have configurable likelihood of dropping from a state to some other state
