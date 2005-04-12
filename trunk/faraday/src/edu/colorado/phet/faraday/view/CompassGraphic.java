@@ -29,6 +29,8 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.faraday.collision.CollisionDetector;
+import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.Compass;
 
 /**

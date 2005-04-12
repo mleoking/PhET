@@ -26,6 +26,8 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.faraday.collision.CollisionDetector;
+import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;

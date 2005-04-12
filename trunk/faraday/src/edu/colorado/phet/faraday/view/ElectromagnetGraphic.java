@@ -26,6 +26,8 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.collision.CollisionDetector;
+import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.ACPowerSupply;
 import edu.colorado.phet.faraday.model.Battery;
 import edu.colorado.phet.faraday.model.Electromagnet;

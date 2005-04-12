@@ -47,6 +47,8 @@ PHETCOMMON:
 
 DONE:
 v0r22...
+(4/12) - move collision classes to faraday.collision package
+(4/12) - move EasyGridBagLayout to faraday.util package
 (4/12) - phetcommon test program for mouse event handling
 (4/12) - bug: hand cursor accidentally moves another object when you release mouse (GraphicLayer set bug)
 (4/12) - add setName and getName to PhetGraphic
