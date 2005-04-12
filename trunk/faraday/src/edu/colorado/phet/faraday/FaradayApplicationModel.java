@@ -55,7 +55,7 @@ public class FaradayApplicationModel extends ApplicationModel {
         // Simulation Modules
         if ( TEST_ONE_MODULE ) {
             Module module = new ElectromagnetModule( clock );
-            setModules( new Module[] { module } );
+            setModule( module );
             setInitialModule( module );
         }
         else {
