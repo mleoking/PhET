@@ -10,6 +10,19 @@
  */
 package edu.colorado.phet.common.view;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.util.*;
+
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputListener;
+
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
@@ -17,14 +30,6 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.util.*;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -412,9 +417,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
     /**
      * Handles mouse events in the model loop
      */
-    private class MouseProcessor implements /*ClockTickListener,*/ MouseListener, MouseMotionListener {
+    private class MouseProcessor implements MouseInputListener {
         private LinkedList mouseEventList;
-        private LinkedList mouseMotionEventList;
         private AbstractClock clock;
         private GraphicLayerSet handler;
 
@@ -429,13 +433,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
         public MouseProcessor( GraphicLayerSet mouseDelegator, final AbstractClock clock ) {
             this.clock = clock;
             mouseEventList = new LinkedList();
-            mouseMotionEventList = new LinkedList();
             this.handler = mouseDelegator;
         }
 
         public void handleUserInput() {
             processMouseEventList();
-            processMouseMotionEventList();
         }
 
         private void xformEventPt( MouseEvent event ) {
@@ -460,33 +462,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
             }
         }
 
-        private void addMouseMotionEvent( MouseEvent event ) {
-            xformEventPt( event );
-            synchronized( mouseMotionEventList ) {
-                mouseMotionEventList.add( event );
-            }
-            // If the clock is paused, then process mouse events
-            // in the Swing thread
-            if( clock.isPaused() ) {
-                SwingUtilities.invokeLater( pausedEventListProcessor );
-            }
-        }
-
         private void processMouseEventList() {
             MouseEvent event;
             while( mouseEventList.size() > 0 ) {
                 synchronized( mouseEventList ) {
                     event = (MouseEvent)mouseEventList.removeFirst();
-                }
-                handleMouseEvent( event );
-            }
-        }
-
-        public void processMouseMotionEventList() {
-            MouseEvent event;
-            while( mouseMotionEventList.size() > 0 ) {
-                synchronized( mouseMotionEventList ) {
-                    event = (MouseEvent)mouseMotionEventList.removeFirst();
                 }
                 handleMouseEvent( event );
             }
@@ -539,11 +519,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
 
         public void mouseDragged( MouseEvent e ) {
-            this.addMouseMotionEvent( e );
+            this.addMouseEvent( e );
         }
 
         public void mouseMoved( MouseEvent e ) {
-            this.addMouseMotionEvent( e );
+            this.addMouseEvent( e );
         }
     }
 
