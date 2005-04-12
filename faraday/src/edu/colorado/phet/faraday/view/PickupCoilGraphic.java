@@ -13,6 +13,7 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
 
 import javax.swing.event.MouseInputAdapter;
@@ -21,11 +22,11 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
@@ -63,6 +64,7 @@ public class PickupCoilGraphic
     private CollisionDetector _collisionDetector;
     private PhetTextGraphic _fluxValue, _deltaFluxValue, _emfValue;
     private DecimalFormat _fluxFormatter;
+    private PhetShapeGraphic _centerPointGraphic, _topPointGraphic, _bottomPointGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -117,6 +119,31 @@ public class PickupCoilGraphic
         
         // Interactivity
         setDraggingEnabled( true );
+        
+        // Points on the coil where the magnetic field is sampled to compute flux.
+        if ( FaradayConfig.DEBUG_DRAW_PICKUP_SAMPLE_POINTS ) {
+            int r = 3; // point radius
+            Shape pointShape = new Ellipse2D.Double( -r, r, r * 2, r * 2 );
+            
+            _centerPointGraphic = new PhetShapeGraphic( component );
+            _centerPointGraphic.setShape( pointShape );
+            _centerPointGraphic.setColor( Color.YELLOW );
+            _centerPointGraphic.centerRegistrationPoint();
+            
+            _topPointGraphic = new PhetShapeGraphic( component );
+            _topPointGraphic.setShape( pointShape );
+            _topPointGraphic.setColor( Color.YELLOW );
+            _topPointGraphic.centerRegistrationPoint();
+            
+            _bottomPointGraphic = new PhetShapeGraphic( component );
+            _bottomPointGraphic.setShape( pointShape );
+            _bottomPointGraphic.setColor( Color.YELLOW );
+            _bottomPointGraphic.centerRegistrationPoint();
+            
+            _foreground.addGraphic( _centerPointGraphic );
+            _foreground.addGraphic( _topPointGraphic );
+            _foreground.addGraphic( _bottomPointGraphic );
+        }
         
         // Area & flux display
         {
@@ -252,6 +279,13 @@ public class PickupCoilGraphic
             _foreground.rotate( _pickupCoilModel.getDirection() );
             _background.rotate( _pickupCoilModel.getDirection() );
 
+            // Sample points
+            if ( FaradayConfig.DEBUG_DRAW_PICKUP_SAMPLE_POINTS ) {
+                _centerPointGraphic.setLocation( 0, 0 );
+                _topPointGraphic.setLocation( 0, (int) -_pickupCoilModel.getRadius() );
+                _bottomPointGraphic.setLocation( 0, (int) _pickupCoilModel.getRadius() );
+            }
+            
             // Flux display
             {
                 _fluxValue.setVisible( _displayFluxEnabled );
