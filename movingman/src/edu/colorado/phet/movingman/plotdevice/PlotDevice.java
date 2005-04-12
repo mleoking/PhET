@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.plots.PlotSet;
 import edu.colorado.phet.movingman.plots.TimeSeries;
 
@@ -134,7 +135,12 @@ public class PlotDevice extends GraphicLayerSet {
         setBoundsDirty();
     }
 
-    public void setMagnitude( double magnitude ) {
+    private void setMagnitude( double magnitude ) {
+        Range2D range = chart.getRange();
+        Range2D newRange = new Range2D( range );
+        newRange.setMaxY( magnitude );
+        newRange.setMinY( -magnitude );
+        chart.setRange( newRange );
     }
 
     public void requestTypingFocus() {
@@ -193,11 +199,33 @@ public class PlotDevice extends GraphicLayerSet {
         cursor.setX( time );
     }
 
-    public static class ZoomPanel extends GraphicLayerSet {
-        public ZoomPanel( PlotDevice plotDevice ) throws IOException {
-            BufferedImage im = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
-            JButton zoomIn = new JButton( new ImageIcon( im ) );
-            JButton zoomOut = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" ) ) );
+    public class ZoomPanel extends GraphicLayerSet {
+        public ZoomPanel( final PlotDevice plotDevice ) throws IOException {
+            BufferedImage imPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+            BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
+
+            final double smooth = 1;
+            ActionListener smoothPos = new Increment( smooth );
+            ActionListener smoothNeg = new Decrement( smooth );
+            ActionListener incPos = new Increment( 5 );
+            ActionListener incNeg = new Decrement( 5 );
+
+            MagButton zoomIn = new MagButton( new ImageIcon( imPlus ), smoothPos, incPos, SimStrings.get( "MMPlot.ZoomInButton" ) );
+            MagButton zoomOut = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, SimStrings.get( "MMPlot.ZoomOutButton" ) );
+
+//            JButton zoomIn = new JButton( new ImageIcon( im ) );
+//            zoomIn.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    plotDevice.zoomIn();
+//                }
+//            } );
+//
+//            JButton zoomOut = new JButton( icon );
+//            zoomOut.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    plotDevice.zoomOut();
+//                }
+//            } );
             JPanel panel = new JPanel();
             panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
             panel.add( zoomOut );
@@ -205,6 +233,15 @@ public class PlotDevice extends GraphicLayerSet {
             PhetGraphic g = PhetJComponent.newInstance( plotDevice.getComponent(), panel );
             addGraphic( g );
         }
+
+    }
+
+
+    private void zoomOut() {
+
+    }
+
+    private void zoomIn() {
     }
 
     public void setPaintYLines( double[] lines ) {
@@ -279,4 +316,79 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
 
+    class MagButton extends JButton {
+        public MagButton( Icon icon, ActionListener hold, ActionListener click, String tooltip ) {
+            super( icon );
+            addMouseListener( new RepeatClicker( hold, click ) );
+            setToolTipText( tooltip );
+        }
+    }
+
+    class Increment implements ActionListener {
+        double increment;
+
+        public Increment( double increment ) {
+            this.increment = increment;
+        }
+
+        public void actionPerformed( ActionEvent e ) {
+            Range2D origRange = chart.getRange();
+            double diffY = origRange.getMaxY();
+            double newDiffY = diffY - increment;
+            if( newDiffY > 0 ) {
+                setMagnitude( newDiffY );
+                setPaintYLines( getYLines( newDiffY, 5 ) );
+                rebuildChartBuffer();
+                notifyBufferChanged();
+            }
+        }
+
+    }
+
+    class Decrement implements ActionListener {
+        double increment;
+
+        public Decrement( double increment ) {
+            this.increment = increment;
+        }
+
+        public void actionPerformed( ActionEvent e ) {
+            Range2D origRange = chart.getRange();
+            double diffY = origRange.getMaxY();
+            double newDiffY = diffY + increment;
+            int MAX = 100;
+            if( newDiffY < MAX ) {
+                setMagnitude( newDiffY );
+                setPaintYLines( getYLines( newDiffY, 5 ) );
+                rebuildChartBuffer();
+                notifyBufferChanged();
+            }
+        }
+
+    }
+
+    private void notifyBufferChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            PlotDeviceListener plotDeviceListener = (PlotDeviceListener)listeners.get( i );
+            plotDeviceListener.bufferChanged();
+        }
+    }
+
+    private double[] getYLines( double magnitude, double dy ) {
+        ArrayList values = new ArrayList();
+        for( double i = dy; i < magnitude; i += dy ) {
+            values.add( new Double( i ) );
+        }
+        if( values.size() > 5 ) {
+            return getYLines( magnitude, dy * 2 );
+        }
+        if( values.size() <= 1 ) {
+            return getYLines( magnitude, dy / 2 );
+        }
+        double[] d = new double[values.size()];
+        for( int i = 0; i < d.length; i++ ) {
+            d[i] = ( (Double)values.get( i ) ).doubleValue();
+        }
+        return d;
+    }
 }

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class Chart extends GraphicLayerSet {
     private Component component;
     private Range2D range;
-    private Rectangle viewBounds;
 
     private ArrayList dataSetGraphics = new ArrayList();
     private Axis xAxis;
@@ -35,13 +34,25 @@ public class Chart extends GraphicLayerSet {
     private PhetShapeGraphic backgroundGraphic;
     private PhetShapeGraphic frameGraphic;
     private HTMLGraphic title;
+    private Dimension chartSize;
 
+    /**
+     * @param component
+     * @param range
+     * @param viewBounds
+     * @deprecated, viewBounds should be a Dimension only.  Set the location with setLocation().
+     */
     public Chart( Component component, Range2D range, Rectangle viewBounds ) {
+        this( component, range, viewBounds.getSize() );
+    }
+
+    public Chart( Component component, Range2D range, Dimension chartSize ) {
         super( component );
+        this.chartSize = chartSize;
         this.component = component;
         this.range = range;
-        this.viewBounds = viewBounds;
-        this.transform = new ModelViewTransform2D( range.getBounds(), viewBounds );
+
+        this.transform = new ModelViewTransform2D( range.getBounds(), new Rectangle( chartSize ) );
         this.xAxis = new Axis( this, AbstractGrid.HORIZONTAL );
         this.yAxis = new Axis( this, AbstractGrid.VERTICAL );
         this.verticalGridlines = new GridLineSet( this, AbstractGrid.VERTICAL );
@@ -84,6 +95,10 @@ public class Chart extends GraphicLayerSet {
 
     public PhetGraphic getTitle() {
         return title;
+    }
+
+    public Dimension getChartSize() {
+        return new Dimension( chartSize );
     }
 
     public interface Listener {
@@ -249,10 +264,10 @@ public class Chart extends GraphicLayerSet {
     }
 
     public void setChartSize( int width, int height ) {
-        Rectangle viewBounds = new Rectangle( width, height );
+        this.chartSize = new Dimension( width, height );
+        Rectangle viewBounds = new Rectangle( chartSize );
         backgroundGraphic.setShape( viewBounds );
         frameGraphic.setShape( viewBounds );
-        this.viewBounds = viewBounds;
         transform.setViewBounds( viewBounds );
         fireTransformChanged();
         setBoundsDirty();
@@ -268,7 +283,7 @@ public class Chart extends GraphicLayerSet {
     }
 
     public Rectangle getChartBounds() {
-        return getNetTransform().createTransformedShape( viewBounds ).getBounds();
+        return getNetTransform().createTransformedShape( new Rectangle( chartSize ) ).getBounds();
     }
 
     private void fireTransformChanged() {

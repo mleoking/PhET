@@ -20,7 +20,7 @@ public class MMPlot extends PlotDevice {
     private MovingManModule module;
     private String varname;
 
-    public MMPlot( final MovingManModule module, MovingManApparatusPanel movingManApparatusPanel,
+    public MMPlot( final MovingManModule module, final MovingManApparatusPanel movingManApparatusPanel,
                    String name, String varname ) {
         super( movingManApparatusPanel, new Range2D( 0, -10, 20, 10 ), name );
         this.module = module;
@@ -52,6 +52,11 @@ public class MMPlot extends PlotDevice {
         module.getTimeModel().getPlaybackTimer().addListener( new MMTimer.Listener() {
             public void timeChanged() {
                 setCursorLocation( module.getTimeModel().getPlaybackTimer().getTime() );
+            }
+        } );
+        addListener( new PlotDeviceListenerAdapter() {
+            public void bufferChanged() {
+                movingManApparatusPanel.repaintBackground();
             }
         } );
     }

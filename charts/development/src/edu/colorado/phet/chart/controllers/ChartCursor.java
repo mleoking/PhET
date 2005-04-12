@@ -44,21 +44,13 @@ public class ChartCursor extends CompositePhetGraphic {
         setCursorHand();
         addMouseInputListener( new MouseInputAdapter() {
             public void mouseDragged( MouseEvent e ) {
-                int x = e.getX();
-                try {
-                    Point2D txPt = chart.getNetTransform().inverseTransform( e.getPoint(), null );
-                    x = (int)txPt.getX();
-                }
-                catch( NoninvertibleTransformException e1 ) {
-                    e1.printStackTrace();
-                }
-                double newX = chart.getModelViewTransform().viewToModelX( x );
+                double newX = toModelCoordinate( e, chart );
                 newX = Math.max( newX, chart.getRange().getMinX() );
                 newX = Math.min( newX, chart.getRange().getMaxX() );
                 newX = Math.max( newX, minX );
                 newX = Math.min( newX, maxX );
                 if( newX != modelX ) {
-                    setModelX( newX );
+//                    setModelX( newX );//TODO this will break old interfaces.
                     for( int i = 0; i < listeners.size(); i++ ) {
                         Listener listener = (Listener)listeners.get( i );
                         listener.modelValueChanged( newX );
@@ -74,6 +66,19 @@ public class ChartCursor extends CompositePhetGraphic {
         shapeGraphic = new PhetShapeGraphic( component, null, fill, stroke, outline );
         addGraphic( shapeGraphic );
         update();
+    }
+
+    protected double toModelCoordinate( MouseEvent e, final Chart chart ) {
+        try {
+            Point2D txPt = chart.getNetTransform().inverseTransform( e.getPoint(), null );
+            int x = (int)txPt.getX();
+            double newX = chart.getModelViewTransform().viewToModelX( x );
+            return newX;
+        }
+        catch( NoninvertibleTransformException e1 ) {
+            e1.printStackTrace();
+            throw new RuntimeException( e1 );
+        }
     }
 
     public void setX( double x ) {
@@ -106,7 +111,6 @@ public class ChartCursor extends CompositePhetGraphic {
         int y = chart.getChartBounds().y;
         int height = chart.getChartBounds().height;
         shape.setBounds( x, y, width, height );
-//        shape=chart.getNetTransform().createTransformedShape( shape ).getBounds();
         shapeGraphic.setShape( shape );
     }
 

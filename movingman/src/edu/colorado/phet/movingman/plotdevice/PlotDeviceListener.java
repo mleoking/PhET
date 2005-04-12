@@ -17,4 +17,6 @@ public interface PlotDeviceListener {
     void maximizePressed();
 
     void sliderDragged( double dragValue );
+
+    void bufferChanged();
 }
