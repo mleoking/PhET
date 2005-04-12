@@ -40,7 +40,6 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
 
     private NumberFormat gravityFormat = NumberFormat.getInstance();
     private JTextField gravityTF;
-//    private JCheckBox gravityOnCB;
     private JSlider gravitySlider;
     private JPanel gravityControlPanel;
     private IdealGasModule module;
@@ -71,7 +70,8 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         this.setLayout( new GridBagLayout() );
         gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                       1, 1, 1, 1,
-                                      GridBagConstraints.CENTER,
+                                      GridBagConstraints.NORTH,
+//                                      GridBagConstraints.CENTER,
                                       GridBagConstraints.HORIZONTAL,
                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
 
@@ -115,17 +115,17 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
      */
     private void makeMiscControls() {
         miscPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                         1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER,
-                                                         GridBagConstraints.HORIZONTAL,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        GridBagConstraints localGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                              1, 1, 1, 1,
+                                                              GridBagConstraints.CENTER,
+                                                              GridBagConstraints.HORIZONTAL,
+                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
         JPanel gravityControls = gravityControls();
-        miscPanel.add( gravityControls, gbc );
+        miscPanel.add( gravityControls, localGbc );
 
 //        ParticleInteractionControl pic = new ParticleInteractionControl();
-//        gbc.fill = GridBagConstraints.NONE;
-//        miscPanel.add( pic, gbc );
+//        localGbc.fill = GridBagConstraints.NONE;
+//        miscPanel.add( pic, localGbc );
 
         Border gravityBorder = new TitledBorder( SimStrings.get( "IdealGasControlPanel.MiscPanelTitle" ) );
         miscPanel.setBorder( gravityBorder );
@@ -153,12 +153,12 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
 
         // Put them on the button panel
         buttonPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                         1, 1, 1, 1,
-                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                                                         new Insets( 2, 2, 2, 2 ), 0, 0 );
-        buttonPanel.add( resetBtn, gbc );
-        buttonPanel.add( measurementDlgBtn, gbc );
+        GridBagConstraints localGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                              1, 1, 1, 1,
+                                                              GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                                                              new Insets( 2, 2, 2, 2 ), 0, 0 );
+        buttonPanel.add( resetBtn, localGbc );
+        buttonPanel.add( measurementDlgBtn, localGbc );
         buttonPanel.revalidate();
     }
 
@@ -166,16 +166,24 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
      * Returns a panel with selections for whether volume or pressure is to be held constant
      */
     private JPanel constantParamControls() {
-        JPanel constantParamButtonPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
+        JPanel constantParamButtonPanel = new JPanel( new GridBagLayout() );
         final JRadioButton constantVolumeRB = new JRadioButton( SimStrings.get( "Common.Volume" ) );
         final JRadioButton constantPressureRB = new JRadioButton( SimStrings.get( "Common.Pressure" ) );
         final ButtonGroup constantParameterGroup = new ButtonGroup();
         constantParameterGroup.add( constantVolumeRB );
         constantParameterGroup.add( constantPressureRB );
-        constantParamButtonPanel.add( constantVolumeRB );
-        constantParamButtonPanel.add( constantPressureRB );
-        constantParamButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Constant_Parameter" ) ) );
-        this.add( constantParamButtonPanel );
+
+        GridBagConstraints localGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                              1, 1, 1, 1,
+                                                              GridBagConstraints.WEST, GridBagConstraints.NONE,
+                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+        constantParamButtonPanel.add( constantVolumeRB, localGbc );
+        constantParamButtonPanel.add( constantPressureRB, localGbc );
+        JPanel container = new JPanel( new GridBagLayout() );
+        localGbc.gridy = 0;
+        localGbc.anchor = GridBagConstraints.CENTER;
+        container.add( constantParamButtonPanel, localGbc );
+        container.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Constant_Parameter" ) ) );
 
         constantVolumeRB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -190,7 +198,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
             }
         } );
         constantVolumeRB.setSelected( true );
-        return constantParamButtonPanel;
+        return container;
     }
 
     /**
@@ -201,7 +209,6 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         gravityControlPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
-//                                                         GridBagConstraints.WEST,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         // Add control for gravity, set default to OFF

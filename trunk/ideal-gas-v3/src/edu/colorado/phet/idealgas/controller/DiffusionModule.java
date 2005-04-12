@@ -15,6 +15,7 @@ import edu.colorado.phet.collision.VerticalWallFixupStrategy;
 import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
@@ -51,6 +52,54 @@ public class DiffusionModule extends AdvancedModule {
 
         final Box2D box = super.getBox();
 
+        ControlPanel controlPanel = new ControlPanel( this );
+        setControlPanel( controlPanel );
+        controlPanel.add( new AdvancedIdealGasControlPanel( this ) );
+
+        createWalls( box );
+
+        JButton testButton = new JButton( "Test" );
+//        getControlPanel().add( testButton );
+        testButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+//                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( 314,
+//                                                                                 327 ),
+//                                                             new Vector2D.Double( 00, -100 ),
+//                                                             new Vector2D.Double() );
+                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( 324 + 70,
+                                                                                 315 + 3 ),
+                                                             new Vector2D.Double( -100, 0 ),
+                                                             new Vector2D.Double() );
+//                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner1X() + 50,
+//                                                                                 box.getCorner1Y() + 70),
+//                                                             new Vector2D.Double( 100, 100 ),
+//                                                             new Vector2D.Double( ) );
+                new PumpMoleculeCmd( getIdealGasModel(), newMolecule, DiffusionModule.this ).doIt();
+
+            }
+        } );
+
+        // Add the particle counters     
+        addParticleCounters();
+
+        // Change title of control under the pump
+        setPumpSelectorPanelTitle( SimStrings.get( "IdealGasControlPanel.Pump_Particles"));
+
+        // Remove the mannequin graphic and the box door
+        getApparatusPanel().removeGraphic( getPusher() );
+        getApparatusPanel().removeGraphic( getBoxDoorGraphic() );
+        
+
+        JButton backupButton = new JButton( "Backup" );
+//        getControlPanel().add( backupButton );
+        backupButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getModel().stepInTime( -clock.getDt() );
+            }
+        } );
+    }
+
+    private void createWalls( final Box2D box ) {
         // Create the lower vertical wall
         verticalWall = new Wall( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
                                                       box.getCorner1Y() + box.getHeight() * 2 / 3,
@@ -89,42 +138,6 @@ public class DiffusionModule extends AdvancedModule {
         getModel().addModelElement( upperWall );
         addGraphic( upperWallGraphic, 1000 );
         upperWall.addChangeListener( new WallChangeListener() );
-
-        JButton testButton = new JButton( "Test" );
-//        getControlPanel().add( testButton );
-        testButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-//                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( 314,
-//                                                                                 327 ),
-//                                                             new Vector2D.Double( 00, -100 ),
-//                                                             new Vector2D.Double() );
-                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( 324 + 70,
-                                                                                 315 + 3 ),
-                                                             new Vector2D.Double( -100, 0 ),
-                                                             new Vector2D.Double() );
-//                HeavySpecies newMolecule = new HeavySpecies( new Point2D.Double( box.getCorner1X() + 50,
-//                                                                                 box.getCorner1Y() + 70),
-//                                                             new Vector2D.Double( 100, 100 ),
-//                                                             new Vector2D.Double( ) );
-                new PumpMoleculeCmd( getIdealGasModel(), newMolecule, DiffusionModule.this ).doIt();
-
-            }
-        } );
-
-        // Add the particle counters     
-        addParticleCounters();
-
-        // Change title of control under the pump
-        setPumpSelectorPanelTitle( SimStrings.get( "IdealGasControlPanel.Pump_Particles"));
-
-
-        JButton backupButton = new JButton( "Backup" );
-//        getControlPanel().add( backupButton );
-        backupButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getModel().stepInTime( -clock.getDt() );
-            }
-        } );
     }
 
 

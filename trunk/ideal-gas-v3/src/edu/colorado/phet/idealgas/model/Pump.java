@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 
-public class
-        Pump extends SimpleObservable implements GasSource {
+public class Pump extends SimpleObservable implements GasSource {
 
 
     // Coordinates of the intake port on the box
@@ -33,12 +32,16 @@ public class
     protected static final float MAX_V = -30;
 
     private IdealGasModel model;
+    private Module module;
     private Class currentGasSpecies = HeavySpecies.class;
+    private PumpingEnergyStrategy pumpingEnergyStrategy;
 
     // The box to which the pump is attached
     private Box2D box;
-    private Module module;
-    private PumpingEnergyStrategy pumpingEnergyStrategy;
+
+    // The minimum and maximum angles for the velocity of particles produced by the pump
+    private double minTheta = Math.PI * 3 / 4;;
+    private double maxTheta = Math.PI * 5 / 4;
 
     /**
      * @param module
@@ -133,6 +136,10 @@ public class
         return newMolecule;
     }
 
+    /**
+     * Sets the default species of gas that will be produced by the pump
+     * @param currentGasSpecies
+     */
     public void setCurrentGasSpecies( Class currentGasSpecies ) {
         this.currentGasSpecies = currentGasSpecies;
     }
@@ -141,8 +148,22 @@ public class
         return currentGasSpecies;
     }
 
+    /**
+     * Set the strategy that will be used to set the energy of particles produced by the pump
+     * @param pumpingEnergyStrategy
+     */
     public void setPumpingEnergyStrategy( PumpingEnergyStrategy pumpingEnergyStrategy ) {
         this.pumpingEnergyStrategy = pumpingEnergyStrategy;
+    }
+
+    /**
+     * Sets the minimum and maximum angles for the velocity of particles produced by the pump
+     * @param minTheta
+     * @param maxTheta
+     */
+    public void setDispersionAngle( double minTheta, double maxTheta ) {
+        this.minTheta = minTheta;
+        this.maxTheta = maxTheta;
     }
 
     /**
@@ -173,9 +194,7 @@ public class
             throw new RuntimeException( "No gas species set in application" );
         }
 
-        double pe = model.getPotentialEnergy( newMolecule );
         double vSq = 2 * ( initialEnergy ) / newMolecule.getMass();
-//        double vSq = 2 * ( initialEnergy - pe ) / newMolecule.getMass();
         if( vSq <= 0 ) {
             System.out.println( "vSq <= 0 in PumpMoleculeCmd.createMolecule" );
         }
@@ -185,14 +204,14 @@ public class
 //        double factor = 10 / .22;  // 10px = .22nm
 //        v *= factor;
 
-        float theta = (float)Math.random() * PI_OVER_2 - PI_OVER_4;
-
-//        theta += Math.PI / 2;
+        double theta = Math.random() * (maxTheta - minTheta ) + minTheta;
+//        float theta = (float)Math.random() * PI_OVER_2 - PI_OVER_4;
 
         // xV must be negative so that molecules move away from the intake port
         // Set the velocity twice, so the previous velocity is set to be
         // the same
-        float xV = -(float)Math.abs( v * Math.cos( theta ) );
+        float xV = v * (float)Math.cos( theta );
+//        float xV = -(float)Math.abs( v * Math.cos( theta ) );
         float yV = v * (float)Math.sin( theta );
         newMolecule.setVelocity( xV, yV );
         newMolecule.setVelocity( xV, yV );

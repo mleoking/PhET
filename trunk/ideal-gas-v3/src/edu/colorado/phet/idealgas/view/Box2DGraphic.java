@@ -136,19 +136,18 @@ public class Box2DGraphic extends CompositePhetGraphic {
             update();
         }
 
+        /**
+         *
+         */
         public void update() {
             rect.setRect( box.getMinX(),
                           box.getMinY(),
                           box.getMaxX() - box.getMinX(),
                           box.getMaxY() - box.getMinY() );
-//            rect.setRect( box.getMinX() - s_thickness / 2,
-//                          box.getMinY() - s_thickness / 2,
-//                          box.getMaxX() - box.getMinX() + s_thickness,
-//                          box.getMaxY() - box.getMinY() + s_thickness );
             mouseableArea.setRect( box.getMinX() - s_thickness,
-                                   box.getMinY() - s_thickness,
+                                   box.getMinY() - s_thickness / 2,
                                    s_thickness,
-                                   box.getMaxY() - box.getMinY() + s_thickness * 2 );
+                                   box.getMaxY() - box.getMinY() + s_thickness );
             wallHandleLocation = new Point( (int)( box.getMinX() - wallHandle.getWidth() ),
                                             (int)( box.getMinY() + box.getHeight() + wallHandle.getHeight() ) / 2 );
             mouseableArea.add( new Rectangle( wallHandleLocation.x, wallHandleLocation.y,
@@ -160,8 +159,16 @@ public class Box2DGraphic extends CompositePhetGraphic {
             super.repaint();
         }
 
+        /**
+         *
+         * @param g
+         */
         public void paint( Graphics2D g ) {
             saveGraphicsState( g );
+
+            // Draw the box before filling it, so the graphical interior of the box corresponds to the
+            // model box. If we reversed the order, the stroke of the box would make the interior look
+            // smaller than the model box.
             g.drawImage( wallHandle, (int)wallHandleLocation.x, (int)wallHandleLocation.y,
                          wallHandle.getWidth(), wallHandle.getHeight(), null );
             g.setStroke( s_defaultStroke );
@@ -170,7 +177,6 @@ public class Box2DGraphic extends CompositePhetGraphic {
 
             s_openingColor = Color.black;
             g.setColor( s_openingColor );
-//            g.setColor( Color.white );
             g.fill( openingRect );
 
             g.setColor( Color.black );
