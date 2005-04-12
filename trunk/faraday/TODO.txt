@@ -38,17 +38,18 @@ POSSIBLE OPTIMIZATIONS:
 - switch to offscreen buffer
 
 PHETCOMMON:
-- bug: mouse event handling is convoluted and sometimes incorrect
-- bug: hand cursor accidentally picks another object when you release mouse
+- bug: fix PhetLookAndFeel so that it works on all platforms
 - bug: ApparatusPanel2 resize problems
 - bug: MathUtil.clamp behavior with Double.NaN
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
-- bug: fix PhetShapeGraphic.contains so that stroke width is taken into account, test with CompassGraphic
 - make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
 v0r22...
+(4/12) - phetcommon test program for mouse event handling
+(4/12) - bug: hand cursor accidentally moves another object when you release mouse (GraphicLayer set bug)
+(4/12) - add setName and getName to PhetGraphic
 (4/11) - fix sliders do that they always unhighlight wehn you roll off them
 (4/11) - replace all implementations of TranslationListener with an extension of MouseInputAdapter
 (4/11) - use red color for Challenges
@@ -359,6 +360,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(4/12) - fix PhetShapeGraphic.contains so that stroke width is taken into account (compass is now flattened to an image)
 (4/8) - make wiggle me's fade out instead of blinking off (no one asked for this, different than other sims)
 (4/6) - put compass in top layer so it doesn't get hidden behind larger objects (compass needs to move through coil)
 (4/5) - lightbulb flashes the first time that you visit each module (Carl likes this, leave it in)

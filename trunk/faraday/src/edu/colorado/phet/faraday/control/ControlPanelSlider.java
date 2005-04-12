@@ -22,7 +22,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.faraday.control.panel.EasyGridBagLayout;
+import edu.colorado.phet.faraday.util.EasyGridBagLayout;
 
 
 /**

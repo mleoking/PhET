@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.faraday.control.panel;
+package edu.colorado.phet.faraday.util;
 
 // JDK
 import java.awt.Dimension;
