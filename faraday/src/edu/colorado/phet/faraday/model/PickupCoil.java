@@ -34,6 +34,9 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     // Determines how the magnetic field decreases with the distance from the magnet.
     private static final double DISTANCE_EXPONENT = 2.0;
     
+    // If true, then flux is calculated using an average of sample points.
+    private static final boolean FLUX_AVERAGING_ENABLED = true;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -194,20 +197,24 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             bottomFlux = B * A * Math.cos( theta ); 
         }
         
-        /* 
-         * Calculate the total flux of the coil.
-         * Use the sample point with the largest flux. 
-         * (If we try to average the sample points, things get squirrelly near the coil.
-         * As the sample points become perpendicular to the coil, their flux becomes zero.
-         * And this causes the induced emf to actually decrease.)
-         */
-        double loopFlux = centerFlux;
-        if ( Math.abs( topFlux ) > Math.abs( loopFlux ) ) {
-            loopFlux = topFlux;
+        // Calculate the flux in one loop.
+        double loopFlux;
+        if ( FLUX_AVERAGING_ENABLED ) {
+            // Use an average of the sample points.
+            loopFlux = ( centerFlux + topFlux + bottomFlux ) / 3;
         }
-        if ( Math.abs( bottomFlux ) > Math.abs( loopFlux ) ) {
-            loopFlux = bottomFlux;
+        else {
+            // Use the sample point with the largest flux.
+            loopFlux = centerFlux;
+            if ( Math.abs( topFlux ) > Math.abs( loopFlux ) ) {
+                loopFlux = topFlux;
+            }
+            if ( Math.abs( bottomFlux ) > Math.abs( loopFlux ) ) {
+                loopFlux = bottomFlux;
+            }
         }
+        
+        // Calculate the total flux in the coil.
         double flux = getNumberOfLoops() * loopFlux;
         
         // Calculate the change in flux.
