@@ -64,6 +64,8 @@ class StateLifetimeManager implements ModelElement {
         lifeTime += dt;
         if( lifeTime >= deathTime ) {
 
+            AtomicState nextState = atom.getEnergyStateAfterEmission();
+//            AtomicState nextState = state.getNextLowerEnergyState();
             if( emitOnStateChange ) {
                 System.out.println( "photon emitted" );
                 double speed = Photon.SPEED;
@@ -71,7 +73,7 @@ class StateLifetimeManager implements ModelElement {
                 double x = speed * Math.cos( theta );
                 double y = speed * Math.sin( theta );
 
-                Photon emittedPhoton = Photon.create( state.determineEmittedPhotonWavelength(),
+                Photon emittedPhoton = Photon.create( state.determineEmittedPhotonWavelength( nextState ),
                                                       new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ),
                                                       new Vector2D.Double( x, y ) );
 
@@ -85,7 +87,7 @@ class StateLifetimeManager implements ModelElement {
             }
 
             // Change state
-            atom.setCurrState( state.getNextLowerEnergyState() );
+            atom.setCurrState( nextState );
 
             // Remove us from the model
             kill();
