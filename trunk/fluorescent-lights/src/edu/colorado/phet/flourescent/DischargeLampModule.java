@@ -42,6 +42,11 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     private ElectronSource cathode;
     private double s_maxSpeed = 0.1;
 
+    private int numEnergyLevels = 5;
+
+    public static boolean DEBUG = false;
+//    public static boolean DEBUG = true;
+
     protected DischargeLampModule( AbstractClock clock ) {
         super( "Module A", clock );
 
@@ -70,7 +75,12 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         ResonatingCavity tube = addTube( model, apparatusPanel );
 
         // Add some atoms
-        addAtoms( tube );
+        if( DEBUG ) {
+            addDebugAtoms( tube );
+        }
+        else {
+            addAtoms( tube );
+        }
 
         // Set up the control panel
         addControls();
@@ -95,6 +105,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
     /**
      * Creates the tube, adds it to the model and creates a graphic for it
+     *
      * @param model
      * @param apparatusPanel
      * @return
@@ -111,6 +122,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
     /**
      * Adds some atoms and their graphics
+     *
      * @param tube
      */
     private void addAtoms( ResonatingCavity tube ) {
@@ -118,7 +130,6 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         ArrayList atoms = new ArrayList();
         Rectangle2D tubeBounds = tube.getBounds();
         int numAtoms = 30;
-        int numEnergyLevels = 3;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
             atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
@@ -132,28 +143,33 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
     /**
      * Adds some atoms and their graphics
+     *
      * @param tube
      */
     private void addDebugAtoms( ResonatingCavity tube ) {
 
-
+        getModel().removeModelElement( cathode );
         Point2D p0 = new Point2D.Double( FluorescentLightsConfig.CATHODE_LINE.getP1().getX(),
-                                         (FluorescentLightsConfig.CATHODE_LINE.getP1().getY() +
-                                       FluorescentLightsConfig.CATHODE_LINE.getP2().getY() ) / 2  - 20);
-
+                                         ( FluorescentLightsConfig.CATHODE_LINE.getP1().getY() +
+                                           FluorescentLightsConfig.CATHODE_LINE.getP2().getY() ) / 2 - 20 );
         cathode = new ElectronSource( getModel(), p0, p0 );
+        cathode.addListener( this );
+        cathode.setElectronsPerSecond( 0 );
+        cathode.setPosition( FluorescentLightsConfig.CATHODE_LOCATION );
+        getModel().addModelElement( cathode );
+        addAnode( (FluorescentLightModel)getModel(), getApparatusPanel(), cathode );
+        hookCathodeToAnode();
 
         DischargeLampAtom atom = null;
         ArrayList atoms = new ArrayList();
         Rectangle2D tubeBounds = tube.getBounds();
         int numAtoms = 1;
 //        int numAtoms = 30;
-        int numEnergyLevels = 3;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
             atom.setPosition( ( tubeBounds.getX() + 150 ),
-                              ( tubeBounds.getY() + tubeBounds.getHeight() / 2 - atom.getRadius()));
-            atom.setVelocity( 0,0 );
+                              ( tubeBounds.getY() + tubeBounds.getHeight() / 2 - atom.getRadius() ) );
+            atom.setVelocity( 0, 0 );
             atoms.add( atom );
             addAtom( atom );
         }
@@ -194,12 +210,11 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     /**
      * @param model
      * @param apparatusPanel
-     * @return
      */
-    private ElectronSource addCathode( FluorescentLightModel model, ApparatusPanel apparatusPanel ) {
+    private void addCathode( FluorescentLightModel model, ApparatusPanel apparatusPanel ) {
         cathode = new ElectronSource( model,
-                                       FluorescentLightsConfig.CATHODE_LINE.getP1(),
-                                       FluorescentLightsConfig.CATHODE_LINE.getP2() );
+                                      FluorescentLightsConfig.CATHODE_LINE.getP1(),
+                                      FluorescentLightsConfig.CATHODE_LINE.getP2() );
         model.addModelElement( cathode );
         cathode.addListener( this );
         cathode.setElectronsPerSecond( 0 );
@@ -209,7 +224,6 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
                                              (int)cathodeGraphic.getBounds().getHeight() / 2 );
         cathodeGraphic.setLocation( FluorescentLightsConfig.CATHODE_LOCATION );
         apparatusPanel.addGraphic( cathodeGraphic, FluorescentLightsConfig.CIRCUIT_LAYER );
-        return cathode;
     }
 
 

@@ -71,7 +71,8 @@ public class Electron extends SphericalBody implements Collidable {
     }
 
     public double getEnergy() {
-        return energy;
+        return getVelocity().getMagnitudeSq() * getMass() / 2 ;
+//        return energy;
     }
 
     public void setEnergy( double e ) {

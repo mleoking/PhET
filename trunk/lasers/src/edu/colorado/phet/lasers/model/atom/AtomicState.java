@@ -75,6 +75,29 @@ public class AtomicState {
         return wavelength;
     }
 
+    /**
+     * Determines the wavelength of a photon that would be emitted if the atom dropped to a
+     * specified state
+     *
+     * @param nextState
+     * @return
+     */
+    public double determineEmittedPhotonWavelength( AtomicState nextState ) {
+        double energy1 = Photon.wavelengthToEnergy( this.getWavelength() );
+        double energy2 = Photon.wavelengthToEnergy( nextState.getWavelength() );
+
+        // todo: this isn't right. It doesn't work for upper to middle transitions
+        double emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
+                                             AtomicState.maxWavelength );
+        return emittedWavelength;
+    }
+
+    /**
+     * Returns the wavelength of a photon that would be emitted if the atom dropped to the next
+     * lower energy state
+     *
+     * @return
+     */
     public double determineEmittedPhotonWavelength() {
         double energy1 = Photon.wavelengthToEnergy( this.getWavelength() );
         double energy2 = Photon.wavelengthToEnergy( this.getNextLowerEnergyState().getWavelength() );

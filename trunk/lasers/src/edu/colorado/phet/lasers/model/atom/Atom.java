@@ -65,6 +65,10 @@ public class Atom extends SolidSphere {
         return states;
     }
 
+    public void setStates( AtomicState[] states ) {
+        this.states = states;
+    }
+
     /**
      * Sets the energy currState of the atom. If this is a currState from which the atom can spontanteously
      * change, a StateLifetimeManager is instatiated to control the change.
@@ -140,6 +144,16 @@ public class Atom extends SolidSphere {
             }
         }
         return lowestState;
+    }
+
+    /**
+     * Returns the state the atom will be in if it emits a photon. By default, this is the
+     * next lower energy state
+     *
+     * @return
+     */
+    public AtomicState getEnergyStateAfterEmission() {
+        return currState.getNextLowerEnergyState();
     }
 
 
