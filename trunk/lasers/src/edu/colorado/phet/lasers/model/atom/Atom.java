@@ -74,13 +74,9 @@ public class Atom extends SolidSphere {
     public void setCurrState( final AtomicState newState ) {
         final AtomicState oldState = this.currState;
 
-        if( oldState != null ) {
-            oldState.decrementNumInState();
-        }
         if( this.stateLifetimeManager != null ) {
             stateLifetimeManager.kill();
         }
-        newState.incrNumInState();
         this.currState = newState;
         boolean emitPhotonOnLeavingState = false;
         if( newState instanceof MiddleEnergyState ) {
@@ -114,7 +110,6 @@ public class Atom extends SolidSphere {
     }
 
     public void removeFromSystem() {
-        currState.decrementNumInState();
         leftSystemListenerProxy.leftSystem( new LeftSystemEvent( this ) );
         changeListenerProxy.stateChanged( new ChangeEvent( this, null, this.getCurrState() ) );
     }

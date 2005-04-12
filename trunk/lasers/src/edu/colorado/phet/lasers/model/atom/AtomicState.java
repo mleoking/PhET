@@ -42,26 +42,9 @@ public abstract class AtomicState {
     //
     private double energyLevel;
     private double wavelength;
-    private int numAtomsInState;
     private double meanLifetime = Double.POSITIVE_INFINITY;
     private AtomicState nextHigherState;
     private AtomicState nextLowerState;
-
-    void incrNumInState() {
-        numAtomsInState++;
-    }
-
-    void decrementNumInState() {
-        numAtomsInState--;
-    }
-
-    public int getNumAtomsInState() {
-        return numAtomsInState;
-    }
-
-    public void clearNumInState() {
-        numAtomsInState = 0;
-    }
 
     public double getEnergyLevel() {
         return energyLevel;
