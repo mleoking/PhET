@@ -57,6 +57,7 @@ public abstract class PhetGraphic {
     private RenderingHints renderingHints;
     private Stack graphicsStates = new Stack();
     private GraphicLayerSet parent;
+    private String name;
 
     /*A bit of state to facilitate interactivity.*/
     protected CompositeMouseInputListener mouseInputListener = new CompositeMouseInputListener();//delegate
@@ -159,7 +160,26 @@ public abstract class PhetGraphic {
         this.lastBounds = lastBounds;
     }
 
-
+    /**
+     * Sets the name of the graphic to the specified string.
+     * The purpose this method is similar to java.awt.Component.setName.
+     * 
+     * @param name the string that is to be this component's name
+     */
+    public void setName( String name ) {
+        this.name = name;
+    }
+    
+    /**
+     * Gets the name of the component.
+     * The purpose this method is similar to java.awt.Component.getName.
+     * 
+     * @return the component's name
+     */
+    public String getName() {
+        return name;
+    }
+    
     //----------------------------------------------------------------------------
     // Graphics Context methods
     //----------------------------------------------------------------------------
