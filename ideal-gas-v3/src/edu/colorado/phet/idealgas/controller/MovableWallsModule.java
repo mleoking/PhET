@@ -57,6 +57,8 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
     private Wall rightFloor;
     private int wallThickness = (int)GasMolecule.s_defaultRadius * 8;
     private PhetShapeGraphic energyCurveGraphic;
+    private Pump reactantsPump;
+    private Pump productsPump;
 
     /**
      * @param clock
@@ -68,7 +70,14 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         setControlPanel( controlPanel );
         controlPanel.add( new AdvancedIdealGasControlPanel( this ) );
 
+        // Add a collision expert for the walls and particles
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
+
+        // Create a pump for each side of the box
+        reactantsPump = new Pump( this, getBox(), getPumpingEnergyStrategy() );
+        reactantsPump.setDispersionAngle( 0, Math.PI * 2 );
+        productsPump = new Pump( this, getBox(), getPumpingEnergyStrategy() );
+        productsPump.setDispersionAngle( 0, Math.PI * 2 );
 
         createWalls();
         createCurve();
@@ -344,7 +353,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                                                      leftFloor.getBounds().getMinY(),
                                                      verticalWallBounds.getMinX() - boxBounds.getMinX(),
                                                      boxBounds.getMaxY() - leftFloor.getBounds().getMinY() ) );
-//                                                     leftFloor.getBounds().getHeight() ) );
         rightFloor.setBounds( new Rectangle2D.Double( verticalWallBounds.getMaxX(),
                                                       rightFloor.getBounds().getMinY(),
                                                       boxBounds.getMaxX() - verticalWallBounds.getMaxX(),
@@ -356,9 +364,10 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // Right floor can't go higher than the intake port on the box
         rightFloor.setMovementBounds( new Rectangle2D.Double( verticalWallBounds.getMaxX(),
 //                                                              Math.max( verticalWallBounds.getMinY(), Pump.s_intakePortY + 10 ),
-                                                              verticalWallBounds.getMinX() - boxBounds.getMinX(),
+                                                              verticalWallBounds.getMinY(),
                                                               boxBounds.getMaxX() - verticalWallBounds.getMaxX(),
-                                                              boxBounds.getMaxY() - ( Pump.s_intakePortY + 10 ) ) );
+                                                              boxBounds.getMaxY() - verticalWallBounds.getMinY() ) );
+//                                                              boxBounds.getMaxY() - ( Pump.s_intakePortY + 10 ) ) );
     }
 
 
@@ -371,12 +380,13 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         if( species == HeavySpecies.class ) {
             location = new Point2D.Double( ( leftFloor.getBounds().getMinX() + leftFloor.getBounds().getMaxX() ) / 2,
                                            leftFloor.getBounds().getMinY() - 15 );
+            reactantsPump.pump( numMolecules, species, location );
         }
         if( species == LightSpecies.class ) {
             location = new Point2D.Double( ( rightFloor.getBounds().getMinX() + rightFloor.getBounds().getMaxX() ) / 2,
                                            rightFloor.getBounds().getMinY() - 15 );
+            productsPump.pump( numMolecules, species, location );
         }
-        getPump().pump( numMolecules, species, location );
     }
 
 

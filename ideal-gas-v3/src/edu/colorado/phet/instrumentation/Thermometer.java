@@ -136,8 +136,9 @@ public class Thermometer extends PhetGraphic {
         g.setColor( s_outlineColor );
         g.draw( bulb );
 
-        g.setColor( Color.green );
-        g.draw( determineBounds() );
+        // Debug
+//        g.setColor( Color.green );
+//        g.draw( determineBounds() );
 
         gs.restoreGraphics();
     }
