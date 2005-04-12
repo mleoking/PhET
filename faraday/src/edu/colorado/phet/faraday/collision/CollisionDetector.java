@@ -9,11 +9,12 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.faraday.view;
+package edu.colorado.phet.faraday.collision;
 
 import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Iterator;
+
 
 
 /**
