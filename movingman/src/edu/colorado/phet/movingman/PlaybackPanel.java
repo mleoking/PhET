@@ -21,6 +21,7 @@ public class PlaybackPanel extends JPanel {
     private JButton pause;
     private JButton rewind;
     private JButton slowMotion;
+    private JButton clear;
     private MovingManModule module;
 
     public PlaybackPanel( final MovingManModule module ) throws IOException {
@@ -59,10 +60,18 @@ public class PlaybackPanel extends JPanel {
             }
         } );
 
+        clear = new JButton( SimStrings.get( "PlaybackPanel.Clear" ) );
+        clear.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.confirmAndApplyReset();
+            }
+        } );
+
         add( play );
         add( slowMotion );
         add( pause );
         add( rewind );
+        add( clear );
 //        JLabel separator = new JLabel();
 //        separator.setPreferredSize( new Dimension( 20, 10 ) );
 //        add( separator );

@@ -29,7 +29,6 @@ public class MovingManTimeModel {
     private boolean stopped = false;
 
     public MovingManTimeModel( MovingManModule module ) {
-
         recordTimer = new MMTimer( SimStrings.get( "MovingManModule.RecordTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
         playbackTimer = new MMTimer( SimStrings.get( "MovingManModule.PlaybackTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
         mainModelElement = new ModelElement() {
@@ -122,7 +121,6 @@ public class MovingManTimeModel {
     }
 
     public void setPaused( boolean paused ) {
-
         if( paused != this.paused ) {
             this.paused = paused;
             if( paused ) {
@@ -134,7 +132,6 @@ public class MovingManTimeModel {
             else if( isPlayback() ) {
                 firePlaybackStarted();
             }
-
         }
     }
 
@@ -161,13 +158,9 @@ public class MovingManTimeModel {
     }
 
     public void reset() {
-
         setPaused( true );
-
         recordTimer.reset();
         playbackTimer.reset();
-
-
         fireReset();
     }
 
@@ -176,13 +169,10 @@ public class MovingManTimeModel {
     }
 
     public boolean isRecordMode() {
-
-
         return mode == recordMode;
     }
 
     public boolean isTakingData() {
-
         return !isPaused() && mode.isTakingData();
     }
 
@@ -226,4 +216,5 @@ public class MovingManTimeModel {
 
         return mode == recordMode && !isPaused();
     }
+
 }

@@ -67,6 +67,7 @@ public class MovingManApparatusPanel extends ApparatusPanel {
         bufferedWalkwayGraphic = BufferedPhetGraphic2.createBuffer( walkwayGraphic, new BasicGraphicsSetup(), BufferedImage.TYPE_INT_RGB, getBackgroundColor() );
 
         addGraphic( bufferedWalkwayGraphic, 0 );
+//        addGraphic( walkwayGraphic, 0 );
 
         Point2D start = manGraphic.getRectangle().getLocation();
         start = new Point2D.Double( start.getX() + 50, start.getY() + 50 );
@@ -101,6 +102,10 @@ public class MovingManApparatusPanel extends ApparatusPanel {
 
         RepaintDebugGraphic.enable( this, module.getClock() );
         setDoubleBuffered( true );
+
+        SliderWiggleMe sliderWiggleMe = new SliderWiggleMe( this, module, module.getClock() );
+        addGraphic( sliderWiggleMe, Double.POSITIVE_INFINITY );
+//        sliderWiggleMe.setVisible( true );
     }
 
     public void paint( Graphics g ) {
@@ -168,8 +173,17 @@ public class MovingManApparatusPanel extends ApparatusPanel {
 
     public void repaintBackground() {
         PhetImageGraphic pig = BufferedPhetGraphic2.createBuffer( walkwayGraphic, new BasicGraphicsSetup(), BufferedImage.TYPE_INT_RGB, getBackground() );
+        Rectangle r = walkwayGraphic.getBounds();
+        System.out.println( "r = " + r );
+        System.out.println( "walkwayGraphic.getLocation() = " + walkwayGraphic.getLocation() );
+
         bufferedWalkwayGraphic.setImage( pig.getImage() );
-        bufferedWalkwayGraphic.setLocation( walkwayGraphic.getX(), walkwayGraphic.getY() );
+        bufferedWalkwayGraphic.setRegistrationPoint( -walkwayGraphic.getBounds().x, -walkwayGraphic.getBounds().y );
+        if( movingManLayout != null ) {
+            bufferedWalkwayGraphic.setLocation( movingManLayout.getWalkWayInsetX(), 0 );
+        }
+        System.out.println( "bufferedWalkwayGraphic.getLocation() = " + bufferedWalkwayGraphic.getLocation() );
+        System.out.println( "walkwayGraphic.getLocation() = " + walkwayGraphic.getLocation() );
         repaint();
     }
 
@@ -195,5 +209,20 @@ public class MovingManApparatusPanel extends ApparatusPanel {
 
     public MovingManModule getModule() {
         return module;
+    }
+
+    public void reset() {
+        setCursorsVisible( false );
+        getPlotSet().reset();
+        repaint();
+    }
+
+    public void setCursorsVisible( boolean visible ) {
+        getPlotSet().setCursorsVisible( visible );
+    }
+
+    public void initialize() {
+        setCursorsVisible( true );
+        repaintBackground();
     }
 }

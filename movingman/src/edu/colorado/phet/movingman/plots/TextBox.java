@@ -12,10 +12,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class TextBox extends JPanel {
-    boolean changedByUser;
-    JTextField textField;
-    JLabel label;
     static Font font = MMFontManager.getFontSet().getTextBoxFont();
+
+    private boolean changedByUser;
+    private JTextField textField;
+    private JLabel label;
     private MovingManModule module;
 
     public TextBox( MovingManModule module, int text, String labelText ) {
@@ -48,37 +49,47 @@ public class TextBox extends JPanel {
         setBorder( BorderFactory.createLineBorder( Color.black ) );
         module.addListener( new TimeListener() {
             public void recordingStarted() {
-                textField.setEditable( false );
+                setTextFieldEditable( false );
             }
 
             public void recordingPaused() {
-                textField.setEditable( true );
+                setTextFieldEditable( true );
             }
 
             public void recordingFinished() {
-                textField.setEditable( false );
+                setTextFieldEditable( false );
             }
 
             public void playbackStarted() {
-                textField.setEditable( false );
+                setTextFieldEditable( false );
             }
 
             public void playbackPaused() {
-                textField.setEditable( true );
+                setTextFieldEditable( true );
             }
 
             public void playbackFinished() {
-                textField.setEditable( false );
+                setTextFieldEditable( false );
             }
 
             public void reset() {
-                textField.setEditable( true );
+                setTextFieldEditable( true );
             }
 
             public void rewind() {
-                textField.setEditable( true );
+                setTextFieldEditable( true );
             }
         } );
+    }
+
+    public void setTextFieldEditable( boolean editable ) {
+        textField.setEditable( editable );
+        textField.selectAll();
+        textField.requestFocus();
+        textField.firePropertyChange( "test", 0, 1 );
+//        textField.setSelectionEnd( 0 );
+//        textField.setSelectionEnd( textField.getColumns() );
+//        textField.requestFocus();
     }
 
     public void clearChangedByUser() {

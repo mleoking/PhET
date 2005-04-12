@@ -26,6 +26,10 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
     private JButton recordButton;
     private JButton resetButton;
 
+    public JButton getGoButton() {
+        return recordButton;
+    }
+
     static class ControlButton extends JButton {
         static Font font = MMFontManager.getFontSet().getControlButtonFont();
 
@@ -54,18 +58,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         resetButton = new ControlButton( SimStrings.get( "MMPlot.ResetButton" ) );
         resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                boolean paused = module.isPaused();
-                module.setPaused( true );
-                int option = JOptionPane.showConfirmDialog( module.getApparatusPanel(),
-                                                            SimStrings.get( "MMPlot.ClearConfirmText" ),
-                                                            SimStrings.get( "MMPlot.ClearConfirmButton" ),
-                                                            JOptionPane.YES_NO_CANCEL_OPTION );
-                if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
-                    module.reset();
-                }
-                else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
-                    module.setPaused( paused );
-                }
+                module.confirmAndApplyReset();
             }
         } );
         module.addListener( new TimeListenerAdapter() {

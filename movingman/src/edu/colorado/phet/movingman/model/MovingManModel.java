@@ -51,6 +51,7 @@ public class MovingManModel {
     }
 
     public void reset() {
+        getTimeModel().reset();
         man.reset();
         position.reset();
         velocity.reset();

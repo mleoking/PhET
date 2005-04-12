@@ -24,7 +24,7 @@ public class RecordMode extends Mode {
     }
 
     public void initialize() {
-        module.setCursorsVisible( false );
+        module.initialize();
         int timeIndex = module.getPosition().numSmoothedPoints() - 1;//smoothedPosition.size() - 1;
         module.setReplayTime( timeIndex );
         module.repaintBackground();

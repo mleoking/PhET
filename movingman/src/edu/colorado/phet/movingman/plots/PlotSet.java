@@ -48,7 +48,7 @@ public class PlotSet {
 
         BasicStroke plotStroke2 = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
-        positionPlot = new MMPlot( movingManApparatusPanel, "Position", "x" );
+        positionPlot = new MMPlot( module, movingManApparatusPanel, "Position", "x" );
 
         positionPlot.addPlotDeviceData( new PlotDeviceData( positionPlot, module.getMovingManModel().getPosition().getSmoothedDataSeries(), Color.blue, "Position", plotStroke2 ) );
 //        positionPlot = new MMPlot( SimStrings.get( "PlotSet.PositionLabel" ), module,
@@ -74,7 +74,7 @@ public class PlotSet {
 //        positionPlot.addSliderListener( new SliderHandler( module, positionSetter ) );
 
 
-        velocityPlot = new MMPlot( movingManApparatusPanel, "Velocity", "v" );
+        velocityPlot = new MMPlot( module, movingManApparatusPanel, "Velocity", "v" );
 
 //        velocityPlot = new MMPlot( SimStrings.get( "PlotSet.VelocityLabel" ), module,
 //                                   movingManModel.getVelocitySeries().getSmoothedDataSeries(), module.getRecordingTimer(),
@@ -97,7 +97,7 @@ public class PlotSet {
             }
         } );
 
-        accelerationPlot = new MMPlot( movingManApparatusPanel, "Acceleration", "a" );
+        accelerationPlot = new MMPlot( module, movingManApparatusPanel, "Acceleration", "a" );
 
 //        accelerationPlot = new MMPlot( SimStrings.get( "PlotSet.AccelerationLabel" ), module,
 //                                       movingManModel.getAcceleration().getSmoothedDataSeries(), module.getRecordingTimer(),
@@ -201,9 +201,10 @@ public class PlotSet {
     }
 
     public void cursorMovedToTime( double time, int index ) {
-        positionPlot.cursorMovedToTime( time, index );
-        velocityPlot.cursorMovedToTime( time, index );
-        accelerationPlot.cursorMovedToTime( time, index );
+        //TODO fix this.
+//        positionPlot.cursorMovedToTime( time, index );
+//        velocityPlot.cursorMovedToTime( time, index );
+//        accelerationPlot.cursorMovedToTime( time, index );
     }
 
     public void setCursorsVisible( boolean visible ) {
@@ -213,9 +214,9 @@ public class PlotSet {
     }
 
     public void reset() {
-        this.getPositionPlot().reset();
-        this.getVelocityPlot().reset();
-        this.getAccelerationPlot().reset();
+        getPositionPlot().reset();
+        getVelocityPlot().reset();
+        getAccelerationPlot().reset();
     }
 
     public void enterTextBoxValues() {
