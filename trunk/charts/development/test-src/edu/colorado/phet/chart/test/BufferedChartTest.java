@@ -6,42 +6,36 @@
  */
 package edu.colorado.phet.chart.test;
 
-import edu.colorado.phet.chart.*;
-import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.chart.BufferedChart;
+import edu.colorado.phet.chart.BufferedLinePlot;
+import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
+import java.awt.geom.Point2D;
+import java.util.Random;
 
 public class BufferedChartTest {
 
-    static ArrayList toPaint = new ArrayList();
-    private static double x = -5;
-    private static BufferedPhetGraphic2 bufferedPhetGraphic2;
-
     public static void main( String[] args ) {
-        BaseModel model = new BaseModel();
         AbstractClock clock = new SwingTimerClock( 1, 30 );
-        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock ) {
-            public void repaint( long tm, int x, int y, int width, int height ) {
-                Rectangle repaint = new Rectangle( x, y, width, height );
-                toPaint.add( repaint );
-            }
-        };
+//        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        final ApparatusPanel apparatusPanel = new ApparatusPanel();
         clock.start();
-        BasicGraphicsSetup gs = new BasicGraphicsSetup();
 
+        BasicGraphicsSetup gs = new BasicGraphicsSetup();
         apparatusPanel.addGraphicsSetup( gs );
+
         Range2D range = new Range2D( -10, -10, 10, 10 );
-        Rectangle viewBounds = new Rectangle( 10, 10, 100, 100 );
-        final Chart chart = new Chart( apparatusPanel, range, viewBounds );
+        Dimension chartSize = new Dimension( 680, 680 );
+        final Chart chart = new Chart( apparatusPanel, range, chartSize );
 
         chart.getHorizonalGridlines().setMinorGridlinesVisible( false );
         chart.getHorizonalGridlines().setMajorGridlinesVisible( true );
@@ -62,51 +56,27 @@ public class BufferedChartTest {
         frame.setContentPane( apparatusPanel );
         frame.setSize( 800, 800 );
 
-        final int insets = 20;
-        chart.setLocation( 50, 50 );
-        apparatusPanel.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                Rectangle renderSize = new Rectangle( 0, 0, 600, 600 );
-                chart.setViewBounds( renderSize );
-                Color leftColor = new Color( 255, 255, 255 );
-                Color rightColor = new Color( 140, 160, 255 );
-                chart.setBackground( rightColor );
-            }
-        } );
+        final BufferedChart bufferedChart = new BufferedChart( apparatusPanel, chart );
+        final BufferedLinePlot bufferedLinePlot = new BufferedLinePlot( bufferedChart, new BasicStroke( 1 ), Color.red );
+        bufferedLinePlot.lineTo( new Point2D.Double( 0, 0 ) );
+        bufferedLinePlot.lineTo( new Point2D.Double( 10, 6 ) );
+        bufferedLinePlot.lineTo( new Point2D.Double( 0, 8 ) );
+        bufferedLinePlot.lineTo( new Point2D.Double( -10, -4 ) );
+        bufferedLinePlot.lineTo( new Point2D.Double( 0, -6 ) );
 
-        final DataSet dataSet1 = new DataSet();
-        DataSetGraphic sinGraphic = new LinePlot( apparatusPanel, chart, dataSet1, new BasicStroke( 3 ), Color.blue );
-        chart.addDataSetGraphic( sinGraphic );
-
-        final DataSet dataSet2 = new DataSet();
-
-        ScatterPlot.CircleFactory scatterPaintFactory = new ScatterPlot.CircleFactory( apparatusPanel, Color.red, 3 );
-        DataSetGraphic sinGraphic3 = new ScatterPlot( apparatusPanel, chart, dataSet2, scatterPaintFactory );
-        chart.addDataSetGraphic( sinGraphic3 );
-
-        bufferedPhetGraphic2 = new BufferedPhetGraphic2( apparatusPanel, Color.yellow );
-        bufferedPhetGraphic2.addGraphic( chart );
-
-        fixBuffer( chart );
-        apparatusPanel.addGraphic( bufferedPhetGraphic2 );
-
-        apparatusPanel.addComponentListener( new ComponentAdapter() {
-            public void componentShown( ComponentEvent e ) {
-                fixBuffer( chart );
-            }
-
-            public void componentResized( ComponentEvent e ) {
-                fixBuffer( chart );
-            }
-        } );
+        apparatusPanel.addGraphic( bufferedChart );
+//        bufferedChart.scale( 0.5, 0.5 );
+        bufferedChart.setLocation( 400, 400 );
+        bufferedChart.centerRegistrationPoint();
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        final Random random = new Random();
+        clock.addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                bufferedChart.rotate( Math.PI / 64 );
+                bufferedLinePlot.lineTo( new Point2D.Double( random.nextInt( 20 ) - 10, random.nextInt( 20 ) - 10 ) );
+            }
+        } );
     }
 
-    private static void fixBuffer( final Chart chart ) {
-        Rectangle r = chart.getBounds();
-        chart.translate( -r.x, -r.y );
-        bufferedPhetGraphic2.setSize( chart.getWidth(), chart.getHeight() );
-        bufferedPhetGraphic2.repaintBuffer();
-    }
 }

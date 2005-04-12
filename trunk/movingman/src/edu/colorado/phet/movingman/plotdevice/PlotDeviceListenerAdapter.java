@@ -22,4 +22,7 @@ public class PlotDeviceListenerAdapter implements PlotDeviceListener {
 
     public void sliderDragged( double dragValue ) {
     }
+
+    public void bufferChanged() {
+    }
 }

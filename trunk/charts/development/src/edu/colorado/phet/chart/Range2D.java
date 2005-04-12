@@ -25,6 +25,10 @@ public class Range2D {
         this( rectangle.getX(), rectangle.getY(), rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight() );
     }
 
+    public Range2D( Range2D range ) {
+        this( range.minX, range.minY, range.maxX, range.maxY );
+    }
+
     public double getMinX() {
         return minX;
     }

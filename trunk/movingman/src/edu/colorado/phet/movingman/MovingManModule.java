@@ -19,7 +19,7 @@ import edu.colorado.phet.movingman.common.LinearTransform1d;
 import edu.colorado.phet.movingman.misc.JEPFrame;
 import edu.colorado.phet.movingman.model.*;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
-import edu.colorado.phet.movingman.plotdevice.PlotDeviceListener;
+import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.plots.PlotSet;
 import edu.colorado.phet.movingman.view.ManGraphic;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
@@ -89,7 +89,7 @@ public class MovingManModule extends Module {
 
         movingManModel.fireReset();
 
-        getVelocityPlot().addListener( new PlotDeviceListener() {
+        getVelocityPlot().addListener( new PlotDeviceListenerAdapter() {
             CircularBuffer circularBuffer = new CircularBuffer( 20 );
 
             public void nominalValueChanged( double value ) {
@@ -99,24 +99,13 @@ public class MovingManModule extends Module {
                 }
             }
 
-            public void cursorMoved( double modelX ) {
-            }
-
-            public void zoomChanged() {
-            }
-
-            public void minimizePressed() {
-            }
-
-            public void maximizePressed() {
-            }
-
             public void sliderDragged( double dragValue ) {
                 double value = getVelocityPlot().getSliderValue();
                 if( value == 0 ) {
                     getMovingManApparatusPanel().getManGraphic().setVelocity( 0.0 );
                 }
             }
+
         } );
 
         getManGraphic().addListener( new ManGraphic.Listener() {
