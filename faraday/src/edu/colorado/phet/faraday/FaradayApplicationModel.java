@@ -56,7 +56,6 @@ public class FaradayApplicationModel extends ApplicationModel {
         if ( TEST_ONE_MODULE ) {
             Module module = new ElectromagnetModule( clock );
             setModule( module );
-            setInitialModule( module );
         }
         else {
             BarMagnetModule barMagnetModule = new BarMagnetModule( clock );
