@@ -88,10 +88,8 @@ public class PhetShapeGraphic extends PhetGraphic {
                 }
                 if( stroke != null ) {
                     g2.setPaint( border );
-                    Stroke origStroke = g2.getStroke();
                     g2.setStroke( stroke );
                     g2.draw( shape );
-                    g2.setStroke( origStroke );
                 }
             }
             super.restoreGraphicsState();
