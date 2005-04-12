@@ -40,6 +40,9 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // Needles with strength below this value are not drawn.
     private static final double DEFAULT_STRENGTH_THRESHOLD = 0.01;
     
+    // Determines how the magnetic field decreases with the distance from the magnet.
+    private static final double DISTANCE_EXPONENT = 3.0;
+    
     // Strategy that uses alpha to indicated field strength.
     private static final int ALPHA_STRATEGY = 0;
     
@@ -50,7 +53,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     private static final double RESCALE_THRESHOLD = 0.8;  // 0 ... 1
     
     // Exponent used for rescaling field strenght.
-    private static final double RESCALE_EXPONENT = 0.5;   // 0.3 ... 0.8
+    private static final double RESCALE_EXPONENT = 0.4;   // 0.3 ... 0.8
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -412,7 +415,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
 
                 // Get the magnetic field information at the needle's location.
                 _point.setLocation( needle.x, needle.y );
-                _magnetModel.getStrength( _point, _fieldVector /* output */ );
+                _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
                 double angle = _fieldVector.getAngle();
                 double magnitude = _fieldVector.getMagnitude();
                 
@@ -461,7 +464,6 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         double newStrength = 1.0;
         if ( strength != 0 && strength <= RESCALE_THRESHOLD ) {
             newStrength = Math.pow( strength / RESCALE_THRESHOLD, RESCALE_EXPONENT );
-//            newStrength = MathUtil.clamp( 0, newStrength, 1 );
         }
         return newStrength;
     }
