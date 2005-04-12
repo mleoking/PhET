@@ -5,6 +5,8 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
+import edu.colorado.phet.movingman.common.HelpItem2;
+import edu.colorado.phet.movingman.model.TimeListenerAdapter;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.view.GoPauseClearPanel;
@@ -35,10 +37,14 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     private PhetGraphic goPauseClearGraphic;
     private PhetGraphic textBoxGraphic;
     private TextBox textBox;
-    private ShadowHTMLGraphic shadowHTMLGraphic;
+    private ShadowHTMLGraphic titleGraphic;
+    private HelpItem2 sliderHelpItem;
+    private GoPauseClearPanel goPauseClearPanel;
+    private MovingManApparatusPanel movingManApparatusPanel;
 
-    public MMPlotSuite( MovingManApparatusPanel component, final MMPlot plot ) {
-        super( component );
+    public MMPlotSuite( MovingManApparatusPanel movingManApparatusPanel, final MMPlot plot ) {
+        super( movingManApparatusPanel );
+        this.movingManApparatusPanel = movingManApparatusPanel;
         this.plot = plot;
         plot.addListener( new PlotDeviceListenerAdapter() {
             public void minimizePressed() {
@@ -51,28 +57,134 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
                 setPlotVisible( true );
             }
         } );
-        maximizeButton = PhetJComponent.newInstance( component, maxButton );
+        maximizeButton = PhetJComponent.newInstance( movingManApparatusPanel, maxButton );
         maximizeButton.setVisible( false );
         addGraphic( plot );
         addGraphic( maximizeButton );
-        GoPauseClearPanel gpcp = new GoPauseClearPanel( component.getModule() );
-        goPauseClearGraphic = PhetJComponent.newInstance( component, gpcp );
+        goPauseClearPanel = new GoPauseClearPanel( movingManApparatusPanel.getModule() );
+        goPauseClearGraphic = PhetJComponent.newInstance( movingManApparatusPanel, goPauseClearPanel );
+
+        PhetGraphic goButtonGraphic = getGoButtonGraphic();
         addGraphic( goPauseClearGraphic );
 
-        textBox = new TextBox( component.getModule(), 4, plot.getVarname() + "=" );
-        textBoxGraphic = PhetJComponent.newInstance( component, textBox );
+        textBox = new TextBox( movingManApparatusPanel.getModule(), 4, plot.getVarname() + "=" );
+        textBoxGraphic = PhetJComponent.newInstance( movingManApparatusPanel, textBox );
         addGraphic( textBoxGraphic );
         final DecimalFormat df = new DecimalFormat( "0.0#" );
         plot.dataSeriesAt( 0 ).getRawData().addObserver( new TimeSeries.Observer() {
-            public void dataSeriesChanged( TimeSeries timeSeries ) {
+            public void dataAdded( TimeSeries timeSeries ) {
                 textBox.setText( df.format( timeSeries.getLastPoint().getValue() ) );
+            }
+
+            public void cleared( TimeSeries timeSeries ) {
+//                textBox.setText( "" );
             }
         } );
 
-        shadowHTMLGraphic = new ShadowHTMLGraphic( component, plot.getName(),
-                                                   new Font( "Lucida Sans", Font.BOLD, 12 ), plot.dataSeriesAt( 0 ).getColor(), 1, 1, Color.black );
-        addGraphic( shadowHTMLGraphic );
+        titleGraphic = new ShadowHTMLGraphic( movingManApparatusPanel, plot.getName(),
+                                              new Font( "Lucida Sans", Font.BOLD, 12 ), plot.dataSeriesAt( 0 ).getColor(), 1, 1, Color.black );
+        addGraphic( titleGraphic );
+        plot.addListener( new PlotDeviceListenerAdapter() {
+            public void sliderDragged( double dragValue ) {
+                if( isPaused() ) {
+                    showSliderHelp();
+                }
+            }
+        } );
+        sliderHelpItem = new HelpItem2( movingManApparatusPanel, "Press Go!" );
+        sliderHelpItem.setVisible( false );
 
+        sliderHelpItem.pointLeftAt( goButtonGraphic, 30 );
+        addGraphic( sliderHelpItem );
+        movingManApparatusPanel.getModule().getMovingManModel().getTimeModel().addListener( new TimeListenerAdapter() {
+            public void recordingStarted() {
+                hideGoHelp();
+            }
+
+            public void playbackStarted() {
+                hideGoHelp();
+            }
+
+            public void rewind() {
+                hideGoHelp();
+            }
+
+            public void reset() {
+                hideGoHelp();
+            }
+        } );
+//        movingManApparatusPanel.getModule().getMovingManModel().getTimeModel().addListener( new TimeListenerAdapter() {
+//            public void recordingPaused() {
+//                focusTextBox();
+//            }
+//
+//            public void playbackPaused() {
+//                focusTextBox();
+//            }
+//
+//            public void rewind() {
+//                focusTextBox();
+//            }
+//
+//            public void reset() {
+//                focusTextBox();
+//            }
+//        } );
+    }
+//
+//    private void focusTextBox() {
+////        textBox.setEnabled( false );
+//        PhetGraphic textGraphic = search( textBoxGraphic, new GraphicCriteria() {
+//            public boolean isSatisfied( PhetGraphic phetGraphic ) {
+//                return phetGraphic
+//            }
+//        } );
+//        textBox.set
+//    }
+
+    private boolean isPaused() {
+        return movingManApparatusPanel.getModule().isPaused();
+    }
+
+    public void hideGoHelp() {//todo call this function.
+        sliderHelpItem.setVisible( false );
+    }
+
+    private PhetGraphic search( PhetGraphic source, GraphicCriteria criteria ) {
+        if( criteria.isSatisfied( source ) ) {
+            return source;
+        }
+        else if( source instanceof GraphicLayerSet ) {
+            GraphicLayerSet gls = (GraphicLayerSet)source;
+            PhetGraphic[] children = gls.getGraphics();
+            for( int i = 0; i < children.length; i++ ) {
+                PhetGraphic child = children[i];
+                PhetGraphic result = search( child, criteria );
+                if( result != null ) {
+                    return result;
+                }
+            }
+        }
+        return null;
+    }
+
+    private PhetGraphic getGoButtonGraphic() {
+        GraphicCriteria gc = new GraphicCriteria() {
+            public boolean isSatisfied( PhetGraphic phetGraphic ) {
+                if( phetGraphic instanceof PhetJComponent ) {
+                    PhetJComponent pj = (PhetJComponent)phetGraphic;
+                    if( pj.getSourceComponent() == goPauseClearPanel.getGoButton() ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
+        return search( goPauseClearGraphic, gc );
+    }
+
+    private void showSliderHelp() {
+        sliderHelpItem.setVisible( true );
     }
 
     public TextBox getTextBox() {
@@ -93,7 +205,10 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
             plot.setVisible( plotVisible );
             goPauseClearGraphic.setVisible( plotVisible );
             textBoxGraphic.setVisible( plotVisible );
+            titleGraphic.setVisible( plotVisible );
+
             maximizeButton.setVisible( !plotVisible );
+
             for( int i = 0; i < listeners.size(); i++ ) {
                 Listener listener = (Listener)listeners.get( i );
                 listener.plotVisibilityChanged();
@@ -110,14 +225,18 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     }
 
     public void setVerticalParameters( int y, int height ) {
-        if( getComponent().getWidth() > 0 && height > 0 ) {
-            int width = getComponent().getWidth() - plotInsetX - plotInsetRight - 50;
-            plot.setChartViewBounds( plotInsetX + 20, y, width, height - 12 );
-        }
-
-        shadowHTMLGraphic.setLocation( 2, y );
+        titleGraphic.setLocation( 2, y );
         textBoxGraphic.setLocation( 2, y + 20 );
         goPauseClearGraphic.setLocation( 10, textBoxGraphic.getHeight() + textBoxGraphic.getY() + 5 );
+
+        if( getComponent().getWidth() > 0 && height > 0 ) {
+            int plotInsetDX = 10;
+            int offsetX = plot.getSlider().getWidth() * 2;
+//            int offsetX = plot.getSlider().getBounds().x-plot.getChart().getBounds().x;
+            int plotWidth = getComponent().getWidth() - textBoxGraphic.getWidth() - plotInsetDX * 2 - offsetX;
+            plot.setChartSize( plotWidth, height - 12 );
+            plot.setLocation( (int)( textBoxGraphic.getBounds().getMaxX() + plotInsetDX + offsetX ), y );
+        }
     }
 
     public void setY( int y ) {

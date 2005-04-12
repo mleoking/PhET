@@ -9,7 +9,6 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
-import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -34,6 +33,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -52,7 +52,7 @@ public class MovingManModule extends Module {
     private boolean initMediaPanel = false;
 
     private MovingManApparatusPanel movingManApparatusPanel;
-    private HelpItem closeHelpItem;
+//    private HelpItem2 closeHelpItem;
 
     // Localization
     public static final String localizedStringsPath = "localization/MovingManStrings";
@@ -79,10 +79,13 @@ public class MovingManModule extends Module {
             }
         } );
         clock.addClockTickListener( getModel() );//todo is this redundant now?
-        closeHelpItem = new HelpItem( getApparatusPanel(), SimStrings.get( "MovingManModule.CloseHelpText" ), 250, 450 );
-        closeHelpItem.setForegroundColor( Color.red );
-        closeHelpItem.setShadowColor( Color.black );
-        addHelpItem( closeHelpItem );
+//        closeHelpItem=new HelpItem2( getApparatusPanel(),SimStrings.get( "MovingManModule.CloseHelpText" ));
+//        closeHelpItem.pointDownAt( );
+
+//        closeHelpItem = new HelpItem( getApparatusPanel(), SimStrings.get( "MovingManModule.CloseHelpText" ), 250, 450 );
+//        closeHelpItem.setForegroundColor( Color.red );
+//        closeHelpItem.setShadowColor( Color.black );
+//        addHelpItem( closeHelpItem );
 
         movingManModel.fireReset();
 
@@ -96,7 +99,7 @@ public class MovingManModule extends Module {
                 }
             }
 
-            public void cursorMoved() {
+            public void cursorMoved( double modelX ) {
             }
 
             public void zoomChanged() {
@@ -125,6 +128,7 @@ public class MovingManModule extends Module {
             }
         } );
         movingManModel.setRecordMode();
+
     }
 
     public int getNumSmoothingPoints() {
@@ -172,7 +176,7 @@ public class MovingManModule extends Module {
 //            closeHelpItem.setLocation( closeButton.getLocation().x - 100, closeButton.getLocation().y + closeButton.getHeight() );
         }
         else {
-            removeHelpItem( closeHelpItem );
+//            removeHelpItem( closeHelpItem );
         }
     }
 
@@ -351,9 +355,6 @@ public class MovingManModule extends Module {
         return getTimeModel().getRecordTimer();
     }
 
-    public void setCursorsVisible( boolean visible ) {
-        getPlotSet().setCursorsVisible( visible );
-    }
 
     public void setReplayTime( double requestedTime ) {
         /**Find the position for the time.*/
@@ -409,13 +410,27 @@ public class MovingManModule extends Module {
         getMovingManApparatusPanel().setManTransform( transform );
     }
 
+    public static interface Listener {
+        public void reset();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
     public void reset() {
-        getTimeModel().reset();
         movingManModel.reset();
-        setCursorsVisible( false );
-        getPlotSet().reset();
-//        getMovingManApparatusPanel().paintBufferedImage();
-        getApparatusPanel().repaint();
+        movingManApparatusPanel.reset();
+        notifyReset();
+    }
+
+    private void notifyReset() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.reset();
+        }
     }
 
     public SmoothDataSeries getVelocityData() {
@@ -622,6 +637,26 @@ public class MovingManModule extends Module {
         m.setInited( true );
         m.relayout();
         m.setNumSmoothingPoints( 12 );
+    }
+
+    public void initialize() {
+        movingManApparatusPanel.initialize();
+    }
+
+    public void confirmAndApplyReset() {
+        MovingManModule module = this;
+        boolean paused = module.isPaused();
+        module.setPaused( true );
+        int option = JOptionPane.showConfirmDialog( module.getApparatusPanel(),
+                                                    SimStrings.get( "MMPlot.ClearConfirmText" ),
+                                                    SimStrings.get( "MMPlot.ClearConfirmButton" ),
+                                                    JOptionPane.YES_NO_CANCEL_OPTION );
+        if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
+            module.reset();
+        }
+        else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
+            module.setPaused( paused );
+        }
     }
 }
 

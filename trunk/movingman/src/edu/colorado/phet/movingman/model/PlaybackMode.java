@@ -28,8 +28,7 @@ public class PlaybackMode extends Mode {
     }
 
     public void initialize() {
-        module.setCursorsVisible( true );
-        module.repaintBackground();
+        module.initialize();
     }
 
     public void stepInTime( double dt ) {

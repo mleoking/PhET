@@ -23,6 +23,7 @@ public class MovingManLayout {
     private LayoutItem layoutItemX;
     private LayoutItem layoutItemV;
     private LayoutItem layoutItemA;
+    private int walkwayInsetX = 55;
 
     public MovingManLayout( MovingManApparatusPanel movingManApparatusPanel ) {
         this.movingManApparatusPanel = movingManApparatusPanel;
@@ -42,6 +43,10 @@ public class MovingManLayout {
         verticalLayout.addLayoutItem( layoutItemA );
         verticalLayout.addSpacer( spaceBetweenPlots );
         relayout();
+    }
+
+    public int getWalkWayInsetX() {
+        return walkwayInsetX;
     }
 
     static class MMVerticalLayout {
@@ -146,16 +151,18 @@ public class MovingManLayout {
     }
 
     public void relayout() {
-        int walkwayInsetX = 25;
+
         verticalLayout.layout();
         int manInset = 50;
         LinearTransform1d oldTransform = movingManApparatusPanel.getManPositionTransform();
-        LinearTransform1d manGraphicTransform = new LinearTransform1d( oldTransform.getMinInput(), oldTransform.getMaxInput(), manInset, movingManApparatusPanel.getWidth() - manInset );
+        LinearTransform1d manGraphicTransform = new LinearTransform1d( oldTransform.getMinInput(),
+                                                                       oldTransform.getMaxInput(), manInset, movingManApparatusPanel.getWidth() - manInset );
         movingManApparatusPanel.getManGraphic().setTransform( manGraphicTransform );
         movingManApparatusPanel.setManTransform( manGraphicTransform );
         movingManApparatusPanel.getManGraphic().setY( walkwayHeight - movingManApparatusPanel.getManGraphic().getHeight() );
         WalkWayGraphic wa = movingManApparatusPanel.getWalkwayGraphic();
-        wa.setBounds( walkwayInsetX, 0, movingManApparatusPanel.getWidth() - walkwayInsetX * 2, walkwayHeight );
+//        wa.setBounds( walkwayInsetX, 0, movingManApparatusPanel.getWidth() - walkwayInsetX * 2, walkwayHeight );
+        wa.setSize( movingManApparatusPanel.getWidth() - walkwayInsetX * 2, walkwayHeight );
         movingManApparatusPanel.repaintBackground();
     }
 

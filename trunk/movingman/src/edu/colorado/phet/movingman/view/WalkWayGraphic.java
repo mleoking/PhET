@@ -3,14 +3,15 @@ package edu.colorado.phet.movingman.view;
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.MovingManModule;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -23,18 +24,18 @@ import java.util.ArrayList;
  * To change this template use Options | File Templates.
  */
 public class WalkWayGraphic extends CompositePhetGraphic {
-    private double treex;
-    private double housex;
+
+    private WalkwayObjectGraphic treeObject;
+    private WalkwayObjectGraphic houseObject;
+    private WalkwayObjectGraphic leftWall;
+    private WalkwayObjectGraphic rightWall;
+
     private Function.LinearFunction transform;
-    private PhetImageGraphic treeGraphic;
-    private PhetImageGraphic cottageGraphic;
     private PhetShapeGraphic backgroundGraphic;
     private PhetShapeGraphic floorGraphic;
     private TickSetGraphic tickSetGraphic;
-    private Rectangle bounds = new Rectangle();
     private int floorHeight = 6;
-    private PhetImageGraphic leftWallGraphic;
-    private PhetImageGraphic rightWallGraphic;
+    private Dimension size;
 
     public WalkWayGraphic( MovingManModule module, ApparatusPanel apparatusPanel, int numTicks ) throws IOException {
         this( apparatusPanel, module, numTicks, -8, 8, new Function.LinearFunction( -10, 10, 0, 500 ) );
@@ -44,101 +45,62 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         this( panel, module, numTickMarks, -10, 10, transform );
     }
 
-    public WalkWayGraphic( ApparatusPanel panel, final MovingManModule module, int numTickMarks, double treex, double housex, Function.LinearFunction transform ) throws IOException {
+    public WalkWayGraphic( ApparatusPanel panel, final MovingManModule module,
+                           int numTickMarks, double treex, double housex, Function.LinearFunction transform ) throws IOException {
         super( panel );
-        this.treex = treex;
-        this.housex = housex;
         this.transform = transform;
+        this.treeObject = new WalkwayObjectGraphic( this, treex, "images/tree.gif" );
+        this.houseObject = new WalkwayObjectGraphic( this, housex, "images/cottage.gif" );
 
-        treeGraphic = new PhetImageGraphic( panel, "images/tree.gif" );
-        cottageGraphic = new PhetImageGraphic( panel, "images/cottage.gif" );
+
         backgroundGraphic = new PhetShapeGraphic( panel, null, Color.white, new BasicStroke( 1.0f ), Color.black );
         floorGraphic = new PhetShapeGraphic( panel, null, Color.white );
 
         tickSetGraphic = new TickSetGraphic( panel, transform );
 
-        leftWallGraphic = new PhetImageGraphic( getComponent(), "images/barrier.jpg" );
-        rightWallGraphic = new PhetImageGraphic( getComponent(), "images/barrier.jpg" );
-        leftWallGraphic.setVisible( false );
-        rightWallGraphic.setVisible( false );
-//        leftWallGraphic.setLocation( )
+        BufferedImage barrierImage = ImageLoader.loadBufferedImage( "images/barrier.jpg" );
+        barrierImage = BufferedImageUtils.rescaleYMaintainAspectRatio( panel, barrierImage, 130 );
+        rightWall = new LeftEdgeWalkwayObjectGraphic( this, 10, barrierImage );
+        leftWall = new RightEdgeWalkwayObjectGraphic( this, -10, barrierImage );
 
         addGraphic( backgroundGraphic );
         addGraphic( floorGraphic );
 
-        addGraphic( treeGraphic );
-        addGraphic( cottageGraphic );
+        addGraphic( treeObject );
+        addGraphic( houseObject );
 
-        addGraphic( leftWallGraphic );
-        addGraphic( rightWallGraphic );
+        addGraphic( leftWall );
+        addGraphic( rightWall );
 
         addGraphic( tickSetGraphic );
-//        setCursorHand();
-        setBounds( 0, 0, 900, 150 );
+        setSize( 900, 150 );
         update();
-
-//        module.getForceModel().addBoundaryConditionListener( new BoundaryCondition.TimeListener() {
-//            public void boundaryConditionOpen() {
-//
-//                try {
-//
-//                    treeGraphic.setImage( ImageLoader.loadBufferedImage( "images/tree.gif" ) );
-//                    treeGraphic.setTransform( new AffineTransform() );
-////                    treeGraphic.scale( 0.5);
-//                    cottageGraphic.setImage( ImageLoader.loadBufferedImage( "images/cottage.gif" ) );
-//                    cottageGraphic.setTransform( new AffineTransform() );
-//                    treeGraphic.setVisible( true );
-//                    cottageGraphic.setVisible( true );
-//                    leftWallGraphic.setVisible( false );
-//                    rightWallGraphic.setVisible( false );
-//                    module.getForcePanel().repaintBuffer();
-//                    setBoundsDirty();
-//                    autorepaint();
-//                }
-//                catch( IOException e ) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            public void boundaryConditionWalls() {
-//                leftWallGraphic.setVisible( true );
-//                rightWallGraphic.setVisible( true );
-////                try {
-////                    treeGraphic.setImage( ImageLoader.loadBufferedImage( "images/barrier.jpg" ) );
-////                    treeGraphic.setTransform( new AffineTransform() );
-////                    treeGraphic.scale( 0.5 );
-////                    cottageGraphic.setImage( ImageLoader.loadBufferedImage( "images/barrier.jpg" ) );
-////                    cottageGraphic.setTransform( new AffineTransform() );
-////                    cottageGraphic.scale( 0.5 );
-//                treeGraphic.setVisible( false );
-//                cottageGraphic.setVisible( false );
-//                module.getForcePanel().repaintBuffer();
-//                setBoundsDirty();
-//                autorepaint();
-////                }
-////                catch( IOException e ) {
-////                    e.printStackTrace();
-////                }
-//            }
-//        } );
     }
 
     public int getFloorY() {
-        return bounds.height - floorHeight;
+        return size.height - floorHeight;
     }
 
-    public void setBounds( int x, int y, int width, int height ) {
-        this.bounds.setBounds( x, y, width, height );
-        transform.setOutput( x, x + width );
+    public void setSize( int width, int height ) {
+        this.size = new Dimension( width, height );
+        transform.setOutput( 0, width );
         update();
     }
 
     public void setTreeX( double treeX ) {
-        this.treex = treeX;
+        treeObject.setModelLocation( treeX );
     }
 
     public void setHouseX( double houseX ) {
-        this.housex = houseX;
+        this.houseObject.setModelLocation( houseX );
+    }
+
+    public int getViewCoordinate( double modelCoord ) {
+        return (int)transform.evaluate( modelCoord );
+    }
+
+    public int getDistCeilToFloor() {
+        return getHeight() - floorHeight;
     }
 
     public static class TickSetGraphic extends CompositePhetGraphic {
@@ -222,35 +184,36 @@ public class WalkWayGraphic extends CompositePhetGraphic {
     }
 
     private void update() {
-        Rectangle skyRect = new Rectangle( bounds );
-        skyRect.height = bounds.height - floorHeight;
+
+        Rectangle skyRect = getSkyRect();
         backgroundGraphic.setShape( skyRect );
         Color lightBLue = new Color( 150, 120, 255 );
         backgroundGraphic.setPaint( new GradientPaint( skyRect.x, skyRect.y, lightBLue, skyRect.x, skyRect.y + skyRect.height, Color.white ) );
 
         Color root = new Color( 100, 100, 255 );
-        Rectangle floor = new Rectangle( bounds );
-        floor.y = bounds.y + bounds.height - floorHeight;
-        floor.height = bounds.y + bounds.height - floor.y;
+        Rectangle floor = getFloor();
         floorGraphic.setPaint( new GradientPaint( floor.x, floor.y, root, floor.x, floor.y + floor.height, Color.white ) );
         floorGraphic.setShape( floor );
         tickSetGraphic.setY( floor.y );
         tickSetGraphic.update();
 
-        treeGraphic.setLocation( (int)transform.evaluate( treex ) - treeGraphic.getWidth() / 2, floor.y - treeGraphic.getHeight() );
-        cottageGraphic.setLocation( (int)transform.evaluate( housex ) - cottageGraphic.getWidth() / 2, floor.y - cottageGraphic.getHeight() );
+        treeObject.update();
+        houseObject.update();
 
-        leftWallGraphic.setLocation( bounds.x, bounds.y );
-        leftWallGraphic.setTransform( new AffineTransform() );
-        leftWallGraphic.scale( ( transform.evaluate( treex ) - bounds.x ) / leftWallGraphic.getImage().getWidth(), bounds.getHeight() / leftWallGraphic.getImage().getHeight() );
-
-        rightWallGraphic.setLocation( (int)transform.evaluate( housex ), 0 );
-        rightWallGraphic.setTransform( new AffineTransform() );
-        double newWidth = bounds.x + bounds.width - transform.evaluate( housex );
-        rightWallGraphic.scale( newWidth / rightWallGraphic.getImage().getWidth(), bounds.getHeight() / rightWallGraphic.getImage().getHeight() );
+        leftWall.update();
+        rightWall.update();
 
         setBoundsDirty();
         repaint();
+    }
+
+    private Rectangle getFloor() {
+        int y = size.height - floorHeight;
+        return new Rectangle( 0, y, size.width, size.height - y );
+    }
+
+    private Rectangle getSkyRect() {
+        return new Rectangle( 0, 0, size.width, size.height );
     }
 
 }

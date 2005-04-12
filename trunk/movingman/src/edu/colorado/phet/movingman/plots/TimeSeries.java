@@ -19,13 +19,13 @@ public class TimeSeries {
     public void addPoint( double value, double time ) {
         TimePoint timePoint = new TimePoint( value, time );
         this.pts.add( timePoint );
-        updateObservers();
+        notifyAdded();
     }
 
-    private void updateObservers() {
+    private void notifyAdded() {
         for( int i = 0; i < observers.size(); i++ ) {
             Observer observer = (Observer)observers.get( i );
-            observer.dataSeriesChanged( this );
+            observer.dataAdded( this );
         }
     }
 
@@ -39,7 +39,14 @@ public class TimeSeries {
 
     public void reset() {
         this.pts = new ArrayList();
-        updateObservers();
+        notifyCleared();
+    }
+
+    private void notifyCleared() {
+        for( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer)observers.get( i );
+            observer.cleared( this );
+        }
     }
 
     public TimePoint lastPointAt( int i ) {
@@ -72,7 +79,9 @@ public class TimeSeries {
     }
 
     public static interface Observer {
-        public void dataSeriesChanged( TimeSeries timeSeries );
+        void dataAdded( TimeSeries timeSeries );
+
+        void cleared( TimeSeries timeSeries );
     }
 
 }

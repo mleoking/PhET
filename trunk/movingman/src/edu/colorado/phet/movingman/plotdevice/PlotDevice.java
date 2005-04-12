@@ -1,16 +1,15 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.movingman.plotdevice;
 
+import edu.colorado.phet.chart.BufferedChart;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.chart.controllers.BufferedChartCursor;
 import edu.colorado.phet.chart.controllers.ChartCursor;
 import edu.colorado.phet.chart.controllers.ChartSlider;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic2;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.plots.PlotSet;
 import edu.colorado.phet.movingman.plots.TimeSeries;
@@ -32,23 +31,27 @@ import java.util.ArrayList;
  */
 
 public class PlotDevice extends GraphicLayerSet {
+    private Color chartBackgroundColor = new Color( 250, 247, 224 );
+    private String name;
+
+    private ArrayList listeners = new ArrayList();
     private ArrayList data = new ArrayList();
-    private Chart chart;
+
     private PhetGraphic minimizeButton;
     private PhetGraphic zoomPanel;
     private ChartSlider slider;
-    private ChartCursor cursor;
-//    private TextBox textBox;
-    private String name;
-    private ArrayList listeners = new ArrayList();
-    private PhetImageGraphic chartBuffer;
+    private BufferedChartCursor cursor;
+
+    private Chart chart;
+    private BufferedChart bufferedChart;
 
     public PlotDevice( Component component, Range2D range, String name ) {
         super( component );
         this.name = name;
 
-        Rectangle viewBounds = new Rectangle( 0, 0, 600, 200 );
-        chart = new Chart( component, range, viewBounds );
+        Dimension chartBounds = new Dimension( 600, 200 );
+        chart = new Chart( component, range, chartBounds );
+        chart.setBackground( chartBackgroundColor );
         chart.getXAxis().setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[]{8, 4}, 0 ) );
         chart.getHorizontalTicks().setVisible( false );
         try {
@@ -58,7 +61,7 @@ public class PlotDevice extends GraphicLayerSet {
             e.printStackTrace();
         }
         slider = new ChartSlider( component, chart );
-        cursor = new ChartCursor( component, chart, 7 );
+
         minimizeButton = createMinimizeButton();
 
         addGraphic( slider );
@@ -72,21 +75,37 @@ public class PlotDevice extends GraphicLayerSet {
         } );
         addGraphic( zoomPanel );
         addGraphic( minimizeButton );
+
+        bufferedChart = new BufferedChart( component, chart );
+        cursor = new BufferedChartCursor( component, chart, 7, bufferedChart );
+        cursor.addListener( new ChartCursor.Listener() {
+            public void modelValueChanged( double modelX ) {
+                fireCursorMoved( modelX );
+            }
+        } );
         addGraphic( cursor );
-//        textBox = new TextBox( component );
-        setChartViewBounds( viewBounds.x, viewBounds.y, viewBounds.width, viewBounds.height );
+        setChartSize( 600, 200 );
+    }
+
+    private void fireCursorMoved( double modelX ) {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            PlotDeviceListener plotDeviceListener = (PlotDeviceListener)listeners.get( i );
+            plotDeviceListener.cursorMoved( modelX );
+        }
     }
 
     public void reset() {
+        for( int i = 0; i < data.size(); i++ ) {
+            PlotDeviceData plotDeviceData = (PlotDeviceData)data.get( i );
+            plotDeviceData.reset();
+        }
+        rebuildChartBuffer();
     }
 
-    public void setChartViewBounds( int x, int y, int width, int height ) {
-        setChartSize( width, height );
-        setLocation( x, y );
-    }
-
-    private void setChartSize( int width, int height ) {
+    public void setChartSize( int width, int height ) {
         chart.setChartSize( width, height );
+//        GradientPaint gradientPaint=new GradientPaint( 0,0,chartBackgroundColor, width, height, Color.white);
+//        chart.setBackground( gradientPaint );
 
         rebuildChartBuffer();
         int guessSliderThumbHeight = (int)( slider.getWidth() / 2.0 );
@@ -100,17 +119,16 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     private void rebuildChartBuffer() {
-
-        if( chartBuffer != null ) {
-            removeGraphic( chartBuffer );
+        if( bufferedChart != null ) {
+            removeGraphic( bufferedChart );
         }
-
-        chartBuffer = BufferedPhetGraphic2.createBuffer( chart, new BasicGraphicsSetup(), BufferedImage.TYPE_INT_RGB, getComponent().getBackground() );
-        chartBuffer.setLocation( chart.getLocalBounds().x, chart.getLocalBounds().y );
-        addGraphic( chartBuffer, -1 );
+        bufferedChart = new BufferedChart( getComponent(), chart );
+        bufferedChart.setLocation( chart.getLocalBounds().x, chart.getLocalBounds().y );
+        cursor.setBufferedChart( bufferedChart );
+        addGraphic( bufferedChart, -1 );
         for( int i = 0; i < data.size(); i++ ) {
             PlotDeviceData plotDeviceData = (PlotDeviceData)data.get( i );
-            plotDeviceData.chartChanged( chartBuffer.getImage(), -chartBuffer.getX(), -chartBuffer.getY() );
+            plotDeviceData.chartChanged();
         }
 
         setBoundsDirty();
@@ -158,14 +176,21 @@ public class PlotDevice extends GraphicLayerSet {
         data.add( plotDeviceData );
         //todo how to decide which datasets to observe with the slider?
         plotDeviceData.getRawData().addObserver( new TimeSeries.Observer() {
-            public void dataSeriesChanged( TimeSeries timeSeries ) {
+            public void dataAdded( TimeSeries timeSeries ) {
                 slider.setValue( timeSeries.getLastPoint().getValue() );
+            }
+
+            public void cleared( TimeSeries timeSeries ) {
             }
         } );
     }
 
-    public BufferedImage getChartBuffer() {
-        return chartBuffer.getImage();
+    public BufferedChart getBufferedChart() {
+        return bufferedChart;
+    }
+
+    public void setCursorLocation( double time ) {
+        cursor.setX( time );
     }
 
     public static class ZoomPanel extends GraphicLayerSet {
@@ -248,4 +273,10 @@ public class PlotDevice extends GraphicLayerSet {
     public PlotDeviceData dataSeriesAt( int i ) {
         return (PlotDeviceData)data.get( i );
     }
+
+    public ChartSlider getSlider() {
+        return slider;
+    }
+
+
 }
