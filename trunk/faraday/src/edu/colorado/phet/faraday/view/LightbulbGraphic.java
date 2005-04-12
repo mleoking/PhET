@@ -118,7 +118,12 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
         _someVector2 = new Vector2D();
         _somePoint1 = new Point2D.Double();
         _somePoint2 = new Point2D.Double();
+        
+        // Prepopulate a set of reusable rays.
         _rays = new ArrayList();
+        for ( int i = 0; i < MAX_RAYS; i++ ) {
+            _rays.add( new Ray( component ) );
+        }
         
         update();
     }
@@ -256,6 +261,20 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
         public void setLine( Point2D p1, Point2D p2, Stroke stroke ) {
             _line.setLine( p1.getX(), p1.getY(), p2.getX(), p2.getY() );
             setStroke( stroke );
+        }
+        
+        /**
+         * Optimized paint method, uses Graphics.drawLine instead of Graphics2D.draw.
+         */
+        public void paint( Graphics2D g2 ) {
+            if ( isVisible() ) {
+                super.saveGraphicsState( g2 );
+                g2.transform( getNetTransform() );
+                g2.setPaint( getFill() );
+                g2.setStroke( getStroke() );
+                g2.drawLine( (int)_line.getX1(), (int)_line.getY1(), (int)_line.getX2(), (int)_line.getY2() );
+                super.restoreGraphicsState();
+            }
         }
     }
 }
