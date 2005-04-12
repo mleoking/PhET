@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
-public abstract class AtomicState {
+public class AtomicState {
 
     ///////////////////////////////////////////////////////////////////////////////////////////
     // Class
