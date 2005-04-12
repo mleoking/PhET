@@ -470,10 +470,7 @@ public class GraphicLayerSet extends PhetGraphic {
         public void mouseReleased( MouseEvent e ) {
             if( activeUnit != null ) {
                 activeUnit.fireMouseReleased( e );
-//                activeUnit = null;//needs to stop getting drag events.
-                handleEntranceAndExit( e );
-                //TODO one debug session suggests that two mousereleased events may be getting fired.
-                //TODO having trouble repeating this, though.
+                activeUnit = null;//needs to stop getting drag events.
             }
         }
 
