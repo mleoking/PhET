@@ -6,13 +6,13 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
+
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - make electrons move at same speed whether grid is on or off
 
 MEDIUM PRIORITY:
 - optimize rendering of LightBulbGraphic (~50 rays drawn at max settings)
-- graph of field strength over time on the Field Meter
+- add a graph of field strength over time to the Field Meter
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
@@ -20,7 +20,6 @@ LOW PRIORITY:
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
 - keep a minimum of N pixels of a draggable graphic within the apparatus panel
 - check for unnecessary notification, events and updates
-- replace EasyGridBagLayout with SwingUtils.addGridBagComponent
 - background color (use PhetLookAndFeel)
 - Help/MegaHelp
 
@@ -47,6 +46,7 @@ PHETCOMMON:
 
 DONE:
 v0r22...
+(4/12) - fix: EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 (4/12) - move collision classes to faraday.collision package
 (4/12) - move EasyGridBagLayout to faraday.util package
 (4/12) - phetcommon test program for mouse event handling
@@ -362,6 +362,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(4/12) - replace EasyGridBagLayout with SwingUtils.addGridBagComponent (no, SwingUtils version is inadequate)
 (4/12) - fix PhetShapeGraphic.contains so that stroke width is taken into account (compass is now flattened to an image)
 (4/8) - make wiggle me's fade out instead of blinking off (no one asked for this, different than other sims)
 (4/6) - put compass in top layer so it doesn't get hidden behind larger objects (compass needs to move through coil)
