@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - make electrons move at same speed whether grid is on or off
 
@@ -48,12 +49,11 @@ v0r22...
 (4/12) - add debug code to display the pickup coil sample points
 (4/12) - crank up the compass grid rescaling a little so that it fills more of the apparatus panel
 (4/12) - bug: hand cursor accidentally moves another object when you release mouse (ApparatusPanel2 bug)
-(4/12) - fix: EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 (4/12) - move collision classes to faraday.collision package
 (4/12) - move EasyGridBagLayout to faraday.util package
 (4/12) - phetcommon test program for mouse event handling
 (4/12) - add setName and getName to PhetGraphic
-(4/11) - fix sliders do that they always unhighlight wehn you roll off them
+(4/11) - fix sliders do that they always unhighlight when you roll off them
 (4/11) - replace all implementations of TranslationListener with an extension of MouseInputAdapter
 (4/11) - use red color for Challenges
 (4/11) - create a ChallengeGraphic, so that challenges are distinct from wiggle mes
