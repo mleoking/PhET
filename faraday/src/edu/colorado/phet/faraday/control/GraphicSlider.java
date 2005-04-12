@@ -449,8 +449,7 @@ public class GraphicSlider extends GraphicLayerSet {
          * @param event the MouseEvent
          */
         public void mouseEntered( MouseEvent event ) {
-            if ( _knob != null && _knobHighlight != null ) {
-                _knob.setVisible( false );
+            if ( _knob != null && _knobHighlight != null && _knob.getBounds().contains( event.getPoint() ) ) {
                 _knobHighlight.setVisible( true );
             }
         }
@@ -461,8 +460,7 @@ public class GraphicSlider extends GraphicLayerSet {
          * @param event the MouseEvent
          */
         public void mouseExited( MouseEvent event ) {
-            if ( _knob != null && _knobHighlight != null ) {
-                _knob.setVisible( true );
+            if ( _knob != null && _knobHighlight != null && !_knobHighlight.getBounds().contains( event.getPoint() ) ) {
                 _knobHighlight.setVisible( false );
             }
         }
