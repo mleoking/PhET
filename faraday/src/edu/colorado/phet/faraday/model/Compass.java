@@ -34,9 +34,17 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
     // Class data
     //----------------------------------------------------------------------------
     
+    // Rotation strategies
+    public static final int ROTATE_SIMPLE = 0;  // follow B-field exactly
+    public static final int ROTATE_INCREMENTAL = 1; // rotate large changes incrementally
+    public static final int ROTATE_KINEMATIC = 2; // mimic rotational kinematics
+
+    
     private static final double SENSITIVITY = 0.001;
     private static final double DAMPING = 0.05;
     private static final double THRESHOLD = Math.toRadians( 0.2 );
+    
+    private static final double MAX_ROTATION_ANGLE = Math.toRadians( 45 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -48,8 +56,8 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
     // Whether the compass is enabled.
     private boolean _enabled;
     
-    // Whether rotational kinematics behavior is enabled.
-    private boolean _rotationalKinematicsEnabled;
+    // The animation strategy.
+    private int _rotationStrategy;
     
     // Angle of needle orientation (in radians)
     private double _theta;
@@ -61,10 +69,10 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
     private double _alpha; 
     
     // A reusable point.
-    private Point2D _point;
+    private Point2D _somePoint;
     
     // A reusable vector
-    private Vector2D _emf;
+    private Vector2D _someVector;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -83,14 +91,11 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
         _magnetModel.addObserver( this );
         
         _enabled = true;
-        _rotationalKinematicsEnabled = false; // expensive, so disabled by default
+        _rotationStrategy = ROTATE_SIMPLE;
+        _theta = _omega = _alpha = 0.0;
         
-        _theta = 0.0;
-        _omega = 0.0;
-        _alpha = 0.0;
-        
-        _point = new Point2D.Double();
-        _emf = new Vector2D();
+        _somePoint = new Point2D.Double();
+        _someVector = new Vector2D();
         
         Vector2D fieldStrength = _magnetModel.getStrength( getLocation() );
         setDirection( fieldStrength.getAngle() );
@@ -135,22 +140,24 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
      * Enables/disabled rotational kinematics behavior.
      * This turns on a Verlet algorithm that cause the compass needle to wobble.
      * 
-     * @param enabled true to enable, false to disable
+     * @param rs the rotation strategy, one of the ROTATE_* constants
      */
-    public void setRotationalKinematicsEnabled( boolean enabled ) {
-        if ( enabled != _rotationalKinematicsEnabled ) {
-            _rotationalKinematicsEnabled = enabled;
+    public void setRotationStrategy( int rs ) {
+        assert( rs == ROTATE_SIMPLE || rs == ROTATE_INCREMENTAL || rs == ROTATE_KINEMATIC );
+        if ( rs != _rotationStrategy ) {
+            _rotationStrategy = rs;
+            _theta = _omega = _alpha = 0.0;
             // No need to notify observers, handled by stepInTime.
         }
     }
     
     /**
-     * Determines whether rotational kinematics behavior is enabled.
+     * Gets the rotation strategy.
      * 
-     * @return true if enabled, false if disabled
+     * @return one of the ROTATE_* constants
      */
-    public boolean isRotationalKinematicsEnabled() {
-        return _rotationalKinematicsEnabled;
+    public int getRotationStrategy() {
+        return _rotationStrategy;
     }
     
     /**
@@ -162,7 +169,7 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
      * angular velocity to get it going.
      */
     public void startMovingNow() {
-        if ( _rotationalKinematicsEnabled ) {
+        if ( _rotationStrategy == ROTATE_KINEMATIC ) {
             _omega = 0.03; // adjust as needed for desired behavior
         }
     }
@@ -195,55 +202,137 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
 
         if ( isEnabled() ) {
             
-            getLocation( _point /* output */ );
-            _magnetModel.getStrength( _point, _emf /* output */ );
+            getLocation( _somePoint /* output */ );
+            _magnetModel.getStrength( _somePoint, _someVector /* output */ );
             
-            if ( _emf.getMagnitude() == 0 ) {
+            if ( _someVector.getMagnitude() == 0 ) {
                 // Do nothing if there is no magnetic field, direction should remain unchanged.
             }
-            else if ( ! _rotationalKinematicsEnabled ) {
-                // If rotational kinematics is disabled, rotate the needle quickly.
-                _theta = getDirection() + ( ( _emf.getAngle() - getDirection() ) / 3 );
-                _omega = 0;
-                _alpha = 0;
+            else {
+                switch ( _rotationStrategy ) {
+                case ROTATE_KINEMATIC:
+                    rotateKinematic( _someVector, dt );
+                    break;
+                case ROTATE_SIMPLE:
+                    rotateSimple( _someVector );
+                    break;
+                case ROTATE_INCREMENTAL:
+                    rotateIncremental( _someVector );
+                    break;
+                default:
+                    throw new IllegalStateException( "invalid rotation strategy: " + _rotationStrategy );
+                }
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Rotation strategies
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Rotates the compass needle to be exactly aligned with the B-field.
+     * 
+     * @param fieldVector the B-field vector at the compass location
+     */
+    private void rotateSimple( Vector2D fieldVector ) {
+        setDirection( fieldVector.getAngle() );
+    }
+    
+    /**
+     * Rotates the compass needle incrementally when the change in angle 
+     * exceeds some threshold.  When the threshold is not exceeded, 
+     * rotates the needle to be exactly aligned with the B-field.
+     * 
+     * @param fieldVector the B-field vector at the compass location
+     */   
+    private void rotateIncremental( Vector2D fieldVector ) {
+        
+        // Normalize the field angle to the range 0-355 degrees.
+        double fieldAngle = fieldVector.getAngle();
+        {
+            int sign = ( fieldAngle < 0 ) ? -1 : +1;
+            fieldAngle = sign * ( Math.abs( fieldAngle ) % ( 2 * Math.PI ) );
+            if ( fieldAngle < 0 ) {
+                fieldAngle += ( 2 * Math.PI );
+            }  
+        }
+        
+        // Normalize the needle angle to the range 0-355 degrees.
+        double needleAngle = getDirection();
+        {
+            int sign = ( needleAngle < 0 ) ? -1 : +1;
+            needleAngle = sign * ( Math.abs( needleAngle ) % ( 2 * Math.PI ) );
+            if ( needleAngle < 0 ) {
+                needleAngle += ( 2 * Math.PI );
+            }  
+        }
+        
+        // Find the smallest delta angle between the field vector and the needle.
+        double delta = fieldAngle - needleAngle;
+        if ( delta > Math.PI ) {
+            delta = delta - ( 2 * Math.PI );
+        }
+        else if ( delta < -Math.PI ) {
+            delta = delta + ( 2 * Math.PI );
+        }
+        
+        if ( Math.abs( delta ) < MAX_ROTATION_ANGLE ) {
+            // If the delta is small, perform simple rotation.
+            setDirection( fieldAngle );
+        }
+        else {
+            // If the delta is large, rotate incrementally.
+            int sign = ( delta < 0 ) ? -1 : 1;
+            delta = sign * MAX_ROTATION_ANGLE;
+            setDirection( needleAngle + delta );
+        }
+    }
+    
+    /**
+     * Rotates the compass needle using the Verlet algorithm to mimic 
+     * rotational kinematics.  The needle must overcome inertia,
+     * and it has angular velocity and angular acceleration.
+     * This causes the needle to accelerate at it starts to move,
+     * and to wobble as it comes to rest.
+     * 
+     * @param fieldVector the B-field vector at the compass location
+     * @param dt time step, in simulation clock ticks
+     */
+    private void rotateKinematic( Vector2D fieldVector, double dt ) {
+        // Use Verlet algorithm to make the compass needle "wobble".
+        double magnitude = fieldVector.getMagnitude();
+        double angle = fieldVector.getAngle();
+
+        // Difference between the field angle and the compass angle.
+        double phi = ( ( magnitude == 0 ) ? 0.0 : ( angle - _theta ) );
+
+        if ( Math.abs( phi ) < THRESHOLD ) {
+            // When the difference between the field angle and the compass angle is insignificant,
+            // simply set the angle and consider the compass to be at rest.
+            _theta = angle;
+            _omega = 0;
+            _alpha = 0;
+            setDirection( _theta );
+        }
+        else {
+            // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
+
+            // Step 1: orientation
+            double thetaOld = _theta;
+            double alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * _omega );
+            _theta = _theta + ( _omega * dt ) + ( 0.5 * alphaTemp * dt * dt );
+            if ( _theta != thetaOld ) {
+                // Set the compass needle direction.
                 setDirection( _theta );
             }
-            else {
-                // If rotational kinematics is enabled, use Verlet algorithm.
-                double magnitude = _emf.getMagnitude();
-                double angle = _emf.getAngle();
 
-                // Difference between the field angle and the compass angle.
-                double phi = ( ( magnitude == 0 ) ? 0.0 : ( angle - _theta ) );
+            // Step 2: angular accelaration
+            double omegaTemp = _omega + ( alphaTemp * dt );
+            _alpha = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omegaTemp );
 
-                if ( Math.abs( phi ) < THRESHOLD ) {
-                    // When the difference between the field angle and the compass angle is insignificant,
-                    // simply set the angle and consider the compass to be at rest.
-                    _theta = angle;
-                    _omega = 0;
-                    _alpha = 0;
-                    setDirection( _theta );
-                }
-                else {
-                    // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
-
-                    // Step 1: orientation
-                    double thetaOld = _theta;
-                    double alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * _omega );
-                    _theta = _theta + ( _omega * dt ) + ( 0.5 * alphaTemp * dt * dt );
-                    if ( _theta != thetaOld ) {
-                        // Set the compass needle direction.
-                        setDirection( _theta );
-                    }
-
-                    // Step 2: angular accelaration
-                    double omegaTemp = _omega + ( alphaTemp * dt );
-                    _alpha = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omegaTemp );
-
-                    // Step 3: angular velocity
-                    _omega = _omega + ( 0.5 * ( _alpha + alphaTemp ) * dt );
-                }
-            }
+            // Step 3: angular velocity
+            _omega = _omega + ( 0.5 * ( _alpha + alphaTemp ) * dt );
         }
     }
     
@@ -259,7 +348,9 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
      */
     public String toString() {
         return " Compass=[" +
-                "theta=" + Math.toDegrees(_theta) +
+                "enabled=" + _enabled +
+                "rotationStrategy=" + _rotationStrategy +
+                "theta=" + Math.toDegrees( _theta ) +
                 " omega=" + _omega +
                 " alpha=" + _alpha +
                 super.toString() +
