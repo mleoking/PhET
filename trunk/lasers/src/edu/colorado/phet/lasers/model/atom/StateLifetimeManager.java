@@ -34,6 +34,12 @@ class StateLifetimeManager implements ModelElement {
     private boolean lifetimeFixed = false;
     private BaseModel model;
 
+    /**
+     * 
+     * @param atom
+     * @param emitOnStateChange
+     * @param model
+     */
     public StateLifetimeManager( Atom atom, boolean emitOnStateChange, BaseModel model ) {
         this.atom = atom;
         this.emitOnStateChange = emitOnStateChange;
@@ -65,9 +71,7 @@ class StateLifetimeManager implements ModelElement {
         if( lifeTime >= deathTime ) {
 
             AtomicState nextState = atom.getEnergyStateAfterEmission();
-//            AtomicState nextState = state.getNextLowerEnergyState();
             if( emitOnStateChange ) {
-                System.out.println( "photon emitted" );
                 double speed = Photon.SPEED;
                 double theta = Math.random() * Math.PI * 2;
                 double x = speed * Math.cos( theta );
