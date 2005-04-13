@@ -42,16 +42,16 @@ public class IdealGasApplication extends PhetApplication {
 
             // Create the modules
             Module idealGasModule = new IdealGasModule( getClock() );
-            Module rigidSphereModule = new RigidHollowSphereModule( getClock() );
-            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
-            Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
+//            Module rigidSphereModule = new RigidHollowSphereModule( getClock() );
+//            Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
+//            Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
 //            Module movableWallsModule = new MovableWallsModule( getClock() );
 //            Module diffusionModule = new DiffusionModule( getClock() );
             Module[] modules = new Module[]{
                 idealGasModule,
-                rigidSphereModule,
-                heliumBalloonModule,
-                hotAirBalloonModule,
+//                rigidSphereModule,
+//                heliumBalloonModule,
+//                hotAirBalloonModule,
 //                movableWallsModule,
 //                diffusionModule
             };
