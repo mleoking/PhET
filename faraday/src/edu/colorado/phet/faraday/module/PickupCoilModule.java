@@ -99,7 +99,7 @@ public class PickupCoilModule extends FaradayModule {
         // Compass
         Compass compassModel = new Compass( barMagnetModel ); 
         compassModel.setLocation( COMPASS_LOCATION );
-        compassModel.setRotationStrategy( Compass.ROTATE_KINEMATIC );
+        compassModel.setBehavior( Compass.KINEMATIC_BEHAVIOR );
         compassModel.setEnabled( false );
         model.addModelElement( compassModel );
         
