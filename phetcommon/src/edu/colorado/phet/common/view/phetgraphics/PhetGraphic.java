@@ -58,6 +58,7 @@ public abstract class PhetGraphic {
     private Stack graphicsStates = new Stack();
     private GraphicLayerSet parent;
     private String name;
+    private Shape clip;
 
     /*A bit of state to facilitate interactivity.*/
     protected CompositeMouseInputListener mouseInputListener = new CompositeMouseInputListener();//delegate
@@ -163,17 +164,17 @@ public abstract class PhetGraphic {
     /**
      * Sets the name of the graphic to the specified string.
      * The purpose this method is similar to java.awt.Component.setName.
-     * 
+     *
      * @param name the string that is to be this component's name
      */
     public void setName( String name ) {
         this.name = name;
     }
-    
+
     /**
      * Gets the name of the component.
      * The purpose this method is similar to java.awt.Component.getName.
-     * 
+     *
      * @return the component's name
      */
     public String getName() {
@@ -1118,5 +1119,22 @@ public abstract class PhetGraphic {
     }
 
     public void lostKeyFocus() {
+    }
+
+    public Shape getClip() {
+        if( parent != null && clip == null ) {
+            return parent.getClip();
+        }
+        else if( parent == null ) {
+            return clip;
+        }
+        else {
+            //todo compose the clips
+            return clip;
+        }
+    }
+
+    public void setClip( Shape clip ) {
+        this.clip = clip;
     }
 }
