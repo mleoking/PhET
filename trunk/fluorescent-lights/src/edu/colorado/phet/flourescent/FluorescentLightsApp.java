@@ -17,6 +17,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.lasers.controller.LaserConfig;
 
 import java.awt.*;
 
@@ -80,6 +81,9 @@ public class FluorescentLightsApp extends PhetApplication {
     }
 
     public static void main( String[] args ) {
+        SimStrings.setStrings( FluorescentLightsConfig.localizedStringsPath );
+        SimStrings.setStrings( LaserConfig.localizedStringsPath );
+
         FluorescentLightsApp app = new FluorescentLightsApp( new AppDesc(), args );
         app.startApplication();
     }
