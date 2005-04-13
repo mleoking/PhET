@@ -23,31 +23,28 @@ import java.awt.geom.Point2D;
  */
 public class FluorescentLightsConfig {
 
-    // Object locations and dimensions
-    public static final Point CIRCUIT_ULC = new Point( 50, 100 );
-    public static final int ELECTRODE_Y_LOCATION = 450;
+    // Localization
+    public static final String localizedStringsPath = "localization/FluorescentLightsStrings";
+
+    // Object locations and dimensions. Everything is keyed off the location of the cathode
+    public static final double ELECTRON_RADIUS = 3;
+    public static final int ELECTRODE_Y_LOCATION = 300;
+    public static final int ELECTRODE_LENGTH = 300;
     public static final Point CATHODE_LOCATION = new Point( 170, ELECTRODE_Y_LOCATION );
-    public static final double CATHODE_LENGTH = 300;
+    public static final double CATHODE_LENGTH = ELECTRODE_LENGTH;
     public static final Line2D CATHODE_LINE = new Line2D.Double( CATHODE_LOCATION.getX(),
                                                                  CATHODE_LOCATION.getY() - CATHODE_LENGTH / 2,
                                                                  CATHODE_LOCATION.getX(),
                                                                  CATHODE_LOCATION.getY() + CATHODE_LENGTH / 2 );
 
-    public static final Point ANODE_LOCATION = new Point( 710, ELECTRODE_Y_LOCATION );
-    public static final double ANODE_LENGTH = 300;
+    public static final Point ANODE_LOCATION = new Point( 600, ELECTRODE_Y_LOCATION );
+    public static final double ANODE_LENGTH = ELECTRODE_LENGTH;
     public static final Line2D ANODE_LINE = new Line2D.Double( ANODE_LOCATION.getX(),
                                                                ANODE_LOCATION.getY() - ANODE_LENGTH / 2,
                                                                ANODE_LOCATION.getX(),
                                                                ANODE_LOCATION.getY() + ANODE_LENGTH / 2 );
     public static final Insets ELECTRODE_INSETS = new Insets( 15, 30, 15, 30 );
-    public static final Point2D TUBE_ULC = new Point2D.Double( CATHODE_LOCATION.getX() - ELECTRODE_INSETS.left,
-                                                               CATHODE_LOCATION.getY() - CATHODE_LENGTH / 2 - ELECTRODE_INSETS.top);
-    public static final double TUBE_LENGTH = FluorescentLightsConfig.ANODE_LOCATION.getX()
-                                             - FluorescentLightsConfig.CATHODE_LOCATION.getX()
-                                             + ELECTRODE_INSETS.left + ELECTRODE_INSETS.right;
-    public static final double TUBE_HEIGHT = FluorescentLightsConfig.CATHODE_LENGTH + ELECTRODE_INSETS.top + ELECTRODE_INSETS.bottom;
 
-    public static final double ELECTRON_RADIUS = 3;
 
     // Images
     public static final String IMAGE_FILE_DIRECTORY = "images";
