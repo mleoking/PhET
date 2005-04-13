@@ -51,6 +51,14 @@ public class PhetGraphics2D extends Graphics2D {
         currentStateDescriptor = (StateDescriptor)graphicsStates.pop();
     }
 
+    public void setAntialias( boolean antialias ) {
+        wrappedGraphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, antialias ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF );
+    }
+
+    public void setStrokePure() {
+        wrappedGraphics.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
+    }
+
     private class StateDescriptor {
         Font orgFont;
         RenderingHints orgRenderingHints;
