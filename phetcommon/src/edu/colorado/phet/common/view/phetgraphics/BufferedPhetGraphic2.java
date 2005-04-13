@@ -12,6 +12,7 @@ package edu.colorado.phet.common.view.phetgraphics;
 
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.GraphicsSetup;
+import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,7 +20,6 @@ import java.awt.image.BufferedImage;
 /**
  * BufferedPhetGraphic
  * <p/>
- * //needs to extend graphic layer set for event handling.
  *
  * @author ?
  * @version $Revision$
@@ -27,13 +27,12 @@ import java.awt.image.BufferedImage;
 public class BufferedPhetGraphic2 extends GraphicLayerSet {
     private PhetImageGraphic phetImageGraphic;
     private Paint background;
-    private int type = BufferedImage.TYPE_INT_RGB;
+    private int imageType = BufferedImage.TYPE_INT_RGB;
     private Rectangle clip;
     private GraphicsSetup graphicsSetup = new BasicGraphicsSetup();
 
     private RepaintStrategy.FalseComponent falseComponent = new RepaintStrategy.FalseComponent( new RepaintStrategy() {
         public void repaint( int x, int y, int width, int height ) {
-            doRepaint( x, y, width, height );
         }
 
         public void paintImmediately() {
@@ -44,70 +43,43 @@ public class BufferedPhetGraphic2 extends GraphicLayerSet {
         super( component );
         this.background = background;
         this.phetImageGraphic = new PhetImageGraphic( component );
-        createBuffer();
-    }
-
-    private void createBuffer() {
-        int width = getComponent().getWidth();
-        int height = getComponent().getHeight();
-        if( width > 0 && height > 0 ) {
-            phetImageGraphic.setImage( new BufferedImage( width, height, type ) );
-        }
-    }
-
-    private void doRepaint( int x, int y, int width, int height ) {
-        if( getImage() == null ) {
-            createBuffer();
-        }
-        if( getImage() == null ) {
-            return;
-        }
-        Graphics2D g2 = getImage().createGraphics();
-        BufferedImage buffer = getImage();
-        if( background != null ) {
-            g2.setPaint( background );
-            g2.fillRect( x, y, width, height );
-        }
-
-        if( buffer != null ) {
-            clip = new Rectangle( x, y, width, height );
-            Graphics2D bufferGraphics = buffer.createGraphics();
-            bufferGraphics.setClip( clip );
-            graphicsSetup.setup( bufferGraphics );
-            super.paint( bufferGraphics );
-            setBoundsDirty();
-            getComponent().repaint( x, y, width, height );
-        }
     }
 
     public void addGraphic( PhetGraphic graphic ) {
-        super.addGraphic( graphic );
-        graphic.setComponent( falseComponent );
+        addGraphic( graphic, 0 );
     }
 
     public void addGraphic( PhetGraphic graphic, double layer ) {
         super.addGraphic( graphic, layer );
-        graphic.setComponent( falseComponent );
+        graphic.setComponent( falseComponent );//redirect paint calls to here.
     }
 
     public void repaintBuffer() {
-        doRepaint( 0, 0, getComponent().getWidth(), getComponent().getHeight() );
+        repaintBuffer( 0, 0, getImage().getWidth(), getImage().getHeight() );
     }
 
-    private BufferedImage getImage() {
+    public BufferedImage getImage() {
         return phetImageGraphic.getImage();
     }
 
     public void setSize( int width, int height ) {
-        createBuffer();
+        if( width > 0 && height > 0 ) {
+            phetImageGraphic.setImage( new BufferedImage( width, height, imageType ) );
+        }
     }
 
     protected Rectangle determineBounds() {
-        return clip;
+        if( getImage() == null ) {
+            return null;
+        }
+        return getNetTransform().createTransformedShape( new Rectangle( getImage().getWidth(), getImage().getHeight() ) ).getBounds();
     }
 
     public void paint( Graphics2D g ) {
+        GraphicsState state = new GraphicsState( g );
+        g.transform( getNetTransform() );
         phetImageGraphic.paint( g );
+        state.restoreGraphics();
     }
 
     /**
@@ -121,15 +93,32 @@ public class BufferedPhetGraphic2 extends GraphicLayerSet {
      */
     public static PhetImageGraphic createBuffer( PhetGraphic phetGraphic, GraphicsSetup graphicsSetup, int imageType, Paint background ) {
         PhetImageGraphic phetImageGraphic = new PhetImageGraphic( phetGraphic.getComponent() );
-        Rectangle r = phetGraphic.getBounds();
-        BufferedImage im = new BufferedImage( r.width, r.height, imageType );
+        Rectangle bounds = phetGraphic.getBounds();
+        BufferedImage im = new BufferedImage( bounds.width, bounds.height, imageType );
         Graphics2D g2 = im.createGraphics();
         graphicsSetup.setup( g2 );
         g2.setPaint( background );
-        g2.translate( -r.x, -r.y );
-        g2.fillRect( r.x, r.y, r.width, r.height );
+        g2.translate( -bounds.x, -bounds.y );
+        g2.fillRect( bounds.x, bounds.y, bounds.width, bounds.height );
         phetGraphic.paint( g2 );
         phetImageGraphic.setImage( im );
         return phetImageGraphic;
+    }
+
+    public void repaintBuffer( Rectangle rect ) {
+        repaintBuffer( rect.x, rect.y, rect.width, rect.height );
+    }
+
+    public void repaintBuffer( int x, int y, int width, int height ) {
+        Graphics2D g2 = getImage().createGraphics();
+        if( background != null ) {
+            g2.setPaint( background );
+            g2.fillRect( x, y, width, height );
+        }
+
+        graphicsSetup.setup( g2 );
+        super.paint( g2 );
+        setBoundsDirty();
+        autorepaint();
     }
 }
