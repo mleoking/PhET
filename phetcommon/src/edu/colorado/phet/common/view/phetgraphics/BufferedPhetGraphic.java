@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common.view.phetgraphics;
 
+import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.GraphicsSetup;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImagingOpException;
 
 /**
  * BufferedPhetGraphic
@@ -24,12 +24,10 @@ import java.awt.image.ImagingOpException;
  */
 public class BufferedPhetGraphic extends PhetGraphic {
     private GraphicLayerSet graphicLayerSet;
-    private PhetImageGraphic imageGraphic;
     private Paint background;
     private BufferedImage buffer;
     private int type;
-    private GraphicsSetup graphicsSetup;
-    private Rectangle r;
+    private GraphicsSetup graphicsSetup = new BasicGraphicsSetup();
 
     public BufferedPhetGraphic( Component component, int width, int height, Paint background ) {
         this( component, width, height, BufferedImage.TYPE_INT_RGB, background );
@@ -40,44 +38,22 @@ public class BufferedPhetGraphic extends PhetGraphic {
         this.background = background;
         this.type = type;
         this.graphicLayerSet = new CompositePhetGraphic( component );
-        this.imageGraphic = new PhetImageGraphic( component, buffer );
         if( width > 0 && height > 0 ) {
             buffer = new BufferedImage( width, height, type );
-            imageGraphic.setImage( buffer );
         }
         repaintBuffer();
     }
 
     public void repaintBuffer() {
-        Graphics2D g2 = buffer.createGraphics();
-        if( graphicsSetup != null ) {
-            graphicsSetup.setup( g2 );
-        }
-        if( background != null ) {
-            g2.setPaint( background );
-            g2.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
-        }
-        if( buffer != null ) {
-            try {
-                graphicLayerSet.paint( g2 );
-            }
-            catch( ImagingOpException ioe ) {
-                System.out.println( "ioe = " + ioe );
-            }
-            imageGraphic.setImage( buffer );
-
-            imageGraphic.setBoundsDirty();
-            imageGraphic.autorepaint();
-            setBoundsDirty();
-            autorepaint();
-        }
+        repaintBuffer( 0, 0, buffer.getWidth(), buffer.getHeight() );
     }
 
     public void setSize( int width, int height ) {
         if( width > 0 && height > 0 ) {
             buffer = new BufferedImage( width, height, type );
-            repaintBuffer();
         }
+        setBoundsDirty();
+        autorepaint();
     }
 
     public BufferedImage getBuffer() {
@@ -101,12 +77,8 @@ public class BufferedPhetGraphic extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
-        if( r != null ) {
-            return r;
-        }
-        else {
-            return imageGraphic.determineBounds();
-        }
+        Rectangle tx = getNetTransform().createTransformedShape( new Rectangle( buffer.getWidth(), buffer.getHeight() ) ).getBounds();
+        return tx;
     }
 
     public void paint( Graphics2D g2 ) {
@@ -116,7 +88,7 @@ public class BufferedPhetGraphic extends PhetGraphic {
             if( hints != null ) {
                 g2.setRenderingHints( hints );
             }
-            imageGraphic.paint( g2 );
+            g2.drawRenderedImage( buffer, getNetTransform() );
             super.restoreGraphicsState();
         }
     }
@@ -130,25 +102,25 @@ public class BufferedPhetGraphic extends PhetGraphic {
     }
 
     public void repaintBuffer( Rectangle r ) {
+        repaintBuffer( r.x, r.y, r.width, r.height );
+    }
+
+    public void repaintBuffer( int x, int y, int width, int height ) {
         Graphics2D g2 = buffer.createGraphics();
         if( graphicsSetup != null ) {
             graphicsSetup.setup( g2 );
         }
-        g2.setClip( r );
+        g2.setClip( x, y, width, height );
         if( background != null ) {
             g2.setPaint( background );
-            g2.fillRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
+            g2.fillRect( x, y, width, height );
         }
         if( buffer != null ) {
-
             graphicLayerSet.paint( g2 );
-            imageGraphic.setAutoRepaint( false );
-            imageGraphic.setImage( buffer );
-            getComponent().repaint( r.x, r.y, r.width, r.height );
         }
     }
 
-    public boolean contains( int x, int y ) {
-        return graphicLayerSet.contains( x, y );
+    public void clearGraphics() {
+        graphicLayerSet.clear();
     }
 }
