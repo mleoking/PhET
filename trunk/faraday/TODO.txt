@@ -8,12 +8,12 @@ IN PROGRESS:
 HIGH PRIORITY:
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
-e
-- performance impact of grid, electrons, and light rays
 - electrons in electromagnet should never change speed
+- objects can be dragged 1 pixel off the apparatus panel on Windows
+- performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
-- optimize rendering of LightBulbGraphic using Graphics.drawLine (~50 rays drawn at max settings)
+- wiggle mes and challenges leave screen turds (Windows XP SP2, Java 1.5.0_02-b09)
 - add a graph of field strength over time to the Field Meter
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
