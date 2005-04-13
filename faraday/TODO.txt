@@ -46,6 +46,7 @@ PHETCOMMON:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
+v0r23...
 v0r22...
 (4/12) - optimize LightbulbGraphic by drawing rays using Graphics.drawLine
 (4/12) - add debug code to display the pickup coil sample points
@@ -65,7 +66,7 @@ v0r21...
 (4/8) - LightBulbGraphic leaves screen turds (fixed GraphicLayerSet.clear)
 (4/8) - minimize memory allocation in LightbulbGraphic
 (4/8) - clean up FaradayPanel base class
-(4/8) - clear up localization file, remove unused strings
+(4/8) - clean up localization file, remove unused strings
 (4/7) - wire up wiggle me's so that they disappear at the appropriate time
 (4/7) - add wiggle me's to all modules, but not wired to disappear
 (4/7) - create WiggleMeGraphic to use for all wiggle me's
