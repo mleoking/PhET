@@ -55,8 +55,9 @@ public class PickupCoilModule extends FaradayModule {
     // Locations
     private static final Point MAGNET_LOCATION = new Point( 200, 400 );
     private static final Point PICKUP_COIL_LOCATION = new Point( 500, 400 );
-    private static final Point COMPASS_LOCATION = new Point( 150, 200 );
+    private static final Point COMPASS_LOCATION = new Point( 350, 525 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
+    private static final Point WIGGLE_ME_LOCATION = new Point( 150, 250 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -209,6 +210,7 @@ public class PickupCoilModule extends FaradayModule {
         
         // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, barMagnetModel, pickupCoilModel );
+        wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     
@@ -248,7 +250,6 @@ public class PickupCoilModule extends FaradayModule {
             setText( SimStrings.get( "PickupCoilModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.BOTTOM_CENTER, new Vector2D( 0, 75 ) );
             addArrow( WiggleMeGraphic.MIDDLE_RIGHT, new Vector2D( 75, 0 ) );
-            setLocation( 150, 250 );
             setRange( 20, 10 );
             setEnabled( true );
         }

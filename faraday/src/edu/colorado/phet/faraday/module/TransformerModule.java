@@ -53,9 +53,10 @@ public class TransformerModule extends FaradayModule {
 
     // Locations
     private static final Point ELECTROMAGNET_LOCATION = new Point( 200, 400 );
-    private static final Point COMPASS_LOCATION = new Point( 150, 200 );
+    private static final Point COMPASS_LOCATION = new Point( 350, 525 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
     private static final Point PICKUP_COIL_LOCATION = new Point( 500, 400 );
+    private static final Point CHALLENGE_LOCATION = new Point( 250, 50 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -235,6 +236,7 @@ public class TransformerModule extends FaradayModule {
         
         // Challenge
         ThisChallengeGraphic challenge = new ThisChallengeGraphic( apparatusPanel, model, lightbulbModel );
+        challenge.setLocation( CHALLENGE_LOCATION );
         apparatusPanel.addGraphic( challenge, HELP_LAYER );
     }
     
@@ -266,7 +268,6 @@ public class TransformerModule extends FaradayModule {
             _count = 0;
             
             setText( SimStrings.get( "TransformerModule.challenge" ), null, Color.RED );
-            setLocation( 250, 50 );
             setRange( 20, 20 );
             setEnabled( true );
         }

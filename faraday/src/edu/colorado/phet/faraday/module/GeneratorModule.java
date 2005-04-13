@@ -56,6 +56,7 @@ public class GeneratorModule extends FaradayModule {
     private static final Point PICKUP_COIL_LOCATION = new Point( 550, TURBINE_LOCATION.y );
     private static final Point COMPASS_LOCATION = new Point( 350, 175 );
     private static final Point FIELD_METER_LOCATION = new Point( 450, 460 );
+    private static final Point WIGGLE_ME_LOCATION = new Point( 240, 60 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -205,6 +206,7 @@ public class GeneratorModule extends FaradayModule {
         
         // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, turbineModel );
+        wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     
@@ -236,7 +238,6 @@ public class GeneratorModule extends FaradayModule {
             
             setText( SimStrings.get( "GeneratorModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.MIDDLE_LEFT, new Vector2D( -80, 0 ) );
-            setLocation( 240, 60 );
             setRange( 25, 0 );
             setCycleDuration( 10 );
             setEnabled( true );

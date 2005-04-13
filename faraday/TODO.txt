@@ -10,6 +10,7 @@ HIGH PRIORITY:
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - compass doesn't look right in the Generator module
 - performance impact of grid, electrons, and light rays
+- electrons in electromagnet should never change speed
 
 MEDIUM PRIORITY:
 - optimize rendering of LightBulbGraphic using Graphics.drawLine (~50 rays drawn at max settings)
@@ -47,6 +48,8 @@ PHETCOMMON:
 
 DONE:
 v0r23...
+(4/13) - add constants to modules for wiggle me and challenge locations
+(4/13) - initialize compass location in Transformer module so that it's not behind electromagnet
 v0r22...
 (4/12) - optimize LightbulbGraphic by drawing rays using Graphics.drawLine
 (4/12) - add debug code to display the pickup coil sample points

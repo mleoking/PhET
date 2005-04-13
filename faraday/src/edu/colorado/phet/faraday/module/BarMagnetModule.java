@@ -52,6 +52,7 @@ public class BarMagnetModule extends FaradayModule {
     private static final Point BAR_MAGNET_LOCATION = new Point( 450, 300 );
     private static final Point COMPASS_LOCATION = new Point( 150, 300 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
+    private static final Point WIGGLE_ME_LOCATION = new Point( 250, 175 );
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -152,6 +153,7 @@ public class BarMagnetModule extends FaradayModule {
         
         // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, barMagnetModel, compassModel );
+        wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     
@@ -191,7 +193,6 @@ public class BarMagnetModule extends FaradayModule {
             setText( SimStrings.get( "BarMagnetModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -40, 50 ) );
             addArrow( WiggleMeGraphic.BOTTOM_RIGHT, new Vector2D( 40, 50 ) );
-            setLocation( 250, 175 );
             setRange( 20, 10 );
             setEnabled( true );
         }

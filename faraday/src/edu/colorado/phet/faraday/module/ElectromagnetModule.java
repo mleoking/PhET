@@ -54,6 +54,7 @@ public class ElectromagnetModule extends FaradayModule {
     private static final Point ELECTROMAGNET_LOCATION = new Point( 400, 400 );
     private static final Point COMPASS_LOCATION = new Point( 150, 200 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
+    private static final Point WIGGLE_ME_LOCATION = new Point( 500, 150 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -195,6 +196,7 @@ public class ElectromagnetModule extends FaradayModule {
         
         // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, batteryModel, electromagnetModel );
+        wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     
@@ -234,7 +236,6 @@ public class ElectromagnetModule extends FaradayModule {
             
             setText( SimStrings.get( "ElectromagnetModule.wiggleMe" ) );
             addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -50, 50 ) );
-            setLocation( 500, 150 );
             setRange( 25, 0 );
             setCycleDuration( 5 );
             setEnabled( true );
