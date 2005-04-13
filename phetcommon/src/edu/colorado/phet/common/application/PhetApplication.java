@@ -41,8 +41,12 @@ public class PhetApplication {
     private ApplicationModel applicationModel;
     private ModuleManager moduleManager;
 
+    /**
+     * @param descriptor
+     * @deprecated, clients should pass in their String[] args.
+     */
     public PhetApplication( ApplicationModel descriptor ) {
-        this( descriptor, null );
+        this( descriptor, new String[0] );
     }
 
     public PhetApplication( ApplicationModel descriptor, String args[] ) {
