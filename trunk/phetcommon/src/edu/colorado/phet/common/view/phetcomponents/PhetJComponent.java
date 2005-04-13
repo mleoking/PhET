@@ -58,7 +58,7 @@ public class PhetJComponent extends PhetGraphic {
         return newInstance( apparatusPanel, jComponent, true );
     }
 
-    public static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
+    private static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
         if( topLevel ) {
             offscreen.getContentPane().add( jComponent );
         }
@@ -466,6 +466,10 @@ public class PhetJComponent extends PhetGraphic {
 
         public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent );
 
+    }
+
+    public JComponent getSourceComponent() {
+        return component;
     }
 
 }
