@@ -61,6 +61,11 @@ public class PhetGraphics2D extends Graphics2D {
 
     //----------------------------------------------------------------
     // Extended methods
+    //
+    // These methods all extend mutators of Graphics2D. If the particular
+    // mutator has not be called yet on this object, the attribute of the
+    // wrapped Graphics2D is saved in the StateDescriptor, so it can be
+    // restored later, then the mutator is called on the wrapped Graphics2D
     //----------------------------------------------------------------
 
     public void setBackground( Color color ) {
@@ -96,6 +101,13 @@ public class PhetGraphics2D extends Graphics2D {
             currentStateDescriptor.orgTransform = getTransform();
         }
         wrappedGraphics.setTransform( Tx );
+    }
+
+    public void transform( AffineTransform Tx ) {
+        if( currentStateDescriptor.orgTransform == null ) {
+            currentStateDescriptor.orgTransform = getTransform();
+        }
+        wrappedGraphics.transform( Tx );
     }
 
     public void addRenderingHints( Map hints ) {
@@ -191,10 +203,6 @@ public class PhetGraphics2D extends Graphics2D {
 
     public void translate( int x, int y ) {
         wrappedGraphics.translate( x, y );
-    }
-
-    public void transform( AffineTransform Tx ) {
-        wrappedGraphics.transform( Tx );
     }
 
     public Color getBackground() {
