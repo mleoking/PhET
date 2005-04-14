@@ -34,7 +34,6 @@ import java.util.HashMap;
 public class ElectronAtomCollisionExpert implements CollisionExpert {
     private Object[] bodies = new Object[2];
     private Map classifiedBodies = new HashMap();
-    private Photon utilPhoton = Photon.create( new Point2D.Double( ), new Vector2D.Double( ) );
 
     /**
      *
