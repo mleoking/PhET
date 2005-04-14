@@ -10,6 +10,16 @@
  */
 package edu.colorado.phet.common.view;
 
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
+import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.RectangleUtils;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -18,18 +28,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.*;
-
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
-import javax.swing.event.MouseInputListener;
-
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
-import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.common.view.util.RectangleUtils;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -135,7 +133,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         transformManager.setReferenceSize();
         scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
         setScale( 1.0 );
-//        paintImmediately( 0, 0, getWidth(), getHeight() );//called in setScale() now.
 
         // Set the canvas size
         determineCanvasSize();
@@ -281,8 +278,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     private void paintDirtyRectanglesImmediately() {
         if( rectangles.size() > 0 ) {
-            int numRectangles = rectangles.size();
-//            System.out.println( "numRectangles = " + numRectangles );
             Rectangle unionRectangle = RectangleUtils.union( rectangles );
             this.repaintArea = transformManager.transform( unionRectangle );
             paintImmediately( repaintArea );
@@ -303,8 +298,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     protected void paintComponent( Graphics graphics ) {
-//        Graphics2D g2 = new PhetGraphics2D((Graphics2D)graphics);
-        Graphics2D g2 = (Graphics2D)graphics;
+        Graphics2D g2 = new PhetGraphics2D( (Graphics2D)graphics );
+//        Graphics2D g2 = (Graphics2D)graphics;
         g2 = new PhetGraphics2D( g2 );
         if( repaintArea == null ) {
             repaintArea = this.getBounds();
@@ -323,17 +318,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         //remove the affine transform.
         gs.restoreGraphics();
         super.drawBorder( g2 );
-        //restore color and stroke.
-
-    }
-
-    /**
-     * todo: is this used anywhere?
-     *
-     * @return
-     */
-    protected Rectangle getReferenceBounds() {
-        return transformManager.getReferenceBounds();
     }
 
     /**
@@ -380,7 +364,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 // Using a single scale factor keeps the aspect ratio constant
                 double s = Math.min( sx, sy );
                 setScale( s );
-//                paintImmediately( 0,0,getWidth(), getHeight() );//called in setScale().
                 determineCanvasSize();
             }
             paintStrategy.componentResized();
@@ -686,7 +669,5 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
 
     }
-
-
 }
 
