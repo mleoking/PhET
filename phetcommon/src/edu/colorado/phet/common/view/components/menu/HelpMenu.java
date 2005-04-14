@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.common.view.components.menu;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -34,20 +33,20 @@ public class HelpMenu extends JMenu {
 
     public HelpMenu( final PhetApplication application ) throws IOException {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
-        final ApplicationModel appDescriptor = application.getApplicationModel();
+//        final ApplicationModel appDescriptor = application.getApplicationModel();
         icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" ) );
 
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
 
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
         about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
-        final String name = appDescriptor.getWindowTitle();
-        String desc = appDescriptor.getDescription();
-        String version = appDescriptor.getVersion();
+        final String name = application.getWindowTitle();
+        String desc = application.getDescription();
+        String version = application.getVersion();
         String message = name + "\n" + desc + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + version + "\n";
         try {
-            VersionUtils.VersionInfo[] inf = appDescriptor.readVersionInfo();
-            System.out.println( "VersionInfo.length = " + inf.length );
+            VersionUtils.VersionInfo[] inf = VersionUtils.readVersionInfo( application.getName() );
+
             for( int i = 0; i < inf.length; i++ ) {
                 VersionUtils.VersionInfo versionInfo = inf[i];
                 message += versionInfo.toString();

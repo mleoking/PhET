@@ -12,8 +12,6 @@ package edu.colorado.phet.common.application;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.util.persistence.Persistent;
-import edu.colorado.phet.common.util.persistence.StateDescriptor;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 
 /**
@@ -64,7 +62,7 @@ public class ModuleStateDescriptor {
 //        Module module = (Module)persistentObject;
 
         // Remove and clean up the current model
-        AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();
+        AbstractClock clock = PhetApplication.instance().getClock();
         BaseModel oldModel = module.getModel();
         oldModel.removeAllModelElements();
         clock.removeClockTickListener( oldModel );
