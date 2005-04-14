@@ -1,9 +1,4 @@
 package edu.colorado.phet.common.tests;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.geom.Ellipse2D;
-import java.io.IOException;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
@@ -16,10 +11,14 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.io.IOException;
+
 /**
- * TestOffscreenBufferAlpha tests support for alpha blending in the 
+ * TestOffscreenBufferAlpha tests support for alpha blending in the
  * offscreen buffer of ApparatusPanel2.
- * <p>
+ * <p/>
  * If this buffer is a BufferedImage of TYPE_INT_RGB, then alpha blending
  * does not occur on Macintosh. Using TYPE_INT_RGBA results in a performance
  * hit (on all platforms?)
@@ -28,28 +27,28 @@ import edu.colorado.phet.common.view.util.FrameSetup;
  * @version $Revision$
  */
 public class TestOffscreenBufferAlpha {
-    
+
     private static final boolean USE_OFFSCREEN_BUFFER = true;
 
     public static void main( String args[] ) throws IOException {
         TestOffscreenBufferAlpha test = new TestOffscreenBufferAlpha( args );
     }
-    
+
     public TestOffscreenBufferAlpha( String[] args ) throws IOException {
-        
+
         // Set up the application descriptor.
         String title = "TestOffscreenBufferAlpha";
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 300, 300 );
         AbstractClock clock = new SwingTimerClock( 1, 40 );
         Module module = new TestModule( clock );
-        ApplicationModel appModel = 
-            new ApplicationModel( title, "description", "version", frameSetup, module, clock );
+        ApplicationModel appModel =
+                new ApplicationModel( title, "description", "version", frameSetup, module, clock );
         
         // Create and start the application.
         PhetApplication app = new PhetApplication( appModel, args );
         app.startApplication();
     }
-    
+
     private class TestModule extends Module {
         public TestModule( AbstractClock clock ) {
             super( "Test Module", clock );
@@ -72,7 +71,7 @@ public class TestOffscreenBufferAlpha {
             apparatusPanel.addGraphic( rectangleGraphic, 1 );
             
             // Circle
-            final PhetShapeGraphic circleGraphic = new PhetShapeGraphic( apparatusPanel );
+            final PhetShapeGraphic circleGraphic = new TestGraphic( apparatusPanel );
             circleGraphic.setShape( new Ellipse2D.Double( -35, -35, 70, 70 ) );
             circleGraphic.setPaint( new Color( 255, 0, 0, 100 ) ); // white with alpha
             circleGraphic.setLocation( 100, 100 );
@@ -84,6 +83,20 @@ public class TestOffscreenBufferAlpha {
             PhetTextGraphic textGraphic = new PhetTextGraphic( apparatusPanel, font, message, Color.BLACK );
             textGraphic.setLocation( 10, 30 );
             apparatusPanel.addGraphic( textGraphic, 3 );
+        }
+    }
+
+    static class TestGraphic extends PhetShapeGraphic {
+
+        public TestGraphic( Component component ) {
+            super( component );
+        }
+
+        public void paint( Graphics2D g2 ) {
+            saveGraphicsState( g2 );
+//            GraphicsUtil.setAlpha( g2, 100.0 / 255 );
+            super.paint( g2 );
+            restoreGraphicsState();
         }
     }
 }
