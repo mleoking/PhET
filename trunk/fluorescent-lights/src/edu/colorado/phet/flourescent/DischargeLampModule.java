@@ -15,9 +15,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.flourescent.model.*;
 import edu.colorado.phet.flourescent.view.ElectronGraphic;
@@ -33,8 +31,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -48,8 +44,9 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     private ElectronSource cathode;
     private double s_maxSpeed = 0.1;
 
-    private int numEnergyLevels = 5;
+//    private int numEnergyLevels = 20;
 
+//    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
     // The scale to apply to graphics created in external applications so they appear properly
     // on the screen
@@ -63,18 +60,18 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      * Constructor
      * @param clock
      */
-    protected DischargeLampModule( AbstractClock clock ) {
-        super( SimStrings.get( "ModuleTitle.ModuleA" ), clock );
+    protected DischargeLampModule( String name, AbstractClock clock, int numAtoms, int numEnergyLevels ) {
+        super( name, clock );
 
         // Set up the basic stuff
-        ApparatusPanel apparatusPanel = new ApparatusPanel2( clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        apparatusPanel.setPaintStrategy( ApparatusPanel2.OFFSCREEN_BUFFER_STRATEGY );
         apparatusPanel.setBackground( Color.white );
         setApparatusPanel( apparatusPanel );
 
         FluorescentLightModel model = new FluorescentLightModel();
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
-
 
         // Add the battery and wire graphic
         addCircuitGraphic( apparatusPanel );
@@ -93,10 +90,10 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
         // Add some atoms
         if( DEBUG ) {
-            addDebugAtoms( tube );
+            addDebugAtoms( tube, numEnergyLevels );
         }
         else {
-            addAtoms( tube );
+            addAtoms( tube, numAtoms, numEnergyLevels );
         }
 
         // Set up the control panel
@@ -191,12 +188,12 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      * Adds some atoms and their graphics
      *
      * @param tube
+     * @param numAtoms
      */
-    private void addAtoms( ResonatingCavity tube ) {
+    private void addAtoms( ResonatingCavity tube, int numAtoms, int numEnergyLevels ) {
         DischargeLampAtom atom = null;
         ArrayList atoms = new ArrayList();
         Rectangle2D tubeBounds = tube.getBounds();
-        int numAtoms = 30;
         for( int i = 0; i < numAtoms; i++ ) {
             atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
             atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
@@ -213,7 +210,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      *
      * @param tube
      */
-    private void addDebugAtoms( ResonatingCavity tube ) {
+    private void addDebugAtoms( ResonatingCavity tube, int numEnergyLevels ) {
 
         getModel().removeModelElement( cathode );
         Point2D p0 = new Point2D.Double( FluorescentLightsConfig.CATHODE_LINE.getP1().getX(),

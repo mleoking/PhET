@@ -116,7 +116,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         this.addComponentListener( panelResizeHandler );
         transformManager = new TransformManager( this );
         paintStrategy = new DefaultPaintStrategy( this );
-//        scaledComponentLayout = new ScaledComponentLayout( this );
+        scaledComponentLayout = new ScaledComponentLayout( this );
     }
 
     public void setPaintStrategy( int strategy ) {

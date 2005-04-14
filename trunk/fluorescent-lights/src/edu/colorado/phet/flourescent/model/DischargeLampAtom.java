@@ -24,7 +24,7 @@ import java.util.Random;
  * an electron
  */
 public class DischargeLampAtom extends Atom {
-    private Random random;
+    private Random random = new Random( System.currentTimeMillis() );
 
     /**
      * @param model
@@ -49,9 +49,9 @@ public class DischargeLampAtom extends Atom {
     }
 
     /**
-     * If the energy of the electron is higher than the energy state of the atom, the atom absorbs some of the
-     * electron's energy and goes to a state higher in energy by the amount it absorbs. Exactly how much energy
-     * it absorbs is random.
+     * If the electron's energy is greater than the difference between the atom's current energy and one of
+     * its higher energy states, the atom absorbs some of the electron's energy and goes to a state higher
+     * in energy by the amount it absorbs. Exactly how much energy it absorbs is random.
      *
      * @param electron
      */
@@ -72,16 +72,16 @@ public class DischargeLampAtom extends Atom {
         int highestPossibleNewStateIdx = currStateIdx + 1;
         for( ; highestPossibleNewStateIdx < states.length; highestPossibleNewStateIdx++ ) {
             if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electron.getEnergy() ) {
-                highestPossibleNewStateIdx--;
                 break;
             }
         }
+        highestPossibleNewStateIdx--;
 
         // Pick a random state between that of the next higher energy state and the highest energy state
         // we found in the preceding block
         if( highestPossibleNewStateIdx > currStateIdx ) {
-            random = new Random( System.currentTimeMillis() );
-            int newStateIdx = random.nextInt( highestPossibleNewStateIdx - currStateIdx ) + currStateIdx;
+            int rand = random.nextInt( highestPossibleNewStateIdx - currStateIdx ) + 1;
+            int newStateIdx = rand + currStateIdx;
             AtomicState newState = states[newStateIdx];
 
             // Put the atom in the randomly picked state, and reduce the energy of the electron by the difference

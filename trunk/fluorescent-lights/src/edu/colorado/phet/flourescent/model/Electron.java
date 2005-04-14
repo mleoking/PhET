@@ -31,7 +31,8 @@ import java.util.EventObject;
  */
 public class Electron extends SphericalBody implements Collidable {
 
-    private static final double ELECTRON_MASS = 1;
+    // Mass of an electron, in kg
+    private static final double ELECTRON_MASS = 9.11E-31;
 
     private CollidableAdapter collidableAdapter;
     private double energy = Photon.wavelengthToEnergy( Photon.RED ) - AtomicState.minEnergy;
@@ -72,16 +73,13 @@ public class Electron extends SphericalBody implements Collidable {
 
     public double getEnergy() {
         return getVelocity().getMagnitudeSq() * getMass() / 2 ;
-//        return energy;
     }
 
     public void setEnergy( double e ) {
-        double de = energy - e;
-
-        // adjust the electron's velocity
-        double vNewMag = Math.sqrt( getVelocity().getMagnitudeSq() + ( 2 * de / getMass() ));
-        double vCurrMag = Math.sqrt( getVelocity().getMagnitudeSq() );
-        setVelocity( getVelocity().scale( vCurrMag / vNewMag ) );
+        // compute the speed of the electron
+        double sNew = Math.sqrt( 2 * e / getMass() );
+        double sCurr = getVelocity().getMagnitude();
+        setVelocity( getVelocity().scale( sNew / sCurr ) );
     }
 
     //----------------------------------------------------------------

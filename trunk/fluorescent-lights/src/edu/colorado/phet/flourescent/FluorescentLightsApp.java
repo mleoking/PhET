@@ -48,21 +48,27 @@ public class FluorescentLightsApp extends PhetApplication {
         }
         setFrameSetup( frameSetup );
 
-        DischargeLampModule dischargeLampModule = new DischargeLampModule( getClock() );
-        addModule( dischargeLampModule );
-        setInitialModule( dischargeLampModule );
+        DischargeLampModule singleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
+                                                                        getClock(), 1,
+                                                                        FluorescentLightsConfig.NUM_ENERGY_LEVELS );
+        DischargeLampModule multipleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
+                                                                          getClock(), 1,
+                                                                          FluorescentLightsConfig.NUM_ENERGY_LEVELS );
+        addModule( singleAtomModule );
+        addModule( multipleAtomModule );
+        setInitialModule( singleAtomModule );
 
         getPhetFrame().pack();
     }
 
-    private static  class AppDesc extends ApplicationModel {
+    private static class AppDesc extends ApplicationModel {
         public AppDesc() {
             super( "Fluorescent Lights",
                    "Fluorescent Lights",
                    "0.01" );
 
             setClock( new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND ) );
-            
+
             // Determine the resolution of the screen
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 750 );
@@ -71,12 +77,16 @@ public class FluorescentLightsApp extends PhetApplication {
             }
             setFrameSetup( frameSetup );
 
-            DischargeLampModule dischargeLampModule = new DischargeLampModule( getClock() );
-            setModules( new Module[] {
-                dischargeLampModule }
-            );
-
-            setInitialModule( dischargeLampModule );
+            DischargeLampModule singleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
+                                                                            getClock(), 1,
+                                                                            FluorescentLightsConfig.NUM_ENERGY_LEVELS );
+            DischargeLampModule multipleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
+                                                                              getClock(), 1,
+                                                                              FluorescentLightsConfig.NUM_ENERGY_LEVELS );
+            setModules( new Module[]{
+                singleAtomModule,
+                multipleAtomModule} );
+            setInitialModule( singleAtomModule );
         }
     }
 
