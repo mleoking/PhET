@@ -10,31 +10,28 @@
  */
 package edu.colorado.phet.common.view;
 
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.*;
-
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
-
 /**
- * The content pane for the JFrame of a PhetApplication.
- * 
+ * ContentPanel
+ * <p/>
+ * The content pane for the JFrame of a PhetApplication. It holds the apparatus panel container (a tabbed pane
+ * container that holds all the apparatus panels), the control panel, and the simulation clock control panel.
+ *
  * @author ?
  * @version $Revision$
  */
 public class ContentPanel extends JPanel {
 
-    private JComponent center;
-    private JComponent east;
-    private JComponent north;
-    private JComponent south;
     private static Image phetLogo;
-    private JDialog buttonDlg;
-    private boolean fullScreen = false;
 
     static {
         try {
@@ -45,53 +42,113 @@ public class ContentPanel extends JPanel {
         }
     }
 
+    private JComponent apparatusPanel;
+    private JComponent controlPanel;
+    private JComponent monitorPanel;
+    private JComponent clockControlPanel;
+    private JDialog buttonDlg;
+    private boolean fullScreen = false;
+
+    private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 0, 1, 1, 1000, 1000,
+                                                                           GridBagConstraints.CENTER,
+                                                                           GridBagConstraints.BOTH,
+                                                                           new Insets( 0, 0, 0, 0 ), 0, 0 );
+    private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 0, 1, 2, 1, 1,
+                                                                         GridBagConstraints.NORTHEAST,
+                                                                         GridBagConstraints.VERTICAL,
+                                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+    private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+                                                                              GridBagConstraints.SOUTH,
+                                                                              GridBagConstraints.NONE,
+                                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+
+    private GridBagConstraints monitorPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+                                                                         GridBagConstraints.SOUTH,
+                                                                         GridBagConstraints.NONE,
+                                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+
+
+    /**
+     * @param apparatusPanelContainer
+     * @param controlPanel
+     * @param monitorPanel
+     * @param appControl
+     */
     public ContentPanel( JComponent apparatusPanelContainer, JComponent controlPanel, JComponent monitorPanel, JComponent appControl ) {
         this.setLayout( new BorderLayout() );
+
         setApparatusPanelContainer( apparatusPanelContainer );
         setControlPanel( controlPanel );
         setMonitorPanel( monitorPanel );
         setAppControlPanel( appControl );
     }
 
+    /**
+     * @param clockControlPanel
+     */
+    public ContentPanel( PhetApplication application, JComponent clockControlPanel ) {
+        this.setLayout( new GridBagLayout() );
+        JComponent apparatusPanelContainer = createApparatusPanelContainer( application );
+        setApparatusPanelContainer( apparatusPanelContainer );
+        setAppControlPanel( clockControlPanel );
+    }
+
     public JComponent getApparatusPanelContainer() {
-        return center;
+        return apparatusPanel;
     }
 
     public void setControlPanel( JComponent panel ) {
-        if( east != null ) {
-            remove( east );
+        if( controlPanel != null ) {
+            remove( controlPanel );
         }
-        east = panel;
-        setPanel( panel, BorderLayout.EAST );
+        controlPanel = panel;
+//        setPanel( panel, BorderLayout.EAST );
+        setPanel2( controlPanel, controlPanelGbc );
     }
 
+
     public void setMonitorPanel( JComponent panel ) {
-        if( north != null ) {
-            remove( north );
+        if( monitorPanel != null ) {
+            remove( monitorPanel );
         }
-        north = panel;
-        setPanel( panel, BorderLayout.NORTH );
+        monitorPanel = panel;
+//        setPanel( panel, BorderLayout.NORTH );
+        setPanel2( panel, monitorPanelGbc );
     }
 
     public void setApparatusPanelContainer( JComponent panel ) {
-        if( center != null ) {
-            remove( center );
+        if( apparatusPanel != null ) {
+            remove( apparatusPanel );
         }
-        center = panel;
-        setPanel( panel, BorderLayout.CENTER );
+        apparatusPanel = panel;
+//        setPanel( panel, BorderLayout.CENTER );
+        setPanel2( apparatusPanel, apparatusPanelGbc );
+    }
+
+    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
+//                getApparatusPanelContainer().remove( 0 );//TODO don't we need this line?
+        getApparatusPanelContainer().add( apparatusPanel, 0 );
     }
 
     public void setAppControlPanel( JComponent panel ) {
-        if( south != null ) {
-            remove( south );
+        if( clockControlPanel != null ) {
+            remove( clockControlPanel );
         }
-        south = panel;
-        setPanel( panel, BorderLayout.SOUTH );
+        clockControlPanel = panel;
+//        setPanel( panel, BorderLayout.SOUTH );
+        setPanel2( clockControlPanel, clockControlPanelGbc );
     }
 
     private void setPanel( JComponent component, String place ) {
         if( component != null ) {
             add( component, place );
+        }
+        repaint();
+    }
+
+    private void setPanel2( JComponent component, GridBagConstraints gridBagConstraints ) {
+        if( component != null ) {
+            add( component, gridBagConstraints );
         }
         repaint();
     }
@@ -106,27 +163,27 @@ public class ContentPanel extends JPanel {
     }
 
     private void deactivateFullScreen() {
-        if( east != null ) {
-            east.setVisible( true );
+        if( controlPanel != null ) {
+            controlPanel.setVisible( true );
         }
-        if( north != null ) {
-            north.setVisible( true );
+        if( monitorPanel != null ) {
+            monitorPanel.setVisible( true );
         }
-        if( south != null ) {
-            south.setVisible( true );
+        if( clockControlPanel != null ) {
+            clockControlPanel.setVisible( true );
         }
         this.fullScreen = false;
     }
 
     private void activateFullScreen() {
-        if( east != null ) {
-            east.setVisible( false );
+        if( controlPanel != null ) {
+            controlPanel.setVisible( false );
         }
-        if( north != null ) {
-            north.setVisible( false );
+        if( monitorPanel != null ) {
+            monitorPanel.setVisible( false );
         }
-        if( south != null ) {
-            south.setVisible( false );
+        if( clockControlPanel != null ) {
+            clockControlPanel.setVisible( false );
         }
 
         if( buttonDlg == null ) {
@@ -158,8 +215,23 @@ public class ContentPanel extends JPanel {
         return fullScreen;
     }
 
-    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
-        //        getApparatusPanelContainer().remove( 0 );//TODO don't we need this line?
-        getApparatusPanelContainer().add( apparatusPanel, 0 );
+
+    private JComponent createApparatusPanelContainer( PhetApplication application ) {
+//        ApplicationModel model = application.getApplicationModel();
+        if( application.numModules() == 1 ) {
+            JPanel apparatusPanelContainer = new JPanel();
+            apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
+            if( application.moduleAt( 0 ).getApparatusPanel() == null ) {
+                throw new RuntimeException( "Null Apparatus Panel in Module: " + application.moduleAt( 0 ).getName() );
+            }
+            apparatusPanelContainer.add( application.moduleAt( 0 ).getApparatusPanel() );
+            return apparatusPanelContainer;
+        }
+        else {
+            JComponent apparatusPanelContainer = new TabbedApparatusPanelContainer( application );
+            return apparatusPanelContainer;
+        }
+
     }
+
 }
