@@ -75,13 +75,16 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     private static final Font FIELD_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
     
     // Field format
-    private static final String FIELD_FORMAT = "###0.00";
+    private static final String MAGNITUDE_FORMAT = "###0.00";
+    private static final String ANGLE_FORMAT = "###0.00";
     
-    // Offensive formatted values and their corrections. Dependent on FIELD_FORMAT !!
-    private static final String STRING_NEGATIVE_ZERO = "-0.00";
-    private static final String STRING_POSITIVE_ZERO = "0.00";
-    private static final String STRING_NEGATIVE_PI = "-180.00";
-    private static final String STRING_POSITIVE_PI = "180.00";
+    // Offensive formatted values and their corrections. Dependent on field formats !!
+    private static final String STRING_MAGNITUDE_NEGATIVE_ZERO = "-0.00";
+    private static final String STRING_MAGNITUDE_POSITIVE_ZERO = "0.00";
+    private static final String STRING_ANGLE_NEGATIVE_ZERO = "-0.00";
+    private static final String STRING_ANGLE_POSITIVE_ZERO = "0.00";
+    private static final String STRING_ANGLE_NEGATIVE_PI = "-180.00";
+    private static final String STRING_ANGLE_POSITIVE_PI = "180.00";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -90,7 +93,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     private Rectangle _parentBounds;
     private AbstractMagnet _magnetModel;
     private PhetTextGraphic _bText, _bxText, _byText, _angleText;
-    private NumberFormat _formatter;
+    private NumberFormat _magnitudeFormatter, _angleFormatter;
     private Point _point; // reusable point
     private Vector2D _fieldVector; // reusable vector
     
@@ -114,7 +117,8 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         
         _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
-        _formatter = new DecimalFormat( FIELD_FORMAT );
+        _magnitudeFormatter = new DecimalFormat( MAGNITUDE_FORMAT );
+        _angleFormatter = new DecimalFormat( ANGLE_FORMAT );
         
         _point = new Point();
         _fieldVector = new Vector2D();
@@ -214,10 +218,10 @@ public class FieldMeterGraphic extends CompositePhetGraphic
             double angle = -( _fieldVector.getAngle() );  // +angle is counterclockwise
     
             // Format the values.
-            String bString = _formatter.format( b );
-            String bxString = _formatter.format( bx );
-            String byString = _formatter.format( by );
-            String angleString = _formatter.format( Math.toDegrees( angle ) );
+            String bString = _magnitudeFormatter.format( b );
+            String bxString = _magnitudeFormatter.format( bx );
+            String byString = _magnitudeFormatter.format( by );
+            String angleString = _angleFormatter.format( Math.toDegrees( angle ) );
             
             /*
              * Correct some offensive looking values.
@@ -226,33 +230,33 @@ public class FieldMeterGraphic extends CompositePhetGraphic
              */
             {
                 // B
-                if ( bString.equals( STRING_NEGATIVE_ZERO ) ) {
-                    bString = STRING_POSITIVE_ZERO;
+                if ( bString.equals( STRING_MAGNITUDE_NEGATIVE_ZERO ) ) {
+                    bString = STRING_MAGNITUDE_POSITIVE_ZERO;
                 }
 
-                if ( bString.equals( STRING_POSITIVE_ZERO ) ) {
+                if ( bString.equals( STRING_MAGNITUDE_POSITIVE_ZERO ) ) {
                     // If B displays 0, all others should display zero.
-                    bxString = STRING_POSITIVE_ZERO;
-                    byString = STRING_POSITIVE_ZERO;
-                    angleString = STRING_POSITIVE_ZERO;
+                    bxString = STRING_MAGNITUDE_POSITIVE_ZERO;
+                    byString = STRING_MAGNITUDE_POSITIVE_ZERO;
+                    angleString = STRING_ANGLE_POSITIVE_ZERO;
                 }
                 else {
                     // Bx
-                    if ( bxString.equals( STRING_NEGATIVE_ZERO ) ) {
-                        bxString = STRING_POSITIVE_ZERO;
+                    if ( bxString.equals( STRING_MAGNITUDE_NEGATIVE_ZERO ) ) {
+                        bxString = STRING_MAGNITUDE_POSITIVE_ZERO;
                     }
 
                     // By
-                    if ( byString.equals( STRING_NEGATIVE_ZERO ) ) {
-                        byString = STRING_POSITIVE_ZERO;
+                    if ( byString.equals( STRING_MAGNITUDE_NEGATIVE_ZERO ) ) {
+                        byString = STRING_MAGNITUDE_POSITIVE_ZERO;
                     }
 
                     // Theta
-                    if ( angleString.equals( STRING_NEGATIVE_ZERO ) ) {
-                        angleString = STRING_POSITIVE_ZERO;
+                    if ( angleString.equals( STRING_ANGLE_NEGATIVE_ZERO ) ) {
+                        angleString = STRING_ANGLE_POSITIVE_ZERO;
                     }
-                    else if ( angleString.equals( STRING_NEGATIVE_PI ) ) {
-                        angleString = STRING_POSITIVE_PI;
+                    else if ( angleString.equals( STRING_ANGLE_NEGATIVE_PI ) ) {
+                        angleString = STRING_ANGLE_POSITIVE_PI;
                     }
                 }
             }

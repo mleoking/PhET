@@ -7,18 +7,22 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
+- when #loops in electromagnet changes, field (as measured by Field Meter) does not change proportionally
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
-- electrons in electromagnet should never change speed
+- electrons in electromagnet should not change speed when #loops changes
 - objects can be dragged 1 pixel off the apparatus panel on Windows
 - performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
+- when #loops in electromagnet changes Dipole.update gets called 4 times
+- move light rays in from of lightbulb base
 - wiggle mes and challenges leave screen turds (Windows XP SP2, Java 1.5.0_02-b09)
 - add a graph of field strength over time to the Field Meter
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
 LOW PRIORITY:
+- add a model component for the Field Meter
 - generalize BarMagnetGraphic.InteractivityListener into some type of delegate/decorator
 - keep a minimum of N pixels of a draggable graphic within the apparatus panel
 - check for unnecessary notification, events and updates
@@ -48,6 +52,7 @@ PHETCOMMON:
 
 DONE:
 v0r23...
+(4/14) - add code to FieldMeterGraphic so that magnitude and angle formats can be changes independently
 (4/13) - separate compass behavior into 3 different behavior classes, fix the ones that were broken
 (4/13) - add constants to modules for wiggle me and challenge locations
 (4/13) - initialize compass location in Transformer module so that it's not behind electromagnet
