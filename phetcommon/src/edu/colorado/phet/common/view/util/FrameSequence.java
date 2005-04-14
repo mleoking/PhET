@@ -27,9 +27,18 @@ import java.io.IOException;
  */
 public class FrameSequence {
 
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+    private static final String DEFAULT_FILE_TYPE = "gif";
+
+
     private BufferedImage[] frames;
     private int currFrameNum = 0;
 
+    /**
+     * @param frames
+     */
     public FrameSequence( BufferedImage[] frames ) {
         this.frames = frames;
     }
@@ -39,7 +48,17 @@ public class FrameSequence {
      * @param numFrames  The number of files to be animated
      */
     public FrameSequence( String filePrefix, int numFrames ) throws IOException {
-        this( loadAnimation( filePrefix, numFrames ) );
+        this( loadAnimation( filePrefix, DEFAULT_FILE_TYPE, numFrames ) );
+    }
+
+    /**
+     * @param filePrefix
+     * @param fileType
+     * @param numFrames
+     * @throws IOException
+     */
+    public FrameSequence( String filePrefix, String fileType, int numFrames ) throws IOException {
+        this( loadAnimation( filePrefix, fileType, numFrames ) );
     }
 
     /**
@@ -102,11 +121,11 @@ public class FrameSequence {
     /**
      *
      */
-    private static BufferedImage[] loadAnimation( String filePrefix, int numFrames ) throws IOException {
+    private static BufferedImage[] loadAnimation( String filePrefix, String fileType, int numFrames ) throws IOException {
         BufferedImage[] frames = new BufferedImage[numFrames];
         ImageLoader animationLoader = new ImageLoader();
         for( int i = 1; i <= numFrames; i++ ) {
-            String fileName = FrameSequence.genAnimationFileName( filePrefix, i );
+            String fileName = FrameSequence.genAnimationFileName( filePrefix, fileType, i );
             frames[i - 1] = animationLoader.loadImage( fileName );
             //            frames[i - 1] = animationLoader.loadImage(fileName);
         }
@@ -116,7 +135,7 @@ public class FrameSequence {
     /**
      * Generates a complete TIFF file name for a frame in a Poser-generated animation
      */
-    private static String genAnimationFileName( String fileNamePrefix, int frameNum ) {
+    private static String genAnimationFileName( String fileNamePrefix, String fileType, int frameNum ) {
         String zeroStr = "";
         int i = 0;
         for( int temp = frameNum; temp != 0; i++ ) {
@@ -125,7 +144,7 @@ public class FrameSequence {
         for( ; i < 4; i++ ) {
             zeroStr = zeroStr.concat( "0" );
         }
-        String fileName = fileNamePrefix + "_" + zeroStr + Integer.toString( frameNum ) + ".gif";
+        String fileName = fileNamePrefix + "_" + zeroStr + Integer.toString( frameNum ) + "." + fileType;
         return fileName;
     }
 
