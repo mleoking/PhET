@@ -13,6 +13,7 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -52,6 +53,11 @@ import java.util.*;
 public class ApparatusPanel2 extends ApparatusPanel {
 
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
+
+    // Identifiers for different painting strategies
+    public static final int DEFAULT_PAINT_STRATEGY = 1;
+    public static final int OFFSCREEN_BUFFER_STRATEGY = 2;
+    public static final int OFFSCREEN_BUFFER__DIRTY_REGION_STRATEGY = 3;
 
     private TransformManager transformManager;
     private PaintStrategy paintStrategy;
@@ -110,7 +116,23 @@ public class ApparatusPanel2 extends ApparatusPanel {
         this.addComponentListener( panelResizeHandler );
         transformManager = new TransformManager( this );
         paintStrategy = new DefaultPaintStrategy( this );
-        scaledComponentLayout = new ScaledComponentLayout( this );
+//        scaledComponentLayout = new ScaledComponentLayout( this );
+    }
+
+    public void setPaintStrategy( int strategy ) {
+        switch ( strategy ) {
+            case DEFAULT_PAINT_STRATEGY:
+                paintStrategy = new DefaultPaintStrategy( this );
+                break;
+            case OFFSCREEN_BUFFER_STRATEGY:
+                paintStrategy = new OffscreenBufferStrategy( this );
+                break;
+            case OFFSCREEN_BUFFER__DIRTY_REGION_STRATEGY:
+                paintStrategy = new OffscreenBufferDirtyRegion( this );
+                break;
+            default:
+                throw new RuntimeException( "Invalid paint strategy specified");
+        }
     }
 
     public TransformManager getTransformManager() {
@@ -298,8 +320,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     protected void paintComponent( Graphics graphics ) {
-        Graphics2D g2 = new PhetGraphics2D( (Graphics2D)graphics );
-//        Graphics2D g2 = (Graphics2D)graphics;
+        Graphics2D g2 = (Graphics2D)graphics;
         g2 = new PhetGraphics2D( g2 );
         if( repaintArea == null ) {
             repaintArea = this.getBounds();
@@ -538,6 +559,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         changeEventChannel.removeListener( listener );
     }
 
+    //----------------------------------------------------------------
+    // Rendering strategies
+    //----------------------------------------------------------------
+
     static interface PaintStrategy {
 
         void paintImmediately();
@@ -547,7 +572,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         void componentResized();
     }
 
-    private class OffscreenBufferDirtyRegion extends OffscreenBufferStrategy {
+    public class OffscreenBufferDirtyRegion extends OffscreenBufferStrategy {
 
         public OffscreenBufferDirtyRegion( ApparatusPanel2 apparatusPanel2 ) {
             super( apparatusPanel2 );
@@ -560,7 +585,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     }
 
-    private class OffscreenBufferStrategy implements PaintStrategy {
+    /**
+     * Renders everything to an offscreen buffer, then draws the buffer to the screen at one time
+     */
+    public class OffscreenBufferStrategy implements PaintStrategy {
         private BufferedImage bImg;
         protected ApparatusPanel2 apparatusPanel2;
         private AffineTransform IDENTITY = new AffineTransform();
@@ -603,7 +631,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
     }
 
-    static class DefaultPaintStrategy implements PaintStrategy {
+    public static class DefaultPaintStrategy implements PaintStrategy {
         ApparatusPanel2 apparatusPanel2;
 
         public DefaultPaintStrategy( ApparatusPanel2 apparatusPanel2 ) {
@@ -626,6 +654,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
     }
 
+    /**
+     * Places Swing components in the proper places when the ApparatusPanel2 is resized
+     */
     static class ScaledComponentLayout {
         private HashMap componentOrgLocationsMap = new HashMap();
         JComponent component;
