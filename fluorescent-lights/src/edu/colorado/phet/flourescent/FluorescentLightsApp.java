@@ -81,7 +81,7 @@ public class FluorescentLightsApp extends PhetApplication {
                                                                             getClock(), 1,
                                                                             FluorescentLightsConfig.NUM_ENERGY_LEVELS );
             DischargeLampModule multipleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
-                                                                              getClock(), 1,
+                                                                              getClock(), 40,
                                                                               FluorescentLightsConfig.NUM_ENERGY_LEVELS );
             setModules( new Module[]{
                 singleAtomModule,
