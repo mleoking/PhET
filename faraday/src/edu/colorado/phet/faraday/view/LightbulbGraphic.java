@@ -42,8 +42,8 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     //----------------------------------------------------------------------------
 
     // These parameters affect drawing order.
-    private static final double RAYS_LAYER = 0;
     private static final double BULB_LAYER = 1;
+    private static final double RAYS_LAYER = 2;
     
     // These parameters affect an individual ray.
     private static final Color RAY_COLOR = Color.YELLOW;
