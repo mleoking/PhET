@@ -210,14 +210,11 @@ public abstract class AbstractMagnet extends SpacialObservable {
      * 
      * @param width the width
      * @param height the height
-     * @throws IllegalArgumentException if width or height is not > 0, or if height >= width
+     * @throws IllegalArgumentException if width or height is <= 0
      */
     public void setSize( double width, double height ) {
-        if ( ! (width > 0 && height > 0) ) {
+        if ( width <= 0 || height <= 0) {
             throw new IllegalArgumentException( "dimensions must be > 0" );
-        }
-        if ( width <= height ) {
-            throw new IllegalArgumentException( "width must be > height" );
         }
         if ( width != _size.getWidth() || height != _size.getHeight() ) {
             _size.setSize( width, height );
