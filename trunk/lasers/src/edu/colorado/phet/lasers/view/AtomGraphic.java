@@ -59,6 +59,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         BufferedImage bi = atxOp.filter( image, null );
 
         imageGraphic = new PhetImageGraphic( component, bi );
+        imageGraphic.setRegistrationPoint( imageGraphic.getHeight() / 2, imageGraphic.getHeight() / 2 );
         addGraphic( imageGraphic, 2 );
 
         energyGraphic = new PhetShapeGraphic( component, energyRep, energyRepColor );
@@ -96,6 +97,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         }
         energyGraphic.setShape( energyRep );
         energyGraphic.setColor( energyRepColor );
+        energyGraphic.setRegistrationPoint( (int)energyRepRad, (int)energyRepRad);
     }
 
     /**
@@ -113,12 +115,20 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     public void update( AtomicState state ) {
 
         // The location of the graphic is offset by the radius of the energy representation
-        setLocation( (int)( atom.getPosition().getX() - energyRepRad ),
-                     (int)( atom.getPosition().getY() - energyRepRad ) );
+        setLocation( (int)( atom.getPosition().getX() ),
+                     (int)( atom.getPosition().getY() ) );
 
         // Set the location of the image graphic
-        imageGraphic.setLocation( (int)( energyRepRad - imageGraphic.getHeight() / 2 ),
-                                  (int)( energyRepRad - imageGraphic.getHeight() / 2 ) );
+//        imageGraphic.setLocation( (int)( energyRepRad - imageGraphic.getHeight() / 2 ),
+//                                  (int)( energyRepRad - imageGraphic.getHeight() / 2 ) );
+//
+//        // The location of the graphic is offset by the radius of the energy representation
+//        setLocation( (int)( atom.getPosition().getX() - energyRepRad ),
+//                     (int)( atom.getPosition().getY() - energyRepRad ) );
+//
+//        // Set the location of the image graphic
+//        imageGraphic.setLocation( (int)( energyRepRad - imageGraphic.getHeight() / 2 ),
+//                                  (int)( energyRepRad - imageGraphic.getHeight() / 2 ) );
         setBoundsDirty();
         repaint();
     }
@@ -131,9 +141,11 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         saveGraphicsState( g2 );
         GraphicsUtil.setAntiAliasingOn( g2 );
         super.paint( g2 );
+
         // Debug: draws a dot at the center of the atom
-//                g.setColor( Color.RED );
-//                g.drawArc( (int)atom.getPosition().getX()-2, (int)atom.getPosition().getY()-2, 4, 4, 0, 360 );
+        g2.setColor( Color.RED );
+        g2.drawArc( (int)atom.getPosition().getX() - 2, (int)atom.getPosition().getY() - 2, 4, 4, 0, 360 );
+
         restoreGraphicsState();
     }
 

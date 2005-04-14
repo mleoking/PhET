@@ -48,6 +48,7 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         this.electron = electron;
         electron.addObserver( this );
         setImage( IMAGE );
+        setRegistrationPoint( (int)(IMAGE.getWidth()/2),(int)(IMAGE.getWidth()/2));
     }
 
     public void update() {
