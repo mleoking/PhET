@@ -59,43 +59,6 @@ public class PhetGraphics2D extends Graphics2D {
         wrappedGraphics.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
     }
 
-    private class StateDescriptor {
-        Font orgFont;
-        RenderingHints orgRenderingHints;
-        Shape orgClip;
-        Color orgXORMode;
-        Color orgBackground;
-        Color orgColor;
-        Paint orgPaint;
-        Composite orgComposite;
-        Stroke orgStroke;
-        AffineTransform orgTransform;
-
-        void restoreState() {
-            if( orgFont != null ) {
-                wrappedGraphics.setFont( orgFont );
-            }
-            if( orgRenderingHints != null ) {
-                wrappedGraphics.setRenderingHints( orgRenderingHints );
-            }
-            if( orgClip != null ) {
-                wrappedGraphics.setClip( orgClip );
-            }
-            if( orgXORMode != null ) {
-                wrappedGraphics.setXORMode( orgXORMode );
-            }
-            if( orgBackground != null ) {
-                wrappedGraphics.setBackground( orgBackground );
-            }
-            if( orgColor != null ) {
-                wrappedGraphics.setColor( orgColor );
-            }
-            if( orgTransform != null ) {
-                wrappedGraphics.setTransform( orgTransform );
-            }
-        }
-    }
-
     //----------------------------------------------------------------
     // Extended methods
     //----------------------------------------------------------------
@@ -201,58 +164,38 @@ public class PhetGraphics2D extends Graphics2D {
         wrappedGraphics.setClip( clip );
     }
 
-    public void rotate( double theta ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.rotate( theta );
-    }
-
-    public void scale( double sx, double sy ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.scale( sx, sy );
-    }
-
-    public void shear( double shx, double shy ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.shear( shx, shy );
-    }
-
-    public void translate( double tx, double ty ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.translate( tx, ty );
-    }
-
-    public void rotate( double theta, double x, double y ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.rotate( theta, x, y );
-    }
-
-    public void translate( int x, int y ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.translate( x, y );
-    }
-
-    public void transform( AffineTransform Tx ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.transform( Tx );
-    }
 
     //----------------------------------------------------------------
     // Delegated methods
     //----------------------------------------------------------------
+
+    public void rotate( double theta ) {
+        wrappedGraphics.rotate( theta );
+    }
+
+    public void scale( double sx, double sy ) {
+        wrappedGraphics.scale( sx, sy );
+    }
+
+    public void shear( double shx, double shy ) {
+        wrappedGraphics.shear( shx, shy );
+    }
+
+    public void translate( double tx, double ty ) {
+        wrappedGraphics.translate( tx, ty );
+    }
+
+    public void rotate( double theta, double x, double y ) {
+        wrappedGraphics.rotate( theta, x, y );
+    }
+
+    public void translate( int x, int y ) {
+        wrappedGraphics.translate( x, y );
+    }
+
+    public void transform( AffineTransform Tx ) {
+        wrappedGraphics.transform( Tx );
+    }
 
     public Color getBackground() {
         return wrappedGraphics.getBackground();
@@ -446,4 +389,48 @@ public class PhetGraphics2D extends Graphics2D {
         return wrappedGraphics.drawImage( img, x, y, bgcolor, observer );
     }
 
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    /**
+     * Data structure to hold the state of a Graphics2D
+     */
+    private class StateDescriptor {
+        Font orgFont;
+        RenderingHints orgRenderingHints;
+        Shape orgClip;
+        Color orgXORMode;
+        Color orgBackground;
+        Color orgColor;
+        Paint orgPaint;
+        Composite orgComposite;
+        Stroke orgStroke;
+        AffineTransform orgTransform;
+
+        void restoreState() {
+            if( orgFont != null ) {
+                wrappedGraphics.setFont( orgFont );
+            }
+            if( orgRenderingHints != null ) {
+                wrappedGraphics.setRenderingHints( orgRenderingHints );
+            }
+            if( orgClip != null ) {
+                wrappedGraphics.setClip( orgClip );
+            }
+            if( orgXORMode != null ) {
+                wrappedGraphics.setXORMode( orgXORMode );
+            }
+            if( orgBackground != null ) {
+                wrappedGraphics.setBackground( orgBackground );
+            }
+            if( orgColor != null ) {
+                wrappedGraphics.setColor( orgColor );
+            }
+            if( orgTransform != null ) {
+                wrappedGraphics.setTransform( orgTransform );
+            }
+        }
+    }
 }
