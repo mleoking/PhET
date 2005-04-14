@@ -150,7 +150,7 @@ public class DebugMenu extends JMenu {
             super( "Show frame rate" );
             this.setMnemonic( 'f' );
             frameRateDlg = new JDialog( app.getPhetFrame(), "Frame Rate", false );
-            JTextArea textArea = new JTextArea( 10, 5 );
+            final JTextArea textArea = new JTextArea( 10, 5 );
             frameRateDlg.getContentPane().add( new JScrollPane( textArea,
                                                                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                                                                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ) );
@@ -161,10 +161,11 @@ public class DebugMenu extends JMenu {
             this.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     frameRateDlg.setVisible( isSelected() );
+                    startRecording( app.getClock(), textArea );
                 }
             } );
 
-            startRecording( app.getApplicationModel().getClock(), textArea );
+//            startRecording( app.getApplicationModel().getClock(), textArea );
         }
 
         void startRecording( AbstractClock clock, final JTextArea textArea ) {
