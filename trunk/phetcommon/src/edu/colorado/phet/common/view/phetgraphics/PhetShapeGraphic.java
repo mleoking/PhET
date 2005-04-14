@@ -112,8 +112,8 @@ public class PhetShapeGraphic extends PhetGraphic {
                     g2.setStroke( origStroke );
                     restoreAlpha( g2 );
                 }
+                super.restoreGraphicsState();
             }
-            super.restoreGraphicsState();
         }
     }
 
