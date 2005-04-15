@@ -471,7 +471,7 @@ public class BaseLaserModule extends Module {
     ////////////////////////////////////////////////////////////////////////////////////
     // Other methods
     //
-    protected void addAtom( Atom atom ) {
+    protected AtomGraphic addAtom( Atom atom ) {
         getModel().addModelElement( atom );
         final AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
         addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
@@ -480,6 +480,8 @@ public class BaseLaserModule extends Module {
         // emits a photon, and another to deal with an atom leaving the system
         atom.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         atom.addLeftSystemListener( new AtomRemovalListener( atomGraphic ) );
+
+        return atomGraphic;
     }
 
     protected void removeAtom( Atom atom ) {
