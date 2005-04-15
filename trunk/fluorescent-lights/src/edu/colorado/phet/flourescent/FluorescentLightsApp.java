@@ -49,11 +49,11 @@ public class FluorescentLightsApp extends PhetApplication {
         setFrameSetup( frameSetup );
 
         DischargeLampModule singleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
-                                                                        getClock(), 1,
-                                                                        FluorescentLightsConfig.NUM_ENERGY_LEVELS );
+                                                                        getClock() );
+
+        double maxSpeed = 0.1;
         DischargeLampModule multipleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
-                                                                          getClock(), 1,
-                                                                          FluorescentLightsConfig.NUM_ENERGY_LEVELS );
+                                                                          getClock() );
         addModule( singleAtomModule );
         addModule( multipleAtomModule );
         setInitialModule( singleAtomModule );
@@ -77,12 +77,15 @@ public class FluorescentLightsApp extends PhetApplication {
             }
             setFrameSetup( frameSetup );
 
-            DischargeLampModule singleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
-                                                                            getClock(), 1,
+            DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
+                                                                            getClock(),
                                                                             FluorescentLightsConfig.NUM_ENERGY_LEVELS );
-            DischargeLampModule multipleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
-                                                                              getClock(), 40,
-                                                                              FluorescentLightsConfig.NUM_ENERGY_LEVELS );
+
+            double maxSpeed = 0.1;
+            DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
+                                                                              getClock(), 30,
+                                                                              FluorescentLightsConfig.NUM_ENERGY_LEVELS,
+                                                                              maxSpeed );
             setModules( new Module[]{
                 singleAtomModule,
                 multipleAtomModule} );
