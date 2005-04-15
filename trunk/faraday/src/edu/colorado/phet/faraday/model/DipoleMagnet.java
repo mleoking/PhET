@@ -134,7 +134,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         double magnitude = fieldVector.getMagnitude();
         if ( magnitude > magnetStrength ) {
             fieldVector.setMagnitude( magnetStrength );
-            //System.out.println( "BarMagnet.getStrengthOutside - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
+            //System.out.println( "DipoleMagnet.getStrength - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG
         }
         
         return fieldVector;
