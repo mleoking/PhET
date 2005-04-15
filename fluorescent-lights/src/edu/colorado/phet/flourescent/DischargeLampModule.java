@@ -16,11 +16,9 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.flourescent.model.*;
 import edu.colorado.phet.flourescent.view.ElectronGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 
@@ -29,9 +27,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
-import java.util.ArrayList;
 
 /**
  * DischargeLampModule
@@ -42,9 +38,6 @@ import java.util.ArrayList;
 public class DischargeLampModule extends BaseLaserModule implements ElectronSource.ElectronProductionListener {
     private ElectronSink anode;
     private ElectronSource cathode;
-    private double s_maxSpeed = 0.1;
-
-//    private int numEnergyLevels = 20;
 
 //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
@@ -54,13 +47,14 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     // AffineTransformOp that will scale graphics created in external applications so they appear
     // properly on the screen
     private AffineTransformOp externalGraphicScaleOp;
+    private ResonatingCavity tube;
 //    public static boolean DEBUG = true;
 
     /**
      * Constructor
      * @param clock
      */
-    protected DischargeLampModule( String name, AbstractClock clock, int numAtoms, int numEnergyLevels ) {
+    protected DischargeLampModule( String name, AbstractClock clock ) {
         super( name, clock );
 
         // Set up the basic stuff
@@ -86,15 +80,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         hookCathodeToAnode();
 
         // Add the tube
-        ResonatingCavity tube = addTube( model, apparatusPanel );
-
-        // Add some atoms
-        if( DEBUG ) {
-            addDebugAtoms( tube, numEnergyLevels );
-        }
-        else {
-            addAtoms( tube, numAtoms, numEnergyLevels );
-        }
+        tube = addTube( model, apparatusPanel );
 
         // Set up the control panel
         addControls();
@@ -185,60 +171,6 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     }
 
     /**
-     * Adds some atoms and their graphics
-     *
-     * @param tube
-     * @param numAtoms
-     */
-    private void addAtoms( ResonatingCavity tube, int numAtoms, int numEnergyLevels ) {
-        DischargeLampAtom atom = null;
-        ArrayList atoms = new ArrayList();
-        Rectangle2D tubeBounds = tube.getBounds();
-        for( int i = 0; i < numAtoms; i++ ) {
-            atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
-            atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
-                              ( tubeBounds.getY() + ( Math.random() ) * ( tubeBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
-            atom.setVelocity( (float)( Math.random() - 0.5 ) * s_maxSpeed,
-                              (float)( Math.random() - 0.5 ) * s_maxSpeed );
-            atoms.add( atom );
-            addAtom( atom );
-        }
-    }
-
-    /**
-     * DEBUG: Adds some atoms and their graphics
-     *
-     * @param tube
-     */
-    private void addDebugAtoms( ResonatingCavity tube, int numEnergyLevels ) {
-
-        getModel().removeModelElement( cathode );
-        Point2D p0 = new Point2D.Double( FluorescentLightsConfig.CATHODE_LINE.getP1().getX(),
-                                         ( FluorescentLightsConfig.CATHODE_LINE.getP1().getY() +
-                                           FluorescentLightsConfig.CATHODE_LINE.getP2().getY() ) / 2 - 20 );
-        cathode = new ElectronSource( getModel(), p0, p0 );
-        cathode.addListener( this );
-        cathode.setElectronsPerSecond( 0 );
-        cathode.setPosition( FluorescentLightsConfig.CATHODE_LOCATION );
-        getModel().addModelElement( cathode );
-        addAnode( (FluorescentLightModel)getModel(), getApparatusPanel(), cathode );
-        hookCathodeToAnode();
-
-        DischargeLampAtom atom = null;
-        ArrayList atoms = new ArrayList();
-        Rectangle2D tubeBounds = tube.getBounds();
-        int numAtoms = 1;
-        for( int i = 0; i < numAtoms; i++ ) {
-            atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
-            atom.setPosition( ( tubeBounds.getX() + 150 ),
-                              ( tubeBounds.getY() + tubeBounds.getHeight() / 2 - atom.getRadius() ) );
-            atom.setVelocity( 0, 0 );
-            atoms.add( atom );
-            addAtom( atom );
-        }
-    }
-
-    /**
      * Creates a listener that manages the production rate of the cathode based on its potential
      * relative to the anode
      */
@@ -264,8 +196,16 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         this.anode = anode;
         this.anode.setPosition( FluorescentLightsConfig.ANODE_LOCATION );
         PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode.png" );
-        // Scale the graphic
-//        scaleImageGraphic( anodeGraphic );
+
+        // Make the graphic the right size
+        double scaleX = 1;
+        double scaleY = FluorescentLightsConfig.CATHODE_LENGTH / anodeGraphic.getImage().getHeight();
+        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
+                                                           AffineTransformOp.TYPE_BILINEAR );
+        anodeGraphic.setImage( scaleOp.filter( anodeGraphic.getImage(), null ));
+        anodeGraphic.setRegistrationPoint( (int)anodeGraphic.getBounds().getWidth(),
+                                             (int)anodeGraphic.getBounds().getHeight() / 2 );
+
         anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
         anodeGraphic.setLocation( FluorescentLightsConfig.ANODE_LOCATION );
         apparatusPanel.addGraphic( anodeGraphic, FluorescentLightsConfig.CIRCUIT_LAYER );
@@ -285,14 +225,27 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         cathode.setElectronsPerSecond( 0 );
         cathode.setPosition( FluorescentLightsConfig.CATHODE_LOCATION );
         PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode.png" );
-        // Scale the graphic
-//        scaleImageGraphic( cathodeGraphic );
+
+        // Make the graphic the right size
+        double scaleX = 1;
+        double scaleY = FluorescentLightsConfig.CATHODE_LENGTH / cathodeGraphic.getImage().getHeight();
+        AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
+                                                           AffineTransformOp.TYPE_BILINEAR );
+        cathodeGraphic.setImage( scaleOp.filter( cathodeGraphic.getImage(), null ));
         cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
                                              (int)cathodeGraphic.getBounds().getHeight() / 2 );
+
         cathodeGraphic.setLocation( FluorescentLightsConfig.CATHODE_LOCATION );
         apparatusPanel.addGraphic( cathodeGraphic, FluorescentLightsConfig.CIRCUIT_LAYER );
     }
 
+    //----------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------
+
+    public ResonatingCavity getTube() {
+        return tube;
+    }
 
     //----------------------------------------------------------------
     // Interface implementations

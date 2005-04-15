@@ -29,7 +29,7 @@ public class FluorescentLightsConfig {
     // Object locations and dimensions. Everything is keyed off the location of the cathode
     public static final double ELECTRON_RADIUS = 3;
     public static final int ELECTRODE_Y_LOCATION = 300;
-    public static final int ELECTRODE_LENGTH = 300;
+    public static final int ELECTRODE_LENGTH = 200;
     public static final Point CATHODE_LOCATION = new Point( 170, ELECTRODE_Y_LOCATION );
     public static final double CATHODE_LENGTH = ELECTRODE_LENGTH;
     public static final Line2D CATHODE_LINE = new Line2D.Double( CATHODE_LOCATION.getX(),
