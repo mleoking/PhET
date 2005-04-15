@@ -54,6 +54,7 @@ PHETCOMMON:
 
 DONE:
 v0r23...
+(4/15) - add DipoleMagnet.getShape so that view doesn't have to know how to construct the correct model shape
 (4/15) - simplify calculations in Compass.IncrementalBehavior
 (4/15) - ensure that field meter angles are always in the range -180...180 degrees
 (4/14) - move light rays in front of lightbulb base
