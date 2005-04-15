@@ -122,8 +122,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         if ( _bounds.contains( _normalizedPoint ) )  {
             getStrengthInside( _normalizedPoint, fieldVector /* output */ );
         }
-        else
-        {
+        else {
             getStrengthOutside( _normalizedPoint, fieldVector /* output */, distanceExponent );
         }
         
