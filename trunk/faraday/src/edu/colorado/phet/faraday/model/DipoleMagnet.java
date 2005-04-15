@@ -12,8 +12,10 @@
 package edu.colorado.phet.faraday.model;
 
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.faraday.util.Vector2D;
 
@@ -55,6 +57,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     private Point2D _northPoint, _southPoint;
     private Point2D _normalizedPoint;
     private Vector2D _northVector, _southVector;
+    private Rectangle2D _modelShape;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -69,12 +72,36 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         _normalizedPoint = new Point2D.Double();
         _northVector = new Vector2D();
         _southVector = new Vector2D();
+        _modelShape = new Rectangle2D.Double();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the shape that defines this model, in this case a rectangle.
+     * 
+     * @return the shape
+     */
+    public Shape getShape() {
+        return _modelShape;
     }
     
     //----------------------------------------------------------------------------
     // AbstractMagnet implementation
     //----------------------------------------------------------------------------
 
+    /*
+     * Respond to changes that result from calling superclass methods,
+     * in this case changes to the magnet's size via super.setSize.
+     */
+    protected void updateSelf() {
+        double width = PIXELS_PER_DISTANCE * getWidth();
+        double height = PIXELS_PER_DISTANCE * getHeight() ;
+        _modelShape.setFrame( -width/2, -height/2, width, height );
+    }
+    
     /*
      * See AbstractMagnet.getStrength.
      */
