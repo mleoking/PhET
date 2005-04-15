@@ -221,7 +221,6 @@ public class FieldMeterGraphic extends CompositePhetGraphic
             {
                 // Normalize the angle to the range -360...360 degrees
                 if ( Math.abs( angle ) >= ( 2 * Math.PI ) ) {
-
                     int sign = ( angle < 0 ) ? -1 : +1;
                     angle = sign * ( angle % ( 2 * Math.PI ) );
                 }
