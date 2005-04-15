@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- simplify calculations in Compass.IncrementalBehavior
 - implement Mike Dubson's "coil magnet" model for the electromagnet
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - when #loops in electromagnet changes, field (as measured by Field Meter) does not change proportionally
@@ -55,6 +54,7 @@ PHETCOMMON:
 
 DONE:
 v0r23...
+(4/15) - simplify calculations in Compass.IncrementalBehavior
 (4/15) - ensure that field meter angles are always in the range -180...180 degrees
 (4/14) - move light rays in front of lightbulb base
 (4/14) - add code to FieldMeterGraphic so that magnitude and angle formats can be changes independently

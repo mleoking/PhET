@@ -254,28 +254,18 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
           
         public void setDirection( Vector2D fieldVector, double dt ) {
             
-            // Normalize the field angle to the range 0-355 degrees.
+            // Calculate the delta angle
             double fieldAngle = fieldVector.getAngle();
-            {
-                int sign = ( fieldAngle < 0 ) ? -1 : +1;
-                fieldAngle = sign * ( Math.abs( fieldAngle ) % ( 2 * Math.PI ) );
-                if ( fieldAngle < 0 ) {
-                    fieldAngle += ( 2 * Math.PI );
-                }  
-            }
-            
-            // Normalize the needle angle to the range 0-355 degrees.
             double needleAngle = getCompass().getDirection();
-            {
-                int sign = ( needleAngle < 0 ) ? -1 : +1;
-                needleAngle = sign * ( Math.abs( needleAngle ) % ( 2 * Math.PI ) );
-                if ( needleAngle < 0 ) {
-                    needleAngle += ( 2 * Math.PI );
-                }  
-            }
-            
-            // Find the smallest delta angle between the field vector and the needle.
             double delta = fieldAngle - needleAngle;
+            
+            // Normalize the angle to the range -355...+355 degrees
+            if ( Math.abs( delta ) >= ( 2 * Math.PI ) ) {
+                int sign = ( delta < 0 ) ? -1 : +1;
+                delta = sign * ( delta % ( 2 * Math.PI ) );
+            }
+
+            // Convert to an equivalent angle in the range -180...+180 degrees.
             if ( delta > Math.PI ) {
                 delta = delta - ( 2 * Math.PI );
             }
