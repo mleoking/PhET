@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- simplify calculations in Compass.IncrementalBehavior
 - implement Mike Dubson's "coil magnet" model for the electromagnet
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - when #loops in electromagnet changes, field (as measured by Field Meter) does not change proportionally
@@ -17,7 +18,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - when #loops in electromagnet changes Dipole.update gets called 4 times
 - wiggle mes and challenges leave screen turds (Windows XP SP2, Java 1.5.0_02-b09)
-- add a graph of field strength over time to the Field Meter
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
@@ -42,6 +42,9 @@ POSSIBLE OPTIMIZATIONS:
 - switch to a dynamic clock with median filtering of dt
 - switch to offscreen buffer
 
+NEW FEATURE REQUESTS:
+- add a graph of field strength over time to the Field Meter
+
 PHETCOMMON:
 - bug: fix PhetLookAndFeel so that it works on all platforms
 - bug: ApparatusPanel2 resize problems
@@ -52,6 +55,7 @@ PHETCOMMON:
 
 DONE:
 v0r23...
+(4/15) - ensure that field meter angles are always in the range -180...180 degrees
 (4/14) - move light rays in front of lightbulb base
 (4/14) - add code to FieldMeterGraphic so that magnitude and angle formats can be changes independently
 (4/13) - separate compass behavior into 3 different behavior classes, fix the ones that were broken

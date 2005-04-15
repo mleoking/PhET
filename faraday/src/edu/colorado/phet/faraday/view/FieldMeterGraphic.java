@@ -216,6 +216,24 @@ public class FieldMeterGraphic extends CompositePhetGraphic
             double bx = _fieldVector.getX();
             double by = -( _fieldVector.getY() ); // +Y is up
             double angle = -( _fieldVector.getAngle() );  // +angle is counterclockwise
+            
+            // Convert the angle to a value in the range -180...180 degrees.
+            {
+                // Normalize the angle to the range -360...360 degrees
+                if ( Math.abs( angle ) >= ( 2 * Math.PI ) ) {
+
+                    int sign = ( angle < 0 ) ? -1 : +1;
+                    angle = sign * ( angle % ( 2 * Math.PI ) );
+                }
+                
+                // Convert to an equivalent angle in the range -180...180 degrees.
+                if ( angle < -Math.PI ) {
+                    angle = angle + ( 2 * Math.PI );
+                }
+                else if ( angle > Math.PI ) {
+                    angle = angle - ( 2 * Math.PI );
+                }
+            }
     
             // Format the values.
             String bString = _magnitudeFormatter.format( b );
