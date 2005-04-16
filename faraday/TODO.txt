@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- add more sample points to PickupCoil and try with an electromagnet that extends DipoleMagnet
 - implement Mike Dubson's "coil magnet" model for the electromagnet
 - EMF drops near the AC Power Supply, as pickup coil becomes perpendicular to the field
 - when #loops in electromagnet changes, field (as measured by Field Meter) does not change proportionally
