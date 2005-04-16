@@ -13,7 +13,6 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
 
 import javax.swing.event.MouseInputAdapter;
 
