@@ -13,6 +13,7 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.event.MouseInputAdapter;
 
@@ -20,8 +21,6 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -55,8 +54,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     private ACPowerSupplyGraphic _acPowerSupplyGraphic;
     private GraphicLayerSet _foreground, _background;
     private CollisionDetector _collisionDetector;
-    private PhetShapeGraphic _boundsGraphic;
-    private Rectangle _someRectangle;
+    private PhetShapeGraphic _modelShapeGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -98,13 +96,12 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         _background.addGraphic( _coilGraphic.getBackground() );
         
         // Graphic that represents the magnet's bounds.
-        if ( FaradayConfig.DEBUG_DRAW_ELECTROMAGNET_BOUNDS ) {
-            _someRectangle = new Rectangle();
-            _boundsGraphic = new PhetShapeGraphic( component );
-            _boundsGraphic.setShape( _someRectangle );
-            _boundsGraphic.setBorderColor( Color.YELLOW );
-            _boundsGraphic.setStroke( new BasicStroke( 1f ) );
-            _foreground.addGraphic( _boundsGraphic );
+        if ( FaradayConfig.DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE ) {
+            _modelShapeGraphic = new PhetShapeGraphic( component );
+            _modelShapeGraphic.setBorderColor( Color.YELLOW );
+            _modelShapeGraphic.setStroke( new BasicStroke( 1f ) );
+            _foreground.addGraphic( _modelShapeGraphic );
+            _foreground.setRenderingHints(new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         }
         
         // Interactivity
@@ -186,11 +183,10 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     
     public void update() {
         if ( isVisible() ) {
-            if ( FaradayConfig.DEBUG_DRAW_ELECTROMAGNET_BOUNDS ) { 
-                // Configure the graphic that represents the magnet size.
-                _someRectangle.setBounds( 0, 0, (int)_electromagnetModel.getWidth(), (int)_electromagnetModel.getHeight() );
-                _boundsGraphic.setShape( _someRectangle );
-                _boundsGraphic.centerRegistrationPoint();
+            
+            // Configure the graphic that represents the magnet's shape.
+            if ( _modelShapeGraphic != null ) {
+                _modelShapeGraphic.setShape( _electromagnetModel.getShape() );
             }
             
             // Location
