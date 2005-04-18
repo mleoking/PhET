@@ -52,6 +52,9 @@ public abstract class CoilMagnet extends AbstractMagnet {
     private Point2D _normalizedPoint;
     private Ellipse2D _modelShape;
     
+    // Debugging 
+    private double _maxStrengthOutside;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -61,6 +64,7 @@ public abstract class CoilMagnet extends AbstractMagnet {
         _transform = new AffineTransform();
         _normalizedPoint = new Point2D.Double();
         _modelShape = new Ellipse2D.Double();
+        _maxStrengthOutside = 0.0;
     }
 
     //----------------------------------------------------------------------------
@@ -92,14 +96,42 @@ public abstract class CoilMagnet extends AbstractMagnet {
     
     
     /*
-     * See AbstractMagnet.getStrength.
+     * Gets the B-field vector at a specified point.
      */
     public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */ ) {
         return getStrength( p, outputVector, DEFAULT_DISTANCE_EXPONENT );
     }  
 
     /*
-     * @see edu.colorado.phet.faraday.model.AbstractMagnet#getStrength(java.awt.geom.Point2D, edu.colorado.phet.faraday.util.Vector2D, double)
+     * Gets the B-field vector at a specified point.
+     * The caller may specify an exponent that determines how the field strength 
+     * decreases with distance from the magnet.
+     * <p>
+     * Algorithm, courtesy of Mike Dubson.
+     * <p>
+     * Terminology:
+     * <br>axes oriented with +X right, +Y up
+     * <br>origin is the center of the coil, at (0,0)
+     * <br>(x,y) is the point of interest where we are measuring the magnetic field
+     * <br>C = a fudge factor, set so that the lightbulb will light
+     * <br>m = magnetic moment = C * #loops * current in the coil
+     * <br>R = radius of the coil
+     * <br>r = distance from the origin to (x,y)
+     * <br>theta = angle between the X axis and (x,y)
+     * <br>Bx = X component of the B field
+     * <br>By = Y component of the B field
+     * <p>
+     * Inside the coil (r <= R) :
+     * <br>Bx = (2 * m) / (R **3)
+     * <br>By = 0
+     * <p>
+     * Outside the coil (r > R) :
+     * <br>Bx = (m / (r**3)) * ((3 * cos(theta) * cos(theta)) - 1)
+     * <br>By = (m / (r**3)) * ((3 * cos(theta) * sin(theta)) - 1)
+     * 
+     * @param p
+     * @param outputVector
+     * @param distanceExponent
      */
     public Vector2D getStrength( Point2D p, Vector2D outputVector, double distanceExponent ) {
         
@@ -146,18 +178,31 @@ public abstract class CoilMagnet extends AbstractMagnet {
         return fieldVector;
     }
 
+    /*
+     * Gets the B-field vector for points inside the coil.
+     * 
+     * @param p
+     * @param outputVector
+     */
     private void getStrengthInside( Point2D p, Vector2D outputVector /* output */ ) {
         assert( p != null );
         assert( outputVector != null );
         outputVector.setMagnitudeAngle( getStrength(), 0 );
     }
     
+    /*
+     * Gets the B-field vector for points outside the coil.
+     * 
+     * @param p
+     * @param outputVector
+     * @param distanceExponent
+     */
     private void getStrengthOutside( Point2D p, Vector2D outputVector /* output */, double distanceExponent ) {
         assert( p != null );
         assert( outputVector != null );
         assert( getWidth() == getHeight() );
         
-//        // XXX - This is bogus, substitude correct model here.
+//        // Totally bogus model.
 //        {
 //            outputVector.setXY( p.getX(), p.getY() );
 //            double distance = outputVector.getMagnitude();
@@ -165,14 +210,50 @@ public abstract class CoilMagnet extends AbstractMagnet {
 //            outputVector.setMagnitude( strength );
 //        }
         
-        double x = p.getX();
-        double y = p.getY();
-        double R = getWidth() / 2;
-        double m = getStrength() * Math.pow( R, 3 ) / 2;
-        double C1 = m / Math.pow( ( x * x ) + ( y * y ), 1.5 );
-        double C2 = ( x * x ) + ( y * y );
-        double Bx = C1 * ( ( ( 3 * x * x ) / C2 ) - 1 );
-        double By = C1 * ( ( ( 3 * x * y ) / C2 ) - 1 );
-        outputVector.setXY( Bx, By );
+//        // Distance exponent fixed at 3.
+//        {
+//            double x = p.getX();
+//            double y = p.getY();
+//            double radius = getWidth() / 2;
+//            double m = getStrength() * Math.pow( radius, 3 ) / 2;
+//            double C1 = m / Math.pow( ( x * x ) + ( y * y ), 1.5 );
+//            double C2 = ( x * x ) + ( y * y );
+//            double Bx = C1 * ( ( ( 3 * x * x ) / C2 ) - 1 );
+//            double By = C1 * ( ( ( 3 * x * y ) / C2 ) - 1 );
+//            outputVector.setXY( Bx, By );
+//        }
+        
+        // Variable distance exponent.
+        {
+            // Elemental terms
+            double x = p.getX();
+            double y = p.getY();
+            double r = Math.sqrt( ( x * x ) + ( y * y ) );
+            double R = getWidth() / 2;
+            
+            /*
+             * Inside the magnet, Bx = magnet strength = (2 * m) / (R **3).
+             * Rewriting this gives us m = Bx * (R**3) / 2.
+             */
+            double m = getStrength() * Math.pow( R, distanceExponent ) / 2;
+            
+            // Recurring terms
+            double C1 = m / Math.pow( r, distanceExponent );
+            double cosTheta = x / r;
+            double sinTheta = y / r;
+            
+            // B-field component vectors
+            double Bx = C1 * ( ( 3 * cosTheta * cosTheta ) - 1 );
+            double By = C1 * ( ( 3 * cosTheta * sinTheta ) - 1 );
+            
+            // B-field vector
+            outputVector.setXY( Bx, By );
+        }
+        
+        // Use this to calibrate.
+        if ( outputVector.getMagnitude() > _maxStrengthOutside ) {
+            _maxStrengthOutside = outputVector.getMagnitude();
+//            System.out.println( "CoilMagnet: maxStrengthOutside=" + _maxStrengthOutside ); // DEBUG
+        }
     }
 }
