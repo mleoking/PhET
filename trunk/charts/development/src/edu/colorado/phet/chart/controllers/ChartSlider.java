@@ -145,4 +145,6 @@ public class ChartSlider extends GraphicLayerSet {
     public JSlider getSlider() {
         return slider;
     }
+
+
 }
