@@ -3,18 +3,18 @@ package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.controllers.VerticalChartSlider;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.Man;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
-import edu.colorado.phet.movingman.plotdevice.PlotDeviceData;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
+import edu.colorado.phet.movingman.plotdevice.PlotDeviceSeries;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -33,6 +33,7 @@ public class PlotSet {
     private MovingManModule module;
     private MovingManModel movingManModel;
     private MovingManApparatusPanel movingManApparatusPanel;
+    private Font readoutFont = new Font( "Lucida Sans", Font.BOLD, 24 );
 
     public PlotSet( final MovingManModule module,
                     final MovingManApparatusPanel movingManApparatusPanel ) {
@@ -42,15 +43,19 @@ public class PlotSet {
         double minTime = movingManModel.getMinTime();
         double maxPositionView = 12;
         double maxVelocity = 25;
-        double maxAccel = 10;
-        double xshiftVelocity = movingManModel.getNumSmoothingPosition() / 2;
-        double xshiftAcceleration = ( movingManModel.getNumVelocitySmoothPoints() + movingManModel.getNumSmoothingPosition() ) / 2;
+        double maxAccel = 50;
+//        double xshiftVelocity = movingManModel.getNumSmoothingPosition() / 2;
+//        double xshiftAcceleration = ( movingManModel.getNumVelocitySmoothPoints() + movingManModel.getNumSmoothingPosition() ) / 2;
 
         BasicStroke plotStroke2 = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+//        BasicStroke plotStroke2 = new BasicStroke( 1 );
 
         positionPlot = new MMPlot( module, movingManApparatusPanel, "Position", "x" );
-
-        positionPlot.addPlotDeviceData( new PlotDeviceData( positionPlot, module.getMovingManModel().getPosition().getSmoothedDataSeries(), Color.blue, "Position", plotStroke2 ) );
+        positionPlot.setChartRange( new Range2D( movingManModel.getMinTime(), -maxPositionView, movingManModel.getMaxTime(), maxPositionView ) );
+//        positionPlot.setChartRange( new Rectangle2D.Double( minTime, -maxPositionView, movingManModel.getMaxTime() - minTime, maxPositionView * 2 ) );
+        PlotDeviceSeries positionSeries = new PlotDeviceSeries( positionPlot,
+                                                                module.getMovingManModel().getPositionDataSuite().getSmoothedDataSeries(), Color.blue, "Position", plotStroke2, readoutFont, SimStrings.get( "PlotSet.MetersAbbreviation" ) );
+        positionPlot.addPlotDeviceData( positionSeries );
 //        positionPlot = new MMPlot( SimStrings.get( "PlotSet.PositionLabel" ), module,
 //                                   movingManModel.getPosition().getSmoothedDataSeries(), module.getRecordingTimer(),
 //                                   Color.blue, plotStroke, positionInputBox, getBuffer(), 0,
@@ -59,9 +64,23 @@ public class PlotSet {
 //        final MMPlot.TextBox positionBox = positionPlot.getTextBox();
         ManSetter positionSetter = new ManSetter() {
             public void setValue( Man man, double value ) {
-                man.setX( value );
+                man.setAcceleration( 0.0 );
+                man.setVelocity( 0.0 );
+                man.setPosition( value );
             }
         };
+        ManSetter velSetter = new ManSetter() {
+            public void setValue( Man man, double value ) {
+                man.setAcceleration( 0.0 );
+                man.setVelocity( value );
+            }
+        };
+        ManSetter accSetter = new ManSetter() {
+            public void setValue( Man man, double value ) {
+                man.setAcceleration( value );
+            }
+        };
+
 
         positionPlot.setPaintYLines( new double[]{5, 10} );
         final SliderHandler positionHandler = new SliderHandler( module, positionSetter );
@@ -81,15 +100,15 @@ public class PlotSet {
 //                                   Color.red, plotStroke, velocityInputBox, getBuffer(), xshiftVelocity,
 //                                   SimStrings.get( "PlotSet.MetersPerSecondAbbreviation" ),
 //                                   SimStrings.get( "PlotSet.VelocityAbbreviation" ) + "=" );
-        velocityPlot.addPlotDeviceData( new PlotDeviceData( velocityPlot, module.getMovingManModel().getVelocitySeries().getSmoothedDataSeries(), Color.red, "Velocity", plotStroke2 ) );
-        velocityPlot.setChartRange( new Rectangle2D.Double( minTime, -maxVelocity, movingManModel.getMaxTime() - minTime, maxVelocity * 2 ) );
+        PlotDeviceSeries velSeries = new PlotDeviceSeries( velocityPlot, module.getMovingManModel().getVelocitySeries().getSmoothedDataSeries(),
+                                                           Color.red, "Velocity", plotStroke2, readoutFont, SimStrings.get( "PlotSet.MetersPerSecondAbbreviation" ) );
+        velocityPlot.addPlotDeviceData( velSeries );
+//        velocityPlot.setChartRange( new Rectangle2D.Double( minTime, -maxVelocity, movingManModel.getMaxTime() - minTime, maxVelocity * 2 ) );
+//        velocityPlot.setChartRange( new Rectangle2D.Double( minTime, -maxVelocity, movingManModel.getMaxTime() - minTime, maxVelocity * 2 ) );
+//        velocityPlot.setChartRange( new Rectangle2D.Double( minTime, -maxVelocity, movingManModel.getMaxTime() - minTime, maxVelocity * 2 ) );
+        velocityPlot.setChartRange( new Range2D( movingManModel.getMinTime(), -maxVelocity, movingManModel.getMaxTime(), maxVelocity ) );
         velocityPlot.setPaintYLines( new double[]{10, 20} );
-        ManSetter velSetter = new ManSetter() {
-            public void setValue( Man man, double value ) {
-                man.setVelocity( value );
-                man.setAcceleration( 0.0 );
-            }
-        };
+
         final SliderHandler velHandler = new SliderHandler( module, velSetter );
         velocityPlot.addListener( new PlotDeviceListenerAdapter() {
             public void sliderDragged( double dragValue ) {
@@ -106,17 +125,13 @@ public class PlotSet {
 //                                       SimStrings.get( "PlotSet.AccelerationAbbreviation" ) + "=" );
 //        accelerationPlot.addSuperScript( "2" );
         Color green = new Color( 40, 165, 50 );
-        accelerationPlot.addPlotDeviceData( new PlotDeviceData( accelerationPlot, module.getMovingManModel().getAcceleration().getSmoothedDataSeries(), green, "Acceleration", plotStroke2 ) );
-        accelerationPlot.setChartRange( new Range2D( 0, -50, 20, 50 ) );
+//        String s ="<html>m/s<sup><font size=-1>2</font></sup></html>";
+        accelerationPlot.addPlotDeviceData( new PlotDeviceSeries( accelerationPlot, module.getMovingManModel().getAccelerationDataSuite().getSmoothedDataSeries(),
+                                                                  green, "Acceleration", plotStroke2, readoutFont, SimStrings.get( "PlotSet.MetersPerSecondSquaredAbbreviation" ) ) );
+//        accelerationPlot.setChartRange( new Range2D( 0, -50, movingManModel.getMaxTime() - minTime, 50 ) );
+        accelerationPlot.setChartRange( new Range2D( movingManModel.getMinTime(), -maxAccel, movingManModel.getMaxTime(), maxAccel ) );
         accelerationPlot.setPaintYLines( new double[]{10, 20, 30, 40, 50} );
 //        accelerationPlot.setMagnitude( 12 );
-
-
-        ManSetter accSetter = new ManSetter() {
-            public void setValue( Man man, double value ) {
-                man.setAcceleration( value );
-            }
-        };
 
         final SliderHandler accelHandler = new SliderHandler( module, accSetter );
         accelerationPlot.addListener( new PlotDeviceListenerAdapter() {
@@ -126,7 +141,7 @@ public class PlotSet {
         } );
 //        accelerationPlot.addSliderListener( new SliderHandler( module, accSetter ) );
 
-        module.getMan().addListener( new Man.Listener() {
+        module.getMan().addListener( new Man.Adapter() {
             public void positionChanged( double x ) {
                 if( module.isPaused() ) {
                     positionPlot.valueChanged( x );
@@ -153,9 +168,9 @@ public class PlotSet {
 //            }
 //        } );
 
-        positionSuite = new MMPlotSuite( movingManApparatusPanel, positionPlot );
-        velSuite = new MMPlotSuite( movingManApparatusPanel, velocityPlot );
-        accSuite = new MMPlotSuite( movingManApparatusPanel, accelerationPlot );
+        positionSuite = new MMPlotSuite( module, movingManApparatusPanel, positionPlot );
+        velSuite = new MMPlotSuite( module, movingManApparatusPanel, velocityPlot );
+        accSuite = new MMPlotSuite( module, movingManApparatusPanel, accelerationPlot );
 
         positionSuite.getTextBox().addKeyListener( new TextHandler( positionSuite.getTextBox(), module, positionSetter ) );
         accSuite.getTextBox().addKeyListener( new TextHandler( accSuite.getTextBox(), module, accSetter ) );
@@ -173,14 +188,18 @@ public class PlotSet {
         movingManApparatusPanel.addGraphic( positionSuite, 3 );//todo fix buffering.
         movingManApparatusPanel.addGraphic( velSuite, 4 );
         movingManApparatusPanel.addGraphic( accSuite, 5 );
+
+//        movingManModel.getTimeModel().getPlaybackTimer().addListener( new MMTimer.Listener() {
+//            public void timeChanged() {
+//                double time = movingManModel.getTimeModel().getPlaybackTimer().getTime();
+//                setPlaybackTime(time);
+//            }
+//        } );
     }
 
-    public void setNumSmoothingPoints( int n ) {
-        double velocityOffset = n / 2 * MovingManModule.getTimeScale();
-        double accelOffset = n * MovingManModule.getTimeScale();
-        velocityPlot.setShift( velocityOffset );
-        accelerationPlot.setShift( accelOffset );
-    }
+//    private void setPlaybackTime( double time ) {
+////        accelerationPlot.setPlaybackTime(time);
+//    }
 
     public PlotDevice getAccelerationPlot() {
         return accelerationPlot;
@@ -224,10 +243,10 @@ public class PlotSet {
             try {
                 String x = positionSuite.getTextBox().getText();
                 double xVal = Double.parseDouble( x );
-                module.getMan().setX( xVal );
+                module.getMan().setPosition( xVal );
             }
             catch( NumberFormatException nfe ) {
-                positionPlot.setTextValue( module.getMan().getX() );
+                positionPlot.setTextValue( module.getMan().getPosition() );
             }
             positionSuite.getTextBox().clearChangedByUser();
         }
@@ -238,7 +257,7 @@ public class PlotSet {
                 module.getMan().setVelocity( vVal );
             }
             catch( NumberFormatException nfe ) {
-                positionPlot.setTextValue( module.getMan().getX() );
+                positionPlot.setTextValue( module.getMan().getPosition() );
             }
             velSuite.getTextBox().clearChangedByUser();
         }
@@ -249,7 +268,7 @@ public class PlotSet {
                 module.getMan().setAcceleration( aVal );
             }
             catch( NumberFormatException nfe ) {
-                positionPlot.setTextValue( module.getMan().getX() );
+                positionPlot.setTextValue( module.getMan().getPosition() );
             }
             accSuite.getTextBox().clearChangedByUser();
         }

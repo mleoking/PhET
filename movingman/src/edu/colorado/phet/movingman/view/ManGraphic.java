@@ -54,16 +54,11 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
         rightMan = BufferedImageUtils.flipX( leftMan );
 
         currentImage = standingMan;
-        m.addListener( new Man.Listener() {
+        m.addListener( new Man.Adapter() {
             public void positionChanged( double x ) {
                 ManGraphic.this.positionChanged();
             }
 
-            public void velocityChanged( double velocity ) {
-            }
-
-            public void accelerationChanged( double acceleration ) {
-            }
         } );
         inversion = transform.getInvertedInstance();
         positionChanged();
@@ -77,7 +72,7 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     public void positionChanged() {
         Rectangle origRectangle = getRectangle();
 
-        double output = transform.transform( m.getX() );
+        double output = transform.transform( m.getPosition() );
         lastX = x;
         this.x = (int)output;
 
@@ -185,7 +180,8 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
         final Point newPt = dragHandler.getNewLocation( event.getPoint() );
         int graphicsPt = newPt.x;
         double manPoint = inversion.transform( graphicsPt );
-        m.setX( manPoint );
+
+        m.setPosition( manPoint );
     }
 
     public void mouseMoved( MouseEvent e ) {
@@ -202,11 +198,7 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     }
 
     public void mouseReleased( MouseEvent event ) {
-        module.getModel().execute( new Command() {
-            public void doIt() {
-                m.setGrabbed( false );
-            }
-        } );
+        m.setGrabbed( false );
         dragHandler = null;
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );

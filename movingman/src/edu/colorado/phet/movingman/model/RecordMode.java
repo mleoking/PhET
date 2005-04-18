@@ -12,13 +12,17 @@ import edu.colorado.phet.movingman.MovingManModule;
  */
 public class RecordMode extends Mode {
     private MovingManModule module;
+    private MMTimer timer;
 
     public RecordMode( final MovingManModule module, MovingManTimeModel movingManTimeModel ) {
         super( module, SimStrings.get( "RecordMode.ModeName" ), true );
+        timer = new MMTimer( SimStrings.get( "MovingManModule.RecordTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
         this.module = module;
         movingManTimeModel.addListener( new TimeListenerAdapter() {
             public void recordingStarted() {
-                module.setNumSmoothingPoints( 2 );
+//                module.setNumSmoothingPoints( 2 );
+                module.setNumSmoothingPoints( 12 );
+                System.out.println( "Recording started." );
             }
         } );
     }
@@ -54,4 +58,11 @@ public class RecordMode extends Mode {
         }
     }
 
+    public void reset() {
+        timer.reset();
+    }
+
+    public MMTimer getTimer() {
+        return timer;
+    }
 }

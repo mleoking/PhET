@@ -13,9 +13,11 @@ import edu.colorado.phet.movingman.MovingManModule;
 public class PlaybackMode extends Mode {
     private double playbackSpeed;
     private MovingManModule module;
+    private MMTimer timer;
 
     public PlaybackMode( MovingManModule module, MovingManTimeModel movingManTimeModel ) {
         super( module, SimStrings.get( "PlaybackMode.ModeName" ), false );
+        timer = new MMTimer( SimStrings.get( "MovingManModule.PlaybackTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
         this.module = module;
     }
 
@@ -44,5 +46,17 @@ public class PlaybackMode extends Mode {
                 module.firePlaybackFinished();
             }
         }
+    }
+
+    public void reset() {
+        timer.reset();
+    }
+
+    public void rewind() {
+        timer.setTime( 0 );
+    }
+
+    public MMTimer getTimer() {
+        return timer;
     }
 }

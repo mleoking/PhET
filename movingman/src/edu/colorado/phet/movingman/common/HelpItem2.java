@@ -47,8 +47,8 @@ public class HelpItem2 extends CompositePhetGraphic {
 
         addGraphic( textBackground );
         addGraphic( shadowHTMLGraphic );
+        setIgnoreMouse( true );
     }
-
 
     public void addArrowPointingLeft( int arrowLength ) {
         Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( -arrowLength, 0 ), arrowHeadSize, arrowHeadSize, tailWidth );

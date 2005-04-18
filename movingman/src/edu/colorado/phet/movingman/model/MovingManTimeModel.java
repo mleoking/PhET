@@ -2,7 +2,6 @@
 package edu.colorado.phet.movingman.model;
 
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.MovingManModule;
 
 import java.util.ArrayList;
@@ -18,8 +17,7 @@ public class MovingManTimeModel {
 
     private ArrayList listeners = new ArrayList();
     private boolean paused = true;
-    private MMTimer recordTimer;
-    private MMTimer playbackTimer;
+
     private Mode mode;//the current mode.
     private RecordMode recordMode;
     private PlaybackMode playbackMode;
@@ -29,8 +27,6 @@ public class MovingManTimeModel {
     private boolean stopped = false;
 
     public MovingManTimeModel( MovingManModule module ) {
-        recordTimer = new MMTimer( SimStrings.get( "MovingManModule.RecordTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
-        playbackTimer = new MMTimer( SimStrings.get( "MovingManModule.PlaybackTimerLabel" ) );//, MovingManModel.TIMER_SCALE );
         mainModelElement = new ModelElement() {
             public void stepInTime( double dt ) {
                 if( !paused ) {
@@ -43,7 +39,6 @@ public class MovingManTimeModel {
     }
 
     public int getNumSmoothingPoints() {
-
         return numSmoothingPoints;
     }
 
@@ -56,11 +51,11 @@ public class MovingManTimeModel {
     }
 
     public MMTimer getRecordTimer() {
-        return recordTimer;
+        return recordMode.getTimer();
     }
 
     public MMTimer getPlaybackTimer() {
-        return playbackTimer;
+        return playbackMode.getTimer();
     }
 
     public Mode getMode() {
@@ -159,8 +154,8 @@ public class MovingManTimeModel {
 
     public void reset() {
         setPaused( true );
-        recordTimer.reset();
-        playbackTimer.reset();
+        recordMode.reset();
+        playbackMode.reset();
         fireReset();
     }
 
@@ -199,8 +194,7 @@ public class MovingManTimeModel {
     }
 
     public void rewind() {
-
-        playbackTimer.setTime( 0 );
+        playbackMode.rewind();
         fireRewind();
     }
 

@@ -16,16 +16,15 @@ public class Man {
     private boolean grabbed = false;
     private double velocity;
     private double acceleration;
-    private double min;
-    private double max;
+    private double minX;
+    private double maxX;
     private ArrayList listeners = new ArrayList();
-    private double lastX = 0.0;
 
     public Man( double x, double min, double max ) {
         this.x0 = x;
         this.x = x;
-        this.min = min;
-        this.max = max;
+        this.minX = min;
+        this.maxX = max;
     }
 
     public void addListener( Listener listener ) {
@@ -38,6 +37,23 @@ public class Man {
         void velocityChanged( double velocity );
 
         void accelerationChanged( double acceleration );
+
+        void collided( Man man );
+    }
+
+    public static class Adapter implements Listener {
+
+        public void positionChanged( double x ) {
+        }
+
+        public void velocityChanged( double velocity ) {
+        }
+
+        public void accelerationChanged( double acceleration ) {
+        }
+
+        public void collided( Man man ) {
+        }
     }
 
     public double getVelocity() {
@@ -65,19 +81,27 @@ public class Man {
     }
 
     public void setGrabbed( boolean grabbed ) {
-        this.grabbed = grabbed;
+        if( this.grabbed != grabbed ) {
+            this.grabbed = grabbed;
+            if( !grabbed ) {
+                setVelocity( 0.0 );
+                setAcceleration( 0.0 );
+            }
+        }
     }
 
-    public double getX() {
+    public double getPosition() {
         return x;
     }
 
-    public void setX( double x ) {
-        if( x < min ) {
-            x = min;
+    public void setPosition( double x ) {
+        if( x < minX ) {
+            x = minX;
+            notifyCollision();
         }
-        else if( x > max ) {
-            x = max;
+        else if( x > maxX ) {
+            x = maxX;
+            notifyCollision();
         }
         this.x = x;
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -87,37 +111,51 @@ public class Man {
     }
 
     public void reset() {
-        setX( x0 );
+        setPosition( x0 );
         setVelocity( 0.0 );
         setAcceleration( 0.0 );
     }
 
-    public double getDx() {
-        return x - lastX;
-    }
-
     public void stepInTime( double dt ) {
-        double xOrig = x;
+        if( grabbed ) {
+            return;
+        }
         double newVelocity = velocity + acceleration * dt;
         double newX = x + velocity * dt;
 
-        if( newX > max || newX < min ) {
+        if( newX > maxX || newX < minX ) {
             setVelocity( 0 );
             setAcceleration( 0 );
-            if( newX > max ) {
-                setX( max );
+            if( newX > maxX ) {
+                setPosition( maxX );
+                notifyCollision();
             }
-            else if( newX < min ) {
-                setX( min );
+            else if( newX < minX ) {
+                setPosition( minX );
+                notifyCollision();
             }
         }
         else {
-            newX = Math.min( newX, max );
-            newX = Math.max( newX, min );
+            newX = Math.min( newX, maxX );
+            newX = Math.max( newX, minX );
             setVelocity( newVelocity );
-            lastX = xOrig;
-            setX( newX );
+            setPosition( newX );
         }
+    }
+
+    private void notifyCollision() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.collided( this );
+        }
+    }
+
+    public boolean isMinimum() {
+        return x == minX;
+    }
+
+    public boolean isMaximum() {
+        return x == maxX;
     }
 
 }
