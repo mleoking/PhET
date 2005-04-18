@@ -37,9 +37,9 @@ public class PlotsSetup {
     }
 
     public void setup( MovingManModule module ) {
-        module.getPositionPlot().setMagnitude( positionMagnitude );
-        module.getVelocityPlot().setMagnitude( velocityMagnitude );
-        module.getAccelerationPlot().setMagnitude( accelerationMagnitude );
+//        module.getPositionPlot().setMagnitude( positionMagnitude );
+//        module.getVelocityPlot().setMagnitude( velocityMagnitude );
+//        module.getAccelerationPlot().setMagnitude( accelerationMagnitude );
         module.getPositionPlot().setPaintYLines( positionLines );
         module.getVelocityPlot().setPaintYLines( velocityLines );
         module.getAccelerationPlot().setPaintYLines( accelerationLines );

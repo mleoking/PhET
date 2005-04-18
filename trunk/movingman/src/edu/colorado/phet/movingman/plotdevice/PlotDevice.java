@@ -12,7 +12,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.movingman.plots.PlotSet;
+import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
 
 import javax.swing.*;
@@ -40,7 +40,7 @@ public class PlotDevice extends GraphicLayerSet {
 
     private PhetGraphic minimizeButton;
     private PhetGraphic zoomPanel;
-    private ChartSlider slider;
+    private ChartSlider chartSlider;
     private BufferedChartCursor cursor;
 
     private Chart chart;
@@ -61,12 +61,11 @@ public class PlotDevice extends GraphicLayerSet {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        slider = new ChartSlider( component, chart );
-
+        chartSlider = new ChartSlider( component, chart );
         minimizeButton = createMinimizeButton();
 
-        addGraphic( slider );
-        slider.addListener( new ChartSlider.Listener() {
+        addGraphic( chartSlider );
+        chartSlider.addListener( new ChartSlider.Listener() {
             public void valueChanged( double value ) {
                 for( int i = 0; i < listeners.size(); i++ ) {
                     PlotDeviceListener plotDeviceListener = (PlotDeviceListener)listeners.get( i );
@@ -81,14 +80,14 @@ public class PlotDevice extends GraphicLayerSet {
         cursor = new BufferedChartCursor( component, chart, 7, bufferedChart );
         cursor.addListener( new ChartCursor.Listener() {
             public void modelValueChanged( double modelX ) {
-                fireCursorMoved( modelX );
+                fireCursorDragged( modelX );
             }
         } );
         addGraphic( cursor );
         setChartSize( 600, 200 );
     }
 
-    private void fireCursorMoved( double modelX ) {
+    private void fireCursorDragged( double modelX ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             PlotDeviceListener plotDeviceListener = (PlotDeviceListener)listeners.get( i );
             plotDeviceListener.cursorMoved( modelX );
@@ -97,8 +96,8 @@ public class PlotDevice extends GraphicLayerSet {
 
     public void reset() {
         for( int i = 0; i < data.size(); i++ ) {
-            PlotDeviceData plotDeviceData = (PlotDeviceData)data.get( i );
-            plotDeviceData.reset();
+            PlotDeviceSeries plotDeviceSeries = (PlotDeviceSeries)data.get( i );
+            plotDeviceSeries.reset();
         }
         rebuildChartBuffer();
     }
@@ -109,8 +108,8 @@ public class PlotDevice extends GraphicLayerSet {
 //        chart.setBackground( gradientPaint );
 
         rebuildChartBuffer();
-        int guessSliderThumbHeight = (int)( slider.getWidth() / 2.0 );
-        slider.setBounds( -slider.getWidth() * 2 - 2, -guessSliderThumbHeight / 2, slider.getWidth(), height + guessSliderThumbHeight );
+        int guessSliderThumbHeight = (int)( chartSlider.getWidth() / 2.0 );
+        chartSlider.setBounds( -chartSlider.getWidth() * 2 - 2, -guessSliderThumbHeight / 2, chartSlider.getWidth(), height + guessSliderThumbHeight );
 
         zoomPanel.setLocation( 2, chart.getChartBounds().height - zoomPanel.getHeight() - 2 );
         minimizeButton.setLocation( chart.getChartBounds().width - minimizeButton.getWidth() - 2, 2 );
@@ -128,8 +127,8 @@ public class PlotDevice extends GraphicLayerSet {
         cursor.setBufferedChart( bufferedChart );
         addGraphic( bufferedChart, -1 );
         for( int i = 0; i < data.size(); i++ ) {
-            PlotDeviceData plotDeviceData = (PlotDeviceData)data.get( i );
-            plotDeviceData.chartChanged();
+            PlotDeviceSeries plotDeviceSeries = (PlotDeviceSeries)data.get( i );
+            plotDeviceSeries.chartChanged();
         }
 
         setBoundsDirty();
@@ -151,7 +150,7 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     public double getSliderValue() {
-        return slider.getValue();
+        return chartSlider.getValue();
     }
 
     public Chart getChart() {
@@ -178,12 +177,14 @@ public class PlotDevice extends GraphicLayerSet {
         }
     }
 
-    public void addPlotDeviceData( final PlotDeviceData plotDeviceData ) {
-        data.add( plotDeviceData );
+    public void addPlotDeviceData( final PlotDeviceSeries plotDeviceSeries ) {
+        data.add( plotDeviceSeries );
+        addGraphic( plotDeviceSeries );
+        plotDeviceSeries.setLocation( 10, 5 );
         //todo how to decide which datasets to observe with the slider?
-        plotDeviceData.getRawData().addObserver( new TimeSeries.Observer() {
+        plotDeviceSeries.getRawData().addObserver( new TimeSeries.Observer() {
             public void dataAdded( TimeSeries timeSeries ) {
-                slider.setValue( timeSeries.getLastPoint().getValue() );
+                chartSlider.setValue( timeSeries.getLastPoint().getValue() );
             }
 
             public void cleared( TimeSeries timeSeries ) {
@@ -195,8 +196,22 @@ public class PlotDevice extends GraphicLayerSet {
         return bufferedChart;
     }
 
-    public void setCursorLocation( double time ) {
+    public void setPlaybackTime( double time ) {
         cursor.setX( time );
+        //change the reading
+        for( int i = 0; i < data.size(); i++ ) {
+            PlotDeviceSeries plotDeviceSeries = (PlotDeviceSeries)data.get( i );
+            plotDeviceSeries.setPlaybackTime( time );
+        }
+        if( data.size() > 0 ) {
+            PlotDeviceSeries plotDeviceSeries = (PlotDeviceSeries)data.get( 0 );
+            TimePoint value = plotDeviceSeries.getRawData().getValueForTime( time );
+            chartSlider.setValue( value.getValue() );
+        }
+    }
+
+    public Paint getBackground() {
+        return chartBackgroundColor;
     }
 
     public class ZoomPanel extends GraphicLayerSet {
@@ -213,19 +228,6 @@ public class PlotDevice extends GraphicLayerSet {
             MagButton zoomIn = new MagButton( new ImageIcon( imPlus ), smoothPos, incPos, SimStrings.get( "MMPlot.ZoomInButton" ) );
             MagButton zoomOut = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, SimStrings.get( "MMPlot.ZoomOutButton" ) );
 
-//            JButton zoomIn = new JButton( new ImageIcon( im ) );
-//            zoomIn.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    plotDevice.zoomIn();
-//                }
-//            } );
-//
-//            JButton zoomOut = new JButton( icon );
-//            zoomOut.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    plotDevice.zoomOut();
-//                }
-//            } );
             JPanel panel = new JPanel();
             panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
             panel.add( zoomOut );
@@ -234,14 +236,6 @@ public class PlotDevice extends GraphicLayerSet {
             addGraphic( g );
         }
 
-    }
-
-
-    private void zoomOut() {
-
-    }
-
-    private void zoomIn() {
     }
 
     public void setPaintYLines( double[] lines ) {
@@ -262,32 +256,32 @@ public class PlotDevice extends GraphicLayerSet {
         chart.getYAxis().setMajorGridlines( full );
     }
 
-    public class TextBox extends GraphicLayerSet {
-        private JTextField textField;
-        private PhetGraphic pg;
-
-        public TextBox( Component component ) {
-            super( component );
-            textField = new JTextField( 8 );
-            pg = PhetJComponent.newInstance( component, textField );
-            addGraphic( pg );
-        }
-
-        public boolean isChangedByUser() {
-            return false;
-        }
-
-        public String getText() {
-            return null;
-        }
-
-        public void clearChangedByUser() {
-
-        }
-
-        public void addKeyListener( PlotSet.TextHandler textHandler ) {
-        }
-    }
+//    public class TextBox extends GraphicLayerSet {
+//        private JTextField textField;
+//        private PhetGraphic pg;
+//
+//        public TextBox( Component component ) {
+//            super( component );
+//            textField = new JTextField( 8 );
+//            pg = PhetJComponent.newInstance( component, textField );
+//            addGraphic( pg );
+//        }
+//
+//        public boolean isChangedByUser() {
+//            return false;
+//        }
+//
+//        public String getText() {
+//            return null;
+//        }
+//
+//        public void clearChangedByUser() {
+//
+//        }
+//
+//        public void addKeyListener( PlotSet.TextHandler textHandler ) {
+//        }
+//    }
 
     public void setCursorVisible( boolean visible ) {
         cursor.setVisible( visible );
@@ -307,14 +301,13 @@ public class PlotDevice extends GraphicLayerSet {
         return name;
     }
 
-    public PlotDeviceData dataSeriesAt( int i ) {
-        return (PlotDeviceData)data.get( i );
+    public PlotDeviceSeries dataSeriesAt( int i ) {
+        return (PlotDeviceSeries)data.get( i );
     }
 
-    public ChartSlider getSlider() {
-        return slider;
+    public ChartSlider getChartSlider() {
+        return chartSlider;
     }
-
 
     class MagButton extends JButton {
         public MagButton( Icon icon, ActionListener hold, ActionListener click, String tooltip ) {
@@ -390,5 +383,9 @@ public class PlotDevice extends GraphicLayerSet {
             d[i] = ( (Double)values.get( i ) ).doubleValue();
         }
         return d;
+    }
+
+    public int getNumDataSeries() {
+        return data.size();
     }
 }

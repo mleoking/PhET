@@ -32,7 +32,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -221,10 +220,14 @@ public class MovingManModule extends Module {
         getPositionPlot().requestTypingFocus();
     }
 
-    public void setNumSmoothingPoints( int n ) {
-        getTimeModel().setNumSmoothingPoints( n );
-        movingManModel.setNumSmoothingPoints( n );
-        getPlotSet().setNumSmoothingPoints( n );
+    public void setNumSmoothingPoints( int numSmoothingPoints ) {
+        numSmoothingPoints = 8;
+//        System.out.println( "Smoothing point override." );
+//        numSmoothingPoints=4;
+//        System.out.println( "numSmoothingPoints = " + numSmoothingPoints );
+        getTimeModel().setNumSmoothingPoints( numSmoothingPoints );
+        movingManModel.setNumSmoothingPoints( numSmoothingPoints );
+//        getPlotSet().setNumSmoothingPoints( numSmoothingPoints );
     }
 
     public void setRightDirPositive( boolean rightPos ) {
@@ -302,8 +305,8 @@ public class MovingManModule extends Module {
         return getPlotSet().getVelocityPlot();
     }
 
-    public SmoothDataSeries getPosition() {
-        return movingManModel.getPosition();
+    public DataSuite getPosition() {
+        return movingManModel.getPositionDataSuite();
     }
 
     public void setMode( Mode mode ) {
@@ -346,10 +349,27 @@ public class MovingManModule extends Module {
 
 
     public void setReplayTime( double requestedTime ) {
-        /**Find the position for the time.*/
-        int timeIndex = getTimeIndex( requestedTime );
-        movingManModel.setReplayTimeIndex( timeIndex );
-        cursorMovedToTime( requestedTime );
+
+//        /**Find the position for the time.*/
+//        int timeIndex = getTimeIndex( requestedTime );
+//        movingManModel.setReplayTimeIndex( timeIndex );
+        if( requestedTime < 0 || requestedTime > getTimeModel().getRecordTimer().getTime() ) {
+            return;
+        }
+        else {
+            getTimeModel().getPlaybackTimer().setTime( requestedTime );
+//            int timeIndex = getTimeIndex( requestedTime );
+//            if( timeIndex < movingManModel.getPositionDataSuite().numSmoothedPoints() && timeIndex >= 0 ) {
+//                double x = movingManModel.getPositionDataSuite().smoothedPointAt( timeIndex );
+//                getMan().setPosition( x );
+
+            movingManModel.setReplayTime( requestedTime );
+            
+//            }
+//            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
+//            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
+//            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
+        }
     }
 
     public void rewind() {
@@ -375,20 +395,20 @@ public class MovingManModule extends Module {
         return getTimeModel().isRecording();
     }
 
-    public void cursorMovedToTime( double requestedTime ) {
-        if( requestedTime < 0 || requestedTime > getTimeModel().getRecordTimer().getTime() ) {
-            return;
-        }
-        else {
-            getTimeModel().getPlaybackTimer().setTime( requestedTime );
-            int timeIndex = getTimeIndex( requestedTime );
-            if( timeIndex < movingManModel.getPosition().numSmoothedPoints() && timeIndex >= 0 ) {
-                double x = movingManModel.getPosition().smoothedPointAt( timeIndex );
-                getMan().setX( x );
-            }
-            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
-        }
-    }
+//    public void cursorMovedToTime( double requestedTime ) {
+//        if( requestedTime < 0 || requestedTime > getTimeModel().getRecordTimer().getTime() ) {
+//            return;
+//        }
+//        else {
+//            getTimeModel().getPlaybackTimer().setTime( requestedTime );
+//            int timeIndex = getTimeIndex( requestedTime );
+//            if( timeIndex < movingManModel.getPositionDataSuite().numSmoothedPoints() && timeIndex >= 0 ) {
+//                double x = movingManModel.getPositionDataSuite().smoothedPointAt( timeIndex );
+//                getMan().setPosition( x );
+//            }
+//            getPlotSet().cursorMovedToTime( requestedTime, timeIndex );
+//        }
+//    }
 
     private int getTimeIndex( double requestedTime ) {
         return getTimeModel().getTimeIndex( requestedTime );
@@ -422,12 +442,12 @@ public class MovingManModule extends Module {
         }
     }
 
-    public SmoothDataSeries getVelocityData() {
+    public DataSuite getVelocityData() {
         return movingManModel.getVelocitySeries();
     }
 
-    public SmoothDataSeries getAcceleration() {
-        return movingManModel.getAcceleration();
+    public DataSuite getAcceleration() {
+        return movingManModel.getAccelerationDataSuite();
     }
 
     public JFrame getFrame() {
@@ -525,17 +545,11 @@ public class MovingManModule extends Module {
                 catch( IOException e ) {
                     e.printStackTrace();
                 }
-                catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-                catch( InvocationTargetException e ) {
-                    e.printStackTrace();
-                }
             }
         } );
     }
 
-    private static void runMain( String[] args ) throws IOException, InvocationTargetException, InterruptedException {
+    private static void runMain( String[] args ) throws IOException {
         AbstractClock clock = new SwingTimerClock( 1, 30, true );
         clock.setDelay( 30 );
         final MovingManModule m = new MovingManModule( clock );
@@ -544,6 +558,7 @@ public class MovingManModule extends Module {
         ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ),
                                                       SimStrings.get( "MovingManApplication.description" ),
                                                       SimStrings.get( "MovingManApplication.version" ), setup, m, clock );
+        desc.setName( "movingman" );
         PhetApplication tpa = new PhetApplication( desc, args );
 
         final PhetFrame frame = tpa.getPhetFrame();

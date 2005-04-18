@@ -4,6 +4,7 @@ package edu.colorado.phet.movingman.model;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.movingman.MovingManModule;
+import edu.colorado.phet.movingman.plots.TimePoint;
 
 /**
  * User: Sam Reid
@@ -17,9 +18,9 @@ public class MovingManModel {
     private int maxManPosition = 10;
     private Man man;
     private AbstractClock clock;
-    private SmoothDataSeries position;
-    private SmoothDataSeries velocity;
-    private SmoothDataSeries acceleration;
+    private DataSuite positionDataSuite;
+    private DataSuite velocityDataSuite;
+    private DataSuite accelerationDataSuite;
     private int numSmoothingPosition;
     private int numVelocitySmoothPoints;
     private int numAccSmoothPoints;
@@ -35,54 +36,55 @@ public class MovingManModel {
         numVelocitySmoothPoints = numSmoothingPoints;
         numAccSmoothPoints = numSmoothingPoints;
 
-        position = new SmoothDataSeries( numSmoothingPosition );
-        velocity = new SmoothDataSeries( numVelocitySmoothPoints );
-        acceleration = new SmoothDataSeries( numAccSmoothPoints );
+        positionDataSuite = new DataSuite( numSmoothingPosition );
+        velocityDataSuite = new DataSuite( numVelocitySmoothPoints );
+        accelerationDataSuite = new DataSuite( numAccSmoothPoints );
 
-        position.setDerivative( velocity );
-        velocity.setDerivative( acceleration );
+        positionDataSuite.setDerivative( velocityDataSuite );
+        velocityDataSuite.setDerivative( accelerationDataSuite );
         man = new Man( 0, -maxManPosition, maxManPosition );
+        man.addListener( new CollisionAudioEffects( man ) );
     }
 
     public void setNumSmoothingPoints( int n ) {
-        position.setNumSmoothingPoints( n );
-        velocity.setNumSmoothingPoints( n );
-        acceleration.setNumSmoothingPoints( n );
+        positionDataSuite.setNumSmoothingPoints( n );
+        velocityDataSuite.setNumSmoothingPoints( n );
+        accelerationDataSuite.setNumSmoothingPoints( n );
     }
 
     public void reset() {
         getTimeModel().reset();
         man.reset();
-        position.reset();
-        velocity.reset();
-        acceleration.reset();
+        positionDataSuite.reset();
+        velocityDataSuite.reset();
+        accelerationDataSuite.reset();
     }
 
     public void step( double dt ) {
-        position.addPoint( man.getX(), timeModel.getRecordTimer().getTime() );
-        position.updateSmoothedSeries();
-        position.updateDerivative( dt );
-        velocity.updateSmoothedSeries();
-        velocity.updateDerivative( dt );
-        acceleration.updateSmoothedSeries();
+        positionDataSuite.addPoint( man.getPosition(), timeModel.getRecordTimer().getTime() );
+        positionDataSuite.updateSmoothedSeries();
+        positionDataSuite.updateDerivative( dt );
+        velocityDataSuite.updateSmoothedSeries();
+        velocityDataSuite.updateDerivative( dt );
+        accelerationDataSuite.updateSmoothedSeries();
     }
 
     public void setReplayTimeIndex( int timeIndex ) {
-        if( timeIndex < position.numSmoothedPoints() && timeIndex >= 0 ) {
-            double x = position.smoothedPointAt( timeIndex );
-            man.setX( x );
+        if( timeIndex < positionDataSuite.numSmoothedPoints() && timeIndex >= 0 ) {
+            double x = positionDataSuite.smoothedPointAt( timeIndex );
+            man.setPosition( x );
         }
     }
 
-    public double getVelocity() {
-        if( velocity == null ) {
+    public double getVelocityDataSuite() {
+        if( velocityDataSuite == null ) {
             return 0;
         }
-        if( velocity.numSmoothedPoints() == 0 ) {
+        if( velocityDataSuite.numSmoothedPoints() == 0 ) {
             return 0;
         }
         else {
-            return velocity.smoothedPointAt( velocity.numSmoothedPoints() - 1 );
+            return velocityDataSuite.smoothedPointAt( velocityDataSuite.numSmoothedPoints() - 1 );
         }
     }
 
@@ -90,16 +92,16 @@ public class MovingManModel {
         return man;
     }
 
-    public SmoothDataSeries getPosition() {
-        return position;
+    public DataSuite getPositionDataSuite() {
+        return positionDataSuite;
     }
 
-    public SmoothDataSeries getVelocitySeries() {
-        return velocity;
+    public DataSuite getVelocitySeries() {
+        return velocityDataSuite;
     }
 
-    public SmoothDataSeries getAcceleration() {
-        return acceleration;
+    public DataSuite getAccelerationDataSuite() {
+        return accelerationDataSuite;
     }
 
     public double getNumSmoothingPosition() {
@@ -111,6 +113,7 @@ public class MovingManModel {
     }
 
     public double getMaxTime() {
+//        return 5;
         return maxTime;
     }
 
@@ -140,5 +143,19 @@ public class MovingManModel {
 
     public MovingManTimeModel getTimeModel() {
         return timeModel;
+    }
+
+//        public void setReplayTimeIndex( int timeIndex ) {
+//        if( timeIndex < positionDataSuite.numSmoothedPoints() && timeIndex >= 0 ) {
+//            double x = positionDataSuite.smoothedPointAt( timeIndex );
+//            man.setPosition( x );
+//        }
+//    }
+
+    public void setReplayTime( double requestedTime ) {
+        TimePoint timePoint = positionDataSuite.getSmoothedDataSeries().getValueForTime( requestedTime );
+        man.setPosition( timePoint.getValue() );
+//        double position=positionDataSuite.getSmoothedDataSeries().
+//        man.setPosition( );
     }
 }

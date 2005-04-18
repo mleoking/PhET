@@ -33,9 +33,9 @@ public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.L
                 dispose();
             }
         };
-        movingManApparatusPanel.getPlotSet().getPositionPlot().getSlider().addListener( listener );
-        movingManApparatusPanel.getPlotSet().getVelocityPlot().getSlider().addListener( listener );
-        movingManApparatusPanel.getPlotSet().getAccelerationPlot().getSlider().addListener( listener );
+        movingManApparatusPanel.getPlotSet().getPositionPlot().getChartSlider().addListener( listener );
+        movingManApparatusPanel.getPlotSet().getVelocityPlot().getChartSlider().addListener( listener );
+        movingManApparatusPanel.getPlotSet().getAccelerationPlot().getChartSlider().addListener( listener );
         module.addListener( new MovingManModule.Listener() {
             public void reset() {
                 if( !disposed ) {
@@ -70,12 +70,12 @@ public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.L
         }
 
         public Point getLocation() {
-            Point loc = movingManApparatusPanel.getPlotSet().getPositionPlot().getSlider().getBounds().getLocation();
+            Point loc = movingManApparatusPanel.getPlotSet().getPositionPlot().getChartSlider().getBounds().getLocation();
             return loc;
         }
 
         public int getHeight() {
-            return movingManApparatusPanel.getPlotSet().getPositionPlot().getSlider().getHeight();
+            return movingManApparatusPanel.getPlotSet().getPositionPlot().getChartSlider().getHeight();
         }
     }
 }

@@ -5,9 +5,10 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
+import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.HelpItem2;
+import edu.colorado.phet.movingman.model.MMTimer;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
-import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
  */
 
 public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.LayoutItem {
-    private PlotDevice plot;
+    private MMPlot plot;
     private PhetGraphic maximizeButton;
     private boolean plotVisible = true;
     private int plotInsetX = 100;
@@ -41,9 +42,11 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     private HelpItem2 sliderHelpItem;
     private GoPauseClearPanel goPauseClearPanel;
     private MovingManApparatusPanel movingManApparatusPanel;
+    private MovingManModule module;
 
-    public MMPlotSuite( MovingManApparatusPanel movingManApparatusPanel, final MMPlot plot ) {
+    public MMPlotSuite( final MovingManModule module, MovingManApparatusPanel movingManApparatusPanel, final MMPlot plot ) {
         super( movingManApparatusPanel );
+        this.module = module;
         this.movingManApparatusPanel = movingManApparatusPanel;
         this.plot = plot;
         plot.addListener( new PlotDeviceListenerAdapter() {
@@ -68,6 +71,13 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
         addGraphic( goPauseClearGraphic );
 
         textBox = new TextBox( movingManApparatusPanel.getModule(), 4, plot.getVarname() + "=" );
+
+        module.getTimeModel().getPlaybackTimer().addListener( new MMTimer.Listener() {
+            public void timeChanged() {
+                setPlaybackTime( module.getTimeModel().getPlaybackTimer().getTime() );
+            }
+        } );
+
         textBoxGraphic = PhetJComponent.newInstance( movingManApparatusPanel, textBox );
         addGraphic( textBoxGraphic );
         final DecimalFormat df = new DecimalFormat( "0.0#" );
@@ -131,6 +141,15 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
 //            }
 //        } );
     }
+
+    private void setPlaybackTime( double time ) {
+        if( plot.getNumDataSeries() > 0 ) {
+            TimePoint tp = plot.dataSeriesAt( 0 ).getRawData().getValueForTime( time );
+            textBox.setText( decimalFormat.format( tp.getValue() ) );
+        }
+    }
+
+    DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
 //
 //    private void focusTextBox() {
 ////        textBox.setEnabled( false );
@@ -231,7 +250,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
 
         if( getComponent().getWidth() > 0 && height > 0 ) {
             int plotInsetDX = 10;
-            int offsetX = plot.getSlider().getWidth() * 2;
+            int offsetX = plot.getChartSlider().getWidth() * 2;
 //            int offsetX = plot.getSlider().getBounds().x-plot.getChart().getBounds().x;
             int plotWidth = getComponent().getWidth() - textBoxGraphic.getWidth() - plotInsetDX * 2 - offsetX;
             plot.setChartSize( plotWidth, height - 12 );

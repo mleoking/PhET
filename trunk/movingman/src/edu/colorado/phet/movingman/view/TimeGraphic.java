@@ -31,7 +31,8 @@ public class TimeGraphic extends PhetGraphic {
     private FontRenderContext frc;
     private ApparatusPanel apparatusPanel;
 
-    public TimeGraphic( MovingManModule module, MovingManApparatusPanel apparatusPanel, final MMTimer recordingMMTimer, final MMTimer playbackMMTimer, int x, int y ) {
+    public TimeGraphic( MovingManModule module, MovingManApparatusPanel apparatusPanel,
+                        final MMTimer recordingMMTimer, final MMTimer playbackMMTimer, int x, int y ) {
         super( apparatusPanel );
         this.apparatusPanel = apparatusPanel;
         this.module = module;
