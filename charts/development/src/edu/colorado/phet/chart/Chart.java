@@ -64,6 +64,7 @@ public class Chart extends GraphicLayerSet {
         compositeDataSetGraphic = new GraphicLayerSet( component );
         frameGraphic = new PhetShapeGraphic( component, getChartBounds(), new BasicStroke( 1 ), Color.black );
         title = new HTMLGraphic( component, component.getFont(), "Title", Color.black );
+        title.setVisible( false );
 
         addGraphic( backgroundGraphic );
         addGraphic( verticalGridlines );
