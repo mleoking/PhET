@@ -1,2 +1,2 @@
-- Arbitrary number of energy levels for Atom
+- Figure out why energy levels panel needs a dialog around it to paint properly
 - DischargeLampAtom should have configurable likelihood of dropping from a state to some other state

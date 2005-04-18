@@ -105,6 +105,9 @@ public class FluorescentLightModel extends LaserModel implements Electrode.State
         return electronAcceleration;
     }
 
+    public List getAtoms() {
+        return atoms;
+    }
 
     //-----------------------------------------------------------------
     // Event handling

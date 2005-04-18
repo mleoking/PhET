@@ -24,6 +24,7 @@ import java.util.Random;
  * an electron
  */
 public class DischargeLampAtom extends Atom {
+    private static final double DEFAULT_STATE_LIFETIME = 50;
     private Random random = new Random( System.currentTimeMillis() );
 
     /**
@@ -38,7 +39,7 @@ public class DischargeLampAtom extends Atom {
         states[0] = new GroundState();
         for( int i = 1; i < states.length; i++ ) {
             states[i] = new AtomicState();
-            states[i].setMeanLifetime( 0 );
+            states[i].setMeanLifetime( DEFAULT_STATE_LIFETIME );
             states[i].setEnergyLevel( states[i - 1].getEnergyLevel() + de );
             states[i].setNextLowerEnergyState( states[i - 1] );
             states[i - 1].setNextHigherEnergyState( states[i] );

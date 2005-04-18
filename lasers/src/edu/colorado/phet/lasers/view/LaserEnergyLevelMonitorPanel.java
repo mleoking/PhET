@@ -42,7 +42,7 @@ import java.util.Map;
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
  * A disc is drawn on the energy levels for each atom in that state.
  */
-public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedBeam.WavelengthChangeListener,
+public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements CollimatedBeam.WavelengthChangeListener,
                                                                      CollimatedBeam.RateChangeListener,
                                                                      ClockStateListener {
 
@@ -94,7 +94,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements CollimatedB
     /**
      *
      */
-    public EnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock ) {
+    public LaserEnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock ) {
 
         this.module = module;
         model = module.getLaserModel();
