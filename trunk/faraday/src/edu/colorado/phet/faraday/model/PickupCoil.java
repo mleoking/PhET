@@ -31,11 +31,16 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     // Class data
     //----------------------------------------------------------------------------
     
+    /**  Number of sample points above the center of the coil. */
+    public static final int SAMPLE_POINTS_ABOVE = 10;
+    /**  Number of sample points below the center of the coil. */
+    public static final int SAMPLE_POINTS_BELOW = SAMPLE_POINTS_ABOVE;
+    
     // Determines how the magnetic field decreases with the distance from the magnet.
     private static final double DISTANCE_EXPONENT = 2.0;
     
-    // If true, then flux is calculated using an average of sample points.
-    private static final boolean FLUX_AVERAGING_ENABLED = true;
+    // If true, then flux is based on the maximum sample point.
+    private static final boolean USE_MAX_FLUX = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -50,6 +55,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     private AffineTransform _someTransform;
     private Point2D _somePoint;
     private Vector2D _someVector;
+    private double[] _fluxAbove;
+    private double[] _fluxBelow;
     
     // Debugging stuff...
     private double _maxEmf;
@@ -76,6 +83,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         _someTransform = new AffineTransform();
         _somePoint = new Point2D.Double();
         _someVector = new Vector2D();
+        _fluxAbove = new double[ SAMPLE_POINTS_ABOVE ];
+        _fluxBelow = new double[ SAMPLE_POINTS_BELOW ];
         
         // loosely packed loops
         setLoopSpacing( 1.5 * getWireWidth() );
@@ -150,13 +159,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             double theta = Math.abs( _someVector.getAngle() - getDirection() );
             centerFlux = B * A * Math.cos( theta );
         }
+        double maxFlux = centerFlux;
         
-        // Flux at the top edge of the coil.
-        double topFlux = 0;
-        {
-            // Determine the point that corresponds to the top edge.
+        // Flux above the center of the coil.
+        for ( int i = 0; i < _fluxAbove.length; i++ ) {
+
+            // Sample point, based on radius.
             double x = getX();
-            double y = getY() - getRadius();
+            double y = getY() - ( ( i + 1 ) * ( getRadius() / _fluxAbove.length ) );
             _somePoint.setLocation( x, y );
             if ( getDirection() != 0 ) {
                 // Adjust for rotation.
@@ -171,15 +181,20 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             // Calculate the flux.
             double B = _someVector.getMagnitude();
             double theta = Math.abs( _someVector.getAngle() - getDirection() );
-            topFlux = B * A * Math.cos( theta );
+            _fluxAbove[i] = B * A * Math.cos( theta );
+            
+            // Keep track of the maximum flux.
+            if ( Math.abs( _fluxAbove[i] ) > Math.abs( maxFlux ) ) {
+                maxFlux = _fluxAbove[i];
+            }
         }
         
-        // Flux at the bottom edge of the coil.
-        double bottomFlux = 0;
-        {
-            // Determine the point that corresponds to the bottom edge.
+        // Flux below the center of the coil.
+        for ( int i = 0; i < _fluxBelow.length; i++ ) {
+            
+            // Sample point, based on radius.
             double x = getX();
-            double y = getY() + getRadius();
+            double y = getY() + ( ( i + 1 ) * ( getRadius() / _fluxBelow.length ) );
             _somePoint.setLocation( x, y );
             if ( getDirection() != 0 ) {
                 // Adjust for rotation.
@@ -194,24 +209,31 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             // Calculate the flux.
             double B = _someVector.getMagnitude();
             double theta = Math.abs( _someVector.getAngle() - getDirection() );
-            bottomFlux = B * A * Math.cos( theta ); 
+            _fluxBelow[i] = B * A * Math.cos( theta ); 
+            
+            // Keep track of the maximum flux.
+            if ( Math.abs( _fluxBelow[i] ) > Math.abs( maxFlux ) ) {
+                maxFlux = _fluxBelow[i];
+            }
         }
         
         // Calculate the flux in one loop.
         double loopFlux;
-        if ( FLUX_AVERAGING_ENABLED ) {
-            // Use an average of the sample points.
-            loopFlux = ( centerFlux + topFlux + bottomFlux ) / 3;
+        if ( USE_MAX_FLUX ) {
+            // Use the sample point with the largest flux.
+            loopFlux = maxFlux;
         }
         else {
-            // Use the sample point with the largest flux.
-            loopFlux = centerFlux;
-            if ( Math.abs( topFlux ) > Math.abs( loopFlux ) ) {
-                loopFlux = topFlux;
+            // Use an average of the sample points.
+            double fluxSum = centerFlux;
+            for ( int i = 0; i < _fluxAbove.length; i++ ) {
+                fluxSum += _fluxAbove[i];
             }
-            if ( Math.abs( bottomFlux ) > Math.abs( loopFlux ) ) {
-                loopFlux = bottomFlux;
+            for ( int i = 0; i < _fluxBelow.length; i++ ) {
+                fluxSum += _fluxBelow[i];
             }
+            double numberOfPoints = ( 1 + _fluxAbove.length + _fluxBelow.length );
+            loopFlux = fluxSum / numberOfPoints;
         }
         
         // Calculate the total flux in the coil.
