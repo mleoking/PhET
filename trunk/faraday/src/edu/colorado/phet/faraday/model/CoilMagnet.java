@@ -155,13 +155,24 @@ public abstract class CoilMagnet extends AbstractMagnet {
     private void getStrengthOutside( Point2D p, Vector2D outputVector /* output */, double distanceExponent ) {
         assert( p != null );
         assert( outputVector != null );
+        assert( getWidth() == getHeight() );
         
-        // XXX - This is bogus, substitude correct model here.
-        {
-            outputVector.setXY( p.getX(), p.getY() );
-            double distance = outputVector.getMagnitude();
-            double strength = getStrength() / distance;
-            outputVector.setMagnitude( strength );
-        }
+//        // XXX - This is bogus, substitude correct model here.
+//        {
+//            outputVector.setXY( p.getX(), p.getY() );
+//            double distance = outputVector.getMagnitude();
+//            double strength = getStrength() / distance;
+//            outputVector.setMagnitude( strength );
+//        }
+        
+        double x = p.getX();
+        double y = p.getY();
+        double R = getWidth() / 2;
+        double m = getStrength() * Math.pow( R, 3 ) / 2;
+        double C1 = m / Math.pow( ( x * x ) + ( y * y ), 1.5 );
+        double C2 = ( x * x ) + ( y * y );
+        double Bx = C1 * ( ( ( 3 * x * x ) / C2 ) - 1 );
+        double By = C1 * ( ( ( 3 * x * y ) / C2 ) - 1 );
+        outputVector.setXY( Bx, By );
     }
 }
