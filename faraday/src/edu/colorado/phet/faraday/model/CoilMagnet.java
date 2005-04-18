@@ -122,12 +122,16 @@ public abstract class CoilMagnet extends AbstractMagnet {
      * <br>By = Y component of the B field
      * <p>
      * Inside the coil (r <= R) :
-     * <br>Bx = (2 * m) / (R **3)
+     * <br>Bx = ( 2 * m ) / R^3 = magnet strength
      * <br>By = 0
      * <p>
      * Outside the coil (r > R) :
-     * <br>Bx = (m / (r**3)) * ((3 * cos(theta) * cos(theta)) - 1)
-     * <br>By = (m / (r**3)) * ((3 * cos(theta) * sin(theta)) - 1)
+     * <br>Bx = ( m / r^3 ) * ( ( 3 * cos(theta) * cos(theta) ) - 1 )
+     * <br>By = ( m / r^3 ) * ( ( 3 * cos(theta) * sin(theta) ) - 1 )
+     * <br>where:
+     * <br>r = sqrt( x^2 + y^2 )
+     * <br>cos(theta) = x / r
+     * <br>sin(theta) = y / r
      * 
      * @param p
      * @param outputVector
@@ -232,8 +236,8 @@ public abstract class CoilMagnet extends AbstractMagnet {
             double R = getWidth() / 2;
             
             /*
-             * Inside the magnet, Bx = magnet strength = (2 * m) / (R **3).
-             * Rewriting this gives us m = Bx * (R**3) / 2.
+             * Inside the magnet, Bx = magnet strength = (2 * m) / (R^3).
+             * Rewriting this gives us m = (magnet strength) * (R^3) / 2.
              */
             double m = getStrength() * Math.pow( R, distanceExponent ) / 2;
             
