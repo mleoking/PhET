@@ -134,17 +134,29 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      * Sets up the control panel
      */
     private void addControls() {
-        final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0 );
+
+        // A slider for the battery voltage
+       final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0 );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.add( batterySlider );
-
         batterySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 cathode.setPotential( batterySlider.getValue() );
                 anode.setPotential( 0 );
             }
         } );
+
+        // A slider for the battery current
+        final ModelSlider currentSlider = new ModelSlider( "Current", "electrons/msec", 0, 0.3, 0);
+        currentSlider.setPreferredSize( new Dimension( 250, 100 ));
+        controlPanel.add( currentSlider );
+        currentSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                cathode.setCurrent( currentSlider.getValue() );
+            }
+        } );
+
     }
 
     /**
@@ -258,6 +270,10 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         ElectronGraphic graphic = new ElectronGraphic( getApparatusPanel(), electron );
         getApparatusPanel().addGraphic( graphic, FluorescentLightsConfig.ELECTRON_LAYER );
         anode.addListener( new AbsorptionElectronAbsorptionListener( electron, graphic ) );
+    }
+
+    protected ElectronSource getCathode() {
+        return cathode;
     }
 
     //-----------------------------------------------------------------

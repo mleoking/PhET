@@ -45,7 +45,7 @@ public class FluorescentLightsConfig {
                                                                ANODE_LOCATION.getY() + ANODE_LENGTH / 2 );
     public static final Insets ELECTRODE_INSETS = new Insets( 15, 30, 15, 30 );
 
-    public static final int NUM_ENERGY_LEVELS = 5;
+    public static final int NUM_ENERGY_LEVELS = 3;
 
     // Images
     public static final String IMAGE_FILE_DIRECTORY = "images";

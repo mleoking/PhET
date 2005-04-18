@@ -38,6 +38,7 @@ public class ElectronSource extends Electrode {
     private Point2D p2;
 
     private BaseModel model;
+    private double sinkPotential;
 
     /**
      * Emits electrons along a line between two points
@@ -73,14 +74,16 @@ public class ElectronSource extends Electrode {
      * Produce a single electron, and notify all listeners that it has happened
      */
     public void produceElectron() {
-        Electron electron = new Electron();
+        if( this.getPotential() - sinkPotential > 0 ) {
+            Electron electron = new Electron();
 
-        // Determine where the electron will be emitted from
-        double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
-        double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
-        electron.setPosition( x, y );
-        model.addModelElement( electron );
-        electronProductionListenerProxy.electronProduced( new ElectronProductionEvent( this, electron ) );
+            // Determine where the electron will be emitted from
+            double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
+            double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
+            electron.setPosition( x, y );
+            model.addModelElement( electron );
+            electronProductionListenerProxy.electronProduced( new ElectronProductionEvent( this, electron ) );
+        }
     }
 
     //-----------------------------------------------------------------
@@ -95,7 +98,27 @@ public class ElectronSource extends Electrode {
     }
 
     public void setSinkPotential( double sinkPotential ) {
-        setElectronsPerSecond( this.getPotential() - sinkPotential );
+        this.sinkPotential = sinkPotential;
+//        setElectronsPerSecond( this.getPotential() - sinkPotential );
+    }
+
+    public void setCurrent( double current ) {
+        setElectronsPerSecond( current );
+    }
+
+
+    /**
+     * Sets the length of the electrode. Fields p1 and p2 are modified
+     *
+     * @param newLength
+     */
+    public void setLength( double newLength ) {
+        double currLength = p1.distance( p2 );
+        double ratio = newLength / currLength;
+        p1.setLocation( getPosition().getX() + ( p1.getX() - getPosition().getX() ) * ratio,
+                        getPosition().getY() + ( p1.getY() - getPosition().getY() ) * ratio );
+        p2.setLocation( getPosition().getX() + ( p2.getX() - getPosition().getX() ) * ratio,
+                        getPosition().getY() + ( p2.getY() - getPosition().getY() ) * ratio );
     }
 
 

@@ -65,7 +65,7 @@ public class BaseLaserModule extends Module {
     private MirrorGraphic rightMirrorGraphic;
     private MirrorGraphic leftMirrorGraphic;
     private PhetFrame appFrame;
-    private EnergyLevelMonitorPanel energyLevelsMonitorPanel;
+    private LaserEnergyLevelMonitorPanel laserEnergyLevelsMonitorPanel;
     private CollimatedBeam seedBeam;
     private CollimatedBeam pumpingBeam;
     private JPanel reflectivityControlPanel;
@@ -155,8 +155,8 @@ public class BaseLaserModule extends Module {
      * @param frame
      */
     protected void createEnergyLevelsDialog( AbstractClock clock, PhetFrame frame ) {
-        energyLevelsMonitorPanel = new EnergyLevelMonitorPanel( this, clock );
-        energyLevelsDialog = new EnergyLevelsDialog( appFrame, energyLevelsMonitorPanel );
+        laserEnergyLevelsMonitorPanel = new LaserEnergyLevelMonitorPanel( this, clock );
+        energyLevelsDialog = new EnergyLevelsDialog( appFrame, laserEnergyLevelsMonitorPanel );
     }
 
     /**
@@ -400,16 +400,16 @@ public class BaseLaserModule extends Module {
         return pumpingBeam;
     }
 
-    public EnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
-        return energyLevelsMonitorPanel;
+    public LaserEnergyLevelMonitorPanel getEnergyLevelsMonitorPanel() {
+        return laserEnergyLevelsMonitorPanel;
     }
 
     public void setEnergyLevelsAveragingPeriod( double value ) {
-        energyLevelsMonitorPanel.setAveragingPeriod( (long)value );
+        laserEnergyLevelsMonitorPanel.setAveragingPeriod( (long)value );
     }
 
     public double getEnerglyLevelsAveragingPeriod() {
-        return energyLevelsMonitorPanel.getAveragingPeriod();
+        return laserEnergyLevelsMonitorPanel.getAveragingPeriod();
     }
 
     public void setDisplayHighLevelEmissions( boolean display ) {
