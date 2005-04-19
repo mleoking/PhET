@@ -49,7 +49,7 @@ PHETCOMMON:
 DONE:
 v0r24...
 (4/19) - add some missing constants in modules, adjust constant names for consistency between modules
-(4/19) - adjust scaling of lightbulb/voltmeter/electrons to account for new electromagnet model
+(4/19) - adjust scaling of lightbulb/voltmeter/electrons in Transformer module to account for new electromagnet model
 (4/19) - fixed Options>GridControl, grid's cache was broken
 (4/19) - factor out Option menu and Developer menu into their own class files
 (4/19) - add a couple of spaces to end of strings for wiggle mes and challenges, so they don't leave screen turds
