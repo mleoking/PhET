@@ -257,6 +257,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
 
             if ( !_dragEnabled && getBounds().contains( event.getPoint() ) ) {
                 _dragEnabled = true;
+                _previousPoint.setLocation( event.getPoint() );
             }
             
             if ( _dragEnabled ) {
@@ -278,10 +279,9 @@ public class BarMagnetGraphic extends PhetImageGraphic
                     double x = _magnetModel.getX() + dx;
                     double y = _magnetModel.getY() + dy;
                     _magnetModel.setLocation( x, y );
+                    _previousPoint.setLocation( event.getPoint() );
                 }
             }
-
-            _previousPoint.setLocation( event.getPoint() );
         }
     }
 }

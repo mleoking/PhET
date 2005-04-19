@@ -332,6 +332,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         public void mouseDragged( MouseEvent event ) {
             if ( !_dragEnabled && getBounds().contains( event.getPoint() ) ) {
                 _dragEnabled = true;
+                _previousPoint.setLocation( event.getPoint() );
             }
             
             if ( _dragEnabled ) {
@@ -346,11 +347,10 @@ public class FieldMeterGraphic extends CompositePhetGraphic
                     int x = getX() + dx;
                     int y = getY() + dy;
                     setLocation( x, y );
+                    _previousPoint.setLocation( event.getPoint() );
                     update();
                 }
-            }
-            
-            _previousPoint.setLocation( event.getPoint() );
+            }   
         }
     }
 }
