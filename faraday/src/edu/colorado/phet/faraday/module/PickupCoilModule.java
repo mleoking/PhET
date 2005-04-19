@@ -14,23 +14,18 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-
-import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
-import edu.colorado.phet.faraday.control.panel.VerticalSpacePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.util.Vector2D;
 import edu.colorado.phet.faraday.view.*;
@@ -213,7 +208,7 @@ public class PickupCoilModule extends FaradayModule {
         
         // Control Panel
         {
-            ControlPanel controlPanel = new ControlPanel( this );
+            FaradayControlPanel controlPanel = new FaradayControlPanel( this );
             setControlPanel( controlPanel );
             
             // Bar Magnet controls
@@ -224,8 +219,7 @@ public class PickupCoilModule extends FaradayModule {
             controlPanel.addFullWidth( _barMagnetPanel );
             
             // Spacer
-            VerticalSpacePanel spacePanel = new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT );
-            controlPanel.addFullWidth( spacePanel );
+            controlPanel.addVerticalSpace( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT );
             
             // Pickup Coil controls
             _pickupCoilPanel = new PickupCoilPanel( 
@@ -234,20 +228,14 @@ public class PickupCoilModule extends FaradayModule {
             
             // Scaling calibration
             if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
-                controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
+                controlPanel.addVerticalSpace( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT );
                 
                 ScalePanel scalePanel = new ScalePanel( _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
                 controlPanel.addFullWidth( scalePanel );
             }
             
             // Reset button
-            JButton resetButton = new JButton( SimStrings.get( "Reset.button" ) );
-            resetButton.addActionListener( new ActionListener() { 
-                public void actionPerformed( ActionEvent e ) {
-                    reset();
-                }
-            } );
-            controlPanel.add( resetButton );
+            controlPanel.addResetButton();
         }
 
         reset();
@@ -263,13 +251,13 @@ public class PickupCoilModule extends FaradayModule {
     }
     
     //----------------------------------------------------------------------------
-    // Event handlers
+    // FaradayModule implementation
     //----------------------------------------------------------------------------
     
     /**
-     * Handles the "Reset" button, resets everything thing to the initial state.
+     * Resets everything to the initial state.
      */
-    private void reset() {
+    public void reset() {
         
         // Bar Magnet model
         _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );

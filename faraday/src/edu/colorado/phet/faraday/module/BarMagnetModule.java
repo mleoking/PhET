@@ -14,19 +14,15 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-
-import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
+import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
@@ -157,7 +153,7 @@ public class BarMagnetModule extends FaradayModule {
 
         // Control Panel
         {
-            ControlPanel controlPanel = new ControlPanel( this );
+            FaradayControlPanel controlPanel = new FaradayControlPanel( this );
             setControlPanel( controlPanel );
             
             // Bar Magnet controls
@@ -167,13 +163,7 @@ public class BarMagnetModule extends FaradayModule {
             controlPanel.addFullWidth( _barMagnetPanel );
             
             // Reset button
-            JButton resetButton = new JButton( SimStrings.get( "Reset.button" ) );
-            resetButton.addActionListener( new ActionListener() { 
-                public void actionPerformed( ActionEvent e ) {
-                    reset();
-                }
-            } );
-            controlPanel.add( resetButton ); 
+            controlPanel.addResetButton(); 
         }
         
         reset();
@@ -189,13 +179,13 @@ public class BarMagnetModule extends FaradayModule {
     }
     
     //----------------------------------------------------------------------------
-    // Event handlers
+    // FaradayModule implementation
     //----------------------------------------------------------------------------
     
     /**
-     * Handles the "Reset" button, resets everything thing to the initial state.
+     * Resets everything to the initial state.
      */
-    private void reset() {
+    public void reset() {
         
         // Bar Magnet model
         _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );

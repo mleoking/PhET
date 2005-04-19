@@ -65,6 +65,11 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
         return _gridGraphic;
     }
 
+    /**
+     * Resets the module to its initial state.
+     */
+    public abstract void reset();
+    
     //----------------------------------------------------------------------------
     // Debugging
     //----------------------------------------------------------------------------
