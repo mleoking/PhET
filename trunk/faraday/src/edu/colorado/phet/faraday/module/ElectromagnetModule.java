@@ -36,7 +36,7 @@ import edu.colorado.phet.faraday.view.*;
 
 
 /**
- * TransformerModule
+ * ElectromagnetModule is the "Electromagnet" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
