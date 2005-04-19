@@ -55,7 +55,6 @@ public class ChartSlider extends GraphicLayerSet {
                 updateLocation();
             }
         } );
-
     }
 
     public double getValue() {
@@ -74,7 +73,7 @@ public class ChartSlider extends GraphicLayerSet {
     public void updateLocation() {
         Rectangle viewBounds = chart.getChartBounds();
         viewBounds.x -= chart.getVerticalTicks().getWidth() - 5;
-        System.out.println( "viewBounds = " + viewBounds );
+//        System.out.println( "viewBounds = " + viewBounds );
         int x = viewBounds.x;
         int y = viewBounds.y;
         Dimension iconDim = getIconDimension();
@@ -89,7 +88,7 @@ public class ChartSlider extends GraphicLayerSet {
 
         setLocation( newShape.x, newShape.y );
         sliderGraphic.repaint();
-        System.out.println( "sliderGraphic = " + sliderGraphic.getBounds() );
+//        System.out.println( "sliderGraphic = " + sliderGraphic.getBounds() );
     }
 
     public void setBounds( int x, int y, int width, int height ) {
@@ -101,7 +100,7 @@ public class ChartSlider extends GraphicLayerSet {
     private Dimension getIconDimension() {
         Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
         String str = vert != null ? vert.getIconHeight() + "" : "null";
-        System.out.println( "vert.getIconHeight() = " + str );
+//        System.out.println( "vert.getIconHeight() = " + str );
         if( vert == null ) {
             return new Dimension( preferredWidth, preferredWidth );
         }

@@ -70,7 +70,8 @@ public class Chart extends GraphicLayerSet {
         addGraphic( verticalGridlines );
         addGraphic( horizonalGridlines );
         addGraphic( verticalTicks );
-        addGraphic( horizontalTicks );
+//        addGraphic( horizontalTicks );//todo this is a bug, just removed for convenience
+        //the bounds were computed in GraphicLayerSet with invisible graphics thrown in.
         addGraphic( xAxis );
         addGraphic( yAxis );
         addGraphic( compositeDataSetGraphic );
