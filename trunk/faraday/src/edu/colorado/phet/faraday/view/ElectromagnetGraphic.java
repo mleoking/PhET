@@ -266,6 +266,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
 
             if ( !_dragEnabled && contains( event.getPoint() ) ) {
                 _dragEnabled = true;
+                _previousPoint.setLocation( event.getPoint() );
             }
             
             if ( _dragEnabled ) {
@@ -287,10 +288,9 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
                     double x = _electromagnetModel.getX() + dx;
                     double y = _electromagnetModel.getY() + dy;
                     _electromagnetModel.setLocation( x, y );
+                    _previousPoint.setLocation( event.getPoint() );
                 }
             }
-            
-            _previousPoint.setLocation( event.getPoint() );
         }
     }
 }

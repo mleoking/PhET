@@ -243,6 +243,7 @@ public class CompassGraphic extends CompositePhetGraphic
 
             if ( !_dragEnabled && getBounds().contains( event.getPoint() ) ) {
                 _dragEnabled = true;
+                _previousPoint.setLocation( event.getPoint() );
             }
             
             if ( _dragEnabled ) {
@@ -264,10 +265,9 @@ public class CompassGraphic extends CompositePhetGraphic
                     double x = _compassModel.getX() + dx;
                     double y = _compassModel.getY() + dy;
                     _compassModel.setLocation( x, y );
+                    _previousPoint.setLocation( event.getPoint() );
                 }
             }
-            
-            _previousPoint.setLocation( event.getPoint() );
         }
     }
     

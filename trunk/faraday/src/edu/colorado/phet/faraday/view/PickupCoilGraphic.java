@@ -347,6 +347,7 @@ public class PickupCoilGraphic
 
             if ( !_dragEnabled && contains( event.getPoint() ) ) {
                 _dragEnabled = true;
+                _previousPoint.setLocation( event.getPoint() );
             }
             
             if ( _dragEnabled ) {
@@ -368,10 +369,9 @@ public class PickupCoilGraphic
                     double x = _pickupCoilModel.getX() + dx;
                     double y = _pickupCoilModel.getY() + dy;
                     _pickupCoilModel.setLocation( x, y );
+                    _previousPoint.setLocation( event.getPoint() );
                 }
             }
-            
-            _previousPoint.setLocation( event.getPoint() );
         }
     }
     
