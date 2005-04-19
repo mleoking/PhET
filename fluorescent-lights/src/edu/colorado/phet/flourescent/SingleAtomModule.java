@@ -69,20 +69,25 @@ public class SingleAtomModule extends DischargeLampModule {
      *
      */
     private void addControls() {
-        // Add a button for firing a single electron
-        JButton singleShotBtn = new JButton( "Fire electron");
-        singleShotBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getCathode().produceElectron();
-            }
-        } );
-        getControlPanel().add( singleShotBtn );
 
         // Add an energy level monitor panel
-        EnergyLevelMonitorPanel elmp = new EnergyLevelMonitorPanel( this, getClock(), atom.getStates() );
+        final EnergyLevelMonitorPanel elmp = new EnergyLevelMonitorPanel( this, getClock(), atom.getStates(), 150, 300 );
         new EnergyLevelsDialog( null, elmp );
 
         getControlPanel().add( elmp );
+
+        // Add a button for firing a single electron. This also tells the energy level panel that if an
+        // electron has been produced
+        JButton singleShotBtn = new JButton( "Fire electron" );
+        singleShotBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                Electron electron = getCathode().produceElectron();
+                if( electron != null ) {
+                    elmp.addElectron( electron );
+                }
+            }
+        } );
+        getControlPanel().add( singleShotBtn );
     }
 
     /**
@@ -91,10 +96,10 @@ public class SingleAtomModule extends DischargeLampModule {
      * @param tube
      * @param numEnergyLevels
      */
-    private void addAtom( ResonatingCavity tube, int numEnergyLevels) {
+    private void addAtom( ResonatingCavity tube, int numEnergyLevels ) {
         Rectangle2D tubeBounds = tube.getBounds();
         atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
-        atom.setPosition( tubeBounds.getX() + tubeBounds.getWidth() / 2 ,
+        atom.setPosition( tubeBounds.getX() + tubeBounds.getWidth() / 2,
                           tubeBounds.getY() + tubeBounds.getHeight() / 2 );
         AtomGraphic atomGraphic = addAtom( atom );
 
@@ -102,7 +107,7 @@ public class SingleAtomModule extends DischargeLampModule {
         Rectangle2D atomBounds = new Rectangle2D.Double( tubeBounds.getMinX() + atom.getRadius(),
                                                          tubeBounds.getMinY() + atom.getRadius(),
                                                          tubeBounds.getWidth() - atom.getRadius() * 2,
-                                                         tubeBounds.getHeight() - atom.getRadius() * 2);
+                                                         tubeBounds.getHeight() - atom.getRadius() * 2 );
         atomGraphic.setIsMouseable( true, atomBounds );
         atomGraphic.setCursorHand();
     }

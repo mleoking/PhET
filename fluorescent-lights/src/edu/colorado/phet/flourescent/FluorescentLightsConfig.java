@@ -26,6 +26,8 @@ public class FluorescentLightsConfig {
     // Localization
     public static final String localizedStringsPath = "localization/FluorescentLightsStrings";
 
+    public static final int NUM_ENERGY_LEVELS = 5;
+
     // Object locations and dimensions. Everything is keyed off the location of the cathode
     public static final double ELECTRON_RADIUS = 3;
     public static final int ELECTRODE_Y_LOCATION = 300;
@@ -45,7 +47,6 @@ public class FluorescentLightsConfig {
                                                                ANODE_LOCATION.getY() + ANODE_LENGTH / 2 );
     public static final Insets ELECTRODE_INSETS = new Insets( 15, 30, 15, 30 );
 
-    public static final int NUM_ENERGY_LEVELS = 3;
 
     // Images
     public static final String IMAGE_FILE_DIRECTORY = "images";
@@ -55,4 +56,8 @@ public class FluorescentLightsConfig {
     public static final double ELECTRON_LAYER = 100;
     public static final double TUBE_LAYER = 110;
     public static final double CIRCUIT_LAYER = 120;
+
+    // Clock specification
+    public static final double DT = 12;
+    public static final int FPS = 25;
 }

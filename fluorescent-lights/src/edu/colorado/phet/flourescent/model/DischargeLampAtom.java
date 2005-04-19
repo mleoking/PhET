@@ -16,6 +16,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.flourescent.FluorescentLightsConfig;
 
 import java.util.Random;
 
@@ -24,7 +25,7 @@ import java.util.Random;
  * an electron
  */
 public class DischargeLampAtom extends Atom {
-    private static final double DEFAULT_STATE_LIFETIME = 50;
+    private static final double DEFAULT_STATE_LIFETIME = FluorescentLightsConfig.DT * 6;
     private Random random = new Random( System.currentTimeMillis() );
 
     /**
@@ -88,8 +89,8 @@ public class DischargeLampAtom extends Atom {
             // Put the atom in the randomly picked state, and reduce the energy of the electron by the difference
             // in energy between the new state and the old state
             double energyDiff = newState.getEnergyLevel() - currState.getEnergyLevel();
-            electron.setEnergy( electron.getEnergy() - energyDiff );
             this.setCurrState( newState );
+            electron.setEnergy( electron.getEnergy() - energyDiff );
         }
     }
 
@@ -101,5 +102,4 @@ public class DischargeLampAtom extends Atom {
     public AtomicState getEnergyStateAfterEmission() {
         return getStates()[0];
     }
-
 }

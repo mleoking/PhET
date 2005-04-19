@@ -136,7 +136,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     private void addControls() {
 
         // A slider for the battery voltage
-       final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0 );
+       final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0.05 );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
         ControlPanel controlPanel = (ControlPanel)getControlPanel();
         controlPanel.add( batterySlider );
@@ -146,6 +146,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
                 anode.setPotential( 0 );
             }
         } );
+        cathode.setPotential( batterySlider.getValue() );
 
         // A slider for the battery current
         final ModelSlider currentSlider = new ModelSlider( "Current", "electrons/msec", 0, 0.3, 0);
