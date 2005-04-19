@@ -127,7 +127,7 @@ public abstract class CoilMagnet extends AbstractMagnet {
      * <p>
      * Outside the coil (r > R) :
      * <br>Bx = ( m / r^3 ) * ( ( 3 * cos(theta) * cos(theta) ) - 1 )
-     * <br>By = ( m / r^3 ) * ( ( 3 * cos(theta) * sin(theta) ) - 1 )
+     * <br>By = ( m / r^3 ) * ( 3 * cos(theta) * sin(theta) )
      * <br>where:
      * <br>r = sqrt( x^2 + y^2 )
      * <br>cos(theta) = x / r
@@ -202,62 +202,38 @@ public abstract class CoilMagnet extends AbstractMagnet {
      * @param distanceExponent
      */
     private void getStrengthOutside( Point2D p, Vector2D outputVector /* output */, double distanceExponent ) {
-        assert( p != null );
-        assert( outputVector != null );
-        assert( getWidth() == getHeight() );
-        
-//        // Totally bogus model.
-//        {
-//            outputVector.setXY( p.getX(), p.getY() );
-//            double distance = outputVector.getMagnitude();
-//            double strength = getStrength() / distance;
-//            outputVector.setMagnitude( strength );
-//        }
-        
-//        // Distance exponent fixed at 3.
-//        {
-//            double x = p.getX();
-//            double y = p.getY();
-//            double radius = getWidth() / 2;
-//            double m = getStrength() * Math.pow( radius, 3 ) / 2;
-//            double C1 = m / Math.pow( ( x * x ) + ( y * y ), 1.5 );
-//            double C2 = ( x * x ) + ( y * y );
-//            double Bx = C1 * ( ( ( 3 * x * x ) / C2 ) - 1 );
-//            double By = C1 * ( ( ( 3 * x * y ) / C2 ) - 1 );
-//            outputVector.setXY( Bx, By );
-//        }
-        
-        // Variable distance exponent.
-        {
-            // Elemental terms
-            double x = p.getX();
-            double y = p.getY();
-            double r = Math.sqrt( ( x * x ) + ( y * y ) );
-            double R = getWidth() / 2;
-            
-            /*
-             * Inside the magnet, Bx = magnet strength = (2 * m) / (R^3).
-             * Rewriting this gives us m = (magnet strength) * (R^3) / 2.
-             */
-            double m = getStrength() * Math.pow( R, distanceExponent ) / 2;
-            
-            // Recurring terms
-            double C1 = m / Math.pow( r, distanceExponent );
-            double cosTheta = x / r;
-            double sinTheta = y / r;
-            
-            // B-field component vectors
-            double Bx = C1 * ( ( 3 * cosTheta * cosTheta ) - 1 );
-            double By = C1 * ( ( 3 * cosTheta * sinTheta ) - 1 );
-            
-            // B-field vector
-            outputVector.setXY( Bx, By );
-        }
-        
+        assert ( p != null );
+        assert ( outputVector != null );
+        assert ( getWidth() == getHeight() );
+
+        // Elemental terms
+        double x = p.getX();
+        double y = p.getY();
+        double r = Math.sqrt( ( x * x ) + ( y * y ) );
+        double R = getWidth() / 2;
+
+        /*
+         * Inside the magnet, Bx = magnet strength = (2 * m) / (R^3).
+         * Rewriting this gives us m = (magnet strength) * (R^3) / 2.
+         */
+        double m = getStrength() * Math.pow( R, distanceExponent ) / 2;
+
+        // Recurring terms
+        double C1 = m / Math.pow( r, distanceExponent );
+        double cosTheta = x / r;
+        double sinTheta = y / r;
+
+        // B-field component vectors
+        double Bx = C1 * ( ( 3 * cosTheta * cosTheta ) - 1 );
+        double By = C1 * ( 3 * cosTheta * sinTheta );
+
+        // B-field vector
+        outputVector.setXY( Bx, By );
+
         // Use this to calibrate.
         if ( outputVector.getMagnitude() > _maxStrengthOutside ) {
             _maxStrengthOutside = outputVector.getMagnitude();
-//            System.out.println( "CoilMagnet: maxStrengthOutside=" + _maxStrengthOutside ); // DEBUG
+            // System.out.println( "CoilMagnet: maxStrengthOutside=" + _maxStrengthOutside ); // DEBUG
         }
     }
 }
