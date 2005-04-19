@@ -61,8 +61,11 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
      */
     public void update() {
      
-        // The magnet size is a circle that has the same radius as the coil.
-        double diameter = 2 * _sourceCoilModel.getRadius();
+        /* 
+         * The magnet size is a circle that has the same radius as the coil.
+         * Adding half the wire width makes it look a little better.
+         */
+        double diameter = ( 2 * _sourceCoilModel.getRadius() ) +  ( _sourceCoilModel.getWireWidth() / 2 );
         super.setSize( diameter, diameter );
         
         // Get the voltage across the ends of the coil.
