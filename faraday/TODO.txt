@@ -15,6 +15,7 @@ MEDIUM PRIORITY:
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
 LOW PRIORITY:
+- remove dead code in FaradayApplication, FaradayModule
 - add a model component for the Field Meter
 - generalize BarMagnetGraphic.MouseHandler into some type of delegate/decorator
 - check for unnecessary notification, events and updates
@@ -48,6 +49,7 @@ PHETCOMMON:
 
 DONE:
 v0r24...
+(4/19) - handle null _gridGraphic in FaradayModule 
 (4/19) - created FaradayControlPanel that contains common control panel things (reset button, vertical space)
 (4/19) - add some missing constants in modules, adjust constant names for consistency between modules
 (4/19) - adjust scaling of lightbulb/voltmeter/electrons in Transformer module to account for new electromagnet model
