@@ -37,7 +37,7 @@ import edu.colorado.phet.faraday.view.*;
 
 
 /**
- * PickupCoilModule
+ * PickupCoilModule is the "Pickup Coil" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

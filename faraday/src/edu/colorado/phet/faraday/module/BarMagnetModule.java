@@ -35,7 +35,7 @@ import edu.colorado.phet.faraday.view.*;
 
 
 /**
- * BarMagnetModule
+ * BarMagnetModule is the "Bar Magnet" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
