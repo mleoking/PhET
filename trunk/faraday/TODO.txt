@@ -48,6 +48,7 @@ PHETCOMMON:
 
 DONE:
 v0r24...
+(4/19) - created FaradayControlPanel that contains common control panel things (reset button, vertical space)
 (4/19) - add some missing constants in modules, adjust constant names for consistency between modules
 (4/19) - adjust scaling of lightbulb/voltmeter/electrons in Transformer module to account for new electromagnet model
 (4/19) - fixed Options>GridControl, grid's cache was broken
