@@ -206,14 +206,21 @@ public class PickupCoilPanel extends FaradayPanel {
         _voltmeterRadioButton.addActionListener( listener );
         _electronsCheckBox.addActionListener( listener );
 
-        // Update control panel to match the components that it's controlling.
+        // Set the state of the controls.
+        update();
+    }
+
+    /**
+     * Updates the control panel to match the state of the things that it's controlling.
+     */
+    public void update() {
         _loopsSpinner.setValue( new Integer( _pickupCoilModel.getNumberOfLoops() ) );
         _areaSlider.setValue( (int) ( 100.0 * _pickupCoilModel.getLoopArea() / FaradayConfig.MAX_PICKUP_LOOP_AREA ) );
         _lightbulbRadioButton.setSelected( _lightbulbModel.isEnabled() );
         _voltmeterRadioButton.setSelected( _voltmeterModel.isEnabled() );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
     }
-
+    
     //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------

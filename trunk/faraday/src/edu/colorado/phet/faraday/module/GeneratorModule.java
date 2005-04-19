@@ -14,6 +14,10 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -66,6 +70,21 @@ public class GeneratorModule extends FaradayModule {
     private static final double LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
     
     //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private Turbine _turbineModel;
+    private Compass _compassModel;
+    private PickupCoil _pickupCoilModel;
+    private Lightbulb _lightbulbModel;
+    private Voltmeter _voltmeterModel;
+    private PickupCoilGraphic _pickupCoilGraphic;
+    private CompassGridGraphic _gridGraphic;
+    private FieldMeterGraphic _fieldMeterGraphic;
+    private PickupCoilPanel _pickupCoilPanel;
+    private TurbinePanel _turbinePanel;
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -87,42 +106,43 @@ public class GeneratorModule extends FaradayModule {
         this.setModel( model );
         
         // Turbine
-        Turbine turbineModel = new Turbine();
-        turbineModel.setMaxStrength( FaradayConfig.TURBINE_STRENGTH_MAX );
-        turbineModel.setMinStrength( FaradayConfig.TURBINE_STRENGTH_MIN );
-        turbineModel.setStrength( 0.75 * FaradayConfig.TURBINE_STRENGTH_MAX );
-        turbineModel.setLocation( TURBINE_LOCATION );
-        turbineModel.setDirection( 0 /* radians */ );
+        _turbineModel = new Turbine();
+        _turbineModel.setMaxStrength( FaradayConfig.TURBINE_STRENGTH_MAX );
+        _turbineModel.setMinStrength( FaradayConfig.TURBINE_STRENGTH_MIN );
+        _turbineModel.setStrength( 0.75 * FaradayConfig.TURBINE_STRENGTH_MAX );
+        _turbineModel.setLocation( TURBINE_LOCATION );
+        _turbineModel.setDirection( 0 /* radians */ );
+        _turbineModel.setSpeed( 0 );
         // Do NOT set the size -- size is set by the associated TurbineGraphic.
-        model.addModelElement( turbineModel );
+        model.addModelElement( _turbineModel );
         
         // Compass
-        Compass compassModel = new Compass( turbineModel ); 
-        compassModel.setLocation( COMPASS_LOCATION );
-        compassModel.setBehavior( Compass.SIMPLE_BEHAVIOR );
-        compassModel.setEnabled( false );
-        model.addModelElement( compassModel );
+        _compassModel = new Compass( _turbineModel ); 
+        _compassModel.setLocation( COMPASS_LOCATION );
+        _compassModel.setBehavior( Compass.SIMPLE_BEHAVIOR );
+        _compassModel.setEnabled( false );
+        model.addModelElement( _compassModel );
         
         // Pickup Coil
-        PickupCoil pickupCoilModel = new PickupCoil( turbineModel );
-        pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
-        pickupCoilModel.setLoopArea( LOOP_AREA );
-        pickupCoilModel.setDirection( 0 /* radians */ );
-        pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
-        pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
-        model.addModelElement( pickupCoilModel );
+        _pickupCoilModel = new PickupCoil( _turbineModel );
+        _pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
+        _pickupCoilModel.setLoopArea( LOOP_AREA );
+        _pickupCoilModel.setDirection( 0 /* radians */ );
+        _pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
+        _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
+        model.addModelElement( _pickupCoilModel );
        
         // Lightbulb
-        Lightbulb lightbulbModel = new Lightbulb( pickupCoilModel );
-        lightbulbModel.setEnabled( true );
-        lightbulbModel.setScale( 2.5 ); // depends on distance between pickup coil and turbine!
+        _lightbulbModel = new Lightbulb( _pickupCoilModel );
+        _lightbulbModel.setEnabled( true );
+        _lightbulbModel.setScale( 2.5 ); // depends on distance between pickup coil and turbine!
         
         // Volt Meter
-        Voltmeter voltmeterModel = new Voltmeter( pickupCoilModel );
-        voltmeterModel.setRotationalKinematicsEnabled( true );
-        voltmeterModel.setEnabled( false );
-        voltmeterModel.setScale( 3.3 ); // depends on distance between pickup coil and turbine!
-        model.addModelElement( voltmeterModel );
+        _voltmeterModel = new Voltmeter( _pickupCoilModel );
+        _voltmeterModel.setRotationalKinematicsEnabled( true );
+        _voltmeterModel.setEnabled( false );
+        _voltmeterModel.setScale( 3.3 ); // depends on distance between pickup coil and turbine!
+        model.addModelElement( _voltmeterModel );
         
         //----------------------------------------------------------------------------
         // View
@@ -134,44 +154,44 @@ public class GeneratorModule extends FaradayModule {
         this.setApparatusPanel( apparatusPanel );
 
         // Turbine
-        TurbineGraphic turbineGraphic = new TurbineGraphic( apparatusPanel, turbineModel );
+        TurbineGraphic turbineGraphic = new TurbineGraphic( apparatusPanel, _turbineModel );
         apparatusPanel.addChangeListener( turbineGraphic );
         apparatusPanel.addGraphic( turbineGraphic, TURBINE_LAYER );
         
         // Pickup Coil
-        PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model,
-                pickupCoilModel, lightbulbModel, voltmeterModel, turbineModel );
-        pickupCoilGraphic.setDraggingEnabled( false );
-        pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( 3.0 );
-        apparatusPanel.addChangeListener( pickupCoilGraphic );
-        apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
-        apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
+        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model,
+                _pickupCoilModel, _lightbulbModel, _voltmeterModel, _turbineModel );
+        _pickupCoilGraphic.setDraggingEnabled( false );
+        _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( 3.0 );
+        apparatusPanel.addChangeListener( _pickupCoilGraphic );
+        apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
+        apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
         // Grid
-        CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, turbineModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescalingEnabled( true );
-        gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
-        gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
-        gridGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( gridGraphic );
-        apparatusPanel.addGraphic( gridGraphic, COMPASS_GRID_LAYER );
-        super.setCompassGridGraphic( gridGraphic );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, _turbineModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic.setRescalingEnabled( true );
+        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        _gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
+        _gridGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( _gridGraphic );
+        apparatusPanel.addGraphic( _gridGraphic, COMPASS_GRID_LAYER );
+        super.setCompassGridGraphic( _gridGraphic );
         
         // CompassGraphic
-        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addChangeListener( compassGraphic );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
 
         // Field Meter
-        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, turbineModel );
-        fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        fieldMeterGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( fieldMeterGraphic );
-        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
+        _fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _turbineModel );
+        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( _fieldMeterGraphic );
+        apparatusPanel.addGraphic( _fieldMeterGraphic, FIELD_METER_LAYER );
 
         // Collision detection
-        compassGraphic.getCollisionDetector().add( pickupCoilGraphic );
+        compassGraphic.getCollisionDetector().add( _pickupCoilGraphic );
         
         //----------------------------------------------------------------------------
         // Control
@@ -180,24 +200,37 @@ public class GeneratorModule extends FaradayModule {
         // Control Panel
         {
             ControlPanel controlPanel = new ControlPanel( this );
+            setControlPanel( controlPanel );
             
-            TurbinePanel turbinePanel = new TurbinePanel( turbineModel, compassModel, gridGraphic, fieldMeterGraphic );
-            controlPanel.addFullWidth( turbinePanel );
+            // Turbine controls
+            _turbinePanel = new TurbinePanel( _turbineModel, _compassModel, _gridGraphic, _fieldMeterGraphic );
+            controlPanel.addFullWidth( _turbinePanel );
             
-            controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
+            // Spacer
+            VerticalSpacePanel spacePanel = new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT );
+            controlPanel.addFullWidth( spacePanel );
             
-            PickupCoilPanel pickupCoilPanel = new PickupCoilPanel(
-                    pickupCoilModel, pickupCoilGraphic, lightbulbModel, voltmeterModel );
-            controlPanel.addFullWidth( pickupCoilPanel );
+            // Pickup Coil controls
+            _pickupCoilPanel = new PickupCoilPanel(
+                    _pickupCoilModel, _pickupCoilGraphic, _lightbulbModel, _voltmeterModel );
+            controlPanel.addFullWidth( _pickupCoilPanel );
             
+            // Scaling calibration
             if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
                 controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
                 
-                ScalePanel scalePanel = new ScalePanel( lightbulbModel, voltmeterModel, pickupCoilGraphic, null );
+                ScalePanel scalePanel = new ScalePanel( _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
                 controlPanel.addFullWidth( scalePanel );
             }
             
-            this.setControlPanel( controlPanel );
+            // Reset button
+            JButton resetButton = new JButton( SimStrings.get( "Reset.button" ) );
+            resetButton.addActionListener( new ActionListener() { 
+                public void actionPerformed( ActionEvent e ) {
+                    reset();
+                }
+            } );
+            controlPanel.add( resetButton );
         }
         
         //----------------------------------------------------------------------------
@@ -205,9 +238,55 @@ public class GeneratorModule extends FaradayModule {
         //----------------------------------------------------------------------------
         
         // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, turbineModel );
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _turbineModel );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Handles the "Reset" button, resets everything thing to the initial state.
+     */
+    private void reset() {
+        
+        // Turbine model
+        _turbineModel.setStrength( 0.75 * FaradayConfig.TURBINE_STRENGTH_MAX );
+        _turbineModel.setLocation( TURBINE_LOCATION );
+        _turbineModel.setDirection( 0 /* radians */ );
+        _turbineModel.setSpeed( 0 );
+        
+        // Compass model
+        _compassModel.setLocation( COMPASS_LOCATION );
+        _compassModel.setEnabled( true );
+        
+        // Pickup Coil model
+        _pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
+        _pickupCoilModel.setLoopArea( LOOP_AREA );
+        _pickupCoilModel.setDirection( 0 /* radians */ );
+        _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
+       
+        // Lightbulb
+        _lightbulbModel.setEnabled( true );
+        
+        // Volt Meter
+        _voltmeterModel.setEnabled( false );
+        
+        // Pickup Coil view
+        _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        
+        // Compass Grid view
+        _gridGraphic.setVisible( true );
+        
+        // Field Meter view
+        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterGraphic.setVisible( false );
+        
+        // Control panel
+        _turbinePanel.update();
+        _pickupCoilPanel.update();
     }
     
     //----------------------------------------------------------------------------

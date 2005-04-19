@@ -156,14 +156,21 @@ public class BarMagnetPanel extends FaradayPanel {
         _fieldMeterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
 
-        // Update control panel to match the components that it's controlling.
+        // Set the state of the controls.
+        update();
+    }
+   
+    /**
+     * Updates the control panel to match the state of the things that it's controlling.
+     */
+    public void update() {
         _strengthSlider.setValue( (int) ( 100.0 * _barMagnetModel.getStrength() / FaradayConfig.BAR_MAGNET_STRENGTH_MAX ) );
         _seeInsideCheckBox.setSelected( _magnetGraphic.isTransparencyEnabled() );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
     }
-   
+    
     //----------------------------------------------------------------------------
     // Feature controls
     //----------------------------------------------------------------------------
