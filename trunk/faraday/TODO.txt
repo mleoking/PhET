@@ -48,6 +48,7 @@ PHETCOMMON:
 
 DONE:
 v0r24...
+(4/19) - fixed Options>GridControl, grid's cache was broken
 (4/19) - factor out Option menu and Developer menu into their own class files
 (4/19) - add a couple of spaces to end of strings for wiggle mes and challenges, so they don't leave screen turds
 (4/19) - tone down the hilite on the water wheel, it makes it look wobbly
