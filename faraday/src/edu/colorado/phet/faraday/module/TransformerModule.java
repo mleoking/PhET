@@ -240,6 +240,10 @@ public class TransformerModule extends FaradayModule {
         apparatusPanel.addGraphic( challenge, HELP_LAYER );
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
     /**
      * ThisChallengeGraphic is the "challenge" for this module.
      * It disappears when the lightbulb lights, or the lightbulb is disabled.

@@ -200,6 +200,10 @@ public class ElectromagnetModule extends FaradayModule {
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
     /**
      * ThisWiggleMeGraphic is the wiggle me for this module.
      * It disappears when the electromagnet battery's voltage is changed, 

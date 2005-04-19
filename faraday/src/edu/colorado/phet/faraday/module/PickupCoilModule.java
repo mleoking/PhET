@@ -214,6 +214,10 @@ public class PickupCoilModule extends FaradayModule {
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
     /**
      * ThisWiggleMeGraphic is the wiggle me for this module.
      * It disappears when the bar magnet or pickup coil is moved.
