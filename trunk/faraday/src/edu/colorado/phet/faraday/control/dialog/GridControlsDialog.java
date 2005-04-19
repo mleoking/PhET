@@ -92,11 +92,11 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
                 }
             }
         }
-        assert ( module != null ); // Why are you using this dialog in you app?
-        ICompassGridModule gm = (ICompassGridModule) module;
-        _xSpacing = gm.getGridXSpacing();
-        _ySpacing = gm.getGridYSpacing();
-        _needleSize = gm.getGridNeedleSize();
+        assert ( module != null ); // Why are you using this dialog in your app?
+        ICompassGridModule compassGridModule = (ICompassGridModule) module;
+        _xSpacing = compassGridModule.getGridXSpacing();
+        _ySpacing = compassGridModule.getGridYSpacing();
+        _needleSize = compassGridModule.getGridNeedleSize();
     }
     
     /**
