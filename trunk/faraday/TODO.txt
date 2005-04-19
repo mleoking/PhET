@@ -11,6 +11,7 @@ HIGH PRIORITY:
 - performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
+- compass' initial position is awkward in PickupCoil and Transformer modules
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
@@ -49,6 +50,7 @@ PHETCOMMON:
 
 DONE:
 v0r24...
+(4/19) - increase size of circle used to represent CoilMagnet
 (4/19) - handle null _gridGraphic in FaradayModule 
 (4/19) - created FaradayControlPanel that contains common control panel things (reset button, vertical space)
 (4/19) - add some missing constants in modules, adjust constant names for consistency between modules
