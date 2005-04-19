@@ -12,6 +12,7 @@ HIGH PRIORITY:
 - performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
+- Reset button on all control panels
 - when #loops in electromagnet changes, Dipole.update gets called 4 times
 - wiggle mes and challenges leave screen turds (Windows XP SP2, Java 1.5.0_02-b09)
 - add a dialog that warns about performance implications of turning on grid (and other things?)
