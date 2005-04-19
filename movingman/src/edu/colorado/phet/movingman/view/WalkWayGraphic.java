@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 
 import java.awt.*;
@@ -36,6 +37,8 @@ public class WalkWayGraphic extends CompositePhetGraphic {
     private TickSetGraphic tickSetGraphic;
     private int floorHeight = 6;
     private Dimension size;
+    private Paint backgroundColor = Color.yellow;
+//    private PhetShapeGraphic tickSetBoundsGraphic;
 
     public WalkWayGraphic( MovingManModule module, ApparatusPanel apparatusPanel, int numTicks ) throws IOException {
         this( apparatusPanel, module, numTicks, -8, 8, new Function.LinearFunction( -10, 10, 0, 500 ) );
@@ -62,6 +65,10 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         barrierImage = BufferedImageUtils.rescaleYMaintainAspectRatio( panel, barrierImage, 130 );
         rightWall = new LeftEdgeWalkwayObjectGraphic( this, 10, barrierImage );
         leftWall = new RightEdgeWalkwayObjectGraphic( this, -10, barrierImage );
+
+        Rectangle bounds = new Rectangle( tickSetGraphic.getBounds() );
+//        tickSetBoundsGraphic = new PhetShapeGraphic( panel, bounds, Color.green );
+//        addGraphic( tickSetBoundsGraphic,10 );
 
         addGraphic( backgroundGraphic );
         addGraphic( floorGraphic );
@@ -101,6 +108,10 @@ public class WalkWayGraphic extends CompositePhetGraphic {
 
     public int getDistCeilToFloor() {
         return getHeight() - floorHeight;
+    }
+
+    public Paint getBackgroundColor() {
+        return backgroundColor;
     }
 
     public static class TickSetGraphic extends CompositePhetGraphic {
@@ -151,7 +162,8 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         private String text;
         private int y = 134;
         private PhetShapeGraphic shapeGraphic;
-        private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+//        private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+        private Font font = MMFontManager.getFontSet().getWalkwayFont();
         private PhetTextGraphic textGraphic;
 
         public TickGraphic( Component component ) {
@@ -203,8 +215,21 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         leftWall.update();
         rightWall.update();
 
+//        Rectangle bounds = getTickSetBounds();
+//        tickSetBoundsGraphic.setShape( new Ellipse2D.Double(50,50,50,50) );
+//        tickSetBoundsGraphic.setShape( new Rectangle(0,100,getComponent().getWidth(), 10));
+//        tickSetBoundsGraphic.autorepaint();
+
         setBoundsDirty();
         repaint();
+    }
+
+    private Rectangle getTickSetBounds() {
+        Rectangle bounds = tickSetGraphic.getBounds();
+        bounds.x = -30;
+        bounds.width = getComponent().getWidth();
+        System.out.println( "bounds = " + bounds );
+        return bounds;
     }
 
     private Rectangle getFloor() {

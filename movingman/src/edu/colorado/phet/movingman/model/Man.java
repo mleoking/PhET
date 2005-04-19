@@ -95,11 +95,14 @@ public class Man {
     }
 
     public void setPosition( double x ) {
-        if( x < minX ) {
+        if( this.x == x ) {
+            return;
+        }
+        if( x <= minX ) {
             x = minX;
             notifyCollision();
         }
-        else if( x > maxX ) {
+        else if( x >= maxX ) {
             x = maxX;
             notifyCollision();
         }

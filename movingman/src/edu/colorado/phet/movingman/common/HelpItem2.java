@@ -50,19 +50,34 @@ public class HelpItem2 extends CompositePhetGraphic {
         setIgnoreMouse( true );
     }
 
-    public void addArrowPointingLeft( int arrowLength ) {
-        Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( -arrowLength, 0 ), arrowHeadSize, arrowHeadSize, tailWidth );
-
+    public PhetShapeGraphic addArrow( double dx, double dy ) {
+        Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( dx, dy ), arrowHeadSize, arrowHeadSize, tailWidth );
         PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( getComponent(), arrow.getShape(), arrowColor, arrowBorderStroke, arrowBorderColor );
         addGraphic( arrowGraphic );
+        setBoundsDirty();
+        autorepaint();
+        return arrowGraphic;
+    }
+
+    public void addArrowPointingLeft( int arrowLength ) {
+        PhetShapeGraphic arrowGraphic = addArrow( -arrowLength, 0 );
         new RelativeLocationSetter.Left().layout( textBackground, arrowGraphic );
     }
 
+
+    private void addArrowPointingRight( int arrowLength ) {
+        PhetShapeGraphic phsg = addArrow( arrowLength, 0 );
+        new RelativeLocationSetter.Right().layout( textBackground, phsg );
+    }
+
     public void addArrowPointingUp( int arrowLength ) {
-        Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( 0, -arrowLength ), arrowHeadSize, arrowHeadSize, tailWidth );
-        PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( getComponent(), arrow.getShape(), arrowColor, arrowBorderStroke, arrowBorderColor );
-        addGraphic( arrowGraphic );
+        PhetShapeGraphic arrowGraphic = addArrow( 0, -arrowLength );
         new RelativeLocationSetter.Top().layout( textBackground, arrowGraphic );
+    }
+
+    private void addArrowPointingDown( int arrowLength ) {
+        PhetShapeGraphic arrowGraphic = addArrow( 0, arrowLength );
+        new RelativeLocationSetter.Bottom().layout( textBackground, arrowGraphic );
     }
 
     public void pointLeftAt( RelativeLocationSetter.Target target, int arrowLength ) {
@@ -70,10 +85,21 @@ public class HelpItem2 extends CompositePhetGraphic {
         RelativeLocationSetter.follow( target, new RelativeLocationSetter.MovablePhetGraphic( this ), new RelativeLocationSetter.Right( 1 ) );
     }
 
+    public void pointRightAt( RelativeLocationSetter.Target target, int arrowLength ) {
+        addArrowPointingRight( arrowLength );
+        RelativeLocationSetter.follow( target, new RelativeLocationSetter.MovablePhetGraphic( this ), new RelativeLocationSetter.Left( 1 ) );
+    }
+
     public void pointLeftAt( PhetGraphic target, int arrowLength ) {
         pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( target ), arrowLength );
         addArrowPointingLeft( arrowLength );
         RelativeLocationSetter.follow( target, this, new RelativeLocationSetter.Right( 1 ) );
+    }
+
+    public void pointRightAt( PhetGraphic target, int arrowLength ) {
+        pointRightAt( new RelativeLocationSetter.PhetGraphicTarget( target ), arrowLength );
+        addArrowPointingRight( arrowLength );
+        RelativeLocationSetter.follow( target, this, new RelativeLocationSetter.Left( 1 ) );
     }
 
     public void pointUpAt( PhetGraphic target, int arrowLength ) {
@@ -86,10 +112,4 @@ public class HelpItem2 extends CompositePhetGraphic {
         RelativeLocationSetter.follow( blockGraphic, this, new RelativeLocationSetter.Top( 1 ) );
     }
 
-    private void addArrowPointingDown( int arrowLength ) {
-        Arrow arrow = new Arrow( new Point2D.Double(), new Point2D.Double( 0, arrowLength ), arrowHeadSize, arrowHeadSize, tailWidth );
-        PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( getComponent(), arrow.getShape(), arrowColor, arrowBorderStroke, arrowBorderColor );
-        addGraphic( arrowGraphic );
-        new RelativeLocationSetter.Bottom().layout( textBackground, arrowGraphic );
-    }
 }

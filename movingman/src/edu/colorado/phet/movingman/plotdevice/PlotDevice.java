@@ -7,9 +7,11 @@ import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.controllers.BufferedChartCursor;
 import edu.colorado.phet.chart.controllers.ChartCursor;
 import edu.colorado.phet.chart.controllers.ChartSlider;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.plots.TimePoint;
@@ -46,13 +48,19 @@ public class PlotDevice extends GraphicLayerSet {
     private Chart chart;
     private BufferedChart bufferedChart;
 
-    public PlotDevice( Component component, Range2D range, String name ) {
-        super( component );
+    public PlotDevice( ApparatusPanel apparatusPanel, Range2D range, String name ) {
+        super( apparatusPanel );
         this.name = name;
 
         Dimension chartBounds = new Dimension( 600, 200 );
-        chart = new Chart( component, range, chartBounds );
+        chart = new Chart( apparatusPanel, range, chartBounds );
         chart.setBackground( chartBackgroundColor );
+        chart.getVerticalGridlines().setMajorGridlinesColor( Color.gray );
+        chart.getVerticalGridlines().setMinorGridlinesColor( Color.gray );
+
+        chart.getHorizonalGridlines().setMajorGridlinesColor( Color.gray );
+        chart.getHorizonalGridlines().setMinorGridlinesColor( Color.gray );
+
         chart.getXAxis().setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[]{8, 4}, 0 ) );
         chart.getHorizontalTicks().setVisible( false );
         try {
@@ -61,7 +69,7 @@ public class PlotDevice extends GraphicLayerSet {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        chartSlider = new ChartSlider( component, chart );
+        chartSlider = new ChartSlider( apparatusPanel, chart );
         minimizeButton = createMinimizeButton();
 
         addGraphic( chartSlider );
@@ -76,21 +84,22 @@ public class PlotDevice extends GraphicLayerSet {
         addGraphic( zoomPanel );
         addGraphic( minimizeButton );
 
-        bufferedChart = new BufferedChart( component, chart );
-        cursor = new BufferedChartCursor( component, chart, 7, bufferedChart );
+        bufferedChart = new BufferedChart( apparatusPanel, chart );
+        cursor = new BufferedChartCursor( apparatusPanel, chart, 7, bufferedChart );
         cursor.addListener( new ChartCursor.Listener() {
             public void modelValueChanged( double modelX ) {
                 fireCursorDragged( modelX );
             }
         } );
         addGraphic( cursor );
+        addListener( new CursorHelpItem( apparatusPanel, this ) );
         setChartSize( 600, 200 );
     }
 
     private void fireCursorDragged( double modelX ) {
         for( int i = 0; i < listeners.size(); i++ ) {
             PlotDeviceListener plotDeviceListener = (PlotDeviceListener)listeners.get( i );
-            plotDeviceListener.cursorMoved( modelX );
+            plotDeviceListener.cursorDragged( modelX );
         }
     }
 
@@ -157,9 +166,18 @@ public class PlotDevice extends GraphicLayerSet {
         return chart;
     }
 
+    private BufferedImage testResize( BufferedImage image, double fraction ) {
+        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
+            image = BufferedImageUtils.rescaleYMaintainAspectRatio( getComponent(), image, (int)( image.getHeight() * fraction ) );
+        }
+        return image;
+    }
+
     private PhetGraphic createMinimizeButton() {
         try {
-            ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/x-25.gif" ) );
+            BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
+            image = testResize( image, 0.75 );
+            ImageIcon icon = new ImageIcon( image );
             JButton minimize = new JButton( icon );
             minimize.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -208,6 +226,10 @@ public class PlotDevice extends GraphicLayerSet {
             TimePoint value = plotDeviceSeries.getRawData().getValueForTime( time );
             chartSlider.setValue( value.getValue() );
         }
+        for( int i = 0; i < listeners.size(); i++ ) {
+            PlotDeviceListener plotDeviceListener = (PlotDeviceListener)listeners.get( i );
+            plotDeviceListener.playbackTimeChanged();
+        }
     }
 
     public Paint getBackground() {
@@ -217,13 +239,14 @@ public class PlotDevice extends GraphicLayerSet {
     public class ZoomPanel extends GraphicLayerSet {
         public ZoomPanel( final PlotDevice plotDevice ) throws IOException {
             BufferedImage imPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
+            imPlus = testResize( imPlus, 0.75 );
             BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
-
+            imgMinus = testResize( imgMinus, 0.75 );
             final double smooth = 1;
-            ActionListener smoothPos = new Increment( smooth );
-            ActionListener smoothNeg = new Decrement( smooth );
-            ActionListener incPos = new Increment( 5 );
-            ActionListener incNeg = new Decrement( 5 );
+            ActionListener smoothPos = new ValueChange( smooth, 0, 100 );
+            ActionListener smoothNeg = new ValueChange( -smooth, 0, 100 );
+            ActionListener incPos = new ValueChange( 5, 0, 100 );
+            ActionListener incNeg = new ValueChange( -5, 0, 100 );
 
             MagButton zoomIn = new MagButton( new ImageIcon( imPlus ), smoothPos, incPos, SimStrings.get( "MMPlot.ZoomInButton" ) );
             MagButton zoomOut = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, SimStrings.get( "MMPlot.ZoomOutButton" ) );
@@ -256,35 +279,16 @@ public class PlotDevice extends GraphicLayerSet {
         chart.getYAxis().setMajorGridlines( full );
     }
 
-//    public class TextBox extends GraphicLayerSet {
-//        private JTextField textField;
-//        private PhetGraphic pg;
-//
-//        public TextBox( Component component ) {
-//            super( component );
-//            textField = new JTextField( 8 );
-//            pg = PhetJComponent.newInstance( component, textField );
-//            addGraphic( pg );
-//        }
-//
-//        public boolean isChangedByUser() {
-//            return false;
-//        }
-//
-//        public String getText() {
-//            return null;
-//        }
-//
-//        public void clearChangedByUser() {
-//
-//        }
-//
-//        public void addKeyListener( PlotSet.TextHandler textHandler ) {
-//        }
-//    }
-
     public void setCursorVisible( boolean visible ) {
         cursor.setVisible( visible );
+        notifyCursorListeners( visible );
+    }
+
+    private void notifyCursorListeners( boolean visible ) {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            PlotDeviceListener plotDeviceListener = (PlotDeviceListener)listeners.get( i );
+            plotDeviceListener.cursorVisibilityChanged( visible );
+        }
     }
 
     public void setChartRange( Range2D range ) {
@@ -317,40 +321,23 @@ public class PlotDevice extends GraphicLayerSet {
         }
     }
 
-    class Increment implements ActionListener {
-        double increment;
 
-        public Increment( double increment ) {
+    class ValueChange implements ActionListener {
+        double increment;
+        private double min;
+        private double max;
+
+        public ValueChange( double increment, double min, double max ) {
             this.increment = increment;
+            this.min = min;
+            this.max = max;
         }
 
         public void actionPerformed( ActionEvent e ) {
             Range2D origRange = chart.getRange();
             double diffY = origRange.getMaxY();
             double newDiffY = diffY - increment;
-            if( newDiffY > 0 ) {
-                setMagnitude( newDiffY );
-                setPaintYLines( getYLines( newDiffY, 5 ) );
-                rebuildChartBuffer();
-                notifyBufferChanged();
-            }
-        }
-
-    }
-
-    class Decrement implements ActionListener {
-        double increment;
-
-        public Decrement( double increment ) {
-            this.increment = increment;
-        }
-
-        public void actionPerformed( ActionEvent e ) {
-            Range2D origRange = chart.getRange();
-            double diffY = origRange.getMaxY();
-            double newDiffY = diffY + increment;
-            int MAX = 100;
-            if( newDiffY < MAX ) {
+            if( newDiffY > min && newDiffY < max ) {
                 setMagnitude( newDiffY );
                 setPaintYLines( getYLines( newDiffY, 5 ) );
                 rebuildChartBuffer();
@@ -388,4 +375,17 @@ public class PlotDevice extends GraphicLayerSet {
     public int getNumDataSeries() {
         return data.size();
     }
+
+    public BufferedChartCursor getCursor() {
+        return cursor;
+    }
+
+    public int numPlotDeviceData() {
+        return data.size();
+    }
+
+    public PlotDeviceSeries plotDeviceSeriesAt( int i ) {
+        return (PlotDeviceSeries)data.get( i );
+    }
+
 }

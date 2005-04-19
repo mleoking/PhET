@@ -5,10 +5,11 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
+import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.HelpItem2;
 import edu.colorado.phet.movingman.model.MMTimer;
-import edu.colorado.phet.movingman.model.TimeListenerAdapter;
+import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
@@ -33,7 +34,6 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     private PhetGraphic maximizeButton;
     private boolean plotVisible = true;
     private int plotInsetX = 100;
-    private int plotInsetRight = 13;
     private ArrayList listeners = new ArrayList();
     private PhetGraphic goPauseClearGraphic;
     private PhetGraphic textBoxGraphic;
@@ -43,6 +43,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     private GoPauseClearPanel goPauseClearPanel;
     private MovingManApparatusPanel movingManApparatusPanel;
     private MovingManModule module;
+    private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
 
     public MMPlotSuite( final MovingManModule module, MovingManApparatusPanel movingManApparatusPanel, final MMPlot plot ) {
         super( movingManApparatusPanel );
@@ -80,10 +81,10 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
 
         textBoxGraphic = PhetJComponent.newInstance( movingManApparatusPanel, textBox );
         addGraphic( textBoxGraphic );
-        final DecimalFormat df = new DecimalFormat( "0.0#" );
+
         plot.dataSeriesAt( 0 ).getRawData().addObserver( new TimeSeries.Observer() {
             public void dataAdded( TimeSeries timeSeries ) {
-                textBox.setText( df.format( timeSeries.getLastPoint().getValue() ) );
+                setTextBoxText( timeSeries.getLastPoint().getValue() );
             }
 
             public void cleared( TimeSeries timeSeries ) {
@@ -92,82 +93,46 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
         } );
 
         titleGraphic = new ShadowHTMLGraphic( movingManApparatusPanel, plot.getName(),
-                                              new Font( "Lucida Sans", Font.BOLD, 12 ), plot.dataSeriesAt( 0 ).getColor(), 1, 1, Color.black );
+//                                              new Font( "Lucida Sans", Font.BOLD, 12 ),
+                                              MMFontManager.getFontSet().getTitleFont(),
+                                              plot.dataSeriesAt( 0 ).getColor(), 1, 1, Color.black );
         addGraphic( titleGraphic );
-        plot.addListener( new PlotDeviceListenerAdapter() {
-            public void sliderDragged( double dragValue ) {
-                if( isPaused() ) {
-                    showSliderHelp();
-                }
-            }
-        } );
-        sliderHelpItem = new HelpItem2( movingManApparatusPanel, "Press Go!" );
-        sliderHelpItem.setVisible( false );
 
-        sliderHelpItem.pointLeftAt( goButtonGraphic, 30 );
+        SliderHelpItem sliderHelpItem = new SliderHelpItem( movingManApparatusPanel, goButtonGraphic, this );
         addGraphic( sliderHelpItem );
-        movingManApparatusPanel.getModule().getMovingManModel().getTimeModel().addListener( new TimeListenerAdapter() {
-            public void recordingStarted() {
-                hideGoHelp();
-            }
 
-            public void playbackStarted() {
-                hideGoHelp();
-            }
-
-            public void rewind() {
-                hideGoHelp();
-            }
-
-            public void reset() {
-                hideGoHelp();
-            }
-        } );
-//        movingManApparatusPanel.getModule().getMovingManModel().getTimeModel().addListener( new TimeListenerAdapter() {
-//            public void recordingPaused() {
-//                focusTextBox();
-//            }
-//
-//            public void playbackPaused() {
-//                focusTextBox();
-//            }
-//
-//            public void rewind() {
-//                focusTextBox();
-//            }
-//
-//            public void reset() {
-//                focusTextBox();
+//        plot.addListener( new PlotDeviceListenerAdapter() {
+//            public void sliderDragged( double dragValue ) {
+//                setTextBoxText( dragValue );
+//                plot.setTextValue( dragValue );
 //            }
 //        } );
+
+    }
+
+    private void setTextBoxText( double value ) {
+        String text = decimalFormat.format( value );
+        if( Double.parseDouble( text ) == 0 ) {
+            if( text.startsWith( "-" ) ) {
+                text = text.substring( 1 );
+            }
+        }
+        textBox.setText( text );
     }
 
     private void setPlaybackTime( double time ) {
         if( plot.getNumDataSeries() > 0 ) {
             TimePoint tp = plot.dataSeriesAt( 0 ).getRawData().getValueForTime( time );
-            textBox.setText( decimalFormat.format( tp.getValue() ) );
+            setTextBoxText( tp.getValue() );
+//            textBox.setText( decimalFormat.format( tp.getValue() ) );
         }
     }
 
-    DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
-//
-//    private void focusTextBox() {
-////        textBox.setEnabled( false );
-//        PhetGraphic textGraphic = search( textBoxGraphic, new GraphicCriteria() {
-//            public boolean isSatisfied( PhetGraphic phetGraphic ) {
-//                return phetGraphic
-//            }
-//        } );
-//        textBox.set
-//    }
 
-    private boolean isPaused() {
+    public boolean isPaused() {
         return movingManApparatusPanel.getModule().isPaused();
     }
 
-    public void hideGoHelp() {//todo call this function.
-        sliderHelpItem.setVisible( false );
-    }
 
     private PhetGraphic search( PhetGraphic source, GraphicCriteria criteria ) {
         if( criteria.isSatisfied( source ) ) {
@@ -192,7 +157,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
             public boolean isSatisfied( PhetGraphic phetGraphic ) {
                 if( phetGraphic instanceof PhetJComponent ) {
                     PhetJComponent pj = (PhetJComponent)phetGraphic;
-                    if( pj.getSourceComponent() == goPauseClearPanel.getGoButton() ) {
+                    if( pj.getSourceComponent() == goPauseClearPanel.getGoPauseButton() ) {
                         return true;
                     }
                 }
@@ -202,12 +167,34 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
         return search( goPauseClearGraphic, gc );
     }
 
-    private void showSliderHelp() {
-        sliderHelpItem.setVisible( true );
-    }
-
     public TextBox getTextBox() {
         return textBox;
+    }
+
+    public PlotDevice getPlotDevice() {
+        return plot;
+    }
+
+    public boolean isPlotVisible() {
+        return plotVisible;
+    }
+
+    public Rectangle getBorderRectangle() {
+        if( isPlotVisible() ) {
+            setBoundsDirty();
+            Rectangle rect = textBoxGraphic.getBounds();
+            rect = rect.union( plot.getBounds() );
+            rect = rect.intersection( new Rectangle( getComponent().getSize() ) );
+            return rect;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public void valueChanged( double value ) {
+        plot.setTextValue( value );
+        setTextBoxText( value );
     }
 
     public static interface Listener {
@@ -232,6 +219,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
                 Listener listener = (Listener)listeners.get( i );
                 listener.plotVisibilityChanged();
             }
+            fireVisibilityChanged();
         }
     }
 
@@ -251,12 +239,15 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
         if( getComponent().getWidth() > 0 && height > 0 ) {
             int plotInsetDX = 10;
             int offsetX = plot.getChartSlider().getWidth() * 2;
-//            int offsetX = plot.getSlider().getBounds().x-plot.getChart().getBounds().x;
             int plotWidth = getComponent().getWidth() - textBoxGraphic.getWidth() - plotInsetDX * 2 - offsetX;
             plot.setChartSize( plotWidth, height - 12 );
             plot.setLocation( (int)( textBoxGraphic.getBounds().getMaxX() + plotInsetDX + offsetX ), y );
         }
+        setBoundsDirty();
+        autorepaint();
+        notifyChanged();
     }
+
 
     public void setY( int y ) {
         maximizeButton.setLocation( plotInsetX, y );

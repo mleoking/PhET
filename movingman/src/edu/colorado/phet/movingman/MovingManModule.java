@@ -55,6 +55,7 @@ public class MovingManModule extends Module {
 
     // Localization
     public static final String localizedStringsPath = "localization/MovingManStrings";
+    private boolean soundEnabled = true;
 
     public MovingManModule( AbstractClock clock ) throws IOException {
         super( SimStrings.get( "ModuleTitle.MovingManModule" ), clock );
@@ -98,7 +99,7 @@ public class MovingManModule extends Module {
                 }
             }
 
-            public void sliderDragged( double dragValue ) {
+            public void sliderDragged( double dragValue ) {//todo this looks suspicious
                 double value = getVelocityPlot().getSliderValue();
                 if( value == 0 ) {
                     getMovingManApparatusPanel().getManGraphic().setVelocity( 0.0 );
@@ -220,8 +221,17 @@ public class MovingManModule extends Module {
         getPositionPlot().requestTypingFocus();
     }
 
-    public void setNumSmoothingPoints( int numSmoothingPoints ) {
-        numSmoothingPoints = 8;
+    public void setSmoothingSmooth() {
+        setNumSmoothingPoints( 8 );
+    }
+
+    public void setSmoothingSharp() {
+        setNumSmoothingPoints( 2 );
+    }
+
+    private void setNumSmoothingPoints( int numSmoothingPoints ) {
+        System.out.println( "Num smoothing points=" + numSmoothingPoints );
+//        numSmoothingPoints = 8;
 //        System.out.println( "Smoothing point override." );
 //        numSmoothingPoints=4;
 //        System.out.println( "numSmoothingPoints = " + numSmoothingPoints );
@@ -419,8 +429,26 @@ public class MovingManModule extends Module {
         getMovingManApparatusPanel().setManTransform( transform );
     }
 
+
+    public void setSoundEnabled( boolean soundEnabled ) {
+        if( soundEnabled != this.soundEnabled ) {
+            this.soundEnabled = soundEnabled;
+            for( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener)listeners.get( i );
+                listener.soundOptionChanged( soundEnabled );
+            }
+        }
+    }
+
+    public boolean isSoundEnabled() {
+        return soundEnabled;
+    }
+
+
     public static interface Listener {
         public void reset();
+
+        public void soundOptionChanged( boolean soundEnabled );
     }
 
     private ArrayList listeners = new ArrayList();
@@ -479,7 +507,7 @@ public class MovingManModule extends Module {
         getMovingManApparatusPanel().setInited( b );
     }
 
-    private MovingManApparatusPanel getMovingManApparatusPanel() {
+    public MovingManApparatusPanel getMovingManApparatusPanel() {
         return (MovingManApparatusPanel)getApparatusPanel();
     }
 
@@ -640,7 +668,7 @@ public class MovingManModule extends Module {
 
         m.setInited( true );
         m.relayout();
-        m.setNumSmoothingPoints( 12 );
+        m.setSmoothingSmooth();
     }
 
     public void initialize() {

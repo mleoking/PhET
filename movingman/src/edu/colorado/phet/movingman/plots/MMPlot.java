@@ -8,6 +8,7 @@ import edu.colorado.phet.movingman.model.Man;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
+import edu.colorado.phet.movingman.plotdevice.PlotDeviceSeries;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 
 /**
@@ -33,8 +34,9 @@ public class MMPlot extends PlotDevice {
         getChart().getVerticalGridlines().setMajorTickSpacing( 5 );
         module.getTimeModel().addListener( new TimeListenerAdapter() {
             public void recordingPaused() {
-                setCursorVisible( true );
                 setPlaybackTime( module.getTimeModel().getRecordTimer().getTime() );
+                setCursorVisible( true );
+
             }
 
             public void recordingStarted() {
@@ -47,7 +49,7 @@ public class MMPlot extends PlotDevice {
         } );
         setCursorVisible( false );
         addListener( new PlotDeviceListenerAdapter() {
-            public void cursorMoved( double modelX ) {
+            public void cursorDragged( double modelX ) {
                 handleCursorMoved( modelX );
             }
         } );
@@ -78,17 +80,21 @@ public class MMPlot extends PlotDevice {
         else if( time < 0 ) {
             time = 0;
         }
-//        module.cursorMovedToTime( time );
         module.setReplayTime( time );
     }
 
-    public void valueChanged( double x ) {
+    public void valueChanged( double value ) {
     }
 
     public void updateSlider() {
     }
 
-    public void setTextValue( double x ) {}
+    public void setTextValue( double x ) {
+        for( int i = 0; i < numPlotDeviceData(); i++ ) {
+            PlotDeviceSeries series = plotDeviceSeriesAt( i );
+            series.setReadoutValue( x );
+        }
+    }
 
     public String getVarname() {
         return varname;

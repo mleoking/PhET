@@ -42,6 +42,9 @@ public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.L
                     setVisible( true );
                 }
             }
+
+            public void soundOptionChanged( boolean soundEnabled ) {
+            }
         } );
         setVisible( false );
     }
@@ -55,6 +58,9 @@ public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.L
         if( !disposed ) {
             setVisible( true );
         }
+    }
+
+    public void soundOptionChanged( boolean soundEnabled ) {
     }
 
     protected Point getOscillationCenter( Point targetLoc ) {
