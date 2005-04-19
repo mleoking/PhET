@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- glitch in the B-field when approaching the electromagnet coil from above or below
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - electrons in electromagnet should not change speed when #loops changes
 - performance impact of grid, electrons, and light rays
@@ -387,6 +386,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(4/19) - glitch in the B-field when approaching the electromagnet coil from above or below (this is physically correct)
 (4/12) - replace EasyGridBagLayout with SwingUtils.addGridBagComponent (no, SwingUtils version is inadequate)
 (4/12) - fix PhetShapeGraphic.contains so that stroke width is taken into account (compass is now flattened to an image)
 (4/8) - make wiggle me's fade out instead of blinking off (no one asked for this, different than other sims)
