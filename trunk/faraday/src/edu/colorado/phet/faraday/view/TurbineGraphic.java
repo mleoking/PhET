@@ -231,6 +231,11 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
                         _waterGraphic.setShape( _waterShape );
                     }
                 }
+                
+                // Position the faucet slider.
+                if ( -speed * 100 != _flowSlider.getValue() ) {
+                    _flowSlider.setValue( (int)( -speed * 100 ) );
+                }
             }
 
             repaint();
