@@ -44,8 +44,8 @@ public class ElectromagnetModule extends FaradayModule {
     //----------------------------------------------------------------------------
 
     // Rendering layers
-    private static final double COMPASS_GRID_LAYER = 1;
-    private static final double ELECTROMAGNET_BACK_LAYER = 2;
+    private static final double ELECTROMAGNET_BACK_LAYER = 1;
+    private static final double COMPASS_GRID_LAYER = 2;
     private static final double COMPASS_LAYER = 3;
     private static final double ELECTROMAGNET_FRONT_LAYER = 4;
     private static final double FIELD_METER_LAYER = 5;

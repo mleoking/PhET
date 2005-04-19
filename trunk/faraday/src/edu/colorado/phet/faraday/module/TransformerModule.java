@@ -43,9 +43,9 @@ public class TransformerModule extends FaradayModule {
     //----------------------------------------------------------------------------
 
     // Rendering layers
-    private static final double COMPASS_GRID_LAYER = 1;
-    private static final double ELECTROMAGNET_BACK_LAYER = 2;
-    private static final double PICKUP_COIL_BACK_LAYER = 3;
+    private static final double ELECTROMAGNET_BACK_LAYER = 1;
+    private static final double PICKUP_COIL_BACK_LAYER = 2;
+    private static final double COMPASS_GRID_LAYER = 3;
     private static final double COMPASS_LAYER = 4;
     private static final double ELECTROMAGNET_FRONT_LAYER = 5;
     private static final double PICKUP_COIL_FRONT_LAYER = 6;
