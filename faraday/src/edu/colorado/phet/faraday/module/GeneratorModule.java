@@ -65,9 +65,20 @@ public class GeneratorModule extends FaradayModule {
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
-    // Pickup Coil parameters
-    private static final int NUMBER_OF_LOOPS = 2;
-    private static final double LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
+    // Turbine
+    private static final double TURBINE_STRENGTH = 0.75 * FaradayConfig.TURBINE_STRENGTH_MAX;
+    private static final double TURBINE_DIRECTION = 0.0; // radians
+    private static final double TURBINE_SPEED = 0.0;
+    
+    // Pickup Coil
+    private static final int PICKUP_COIL_NUMBER_OF_LOOPS = 2;
+    private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
+    private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
+    
+    // Scaling -- values depend on the distance between pickup coil and turbine!
+    private static final double LIGHTBULB_SCALE = 2.5;
+    private static final double VOLTMETER_SCALE = 3.3;
+    private static final double ELECTRON_SPEED_SCALE = 3.0;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -109,10 +120,10 @@ public class GeneratorModule extends FaradayModule {
         _turbineModel = new Turbine();
         _turbineModel.setMaxStrength( FaradayConfig.TURBINE_STRENGTH_MAX );
         _turbineModel.setMinStrength( FaradayConfig.TURBINE_STRENGTH_MIN );
-        _turbineModel.setStrength( 0.75 * FaradayConfig.TURBINE_STRENGTH_MAX );
+        _turbineModel.setStrength( TURBINE_STRENGTH );
         _turbineModel.setLocation( TURBINE_LOCATION );
-        _turbineModel.setDirection( 0 /* radians */ );
-        _turbineModel.setSpeed( 0 );
+        _turbineModel.setDirection( TURBINE_DIRECTION );
+        _turbineModel.setSpeed( TURBINE_SPEED );
         // Do NOT set the size -- size is set by the associated TurbineGraphic.
         model.addModelElement( _turbineModel );
         
@@ -125,9 +136,9 @@ public class GeneratorModule extends FaradayModule {
         
         // Pickup Coil
         _pickupCoilModel = new PickupCoil( _turbineModel );
-        _pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
-        _pickupCoilModel.setLoopArea( LOOP_AREA );
-        _pickupCoilModel.setDirection( 0 /* radians */ );
+        _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
+        _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
+        _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         model.addModelElement( _pickupCoilModel );
@@ -135,13 +146,13 @@ public class GeneratorModule extends FaradayModule {
         // Lightbulb
         _lightbulbModel = new Lightbulb( _pickupCoilModel );
         _lightbulbModel.setEnabled( true );
-        _lightbulbModel.setScale( 2.5 ); // depends on distance between pickup coil and turbine!
+        _lightbulbModel.setScale( LIGHTBULB_SCALE );
         
         // Volt Meter
         _voltmeterModel = new Voltmeter( _pickupCoilModel );
         _voltmeterModel.setRotationalKinematicsEnabled( true );
         _voltmeterModel.setEnabled( false );
-        _voltmeterModel.setScale( 3.3 ); // depends on distance between pickup coil and turbine!
+        _voltmeterModel.setScale( VOLTMETER_SCALE );
         model.addModelElement( _voltmeterModel );
         
         //----------------------------------------------------------------------------
@@ -162,7 +173,7 @@ public class GeneratorModule extends FaradayModule {
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model,
                 _pickupCoilModel, _lightbulbModel, _voltmeterModel, _turbineModel );
         _pickupCoilGraphic.setDraggingEnabled( false );
-        _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( 3.0 );
+        _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
@@ -253,19 +264,19 @@ public class GeneratorModule extends FaradayModule {
     private void reset() {
         
         // Turbine model
-        _turbineModel.setStrength( 0.75 * FaradayConfig.TURBINE_STRENGTH_MAX );
+        _turbineModel.setStrength( TURBINE_STRENGTH );
         _turbineModel.setLocation( TURBINE_LOCATION );
-        _turbineModel.setDirection( 0 /* radians */ );
-        _turbineModel.setSpeed( 0 );
+        _turbineModel.setDirection( TURBINE_DIRECTION );
+        _turbineModel.setSpeed( TURBINE_SPEED );
         
         // Compass model
         _compassModel.setLocation( COMPASS_LOCATION );
         _compassModel.setEnabled( true );
         
         // Pickup Coil model
-        _pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
-        _pickupCoilModel.setLoopArea( LOOP_AREA );
-        _pickupCoilModel.setDirection( 0 /* radians */ );
+        _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
+        _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
+        _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
        
         // Lightbulb

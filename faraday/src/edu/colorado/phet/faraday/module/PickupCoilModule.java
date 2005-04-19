@@ -66,9 +66,19 @@ public class PickupCoilModule extends FaradayModule {
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
+    // Bar Magnet
+    private static final double BAR_MAGNET_STRENGTH = 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX;
+    private static final double BAR_MAGNET_DIRECTION = 0.0; // radians
+    
     // Pickup Coil parameters
-    private static final int NUMBER_OF_LOOPS = 2;
-    private static final double LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
+    private static final int PICKUP_COIL_NUMBER_OF_LOOPS = 2;
+    private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
+    private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
+    
+    // Scaling
+    private static final double LIGHTBULB_SCALE = 1.0;
+    private static final double VOLTMETER_SCALE = 1.0;
+    private static final double ELECTRON_SPEED_SCALE = 1.0;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -111,9 +121,9 @@ public class PickupCoilModule extends FaradayModule {
         _barMagnetModel = new BarMagnet();
         _barMagnetModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
         _barMagnetModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
-        _barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
         _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
-        _barMagnetModel.setDirection( 0 /* radians */ );
+        _barMagnetModel.setDirection( BAR_MAGNET_DIRECTION );
         // Do NOT set the size -- size is set by the associated BarMagnetGraphic.
         
         // Compass
@@ -125,9 +135,9 @@ public class PickupCoilModule extends FaradayModule {
         
         // Pickup Coil
         _pickupCoilModel = new PickupCoil( _barMagnetModel );
-        _pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
-        _pickupCoilModel.setLoopArea( LOOP_AREA );
-        _pickupCoilModel.setDirection( 0 /* radians */ );
+        _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
+        _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
+        _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         model.addModelElement( _pickupCoilModel );
@@ -135,11 +145,13 @@ public class PickupCoilModule extends FaradayModule {
         // Lightbulb
         _lightbulbModel = new Lightbulb( _pickupCoilModel );
         _lightbulbModel.setEnabled( true );
+        _lightbulbModel.setScale( LIGHTBULB_SCALE );
         
         // Volt Meter
         _voltmeterModel = new Voltmeter( _pickupCoilModel );
         _voltmeterModel.setRotationalKinematicsEnabled( true );
         _voltmeterModel.setEnabled( false );
+        _voltmeterModel.setScale( VOLTMETER_SCALE );
         model.addModelElement( _voltmeterModel );
         
         //----------------------------------------------------------------------------
@@ -159,6 +171,7 @@ public class PickupCoilModule extends FaradayModule {
         // Pickup Coil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
                 _pickupCoilModel, _lightbulbModel, _voltmeterModel, _barMagnetModel );
+        _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
@@ -259,18 +272,18 @@ public class PickupCoilModule extends FaradayModule {
     private void reset() {
         
         // Bar Magnet model
-        _barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
         _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
-        _barMagnetModel.setDirection( 0 /* radians */ );
+        _barMagnetModel.setDirection( BAR_MAGNET_DIRECTION );
         
         // Compass model
         _compassModel.setLocation( COMPASS_LOCATION );
         _compassModel.setEnabled( true );
         
         // Pickup Coil model
-        _pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
-        _pickupCoilModel.setLoopArea( LOOP_AREA );
-        _pickupCoilModel.setDirection( 0 /* radians */ );
+        _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
+        _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
+        _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
        
         // Lightbulb
