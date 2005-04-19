@@ -32,7 +32,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     //----------------------------------------------------------------------------
     
     /**  Number of sample points above the center of the coil. */
-    public static final int SAMPLE_POINTS_ABOVE = 1;
+    public static final int SAMPLE_POINTS_ABOVE = 4;
     /**  Number of sample points below the center of the coil. */
     public static final int SAMPLE_POINTS_BELOW = SAMPLE_POINTS_ABOVE;
     
