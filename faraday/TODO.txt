@@ -11,8 +11,6 @@ HIGH PRIORITY:
 - performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
-- when #loops in electromagnet changes, Dipole.update gets called 4 times
-- wiggle mes and challenges leave screen turds (Windows XP SP2, Java 1.5.0_02-b09)
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
@@ -50,6 +48,8 @@ PHETCOMMON:
 
 DONE:
 v0r24...
+(4/19) - factor out Option menu and Developer menu into their own class files
+(4/19) - add a couple of spaces to end of strings for wiggle mes and challenges, so they don't leave screen turds
 (4/19) - tone down the hilite on the water wheel, it makes it look wobbly
 (4/19) - use 9 B-field sample points for the pickup coil
 (4/19) - remove '.' from wiggle mes and challenges, per Ron's request

@@ -11,23 +11,13 @@
 
 package edu.colorado.phet.faraday;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-
 import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.faraday.control.dialog.BackgroundColorDialog;
-import edu.colorado.phet.faraday.control.dialog.GridControlsDialog;
-import edu.colorado.phet.faraday.model.ACPowerSupply;
-import edu.colorado.phet.faraday.model.Turbine;
-import edu.colorado.phet.faraday.view.PickupCoilGraphic;
+import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
+import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 
 /**
  * FaradayApplication is the main application for the PhET
@@ -64,88 +54,15 @@ public class FaradayApplication extends PhetApplication {
     private void initMenubar() {
         
         // Options menu
-        {
-            JMenu optionsMenu = new JMenu( SimStrings.get( "Menubar.options" ) );
-            optionsMenu.setMnemonic( SimStrings.get( "Menubar.options.mnemonic" ).charAt( 0 ) );
-            getPhetFrame().addMenu( optionsMenu );
-
-            // Background Color menu item
-            JMenuItem backgroundColorMenuItem = new JMenuItem( SimStrings.get( "Menubar.backgroundColor" ) );
-            backgroundColorMenuItem.setMnemonic( SimStrings.get( "Menubar.backgroundColor.mnemonic" ).charAt( 0 ) );
-            backgroundColorMenuItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    handleBackgroundColorMenuItem();
-                }
-            } );
-            optionsMenu.add( backgroundColorMenuItem );
-
-            // Grid Controls dialog
-            JMenuItem gridControlsMenuItem = new JMenuItem( SimStrings.get( "Menubar.gridControls" ) );
-            gridControlsMenuItem.setMnemonic( SimStrings.get( "Menubar.gridControls.mnemonic" ).charAt( 0 ) );
-            gridControlsMenuItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    handleGridControlsMenuItem();
-                }
-            } );
-            optionsMenu.add( gridControlsMenuItem );
-        }
+        OptionsMenu optionsMenu = new OptionsMenu( this );
+        getPhetFrame().addMenu( optionsMenu );
         
         // Developer menu
         if ( FaradayConfig.DEBUG_ENABLE_DEVELOPER_MENU ) {
-
-            JMenu developerMenu = new JMenu( "Developer" );
-            developerMenu.setMnemonic( 'v' );
+            DeveloperMenu developerMenu = new DeveloperMenu();
             getPhetFrame().addMenu( developerMenu );
-
-            // AC Power Supply "critical angles"
-            final JCheckBoxMenuItem item1 = new JCheckBoxMenuItem( "Hit critical angles in AC Power Supply" );
-            item1.setSelected( ACPowerSupply.isCriticalAnglesEnabled() );
-            item1.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    ACPowerSupply.setCriticalAnglesEnabled( item1.isSelected() );
-                }
-            } );
-            developerMenu.add( item1 );
-
-            // Turbine "critical angles"
-            final JCheckBoxMenuItem item2 = new JCheckBoxMenuItem( "Hit critical angles in Turbine" );
-            item2.setSelected( Turbine.isCriticalAnglesEnabled() );
-            item2.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    Turbine.setCriticalAnglesEnabled( item2.isSelected() );
-                }
-            } );
-            developerMenu.add( item2 );
-
-            // Pickup Coil flux display
-            final JCheckBoxMenuItem item3 = new JCheckBoxMenuItem( "Display Flux" );
-            item3.setSelected( PickupCoilGraphic.isDisplayFluxEnabled() );
-            item3.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    PickupCoilGraphic.setDisplayFluxEnabled( item3.isSelected() );
-                }
-            } );
-            developerMenu.add( item3 );
         }
-    }
-    
-    /**
-     * Handles the "Background Color" menu item.
-     * Displays a Color dialog and changes the background of all apparatus panels.
-     */
-    private void handleBackgroundColorMenuItem() {
-        BackgroundColorDialog dialog = new BackgroundColorDialog( this );
-        dialog.show();
-    }
-    
-    /**
-     * Handles the "Grid Controls" menu item.
-     * Opens a dialog that contains controls for the "compass grid".
-     */
-    public void handleGridControlsMenuItem() {
-        GridControlsDialog dialog = new GridControlsDialog( this );
-        dialog.show();
-    }
+    }    
     
     //----------------------------------------------------------------------------
     // main
