@@ -265,6 +265,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                 
                 // Update the max amplitude display.
                 if ( maxAmplitude != _previousMaxAmplitude ) {
+     
                     // Format the text
                     int value = (int) ( maxAmplitude * 100 );
                     Object[] args = { new Integer( value ) };
@@ -275,10 +276,16 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     int rx = _maxAmplitudeValue.getBounds().width;
                     int ry = _maxAmplitudeValue.getBounds().height;
                     _maxAmplitudeValue.setRegistrationPoint( rx, ry ); // lower right
+                    
+                    // Position the slider
+                    if ( value != _maxAmplitudeSlider.getValue() ) {
+                        _maxAmplitudeSlider.setValue( value );
+                    }
                 }
 
                 // Update the frequency display.
                 if ( frequency != _previousFrequency ) {
+
                     // Format the text
                     int value = (int) ( 100 * frequency );
                     Object[] args = { new Integer( value ) };
@@ -289,6 +296,11 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     int rx = _frequencyValue.getBounds().width;
                     int ry = _frequencyValue.getBounds().height;
                     _frequencyValue.setRegistrationPoint( rx, ry );
+                    
+                    // Position the slider
+                    if ( value != _frequencySlider.getValue() ) {
+                        _frequencySlider.setValue( value );
+                    }
                 }
                 
                 // Save the new values.
