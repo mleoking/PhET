@@ -128,8 +128,11 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
     // ICompassGridModule implementation
     //----------------------------------------------------------------------------
     
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#setGridSpacing(int, int)
+    /**
+     * Sets the grid spacing.
+     * 
+     * @param xSpacing space between needles in horizontal dimension, in pixels
+     * @param ySpacing space between needles in the vertical dimension, in pixels
      */
     public void setGridSpacing( int xSpacing, int ySpacing ) {
         if ( _gridGraphic != null ) {
@@ -137,8 +140,10 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
         }
     }
 
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridXSpacing()
+    /**
+     * Gets the horizontal spacing between needles.
+     * 
+     * @return the spacing, in pixels
      */
     public int getGridXSpacing() {
         int xSpacing = 0;
@@ -148,8 +153,10 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
         return xSpacing;
     }
 
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridYSpacing()
+    /**
+     * Gets the vertical spacing between needles.
+     * 
+     * @return the spacing, in pixels
      */
     public int getGridYSpacing() {
         int ySpacing = 0;
@@ -159,8 +166,10 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
         return ySpacing;
     }  
     
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#setGridNeedleSize(Dimension)
+    /**
+     * Sets the size used for all needles in the grid.
+     * 
+     * @param size the size, in pixels
      */
     public void setGridNeedleSize( Dimension size ) {
         if ( _gridGraphic != null ) {
@@ -168,8 +177,10 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
         }
     }
 
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridNeedleSize()
+    /**
+     * Gets the size of all needles in the grid.
+     * 
+     * @return the size, in pixels
      */
     public Dimension getGridNeedleSize() {
         Dimension size = null;
@@ -179,8 +190,10 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
         return size;
     }
     
-    /*
-     * @see edu.colorado.phet.faraday.module.ICompassGridModule#setAlphaEnabled(boolean)
+    /**
+     * Tells the grid its background color.
+     * 
+     * @param color
      */
     public void setGridBackground( Color color ) {
         if ( _gridGraphic != null ) {
