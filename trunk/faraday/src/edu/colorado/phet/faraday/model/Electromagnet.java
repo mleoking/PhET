@@ -17,12 +17,12 @@ import edu.colorado.phet.faraday.FaradayConfig;
 
 /**
  * Electromagnet is the model of an electromagnet.
- * It is derived from the DipoleMagnet model.
+ * It is derived from the CoilMagnet model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Electromagnet extends DipoleMagnet implements SimpleObserver {
+public class Electromagnet extends CoilMagnet implements SimpleObserver {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -61,14 +61,9 @@ public class Electromagnet extends DipoleMagnet implements SimpleObserver {
      */
     public void update() {
      
-        /* 
-         * Set the magnet's size, based on the coil's physical appearance.
-         * Our magnetic field model requires the magnet's size to be cylindrical
-         * (width significantly > height), so we fudge the height.
-         */
-        double width = _sourceCoilModel.getNumberOfLoops() * _sourceCoilModel.getWireWidth();
-        double height = width / FaradayConfig.ELECTROMAGNET_ASPECT_RATIO;
-        super.setSize( width, height );
+        // The magnet size is a circle that has the same radius as the coil.
+        double diameter = 2 * _sourceCoilModel.getRadius();
+        super.setSize( diameter, diameter );
         
         // Get the voltage across the ends of the coil.
         double coilVoltage = _sourceCoilModel.getVoltage();
