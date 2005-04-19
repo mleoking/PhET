@@ -14,7 +14,11 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -53,7 +57,7 @@ public class PickupCoilModule extends FaradayModule {
     private static final double FIELD_METER_LAYER = 6;
 
     // Locations
-    private static final Point MAGNET_LOCATION = new Point( 200, 400 );
+    private static final Point BAR_MAGNET_LOCATION = new Point( 200, 400 );
     private static final Point PICKUP_COIL_LOCATION = new Point( 500, 400 );
     private static final Point COMPASS_LOCATION = new Point( 350, 525 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
@@ -65,6 +69,22 @@ public class PickupCoilModule extends FaradayModule {
     // Pickup Coil parameters
     private static final int NUMBER_OF_LOOPS = 2;
     private static final double LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private BarMagnet _barMagnetModel;
+    private Compass _compassModel;
+    private PickupCoil _pickupCoilModel;
+    private Lightbulb _lightbulbModel;
+    private Voltmeter _voltmeterModel;
+    private BarMagnetGraphic _barMagnetGraphic;
+    private PickupCoilGraphic _pickupCoilGraphic;
+    private CompassGridGraphic _gridGraphic;
+    private FieldMeterGraphic _fieldMeterGraphic;
+    private BarMagnetPanel _barMagnetPanel;
+    private PickupCoilPanel _pickupCoilPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -88,39 +108,39 @@ public class PickupCoilModule extends FaradayModule {
         this.setModel( model );
         
         // Bar Magnet
-        BarMagnet barMagnetModel = new BarMagnet();
-        barMagnetModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
-        barMagnetModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
-        barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
-        barMagnetModel.setLocation( MAGNET_LOCATION );
-        barMagnetModel.setDirection( 0 /* radians */ );
+        _barMagnetModel = new BarMagnet();
+        _barMagnetModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
+        _barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
+        _barMagnetModel.setDirection( 0 /* radians */ );
         // Do NOT set the size -- size is set by the associated BarMagnetGraphic.
         
         // Compass
-        Compass compassModel = new Compass( barMagnetModel ); 
-        compassModel.setLocation( COMPASS_LOCATION );
-        compassModel.setBehavior( Compass.KINEMATIC_BEHAVIOR );
-        compassModel.setEnabled( false );
-        model.addModelElement( compassModel );
+        _compassModel = new Compass( _barMagnetModel ); 
+        _compassModel.setLocation( COMPASS_LOCATION );
+        _compassModel.setBehavior( Compass.KINEMATIC_BEHAVIOR );
+        _compassModel.setEnabled( false );
+        model.addModelElement( _compassModel );
         
         // Pickup Coil
-        PickupCoil pickupCoilModel = new PickupCoil( barMagnetModel );
-        pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
-        pickupCoilModel.setLoopArea( LOOP_AREA );
-        pickupCoilModel.setDirection( 0 /* radians */ );
-        pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
-        pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
-        model.addModelElement( pickupCoilModel );
+        _pickupCoilModel = new PickupCoil( _barMagnetModel );
+        _pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
+        _pickupCoilModel.setLoopArea( LOOP_AREA );
+        _pickupCoilModel.setDirection( 0 /* radians */ );
+        _pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
+        _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
+        model.addModelElement( _pickupCoilModel );
        
         // Lightbulb
-        Lightbulb lightbulbModel = new Lightbulb( pickupCoilModel );
-        lightbulbModel.setEnabled( true );
+        _lightbulbModel = new Lightbulb( _pickupCoilModel );
+        _lightbulbModel.setEnabled( true );
         
         // Volt Meter
-        Voltmeter voltmeterModel = new Voltmeter( pickupCoilModel );
-        voltmeterModel.setRotationalKinematicsEnabled( true );
-        voltmeterModel.setEnabled( false );
-        model.addModelElement( voltmeterModel );
+        _voltmeterModel = new Voltmeter( _pickupCoilModel );
+        _voltmeterModel.setRotationalKinematicsEnabled( true );
+        _voltmeterModel.setEnabled( false );
+        model.addModelElement( _voltmeterModel );
         
         //----------------------------------------------------------------------------
         // View
@@ -132,47 +152,47 @@ public class PickupCoilModule extends FaradayModule {
         this.setApparatusPanel( apparatusPanel );
 
         // Bar Magnet
-        BarMagnetGraphic barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, barMagnetModel );
-        apparatusPanel.addChangeListener( barMagnetGraphic );
-        apparatusPanel.addGraphic( barMagnetGraphic, BAR_MAGNET_LAYER );
+        _barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, _barMagnetModel );
+        apparatusPanel.addChangeListener( _barMagnetGraphic );
+        apparatusPanel.addGraphic( _barMagnetGraphic, BAR_MAGNET_LAYER );
         
         // Pickup Coil
-        PickupCoilGraphic pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
-                pickupCoilModel, lightbulbModel, voltmeterModel, barMagnetModel );
-        apparatusPanel.addChangeListener( pickupCoilGraphic );
-        apparatusPanel.addGraphic( pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
-        apparatusPanel.addGraphic( pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
+        _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
+                _pickupCoilModel, _lightbulbModel, _voltmeterModel, _barMagnetModel );
+        apparatusPanel.addChangeListener( _pickupCoilGraphic );
+        apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
+        apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
 
         // Grid
-        CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescalingEnabled( true );
-        gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
-        gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
-        gridGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( gridGraphic );
-        apparatusPanel.addGraphic( gridGraphic, COMPASS_GRID_LAYER );
-        super.setCompassGridGraphic( gridGraphic );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, _barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic.setRescalingEnabled( true );
+        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        _gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
+        _gridGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( _gridGraphic );
+        apparatusPanel.addGraphic( _gridGraphic, COMPASS_GRID_LAYER );
+        super.setCompassGridGraphic( _gridGraphic );
         
         // CompassGraphic
-        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addChangeListener( compassGraphic );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
 
         // Field Meter
-        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, barMagnetModel );
-        fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        fieldMeterGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( fieldMeterGraphic );
-        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
+        _fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _barMagnetModel );
+        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( _fieldMeterGraphic );
+        apparatusPanel.addGraphic( _fieldMeterGraphic, FIELD_METER_LAYER );
 
         // Collision detection
-        barMagnetGraphic.getCollisionDetector().add( compassGraphic );
-        barMagnetGraphic.getCollisionDetector().add( pickupCoilGraphic );
-        compassGraphic.getCollisionDetector().add( barMagnetGraphic );
-        compassGraphic.getCollisionDetector().add( pickupCoilGraphic );
-        pickupCoilGraphic.getCollisionDetector().add( barMagnetGraphic );
-        pickupCoilGraphic.getCollisionDetector().add( compassGraphic );
+        _barMagnetGraphic.getCollisionDetector().add( compassGraphic );
+        _barMagnetGraphic.getCollisionDetector().add( _pickupCoilGraphic );
+        compassGraphic.getCollisionDetector().add( _barMagnetGraphic );
+        compassGraphic.getCollisionDetector().add( _pickupCoilGraphic );
+        _pickupCoilGraphic.getCollisionDetector().add( _barMagnetGraphic );
+        _pickupCoilGraphic.getCollisionDetector().add( compassGraphic );
         
         //----------------------------------------------------------------------------
         // Control
@@ -181,37 +201,100 @@ public class PickupCoilModule extends FaradayModule {
         // Control Panel
         {
             ControlPanel controlPanel = new ControlPanel( this );
-
-            BarMagnetPanel barMagnetPanel = new BarMagnetPanel(
-                    barMagnetModel, compassModel, barMagnetGraphic, gridGraphic, fieldMeterGraphic );
-            barMagnetPanel.setSeeInsideVisible( false );
-            barMagnetPanel.setFieldMeterEnabled( false );
-            controlPanel.addFullWidth( barMagnetPanel );
+            setControlPanel( controlPanel );
             
-            controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
+            // Bar Magnet controls
+            _barMagnetPanel = new BarMagnetPanel(
+                    _barMagnetModel, _compassModel, _barMagnetGraphic, _gridGraphic, _fieldMeterGraphic );
+            _barMagnetPanel.setSeeInsideVisible( false );
+            _barMagnetPanel.setFieldMeterEnabled( false );
+            controlPanel.addFullWidth( _barMagnetPanel );
             
-            PickupCoilPanel pickupCoilPanel = new PickupCoilPanel( 
-                    pickupCoilModel, pickupCoilGraphic, lightbulbModel, voltmeterModel );
-            controlPanel.addFullWidth( pickupCoilPanel );
-
+            // Spacer
+            VerticalSpacePanel spacePanel = new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT );
+            controlPanel.addFullWidth( spacePanel );
+            
+            // Pickup Coil controls
+            _pickupCoilPanel = new PickupCoilPanel( 
+                    _pickupCoilModel, _pickupCoilGraphic, _lightbulbModel, _voltmeterModel );
+            controlPanel.addFullWidth( _pickupCoilPanel );
+            
+            // Scaling calibration
             if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
                 controlPanel.addFullWidth( new VerticalSpacePanel( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT ) );
                 
-                ScalePanel scalePanel = new ScalePanel( lightbulbModel, voltmeterModel, pickupCoilGraphic, null );
+                ScalePanel scalePanel = new ScalePanel( _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
                 controlPanel.addFullWidth( scalePanel );
             }
             
-            this.setControlPanel( controlPanel );
+            // Reset button
+            JButton resetButton = new JButton( SimStrings.get( "Reset.button" ) );
+            resetButton.addActionListener( new ActionListener() { 
+                public void actionPerformed( ActionEvent e ) {
+                    reset();
+                }
+            } );
+            controlPanel.add( resetButton );
         }
 
+        reset();
+        
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
         
         // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, barMagnetModel, pickupCoilModel );
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _barMagnetModel, _pickupCoilModel );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Handles the "Reset" button, resets everything thing to the initial state.
+     */
+    private void reset() {
+        
+        // Bar Magnet model
+        _barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
+        _barMagnetModel.setDirection( 0 /* radians */ );
+        
+        // Compass model
+        _compassModel.setLocation( COMPASS_LOCATION );
+        _compassModel.setEnabled( true );
+        
+        // Pickup Coil model
+        _pickupCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
+        _pickupCoilModel.setLoopArea( LOOP_AREA );
+        _pickupCoilModel.setDirection( 0 /* radians */ );
+        _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
+       
+        // Lightbulb
+        _lightbulbModel.setEnabled( true );
+        
+        // Volt Meter
+        _voltmeterModel.setEnabled( false );
+        
+        // Bar Magnet view
+        _barMagnetGraphic.setTransparencyEnabled( false );
+        
+        // Pickup Coil view
+        _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        
+        // Compass Grid view
+        _gridGraphic.setVisible( true );
+        
+        // Field Meter view
+        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterGraphic.setVisible( false );
+        
+        // Control panel
+        _barMagnetPanel.update();
+        _pickupCoilPanel.update();
     }
     
     //----------------------------------------------------------------------------

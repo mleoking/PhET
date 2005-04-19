@@ -219,14 +219,21 @@ public class ElectromagnetPanel extends FaradayPanel {
         _electronsCheckBox.addActionListener( listener );
         _loopsSpinner.addChangeListener( listener );
 
-        // Update control panel to match the components that it's controlling.
+        // Set the state of the controls.
+        update();
+    }
+    
+    /**
+     * Updates the control panel to match the state of the things that it's controlling.
+     */
+    public void update() {
         _batteryRadioButton.setSelected( _batteryModel.isEnabled() );
         _acRadioButton.setSelected( _acPowerSupplyModel.isEnabled() );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
-        _loopsSpinner.setValue( new Integer( _sourceCoilModel.getNumberOfLoops() ) );
+        _loopsSpinner.setValue( new Integer( _sourceCoilModel.getNumberOfLoops() ) ); 
     }
     
     //----------------------------------------------------------------------------

@@ -14,7 +14,11 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -58,6 +62,17 @@ public class BarMagnetModule extends FaradayModule {
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
     //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private BarMagnet _barMagnetModel;
+    private Compass _compassModel;
+    private BarMagnetGraphic _barMagnetGraphic;
+    private CompassGridGraphic _gridGraphic;
+    private FieldMeterGraphic _fieldMeterGraphic;
+    private BarMagnetPanel _barMagnetPanel;
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -79,19 +94,19 @@ public class BarMagnetModule extends FaradayModule {
         this.setModel( model );
         
         // Bar Magnet
-        BarMagnet barMagnetModel = new BarMagnet();
-        barMagnetModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
-        barMagnetModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
-        barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
-        barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
-        barMagnetModel.setDirection( 0 /* radians */ );
+        _barMagnetModel = new BarMagnet();
+        _barMagnetModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
+        _barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
+        _barMagnetModel.setDirection( 0 /* radians */ );
         // Do NOT set the size -- size is set by the associated BarMagnetGraphic.
         
         // Compass model
-        Compass compassModel = new Compass( barMagnetModel );
-        compassModel.setLocation( COMPASS_LOCATION );
-        compassModel.setBehavior( Compass.KINEMATIC_BEHAVIOR );
-        model.addModelElement( compassModel );
+        _compassModel = new Compass( _barMagnetModel );
+        _compassModel.setLocation( COMPASS_LOCATION );
+        _compassModel.setBehavior( Compass.KINEMATIC_BEHAVIOR );
+        model.addModelElement( _compassModel );
         
         //----------------------------------------------------------------------------
         // View
@@ -103,35 +118,34 @@ public class BarMagnetModule extends FaradayModule {
         this.setApparatusPanel( apparatusPanel );
         
         // Bar Magnet
-        BarMagnetGraphic barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, barMagnetModel );
-        apparatusPanel.addChangeListener( barMagnetGraphic );
-        apparatusPanel.addGraphic( barMagnetGraphic, BAR_MAGNET_LAYER );
+        _barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, _barMagnetModel );
+        apparatusPanel.addChangeListener( _barMagnetGraphic );
+        apparatusPanel.addGraphic( _barMagnetGraphic, BAR_MAGNET_LAYER );
         
         // Grid
-        CompassGridGraphic gridGraphic = new CompassGridGraphic( apparatusPanel, barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
-        gridGraphic.setRescalingEnabled( true );
-        gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
-        gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
-        apparatusPanel.addChangeListener( gridGraphic );
-        apparatusPanel.addGraphic( gridGraphic, COMPASS_GRID_LAYER );
-        super.setCompassGridGraphic( gridGraphic );
+        _gridGraphic = new CompassGridGraphic( apparatusPanel, _barMagnetModel, FaradayConfig.GRID_SPACING, FaradayConfig.GRID_SPACING );
+        _gridGraphic.setRescalingEnabled( true );
+        _gridGraphic.setNeedleSize( FaradayConfig.GRID_NEEDLE_SIZE );
+        _gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
+        apparatusPanel.addChangeListener( _gridGraphic );
+        apparatusPanel.addGraphic( _gridGraphic, COMPASS_GRID_LAYER );
+        super.setCompassGridGraphic( _gridGraphic );
         
         // CompassGraphic
-        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, compassModel );
-        compassGraphic.setLocation( COMPASS_LOCATION );
+        CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
         apparatusPanel.addChangeListener( compassGraphic );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
         // Field Meter
-        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, barMagnetModel );
-        fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        fieldMeterGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( fieldMeterGraphic );
-        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
+        _fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _barMagnetModel );
+        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( _fieldMeterGraphic );
+        apparatusPanel.addGraphic( _fieldMeterGraphic, FIELD_METER_LAYER );
         
         // Collision detection
-        barMagnetGraphic.getCollisionDetector().add( compassGraphic );
-        compassGraphic.getCollisionDetector().add( barMagnetGraphic );
+        _barMagnetGraphic.getCollisionDetector().add( compassGraphic );
+        compassGraphic.getCollisionDetector().add( _barMagnetGraphic );
         
         //----------------------------------------------------------------------------
         // Control
@@ -140,21 +154,66 @@ public class BarMagnetModule extends FaradayModule {
         // Control Panel
         {
             ControlPanel controlPanel = new ControlPanel( this );
-            BarMagnetPanel barMagnetPanel = new BarMagnetPanel( 
-                    barMagnetModel, compassModel, 
-                    barMagnetGraphic, gridGraphic, fieldMeterGraphic );
-            controlPanel.addFullWidth( barMagnetPanel );
             setControlPanel( controlPanel );
+            
+            // Bar Magnet controls
+            _barMagnetPanel = new BarMagnetPanel( 
+                    _barMagnetModel, _compassModel, 
+                    _barMagnetGraphic, _gridGraphic, _fieldMeterGraphic );
+            controlPanel.addFullWidth( _barMagnetPanel );
+            
+            // Reset button
+            JButton resetButton = new JButton( SimStrings.get( "Reset.button" ) );
+            resetButton.addActionListener( new ActionListener() { 
+                public void actionPerformed( ActionEvent e ) {
+                    reset();
+                }
+            } );
+            controlPanel.add( resetButton ); 
         }
+        
+        reset();
         
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
         
         // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, barMagnetModel, compassModel );
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _barMagnetModel, _compassModel );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Handles the "Reset" button, resets everything thing to the initial state.
+     */
+    private void reset() {
+        
+        // Bar Magnet model
+        _barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
+        _barMagnetModel.setDirection( 0 /* radians */ );
+        
+        // Compass model
+        _compassModel.setLocation( COMPASS_LOCATION );
+        _compassModel.setEnabled( true );
+        
+        // Bar Magnet view
+        _barMagnetGraphic.setTransparencyEnabled( false );
+        
+        // Compass Grid view
+        _gridGraphic.setVisible( true );
+        
+        // Field Meter view
+        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterGraphic.setVisible( false );
+        
+        // Control panel
+        _barMagnetPanel.update();
     }
     
     //----------------------------------------------------------------------------
