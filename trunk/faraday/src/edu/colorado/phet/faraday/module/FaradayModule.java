@@ -23,7 +23,7 @@ import edu.colorado.phet.faraday.view.DebuggerGraphic;
 
 
 /**
- * FaradayModule
+ * FaradayModule is the base class for all Faraday modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -34,6 +34,7 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
     // Class data
     //----------------------------------------------------------------------------
     
+    // Common graphics layers
     protected static final double DEBUG_LAYER = Double.MAX_VALUE - 1;
     protected static final double HELP_LAYER = Double.MAX_VALUE;
     
@@ -48,6 +49,12 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     * 
+     * @param title
+     * @param clock
+     */
     public FaradayModule( String title, AbstractClock clock ) {
         super( title, clock );
     }
@@ -56,11 +63,21 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the compass grid graphic for this module.
+     * 
+     * @param gridGraphic
+     */
     public void setCompassGridGraphic( CompassGridGraphic gridGraphic ) {
         assert( gridGraphic != null );
         _gridGraphic = gridGraphic;
     }
     
+    /**
+     * Gets the compass grid graphic for this module.
+     * 
+     * @param the grid graphic
+     */
     public CompassGridGraphic getCompassGridGraphic() {
         return _gridGraphic;
     }
@@ -115,41 +132,59 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
      * @see edu.colorado.phet.faraday.module.ICompassGridModule#setGridSpacing(int, int)
      */
     public void setGridSpacing( int xSpacing, int ySpacing ) {
-        _gridGraphic.setSpacing( xSpacing, ySpacing );
+        if ( _gridGraphic != null ) {
+            _gridGraphic.setSpacing( xSpacing, ySpacing );
+        }
     }
 
     /*
      * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridXSpacing()
      */
     public int getGridXSpacing() {
-        return _gridGraphic.getXSpacing();
+        int xSpacing = 0;
+        if ( _gridGraphic != null ) {
+            xSpacing = _gridGraphic.getXSpacing();
+        }
+        return xSpacing;
     }
 
     /*
      * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridYSpacing()
      */
     public int getGridYSpacing() {
-        return _gridGraphic.getYSpacing();
+        int ySpacing = 0;
+        if ( _gridGraphic != null ) {
+            ySpacing = _gridGraphic.getYSpacing();
+        }
+        return ySpacing;
     }  
     
     /*
      * @see edu.colorado.phet.faraday.module.ICompassGridModule#setGridNeedleSize(Dimension)
      */
     public void setGridNeedleSize( Dimension size ) {
-        _gridGraphic.setNeedleSize( size );
+        if ( _gridGraphic != null ) {
+            _gridGraphic.setNeedleSize( size );
+        }
     }
 
     /*
      * @see edu.colorado.phet.faraday.module.ICompassGridModule#getGridNeedleSize()
      */
     public Dimension getGridNeedleSize() {
-        return _gridGraphic.getNeedleSize();
+        Dimension size = null;
+        if ( _gridGraphic != null ) {
+            size = _gridGraphic.getNeedleSize();
+        }
+        return size;
     }
     
     /*
      * @see edu.colorado.phet.faraday.module.ICompassGridModule#setAlphaEnabled(boolean)
      */
     public void setGridBackground( Color color ) {
-        _gridGraphic.setGridBackground( color );
+        if ( _gridGraphic != null ) {
+            _gridGraphic.setGridBackground( color );
+        }
     }
 }
