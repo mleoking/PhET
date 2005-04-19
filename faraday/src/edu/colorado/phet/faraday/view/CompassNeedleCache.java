@@ -105,6 +105,7 @@ public class CompassNeedleCache {
     
     /**
      * Sets the size of the needles.
+     * <p>
      * Calling this method clears the Shape portion of the cache.
      * 
      * @param width
@@ -114,10 +115,7 @@ public class CompassNeedleCache {
         assert( width > 0 && height > 0 );
         if ( _needleSize.width != width && _needleSize.height != height ) {
             _needleSize.setSize( width, height );
-            for ( int i = 0; i < _shapeTable.length; i++ ) {
-                _shapeTable[ i ] = null;
-            }
-            _shapeCount = 0;
+            clearShapes();
         }
     }
     
@@ -143,11 +141,7 @@ public class CompassNeedleCache {
         assert( _northColorTable.length == _southColorTable.length );
         if ( alphaEnabled != _alphaEnabled ) {
             _alphaEnabled = alphaEnabled;
-            for ( int i = 0; i < _northColorTable.length; i++ ) {
-                _northColorTable[ i ] = null;
-                _southColorTable[ i ] = null;
-            }
-            _northColorCount = _southColorCount = 0;
+            clearColors();
         }
     }
     
@@ -174,16 +168,37 @@ public class CompassNeedleCache {
         double direction;
         for ( int i = 0; i < NUMBER_OF_SHAPES; i++ ) {
             direction = Math.toRadians( i );
-            _shapeTable[i] = getNorthShape( direction );
+            getNorthShape( direction );
         }
         // Populate the Color tables.
         double strength;
         double deltaStrength = 1.0 / NUMBER_OF_COLORS;
         for ( int i = 0; i < NUMBER_OF_COLORS; i++ ) {
             strength = i * deltaStrength;
-            _northColorTable[i] = getNorthColor( strength );
-            _southColorTable[i] = getSouthColor( strength );
+            getNorthColor( strength );
+            getSouthColor( strength );
         }
+    }
+    
+    /**
+     * Clears the Shapes portion of the cache.
+     */
+    private void clearShapes() {
+        for ( int i = 0; i < _shapeTable.length; i++ ) {
+            _shapeTable[ i ] = null;
+        }
+        _shapeCount = 0;
+    }
+    
+    /**
+     * Clears the Colors portion of the cache.
+     */
+    private void clearColors() {
+        for ( int i = 0; i < _northColorTable.length; i++ ) {
+            _northColorTable[ i ] = null;
+            _southColorTable[ i ] = null;
+        }
+        _northColorCount = _southColorCount = 0;
     }
     
     /**
