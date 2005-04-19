@@ -61,6 +61,10 @@ public class BarMagnetModule extends FaradayModule {
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
+    // Bar Magnet
+    private static final double BAR_MAGNET_STRENGTH = 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX;
+    private static final double BAR_MAGNET_DIRECTION = 0.0; // radians
+         
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -97,9 +101,9 @@ public class BarMagnetModule extends FaradayModule {
         _barMagnetModel = new BarMagnet();
         _barMagnetModel.setMaxStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
         _barMagnetModel.setMinStrength( FaradayConfig.BAR_MAGNET_STRENGTH_MIN );
-        _barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
         _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
-        _barMagnetModel.setDirection( 0 /* radians */ );
+        _barMagnetModel.setDirection( BAR_MAGNET_DIRECTION );
         // Do NOT set the size -- size is set by the associated BarMagnetGraphic.
         
         // Compass model
@@ -194,9 +198,9 @@ public class BarMagnetModule extends FaradayModule {
     private void reset() {
         
         // Bar Magnet model
-        _barMagnetModel.setStrength( 0.75 * FaradayConfig.BAR_MAGNET_STRENGTH_MAX );
+        _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
         _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
-        _barMagnetModel.setDirection( 0 /* radians */ );
+        _barMagnetModel.setDirection( BAR_MAGNET_DIRECTION );
         
         // Compass model
         _compassModel.setLocation( COMPASS_LOCATION );

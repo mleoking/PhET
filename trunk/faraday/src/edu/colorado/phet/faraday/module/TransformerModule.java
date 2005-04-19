@@ -65,13 +65,27 @@ public class TransformerModule extends FaradayModule {
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
+    // Battery
+    private static final double BATTERY_AMPLITUDE = 1.0;
+    
+    // AC Power Supply
+    private static final double AC_MAX_AMPLITUDE = 0.5;
+    private static final double AC_FREQUENCY = 0.5;
+    
     // Electromagnet
     private static final int ELECTROMAGNET_NUMBER_OF_LOOPS = FaradayConfig.ELECTROMAGNET_LOOPS_MAX;
     private static final double ELECTROMAGNET_LOOP_RADIUS = 50.0;  // Fixed loop radius
+    private static final double ELECTROMAGNET_DIRECTION = 0.0; // radians
     
     // Pickup Coil
-    private static final int PICKUP_NUMBER_OF_LOOPS = 2;
-    private static final double PICKUP_LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
+    private static final int PICKUP_COIL_NUMBER_OF_LOOPS = 2;
+    private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConfig.MAX_PICKUP_LOOP_AREA;
+    private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
+    
+    // Scaling
+    private static final double LIGHTBULB_SCALE = 10.0;
+    private static final double VOLTMETER_SCALE = 12.0;
+    private static final double ELECTRON_SPEED_SCALE = VOLTMETER_SCALE;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -116,13 +130,13 @@ public class TransformerModule extends FaradayModule {
         // Battery
         _batteryModel = new Battery();
         _batteryModel.setMaxVoltage( FaradayConfig.BATTERY_VOLTAGE_MAX  );
-        _batteryModel.setAmplitude( 1.0 );
+        _batteryModel.setAmplitude( BATTERY_AMPLITUDE );
         
         // AC Source 
         _acPowerSupplyModel = new ACPowerSupply();
         _acPowerSupplyModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
-        _acPowerSupplyModel.setMaxAmplitude( 0.5 );
-        _acPowerSupplyModel.setFrequency( 0.5 );
+        _acPowerSupplyModel.setMaxAmplitude( AC_MAX_AMPLITUDE );
+        _acPowerSupplyModel.setFrequency( AC_FREQUENCY );
         _acPowerSupplyModel.setEnabled( false );
         model.addModelElement( _acPowerSupplyModel );
         
@@ -130,14 +144,14 @@ public class TransformerModule extends FaradayModule {
         _sourceCoilModel = new SourceCoil();
         _sourceCoilModel.setNumberOfLoops( ELECTROMAGNET_NUMBER_OF_LOOPS );
         _sourceCoilModel.setRadius( ELECTROMAGNET_LOOP_RADIUS );
-        _sourceCoilModel.setDirection( 0 /* radians */ );
+        _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
         _sourceCoilModel.setVoltageSource( _batteryModel );
         
         // Electromagnet
         _electromagnetModel = new Electromagnet( _sourceCoilModel );
         _electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
-        _electromagnetModel.setDirection( 0 /* radians */ );
+        _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil appearance.
         _electromagnetModel.update();
@@ -151,9 +165,9 @@ public class TransformerModule extends FaradayModule {
         
         // Pickup Coil
         _pickupCoilModel = new PickupCoil( _electromagnetModel );
-        _pickupCoilModel.setNumberOfLoops( PICKUP_NUMBER_OF_LOOPS );
-        _pickupCoilModel.setLoopArea( PICKUP_LOOP_AREA );
-        _pickupCoilModel.setDirection( 0 /* radians */ );
+        _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
+        _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
+        _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         model.addModelElement( _pickupCoilModel );
@@ -161,13 +175,13 @@ public class TransformerModule extends FaradayModule {
         // Lightbulb
         _lightbulbModel = new Lightbulb( _pickupCoilModel );
         _lightbulbModel.setEnabled( true );
-        _lightbulbModel.setScale( 2.5 );
+        _lightbulbModel.setScale( LIGHTBULB_SCALE );
         
         // Volt Meter
         _voltmeterModel = new Voltmeter( _pickupCoilModel );
         _voltmeterModel.setRotationalKinematicsEnabled( true );
         _voltmeterModel.setEnabled( false );
-        _voltmeterModel.setScale( 3.0 );
+        _voltmeterModel.setScale( VOLTMETER_SCALE );
         model.addModelElement( _voltmeterModel );
         
         //----------------------------------------------------------------------------
@@ -189,7 +203,7 @@ public class TransformerModule extends FaradayModule {
         // Pickup Coil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
                 _pickupCoilModel, _lightbulbModel, _voltmeterModel, _electromagnetModel );
-        _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( 3.0 );
+        _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
@@ -288,18 +302,18 @@ public class TransformerModule extends FaradayModule {
     private void reset() {
         
         // Battery model
-        _batteryModel.setAmplitude( 1.0 );
+        _batteryModel.setAmplitude( BATTERY_AMPLITUDE );
         _batteryModel.setEnabled( true );
         
         // AC Power Supply model
-        _acPowerSupplyModel.setMaxAmplitude( 0.5 );
-        _acPowerSupplyModel.setFrequency( 0.5 );
+        _acPowerSupplyModel.setMaxAmplitude( AC_MAX_AMPLITUDE );
+        _acPowerSupplyModel.setFrequency( AC_FREQUENCY );
         _acPowerSupplyModel.setEnabled( false );
         
         // Source Coil model
         _sourceCoilModel.setNumberOfLoops( ELECTROMAGNET_NUMBER_OF_LOOPS );
         _sourceCoilModel.setRadius( ELECTROMAGNET_LOOP_RADIUS );
-        _sourceCoilModel.setDirection( 0 /* radians */ );
+        _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
         if ( _batteryModel.isEnabled() ) {
             _sourceCoilModel.setVoltageSource( _batteryModel );
         }
@@ -309,9 +323,7 @@ public class TransformerModule extends FaradayModule {
         
         // Electromagnet model
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
-        _electromagnetModel.setDirection( 0 /* radians */ );
-        // Do NOT set the strength! -- strength will be set based on the source coil model.
-        // Do NOT set the size! -- size will be based on the source coil appearance.
+        _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
         _electromagnetModel.update();
         
         // Compass model
@@ -319,9 +331,9 @@ public class TransformerModule extends FaradayModule {
         _compassModel.setEnabled( true );
         
         // Pickup Coil model
-        _pickupCoilModel.setNumberOfLoops( PICKUP_NUMBER_OF_LOOPS );
-        _pickupCoilModel.setLoopArea( PICKUP_LOOP_AREA );
-        _pickupCoilModel.setDirection( 0 /* radians */ );
+        _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
+        _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
+        _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
        
         // Lightbulb

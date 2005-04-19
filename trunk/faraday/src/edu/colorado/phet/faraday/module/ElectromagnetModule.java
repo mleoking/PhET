@@ -63,9 +63,17 @@ public class ElectromagnetModule extends FaradayModule {
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
+    // Battery
+    private static final double BATTERY_AMPLITUDE = 1.0;
+    
+    // AC Power Supply
+    private static final double AC_MAX_AMPLITUDE = 0.5;
+    private static final double AC_FREQUENCY = 0.5;
+    
     // Source Coil
-    private static final int NUMBER_OF_LOOPS = FaradayConfig.ELECTROMAGNET_LOOPS_MAX;
-    private static final double LOOP_RADIUS = 50.0;  // Fixed loop radius
+    private static final int ELECTROMAGNET_NUMBER_OF_LOOPS = FaradayConfig.ELECTROMAGNET_LOOPS_MAX;
+    private static final double ELECTROMAGNET_LOOP_RADIUS = 50.0;  // Fixed loop radius
+    private static final double ELECTROMAGNET_DIRECTION = 0.0; // radians
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -105,22 +113,22 @@ public class ElectromagnetModule extends FaradayModule {
         // Battery
         _batteryModel = new Battery();
         _batteryModel.setMaxVoltage( FaradayConfig.BATTERY_VOLTAGE_MAX  );
-        _batteryModel.setAmplitude( 1.0 );
+        _batteryModel.setAmplitude( BATTERY_AMPLITUDE );
         _batteryModel.setEnabled( true );
         
         // AC Power Supply
         _acPowerSupplyModel = new ACPowerSupply();
         _acPowerSupplyModel.setMaxVoltage( FaradayConfig.AC_VOLTAGE_MAX );
-        _acPowerSupplyModel.setMaxAmplitude( 0.5 );
-        _acPowerSupplyModel.setFrequency( 0.5 );
+        _acPowerSupplyModel.setMaxAmplitude( AC_MAX_AMPLITUDE );
+        _acPowerSupplyModel.setFrequency( AC_FREQUENCY );
         _acPowerSupplyModel.setEnabled( false );
         model.addModelElement( _acPowerSupplyModel );
         
         // Source Coil
         _sourceCoilModel = new SourceCoil();
-        _sourceCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
-        _sourceCoilModel.setRadius( LOOP_RADIUS );
-        _sourceCoilModel.setDirection( 0 /* radians */ );
+        _sourceCoilModel.setNumberOfLoops( ELECTROMAGNET_NUMBER_OF_LOOPS );
+        _sourceCoilModel.setRadius( ELECTROMAGNET_LOOP_RADIUS );
+        _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
         if ( _batteryModel.isEnabled() ) {
             _sourceCoilModel.setVoltageSource( _batteryModel );
         }
@@ -132,7 +140,7 @@ public class ElectromagnetModule extends FaradayModule {
         _electromagnetModel = new Electromagnet( _sourceCoilModel );
         _electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
-        _electromagnetModel.setDirection( 0 /* radians */ );
+        _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil appearance.
         _electromagnetModel.update();
@@ -241,18 +249,18 @@ public class ElectromagnetModule extends FaradayModule {
     private void reset() {
         
         // Battery model
-        _batteryModel.setAmplitude( 1.0 );
+        _batteryModel.setAmplitude( BATTERY_AMPLITUDE );
         _batteryModel.setEnabled( true );
         
         // AC Power Supply model
-        _acPowerSupplyModel.setMaxAmplitude( 0.5 );
-        _acPowerSupplyModel.setFrequency( 0.5 );
+        _acPowerSupplyModel.setMaxAmplitude( AC_MAX_AMPLITUDE );
+        _acPowerSupplyModel.setFrequency( AC_FREQUENCY );
         _acPowerSupplyModel.setEnabled( false );
         
         // Source Coil model
-        _sourceCoilModel.setNumberOfLoops( NUMBER_OF_LOOPS );
-        _sourceCoilModel.setRadius( LOOP_RADIUS );
-        _sourceCoilModel.setDirection( 0 /* radians */ );
+        _sourceCoilModel.setNumberOfLoops( ELECTROMAGNET_NUMBER_OF_LOOPS );
+        _sourceCoilModel.setRadius( ELECTROMAGNET_LOOP_RADIUS );
+        _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
         if ( _batteryModel.isEnabled() ) {
             _sourceCoilModel.setVoltageSource( _batteryModel );
         }
@@ -262,7 +270,7 @@ public class ElectromagnetModule extends FaradayModule {
         
         // Electromagnet model
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
-        _electromagnetModel.setDirection( 0 /* radians */ );
+        _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil appearance.
         _electromagnetModel.update();
