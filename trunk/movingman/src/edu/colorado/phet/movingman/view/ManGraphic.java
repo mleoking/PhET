@@ -174,7 +174,8 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     public void mouseDragged( MouseEvent event ) {
         if( !module.isRecordMode() || module.isPaused() || module.getNumSmoothingPoints() != 12 ) {
             module.setRecordMode();
-            module.setNumSmoothingPoints( 12 );
+//            module.setNumSmoothingPoints( 12 );
+            module.setSmoothingSmooth();
             module.setPaused( false );
         }
         final Point newPt = dragHandler.getNewLocation( event.getPoint() );

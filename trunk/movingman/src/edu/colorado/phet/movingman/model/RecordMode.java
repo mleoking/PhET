@@ -21,7 +21,8 @@ public class RecordMode extends Mode {
         movingManTimeModel.addListener( new TimeListenerAdapter() {
             public void recordingStarted() {
 //                module.setNumSmoothingPoints( 2 );
-                module.setNumSmoothingPoints( 12 );
+                module.setSmoothingSharp();
+//                module.setSmoothingSmooth();
                 System.out.println( "Recording started." );
             }
         } );

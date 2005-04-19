@@ -43,7 +43,7 @@ public class MovingManModel {
         positionDataSuite.setDerivative( velocityDataSuite );
         velocityDataSuite.setDerivative( accelerationDataSuite );
         man = new Man( 0, -maxManPosition, maxManPosition );
-        man.addListener( new CollisionAudioEffects( man ) );
+        man.addListener( new CollisionAudioEffects( movingManModule, man ) );
     }
 
     public void setNumSmoothingPoints( int n ) {

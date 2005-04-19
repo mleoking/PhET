@@ -40,13 +40,13 @@ public class MovingManControlPanel extends JPanel {
         panel.setLayout( new BorderLayout() );
 
         add( panel, BorderLayout.NORTH );
-        JButton changeControl = new JButton( SimStrings.get( "MovingManControlPanel.ChangeSmoothingPointsButton" ) );
-        changeControl.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                String value = JOptionPane.showInputDialog( SimStrings.get( "MovingManControlPanel.SmoothingPointsLabel" ), "15" );
-                module.setNumSmoothingPoints( Integer.parseInt( value ) );
-            }
-        } );
+//        JButton changeControl = new JButton( SimStrings.get( "MovingManControlPanel.ChangeSmoothingPointsButton" ) );
+//        changeControl.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                String value = JOptionPane.showInputDialog( SimStrings.get( "MovingManControlPanel.SmoothingPointsLabel" ), "15" );
+//                module.setNumSmoothingPoints( Integer.parseInt( value ) );
+//            }
+//        } );
 
         VerticalLayoutPanel northPanel = new VerticalLayoutPanel();
 //        final JMenu viewMenu = new JMenu( SimStrings.get( "MovingManControlPanel.ViewMenu" ) );

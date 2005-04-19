@@ -8,7 +8,7 @@ package edu.colorado.phet.movingman.plotdevice;
  * Copyright (c) Apr 4, 2005 by Sam Reid
  */
 public interface PlotDeviceListener {
-    void cursorMoved( double modelX );
+    void cursorDragged( double modelX );
 
     void zoomChanged();
 
@@ -19,4 +19,9 @@ public interface PlotDeviceListener {
     void sliderDragged( double dragValue );
 
     void bufferChanged();
+
+    void cursorVisibilityChanged( boolean visible );
+
+    void playbackTimeChanged();
+
 }

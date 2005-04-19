@@ -72,6 +72,16 @@ public class PlaybackPanel extends JPanel {
         add( pause );
         add( rewind );
         add( clear );
+
+        final JCheckBox audio = new JCheckBox( "Sound", true );
+        audio.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setSoundEnabled( audio.isSelected() );
+            }
+        } );
+        add( new JSeparator() );
+        add( audio );
+
 //        JLabel separator = new JLabel();
 //        separator.setPreferredSize( new Dimension( 20, 10 ) );
 //        add( separator );

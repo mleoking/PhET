@@ -31,6 +31,7 @@ public class PlaybackMode extends Mode {
 
     public void initialize() {
         module.initialize();
+        module.getMovingManApparatusPanel().setCursorsVisible( true );
     }
 
     public void stepInTime( double dt ) {

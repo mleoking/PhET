@@ -35,7 +35,7 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
 //    private TimePoint lastPoint;
     private PhetShadowTextGraphic readoutGraphic;
     private DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
-    private HTMLGraphic unitsGraphic;
+    private ShadowHTMLGraphic unitsGraphic;
     private PhetShadowTextGraphic nameGraphic;
     private PhetImageGraphic bufferedNameGraphic;
 
@@ -54,7 +54,8 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
         bufferedLinePlot.setAutoRepaint( true );
         timeSeries.addObserver( new TimeSeriesObserver() );
         readoutGraphic = new PhetShadowTextGraphic( plotDevice.getComponent(), font, "text", color, 1, 1, Color.black );
-        unitsGraphic = new HTMLGraphic( getComponent(), font, unitsString, color );
+//        unitsGraphic = new HTMLGraphic( getComponent(), font, unitsString, color );
+        unitsGraphic = new ShadowHTMLGraphic( getComponent(), unitsString, font, color, 1, 1, Color.black );
         nameGraphic = new PhetShadowTextGraphic( plotDevice.getComponent(), font, name + ": ", color, 1, 1, Color.black );
         bufferedNameGraphic = BufferedPhetGraphic2.createBuffer( nameGraphic, new BasicGraphicsSetup(), BufferedImage.TYPE_INT_RGB, plotDevice.getBackground() );
 //        readoutGraphic = new PhetShadowTextGraphic( plotDevice.getComponent(),font,
@@ -75,6 +76,10 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
     public void setPlaybackTime( double time ) {
         TimePoint timePoint = rawData.getValueForTime( time );
         updateReadoutGraphic( timePoint );
+    }
+
+    public void setReadoutValue( double value ) {
+        updateReadoutGraphic( value );
     }
 
     private class TimeSeriesObserver implements TimeSeries.Observer {
@@ -119,11 +124,18 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
         }
     }
 
-    private void updateReadoutGraphic( TimePoint timePoint ) {
-        String value = decimalFormat.format( timePoint.getValue() );
-//        readoutGraphic.setText( name + ": " + value + " " );
+    private void updateReadoutGraphic( double v ) {
+        String value = decimalFormat.format( v );
         readoutGraphic.setText( value + " " );
         unitsGraphic.setLocation( readoutGraphic.getX() + readoutGraphic.getWidth(), readoutGraphic.getY() );
+    }
+
+    private void updateReadoutGraphic( TimePoint timePoint ) {
+        updateReadoutGraphic( timePoint.getValue() );
+//        String value = decimalFormat.format( timePoint.getValue() );
+////        readoutGraphic.setText( name + ": " + value + " " );
+//        readoutGraphic.setText( value + " " );
+//        unitsGraphic.setLocation( readoutGraphic.getX() + readoutGraphic.getWidth(), readoutGraphic.getY() );
     }
 
     private void addRectangleGraphicForDebugging( Rectangle screenRect, final PlotDevice plotDevice ) {

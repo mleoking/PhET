@@ -1,6 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.movingman.MMUtil;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
 
 import java.awt.*;
@@ -16,7 +17,8 @@ public class MovingManLayout {
     private int walkwayHeight = 150;
     private int topInset = 20;
     private int walkwayBottomInset = 0;
-    private int spaceBetweenPlots = 20;
+//    private int spaceBetweenPlots = 20;
+    private int spaceBetweenPlots = MMUtil.isHighScreenResolution() ? 20 : 10;
 
     private MMVerticalLayout verticalLayout;
     private MovingManApparatusPanel movingManApparatusPanel;
@@ -33,13 +35,13 @@ public class MovingManLayout {
         verticalLayout.addSpacer( walkwayBottomInset );
         verticalLayout.addSpacer( topInset );
         verticalLayout.addSpacer( spaceBetweenPlots );
-        layoutItemX = movingManApparatusPanel.getPlotSet().getMinizablePositionPlot();
+        layoutItemX = movingManApparatusPanel.getPlotSet().getPositionPlotSuite();
         verticalLayout.addLayoutItem( layoutItemX );
         verticalLayout.addSpacer( spaceBetweenPlots );
-        layoutItemV = movingManApparatusPanel.getPlotSet().getMinimizableVelocityPlot();
+        layoutItemV = movingManApparatusPanel.getPlotSet().getVelocityPlotSuite();
         verticalLayout.addLayoutItem( layoutItemV );
         verticalLayout.addSpacer( spaceBetweenPlots );
-        layoutItemA = movingManApparatusPanel.getPlotSet().getMinimizableAccelerationPlot();
+        layoutItemA = movingManApparatusPanel.getPlotSet().getAccelerationPlotSuite();
         verticalLayout.addLayoutItem( layoutItemA );
         verticalLayout.addSpacer( spaceBetweenPlots );
         relayout();

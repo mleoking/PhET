@@ -19,38 +19,38 @@ import java.awt.event.ActionListener;
  * Copyright (c) Apr 5, 2005 by Sam Reid
  */
 
-public class GoPauseClearPanel extends VerticalLayoutPanel {
+public class GoPauseClearPanel3button extends VerticalLayoutPanel {
     private MovingManModule module;
 
-    private JButton goPauseButton;
+    private JButton pauseButton;
+    private JButton recordButton;
     private JButton resetButton;
-    private boolean itsAGoButton = true;
 
-    public GoPauseClearPanel( final MovingManModule module ) {
+    static class ControlButton extends JButton {
+        static Font font = MMFontManager.getFontSet().getControlButtonFont();
+
+        public ControlButton( String text ) {
+            super( text );
+            setFont( font );
+        }
+    }
+
+    public GoPauseClearPanel3button( final MovingManModule module ) {
         this.module = module;
-        super.getGridBagConstraints().anchor = GridBagConstraints.CENTER;
-        final ActionListener pauseHandler = new ActionListener() {
+        pauseButton = new ControlButton( SimStrings.get( "MMPlot.PauseButton" ) );
+        pauseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setPaused( true );
             }
-        };
-        goPauseButton = new ControlButton( SimStrings.get( "MMPlot.PauseButton" ) );//longer text
-        final ActionListener goHandler = new ActionListener() {
+        } );
+        recordButton = new ControlButton( SimStrings.get( "MMPlot.RecordButton" ) );
+        recordButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRecordMode();
                 module.setPaused( false );
             }
-        };
-        goPauseButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( itsAGoButton ) {
-                    goHandler.actionPerformed( e );
-                }
-                else {
-                    pauseHandler.actionPerformed( e );
-                }
-            }
         } );
+
         resetButton = new ControlButton( SimStrings.get( "MMPlot.ResetButton" ) );
         resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -78,44 +78,21 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
                 setButtons( true, false, true );
             }
         } );
-        add( goPauseButton );
+//            add( titleLabel );
+        add( recordButton );
+        add( pauseButton );
         add( resetButton );
-        setButtons( true, false, false );
+        pauseButton.setEnabled( false );
     }
 
     private void setButtons( boolean record, boolean pause, boolean reset ) {
-        if( pause && record ) {
-
-        }
-        else if( !pause && !record ) {
-
-        }
-        if( pause ) {
-            goPauseButton.setText( "Pause" );
-            super.invalidate();
-            super.validate();
-            super.doLayout();
-            itsAGoButton = false;
-        }
-        else {
-            goPauseButton.setText( "   Go!   " );
-            itsAGoButton = true;
-        }
-
+        recordButton.setEnabled( record );
+        pauseButton.setEnabled( pause );
         resetButton.setEnabled( reset );
     }
 
-    public JButton getGoPauseButton() {
-        return goPauseButton;
-    }
-
-    static class ControlButton extends JButton {
-        static Font font = MMFontManager.getFontSet().getControlButtonFont();
-
-        public ControlButton( String text ) {
-            super( text );
-            setFont( font );
-        }
+    public JButton getGoButton() {
+        return recordButton;
     }
 
 }

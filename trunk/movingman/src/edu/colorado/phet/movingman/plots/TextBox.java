@@ -80,6 +80,8 @@ public class TextBox extends JPanel {
                 setTextFieldEditable( true );
             }
         } );
+
+        setText( "0.0" );
     }
 
     public void setTextFieldEditable( boolean editable ) {
