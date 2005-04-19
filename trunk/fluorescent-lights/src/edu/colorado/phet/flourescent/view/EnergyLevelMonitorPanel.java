@@ -16,12 +16,16 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.flourescent.model.FluorescentLightModel;
+import edu.colorado.phet.flourescent.model.Electron;
+import edu.colorado.phet.flourescent.FluorescentLightsConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 import edu.colorado.phet.lasers.view.MonitorPanel;
 
@@ -41,21 +45,22 @@ import java.util.List;
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
  * A disc is drawn on the energy levels for each atom in that state.
  */
-public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateListener, Atom.ChangeListener {
+public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateListener, Atom.ChangeListener,
+                                                                     Electron.ChangeListener {
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
-    private long averagingPeriod = 300;
+//    private long averagingPeriod = 300;
 
     // The diameter of an atom as displayed on the screen, in pixels
     private int atomDiam = 10;
     // Dimensions of the panel
-    private double panelHeight = 230;
-    private double panelWidth = 320;
+    private int panelHeight = 230;
+    private int panelWidth = 320;
     // Amplitude of the squiggle waves
     // Location and size of energy level lines
-    private Point2D origin = new Point2D.Double( 25, panelHeight - 30 );
-    private double levelLineOriginX = origin.getX();
-    private double levelLineLength = panelWidth - levelLineOriginX - 50;
+    private Point2D origin;
+    private int levelLineOriginX;
+    private int levelLineLength;
 
     // Cache of atom images of varying colors
     private Map colorToAtomImage = new HashMap();
@@ -70,11 +75,21 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
     private AtomicState[] atomicStates;
     private List atoms;
     private HashMap numAtomsInState;
+    private PhetImageGraphic electronGraphic;
+    private int electronXLoc;
 
     /**
      *
      */
-    public EnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock, AtomicState[] atomicStates ) {
+    public EnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock, AtomicState[] atomicStates,
+                                    int panelWidth, int panelHeight ) {
+        this.panelWidth = panelWidth;
+        this.panelHeight = panelHeight;
+        setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
+        this.origin = new Point( 25, panelHeight - 30 );
+        this.levelLineOriginX = (int)origin.getX();
+        this.levelLineLength = panelWidth - levelLineOriginX - 20;
+        electronXLoc = panelWidth - levelLineOriginX - 10;
 
         model = (FluorescentLightModel)module.getLaserModel();
         model.addObserver( this );
@@ -99,11 +114,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         headingText.setLocation( 30, 5 );
         this.addGraphic( headingText );
 
-//        // Add the energy level lines to the panel
-//        for( int i = 0; i < levelGraphics.length; i++ ) {
-//            this.addGraphic( levelGraphics[i] );
-//        }
-//
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
 
@@ -114,12 +124,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
      * Adjusts the layout of the panel
      */
     private void adjustPanel() {
-        // The beamArea in which the energy levels will be displayed
+        // The area in which the energy levels will be displayed
         Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
                                                      getBounds().getWidth(), getBounds().getHeight() - 30 );
-        energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, AtomicState.minEnergy,
+        // Set the model-to-view transform so that there will be a reasonable margin below the zero point
+        energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, -AtomicState.minEnergy,
                                               (int)bounds.getBounds().getMinY() + headingOffsetY, (int)bounds.getBounds().getMaxY() );
-
         for( int i = 0; i < levelGraphics.length; i++ ) {
             levelGraphics[i].update( energyYTx );
         }
@@ -144,7 +154,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
             levelGraphics[i] = new EnergyLevelGraphic(  this, atomicStates[i],
                                                 Color.blue, levelLineOriginX,
                                                 levelLineLength - levelLineOriginX,
-                                                true );
+                                                atomicStates[i] instanceof GroundState ? false : true );
         }
         for( int i = 0; i < levelGraphics.length; i++ ) {
             this.addGraphic( levelGraphics[i] );
@@ -173,13 +183,13 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         repaint();
     }
 
-    public void setAveragingPeriod( long value ) {
-        averagingPeriod = value;
-    }
-
-    public long getAveragingPeriod() {
-        return averagingPeriod;
-    }
+//    public void setAveragingPeriod( long value ) {
+//        averagingPeriod = value;
+//    }
+//
+//    public long getAveragingPeriod() {
+//        return averagingPeriod;
+//    }
 
     //----------------------------------------------------------------
     // Rendering
@@ -222,7 +232,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         if( baseSphereImg == null ) {
             try {
                 baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-lrg.gif" );
-//                baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-med.gif" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -252,7 +261,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
      */
     public void stateChanged( ClockStateEvent event ) {
         if( event.getIsPaused() ) {
-            update();
+//            update();
         }
     }
 
@@ -270,16 +279,57 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
     //----------------------------------------------------------------
 
     public void stateChanged( Atom.ChangeEvent event ){
-        update();
+        Class prevStateClass = event.getPrevState().getClass();
+        Class currStateClass = event.getCurrState().getClass();
+        int nPrev =((Integer)numAtomsInState.get( prevStateClass )).intValue();
+        int nCurr =((Integer)numAtomsInState.get( currStateClass )).intValue();
+        numAtomsInState.put( prevStateClass, new Integer( nPrev - 1 ));
+        numAtomsInState.put( currStateClass, new Integer( nCurr + 1 ));
+        invalidate();
+        repaint();
     }
 
+    //----------------------------------------------------------------
+    // Electron-related methods
+    //----------------------------------------------------------------
+
+    /**
+     * Add a representation for an electron to the panel
+     * @param electron
+     */
+    public void addElectron( Electron electron ) {
+        electron.addChangeListener( this );
+        electronGraphic = new PhetImageGraphic( this, FluorescentLightsConfig.ELECTRON_IMAGE_FILE_NAME  );
+        int yLoc = (int)energyYTx.modelToView( electron.getEnergy() );
+        electronGraphic.setLocation( electronXLoc, yLoc );
+        addGraphic( electronGraphic );
+    }
+
+    /**
+     * Implementation of Electron.ChangeListener
+     * @param changeEvent
+     */
+    public void leftSystem( Electron.ChangeEvent changeEvent ) {
+        removeGraphic( electronGraphic );
+        changeEvent.getElectrion().removeListener( this );
+    }
+
+    /**
+     * Implementation of Electron.ChangeListener
+     * @param changeEvent
+     */
+    public void energyChanged( Electron.ChangeEvent changeEvent ) {
+        int yLoc = (int)energyYTx.modelToView( changeEvent.getElectrion().getEnergy() );
+        electronGraphic.setLocation( electronXLoc, yLoc );
+        electronGraphic.repaint();
+    }
 
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
 
     /**
-     * Set the beamArea within the panel that the energy level lines can be positioned
+     * Set the area within the panel that the energy level lines can be positioned
      */
     private class PanelResizer extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {

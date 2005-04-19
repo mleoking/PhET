@@ -36,7 +36,7 @@ public class Electron extends SphericalBody implements Collidable {
     private static double ENERGY_FUDGE_FACTOR = 1E-6;
 
     // Mass of an electron, in kg
-    private static final double ELECTRON_MASS = 9.11E-31;
+    private static final double ELECTRON_MASS = 9.11E-31 * ENERGY_FUDGE_FACTOR;
     // Radius of an electron. An arbitrary dimension based on how it looks on the screen
     private static final double ELECTRON_RADIUS = 2;
 
@@ -62,11 +62,13 @@ public class Electron extends SphericalBody implements Collidable {
     public void setVelocity( Vector2D velocity ) {
         collidableAdapter.updateVelocity();
         super.setVelocity( velocity );
+        changeListenerProxy.energyChanged( new ChangeEvent( this ) );
     }
 
     public void setVelocity( double vx, double vy ) {
         collidableAdapter.updateVelocity();
         super.setVelocity( vx, vy );
+        changeListenerProxy.energyChanged( new ChangeEvent( this ) );
     }
 
     public Vector2D getVelocityPrev() {
@@ -78,7 +80,7 @@ public class Electron extends SphericalBody implements Collidable {
     }
 
     public double getEnergy() {
-        return ENERGY_FUDGE_FACTOR * getVelocity().getMagnitudeSq() * getMass() / 2 ;
+        return getVelocity().getMagnitudeSq() * getMass() / 2 ;
     }
 
     public void setEnergy( double e ) {
@@ -86,13 +88,18 @@ public class Electron extends SphericalBody implements Collidable {
         double sNew = Math.sqrt( 2 * e / getMass() );
         double sCurr = getVelocity().getMagnitude();
         setVelocity( getVelocity().scale( sNew / sCurr ) );
+        changeListenerProxy.energyChanged( new ChangeEvent( this ) );
+    }
+
+    public void leaveSystem() {
+        changeListenerProxy.leftSystem( new ChangeEvent( this ) );
     }
 
     //----------------------------------------------------------------
     // Events and Listeners
     //----------------------------------------------------------------
-    public class Event extends EventObject {
-        public Event( Object source ) {
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
             super( source );
         }
 
@@ -101,18 +108,19 @@ public class Electron extends SphericalBody implements Collidable {
         }
     }
 
-    public interface Listener extends EventListener {
-        void leftSystem( Event event );
+    public interface ChangeListener extends EventListener {
+        void leftSystem( ChangeEvent changeEvent );
+        void energyChanged( ChangeEvent changeEvent );
     }
 
-    private EventChannel listenerChannel = new EventChannel( Listener.class );
-    private Listener listenerProxy = (Listener)listenerChannel.getListenerProxy();
+    private EventChannel listenerChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)listenerChannel.getListenerProxy();
 
-    public void addListener( Listener listener ) {
-        listenerChannel.addListener( listener );
+    public void addChangeListener( ChangeListener changeListener ) {
+        listenerChannel.addListener( changeListener );
     }
 
-    public void removeListener( Listener listener ) {
-        listenerChannel.removeListener( listener );
+    public void removeListener( ChangeListener changeListener ) {
+        listenerChannel.removeListener( changeListener );
     }
 }

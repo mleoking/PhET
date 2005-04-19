@@ -67,13 +67,13 @@ public class FluorescentLightsApp extends PhetApplication {
                    "Fluorescent Lights",
                    "0.01" );
 
-            setClock( new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND ) );
+            setClock( new SwingTimerClock( FluorescentLightsConfig.DT, FluorescentLightsConfig.FPS, AbstractClock.FRAMES_PER_SECOND ) );
 
             // Determine the resolution of the screen
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 750 );
+            FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
             if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
-                frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 750 ) );
+                frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) );
             }
             setFrameSetup( frameSetup );
 

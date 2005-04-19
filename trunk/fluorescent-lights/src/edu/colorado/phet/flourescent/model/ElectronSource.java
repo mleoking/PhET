@@ -73,9 +73,10 @@ public class ElectronSource extends Electrode {
     /**
      * Produce a single electron, and notify all listeners that it has happened
      */
-    public void produceElectron() {
+    public Electron produceElectron() {
+        Electron electron = null;
         if( this.getPotential() - sinkPotential > 0 ) {
-            Electron electron = new Electron();
+            electron = new Electron();
 
             // Determine where the electron will be emitted from
             double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
@@ -84,6 +85,7 @@ public class ElectronSource extends Electrode {
             model.addModelElement( electron );
             electronProductionListenerProxy.electronProduced( new ElectronProductionEvent( this, electron ) );
         }
+        return electron;
     }
 
     //-----------------------------------------------------------------
