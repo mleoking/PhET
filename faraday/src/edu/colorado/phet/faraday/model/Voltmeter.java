@@ -54,8 +54,8 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     // Instance data
     //----------------------------------------------------------------------------
     
-    // The voltage source that the voltmeter is connected to.
-    private AbstractVoltageSource _voltageSourceModel;
+    // Pickup coil that the voltmeter is connected to.
+    private PickupCoil _pickupCoilModel;
     
     // Whether the voltmeter is enabled (ie, connected to the coil).
     private boolean _enabled;
@@ -76,15 +76,15 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     /**
      * Sole constructor.
      * 
-     * @param voltageSourceModel voltmeter is connected to this voltage source
+     * @param pickupCoilModel voltmeter is connected to this pickup coil
      */
-    public Voltmeter( AbstractVoltageSource voltageSourceModel ) {
+    public Voltmeter( PickupCoil pickupCoilModel ) {
         super();
         
-        assert( voltageSourceModel != null );
+        assert( pickupCoilModel != null );
         
-        _voltageSourceModel = voltageSourceModel;
-        _voltageSourceModel.addObserver( this );
+        _pickupCoilModel = pickupCoilModel;
+        _pickupCoilModel.addObserver( this );
         
         _enabled = true;
         _rotationalKinematicsEnabled = false; // expensive, so disabled by default
@@ -97,8 +97,8 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _voltageSourceModel.removeObserver( this );
-        _voltageSourceModel = null;
+        _pickupCoilModel.removeObserver( this );
+        _pickupCoilModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -156,7 +156,7 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
      * @return the voltage, in volts
      */
     public double getVoltage() {
-        return _voltageSourceModel.getVoltage();
+        return _pickupCoilModel.getVoltage();
     }
     
     /**
@@ -189,7 +189,7 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
      */
     private double getDesiredNeedleAngle() {
         //  Get the amplitude of the voltage source.
-        double amplitude = _scale * _voltageSourceModel.getAmplitude();
+        double amplitude = _scale * _pickupCoilModel.getAmplitude();
         amplitude = MathUtil.clamp( -1, amplitude, +1 );
         
         // Absolute amplitude below the threshold is effectively zero.
