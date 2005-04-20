@@ -81,13 +81,13 @@ public class PickupCoilModule extends FaradayModule {
     
     private BarMagnet _barMagnetModel;
     private Compass _compassModel;
+    private FieldMeter _fieldMeterModel;
     private PickupCoil _pickupCoilModel;
     private Lightbulb _lightbulbModel;
     private Voltmeter _voltmeterModel;
     private BarMagnetGraphic _barMagnetGraphic;
     private PickupCoilGraphic _pickupCoilGraphic;
     private CompassGridGraphic _gridGraphic;
-    private FieldMeterGraphic _fieldMeterGraphic;
     private BarMagnetPanel _barMagnetPanel;
     private PickupCoilPanel _pickupCoilPanel;
     
@@ -128,12 +128,16 @@ public class PickupCoilModule extends FaradayModule {
         _compassModel.setEnabled( false );
         model.addModelElement( _compassModel );
         
+        // Field Meter
+        _fieldMeterModel = new FieldMeter( _barMagnetModel );
+        _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterModel.setEnabled( false );
+        
         // Pickup Coil
         _pickupCoilModel = new PickupCoil( _barMagnetModel );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
-        _pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         model.addModelElement( _pickupCoilModel );
        
@@ -188,11 +192,10 @@ public class PickupCoilModule extends FaradayModule {
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
 
         // Field Meter
-        _fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _barMagnetModel );
-        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        _fieldMeterGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( _fieldMeterGraphic );
-        apparatusPanel.addGraphic( _fieldMeterGraphic, FIELD_METER_LAYER );
+        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _fieldMeterModel );
+        fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        apparatusPanel.addChangeListener( fieldMeterGraphic );
+        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
 
         // Collision detection
         _barMagnetGraphic.getCollisionDetector().add( compassGraphic );
@@ -213,9 +216,8 @@ public class PickupCoilModule extends FaradayModule {
             
             // Bar Magnet controls
             _barMagnetPanel = new BarMagnetPanel(
-                    _barMagnetModel, _compassModel, _barMagnetGraphic, _gridGraphic, _fieldMeterGraphic );
+                    _barMagnetModel, _compassModel, _fieldMeterModel, _barMagnetGraphic, _gridGraphic );
             _barMagnetPanel.setSeeInsideVisible( false );
-            _barMagnetPanel.setFieldMeterEnabled( false );
             controlPanel.addFullWidth( _barMagnetPanel );
             
             // Spacer
@@ -290,8 +292,8 @@ public class PickupCoilModule extends FaradayModule {
         _gridGraphic.setVisible( true );
         
         // Field Meter view
-        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        _fieldMeterGraphic.setVisible( false );
+        _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterModel.setEnabled( false );
         
         // Control panel
         _barMagnetPanel.update();

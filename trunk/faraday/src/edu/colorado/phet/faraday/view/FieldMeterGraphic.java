@@ -21,14 +21,13 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.util.Vector2D;
 
 
@@ -91,7 +90,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     //----------------------------------------------------------------------------
     
     private Rectangle _parentBounds;
-    private AbstractMagnet _magnetModel;
+    private FieldMeter _fieldMeterModel;
     private PhetTextGraphic _bText, _bxText, _byText, _angleText;
     private NumberFormat _magnitudeFormatter, _angleFormatter;
     private Point _point; // reusable point
@@ -105,15 +104,15 @@ public class FieldMeterGraphic extends CompositePhetGraphic
      * Sole constructor.
      * 
      * @param component the parent Component
-     * @param magnetModel the magnet whose field is being probed
+     * @param fieldMeter
      */
-    public FieldMeterGraphic( Component component, AbstractMagnet magnetModel ) {
+    public FieldMeterGraphic( Component component, FieldMeter fieldMeterModel ) {
         super( component );
         assert( component != null );
-        assert( magnetModel != null );
+        assert( fieldMeterModel != null );
         
-        _magnetModel = magnetModel;
-        _magnetModel.addObserver( this );
+        _fieldMeterModel = fieldMeterModel;
+        fieldMeterModel.addObserver( this );
         
         _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
@@ -180,8 +179,8 @@ public class FieldMeterGraphic extends CompositePhetGraphic
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _magnetModel.removeObserver( this );
-        _magnetModel = null;
+        _fieldMeterModel.removeObserver( this );
+        _fieldMeterModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -206,12 +205,16 @@ public class FieldMeterGraphic extends CompositePhetGraphic
      * @see edu.colorado.phet.common.util.SimpleObserver#update()
      */
     public void update() {
-        
+        super.setVisible( _fieldMeterModel.isEnabled() );
         if ( isVisible() ) {
+           
+            // Set location.
+            setLocation( (int) _fieldMeterModel.getX(), (int) _fieldMeterModel.getY() );
             
-            // Get the values, adjust the coordinate system.
-            _point.setLocation( getX(), getY() );
-            _magnetModel.getStrength( _point, _fieldVector /* output */ );
+            // Get the field vector from the model.
+            _fieldMeterModel.getStrength( _fieldVector /* output */ );
+            
+            // Get the components, adjust the coordinate system.
             double b = _fieldVector.getMagnitude();
             double bx = _fieldVector.getX();
             double by = -( _fieldVector.getY() ); // +Y is up
@@ -330,25 +333,31 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         }
         
         public void mouseDragged( MouseEvent event ) {
+            
             if ( !_dragEnabled && getBounds().contains( event.getPoint() ) ) {
                 _dragEnabled = true;
                 _previousPoint.setLocation( event.getPoint() );
             }
             
             if ( _dragEnabled ) {
-                if ( ! _parentBounds.contains( event.getPoint() ) ) {
-                    // Ignore the translate if the mouse is outside the apparatus panel.
+                int dx = event.getX() - _previousPoint.x;
+                int dy = event.getY() - _previousPoint.y;
+                
+                boolean inApparatusPanel = _parentBounds.contains( event.getPoint() );
+                boolean collidesNow = false; //XXX _collisionDetector.collidesNow();
+                boolean wouldCollide = false; //XXX _collisionDetector.wouldCollide( dx, dy );
+                
+                if ( !inApparatusPanel || ( !collidesNow && wouldCollide ) ) {
+                    // Ignore the translate if the mouse is outside the apparatus panel or 
+                    // if the tanslate would result in a collision.
                     _dragEnabled = false;
                 }
                 else {
                     // Translate if the mouse cursor is inside the parent component.
-                    int dx = event.getX() - _previousPoint.x;
-                    int dy = event.getY() - _previousPoint.y;
-                    int x = getX() + dx;
-                    int y = getY() + dy;
-                    setLocation( x, y );
+                    double x = _fieldMeterModel.getX() + dx;
+                    double y = _fieldMeterModel.getY() + dy;
+                    _fieldMeterModel.setLocation( x, y );
                     _previousPoint.setLocation( event.getPoint() );
-                    update();
                 }
             }   
         }

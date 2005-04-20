@@ -79,9 +79,9 @@ public class ElectromagnetModule extends FaradayModule {
     private SourceCoil _sourceCoilModel;
     private Electromagnet _electromagnetModel;
     private Compass _compassModel;
+    private FieldMeter _fieldMeterModel;
     private ElectromagnetGraphic _electromagnetGraphic;
     private CompassGridGraphic _gridGraphic;
-    private FieldMeterGraphic _fieldMeterGraphic;
     private ElectromagnetPanel _electromagnetPanel;
     
     //----------------------------------------------------------------------------
@@ -124,15 +124,16 @@ public class ElectromagnetModule extends FaradayModule {
         _sourceCoilModel.setNumberOfLoops( ELECTROMAGNET_NUMBER_OF_LOOPS );
         _sourceCoilModel.setRadius( ELECTROMAGNET_LOOP_RADIUS );
         _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
-        if ( _batteryModel.isEnabled() ) {
-            _sourceCoilModel.setVoltageSource( _batteryModel );
-        }
-        else {
-            _sourceCoilModel.setVoltageSource( _acPowerSupplyModel );
-        }
         
         // Electromagnet
-        _electromagnetModel = new Electromagnet( _sourceCoilModel );
+        AbstractVoltageSource voltageSource = null;
+        if ( _batteryModel.isEnabled() ) {
+            voltageSource = _batteryModel;
+        }
+        else if ( _acPowerSupplyModel.isEnabled() ) {
+            voltageSource = _acPowerSupplyModel;
+        }
+        _electromagnetModel = new Electromagnet( _sourceCoilModel, voltageSource );
         _electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
         _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
@@ -145,6 +146,11 @@ public class ElectromagnetModule extends FaradayModule {
         _compassModel.setBehavior( Compass.INCREMENTAL_BEHAVIOR );
         _compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( _compassModel );
+        
+        // Field Meter
+        _fieldMeterModel = new FieldMeter( _electromagnetModel );
+        _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterModel.setEnabled( false );
         
         //----------------------------------------------------------------------------
         // View
@@ -179,11 +185,10 @@ public class ElectromagnetModule extends FaradayModule {
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
         // Field Meter
-        _fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _electromagnetModel );
-        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        _fieldMeterGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( _fieldMeterGraphic );
-        apparatusPanel.addGraphic( _fieldMeterGraphic, FIELD_METER_LAYER );
+        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _fieldMeterModel );
+        fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        apparatusPanel.addChangeListener( fieldMeterGraphic );
+        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
 
         // Collision detection
         _electromagnetGraphic.getCollisionDetector().add( compassGraphic );
@@ -199,9 +204,9 @@ public class ElectromagnetModule extends FaradayModule {
             setControlPanel( controlPanel );
             
             // Electromagnet controls
-            _electromagnetPanel = new ElectromagnetPanel(
-                    _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel,
-                    _electromagnetGraphic, _gridGraphic, _fieldMeterGraphic );
+            _electromagnetPanel = new ElectromagnetPanel( _electromagnetModel,
+                    _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel, _fieldMeterModel,
+                    _electromagnetGraphic, _gridGraphic );
             controlPanel.addFullWidth( _electromagnetPanel );
             
             // Scaling calibration
@@ -250,16 +255,16 @@ public class ElectromagnetModule extends FaradayModule {
         _sourceCoilModel.setNumberOfLoops( ELECTROMAGNET_NUMBER_OF_LOOPS );
         _sourceCoilModel.setRadius( ELECTROMAGNET_LOOP_RADIUS );
         _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
-        if ( _batteryModel.isEnabled() ) {
-            _sourceCoilModel.setVoltageSource( _batteryModel );
-        }
-        else {
-            _sourceCoilModel.setVoltageSource( _acPowerSupplyModel );
-        }
         
         // Electromagnet model
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
         _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
+        if ( _batteryModel.isEnabled() ) {
+            _electromagnetModel.setVoltageSource( _batteryModel );
+        }
+        else {
+            _electromagnetModel.setVoltageSource( _acPowerSupplyModel );
+        }
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil appearance.
         _electromagnetModel.update();
@@ -275,8 +280,8 @@ public class ElectromagnetModule extends FaradayModule {
         _gridGraphic.setVisible( true );
         
         // Field Meter view
-        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        _fieldMeterGraphic.setVisible( false );
+        _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterModel.setEnabled( false );
         
         // Control panel
         _electromagnetPanel.update();

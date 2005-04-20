@@ -15,9 +15,10 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -28,6 +29,7 @@ import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.control.ControlPanelSlider;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
+import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -49,9 +51,9 @@ public class BarMagnetPanel extends FaradayPanel {
     // Model & view components to be controlled.
     private BarMagnet _barMagnetModel;
     private Compass _compassModel;
-    private BarMagnetGraphic _magnetGraphic;
+    private FieldMeter _fieldMeterModel;
+    private BarMagnetGraphic _barMagnetGraphic;
     private CompassGridGraphic _gridGraphic;
-    private FieldMeterGraphic _fieldMeterGraphic;
 
     // UI components
     private JButton _flipPolarityButton;
@@ -70,31 +72,31 @@ public class BarMagnetPanel extends FaradayPanel {
      * 
      * @param barMagnetModel
      * @param compassModel
-     * @param magnetGraphic
+     * @param fieldMeterModel
+     * @param barMagnetGraphic
      * @param gridGraphic
-     * @param fieldMeterGraphic
      */
     public BarMagnetPanel( 
             BarMagnet barMagnetModel, 
-            Compass compassModel, 
-            BarMagnetGraphic magnetGraphic, 
-            CompassGridGraphic gridGraphic, 
-            FieldMeterGraphic fieldMeterGraphic )
+            Compass compassModel,
+            FieldMeter fieldMeterModel,
+            BarMagnetGraphic barMagnetGraphic, 
+            CompassGridGraphic gridGraphic )
     {
         super();
         
         assert ( barMagnetModel != null );
         assert ( compassModel != null );
-        assert ( magnetGraphic != null );
+        assert ( fieldMeterModel != null );
+        assert ( barMagnetGraphic != null );
         assert ( gridGraphic != null );
-        assert ( fieldMeterGraphic != null );
 
         // Things we'll be controlling.
         _barMagnetModel = barMagnetModel;
         _compassModel = compassModel;
-        _magnetGraphic = magnetGraphic;
+        _fieldMeterModel = fieldMeterModel;
+        _barMagnetGraphic = barMagnetGraphic;
         _gridGraphic = gridGraphic;
-        _fieldMeterGraphic = fieldMeterGraphic;
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
@@ -165,9 +167,9 @@ public class BarMagnetPanel extends FaradayPanel {
      */
     public void update() {
         _strengthSlider.setValue( (int) ( 100.0 * _barMagnetModel.getStrength() / FaradayConfig.BAR_MAGNET_STRENGTH_MAX ) );
-        _seeInsideCheckBox.setSelected( _magnetGraphic.isTransparencyEnabled() );
+        _seeInsideCheckBox.setSelected( _barMagnetGraphic.isTransparencyEnabled() );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
-        _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
+        _fieldMeterCheckBox.setSelected( _fieldMeterModel.isEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
     }
     
@@ -241,11 +243,11 @@ public class BarMagnetPanel extends FaradayPanel {
             }
             else if ( e.getSource() == _seeInsideCheckBox ) {
                 // Magnet transparency enable
-                _magnetGraphic.setTransparencyEnabled( _seeInsideCheckBox.isSelected() );
+                _barMagnetGraphic.setTransparencyEnabled( _seeInsideCheckBox.isSelected() );
             }
             else if ( e.getSource() == _fieldMeterCheckBox ) {
                 // Meter enable
-                _fieldMeterGraphic.setVisible( _fieldMeterCheckBox.isSelected() );
+                _fieldMeterModel.setEnabled( _fieldMeterCheckBox.isSelected() );
             }
             else if ( e.getSource() == _compassCheckBox ) {
                 // Compass enable

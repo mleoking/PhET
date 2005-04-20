@@ -19,7 +19,7 @@ package edu.colorado.phet.faraday.model;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractCoil extends AbstractVoltageSource {
+public abstract class AbstractCoil extends FaradayObservable {
     
     //----------------------------------------------------------------------------
     // Instance data

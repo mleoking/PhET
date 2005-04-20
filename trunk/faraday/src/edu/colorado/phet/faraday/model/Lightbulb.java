@@ -70,7 +70,7 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
      * @return the intensity (0.0 - 1.0)
      */
     public double getIntensity() {
-        double intensity = _scale * Math.abs( _pickupCoilModel.getAmplitude() );
+        double intensity = _scale * Math.abs( _pickupCoilModel.getEmf() ) / FaradayConfig.MAX_PICKUP_EMF;
         intensity = MathUtil.clamp( 0, intensity, 1 );
         
         // Intensity below the threshold is effectively zero.

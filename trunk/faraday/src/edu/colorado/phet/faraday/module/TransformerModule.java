@@ -91,13 +91,13 @@ public class TransformerModule extends FaradayModule {
     private SourceCoil _sourceCoilModel;
     private Electromagnet _electromagnetModel;
     private Compass _compassModel;
+    private FieldMeter _fieldMeterModel;
     private PickupCoil _pickupCoilModel;
     private Lightbulb _lightbulbModel;
     private Voltmeter _voltmeterModel;
     private ElectromagnetGraphic _electromagnetGraphic;
     private PickupCoilGraphic _pickupCoilGraphic;
     private CompassGridGraphic _gridGraphic;
-    private FieldMeterGraphic _fieldMeterGraphic;
     private ElectromagnetPanel _electromagnetPanel;
     private PickupCoilPanel _pickupCoilPanel;
     
@@ -140,10 +140,16 @@ public class TransformerModule extends FaradayModule {
         _sourceCoilModel.setNumberOfLoops( ELECTROMAGNET_NUMBER_OF_LOOPS );
         _sourceCoilModel.setRadius( ELECTROMAGNET_LOOP_RADIUS );
         _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
-        _sourceCoilModel.setVoltageSource( _batteryModel );
         
         // Electromagnet
-        _electromagnetModel = new Electromagnet( _sourceCoilModel );
+        AbstractVoltageSource voltageSource = null;
+        if ( _batteryModel.isEnabled() ) {
+            voltageSource = _batteryModel;
+        }
+        else if ( _acPowerSupplyModel.isEnabled() ) {
+            voltageSource = _acPowerSupplyModel;
+        }
+        _electromagnetModel = new Electromagnet( _sourceCoilModel, voltageSource );
         _electromagnetModel.setMaxStrength( FaradayConfig.ELECTROMAGNET_STRENGTH_MAX );
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
         _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
@@ -158,12 +164,16 @@ public class TransformerModule extends FaradayModule {
         _compassModel.setEnabled( false );
         model.addModelElement( _compassModel );
         
+        // Field Meter
+        _fieldMeterModel = new FieldMeter( _electromagnetModel );
+        _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterModel.setEnabled( false );
+        
         // Pickup Coil
         _pickupCoilModel = new PickupCoil( _electromagnetModel );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
-        _pickupCoilModel.setMaxVoltage( FaradayConfig.MAX_PICKUP_EMF );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         model.addModelElement( _pickupCoilModel );
        
@@ -221,11 +231,10 @@ public class TransformerModule extends FaradayModule {
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
         // Field Meter
-        _fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _electromagnetModel );
-        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        _fieldMeterGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( _fieldMeterGraphic );
-        apparatusPanel.addGraphic( _fieldMeterGraphic, FIELD_METER_LAYER );
+        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _fieldMeterModel );
+        fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        apparatusPanel.addChangeListener( fieldMeterGraphic );
+        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
         
         // Collision detection
         _electromagnetGraphic.getCollisionDetector().add( compassGraphic );
@@ -243,9 +252,9 @@ public class TransformerModule extends FaradayModule {
             setControlPanel( controlPanel );
             
             // Electromagnet controls
-            _electromagnetPanel = new ElectromagnetPanel(
-                    _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel,
-                    _electromagnetGraphic, _gridGraphic, _fieldMeterGraphic );
+            _electromagnetPanel = new ElectromagnetPanel( _electromagnetModel,
+                    _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel, _fieldMeterModel,
+                    _electromagnetGraphic, _gridGraphic );
             controlPanel.addFullWidth( _electromagnetPanel );
             
             // Spacer
@@ -302,16 +311,16 @@ public class TransformerModule extends FaradayModule {
         _sourceCoilModel.setNumberOfLoops( ELECTROMAGNET_NUMBER_OF_LOOPS );
         _sourceCoilModel.setRadius( ELECTROMAGNET_LOOP_RADIUS );
         _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
-        if ( _batteryModel.isEnabled() ) {
-            _sourceCoilModel.setVoltageSource( _batteryModel );
-        }
-        else {
-            _sourceCoilModel.setVoltageSource( _acPowerSupplyModel );
-        }
         
         // Electromagnet model
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
         _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
+        if ( _batteryModel.isEnabled() ) {
+            _electromagnetModel.setVoltageSource( _batteryModel );
+        }
+        else {
+            _electromagnetModel.setVoltageSource( _acPowerSupplyModel );
+        }
         _electromagnetModel.update();
         
         // Compass model
@@ -340,8 +349,8 @@ public class TransformerModule extends FaradayModule {
         _gridGraphic.setVisible( true );
         
         // Field Meter view
-        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        _fieldMeterGraphic.setVisible( false );
+        _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterModel.setEnabled( false );
         
         // Control panel
         _electromagnetPanel.update();
