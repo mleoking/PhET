@@ -70,11 +70,12 @@ public class SingleAtomModule extends DischargeLampModule {
      */
     private void addControls() {
 
-        // Add an energy level monitor panel
+        // Add an energy level monitor panel. Note that the panel has a null layout, so we have to put it in a
+        // panel that does have one, so it gets laid out properly
         final EnergyLevelMonitorPanel elmp = new EnergyLevelMonitorPanel( this, getClock(), atom.getStates(), 150, 300 );
-        new EnergyLevelsDialog( null, elmp );
-
-        getControlPanel().add( elmp );
+        JPanel jp = new JPanel( );
+        jp.add( elmp );
+        getControlPanel().add( jp );
 
         // Add a button for firing a single electron. This also tells the energy level panel that if an
         // electron has been produced

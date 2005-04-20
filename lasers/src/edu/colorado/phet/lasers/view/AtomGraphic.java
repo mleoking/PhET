@@ -178,16 +178,5 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     public void stateChanged( Atom.ChangeEvent event ) {
         update();
     }
-
-
-    public boolean contains( int x, int y ) {
-        System.out.println( "super.contains(x,y) = " + super.contains( x, y ) );
-        return super.contains( x, y );
-    }
-
-    public boolean contains( Point p ) {
-        System.out.println( "super.contains( p ) = " + super.contains( p ) );
-        return super.contains( p );
-    }
 }
 
