@@ -16,6 +16,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.util.Vector2D;
 
 
@@ -25,7 +27,7 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PickupCoil extends AbstractCoil implements ModelElement {
+public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObserver {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -38,9 +40,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     
     // Determines how the magnetic field decreases with the distance from the magnet.
     private static final double DISTANCE_EXPONENT = 2.0;
-    
-    // If true, then flux is based on the maximum sample point.
-    private static final boolean USE_MAX_FLUX = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -62,7 +61,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
     private double _maxEmf;
     
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructors & finalizers
     //----------------------------------------------------------------------------
     
     /**
@@ -72,9 +71,11 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      */
     public PickupCoil( AbstractMagnet magnetModel ) {
         super();
-        assert( magnetModel != null );
         
+        assert( magnetModel != null );
         _magnetModel = magnetModel;
+        _magnetModel.addObserver( this );
+        
         _flux = 0.0;
         _deltaFlux = 0.0;
         _emf = 0.0;
@@ -88,6 +89,15 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         
         // loosely packed loops
         setLoopSpacing( 1.5 * getWireWidth() );
+    }
+    
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void finalize() {
+        _magnetModel.removeObserver( this );
+        _magnetModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -119,6 +129,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
      */
     public double getEmf() {
         return _emf;
+    }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    public void update() {
+        // Do nothing, handled by stepInTime
     }
     
     //----------------------------------------------------------------------------
@@ -159,7 +177,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             double theta = Math.abs( _someVector.getAngle() - getDirection() );
             centerFlux = B * A * Math.cos( theta );
         }
-        double maxFlux = centerFlux;
         
         // Flux above the center of the coil.
         for ( int i = 0; i < _fluxAbove.length; i++ ) {
@@ -182,11 +199,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             double B = _someVector.getMagnitude();
             double theta = Math.abs( _someVector.getAngle() - getDirection() );
             _fluxAbove[i] = B * A * Math.cos( theta );
-            
-            // Keep track of the maximum flux.
-            if ( Math.abs( _fluxAbove[i] ) > Math.abs( maxFlux ) ) {
-                maxFlux = _fluxAbove[i];
-            }
         }
         
         // Flux below the center of the coil.
@@ -210,20 +222,11 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
             double B = _someVector.getMagnitude();
             double theta = Math.abs( _someVector.getAngle() - getDirection() );
             _fluxBelow[i] = B * A * Math.cos( theta ); 
-            
-            // Keep track of the maximum flux.
-            if ( Math.abs( _fluxBelow[i] ) > Math.abs( maxFlux ) ) {
-                maxFlux = _fluxBelow[i];
-            }
         }
         
         // Calculate the flux in one loop.
         double loopFlux;
-        if ( USE_MAX_FLUX ) {
-            // Use the sample point with the largest flux.
-            loopFlux = maxFlux;
-        }
-        else {
+        {
             // Use an average of the sample points.
             double fluxSum = centerFlux;
             for ( int i = 0; i < _fluxAbove.length; i++ ) {
@@ -251,17 +254,21 @@ public class PickupCoil extends AbstractCoil implements ModelElement {
         // Kirchhoff's rule -- voltage across the ends of the coil equals the emf.
         double voltage = _emf;
         if ( Math.abs( voltage ) > getMaxVoltage() ) {
-//            System.out.println( "PickupCoil.updateEmf: voltage exceeded maximum voltage: " + voltage ); //DEBUG
+            if ( FaradayConfig.DEBUG_PICKUP_COIL_EMF ) {
+                System.out.println( "PickupCoil.updateEmf: voltage exceeded maximum voltage: " + voltage );
+            }
             voltage = MathUtil.clamp( -getMaxVoltage(), voltage, getMaxVoltage() );
         }
         
         // Update the amplitude of this voltage source.
         setAmplitude( voltage / getMaxVoltage() );
         
-//        // DEBUG: use this to determine the maximum EMF in the simulation.
-//        if ( Math.abs(emf) > Math.abs(_maxEmf) ) {
-//            _maxEmf = emf;
-//            System.out.println( "PickupCoil.stepInTime: MAX emf=" + _maxEmf ); // DEBUG
-//        }
+        // Use this to determine the maximum EMF in the simulation.
+        if ( FaradayConfig.DEBUG_PICKUP_COIL_EMF ) {
+            if ( Math.abs( _emf ) > Math.abs(_maxEmf) ) {
+                _maxEmf = _emf;
+                System.out.println( "PickupCoil.updateEmf: maxEmf=" + _maxEmf ); // DEBUG
+            }
+        }
     }
 }
