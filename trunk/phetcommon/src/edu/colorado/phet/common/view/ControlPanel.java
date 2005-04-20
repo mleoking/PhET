@@ -52,7 +52,7 @@ public class ControlPanel extends JPanel {
     public ControlPanel( Module module ) {
         this.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                         1, 1, 1, 1,
+                                                         1, 1, 0, 0,
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -64,6 +64,7 @@ public class ControlPanel extends JPanel {
         logoPanel = new JPanel();
         logoPanel.add( titleLabel );
         gbc.anchor = GridBagConstraints.NORTH;
+        gbc.fill = GridBagConstraints.NONE;
         super.add( logoPanel, gbc );
 
         // The panel where the simulation-specific controls go
@@ -71,11 +72,14 @@ public class ControlPanel extends JPanel {
         scrollPane.setBorder( null );
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.gridy = 1;
+        gbc.weighty = 1E6;
+        gbc.fill = GridBagConstraints.VERTICAL;
         super.add( scrollPane, gbc );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
         gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.fill = GridBagConstraints.NONE;
         gbc.gridy = 2;
         super.add( helpPanel, gbc );
         setHelpPanelEnabled( module.hasHelp() );

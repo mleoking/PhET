@@ -83,6 +83,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
      */
     public EnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock, AtomicState[] atomicStates,
                                     int panelWidth, int panelHeight ) {
+        model = (FluorescentLightModel)module.getLaserModel();
+
+        // Determine locations and dimensions
         this.panelWidth = panelWidth;
         this.panelHeight = panelHeight;
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
@@ -90,8 +93,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         this.levelLineOriginX = (int)origin.getX() + 10 ;
         this.levelLineLength = panelWidth - levelLineOriginX - 20;
         electronXLoc = (int)origin.getX();
-
-        model = (FluorescentLightModel)module.getLaserModel();
 
         // Add a listener that will update the panel if the clock is paused
         clock.addClockStateListener( this );
@@ -121,7 +122,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
 
-        adjustPanel();
+//        adjustPanel();
     }
 
     /**
@@ -131,6 +132,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         // The area in which the energy levels will be displayed
         Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
                                                      getBounds().getWidth(), getBounds().getHeight() - 30 );
+
+        System.out.println( "bounds = " + bounds );
         // Set the model-to-view transform so that there will be a reasonable margin below the zero point
         energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, -AtomicState.minEnergy,
                                               (int)bounds.getBounds().getMinY() + headingOffsetY, (int)bounds.getBounds().getMaxY() );
