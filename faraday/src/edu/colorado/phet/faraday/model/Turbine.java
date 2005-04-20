@@ -21,7 +21,7 @@ import edu.colorado.phet.faraday.FaradayConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Turbine extends BarMagnet implements ModelElement {
+public class Turbine extends DipoleMagnet implements ModelElement {
 
     //----------------------------------------------------------------------------
     // Class data
