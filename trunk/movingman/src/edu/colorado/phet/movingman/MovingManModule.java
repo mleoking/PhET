@@ -230,7 +230,7 @@ public class MovingManModule extends Module {
     }
 
     private void setNumSmoothingPoints( int numSmoothingPoints ) {
-        System.out.println( "Num smoothing points=" + numSmoothingPoints );
+//        System.out.println( "Num smoothing points=" + numSmoothingPoints );
 //        numSmoothingPoints = 8;
 //        System.out.println( "Smoothing point override." );
 //        numSmoothingPoints=4;
