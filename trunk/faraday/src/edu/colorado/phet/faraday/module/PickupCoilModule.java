@@ -54,7 +54,7 @@ public class PickupCoilModule extends FaradayModule {
     // Locations
     private static final Point BAR_MAGNET_LOCATION = new Point( 200, 400 );
     private static final Point PICKUP_COIL_LOCATION = new Point( 500, 400 );
-    private static final Point COMPASS_LOCATION = new Point( 350, 525 );
+    private static final Point COMPASS_LOCATION = new Point( 100, 525 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
     private static final Point WIGGLE_ME_LOCATION = new Point( 150, 250 );
 
@@ -268,7 +268,7 @@ public class PickupCoilModule extends FaradayModule {
         
         // Compass model
         _compassModel.setLocation( COMPASS_LOCATION );
-        _compassModel.setEnabled( true );
+        _compassModel.setEnabled( false );
         
         // Pickup Coil model
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
