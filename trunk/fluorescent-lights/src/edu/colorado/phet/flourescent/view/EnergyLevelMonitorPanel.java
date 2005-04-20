@@ -87,16 +87,20 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         this.panelHeight = panelHeight;
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         this.origin = new Point( 25, panelHeight - 30 );
-        this.levelLineOriginX = (int)origin.getX();
+        this.levelLineOriginX = (int)origin.getX() + 10 ;
         this.levelLineLength = panelWidth - levelLineOriginX - 20;
-        electronXLoc = panelWidth - levelLineOriginX - 10;
+        electronXLoc = (int)origin.getX();
 
         model = (FluorescentLightModel)module.getLaserModel();
-        model.addObserver( this );
+
+        // Add a listener that will update the panel if the clock is paused
         clock.addClockStateListener( this );
 
         // Create a horizontal line for each energy level, then add them to the panel
         setEnergyLevels( atomicStates );
+
+        // Add listeners to all the atoms in the model
+        addAtomListeners();
 
         this.setBackground( Color.white );
         JLabel dummyLabel = new JLabel( "foo" );
@@ -166,18 +170,21 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
     }
 
     /**
-     * Handles updates from the model
+     * Adds us as a listener to all the atoms in the model, so we will know if they change state
      */
-    public void update() {
+    private void addAtomListeners() {
         atoms = model.getAtoms();
         numAtomsInState = new HashMap();
+        // Make the map of atomic states to the number of atoms in each state
         for( int i = 0; i < atomicStates.length; i++ ) {
             numAtomsInState.put( atomicStates[i], new Integer( 0 ) );
         }
+        // Populate the map we just made, and add ourself as a listener to each atom
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
             int n = ((Integer)numAtomsInState.get( atom.getCurrState() )).intValue();
             numAtomsInState.put( atom.getCurrState(), new Integer( n + 1 ));
+            atom.addChangeListener( this );
         }
         invalidate();
         repaint();
@@ -278,13 +285,17 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
     // Atom.ChangeListener implementation
     //----------------------------------------------------------------
 
+    /**
+     * Keeps track of how many atoms are in each state
+     * @param event
+     */
     public void stateChanged( Atom.ChangeEvent event ){
-        Class prevStateClass = event.getPrevState().getClass();
-        Class currStateClass = event.getCurrState().getClass();
-        int nPrev =((Integer)numAtomsInState.get( prevStateClass )).intValue();
-        int nCurr =((Integer)numAtomsInState.get( currStateClass )).intValue();
-        numAtomsInState.put( prevStateClass, new Integer( nPrev - 1 ));
-        numAtomsInState.put( currStateClass, new Integer( nCurr + 1 ));
+        AtomicState prevState = event.getPrevState();
+        AtomicState currState = event.getCurrState();
+        int nPrev =((Integer)numAtomsInState.get( prevState )).intValue();
+        int nCurr =((Integer)numAtomsInState.get( currState )).intValue();
+        numAtomsInState.put( prevState, new Integer( nPrev - 1 ));
+        numAtomsInState.put( currState, new Integer( nCurr + 1 ));
         invalidate();
         repaint();
     }

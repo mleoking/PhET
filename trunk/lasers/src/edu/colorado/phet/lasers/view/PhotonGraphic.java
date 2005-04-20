@@ -133,17 +133,17 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     private double yOffset;
 
     // Generates all the photon animations
-    static {
-        HashMap blueAnimationMap = new HashMap();
-        s_animationMap.put( new Double( Photon.BLUE ), blueAnimationMap );
-        HashMap deepRedAnimationMap = new HashMap();
-        s_animationMap.put( new Double( Photon.DEEP_RED ), deepRedAnimationMap );
-        HashMap redAnimationMap = new HashMap();
-        s_animationMap.put( new Double( Photon.RED ), redAnimationMap );
-        generateAnimation( Photon.RED, redAnimationMap );
-        generateAnimation( Photon.BLUE, blueAnimationMap );
-        generateAnimation( Photon.DEEP_RED, deepRedAnimationMap );
-    }
+//    static {
+//        HashMap blueAnimationMap = new HashMap();
+//        s_animationMap.put( new Double( Photon.BLUE ), blueAnimationMap );
+//        HashMap deepRedAnimationMap = new HashMap();
+//        s_animationMap.put( new Double( Photon.DEEP_RED ), deepRedAnimationMap );
+//        HashMap redAnimationMap = new HashMap();
+//        s_animationMap.put( new Double( Photon.RED ), redAnimationMap );
+//        generateAnimation( Photon.RED, redAnimationMap );
+//        generateAnimation( Photon.BLUE, blueAnimationMap );
+//        generateAnimation( Photon.DEEP_RED, deepRedAnimationMap );
+//    }
 
     /**
      * Generates all the images for the animation of a specified wavelength
@@ -151,35 +151,35 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
      * @param wavelength
      * @param animationMap
      */
-    static private void generateAnimation( double wavelength, HashMap animationMap ) {
-
-        int numImgs = (int)( ( 20f / 680 ) * wavelength );
-        for( double theta = 0; theta < Math.PI * 2;
-             theta = theta + 0.3 ) {
-            //            theta = ( Math.round( ( theta + 0.1 ) * 10 ) ) / 10 ) {
-
-            BufferedImage[] animation = new BufferedImage[numImgs];
-            //            Image[] animation = new Image[numImgs];
-            // Compute the size of buffered image needed to hold the rotated copy of the
-            // base generator image, and create the transform op for doing the rotation
-            AffineTransform xform = AffineTransform.getRotateInstance( theta, s_imgLength / 2, s_imgHeight / 2 );
-            int xPrime = (int)( s_imgLength * Math.abs( Math.cos( theta ) ) + s_imgHeight * Math.abs( Math.sin( theta ) ) );
-            int yPrime = (int)( s_imgLength * Math.abs( Math.sin( theta ) ) + s_imgHeight * Math.abs( Math.cos( theta ) ) );
-            AffineTransformOp xformOp = new AffineTransformOp( xform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
-
-            // Generate the frames for the animation
-            double phaseAngleIncr = ( Math.PI * 2 ) / numImgs;
-            for( int i = 0; i < numImgs; i++ ) {
-                double phaseAngle = phaseAngleIncr * i;
-                BufferedImage buffImg = computeGeneratorImage( wavelength, phaseAngle );
-                BufferedImage animationFrame = new BufferedImage( xPrime, yPrime, BufferedImage.TYPE_INT_ARGB );
-                animationFrame = xformOp.filter( buffImg, null );
-                animation[i] = animationFrame;
-                //                animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
-            }
-            animationMap.put( new Double( theta ), animation );
-        }
-    }
+//    static private void generateAnimation( double wavelength, HashMap animationMap ) {
+//
+//        int numImgs = (int)( ( 20f / 680 ) * wavelength );
+//        for( double theta = 0; theta < Math.PI * 2;
+//             theta = theta + 0.3 ) {
+//            //            theta = ( Math.round( ( theta + 0.1 ) * 10 ) ) / 10 ) {
+//
+//            BufferedImage[] animation = new BufferedImage[numImgs];
+//            //            Image[] animation = new Image[numImgs];
+//            // Compute the size of buffered image needed to hold the rotated copy of the
+//            // base generator image, and create the transform op for doing the rotation
+//            AffineTransform xform = AffineTransform.getRotateInstance( theta, s_imgLength / 2, s_imgHeight / 2 );
+//            int xPrime = (int)( s_imgLength * Math.abs( Math.cos( theta ) ) + s_imgHeight * Math.abs( Math.sin( theta ) ) );
+//            int yPrime = (int)( s_imgLength * Math.abs( Math.sin( theta ) ) + s_imgHeight * Math.abs( Math.cos( theta ) ) );
+//            AffineTransformOp xformOp = new AffineTransformOp( xform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
+//
+//            // Generate the frames for the animation
+//            double phaseAngleIncr = ( Math.PI * 2 ) / numImgs;
+//            for( int i = 0; i < numImgs; i++ ) {
+//                double phaseAngle = phaseAngleIncr * i;
+//                BufferedImage buffImg = computeGeneratorImage( wavelength, phaseAngle );
+//                BufferedImage animationFrame = new BufferedImage( xPrime, yPrime, BufferedImage.TYPE_INT_ARGB );
+//                animationFrame = xformOp.filter( buffImg, null );
+//                animation[i] = animationFrame;
+//                //                animation[i] = Toolkit.getDefaultToolkit().createImage( animationFrame.getSource() );
+//            }
+//            animationMap.put( new Double( theta ), animation );
+//        }
+//    }
 
     /**
      *

@@ -16,7 +16,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-public abstract class MonitorPanel extends ApparatusPanel implements SimpleObserver {
+public abstract class MonitorPanel extends ApparatusPanel /*implements SimpleObserver*/ {
 
     private static Font axisLabelFont;
 

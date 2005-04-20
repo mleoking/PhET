@@ -185,6 +185,22 @@ public class AtomicState {
         nextHigherState = state;
     }
 
+    public int hashCode() {
+        return (int)( energyLevel * 1E50 ) + (int)( wavelength * 1E9 ) + (int)( meanLifetime * 1E3 );
+    }
+
+    public boolean equals( Object obj ) {
+        boolean result = false;
+        if( obj instanceof AtomicState ) {
+            AtomicState that = (AtomicState)obj;
+            result = this.energyLevel == that.energyLevel
+                     && this.wavelength == that.wavelength
+                     && this.nextLowerState == that.nextLowerState
+                     && this.nextHigherState == that.nextHigherState;
+        }
+        return result;
+    }
+    
     //////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes
     //

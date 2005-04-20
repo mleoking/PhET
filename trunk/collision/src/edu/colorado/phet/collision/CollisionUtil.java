@@ -42,6 +42,11 @@ public class CollisionUtil {
         return result;
     }
 
+    /**
+     * 
+     * @param bodies
+     * @param classifiedBodies
+     */
     public static void classifyBodies( Object[] bodies, Map classifiedBodies ) {
         if( areConformantToClasses( bodies[0], bodies[1],
                                     (Class)classifiedBodies.keySet().toArray()[0],
@@ -55,6 +60,25 @@ public class CollisionUtil {
             }
         }
     }
+
+    /**
+     * More efficient version
+     * @param bodies
+     * @param classes
+     * @param classifiedBodies
+     */
+    public static void classifyBodies( Object[] bodies, Class[] classes, Map classifiedBodies ) {
+        if( areConformantToClasses( bodies[0], bodies[1],
+                                    classes[0],
+                                    classes[1] ) ) {
+            for( int i = 0; i < classes.length; i++ ) {
+                classifiedBodies.put( classes[i], null );
+                Object obj = getInstanceOfClass( classes[i], bodies );
+                classifiedBodies.put( classes[i], obj );
+            }
+        }
+    }
+
     //    public static void getClassifiedBodies( Class[] classes, Collidable[] bodiesToClassify, Object[] classifiedBodies ) {
     //        bodies[0] = null;
     //        bodies[1] = null;

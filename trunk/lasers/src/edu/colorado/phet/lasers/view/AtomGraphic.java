@@ -29,11 +29,18 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- *
+ * Represents an atom with an image of a sphere, surrounded by a "halo" that represents its energy state. The halo
+ * changes radius and color depending on the energy. The color is that of the wavelength of light with the same energy,
+ * if the wavelength is visible. If the wavelength is in the IR, the color is gray.
  */
 public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeListener, SimpleObserver {
 
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+    private static final boolean DEBUG = false;
     private static String s_imageName = LaserConfig.ATOM_IMAGE_FILE;
+
 
     private Atom atom;
     private Color energyRepColor;
@@ -43,6 +50,10 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     private double energyRepRad;
     private double groundStateRingThickness;
 
+    /**
+     * @param component
+     * @param atom
+     */
     public AtomGraphic( Component component, Atom atom ) {
         super( component );
         this.atom = atom;
@@ -69,8 +80,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         energyRepRad = ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
         energyRep = new Ellipse2D.Double( 0, 0, energyRepRad * 2, energyRepRad * 2 );
         addGraphic( energyGraphic, 1 );
-        determineEnergyRadiusAndColor();
-        update( atom.getCurrState() );
+        update();
     }
 
     /**
@@ -100,39 +110,41 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         }
         energyGraphic.setShape( energyRep );
         energyGraphic.setColor( energyRepColor );
-        energyGraphic.setRegistrationPoint( (int)energyRepRad, (int)energyRepRad);
+        energyGraphic.setRegistrationPoint( (int)energyRepRad, (int)energyRepRad );
     }
 
     /**
-     * Sets the location of the graphic
-     *
-     * @param state
+     * Sets the location of the graphic, and determines the color and radius of the halo
      */
-    public void update( AtomicState state ) {
+    public void update() {
+        determineEnergyRadiusAndColor();
         setLocation( (int)( atom.getPosition().getX() ),
                      (int)( atom.getPosition().getY() ) );
         setBoundsDirty();
         repaint();
     }
 
-    public void update() {
-        update( atom.getCurrState() );
-    }
-
+    /**
+     *
+     * @param g2
+     */
     public void paint( Graphics2D g2 ) {
         saveGraphicsState( g2 );
         GraphicsUtil.setAntiAliasingOn( g2 );
         super.paint( g2 );
 
         // Debug: draws a dot at the center of the atom
-//        g2.setColor( Color.RED );
-//        g2.drawArc( (int)atom.getPosition().getX() - 2, (int)atom.getPosition().getY() - 2, 4, 4, 0, 360 );
+        if( DEBUG ) {
+            g2.setColor( Color.RED );
+            g2.drawArc( (int)atom.getPosition().getX() - 2, (int)atom.getPosition().getY() - 2, 4, 4, 0, 360 );
+        }
 
         restoreGraphicsState();
     }
 
     /**
      * Determines if the atom can be moved with the mouse
+     *
      * @param isMouseable
      */
     public void setIsMouseable( boolean isMouseable, final Rectangle2D bounds ) {
@@ -142,6 +154,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
                 /**
                  * Graphic can be moved anywhere within the specified bounds
+                 *
                  * @param translationEvent
                  */
                 public void translationOccurred( TranslationEvent translationEvent ) {
@@ -163,8 +176,18 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     //----------------------------------------------------------------
 
     public void stateChanged( Atom.ChangeEvent event ) {
-        determineEnergyRadiusAndColor();
-        update( event.getCurrState() );
+        update();
+    }
+
+
+    public boolean contains( int x, int y ) {
+        System.out.println( "super.contains(x,y) = " + super.contains( x, y ) );
+        return super.contains( x, y );
+    }
+
+    public boolean contains( Point p ) {
+        System.out.println( "super.contains( p ) = " + super.contains( p ) );
+        return super.contains( p );
     }
 }
 
