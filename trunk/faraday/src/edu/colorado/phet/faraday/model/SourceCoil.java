@@ -92,7 +92,7 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
     /*
      * Ensure that the coil is updated when inherited setters are called.
      */
-    protected void updateSelf() {
+    protected void notifySelf() {
         update();
     }
     

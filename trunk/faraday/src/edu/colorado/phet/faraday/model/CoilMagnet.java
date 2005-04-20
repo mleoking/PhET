@@ -88,7 +88,7 @@ public abstract class CoilMagnet extends AbstractMagnet {
      * Respond to changes that result from calling superclass methods,
      * in this case changes to the magnet's size via super.setSize.
      */
-    protected void updateSelf() {
+    protected void notifySelf() {
         double width = PIXELS_PER_DISTANCE * getWidth();
         double height = PIXELS_PER_DISTANCE * getHeight() ;
         _modelShape.setFrame( -width/2, -height/2, width, height );

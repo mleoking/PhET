@@ -23,14 +23,13 @@ import edu.colorado.phet.faraday.FaradayConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Lightbulb extends SimpleObservable implements SimpleObserver {
+public class Lightbulb extends FaradayObservable implements SimpleObserver {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private PickupCoil _pickupCoilModel;
-    private boolean _enabled;
     private double _scale;
     
     //----------------------------------------------------------------------------
@@ -48,7 +47,6 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
 
-        _enabled = true;
         _scale = 1.0;
     }
     
@@ -81,27 +79,6 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
         }
         
         return intensity;
-    }
-    
-    /**
-     * Enables or disables the state of the lightbulb.
-     * 
-     * @param enabled true to enable, false to disable.
-     */
-    public void setEnabled( boolean enabled ) {
-        if ( enabled != _enabled ) {
-            _enabled = enabled;
-            notifyObservers();
-        }
-    }
-    
-    /**
-     * Gets the state of the lightbulb.  See setEnabled.
-     * 
-     * @return true if enabled, false if disabled
-     */
-    public boolean isEnabled() {
-        return _enabled;
     }
     
     /**

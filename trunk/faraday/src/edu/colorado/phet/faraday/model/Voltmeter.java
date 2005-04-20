@@ -24,7 +24,7 @@ import edu.colorado.phet.faraday.FaradayConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Voltmeter extends SimpleObservable implements ModelElement, SimpleObserver {
+public class Voltmeter extends FaradayObservable implements ModelElement, SimpleObserver {
   
     //----------------------------------------------------------------------------
     // Class data
@@ -57,9 +57,6 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     // Pickup coil that the voltmeter is connected to.
     private PickupCoil _pickupCoilModel;
     
-    // Whether the voltmeter is enabled (ie, connected to the coil).
-    private boolean _enabled;
-    
     // Whether rotational kinematics behavior is enabled.
     private boolean _rotationalKinematicsEnabled;
     
@@ -86,7 +83,6 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
         
-        _enabled = true;
         _rotationalKinematicsEnabled = false; // expensive, so disabled by default
         _needleAngle = ZERO_NEEDLE_ANGLE;
         _scale = 1.0;
@@ -104,27 +100,6 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-       
-    /**
-     * Enables or disables the state of the voltmeter.
-     * 
-     * @param enabled true to enable, false to disable.
-     */
-    public void setEnabled( boolean enabled ) {
-        if ( enabled != _enabled ) {
-            _enabled = enabled;
-            notifyObservers();
-        }
-    }
-    
-    /**
-     * Gets the state of the voltmeter.  See setEnabled.
-     * 
-     * @return true if enabled, false if disabled
-     */
-    public boolean isEnabled() {
-        return _enabled;
-    }
 
     /**
      * Enables/disabled rotational kinematics behavior.
@@ -146,17 +121,6 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
      */
     public boolean isRotationalKinematicsEnabled() {
         return _rotationalKinematicsEnabled;
-    }
-    
-    /**
-     * Get the voltage being read by the voltmeter.
-     * If rotational kinematic is enabled, this may not correspond to
-     * the needle's deflection angle.
-     * 
-     * @return the voltage, in volts
-     */
-    public double getVoltage() {
-        return _pickupCoilModel.getVoltage();
     }
     
     /**

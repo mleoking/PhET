@@ -29,7 +29,7 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Compass extends SpacialObservable implements ModelElement, SimpleObserver {
+public class Compass extends FaradayObservable implements ModelElement, SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -46,8 +46,6 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
     
     // Magnet that the compass is observing.
     private AbstractMagnet _magnetModel;
-    // Whether the compass is enabled.
-    private boolean _enabled;
     // The rotation behavior.
     private IBehavior _behavior;
     // A reusable point.
@@ -71,7 +69,6 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
         
-        _enabled = true;
         _behavior = new SimpleBehavior( this );
         
         _somePoint = new Point2D.Double();
@@ -93,28 +90,6 @@ public class Compass extends SpacialObservable implements ModelElement, SimpleOb
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Enables and disabled the compass.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setEnabled( boolean enabled ) {
-        if ( enabled != _enabled ) {
-            _enabled = enabled;
-            startMovingNow();
-            notifyObservers();
-        }
-    }
-    
-    /**
-     * Returns the current state of the compass.
-     * 
-     * @return true if enabled, false if disabled.
-     */
-    public boolean isEnabled() {
-        return _enabled;
-    }
     
     /**
      * Sets the compass behavior.
