@@ -414,9 +414,10 @@ public class CoilGraphic implements SimpleObserver {
      * @return true or false
      */
     private boolean electronsChanged() {
-        boolean changed = ! ( _voltage == 0 && _coilModel.getVoltage() == 0 );
-        _voltage = _coilModel.getVoltage();
-        return changed;
+//        boolean changed = ! ( _voltage == 0 && _coilModel.getVoltage() == 0 );
+//        _voltage = _coilModel.getVoltage();
+//        return changed;
+        return false;//XXX
     }
     
     /**
@@ -702,12 +703,13 @@ public class CoilGraphic implements SimpleObserver {
      * @return the speed, from -1...+1 inclusive
      */
     private double calculateElectronSpeed() {
-        double amplitude = _coilModel.getAmplitude();
-        // Absolute amplitude below the threshold is effectively zero.
-        if ( Math.abs( amplitude ) < FaradayConfig.AMPLITUDE_THRESHOLD ) {
-            amplitude = 0;
-        }
-        return amplitude;
+//        double amplitude = _coilModel.getAmplitude();
+//        // Absolute amplitude below the threshold is effectively zero.
+//        if ( Math.abs( amplitude ) < FaradayConfig.AMPLITUDE_THRESHOLD ) {
+//            amplitude = 0;
+//        }
+//        return amplitude;
+        return 0;//XXX
     }
     
     /**

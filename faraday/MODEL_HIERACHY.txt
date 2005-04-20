@@ -1,20 +1,23 @@
 This is the type hierarchy of the Faraday simulation model (edu.colorado.phet.faraday.model).
 
 Object
-	  SimpleObservable
-		    Lightbulb (SimpleObserver of AbstractVoltageSource)
-		    Voltmeter (ModelElement, SimpleObserver of AbstractVoltageSource)
-		    SpacialObservable
-			      Compass (ModelElement, SimpleObserver of AbstractMagnet)
-			      Electron (ModelElement)
-			      AbstractMagnet
-				        DipoleMagnet
- 					          BarMagnet
- 					              Turbine (ModelElement)
-					          Electromagnet (SimpleObserver of SourceCoil)
-			      AbstractVoltageSource
-				        ACPowerSupply (ModelElement)
-				        Battery
-				        AbstractCoil
-					          PickupCoil (ModelElement)
-					          SourceCoil (SimpleObserver of AbstractVoltageSource)
+	  FaradayObservable
+	  	    AbstractMagnet
+				    DipoleMagnet
+ 					      BarMagnet
+ 					      Turbine *
+ 					  CoilMagnet
+					      Electromagnet (SimpleObserver of SourceCoil)
+			  AbstractVoltageSource
+				    ACPowerSupply *
+				    Battery
+				AbstractCoil
+					  PickupCoil (SimpleObserver of AbstractMagnet) *
+					  SourceCoil
+			  Compass (SimpleObserver of AbstractMagnet) *
+		    Lightbulb (SimpleObserver of PickupCoil)
+		    Voltmeter (SimpleObserver of PickupCoil) *
+			  Electron *
+
+
+(*) implements ModelElement

@@ -26,6 +26,7 @@ import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
+import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.util.Vector2D;
 import edu.colorado.phet.faraday.view.*;
 
@@ -67,9 +68,10 @@ public class BarMagnetModule extends FaradayModule {
     
     private BarMagnet _barMagnetModel;
     private Compass _compassModel;
+    private FieldMeter _fieldMeterModel;
     private BarMagnetGraphic _barMagnetGraphic;
     private CompassGridGraphic _gridGraphic;
-    private FieldMeterGraphic _fieldMeterGraphic;
+    private FieldMeterGraphic fieldMeterGraphic;
     private BarMagnetPanel _barMagnetPanel;
     
     //----------------------------------------------------------------------------
@@ -108,6 +110,11 @@ public class BarMagnetModule extends FaradayModule {
         _compassModel.setBehavior( Compass.KINEMATIC_BEHAVIOR );
         model.addModelElement( _compassModel );
         
+        // Field Meter
+        _fieldMeterModel = new FieldMeter( _barMagnetModel );
+        _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterModel.setEnabled( false );
+        
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -137,11 +144,10 @@ public class BarMagnetModule extends FaradayModule {
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
         
         // Field Meter
-        _fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _barMagnetModel );
-        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        _fieldMeterGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( _fieldMeterGraphic );
-        apparatusPanel.addGraphic( _fieldMeterGraphic, FIELD_METER_LAYER );
+        FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _fieldMeterModel );
+        fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
+        apparatusPanel.addChangeListener( fieldMeterGraphic );
+        apparatusPanel.addGraphic( fieldMeterGraphic, FIELD_METER_LAYER );
         
         // Collision detection
         _barMagnetGraphic.getCollisionDetector().add( compassGraphic );
@@ -158,8 +164,8 @@ public class BarMagnetModule extends FaradayModule {
             
             // Bar Magnet controls
             _barMagnetPanel = new BarMagnetPanel( 
-                    _barMagnetModel, _compassModel, 
-                    _barMagnetGraphic, _gridGraphic, _fieldMeterGraphic );
+                    _barMagnetModel, _compassModel, _fieldMeterModel,
+                    _barMagnetGraphic, _gridGraphic );
             controlPanel.addFullWidth( _barMagnetPanel );
             
             // Reset button
@@ -203,8 +209,8 @@ public class BarMagnetModule extends FaradayModule {
         _gridGraphic.setVisible( true );
         
         // Field Meter view
-        _fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
-        _fieldMeterGraphic.setVisible( false );
+        _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
+        _fieldMeterModel.setEnabled( false );
         
         // Control panel
         _barMagnetPanel.update();

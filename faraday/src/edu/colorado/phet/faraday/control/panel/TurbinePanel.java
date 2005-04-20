@@ -25,11 +25,10 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayConfig;
-import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
+import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.model.Turbine;
 import edu.colorado.phet.faraday.util.EasyGridBagLayout;
-import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
@@ -49,8 +48,8 @@ public class TurbinePanel extends FaradayPanel {
     // Model & view components to be controlled.
     private Turbine _turbineModel;
     private Compass _compassModel;
+    private FieldMeter _fieldMeterModel;
     private CompassGridGraphic _gridGraphic;
-    private FieldMeterGraphic _fieldMeterGraphic;
 
     // UI components
     private JLabel _strengthValue;
@@ -68,26 +67,27 @@ public class TurbinePanel extends FaradayPanel {
      * 
      * @param turbineModel
      * @param compassModel
+     * @param fieldMeterModel
      * @param gridGraphic
      */
     public TurbinePanel( 
             Turbine turbineModel, 
             Compass compassModel, 
-            CompassGridGraphic gridGraphic,
-            FieldMeterGraphic fieldMeterGraphic )
+            FieldMeter fieldMeterModel,
+            CompassGridGraphic gridGraphic )
     {
         super();
         
         assert ( turbineModel != null );
         assert ( compassModel != null );
+        assert ( fieldMeterModel != null );
         assert ( gridGraphic != null );
-        assert ( fieldMeterGraphic != null );
 
         // Things we'll be controlling.
         _turbineModel = turbineModel;
         _compassModel = compassModel;
+        _fieldMeterModel = fieldMeterModel;
         _gridGraphic = gridGraphic;
-        _fieldMeterGraphic = fieldMeterGraphic;
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
@@ -164,7 +164,7 @@ public class TurbinePanel extends FaradayPanel {
     public void update() {
         _strengthSlider.setValue( (int) ( 100.0 * _turbineModel.getStrength() / _turbineModel.getMaxStrength() ) );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
-        _fieldMeterCheckBox.setSelected( _fieldMeterGraphic.isVisible() );
+        _fieldMeterCheckBox.setSelected( _fieldMeterModel.isEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
     }
     
@@ -202,7 +202,7 @@ public class TurbinePanel extends FaradayPanel {
             }
             else if ( e.getSource() == _fieldMeterCheckBox ) {
                 // Meter enable
-                _fieldMeterGraphic.setVisible( _fieldMeterCheckBox.isSelected() );
+                _fieldMeterModel.setEnabled( _fieldMeterCheckBox.isSelected() );
             }
             else if ( e.getSource() == _compassCheckBox ) {
                 // Compass enable

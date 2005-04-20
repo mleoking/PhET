@@ -49,6 +49,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private double _flux; // in webers
     private double _deltaFlux; // in webers
     private double _emf; // in volts
+    private double _biggestEmf; // in volts
     
     // Reusable objects
     private AffineTransform _someTransform;
@@ -56,9 +57,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private Vector2D _someVector;
     private double[] _fluxAbove;
     private double[] _fluxBelow;
-    
-    // Debugging stuff...
-    private double _maxEmf;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -79,6 +77,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _flux = 0.0;
         _deltaFlux = 0.0;
         _emf = 0.0;
+        _biggestEmf = 0.0;
         
         // Reusable objects
         _someTransform = new AffineTransform();
@@ -129,6 +128,15 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      */
     public double getEmf() {
         return _emf;
+    }
+    
+    /**
+     * Gets the biggest emf that the pickup coil has seen.
+     * 
+     * @return the biggest emf
+     */
+    public double getBiggestEmf() {
+        return _biggestEmf;
     }
     
     //----------------------------------------------------------------------------
@@ -249,25 +257,19 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         //********************************************
         // Faraday's Law - Calculate the induced EMF.
         //********************************************
-        _emf = -( _deltaFlux / dt );
+        double emf = -( _deltaFlux / dt );
         
-        // Kirchhoff's rule -- voltage across the ends of the coil equals the emf.
-        double voltage = _emf;
-        if ( Math.abs( voltage ) > getMaxVoltage() ) {
-            if ( FaradayConfig.DEBUG_PICKUP_COIL_EMF ) {
-                System.out.println( "PickupCoil.updateEmf: voltage exceeded maximum voltage: " + voltage );
-            }
-            voltage = MathUtil.clamp( -getMaxVoltage(), voltage, getMaxVoltage() );
+        // If the emf has changed, notify observers.
+        if ( emf != _emf ) {
+            _emf = emf;
+            notifyObservers();
         }
         
-        // Update the amplitude of this voltage source.
-        setAmplitude( voltage / getMaxVoltage() );
-        
-        // Use this to determine the maximum EMF in the simulation.
-        if ( FaradayConfig.DEBUG_PICKUP_COIL_EMF ) {
-            if ( Math.abs( _emf ) > Math.abs(_maxEmf) ) {
-                _maxEmf = _emf;
-                System.out.println( "PickupCoil.updateEmf: maxEmf=" + _maxEmf ); // DEBUG
+        // Keep track of the biggest emf seen by the pickup coil.
+        if ( Math.abs( _emf ) > Math.abs( _biggestEmf ) ) {
+            _biggestEmf = _emf;
+            if ( FaradayConfig.DEBUG_PICKUP_COIL_EMF ) {
+                System.out.println( "PickupCoil.updateEmf: biggestEmf=" + _biggestEmf );
             }
         }
     }

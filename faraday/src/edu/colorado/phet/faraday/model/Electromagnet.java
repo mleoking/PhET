@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.faraday.model;
 
+import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.faraday.FaradayConfig;
 
@@ -29,18 +30,23 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private SourceCoil _sourceCoilModel;
+    private AbstractVoltageSource _voltageSource;
     private boolean _isFlipped;
     
     //----------------------------------------------------------------------------
-    // Constructors
+    // Constructors & finalizers
     //----------------------------------------------------------------------------
     
-    public Electromagnet( SourceCoil sourceCoilModel ) {
+    public Electromagnet( SourceCoil sourceCoilModel, AbstractVoltageSource voltageSource ) {
         super();
         assert( sourceCoilModel != null );
+        assert( voltageSource != null );
         
         _sourceCoilModel = sourceCoilModel;
         _sourceCoilModel.addObserver( this );
+        
+        _voltageSource = voltageSource;
+        _voltageSource.addObserver( this );
         
         _isFlipped = false;
         
@@ -50,6 +56,41 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
     public void finalize() {
         _sourceCoilModel.removeObserver( this );
         _sourceCoilModel = null;
+        
+        if ( _voltageSource != null ) {
+            _voltageSource.removeObserver( this );
+            _voltageSource = null;
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the electromagnet's voltage source.
+     * 
+     * @param voltageSource
+     */
+    public void setVoltageSource( AbstractVoltageSource voltageSource ) {
+        assert( voltageSource != null );
+        if ( voltageSource != _voltageSource ) {
+            if ( _voltageSource != null ) {
+                _voltageSource.removeObserver( this );
+            }
+            _voltageSource = voltageSource;
+            _voltageSource.addObserver( this );
+            update();
+        }
+    }
+    
+    /**
+     * Gets the eletromagnet's voltage source.
+     * 
+     * @return the voltage source
+     */
+    public AbstractVoltageSource getVoltageSource() {
+        return _voltageSource;
     }
     
     //----------------------------------------------------------------------------
@@ -68,15 +109,16 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
         double diameter = ( 2 * _sourceCoilModel.getRadius() ) +  ( _sourceCoilModel.getWireWidth() / 2 );
         super.setSize( diameter, diameter );
         
-        // Get the voltage across the ends of the coil.
-        double coilVoltage = _sourceCoilModel.getVoltage();
+        // Compute the electromagnet's emf amplitude.
+        double amplitude = ( _sourceCoilModel.getNumberOfLoops() / (double) FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) * _voltageSource.getAmplitude();
+        amplitude = MathUtil.clamp( -1, amplitude, 1 );
         
         // Flip the polarity
-        if ( coilVoltage >= 0 && _isFlipped ) {
+        if ( amplitude >= 0 && _isFlipped ) {
             flipPolarity();
             _isFlipped = false;
         }
-        else if ( coilVoltage < 0 && !_isFlipped ) {
+        else if ( amplitude < 0 && !_isFlipped ) {
             flipPolarity();
             _isFlipped = true;
         }
@@ -84,11 +126,9 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
         /* 
          * Set the strength.
          * This is a bit of a "fudge". 
-         * We set the strength of the magnet to be proportional to the 
-         * amplitude of the voltage in the coil.
+         * We set the strength of the magnet to be proportional to its emf.
          */
-        double amplitude = Math.abs( _sourceCoilModel.getAmplitude() );
-        double strength = amplitude * getMaxStrength();
+        double strength = Math.abs( amplitude ) * getMaxStrength();
         setStrength( strength );
     }
 }

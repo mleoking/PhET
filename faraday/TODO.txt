@@ -12,6 +12,7 @@ HIGH PRIORITY:
 - performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
+- get rid of the amplitude stuff in AbstractVoltageSource and its subclasses
 - document DipoleMagnet algorithm like I did for CoilMagnet
 - compass' initial position is awkward in PickupCoil and Transformer modules
 - add a dialog that warns about performance implications of turning on grid (and other things?)
@@ -19,7 +20,6 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - remove dead code in FaradayApplication, FaradayModule
-- add a model component for the Field Meter
 - generalize BarMagnetGraphic.MouseHandler into some type of delegate/decorator
 - check for unnecessary notification, events and updates
 - background color (use PhetLookAndFeel)
@@ -53,6 +53,8 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/20) - add a model component for the Field Meter
+(4/20) - AbstractCoil should not be descended from AbstractVoltageSource
 (4/20) - make all observables extend FaradayObservable
 (4/20) - rename SpacialObservable to FaradayObservable, add enabled attribute, rename updateSelf to notifySelf
 (4/20) - make Lightbulb and Voltmeter observers of PickupCoil instead of AbstractVoltageSource

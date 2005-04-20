@@ -11,26 +11,17 @@
 
 package edu.colorado.phet.faraday.model;
 
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.faraday.FaradayConfig;
-
 
 /**
- * SourceCoil
+ * SourceCoil is the model of the source coil used in an electromagnet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SourceCoil extends AbstractCoil implements SimpleObserver {
-
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private AbstractVoltageSource _voltageSource;
+public class SourceCoil extends AbstractCoil {
     
     //----------------------------------------------------------------------------
-    // Constructors & finalizers
+    // Constructors
     //----------------------------------------------------------------------------
     
     /**
@@ -43,78 +34,18 @@ public class SourceCoil extends AbstractCoil implements SimpleObserver {
         setLoopSpacing( getWireWidth() );
     }
     
-    /**
-     * Finalizes an instance of this type.
-     * Call this method prior to releasing all references to an object of this type.
-     */
-    public void finalize() {
-        if ( _voltageSource != null ) {
-            _voltageSource.removeObserver( this );
-            _voltageSource = null;
-        }
-    }
-    
     //----------------------------------------------------------------------------
-    // Accessors
+    // AbstractCoil overrides
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the voltage source attached to the coil.
+     * If the wire width is changed, also change the loop spacing so
+     * that the loops remain packed close together.
      * 
-     * @param voltageSource
+     * @param wireWidth
      */
-    public void setVoltageSource( AbstractVoltageSource voltageSource ) {
-        assert( voltageSource != null );
-        if ( voltageSource != _voltageSource ) {
-            if ( _voltageSource != null ) {
-                _voltageSource.removeObserver( this );
-            }
-            _voltageSource = voltageSource;
-            _voltageSource.addObserver( this );
-            super.setMaxVoltage( _voltageSource.getMaxVoltage() );
-            update();
-        }
-    }
-    
-    /**
-     * Gets the voltage source attached to the coil.
-     * 
-     * @return the voltage source
-     */
-    public AbstractVoltageSource getVoltageSource() {
-        return _voltageSource;
-    }
-
-    //----------------------------------------------------------------------------
-    // SpacialObserver overrides
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Ensure that the coil is updated when inherited setters are called.
-     */
-    protected void notifySelf() {
-        update();
-    }
-    
-    //----------------------------------------------------------------------------
-    // SimpleObserver implementation
-    //----------------------------------------------------------------------------
-    
-    /*
-     * @see edu.colorado.phet.common.util.SimpleObserver#update()
-     */
-    public void update() {
-        if ( isEnabled() && _voltageSource != null ) {
-
-            /*
-             * The amplitude of the voltage in the source coil is a based on
-             * the number of loops in the coil and the relative magnitude of
-             * the voltage supplied by the voltage source.
-             */
-            double amplitude = ( getNumberOfLoops() / (double) FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) * _voltageSource.getAmplitude();
-            super.setAmplitude( amplitude );
-            
-            notifyObservers();
-        }
+    public void setWireWidth( double wireWidth ) {
+        super.setWireWidth( wireWidth );
+        setLoopSpacing( getWireWidth() );
     }
 }
