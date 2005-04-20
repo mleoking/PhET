@@ -73,7 +73,7 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
         assert( numberOfLoops >  0 );
         if ( numberOfLoops != _numberOfLoops ) {
             _numberOfLoops = numberOfLoops;
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }
@@ -97,7 +97,7 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
         assert( radius > 0 );
         if ( radius != _radius ) {
             _radius = radius;
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }
@@ -139,7 +139,7 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
         assert( wireWidth > 0 );
         if ( wireWidth != _wireWidth ) {
             _wireWidth = wireWidth;
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }
@@ -162,7 +162,7 @@ public abstract class AbstractCoil extends AbstractVoltageSource {
         assert( loopSpacing > 0 );
         if ( loopSpacing != _loopSpacing ) {
             _loopSpacing = loopSpacing;
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }

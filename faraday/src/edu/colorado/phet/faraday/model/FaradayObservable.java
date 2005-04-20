@@ -17,12 +17,19 @@ import edu.colorado.phet.common.util.SimpleObservable;
 
 
 /**
- * SpacialObservable is an observable object that has a location and direction.
+ * FaradayObservable extends SimpleObservable to by adding attributes
+ * that are common to most observables in the Faraday simulation.  
+ * Those attributes include:
+ * <ul>
+ * <li>whether the object is enabled
+ * <li>location
+ * <li>direction
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpacialObservable extends SimpleObservable {
+public class FaradayObservable extends SimpleObservable {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -30,6 +37,7 @@ public class SpacialObservable extends SimpleObservable {
 
     private Point2D _location;
     private double _direction;
+    private boolean  _enabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -37,22 +45,23 @@ public class SpacialObservable extends SimpleObservable {
 
     /**
      * Zero-argument constructor.
+     * The object is enabled, location is (0,0), direction is 0.
      */
-    public SpacialObservable() {
-        super();
-        _location = new Point2D.Double( 0, 0 );
-        _direction = 0.0;
+    public FaradayObservable() {
+        this( new Point2D.Double( 0, 0 ), 0.0 );
     }
     
     /**
      * Fully-specified constructor.
+     * The object is enabled, located and orientated as specified.
      * 
      * @param location the location
      * @param direction the direction, in degrees
      */
-    public SpacialObservable( Point2D location, double direction ) {
+    public FaradayObservable( Point2D location, double direction ) {
         super();
         assert( location != null );
+        _enabled = true;
         _location = new Point2D.Double( location.getX(), location.getY() );
         _direction = direction;
     }
@@ -61,6 +70,28 @@ public class SpacialObservable extends SimpleObservable {
     // Accessors
     //----------------------------------------------------------------------------
 
+    /**
+     * Enabled/disables this object.
+     * 
+     * @param enabled true or false
+     */
+    public void setEnabled( boolean enabled ) {
+        if ( enabled != _enabled ) {
+            _enabled = enabled;
+            notifySelf();
+            notifyObservers();
+        }
+    }
+    
+    /**
+     * Is this object enabled?
+     * 
+     * @return true or false
+     */
+    public boolean isEnabled() {
+        return _enabled;
+    }
+    
     /**
      * Sets the location in 2D space.
      * 
@@ -80,7 +111,7 @@ public class SpacialObservable extends SimpleObservable {
     public void setLocation( double x, double y ) {
         if ( x != _location.getX() || y != _location.getY() ) {
             _location.setLocation( x, y );
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }
@@ -137,7 +168,7 @@ public class SpacialObservable extends SimpleObservable {
     public void setDirection( double direction ) {
         if ( direction != _direction ) {
             _direction = direction;
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }
@@ -151,8 +182,14 @@ public class SpacialObservable extends SimpleObservable {
         return _direction;
     }
     
+    //----------------------------------------------------------------------------
+    // Notification
+    //----------------------------------------------------------------------------
+    
     /**
      * Hook for any updates that subclasses might need to perform.
+     * Subclasses should override this to handle changes to any of 
+     * the attributes defined by this base class.
      */
-    protected void updateSelf() {}
+    protected void notifySelf() {}
 }

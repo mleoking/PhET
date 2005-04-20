@@ -23,7 +23,7 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractMagnet extends SpacialObservable {
+public abstract class AbstractMagnet extends FaradayObservable {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -76,7 +76,7 @@ public abstract class AbstractMagnet extends SpacialObservable {
             if ( _maxStrength < _minStrength ) {
                 _minStrength = _maxStrength;
             }
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }
@@ -108,7 +108,7 @@ public abstract class AbstractMagnet extends SpacialObservable {
             if ( _minStrength > _maxStrength ) {
                 _maxStrength = _minStrength;
             }
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }
@@ -136,7 +136,7 @@ public abstract class AbstractMagnet extends SpacialObservable {
         }
         if ( strength != _strength ) {
             _strength = strength;
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }
@@ -218,7 +218,7 @@ public abstract class AbstractMagnet extends SpacialObservable {
         }
         if ( width != _size.getWidth() || height != _size.getHeight() ) {
             _size.setSize( width, height );
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }

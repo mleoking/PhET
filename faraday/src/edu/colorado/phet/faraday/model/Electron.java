@@ -25,7 +25,7 @@ import edu.colorado.phet.faraday.util.QuadBezierSpline;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Electron extends SpacialObservable implements ModelElement {
+public class Electron extends FaradayObservable implements ModelElement {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -37,9 +37,6 @@ public class Electron extends SpacialObservable implements ModelElement {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-
-    // Is this electron enabled?
-    private boolean _enabled;
     
     // Describes the electron's path (array of ElectronPathDescriptor)
     private ArrayList _path;
@@ -68,7 +65,6 @@ public class Electron extends SpacialObservable implements ModelElement {
      */
     public Electron() {
         super();
-        _enabled = true;
         _path = null;
         _pathIndex = 0; // first curve
         _pathPosition = 1.0; // curve's start point
@@ -80,27 +76,6 @@ public class Electron extends SpacialObservable implements ModelElement {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Enables or disabled the electron.
-     * 
-     * @param enabled true to enable, false to disable
-     */
-    public void setEnabled( boolean enabled ) {
-        if ( enabled != _enabled ) {
-            _enabled = enabled;
-            notifyObservers();
-        }
-    }
-
-    /**
-     * Determines whether the electron is enabled or disabled.
-     * 
-     * @return true if enabled, false if disabled
-     */
-    public boolean isEnabled() {
-        return _enabled;
-    }
     
     /**
      * Sets the path that the electron will follow.
@@ -208,7 +183,7 @@ public class Electron extends SpacialObservable implements ModelElement {
      * ElectronPathDescriptor array.
      */
     public void stepInTime( double dt ) {
-        if ( _enabled && _speed != 0 && _path != null ) {
+        if ( isEnabled() && _speed != 0 && _path != null ) {
             
             // Move the electron along the path.
             double pathScale = ((ElectronPathDescriptor)_path.get( _pathIndex )).getPathScale();

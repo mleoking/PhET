@@ -6,11 +6,13 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- raise the threshold below which grid needles are not drawn
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - electrons in electromagnet should not change speed when #loops changes
 - performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
+- document DipoleMagnet algorithm like I did for CoilMagnet
 - compass' initial position is awkward in PickupCoil and Transformer modules
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
@@ -32,6 +34,7 @@ CLEANUP:
 - move test-src programs to examples project
 
 POSSIBLE OPTIMIZATIONS:
+- simplified expressions in DipoleMagnet.getStrengthInside
 - use a profiler (eg JProfile) to identify bottlenecks
 - switch to a dynamic clock with median filtering of dt
 - switch to offscreen buffer
@@ -50,6 +53,8 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/20) - make all observables extend FaradayObservable
+(4/20) - rename SpacialObservable to FaradayObservable, add enabled attribute, rename updateSelf to notifySelf
 (4/20) - make Lightbulb and Voltmeter observers of PickupCoil instead of AbstractVoltageSource
 (4/20) - make PickupCoil an observer of AbstractMagnet, to make the relationship more obvious
 v0r24...

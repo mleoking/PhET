@@ -20,7 +20,7 @@ package edu.colorado.phet.faraday.model;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractVoltageSource extends SpacialObservable {
+public abstract class AbstractVoltageSource extends FaradayObservable {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -33,7 +33,6 @@ public abstract class AbstractVoltageSource extends SpacialObservable {
     //----------------------------------------------------------------------------
     
     private double _maxVoltage;
-    private boolean _enabled;
     private double _amplitude;
     
     //----------------------------------------------------------------------------
@@ -44,7 +43,6 @@ public abstract class AbstractVoltageSource extends SpacialObservable {
      * Sole constructor.
      */
     public AbstractVoltageSource() {
-        _enabled = true;
         _maxVoltage = DEFAULT_MAX_VOLTAGE;
         _amplitude = 1.0; // full strength
     }
@@ -69,7 +67,7 @@ public abstract class AbstractVoltageSource extends SpacialObservable {
      */
     public void setMaxVoltage( double maxVoltage ) {
         _maxVoltage = maxVoltage;
-        updateSelf();
+        notifySelf();
         notifyObservers();
     }
     
@@ -87,34 +85,12 @@ public abstract class AbstractVoltageSource extends SpacialObservable {
         assert( amplitude >= -1 && amplitude <= 1 );
         if ( amplitude != _amplitude ) {
             _amplitude = amplitude;
-            updateSelf();
+            notifySelf();
             notifyObservers();
         }
     }
     
     public double getAmplitude() {
         return _amplitude;  
-    }
-    
-    /**
-     * Enabled/disables this object.
-     * 
-     * @param enabled true or false
-     */
-    public void setEnabled( boolean enabled ) {
-        if ( enabled != _enabled ) {
-            _enabled = enabled;
-            updateSelf();
-            notifyObservers();
-        }
-    }
-    
-    /**
-     * Is this object enabled?
-     * 
-     * @return true or false
-     */
-    public boolean isEnabled() {
-        return _enabled;
     }
 }
