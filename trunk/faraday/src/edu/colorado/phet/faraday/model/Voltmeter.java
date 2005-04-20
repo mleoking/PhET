@@ -30,24 +30,16 @@ public class Voltmeter extends SimpleObservable implements ModelElement, SimpleO
     // Class data
     //----------------------------------------------------------------------------
     
-    /*
-     * Define the zero point of the needle.
-     */
+    // Define the zero point of the needle.
     private static final double ZERO_NEEDLE_ANGLE = Math.toRadians( 0.0 );
     
-    /*
-     * The needle deflection range is this much on either side of the zero point.
-     */
+    // The needle deflection range is this much on either side of the zero point.
     private static final double MAX_NEEDLE_ANGLE = Math.toRadians( 90.0 );
     
-    /*
-     * If rotational kinematics is enabled, the needle will jiggle this much around the zero reading.
-     */
+    // If rotational kinematics is enabled, the needle will jiggle this much around the zero reading.
     private static final double NEEDLE_JIGGLE_ANGLE = Math.toRadians( 3.0 );
     
-    /*
-     * When the angle is this close to zero, the needle stops jiggling.
-     */
+    // When the angle is this close to zero, the needle stops jiggling.
     private static final double NEEDLE_JIGGLE_THRESHOLD = Math.toRadians( 0.5 );
     
     /*
