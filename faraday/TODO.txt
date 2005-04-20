@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- fix parts of CoilGraphic that are commented out (related to electron animation)
 - raise the threshold below which grid needles are not drawn
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - electrons in electromagnet should not change speed when #loops changes
@@ -53,6 +54,8 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/20) - compass should be off by default in Pickup and Transformer modules
+(4/20) - put compass in a better initial location in Pickup and Transformer modules
 (4/20) - add a model component for the Field Meter
 (4/20) - AbstractCoil should not be descended from AbstractVoltageSource
 (4/20) - make all observables extend FaradayObservable
