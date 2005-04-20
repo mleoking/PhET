@@ -26,7 +26,7 @@ public abstract class AbstractVoltageSource extends FaradayObservable {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double DEFAULT_MAX_VOLTAGE = 100.0;
+    private static final double DEFAULT_MAX_VOLTAGE = Double.POSITIVE_INFINITY;
     
     //----------------------------------------------------------------------------
     // Instance data
