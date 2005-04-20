@@ -18,6 +18,7 @@ import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.*;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
@@ -42,9 +43,10 @@ import java.util.Map;
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
  * A disc is drawn on the energy levels for each atom in that state.
  */
-public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements CollimatedBeam.WavelengthChangeListener,
-                                                                     CollimatedBeam.RateChangeListener,
-                                                                     ClockStateListener {
+public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements SimpleObserver,
+                                                                          CollimatedBeam.WavelengthChangeListener,
+                                                                          CollimatedBeam.RateChangeListener,
+                                                                          ClockStateListener {
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
     private long averagingPeriod = 300;

@@ -88,6 +88,19 @@ public class SingleAtomModule extends DischargeLampModule {
             }
         } );
         getControlPanel().add( singleShotBtn );
+
+        JCheckBox slowMotionCB = new JCheckBox( new AbstractAction( "Run in slow motion" ) {
+            public void actionPerformed( ActionEvent e ) {
+                JCheckBox cb = (JCheckBox)e.getSource();
+                if( cb.isSelected() ) {
+                    getClock().setDt( FluorescentLightsConfig.DT / 5 );
+                }
+                else {
+                    getClock().setDt( FluorescentLightsConfig.DT );
+                }
+            }
+        });
+        getControlPanel().add( slowMotionCB );
     }
 
     /**
