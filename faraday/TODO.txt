@@ -57,11 +57,12 @@ v0r25...
 (4/20) - compass should be off by default in Pickup and Transformer modules
 (4/20) - put compass in a better initial location in Pickup and Transformer modules
 (4/20) - add a model component for the Field Meter
-(4/20) - AbstractCoil should not be descended from AbstractVoltageSource
-(4/20) - make all observables extend FaradayObservable
-(4/20) - rename SpacialObservable to FaradayObservable, add enabled attribute, rename updateSelf to notifySelf
-(4/20) - make Lightbulb and Voltmeter observers of PickupCoil instead of AbstractVoltageSource
-(4/20) - make PickupCoil an observer of AbstractMagnet, to make the relationship more obvious
+(4/20) - major overhaul of model:
+         o AbstractCoil should not be descended from AbstractVoltageSource
+         o make all observables extend FaradayObservable
+         o rename SpacialObservable to FaradayObservable, add enabled attribute, rename updateSelf to notifySelf
+         o make Lightbulb and Voltmeter observers of PickupCoil instead of AbstractVoltageSource
+         o make PickupCoil an observer of AbstractMagnet, to make the relationship more obvious
 v0r24...
 (4/19) - increase size of circle used to represent CoilMagnet
 (4/19) - handle null _gridGraphic in FaradayModule 
