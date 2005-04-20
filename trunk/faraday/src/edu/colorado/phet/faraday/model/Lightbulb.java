@@ -29,7 +29,7 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractVoltageSource _voltageSourceModel;
+    private PickupCoil _pickupCoilModel;
     private boolean _enabled;
     private double _scale;
     
@@ -40,13 +40,13 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
     /**
      * Sole constructor.
      * 
-     * @param voltageSourceModel the voltage source that the lightbulb is across
+     * @param pickupCoilModel the pickup coil that the lightbulb is across
      */
-    public Lightbulb( AbstractVoltageSource voltageSourceModel ) {
+    public Lightbulb( PickupCoil pickupCoilModel ) {
         super();
         
-        _voltageSourceModel = voltageSourceModel;
-        _voltageSourceModel.addObserver( this );
+        _pickupCoilModel = pickupCoilModel;
+        _pickupCoilModel.addObserver( this );
 
         _enabled = true;
         _scale = 1.0;
@@ -57,8 +57,8 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _voltageSourceModel.removeObserver( this );
-        _voltageSourceModel = null;
+        _pickupCoilModel.removeObserver( this );
+        _pickupCoilModel = null;
     }
     
     //----------------------------------------------------------------------------
@@ -72,7 +72,7 @@ public class Lightbulb extends SimpleObservable implements SimpleObserver {
      * @return the intensity (0.0 - 1.0)
      */
     public double getIntensity() {
-        double intensity = _scale * Math.abs( _voltageSourceModel.getAmplitude() );
+        double intensity = _scale * Math.abs( _pickupCoilModel.getAmplitude() );
         intensity = MathUtil.clamp( 0, intensity, 1 );
         
         // Intensity below the threshold is effectively zero.

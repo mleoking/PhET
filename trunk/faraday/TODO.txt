@@ -49,6 +49,9 @@ PHETCOMMON:
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 
 DONE:
+v0r25...
+(4/20) - make Lightbulb and Voltmeter observers of PickupCoil instead of AbstractVoltageSource
+(4/20) - make PickupCoil an observer of AbstractMagnet, to make the relationship more obvious
 v0r24...
 (4/19) - increase size of circle used to represent CoilMagnet
 (4/19) - handle null _gridGraphic in FaradayModule 
