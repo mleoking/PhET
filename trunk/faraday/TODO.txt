@@ -18,7 +18,6 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - remove dead code in FaradayApplication, FaradayModule
-- generalize BarMagnetGraphic.MouseHandler into some type of delegate/decorator
 - check for unnecessary notification, events and updates
 - background color (use PhetLookAndFeel)
 - Help/MegaHelp
