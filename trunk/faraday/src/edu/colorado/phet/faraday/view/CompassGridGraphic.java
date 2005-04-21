@@ -114,6 +114,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         assert( component != null );
         assert( magnetModel != null );
         
+        setIgnoreMouse( true );
+        
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
         
