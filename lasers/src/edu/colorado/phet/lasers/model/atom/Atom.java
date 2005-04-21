@@ -27,9 +27,10 @@ import java.util.EventObject;
  */
 public class Atom extends SolidSphere {
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Class
-    //
+    //----------------------------------------------------------------
+    // Class fields and methods
+    //----------------------------------------------------------------
+
     static private int s_radius = 15;
     static private int s_mass = 1000;
 
@@ -37,24 +38,38 @@ public class Atom extends SolidSphere {
         return s_radius;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Instance
-    //
+    //----------------------------------------------------------------
+    // Instance fields and methods
+    //----------------------------------------------------------------
+
     private StateLifetimeManager stateLifetimeManager;
     private BaseModel model;
     private AtomicState currState;
     private AtomicState[] states;
+    private boolean isStateLifetimeFixed = false;
 
+    /**
+     *
+     * @param model
+     * @param numStates
+     */
     public Atom( LaserModel model, int numStates ) {
+        this( model, numStates, false );
+    }
+
+    /**
+     *
+     * @param model
+     * @param numStates
+     * @param isStateLifetimeFixed
+     */
+    public Atom( LaserModel model, int numStates, boolean isStateLifetimeFixed ) {
         super( s_radius );
         this.model = model;
+        this.isStateLifetimeFixed = isStateLifetimeFixed;
         setMass( s_mass );
         setCurrState( model.getGroundState() );
         setNumEnergyLevels( numStates, model );
-    }
-
-    public void collideWithPhoton( Photon photon ) {
-        currState.collideWithPhoton( this, photon );
     }
 
     public AtomicState getCurrState() {
@@ -67,6 +82,56 @@ public class Atom extends SolidSphere {
 
     public void setStates( AtomicState[] states ) {
         this.states = states;
+    }
+
+    /**
+     * Populates the list of AtomicStates that this atom can be in, based on the
+     * specified number of energy levels it can occupy
+     *
+     * @param numEnergyLevels
+     */
+    public void setNumEnergyLevels( int numEnergyLevels, LaserModel model ) {
+        states = new AtomicState[numEnergyLevels];
+        states[0] = model.getGroundState();
+        states[1] = model.getMiddleEnergyState();
+        if( numEnergyLevels == 3 ) {
+            states[2] = model.getHighEnergyState();
+        }
+    }
+
+    /**
+     * Returns the atom's state with the lowest energy
+     * @return
+     */
+    public AtomicState getLowestEnergyState() {
+        AtomicState lowestState = null;
+        double lowestEnergy = Double.MAX_VALUE;
+        for( int i = 0; i < states.length; i++ ) {
+            AtomicState state = states[i];
+            if( state.getEnergyLevel() < lowestEnergy ) {
+                lowestEnergy = state.getEnergyLevel();
+                lowestState = state;
+            }
+        }
+        return lowestState;
+    }
+
+    /**
+     * Returns the state the atom will be in if it emits a photon. By default, this is the
+     * next lower energy state
+     *
+     * @return
+     */
+    public AtomicState getEnergyStateAfterEmission() {
+        return currState.getNextLowerEnergyState();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isStateLifetimeFixed() {
+        return isStateLifetimeFixed;
     }
 
     /**
@@ -94,18 +159,6 @@ public class Atom extends SolidSphere {
         changeListenerProxy.stateChanged( new ChangeEvent( this, newState, oldState ) );
     }
 
-    public void setPosition( double x, double y ) {
-        super.setPosition( x, y );
-    }
-
-    public void setPosition( Point2D position ) {
-        super.setPosition( position );
-    }
-
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-    }
-
     /**
      *
      */
@@ -113,49 +166,22 @@ public class Atom extends SolidSphere {
         photonEmittedListenerProxy.photonEmittedEventOccurred( new PhotonEmittedEvent( this, emittedPhoton ) );
     }
 
+    /**
+     *
+     */
     public void removeFromSystem() {
         leftSystemListenerProxy.leftSystem( new LeftSystemEvent( this ) );
         changeListenerProxy.stateChanged( new ChangeEvent( this, null, this.getCurrState() ) );
     }
 
     /**
-     * Populates the list of AtomicStates that this atom can be in, based on the
-     * specified number of energy levels it can occupy
      *
-     * @param numEnergyLevels
-     */
-    public void setNumEnergyLevels( int numEnergyLevels, LaserModel model ) {
-        states = new AtomicState[numEnergyLevels];
-        states[0] = model.getGroundState();
-        states[1] = model.getMiddleEnergyState();
-        if( numEnergyLevels == 3 ) {
-            states[2] = model.getHighEnergyState();
-        }
-    }
-
-    public AtomicState getLowestEnergyState() {
-        AtomicState lowestState = null;
-        double lowestEnergy = Double.MAX_VALUE;
-        for( int i = 0; i < states.length; i++ ) {
-            AtomicState state = states[i];
-            if( state.getEnergyLevel() < lowestEnergy ) {
-                lowestEnergy = state.getEnergyLevel();
-                lowestState = state;
-            }
-        }
-        return lowestState;
-    }
-
-    /**
-     * Returns the state the atom will be in if it emits a photon. By default, this is the
-     * next lower energy state
      *
-     * @return
+     * @param photon
      */
-    public AtomicState getEnergyStateAfterEmission() {
-        return currState.getNextLowerEnergyState();
+    public void collideWithPhoton( Photon photon ) {
+        currState.collideWithPhoton( this, photon );
     }
-
 
     //----------------------------------------------------------------
     // Events and event handling

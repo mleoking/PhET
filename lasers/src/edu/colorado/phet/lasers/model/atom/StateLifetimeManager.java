@@ -31,14 +31,13 @@ class StateLifetimeManager implements ModelElement {
     private double lifeTime;
     private double deathTime;
     private AtomicState state;
-    private boolean lifetimeFixed = false;
     private BaseModel model;
 
     /**
-     * 
-     * @param atom
-     * @param emitOnStateChange
-     * @param model
+     *
+     * @param atom                  The atom whose state's lifetime we are to manage
+     * @param emitOnStateChange     Does the atom emit a photon when it changes state?
+     * @param model                 The model
      */
     public StateLifetimeManager( Atom atom, boolean emitOnStateChange, BaseModel model ) {
         this.atom = atom;
@@ -53,7 +52,7 @@ class StateLifetimeManager implements ModelElement {
         state = atom.getCurrState();
 
         // Get the lifetime for this state
-        if( lifetimeFixed ) {
+        if( atom.isStateLifetimeFixed() ) {
             // This line gives a fixed death time
             deathTime = state.getMeanLifeTime();
         }
@@ -61,11 +60,16 @@ class StateLifetimeManager implements ModelElement {
             // Assign a deathtime based on an exponential distribution
             // The square root pushes the distribution toward 1.
             deathTime = Math.pow( -Math.log( temp ), 0.5 ) * state.getMeanLifeTime();
-            //                deathTime = -Math.log( temp ) * state.getMeanLifeTime();
         }
+
+        // Initialize the field that tracks the state's lifetime
         lifeTime = 0;
     }
 
+    /**
+     * Changes the state of the associated atom if the state's lifetime has been exceeded.
+     * @param dt
+     */
     public void stepInTime( double dt ) {
         lifeTime += dt;
         if( lifeTime >= deathTime ) {
@@ -98,6 +102,9 @@ class StateLifetimeManager implements ModelElement {
         }
     }
 
+    /**
+     *
+     */
     public void kill() {
         model.removeModelElement( this );
     }

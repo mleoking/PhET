@@ -33,7 +33,7 @@ public class DischargeLampAtom extends Atom {
      * @param numStates
      */
     public DischargeLampAtom( LaserModel model, int numStates ) {
-        super( model, numStates );
+        super( model, numStates, true );
 
         AtomicState[] states = new AtomicState[numStates];
         double de = ( Photon.wavelengthToEnergy( Photon.BLUE ) - AtomicState.minEnergy ) / ( states.length - 1 );
