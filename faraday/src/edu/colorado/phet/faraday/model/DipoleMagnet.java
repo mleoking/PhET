@@ -87,11 +87,11 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     public Shape getShape() {
         return _modelShape;
     }
-    
-    //----------------------------------------------------------------------------
-    // AbstractMagnet implementation
-    //----------------------------------------------------------------------------
 
+    //----------------------------------------------------------------------------
+    // FaradayObservable overrides
+    //----------------------------------------------------------------------------
+    
     /*
      * Respond to changes that result from calling superclass methods,
      * in this case changes to the magnet's size via super.setSize.
@@ -102,15 +102,21 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         _modelShape.setFrame( -width/2, -height/2, width, height );
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractMagnet implementation
+    //----------------------------------------------------------------------------
+    
     /*
-     * See AbstractMagnet.getStrength.
+     * Gets the B-field vector at a specified point.
      */
     public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */ ) {
         return getStrength( p, outputVector, DEFAULT_DISTANCE_EXPONENT );
     }   
     
     /*
-     * See AbstractMagnet.getStrength.
+     * Gets the B-field vector at a specified point.
+     * The caller may specify an exponent that determines how the field strength 
+     * decreases with distance from the magnet.
      * <p>
      * Algorithm courtesy of Michael Dubson (dubson@spot.colorado.edu).
      * <p>
@@ -118,6 +124,41 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * <ul>
      * <li>the magnet's physical center is positioned at the magnet's location
      * <li>the magnet's width > height
+     * </ul>
+     * Terminology:
+     * <ul>
+     * <li>axes oriented with +X right, +Y up
+     * <li>origin is the center of the coil, at (0,0)
+     * <li>(x,y) is the point of interest where we are measuring the magnetic field
+     * <li>h is the height of the magnet
+     * <li>w is the width of the magnet
+     * <li>L is the distance between the dipoles
+     * <li>C is a fudge factor
+     * <li>rN is the distance from the north dipole to (x,y)
+     * <li>rS is the distance from the south dipole to (x,y)
+     * <li>B is the field vector at (x,y) due to the entire magnet
+     * <li>BN is the field vector at (x,y) due to the north dipole
+     * <li>BS is the field vector at (x,y) due to the south dipole
+     * <li>e is the exponent that specifies how the field decreases with distance (3 in reality)
+     * </ul>
+     * <p>
+     * The dipole locations are:
+     * <ul>
+     * <li>north: w/2 - h/2
+     * <li>south: -w/2 + h/2
+     * </ul>
+     * <p>
+     * Inside the magnet:
+     * <ul>
+     * <li>Bx = magnet strength
+     * <li>By = 0
+     * </ul>
+     * <p>
+     * Outside the magnet:
+     * <ul>
+     * <li>BN = ( +C / rN^e ) [ ( x - L/2 ), y ]
+     * <li>BS = ( -C / rS^e ) [ ( x + L/2 ), y ]
+     * <li>B = BN + BS
      * </ul>
      */
     public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */, double distanceExponent ) {

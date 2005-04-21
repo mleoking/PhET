@@ -12,7 +12,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - get rid of the amplitude stuff in AbstractVoltageSource and AbstractCoil
-- document DipoleMagnet algorithm like I did for CoilMagnet
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
@@ -51,6 +50,7 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/21) - document DipoleMagnet algorithm like I did for CoilMagnet
 (4/21) - CoilGraphic uses current flow in the coil to set the electron speed (independent of #loops)
 (4/21) - add attribtue "current amplitude" to AbstractCoil, to represent current flow in the coil
 (4/20) - compass should be off by default in Pickup and Transformer modules
