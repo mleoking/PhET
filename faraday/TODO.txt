@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- raise the threshold below which grid needles are not drawn
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - performance impact of grid, electrons, and light rays
 
@@ -50,6 +49,7 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/21) - raise the threshold below which grid needles are not drawn
 (4/21) - document DipoleMagnet algorithm like I did for CoilMagnet
 (4/21) - CoilGraphic uses current flow in the coil to set the electron speed (independent of #loops)
 (4/21) - add attribtue "current amplitude" to AbstractCoil, to represent current flow in the coil

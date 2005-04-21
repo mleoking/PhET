@@ -127,7 +127,7 @@ public class FaradayConfig {
     /* Lightbulb intensity below this value is treated as zero. */
     public static final double LIGHTBULB_INTENSITY_THRESHOLD = VOLTAGE_AMPLITUDE_THRESHOLD;
     /* Compass grid needles with B-field magnitude below this value are not drawn. */
-    public static final double COMPASS_GRID_BFIELD_THRESHOLD = 0.01;
+    public static final double COMPASS_GRID_BFIELD_THRESHOLD = 0.02;
     
     //----------------------------------------------------------------------------
     // Constructors
