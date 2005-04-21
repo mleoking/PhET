@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- picking background of coils broke when was grid was moved inside the coil
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - performance impact of grid, electrons, and light rays
 
