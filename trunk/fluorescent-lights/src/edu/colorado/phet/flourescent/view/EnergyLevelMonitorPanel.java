@@ -94,6 +94,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         this.levelLineLength = panelWidth - levelLineOriginX - 20;
         electronXLoc = (int)origin.getX();
 
+        this.setBackground( Color.white );
+
         // Add a listener that will update the panel if the clock is paused
         clock.addClockStateListener( this );
 
@@ -105,22 +107,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
 
         // Add listeners to all the atoms in the model
         addAtomListeners();
-
-        this.setBackground( Color.white );
-        JLabel dummyLabel = new JLabel( "foo" );
-        Font font = dummyLabel.getFont();
-        String header = null;
-        if( module instanceof MultipleAtomModule ) {
-            header = SimStrings.get( "EnergyMonitorPanel.header.plural" );
-        }
-        else {
-            header = SimStrings.get( "EnergyMonitorPanel.header.singular" );
-        }
-        PhetTextGraphic headingText = new PhetTextGraphic( this, font,
-                                                           header,
-                                                           Color.black );
-        headingText.setLocation( 30, 5 );
-        this.addGraphic( headingText );
 
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );

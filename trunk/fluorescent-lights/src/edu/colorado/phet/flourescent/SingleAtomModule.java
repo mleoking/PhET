@@ -67,20 +67,34 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Add module-specific controls
         addControls();
+
+        // Set the current control to an appropriate maximum value
+        getCurrentSlider().setMaximum( 0.01 );
     }
 
     /**
-     *
+     * todo: clean this up
      */
     private void addControls() {
 
         // Add an energy level monitor panel. Note that the panel has a null layout, so we have to put it in a
         // panel that does have one, so it gets laid out properly
-        final EnergyLevelMonitorPanel elmp = addEnergyMonitorPanel();
+        final MyEnergyMonitorPanel elmp = new MyEnergyMonitorPanel( this, getClock(), atom.getStates(), 150, 300 );
+
+        // Put the current slider in a set of controls with the Fire button
+        final ModelSlider currentSlider = getCurrentSlider();
+        getControlPanel().remove( currentSlider );
+
+        JPanel electronProductionControlPanel = new JPanel( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        ButtonGroup electronProductionBtnGrp = new ButtonGroup();
 
         // Add a button for firing a single electron. This also tells the energy level panel that if an
         // electron has been produced
-        JButton singleShotBtn = new JButton( "Fire electron" );
+        final JButton singleShotBtn = new JButton( "Fire electron" );
         singleShotBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 Electron electron = getCathode().produceElectron();
@@ -89,7 +103,47 @@ public class SingleAtomModule extends DischargeLampModule {
                 }
             }
         } );
-        getControlPanel().add( singleShotBtn );
+        JRadioButton continuousRB = new JRadioButton( new AbstractAction( "Continuous") {
+            public void actionPerformed( ActionEvent e ) {
+                currentSlider.setVisible( true);
+                getCathode().setElectronsPerSecond( currentSlider.getValue() );
+                singleShotBtn.setVisible( false );
+            }
+        });
+        JRadioButton singleShotRB = new JRadioButton( new AbstractAction( "Single") {
+            public void actionPerformed( ActionEvent e ) {
+                currentSlider.setVisible( false );
+                getCathode().setElectronsPerSecond( 0 );
+                singleShotBtn.setVisible( true );
+            }
+        });
+        electronProductionBtnGrp.add( continuousRB );
+        electronProductionBtnGrp.add( singleShotRB );
+
+        JPanel rbPanel = new JPanel( );
+        rbPanel.add( singleShotRB );
+        rbPanel.add( continuousRB );
+        electronProductionControlPanel.add( rbPanel, gbc );
+//        gbc.anchor = GridBagConstraints.EAST;
+//        electronProductionControlPanel.add( singleShotRB, gbc );
+//        gbc.gridx = 1;
+//        gbc.anchor = GridBagConstraints.WEST;
+//        electronProductionControlPanel.add( continuousRB, gbc );
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridy = 1;
+        gbc.gridx = 0;
+//        gbc.gridwidth = 2;
+        electronProductionControlPanel.add( singleShotBtn, gbc );
+//        gbc.gridx = 1;
+        electronProductionControlPanel.add( currentSlider, gbc );
+
+        singleShotRB.setSelected( true );
+        currentSlider.setVisible( false );
+        getControlPanel().add( electronProductionControlPanel );
+
+//        getControlPanel().add( singleShotBtn );
+
+        getControlPanel().add( elmp );
 
         JCheckBox slowMotionCB = new JCheckBox( new AbstractAction( "Run in slow motion" ) {
             public void actionPerformed( ActionEvent e ) {
@@ -101,40 +155,8 @@ public class SingleAtomModule extends DischargeLampModule {
                     getClock().setDt( FluorescentLightsConfig.DT );
                 }
             }
-        });
-        getControlPanel().add( slowMotionCB );
-    }
-
-    /**
-     *
-     * @return
-     */
-    private EnergyLevelMonitorPanel addEnergyMonitorPanel() {
-        final EnergyLevelMonitorPanel elmp = new EnergyLevelMonitorPanel( this, getClock(), atom.getStates(), 150, 300 );
-        JPanel jp = new JPanel( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,0,0,
-                                                         GridBagConstraints.NORTHWEST,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),0,0 );
-        elmp.setBorder( new EtchedBorder( ) );
-        jp.add( elmp, gbc );
-
-        // Add the spinner that controls the number of energy levels
-        final JSpinner numLevelsSpinner = new JSpinner( new SpinnerNumberModel( FluorescentLightsConfig.NUM_ENERGY_LEVELS, 2,
-                                                                          FluorescentLightsConfig.MAX_NUM_ENERGY_LEVELS,
-                                                                          1 ) );
-        numLevelsSpinner.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                atom.setStates( createAtomicStates( ((Integer)numLevelsSpinner.getValue()).intValue() ));
-                elmp.setEnergyLevels( atom.getStates() );
-            }
         } );
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.CENTER;
-        jp.add(numLevelsSpinner, gbc);
-        getControlPanel().add( jp );
-        
-        return elmp;
+        getControlPanel().add( slowMotionCB );
     }
 
     /**
@@ -173,11 +195,52 @@ public class SingleAtomModule extends DischargeLampModule {
         for( int i = 1; i < states.length; i++ ) {
             states[i] = new AtomicState();
             states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-            states[i].setEnergyLevel( minVisibleEnergy + (i - 1) * dE );
+            states[i].setEnergyLevel( minVisibleEnergy + ( i - 1 ) * dE );
             states[i].setNextLowerEnergyState( states[i - 1] );
             states[i - 1].setNextHigherEnergyState( states[i] );
         }
         states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
         return states;
+    }
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    /**
+     * Wrapper for EnergyLevelMonitorPanel that adds some extra controls
+     */
+    class MyEnergyMonitorPanel extends JPanel {
+        private EnergyLevelMonitorPanel elmp;
+
+        public MyEnergyMonitorPanel( BaseLaserModule module, AbstractClock clock, AtomicState[] atomicStates, int panelWidth, int panelHeight ) {
+            super( new GridBagLayout() );
+            elmp = new EnergyLevelMonitorPanel( module, clock, atomicStates, panelWidth, panelHeight );
+            JPanel jp = this;
+            GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
+                                                             GridBagConstraints.CENTER,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 10, 0, 10 ), 0, 0 );
+            elmp.setBorder( new EtchedBorder() );
+            jp.add( elmp, gbc );
+
+            // Add the spinner that controls the number of energy levels
+            final JSpinner numLevelsSpinner = new JSpinner( new SpinnerNumberModel( FluorescentLightsConfig.NUM_ENERGY_LEVELS, 2,
+                                                                                    FluorescentLightsConfig.MAX_NUM_ENERGY_LEVELS,
+                                                                                    1 ) );
+            numLevelsSpinner.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    atom.setStates( createAtomicStates( ( (Integer)numLevelsSpinner.getValue() ).intValue() ) );
+                    elmp.setEnergyLevels( atom.getStates() );
+                }
+            } );
+            gbc.gridx = 1;
+            gbc.anchor = GridBagConstraints.CENTER;
+            jp.add( numLevelsSpinner, gbc );
+        }
+
+        public void addElectron( Electron electron ) {
+            elmp.addElectron( electron );
+        }
     }
 }
