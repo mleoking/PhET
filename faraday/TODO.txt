@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- picking background of coils broke when was grid was moved inside the coil
 - calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - performance impact of grid, electrons, and light rays
 
@@ -49,6 +50,7 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/21) - set compass grid to ignore the mouse so that we can pick the back of the coils
 (4/21) - raise the threshold below which grid needles are not drawn
 (4/21) - document DipoleMagnet algorithm like I did for CoilMagnet
 (4/21) - CoilGraphic uses current flow in the coil to set the electron speed (independent of #loops)
