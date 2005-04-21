@@ -28,6 +28,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
+import java.text.DecimalFormat;
 
 /**
  * DischargeLampModule
@@ -48,6 +49,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     // properly on the screen
     private AffineTransformOp externalGraphicScaleOp;
     private ResonatingCavity tube;
+    private ModelSlider currentSlider;
 //    public static boolean DEBUG = true;
 
     /**
@@ -149,7 +151,8 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         cathode.setPotential( batterySlider.getValue() );
 
         // A slider for the battery current
-        final ModelSlider currentSlider = new ModelSlider( "Current", "electrons/msec", 0, 0.3, 0);
+        currentSlider = new ModelSlider( "Electron Production Rate", "electrons/msec",
+                                         0, 0.3, 0, new DecimalFormat( "0.00#" ));
         currentSlider.setPreferredSize( new Dimension( 250, 100 ));
         controlPanel.add( currentSlider );
         currentSlider.addChangeListener( new ChangeListener() {
@@ -258,6 +261,10 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
     public ResonatingCavity getTube() {
         return tube;
+    }
+
+    protected ModelSlider getCurrentSlider() {
+        return currentSlider;
     }
 
     //----------------------------------------------------------------
