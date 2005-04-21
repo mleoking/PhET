@@ -68,12 +68,12 @@ public class CompassGraphic extends CompositePhetGraphic
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Rectangle _parentBounds;
     private Compass _compassModel;
     private PhetShapeGraphic _needleNorthGraphic, _needleSouthGraphic;
     private CompassNeedleCache _needleCache;
     private CollisionDetector _collisionDetector;
     private Rectangle[] _collisionBounds;
+    private FaradayMouseHandler _mouseHandler;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -90,10 +90,6 @@ public class CompassGraphic extends CompositePhetGraphic
         super( component );
         assert( component != null );
         assert( compassModel != null );
-        
-        _collisionDetector = new CollisionDetector( this );
-        
-        _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
         _compassModel = compassModel;
         _compassModel.addObserver( this );
@@ -135,9 +131,11 @@ public class CompassGraphic extends CompositePhetGraphic
         addGraphic( anchor );
         
         // Setup interactivity.
-        MouseHandler mouseHandler = new MouseHandler();
+        _mouseHandler = new FaradayMouseHandler( _compassModel, this );
+        _collisionDetector = new CollisionDetector( this );
+        _mouseHandler.setCollisionDetector( _collisionDetector );
         super.setCursorHand();
-        super.addMouseInputListener( mouseHandler );
+        super.addMouseInputListener( _mouseHandler );
         
         update();
     }
@@ -207,69 +205,15 @@ public class CompassGraphic extends CompositePhetGraphic
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     * Informs the mouse handler of changes to the apparatus panel size.
      */
     public void canvasSizeChanged( ChangeEvent event ) {
-        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
+        _mouseHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
     }
     
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
-    /**
-     * MouseHandler handles mouse events.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private class MouseHandler extends MouseInputAdapter {
-        
-        private boolean _dragEnabled;
-        private Point _previousPoint;
-        
-        public MouseHandler() {
-            super();
-            _dragEnabled = true;
-            _previousPoint = new Point();
-        }
-        
-        public void mousePressed( MouseEvent event ) {
-            _dragEnabled = true;
-            _previousPoint.setLocation( event.getPoint() );
-        }
-        
-        public void mouseDragged( MouseEvent event ) {
-
-            if ( !_dragEnabled && getBounds().contains( event.getPoint() ) ) {
-                _dragEnabled = true;
-                _previousPoint.setLocation( event.getPoint() );
-            }
-            
-            if ( _dragEnabled ) {
-
-                int dx = event.getX() - _previousPoint.x;
-                int dy = event.getY() - _previousPoint.y;
-                
-                boolean inApparatusPanel = _parentBounds.contains( event.getPoint() );
-                boolean collidesNow = _collisionDetector.collidesNow();
-                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
-                
-                if ( !inApparatusPanel || ( !collidesNow && wouldCollide ) ) {
-                    // Ignore the translate if the mouse is outside the apparatus panel or 
-                    // if the tanslate would result in a collision.
-                    _dragEnabled = false;
-                }
-                else {
-                    // Translate if the mouse cursor is inside the parent component.
-                    double x = _compassModel.getX() + dx;
-                    double y = _compassModel.getY() + dy;
-                    _compassModel.setLocation( x, y );
-                    _previousPoint.setLocation( event.getPoint() );
-                }
-            }
-        }
-    }
     
     /**
      * BodyGraphic creates a the compass body from a bunch of static graphic components.
