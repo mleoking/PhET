@@ -202,6 +202,8 @@ public class PickupCoilGraphic
      * @param enabled true or false
      */
     public void setDraggingEnabled( boolean enabled ) {
+        _foreground.setIgnoreMouse( !enabled );
+        _background.setIgnoreMouse( !enabled );
         if ( enabled ) {
             // Interactivity
             _foreground.setCursorHand();
