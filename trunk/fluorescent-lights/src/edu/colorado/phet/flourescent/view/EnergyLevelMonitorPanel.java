@@ -100,6 +100,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         // Create a horizontal line for each energy level, then add them to the panel
         setEnergyLevels( atomicStates );
 
+        // Set up the counters for the number of atoms in each state
+        initializeStateCounters();
+
         // Add listeners to all the atoms in the model
         addAtomListeners();
 
@@ -121,8 +124,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
 
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
-
-//        adjustPanel();
     }
 
     /**
@@ -133,7 +134,6 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
                                                      getBounds().getWidth(), getBounds().getHeight() - 30 );
 
-        System.out.println( "bounds = " + bounds );
         // Set the model-to-view transform so that there will be a reasonable margin below the zero point
         energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, -AtomicState.minEnergy,
                                               (int)bounds.getBounds().getMinY() + headingOffsetY, (int)bounds.getBounds().getMaxY() );
@@ -162,20 +162,20 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
                                                 Color.blue, levelLineOriginX,
                                                 levelLineLength - levelLineOriginX,
                                                 atomicStates[i] instanceof GroundState ? false : true );
-        }
-        for( int i = 0; i < levelGraphics.length; i++ ) {
             this.addGraphic( levelGraphics[i] );
         }
 
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
+        // Needed to set the energyYTx
+        adjustPanel();
+        // Set up the counters for the number of atoms in each state
+        initializeStateCounters();
+
         revalidate();
         repaint();
     }
 
-    /**
-     * Adds us as a listener to all the atoms in the model, so we will know if they change state
-     */
-    private void addAtomListeners() {
+    private void initializeStateCounters() {
         atoms = model.getAtoms();
         numAtomsInState = new HashMap();
         // Make the map of atomic states to the number of atoms in each state
@@ -187,10 +187,20 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
             Atom atom = (Atom)atoms.get( i );
             int n = ((Integer)numAtomsInState.get( atom.getCurrState() )).intValue();
             numAtomsInState.put( atom.getCurrState(), new Integer( n + 1 ));
-            atom.addChangeListener( this );
         }
         invalidate();
         repaint();
+    }
+
+    /**
+     * Adds us as a listener to all the atoms in the model, so we will know if they change state
+     */
+    private void addAtomListeners() {
+        atoms = model.getAtoms();
+        for( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom)atoms.get( i );
+            atom.addChangeListener( this );
+        }
     }
 
 //    public void setAveragingPeriod( long value ) {
@@ -225,6 +235,13 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         gs.restoreGraphics();
     }
 
+    /**
+     * Draws the atom graphics on a specified EnergyLevelGraphic
+     * @param g2
+     * @param color
+     * @param line
+     * @param numInLevel
+     */
     private void drawAtomsInLevel( Graphics2D g2, Color color, EnergyLevelGraphic line, int numInLevel ) {
         BufferedImage bi = getAtomImage( color );
         double scale = (double)atomDiam / bi.getWidth();
@@ -238,6 +255,11 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         }
     }
 
+    /**
+     * Gets the image for an atom of a specified color
+     * @param color
+     * @return
+     */
     private BufferedImage getAtomImage( Color color ) {
         if( baseSphereImg == null ) {
             try {

@@ -80,8 +80,19 @@ public class Atom extends SolidSphere {
         return states;
     }
 
+    /**
+     * Sets the states that the atom can be in. Sets the atom's current state to the
+     * ground state
+     * @param states
+     */
     public void setStates( AtomicState[] states ) {
         this.states = states;
+        for( int i = 0; i < states.length; i++ ) {
+            AtomicState state = states[i];
+            if( state instanceof GroundState ) {
+                currState = state;
+            }
+        }
     }
 
     /**
