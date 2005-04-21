@@ -33,6 +33,8 @@ public abstract class AbstractCoil extends FaradayObservable {
     private double _wireWidth;
     // Spacing between the loops
     private double _loopSpacing;
+    // Amplitude of the current in the coil (-1...+1)
+    private double _currentAmplitude;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -57,6 +59,7 @@ public abstract class AbstractCoil extends FaradayObservable {
         _radius = radius;
         _wireWidth = wireWidth;
         _loopSpacing = loopSpacing;
+        _currentAmplitude = 0.0;
     }
     
     //----------------------------------------------------------------------------
@@ -174,5 +177,28 @@ public abstract class AbstractCoil extends FaradayObservable {
      */
     public double getLoopSpacing() {
         return _loopSpacing;
+    }
+    
+    /**
+     * Sets the current amplitude in the coil.
+     *
+     * @param currentAmplitude the current amplitude (-1...+1)
+     */
+    public void setCurrentAmplitude( double currentAmplitude ) {
+        assert( currentAmplitude >= -1 && currentAmplitude <= +1 );
+        if ( currentAmplitude != _currentAmplitude ) {
+            _currentAmplitude = currentAmplitude;
+            notifySelf();
+            notifyObservers();
+        }
+    }
+    
+    /**
+     * Gets the current amplitude in the coil.
+     * 
+     * @return the current amplitude
+     */
+    public double getCurrentAmplitude() {
+        return _currentAmplitude;
     }
 }

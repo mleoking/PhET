@@ -115,8 +115,8 @@ public class CoilGraphic implements SimpleObserver {
     // Use to determine if the loop spacing has changed.
     private double _loopSpacing;
     
-    // Used to determine if the voltage across the coil has changed.
-    private double _voltage;
+    // Used to determine if the current in the coil has changed.
+    private double _current;
     
     // Collision bounds
     private Rectangle[] _collisionBounds;
@@ -167,7 +167,7 @@ public class CoilGraphic implements SimpleObserver {
         _loopRadius = -1; // force update
         _wireWidth = -1; // force update
         _loopSpacing = -1; // force update
-        _voltage = -1;  // force update
+        _current = -1;  // force update
         
         _electronSpeedScale = 1.0;
         _endsConnected = false;
@@ -414,10 +414,9 @@ public class CoilGraphic implements SimpleObserver {
      * @return true or false
      */
     private boolean electronsChanged() {
-//        boolean changed = ! ( _voltage == 0 && _coilModel.getVoltage() == 0 );
-//        _voltage = _coilModel.getVoltage();
-//        return changed;
-        return false;//XXX
+        boolean changed = ! ( _current == 0 && _coilModel.getCurrentAmplitude() == 0 );
+        _current = _coilModel.getCurrentAmplitude();
+        return changed;
     }
     
     /**
@@ -703,13 +702,12 @@ public class CoilGraphic implements SimpleObserver {
      * @return the speed, from -1...+1 inclusive
      */
     private double calculateElectronSpeed() {
-//        double amplitude = _coilModel.getAmplitude();
-//        // Absolute amplitude below the threshold is effectively zero.
-//        if ( Math.abs( amplitude ) < FaradayConfig.AMPLITUDE_THRESHOLD ) {
-//            amplitude = 0;
-//        }
-//        return amplitude;
-        return 0;//XXX
+        double currentAmplitude = _coilModel.getCurrentAmplitude();
+        // Current below the threshold is effectively zero.
+        if ( Math.abs( currentAmplitude ) < FaradayConfig.CURRENT_AMPLITUDE_THRESHOLD ) {
+            currentAmplitude = 0;
+        }
+        return currentAmplitude;
     }
     
     /**

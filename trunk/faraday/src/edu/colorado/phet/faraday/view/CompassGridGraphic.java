@@ -19,6 +19,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 import edu.colorado.phet.faraday.util.Vector2D;
 
@@ -36,9 +37,6 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    // Needles with strength below this value are not drawn.
-    private static final double DEFAULT_STRENGTH_THRESHOLD = 0.01;
     
     // Determines how the magnetic field decreases with the distance from the magnet.
     private static final double DISTANCE_EXPONENT = 3.0;
@@ -124,7 +122,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _needleDescriptors = new ArrayList();
         
         _strengthStrategy = ALPHA_STRATEGY;  // works on any background color
-        _strengthThreshold = DEFAULT_STRENGTH_THRESHOLD;
+        _strengthThreshold = FaradayConfig.COMPASS_GRID_BFIELD_THRESHOLD;
         
         _needleCache = new CompassNeedleCache();
         _needleCache.setNeedleSize( 40, 20 );

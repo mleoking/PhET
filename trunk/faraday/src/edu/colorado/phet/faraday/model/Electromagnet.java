@@ -109,6 +109,9 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
         double diameter = ( 2 * _sourceCoilModel.getRadius() ) +  ( _sourceCoilModel.getWireWidth() / 2 );
         super.setSize( diameter, diameter );
         
+        // Current amplitude is proportional to voltage amplitude.
+        _sourceCoilModel.setCurrentAmplitude( _voltageSource.getAmplitude() );
+        
         // Compute the electromagnet's emf amplitude.
         double amplitude = ( _sourceCoilModel.getNumberOfLoops() / (double) FaradayConfig.ELECTROMAGNET_LOOPS_MAX ) * _voltageSource.getAmplitude();
         amplitude = MathUtil.clamp( -1, amplitude, 1 );

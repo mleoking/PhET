@@ -259,9 +259,14 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         //********************************************
         double emf = -( _deltaFlux / dt );
         
-        // If the emf has changed, notify observers.
+        // If the emf has changed, set the current in the coil and notify observers.
         if ( emf != _emf ) {
             _emf = emf;
+            
+            // Current amplitude is proportional to voltage amplitude.
+            double amplitude = MathUtil.clamp( -1,  emf / FaradayConfig.MAX_PICKUP_EMF, +1 );
+            setCurrentAmplitude( amplitude );
+            
             notifyObservers();
         }
         

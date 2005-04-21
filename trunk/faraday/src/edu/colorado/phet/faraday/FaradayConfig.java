@@ -120,10 +120,14 @@ public class FaradayConfig {
     public static final double AC_FREQUENCY_MIN = 0.05;  // 0...1
     
     // Thresholds
-    /* Intensity values below this value are treated as zero. */
-    public static final double INTENSITY_THRESHOLD = 0.001;
-    /* Absolute amplitude values below this value are treated as zero. */
-    public static final double AMPLITUDE_THRESHOLD = INTENSITY_THRESHOLD;
+    /* Voltage amplitude below this value is treated as zero. */
+    public static final double VOLTAGE_AMPLITUDE_THRESHOLD = 0.001;
+    /* Current amplitude below this value is treated as zero. */
+    public static final double CURRENT_AMPLITUDE_THRESHOLD = VOLTAGE_AMPLITUDE_THRESHOLD;
+    /* Lightbulb intensity below this value is treated as zero. */
+    public static final double LIGHTBULB_INTENSITY_THRESHOLD = VOLTAGE_AMPLITUDE_THRESHOLD;
+    /* Compass grid needles with B-field magnitude below this value are not drawn. */
+    public static final double COMPASS_GRID_BFIELD_THRESHOLD = 0.01;
     
     //----------------------------------------------------------------------------
     // Constructors
