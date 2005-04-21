@@ -15,21 +15,18 @@ import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.*;
-import edu.colorado.phet.flourescent.model.FluorescentLightModel;
-import edu.colorado.phet.flourescent.model.Electron;
 import edu.colorado.phet.flourescent.FluorescentLightsConfig;
+import edu.colorado.phet.flourescent.model.Electron;
+import edu.colorado.phet.flourescent.model.FluorescentLightModel;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 import edu.colorado.phet.lasers.view.MonitorPanel;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -38,8 +35,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
@@ -77,6 +75,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
     private HashMap numAtomsInState;
     private PhetImageGraphic electronGraphic;
     private int electronXLoc;
+    private int levelLineOffsetX = 20;
 
     /**
      *
@@ -90,7 +89,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         this.panelHeight = panelHeight;
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         this.origin = new Point( 25, panelHeight - 30 );
-        this.levelLineOriginX = (int)origin.getX() + 10 ;
+        this.levelLineOriginX = (int)origin.getX() + levelLineOffsetX ;
         this.levelLineLength = panelWidth - levelLineOriginX - 20;
         electronXLoc = (int)origin.getX();
 
@@ -148,6 +147,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
                                                 Color.blue, levelLineOriginX,
                                                 levelLineLength - levelLineOriginX,
                                                 atomicStates[i] instanceof GroundState ? false : true );
+            levelGraphics[i].setArrowsEnabled( false );
             this.addGraphic( levelGraphics[i] );
         }
 

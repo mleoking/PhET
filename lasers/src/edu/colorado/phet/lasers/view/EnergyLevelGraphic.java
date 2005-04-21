@@ -41,6 +41,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
     private EnergyLevelRep energyLevelRep;
     // This transform controls the y location of the line
     private ModelViewTransform1D energyYTx;
+    private boolean arrowsEnabled = true;
 
     /**
      * @param component
@@ -80,6 +81,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
 
     public Point2D getLinePosition() {
         return energyLevelRep.getLinePosition();
+    }
+
+    public void setArrowsEnabled( boolean arrowsEnabled ) {
+        this.arrowsEnabled = arrowsEnabled;
     }
 
     //----------------------------------------------------------------
@@ -184,7 +189,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
 
         public void paint( Graphics2D g ) {
             saveGraphicsState( g );
-            if( isAdjustable ) {
+            if( isAdjustable && arrowsEnabled ) {
                 g.setColor( Color.DARK_GRAY );
                 g.draw( arrow1.getShape() );
                 g.draw( arrow2.getShape() );

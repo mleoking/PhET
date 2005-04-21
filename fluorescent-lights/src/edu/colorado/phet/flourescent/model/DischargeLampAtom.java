@@ -28,6 +28,7 @@ import java.util.Random;
 public class DischargeLampAtom extends Atom {
     public static final double DEFAULT_STATE_LIFETIME = FluorescentLightsConfig.DT * 6;
     private Random random = new Random( System.currentTimeMillis() );
+    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
 
     /**
      * @param model
@@ -39,21 +40,6 @@ public class DischargeLampAtom extends Atom {
         if( states.length < 2 ) {
             throw new RuntimeException( "Atom must have at least two states");
         }
-
-//        AtomicState[] states = new AtomicState[numStates];
-//        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
-//        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
-//        double dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) : 0;
-//
-//        states[0] = new GroundState();
-//        for( int i = 1; i < states.length; i++ ) {
-//            states[i] = new AtomicState();
-//            states[i].setMeanLifetime( DEFAULT_STATE_LIFETIME );
-//            states[i].setEnergyLevel( minVisibleEnergy + (i - 1) * dE );
-//            states[i].setNextLowerEnergyState( states[i - 1] );
-//            states[i - 1].setNextHigherEnergyState( states[i] );
-//        }
-//        states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
         setStates( states );
         setCurrState( states[0] );
     }
@@ -66,40 +52,7 @@ public class DischargeLampAtom extends Atom {
      * @param electron
      */
     public void collideWithElectron( Electron electron ) {
-        AtomicState[] states = getStates();
-        AtomicState currState = getCurrState();
-
-        // Find the index of the current state
-        int currStateIdx = 0;
-        for( ; currStateIdx < states.length; currStateIdx++ ) {
-            if( states[currStateIdx] == currState ) {
-                break;
-            }
-        }
-
-        // Find the index of the highest energy state whose energy is not higher than that of the current state
-        // by more than the energy of the electron
-        int highestPossibleNewStateIdx = currStateIdx + 1;
-        for( ; highestPossibleNewStateIdx < states.length; highestPossibleNewStateIdx++ ) {
-            if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electron.getEnergy() ) {
-                break;
-            }
-        }
-        highestPossibleNewStateIdx--;
-
-        // Pick a random state between that of the next higher energy state and the highest energy state
-        // we found in the preceding block
-        if( highestPossibleNewStateIdx > currStateIdx ) {
-            int rand = random.nextInt( highestPossibleNewStateIdx - currStateIdx ) + 1;
-            int newStateIdx = rand + currStateIdx;
-            AtomicState newState = states[newStateIdx];
-
-            // Put the atom in the randomly picked state, and reduce the energy of the electron by the difference
-            // in energy between the new state and the old state
-            double energyDiff = newState.getEnergyLevel() - currState.getEnergyLevel();
-            this.setCurrState( newState );
-            electron.setEnergy( electron.getEnergy() - energyDiff );
-        }
+        energyAbsorptionStrategy.collideWithElectron( this, electron );
     }
 
     /**
