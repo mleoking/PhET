@@ -22,10 +22,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.faraday.FaradayConfig;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.collision.ICollidable;
@@ -41,7 +38,7 @@ import edu.colorado.phet.faraday.model.Voltmeter;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class PickupCoilGraphic 
+public class PickupCoilGraphic extends GraphicLayerSet
     implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     
     //----------------------------------------------------------------------------
@@ -54,8 +51,6 @@ public class PickupCoilGraphic
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Rectangle _parentBounds;
-    private Rectangle _bounds;
     private PickupCoil _pickupCoilModel;
     private CoilGraphic _coilGraphic;
     private LightbulbGraphic _lightbulbGraphic;
@@ -65,6 +60,7 @@ public class PickupCoilGraphic
     private PhetTextGraphic _fluxValue, _deltaFluxValue, _emfValue;
     private DecimalFormat _fluxFormatter;
     private SamplePointsGraphic _samplePointsGraphic;
+    private FaradayMouseHandler _mouseHandler;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -93,13 +89,10 @@ public class PickupCoilGraphic
         assert ( lightbulbModel != null );
         assert ( voltmeterModel != null );
         
-        _collisionDetector = new CollisionDetector( this );
-        
-        _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
-        _bounds = new Rectangle();
-        
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
+        
+        _collisionDetector = new CollisionDetector( this );
         
         // Graphics components
         _coilGraphic = new CoilGraphic( component, pickupCoilModel, baseModel );
@@ -116,6 +109,14 @@ public class PickupCoilGraphic
         // Background composition
         _background = new CompositePhetGraphic( component );
         _background.addGraphic( _coilGraphic.getBackground() );
+        
+        /* =================================================================
+         * NOTE! --
+         * Do NOT add the foreground and background to this GraphicLayerSet.
+         * They will be added directly to the apparatus panel in the module,
+         * so that objects can pass between the foreground and background.
+         * =================================================================
+         */
         
         // Interactivity
         setDraggingEnabled( true );
@@ -185,16 +186,6 @@ public class PickupCoilGraphic
     public CoilGraphic getCoilGraphic() {
         return _coilGraphic;
     }
- 
-    /**
-     * Is a specified point inside the graphic?
-     * 
-     * @param p the point
-     * @return true or false
-     */
-    public boolean contains( Point p ) {
-        return _foreground.contains( p ) || _background.contains( p );
-    }
     
     /**
      * Enables and disables dragging of the coil.
@@ -206,11 +197,14 @@ public class PickupCoilGraphic
         _background.setIgnoreMouse( !enabled );
         if ( enabled ) {
             // Interactivity
+            _mouseHandler = new FaradayMouseHandler( _pickupCoilModel, this );
+            _mouseHandler.setCollisionDetector( _collisionDetector );
+
             _foreground.setCursorHand();
+            _foreground.addMouseInputListener( _mouseHandler );
+            
             _background.setCursorHand();
-            MouseHandler mouseHandler = new MouseHandler();
-            _foreground.addMouseInputListener( mouseHandler );
-            _background.addMouseInputListener( mouseHandler );
+            _background.addMouseInputListener( _mouseHandler );
         }
         else {
             _foreground.removeAllMouseInputListeners();
@@ -237,6 +231,31 @@ public class PickupCoilGraphic
     }
     
     //----------------------------------------------------------------------------
+    // GraphicLayerSet overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Is a specified point inside the graphic?
+     * 
+     * @param x
+     * @param y
+     * @return true or false
+     */
+    public boolean contains( int x, int y ) {
+        return _foreground.contains( x, y ) || _background.contains( x, y );
+    }
+    
+    /**
+     * Is a specified point inside the graphic?
+     * 
+     * @param p the point
+     * @return true or false
+     */
+    public boolean contains( Point p ) {
+        return contains( p.x, p.y );
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
@@ -251,10 +270,8 @@ public class PickupCoilGraphic
             // Position the lightbulb and voltmeter at the top of the coil.
             _foreground.clearTransform();
             _background.clearTransform();
-            _bounds.setBounds( _coilGraphic.getForeground().getBounds() );
-            _bounds.union( _coilGraphic.getBackground().getBounds() );
             int x = -10;
-            int y = -( _bounds.height / 2 );
+            int y = -( _coilGraphic.getForeground().getHeight() / 2 );
             _lightbulbGraphic.setLocation( x, y );
             _voltmeterGraphic.setLocation( x + 5, y + 5 );
 
@@ -307,75 +324,20 @@ public class PickupCoilGraphic
        return _coilGraphic.getCollisionBounds();
     }
     
-    
     //----------------------------------------------------------------------------
     // ApparatusPanel2.ChangeListener implementation
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     * Informs the mouse handler of changes to the apparatus panel size.
      */
     public void canvasSizeChanged( ChangeEvent event ) {
-        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
+        _mouseHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
     }
     
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
-    /**
-     * MouseHandler handles mouse events.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private class MouseHandler extends MouseInputAdapter {
-        
-        private boolean _dragEnabled;
-        private Point _previousPoint;
-        
-        public MouseHandler() {
-            super();
-            _dragEnabled = true;
-            _previousPoint = new Point();
-        }
-        
-        public void mousePressed( MouseEvent event ) {
-            _dragEnabled = true;
-            _previousPoint.setLocation( event.getPoint() );
-        }
-        
-        public void mouseDragged( MouseEvent event ) {
-
-            if ( !_dragEnabled && contains( event.getPoint() ) ) {
-                _dragEnabled = true;
-                _previousPoint.setLocation( event.getPoint() );
-            }
-            
-            if ( _dragEnabled ) {
-
-                int dx = event.getX() - _previousPoint.x;
-                int dy = event.getY() - _previousPoint.y;
-                
-                boolean inApparatusPanel = _parentBounds.contains( event.getPoint() );
-                boolean collidesNow = _collisionDetector.collidesNow();
-                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
-                
-                if ( !inApparatusPanel || ( !collidesNow && wouldCollide ) ) {
-                    // Ignore the translate if the mouse is outside the apparatus panel or 
-                    // if the tanslate would result in a collision.
-                    _dragEnabled = false;
-                }
-                else {
-                    // Translate if the mouse cursor is inside the parent component.
-                    double x = _pickupCoilModel.getX() + dx;
-                    double y = _pickupCoilModel.getY() + dy;
-                    _pickupCoilModel.setLocation( x, y );
-                    _previousPoint.setLocation( event.getPoint() );
-                }
-            }
-        }
-    }
     
     /**
      * SamplePointsGraphic is the graphical representation of the

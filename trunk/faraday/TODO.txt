@@ -11,6 +11,7 @@ HIGH PRIORITY:
 - performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
+- control panel has scroll bars
 - get rid of the amplitude stuff in AbstractVoltageSource and AbstractCoil
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
@@ -47,9 +48,13 @@ PHETCOMMON:
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 - make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
+- add PhetGraphic.contains(Point) to go with PhetGraphic.contains(x,y)
 
 DONE:
 v0r25...
+(4/21) - encapsulate mouse handling, collision detection & drag bounds inside of FaradayMouseHandler
+(4/21) - ignore the mouse in the pickup coil when dragging is disabled
+(4/21) - ignore the mouse in all parts of the turbine except the faucet slider
 (4/21) - set compass grid to ignore the mouse so that we can pick the back of the coils
 (4/21) - raise the threshold below which grid needles are not drawn
 (4/21) - document DipoleMagnet algorithm like I did for CoilMagnet

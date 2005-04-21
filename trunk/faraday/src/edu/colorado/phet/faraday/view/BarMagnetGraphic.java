@@ -49,11 +49,11 @@ public class BarMagnetGraphic extends PhetImageGraphic
     // Instance data
     //----------------------------------------------------------------------------
 
-    private Rectangle _parentBounds;
     private BarMagnet _magnetModel;
     private boolean _transparencyEnabled;
     private CollisionDetector _collisionDetector;
     private Rectangle[] _collisionBounds;
+    private FaradayMouseHandler _mouseHandler;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -71,10 +71,6 @@ public class BarMagnetGraphic extends PhetImageGraphic
         assert( component != null );
         assert( magnetModel != null );
         
-        _collisionDetector = new CollisionDetector( this );
-        
-        _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
-        
         // Save a reference to the model.
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
@@ -86,9 +82,11 @@ public class BarMagnetGraphic extends PhetImageGraphic
         centerRegistrationPoint();
 
         // Setup interactivity.
-        MouseHandler mouseHandler = new MouseHandler();
+        _mouseHandler = new FaradayMouseHandler( _magnetModel, this );
+        _collisionDetector = new CollisionDetector( this );
+        _mouseHandler.setCollisionDetector( _collisionDetector );
         super.setCursorHand();
-        super.addMouseInputListener( mouseHandler );
+        super.addMouseInputListener( _mouseHandler );
         
         // Use the opaque image by default.
         setTransparencyEnabled( false );
@@ -221,67 +219,9 @@ public class BarMagnetGraphic extends PhetImageGraphic
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     * Informs the mouse handler of changes to the apparatus panel size.
      */
     public void canvasSizeChanged( ChangeEvent event ) {
-        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /**
-     * MouseHandler handles mouse events.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private class MouseHandler extends MouseInputAdapter {
-
-        private boolean _dragEnabled;
-        private Point _previousPoint;
-        
-        public MouseHandler() {
-            super();
-            _dragEnabled = true;
-            _previousPoint = new Point();
-        }
-        
-        public void mousePressed( MouseEvent event ) {
-            _dragEnabled = true;
-            _previousPoint.setLocation( event.getPoint() );
-        }
-        
-        public void mouseDragged( MouseEvent event ) {
-
-            if ( !_dragEnabled && getBounds().contains( event.getPoint() ) ) {
-                _dragEnabled = true;
-                _previousPoint.setLocation( event.getPoint() );
-            }
-            
-            if ( _dragEnabled ) {
-
-                int dx = event.getX() - _previousPoint.x;
-                int dy = event.getY() - _previousPoint.y;
-                
-                boolean inApparatusPanel = _parentBounds.contains( event.getPoint() );
-                boolean collidesNow = _collisionDetector.collidesNow();
-                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
-                
-                if ( !inApparatusPanel || ( !collidesNow && wouldCollide ) ) {
-                    // Ignore the translate if the mouse is outside the apparatus panel or 
-                    // if the tanslate would result in a collision.
-                    _dragEnabled = false;
-                }
-                else {
-                    // Translate if the mouse cursor is inside the parent component.
-                    double x = _magnetModel.getX() + dx;
-                    double y = _magnetModel.getY() + dy;
-                    _magnetModel.setLocation( x, y );
-                    _previousPoint.setLocation( event.getPoint() );
-                }
-            }
-        }
+        _mouseHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
     }
 }

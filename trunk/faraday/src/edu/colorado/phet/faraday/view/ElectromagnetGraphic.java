@@ -33,20 +33,18 @@ import edu.colorado.phet.faraday.model.SourceCoil;
 
 
 /**
- * ElectromagnetGraphic
+ * ElectromagnetGraphic is the graphical representation of an electromagnet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ElectromagnetGraphic 
+public class ElectromagnetGraphic extends GraphicLayerSet
 implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Rectangle _parentBounds;
-    private Rectangle _bounds;
     private Electromagnet _electromagnetModel;
     private CoilGraphic _coilGraphic;
     private BatteryGraphic _batteryGraphic;
@@ -54,6 +52,7 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     private GraphicLayerSet _foreground, _background;
     private CollisionDetector _collisionDetector;
     private PhetShapeGraphic _modelShapeGraphic;
+    private FaradayMouseHandler _mouseHandler;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -70,11 +69,6 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         assert ( component != null );
         assert ( baseModel != null );
         assert ( electromagnetModel != null );
-        
-        _collisionDetector = new CollisionDetector( this );
-        
-        _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
-        _bounds = new Rectangle();
         
         _electromagnetModel = electromagnetModel;
         _electromagnetModel.addObserver( this );
@@ -94,6 +88,14 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         _background = new GraphicLayerSet( component );
         _background.addGraphic( _coilGraphic.getBackground() );
         
+        /* =================================================================
+         * NOTE! --
+         * Do NOT add the foreground and background to this GraphicLayerSet.
+         * They will be added directly to the apparatus panel in the module,
+         * so that objects can pass between the foreground and background.
+         * =================================================================
+         */
+        
         // Graphic that represents the magnet's bounds.
         if ( FaradayConfig.DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE ) {
             _modelShapeGraphic = new PhetShapeGraphic( component );
@@ -104,11 +106,17 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         }
         
         // Interactivity
-        _foreground.setCursorHand();
-        _background.setCursorHand();
-        MouseHandler mouseHandler = new MouseHandler();
-        _foreground.addMouseInputListener( mouseHandler );
-        _background.addMouseInputListener( mouseHandler );
+        {
+            _mouseHandler = new FaradayMouseHandler( _electromagnetModel, this );
+            _collisionDetector = new CollisionDetector( this );
+            _mouseHandler.setCollisionDetector( _collisionDetector );
+            
+            _foreground.setCursorHand();
+            _foreground.addMouseInputListener( _mouseHandler );
+          
+            _background.setCursorHand();
+            _background.addMouseInputListener( _mouseHandler );
+        }
         
         update();
     }
@@ -156,6 +164,21 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         return _coilGraphic;
     }
  
+    //----------------------------------------------------------------------------
+    // GraphicLayerSet overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Is a specified point inside the graphic?
+     * 
+     * @param x
+     * @param y
+     * @return true or false
+     */
+    public boolean contains( int x, int y ) {
+        return _foreground.contains( x, y ) || _background.contains( x, y );
+    }
+    
     /**
      * Is a specified point inside the graphic?
      * 
@@ -163,15 +186,25 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
      * @return true or false
      */
     public boolean contains( Point p ) {
-        return _foreground.contains( p ) || _background.contains( p );
+        return contains( p.x, p.y );
     }
     
+    /**
+     * Sets the visibility.
+     * 
+     * @param visible true or false
+     */
     public void setVisible( boolean visible ) {
         _foreground.setVisible( visible );
         _background.setVisible( visible );
         update();
     }
     
+    /**
+     * Gets the visibility.
+     * 
+     * @return true or false
+     */
     public boolean isVisible() {
         return _foreground.isVisible() || _background.isVisible();
     }
@@ -195,10 +228,8 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
             // Position the voltage sources at the top of the coil.
             _foreground.clearTransform();
             _background.clearTransform();
-            _bounds.setBounds( _coilGraphic.getForeground().getBounds() );
-            _bounds.union( _coilGraphic.getBackground().getBounds() );
             int x = 0;
-            int y = -( _bounds.height / 2 ) - 14;
+            int y = -( _coilGraphic.getForeground().getHeight() / 2 ) - 14;
             _batteryGraphic.setLocation( x, y );
             _acPowerSupplyGraphic.setLocation( x, y );
             
@@ -230,67 +261,9 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     * Informs the mouse handler of changes to the apparatus panel size.
      */
     public void canvasSizeChanged( ChangeEvent event ) {
-        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /**
-     * MouseHandler handles mouse events.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private class MouseHandler extends MouseInputAdapter {
-        
-        private boolean _dragEnabled;
-        private Point _previousPoint;
-        
-        public MouseHandler() {
-            super();
-            _dragEnabled = true;
-            _previousPoint = new Point();
-        }
-        
-        public void mousePressed( MouseEvent event ) {
-            _dragEnabled = true;
-            _previousPoint.setLocation( event.getPoint() );
-        }
-
-        public void mouseDragged( MouseEvent event ) {
-
-            if ( !_dragEnabled && contains( event.getPoint() ) ) {
-                _dragEnabled = true;
-                _previousPoint.setLocation( event.getPoint() );
-            }
-            
-            if ( _dragEnabled ) {
-
-                int dx = event.getX() - _previousPoint.x;
-                int dy = event.getY() - _previousPoint.y;
-                
-                boolean inApparatusPanel = _parentBounds.contains( event.getPoint() );
-                boolean collidesNow = _collisionDetector.collidesNow();
-                boolean wouldCollide = _collisionDetector.wouldCollide( dx, dy );
-                
-                if ( !inApparatusPanel || ( !collidesNow && wouldCollide ) ) {
-                    // Ignore the translate if the mouse is outside the apparatus panel or 
-                    // if the tanslate would result in a collision.
-                    _dragEnabled = false;
-                }
-                else {
-                    // Translate if the mouse cursor is inside the parent component.
-                    double x = _electromagnetModel.getX() + dx;
-                    double y = _electromagnetModel.getY() + dy;
-                    _electromagnetModel.setLocation( x, y );
-                    _previousPoint.setLocation( event.getPoint() );
-                }
-            }
-        }
+        _mouseHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );
     }
 }

@@ -89,12 +89,12 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Rectangle _parentBounds;
     private FieldMeter _fieldMeterModel;
     private PhetTextGraphic _bText, _bxText, _byText, _angleText;
     private NumberFormat _magnitudeFormatter, _angleFormatter;
     private Point _point; // reusable point
     private Vector2D _fieldVector; // reusable vector
+    private FaradayMouseHandler _mouseHandler;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -113,8 +113,6 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         
         _fieldMeterModel = fieldMeterModel;
         fieldMeterModel.addObserver( this );
-        
-        _parentBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         
         _magnitudeFormatter = new DecimalFormat( MAGNITUDE_FORMAT );
         _angleFormatter = new DecimalFormat( ANGLE_FORMAT );
@@ -166,9 +164,9 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         }
         
         // Setup interactivity.
-        MouseHandler mouseHandler = new MouseHandler();
+        _mouseHandler = new FaradayMouseHandler( _fieldMeterModel, this );
         super.setCursorHand();
-        super.addMouseInputListener( mouseHandler );
+        super.addMouseInputListener( _mouseHandler );
         
         // Synchronize view with model.
         update();
@@ -184,7 +182,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     }
     
     //----------------------------------------------------------------------------
-    // overrides
+    // CompositePhetGraphic overrides
     //----------------------------------------------------------------------------
     
     /**
@@ -300,66 +298,9 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.view.ApparatusPanel2.ChangeListener#canvasSizeChanged(edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent)
+     * Informs the mouse handler of changes to the apparatus panel size.
      */
     public void canvasSizeChanged( ChangeEvent event ) {
-        _parentBounds.setBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /**
-     * MouseHandler handles mouse events.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private class MouseHandler extends MouseInputAdapter {
-        
-        private boolean _dragEnabled;
-        private Point _previousPoint;
-        
-        public MouseHandler() {
-            super();
-            _dragEnabled = true;
-            _previousPoint = new Point();
-        }
-        
-        public void mousePressed( MouseEvent event ) {
-            _dragEnabled = true;
-            _previousPoint.setLocation( event.getPoint() );
-        }
-        
-        public void mouseDragged( MouseEvent event ) {
-            
-            if ( !_dragEnabled && getBounds().contains( event.getPoint() ) ) {
-                _dragEnabled = true;
-                _previousPoint.setLocation( event.getPoint() );
-            }
-            
-            if ( _dragEnabled ) {
-                int dx = event.getX() - _previousPoint.x;
-                int dy = event.getY() - _previousPoint.y;
-                
-                boolean inApparatusPanel = _parentBounds.contains( event.getPoint() );
-                boolean collidesNow = false; //XXX _collisionDetector.collidesNow();
-                boolean wouldCollide = false; //XXX _collisionDetector.wouldCollide( dx, dy );
-                
-                if ( !inApparatusPanel || ( !collidesNow && wouldCollide ) ) {
-                    // Ignore the translate if the mouse is outside the apparatus panel or 
-                    // if the tanslate would result in a collision.
-                    _dragEnabled = false;
-                }
-                else {
-                    // Translate if the mouse cursor is inside the parent component.
-                    double x = _fieldMeterModel.getX() + dx;
-                    double y = _fieldMeterModel.getY() + dy;
-                    _fieldMeterModel.setLocation( x, y );
-                    _previousPoint.setLocation( event.getPoint() );
-                }
-            }   
-        }
+        _mouseHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
     }
 }
