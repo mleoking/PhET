@@ -157,7 +157,7 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
         amplitude = MathUtil.clamp( -1, amplitude, +1 );
         
         // Absolute amplitude below the threshold is effectively zero.
-        if ( Math.abs( amplitude ) < FaradayConfig.AMPLITUDE_THRESHOLD ) {
+        if ( Math.abs( amplitude ) < FaradayConfig.VOLTAGE_AMPLITUDE_THRESHOLD ) {
             amplitude = 0;
         }
         

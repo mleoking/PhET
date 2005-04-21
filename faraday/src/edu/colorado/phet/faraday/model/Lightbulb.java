@@ -74,7 +74,7 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
         intensity = MathUtil.clamp( 0, intensity, 1 );
         
         // Intensity below the threshold is effectively zero.
-        if ( intensity < FaradayConfig.INTENSITY_THRESHOLD ) {
+        if ( intensity < FaradayConfig.LIGHTBULB_INTENSITY_THRESHOLD ) {
             intensity = 0;
         }
         
