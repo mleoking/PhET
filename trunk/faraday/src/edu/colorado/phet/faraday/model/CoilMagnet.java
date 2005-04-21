@@ -81,7 +81,7 @@ public abstract class CoilMagnet extends AbstractMagnet {
     }
     
     //----------------------------------------------------------------------------
-    // AbstractMagnet implementation
+    // FaradayObservable overrides
     //----------------------------------------------------------------------------
     
     /*
@@ -94,7 +94,10 @@ public abstract class CoilMagnet extends AbstractMagnet {
         _modelShape.setFrame( -width/2, -height/2, width, height );
     }
     
-    
+    //----------------------------------------------------------------------------
+    // AbstractMagnet implementation
+    //----------------------------------------------------------------------------
+
     /*
      * Gets the B-field vector at a specified point.
      */
@@ -107,31 +110,40 @@ public abstract class CoilMagnet extends AbstractMagnet {
      * The caller may specify an exponent that determines how the field strength 
      * decreases with distance from the magnet.
      * <p>
-     * Algorithm, courtesy of Mike Dubson.
+     * Algorithm courtesy of Michael Dubson (dubson@spot.colorado.edu).
      * <p>
      * Terminology:
-     * <br>axes oriented with +X right, +Y up
-     * <br>origin is the center of the coil, at (0,0)
-     * <br>(x,y) is the point of interest where we are measuring the magnetic field
-     * <br>C = a fudge factor, set so that the lightbulb will light
-     * <br>m = magnetic moment = C * #loops * current in the coil
-     * <br>R = radius of the coil
-     * <br>r = distance from the origin to (x,y)
-     * <br>theta = angle between the X axis and (x,y)
-     * <br>Bx = X component of the B field
-     * <br>By = Y component of the B field
+     * <ul>
+     * <li>axes oriented with +X right, +Y up
+     * <li>origin is the center of the coil, at (0,0)
+     * <li>(x,y) is the point of interest where we are measuring the magnetic field
+     * <li>C = a fudge factor, set so that the lightbulb will light
+     * <li>m = magnetic moment = C * #loops * current in the coil
+     * <li>R = radius of the coil
+     * <li>r = distance from the origin to (x,y)
+     * <li>theta = angle between the X axis and (x,y)
+     * <li>Bx = X component of the B field
+     * <li>By = Y component of the B field
+     * <li>e is the exponent that specifies how the field decreases with distance (3 in reality)
+     * </ul>
      * <p>
      * Inside the coil (r <= R) :
-     * <br>Bx = ( 2 * m ) / R^3 = magnet strength
-     * <br>By = 0
+     * <ul>
+     * <li>Bx = ( 2 * m ) / R^e = magnet strength
+     * <li>By = 0
+     * </ul>
      * <p>
      * Outside the coil (r > R) :
-     * <br>Bx = ( m / r^3 ) * ( ( 3 * cos(theta) * cos(theta) ) - 1 )
-     * <br>By = ( m / r^3 ) * ( 3 * cos(theta) * sin(theta) )
+     * <ul>
+     * <li>Bx = ( m / r^e ) * ( ( 3 * cos(theta) * cos(theta) ) - 1 )
+     * <li>By = ( m / r^e ) * ( 3 * cos(theta) * sin(theta) )
+     * </ul>
      * <br>where:
-     * <br>r = sqrt( x^2 + y^2 )
-     * <br>cos(theta) = x / r
-     * <br>sin(theta) = y / r
+     * <ul>
+     * <li>r = sqrt( x^2 + y^2 )
+     * <li>cos(theta) = x / r
+     * <li>sin(theta) = y / r
+     * </ul>
      * 
      * @param p
      * @param outputVector
