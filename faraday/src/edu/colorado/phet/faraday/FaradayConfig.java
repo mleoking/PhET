@@ -30,9 +30,9 @@ public class FaradayConfig {
     // Debugging
     public static final boolean DEBUG_PICKUP_COIL_EMF = false;
     public static final boolean DEBUG_ENABLE_SCALE_PANEL = false;
-    public static final boolean DEBUG_ENABLE_DEVELOPER_MENU = true;
-    public static final boolean DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE = true;
-    public static final boolean DEBUG_DRAW_PICKUP_SAMPLE_POINTS = true;
+    public static final boolean DEBUG_ENABLE_DEVELOPER_MENU = false;
+    public static final boolean DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE = false;
+    public static final boolean DEBUG_DRAW_PICKUP_SAMPLE_POINTS = false;
     
     // Resource bundles for localization.
     public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FaradayStrings";

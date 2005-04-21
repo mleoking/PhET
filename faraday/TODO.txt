@@ -50,6 +50,7 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/21) - turn off all debugging flags in FaradayConfig
 (4/21) - encapsulate mouse handling, collision detection & drag bounds inside of FaradayMouseHandler
 (4/21) - ignore the mouse in the pickup coil when dragging is disabled
 (4/21) - ignore the mouse in all parts of the turbine except the faucet slider
