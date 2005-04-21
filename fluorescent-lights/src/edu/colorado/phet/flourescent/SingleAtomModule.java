@@ -23,6 +23,9 @@ import edu.colorado.phet.flourescent.view.EnergyLevelMonitorPanel;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.atom.GroundState;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.LaserEnergyLevelMonitorPanel;
@@ -31,6 +34,7 @@ import edu.colorado.phet.lasers.view.EnergyLevelsDialog;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -72,10 +76,7 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Add an energy level monitor panel. Note that the panel has a null layout, so we have to put it in a
         // panel that does have one, so it gets laid out properly
-        final EnergyLevelMonitorPanel elmp = new EnergyLevelMonitorPanel( this, getClock(), atom.getStates(), 150, 300 );
-        JPanel jp = new JPanel( );
-        jp.add( elmp );
-        getControlPanel().add( jp );
+        final EnergyLevelMonitorPanel elmp = addEnergyMonitorPanel();
 
         // Add a button for firing a single electron. This also tells the energy level panel that if an
         // electron has been produced
@@ -105,6 +106,38 @@ public class SingleAtomModule extends DischargeLampModule {
     }
 
     /**
+     *
+     * @return
+     */
+    private EnergyLevelMonitorPanel addEnergyMonitorPanel() {
+        final EnergyLevelMonitorPanel elmp = new EnergyLevelMonitorPanel( this, getClock(), atom.getStates(), 150, 300 );
+        JPanel jp = new JPanel( new GridBagLayout() );
+        GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,0,0,
+                                                         GridBagConstraints.NORTHWEST,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0,0,0,0),0,0 );
+        elmp.setBorder( new EtchedBorder( ) );
+        jp.add( elmp, gbc );
+
+        // Add the spinner that controls the number of energy levels
+        final JSpinner numLevelsSpinner = new JSpinner( new SpinnerNumberModel( FluorescentLightsConfig.NUM_ENERGY_LEVELS, 2,
+                                                                          FluorescentLightsConfig.MAX_NUM_ENERGY_LEVELS,
+                                                                          1 ) );
+        numLevelsSpinner.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                atom.setStates( createAtomicStates( ((Integer)numLevelsSpinner.getValue()).intValue() ));
+                elmp.setEnergyLevels( atom.getStates() );
+            }
+        } );
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        jp.add(numLevelsSpinner, gbc);
+        getControlPanel().add( jp );
+        
+        return elmp;
+    }
+
+    /**
      * Adds some atoms and their graphics
      *
      * @param tube
@@ -112,7 +145,11 @@ public class SingleAtomModule extends DischargeLampModule {
      */
     private void addAtom( ResonatingCavity tube, int numEnergyLevels ) {
         Rectangle2D tubeBounds = tube.getBounds();
-        atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
+
+        // Todo: consolidate for both modules
+        AtomicState[] states = createAtomicStates( numEnergyLevels );
+
+        atom = new DischargeLampAtom( (LaserModel)getModel(), states );
         atom.setPosition( tubeBounds.getX() + tubeBounds.getWidth() / 2,
                           tubeBounds.getY() + tubeBounds.getHeight() / 2 );
         AtomGraphic atomGraphic = addAtom( atom );
@@ -124,5 +161,23 @@ public class SingleAtomModule extends DischargeLampModule {
                                                          tubeBounds.getHeight() - atom.getRadius() * 2 );
         atomGraphic.setIsMouseable( true, atomBounds );
         atomGraphic.setCursorHand();
+    }
+
+    private AtomicState[] createAtomicStates( int numEnergyLevels ) {
+        AtomicState[] states = new AtomicState[numEnergyLevels];
+        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
+        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
+        double dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) : 0;
+
+        states[0] = new GroundState();
+        for( int i = 1; i < states.length; i++ ) {
+            states[i] = new AtomicState();
+            states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
+            states[i].setEnergyLevel( minVisibleEnergy + (i - 1) * dE );
+            states[i].setNextLowerEnergyState( states[i - 1] );
+            states[i - 1].setNextHigherEnergyState( states[i] );
+        }
+        states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
+        return states;
     }
 }

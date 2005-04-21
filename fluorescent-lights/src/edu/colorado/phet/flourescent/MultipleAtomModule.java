@@ -21,6 +21,9 @@ import edu.colorado.phet.flourescent.view.ElectronGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
+import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 
 import javax.swing.event.ChangeEvent;
@@ -59,8 +62,25 @@ public class MultipleAtomModule extends DischargeLampModule {
         DischargeLampAtom atom = null;
         ArrayList atoms = new ArrayList();
         Rectangle2D tubeBounds = tube.getBounds();
+
+        // Todo: consolidate for both modules
+        AtomicState[] states = new AtomicState[numEnergyLevels];
+        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
+        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
+        double dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) : 0;
+
+        states[0] = new GroundState();
+        for( int i = 1; i < states.length; i++ ) {
+            states[i] = new AtomicState();
+            states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
+            states[i].setEnergyLevel( minVisibleEnergy + (i - 1) * dE );
+            states[i].setNextLowerEnergyState( states[i - 1] );
+            states[i - 1].setNextHigherEnergyState( states[i] );
+        }
+        states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
+
         for( int i = 0; i < numAtoms; i++ ) {
-            atom = new DischargeLampAtom( (LaserModel)getModel(), numEnergyLevels );
+            atom = new DischargeLampAtom( (LaserModel)getModel(), states );
             atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
                               ( tubeBounds.getY() + ( Math.random() ) * ( tubeBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
             atom.setVelocity( (float)( Math.random() - 0.5 ) * maxSpeed,

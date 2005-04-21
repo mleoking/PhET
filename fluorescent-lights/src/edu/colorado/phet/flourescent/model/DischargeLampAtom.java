@@ -17,6 +17,7 @@ import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.flourescent.FluorescentLightsConfig;
+import edu.colorado.phet.common.view.util.VisibleColor;
 
 import java.util.Random;
 
@@ -25,27 +26,34 @@ import java.util.Random;
  * an electron
  */
 public class DischargeLampAtom extends Atom {
-    private static final double DEFAULT_STATE_LIFETIME = FluorescentLightsConfig.DT * 6;
+    public static final double DEFAULT_STATE_LIFETIME = FluorescentLightsConfig.DT * 6;
     private Random random = new Random( System.currentTimeMillis() );
 
     /**
      * @param model
-     * @param numStates
+     * @param states
      */
-    public DischargeLampAtom( LaserModel model, int numStates ) {
-        super( model, numStates, true );
+    public DischargeLampAtom( LaserModel model, AtomicState[] states) {
+        super( model, states.length, true );
 
-        AtomicState[] states = new AtomicState[numStates];
-        double de = ( Photon.wavelengthToEnergy( Photon.BLUE ) - AtomicState.minEnergy ) / ( states.length - 1 );
-        states[0] = new GroundState();
-        for( int i = 1; i < states.length; i++ ) {
-            states[i] = new AtomicState();
-            states[i].setMeanLifetime( DEFAULT_STATE_LIFETIME );
-            states[i].setEnergyLevel( states[i - 1].getEnergyLevel() + de );
-            states[i].setNextLowerEnergyState( states[i - 1] );
-            states[i - 1].setNextHigherEnergyState( states[i] );
+        if( states.length < 2 ) {
+            throw new RuntimeException( "Atom must have at least two states");
         }
-        states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
+
+//        AtomicState[] states = new AtomicState[numStates];
+//        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
+//        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
+//        double dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) : 0;
+//
+//        states[0] = new GroundState();
+//        for( int i = 1; i < states.length; i++ ) {
+//            states[i] = new AtomicState();
+//            states[i].setMeanLifetime( DEFAULT_STATE_LIFETIME );
+//            states[i].setEnergyLevel( minVisibleEnergy + (i - 1) * dE );
+//            states[i].setNextLowerEnergyState( states[i - 1] );
+//            states[i - 1].setNextHigherEnergyState( states[i] );
+//        }
+//        states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
         setStates( states );
         setCurrState( states[0] );
     }

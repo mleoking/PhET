@@ -26,7 +26,8 @@ public class FluorescentLightsConfig {
     // Localization
     public static final String localizedStringsPath = "localization/FluorescentLightsStrings";
 
-    public static final int NUM_ENERGY_LEVELS = 5;
+    public static final int NUM_ENERGY_LEVELS = 2;
+    public static final int MAX_NUM_ENERGY_LEVELS = 6;
 
     // Object locations and dimensions. Everything is keyed off the location of the cathode
     public static final double ELECTRON_RADIUS = 3;

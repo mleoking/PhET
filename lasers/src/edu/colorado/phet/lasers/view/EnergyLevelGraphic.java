@@ -69,14 +69,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
         }
     }
 
-    public void energyLevelChanged( AtomicState.Event event ) {
-        energyLevelRep.update();
-    }
-
-    public void meanLifetimechanged( AtomicState.Event event ) {
-        //noop
-    }
-
     public void update( ModelViewTransform1D tx ) {
         this.energyYTx = tx;
         energyLevelRep.update();
@@ -90,6 +82,17 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
         return energyLevelRep.getLinePosition();
     }
 
+    //----------------------------------------------------------------
+    // AtomicState.Listener implementation
+    //----------------------------------------------------------------
+
+    public void energyLevelChanged( AtomicState.Event event ) {
+        energyLevelRep.update();
+    }
+
+    public void meanLifetimechanged( AtomicState.Event event ) {
+        //noop
+    }
 
     //----------------------------------------------------------------
     // Inner classes
