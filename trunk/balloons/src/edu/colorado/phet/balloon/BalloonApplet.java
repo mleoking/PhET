@@ -5,23 +5,20 @@ java -cp %classpath%;../classes edu.colorado.phet.balloon.BalloonApplet
 package edu.colorado.phet.balloon;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-
+import edu.colorado.phet.common.view.util.SwingUtils;
 import phet.paint.*;
 import phet.paint.particle.ParticlePainterAdapter;
 import phet.phys2d.*;
-import phet.utils.AlphaFixer2;
 import phet.utils.ImageLoader;
 import phet.utils.ResourceLoader4;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.Locale;
 import java.util.Random;
+
 
 /**
  * Test comment.
@@ -35,11 +32,11 @@ public class BalloonApplet extends JApplet {
     static final int PANEL_HEIGHT = 500;
 
     static Color red = new Color( 255, 0, 0 );
-    static Color minColor = new Color( 0, 0, 255 );
+    static Color minusColor = new Color( 0, 0, 255 );
     static Color oval = new Color( 255, 255, 255, 80 );
 
     static PlusPainter plussy = new PlusPainter( 14, 4, red, oval );
-    static MinusPainter minnie = new MinusPainter( 14, 4, minColor, oval );
+    static MinusPainter minnie = new MinusPainter( 14, 4, minusColor, oval );
     private PainterPanel painterPanel;
 
     public static void paintCharge( BufferedImage bi ) {
@@ -72,12 +69,12 @@ public class BalloonApplet extends JApplet {
     }
 
     public void init() {
-        if ( isApplet ) {
+        if( isApplet ) {
             String applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.locale", null );
             if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 SimStrings.setLocale( new Locale( applicationLocale ) );
             }
-            SimStrings.setStrings ( BalloonsConfig.localizedStringsPath );
+            SimStrings.setStrings( BalloonsConfig.localizedStringsPath );
         }
 
         plussy.setPaint( PlusPainter.NONE );
@@ -88,14 +85,10 @@ public class BalloonApplet extends JApplet {
         ImageLoader loader = new ResourceLoader4( getClass().getClassLoader(), this );
 
         BufferedImage balloon = loader.loadBufferedImage( "images/FilteredBalloon-ii.GIF" );
-        balloon = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( balloon );
         BufferedImage blueCharge = loader.loadBufferedImage( "images/FilteredBalloon-ii.GIF" );
-        blueCharge = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( balloon );
 
         BufferedImage yelBal = loader.loadBufferedImage( "images/balloon5_filter-ii.GIF" );
-        yelBal = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( yelBal );
         BufferedImage yelCharge = loader.loadBufferedImage( "images/balloon5_filter-ii.GIF" );
-        yelCharge = new AlphaFixer2( new int[]{252, 254, 252, 255} ).patchAlpha( yelBal );
 
         paintCharge( yelCharge );
         paintCharge( blueCharge );
@@ -107,18 +100,18 @@ public class BalloonApplet extends JApplet {
         int strLength = 300;
         Stroke stringStroke = new BasicStroke( 2.2f );
         Color stringColor = new Color( 200, 10, 230, 160 );
-        BalloonPainter b = new BalloonPainter( bPainter, strAttach, strBase, strLength, stringStroke, stringColor );
-        b.setInitialPosition( bPoint );
-
+        BalloonPainter blueBalloon = new BalloonPainter( bPainter, strAttach, strBase, strLength, stringStroke, stringColor );
+        blueBalloon.setInitialPosition( bPoint );
+        blueBalloon.setVisible( false );
         Point yPoint = new Point( 480, 18 );
         BalloonImage yelPainter = new BalloonImage( yPoint.x, yPoint.y, yelBal, yelCharge );
-        BalloonPainter yel = new BalloonPainter( yelPainter, strAttach, strBase, strLength, stringStroke, stringColor );
-        yel.setInitialPosition( yPoint );
+        BalloonPainter yellowBalloon = new BalloonPainter( yelPainter, strAttach, strBase, strLength, stringStroke, stringColor );
+        yellowBalloon.setInitialPosition( yPoint );
 
         LayeredPainter lp = new LayeredPainter();
         Reset reset = new Reset( this, lp, CHARGE_LEVEL );
-        reset.addBalloonPainter( yel );
-        reset.addBalloonPainter( b );
+        reset.addBalloonPainter( yellowBalloon );
+        reset.addBalloonPainter( blueBalloon );
 
 //        lp.addPainter( new FilledRectanglePainter( width, height, Color.white ), -1 );
         lp.addPainter( new FilledRectanglePainter( width, height, new Color( 240, 240, 255 ) ), -1 );
@@ -128,7 +121,7 @@ public class BalloonApplet extends JApplet {
 
         int wallWidth = 80;
         Rectangle dragBounds = new Rectangle( 0, 0, PANEL_WIDTH - balloon.getWidth() - wallWidth, PANEL_HEIGHT - balloon.getHeight() - 55 );
-        BalloonDragger bd = new BalloonDragger( new BalloonPainter[]{b, yel}, painterPanel, dragBounds );
+        BalloonDragger bd = new BalloonDragger( new BalloonPainter[]{blueBalloon, yellowBalloon}, painterPanel, dragBounds );
         painterPanel.addMouseListener( bd );
         painterPanel.addMouseMotionListener( bd );
 
@@ -157,8 +150,7 @@ public class BalloonApplet extends JApplet {
         panel.add( painterPanel, BorderLayout.CENTER );
         panel.add( controlPanel, BorderLayout.SOUTH );
 
-        JCheckBox chargedBalloonBtn = new JCheckBox(
-                                SimStrings.get( "BalloonApplet.IgnoreInitialBalloonCharge" ), true );
+        JCheckBox chargedBalloonBtn = new JCheckBox( SimStrings.get( "BalloonApplet.IgnoreInitialBalloonCharge" ), true );
         JRadioButton showAllCharges = new JRadioButton( SimStrings.get( "BalloonApplet.ShowAllCharges" ) );
         showAllCharges.addActionListener( new ShowAll( plussy, minnie ) );
         JRadioButton showNoCharges = new JRadioButton( SimStrings.get( "BalloonApplet.ShowNoCharges" ) );
@@ -187,8 +179,9 @@ public class BalloonApplet extends JApplet {
         JButton resetBtn = new JButton( SimStrings.get( "BalloonApplet.Reset" ) );
         controlPanel.add( resetBtn );
         controlPanel.add( buttonPanel );
-        JCheckBox soloBalloon = new JCheckBox( SimStrings.get( "BalloonApplet.OnlyOneBalloon" ), false );
-        soloBalloon.addActionListener( new SoloBalloon( soloBalloon, b ) );
+
+        JCheckBox twoBalloons = new JCheckBox( "Two Balloons", false );
+        twoBalloons.addActionListener( new TwoBalloonsHandler( twoBalloons, blueBalloon ) );
 
         SetBalloonCharge sbc = ( new SetBalloonCharge( chargedBalloonBtn, bPainter, showNoCharges, showDiff, showAllCharges ) );
         chargedBalloonBtn.addActionListener( sbc );
@@ -203,7 +196,7 @@ public class BalloonApplet extends JApplet {
 
         JPanel twoBtn = new JPanel();
         twoBtn.setLayout( new BoxLayout( twoBtn, BoxLayout.Y_AXIS ) );
-        twoBtn.add( soloBalloon );
+        twoBtn.add( twoBalloons );
         twoBtn.add( chargedBalloonBtn );
         controlPanel.add( twoBtn );
 
@@ -215,7 +208,7 @@ public class BalloonApplet extends JApplet {
         Rectangle wallChargeBounds = new Rectangle( PANEL_WIDTH - wallWidth + wallInset, 0, wallWidth - wallInset * 2, PANEL_HEIGHT );
         Painter wallBack = new FilledRectanglePainter( wallBounds.x, wallBounds.y, wallBounds.width, wallBounds.height, Color.yellow );
         Random r = new Random();
-        Wall w = new Wall( showWall, 50, wallChargeBounds, wallBack, plussy, minnie, r, b, yel );
+        Wall w = new Wall( showWall, 50, wallChargeBounds, wallBack, plussy, minnie, r, blueBalloon, yellowBalloon );
         lp.addPainter( w, 10 );
 
         int numSweaterCharges = 100;
@@ -271,20 +264,29 @@ public class BalloonApplet extends JApplet {
         int widdie = x - sweaterImage.getWidth() / 2;
         Rectangle bounds = new Rectangle( sweaterImage.getWidth() / 2, 0, widdie + 143, PANEL_HEIGHT - 50 );
         System.err.println( "bounds=" + bounds );
-        sys.addLaw( new BalloonForces( b, yel, wool, bounds, wallBounds.x, w ) );
-        //sys.addLaw(new BalloonForces(b,yel,wool,dragBounds,wallBounds.x));
+        sys.addLaw( new BalloonForces( blueBalloon, yellowBalloon, wool, bounds, wallBounds.x, w ) );
         sys.addLaw( w );
         sys.addLaw( ( new Repaint( painterPanel ) ) );
-        //sys.addLaw((new Update(painterPanel)));
-        double dt = 1;
-        int waitTime = 25;
+        double dt = 1.2;
+        int waitTime = 30;
         setContentPane( panel );
-        SystemRunner sr = new SystemRunner( sys, dt, waitTime );
+        final SystemRunner sr = new SystemRunner( sys, dt, waitTime );
         Thread t = new Thread( sr );
-        t.setPriority( Thread.MAX_PRIORITY );
+
         t.start();
         validate();
-        //new SizeChecker(this).start();
+        painterPanel.addMouseMotionListener( new MouseMotionAdapter() {
+            public void mouseDragged( MouseEvent e ) {
+                painterPanel.repaint();
+//                painterPanel.paintImmediately( 0,0,painterPanel.getWidth(), painterPanel.getHeight() );
+            }
+        } );
+//        Timer timer=new Timer( waitTime, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                sr.iterate();
+//            }
+//        } );
+//        timer.start();
     }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException {
@@ -294,10 +296,11 @@ public class BalloonApplet extends JApplet {
         isApplet = false;
         BalloonApplet ba = new BalloonApplet();
         ba.init();
-        JFrame jf = new JFrame( ba.getClass().getName() );
+        JFrame jf = new JFrame( "Balloons!" );
         jf.addWindowListener( new Exit() );
         jf.setContentPane( ba );
         jf.setSize( PANEL_WIDTH, PANEL_HEIGHT + 40 );
+        SwingUtils.centerWindowOnScreen( jf );
         jf.setVisible( true );
 
         jf.invalidate();
