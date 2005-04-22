@@ -84,7 +84,7 @@ public class CompassGraphic extends CompositePhetGraphic
      * The registration point is at the rotation point of the compass needle.
      * 
      * @param component the parent Component
-     * @param magnetModel the magnet that the compass is observing
+     * @param compassModel the compass model
      */
     public CompassGraphic( Component component, Compass compassModel ) {
         super( component );

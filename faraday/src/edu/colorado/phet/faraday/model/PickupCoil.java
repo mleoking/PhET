@@ -105,7 +105,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     /**
      * Gets the magnetic flux.
      * 
-     * @param magnetic flux, in Webers
+     * @return the flux, in Webers
      */
     public double getFlux() {
         return _flux;

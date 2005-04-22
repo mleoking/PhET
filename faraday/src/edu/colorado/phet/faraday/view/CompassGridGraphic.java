@@ -259,8 +259,8 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     /**
      * Convenience method for setting the strategy used to represent field strength.
      * If the color is black, then color saturation is used.
+     * See setStrengthStrategy.
      * 
-     * @see setStrengthStrategy
      * @param color
      */
     public void setGridBackground( Color color ) {

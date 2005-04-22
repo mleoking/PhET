@@ -108,7 +108,7 @@ public class TransformerModule extends FaradayModule {
     /**
      * Sole constructor.
      * 
-     * @param appModel the application model
+     * @param clock the simulation clock
      */
     public TransformerModule( AbstractClock clock ) {
 
@@ -378,7 +378,7 @@ public class TransformerModule extends FaradayModule {
          * 
          * @param component
          * @param model
-         * @param turbineModel
+         * @param lightbulbModel
          */
         public ThisChallengeGraphic( Component component, BaseModel model, Lightbulb lightbulbModel ) {
             super( component, model );

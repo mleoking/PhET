@@ -48,6 +48,7 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/22) - generate javadoc and resolve all warnings
 (4/22) - rewrite Faraday algorithm to minimize trig operations
 (4/22) - make pickup sample points configurable in FaradayConfig
 (4/22) - check all files for missing javadoc

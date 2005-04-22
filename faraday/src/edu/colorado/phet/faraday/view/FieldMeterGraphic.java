@@ -104,7 +104,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
      * Sole constructor.
      * 
      * @param component the parent Component
-     * @param fieldMeter
+     * @param fieldMeterModel
      */
     public FieldMeterGraphic( Component component, FieldMeter fieldMeterModel ) {
         super( component );

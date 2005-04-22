@@ -274,7 +274,7 @@ public class Vector2D {
      * the same magnitude for its X and Y components.
      * 
      * @param object the object to test
-     * @param return 
+     * @return true or false
      */
     public boolean equals( Object object ) {
         boolean result = false;

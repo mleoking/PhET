@@ -91,7 +91,7 @@ public class ElectromagnetModule extends FaradayModule {
     /**
      * Sole constructor.
      * 
-     * @param appModel the application model
+     * @param clock the simulation clock
      */
     public ElectromagnetModule( AbstractClock clock ) {
 
