@@ -19,7 +19,7 @@ import java.awt.geom.QuadCurve2D;
 
 /**
  * QuadraticBezierSpline is a quadratic bezier spline, described by a start point,
- * and end point, and a control point.  de Caselijau's algorithm is used to find
+ * an end point, and a control point.  de Caselijau's algorithm is used to find
  * points along the curve.
  *
  * @author Sam Reid, Chris Malley (cmalley@pixelzoom.com)
