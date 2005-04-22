@@ -36,9 +36,10 @@ public class PlusPainter implements ParticlePainter {
     }
 
     public void paintAt( int x, int y, Graphics2D g ) {
+//        g.setComposite( AlphaComposite.SrcAtop );
         //DoublePoint pos=p.getPosition();
-        g.setColor( oval );
-        g.fillOval( x - halfWidth, y - halfWidth, width, width );
+//        g.setColor( oval );
+//        g.fillOval( x - halfWidth, y - halfWidth, width, width );
         g.setColor( c );
         Point topLeft = new Point( x - halfStroke, y - halfWidth );
         Point leftUp = new Point( x - halfWidth, y - halfStroke );

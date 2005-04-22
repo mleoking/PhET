@@ -52,6 +52,7 @@ public class LayeredPainter implements Painter {
     }
 
     public void paint( Graphics2D g ) {
+
         Set e = painters.keySet();
         Iterator it = e.iterator();
         while( it.hasNext() ) {

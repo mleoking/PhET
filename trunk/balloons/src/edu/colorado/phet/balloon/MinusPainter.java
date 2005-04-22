@@ -9,7 +9,7 @@ import java.awt.*;
 public class MinusPainter implements ParticlePainter {
     int halfWidth;
     int width;
-    Color c;
+    Color color;
     int strokeWidth;
     int halfStroke;
     Color oval;
@@ -18,17 +18,17 @@ public class MinusPainter implements ParticlePainter {
     public static final int NONE = 1;
     public static final int DIFF = 2;
 
-    public void setPaint( int x ) {
-        this.paint = x;
-    }
-
-    public MinusPainter( int width, int strokeWidth, Color c, Color oval ) {
+    public MinusPainter( int width, int strokeWidth, Color color, Color oval ) {
         this.oval = oval;
         this.strokeWidth = strokeWidth;
         this.width = width;
-        this.c = c;
+        this.color = color;
         this.halfWidth = width / 2;
         this.halfStroke = strokeWidth / 2;
+    }
+
+    public void setPaint( int x ) {
+        this.paint = x;
     }
 
     public boolean ok( Charge p ) {
@@ -46,9 +46,9 @@ public class MinusPainter implements ParticlePainter {
 
     public void paintAt( int x, int y, Graphics2D g ) {
         //System.err.println("Paint="+paint);
-        g.setColor( oval );
-        g.fillOval( x - halfWidth, y - halfWidth, width, width );
-        g.setColor( c );
+//        g.setColor( oval );
+//        g.fillOval( x - halfWidth, y - halfWidth, width, width );
+        g.setColor( color );
         //Point topLeft=new Point(x-halfStroke,y-halfWidth);
         Point leftUp = new Point( x - halfWidth, y - halfStroke );
         //g.fillRect(topLeft.x,topLeft.y,strokeWidth,width);
