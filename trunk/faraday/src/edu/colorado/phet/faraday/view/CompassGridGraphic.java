@@ -124,7 +124,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _needleDescriptors = new ArrayList();
         
         _strengthStrategy = ALPHA_STRATEGY;  // works on any background color
-        _strengthThreshold = FaradayConfig.COMPASS_GRID_BFIELD_THRESHOLD;
+        _strengthThreshold = FaradayConfig.GRID_BFIELD_THRESHOLD;
         
         _needleCache = new CompassNeedleCache();
         _needleCache.setNeedleSize( 40, 20 );
