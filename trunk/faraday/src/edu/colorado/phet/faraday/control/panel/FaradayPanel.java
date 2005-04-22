@@ -51,7 +51,7 @@ public class FaradayPanel extends JPanel {
     public FaradayPanel() {
         super();
         Font defaultFont = super.getFont();
-        _titleFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 4 );
+        _titleFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 2 );
     }
     
     //----------------------------------------------------------------------------

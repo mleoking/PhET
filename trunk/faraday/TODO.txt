@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
-- control panel has scroll bars
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
@@ -50,6 +49,7 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/22) - get rid of scrollbars on control panel by decreasing the title font size and the vertical spacing
 (4/22) - generate javadoc and resolve all warnings
 (4/22) - rewrite Faraday algorithm to minimize trig operations
 (4/22) - make pickup sample points configurable in FaradayConfig
