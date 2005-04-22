@@ -53,6 +53,8 @@ public abstract class AbstractCoil extends FaradayObservable {
      * 
      * @param numberOfLoops number of loops in the coil
      * @param radius radius used for all loops
+     * @param wireWidth width of the wire
+     * @param loopSpacing space between the loops
      */
     public AbstractCoil( int numberOfLoops, double radius, double wireWidth, double loopSpacing ) {
         _numberOfLoops = numberOfLoops;
