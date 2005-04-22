@@ -92,7 +92,7 @@ public class FieldMeter extends FaradayObservable implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     * Updates the field meter's location and takes a B-field reading at that location.
      */
     public void update() {
         if ( isEnabled() ) {
