@@ -22,26 +22,41 @@ import java.awt.Dimension;
  * @version $Revision$
  */
 public class FaradayConfig {
-
+   
     //----------------------------------------------------------------------------
-    // Class data
+    // Debugging switches
     //----------------------------------------------------------------------------
     
-    // Debugging
     public static final boolean DEBUG_PICKUP_COIL_EMF = false;
     public static final boolean DEBUG_ENABLE_SCALE_PANEL = false;
     public static final boolean DEBUG_ENABLE_DEVELOPER_MENU = false;
     public static final boolean DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE = false;
     public static final boolean DEBUG_DRAW_PICKUP_SAMPLE_POINTS = false;
     
-    // Resource bundles for localization.
+    //----------------------------------------------------------------------------
+    // Application
+    //----------------------------------------------------------------------------
+    
+    public static final int APP_FRAME_WIDTH = 1024;
+    public static final int APP_FRAME_HEIGHT = 768;
+    
+    //----------------------------------------------------------------------------
+    // Localization
+    //----------------------------------------------------------------------------
+    
     public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FaradayStrings";
 
-    // Clock constants
+    //----------------------------------------------------------------------------
+    // Clock parameters
+    //----------------------------------------------------------------------------
+    
     public static final double TIME_STEP = 1;
     public static final int FRAME_RATE = 25;  // frames per second
     
+    //----------------------------------------------------------------------------
     // Images
+    //----------------------------------------------------------------------------
+    
     private static final String IMAGES_DIRECTORY = "images/";
     public static final String AC_POWER_SUPPLY_IMAGE = IMAGES_DIRECTORY + "acPowerSupply.png";
     public static final String AC_POWER_SUPPLY_ICON = IMAGES_DIRECTORY + "acPowerSupply_icon.png";
@@ -68,27 +83,34 @@ public class FaradayConfig {
     public static final String VOLTMETER_ICON_SELECTED = IMAGES_DIRECTORY + "voltmeter_icon_selected.png";
     public static final String WATER_WHEEL_IMAGE = IMAGES_DIRECTORY + "waterWheel.png";
 
-    // Dimensions
-    public static final int APP_FRAME_WIDTH = 1024;
-    public static final int APP_FRAME_HEIGHT = 768;
-    public static final int CONTROL_PANEL_SPACER_HEIGHT = 15;
-
+    //----------------------------------------------------------------------------
     // Bar Magnet parameters
+    //----------------------------------------------------------------------------
+    
     public static final double BAR_MAGNET_STRENGTH_MAX = 300.0; // Gauss
     public static final double BAR_MAGNET_STRENGTH_MIN = 0.50 * BAR_MAGNET_STRENGTH_MAX; // Gauss
 
+    //----------------------------------------------------------------------------
     // Electromagnet parameters
+    //----------------------------------------------------------------------------
+    
     public static final double ELECTROMAGNET_STRENGTH_MAX = 300.0; // Gauss
     public static final int ELECTROMAGNET_LOOPS_MAX = 4;
     public static final int ELECTROMAGNET_LOOPS_MIN = 1;
     public static final int ELECTROMAGNET_WIRE_WIDTH = 20;
     public static final double ELECTROMAGNET_ASPECT_RATIO = 4/1;  // width:height
     
+    //----------------------------------------------------------------------------
     // Turbine parameters
-    public static final double TURBINE_STRENGTH_MAX = BAR_MAGNET_STRENGTH_MAX;
-    public static final double TURBINE_STRENGTH_MIN = BAR_MAGNET_STRENGTH_MIN;
+    //----------------------------------------------------------------------------
     
+    public static final double TURBINE_STRENGTH_MAX = 300.0; // Gauss
+    public static final double TURBINE_STRENGTH_MIN = 0.50 * TURBINE_STRENGTH_MAX; // Gauss;
+    
+    //----------------------------------------------------------------------------
     // Compass Grid parameters
+    //----------------------------------------------------------------------------
+    
     public static final int GRID_SPACING_MAX = 100;
     public static final int GRID_SPACING_MIN = 35;
     public static final int GRID_SPACING = 40;
@@ -99,35 +121,43 @@ public class FaradayConfig {
     private static final int GRID_NEEDLE_HEIGHT = (int) ( GRID_NEEDLE_WIDTH / GRID_NEEDLE_ASPECT_RATIO );
     public static final Dimension GRID_NEEDLE_SIZE = new Dimension( GRID_NEEDLE_WIDTH, GRID_NEEDLE_HEIGHT );
     
+    //----------------------------------------------------------------------------
     // Pickup Coil parameters
+    //----------------------------------------------------------------------------
+    
     public static final double MAX_PICKUP_EMF = 4.0E7; // volts
     public static final int MAX_PICKUP_LOOPS = 3;
     public static final int MIN_PICKUP_LOOPS = 1;
     private static final double MAX_PICKUP_LOOP_RADIUS = 125.0;
     public static final double MAX_PICKUP_LOOP_AREA = Math.PI * MAX_PICKUP_LOOP_RADIUS * MAX_PICKUP_LOOP_RADIUS;
     public static final double MIN_PICKUP_LOOP_AREA = 0.5 * MAX_PICKUP_LOOP_AREA;
-
+    
+    //----------------------------------------------------------------------------
     // Battery parameters 
+    //----------------------------------------------------------------------------
+    
     public static final double BATTERY_VOLTAGE_MAX = 10;  // volts
     public static final double BATTERY_AMPLITUDE_MAX = 1.0; // -1...1
     public static final double BATTERY_AMPLITUDE_MIN = -1.0; // -1...1
 
-    // AC parameters
-    public static final double AC_VOLTAGE_MAX = MAX_PICKUP_EMF;  // volts
+    //----------------------------------------------------------------------------
+    // AC Power Supply parameters
+    //----------------------------------------------------------------------------
+    
+    public static final double AC_VOLTAGE_MAX = 110.0;  // volts
     public static final double AC_MAXAMPLITUDE_MAX = 1.0;  // 0...1
     public static final double AC_MAXAMPLITUDE_MIN = 0.0;  // 0...1
     public static final double AC_FREQUENCY_MAX = 1.0;  // 0...1
     public static final double AC_FREQUENCY_MIN = 0.05;  // 0...1
-    
+
+    //----------------------------------------------------------------------------
     // Thresholds
-    /* Voltage amplitude below this value is treated as zero. */
-    public static final double VOLTAGE_AMPLITUDE_THRESHOLD = 0.001;
-    /* Current amplitude below this value is treated as zero. */
-    public static final double CURRENT_AMPLITUDE_THRESHOLD = VOLTAGE_AMPLITUDE_THRESHOLD;
-    /* Lightbulb intensity below this value is treated as zero. */
-    public static final double LIGHTBULB_INTENSITY_THRESHOLD = VOLTAGE_AMPLITUDE_THRESHOLD;
+    //----------------------------------------------------------------------------
+    
     /* Compass grid needles with B-field magnitude below this value are not drawn. */
-    public static final double COMPASS_GRID_BFIELD_THRESHOLD = 0.02;
+    public static final double GRID_BFIELD_THRESHOLD = 0.02; // Gauss
+    /* Absolute current amplitude below this value is treated as zero. */
+    public static final double CURRENT_AMPLITUDE_THRESHOLD = 0.001;
     
     //----------------------------------------------------------------------------
     // Constructors
