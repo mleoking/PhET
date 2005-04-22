@@ -184,7 +184,7 @@ public class TransformerModule extends FaradayModule {
         
         // Volt Meter
         _voltmeterModel = new Voltmeter( _pickupCoilModel );
-        _voltmeterModel.setRotationalKinematicsEnabled( true );
+        _voltmeterModel.setJiggleEnabled( true );
         _voltmeterModel.setEnabled( false );
         _voltmeterModel.setScale( VOLTMETER_SCALE );
         model.addModelElement( _voltmeterModel );
