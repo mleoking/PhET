@@ -19,8 +19,7 @@ public class SystemRunner implements Runnable {
     }
 
     public int getWaitTime() {
-        return waitTime
-                ;
+        return waitTime;
     }
 
     public void setDt( double dt ) {
@@ -67,10 +66,14 @@ public class SystemRunner implements Runnable {
         this.running = true;
         while( alive ) {
             while( running ) {
-                system.iterate( dt );
+                iterate();
                 util.ThreadHelper.quietNap( waitTime );
             }
         }
+    }
+
+    public void iterate() {
+        system.iterate( dt );
     }
 }
 
