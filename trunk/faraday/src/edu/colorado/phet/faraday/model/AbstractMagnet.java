@@ -85,7 +85,6 @@ public abstract class AbstractMagnet extends FaradayObservable {
      * Gets the maximum magnet strength.
      * This value is used in rescaling of field strength.
      * 
-     * @see edu.colorado.phet.faraday.model.AbstractMagnet#rescale(double)
      * @return the maximumum strength, in Gauss
      */
     public double getMaxStrength() {
@@ -96,7 +95,6 @@ public abstract class AbstractMagnet extends FaradayObservable {
      * Sets the minimum magnet strength.
      * This value is used in rescaling of field strength.
      * 
-     * @see edu.colorado.phet.faraday.model.AbstractMagnet#rescale(double)
      * @param minStrength the minimum strength, in Gauss
      */
     public void setMinStrength( double minStrength ) {
