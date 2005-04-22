@@ -54,10 +54,9 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     
     // Reusable objects
     private AffineTransform _someTransform;
-    private Point2D _somePoint;
-    private Vector2D _someVector;
-    private double[] _fluxAbove;
-    private double[] _fluxBelow;
+    private Point2D _samplePoint;
+    private Vector2D _sampleVector;
+    private Vector2D _fieldVector;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -82,10 +81,9 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         
         // Reusable objects
         _someTransform = new AffineTransform();
-        _somePoint = new Point2D.Double();
-        _someVector = new Vector2D();
-        _fluxAbove = new double[ SAMPLE_POINTS_ABOVE ];
-        _fluxBelow = new double[ SAMPLE_POINTS_BELOW ];
+        _samplePoint = new Point2D.Double();
+        _fieldVector = new Vector2D();
+        _sampleVector = new Vector2D();
         
         // loosely packed loops
         setLoopSpacing( 1.5 * getWireWidth() );
@@ -170,101 +168,86 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      */
     private void updateEmf( double dt ) {
         
-        double A = getLoopArea();  // surface area of one loop
-        
-        // Flux at the center of the coil.
-        double centerFlux = 0;
+        // B-field sample at the center of the coil.
         {
             // Determine the point that corresponds to the center.
-            getLocation( _somePoint /* output */ );
+            getLocation( _samplePoint /* output */ );
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _somePoint, _someVector /* output */, DISTANCE_EXPONENT );
+            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, DISTANCE_EXPONENT );
             
-            // Calculate the flux.
-            double B = _someVector.getMagnitude();
-            double theta = Math.abs( _someVector.getAngle() - getDirection() );
-            centerFlux = B * A * Math.cos( theta );
+            // Accumulate a sum of the sample points.
+            _fieldVector.copy( _sampleVector );
         }
         
-        // Flux above the center of the coil.
-        for ( int i = 0; i < _fluxAbove.length; i++ ) {
+        // B-field samples above the center of the coil.
+        for ( int i = 0; i < SAMPLE_POINTS_ABOVE; i++ ) {
 
             // Sample point, based on radius.
             double x = getX();
-            double y = getY() - ( ( i + 1 ) * ( getRadius() / _fluxAbove.length ) );
-            _somePoint.setLocation( x, y );
+            double y = getY() - ( ( i + 1 ) * ( getRadius() / SAMPLE_POINTS_ABOVE ) );
+            _samplePoint.setLocation( x, y );
             if ( getDirection() != 0 ) {
                 // Adjust for rotation.
                 _someTransform.setToIdentity();
                 _someTransform.rotate( getDirection(), getX(), getY() );
-                _someTransform.transform( _somePoint, _somePoint /* output */);
+                _someTransform.transform( _samplePoint, _samplePoint /* output */);
             }
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _somePoint, _someVector /* output */, DISTANCE_EXPONENT  );
+            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, DISTANCE_EXPONENT  );
             
-            // Calculate the flux.
-            double B = _someVector.getMagnitude();
-            double theta = Math.abs( _someVector.getAngle() - getDirection() );
-            _fluxAbove[i] = B * A * Math.cos( theta );
+            // Accumulate a sum of the sample points.
+            _fieldVector.add( _sampleVector );
         }
         
-        // Flux below the center of the coil.
-        for ( int i = 0; i < _fluxBelow.length; i++ ) {
+        // B-field samples below the center of the coil.
+        for ( int i = 0; i < SAMPLE_POINTS_BELOW; i++ ) {
             
             // Sample point, based on radius.
             double x = getX();
-            double y = getY() + ( ( i + 1 ) * ( getRadius() / _fluxBelow.length ) );
-            _somePoint.setLocation( x, y );
+            double y = getY() + ( ( i + 1 ) * ( getRadius() / SAMPLE_POINTS_BELOW ) );
+            _samplePoint.setLocation( x, y );
             if ( getDirection() != 0 ) {
                 // Adjust for rotation.
                 _someTransform.setToIdentity();
                 _someTransform.rotate( getDirection(), getX(), getY() );
-                _someTransform.transform( _somePoint, _somePoint /* output */);
+                _someTransform.transform( _samplePoint, _samplePoint /* output */);
             }
             
             // Find the B field vector at that point.
-            _magnetModel.getStrength( _somePoint, _someVector /* output */, DISTANCE_EXPONENT  );
+            _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, DISTANCE_EXPONENT  );
             
-            // Calculate the flux.
-            double B = _someVector.getMagnitude();
-            double theta = Math.abs( _someVector.getAngle() - getDirection() );
-            _fluxBelow[i] = B * A * Math.cos( theta ); 
+            // Accumulate a sum of the sample points.
+            _fieldVector.add( _sampleVector );
         }
         
-        // Calculate the flux in one loop.
-        double loopFlux;
-        {
-            // Use an average of the sample points.
-            double fluxSum = centerFlux;
-            for ( int i = 0; i < _fluxAbove.length; i++ ) {
-                fluxSum += _fluxAbove[i];
-            }
-            for ( int i = 0; i < _fluxBelow.length; i++ ) {
-                fluxSum += _fluxBelow[i];
-            }
-            double numberOfPoints = ( 1 + _fluxAbove.length + _fluxBelow.length );
-            loopFlux = fluxSum / numberOfPoints;
-        }
+        // Average the B-field sample points.
+        int numberOfSamples = 1 + SAMPLE_POINTS_ABOVE + SAMPLE_POINTS_BELOW;
+        double scale = 1.0 / numberOfSamples;
+        _fieldVector.scale( scale );
         
-        // Calculate the total flux in the coil.
+        // Flux in one loop.
+        double B = _fieldVector.getMagnitude();
+        double A = getLoopArea();
+        double theta = Math.abs( _fieldVector.getAngle() );//- getDirection() );
+        double loopFlux = B * A * Math.cos( theta ); 
+        
+        // Flux in the coil.
         double flux = getNumberOfLoops() * loopFlux;
         
-        // Calculate the change in flux.
+        // Change in flux.
         _deltaFlux = flux - _flux;
         _flux = flux;
         
-        //********************************************
-        // Faraday's Law - Calculate the induced EMF.
-        //********************************************
+        // Induced emf.
         double emf = -( _deltaFlux / dt );
         
         // If the emf has changed, set the current in the coil and notify observers.
         if ( emf != _emf ) {
             _emf = emf;
             
-            // Current amplitude is proportional to voltage amplitude.
+            // Current amplitude is proportional to emf amplitude.
             double amplitude = MathUtil.clamp( -1,  emf / FaradayConfig.MAX_PICKUP_EMF, +1 );
             setCurrentAmplitude( amplitude );
             
