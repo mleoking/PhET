@@ -19,7 +19,8 @@ import javax.swing.JSlider;
 
 
 /**
- * FaradayPanel
+ * FaradayPanel is the base class for all panels used for all sub-panels 
+ * that are added to the control panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
