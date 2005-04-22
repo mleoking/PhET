@@ -44,6 +44,7 @@ public class GraphicSlider extends GraphicLayerSet {
     // Class data
     //----------------------------------------------------------------------------
     
+    // Graphics layers
     private static final double BACKGROUND_LAYER = 0;
     private static final double TICK_LAYER = 1;
     private static final double TRACK_LAYER = 2;

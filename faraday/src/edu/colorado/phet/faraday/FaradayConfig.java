@@ -17,6 +17,7 @@ import java.awt.Dimension;
 /**
  * FaradayConfig contains global configuration values.
  * See FaradayStrings.properties for localized Strings.
+ * See modules for module-specific parameters.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -50,8 +51,10 @@ public class FaradayConfig {
     // Clock parameters
     //----------------------------------------------------------------------------
     
-    public static final double TIME_STEP = 1;
-    public static final int FRAME_RATE = 25;  // frames per second
+    public static final double CLOCK_TIME_STEP = 1; // clock ticks
+    public static final int CLOCK_FRAME_RATE = 25;  // frames per second
+    public static final boolean CLOCK_TIME_STEP_IS_CONSTANT = true;
+    public static final boolean CLOCK_ENABLE_CONTROLS = true;
     
     //----------------------------------------------------------------------------
     // Images

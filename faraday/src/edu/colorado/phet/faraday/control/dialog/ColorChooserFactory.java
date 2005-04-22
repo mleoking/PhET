@@ -25,7 +25,7 @@ import edu.colorado.phet.common.view.util.SwingUtils;
 
 
 /**
- * ColorChooserFactory create color chooser dialogs.
+ * ColorChooserFactory creates non-modal color chooser dialogs.
  *
  * @author Sam Reid, Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
