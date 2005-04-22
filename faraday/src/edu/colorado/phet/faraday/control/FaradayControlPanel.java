@@ -37,7 +37,7 @@ public class FaradayControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     // Default amount of vertical space, see addVerticalSpace
-    private static final int DEFAULT_VERTICAL_SPACE = 15;
+    private static final int DEFAULT_VERTICAL_SPACE = 8;
     
     //----------------------------------------------------------------------------
     // Instance data
