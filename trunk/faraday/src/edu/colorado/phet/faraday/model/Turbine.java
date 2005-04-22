@@ -70,10 +70,9 @@ public class Turbine extends DipoleMagnet implements ModelElement {
     }
     
     /**
-     * Gets the speed.
+     * Gets the speed. See setSpeed.
      *
      * @return the speed
-     * @see setSpeed
      */
     public double getSpeed() {
         return _speed;
@@ -124,9 +123,9 @@ public class Turbine extends DipoleMagnet implements ModelElement {
     
     /**
      * Determines whether critical angles are enabled.
+     * See etCriticalAnglesEnabled.
      * 
      * @return true or false
-     * @see setCriticalAnglesEnabled
      */
     public static boolean isCriticalAnglesEnabled() {
         return _criticalAnglesEnabled;

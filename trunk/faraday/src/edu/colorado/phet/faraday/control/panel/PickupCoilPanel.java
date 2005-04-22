@@ -68,9 +68,9 @@ public class PickupCoilPanel extends FaradayPanel {
     /**
      * Sole constructor.
      * 
-     * @paaram pickupCoilModel
-     * @param coilGraphic
-     * @param lightBulbModel
+     * @param pickupCoilModel
+     * @param pickupCoilGraphic
+     * @param lightbulbModel
      * @param voltmeterModel
      */
     public PickupCoilPanel( 

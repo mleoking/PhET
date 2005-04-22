@@ -142,9 +142,9 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     
     /**
      * Determines whether critical angles are enabled.
+     * See setCriticalAnglesEnabled.
      * 
      * @return true or false
-     * @see setCriticalAnglesEnabled
      */
     public static boolean isCriticalAnglesEnabled() {
         return _criticalAnglesEnabled;

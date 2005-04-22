@@ -129,7 +129,7 @@ public class Electron extends FaradayObservable implements ModelElement {
     }
     
     /**
-     * Sets the electron speed and direction
+     * Sets the electron speed and direction.
      * <p>
      * Speed/direction is a number between -1.0 and +1.0 inclusive.
      * The magnitude determines the speed, while the sign determines the direction.

@@ -66,8 +66,6 @@ public class FaradayControlPanel extends ControlPanel {
     /**
      * Adds a default amout of vertical space to the control panel,
      * as specified by VERTICAL_SPACE.
-     * 
-     * @param space the amount of space, in pixels
      */
     public void addVerticalSpace() {
         addVerticalSpace( DEFAULT_VERTICAL_SPACE );

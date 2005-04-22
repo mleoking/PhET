@@ -157,7 +157,7 @@ public class DebuggerGraphic extends PhetGraphic {
     /**
      * Gets the color used to draw location.
      * 
-     * @param the color
+     * @return the color
      */
     public Color getLocationColor() {
         return _locationColor;
@@ -194,8 +194,8 @@ public class DebuggerGraphic extends PhetGraphic {
     /**
      * Sets the size of the location marker.
      * 
-     * @param x
-     * @param y
+     * @param width
+     * @param height
      */
     public void setLocationSize( int width, int height ) {
         _locationSize.setSize( width, height );

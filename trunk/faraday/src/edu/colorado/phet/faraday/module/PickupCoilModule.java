@@ -98,7 +98,7 @@ public class PickupCoilModule extends FaradayModule {
     /**
      * Sole constructor.
      * 
-     * @param appModel the application model
+     * @param clock the simulation clock
      */
     public PickupCoilModule( AbstractClock clock ) {
 

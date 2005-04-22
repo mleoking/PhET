@@ -147,8 +147,8 @@ class CompassNeedleCache {
     
     /**
      * Gets the current alpha state.
+     * See setAlphaEnabled.
      * 
-     * @see setAlphaEnabled
      * @return true or false
      */
     public boolean isAlphaEnabled() {

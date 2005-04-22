@@ -69,7 +69,6 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
      * 
      * @param component the parent Component
      * @param voltmeterModel
-     * @param magnetModel
      */
     public VoltmeterGraphic( Component component, Voltmeter voltmeterModel ) {
         super( component );

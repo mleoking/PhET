@@ -52,8 +52,8 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
     /**
      * Sole constructor.
      * 
-     * @param title
-     * @param clock
+     * @param title the module title
+     * @param clock the simulation clock
      */
     public FaradayModule( String title, AbstractClock clock ) {
         super( title, clock );
@@ -76,7 +76,7 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
     /**
      * Gets the compass grid graphic for this module.
      * 
-     * @param the grid graphic
+     * @return the grid graphic
      */
     public CompassGridGraphic getCompassGridGraphic() {
         return _gridGraphic;

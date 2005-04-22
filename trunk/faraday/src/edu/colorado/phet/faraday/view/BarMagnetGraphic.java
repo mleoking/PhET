@@ -49,7 +49,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
     // Instance data
     //----------------------------------------------------------------------------
 
-    private BarMagnet _magnetModel;
+    private BarMagnet _barMagnetModel;
     private boolean _transparencyEnabled;
     private CollisionDetector _collisionDetector;
     private Rectangle[] _collisionBounds;
@@ -65,24 +65,24 @@ public class BarMagnetGraphic extends PhetImageGraphic
      * @param component the parent Component
      * @param barMagnetModel model of the bar magnet
      */
-    public BarMagnetGraphic( Component component, BarMagnet magnetModel ) {
+    public BarMagnetGraphic( Component component, BarMagnet barMagnetModel ) {
         super( component, FaradayConfig.BAR_MAGNET_IMAGE );
         
         assert( component != null );
-        assert( magnetModel != null );
+        assert( barMagnetModel != null );
         
         // Save a reference to the model.
-        _magnetModel = magnetModel;
-        _magnetModel.addObserver( this );
+        _barMagnetModel = barMagnetModel;
+        _barMagnetModel.addObserver( this );
         
         // Set the model's size to match the image.
-        _magnetModel.setSize( getWidth(), getHeight() );
+        _barMagnetModel.setSize( getWidth(), getHeight() );
         
         // Registration point is the center of the image.
         centerRegistrationPoint();
 
         // Setup interactivity.
-        _mouseHandler = new FaradayMouseHandler( _magnetModel, this );
+        _mouseHandler = new FaradayMouseHandler( _barMagnetModel, this );
         _collisionDetector = new CollisionDetector( this );
         _mouseHandler.setCollisionDetector( _collisionDetector );
         super.setCursorHand();
@@ -100,7 +100,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _magnetModel.removeObserver( this );
+        _barMagnetModel.removeObserver( this );
     }
     
     //----------------------------------------------------------------------------
@@ -150,12 +150,12 @@ public class BarMagnetGraphic extends PhetImageGraphic
             clearTransform();
 
             // Rotation
-            if ( _magnetModel.getDirection() != 0 ) {
-                rotate( _magnetModel.getDirection() );
+            if ( _barMagnetModel.getDirection() != 0 ) {
+                rotate( _barMagnetModel.getDirection() );
             }
             
             // Location
-            setLocation( (int) _magnetModel.getX(), (int) _magnetModel.getY() );
+            setLocation( (int) _barMagnetModel.getX(), (int) _barMagnetModel.getY() );
             
             repaint();
         }

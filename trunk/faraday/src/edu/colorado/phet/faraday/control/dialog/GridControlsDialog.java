@@ -59,7 +59,6 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
      * Sole constructor.
      * 
      * @param app the application
-     * @param title the dialog title
      */
     public GridControlsDialog( PhetApplication app ) {
         super( app.getPhetFrame() );

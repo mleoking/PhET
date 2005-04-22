@@ -71,10 +71,11 @@ public class PickupCoilGraphic extends GraphicLayerSet
      * Sole constructor.
      * 
      * @param component the parent Component
-     * @param BaseModel the base model
-     * @param pickupCoilModel the pickup coil model
+     * @param baseModel the base model
+     * @param pickupCoilModel
      * @param lightbulbModel
      * @param voltmeterModel
+     * @param magnetModel
      */
     public PickupCoilGraphic( 
             final Component component, 

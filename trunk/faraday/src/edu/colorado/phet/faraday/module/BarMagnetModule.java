@@ -81,7 +81,7 @@ public class BarMagnetModule extends FaradayModule {
     /**
      * Sole constructor.
      * 
-     * @param appModel the application model
+     * @param clock the simulation clock
      */
     public BarMagnetModule( AbstractClock clock ) {
         
