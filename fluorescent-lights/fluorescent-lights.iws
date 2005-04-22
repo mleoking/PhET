@@ -118,17 +118,10 @@
     <option name="HIDE_WARNINGS" value="false" />
   </component>
   <component name="FileEditorManager" split-orientation="vertical" split-proportion="0.5">
-    <first-group selected-file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/FiftyPercentAbsorptionStrategy.java">
-      <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/EnergyAbsorptionStrategy.java" pinned="false">
-        <provider selected="true" editor-type-id="text-editor">
-          <state line="20" column="17" selection-start="548" selection-end="548" vertical-scroll-proportion="0.33452594">
-            <folding />
-          </state>
-        </provider>
-      </entry>
+    <first-group selected-file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/DischargeLampAtom.java">
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/EnergyEmissionStrategy.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="22" column="22" selection-start="649" selection-end="649" vertical-scroll-proportion="0.39534885">
+          <state line="22" column="22" selection-start="649" selection-end="649" vertical-scroll-proportion="0.31661892">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -137,35 +130,35 @@
       </entry>
       <entry file="file://C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/atom/AtomicState.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="86" column="0" selection-start="2847" selection-end="2847" vertical-scroll-proportion="0.1452206">
+          <state line="319" column="58" selection-start="10943" selection-end="10943" vertical-scroll-proportion="0.9512894">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/atom/StateLifetimeManager.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="83" column="0" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.33272058">
+          <state line="83" column="0" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.26500732">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/atom/Atom.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="135" column="23" selection-start="3989" selection-end="3989" vertical-scroll-proportion="0.7169118">
+          <state line="135" column="23" selection-start="3989" selection-end="3989" vertical-scroll-proportion="0.55873924">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/DischargeLampAtom.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="30" column="100" selection-start="1092" selection-end="1092" vertical-scroll-proportion="0.40625">
+          <state line="31" column="76" selection-start="1094" selection-end="1094" vertical-scroll-proportion="0.3409742">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/DefaultEnergyEmissionStrategy.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="35" column="23" selection-start="1143" selection-end="1143" vertical-scroll-proportion="0.7906977">
+          <state line="35" column="23" selection-start="1143" selection-end="1143" vertical-scroll-proportion="0.63323784">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -174,14 +167,14 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/FiftyPercentEnergyEmissionStrategy.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="49" column="59" selection-start="1636" selection-end="1636" vertical-scroll-proportion="0.93381035">
+          <state line="49" column="59" selection-start="1636" selection-end="1636" vertical-scroll-proportion="0.747851">
             <folding />
           </state>
         </provider>
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/view/SpectrometerGraphic.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="64" column="29" selection-start="2261" selection-end="2261" vertical-scroll-proportion="0.4319853">
+          <state line="24" column="0" selection-start="978" selection-end="1030" vertical-scroll-proportion="0.3653295">
             <folding>
               <element signature="imports" expanded="true" />
             </folding>
@@ -190,7 +183,14 @@
       </entry>
       <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/FiftyPercentAbsorptionStrategy.java" pinned="false">
         <provider selected="true" editor-type-id="text-editor">
-          <state line="24" column="82" selection-start="911" selection-end="911" vertical-scroll-proportion="0.375">
+          <state line="24" column="82" selection-start="911" selection-end="911" vertical-scroll-proportion="0.2922636">
+            <folding />
+          </state>
+        </provider>
+      </entry>
+      <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/ElectronSource.java" pinned="false">
+        <provider selected="true" editor-type-id="text-editor">
+          <state line="111" column="5" selection-start="3414" selection-end="3414" vertical-scroll-proportion="0.95021963">
             <folding />
           </state>
         </provider>
@@ -402,12 +402,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="14" y="33" width="1204" height="942" extended-state="0" />
-    <editor active="false" />
+    <frame x="-4" y="-4" width="1288" height="1032" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="CVS" active="true" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.16830467" order="8" />
+      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.12278761" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.3064236" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="true" weight="0.20873787" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.2027027" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.2014742" order="8" />
@@ -513,13 +513,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/PhET/phetcommon/src/edu/colorado/phet/common/view/phetgraphics/PhetShapeGraphic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="167" column="74" selection-start="5037" selection-end="5037" vertical-scroll-proportion="1.0154712">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/FluorescentLightsApp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="62" column="0" selection-start="2455" selection-end="2455" vertical-scroll-proportion="0.6694796">
@@ -555,16 +548,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/atom/Atom.java">
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/DischargeLampAtom.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="135" column="23" selection-start="3989" selection-end="3989" vertical-scroll-proportion="0.7169118">
+        <state line="31" column="76" selection-start="1094" selection-end="1094" vertical-scroll-proportion="0.3409742">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/ElectronSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="111" column="5" selection-start="3414" selection-end="3414" vertical-scroll-proportion="0.95021963">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/FiftyPercentAbsorptionStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="82" selection-start="911" selection-end="911" vertical-scroll-proportion="0.2922636">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/view/SpectrometerGraphic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="29" selection-start="2261" selection-end="2261" vertical-scroll-proportion="0.4319853">
+        <state line="24" column="0" selection-start="978" selection-end="1030" vertical-scroll-proportion="0.3653295">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -573,53 +580,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/DefaultEnergyEmissionStrategy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="23" selection-start="1143" selection-end="1143" vertical-scroll-proportion="0.7906977">
+        <state line="35" column="23" selection-start="1143" selection-end="1143" vertical-scroll-proportion="0.63323784">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/EnergyEmissionStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="22" selection-start="649" selection-end="649" vertical-scroll-proportion="0.39534885">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/DischargeLampAtom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="100" selection-start="1092" selection-end="1092" vertical-scroll-proportion="0.40625">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/FiftyPercentAbsorptionStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="82" selection-start="911" selection-end="911" vertical-scroll-proportion="0.375">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/FiftyPercentEnergyEmissionStrategy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="59" selection-start="1636" selection-end="1636" vertical-scroll-proportion="0.93381035">
+        <state line="49" column="59" selection-start="1636" selection-end="1636" vertical-scroll-proportion="0.747851">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/edu/colorado/phet/flourescent/model/EnergyEmissionStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="22" selection-start="649" selection-end="649" vertical-scroll-proportion="0.31661892">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/atom/AtomicState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="0" selection-start="2847" selection-end="2847" vertical-scroll-proportion="0.1452206">
+        <state line="319" column="58" selection-start="10943" selection-end="10943" vertical-scroll-proportion="0.9512894">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/atom/StateLifetimeManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="0" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.33272058">
+        <state line="83" column="0" selection-start="2827" selection-end="2827" vertical-scroll-proportion="0.26500732">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/PhET/lasers/development/src/edu/colorado/phet/lasers/model/atom/Atom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="135" column="23" selection-start="3989" selection-end="3989" vertical-scroll-proportion="0.55873924">
           <folding />
         </state>
       </provider>

@@ -31,7 +31,7 @@ import java.awt.geom.Ellipse2D;
  */
 public class SpectrometerGraphic extends CompositePhetGraphic implements Spectrometer.ChangeListener {
 
-    String spectrometerImageFileName = "images/spectrometer-panel.png";
+    private String spectrometerImageFileName = "images/spectrometer-panel.png";
 
     private PhetImageGraphic backgroundPanel;
     private Point displayOrigin = new Point( 15, 115 );
@@ -94,6 +94,4 @@ public class SpectrometerGraphic extends CompositePhetGraphic implements Spectro
             repaint();
         }
     }
-
-
 }
