@@ -35,7 +35,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     //----------------------------------------------------------------------------
     
     /**  Number of sample points above the center of the coil. */
-    public static final int SAMPLE_POINTS_ABOVE = 4;
+    public static final int SAMPLE_POINTS_ABOVE = FaradayConfig.PICKUP_SAMPLE_POINTS / 2;
     /**  Number of sample points below the center of the coil. */
     public static final int SAMPLE_POINTS_BELOW = SAMPLE_POINTS_ABOVE;
     
