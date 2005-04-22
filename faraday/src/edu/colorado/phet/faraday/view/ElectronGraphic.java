@@ -102,7 +102,10 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     * Updates the view to match the model.
+     * Handles moving the electron from one segment of the coil to the next.
+     * Changes the "look" of the electron as it moves between the foreground 
+     * and background of the coil.
      */
     public void update() {
         setVisible( _electronModel.isEnabled() );

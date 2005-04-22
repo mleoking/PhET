@@ -7,8 +7,10 @@ import java.util.Hashtable;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 /**
- * DebuggerGraphic displays the bounds and locations of a set of PhetGraphics.
+ * DebuggerGraphic displays the bounds and location marker for a set of PhetGraphics.
  * It is intended for use in debugging phetcommon and client applications.
+ * The bounds is drawn as a rectangle outline.
+ * The location marker is drawn as a crosshair.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -32,7 +34,7 @@ public class DebuggerGraphic extends PhetGraphic {
     // Inner classes
     //----------------------------------------------------------------------------
     
-    /** Rendering specification for a specific graphic. */
+    /** Drawing specification for a graphic. */
     private static class Specification {
         public Color boundsColor;
         public Color locationColor;
@@ -46,6 +48,11 @@ public class DebuggerGraphic extends PhetGraphic {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     * 
+     * @param component parent Component, typically an apparatus panel
+     */
     public DebuggerGraphic( Component component ) {
         super( component );
         assert( component != null );
@@ -63,10 +70,22 @@ public class DebuggerGraphic extends PhetGraphic {
     // Debugging
     //----------------------------------------------------------------------------
     
+    /**
+     * Adds a graphic to the debugger using default colors.
+     * 
+     * @param graphic
+     */
     public void add( PhetGraphic graphic ) {
         add( graphic, _boundsColor, _locationColor );
     }
     
+    /**
+     * Adds a graphic to the debugger using specific colors.
+     * 
+     * @param graphic
+     * @param boundsColor
+     * @param locationColor
+     */
     public void add( PhetGraphic graphic, Color boundsColor, Color locationColor ) {
         assert( graphic != null );
         assert( boundsColor != null );
@@ -74,6 +93,11 @@ public class DebuggerGraphic extends PhetGraphic {
         _specifications.put( graphic, new Specification( boundsColor, locationColor ) );
     }
     
+    /**
+     * Removes a graphic from the debugger.
+     * 
+     * @param graphic
+     */
     public void remove( PhetGraphic graphic ) {
         assert( graphic != null );
         _specifications.remove( graphic);
@@ -83,69 +107,148 @@ public class DebuggerGraphic extends PhetGraphic {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the default color used to draw bounds.
+     * 
+     * @param boundsColor
+     */
     public void setBoundsColor( Color boundsColor ) {
         assert( boundsColor != null );
         _boundsColor = boundsColor;
     }
     
+    /**
+     * Gets the default color used to draw bounds.
+     * 
+     * @return the color
+     */
     public Color getBoundsColor() {
         return _boundsColor;
     }
     
+    /**
+     * Sets the width of the stroke used to draw bounds.
+     * 
+     * @param width
+     */
     public void setBoundsStrokeWidth( float width ) {
         _boundsStroke = new BasicStroke( width );
     }
     
+    /**
+     * Gets the width of the stroke used to draw bounds.
+     * 
+     * @return the width
+     */
     public float getBoundsStrokeWidth() {
         return _boundsStroke.getLineWidth();
     }
     
+    /**
+     * Sets the color used to draw location.
+     * 
+     * @param locationColor
+     */
     public void setLocationColor( Color locationColor ) {
         assert( locationColor != null );
         _locationColor = locationColor;
     }
     
+    /**
+     * Gets the color used to draw location.
+     * 
+     * @param the color
+     */
     public Color getLocationColor() {
         return _locationColor;
     }
     
+    /**
+     * Sets the width of the stroke used to draw the location marker.
+     * 
+     * @param width
+     */
     public void setLocationStrokeWidth( float width ) {
         _locationStroke = new BasicStroke( width );
     }
     
+    /**
+     * Gets the width of the stroke used to draw the location marker.
+     * 
+     * @return the width
+     */
     public float getLocationStrokeWidth() {
         return _locationStroke.getLineWidth();
     }
     
+    /**
+     * Sets the size of the location marker.
+     * 
+     * @param size
+     */
     public void setLocationSize( Dimension size ) {
         assert( size != null );
         setLocationSize( size.width, size.height );
     }
     
+    /**
+     * Sets the size of the location marker.
+     * 
+     * @param x
+     * @param y
+     */
     public void setLocationSize( int width, int height ) {
-        _locationSize = new Dimension( width, height );
+        _locationSize.setSize( width, height );
     }
     
+    /**
+     * Gets the size of the location marker.
+     * 
+     * @return the size
+     */
     public Dimension getLocationSize() {
         return new Dimension( _locationSize );
     }
     
+    /**
+     * Enables or disables drawing of the bounds.
+     * 
+     * @param enabled true or false
+     */
     public void setBoundsEnabled( boolean enabled ) {
         _boundsEnabled = enabled;
     }
     
+    /**
+     * Determines whether drawing of bounds is enabled.
+     * 
+     * @return true or false
+     */
     public boolean isBoundsEnabled() {
         return _boundsEnabled;
     }
     
+    /**
+     * Enables or disables drawing of the location marker.
+     * 
+     * @param enabled true or false
+     */
     public void setLocationEnabled( boolean enabled ) {
         _locationEnabled = enabled;
     }
     
+    /**
+     * Determines whether drawing of the location marker is enabled.
+     * 
+     * @return true or false
+     */
     public boolean isLocationEnabled() {
         return _locationEnabled;
     }
     
+    /**
+     * Determines the bounds of the debugger.
+     */
     protected Rectangle determineBounds() {
         Rectangle bounds = null;
         Enumeration e = _specifications.keys();
@@ -164,7 +267,9 @@ public class DebuggerGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
     
     /**
-     * Draws the bounds and location of graphics.
+     * Draws the bounds and location marker for each graphic.
+     * The bounds is drawn as a rectangle outline.
+     * The location marker is drawn as a crosshair.
      * 
      * @param g2 graphics context
      */
