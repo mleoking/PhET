@@ -33,7 +33,8 @@ import edu.colorado.phet.faraday.model.Voltmeter;
 
 /**
  * PickupCoilGraphic is the graphical representation of a pickup coil,
- * with devices (lightbulb and voltmeter ) for displaying the effects of induction.
+ * with indicators (lightbulb and voltmeter ) for displaying the effect
+ * of electromagnetic induction.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -356,18 +357,24 @@ public class PickupCoilGraphic extends GraphicLayerSet
         private PhetShapeGraphic[] _abovePoints;
         private PhetShapeGraphic[] _belowPoints;
         
+        /**
+         * Sole constructor.
+         * Creates a set of graphics that represent the sample points.
+         * 
+         * @param component
+         */
         public SamplePointsGraphic( Component component ) {
             super( component );
-            
+
             int r = POINT_RADIUS;
             Shape pointShape = new Ellipse2D.Double( -r, r, r * 2, r * 2 );
-            
+
             _centerPoint = new PhetShapeGraphic( component );
             _centerPoint.setShape( pointShape );
             _centerPoint.setColor( CENTER_COLOR );
             _centerPoint.centerRegistrationPoint();
             addGraphic( _centerPoint );
-            
+
             _abovePoints = new PhetShapeGraphic[ PickupCoil.SAMPLE_POINTS_ABOVE ];
             for ( int i = 0; i < _abovePoints.length; i++ ) {
                 _abovePoints[i] = new PhetShapeGraphic( component );
@@ -376,7 +383,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
                 _abovePoints[i].centerRegistrationPoint();
                 addGraphic( _abovePoints[i] );
             }
-            
+
             _belowPoints = new PhetShapeGraphic[ PickupCoil.SAMPLE_POINTS_BELOW ];
             for ( int i = 0; i < _belowPoints.length; i++ ) {
                 _belowPoints[i] = new PhetShapeGraphic( component );
@@ -387,6 +394,12 @@ public class PickupCoilGraphic extends GraphicLayerSet
             }
         }
         
+        /**
+         * Sets the location of the sample points,
+         * typically called when the coil's radius is changed.
+         * 
+         * @param radius
+         */
         public void setPointLocations( int radius ) {
             // Center point
             _centerPoint.setLocation( 0, 0 );
