@@ -211,7 +211,7 @@ public class ElectromagnetModule extends FaradayModule {
             
             // Scaling calibration
             if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
-                controlPanel.addVerticalSpace( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT );
+                controlPanel.addVerticalSpace();
                 
                 ScalePanel scalePanel = new ScalePanel( null, null, null, _electromagnetGraphic );
                 controlPanel.addFullWidth( scalePanel );

@@ -216,7 +216,7 @@ public class GeneratorModule extends FaradayModule {
             controlPanel.addFullWidth( _turbinePanel );
             
             // Spacer
-            controlPanel.addVerticalSpace( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT );
+            controlPanel.addVerticalSpace();
             
             // Pickup Coil controls
             _pickupCoilPanel = new PickupCoilPanel(
@@ -225,7 +225,7 @@ public class GeneratorModule extends FaradayModule {
             
             // Scaling calibration
             if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
-                controlPanel.addVerticalSpace( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT );
+                controlPanel.addVerticalSpace();
                 
                 ScalePanel scalePanel = new ScalePanel( _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
                 controlPanel.addFullWidth( scalePanel );

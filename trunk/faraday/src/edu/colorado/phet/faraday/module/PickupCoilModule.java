@@ -221,7 +221,7 @@ public class PickupCoilModule extends FaradayModule {
             controlPanel.addFullWidth( _barMagnetPanel );
             
             // Spacer
-            controlPanel.addVerticalSpace( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT );
+            controlPanel.addVerticalSpace();
             
             // Pickup Coil controls
             _pickupCoilPanel = new PickupCoilPanel( 
@@ -230,7 +230,7 @@ public class PickupCoilModule extends FaradayModule {
             
             // Scaling calibration
             if ( FaradayConfig.DEBUG_ENABLE_SCALE_PANEL ) {
-                controlPanel.addVerticalSpace( FaradayConfig.CONTROL_PANEL_SPACER_HEIGHT );
+                controlPanel.addVerticalSpace();
                 
                 ScalePanel scalePanel = new ScalePanel( _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
                 controlPanel.addFullWidth( scalePanel );
