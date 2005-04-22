@@ -23,6 +23,7 @@ import edu.colorado.phet.faraday.util.Vector2D;
 
 /**
  * PickupCoil is the model of a pickup coil.
+ * It's behavior follows Faraday's Law for electromagnetic induction.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -165,7 +166,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     }
     
     /**
-     * Updates the emf, using Faraday's Law.
+     * Updates the induced emf, using Faraday's Law.
      */
     private void updateEmf( double dt ) {
         
