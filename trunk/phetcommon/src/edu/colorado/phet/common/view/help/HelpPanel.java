@@ -74,42 +74,23 @@ public class HelpPanel extends JPanel {
                                                         megaHelpBtn.getPreferredSize().getWidth() ),
                                          (int)( miniHelpBtn.getPreferredSize().getHeight()
                                                 + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
-        this.setLayout( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
-                                                         GridBagConstraints.SOUTH,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),
-                                                         0,0
-                                                         );
-        add( miniHelpBtn, gbc );
-        add( megaHelpBtn, gbc );
+        SpringLayout layout = new SpringLayout();
+        this.setLayout( layout );
+        Spring halfWidthS = FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ) );
+        Spring halfHeightS = FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ) );
+        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() + padY ) ) );
+        Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
+        layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
+        layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
+
+        Spring topOfMegaBtnS = Spring.sum( halfHeightS, Spring.constant( padY ) );
+        Spring leftOfMegaBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)megaHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
+        layout.putConstraint( SpringLayout.NORTH, megaHelpBtn, topOfMegaBtnS, SpringLayout.NORTH, this );
+        layout.putConstraint( SpringLayout.WEST, megaHelpBtn, leftOfMegaBtnS, SpringLayout.WEST, this );
 
         this.invalidate();
         this.repaint();
     }
-
-//    private void layoutPanel() {
-//        setPreferredSize( new Dimension( (int)Math.max( miniHelpBtn.getPreferredSize().getWidth(),
-//                                                        megaHelpBtn.getPreferredSize().getWidth() ),
-//                                         (int)( miniHelpBtn.getPreferredSize().getHeight()
-//                                                + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
-//        SpringLayout layout = new SpringLayout();
-//        this.setLayout( layout );
-//        Spring halfWidthS = FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ) );
-//        Spring halfHeightS = FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ) );
-//        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() + padY ) ) );
-//        Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
-//        layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
-//        layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
-//
-//        Spring topOfMegaBtnS = Spring.sum( halfHeightS, Spring.constant( padY ) );
-//        Spring leftOfMegaBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)megaHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
-//        layout.putConstraint( SpringLayout.NORTH, megaHelpBtn, topOfMegaBtnS, SpringLayout.NORTH, this );
-//        layout.putConstraint( SpringLayout.WEST, megaHelpBtn, leftOfMegaBtnS, SpringLayout.WEST, this );
-//
-//        this.invalidate();
-//        this.repaint();
-//    }
 
     private void setOneButtonMode() {
         megaHelpBtn.setVisible( false );

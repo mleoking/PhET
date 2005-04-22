@@ -51,7 +51,6 @@ public class ModelSlider extends JPanel {
     private int numMinorTicks;
     private JLabel titleLabel;
     private JTextField unitsReadout;
-    private String title;
 
     public ModelSlider( String title, String units, final double min, final double max, double initial ) {
         this( title, units, min, max, initial, new DecimalFormat( "0.0#" ) );
@@ -59,18 +58,6 @@ public class ModelSlider extends JPanel {
 
     public ModelSlider( String title, String units, final double min, final double max,
                         double initialValue, NumberFormat formatter ) {
-        init( min, max, formatter, units, initialValue, title );
-    }
-
-    private void init( final double min, final double max, NumberFormat formatter, String units, double initialValue, String title ) {
-
-        // In case this has been called in response to a change in some characteristic, remove all the items in the
-        // control
-        while( getComponentCount() > 0 ) {
-            this.remove( getComponent( 0 ));
-        }
-
-        this.title = title;
         this.min = min;
         this.max = max;
         this.formatter = formatter;
@@ -284,10 +271,6 @@ public class ModelSlider extends JPanel {
     }
 
     public void setModelTicks( double[] ticks ) {
-    }
-
-    public void setMaximum( double max ) {
-        init( min, max, formatter, units, initialValue, title );
     }
 
     public static class IllegalValueException extends Exception {

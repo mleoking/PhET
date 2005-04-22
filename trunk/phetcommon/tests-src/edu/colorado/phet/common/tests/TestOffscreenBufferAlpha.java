@@ -71,7 +71,7 @@ public class TestOffscreenBufferAlpha {
             apparatusPanel.addGraphic( rectangleGraphic, 1 );
             
             // Circle
-            final PhetShapeGraphic circleGraphic = new TestGraphic( apparatusPanel );
+            final PhetShapeGraphic circleGraphic = new PhetShapeGraphic( apparatusPanel );
             circleGraphic.setShape( new Ellipse2D.Double( -35, -35, 70, 70 ) );
             circleGraphic.setPaint( new Color( 255, 0, 0, 100 ) ); // white with alpha
             circleGraphic.setLocation( 100, 100 );
@@ -83,20 +83,6 @@ public class TestOffscreenBufferAlpha {
             PhetTextGraphic textGraphic = new PhetTextGraphic( apparatusPanel, font, message, Color.BLACK );
             textGraphic.setLocation( 10, 30 );
             apparatusPanel.addGraphic( textGraphic, 3 );
-        }
-    }
-
-    static class TestGraphic extends PhetShapeGraphic {
-
-        public TestGraphic( Component component ) {
-            super( component );
-        }
-
-        public void paint( Graphics2D g2 ) {
-            saveGraphicsState( g2 );
-//            GraphicsUtil.setAlpha( g2, 100.0 / 255 );
-            super.paint( g2 );
-            restoreGraphicsState();
         }
     }
 }
