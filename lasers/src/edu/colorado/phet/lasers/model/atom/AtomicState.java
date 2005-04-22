@@ -27,9 +27,7 @@ public class AtomicState {
     //
 
     static public final double minWavelength = Photon.BLUE - 20;
-//    static public final double minWavelength = Photon.BLUE - 80;
     static public final double maxWavelength = Photon.GRAY;
-//    static public final double minEnergy = 0;
     static public final double minEnergy = Photon.wavelengthToEnergy( maxWavelength );
     static public final double maxEnergy = Photon.wavelengthToEnergy( minWavelength );
     static protected double s_collisionLikelihood = 1;
