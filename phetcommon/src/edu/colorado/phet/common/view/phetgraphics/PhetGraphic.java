@@ -180,7 +180,7 @@ public abstract class PhetGraphic {
     public String getName() {
         return name;
     }
-
+    
     //----------------------------------------------------------------------------
     // Graphics Context methods
     //----------------------------------------------------------------------------
@@ -425,7 +425,11 @@ public abstract class PhetGraphic {
      * @return the net AffineTransform of this graphic
      */
     public AffineTransform getNetTransform() {
+        // Use preConcatenate, so that transforms are shown in the order that they will occur.
+        
         // Translate to registration point
+
+        // todo: why are there minus signs on the parameters here?
         netUtilTx.setToIdentity();
         xlateUtilTx.setToTranslation( -registrationPoint.x, -registrationPoint.y );
         netUtilTx.preConcatenate( xlateUtilTx );

@@ -13,7 +13,6 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -120,7 +119,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     public void setPaintStrategy( int strategy ) {
-        switch ( strategy ) {
+        switch( strategy ) {
             case DEFAULT_PAINT_STRATEGY:
                 paintStrategy = new DefaultPaintStrategy( this );
                 break;
@@ -131,7 +130,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
                 paintStrategy = new OffscreenBufferDirtyRegion( this );
                 break;
             default:
-                throw new RuntimeException( "Invalid paint strategy specified");
+                throw new RuntimeException( "Invalid paint strategy specified" );
         }
     }
 

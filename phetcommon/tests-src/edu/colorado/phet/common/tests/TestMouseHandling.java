@@ -11,15 +11,6 @@
 
 package edu.colorado.phet.common.tests;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-
-import javax.swing.event.MouseInputAdapter;
-
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
@@ -30,6 +21,11 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
+
+import javax.swing.event.MouseInputAdapter;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 /**
  * TestMouseHandling is a simple simulation that is useful for testing of mouse event handling.
@@ -45,12 +41,12 @@ public class TestMouseHandling {
     public static void main( String args[] ) throws IOException {
         TestMouseHandling test = new TestMouseHandling( args );
     }
-    
+
     /**
      * TestMouseHandling creates the PhET application.
      */
     public TestMouseHandling( String[] args ) throws IOException {
-        
+
         // Set up the application descriptor.
         String title = "TestMouseHandling";
         String description = "A test harness for mouse event handling";
@@ -58,14 +54,14 @@ public class TestMouseHandling {
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 300, 300 );
         AbstractClock clock = new SwingTimerClock( 1, 40 );
         Module module = new TestModule( clock );
-        ApplicationModel appModel = 
-            new ApplicationModel( title, description, version, frameSetup, module, clock );
+        ApplicationModel appModel =
+                new ApplicationModel( title, description, version, frameSetup, module, clock );
         
         // Create and start the application.
         PhetApplication app = new PhetApplication( appModel, args );
         app.startApplication();
     }
-    
+
     /**
      * TestModule sets up a module with two draggable shapes.
      */
@@ -89,7 +85,7 @@ public class TestMouseHandling {
             yellowGraphic.setPaint( Color.YELLOW );
             yellowGraphic.setLocation( 100, 100 );
             yellowGraphic.setCursorHand();
-            yellowGraphic.addMouseInputListener( new MouseHandler( yellowGraphic) );
+            yellowGraphic.addMouseInputListener( new MouseHandler( yellowGraphic ) );
             apparatusPanel.addGraphic( yellowGraphic, 1 );
             
             // Red rectangle
@@ -103,7 +99,7 @@ public class TestMouseHandling {
             apparatusPanel.addGraphic( redGraphic, 2 );
         }
     }
-    
+
     /**
      * MouseHandler handles mouse events for a specified graphic.
      * It prints a debugging message for each event received,
@@ -113,17 +109,17 @@ public class TestMouseHandling {
 
         private PhetGraphic _graphic;
         private Point _previousPoint;
-        
+
         public MouseHandler( PhetGraphic graphic ) {
             super();
             _graphic = graphic;
             _previousPoint = new Point();
         }
-    
+
         public void mouseClicked( MouseEvent event ) {
             System.out.println( "mouseClicked on " + _graphic.getName() );
         }
-        
+
         public void mouseDragged( MouseEvent event ) {
             System.out.println( "mouseDragged on " + _graphic.getName() );
             int dx = event.getX() - _previousPoint.x;
@@ -133,25 +129,25 @@ public class TestMouseHandling {
             _graphic.setLocation( x, y );
             _previousPoint.setLocation( event.getPoint() );
         }
-        
+
         public void mouseEntered( MouseEvent event ) {
             System.out.println( "mouseEntered on " + _graphic.getName() );
         }
-       
+
         public void mouseExited( MouseEvent event ) {
             System.out.println( "mouseExited on " + _graphic.getName() );
         }
-      
+
         /* You may find it useful to comment out this "chatty" method. */
         public void mouseMoved( MouseEvent event ) {
             System.out.println( "mouseMoved on " + _graphic.getName() );
         }
-        
+
         public void mousePressed( MouseEvent event ) {
             System.out.println( "mousePressed on " + _graphic.getName() );
             _previousPoint.setLocation( event.getPoint() );
         }
-        
+
         public void mouseReleased( MouseEvent event ) {
             System.out.println( "mouseReleased on " + _graphic.getName() );
         }

@@ -17,10 +17,6 @@ import java.util.Vector;
 
 /**
  * SimStrings
- * <p/>
- * Manages strings for simulations so that they can be localized. All methods are static.
- * <p/>
- * Call setStrings() for each resource bundle of strings that a simulation needs to access.
  *
  * @author Ron LeMaster
  * @version $Revision$

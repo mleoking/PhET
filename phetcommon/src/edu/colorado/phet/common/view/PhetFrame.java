@@ -10,20 +10,20 @@
  */
 package edu.colorado.phet.common.view;
 
+import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.components.menu.HelpMenu;
 import edu.colorado.phet.common.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common.view.util.SwingUtils;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 /**
  * PhetFrame
- * <p/>
- * The frame used by PhET simulations.
  *
  * @author ?
  * @version $Revision$
@@ -36,18 +36,10 @@ public class PhetFrame extends JFrame {
     private ClockControlPanel clockControlPanel;
     private ContentPanel basicPhetPanel;
 
-    /**
-     * @param application
-     * @throws IOException
-     */
-    public PhetFrame( final PhetApplication application ) throws IOException {
-        super( application.getWindowTitle() );
+    public PhetFrame( PhetApplication application ) throws IOException {
+        super( application.getApplicationModel().getWindowTitle() );
         this.application = application;
-
-        // Add a listener that will handle the following events:
-        //  the frame is closed
-        //  the simulation clock is iconified
-        //  the window is de-iconified
+        final ApplicationModel model = application.getApplicationModel();
         this.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
@@ -56,9 +48,9 @@ public class PhetFrame extends JFrame {
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
                 super.windowIconified( e );
-                paused = application.getClock().isPaused(); // save clock state
+                paused = model.getClock().isPaused(); // save clock state
                 if( !paused ) {
-                    application.getClock().setPaused( true );
+                    model.getClock().setPaused( true );
                 }
             }
 
@@ -66,12 +58,10 @@ public class PhetFrame extends JFrame {
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
                 if( !paused ) {
-                    application.getClock().setPaused( false );
+                    model.getClock().setPaused( false );
                 }
             }
         } );
-
-        // Add the menu bar
         JMenuBar menuBar = new JMenuBar();
         try {
             this.helpMenu = new HelpMenu( application );
@@ -83,17 +73,14 @@ public class PhetFrame extends JFrame {
         menuBar.add( defaultFileMenu );
         menuBar.add( helpMenu );
         setJMenuBar( menuBar );
-        if( application.getFrameSetup() != null ) {
-            application.getFrameSetup().initialize( this );
-        }
+        model.getFrameSetup().initialize( this );
 
-        // If the simulation is to have buttons for controlling the simulation clock, create it now
-        if( application.getUseClockControlPanel() ) {
-            clockControlPanel = new ClockControlPanel( application.getClock() );
-        }
+        JComponent apparatusPanelContainer = createApparatusPanelContainer( application );
 
-        // Create the content pane for the frame
-        basicPhetPanel = new ContentPanel( application, clockControlPanel );
+        if( model.getUseClockControlPanel() ) {
+            clockControlPanel = new ClockControlPanel( model.getClock() );
+        }
+        basicPhetPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
         setContentPane( basicPhetPanel );
     }
 
@@ -105,14 +92,31 @@ public class PhetFrame extends JFrame {
         return clockControlPanel;
     }
 
+    private JComponent createApparatusPanelContainer( PhetApplication application ) {
+        ApplicationModel model = application.getApplicationModel();
+        if( model.numModules() == 1 ) {
+            JPanel apparatusPanelContainer = new JPanel();
+            apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
+            if( model.moduleAt( 0 ).getApparatusPanel() == null ) {
+                throw new RuntimeException( "Null Apparatus Panel in Module: " + model.moduleAt( 0 ).getName() );
+            }
+            apparatusPanelContainer.add( model.moduleAt( 0 ).getApparatusPanel() );
+            return apparatusPanelContainer;
+        }
+        else {
+            JComponent apparatusPanelContainer = new TabbedApparatusPanelContainer( application );
+            return apparatusPanelContainer;
+        }
+
+    }
+
     public ContentPanel getBasicPhetPanel() {
         return basicPhetPanel;
     }
 
-
-    //----------------------------------------------------------------
+    //////////////////////////////////////////////
     // Menu setup methods
-    //----------------------------------------------------------------
+    //
 
     /**
      * Adds a JMenu before the Help Menu.
