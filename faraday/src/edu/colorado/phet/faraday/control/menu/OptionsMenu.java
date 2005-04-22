@@ -31,7 +31,15 @@ import edu.colorado.phet.faraday.control.dialog.GridControlsDialog;
  */
 public class OptionsMenu extends JMenu {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private FaradayApplication _application;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Sole constructor.
@@ -67,6 +75,10 @@ public class OptionsMenu extends JMenu {
         add( gridControlsMenuItem );
     }
 
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
     /**
      * Handles the "Background Color" menu item.
      * Displays a Color dialog and changes the background of all apparatus panels.
