@@ -32,7 +32,7 @@ public class FaradayConfig {
     public static final boolean DEBUG_ENABLE_SCALE_PANEL = false;
     public static final boolean DEBUG_ENABLE_DEVELOPER_MENU = false;
     public static final boolean DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE = false;
-    public static final boolean DEBUG_DRAW_PICKUP_SAMPLE_POINTS = false;
+    public static final boolean DEBUG_DRAW_PICKUP_SAMPLE_POINTS = true;
     
     //----------------------------------------------------------------------------
     // Application
@@ -134,6 +134,7 @@ public class FaradayConfig {
     private static final double MAX_PICKUP_LOOP_RADIUS = 125.0;
     public static final double MAX_PICKUP_LOOP_AREA = Math.PI * MAX_PICKUP_LOOP_RADIUS * MAX_PICKUP_LOOP_RADIUS;
     public static final double MIN_PICKUP_LOOP_AREA = 0.5 * MAX_PICKUP_LOOP_AREA;
+    public static final int PICKUP_SAMPLE_POINTS = 9; // should be an odd number
     
     //----------------------------------------------------------------------------
     // Battery parameters 
