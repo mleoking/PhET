@@ -42,12 +42,12 @@ public class FiftyPercentEnergyEmissionStrategy implements EnergyEmissionStrateg
                 break;
             }
         }
-        if( random.nextBoolean() || /*states.length < 3 ||*/ currStateIdx < 3) {
+        if( random.nextBoolean() || currStateIdx < 2) {
             nextStateIdx = 0;
         }
         else {
             do {
-                nextStateIdx = random.nextInt( currStateIdx - 1 );
+                nextStateIdx = random.nextInt( currStateIdx );
             } while( nextStateIdx == 0 );
         }
         return states[nextStateIdx];
