@@ -21,7 +21,7 @@ import edu.colorado.phet.faraday.FaradayConfig;
 /**
  * Voltmeter is the model of an analog voltmeter.
  * It's needle deflection is a function of the current in the pickup coil.
- * It uses an ah hoc algorithm that makes the needle wobble around the zero point.
+ * It uses an ad hoc algorithm that makes the needle wobble around the zero point.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -59,8 +59,8 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
     // Pickup coil that the voltmeter is connected to.
     private PickupCoil _pickupCoilModel;
     
-    // Whether rotational kinematics behavior is enabled.
-    private boolean _rotationalKinematicsEnabled;
+    // Whether the needle jiggles around its zero point.
+    private boolean _jiggleEnabled;
     
     // Needle deflection angle
     private double _needleAngle;
@@ -85,7 +85,7 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
         
-        _rotationalKinematicsEnabled = false; // expensive, so disabled by default
+        _jiggleEnabled = false; // expensive, so disabled by default
         _needleAngle = ZERO_NEEDLE_ANGLE;
         _scale = 1.0;
     }
@@ -104,25 +104,25 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
     //----------------------------------------------------------------------------
 
     /**
-     * Enables/disabled rotational kinematics behavior.
-     * This turns on a Verlet algorithm that cause the compass needle to wobble.
+     * Enables/disabled jiggle behavior.
+     * This turns on an ad hoc algorithm that causes the needle to jiggle at its zero point.
      * 
      * @param enabled true to enable, false to disable
      */
-    public void setRotationalKinematicsEnabled( boolean enabled ) {
-        if ( enabled != _rotationalKinematicsEnabled ) {
-            _rotationalKinematicsEnabled = enabled;
+    public void setJiggleEnabled( boolean enabled ) {
+        if ( enabled != _jiggleEnabled ) {
+            _jiggleEnabled = enabled;
             // No need to notify observers, handled by stepInTime.
         }
     }
     
     /**
-     * Determines whether rotational kinematics behavior is enabled.
+     * Determines whether jiggle behavior is enabled.
      * 
      * @return true if enabled, false if disabled
      */
-    public boolean isRotationalKinematicsEnabled() {
-        return _rotationalKinematicsEnabled;
+    public boolean isJiggleEnabled() {
+        return _jiggleEnabled;
     }
     
     /**
@@ -204,12 +204,12 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
            // Determine the desired needle deflection angle.
            double needleAngle = getDesiredNeedleAngle();
            
-           if ( ! _rotationalKinematicsEnabled ) {
-               // If rotational kinematics is disabled, simply set the needle angle.
+           if ( ! _jiggleEnabled ) {
+               // If jiggle is disabled, simply set the needle angle.
                setNeedleAngle( needleAngle );
            }
            else {
-               // If rotational kinematics is enabled, make the needle jiggle around the zero point.
+               // If jiggle is enabled, make the needle jiggle around the zero point.
                if ( needleAngle != ZERO_NEEDLE_ANGLE ) {
                    setNeedleAngle( needleAngle );
                }
