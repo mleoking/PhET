@@ -14,7 +14,7 @@ package edu.colorado.phet.faraday.model;
 
 
 /**
- * AbstractVoltageSource is the base class for all things that are 
+ * AbstractVoltageSource is the abstract base class for all things that are 
  * capable of creating voltage.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

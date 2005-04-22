@@ -17,6 +17,10 @@ import edu.colorado.phet.common.model.ModelElement;
 
 /**
  * ACPowerSupply is the model of an AC Power Supply.
+ * <p>
+ * The AC Power Supply has a configurable maximum voltage. 
+ * A client varies the maximum voltage amplitude and frequency.
+ * The voltage amplitude varies over time.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

@@ -25,6 +25,8 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * The magnetic field is modeled as a pair of dipoles.
  * One dipole is located at each pole of the magnet.
  * This model is applicable to magnets that are cylindrical in shape.
+ * <p>
+ * See getStrength for details on the algorithm used.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

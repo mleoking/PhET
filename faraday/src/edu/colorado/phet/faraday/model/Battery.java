@@ -14,7 +14,7 @@ package edu.colorado.phet.faraday.model;
 
 
 /**
- * Battery
+ * Battery is the model of a DC battery.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

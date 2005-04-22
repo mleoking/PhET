@@ -37,6 +37,12 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     * 
+     * @param sourceCoilModel the electromagnet's coil
+     * @param voltageSource the electromagnet's voltage source
+     */
     public Electromagnet( SourceCoil sourceCoilModel, AbstractVoltageSource voltageSource ) {
         super();
         assert( sourceCoilModel != null );
@@ -53,6 +59,10 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
         update();
     }
     
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void finalize() {
         _sourceCoilModel.removeObserver( this );
         _sourceCoilModel = null;
@@ -98,7 +108,7 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /*
-     * @see edu.colorado.phet.common.util.SimpleObserver#update()
+     * Updates current in the coil and strength of the magnet.
      */
     public void update() {
      
