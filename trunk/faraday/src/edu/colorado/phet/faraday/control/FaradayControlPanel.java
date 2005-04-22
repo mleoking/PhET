@@ -32,7 +32,21 @@ import edu.colorado.phet.faraday.module.FaradayModule;
  */
 public class FaradayControlPanel extends ControlPanel {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    public static final int VERTICAL_SPACE = 15;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private FaradayModule _module;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Sole constructor.
@@ -42,6 +56,20 @@ public class FaradayControlPanel extends ControlPanel {
     public FaradayControlPanel( FaradayModule module ) {
         super( module );
         _module = module;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Add things to the control panel
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Adds a default amout of vertical space to the control panel,
+     * as specified by VERTICAL_SPACE.
+     * 
+     * @param space the amount of space, in pixels
+     */
+    public void addVerticalSpace() {
+        addVerticalSpace( VERTICAL_SPACE );
     }
     
     /**
