@@ -25,6 +25,8 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * The shape of the model is a circle, and the calculation of the magnetic field
  * at some point of interest varies depending on whether the point is inside or
  * outside the circle.
+ * <p>
+ * See getStrength for details on the algorithm used.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
