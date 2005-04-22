@@ -29,7 +29,6 @@ public class DischargeLampAtom extends Atom {
     public static final double DEFAULT_STATE_LIFETIME = FluorescentLightsConfig.DT * 6;
     private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
     private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
-//    private EnergyEmissionStrategy energyEmissionStrategy = new DefaultEnergyEmissionStrategy();
 
     /**
      * @param model

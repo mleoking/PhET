@@ -27,7 +27,6 @@ import java.awt.geom.Point2D;
  * @version $Revision$
  */
 public class ElectronSource extends Electrode {
-//public class ElectronSource extends Body {
 
     private Random random = new Random( System.currentTimeMillis() );
 
@@ -101,13 +100,11 @@ public class ElectronSource extends Electrode {
 
     public void setSinkPotential( double sinkPotential ) {
         this.sinkPotential = sinkPotential;
-//        setElectronsPerSecond( this.getPotential() - sinkPotential );
     }
 
     public void setCurrent( double current ) {
         setElectronsPerSecond( current );
     }
-
 
     /**
      * Sets the length of the electrode. Fields p1 and p2 are modified
