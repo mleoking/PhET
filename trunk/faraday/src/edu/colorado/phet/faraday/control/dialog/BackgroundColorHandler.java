@@ -24,12 +24,13 @@ import edu.colorado.phet.faraday.module.ICompassGridModule;
 
 
 /**
- * BackgroundColorDialog
+ * BackgroundColorHandler displays a color dialog for setting the background color
+ * of the apparatus panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BackgroundColorDialog implements ColorChooserFactory.Listener {
+public class BackgroundColorHandler implements ColorChooserFactory.Listener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -47,7 +48,7 @@ public class BackgroundColorDialog implements ColorChooserFactory.Listener {
      * 
      * @param app the application
      */
-    public BackgroundColorDialog( PhetApplication app ) {
+    public BackgroundColorHandler( PhetApplication app ) {
         super();
         _app = app;
         String title = SimStrings.get( "BackgroundColorDialog.title" );
@@ -60,20 +61,20 @@ public class BackgroundColorDialog implements ColorChooserFactory.Listener {
     }
     
     //----------------------------------------------------------------------------
-    // Visibility controls
+    // Dialog controls
     //----------------------------------------------------------------------------
     
     /** 
      * Shows the dialog.
      */
-    public void show() {
+    public void showDialog() {
         _dialog.show();
     }
     
     /**
      * Hides the dialog.
      */
-    public void hide() {
+    public void hideDialog() {
         _dialog.hide();
     }
 

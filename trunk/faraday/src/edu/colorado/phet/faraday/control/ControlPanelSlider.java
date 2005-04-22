@@ -39,10 +39,10 @@ public class ControlPanelSlider extends JPanel implements ChangeListener {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private JSlider _slider;
-    private JLabel _value;
-    private String _format;
-    private EventListenerList _listenerList;
+    private JSlider _slider;  // slider that the user moves
+    private JLabel _value; // value that updates as the slider is moved
+    private String _format; // format that specifies how the value is displayed
+    private EventListenerList _listenerList; // notification of slider changes
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -79,6 +79,11 @@ public class ControlPanelSlider extends JPanel implements ChangeListener {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the slider's value.
+     * 
+     * @param value
+     */
     public void setValue( int value ) {
         _slider.setValue( value );
         Object[] args = { new Integer( value ) };
@@ -86,30 +91,61 @@ public class ControlPanelSlider extends JPanel implements ChangeListener {
         _value.setText( text );
     }
     
+    /**
+     * Gets the slider's value.
+     * 
+     * @return the value
+     */
     public int getValue() {
         return _slider.getValue();
     }
     
+    /**
+     * Sets the slider's maximum value.
+     * 
+     * @param maximum
+     */
     public void setMaximum( int maximum ) {
         _slider.setMaximum( maximum );
     }
     
+    /**
+     * Sets the sliders' minimum value.
+     * 
+     * @param minimum
+     */
     public void setMinimum( int minimum ) {
         _slider.setMinimum( minimum );
     }
 
+    /**
+     * Sets the spacing between major tick marks.
+     * 
+     * @param spacing
+     */
     public void setMajorTickSpacing( int spacing ) { 
         _slider.setMajorTickSpacing( spacing );
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
     }
     
+    /**
+     * Sets the spacing between minor tick marks.
+     * 
+     * @param spacing
+     */
     public void setMinorTickSpacing( int spacing ) { 
         _slider.setMinorTickSpacing( spacing );
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
     }
     
+    /**
+     * Controls how the slider behaves when it is released.
+     * Specifying true causes the slider to "snap" to the nearest tick mark.
+     * 
+     * @param snap true or false
+     */
     public void setSnapToTicks( boolean snap ) {
         _slider.setSnapToTicks( snap );
     }

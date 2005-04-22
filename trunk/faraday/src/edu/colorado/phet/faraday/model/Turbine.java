@@ -88,7 +88,7 @@ public class Turbine extends DipoleMagnet implements ModelElement {
         _maxRPM = maxRPM;
         
         // Pre-compute the maximum change in angle per clock tick.
-        double framesPerSecond = FaradayConfig.FRAME_RATE;
+        double framesPerSecond = FaradayConfig.CLOCK_FRAME_RATE;
         double framesPerMinute = 60 * framesPerSecond;
         _maxDelta = ( 2 * Math.PI) * ( maxRPM / framesPerMinute );
     }

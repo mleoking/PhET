@@ -28,6 +28,7 @@ import edu.colorado.phet.faraday.module.*;
  */
 public class FaradayApplicationModel extends ApplicationModel {
 
+    // Set this to true if you wish to test one module in isolation.
     private static final boolean TEST_ONE_MODULE = false;
     
     /**
@@ -44,13 +45,14 @@ public class FaradayApplicationModel extends ApplicationModel {
         assert( frameSetup != null );
 
         // Clock
-        boolean fixedDelay = true;
-        int waitTime = ( 1000 / FaradayConfig.FRAME_RATE ); // in milliseconds
-        AbstractClock clock = new SwingTimerClock( FaradayConfig.TIME_STEP, waitTime, fixedDelay );
+        double timeStep = FaradayConfig.CLOCK_TIME_STEP;
+        int waitTime = ( 1000 / FaradayConfig.CLOCK_FRAME_RATE ); // milliseconds
+        boolean isFixed = FaradayConfig.CLOCK_TIME_STEP_IS_CONSTANT;
+        AbstractClock clock = new SwingTimerClock( timeStep, waitTime, isFixed );
         setClock( clock );
 
-        // Clock control panel is disabled.
-        setUseClockControlPanel( true );
+        // Clock control panel.
+        setUseClockControlPanel( FaradayConfig.CLOCK_ENABLE_CONTROLS );
         
         // Simulation Modules
         if ( TEST_ONE_MODULE ) {

@@ -19,7 +19,7 @@ import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.FaradayApplication;
-import edu.colorado.phet.faraday.control.dialog.BackgroundColorDialog;
+import edu.colorado.phet.faraday.control.dialog.BackgroundColorHandler;
 import edu.colorado.phet.faraday.control.dialog.GridControlsDialog;
 
 
@@ -72,8 +72,8 @@ public class OptionsMenu extends JMenu {
      * Displays a Color dialog and changes the background of all apparatus panels.
      */
     private void handleBackgroundColorMenuItem() {
-        BackgroundColorDialog dialog = new BackgroundColorDialog( _application );
-        dialog.show();
+        BackgroundColorHandler dialog = new BackgroundColorHandler( _application );
+        dialog.showDialog();
     }
     
     /**

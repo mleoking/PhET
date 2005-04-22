@@ -36,13 +36,14 @@ public class FaradayControlPanel extends ControlPanel {
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final int VERTICAL_SPACE = 15;
+    // Default amount of vertical space, see addVerticalSpace
+    private static final int DEFAULT_VERTICAL_SPACE = 15;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FaradayModule _module;
+    private FaradayModule _module; // module that this control panel is associated with
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -69,7 +70,7 @@ public class FaradayControlPanel extends ControlPanel {
      * @param space the amount of space, in pixels
      */
     public void addVerticalSpace() {
-        addVerticalSpace( VERTICAL_SPACE );
+        addVerticalSpace( DEFAULT_VERTICAL_SPACE );
     }
     
     /**
