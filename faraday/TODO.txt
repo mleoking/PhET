@@ -31,8 +31,9 @@ CLEANUP:
 
 POSSIBLE OPTIMIZATIONS:
 - use a profiler (eg JProfile) to identify bottlenecks
-- switch to a dynamic clock with median filtering of dt
+- switch to a variable-step clock with median filtering of dt
 - switch to offscreen buffer
+- disable rectangle computations and use paintImmediately
 
 NEW FEATURE REQUESTS:
 - add a graph of field strength over time to the Field Meter
