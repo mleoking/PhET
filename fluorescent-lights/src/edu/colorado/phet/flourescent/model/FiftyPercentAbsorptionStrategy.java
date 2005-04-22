@@ -27,7 +27,7 @@ import java.util.Random;
  */
 public class FiftyPercentAbsorptionStrategy implements EnergyAbsorptionStrategy {
 
-    Random random = new Random();
+    private static Random random = new Random();
 
     /**
      * If the electron's energy is greater than the difference between the atom's current energy and one of
