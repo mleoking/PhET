@@ -153,11 +153,11 @@ public class Voltmeter extends FaradayObservable implements ModelElement, Simple
      */
     private double getDesiredNeedleAngle() {
         //  Get the amplitude of the voltage source.
-        double amplitude = _scale * _pickupCoilModel.getEmf() / FaradayConfig.MAX_PICKUP_EMF;
+        double amplitude = _scale * _pickupCoilModel.getCurrentAmplitude();
         amplitude = MathUtil.clamp( -1, amplitude, +1 );
         
         // Absolute amplitude below the threshold is effectively zero.
-        if ( Math.abs( amplitude ) < FaradayConfig.VOLTAGE_AMPLITUDE_THRESHOLD ) {
+        if ( Math.abs( amplitude ) < FaradayConfig.CURRENT_AMPLITUDE_THRESHOLD ) {
             amplitude = 0;
         }
         
