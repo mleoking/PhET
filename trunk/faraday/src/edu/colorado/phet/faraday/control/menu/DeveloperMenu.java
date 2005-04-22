@@ -24,6 +24,8 @@ import edu.colorado.phet.faraday.view.PickupCoilGraphic;
  * DeveloperMenu implements the Developer menu that appears in the Faraday menubar.
  * This menu is enabled by setting FaradayConfig.DEBUG_ENABLE_DEVELOPER_MENU, and
  * is intended for use in debugging.
+ * <p>
+ * Since this is a debugging menu, it is not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
