@@ -60,6 +60,12 @@ public abstract class AbstractVoltageSource extends FaradayObservable {
         return _amplitude * _maxVoltage;
     }
     
+    /*
+     * NOTE! 
+     * There is intentionally no setVoltage method; do NOT add one.
+     * Voltage must be controlled via setAmplitude.
+     */
+    
     /**
      * Sets the maximum voltage that this voltage source will produce.
      * 
@@ -80,7 +86,12 @@ public abstract class AbstractVoltageSource extends FaradayObservable {
         return _maxVoltage;
     }
     
-    
+    /**
+     * Sets the voltage amplitude.
+     * This indicates how the voltage relates to the maximum voltage.
+     * 
+     * @param amplitude -1...+1
+     */
     public void setAmplitude( double amplitude ) {
         assert( amplitude >= -1 && amplitude <= 1 );
         if ( amplitude != _amplitude ) {
@@ -90,6 +101,12 @@ public abstract class AbstractVoltageSource extends FaradayObservable {
         }
     }
     
+    /**
+     * Gets the voltage amplitude.
+     * This indicates how the voltage relates to the maximum voltage.
+     * 
+     * @return the amplitude, -1...+1
+     */
     public double getAmplitude() {
         return _amplitude;  
     }
