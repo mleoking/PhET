@@ -11,7 +11,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - control panel has scroll bars
-- get rid of the amplitude stuff in AbstractVoltageSource and AbstractCoil
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
@@ -30,7 +29,6 @@ CLEANUP:
 - move test-src programs to examples project
 
 POSSIBLE OPTIMIZATIONS:
-- rewrite Faraday's Law algorithm to average field vectors, so that trig function calls are minimized
 - simplified expressions in DipoleMagnet.getStrengthInside
 - use a profiler (eg JProfile) to identify bottlenecks
 - switch to a dynamic clock with median filtering of dt
@@ -51,6 +49,9 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/22) - rewrite Faraday algorithm to sum B-field vectors instead of flux values, reduce trig operations
+(4/22) - make pickup sample points configurable in FaradayConfig
+(4/22) - check all files for missing javadoc
 (4/22) - cleanup FaradayConfig: comment blocks, rearrange, remove unneeded constants, rename a couple of constants
 (4/22) - add a method to FaradayControlPanel that adds a default amout of vertical space
 (4/22) - make Lightbulb and Voltmeter read the PickupCoil current, instead of the induced emf
@@ -417,6 +418,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(4/22) - get rid of the amplitude stuff in AbstractVoltageSource and AbstractCoil (document it clearly)
 (4/19) - glitch in the B-field when approaching the electromagnet coil from above or below (this is physically correct)
 (4/12) - replace EasyGridBagLayout with SwingUtils.addGridBagComponent (no, SwingUtils version is inadequate)
 (4/12) - fix PhetShapeGraphic.contains so that stroke width is taken into account (compass is now flattened to an image)
