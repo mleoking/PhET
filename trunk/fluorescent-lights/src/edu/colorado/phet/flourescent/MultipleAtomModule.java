@@ -87,6 +87,7 @@ public class MultipleAtomModule extends DischargeLampModule {
                               (float)( Math.random() - 0.5 ) * maxSpeed );
             atoms.add( atom );
             addAtom( atom );
+            atom.addPhotonEmittedListener( getSpectrometer() );
         }
     }
 }

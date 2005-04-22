@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.flourescent.model.*;
 import edu.colorado.phet.flourescent.view.ElectronGraphic;
+import edu.colorado.phet.flourescent.view.SpectrometerGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
@@ -50,6 +51,8 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     private AffineTransformOp externalGraphicScaleOp;
     private ResonatingCavity tube;
     private ModelSlider currentSlider;
+    private static final double SPECTROMETER_LAYER = 1000;
+    private Spectrometer spectrometer;
 //    public static boolean DEBUG = true;
 
     /**
@@ -86,6 +89,14 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
         // Set up the control panel
         addControls();
+
+        // Add the spectrometer
+        spectrometer = new Spectrometer();
+        SpectrometerGraphic spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel() );
+        spectrometer.addChangeListener( spectrometerGraphic );
+        addGraphic( spectrometerGraphic, SPECTROMETER_LAYER );
+        spectrometerGraphic.setLocation( 180,
+                                         450 );
     }
 
     /**
@@ -259,12 +270,28 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     // Getters and setters
     //----------------------------------------------------------------
 
+    /**
+     *
+     * @return
+     */
     public ResonatingCavity getTube() {
         return tube;
     }
 
+    /**
+     *
+     * @return
+     */
     protected ModelSlider getCurrentSlider() {
         return currentSlider;
+    }
+
+    /**
+     *
+     * @return
+     */
+    protected Spectrometer getSpectrometer() {
+        return spectrometer;
     }
 
     //----------------------------------------------------------------

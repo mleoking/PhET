@@ -33,33 +33,33 @@ public class FluorescentLightsApp extends PhetApplication {
         super( descriptor, args );
     }
 
-    public FluorescentLightsApp( String args[] ) {
-        super( args,
-               new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND ),
-               "Fluorescent Lights",
-               "Fluorescent Lights",
-               "0.01" );
-
-        // Determine the resolution of the screen
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 750 );
-        if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
-            frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 750 ) );
-        }
-        setFrameSetup( frameSetup );
-
-        DischargeLampModule singleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
-                                                                        getClock() );
-
-        double maxSpeed = 0.1;
-        DischargeLampModule multipleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
-                                                                          getClock() );
-        addModule( singleAtomModule );
-        addModule( multipleAtomModule );
-        setInitialModule( singleAtomModule );
-
-        getPhetFrame().pack();
-    }
+//    public FluorescentLightsApp( String args[] ) {
+//        super( args,
+//               new SwingTimerClock( 12, 25, AbstractClock.FRAMES_PER_SECOND ),
+//               "Fluorescent Lights",
+//               "Fluorescent Lights",
+//               "0.01" );
+//
+//        // Determine the resolution of the screen
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//        FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 750 );
+//        if( dim.getWidth() == 1024 || dim.getHeight() == 768 ) {
+//            frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 750 ) );
+//        }
+//        setFrameSetup( frameSetup );
+//
+//        DischargeLampModule singleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
+//                                                                        getClock() );
+//
+//        double maxSpeed = 0.1;
+//        DischargeLampModule multipleAtomModule = new DischargeLampModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
+//                                                                          getClock() );
+//        addModule( singleAtomModule );
+//        addModule( multipleAtomModule );
+//        setInitialModule( singleAtomModule );
+//
+//        getPhetFrame().pack();
+//    }
 
     private static class AppDesc extends ApplicationModel {
         public AppDesc() {
