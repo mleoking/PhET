@@ -27,8 +27,9 @@ import java.util.Random;
  */
 public class DischargeLampAtom extends Atom {
     public static final double DEFAULT_STATE_LIFETIME = FluorescentLightsConfig.DT * 6;
-    private Random random = new Random( System.currentTimeMillis() );
     private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
+    private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
+//    private EnergyEmissionStrategy energyEmissionStrategy = new DefaultEnergyEmissionStrategy();
 
     /**
      * @param model
@@ -61,6 +62,7 @@ public class DischargeLampAtom extends Atom {
      * @return
      */
     public AtomicState getEnergyStateAfterEmission() {
-        return getStates()[0];
+        return energyEmissionStrategy.emitEnergy( this );
+//        return getStates()[0];
     }
 }
