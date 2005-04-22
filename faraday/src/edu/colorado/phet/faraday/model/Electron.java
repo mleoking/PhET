@@ -156,10 +156,23 @@ public class Electron extends FaradayObservable implements ModelElement {
         return _speed;
     }
     
+    /**
+     * Sets the speed scale.
+     * This is used to scale the speed, so that the same model can be 
+     * used in situations with varying amounts of emf, current, etc.
+     * 
+     * @param scale
+     */
     public void setSpeedScale( double scale ) {
         _speedScale = scale;
     }
     
+    /**
+     * Gets the speed scale.
+     * See setSpeedScale.
+     * 
+     * @return the speed scale
+     */
     public double getSpeedScale() {
         return _speedScale;
     }
