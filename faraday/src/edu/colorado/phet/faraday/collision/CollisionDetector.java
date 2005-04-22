@@ -125,7 +125,7 @@ public class CollisionDetector {
      * @param dx horizontal delta
      * @param dy vertical delta
      * @param candidate the collision candidate
-     * @return
+     * @return true or false
      */
     private boolean wouldCollide( int dx, int dy, ICollidable candidate ) {
         boolean collides = false;
