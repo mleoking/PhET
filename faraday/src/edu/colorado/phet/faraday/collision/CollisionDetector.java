@@ -32,7 +32,7 @@ public class CollisionDetector {
     // Instance data
     //----------------------------------------------------------------------------
     
-    // The object that we're handling collsion detection for.
+    // The object that we're handling collision detection for.
     private ICollidable _object;
     
     // The object that we might collide with.
