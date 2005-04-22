@@ -49,7 +49,7 @@ PHETCOMMON:
 
 DONE:
 v0r25...
-(4/22) - rewrite Faraday algorithm to sum B-field vectors instead of flux values, reduce trig operations
+(4/22) - rewrite Faraday algorithm to minimize trig operations
 (4/22) - make pickup sample points configurable in FaradayConfig
 (4/22) - check all files for missing javadoc
 (4/22) - cleanup FaradayConfig: comment blocks, rearrange, remove unneeded constants, rename a couple of constants
