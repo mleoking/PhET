@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 
 
 /**
- * Vector2D is a mutable vector.
+ * Vector2D is a mutable 2D vector.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

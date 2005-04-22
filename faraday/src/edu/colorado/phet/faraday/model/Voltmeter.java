@@ -19,7 +19,9 @@ import edu.colorado.phet.faraday.FaradayConfig;
 
 
 /**
- * Voltmeter
+ * Voltmeter is the model of an analog voltmeter.
+ * It's needle deflection is a function of the current in the pickup coil.
+ * It uses an ah hoc algorithm that makes the needle wobble around the zero point.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
