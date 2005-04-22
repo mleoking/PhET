@@ -20,7 +20,9 @@ import java.util.Random;
  * <p>
  * Pick a state between that of the next higher energy state and the highest energy state
  * we found in the preceding block. The highest state has a 50% chance of being picked, and
- * all other states have equal probablity within the remaining 50%. 
+ * all other states have equal probablity within the remaining 50%.
+ * <p>
+ * Assumes that the atom's array of states is sorted in ascending order of energy.
  *
  * @author Ron LeMaster
  * @version $Revision$
