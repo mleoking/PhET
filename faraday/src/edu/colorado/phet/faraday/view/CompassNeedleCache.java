@@ -31,7 +31,7 @@ import java.awt.geom.GeneralPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class CompassNeedleCache {
+class CompassNeedleCache {
 
     //----------------------------------------------------------------------------
     // Class data
