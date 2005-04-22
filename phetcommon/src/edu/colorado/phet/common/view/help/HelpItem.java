@@ -26,25 +26,76 @@ import java.util.StringTokenizer;
  * @version $Revision$
  */
 public class HelpItem extends PhetGraphic {
+
+    //----------------------------------------------------------------
+    // Class data and methods
+    //----------------------------------------------------------------
+
     public final static int ABOVE = 1;
     public final static int BELOW = 2;
     public final static int LEFT = 3;
     public final static int CENTER = 4;
     public final static int RIGHT = 5;
+    public final static Font DEFAULT_FONT = new Font( "Lucida Sans", Font.BOLD, 16 );
+
+    private static String[] tokenizeString( String inputText ) {
+        StringTokenizer st = new StringTokenizer( inputText, "\n" );
+        ArrayList list = new ArrayList();
+        while( st.hasMoreTokens() ) {
+            String next = st.nextToken();
+            list.add( next );
+        }
+        return (String[])list.toArray( new String[0] );
+    }
+
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
 
     PhetShapeGraphic backgroundGraphic;
     ArrayList shadowTextGraphics = new ArrayList();
     int horizontalAlignment;
     int verticalAlignment;
-    private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private Font font = DEFAULT_FONT;
     private String text;
     private Point2D.Double location;
     private Color shadowColor;
     private Color foregroundColor;
     boolean inited = false;
 
+    //----------------------------------------------------------------
+    // Constructors and initialization
+    //----------------------------------------------------------------
+
+    /**
+     * @param component
+     * @param text
+     * @param x
+     * @param y
+     */
     public HelpItem( Component component, String text, double x, double y ) {
         this( component, text, x, y, CENTER, CENTER );
+    }
+
+    /**
+     * @param component
+     * @param text
+     * @param location
+     */
+    public HelpItem( Component component, String text, Point2D location ) {
+        this( component, text, location.getX(), location.getX() );
+    }
+
+    /**
+     * @param component
+     * @param text
+     * @param location
+     * @param horizontalAlignment
+     * @param verticalAlignment
+     */
+    public HelpItem( Component component, String text, Point2D location,
+                     int horizontalAlignment, int verticalAlignment ) {
+        this( component, text, location.getX(), location.getY(), horizontalAlignment, verticalAlignment );
     }
 
     /**
@@ -66,55 +117,6 @@ public class HelpItem extends PhetGraphic {
         shadowColor = Color.black;
         foregroundColor = new Color( 156, 156, 0 );
         setIgnoreMouse( true );
-    }
-
-    protected Rectangle determineBounds() {
-        return getComponent().getBounds();//TODO this should return the correct bounds
-    }
-
-    public void setLocation( int x, int y ) {
-        location.setLocation( x, y );
-        inited = false;
-    }
-
-    public static String[] tokenizeString( String inputText ) {
-        StringTokenizer st = new StringTokenizer( inputText, "\n" );
-        ArrayList list = new ArrayList();
-        while( st.hasMoreTokens() ) {
-            String next = st.nextToken();
-            list.add( next );
-        }
-        return (String[])list.toArray( new String[0] );
-    }
-
-    public void paint( Graphics2D g ) {
-        if( !inited ) {
-            init( g );
-            inited = true;
-        }
-        if( backgroundGraphic != null ) {
-            backgroundGraphic.paint( g );
-        }
-        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
-            PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
-            textGraphic.paint( g );
-        }
-    }
-
-    public void setShadowColor( Color shadowColor ) {
-        this.shadowColor = shadowColor;
-        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
-            PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
-            textGraphic.setShadowColor( shadowColor );
-        }
-    }
-
-    public void setForegroundColor( Color foregroundColor ) {
-        this.foregroundColor = foregroundColor;
-        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
-            PhetShadowTextGraphic shadowTextGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
-            shadowTextGraphic.setColor( foregroundColor );
-        }
     }
 
     private void init( Graphics2D g ) {
@@ -160,6 +162,66 @@ public class HelpItem extends PhetGraphic {
         }
     }
 
+    protected Rectangle determineBounds() {
+        return getComponent().getBounds();//TODO this should return the correct bounds
+    }
+
+    public void paint( Graphics2D g ) {
+        if( !inited ) {
+            init( g );
+            inited = true;
+        }
+        if( backgroundGraphic != null ) {
+            backgroundGraphic.paint( g );
+        }
+        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
+            PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
+            textGraphic.paint( g );
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Setters
+    //----------------------------------------------------------------
+
+    /**
+     * @param x
+     * @param y
+     */
+    public void setLocation( int x, int y ) {
+        location.setLocation( x, y );
+        inited = false;
+    }
+
+    /**
+     * @param shadowColor
+     */
+    public void setShadowColor( Color shadowColor ) {
+        this.shadowColor = shadowColor;
+        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
+            PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
+            textGraphic.setShadowColor( shadowColor );
+        }
+    }
+
+    /**
+     * @param foregroundColor
+     */
+    public void setForegroundColor( Color foregroundColor ) {
+        this.foregroundColor = foregroundColor;
+        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
+            PhetShadowTextGraphic shadowTextGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
+            shadowTextGraphic.setColor( foregroundColor );
+        }
+    }
+
+    /**
+     * @param size
+     */
+    public void setFontSize( int size ) {
+        font = new Font( font.getFontName(), font.getStyle(), size );
+    }
+
     private double getMaxStrLen( String[] sa, Graphics2D g, FontMetrics fontMetrics ) {
         double maxStrLen = 0;
         for( int i = 0; i < sa.length; i++ ) {
@@ -168,5 +230,12 @@ public class HelpItem extends PhetGraphic {
             maxStrLen = strLen > maxStrLen ? strLen : maxStrLen;
         }
         return maxStrLen;
+    }
+
+    /**
+     * @param font
+     */
+    public void setFont( Font font ) {
+        this.font = font;
     }
 }

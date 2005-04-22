@@ -183,6 +183,8 @@ public class SingleAtomModule extends DischargeLampModule {
                                                          tubeBounds.getHeight() - atom.getRadius() * 2 );
         atomGraphic.setIsMouseable( true, atomBounds );
         atomGraphic.setCursorHand();
+
+        atom.addPhotonEmittedListener( getSpectrometer() );
     }
 
     private AtomicState[] createAtomicStates( int numEnergyLevels ) {
