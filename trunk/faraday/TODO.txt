@@ -29,7 +29,6 @@ CLEANUP:
 - move test-src programs to examples project
 
 POSSIBLE OPTIMIZATIONS:
-- simplified expressions in DipoleMagnet.getStrengthInside
 - use a profiler (eg JProfile) to identify bottlenecks
 - switch to a dynamic clock with median filtering of dt
 - switch to offscreen buffer
@@ -418,6 +417,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(4/22) - simplified expressions in DipoleMagnet.getStrengthInside (already optimal, no trig functions)
 (4/22) - get rid of the amplitude stuff in AbstractVoltageSource and AbstractCoil (document it clearly)
 (4/19) - glitch in the B-field when approaching the electromagnet coil from above or below (this is physically correct)
 (4/12) - replace EasyGridBagLayout with SwingUtils.addGridBagComponent (no, SwingUtils version is inadequate)
