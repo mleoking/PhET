@@ -32,7 +32,7 @@ public class FaradayConfig {
     public static final boolean DEBUG_ENABLE_SCALE_PANEL = false;
     public static final boolean DEBUG_ENABLE_DEVELOPER_MENU = false;
     public static final boolean DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE = false;
-    public static final boolean DEBUG_DRAW_PICKUP_SAMPLE_POINTS = true;
+    public static final boolean DEBUG_DRAW_PICKUP_SAMPLE_POINTS = false;
     
     //----------------------------------------------------------------------------
     // Application
