@@ -124,7 +124,7 @@ public class Electron extends FaradayObservable implements ModelElement {
         // Evaluate the quadratic to determine XY location.
         ElectronPathDescriptor descriptor = (ElectronPathDescriptor) _path.get( _pathIndex );
         QuadBezierSpline curve = descriptor.getCurve();
-        curve.evaluate( _pathPosition, _point );
+        curve.evaluate( _pathPosition, _point /* output */ );
         super.setLocation( _point );
     }
     
@@ -211,7 +211,7 @@ public class Electron extends FaradayObservable implements ModelElement {
             // Evaluate the quadratic to determine XY location.
             ElectronPathDescriptor descriptor = (ElectronPathDescriptor)_path.get( _pathIndex );
             QuadBezierSpline curve = descriptor.getCurve();
-            curve.evaluate( _pathPosition, _point );
+            curve.evaluate( _pathPosition, _point /* output */ );
             super.setLocation( _point );
         }
     }
