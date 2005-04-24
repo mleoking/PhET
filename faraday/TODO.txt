@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- calculate periods of Generator and AC so that delta flux is zero/max at correct point
 - performance impact of grid, electrons, and light rays
 
 MEDIUM PRIORITY:
@@ -30,8 +29,8 @@ CLEANUP:
 
 POSSIBLE OPTIMIZATIONS:
 - use a profiler (eg JProfile) to identify bottlenecks
-- switch to a variable-step clock with median filtering of dt
-- switch to offscreen buffer
+- use a variable-step clock with median filtering of dt
+- use offscreen buffering
 - disable rectangle computations and use paintImmediately
 
 NEW FEATURE REQUESTS:
@@ -46,9 +45,11 @@ PHETCOMMON:
 - make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
 - bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 - add PhetGraphic.contains(Point) to go with PhetGraphic.contains(x,y)
+- support adding things to the debug menu
 
 DONE:
 v0r25...
+(4/24) - lightbulb can optionally go "off" when direction of current in the pickup coil changes
 (4/22) - rename voltmeter methods that deal with needle jiggle so that they're not misleading
 (4/22) - get rid of scrollbars on control panel by decreasing the title font size and the vertical spacing
 (4/22) - generate javadoc and resolve all warnings
@@ -422,6 +423,7 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(4/24) - calculate periods of Generator and AC so that delta flux is zero/max at correct point (no, handle this in Lightbulb)
 (4/22) - simplified expressions in DipoleMagnet.getStrengthInside (already optimal, no trig functions)
 (4/22) - get rid of the amplitude stuff in AbstractVoltageSource and AbstractCoil (document it clearly)
 (4/19) - glitch in the B-field when approaching the electromagnet coil from above or below (this is physically correct)
