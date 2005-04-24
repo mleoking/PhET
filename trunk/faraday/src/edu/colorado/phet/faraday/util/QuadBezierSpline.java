@@ -78,14 +78,15 @@ public class QuadBezierSpline extends QuadCurve2D.Double {
     public GeneralPath toGeneralPath( int numberOfLines ) {
         double detailBias = 1.0 / numberOfLines;
         GeneralPath path = null;
+        Point2D p = new Point2D.Double();
         for ( double t = 0.0; t <= 1.0; t += detailBias ) {
-            Point2D pt = evaluate( t, null );
+            evaluate( t, p /* output */ );
             if ( path == null ) {
                 path = new GeneralPath();
-                path.moveTo( (float) pt.getX(), (float) pt.getY() );
+                path.moveTo( (float) p.getX(), (float) p.getY() );
             }
             else {
-                path.lineTo( (float) pt.getX(), (float) pt.getY() );
+                path.lineTo( (float) p.getX(), (float) p.getY() );
             }
         }
         return path;
