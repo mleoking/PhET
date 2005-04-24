@@ -1,13 +1,3 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.view.phetcomponents;
 
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -255,7 +245,7 @@ public class PhetJComponent extends PhetGraphic {
                 boolean handled = applyEvent( component, e, new MouseMotionListenerMethod() {
 
                     public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
-                        mouseMotionListener.mouseDragged( newEvent );
+                        mouseMotionListener.mouseMoved( newEvent );
                     }
                 }, toLocalFrame( e.getPoint() ) );
                 if( handled ) {
