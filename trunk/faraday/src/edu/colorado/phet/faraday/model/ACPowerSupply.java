@@ -33,9 +33,6 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     
     // The minimum number of steps used to approximate one sine wave cycle.
     private static final double MIN_STEPS_PER_CYCLE = 10;
-    
-    // Determines whether all critical angles will be hit.
-    private static boolean _criticalAnglesEnabled = false;
         
     //----------------------------------------------------------------------------
     // Instance data
@@ -47,7 +44,7 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
     private double _frequency;
     // The current angle of the sine wave that describes the AC. (radians)
     private double _angle;
-    // The change in angle that will typically occur, except possibly around peaks & zero crossings. (radians)
+    // The change in angle at the current freqency. (radians)
     private double _deltaAngle;
     // The change in angle that occurred the last time stepInTime was called. (radians)
     private double _stepAngle;
@@ -129,27 +126,6 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
         return _stepAngle;
     }
     
-    /**
-     * Enables or disables critical angles.
-     * When enabled, the delta angle may be adjusted so that the amplitude
-     * hits all peaks and zero crossings on the sine wave.
-     * 
-     * @param criticalAnglesEnabled true or false
-     */
-    public static void setCriticalAnglesEnabled( boolean criticalAnglesEnabled ) {
-        _criticalAnglesEnabled = criticalAnglesEnabled;
-    }
-    
-    /**
-     * Determines whether critical angles are enabled.
-     * See setCriticalAnglesEnabled.
-     * 
-     * @return true or false
-     */
-    public static boolean isCriticalAnglesEnabled() {
-        return _criticalAnglesEnabled;
-    }
-    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -171,17 +147,6 @@ public class ACPowerSupply extends AbstractVoltageSource implements ModelElement
 
                 // Compute the angle.
                 _angle += ( dt * _deltaAngle );
-
-                // Adjust the angle so that we hit all peaks and zero crossings.
-                if ( _criticalAnglesEnabled ) {
-                    for ( int i = 1; i <= 4; i++ ) {
-                        double criticalAngle = i * ( Math.PI / 2 ); // ...at 90 degree intervals
-                        if ( previousAngle < criticalAngle && _angle > criticalAngle ) {
-                            _angle = criticalAngle;
-                            break;
-                        }
-                    }
-                }
 
                 // The actual change in angle on this tick of the simulation clock.
                 _stepAngle = _angle - previousAngle;
