@@ -6,15 +6,15 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- performance impact of grid, electrons, and light rays
+
 
 MEDIUM PRIORITY:
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
+- check for unnecessary notifications, events and updates
 
 LOW PRIORITY:
 - remove dead code in FaradayApplication, FaradayModule
-- check for unnecessary notification, events and updates
 - background color (use PhetLookAndFeel)
 - Help/MegaHelp
 
@@ -29,7 +29,6 @@ CLEANUP:
 
 POSSIBLE OPTIMIZATIONS:
 - use a profiler (eg JProfile) to identify bottlenecks
-- use a variable-step clock with median filtering of dt
 - use offscreen buffering
 - disable rectangle computations and use paintImmediately
 
@@ -49,6 +48,7 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/24) - optimize lightbulb by having one PhetGraphic (LightRaysGraphic) that the draws all the rays
 (4/24) - lightbulb can optionally go "off" when direction of current in the pickup coil changes
 (4/22) - rename voltmeter methods that deal with needle jiggle so that they're not misleading
 (4/22) - get rid of scrollbars on control panel by decreasing the title font size and the vertical spacing
@@ -423,6 +423,8 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(4/24) - use a variable-step clock with median filtering of dt (lightbulb & voltmeter don't look cyclic, they jump around)
+(4/24) - optimize electrons (their performance hit is negligible compared to grid)
 (4/24) - calculate periods of Generator and AC so that delta flux is zero/max at correct point (no, handle this in Lightbulb)
 (4/22) - simplified expressions in DipoleMagnet.getStrengthInside (already optimal, no trig functions)
 (4/22) - get rid of the amplitude stuff in AbstractVoltageSource and AbstractCoil (document it clearly)
