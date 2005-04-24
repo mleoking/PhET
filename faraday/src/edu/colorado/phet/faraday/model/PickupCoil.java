@@ -249,9 +249,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
             
             // Current amplitude is proportional to emf amplitude.
             double amplitude = MathUtil.clamp( -1,  emf / FaradayConfig.MAX_PICKUP_EMF, +1 );
-            setCurrentAmplitude( amplitude );
-            
-            notifyObservers();
+            setCurrentAmplitude( amplitude ); // calls notifyObservers
         }
         
         // Keep track of the biggest emf seen by the pickup coil.
