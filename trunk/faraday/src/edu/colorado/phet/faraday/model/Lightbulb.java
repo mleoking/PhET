@@ -32,6 +32,8 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
     
     private PickupCoil _pickupCoilModel;
     private double _scale;
+    private double _previousCurrentAmplitude;
+    private boolean _offWhenCurrentChangesDirection;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -49,6 +51,8 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
         _pickupCoilModel.addObserver( this );
 
         _scale = 1.0;
+        _previousCurrentAmplitude = 0.0;
+        _offWhenCurrentChangesDirection = false;
     }
     
     /**
@@ -71,13 +75,29 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
      * @return the intensity (0.0 - 1.0)
      */
     public double getIntensity() {
-        double intensity = _scale * Math.abs( _pickupCoilModel.getCurrentAmplitude() );
-        intensity = MathUtil.clamp( 0, intensity, 1 );
         
-        // Intensity below the threshold is effectively zero.
-        if ( intensity < FaradayConfig.CURRENT_AMPLITUDE_THRESHOLD ) {
-            intensity = 0;
+        double intensity = 0.0;
+        
+        final double currentAmplitude = _pickupCoilModel.getCurrentAmplitude();
+        
+        if ( _offWhenCurrentChangesDirection && 
+            ( ( currentAmplitude > 0 && _previousCurrentAmplitude <= 0 ) || 
+              ( currentAmplitude <= 0 && _previousCurrentAmplitude > 0 ) ) ) {
+             // Current changed direction, so turn the light off.
+             intensity = 0.0;
         }
+        else {
+            // Light intensity is proportional to amplitude of current in the coil.
+            intensity = _scale * Math.abs( currentAmplitude );
+            intensity = MathUtil.clamp( 0, intensity, 1 );
+            
+            // Intensity below the threshold is effectively zero.
+            if ( intensity < FaradayConfig.CURRENT_AMPLITUDE_THRESHOLD ) {
+                intensity = 0;
+            }
+        }
+        
+        _previousCurrentAmplitude = currentAmplitude;
         
         return intensity;
     }
@@ -102,6 +122,28 @@ public class Lightbulb extends FaradayObservable implements SimpleObserver {
      */
     public double getScale() {
         return _scale;
+    }
+    
+    /**
+     * Determines whether the lightbulb turns off when the current in the coil
+     * changes direction.  In some cases (eg, the Generator or AC Electromagnet)
+     * this is the desired behavoir.  In other cases (eg, polarity file of the 
+     * Bar Magnet) this is not the desired behavior.
+     * 
+     * @param offWhenCurrentChangesDirection true or false
+     */
+    public void setOffWhenCurrentChangesDirection( boolean offWhenCurrentChangesDirection ) {
+        _offWhenCurrentChangesDirection = offWhenCurrentChangesDirection;
+    }
+    
+    /**
+     * Determines whether the lightbulb turns off when the current in the coil
+     * changes direction.
+     * 
+     * @return true or false
+     */
+    public boolean isOffWhenCurrentChangesDirection() {
+        return _offWhenCurrentChangesDirection;
     }
     
     //----------------------------------------------------------------------------

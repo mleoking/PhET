@@ -146,6 +146,7 @@ public class GeneratorModule extends FaradayModule {
         _lightbulbModel = new Lightbulb( _pickupCoilModel );
         _lightbulbModel.setEnabled( true );
         _lightbulbModel.setScale( LIGHTBULB_SCALE );
+        _lightbulbModel.setOffWhenCurrentChangesDirection( true );
         
         // Volt Meter
         _voltmeterModel = new Voltmeter( _pickupCoilModel );
