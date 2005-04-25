@@ -6,7 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-
+- add package javadoc
 
 MEDIUM PRIORITY:
 - add a dialog that warns about performance implications of turning on grid (and other things?)
