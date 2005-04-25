@@ -34,13 +34,14 @@ NEW FEATURE REQUESTS:
 - add a graph of field strength over time to the Field Meter
 
 PHETCOMMON:
-- feature: request that a draggable object be kept within the visible "play area"
+- bug: ControlPanel doesn't add scrollbars, contents get scrunched up
 - bug: ApparatusPanel2 resize problems
 - bug: MathUtil.clamp behavior with Double.NaN
-- add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
-- make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
-- add PhetGraphic.contains(Point) to go with PhetGraphic.contains(x,y)
-- support adding things to the debug menu
+- feature: add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
+- feature: make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
+- feature: add PhetGraphic.contains(Point) to go with PhetGraphic.contains(x,y)
+- feature: support adding things to the debug menu
+- feature: request that a draggable object be kept within the visible "play area"
 
 DONE:
 v0r25...
