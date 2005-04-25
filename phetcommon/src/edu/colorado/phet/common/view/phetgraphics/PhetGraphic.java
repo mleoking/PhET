@@ -263,10 +263,7 @@ public abstract class PhetGraphic {
         if( visible != this.visible ) {
             this.visible = visible;
             forceRepaint();//if we just turned invisible, we need to paint over ourselves, and vice versa.
-            for( int i = 0; i < listeners.size(); i++ ) {
-                PhetGraphicListener phetGraphicListener = (PhetGraphicListener)listeners.get( i );
-                phetGraphicListener.phetGraphicVisibilityChanged( this );
-            }
+            fireVisibilityChanged();
             if( !visible ) {
                 //see if we have a parent, and tell them to lose mouse and key focus.
                 if( parent != null ) {
@@ -276,6 +273,13 @@ public abstract class PhetGraphic {
                 //TODO even if there is no parent, we may want to fire off a MouseExited event anyways.
                 //TODO make sure this is coordinated with the childBecameInvisible call above.
             }
+        }
+    }
+
+    protected void fireVisibilityChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            PhetGraphicListener phetGraphicListener = (PhetGraphicListener)listeners.get( i );
+            phetGraphicListener.phetGraphicVisibilityChanged( this );
         }
     }
 
@@ -1136,5 +1140,9 @@ public abstract class PhetGraphic {
 
     public void setClip( Shape clip ) {
         this.clip = clip;
+    }
+
+    public Rectangle getVisibleBounds() {
+        return isVisible() ? getBounds() : null;
     }
 }
