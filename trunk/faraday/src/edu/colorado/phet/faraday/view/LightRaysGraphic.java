@@ -89,6 +89,7 @@ class LightRaysGraphic extends PhetGraphic {
         _drawLines = new ArrayList();
         _bounds = new Rectangle();
         _hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        _stroke = RAY_STROKE_SMALL;
         
         // Reusable objects
         _someVector1 = new Vector2D();
@@ -183,18 +184,24 @@ class LightRaysGraphic extends PhetGraphic {
      * @param g2 the graphics context
      */
     public void paint( Graphics2D g2 ) {
-        saveGraphicsState( g2 );
-        g2.setRenderingHints( _hints );
-        g2.setStroke( _stroke );
-        g2.setPaint( RAY_COLOR );
-        g2.transform( getNetTransform() );
         int numberOfRays = _drawLines.size();
-        Line2D line;
-        for ( int i = 0; i < numberOfRays; i++ ) {
-            line = (Line2D) _drawLines.get(i);
-            g2.drawLine( (int)line.getX1(), (int)line.getY1(), (int)line.getX2(), (int)line.getY2() );
+        if ( isVisible() && numberOfRays > 0 ) {
+            saveGraphicsState( g2 );
+            
+            g2.setRenderingHints( _hints );
+            g2.setStroke( _stroke );
+            g2.setPaint( RAY_COLOR );
+            g2.transform( getNetTransform() );
+
+            // Draw each of the ray lines.
+            Line2D line;
+            for ( int i = 0; i < numberOfRays; i++ ) {
+                line = (Line2D) _drawLines.get( i );
+                g2.drawLine( (int) line.getX1(), (int) line.getY1(), (int) line.getX2(), (int) line.getY2() );
+            }
+            
+            restoreGraphicsState();
         }
-        restoreGraphicsState();
     }
 
     /**
