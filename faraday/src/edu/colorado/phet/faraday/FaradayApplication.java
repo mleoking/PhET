@@ -11,9 +11,11 @@
 
 package edu.colorado.phet.faraday;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
@@ -74,17 +76,14 @@ public class FaradayApplication extends PhetApplication {
      * @param args command line arguments
      */
     public static void main( String[] args ) throws IOException {
-
-//        PhetGraphic.SKIP_RECTANGLE_COMPUTATION = true;
         
         // Initialize localization.
         SimStrings.init( args, FaradayConfig.LOCALIZATION_BUNDLE_BASENAME );
         
         // Initialize Look-&-Feel
-//        PhetLookAndFeel.setLookAndFeel();
-//        PhetLookAndFeel laf = new PhetLookAndFeel();
-//        laf.setBackgroundColor( new Color( 120, 165, 120 ) );
-//        laf.apply();
+        PhetLookAndFeel.setLookAndFeel();
+        PhetLookAndFeel laf = new PhetLookAndFeel();
+        laf.apply();
         
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FaradayApplication.title" );
