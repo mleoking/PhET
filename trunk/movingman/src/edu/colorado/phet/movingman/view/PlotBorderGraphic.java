@@ -23,7 +23,8 @@ public class PlotBorderGraphic extends CompositePhetGraphic {
     public PlotBorderGraphic( MovingManApparatusPanel movingManApparatusPanel, MMPlotSuite plotSuite ) {
         super( movingManApparatusPanel );
         this.positionPlotSuite = plotSuite;
-        borderGraphic = new PhetShapeGraphic( movingManApparatusPanel, null, new BasicStroke( 1 ), Color.black );
+        borderGraphic = new PhetShapeGraphic( movingManApparatusPanel, null, new BasicStroke( 1 ), Color.gray );
+//        borderGraphic = new PhetShapeGraphic( movingManApparatusPanel, null, Color.green, new BasicStroke( 1 ), Color.black );
         addGraphic( borderGraphic );
         plotSuite.addPhetGraphicListener( new PhetGraphicListener() {
             public void phetGraphicChanged( PhetGraphic phetGraphic ) {

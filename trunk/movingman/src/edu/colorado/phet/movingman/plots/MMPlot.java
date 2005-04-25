@@ -32,6 +32,9 @@ public class MMPlot extends PlotDevice {
         getChart().getVerticalTicks().setMajorTickSpacing( 5 );
         getChart().getVerticalTicks().setMinorTickSpacing( 5 );
         getChart().getVerticalGridlines().setMajorTickSpacing( 5 );
+        getChart().getHorizontalTicks().setMajorTickSpacing( 2 );
+        getChart().getHorizonalGridlines().setMajorTickSpacing( 2 );
+        getChart().getXAxis().setMajorTickSpacing( 2 );
         module.getTimeModel().addListener( new TimeListenerAdapter() {
             public void recordingPaused() {
                 setPlaybackTime( module.getTimeModel().getRecordTimer().getTime() );
@@ -70,6 +73,8 @@ public class MMPlot extends PlotDevice {
                 }
             }
         } );
+        setPaintYLines( new double[]{5, 10} );
+//        setBackground( Color.blue );
     }
 
     private void handleCursorMoved( double time ) {

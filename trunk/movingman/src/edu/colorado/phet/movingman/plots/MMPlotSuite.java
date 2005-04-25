@@ -7,9 +7,9 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
+import edu.colorado.phet.movingman.common.DefaultDecimalFormat;
 import edu.colorado.phet.movingman.common.HelpItem2;
 import edu.colorado.phet.movingman.model.MMTimer;
-import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
@@ -19,7 +19,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -43,7 +42,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     private GoPauseClearPanel goPauseClearPanel;
     private MovingManApparatusPanel movingManApparatusPanel;
     private MovingManModule module;
-    private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+    private DefaultDecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
 
     public MMPlotSuite( final MovingManModule module, MovingManApparatusPanel movingManApparatusPanel, final MMPlot plot ) {
         super( movingManApparatusPanel );
@@ -64,6 +63,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
         maximizeButton = PhetJComponent.newInstance( movingManApparatusPanel, maxButton );
         maximizeButton.setVisible( false );
         addGraphic( plot );
+//        plot.setLocation( 0,1);
         addGraphic( maximizeButton );
         goPauseClearPanel = new GoPauseClearPanel( movingManApparatusPanel.getModule() );
         goPauseClearGraphic = PhetJComponent.newInstance( movingManApparatusPanel, goPauseClearPanel );
@@ -107,16 +107,16 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
 //                plot.setTextValue( dragValue );
 //            }
 //        } );
-
+//        setBackground( Color.blue );
     }
 
     private void setTextBoxText( double value ) {
         String text = decimalFormat.format( value );
-        if( Double.parseDouble( text ) == 0 ) {
-            if( text.startsWith( "-" ) ) {
-                text = text.substring( 1 );
-            }
-        }
+//        if( Double.parseDouble( text ) == 0 ) {
+//            if( text.startsWith( "-" ) ) {
+//                text = text.substring( 1 );
+//            }
+//        }
         textBox.setText( text );
     }
 
@@ -171,7 +171,7 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
         return textBox;
     }
 
-    public PlotDevice getPlotDevice() {
+    public MMPlot getPlotDevice() {
         return plot;
     }
 
@@ -183,7 +183,8 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
         if( isPlotVisible() ) {
             setBoundsDirty();
             Rectangle rect = textBoxGraphic.getBounds();
-            rect = rect.union( plot.getBounds() );
+//            rect = rect.union( plot.getBounds() );
+            rect = rect.union( plot.getVisibleBounds() );
             rect = rect.intersection( new Rectangle( getComponent().getSize() ) );
             return rect;
         }

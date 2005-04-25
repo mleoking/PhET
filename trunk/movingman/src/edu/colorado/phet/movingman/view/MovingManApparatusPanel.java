@@ -116,11 +116,11 @@ public class MovingManApparatusPanel
         } );
         plotSet = new PlotSet( module, this );
 
-
 //        PhetBorderGraphic positionBorderGraphic = new PhetBorderGraphic( plotSet.getPositionPlotSuite(), Color.red, new BasicStroke( 3 ) );
 //        PhetShapeGraphic positionBorderGraphic = new PhetShapeGraphic( this, null, new BasicStroke( 3 ), Color.red );
         xBorder = new PlotBorderGraphic( this, plotSet.getPositionPlotSuite() );
         addGraphic( xBorder, Double.POSITIVE_INFINITY );
+//        addGraphic( xBorder, Double.NEGATIVE_INFINITY );
 
         vBorder = new PlotBorderGraphic( this, plotSet.getVelocityPlotSuite() );
         addGraphic( vBorder, Double.POSITIVE_INFINITY );
@@ -238,6 +238,8 @@ public class MovingManApparatusPanel
     public void setManTransform( LinearTransform1d transform ) {
         this.manPositionTransform = transform;
         manGraphic.setTransform( transform );
+//        walkwayGraphic.setTransform(transform);
+        repaintBackground();
     }
 
     public WalkWayGraphic getWalkwayGraphic() {
