@@ -49,9 +49,9 @@ class LightRaysGraphic extends PhetGraphic {
     
     // Color and strokes
     private static final Color RAY_COLOR = Color.YELLOW;
-    private static final Stroke RAY_STROKE_BIG = new BasicStroke( 3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-    private static final Stroke RAY_STROKE_MEDIUM = new BasicStroke( 2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-    private static final Stroke RAY_STROKE_SMALL = new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    private static final BasicStroke RAY_STROKE_BIG = new BasicStroke( 3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    private static final BasicStroke RAY_STROKE_MEDIUM = new BasicStroke( 2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    private static final BasicStroke RAY_STROKE_SMALL = new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -62,7 +62,7 @@ class LightRaysGraphic extends PhetGraphic {
     private ArrayList _drawLines; // array of Line2D that will be drawn
     private Rectangle _bounds;
     private RenderingHints _hints;
-    private Stroke _stroke;
+    private BasicStroke _stroke;
     private Vector2D _someVector1, _someVector2;
 
     //----------------------------------------------------------------------------
@@ -168,7 +168,7 @@ class LightRaysGraphic extends PhetGraphic {
         }
         
         // Pre-compute the bounds.
-        int radius = (int) ( rayLength + _bulbRadius + 5 /* fix for some stray pixels */ );
+        int radius = (int) ( rayLength + _bulbRadius + _stroke.getLineWidth() /* line caps */ );
         _bounds.setBounds( -radius, -radius, 2 * radius, 2 * radius );
         setBoundsDirty();
     }
