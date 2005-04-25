@@ -40,13 +40,25 @@ public class ChartSlider extends GraphicLayerSet {
         slider.setOpaque( false );
 
         preferredWidth = slider.getPreferredSize().width;
+
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double modelValue = getValue();
-                proxy.valueChanged( modelValue );
-                changed = true;
+                if( isDragging() ) {
+                    fireChange();
+                }
             }
         } );
+
+//        slider.addMouseMotionListener( new MouseMotionListener() {
+//            public void mouseDragged( MouseEvent e ) {
+////                System.out.println( "ChartSlider.mouseDragged" );
+//                slider.getUI().
+//                fireChange();
+//            }
+//
+//            public void mouseMoved( MouseEvent e ) {
+//            }
+//        } );
         sliderGraphic = new PhetJComponent( apparatusPanel, slider );
         addGraphic( sliderGraphic );
         updateLocation();
@@ -55,6 +67,17 @@ public class ChartSlider extends GraphicLayerSet {
                 updateLocation();
             }
         } );
+    }
+
+    private boolean isDragging() {
+        return slider.getValueIsAdjusting();
+    }
+
+    private void fireChange() {
+        double modelValue = getValue();
+        System.out.println( "ChartSlider.fireChange: " + modelValue );
+        proxy.valueChanged( modelValue );
+        changed = true;
     }
 
     public double getValue() {
