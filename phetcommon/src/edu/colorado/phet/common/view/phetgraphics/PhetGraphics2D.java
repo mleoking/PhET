@@ -25,10 +25,9 @@ import java.util.Stack;
 
 /**
  * PhetGraphics2D
- * <p/>
+ * <p>
  * A decorator for Graphics2D that tracks whether its attribute have been changed. Used to
  * reduce overhead of getting and re-setting RenderingHints, Fonts, and clips.
- *
  * @author Ron LeMaster
  * @version $Revision$
  */
@@ -51,24 +50,16 @@ public class PhetGraphics2D extends Graphics2D {
         currentStateDescriptor = (StateDescriptor)graphicsStates.pop();
     }
 
-    public void setAntialias( boolean antialias ) {
-        wrappedGraphics.setRenderingHint( RenderingHints.KEY_ANTIALIASING, antialias ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF );
-    }
-
-    public void setStrokePure() {
-        wrappedGraphics.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
-    }
-
     private class StateDescriptor {
-        Font orgFont;
-        RenderingHints orgRenderingHints;
-        Shape orgClip;
-        Color orgXORMode;
-        Color orgBackground;
-        Color orgColor;
-        Paint orgPaint;
-        Composite orgComposite;
-        Stroke orgStroke;
+        Font            orgFont;
+        RenderingHints  orgRenderingHints;
+        Shape           orgClip;
+        Color           orgXORMode;
+        Color           orgBackground;
+        Color           orgColor;
+        Paint           orgPaint;
+        Composite       orgComposite;
+        Stroke          orgStroke;
         AffineTransform orgTransform;
 
         void restoreState() {
@@ -76,22 +67,19 @@ public class PhetGraphics2D extends Graphics2D {
                 wrappedGraphics.setFont( orgFont );
             }
             if( orgRenderingHints != null ) {
-                wrappedGraphics.setRenderingHints( orgRenderingHints );
+            wrappedGraphics.setRenderingHints( orgRenderingHints );
             }
             if( orgClip != null ) {
-                wrappedGraphics.setClip( orgClip );
+            wrappedGraphics.setClip( orgClip );
             }
             if( orgXORMode != null ) {
-                wrappedGraphics.setXORMode( orgXORMode );
+            wrappedGraphics.setXORMode( orgXORMode );
             }
-            if( orgBackground != null ) {
+            if( orgBackground != null) {
                 wrappedGraphics.setBackground( orgBackground );
             }
             if( orgColor != null ) {
                 wrappedGraphics.setColor( orgColor );
-            }
-            if( orgTransform != null ) {
-                wrappedGraphics.setTransform( orgTransform );
             }
         }
     }
@@ -102,56 +90,56 @@ public class PhetGraphics2D extends Graphics2D {
 
     public void setBackground( Color color ) {
         if( currentStateDescriptor.orgBackground == null ) {
-            currentStateDescriptor.orgBackground = getBackground();
+           currentStateDescriptor.orgBackground = getBackground();
         }
         wrappedGraphics.setBackground( color );
     }
 
     public void setComposite( Composite comp ) {
         if( currentStateDescriptor.orgComposite == null ) {
-            currentStateDescriptor.orgComposite = getComposite();
+           currentStateDescriptor.orgComposite = getComposite();
         }
         wrappedGraphics.setComposite( comp );
     }
 
     public void setPaint( Paint paint ) {
         if( currentStateDescriptor.orgPaint == null ) {
-            currentStateDescriptor.orgPaint = getPaint();
+           currentStateDescriptor.orgPaint = getPaint();
         }
         wrappedGraphics.setPaint( paint );
     }
 
     public void setStroke( Stroke s ) {
         if( currentStateDescriptor.orgColor == null ) {
-            currentStateDescriptor.orgColor = getColor();
+           currentStateDescriptor.orgColor = getColor();
         }
         wrappedGraphics.setStroke( s );
     }
 
     public void setTransform( AffineTransform Tx ) {
         if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
+           currentStateDescriptor.orgTransform = getTransform();
         }
         wrappedGraphics.setTransform( Tx );
     }
 
     public void addRenderingHints( Map hints ) {
         if( currentStateDescriptor.orgRenderingHints == null ) {
-            currentStateDescriptor.orgRenderingHints = getRenderingHints();
+           currentStateDescriptor.orgRenderingHints = getRenderingHints();
         }
         wrappedGraphics.addRenderingHints( hints );
     }
 
     public void setRenderingHints( Map hints ) {
         if( currentStateDescriptor.orgRenderingHints == null ) {
-            currentStateDescriptor.orgRenderingHints = getRenderingHints();
+           currentStateDescriptor.orgRenderingHints = getRenderingHints();
         }
         wrappedGraphics.setRenderingHints( hints );
     }
 
     public void setRenderingHint( RenderingHints.Key hintKey, Object hintValue ) {
         if( currentStateDescriptor.orgRenderingHints == null ) {
-            currentStateDescriptor.orgRenderingHints = getRenderingHints();
+           currentStateDescriptor.orgRenderingHints = getRenderingHints();
         }
         wrappedGraphics.setRenderingHint( hintKey, hintValue );
     }
@@ -163,21 +151,21 @@ public class PhetGraphics2D extends Graphics2D {
 
     public void clipRect( int x, int y, int width, int height ) {
         if( currentStateDescriptor.orgClip == null ) {
-            currentStateDescriptor.orgClip = getClip();
+           currentStateDescriptor.orgClip = getClip();
         }
         wrappedGraphics.clipRect( x, y, width, height );
     }
 
     public void setClip( int x, int y, int width, int height ) {
         if( currentStateDescriptor.orgClip == null ) {
-            currentStateDescriptor.orgClip = getClip();
+           currentStateDescriptor.orgClip = getClip();
         }
         wrappedGraphics.setClip( x, y, width, height );
     }
 
     public void setColor( Color c ) {
         if( currentStateDescriptor.orgColor == null ) {
-            currentStateDescriptor.orgColor = getColor();
+           currentStateDescriptor.orgColor = getColor();
         }
         wrappedGraphics.setColor( c );
     }
@@ -189,70 +177,50 @@ public class PhetGraphics2D extends Graphics2D {
 
     public void setFont( Font font ) {
         if( currentStateDescriptor.orgFont == null ) {
-            currentStateDescriptor.orgFont = getFont();
+           currentStateDescriptor.orgFont = getFont();
         }
         wrappedGraphics.setFont( font );
     }
 
     public void setClip( Shape clip ) {
         if( currentStateDescriptor.orgClip == null ) {
-            currentStateDescriptor.orgClip = getClip();
+           currentStateDescriptor.orgClip = getClip();
         }
         wrappedGraphics.setClip( clip );
     }
 
-    public void rotate( double theta ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.rotate( theta );
-    }
-
-    public void scale( double sx, double sy ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.scale( sx, sy );
-    }
-
-    public void shear( double shx, double shy ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.shear( shx, shy );
-    }
-
-    public void translate( double tx, double ty ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.translate( tx, ty );
-    }
-
-    public void rotate( double theta, double x, double y ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.rotate( theta, x, y );
-    }
-
-    public void translate( int x, int y ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.translate( x, y );
-    }
-
-    public void transform( AffineTransform Tx ) {
-        if( currentStateDescriptor.orgTransform == null ) {
-            currentStateDescriptor.orgTransform = getTransform();
-        }
-        wrappedGraphics.transform( Tx );
-    }
 
     //----------------------------------------------------------------
     // Delegated methods
     //----------------------------------------------------------------
+
+    public void rotate( double theta ) {
+        wrappedGraphics.rotate( theta );
+    }
+
+    public void scale( double sx, double sy ) {
+        wrappedGraphics.scale( sx, sy );
+    }
+
+    public void shear( double shx, double shy ) {
+        wrappedGraphics.shear( shx, shy );
+    }
+
+    public void translate( double tx, double ty ) {
+        wrappedGraphics.translate( tx, ty );
+    }
+
+    public void rotate( double theta, double x, double y ) {
+        wrappedGraphics.rotate( theta, x, y );
+    }
+
+    public void translate( int x, int y ) {
+        wrappedGraphics.translate( x, y );
+    }
+
+    public void transform( AffineTransform Tx ) {
+        wrappedGraphics.transform( Tx );
+    }
 
     public Color getBackground() {
         return wrappedGraphics.getBackground();
