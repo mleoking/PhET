@@ -37,6 +37,22 @@ public class HeavySpeciesGraphic extends GasMoleculeGraphic {
         }
     }
 
+
+    /**
+     * Sets the color of the graphic to a duotone based on a specified color
+     * @param color
+     */
+    public static void setColor( Color color ) {
+        try {
+            s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
+            MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ));
+            op.filter( s_particleImage, s_particleImage );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
     public HeavySpeciesGraphic( ApparatusPanel apparatusPanel, GasMolecule molecule ) {
         super( apparatusPanel, s_particleImage, molecule );
     }

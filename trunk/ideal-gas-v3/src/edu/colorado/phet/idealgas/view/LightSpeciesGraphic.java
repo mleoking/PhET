@@ -9,9 +9,11 @@ package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -39,6 +41,23 @@ public class LightSpeciesGraphic extends GasMoleculeGraphic {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Sets the color of the graphic to a duotone based on a specified color. Scale is 1
+     * @param color
+     */
+    public static void setColor( Color color ) {
+        try {
+            s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
+            MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ));
+            op.filter( s_particleImage, s_particleImage );
+            myImage = s_particleImage;
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
 
     public LightSpeciesGraphic( ApparatusPanel apparatusPanel, GasMolecule molecule ) {
         super( apparatusPanel, myImage, molecule );

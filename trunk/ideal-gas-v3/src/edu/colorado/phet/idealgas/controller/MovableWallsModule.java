@@ -290,10 +290,15 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                                                                 box.getWidth() - 2 * wallThickness,
                                                                 box.getHeight() ) );
         verticalWall.setFixupStrategy( new VerticalWallFixupStrategy() );
-        WallGraphic lowerWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
+        WallGraphic verticalWallGraphic = new GraduatedWallGraphic( verticalWall, getApparatusPanel(),
                                                                  Color.gray, Color.black,
-                                                                 WallGraphic.EAST_WEST );
-        lowerWallGraphic.setIsResizable( true );
+                                                                 WallGraphic.NONE );
+        // Only the top edge of the vertical call should be movable
+        verticalWallGraphic.setResizableEast( false );
+        verticalWallGraphic.setResizableWest( false );
+        verticalWallGraphic.setResizableSouth( false );
+        verticalWallGraphic.setMovable( false );
+        verticalWallGraphic.setIsResizable( true );
         verticalWall.addChangeListener( new LowerWallChangeListener() );
 
         // Use an invisible paint for the floors
@@ -308,9 +313,12 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // Add a listener that will make the left floor stay attached to the left wall of the box
         getBox().addChangeListener( new BoxChangeListener() );
         WallGraphic leftFloorGraphic = new WallGraphic( leftFloor, getApparatusPanel(),
-//                                                        invisiblePaint, invisiblePaint,
                                                         Color.gray, Color.black,
                                                         WallGraphic.NORTH_SOUTH );
+        leftFloorGraphic.setResizableEast( false );
+        leftFloorGraphic.setResizableWest( false );
+        leftFloorGraphic.setResizableNorth( false );
+        leftFloorGraphic.setResizableSouth( false );
         leftFloorGraphic.setWallHighlightedByMouse( false );
         getModel().addModelElement( leftFloor );
         addGraphic( leftFloorGraphic, s_verticalWallLayer - 1 );
@@ -318,13 +326,17 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // Create the right movable floor
         rightFloor = new Wall( new Rectangle2D.Double( verticalWall.getBounds().getMaxX(), box.getCorner2Y() - 40,
 //                                                       box.getCorner2X() - verticalWall.getBounds().getMaxX(), 40 ),
-                                                       box.getCorner2X() - verticalWall.getBounds().getMaxX(), wallThickness ),
+                                                       box.getCorner2X() - verticalWall.getBounds().getMaxX(),
+                                                       wallThickness ),
                                box.getBoundsInternal() );
         rightFloor.setFixupStrategy( new FloorFixupStrategy() );
         WallGraphic rightFloorGraphic = new WallGraphic( rightFloor, getApparatusPanel(),
-//                                                         invisiblePaint, invisiblePaint,
                                                          Color.gray, Color.black,
                                                          WallGraphic.NORTH_SOUTH );
+        rightFloorGraphic.setResizableEast( false );
+        rightFloorGraphic.setResizableWest( false );
+        rightFloorGraphic.setResizableNorth( false );
+        rightFloorGraphic.setResizableSouth( false );
         rightFloorGraphic.setWallHighlightedByMouse( false );
         getModel().addModelElement( rightFloor );
         addGraphic( rightFloorGraphic, s_verticalWallLayer - 1 );
@@ -332,7 +344,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         // Note that we have to add the vertical wall last. This overcomes a subtle problem in the sequencing of
         // collision detection that is virtually intractable otherewise. Trust me.
         getModel().addModelElement( verticalWall );
-        addGraphic( lowerWallGraphic, s_verticalWallLayer );
+        addGraphic( verticalWallGraphic, s_verticalWallLayer );
 
         // Set the region for the walls
         setWallBounds();
@@ -352,7 +364,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         leftFloor.setBounds( new Rectangle2D.Double( boxBounds.getMinX(),
                                                      leftFloor.getBounds().getMinY(),
                                                      verticalWallBounds.getMinX() - boxBounds.getMinX(),
-                                                     boxBounds.getMaxY() - leftFloor.getBounds().getMinY() ) );
+                                                     leftFloor.getBounds().getHeight() ) );
         rightFloor.setBounds( new Rectangle2D.Double( verticalWallBounds.getMaxX(),
                                                       rightFloor.getBounds().getMinY(),
                                                       boxBounds.getMaxX() - verticalWallBounds.getMaxX(),
@@ -361,13 +373,10 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                                                              verticalWallBounds.getMinY(),
                                                              verticalWallBounds.getMinX() - boxBounds.getMinX(),
                                                              boxBounds.getMaxY() - verticalWallBounds.getMinY() ) );
-        // Right floor can't go higher than the intake port on the box
         rightFloor.setMovementBounds( new Rectangle2D.Double( verticalWallBounds.getMaxX(),
-//                                                              Math.max( verticalWallBounds.getMinY(), Pump.s_intakePortY + 10 ),
                                                               verticalWallBounds.getMinY(),
                                                               boxBounds.getMaxX() - verticalWallBounds.getMaxX(),
                                                               boxBounds.getMaxY() - verticalWallBounds.getMinY() ) );
-//                                                              boxBounds.getMaxY() - ( Pump.s_intakePortY + 10 ) ) );
     }
 
 
