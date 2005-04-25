@@ -63,6 +63,7 @@ public class ControlPanel extends JPanel {
         titleLabel = ( new JLabel( imageIcon ) );
         logoPanel = new JPanel();
         logoPanel.add( titleLabel );
+        gbc.weighty = 0;
         gbc.anchor = GridBagConstraints.NORTH;
         super.add( logoPanel, gbc );
 
@@ -70,12 +71,14 @@ public class ControlPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane( controlPane );
         scrollPane.setBorder( null );
         gbc.anchor = GridBagConstraints.NORTH;
+        gbc.weighty = 1;
         gbc.gridy = 1;
         super.add( scrollPane, gbc );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
         gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.weighty = 0;
         gbc.gridy = 2;
         super.add( helpPanel, gbc );
         setHelpPanelEnabled( module.hasHelp() );
