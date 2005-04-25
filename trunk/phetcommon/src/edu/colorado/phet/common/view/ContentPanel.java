@@ -75,8 +75,7 @@ public class ContentPanel extends JPanel {
      * @param appControl
      */
     public ContentPanel( JComponent apparatusPanelContainer, JComponent controlPanel, JComponent monitorPanel, JComponent appControl ) {
-        this.setLayout( new BorderLayout() );
-
+        initializeLayout();
         setApparatusPanelContainer( apparatusPanelContainer );
         setControlPanel( controlPanel );
         setMonitorPanel( monitorPanel );
@@ -87,12 +86,19 @@ public class ContentPanel extends JPanel {
      * @param clockControlPanel
      */
     public ContentPanel( PhetApplication application, JComponent clockControlPanel ) {
-        this.setLayout( new GridBagLayout() );
+        initializeLayout();
         JComponent apparatusPanelContainer = createApparatusPanelContainer( application );
         setApparatusPanelContainer( apparatusPanelContainer );
         setAppControlPanel( clockControlPanel );
     }
 
+    /*
+     * Initializes the layout used for this ContentPanel.
+     */
+    private void initializeLayout() {
+        this.setLayout( new GridBagLayout() );
+    }
+    
     public JComponent getApparatusPanelContainer() {
         return apparatusPanel;
     }
