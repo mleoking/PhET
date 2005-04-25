@@ -125,10 +125,31 @@ public abstract class PhetGraphic {
     }
 
     /**
-     * Provided for Java Beans conformance
+     * Sets the name of the graphic to the specified string.
+     * The purpose this method is similar to java.awt.Component.setName.
      *
-     * @return
+     * @param name the string that is to be this component's name
      */
+    public void setName( String name ) {
+        this.name = name;
+    }
+
+    /**
+     * Gets the name of the component.
+     * The purpose this method is similar to java.awt.Component.getName.
+     *
+     * @return the component's name
+     */
+    public String getName() {
+        return name;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Java Bean conformance for XML encoding
+    //
+    // Client applications should not call these methods!
+    //----------------------------------------------------------------------------
+    
     public GraphicLayerSet getParent() {
         return parent;
     }
@@ -161,26 +182,6 @@ public abstract class PhetGraphic {
         this.lastBounds = lastBounds;
     }
 
-    /**
-     * Sets the name of the graphic to the specified string.
-     * The purpose this method is similar to java.awt.Component.setName.
-     *
-     * @param name the string that is to be this component's name
-     */
-    public void setName( String name ) {
-        this.name = name;
-    }
-
-    /**
-     * Gets the name of the component.
-     * The purpose this method is similar to java.awt.Component.getName.
-     *
-     * @return the component's name
-     */
-    public String getName() {
-        return name;
-    }
-    
     //----------------------------------------------------------------------------
     // Graphics Context methods
     //----------------------------------------------------------------------------
@@ -613,6 +614,41 @@ public abstract class PhetGraphic {
             bounds.setBounds( newBounds );
         }
     }
+    
+    /**
+     * Determine the Local Bounds of this PhetGraphic, ie, the bounds of this 
+     * PhetGraphic without accounting for any parent transforms.
+     *
+     * @return the bounds of this PhetGraphic without accounting for parent transforms.
+     */
+
+    public Rectangle getLocalBounds() {
+        if( parent == null ) {
+            return getBounds();
+        }
+        else {
+            Rectangle global = getBounds();
+            AffineTransform parentTransform = parent.getNetTransform();
+
+            // TODO: Profile. This next block looks very expensive
+            try {
+                AffineTransform inverse = parentTransform.createInverse();
+                Rectangle localBounds = inverse.createTransformedShape( global ).getBounds();
+                return localBounds;
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+                throw new RuntimeException( e );
+            }
+        }
+    }
+    
+    /**
+     * Please oh please give me some javadoc.
+     */
+    public Rectangle getVisibleBounds() {
+        return isVisible() ? getBounds() : null;
+    }
 
     //----------------------------------------------------------------------------
     // Location methods
@@ -1040,36 +1076,9 @@ public abstract class PhetGraphic {
         }
     }
 
-    /**
-     * Determine the Local Bounds of this PhetGraphic, ie, the bounds of this PhetGraphic without accounting for any parent transforms.
-     *
-     * @return the bounds of this PhetGraphic without accounting for parent transforms.
-     */
-
-    public Rectangle getLocalBounds() {
-        if( parent == null ) {
-            return getBounds();
-        }
-        else {
-            Rectangle global = getBounds();
-            AffineTransform parentTransform = parent.getNetTransform();
-
-            // TODO: Profile. This next block looks very expensive
-            try {
-                AffineTransform inverse = parentTransform.createInverse();
-                Rectangle localBounds = inverse.createTransformedShape( global ).getBounds();
-                return localBounds;
-            }
-            catch( Exception e ) {
-                e.printStackTrace();
-                throw new RuntimeException( e );
-            }
-        }
-    }
-
-    ////////////////////////////////////////////////////
-    ////////
-    /////////       Key Listener code
+    //----------------------------------------------------------------------------
+    // KeyListener implementation
+    //----------------------------------------------------------------------------
 
     public void addKeyListener( KeyListener keyListener ) {
         this.keyListener.addKeyListener( keyListener );
@@ -1125,6 +1134,10 @@ public abstract class PhetGraphic {
     public void lostKeyFocus() {
     }
 
+    //----------------------------------------------------------------------------
+    // Clipping methods
+    //----------------------------------------------------------------------------
+    
     public Shape getClip() {
         if( parent != null && clip == null ) {
             return parent.getClip();
@@ -1141,8 +1154,8 @@ public abstract class PhetGraphic {
     public void setClip( Shape clip ) {
         this.clip = clip;
     }
-
-    public Rectangle getVisibleBounds() {
-        return isVisible() ? getBounds() : null;
-    }
+    
+    //----------------------------------------------------------------------------
+    // 
+    //----------------------------------------------------------------------------
 }
