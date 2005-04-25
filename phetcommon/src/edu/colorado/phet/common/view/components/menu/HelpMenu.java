@@ -47,7 +47,7 @@ public class HelpMenu extends JMenu {
         String message = name + "\n" + desc + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + version + "\n";
         try {
             VersionUtils.VersionInfo[] inf = appDescriptor.readVersionInfo();
-            System.out.println( "HelpMenu::VersionInfo.length = " + inf.length );
+//            System.out.println( "HelpMenu::VersionInfo.length = " + inf.length );
             for( int i = 0; i < inf.length; i++ ) {
                 VersionUtils.VersionInfo versionInfo = inf[i];
                 message += versionInfo.toString();

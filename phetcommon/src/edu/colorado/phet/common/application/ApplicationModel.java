@@ -217,7 +217,7 @@ public class ApplicationModel {
      */
     public VersionUtils.VersionInfo[] readVersionInfo() throws IOException {
         if( name == null ) {
-            System.out.println( "Null module name for module (with window title=" + windowTitle + ")" );
+//            System.out.println( "ApplicationModel.readVersionInfo: null module name for module (with window title=" + windowTitle + ")" );
             return new VersionUtils.VersionInfo[0];
         }
         else {
