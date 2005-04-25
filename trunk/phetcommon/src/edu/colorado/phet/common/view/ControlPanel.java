@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class ControlPanel extends JPanel {
     public ControlPanel( Module module ) {
         this.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                         1, 1, 1, 1,
+                                                         1, 1, 0, 0,
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -65,19 +66,23 @@ public class ControlPanel extends JPanel {
         logoPanel.add( titleLabel );
         gbc.weighty = 0;
         gbc.anchor = GridBagConstraints.NORTH;
+        gbc.fill = GridBagConstraints.PAGE_START;
         super.add( logoPanel, gbc );
 
         // The panel where the simulation-specific controls go
-        JScrollPane scrollPane = new JScrollPane( controlPane );
+        JScrollPane scrollPane = new JScrollPane( controlPane);
         scrollPane.setBorder( null );
         gbc.anchor = GridBagConstraints.NORTH;
+        gbc.fill = GridBagConstraints.PAGE_START;
         gbc.weighty = 1;
         gbc.gridy = 1;
+
         super.add( scrollPane, gbc );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
         gbc.anchor = GridBagConstraints.SOUTH;
+        gbc.fill = GridBagConstraints.PAGE_END;
         gbc.weighty = 0;
         gbc.gridy = 2;
         super.add( helpPanel, gbc );
@@ -125,7 +130,7 @@ public class ControlPanel extends JPanel {
      */
     public Component addFullWidth( Component comp ) {
         GridBagConstraints gbc = new GridBagConstraints( 0, controls.indexOf( comp ),
-                                                         1, 1, 1, 1,
+                                                         1, 1, 0, 0,
                                                          GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
 //                                                         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
         return add( comp, gbc );
@@ -159,7 +164,7 @@ public class ControlPanel extends JPanel {
      */
     public Component add( Component comp, Insets insets ) {
         GridBagConstraints gbc = new GridBagConstraints( 0, controls.indexOf( comp ),
-                                                         1, 1, 1, 1,
+                                                         1, 1, 0, 0,
                                                          GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0 );
 //                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
         return add( comp, gbc );
