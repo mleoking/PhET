@@ -74,22 +74,34 @@ public class HelpPanel extends JPanel {
                                                         megaHelpBtn.getPreferredSize().getWidth() ),
                                          (int)( miniHelpBtn.getPreferredSize().getHeight()
                                                 + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
-        SpringLayout layout = new SpringLayout();
-        this.setLayout( layout );
-        Spring halfWidthS = FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ) );
-        Spring halfHeightS = FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ) );
-        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() + padY ) ) );
-        Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
-        layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
-
-        Spring topOfMegaBtnS = Spring.sum( halfHeightS, Spring.constant( padY ) );
-        Spring leftOfMegaBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)megaHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
-        layout.putConstraint( SpringLayout.NORTH, megaHelpBtn, topOfMegaBtnS, SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, megaHelpBtn, leftOfMegaBtnS, SpringLayout.WEST, this );
-
+        GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,0,0,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0,0,0,0),0,0 );
+        this.setLayout( new GridBagLayout() );
+        add( miniHelpBtn, gbc );
+        gbc.gridy = 1;
+        add( megaHelpBtn, gbc );
+        if( true) return;
         this.invalidate();
         this.repaint();
+
+//        SpringLayout layout = new SpringLayout();
+//        this.setLayout( layout );
+//        Spring halfWidthS = FractionSpring.half( layout.getConstraint( SpringLayout.EAST, this ) );
+//        Spring halfHeightS = FractionSpring.half( layout.getConstraint( SpringLayout.SOUTH, this ) );
+//        Spring topOfMiniBtnS = Spring.sum( halfHeightS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getHeight() + padY ) ) );
+//        Spring leftOfMiniBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)miniHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
+//        layout.putConstraint( SpringLayout.NORTH, miniHelpBtn, topOfMiniBtnS, SpringLayout.NORTH, this );
+//        layout.putConstraint( SpringLayout.WEST, miniHelpBtn, leftOfMiniBtnS, SpringLayout.WEST, this );
+//
+//        Spring topOfMegaBtnS = Spring.sum( halfHeightS, Spring.constant( padY ) );
+//        Spring leftOfMegaBtnS = Spring.sum( halfWidthS, Spring.minus( Spring.constant( (int)megaHelpBtn.getPreferredSize().getWidth() / 2 ) ) );
+//        layout.putConstraint( SpringLayout.NORTH, megaHelpBtn, topOfMegaBtnS, SpringLayout.NORTH, this );
+//        layout.putConstraint( SpringLayout.WEST, megaHelpBtn, leftOfMegaBtnS, SpringLayout.WEST, this );
+//
+//        this.invalidate();
+//        this.repaint();
     }
 
     private void setOneButtonMode() {
