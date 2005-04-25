@@ -10,19 +10,31 @@
  */
 package edu.colorado.phet.common.view;
 
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import smooth.basic.SmoothTitledBorder;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import javax.swing.*;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
-import java.awt.*;
-import java.util.ArrayList;
+
+import smooth.basic.SmoothTitledBorder;
+
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /**
- * PhetLookAndFeel
+ * PhetLookAndFeel describes the UI resources that need to be installed in
+ * the UIDefaults database.  It provides methods for describing the values
+ * for those resources, as well as methods for updating the UIDefaults database.
  * <p/>
  * Sample usage:
  * <code>
@@ -46,35 +58,64 @@ import java.util.ArrayList;
  */
 public class PhetLookAndFeel {
 
-    public static final ScreenSizeHandler screenSizeHandler = new ScreenSizeHandler();
-
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // These are the types (in alphabetical order) that will have their UIDefaults uniformly modified.
+    private static final String[] types = new String[]{
+        "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
+        "Label", "Menu", "MenuBar", "MenuItem", 
+        "OptionPane", "Panel", 
+        "RadioButton", "RadioButtonMenuItem", 
+        "Slider", "Spinner",
+        "TabbedPane", "TextArea", "TextField","TextPane"  
+    };
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Font font;
+    private Font titledBorderFont; // font to be used for titled borders
     private Color foregroundColor;
     private Color backgroundColor;
 
-    private static final String[] types = new String[]{
-        "Button", "MenuItem", "Panel", "Dialog",
-        "CheckBox", "RadioButton", "ComboBox",
-        "Menu", "MenuItem", "MenuBar",
-        "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem",
-        "TextField", "TextArea", "Spinner", "Label", "TextPane",
-        "TabbedPane", "OptionPane"
-    };
-
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sole constructor.
+     */
     public PhetLookAndFeel() {
-        font = new Font( "Lucida Sans", Font.PLAIN, screenSizeHandler.getFontSize() );
+        int fontSize = getFontSizeForScreen();
+        font = new Font( "Lucida Sans", Font.PLAIN, fontSize );
+        titledBorderFont = new Font( "Lucida Sans", Font.PLAIN, fontSize );
         foregroundColor = Color.black;
         backgroundColor = new Color( 200, 240, 200 );
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors and mutators
+    //----------------------------------------------------------------------------
+    
     public Font getFont() {
         return font;
     }
-
+    
     public void setFont( Font font ) {
         this.font = font;
     }
-
+   
+    public Font getTitledBorderFont() {
+        return titledBorderFont;
+    }
+    
+    public void setTitledBorderFont( Font borderFont ) {
+        this.titledBorderFont = borderFont;
+    }
+    
     public Color getForegroundColor() {
         return foregroundColor;
     }
@@ -91,51 +132,79 @@ public class PhetLookAndFeel {
         this.backgroundColor = backgroundColor;
     }
 
-    private Object[] constructDefaults() {
-        ColorUIResource background = new ColorUIResource( backgroundColor );
-        ColorUIResource foreground = new ColorUIResource( foregroundColor );
-        FontUIResource fontResource = new FontUIResource( font );
-        FontUIResource borderFont = new FontUIResource( new Font( "Lucida Sans", Font.ITALIC, font.getSize() ) );
-
-        InsetsUIResource insets = new InsetsUIResource( 2, 2, 2, 2 );
-        ArrayList def = new ArrayList();
-        for( int i = 0; i < types.length; i++ ) {
-            String type = types[i];
-            add( def, type, "font", fontResource );
-            add( def, type, "foreground", foreground );
-            add( def, type, "background", background );
-            add( def, type, "margin", insets );
-        }
-        add( def, "TitledBorder", "font", borderFont );
-        add( def, "TextField", "background", new ColorUIResource( Color.white ) );
-        return def.toArray();
-    }
-
-    private void add( ArrayList defaults, String type, String property, Object resource ) {
-        defaults.add( type + "." + property );
-        defaults.add( resource );
-    }
-
+    //----------------------------------------------------------------------------
+    // UIDefaults modification
+    //----------------------------------------------------------------------------
+    
     /**
-     * Use this to simply modify an existing Look and Feel defaults.
-     */
-    public void putDefaults( UIDefaults table ) {
-        Object[] defaults = constructDefaults();
-        table.putDefaults( defaults );
-    }
-
-    /**
-     * Use this to simply modify the existing existing Look and Feel.
+     * Applies this PhetLookAndFeel, effectively installing the resources it
+     * describes in the UIDefaults database.
      */
     public void apply() {
         UIDefaults defaults = UIManager.getDefaults();
         putDefaults( defaults );
     }
 
-    public static Border createSmoothBorder( String s ) {
-        return new SmoothTitledBorder( s );
+    /**
+     * Constructs the UIDefaults that correspond to this PhetLookAndFeel,
+     * and installs them in the UIDefaults database.
+     */
+    public void putDefaults( UIDefaults uiDefaults ) {
+        Object[] keyValuePairs = constructDefaults();
+        uiDefaults.putDefaults( keyValuePairs );
+    }
+    
+    /**
+     * Creates an array of key/value pairs that describes the desired UIDefaults 
+     * for this PhetLookAndFeel.
+     *  
+     * @return an array of key/value pairs
+     */
+    private Object[] constructDefaults() {
+        
+        ColorUIResource background = new ColorUIResource( backgroundColor );
+        ColorUIResource foreground = new ColorUIResource( foregroundColor );
+        FontUIResource fontResource = new FontUIResource( font );
+        FontUIResource titledBorderFontResource = new FontUIResource( titledBorderFont );
+        InsetsUIResource insets = new InsetsUIResource( 2, 2, 2, 2 );
+        
+        // Uniformly modify the resources for each of the types in the "types" list.
+        ArrayList keyValuePairs = new ArrayList();
+        for( int i = 0; i < types.length; i++ ) {
+            String type = types[i];
+            add( keyValuePairs, type, "font", fontResource );
+            add( keyValuePairs, type, "foreground", foreground );
+            add( keyValuePairs, type, "background", background );
+            add( keyValuePairs, type, "margin", insets );
+        }
+        
+        // These types require some special modifications.
+        add( keyValuePairs, "TitledBorder", "font", titledBorderFontResource );
+        add( keyValuePairs, "TextField", "background", new ColorUIResource( Color.white ) );
+        
+        return keyValuePairs.toArray();
     }
 
+    /*
+     * Adds a UIDefaults key/value pair to an array.
+     * 
+     * @param array
+     * @param type
+     * @param property
+     * @param value
+     */
+    private void add( ArrayList array, String type, String property, Object value ) {
+        array.add( type + "." + property ); // key
+        array.add( value );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Static utilities
+    //----------------------------------------------------------------------------
+
+    /**
+     * Sets the look and feel based on the operating system.
+     */
     public static void setLookAndFeel() {
         String os = "";
         try {
@@ -173,25 +242,59 @@ public class PhetLookAndFeel {
         }
     }
 
-    private static class ScreenSizeHandler {
-        private int fontSize;
-
-        public ScreenSizeHandler() {
-            Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-            System.out.println( "d = " + d );
-            if( d.width > 1024 ) {
-                fontSize = 16;
-            }
-            else if( d.width <= 800 ) {
-                fontSize = 8;
-            }
-            else {
-                fontSize = 10;
-            }
+    /**
+     * Gets the font size that corresponds to the screen size.
+     * 
+     * @return the font size
+     */
+    public static int getFontSizeForScreen() {
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        int fontSize;
+        if( d.width > 1024 ) {
+            fontSize = 16;
         }
-
-        public int getFontSize() {
-            return fontSize;
+        else if( d.width <= 800 ) {
+            fontSize = 8;
+        }
+        else {
+            fontSize = 10;
+        }
+//        System.out.println( "PhetLookAndFeel.ScreenSizeHandler: screen size = " + d + " font size = " + fontSize );
+        return fontSize;
+    }
+    
+    /**
+     * Creates a SmoothTitledBorder.
+     * 
+     * @param title
+     * @return the titled border
+     */
+    public static Border createSmoothBorder( String title ) {
+        return new SmoothTitledBorder( title );
+    }
+    
+    /**
+     * Debugging routine that prints the UIDefault database key/value pairs.
+     * The output is sorted lexographically by key.
+     */
+    public static void printUIDefaults() {
+        
+        // Get the currently installed look and feel
+        UIDefaults uidefs = UIManager.getLookAndFeelDefaults();
+        
+        // Retrieve the keys. We can't use an iterator since the map
+        // may be modified during the iteration. So retrieve all keys at once. 
+        String[] keySet = (String[]) uidefs.keySet().toArray( new String[0] );
+        
+        // Sort the keys.
+        List keys = Arrays.asList( keySet );
+        Collections.sort( keys );
+        
+        // Print out each key/value pair.
+        for( int i = 0; i < keys.size(); i++ ) {
+            Object key = keys.get( i );
+            Object value = uidefs.get( key );
+            System.out.println( key + ": " + value );
         }
     }
 }
