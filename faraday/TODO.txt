@@ -48,7 +48,6 @@ v0r25...
 (4/25) - disable PhetLookAndFeel, it looks ugly
 (4/25) - rename meterProbe image to voltmeterProbe
 (4/25) - move test-src programs to examples project
-(4/25) - background color (use PhetLookAndFeel)
 (4/25) - fix PhetLookAndFeel so that it works on all platforms
 (4/25) - remove "skip rectangle computation stuff from FaradayApplication & FaradayModule, no performance gain
 (4/25) - fix LightRaysGraphic bounds so that the end caps on the ray lines are included
