@@ -78,6 +78,7 @@ public class PhetShadowTextGraphic extends PhetGraphic {
         foreground.setText( text );
         background.setText( text );
         setBoundsDirty();
+        autorepaint();
     }
 
     public void setColor( Color color ) {
