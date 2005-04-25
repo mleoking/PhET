@@ -69,7 +69,7 @@ public class ApplicationModel {
     /**
      * Sets the modules for this application.
      * The initial module defaults to the first module in the specified array.
-     * 
+     *
      * @param modules
      */
     public void setModules( Module[] modules ) {
@@ -92,27 +92,27 @@ public class ApplicationModel {
      * the first module that is displayed when the application is started.
      * The initial module must be one of the modules that was specified
      * using setModules or setModule.
-     * 
+     *
      * @param initialModule
-     * @throws IllegalStateException if no modules have been set
+     * @throws IllegalStateException    if no modules have been set
      * @throws IllegalArgumentException if the module is not one of the application's modules
      */
     public void setInitialModule( Module initialModule ) {
-        if ( modules == null ) {
+        if( modules == null ) {
             throw new IllegalStateException( "no modules have been set" );
         }
-        
+
         boolean found = false;
-        for ( int i = 0; i < modules.length; i++ ) {
-            if ( initialModule == modules[i] ) {
+        for( int i = 0; i < modules.length; i++ ) {
+            if( initialModule == modules[i] ) {
                 found = true;
                 break;
             }
         }
-        if ( !found ) {
+        if( !found ) {
             throw new IllegalArgumentException( "module is not part of this ApplicationModel" );
         }
-        
+
         this.initialModule = initialModule;
     }
 
@@ -218,8 +218,11 @@ public class ApplicationModel {
     public VersionUtils.VersionInfo[] readVersionInfo() throws IOException {
         if( name == null ) {
             System.out.println( "Null module name for module (with window title=" + windowTitle + ")" );
+            return new VersionUtils.VersionInfo[0];
         }
-        VersionUtils.VersionInfo[] versionInfos = VersionUtils.readVersionInfo( name );
-        return versionInfos;
+        else {
+            VersionUtils.VersionInfo[] versionInfos = VersionUtils.readVersionInfo( name );
+            return versionInfos;
+        }
     }
 }
