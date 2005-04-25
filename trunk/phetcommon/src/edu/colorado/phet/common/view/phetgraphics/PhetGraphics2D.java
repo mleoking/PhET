@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
- * PhetGraphics2D
+ * PhetGraphics2D 
  * <p/>
  * A decorator for Graphics2D that tracks whether its attribute have been changed. Used to
  * reduce overhead of getting and re-setting RenderingHints, Fonts, and clips.
