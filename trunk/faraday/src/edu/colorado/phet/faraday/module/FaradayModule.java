@@ -106,23 +106,6 @@ public abstract class FaradayModule extends Module implements ICompassGridModule
         _debuggerGraphic.add( graphic );
         apparatusPanel.addGraphic( _debuggerGraphic, DEBUG_LAYER );
     }
-    
-    //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-    
-//    public void clockTicked( ClockTickEvent event ) {
-//        ApparatusPanel apparatusPanel = getApparatusPanel();
-//        apparatusPanel.handleUserInput();
-//        getModel().clockTicked( event );
-//        updateGraphics( event );
-//        if ( PhetGraphic.SKIP_RECTANGLE_COMPUTATION  ) {
-//            apparatusPanel.paintImmediately( 0, 0, apparatusPanel.getWidth(), apparatusPanel.getHeight() );
-//        }
-//        else {
-//            apparatusPanel.paint();
-//        }
-//    }
 
     //----------------------------------------------------------------------------
     // ICompassGridModule implementation
