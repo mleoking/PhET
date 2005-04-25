@@ -14,6 +14,7 @@ MEDIUM PRIORITY:
 - check for unnecessary notifications, events and updates
 
 LOW PRIORITY:
+- background color (use PhetLookAndFeel)
 - Help/MegaHelp
 
 CLEANUP:
