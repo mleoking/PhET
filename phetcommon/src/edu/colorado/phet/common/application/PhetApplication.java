@@ -170,4 +170,8 @@ public class PhetApplication {
     public void removeClockTickListener( ClockTickListener clockTickListener ) {
         applicationModel.getClock().removeClockTickListener( clockTickListener );
     }
+
+    public int numModules() {
+        return moduleManager.numModules();
+    }
 }
