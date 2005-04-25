@@ -33,6 +33,14 @@ public class LightSpecies extends GasMolecule {
         return s_mass;
     }
 
+    public static void setMoleculeMass( double mass ) {
+        s_mass = (float)mass;
+    }
+
+    public static void setMoleculeRadius( double radius ) {
+        s_radius = radius;
+    }
+
     public static void removeParticle( LightSpecies particle ) {
         s_instances.remove( particle );
     }

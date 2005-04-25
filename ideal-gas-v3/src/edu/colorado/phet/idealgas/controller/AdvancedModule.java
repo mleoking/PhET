@@ -17,9 +17,14 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.LightSpecies;
 import edu.colorado.phet.idealgas.model.PChemModel;
 import edu.colorado.phet.idealgas.model.ParticleCounter;
+import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
+import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -43,6 +48,14 @@ public class AdvancedModule extends IdealGasModule {
         // We can only use the top pressure-sensing slice because we don't know where the
         // floors will be
         getBox().setMultipleSlicesEnabled( false );
+
+        // Set the two types of particles so they are the same mass and radius
+        LightSpecies.setMoleculeMass( HeavySpecies.getMoleculeMass() );
+        LightSpecies.setMoleculeRadius( HeavySpecies.getMoleculeRadius() );
+
+        // Set the colors of the particle graphics
+        LightSpeciesGraphic.setColor( new Color (255, 255, 0 ));
+        HeavySpeciesGraphic.setColor( new Color (0, 150, 0 ));
     }
 
     public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
@@ -54,7 +67,6 @@ public class AdvancedModule extends IdealGasModule {
      */
     protected void addParticleCounters() {
         Rectangle2D boxBounds = getBox().getBoundsInternal();
-//        Rectangle2D lowerWallBounds = verticalWall.getBounds();
 
         // Create the particle counters
         leftRegionParticleCounter = new ParticleCounter( getIdealGasModel() );
@@ -67,11 +79,11 @@ public class AdvancedModule extends IdealGasModule {
         setParticleCounterRegions();
 
         // Put readouts on the apparatus panel
-        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter, "Reactants: " );
+        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter, SimStrings.get( "AdvancedModule.Count") + ": " );
         leftCounterReadout.setLocation( (int)boxBounds.getMinX() + 0, (int)boxBounds.getMaxY() + 7 );
         addGraphic( leftCounterReadout, IdealGasConfig.READOUT_LAYER );
 
-        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, "Products: " );
+        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, SimStrings.get( "AdvancedModule.Count") + ": ");
         rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 110, (int)boxBounds.getMaxY() + 7 );
         addGraphic( rightCounterReadout, IdealGasConfig.READOUT_LAYER );
     }

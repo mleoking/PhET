@@ -29,7 +29,7 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener {
-    public static final int ALL = 0, EAST_WEST = 1, NORTH_SOUTH = 2;
+    public static final int ALL = 0, EAST_WEST = 1, NORTH_SOUTH = 2, NONE = -1;
     public static final Object NORTH = new Object();
 
     private Wall wall;
@@ -43,6 +43,11 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     private Paint normalBorderPaint;
     private boolean isWallHighlightedByMouse;
     private boolean isMovable;
+    private boolean isResizableNorth = true;
+    private boolean isResizableSouth = true;
+    private boolean isResizableEast = true;
+    private boolean isResizableWest = true;
+
 
     /**
      * @param wall
@@ -122,9 +127,31 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
      */
     public void paint( Graphics2D g2 ) {
         saveGraphicsState( g2 );
-//        GraphicsUtil.setAlpha( g2, 0.5 );
         super.paint( g2 );
         restoreGraphicsState();
+    }
+
+    //----------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------
+    public void setMovable( boolean movable ) {
+        isMovable = movable;
+    }
+
+    public void setResizableNorth( boolean resizableNorth ) {
+        isResizableNorth = resizableNorth;
+    }
+
+    public void setResizableSouth( boolean resizableSouth ) {
+        isResizableSouth = resizableSouth;
+    }
+
+    public void setResizableEast( boolean resizableEast ) {
+        isResizableEast = resizableEast;
+    }
+
+    public void setResizableWest( boolean resizableWest ) {
+        isResizableWest = resizableWest;
     }
 
     //-----------------------------------------------------------------
@@ -184,8 +211,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
     /**
      * Resizes the wall
      */
-    private class Resizer implements TranslationListener {
-
+    protected class Resizer implements TranslationListener {
         public void translationOccurred( TranslationEvent translationEvent ) {
             if( isResizable /* && translationEvent.getMouseEvent().isControlDown()*/ ) {
                 double minX = wall.getBounds().getMinX();
@@ -206,7 +232,6 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
                 if( isResizingEast ) {
                     maxX = mouseLoc.x;
                 }
-
                 wall.setBounds( new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY ) );
             }
         }
@@ -232,16 +257,16 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
                 double maxY = wall.getBounds().getMaxY();
                 Point mouseLoc = e.getPoint();
 
-                if( Math.abs( mouseLoc.y - minY ) <= hotSpotRadius ) {
+                if( Math.abs( mouseLoc.y - minY ) <= hotSpotRadius && isResizableNorth ) {
                     isResizingNorth = true;
                 }
-                else if( Math.abs( mouseLoc.y - maxY ) <= hotSpotRadius ) {
+                else if( Math.abs( mouseLoc.y - maxY ) <= hotSpotRadius && isResizableSouth ) {
                     isResizingSouth = true;
                 }
-                else if( Math.abs( mouseLoc.x - minX ) <= hotSpotRadius ) {
+                else if( Math.abs( mouseLoc.x - minX ) <= hotSpotRadius && isResizableWest ) {
                     isResizingWest = true;
                 }
-                else if( Math.abs( mouseLoc.x - maxX ) <= hotSpotRadius ) {
+                else if( Math.abs( mouseLoc.x - maxX ) <= hotSpotRadius && isResizableEast ) {
                     isResizingEast = true;
                 }
             }
@@ -293,20 +318,19 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
                     double minY = getBounds().getMinY();
                     double maxY = getBounds().getMaxY();
 
-                    if( Math.abs( mouseLoc.y - minY ) <= hotSpotRadius ) {
+                    if( Math.abs( mouseLoc.y - minY ) <= hotSpotRadius && isResizableNorth ) {
                         currentCursor = Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR );
                     }
-                    else if( Math.abs( mouseLoc.y - maxY ) <= hotSpotRadius ) {
+                    else if( Math.abs( mouseLoc.y - maxY ) <= hotSpotRadius && isResizableSouth ) {
                         currentCursor = Cursor.getPredefinedCursor( Cursor.S_RESIZE_CURSOR );
                     }
-                    else if( Math.abs( mouseLoc.x - minX ) <= hotSpotRadius ) {
+                    else if( Math.abs( mouseLoc.x - minX ) <= hotSpotRadius && isResizableWest ) {
                         currentCursor = Cursor.getPredefinedCursor( Cursor.W_RESIZE_CURSOR );
                     }
-                    else if( Math.abs( mouseLoc.x - maxX ) <= hotSpotRadius ) {
+                    else if( Math.abs( mouseLoc.x - maxX ) <= hotSpotRadius && isResizableEast ) {
                         currentCursor = Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR );
                     }
-                    else {
-//                    else if( isMovable ) {
+                    else if( isMovable ) {
                         currentCursor = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
                     }
                 }

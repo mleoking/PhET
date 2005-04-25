@@ -29,6 +29,10 @@ public class HeavySpecies extends GasMolecule {
         s_instances.removeAll( s_instances );
     }
 
+    public static double getMoleculeRadius() {
+        return s_radius;
+    }
+
     public static double getMoleculeMass() {
         return s_mass;
     }
