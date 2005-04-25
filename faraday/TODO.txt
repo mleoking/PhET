@@ -34,7 +34,7 @@ NEW FEATURE REQUESTS:
 - add a graph of field strength over time to the Field Meter
 
 PHETCOMMON:
-- bug: ControlPanel doesn't add scrollbars, contents get scrunched up
+- bug: ControlPanel contents are vertically centered
 - bug: ApparatusPanel2 resize problems
 - bug: MathUtil.clamp behavior with Double.NaN
 - feature: add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
@@ -44,6 +44,8 @@ PHETCOMMON:
 - feature: request that a draggable object be kept within the visible "play area"
 
 DONE:
+v0r26...
+
 v0r25...
 (4/25) - disable PhetLookAndFeel, it looks ugly
 (4/25) - rename meterProbe image to voltmeterProbe
