@@ -49,15 +49,15 @@ public class ContentPanel extends JPanel {
     private JDialog buttonDlg;
     private boolean fullScreen = false;
 
-    private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 0, 1, 1, 1000, 1000,
+    private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                                            GridBagConstraints.CENTER,
                                                                            GridBagConstraints.BOTH,
                                                                            new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 0, 1, 2, 1, 1,
+    private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 0, 1, 2, 0, 1,
                                                                          GridBagConstraints.NORTHEAST,
                                                                          GridBagConstraints.VERTICAL,
                                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+    private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 0,
                                                                               GridBagConstraints.SOUTH,
                                                                               GridBagConstraints.NONE,
                                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
