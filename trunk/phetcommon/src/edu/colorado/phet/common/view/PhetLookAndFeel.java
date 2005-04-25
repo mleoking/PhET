@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.common.view;
 
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import smooth.basic.SmoothTitledBorder;
-import smooth.windows.SmoothLookAndFeel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -57,7 +57,7 @@ public class PhetLookAndFeel {
         "CheckBox", "RadioButton", "ComboBox",
         "Menu", "MenuItem", "MenuBar",
         "Slider", "CheckBoxMenuItem", "RadioButtonMenuItem",
-        "TextField", "TextArea", "Spinner", "Label", "TextPane", 
+        "TextField", "TextArea", "Spinner", "Label", "TextPane",
         "TabbedPane", "OptionPane"
     };
 
@@ -147,7 +147,8 @@ public class PhetLookAndFeel {
 
         if( os.indexOf( "windows" ) >= 0 ) {
             try {
-                UIManager.setLookAndFeel( new SmoothLookAndFeel() );
+//                UIManager.setLookAndFeel( new SmoothLookAndFeel() );//TODO fails on Carl & Kathy's machine.
+                UIManager.setLookAndFeel( new WindowsLookAndFeel() );
             }
             catch( UnsupportedLookAndFeelException e ) {
                 e.printStackTrace();
