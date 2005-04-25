@@ -18,6 +18,8 @@ LOW PRIORITY:
 
 CLEANUP:
 - organize imports
+- remove unused images and assets
+- remove unused localization strings
 - resize any scaled images
 - save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
@@ -32,12 +34,10 @@ NEW FEATURE REQUESTS:
 
 PHETCOMMON:
 - feature: request that a draggable object be kept within the visible "play area"
-
 - bug: ApparatusPanel2 resize problems
 - bug: MathUtil.clamp behavior with Double.NaN
 - add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 - make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
-- bug: ApplicationModel shouldn't require you to call setInitialModule, should default to first module provided
 - add PhetGraphic.contains(Point) to go with PhetGraphic.contains(x,y)
 - support adding things to the debug menu
 
