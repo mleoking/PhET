@@ -81,9 +81,9 @@ public class FaradayApplication extends PhetApplication {
         SimStrings.init( args, FaradayConfig.LOCALIZATION_BUNDLE_BASENAME );
         
         // Initialize Look-&-Feel
-        PhetLookAndFeel.setLookAndFeel();
-        PhetLookAndFeel laf = new PhetLookAndFeel();
-        laf.apply();
+//        PhetLookAndFeel.setLookAndFeel();
+//        PhetLookAndFeel laf = new PhetLookAndFeel();
+//        laf.apply();
         
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FaradayApplication.title" );

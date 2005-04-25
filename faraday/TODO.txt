@@ -43,6 +43,7 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/25) - disable PhetLookAndFeel, it looks ugly
 (4/25) - rename meterProbe image to voltmeterProbe
 (4/25) - move test-src programs to examples project
 (4/25) - background color (use PhetLookAndFeel)
