@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.common.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,6 +59,11 @@ public class PhetLookAndFeel {
     // Class data
     //----------------------------------------------------------------------------
     
+    // Operating Systems
+    public static final int OS_WINDOWS = 0;
+    public static final int OS_MACINTOSH = 1;
+    public static final int OS_OTHER = 2;
+    
     // These are the types (in alphabetical order) that will have their UIDefaults uniformly modified.
     private static final String[] types = new String[]{
         "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
@@ -76,11 +78,14 @@ public class PhetLookAndFeel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private int os; // the operating system
     private Font font;
-    private Font titledBorderFont; // font to be used for titled borders
+    private Font titledBorderFont;
     private Color foregroundColor;
     private Color backgroundColor;
-
+    private Color textFieldBackgroundColor;
+    private Insets insets;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -89,11 +94,14 @@ public class PhetLookAndFeel {
      * Sole constructor.
      */
     public PhetLookAndFeel() {
+        os = getOperatingSystem();
         int fontSize = getFontSizeForScreen();
         font = new Font( "Lucida Sans", Font.PLAIN, fontSize );
         titledBorderFont = new Font( "Lucida Sans", Font.PLAIN, fontSize );
-        foregroundColor = Color.black;
-        backgroundColor = new Color( 200, 240, 200 );
+        foregroundColor = Color.BLACK;
+        backgroundColor = new Color( 200, 240, 200 );  // light green
+        textFieldBackgroundColor = Color.WHITE;
+        insets = new Insets( 2, 2, 2, 2 );
     }
 
     //----------------------------------------------------------------------------
@@ -131,7 +139,23 @@ public class PhetLookAndFeel {
     public void setBackgroundColor( Color backgroundColor ) {
         this.backgroundColor = backgroundColor;
     }
+    
+    public Color getTextFieldBackgroundColor() {
+        return textFieldBackgroundColor;
+    }
 
+    public void setTextFieldBackgroundColor( Color textFieldBackgroundColor ) {
+        this.textFieldBackgroundColor = textFieldBackgroundColor;
+    }
+    
+    public Insets getInsets() {
+        return insets;
+    }
+    
+    public void setInsets( Insets insets ) {
+        this.insets = insets;
+    }
+    
     //----------------------------------------------------------------------------
     // UIDefaults modification
     //----------------------------------------------------------------------------
@@ -162,25 +186,31 @@ public class PhetLookAndFeel {
      */
     private Object[] constructDefaults() {
         
-        ColorUIResource background = new ColorUIResource( backgroundColor );
-        ColorUIResource foreground = new ColorUIResource( foregroundColor );
+        // UI resources
         FontUIResource fontResource = new FontUIResource( font );
         FontUIResource titledBorderFontResource = new FontUIResource( titledBorderFont );
-        InsetsUIResource insets = new InsetsUIResource( 2, 2, 2, 2 );
+        ColorUIResource backgroundResource = new ColorUIResource( backgroundColor );
+        ColorUIResource foregroundResource = new ColorUIResource( foregroundColor );
+        ColorUIResource textFieldBackgroundResource = new ColorUIResource( textFieldBackgroundColor );
+        InsetsUIResource insetsResource = new InsetsUIResource( insets.top, insets.left, insets.bottom, insets.right );
         
         // Uniformly modify the resources for each of the types in the "types" list.
         ArrayList keyValuePairs = new ArrayList();
         for( int i = 0; i < types.length; i++ ) {
             String type = types[i];
+            
             add( keyValuePairs, type, "font", fontResource );
-            add( keyValuePairs, type, "foreground", foreground );
-            add( keyValuePairs, type, "background", background );
-            add( keyValuePairs, type, "margin", insets );
+            add( keyValuePairs, type, "foreground", foregroundResource );
+            add( keyValuePairs, type, "background", backgroundResource );
+            
+            if( os != OS_MACINTOSH ) {
+                add( keyValuePairs, type, "margin", insetsResource );
+            }
         }
         
         // These types require some special modifications.
         add( keyValuePairs, "TitledBorder", "font", titledBorderFontResource );
-        add( keyValuePairs, "TextField", "background", new ColorUIResource( Color.white ) );
+        add( keyValuePairs, "TextField", "background", textFieldBackgroundResource );
         
         return keyValuePairs.toArray();
     }
@@ -203,18 +233,41 @@ public class PhetLookAndFeel {
     //----------------------------------------------------------------------------
 
     /**
-     * Sets the look and feel based on the operating system.
+     * Gets the operating system type.
+     * 
+     * @return OS_WINDOWS, OS_MACINTOSH, or OS_OTHER
      */
-    public static void setLookAndFeel() {
-        String os = "";
+    public static int getOperatingSystem() {
+
+        // Get the operating system name.
+        String osName = "";
         try {
-            os = System.getProperty( "os.name" ).toLowerCase();
+            osName = System.getProperty( "os.name" ).toLowerCase();
         }
         catch( Throwable t ) {
             t.printStackTrace();
         }
+        
+        // Convert to one of the operating system constants.
+        int os = OS_OTHER;
+        if ( osName.indexOf( "windows" ) >= 0 ) {
+            os = OS_WINDOWS;
+        }
+        else if ( osName.indexOf( "mac" ) >= 0 ) {
+            os = OS_MACINTOSH;
+        }
+        
+        return os;
+    }
+    
+    /**
+     * Sets the look and feel based on the operating system.
+     */
+    public static void setLookAndFeel() {
+        
+        int os = getOperatingSystem();
 
-        if( os.indexOf( "windows" ) >= 0 ) {
+        if( os == OS_WINDOWS ) {
             try {
 //                UIManager.setLookAndFeel( new SmoothLookAndFeel() );//TODO fails on Carl & Kathy's machine.
                 UIManager.setLookAndFeel( new WindowsLookAndFeel() );
