@@ -29,7 +29,7 @@ public class PhetImageGraphic extends PhetGraphic {
     private Shape shape;
     private String imageResourceName;
 
-    protected PhetImageGraphic( Component component ) {
+    public PhetImageGraphic( Component component ) {
         this( component, null, 0, 0 );
     }
 
