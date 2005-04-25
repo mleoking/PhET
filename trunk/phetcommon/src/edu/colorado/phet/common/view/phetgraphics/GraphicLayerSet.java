@@ -80,7 +80,6 @@ public class GraphicLayerSet extends PhetGraphic {
             if( hints != null ) {
                 g2.setRenderingHints( hints );
             }
-
             // Iterate over each child graphic.
             Iterator it = graphicMap.iterator();
             while( it.hasNext() ) {
@@ -163,9 +162,9 @@ public class GraphicLayerSet extends PhetGraphic {
     public void clear() {
         Iterator i = graphicMap.iterator();
         PhetGraphic graphic;
-        while ( i.hasNext() ) {
+        while( i.hasNext() ) {
             // Do everything that removeGraphic method does.
-            graphic = (PhetGraphic) i.next();
+            graphic = (PhetGraphic)i.next();
             graphic.setParent( null );
             setBoundsDirty();
             graphic.autorepaint();//Automatically repaint.
@@ -292,6 +291,14 @@ public class GraphicLayerSet extends PhetGraphic {
         activeUnit.fireMouseEntered( event );
         activeUnit.fireMousePressed( event );
         activeUnit.fireMouseDragged( event );
+    }
+
+    //experimental
+    public void clearActiveUnit() {
+        if( this.activeUnit != null ) {
+            activeUnit.fireMouseReleased( new MouseEvent( getComponent(), mouseEventID++, System.currentTimeMillis(), 0, 0, 0, 0, false ) );
+            activeUnit.fireMouseExited( new MouseEvent( getComponent(), mouseEventID++, System.currentTimeMillis(), 0, 0, 0, 0, false ) );
+        }
     }
 
     /**
@@ -513,4 +520,21 @@ public class GraphicLayerSet extends PhetGraphic {
         return graphicMap.containsValue( graphic );
     }
 
+    public PhetGraphic getActiveUnit() {
+        return activeUnit;
+    }
+
+    public Rectangle getVisibleBounds() {
+        PhetGraphic[] ch = getGraphics();
+        Rectangle[] r = new Rectangle[ch.length];
+        for( int i = 0; i < r.length; i++ ) {
+            r[i] = ch[i].getVisibleBounds();
+        }
+
+        // todo: Reduce inefiicieny of RectangleUtils.union, by sending a pre-allocated Rectangle to a
+        // new versions of RectangleUtils.union that takes a seoond parameter, which is the result Rectangle
+        Rectangle bounds = RectangleUtils.union( r );//children do their own transform.
+
+        return bounds;
+    }
 }
