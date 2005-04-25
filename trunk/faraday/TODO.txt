@@ -19,7 +19,6 @@ LOW PRIORITY:
 CLEANUP:
 - organize imports
 - resize any scaled images
-- remove unused images and assets
 - save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
 
@@ -44,6 +43,7 @@ PHETCOMMON:
 
 DONE:
 v0r25...
+(4/25) - rename meterProbe image to voltmeterProbe
 (4/25) - move test-src programs to examples project
 (4/25) - background color (use PhetLookAndFeel)
 (4/25) - fix PhetLookAndFeel so that it works on all platforms
