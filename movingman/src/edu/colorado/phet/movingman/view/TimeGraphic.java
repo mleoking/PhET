@@ -7,12 +7,12 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
+import edu.colorado.phet.movingman.common.DefaultDecimalFormat;
 import edu.colorado.phet.movingman.model.MMTimer;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -27,7 +27,8 @@ public class TimeGraphic extends PhetGraphic {
     private int x;
     private int y;
     private Font f = MMFontManager.getFontSet().getTimeFont();
-    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
+//    private DecimalFormat decimalFormat = new DecimalFormat( "#0.00" );
+    private DefaultDecimalFormat decimalFormat = new DefaultDecimalFormat( "#0.00" );
     private FontRenderContext frc;
     private ApparatusPanel apparatusPanel;
 

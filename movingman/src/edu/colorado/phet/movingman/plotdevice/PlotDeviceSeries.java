@@ -4,15 +4,16 @@ package edu.colorado.phet.movingman.plotdevice;
 import edu.colorado.phet.chart.BufferedLinePlot;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
+import edu.colorado.phet.movingman.common.DefaultDecimalFormat;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
@@ -34,13 +35,14 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
     static final Random debuggingRandom = new Random( 0 );
 //    private TimePoint lastPoint;
     private PhetShadowTextGraphic readoutGraphic;
-    private DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
+    private DefaultDecimalFormat decimalFormat = new DefaultDecimalFormat( "0.0" );
     private ShadowHTMLGraphic unitsGraphic;
     private PhetShadowTextGraphic nameGraphic;
-    private PhetImageGraphic bufferedNameGraphic;
+    private ShadowHTMLGraphic justifyMetric;
+//    private PhetImageGraphic bufferedNameGraphic;
 
     public PlotDeviceSeries( final PlotDevice plotDevice, TimeSeries timeSeries,
-                             Color color, final String name, Stroke stroke, Font font, String unitsString ) {
+                             Color color, final String name, Stroke stroke, Font font, String unitsString, String justifyText ) {
         super( plotDevice.getComponent() );
         this.plotDevice = plotDevice;
         this.rawData = timeSeries;
@@ -57,10 +59,13 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
 //        unitsGraphic = new HTMLGraphic( getComponent(), font, unitsString, color );
         unitsGraphic = new ShadowHTMLGraphic( getComponent(), unitsString, font, color, 1, 1, Color.black );
         nameGraphic = new PhetShadowTextGraphic( plotDevice.getComponent(), font, name + ": ", color, 1, 1, Color.black );
-        bufferedNameGraphic = BufferedPhetGraphic2.createBuffer( nameGraphic, new BasicGraphicsSetup(), BufferedImage.TYPE_INT_RGB, plotDevice.getBackground() );
+
+        justifyMetric = new ShadowHTMLGraphic( getComponent(), justifyText, font, Color.blue, 1, 1, Color.gray );
+//        bufferedNameGraphic = BufferedPhetGraphic2.createBuffer( nameGraphic, new BasicGraphicsSetup(), BufferedImage.TYPE_INT_RGB, plotDevice.getBackground() );
 //        readoutGraphic = new PhetShadowTextGraphic( plotDevice.getComponent(),font,
 //        addGraphic( nameGraphic);
-        addGraphic( bufferedNameGraphic );
+//        addGraphic( bufferedNameGraphic );
+        addGraphic( nameGraphic );
         readoutGraphic.setLocation( nameGraphic.getX() + nameGraphic.getWidth(), nameGraphic.getY() );
         addGraphic( readoutGraphic );
         addGraphic( unitsGraphic );
@@ -125,9 +130,22 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
     }
 
     private void updateReadoutGraphic( double v ) {
+
+//        readoutGraphic.setLocation( nameGraphic.getX() + nameGraphic.getWidth(), nameGraphic.getY() );
+
+
+        readoutGraphic.setAutorepaint( false );
+//        readoutGraphic.setVisible( false );
         String value = decimalFormat.format( v );
+
         readoutGraphic.setText( value + " " );
+        int dx = justifyMetric.getWidth() - readoutGraphic.getWidth();
+        readoutGraphic.setLocation( nameGraphic.getX() + nameGraphic.getWidth() + dx, nameGraphic.getY() );
+
         unitsGraphic.setLocation( readoutGraphic.getX() + readoutGraphic.getWidth(), readoutGraphic.getY() );
+        readoutGraphic.setAutorepaint( true );
+//        readoutGraphic.setVisible( true );
+        readoutGraphic.autorepaint();
     }
 
     private void updateReadoutGraphic( TimePoint timePoint ) {

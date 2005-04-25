@@ -81,7 +81,7 @@ public class MMFontManager {
             readoutFont = new Font( "Lucida Sans", Font.BOLD, 22 );
             wiggleMeFont = new Font( "Sans Serif", Font.BOLD, 16 );
             controlButtonFont = new Font( "Lucida Sans", Font.PLAIN, 14 );
-            textBoxFont = new Font( "Lucida Sans", Font.PLAIN, 11 );
+            textBoxFont = new Font( "Lucida Sans", Font.BOLD, 11 );
             chartButtonFont = new Font( "Lucida Sans", Font.BOLD, 14 );
             timeLabelFont = new Font( "Lucida Sans", Font.BOLD, 14 );
             timeFont = new Font( "Lucida Sans", 0, 36 );
@@ -97,7 +97,7 @@ public class MMFontManager {
             readoutFont = new Font( "Lucida Sans", Font.BOLD, 16 );
             wiggleMeFont = new Font( "Sans Serif", Font.BOLD, 16 );
             controlButtonFont = new Font( "Lucida Sans", Font.PLAIN, 10 );
-            textBoxFont = new Font( "Lucida Sans", Font.PLAIN, 10 );
+            textBoxFont = new Font( "Lucida Sans", Font.BOLD, 10 );
             chartButtonFont = new Font( "Lucida Sans", Font.BOLD, 10 );
             timeLabelFont = new Font( "Lucida Sans", Font.BOLD, 12 );
             timeFont = new Font( "Lucida Sans", 0, 36 );

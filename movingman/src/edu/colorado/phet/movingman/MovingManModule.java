@@ -9,6 +9,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -249,13 +250,13 @@ public class MovingManModule extends Module {
             newTransform = new LinearTransform1d( -getMaxManPosition(), getMaxManPosition(), inset, appPanelWidth - inset );
 //            todo positions are broken.
 
-            walkwayGraphic.setTreeX( -10 );
-            walkwayGraphic.setHouseX( 10 );
+//            walkwayGraphic.setTreeX( -10 );
+//            walkwayGraphic.setHouseX( 10 );
         }
         else {
             newTransform = new LinearTransform1d( getMaxManPosition(), -getMaxManPosition(), inset, appPanelWidth - inset );
-            walkwayGraphic.setTreeX( 10 );
-            walkwayGraphic.setHouseX( -10 );
+//            walkwayGraphic.setTreeX( 10 );
+//            walkwayGraphic.setHouseX( -10 );
         }
 
         setManTransform( newTransform );
@@ -420,12 +421,11 @@ public class MovingManModule extends Module {
 //        }
 //    }
 
-    private int getTimeIndex( double requestedTime ) {
-        return getTimeModel().getTimeIndex( requestedTime );
-    }
+//    private int getTimeIndex( double requestedTime ) {
+//        return getTimeModel().getTimeIndex( requestedTime );
+//    }
 
     public void setManTransform( LinearTransform1d transform ) {
-
         getMovingManApparatusPanel().setManTransform( transform );
     }
 
@@ -549,9 +549,11 @@ public class MovingManModule extends Module {
 
 
     public static void main( final String[] args ) throws Exception {
-        edu.colorado.phet.common.view.PhetLookAndFeel plaf = new edu.colorado.phet.common.view.PhetLookAndFeel();
+        boolean same = 0 == -0;
+        System.out.println( "same = " + same );
+        PhetLookAndFeel plaf = new PhetLookAndFeel();
         plaf.apply();
-        edu.colorado.phet.common.view.PhetLookAndFeel.setLookAndFeel();
+        PhetLookAndFeel.setLookAndFeel();
 
         String applicationLocale = System.getProperty( "javaws.locale" );
         if( applicationLocale != null && !applicationLocale.equals( "" ) ) {

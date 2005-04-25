@@ -9,12 +9,13 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
+import edu.colorado.phet.movingman.common.DefaultDecimalFormat;
+import edu.colorado.phet.movingman.common.LinearTransform1d;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -66,7 +67,7 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         rightWall = new LeftEdgeWalkwayObjectGraphic( this, 10, barrierImage );
         leftWall = new RightEdgeWalkwayObjectGraphic( this, -10, barrierImage );
 
-        Rectangle bounds = new Rectangle( tickSetGraphic.getBounds() );
+//        Rectangle bounds = new Rectangle( tickSetGraphic.getBounds() );
 //        tickSetBoundsGraphic = new PhetShapeGraphic( panel, bounds, Color.green );
 //        addGraphic( tickSetBoundsGraphic,10 );
 
@@ -114,10 +115,15 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         return backgroundColor;
     }
 
+    public void setTransform( LinearTransform1d transform ) {
+        this.transform = transform;
+        update();
+    }
+
     public static class TickSetGraphic extends CompositePhetGraphic {
 
         private int numTickMarks = 11;
-        private DecimalFormat format = new DecimalFormat( "##" );
+        private DefaultDecimalFormat format = new DefaultDecimalFormat( "##" );
         ArrayList graphicList = new ArrayList();
 
         public TickSetGraphic( Component component, Function.LinearFunction transform ) {
@@ -224,13 +230,13 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         repaint();
     }
 
-    private Rectangle getTickSetBounds() {
-        Rectangle bounds = tickSetGraphic.getBounds();
-        bounds.x = -30;
-        bounds.width = getComponent().getWidth();
-        System.out.println( "bounds = " + bounds );
-        return bounds;
-    }
+//    private Rectangle getTickSetBounds() {
+//        Rectangle bounds = tickSetGraphic.getBounds();
+//        bounds.x = -30;
+//        bounds.width = getComponent().getWidth();
+//        System.out.println( "bounds = " + bounds );
+//        return bounds;
+//    }
 
     private Rectangle getFloor() {
         int y = size.height - floorHeight;

@@ -82,6 +82,7 @@ public class TextBox extends JPanel {
         } );
 
         setText( "0.0" );
+        textField.setHorizontalAlignment( JTextField.RIGHT );
     }
 
     public void setTextFieldEditable( boolean editable ) {
@@ -89,9 +90,6 @@ public class TextBox extends JPanel {
         textField.selectAll();
         textField.requestFocus();
         textField.firePropertyChange( "test", 0, 1 );
-//        textField.setSelectionEnd( 0 );
-//        textField.setSelectionEnd( textField.getColumns() );
-//        textField.requestFocus();
     }
 
     public void clearChangedByUser() {
@@ -108,10 +106,6 @@ public class TextBox extends JPanel {
 
     public void setEditable( boolean b ) {
         textField.setEditable( b );
-    }
-
-    public void setHorizontalAlignment( int right ) {
-        textField.setHorizontalAlignment( right );
     }
 
     public String getText() {

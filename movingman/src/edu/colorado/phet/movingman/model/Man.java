@@ -61,6 +61,8 @@ public class Man {
     }
 
     public void setAcceleration( double acceleration ) {
+//        System.out.println( "acceleration = " + acceleration );
+//        new Exception("ACC").printStackTrace( );
         this.acceleration = acceleration;
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
@@ -95,9 +97,13 @@ public class Man {
     }
 
     public void setPosition( double x ) {
+
         if( this.x == x ) {
             return;
         }
+//        System.out.println( "set position= " + x );
+//        new Exception( "X" ).printStackTrace();
+
         if( x <= minX ) {
             x = minX;
             notifyCollision();
