@@ -102,7 +102,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         pchemModel.addListener( this );
 
         // Add counters for the number of particles on either side of the vertical wall
-        addParticleCounters();
+        addParticleCounters( "A", "B" );
 
         JButton testButton = new JButton( "Test" );
 //        getControlPanel().add( testButton);

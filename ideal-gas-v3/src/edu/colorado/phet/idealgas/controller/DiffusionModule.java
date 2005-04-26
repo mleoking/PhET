@@ -80,7 +80,7 @@ public class DiffusionModule extends AdvancedModule {
         } );
 
         // Add the particle counters     
-        addParticleCounters();
+        addParticleCounters( "A", "A");
 
         // Change title of control under the pump
         setPumpSelectorPanelTitle( SimStrings.get( "IdealGasControlPanel.Pump_Particles"));

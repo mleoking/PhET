@@ -41,6 +41,8 @@ public class AdvancedModule extends IdealGasModule {
     protected Wall verticalWall;
     private ParticleCounter leftRegionParticleCounter;
     private ParticleCounter rightRegionParticleCounter;
+    private Color colorB = new Color (255, 155, 0 );
+    private Color colorA = new Color (0, 150, 0 );
 
     public AdvancedModule( AbstractClock clock, String name ) {
         super( clock, name );
@@ -54,8 +56,8 @@ public class AdvancedModule extends IdealGasModule {
         LightSpecies.setMoleculeRadius( HeavySpecies.getMoleculeRadius() );
 
         // Set the colors of the particle graphics
-        LightSpeciesGraphic.setColor( new Color (255, 255, 0 ));
-        HeavySpeciesGraphic.setColor( new Color (0, 150, 0 ));
+        LightSpeciesGraphic.setColor( colorB );
+        HeavySpeciesGraphic.setColor( colorA);
     }
 
     public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
@@ -65,7 +67,7 @@ public class AdvancedModule extends IdealGasModule {
     /**
      * Add elements that keep count of the number of particles on either side of the vertical wall
      */
-    protected void addParticleCounters() {
+    protected void addParticleCounters( String text1, String text2) {
         Rectangle2D boxBounds = getBox().getBoundsInternal();
 
         // Create the particle counters
@@ -86,6 +88,14 @@ public class AdvancedModule extends IdealGasModule {
         PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, SimStrings.get( "AdvancedModule.Count") + ": ");
         rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 110, (int)boxBounds.getMaxY() + 7 );
         addGraphic( rightCounterReadout, IdealGasConfig.READOUT_LAYER );
+
+        // Put Text graphics above the box that indicate the reactants and products
+        PhetTextGraphic leftTextGraphic = new CounterLetter( getApparatusPanel(), readoutFont, text1, colorA, leftRegionParticleCounter );
+        leftTextGraphic.setLocation( (int)boxBounds.getMinX() + 50, (int)boxBounds.getMinY() - 50 );
+        addGraphic( leftTextGraphic, IdealGasConfig.READOUT_LAYER );
+        PhetTextGraphic rightTextGraphic = new CounterLetter( getApparatusPanel(), readoutFont, text2, colorB, rightRegionParticleCounter );
+        rightTextGraphic.setLocation( (int)boxBounds.getMaxX() - 60, (int)boxBounds.getMinY() - 50 );
+        addGraphic( rightTextGraphic, IdealGasConfig.READOUT_LAYER );
     }
 
     /**
@@ -141,6 +151,27 @@ public class AdvancedModule extends IdealGasModule {
             readout.setText( Integer.toString( counter.getCnt() ) );
             setBoundsDirty();
             repaint();
+        }
+    }
+
+    /**
+     * A text string that grows and shrinks with the number of particles reported by a ParticleCounter
+     */
+    private class CounterLetter extends PhetTextGraphic implements SimpleObserver {
+        private ParticleCounter particleCounter;
+
+        public CounterLetter( Component component, Font font, String text, Color color, ParticleCounter particleCounter ) {
+            super( component, font, text, color );
+            this.particleCounter = particleCounter;
+            particleCounter.addObserver( this );
+            setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ));
+            setJustification( PhetTextGraphic.CENTER );
+        }
+
+        public void update() {
+            int size = Math.max( 12, particleCounter.getCnt() );
+            Font font = new Font( "Lucida sans", Font.BOLD, size );
+            this.setFont( font );
         }
     }
 }

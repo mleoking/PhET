@@ -15,7 +15,6 @@ import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -133,7 +132,7 @@ public class ControlPanel extends JPanel {
      * @return
      */
     public Component addFullWidth( Component comp ) {
-        GridBagConstraints gbc = new GridBagConstraints( 0, controls.indexOf( comp ),
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0,
                                                          1, 1, 0, 0,
                                                          GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
 //                                                         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
@@ -167,7 +166,7 @@ public class ControlPanel extends JPanel {
      * @return
      */
     public Component add( Component comp, Insets insets ) {
-        GridBagConstraints gbc = new GridBagConstraints( 0, controls.indexOf( comp ),
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0,
                                                          1, 1, 0, 0,
                                                          GridBagConstraints.NORTH, GridBagConstraints.PAGE_START, insets, 0, 0 );
 //                                                         GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0 );
