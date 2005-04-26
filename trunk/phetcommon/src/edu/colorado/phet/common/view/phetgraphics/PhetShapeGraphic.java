@@ -29,10 +29,9 @@ public class PhetShapeGraphic extends PhetGraphic {
     private Stroke stroke;
     private Paint fill;
     private Paint border;
-    // The opacity of the fill paint, expressed as a fraction between 0 and 1
-    private double fillAlpha = 1;
-    // The opacity of the border paint, expressed as a fraction between 0 and 1
-    private double borderAlpha = 1;
+    private Composite orgComposite = null;
+    private Paint workingPaint;
+
 
     public PhetShapeGraphic( Component component, Shape shape, Paint fill ) {
         super( component );
@@ -59,6 +58,19 @@ public class PhetShapeGraphic extends PhetGraphic {
         this( component, null, null );
     }
 
+    //----------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------
+
+    public void setShape( Shape shape ) {
+        boolean sameShape = sameShape( this.shape, shape );
+        if( !sameShape ) {
+            this.shape = shape;
+            setBoundsDirty();
+            autorepaint();
+        }
+    }
+
     public Shape getShape() {
         return shape;
     }
@@ -80,9 +92,49 @@ public class PhetShapeGraphic extends PhetGraphic {
         autorepaint();
     }
 
-    private Composite orgComposite = null;
-    private Paint workingPaint;
+    public void setBorderColor( Color color ) {
+        this.border = color;
+        autorepaint();
+    }
 
+    public void setStroke( Stroke stroke ) {
+        this.stroke = stroke;
+        autorepaint();
+    }
+
+    public void setPaint( Paint paint ) {
+        boolean changed = false;
+        if( this.fill == null && paint != null ) {
+            changed = true;
+        }
+        else if( this.fill != null && paint == null ) {
+            changed = true;
+        }
+        else if( this.fill == null && paint == null ) {
+            changed = false;//to miss the next line.
+        }
+        else if( !this.fill.equals( paint ) ) {
+            changed = true;
+        }
+        if( changed ) {
+            this.fill = paint;
+            autorepaint();
+        }
+    }
+
+    public void setColor( Color color ) {
+        setPaint( color );
+    }
+
+    //----------------------------------------------------------------
+    // Rendering
+    //----------------------------------------------------------------
+
+    /**
+     * Manipulates the paint to get alpha to work on a Mac as it does on Windows and Linux
+     *
+     * @param g2
+     */
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
             super.saveGraphicsState( g2 );
@@ -97,7 +149,6 @@ public class PhetShapeGraphic extends PhetGraphic {
                     // Set the alpha if necessary
                     setAlpha( g2, fill );
                     g2.setPaint( workingPaint );
-//                    g2.setPaint( fill );
                     g2.fill( shape );
                     restoreAlpha( g2 );
                 }
@@ -105,7 +156,6 @@ public class PhetShapeGraphic extends PhetGraphic {
                     workingPaint = fill;
                     setAlpha( g2, border );
                     g2.setPaint( workingPaint );
-//                    g2.setPaint( border );
                     Stroke origStroke = g2.getStroke();
                     g2.setStroke( stroke );
                     g2.draw( shape );
@@ -120,6 +170,7 @@ public class PhetShapeGraphic extends PhetGraphic {
     /**
      * This method is linked intimately with setAlpha() to manage the restoration
      * of the graphics context withing the execution of paint()
+     *
      * @param g2
      */
     private void restoreAlpha( Graphics2D g2 ) {
@@ -135,6 +186,7 @@ public class PhetShapeGraphic extends PhetGraphic {
      * code expects, irrespective of the OS and whether the PhetShapeGraphic is being
      * drawn directly to the screen or to an opaque offscreen buffer. It is intimately
      * linked with restoreAlpha().
+     *
      * @param g2
      * @param paint
      */
@@ -151,7 +203,7 @@ public class PhetShapeGraphic extends PhetGraphic {
                 if( paint instanceof Color ) {
                     Color color = (Color)paint;
                     if( color.getAlpha() < 255 ) {
-                        workingPaint = new Color(color.getRed(), color.getGreen(), color.getBlue() );
+                        workingPaint = new Color( color.getRed(), color.getGreen(), color.getBlue() );
                         double fillAlpha = (double)color.getAlpha() / 255;
                         Composite composite = g2.getComposite();
                         if( composite instanceof AlphaComposite ) {
@@ -184,15 +236,6 @@ public class PhetShapeGraphic extends PhetGraphic {
         }
     }
 
-    public void setShape( Shape shape ) {
-        boolean sameShape = sameShape( this.shape, shape );
-        if( !sameShape ) {
-            this.shape = shape;
-            setBoundsDirty();
-            autorepaint();
-        }
-    }
-
     private boolean sameShape( Shape a, Shape b ) {
         if( a == null && b == null ) {
             return true;
@@ -207,7 +250,7 @@ public class PhetShapeGraphic extends PhetGraphic {
             return true;
         }
         else {
-            //            //use specific comparators, not provided by java API.
+            //use specific comparators, not provided by java API.
             if( new GeneralPathComparator().isMatch( a, b ) ) {
                 return true;
             }
@@ -220,28 +263,11 @@ public class PhetShapeGraphic extends PhetGraphic {
     }
 
     /**
-     * A separate class for ease of change when we move it.
-     */
-    private static class Rectangle2DComparator {
-        public boolean isMatch( Shape a, Shape b ) {
-            if( a.getClass().equals( Rectangle2D.Double.class ) && b.getClass().equals( Rectangle2D.Double.class ) ) {
-                Rectangle2D.Double r = (Rectangle2D.Double)a;
-                Rectangle2D.Double s = (Rectangle2D.Double)b;
-                boolean same = r.x == s.x && r.y == s.y && r.width == s.width && r.height == s.height;
-                return same;
-            }
-            return false;
-        }
-    }
-
-    /**
      * A separate class for ease of change when we move it.  This class may not be working currently.
      */
     private static class GeneralPathComparator {
         public boolean isMatch( Shape a, Shape b ) {
             if( a.getClass().equals( GeneralPath.class ) && b.getClass().equals( GeneralPath.class ) ) {
-//                GeneralPath x = (GeneralPath)a;
-//                GeneralPath y = (GeneralPath)b;
                 Area m = new Area( a );
                 Area n = new Area( b );
                 if( m.equals( n ) ) {//slow, but better than drawing to the screen. //TODO is this working..?
@@ -284,37 +310,22 @@ public class PhetShapeGraphic extends PhetGraphic {
         return txShape.contains( x, y );
     }
 
-    public void setBorderColor( Color color ) {
-        this.border = color;
-        autorepaint();
-    }
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
 
-    public void setStroke( Stroke stroke ) {
-        this.stroke = stroke;
-        autorepaint();
-    }
-
-    public void setPaint( Paint paint ) {
-        boolean changed = false;
-        if( this.fill == null && paint != null ) {
-            changed = true;
+    /**
+     * A separate class for ease of change when we move it.
+     */
+    private static class Rectangle2DComparator {
+        public boolean isMatch( Shape a, Shape b ) {
+            if( a.getClass().equals( Rectangle2D.Double.class ) && b.getClass().equals( Rectangle2D.Double.class ) ) {
+                Rectangle2D.Double r = (Rectangle2D.Double)a;
+                Rectangle2D.Double s = (Rectangle2D.Double)b;
+                boolean same = r.x == s.x && r.y == s.y && r.width == s.width && r.height == s.height;
+                return same;
+            }
+            return false;
         }
-        else if( this.fill != null && paint == null ) {
-            changed = true;
-        }
-        else if( this.fill == null && paint == null ) {
-            changed = false;//to miss the next line.
-        }
-        else if( !this.fill.equals( paint ) ) {
-            changed = true;
-        }
-        if( changed ) {
-            this.fill = paint;
-            autorepaint();
-        }
-    }
-
-    public void setColor( Color color ) {
-        setPaint( color );
     }
 }
