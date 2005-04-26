@@ -18,6 +18,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.LightSpecies;
@@ -29,6 +30,7 @@ import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 
 /**
  * AdvancedModule
@@ -41,8 +43,8 @@ public class AdvancedModule extends IdealGasModule {
     protected Wall verticalWall;
     private ParticleCounter leftRegionParticleCounter;
     private ParticleCounter rightRegionParticleCounter;
-    private Color colorB = new Color (255, 155, 0 );
-    private Color colorA = new Color (0, 150, 0 );
+    private Color colorB = new Color( 255, 155, 0 );
+    private Color colorA = new Color( 0, 150, 0 );
 
     public AdvancedModule( AbstractClock clock, String name ) {
         super( clock, name );
@@ -57,7 +59,7 @@ public class AdvancedModule extends IdealGasModule {
 
         // Set the colors of the particle graphics
         LightSpeciesGraphic.setColor( colorB );
-        HeavySpeciesGraphic.setColor( colorA);
+        HeavySpeciesGraphic.setColor( colorA );
     }
 
     public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
@@ -67,7 +69,7 @@ public class AdvancedModule extends IdealGasModule {
     /**
      * Add elements that keep count of the number of particles on either side of the vertical wall
      */
-    protected void addParticleCounters( String text1, String text2) {
+    protected void addParticleCounters( String text1, String text2 ) {
         Rectangle2D boxBounds = getBox().getBoundsInternal();
 
         // Create the particle counters
@@ -81,11 +83,11 @@ public class AdvancedModule extends IdealGasModule {
         setParticleCounterRegions();
 
         // Put readouts on the apparatus panel
-        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter, SimStrings.get( "AdvancedModule.Count") + ": " );
+        PhetGraphic leftCounterReadout = new ReadoutGraphic( leftRegionParticleCounter, SimStrings.get( "AdvancedModule.Count" ) + ": " );
         leftCounterReadout.setLocation( (int)boxBounds.getMinX() + 0, (int)boxBounds.getMaxY() + 7 );
         addGraphic( leftCounterReadout, IdealGasConfig.READOUT_LAYER );
 
-        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, SimStrings.get( "AdvancedModule.Count") + ": ");
+        PhetGraphic rightCounterReadout = new ReadoutGraphic( rightRegionParticleCounter, SimStrings.get( "AdvancedModule.Count" ) + ": " );
         rightCounterReadout.setLocation( (int)boxBounds.getMaxX() - 110, (int)boxBounds.getMaxY() + 7 );
         addGraphic( rightCounterReadout, IdealGasConfig.READOUT_LAYER );
 
@@ -96,6 +98,18 @@ public class AdvancedModule extends IdealGasModule {
         PhetTextGraphic rightTextGraphic = new CounterLetter( getApparatusPanel(), readoutFont, text2, colorB, rightRegionParticleCounter );
         rightTextGraphic.setLocation( (int)boxBounds.getMaxX() - 60, (int)boxBounds.getMinY() - 50 );
         addGraphic( rightTextGraphic, IdealGasConfig.READOUT_LAYER );
+
+        // Add a pair of arrows that point from one character to the other
+        double arrowThickness = 2;
+        double headMultiplier = 5;
+        Arrow lrArrow = new Arrow( new Point2D.Double( leftTextGraphic.getLocation().x + 50, leftTextGraphic.getLocation().y - 10 ),
+                                   new Point2D.Double( rightTextGraphic.getLocation().x - 50, rightTextGraphic.getLocation().y - 10 ),
+                                   arrowThickness * headMultiplier, arrowThickness * headMultiplier, arrowThickness );
+        Arrow rlArrow = new Arrow( new Point2D.Double( rightTextGraphic.getLocation().x - 50, rightTextGraphic.getLocation().y + 10 ),
+                                   new Point2D.Double( leftTextGraphic.getLocation().x + 50, leftTextGraphic.getLocation().y + 10 ),
+                                   arrowThickness * headMultiplier, arrowThickness * headMultiplier, arrowThickness );
+        addGraphic( new PhetShapeGraphic( getApparatusPanel(), lrArrow.getShape(), Color.black ), IdealGasConfig.READOUT_LAYER );
+        addGraphic( new PhetShapeGraphic( getApparatusPanel(), rlArrow.getShape(), Color.black ), IdealGasConfig.READOUT_LAYER );
     }
 
     /**
@@ -128,13 +142,13 @@ public class AdvancedModule extends IdealGasModule {
         public ReadoutGraphic( ParticleCounter counter, String label ) {
             super( getApparatusPanel() );
             this.label = label;
-            labelGraphic = new PhetTextGraphic( getApparatusPanel(), readoutFont, label, Color.black);
+            labelGraphic = new PhetTextGraphic( getApparatusPanel(), readoutFont, label, Color.black );
             this.addGraphic( labelGraphic, 10 );
             readout = new PhetTextGraphic( getApparatusPanel(), readoutFont, "", Color.black );
             this.addGraphic( readout, 10 );
             border = new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 40, 15 ), Color.white, new BasicStroke( 1f ), Color.black );
             this.addGraphic( border, 5 );
-            border.setLocation( 20, 0);
+            border.setLocation( 20, 0 );
             counter.addObserver( this );
             this.counter = counter;
             update();
@@ -164,7 +178,7 @@ public class AdvancedModule extends IdealGasModule {
             super( component, font, text, color );
             this.particleCounter = particleCounter;
             particleCounter.addObserver( this );
-            setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ));
+            setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             setJustification( PhetTextGraphic.CENTER );
         }
 
