@@ -40,7 +40,7 @@ PHETCOMMON:
 - feature: add setComposite to PhetGraphic and its subclasses, use in BarMagnetGraphic
 - feature: make PhetTextGraphic handle <br>, deprecate PhetMultiLineTextGraphic
 - feature: add PhetGraphic.contains(Point) to go with PhetGraphic.contains(x,y)
-- feature: support adding things to the debug menu
+- feature: support adding items to the DebugMenu
 - feature: request that a draggable object be kept within the visible "play area"
 
 DONE:
