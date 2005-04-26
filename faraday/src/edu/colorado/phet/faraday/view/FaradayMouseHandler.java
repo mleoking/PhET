@@ -147,7 +147,7 @@ public class FaradayMouseHandler extends MouseInputAdapter {
 
             if ( outOfBounds || collision ) {
                 // Ignore the translate if the mouse is outside the apparatus panel or 
-                // if the tanslate would result in a collision.
+                // if the translate would result in a collision.
                 _dragEnabled = false;
             }
             else {
