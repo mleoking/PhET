@@ -41,6 +41,7 @@
 ^colorvision3\(/\|$\) mail -s "CVS commit: colorvision3" cmalley
 ^emf\(/\|$\) mail -s "CVS commit: emf" ronlemaster
 ^faraday\(/\|$\) mail -s "CVS commit: faraday" cmalley
+^fourier\(/\|$\) mail -s "CVS commit: fourier" cmalley
 ^greenhouse\(/\|$\) mail -s "CVS commit: greenhouse" ronlemaster
 ^ideal-gas-v3\(/\|$\) mail -s "CVS commit: ideal-gas-3" ronlemaster
 ^lasers\(/\|$\) mail -s "CVS commit: lasers" ronlemaster
