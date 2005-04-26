@@ -141,12 +141,12 @@ public class AdvancedModule extends IdealGasModule {
 
         public ReadoutGraphic( ParticleCounter counter, String label ) {
             super( getApparatusPanel() );
+            border = new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 40, 20 ), Color.white, new BasicStroke( 1f ), Color.black );
             this.label = label;
             labelGraphic = new PhetTextGraphic( getApparatusPanel(), readoutFont, label, Color.black );
             this.addGraphic( labelGraphic, 10 );
             readout = new PhetTextGraphic( getApparatusPanel(), readoutFont, "", Color.black );
             this.addGraphic( readout, 10 );
-            border = new PhetShapeGraphic( getApparatusPanel(), new Rectangle( 40, 15 ), Color.white, new BasicStroke( 1f ), Color.black );
             this.addGraphic( border, 5 );
             border.setLocation( 20, 0 );
             counter.addObserver( this );
@@ -157,7 +157,10 @@ public class AdvancedModule extends IdealGasModule {
         public void paint( Graphics2D g2 ) {
             FontRenderContext frc = g2.getFontRenderContext();
             border.setLocation( (int)( readoutFont.getStringBounds( label, frc ).getMaxX() + 5 ), 0 );
-            readout.setLocation( (int)( readoutFont.getStringBounds( label, frc ).getMaxX() + 8 ), 0 );
+            readout.setLocation( (int)( getBounds().getWidth() - 5 ), (int)border.getBounds().getHeight() / 2 );
+            readout.setJustification( PhetTextGraphic.EAST );
+            labelGraphic.setLocation( 0, (int)border.getBounds().getHeight() / 2 );
+            labelGraphic.setJustification( PhetTextGraphic.WEST );
             super.paint( g2 );
         }
 
