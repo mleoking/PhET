@@ -10,13 +10,20 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 
-CLEANUP:
+OPTIMIZATIONS:
 
-POSSIBLE OPTIMIZATIONS:
+CLEANUP:
+- organize imports
+- remove unused images and assets
+- remove unused localization strings
+- resize any scaled images
+- save all images using Photoshop's "Save for Web" feature
+- fix all javadoc warnings and errors
 
 PHETCOMMON:
 
 DONE:
+(4/26) - add fourier to CVS loginfo and modules files
 (3/30) - set up basic application framework
 
-NO:
+REJECTED:
