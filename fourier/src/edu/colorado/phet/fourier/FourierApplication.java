@@ -88,7 +88,6 @@ public class FourierApplication extends PhetApplication {
         // Initialize Look-&-Feel
 //        PhetLookAndFeel.setLookAndFeel();
 //        PhetLookAndFeel laf = new PhetLookAndFeel();
-//        laf.setBackgroundColor( new Color( 120, 165, 120 ) );
 //        laf.apply();
         
         // Get stuff needed to initialize the application model.
