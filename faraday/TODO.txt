@@ -38,6 +38,7 @@ PHETCOMMON:
 
 DONE:
 v1r0...
+(4/27) - voltmeter: left probe red, right probe black
 (4/27) - disable all Wiggle Mes and Challenges except in BarMagnet module
 (4/27) - move version number to FaradayConfig, use CVS tag as version number
 (4/27) - move phetcommon bug/feature reports to SourceForge bug tracker
