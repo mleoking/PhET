@@ -6,13 +6,12 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- add package javadoc
+
 
 MEDIUM PRIORITY:
 - label voltmeter probes
-- add a dialog that warns about performance implications of turning on grid (and other things?)
+- add a dialog that warns about performance implications of turning on grid
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
-- check for unnecessary notifications, events and updates
 
 LOW PRIORITY:
 - background color (use PhetLookAndFeel)
@@ -27,9 +26,7 @@ CLEANUP:
 - fix all javadoc warnings and errors
 
 POSSIBLE OPTIMIZATIONS:
-- use a profiler (eg JProfile) to identify bottlenecks
-- use offscreen buffering
-- disable rectangle computations and use paintImmediately
+
 
 NEW FEATURE REQUESTS:
 - add a graph of field strength over time to the Field Meter
@@ -46,7 +43,7 @@ PHETCOMMON:
 
 DONE:
 v1r0...
-
+(4/27) - add package-level javadoc
 v0r25...
 (4/25) - disable PhetLookAndFeel, it looks ugly
 (4/25) - rename meterProbe image to voltmeterProbe
@@ -429,6 +426,8 @@ v0r3...
 (12/28) - change "loop area" control to be value-based, not scale-based
 
 NO:
+(4/25) - use offscreen buffering (no improvement)
+(4/25) - disable rectangle computations and use paintImmediately (no improvement)
 (4/24) - use a variable-step clock with median filtering of dt (lightbulb & voltmeter don't look cyclic, they jump around)
 (4/24) - optimize electrons (their performance hit is negligible compared to grid)
 (4/24) - calculate periods of Generator and AC so that delta flux is zero/max at correct point (no, handle this in Lightbulb)
