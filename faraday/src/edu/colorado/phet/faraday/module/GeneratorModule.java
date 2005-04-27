@@ -243,6 +243,7 @@ public class GeneratorModule extends FaradayModule {
         // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _turbineModel );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
+        wiggleMe.setEnabled( false ); // per 4/27/2005 status meeting
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     

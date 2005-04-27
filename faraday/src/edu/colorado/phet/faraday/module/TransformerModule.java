@@ -287,6 +287,7 @@ public class TransformerModule extends FaradayModule {
         // Challenge
         ThisChallengeGraphic challenge = new ThisChallengeGraphic( apparatusPanel, model, _lightbulbModel );
         challenge.setLocation( CHALLENGE_LOCATION );
+        challenge.setEnabled( false ); // per 4/27/2005 status meeting
         apparatusPanel.addGraphic( challenge, HELP_LAYER );
     }
     
