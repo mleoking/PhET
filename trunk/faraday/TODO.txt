@@ -38,6 +38,7 @@ PHETCOMMON:
 
 DONE:
 v1r0...
+(4/27) - move phetcommon bug/feature reports to SourceForge bug tracker
 (4/27) - add package-level javadoc
 v0r25...
 (4/25) - disable PhetLookAndFeel, it looks ugly
