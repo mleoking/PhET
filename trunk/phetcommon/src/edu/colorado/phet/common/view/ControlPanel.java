@@ -44,6 +44,7 @@ public class ControlPanel extends JPanel {
     private HashMap panelEntries = new HashMap();
     private Insets defaultInsets = new Insets( 0, 0, 0, 0 );
     private JPanel logoPanel;
+    private JScrollPane scrollPane;
 
 
     /**
@@ -69,17 +70,15 @@ public class ControlPanel extends JPanel {
         super.add( logoPanel, gbc );
 
         // The panel where the simulation-specific controls go
-        JPanel interPnl = new JPanel( new GridBagLayout() );
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.PAGE_START;
         gbc.gridy = 0;
-//        gbc.fill = GridBagConstraints.BOTH;
-        interPnl.add( controlPane, gbc );
-        JScrollPane scrollPane = new JScrollPane( controlPane);
+        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         scrollPane.setBorder( null );
         gbc.weighty = 1;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
+//        super.add( controlPane, gbc );
         super.add( scrollPane, gbc );
 
         // The panel for the help button
@@ -135,7 +134,6 @@ public class ControlPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints( 0, 0,
                                                          1, 1, 0, 0,
                                                          GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
-//                                                         GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
         return add( comp, gbc );
     }
 
@@ -167,7 +165,7 @@ public class ControlPanel extends JPanel {
      */
     public Component add( Component comp, Insets insets ) {
         GridBagConstraints gbc = new GridBagConstraints( 0, 0,
-                                                         1, 1, 0, 0,
+                                                         1, 1, 1, 0,
                                                          GridBagConstraints.NORTH, GridBagConstraints.PAGE_START, insets, 0, 0 );
 //                                                         GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0 );
 //                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
