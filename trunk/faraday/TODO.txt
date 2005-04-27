@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - add package javadoc
 
 MEDIUM PRIORITY:
+- label voltmeter probes
 - add a dialog that warns about performance implications of turning on grid (and other things?)
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
 - check for unnecessary notifications, events and updates
@@ -44,7 +45,7 @@ PHETCOMMON:
 - feature: request that a draggable object be kept within the visible "play area"
 
 DONE:
-v0r26...
+v1r0...
 
 v0r25...
 (4/25) - disable PhetLookAndFeel, it looks ugly
