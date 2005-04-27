@@ -36,7 +36,6 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class DiffusionModule extends AdvancedModule {
-//    private Wall lowerWall;
     private Wall upperWall;
     private int wallThickness = (int)GasMolecule.s_defaultRadius * 8;
     private double minimumWallSeparation = GasMolecule.s_defaultRadius * 2;
@@ -80,7 +79,7 @@ public class DiffusionModule extends AdvancedModule {
         } );
 
         // Add the particle counters     
-        addParticleCounters( "A", "A");
+        addParticleCounters( "A", "A" );
 
         // Change title of control under the pump
         setPumpSelectorPanelTitle( SimStrings.get( "IdealGasControlPanel.Pump_Particles"));

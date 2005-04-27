@@ -45,6 +45,7 @@ public class Box2DGraphic extends CompositePhetGraphic {
     private boolean leftWallHighlighted;
     private InternalBoxGraphic internalBoxGraphic;
     private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();
+    private TranslationListener translationListener;
 
     /**
      *
@@ -58,17 +59,25 @@ public class Box2DGraphic extends CompositePhetGraphic {
         internalBoxGraphic = new InternalBoxGraphic( component );
 
         this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
-        this.addTranslationListener( new TranslationListener() {
-            public void translationOccurred( TranslationEvent translationEvent ) {
-                // Speed limit on wall
-                double dx = translationEvent.getDx();
-                dx = Math.max( -wallSpeedLimit, Math.min( dx, wallSpeedLimit ) );
-                double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
-                box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
+        translationListener = new TranslationListener() {
+                    public void translationOccurred( TranslationEvent translationEvent ) {
+                        // Speed limit on wall
+                        double dx = translationEvent.getDx();
+                        dx = Math.max( -wallSpeedLimit, Math.min( dx, wallSpeedLimit ) );
+                        double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
+                        box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
 
-                internalBoxGraphic.update();
-            }
-        } );
+                        internalBoxGraphic.update();
+                    }
+                };
+        this.addTranslationListener( translationListener );
+    }
+
+    public void setIgnoreMouse( boolean ignoreMouse ) {
+        super.setIgnoreMouse( ignoreMouse );
+        if( ignoreMouse ) {
+            removeAllMouseInputListeners();
+        }
     }
 
     public boolean isGraphicSelected() {

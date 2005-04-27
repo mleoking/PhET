@@ -133,6 +133,9 @@ public class IdealGasModule extends Module {
             }
         } );
 
+        // Make sure the apparatus panel has a border
+        getApparatusPanel().setDisplayBorder( true );
+
         // Create the pressure gauge and thermometer
         createGauges( clock );
 

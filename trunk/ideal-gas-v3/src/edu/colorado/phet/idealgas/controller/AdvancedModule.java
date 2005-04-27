@@ -13,24 +13,25 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision.Wall;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.LightSpecies;
 import edu.colorado.phet.idealgas.model.PChemModel;
 import edu.colorado.phet.idealgas.model.ParticleCounter;
+import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * AdvancedModule
@@ -52,6 +53,9 @@ public class AdvancedModule extends IdealGasModule {
         // We can only use the top pressure-sensing slice because we don't know where the
         // floors will be
         getBox().setMultipleSlicesEnabled( false );
+
+        Box2DGraphic boxGraphic = getBoxGraphic();
+        boxGraphic.setIgnoreMouse( true );
 
         // Set the two types of particles so they are the same mass and radius
         LightSpecies.setMoleculeMass( HeavySpecies.getMoleculeMass() );
