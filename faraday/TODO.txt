@@ -9,13 +9,14 @@ HIGH PRIORITY:
 
 
 MEDIUM PRIORITY:
-- label voltmeter probes
-- add a dialog that warns about performance implications of turning on grid
-- when a drag collision occurs, don't ignore the translate, move the object as close as possible
+
 
 LOW PRIORITY:
+- when a drag collision occurs, don't ignore the translate, move the object as close as possible
 - background color (use PhetLookAndFeel)
 - Help/MegaHelp
+
+POSSIBLE OPTIMIZATIONS:
 
 CLEANUP:
 - organize imports
@@ -24,8 +25,6 @@ CLEANUP:
 - resize any scaled images
 - save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
-
-POSSIBLE OPTIMIZATIONS:
 
 
 NEW FEATURE REQUESTS:
