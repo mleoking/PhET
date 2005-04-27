@@ -14,6 +14,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * ControlPanelTest
@@ -24,14 +25,23 @@ import javax.swing.*;
 public class ControlPanelTest {
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
+        Container contentPane = frame.getContentPane();
         ControlPanel cp = new ControlPanel( new TestModule( "", null) );
-
-
-        cp.add( new JButton( "ASDFASDF"));
-
-
-
+        Component component = cp.add( new JButton( "ASDFASDF"));
+        cp.add( new JTextField( "QWERQWERQWER") );
         frame.getContentPane().add( cp );
+
+//        JPanel jp = new JPanel( new GridLayout( 2,1));
+//        jp.setLayout( new GridBagLayout() );
+//        GridBagConstraints gbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,
+//                                                         1,1,0,0,
+//                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0,0,0,0),0,0);
+//        JScrollPane sp = new JScrollPane( jp );
+//        jp.add( component, gbc );
+//        jp.add( new JTextField( "QWERQWERQWER"), gbc);
+//        contentPane.add( sp );
+
+
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );

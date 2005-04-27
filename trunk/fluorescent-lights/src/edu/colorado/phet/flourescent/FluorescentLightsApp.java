@@ -63,8 +63,8 @@ public class FluorescentLightsApp extends PhetApplication {
 
     private static class AppDesc extends ApplicationModel {
         public AppDesc() {
-            super( "Fluorescent Lights",
-                   "Fluorescent Lights",
+            super( SimStrings.get("FluorescentLightsApplication.title"),
+                   SimStrings.get("FluorescentLightsApplication.title"),
                    "0.01" );
 
             setClock( new SwingTimerClock( FluorescentLightsConfig.DT, FluorescentLightsConfig.FPS, AbstractClock.FRAMES_PER_SECOND ) );
