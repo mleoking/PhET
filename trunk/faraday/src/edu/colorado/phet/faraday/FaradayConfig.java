@@ -77,7 +77,6 @@ public class FaradayConfig {
     public static final String LIGHTBULB_IMAGE = IMAGES_DIRECTORY + "lightbulb.png";
     public static final String LIGHTBULB_ICON = IMAGES_DIRECTORY + "lightbulb_icon.png";
     public static final String LIGHTBULB_ICON_SELECTED = IMAGES_DIRECTORY + "lightbulb_icon_selected.png";
-    public static final String VOLTMETER_PROBE_IMAGE = IMAGES_DIRECTORY + "voltmeterProbe.png";
     public static final String RESISTOR_IMAGE = IMAGES_DIRECTORY + "resistor.png";
     public static final String SLIDER_KNOB_IMAGE = IMAGES_DIRECTORY + "sliderKnob.png";
     public static final String SLIDER_KNOB_HIGHLIGHT_IMAGE = IMAGES_DIRECTORY + "sliderKnobHighlight.png";
@@ -85,6 +84,8 @@ public class FaradayConfig {
     public static final String VOLTMETER_IMAGE = IMAGES_DIRECTORY + "voltmeter.png";
     public static final String VOLTMETER_ICON = IMAGES_DIRECTORY + "voltmeter_icon.png";
     public static final String VOLTMETER_ICON_SELECTED = IMAGES_DIRECTORY + "voltmeter_icon_selected.png";
+    public static final String VOLTMETER_PROBE_BLACK_IMAGE = IMAGES_DIRECTORY + "voltmeterProbeBlack.png";
+    public static final String VOLTMETER_PROBE_RED_IMAGE = IMAGES_DIRECTORY + "voltmeterProbeRed.png";
     public static final String WATER_WHEEL_IMAGE = IMAGES_DIRECTORY + "waterWheel.png";
 
     //----------------------------------------------------------------------------
