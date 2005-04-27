@@ -88,7 +88,7 @@ public class FaradayApplication extends PhetApplication {
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FaradayApplication.title" );
         String description = SimStrings.get( "FaradayApplication.description" );
-        String version = SimStrings.get( "FaradayApplication.version" );
+        String version = FaradayConfig.APP_VERSION;
         int width = FaradayConfig.APP_FRAME_WIDTH;
         int height = FaradayConfig.APP_FRAME_HEIGHT;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( width, height );
