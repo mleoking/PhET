@@ -14,14 +14,14 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.controller.MovableWallsModule;
+import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.controller.menus.OptionsMenu;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AdvancedGasApplication extends PhetApplication {
+public class DiffusionApplication extends PhetApplication {
 
     static class IdealGasApplicationModel extends ApplicationModel {
         public IdealGasApplicationModel() {
@@ -38,15 +38,15 @@ public class AdvancedGasApplication extends PhetApplication {
             setClock( clock );
 
             // Create the modules
-            Module movableWallsModule = new MovableWallsModule( getClock() );
-            setModule( movableWallsModule );
+            Module diffusionModule = new DiffusionModule( getClock() );
+            setModule( diffusionModule );
 
             // Set the initial size
             setFrameCenteredSize( 920, 700 );
         }
     }
 
-    public AdvancedGasApplication( String[] args) {
+    public DiffusionApplication( String[] args) {
         super( new IdealGasApplicationModel(), args );
 
         // Add some menus
@@ -82,6 +82,6 @@ public class AdvancedGasApplication extends PhetApplication {
         }
 
         SimStrings.setStrings( IdealGasConfig.localizedStringsPath );
-        new AdvancedGasApplication( args );
+        new DiffusionApplication( args );
     }
 }
