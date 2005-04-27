@@ -23,7 +23,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="mechanics" />
     <orderEntry type="module" module-name="Mechanics" />
     <orderEntry type="module-library">
       <library>
