@@ -249,6 +249,7 @@ public class PickupCoilModule extends FaradayModule {
         // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _barMagnetModel, _pickupCoilModel );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
+        wiggleMe.setEnabled( false ); // per 4/27/2005 status meeting
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     
