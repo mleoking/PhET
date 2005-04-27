@@ -54,7 +54,7 @@ public class ApparatusPanel extends JPanel {
     private GraphicLayerSet graphic;
 
     private ArrayList graphicsSetups = new ArrayList();
-    private boolean displayBorder;
+    private boolean displayBorder = true;
 
     protected ApparatusPanel( Object obj ) {
         super( null );
