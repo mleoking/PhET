@@ -8,15 +8,15 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent.model;
+package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.Atom;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 
 /**
  * DefaultEnergyEmissionStrategy
- * <p>
+ * <p/>
  * Always sets the atom to the ground state
  *
  * @author Ron LeMaster

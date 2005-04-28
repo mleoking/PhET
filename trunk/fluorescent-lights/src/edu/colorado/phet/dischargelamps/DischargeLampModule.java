@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent;
+package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -17,10 +17,10 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.flourescent.model.*;
-import edu.colorado.phet.flourescent.view.DischargeLampEnergyLevelMonitorPanel;
-import edu.colorado.phet.flourescent.view.ElectronGraphic;
-import edu.colorado.phet.flourescent.view.SpectrometerGraphic;
+import edu.colorado.phet.dischargelamps.model.*;
+import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPanel;
+import edu.colorado.phet.dischargelamps.view.ElectronGraphic;
+import edu.colorado.phet.dischargelamps.view.SpectrometerGraphic;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
@@ -90,7 +90,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         setApparatusPanel( apparatusPanel );
 
         // Set up the model
-        FluorescentLightModel model = new FluorescentLightModel();
+        DischargeLampModel model = new DischargeLampModel();
         setModel( model );
         setControlPanel( new ControlPanel( this ) );
         atomicStates = createAtomicStates( numEnergyLevels );
@@ -137,8 +137,8 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     private void scaleImageGraphic( PhetImageGraphic imageGraphic ) {
         if( externalGraphicScaleOp == null ) {
             int cathodeAnodeScreenDistance = 550;
-            determineExternalGraphicScale( FluorescentLightsConfig.ANODE_LOCATION,
-                                           FluorescentLightsConfig.CATHODE_LOCATION,
+            determineExternalGraphicScale( DischargeLampsConfig.ANODE_LOCATION,
+                                           DischargeLampsConfig.CATHODE_LOCATION,
                                            cathodeAnodeScreenDistance );
             AffineTransform scaleTx = AffineTransform.getScaleInstance( externalGraphicsScale, externalGraphicsScale );
             externalGraphicScaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
@@ -167,8 +167,8 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires.png" );
         scaleImageGraphic( circuitGraphic );
         circuitGraphic.setRegistrationPoint( (int)( 120 * externalGraphicsScale ), (int)( 340 * externalGraphicsScale ) );
-        circuitGraphic.setLocation( FluorescentLightsConfig.CATHODE_LOCATION );
-        apparatusPanel.addGraphic( circuitGraphic, FluorescentLightsConfig.CIRCUIT_LAYER );
+        circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
+        apparatusPanel.addGraphic( circuitGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
     }
 
     /**
@@ -223,19 +223,19 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      * @param model
      * @param apparatusPanel
      */
-    private void addTube( FluorescentLightModel model, ApparatusPanel apparatusPanel ) {
-        double x = FluorescentLightsConfig.CATHODE_LOCATION.getX() - FluorescentLightsConfig.ELECTRODE_INSETS.left;
-        double y = FluorescentLightsConfig.CATHODE_LOCATION.getY() - FluorescentLightsConfig.CATHODE_LENGTH / 2
-                   - FluorescentLightsConfig.ELECTRODE_INSETS.top;
-        double length = FluorescentLightsConfig.ANODE_LOCATION.getX() - FluorescentLightsConfig.CATHODE_LOCATION.getX()
-                        + FluorescentLightsConfig.ELECTRODE_INSETS.left + FluorescentLightsConfig.ELECTRODE_INSETS.right;
-        double height = FluorescentLightsConfig.CATHODE_LENGTH
-                        + FluorescentLightsConfig.ELECTRODE_INSETS.top + FluorescentLightsConfig.ELECTRODE_INSETS.bottom;
+    private void addTube( DischargeLampModel model, ApparatusPanel apparatusPanel ) {
+        double x = DischargeLampsConfig.CATHODE_LOCATION.getX() - DischargeLampsConfig.ELECTRODE_INSETS.left;
+        double y = DischargeLampsConfig.CATHODE_LOCATION.getY() - DischargeLampsConfig.CATHODE_LENGTH / 2
+                   - DischargeLampsConfig.ELECTRODE_INSETS.top;
+        double length = DischargeLampsConfig.ANODE_LOCATION.getX() - DischargeLampsConfig.CATHODE_LOCATION.getX()
+                        + DischargeLampsConfig.ELECTRODE_INSETS.left + DischargeLampsConfig.ELECTRODE_INSETS.right;
+        double height = DischargeLampsConfig.CATHODE_LENGTH
+                        + DischargeLampsConfig.ELECTRODE_INSETS.top + DischargeLampsConfig.ELECTRODE_INSETS.bottom;
         Point2D tubeLocation = new Point2D.Double( x, y );
         ResonatingCavity tube = new ResonatingCavity( tubeLocation, length, height );
         model.addModelElement( tube );
         ResonatingCavityGraphic tubeGraphic = new ResonatingCavityGraphic( getApparatusPanel(), tube );
-        apparatusPanel.addGraphic( tubeGraphic, FluorescentLightsConfig.TUBE_LAYER );
+        apparatusPanel.addGraphic( tubeGraphic, DischargeLampsConfig.TUBE_LAYER );
         this.tube = tube;
     }
 
@@ -257,18 +257,18 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      * @param apparatusPanel
      * @param cathode
      */
-    private void addAnode( FluorescentLightModel model, ApparatusPanel apparatusPanel, ElectronSource cathode ) {
+    private void addAnode( DischargeLampModel model, ApparatusPanel apparatusPanel, ElectronSource cathode ) {
         ElectronSink anode = new ElectronSink( model,
-                                               FluorescentLightsConfig.ANODE_LINE.getP1(),
-                                               FluorescentLightsConfig.ANODE_LINE.getP2() );
+                                               DischargeLampsConfig.ANODE_LINE.getP1(),
+                                               DischargeLampsConfig.ANODE_LINE.getP2() );
         model.addModelElement( anode );
         this.anode = anode;
-        this.anode.setPosition( FluorescentLightsConfig.ANODE_LOCATION );
+        this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
         PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode.png" );
 
         // Make the graphic the right size
         double scaleX = 1;
-        double scaleY = FluorescentLightsConfig.CATHODE_LENGTH / anodeGraphic.getImage().getHeight();
+        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / anodeGraphic.getImage().getHeight();
         AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
                                                            AffineTransformOp.TYPE_BILINEAR );
         anodeGraphic.setImage( scaleOp.filter( anodeGraphic.getImage(), null ) );
@@ -276,8 +276,8 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
                                            (int)anodeGraphic.getBounds().getHeight() / 2 );
 
         anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
-        anodeGraphic.setLocation( FluorescentLightsConfig.ANODE_LOCATION );
-        apparatusPanel.addGraphic( anodeGraphic, FluorescentLightsConfig.CIRCUIT_LAYER );
+        anodeGraphic.setLocation( DischargeLampsConfig.ANODE_LOCATION );
+        apparatusPanel.addGraphic( anodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
         cathode.addListener( anode );
     }
 
@@ -285,27 +285,27 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      * @param model
      * @param apparatusPanel
      */
-    private void addCathode( FluorescentLightModel model, ApparatusPanel apparatusPanel ) {
+    private void addCathode( DischargeLampModel model, ApparatusPanel apparatusPanel ) {
         cathode = new ElectronSource( model,
-                                      FluorescentLightsConfig.CATHODE_LINE.getP1(),
-                                      FluorescentLightsConfig.CATHODE_LINE.getP2() );
+                                      DischargeLampsConfig.CATHODE_LINE.getP1(),
+                                      DischargeLampsConfig.CATHODE_LINE.getP2() );
         model.addModelElement( cathode );
         cathode.addListener( this );
         cathode.setElectronsPerSecond( 0 );
-        cathode.setPosition( FluorescentLightsConfig.CATHODE_LOCATION );
+        cathode.setPosition( DischargeLampsConfig.CATHODE_LOCATION );
         PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode.png" );
 
         // Make the graphic the right size
         double scaleX = 1;
-        double scaleY = FluorescentLightsConfig.CATHODE_LENGTH / cathodeGraphic.getImage().getHeight();
+        double scaleY = DischargeLampsConfig.CATHODE_LENGTH / cathodeGraphic.getImage().getHeight();
         AffineTransformOp scaleOp = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, scaleY ),
                                                            AffineTransformOp.TYPE_BILINEAR );
         cathodeGraphic.setImage( scaleOp.filter( cathodeGraphic.getImage(), null ) );
         cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
                                              (int)cathodeGraphic.getBounds().getHeight() / 2 );
 
-        cathodeGraphic.setLocation( FluorescentLightsConfig.CATHODE_LOCATION );
-        apparatusPanel.addGraphic( cathodeGraphic, FluorescentLightsConfig.CIRCUIT_LAYER );
+        cathodeGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
+        apparatusPanel.addGraphic( cathodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
     }
 
 
@@ -343,7 +343,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         AtomGraphic graphic = super.addAtom( atom );
         if( random.nextBoolean() ) {
             getApparatusPanel().removeGraphic( graphic );
-            getApparatusPanel().addGraphic( graphic, FluorescentLightsConfig.CIRCUIT_LAYER + 1 );
+            getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
         }
         return graphic;
     }
@@ -357,8 +357,8 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      *
      * @return
      */
-    protected FluorescentLightModel getDischargeLampModel() {
-        return (FluorescentLightModel)getModel();
+    protected DischargeLampModel getDischargeLampModel() {
+        return (DischargeLampModel)getModel();
     }
 
     /**
@@ -396,7 +396,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
         // Create a graphic for the electron
         ElectronGraphic graphic = new ElectronGraphic( getApparatusPanel(), electron );
-        getApparatusPanel().addGraphic( graphic, FluorescentLightsConfig.ELECTRON_LAYER );
+        getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.ELECTRON_LAYER );
         anode.addListener( new AbsorptionElectronAbsorptionListener( electron, graphic ) );
     }
 
@@ -467,8 +467,8 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
             this.add( elmp, gbc );
 
             // Add the spinner that controls the number of energy levels
-            final JSpinner numLevelsSpinner = new JSpinner( new SpinnerNumberModel( FluorescentLightsConfig.NUM_ENERGY_LEVELS, 2,
-                                                                                    FluorescentLightsConfig.MAX_NUM_ENERGY_LEVELS,
+            final JSpinner numLevelsSpinner = new JSpinner( new SpinnerNumberModel( DischargeLampsConfig.NUM_ENERGY_LEVELS, 2,
+                                                                                    DischargeLampsConfig.MAX_NUM_ENERGY_LEVELS,
                                                                                     1 ) );
 
             // Add a listener that will create the number of atomic states specified by the spinner, and apply them
@@ -476,7 +476,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
             numLevelsSpinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     AtomicState[] atomicStates = createAtomicStates( ( (Integer)numLevelsSpinner.getValue() ).intValue() );
-                    java.util.List atoms = ( (FluorescentLightModel)getModel() ).getAtoms();
+                    java.util.List atoms = ( (DischargeLampModel)getModel() ).getAtoms();
                     for( int i = 0; i < atoms.size(); i++ ) {
                         Atom atom = (Atom)atoms.get( i );
                         atom.setStates( atomicStates );

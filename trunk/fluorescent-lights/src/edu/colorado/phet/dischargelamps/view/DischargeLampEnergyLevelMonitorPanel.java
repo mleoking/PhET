@@ -9,15 +9,15 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.flourescent.view;
+package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.*;
-import edu.colorado.phet.flourescent.FluorescentLightsConfig;
-import edu.colorado.phet.flourescent.model.Electron;
-import edu.colorado.phet.flourescent.model.FluorescentLightModel;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
+import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -82,7 +82,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
     private EnergyLevelGraphic[] levelGraphics;
 
-    private FluorescentLightModel model;
+    private DischargeLampModel model;
     private ModelViewTransform1D energyYTx;
     // The offset by which all the graphic elements must be placed, caused by the heading text
     private int headingOffsetY = 20;
@@ -100,7 +100,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      */
     public DischargeLampEnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock, AtomicState[] atomicStates,
                                                  int panelWidth, int panelHeight ) {
-        model = (FluorescentLightModel)module.getLaserModel();
+        model = (DischargeLampModel)module.getLaserModel();
 
         // Determine locations and dimensions
         this.panelWidth = panelWidth;
@@ -330,7 +330,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      */
     public void addElectron( Electron electron ) {
         electron.addChangeListener( this );
-        electronGraphic = new PhetImageGraphic( this, FluorescentLightsConfig.ELECTRON_IMAGE_FILE_NAME );
+        electronGraphic = new PhetImageGraphic( this, DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
         int yLoc = (int)energyYTx.modelToView( electron.getEnergy() );
         electronGraphic.setLocation( electronXLoc, yLoc );
         addGraphic( electronGraphic );

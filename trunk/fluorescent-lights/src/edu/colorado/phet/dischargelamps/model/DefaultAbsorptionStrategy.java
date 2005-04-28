@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent.model;
+package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -17,7 +17,7 @@ import java.util.Random;
 
 /**
  * DefaultAbsorptionStrategy
- * <p>
+ * <p/>
  * Picks a random state between the next higher state than the current state and
  * the highest state to which the electron could elevate the atom.
  *

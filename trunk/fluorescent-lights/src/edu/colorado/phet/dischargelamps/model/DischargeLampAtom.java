@@ -9,24 +9,19 @@
  * Date modified : $Date: 
  */
 
-package edu.colorado.phet.flourescent.model;
+package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.flourescent.FluorescentLightsConfig;
-import edu.colorado.phet.common.view.util.VisibleColor;
-
-import java.util.Random;
 
 /**
  * Extends Atom class from the Laser simulation in that it knows how to collide with
  * an electron
  */
 public class DischargeLampAtom extends Atom {
-    public static final double DEFAULT_STATE_LIFETIME = FluorescentLightsConfig.DT * 6;
+    public static final double DEFAULT_STATE_LIFETIME = DischargeLampsConfig.DT * 6;
     private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
     private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
 
@@ -34,11 +29,11 @@ public class DischargeLampAtom extends Atom {
      * @param model
      * @param states
      */
-    public DischargeLampAtom( LaserModel model, AtomicState[] states) {
+    public DischargeLampAtom( LaserModel model, AtomicState[] states ) {
         super( model, states.length, true );
 
         if( states.length < 2 ) {
-            throw new RuntimeException( "Atom must have at least two states");
+            throw new RuntimeException( "Atom must have at least two states" );
         }
         setStates( states );
         setCurrState( states[0] );
@@ -58,6 +53,7 @@ public class DischargeLampAtom extends Atom {
     /**
      * Returns the state the atom will be in after it emits a photon. By default, this is the
      * ground state
+     *
      * @return
      */
     public AtomicState getEnergyStateAfterEmission() {

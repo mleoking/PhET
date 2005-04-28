@@ -8,13 +8,16 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent.model;
+package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
-import edu.colorado.phet.common.util.EventChannel;
 
-import java.util.*;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Spectrometer
