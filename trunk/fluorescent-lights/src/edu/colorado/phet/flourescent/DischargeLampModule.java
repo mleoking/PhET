@@ -92,8 +92,8 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
         // Add the spectrometer
         spectrometer = new Spectrometer();
-        SpectrometerGraphic spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel() );
-        spectrometer.addChangeListener( spectrometerGraphic );
+        SpectrometerGraphic spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel(), spectrometer );
+//        spectrometer.addChangeListener( spectrometerGraphic );
         addGraphic( spectrometerGraphic, SPECTROMETER_LAYER );
         spectrometerGraphic.setLocation( 180, 450 );
     }

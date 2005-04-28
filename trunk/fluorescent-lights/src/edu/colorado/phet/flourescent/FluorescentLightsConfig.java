@@ -61,4 +61,7 @@ public class FluorescentLightsConfig {
     // Clock specification
     public static final double DT = 12;
     public static final int FPS = 25;
+
+    // Fonts
+    public static final Font defaultControlFont = new Font( "Lucida sans", Font.BOLD, 10 );
 }
