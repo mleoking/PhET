@@ -10,15 +10,13 @@
  */
 package edu.colorado.phet.flourescent.model;
 
-import edu.colorado.phet.common.model.BaseModel;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.MiddleEnergyState;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * FluorescentLightModel
@@ -42,6 +40,7 @@ public class FluorescentLightModel extends LaserModel implements Electrode.State
 
     /**
      * Detects and handles collisions between atoms and electrons
+     *
      * @param dt
      */
     public void stepInTime( double dt ) {
@@ -60,6 +59,7 @@ public class FluorescentLightModel extends LaserModel implements Electrode.State
     /**
      * Extends the parent behavior by detecting the addition of certain types of
      * model elements
+     *
      * @param modelElement
      */
     public void addModelElement( ModelElement modelElement ) {
@@ -85,6 +85,7 @@ public class FluorescentLightModel extends LaserModel implements Electrode.State
     /**
      * Extends the parent behavior by detecting the removal of certain types of
      * model elements
+     *
      * @param modelElement
      */
     public void removeModelElement( ModelElement modelElement ) {
@@ -109,12 +110,14 @@ public class FluorescentLightModel extends LaserModel implements Electrode.State
         return atoms;
     }
 
+
     //-----------------------------------------------------------------
     // Event handling
     //-----------------------------------------------------------------
 
     /**
      * Handles changes in the electrode potentials
+     *
      * @param event
      */
     public void stateChanged( Electrode.StateChangeEvent event ) {
