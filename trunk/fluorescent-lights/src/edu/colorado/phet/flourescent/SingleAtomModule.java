@@ -154,5 +154,6 @@ public class SingleAtomModule extends DischargeLampModule {
         atomGraphic.setCursorHand();
 
         atom.addPhotonEmittedListener( getSpectrometer() );
+        getEneregyLevelsMonitorPanel().reset();
     }
 }
