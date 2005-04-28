@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.flourescent;
 
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -63,8 +63,8 @@ public class FluorescentLightsApp extends PhetApplication {
 
     private static class AppDesc extends ApplicationModel {
         public AppDesc() {
-            super( SimStrings.get("FluorescentLightsApplication.title"),
-                   SimStrings.get("FluorescentLightsApplication.title"),
+            super( SimStrings.get( "FluorescentLightsApplication.title" ),
+                   SimStrings.get( "FluorescentLightsApplication.title" ),
                    "0.01" );
 
             setClock( new SwingTimerClock( FluorescentLightsConfig.DT, FluorescentLightsConfig.FPS, AbstractClock.FRAMES_PER_SECOND ) );
@@ -78,17 +78,18 @@ public class FluorescentLightsApp extends PhetApplication {
             setFrameSetup( frameSetup );
 
             DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
-                                                                            getClock(),
-                                                                            FluorescentLightsConfig.NUM_ENERGY_LEVELS );
+                                                                         getClock(),
+                                                                         FluorescentLightsConfig.NUM_ENERGY_LEVELS );
 
             double maxSpeed = 0.1;
             DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
-                                                                              getClock(), 30,
-                                                                              FluorescentLightsConfig.NUM_ENERGY_LEVELS,
-                                                                              maxSpeed );
+                                                                             getClock(), 30,
+                                                                             FluorescentLightsConfig.NUM_ENERGY_LEVELS,
+                                                                             maxSpeed );
             setModules( new Module[]{
                 singleAtomModule,
                 multipleAtomModule} );
+            setInitialModule( multipleAtomModule );
             setInitialModule( singleAtomModule );
         }
     }

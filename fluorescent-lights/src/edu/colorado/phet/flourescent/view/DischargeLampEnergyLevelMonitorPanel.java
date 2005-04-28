@@ -43,8 +43,8 @@ import java.util.Map;
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
  * A disc is drawn on the energy levels for each atom in that state.
  */
-public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateListener, Atom.ChangeListener,
-                                                                     Electron.ChangeListener {
+public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implements ClockStateListener, Atom.ChangeListener,
+                                                                                  Electron.ChangeListener {
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
 //    private long averagingPeriod = 300;
@@ -80,8 +80,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
     /**
      *
      */
-    public EnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock, AtomicState[] atomicStates,
-                                    int panelWidth, int panelHeight ) {
+    public DischargeLampEnergyLevelMonitorPanel( BaseLaserModule module, AbstractClock clock, AtomicState[] atomicStates,
+                                                 int panelWidth, int panelHeight ) {
         model = (FluorescentLightModel)module.getLaserModel();
 
         // Determine locations and dimensions
@@ -89,7 +89,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         this.panelHeight = panelHeight;
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         this.origin = new Point( 25, panelHeight - 30 );
-        this.levelLineOriginX = (int)origin.getX() + levelLineOffsetX ;
+        this.levelLineOriginX = (int)origin.getX() + levelLineOffsetX;
         this.levelLineLength = panelWidth - levelLineOriginX - 20;
         electronXLoc = (int)origin.getX();
 
@@ -128,10 +128,9 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
     }
 
     /**
-     *
      * @param atomicStates
      */
-    public void setEnergyLevels( AtomicState[] atomicStates) {
+    public void setEnergyLevels( AtomicState[] atomicStates ) {
 
         // Remove any energy level graphics we might have
         // Add the energy level lines to the panel
@@ -141,12 +140,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
 
         // Make new graphics and add them
         this.atomicStates = atomicStates;
-        levelGraphics = new EnergyLevelGraphic[ atomicStates.length ];
+        levelGraphics = new EnergyLevelGraphic[atomicStates.length];
         for( int i = 0; i < levelGraphics.length; i++ ) {
-            levelGraphics[i] = new EnergyLevelGraphic(  this, atomicStates[i],
-                                                Color.blue, levelLineOriginX,
-                                                levelLineLength - levelLineOriginX,
-                                                atomicStates[i] instanceof GroundState ? false : true );
+            levelGraphics[i] = new EnergyLevelGraphic( this, atomicStates[i],
+                                                       Color.blue, levelLineOriginX,
+                                                       levelLineLength - levelLineOriginX,
+                                                       atomicStates[i] instanceof GroundState ? false : true );
             levelGraphics[i].setArrowsEnabled( false );
             this.addGraphic( levelGraphics[i] );
         }
@@ -171,8 +170,8 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         // Populate the map we just made, and add ourself as a listener to each atom
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
-            int n = ((Integer)numAtomsInState.get( atom.getCurrState() )).intValue();
-            numAtomsInState.put( atom.getCurrState(), new Integer( n + 1 ));
+            int n = ( (Integer)numAtomsInState.get( atom.getCurrState() ) ).intValue();
+            numAtomsInState.put( atom.getCurrState(), new Integer( n + 1 ) );
         }
         invalidate();
         repaint();
@@ -214,7 +213,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
         // Draw level atoms
         for( int i = 0; i < atomicStates.length; i++ ) {
             Color c = VisibleColor.wavelengthToColor( atomicStates[i].getWavelength() );
-            int n = ((Integer)numAtomsInState.get( atomicStates[i])).intValue();
+            int n = ( (Integer)numAtomsInState.get( atomicStates[i] ) ).intValue();
             drawAtomsInLevel( g2, c, levelGraphics[i], n );
         }
 
@@ -223,6 +222,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
 
     /**
      * Draws the atom graphics on a specified EnergyLevelGraphic
+     *
      * @param g2
      * @param color
      * @param line
@@ -243,6 +243,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
 
     /**
      * Gets the image for an atom of a specified color
+     *
      * @param color
      * @return
      */
@@ -298,15 +299,16 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
 
     /**
      * Keeps track of how many atoms are in each state
+     *
      * @param event
      */
-    public void stateChanged( Atom.ChangeEvent event ){
+    public void stateChanged( Atom.ChangeEvent event ) {
         AtomicState prevState = event.getPrevState();
         AtomicState currState = event.getCurrState();
-        int nPrev =((Integer)numAtomsInState.get( prevState )).intValue();
-        int nCurr =((Integer)numAtomsInState.get( currState )).intValue();
-        numAtomsInState.put( prevState, new Integer( nPrev - 1 ));
-        numAtomsInState.put( currState, new Integer( nCurr + 1 ));
+        int nPrev = ( (Integer)numAtomsInState.get( prevState ) ).intValue();
+        int nCurr = ( (Integer)numAtomsInState.get( currState ) ).intValue();
+        numAtomsInState.put( prevState, new Integer( nPrev - 1 ) );
+        numAtomsInState.put( currState, new Integer( nCurr + 1 ) );
         invalidate();
         repaint();
     }
@@ -317,11 +319,12 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
 
     /**
      * Add a representation for an electron to the panel
+     *
      * @param electron
      */
     public void addElectron( Electron electron ) {
         electron.addChangeListener( this );
-        electronGraphic = new PhetImageGraphic( this, FluorescentLightsConfig.ELECTRON_IMAGE_FILE_NAME  );
+        electronGraphic = new PhetImageGraphic( this, FluorescentLightsConfig.ELECTRON_IMAGE_FILE_NAME );
         int yLoc = (int)energyYTx.modelToView( electron.getEnergy() );
         electronGraphic.setLocation( electronXLoc, yLoc );
         addGraphic( electronGraphic );
@@ -329,6 +332,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
 
     /**
      * Implementation of Electron.ChangeListener
+     *
      * @param changeEvent
      */
     public void leftSystem( Electron.ChangeEvent changeEvent ) {
@@ -338,6 +342,7 @@ public class EnergyLevelMonitorPanel extends MonitorPanel implements ClockStateL
 
     /**
      * Implementation of Electron.ChangeListener
+     *
      * @param changeEvent
      */
     public void energyChanged( Electron.ChangeEvent changeEvent ) {

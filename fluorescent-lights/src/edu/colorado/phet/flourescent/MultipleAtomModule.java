@@ -11,15 +11,6 @@
 package edu.colorado.phet.flourescent;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.flourescent.model.DischargeLampAtom;
-import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.atom.GroundState;
-import edu.colorado.phet.lasers.model.photon.Photon;
-
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * MultipleAtomModule
@@ -28,6 +19,7 @@ import java.util.ArrayList;
  * @version $Revision$
  */
 public class MultipleAtomModule extends DischargeLampModule {
+//    private AtomicState[] atomicStates;
 
     /**
      * Constructor
@@ -35,46 +27,43 @@ public class MultipleAtomModule extends DischargeLampModule {
      * @param clock
      */
     protected MultipleAtomModule( String name, AbstractClock clock, int numAtoms, int numEnergyLevels, double maxAtomSpeed ) {
-        super( name, clock );
+        super( name, clock, numEnergyLevels );
         addAtoms( getTube(), numAtoms, numEnergyLevels, maxAtomSpeed );
+        addControls();
     }
 
-    /**
-     * Adds some atoms and their graphics
-     *
-     * @param tube
-     * @param numAtoms
-     */
-    private void addAtoms( ResonatingCavity tube, int numAtoms, int numEnergyLevels, double maxSpeed ) {
-        DischargeLampAtom atom = null;
-        ArrayList atoms = new ArrayList();
-        Rectangle2D tubeBounds = tube.getBounds();
-
-        // Todo: consolidate for both modules
-        AtomicState[] states = new AtomicState[numEnergyLevels];
-        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
-        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
-        double dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) : 0;
-
-        states[0] = new GroundState();
-        for( int i = 1; i < states.length; i++ ) {
-            states[i] = new AtomicState();
-            states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-            states[i].setEnergyLevel( minVisibleEnergy + ( i - 1 ) * dE );
-            states[i].setNextLowerEnergyState( states[i - 1] );
-            states[i - 1].setNextHigherEnergyState( states[i] );
-        }
-        states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
-
-        for( int i = 0; i < numAtoms; i++ ) {
-            atom = new DischargeLampAtom( (LaserModel)getModel(), states );
-            atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
-                              ( tubeBounds.getY() + ( Math.random() ) * ( tubeBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
-            atom.setVelocity( (float)( Math.random() - 0.5 ) * maxSpeed,
-                              (float)( Math.random() - 0.5 ) * maxSpeed );
-            atoms.add( atom );
-            addAtom( atom );
-            atom.addPhotonEmittedListener( getSpectrometer() );
-        }
+    private void addControls() {
+//        // Add an energy level monitor panel. Note that the panel has a null layout, so we have to put it in a
+//        // panel that does have one, so it gets laid out properly
+//        final DischargeLampEnergyMonitorPanel2 elmp = new DischargeLampEnergyMonitorPanel2( this, getClock(),
+//                                                                                            atomicStates, 150, 300 );
+//        getControlPanel().add( elmp );
+//
     }
+//
+//    /**
+//     * Adds some atoms and their graphics
+//     *
+//     * @param tube
+//     * @param numAtoms
+//     */
+//    private void addAtoms( ResonatingCavity tube, int numAtoms, int numEnergyLevels, double maxSpeed ) {
+//        DischargeLampAtom atom = null;
+//        ArrayList atoms = new ArrayList();
+//        Rectangle2D tubeBounds = tube.getBounds();
+//
+//        // Todo: consolidate for both modules
+//        atomicStates = createAtomicStates( numEnergyLevels );
+//
+//        for( int i = 0; i < numAtoms; i++ ) {
+//            atom = new DischargeLampAtom( (LaserModel)getModel(), atomicStates );
+//            atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
+//                              ( tubeBounds.getY() + ( Math.random() ) * ( tubeBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
+//            atom.setVelocity( (float)( Math.random() - 0.5 ) * maxSpeed,
+//                              (float)( Math.random() - 0.5 ) * maxSpeed );
+//            atoms.add( atom );
+//            addAtom( atom );
+//            atom.addPhotonEmittedListener( getSpectrometer() );
+//        }
+//    }
 }
