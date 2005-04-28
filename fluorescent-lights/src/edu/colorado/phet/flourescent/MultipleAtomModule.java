@@ -11,32 +11,18 @@
 package edu.colorado.phet.flourescent;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.flourescent.model.*;
-import edu.colorado.phet.flourescent.view.ElectronGraphic;
-import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.flourescent.model.DischargeLampAtom;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
-import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
+import edu.colorado.phet.lasers.model.photon.Photon;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
 import java.util.ArrayList;
 
 /**
- * DischargeLampModule
+ * MultipleAtomModule
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -45,6 +31,7 @@ public class MultipleAtomModule extends DischargeLampModule {
 
     /**
      * Constructor
+     *
      * @param clock
      */
     protected MultipleAtomModule( String name, AbstractClock clock, int numAtoms, int numEnergyLevels, double maxAtomSpeed ) {
@@ -73,7 +60,7 @@ public class MultipleAtomModule extends DischargeLampModule {
         for( int i = 1; i < states.length; i++ ) {
             states[i] = new AtomicState();
             states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-            states[i].setEnergyLevel( minVisibleEnergy + (i - 1) * dE );
+            states[i].setEnergyLevel( minVisibleEnergy + ( i - 1 ) * dE );
             states[i].setNextLowerEnergyState( states[i - 1] );
             states[i - 1].setNextHigherEnergyState( states[i] );
         }
