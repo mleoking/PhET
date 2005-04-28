@@ -18,7 +18,6 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedEvent;
 import edu.colorado.phet.lasers.model.photon.PhotonEmittedListener;
 
-import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -49,7 +48,6 @@ public class Atom extends SolidSphere {
     private boolean isStateLifetimeFixed = false;
 
     /**
-     *
      * @param model
      * @param numStates
      */
@@ -58,7 +56,6 @@ public class Atom extends SolidSphere {
     }
 
     /**
-     *
      * @param model
      * @param numStates
      * @param isStateLifetimeFixed
@@ -83,6 +80,7 @@ public class Atom extends SolidSphere {
     /**
      * Sets the states that the atom can be in. Sets the atom's current state to the
      * ground state
+     *
      * @param states
      */
     public void setStates( AtomicState[] states ) {
@@ -90,7 +88,7 @@ public class Atom extends SolidSphere {
         for( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
             if( state instanceof GroundState ) {
-                currState = state;
+                Atom.this.setCurrState( state );
             }
         }
     }
@@ -112,6 +110,7 @@ public class Atom extends SolidSphere {
 
     /**
      * Returns the atom's state with the lowest energy
+     *
      * @return
      */
     public AtomicState getLowestEnergyState() {
@@ -138,7 +137,6 @@ public class Atom extends SolidSphere {
     }
 
     /**
-     *
      * @return
      */
     public boolean isStateLifetimeFixed() {
@@ -186,8 +184,6 @@ public class Atom extends SolidSphere {
     }
 
     /**
-     *
-     *
      * @param photon
      */
     public void collideWithPhoton( Photon photon ) {

@@ -13,8 +13,6 @@ package edu.colorado.phet.flourescent.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockStateEvent;
-import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.*;
 import edu.colorado.phet.flourescent.FluorescentLightsConfig;
@@ -43,8 +41,27 @@ import java.util.Map;
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
  * A disc is drawn on the energy levels for each atom in that state.
  */
-public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implements ClockStateListener, Atom.ChangeListener,
+public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implements Atom.ChangeListener,
                                                                                   Electron.ChangeListener {
+
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+
+    private static BufferedImage baseSphereImg;
+
+    static {
+        try {
+            baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-lrg.gif" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------
 
     // Number of milliseconds between display updates. Energy level populations are averaged over this time
 //    private long averagingPeriod = 300;
@@ -67,15 +84,16 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
     private FluorescentLightModel model;
     private ModelViewTransform1D energyYTx;
-    private BufferedImage baseSphereImg;
     // The offset by which all the graphic elements must be placed, caused by the heading text
     private int headingOffsetY = 20;
     private AtomicState[] atomicStates;
     private List atoms;
-    private HashMap numAtomsInState;
+    private HashMap numAtomsInState = new HashMap();
     private PhetImageGraphic electronGraphic;
     private int electronXLoc;
     private int levelLineOffsetX = 20;
+    private int numAtoms;
+    private double atomGraphicOverlap = 0.3;
 
     /**
      *
@@ -94,9 +112,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         electronXLoc = (int)origin.getX();
 
         this.setBackground( Color.white );
-
-        // Add a listener that will update the panel if the clock is paused
-        clock.addClockStateListener( this );
 
         // Create a horizontal line for each energy level, then add them to the panel
         setEnergyLevels( atomicStates );
@@ -129,12 +144,14 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
     /**
      * Adds a graphic to the panel for the specified atom, and adds the panel to the atom
-     * as a state change listener
+     * as a state change listener. Adjusts the length of the line to be long enough to hold
+     * all the atoms
      *
      * @param atom
      */
     public void addAtom( Atom atom ) {
         atom.addChangeListener( this );
+        numAtoms++;
         int n = ( (Integer)numAtomsInState.get( atom.getCurrState() ) ).intValue();
         numAtomsInState.put( atom.getCurrState(), new Integer( n + 1 ) );
     }
@@ -153,10 +170,12 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // Make new graphics and add them
         this.atomicStates = atomicStates;
         levelGraphics = new EnergyLevelGraphic[atomicStates.length];
+        levelLineLength = (int)( ( numAtoms - 1 ) * ( atomDiam * ( 1 - atomGraphicOverlap ) ) + atomDiam * 1.5 );
         for( int i = 0; i < levelGraphics.length; i++ ) {
             levelGraphics[i] = new EnergyLevelGraphic( this, atomicStates[i],
                                                        Color.blue, levelLineOriginX,
-                                                       levelLineLength - levelLineOriginX,
+                                                       levelLineLength,
+//                                                       levelLineLength - levelLineOriginX,
                                                        atomicStates[i] instanceof GroundState ? false : true );
             levelGraphics[i].setArrowsEnabled( false );
             this.addGraphic( levelGraphics[i] );
@@ -174,7 +193,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
     private void initializeStateCounters() {
         atoms = model.getAtoms();
-        numAtomsInState = new HashMap();
+        numAtomsInState.clear();
         // Make the map of atomic states to the number of atoms in each state
         for( int i = 0; i < atomicStates.length; i++ ) {
             numAtomsInState.put( atomicStates[i], new Integer( 0 ) );
@@ -223,6 +242,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         GraphicsUtil.setAntiAliasingOn( g2 );
 
         // Draw level atoms
+        // todo: cache Color instances to improve performance
         for( int i = 0; i < atomicStates.length; i++ ) {
             Color c = VisibleColor.wavelengthToColor( atomicStates[i].getWavelength() );
             int n = ( (Integer)numAtomsInState.get( atomicStates[i] ) ).intValue();
@@ -248,7 +268,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                        line.getLinePosition().getY() - atomDiam );
         atx.scale( scale, scale );
         for( int i = 0; i < numInLevel; i++ ) {
-            atx.translate( atomDiam * 0.7 / scale, 0 );
+            atx.translate( atomDiam * ( 1 - atomGraphicOverlap ) / scale, 0 );
             g2.drawRenderedImage( bi, atx );
         }
     }
@@ -260,14 +280,14 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      * @return
      */
     private BufferedImage getAtomImage( Color color ) {
-        if( baseSphereImg == null ) {
-            try {
-                baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-lrg.gif" );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
-        }
+//        if( baseSphereImg == null ) {
+//            try {
+//                baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-lrg.gif" );
+//            }
+//            catch( IOException e ) {
+//                e.printStackTrace();
+//            }
+//        }
         // Look for the image in the cache
         BufferedImage atomImg = (BufferedImage)colorToAtomImage.get( color );
         if( atomImg == null ) {
@@ -277,32 +297,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             colorToAtomImage.put( color, atomImg );
         }
         return atomImg;
-    }
-
-    //----------------------------------------------------------------
-    // ClockStateListener implementation
-    //----------------------------------------------------------------
-
-    /**
-     * If the clock pauses, force the update and repaint of energy level populations. We need to do this because
-     * when the clock is running, the populations shown are averages over time, and if the clock is paused, we
-     * want the populations shown to agree with the actual number of atoms in each state.
-     *
-     * @param event
-     */
-    public void stateChanged( ClockStateEvent event ) {
-        if( event.getIsPaused() ) {
-//            update();
-        }
-    }
-
-    public void delayChanged( int waitTime ) {
-    }
-
-    public void dtChanged( double dt ) {
-    }
-
-    public void threadPriorityChanged( int priority ) {
     }
 
     //----------------------------------------------------------------
