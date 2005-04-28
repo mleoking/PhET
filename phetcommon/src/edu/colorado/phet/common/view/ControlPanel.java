@@ -16,6 +16,8 @@ import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,10 +77,18 @@ public class ControlPanel extends JPanel {
         gbc.gridy = 0;
         scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         scrollPane.setBorder( null );
+//        scrollPane.addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                System.out.println( "e = " + e );
+//            }
+//        } );
         gbc.weighty = 1;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
 //        super.add( controlPane, gbc );
+//        JPanel jp = new JPanel( );
+//        jp.add(scrollPane);
+//        super.add( jp, gbc );
         super.add( scrollPane, gbc );
 
         // The panel for the help button
