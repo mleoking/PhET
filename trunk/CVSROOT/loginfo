@@ -46,6 +46,7 @@
 ^ideal-gas-v3\(/\|$\) mail -s "CVS commit: ideal-gas-3" ronlemaster
 ^lasers\(/\|$\) mail -s "CVS commit: lasers" ronlemaster
 ^nuclearphysics\(/\|$\) mail -s "CVS commit: nuclearphysics" ronlemaster
+^fluorescent-lights\(/\|$\) mail -s "CVS commit: fluorescent-lights" ronlemaster
 ^PhET-installer(/\|$\) mail -s "CVS commit: PhET-installer" ronlemaster
 ^phetcommon\(/\|$\) mail -s "CVS commit: phetcommon" ronlemaster cmalley samreid joetreat
 ^sound-2\(/\|$\) mail -s "CVS commit: sound-2" ronlemaster
