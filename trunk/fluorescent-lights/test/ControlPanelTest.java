@@ -9,19 +9,20 @@
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.common.view.ControlPanel;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ApplicationModel;
+import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 /**
  * ControlPanelTest
@@ -36,9 +37,25 @@ public class ControlPanelTest {
         SwingTimerClock clock = new SwingTimerClock( 10, 25, AbstractClock.FRAMES_PER_SECOND );
         appModel.setClock( clock );
         TestModule testModuleA = new TestModule( "A", clock );
-        appModel.setModules( new Module[] {testModuleA, new TestModule( "B", clock ), new TestModule( "C", clock ) });
+        appModel.setModules( new Module[]{testModuleA, new TestModule( "B", clock ), new TestModule( "C", clock )} );
         appModel.setInitialModule( testModuleA );
         PhetApplication app = new PhetApplication( appModel );
+//        app.startApplication();
+        try {
+            Robot robot = new Robot();
+
+            // Simulate a mouse click
+            app.getPhetFrame().requestFocus();
+            robot.mouseMove( app.getPhetFrame().getLocation().x + 30, app.getPhetFrame().getLocation().y );
+            robot.mousePress( InputEvent.BUTTON1_MASK );
+            robot.mouseRelease( InputEvent.BUTTON1_MASK );
+
+            // Simulate a key press
+            robot.keyPress( KeyEvent.VK_A );
+            robot.keyRelease( KeyEvent.VK_A );
+        }
+        catch( AWTException e ) {
+        }
         app.startApplication();
     }
 
@@ -77,14 +94,15 @@ public class ControlPanelTest {
             ApparatusPanel2 ap = new ApparatusPanel2( clock );
             ap.setBackground( Color.white );
             ap.setDisplayBorder( true );
-            ap.setPreferredSize( new Dimension(  200, 200 ));
-            ap.addGraphic( new PhetShapeGraphic( ap, new Rectangle( 100, 100, 50, 50 ), Color.red));
+            ap.setPreferredSize( new Dimension( 200, 200 ) );
+            ap.addGraphic( new PhetShapeGraphic( ap, new Rectangle( 100, 100, 50, 50 ), Color.red ) );
             setApparatusPanel( ap );
 
             setModel( new BaseModel() );
 
             ControlPanel cp = new ControlPanel( this );
             JTextField textField = new JTextField( "012345678901234567890123456789" );
+
             cp.add( textField );
 
 //            TestPanel tp = new TestPanel();
@@ -100,17 +118,18 @@ public class ControlPanelTest {
     }
 
     static class TestPanel extends JPanel {
-        GridBagConstraints gbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,1,1,0,0,
+        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0,
                                                          GridBagConstraints.NORTHWEST,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),0,0 );
-        GridBagConstraints gbc2 = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,1,1,0,0,
-                                                         GridBagConstraints.NORTHWEST,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),0,0 );
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        GridBagConstraints gbc2 = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0,
+                                                          GridBagConstraints.NORTHWEST,
+                                                          GridBagConstraints.NONE,
+                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         JPanel jp = new JPanel( new GridBagLayout() );
+
         public TestPanel() {
-            setLayout( new GridBagLayout());
+            setLayout( new GridBagLayout() );
             add( jp, gbc2 );
         }
 

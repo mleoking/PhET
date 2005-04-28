@@ -11,41 +11,31 @@
 package edu.colorado.phet.flourescent;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.flourescent.model.*;
-import edu.colorado.phet.flourescent.view.ElectronGraphic;
+import edu.colorado.phet.flourescent.model.DischargeLampAtom;
+import edu.colorado.phet.flourescent.model.Electron;
 import edu.colorado.phet.flourescent.view.EnergyLevelMonitorPanel;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
-import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
+import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 import edu.colorado.phet.lasers.view.AtomGraphic;
-import edu.colorado.phet.lasers.view.LaserEnergyLevelMonitorPanel;
-import edu.colorado.phet.lasers.view.EnergyLevelsDialog;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
-import java.util.ArrayList;
 
 /**
- * DischargeLampModule
+ * SingleAtomModule
+ * <p/>
+ * Provides a lamp with a single atom
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -103,24 +93,24 @@ public class SingleAtomModule extends DischargeLampModule {
                 }
             }
         } );
-        JRadioButton continuousRB = new JRadioButton( new AbstractAction( "Continuous") {
+        JRadioButton continuousRB = new JRadioButton( new AbstractAction( "Continuous" ) {
             public void actionPerformed( ActionEvent e ) {
-                currentSlider.setVisible( true);
+                currentSlider.setVisible( true );
                 getCathode().setElectronsPerSecond( currentSlider.getValue() );
                 singleShotBtn.setVisible( false );
             }
-        });
-        JRadioButton singleShotRB = new JRadioButton( new AbstractAction( "Single") {
+        } );
+        JRadioButton singleShotRB = new JRadioButton( new AbstractAction( "Single" ) {
             public void actionPerformed( ActionEvent e ) {
                 currentSlider.setVisible( false );
                 getCathode().setElectronsPerSecond( 0 );
                 singleShotBtn.setVisible( true );
             }
-        });
+        } );
         electronProductionBtnGrp.add( continuousRB );
         electronProductionBtnGrp.add( singleShotRB );
 
-        JPanel rbPanel = new JPanel( );
+        JPanel rbPanel = new JPanel();
         rbPanel.add( singleShotRB );
         rbPanel.add( continuousRB );
         electronProductionControlPanel.add( rbPanel, gbc );
