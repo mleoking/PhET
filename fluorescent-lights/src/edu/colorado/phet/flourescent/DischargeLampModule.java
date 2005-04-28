@@ -320,7 +320,6 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         ArrayList atoms = new ArrayList();
         Rectangle2D tubeBounds = tube.getBounds();
 
-        // Todo: consolidate for both modules
         atomicStates = createAtomicStates( numEnergyLevels );
 
         for( int i = 0; i < numAtoms; i++ ) {
@@ -333,12 +332,14 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
             addAtom( atom );
             atom.addPhotonEmittedListener( getSpectrometer() );
         }
+        energyLevelsMonitorPanel.reset();
     }
 
     /**
-     * Overrides parent behavior to place half the atoms in a layer above the electrodes, and half below
+     * Extends parent behavior to place half the atoms in a layer above the electrodes, and half below
      */
     protected AtomGraphic addAtom( Atom atom ) {
+        energyLevelsMonitorPanel.addAtom( atom );
         AtomGraphic graphic = super.addAtom( atom );
         if( random.nextBoolean() ) {
             getApparatusPanel().removeGraphic( graphic );
@@ -490,6 +491,14 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
         public void addElectron( Electron electron ) {
             elmp.addElectron( electron );
+        }
+
+        public void reset() {
+            elmp.setEnergyLevels( atomicStates );
+        }
+
+        public void addAtom( Atom atom ) {
+            elmp.addAtom( atom );
         }
     }
 }

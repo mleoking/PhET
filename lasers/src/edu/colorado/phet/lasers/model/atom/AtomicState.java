@@ -184,17 +184,22 @@ public class AtomicState {
     }
 
     public int hashCode() {
-        return (int)( energyLevel * 1E50 ) + (int)( wavelength * 1E9 ) + (int)( meanLifetime * 1E3 );
+        return (int)( Double.doubleToLongBits( energyLevel ) + Double.doubleToLongBits( wavelength ) + Double.doubleToLongBits( meanLifetime ) );
     }
 
+    /**
+     * Tests only the energy level and wavelength. Cannot test the nextHigherState and nextLowerState
+     * because that results in stack overflows.
+     *
+     * @param obj
+     * @return
+     */
     public boolean equals( Object obj ) {
         boolean result = false;
-        if( obj instanceof AtomicState ) {
+        if( obj instanceof AtomicState && obj != null ) {
             AtomicState that = (AtomicState)obj;
             result = this.energyLevel == that.energyLevel
-                     && this.wavelength == that.wavelength
-                     && this.nextLowerState == that.nextLowerState
-                     && this.nextHigherState == that.nextHigherState;
+                     && this.wavelength == that.wavelength;
         }
         return result;
     }

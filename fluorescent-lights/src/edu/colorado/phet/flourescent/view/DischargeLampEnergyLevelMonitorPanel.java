@@ -128,6 +128,18 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     }
 
     /**
+     * Adds a graphic to the panel for the specified atom, and adds the panel to the atom
+     * as a state change listener
+     *
+     * @param atom
+     */
+    public void addAtom( Atom atom ) {
+        atom.addChangeListener( this );
+        int n = ( (Integer)numAtomsInState.get( atom.getCurrState() ) ).intValue();
+        numAtomsInState.put( atom.getCurrState(), new Integer( n + 1 ) );
+    }
+
+    /**
      * @param atomicStates
      */
     public void setEnergyLevels( AtomicState[] atomicStates ) {

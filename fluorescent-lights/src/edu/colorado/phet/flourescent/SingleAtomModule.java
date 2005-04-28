@@ -139,9 +139,7 @@ public class SingleAtomModule extends DischargeLampModule {
     private void addAtom( ResonatingCavity tube, int numEnergyLevels ) {
         Rectangle2D tubeBounds = tube.getBounds();
 
-        // Todo: consolidate for both modules
         AtomicState[] states = createAtomicStates( numEnergyLevels );
-
         atom = new DischargeLampAtom( (LaserModel)getModel(), states );
         atom.setPosition( tubeBounds.getX() + tubeBounds.getWidth() / 2,
                           tubeBounds.getY() + tubeBounds.getHeight() / 2 );
