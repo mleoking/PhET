@@ -8,17 +8,15 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent.model;
+package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.mechanics.Body;
 
-import java.util.EventObject;
-import java.util.EventListener;
-import java.util.Random;
 import java.awt.geom.Point2D;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.Random;
 
 /**
  * ElectronSource

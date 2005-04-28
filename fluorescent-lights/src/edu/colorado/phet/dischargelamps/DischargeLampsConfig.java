@@ -8,12 +8,10 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent;
+package edu.colorado.phet.dischargelamps;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Point2D;
 
 /**
  * FluorescentLightsConfig
@@ -21,10 +19,10 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class FluorescentLightsConfig {
+public class DischargeLampsConfig {
 
     // Localization
-    public static final String localizedStringsPath = "localization/FluorescentLightsStrings";
+    public static final String localizedStringsPath = "localization/DischargeLampsStrings";
 
     public static final int NUM_ENERGY_LEVELS = 2;
     public static final int MAX_NUM_ENERGY_LEVELS = 6;

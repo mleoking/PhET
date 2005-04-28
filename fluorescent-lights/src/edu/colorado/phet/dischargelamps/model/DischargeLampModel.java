@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent.model;
+package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
@@ -24,7 +24,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class FluorescentLightModel extends LaserModel implements Electrode.StateChangeListener {
+public class DischargeLampModel extends LaserModel implements Electrode.StateChangeListener {
     private List atoms = new ArrayList();
     private List electrons = new ArrayList();
     private ElectronAtomCollisionExpert electronAtomCollisionExpert = new ElectronAtomCollisionExpert();
@@ -33,7 +33,7 @@ public class FluorescentLightModel extends LaserModel implements Electrode.State
     private Vector2D electronAcceleration = new Vector2D.Double();
 
 
-    public FluorescentLightModel() {
+    public DischargeLampModel() {
         // This is the place to set the mean lifetime for the various atomic states
 //        MiddleEnergyState.instance().setMeanLifetime( .00001 );
     }

@@ -8,13 +8,13 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent.view;
+package edu.colorado.phet.dischargelamps.view;
 
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.flourescent.FluorescentLightsConfig;
-import edu.colorado.phet.flourescent.model.Electron;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.Electron;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -34,9 +34,9 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
     private static BufferedImage IMAGE;
     private Electron electron;
 
-    static{
+    static {
         try {
-            IMAGE = ImageLoader.loadBufferedImage( FluorescentLightsConfig.ELECTRON_IMAGE_FILE_NAME );
+            IMAGE = ImageLoader.loadBufferedImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -48,7 +48,7 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         this.electron = electron;
         electron.addObserver( this );
         setImage( IMAGE );
-        setRegistrationPoint( (int)(IMAGE.getWidth()/2),(int)(IMAGE.getWidth()/2));
+        setRegistrationPoint( (int)( IMAGE.getWidth() / 2 ), (int)( IMAGE.getWidth() / 2 ) );
     }
 
     public void update() {

@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent;
+package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
@@ -22,14 +22,14 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import java.awt.*;
 
 /**
- * FuorescentLightsApp
+ * DischargeLampsApp
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class FluorescentLightsApp extends PhetApplication {
+public class DischargeLampsApp extends PhetApplication {
 
-    public FluorescentLightsApp( ApplicationModel descriptor, String args[] ) {
+    public DischargeLampsApp( ApplicationModel descriptor, String args[] ) {
         super( descriptor, args );
     }
 
@@ -63,11 +63,11 @@ public class FluorescentLightsApp extends PhetApplication {
 
     private static class AppDesc extends ApplicationModel {
         public AppDesc() {
-            super( SimStrings.get( "FluorescentLightsApplication.title" ),
-                   SimStrings.get( "FluorescentLightsApplication.title" ),
+            super( SimStrings.get( "DischargeLampsApplication.title" ),
+                   SimStrings.get( "DischargeLampsApplication.title" ),
                    "0.01" );
 
-            setClock( new SwingTimerClock( FluorescentLightsConfig.DT, FluorescentLightsConfig.FPS, AbstractClock.FRAMES_PER_SECOND ) );
+            setClock( new SwingTimerClock( DischargeLampsConfig.DT, DischargeLampsConfig.FPS, AbstractClock.FRAMES_PER_SECOND ) );
 
             // Determine the resolution of the screen
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -79,12 +79,12 @@ public class FluorescentLightsApp extends PhetApplication {
 
             DischargeLampModule singleAtomModule = new SingleAtomModule( SimStrings.get( "ModuleTitle.SingleAtomModule" ),
                                                                          getClock(),
-                                                                         FluorescentLightsConfig.NUM_ENERGY_LEVELS );
+                                                                         DischargeLampsConfig.NUM_ENERGY_LEVELS );
 
             double maxSpeed = 0.1;
             DischargeLampModule multipleAtomModule = new MultipleAtomModule( SimStrings.get( "ModuleTitle.MultipleAtomModule" ),
                                                                              getClock(), 30,
-                                                                             FluorescentLightsConfig.NUM_ENERGY_LEVELS,
+                                                                             DischargeLampsConfig.NUM_ENERGY_LEVELS,
                                                                              maxSpeed );
             setModules( new Module[]{
                 singleAtomModule,
@@ -95,10 +95,10 @@ public class FluorescentLightsApp extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        SimStrings.setStrings( FluorescentLightsConfig.localizedStringsPath );
+        SimStrings.setStrings( DischargeLampsConfig.localizedStringsPath );
         SimStrings.setStrings( LaserConfig.localizedStringsPath );
 
-        FluorescentLightsApp app = new FluorescentLightsApp( new AppDesc(), args );
+        DischargeLampsApp app = new DischargeLampsApp( new AppDesc(), args );
         app.startApplication();
     }
 

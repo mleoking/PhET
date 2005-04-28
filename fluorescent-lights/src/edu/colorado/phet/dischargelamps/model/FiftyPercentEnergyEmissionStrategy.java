@@ -8,11 +8,10 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent.model;
+package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.atom.GroundState;
+import edu.colorado.phet.lasers.model.atom.AtomicState;
 
 import java.util.Random;
 
@@ -42,7 +41,7 @@ public class FiftyPercentEnergyEmissionStrategy implements EnergyEmissionStrateg
                 break;
             }
         }
-        if( random.nextBoolean() || currStateIdx < 2) {
+        if( random.nextBoolean() || currStateIdx < 2 ) {
             nextStateIdx = 0;
         }
         else {

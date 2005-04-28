@@ -9,24 +9,14 @@
  * Date modified : $Date: 
  */
 
-package edu.colorado.phet.flourescent.model;
+package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.collision.Collidable;
-import edu.colorado.phet.collision.SphereSphereExpert;
 import edu.colorado.phet.collision.CollisionExpert;
 import edu.colorado.phet.collision.CollisionUtil;
-import edu.colorado.phet.lasers.model.atom.Atom;
-import edu.colorado.phet.lasers.model.photon.Photon;
-import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.common.math.Vector2D;
 
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
-import java.awt.*;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *

@@ -8,16 +8,14 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent.model;
+package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.collision.Collidable;
 import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.flourescent.FluorescentLightsConfig;
-import edu.colorado.phet.lasers.model.atom.AtomicState;
-import edu.colorado.phet.lasers.model.photon.Photon;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -43,7 +41,7 @@ public class Electron extends SphericalBody implements Collidable {
     private CollidableAdapter collidableAdapter;
 
     public Electron() {
-        super( FluorescentLightsConfig.ELECTRON_RADIUS );
+        super( DischargeLampsConfig.ELECTRON_RADIUS );
         collidableAdapter = new CollidableAdapter( this );
         setMass( ELECTRON_MASS );
         setRadius( ELECTRON_RADIUS );
@@ -80,7 +78,7 @@ public class Electron extends SphericalBody implements Collidable {
     }
 
     public double getEnergy() {
-        return getVelocity().getMagnitudeSq() * getMass() / 2 ;
+        return getVelocity().getMagnitudeSq() * getMass() / 2;
     }
 
     public void setEnergy( double e ) {
@@ -110,6 +108,7 @@ public class Electron extends SphericalBody implements Collidable {
 
     public interface ChangeListener extends EventListener {
         void leftSystem( ChangeEvent changeEvent );
+
         void energyChanged( ChangeEvent changeEvent );
     }
 

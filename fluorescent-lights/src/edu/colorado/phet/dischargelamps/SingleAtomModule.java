@@ -8,12 +8,12 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.flourescent;
+package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.components.ModelSlider;
-import edu.colorado.phet.flourescent.model.DischargeLampAtom;
-import edu.colorado.phet.flourescent.model.Electron;
+import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
+import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -120,10 +120,10 @@ public class SingleAtomModule extends DischargeLampModule {
             public void actionPerformed( ActionEvent e ) {
                 JCheckBox cb = (JCheckBox)e.getSource();
                 if( cb.isSelected() ) {
-                    getClock().setDt( FluorescentLightsConfig.DT / 5 );
+                    getClock().setDt( DischargeLampsConfig.DT / 5 );
                 }
                 else {
-                    getClock().setDt( FluorescentLightsConfig.DT );
+                    getClock().setDt( DischargeLampsConfig.DT );
                 }
             }
         } );
