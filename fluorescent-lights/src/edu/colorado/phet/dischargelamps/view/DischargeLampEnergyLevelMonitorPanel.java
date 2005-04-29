@@ -70,7 +70,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     private int atomDiam = 10;
     // Dimensions of the panel
     private int panelHeight = 230;
-    private int panelWidth = 320;
+    private int minPanelWidth = 100;
     // Amplitude of the squiggle waves
     // Location and size of energy level lines
     private Point2D origin;
@@ -103,7 +103,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         model = (DischargeLampModel)module.getLaserModel();
 
         // Determine locations and dimensions
-        this.panelWidth = panelWidth;
+//        this.minPanelWidth = panelWidth;
         this.panelHeight = panelHeight;
         setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
         this.origin = new Point( 25, panelHeight - 30 );
@@ -181,7 +181,10 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             this.addGraphic( levelGraphics[i] );
         }
 
-        setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
+        // Set the width of the panel so it can show all the atoms
+        int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 10 );
+        setPreferredSize( new Dimension( width, (int)panelHeight ) );
+//        setPreferredSize( new Dimension( (int)minPanelWidth, (int)panelHeight ) );
         // Needed to set the energyYTx
         adjustPanel();
         // Set up the counters for the number of atoms in each state
