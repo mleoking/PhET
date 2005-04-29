@@ -105,7 +105,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // Add controls for the number and type of molecules to put in the box
-        JPanel speciesButtonPanel = new PumpControlPanel( module, module.getPump() );
+        JPanel speciesButtonPanel = new PumpControlPanel( module, module.getPump(), module.getSpeciesNames() );
         speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Gas_In_Chamber" ) ) );
         particleControlsPanel.add( speciesButtonPanel, particleControlsGbc );
     }

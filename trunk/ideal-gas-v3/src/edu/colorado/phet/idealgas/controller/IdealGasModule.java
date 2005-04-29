@@ -175,6 +175,15 @@ public class IdealGasModule extends Module {
     }
 
     /**
+     * Specifies the names of the particles used in the simulation. Can be overridden by other modules.
+     * @return
+     */
+    protected String[] getSpeciesNames() {
+        System.out.println( "IdealGasModule.getSpeciesNames" );
+        return new String[] { SimStrings.get( "Common.Heavy_Species" ), SimStrings.get( "Common.Light_Species" ) };
+    }
+
+    /**
      * Creates the pressure gauge and thermometer
      *
      * @param clock

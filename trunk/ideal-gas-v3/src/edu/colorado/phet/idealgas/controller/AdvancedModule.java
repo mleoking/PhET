@@ -11,6 +11,7 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.Wall;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
@@ -40,12 +41,16 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class AdvancedModule extends IdealGasModule {
+//    public static final Color COLOR_B = Color.orange;
+    public static final Color COLOR_B = new Color( 200, 100, 0 );
+    public static final Color COLOR_A = new Color( 0, 150, 0 );
+
     private static Font readoutFont = new Font( "Lucida sans", Font.BOLD, 12 );
     protected Wall verticalWall;
     private ParticleCounter leftRegionParticleCounter;
     private ParticleCounter rightRegionParticleCounter;
-    private Color colorB = new Color( 255, 155, 0 );
-    private Color colorA = new Color( 0, 150, 0 );
+    private Color orgLightColor;
+    private Color orgHeavyColor;
 
     public AdvancedModule( AbstractClock clock, String name ) {
         super( clock, name );
@@ -61,9 +66,6 @@ public class AdvancedModule extends IdealGasModule {
         LightSpecies.setMoleculeMass( HeavySpecies.getMoleculeMass() );
         LightSpecies.setMoleculeRadius( HeavySpecies.getMoleculeRadius() );
 
-        // Set the colors of the particle graphics
-        LightSpeciesGraphic.setColor( colorB );
-        HeavySpeciesGraphic.setColor( colorA );
     }
 
     public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
@@ -96,10 +98,10 @@ public class AdvancedModule extends IdealGasModule {
         addGraphic( rightCounterReadout, IdealGasConfig.READOUT_LAYER );
 
         // Put Text graphics above the box that indicate the reactants and products
-        PhetTextGraphic leftTextGraphic = new CounterLetter( getApparatusPanel(), readoutFont, text1, colorA, leftRegionParticleCounter );
+        PhetTextGraphic leftTextGraphic = new CounterLetter( getApparatusPanel(), readoutFont, text1, COLOR_A, leftRegionParticleCounter );
         leftTextGraphic.setLocation( (int)boxBounds.getMinX() + 50, (int)boxBounds.getMinY() - 50 );
         addGraphic( leftTextGraphic, IdealGasConfig.READOUT_LAYER );
-        PhetTextGraphic rightTextGraphic = new CounterLetter( getApparatusPanel(), readoutFont, text2, colorB, rightRegionParticleCounter );
+        PhetTextGraphic rightTextGraphic = new CounterLetter( getApparatusPanel(), readoutFont, text2, COLOR_B, rightRegionParticleCounter );
         rightTextGraphic.setLocation( (int)boxBounds.getMaxX() - 60, (int)boxBounds.getMinY() - 50 );
         addGraphic( rightTextGraphic, IdealGasConfig.READOUT_LAYER );
 
@@ -114,6 +116,16 @@ public class AdvancedModule extends IdealGasModule {
                                    arrowThickness * headMultiplier, arrowThickness * headMultiplier, arrowThickness );
         addGraphic( new PhetShapeGraphic( getApparatusPanel(), lrArrow.getShape(), Color.black ), IdealGasConfig.READOUT_LAYER );
         addGraphic( new PhetShapeGraphic( getApparatusPanel(), rlArrow.getShape(), Color.black ), IdealGasConfig.READOUT_LAYER );
+    }
+
+    /**
+     * Specifies the labels for the types of particles in the simulation
+     * @return
+     */
+    protected String[] getSpeciesNames() {
+        System.out.println( "AdvancedModule.getSpeciesNames" );
+        return new String[] { SimStrings.get( "AdvancedModule.Particle_Type_A" ),
+                              SimStrings.get( "AdvancedModule.Particle_Type_B" ) };
     }
 
     /**
@@ -194,5 +206,21 @@ public class AdvancedModule extends IdealGasModule {
             Font font = new Font( "Lucida sans", Font.BOLD, size );
             this.setFont( font );
         }
+    }
+
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        // Set the colors of the particle graphics
+        orgLightColor = LightSpeciesGraphic.getColor();
+        orgHeavyColor = HeavySpeciesGraphic.getColor();
+        LightSpeciesGraphic.setColor( COLOR_B );
+        HeavySpeciesGraphic.setColor( COLOR_A );
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        LightSpeciesGraphic.setColor( orgLightColor );
+        HeavySpeciesGraphic.setColor( orgHeavyColor );
     }
 }

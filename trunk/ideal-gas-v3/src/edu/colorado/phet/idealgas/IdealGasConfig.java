@@ -78,9 +78,11 @@ public class IdealGasConfig {
     // Animation images
     public static final String ANIMATION_DIRECTORY = IMAGE_DIRECTORY + "animations/";
     public static final int NUM_PUSHER_ANIMATION_FRAMES = 19;
-    public static final String PUSHER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-light/pusher-3";
+    public static final String PUSHER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-light-w-tank/pusher-3-light-w-tank";
+//    public static final String PUSHER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-light/pusher-3";
     public static final int NUM_LEANER_ANIMATION_FRAMES = 15;
-    public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning-light/pusher-leaning-light";
+    public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning-light-w-tank/pusher-leaning-light-w-tank";
+//    public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning-light/pusher-leaning-light";
     public static final String PUSHER_ANIMATION_IMAGE_FILE_TYPE = "png";
 
     // Offset for locating objects in the apparatus panel
