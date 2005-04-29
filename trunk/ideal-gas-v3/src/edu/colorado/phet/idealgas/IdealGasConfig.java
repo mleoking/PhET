@@ -54,11 +54,15 @@ public class IdealGasConfig {
     public static final String GREEN_PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "particle-green-xsml.gif";
 
     public static final String PARTICLE_IMAGE_FILE = IMAGE_DIRECTORY + "molecule.gif";
-    public static final String PUMP_IMAGE_FILE = IMAGE_DIRECTORY + "bicycle-pump.gif";
-    public static final String HANDLE_IMAGE_FILE = IMAGE_DIRECTORY + "handle.gif";
+    public static final String PUMP_IMAGE_FILE = IMAGE_DIRECTORY + "pump-body.png";
+    public static final String PUMP_BASE_IMAGE_FILE = IMAGE_DIRECTORY + "pump-base-and-hose.png";
+//    public static final String PUMP_IMAGE_FILE = IMAGE_DIRECTORY + "bicycle-pump.gif";
+    public static final String HANDLE_IMAGE_FILE = IMAGE_DIRECTORY + "pump-handle.png";
+//    public static final String HANDLE_IMAGE_FILE = IMAGE_DIRECTORY + "handle.gif";
     public static final String BOX_IMAGE_FILE = IMAGE_DIRECTORY + "box.gif";
 
-    public static final String STOVE_IMAGE_FILE = IMAGE_DIRECTORY + "stove.gif";
+    public static final String STOVE_IMAGE_FILE = IMAGE_DIRECTORY + "stove.png";
+//    public static final String STOVE_IMAGE_FILE = IMAGE_DIRECTORY + "stove.gif";
     public static final String FLAMES_IMAGE_FILE = IMAGE_DIRECTORY + "flames.gif";
     public static final String ICE_IMAGE_FILE = IMAGE_DIRECTORY + "ice.gif";
     public static final String DOOR_IMAGE_FILE = IMAGE_DIRECTORY + "knob-and-door.gif";
