@@ -88,6 +88,7 @@ public class IdealGasModule extends Module {
     private BoxDoorGraphic boxDoorGraphic;
     private PumpHandleGraphic pumpHandleGraphic;
     private PumpSpeciesSelectorPanel2 pumpSelectorPanel;
+    private PhetImageGraphic pumpBaseAndHoseGraphic;
 
 
     /**
@@ -243,7 +244,8 @@ public class IdealGasModule extends Module {
         pumpSelectorPanel = new PumpSpeciesSelectorPanel2( this );
         pumpSelectorPanel.setLocation( IdealGasConfig.X_BASE_OFFSET + 630, IdealGasConfig.Y_BASE_OFFSET + 300 );
         pumpSelectorPanel.setLocation( (int)(pumpGraphic.getLocation().getX() + pumpGraphic.getWidth() - pumpSelectorPanel.getWidth() + 10 ),
-                                       (int)(pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 26) );
+                                       (int)(pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 22) );
+//                                       (int)(pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 26) );
         getApparatusPanel().addGraphic( pumpSelectorPanel );
         getApparatusPanel().revalidate();
     }
@@ -257,6 +259,7 @@ public class IdealGasModule extends Module {
         // Set up the graphics for the pump
         try {
             basePumpImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_IMAGE_FILE );
+            BufferedImage pumpBaseAndHoseImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_BASE_IMAGE_FILE );
             BufferedImage handleImg = ImageLoader.loadBufferedImage( IdealGasConfig.HANDLE_IMAGE_FILE );
             PhetImageGraphic handleGraphic = new PhetImageGraphic( getApparatusPanel(), handleImg );
 
@@ -274,9 +277,12 @@ public class IdealGasModule extends Module {
             currentPumpImg = bluePumpImg;
 
             this.addGraphic( pumpHandleGraphic, -6 );
-            pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
+            pumpBaseAndHoseGraphic = new PhetImageGraphic( getApparatusPanel(), pumpBaseAndHoseImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 258 );
+            pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 258 );
+//            pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
             pumpGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
             this.addGraphic( pumpGraphic, -4 );
+            this.addGraphic( pumpBaseAndHoseGraphic, -3.5 );
 
             if( wiggleMeGraphic == null ) {
                 wiggleMeGraphic = new WiggleMeGraphic( getApparatusPanel(),
@@ -305,6 +311,7 @@ public class IdealGasModule extends Module {
         getApparatusPanel().removeGraphic( pumpGraphic );
         getApparatusPanel().removeGraphic( pumpHandleGraphic );
         getApparatusPanel().removeGraphic( pumpSelectorPanel );
+        getApparatusPanel().removeGraphic( pumpBaseAndHoseGraphic );
     }
 
     protected void setPumpSelectorPanelTitle( String title ) {
