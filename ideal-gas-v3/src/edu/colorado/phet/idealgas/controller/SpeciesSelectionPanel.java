@@ -26,12 +26,16 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 
 
     public SpeciesSelectionPanel( final IdealGasModule module, final GasSource gasSource ) {
+        this( module, gasSource, new String[] { SimStrings.get( "Common.Heavy_Species" ), SimStrings.get( "Common.Light_Species" )});
+    }
+
+    public SpeciesSelectionPanel( final IdealGasModule module, final GasSource gasSource, String[] speciesNames ) {
         this.module = module;
         module.addResetListener( this );
         this.gasSource = gasSource;
 
         // Radio buttons
-        makeRadioButtons();
+        makeRadioButtons( speciesNames );
 
         // Spinners for the species
         makeSpinners();
@@ -58,10 +62,12 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
     /**
      * Sets up the radio buttons for selecting a species
      */
-    private void makeRadioButtons() {
-        heavySpeciesLbl = new JLabel( SimStrings.get( "Common.Heavy_Species" ) );
+    private void makeRadioButtons( String[] speciesNames ) {
+        heavySpeciesLbl = new JLabel( speciesNames[0] );
+//        heavySpeciesLbl = new JLabel( SimStrings.get( "Common.Heavy_Species" ) );
         heavySpeciesLbl.setForeground( Color.blue );
-        lightSpeciesLbl = new JLabel( SimStrings.get( "Common.Light_Species" ) );
+        lightSpeciesLbl = new JLabel( speciesNames[1] );
+//        lightSpeciesLbl = new JLabel( SimStrings.get( "Common.Light_Species" ) );
         lightSpeciesLbl.setForeground( Color.red );
     }
 
@@ -151,6 +157,14 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 
     public void setLightSpeciesLabelText( String text ) {
         lightSpeciesLbl.setText( text );
+    }
+
+    public void setHeavySpeciesLabelColor( Color color ) {
+        heavySpeciesLbl.setForeground( color );
+    }
+
+    public void setLightSpeciesLabelColor( Color color ) {
+        lightSpeciesLbl.setForeground( color );
     }
 
     //----------------------------------------------------------------------------------

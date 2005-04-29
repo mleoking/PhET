@@ -11,6 +11,7 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.Pump;
 
@@ -41,8 +42,10 @@ public class PChemParticleControlPanel extends SpeciesSelectionPanel implements 
             }
         } );
 
-        setHeavySpeciesLabelText("Reactants" );
-        setLightSpeciesLabelText( "Products" );
+        setHeavySpeciesLabelText(SimStrings.get( "AdvancedModule.Particle_Type_A" ) );
+        setLightSpeciesLabelText( SimStrings.get( "AdvancedModule.Particle_Type_B" ) );
+        setHeavySpeciesLabelColor( AdvancedModule.COLOR_A );
+        setLightSpeciesLabelColor( AdvancedModule.COLOR_B );
         repaint();
     }
 

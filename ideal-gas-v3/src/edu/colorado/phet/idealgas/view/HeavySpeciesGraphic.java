@@ -43,6 +43,7 @@ public class HeavySpeciesGraphic extends GasMoleculeGraphic {
      * @param color
      */
     public static void setColor( Color color ) {
+        GasMoleculeGraphic.setColor( color );
         try {
             s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
             MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ));

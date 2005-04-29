@@ -21,8 +21,8 @@ import edu.colorado.phet.idealgas.model.Pump;
  * @version $Revision$
  */
 public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.Listener {
-    public PumpControlPanel( IdealGasModule module, GasSource gasSource ) {
-        super( module, gasSource );
+    public PumpControlPanel( IdealGasModule module, GasSource gasSource, String[] speciesNames ) {
+        super( module, gasSource, speciesNames );
 //        module.getPump().addResetListener( this );
 
         // Hook the spinner up so it will track molecules put in the box by the pump

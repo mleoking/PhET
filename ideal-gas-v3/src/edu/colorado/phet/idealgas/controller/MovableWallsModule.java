@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
@@ -102,7 +103,8 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         pchemModel.addListener( this );
 
         // Add counters for the number of particles on either side of the vertical wall
-        addParticleCounters( "A", "B" );
+        addParticleCounters( SimStrings.get( "AdvancedModule.Particle_Type_A" ),
+                             SimStrings.get( "AdvancedModule.Particle_Type_B" ) );
 
         JButton testButton = new JButton( "Test" );
 //        getControlPanel().add( testButton);

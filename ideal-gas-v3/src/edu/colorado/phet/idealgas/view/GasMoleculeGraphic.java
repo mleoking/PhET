@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -19,6 +20,7 @@ import java.awt.image.BufferedImage;
 public abstract class GasMoleculeGraphic extends PhetImageGraphic implements GasMolecule.Observer {
     private GasMolecule molecule;
     private ApparatusPanel apparatusPanel;
+    private static Color s_color;
 
     public GasMoleculeGraphic( ApparatusPanel apparatusPanel, BufferedImage image, GasMolecule molecule ) {
         super( apparatusPanel, image );
@@ -37,5 +39,13 @@ public abstract class GasMoleculeGraphic extends PhetImageGraphic implements Gas
 
     public void removedFromSystem() {
         apparatusPanel.removeGraphic( this );
+    }
+
+    public static Color getColor() {
+        return s_color;
+    }
+
+    public static void setColor( Color color ) {
+        s_color = color;
     }
 }
