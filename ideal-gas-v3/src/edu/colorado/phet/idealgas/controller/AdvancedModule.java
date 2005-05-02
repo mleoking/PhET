@@ -21,10 +21,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.LightSpecies;
-import edu.colorado.phet.idealgas.model.PChemModel;
-import edu.colorado.phet.idealgas.model.ParticleCounter;
+import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
@@ -40,7 +37,7 @@ import java.awt.geom.Rectangle2D;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class AdvancedModule extends IdealGasModule {
+abstract public class AdvancedModule extends IdealGasModule {
 //    public static final Color COLOR_B = Color.orange;
     public static final Color COLOR_B = new Color( 200, 100, 0 );
     public static final Color COLOR_A = new Color( 0, 150, 0 );
@@ -52,6 +49,11 @@ public class AdvancedModule extends IdealGasModule {
     private Color orgLightColor;
     private Color orgHeavyColor;
 
+    /**
+     *
+     * @param clock
+     * @param name
+     */
     public AdvancedModule( AbstractClock clock, String name ) {
         super( clock, name );
 
@@ -68,6 +70,12 @@ public class AdvancedModule extends IdealGasModule {
 
     }
 
+    /**
+     *
+     * @param clock
+     * @param s
+     * @param model
+     */
     public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
         super( clock, s, model );
     }
@@ -223,4 +231,12 @@ public class AdvancedModule extends IdealGasModule {
         LightSpeciesGraphic.setColor( orgLightColor );
         HeavySpeciesGraphic.setColor( orgHeavyColor );
     }
+
+    //----------------------------------------------------------------
+    // Abstract methods
+    //----------------------------------------------------------------
+
+    abstract public Pump[] getPumps();
+
+
 }
