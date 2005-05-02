@@ -203,6 +203,19 @@ public class AtomicState {
         }
         return result;
     }
+
+    /**
+     * Sets the next-higher and next-lower attributes for an array of AtomicStates
+     *
+     * @param states
+     */
+    public static void linkStates( AtomicState[] states ) {
+        for( int i = 1; i < states.length; i++ ) {
+            states[i].setNextLowerEnergyState( states[i - 1] );
+            states[i - 1].setNextHigherEnergyState( states[i] );
+        }
+        states[states.length - 1].setNextHigherEnergyState( AtomicState.MaxEnergyState.instance() );
+    }
     
     //////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes
