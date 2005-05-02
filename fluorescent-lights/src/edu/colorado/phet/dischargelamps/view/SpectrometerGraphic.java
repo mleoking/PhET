@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Spectrometer;
@@ -25,7 +26,11 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -38,11 +43,13 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
 //public class SpectrometerGraphic extends CompositePhetGraphic implements Spectrometer.ChangeListener {
 
     private String spectrometerImageFileName = "images/spectrometer-panel.png";
+    // Width, in pixels, of the display area in the image;
+    private int imageDisplayWidth = 410;
 
     private PhetImageGraphic backgroundPanel;
     private Point displayOrigin = new Point( 15, 115 );
     private int displayHeight = 100;
-    private int displayWidth = 400;
+    private int displayWidth = 600;
     private int horizontalDisplayMargin = 10;
     private ArrayList photonMarkers = new ArrayList();
 
@@ -51,7 +58,21 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         super( component );
         spectrometer.addChangeListener( this );
 
-        backgroundPanel = new PhetImageGraphic( component, spectrometerImageFileName );
+        BufferedImage spectrometerImage = null;
+        try {
+            spectrometerImage = ImageLoader.loadBufferedImage( spectrometerImageFileName );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        double scaleX = (double)displayWidth / imageDisplayWidth;
+        AffineTransformOp op = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, 1 ),
+                                                      new RenderingHints( RenderingHints.KEY_INTERPOLATION,
+                                                                          RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
+        spectrometerImage = op.filter( spectrometerImage, null );
+
+        backgroundPanel = new PhetImageGraphic( component, spectrometerImage );
+//        backgroundPanel = new PhetImageGraphic( component, spectrometerImageFileName );
         addGraphic( backgroundPanel );
 
         addButtons( component, spectrometer );
@@ -112,10 +133,12 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     public void countChanged( Spectrometer.CountChangeEvent eventCount ) {
         // Determine the y location for the wavelength of the photon in the event
         double wavelength = eventCount.getWavelength();
-        double minWavelength = Photon.DEEP_RED;
-        double maxWavelength = Photon.BLUE;
+        double minWavelength = Photon.MIN_VISIBLE_WAVELENGTH;
+        double maxWavelength = Photon.MAX_VISIBLE_WAVELENGTH;
         double indicatorWidth = 2.5;
         double indicatorHeight = 1.5;
+
+        // Min wavelength displays on the left
         int wavelengthLoc = (int)( ( wavelength - minWavelength )
                                    / ( maxWavelength - minWavelength ) * ( displayWidth - horizontalDisplayMargin * 2 )
                                    + horizontalDisplayMargin );

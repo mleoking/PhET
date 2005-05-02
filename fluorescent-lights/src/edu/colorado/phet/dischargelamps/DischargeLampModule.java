@@ -17,6 +17,7 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.model.*;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPanel;
 import edu.colorado.phet.dischargelamps.view.ElectronGraphic;
@@ -53,11 +54,13 @@ import java.util.Random;
  * @version $Revision$
  */
 public class DischargeLampModule extends BaseLaserModule implements ElectronSource.ElectronProductionListener {
-    private ElectronSink anode;
-    private ElectronSource cathode;
 
 //    public static boolean DEBUG = true;
     public static boolean DEBUG = false;
+
+    private ElectronSink anode;
+    private ElectronSource cathode;
+    private DischargeLampEnergyLevelMonitorPanel elmp;
 
     // The scale to apply to graphics created in external applications so they appear properly
     // on the screen
@@ -123,7 +126,9 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         spectrometer = new Spectrometer();
         spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel(), spectrometer );
         addGraphic( spectrometerGraphic, SPECTROMETER_LAYER );
-        spectrometerGraphic.setLocation( 180, 450 );
+        int centerX = ( DischargeLampsConfig.ANODE_LOCATION.x + DischargeLampsConfig.CATHODE_LOCATION.x ) / 2;
+        spectrometerGraphic.setLocation( centerX, 450 );
+        spectrometerGraphic.setRegistrationPoint( spectrometerGraphic.getWidth() / 2, 0 );
     }
 
     /**
@@ -164,9 +169,9 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      * @param apparatusPanel
      */
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
-        PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires.png" );
+        PhetImageGraphic circuitGraphic = new PhetImageGraphic( getApparatusPanel(), "images/battery-w-wires-2.png" );
         scaleImageGraphic( circuitGraphic );
-        circuitGraphic.setRegistrationPoint( (int)( 120 * externalGraphicsScale ), (int)( 340 * externalGraphicsScale ) );
+        circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ), (int)( 340 * externalGraphicsScale ) );
         circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
         apparatusPanel.addGraphic( circuitGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
     }
@@ -215,6 +220,15 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         } );
         getControlPanel().add( spectrometerCB );
         spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
+
+        // Add a button that will bring up the dialog for selecting an atom type
+        JToggleButton atomTypeBtn = new JToggleButton( new AbstractAction( SimStrings.get( "ControlPanel.AtomTypeButtonLabel" ) ) {
+            public void actionPerformed( ActionEvent e ) {
+                JDialog atomSelectionDlg = new AtomTypeChooser( DischargeLampModule.this );
+                atomSelectionDlg.setVisible( true );
+            }
+        } );
+        getControlPanel().add( atomTypeBtn );
     }
 
     /**
@@ -264,7 +278,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         model.addModelElement( anode );
         this.anode = anode;
         this.anode.setPosition( DischargeLampsConfig.ANODE_LOCATION );
-        PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode.png" );
+        PhetImageGraphic anodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
         double scaleX = 1;
@@ -293,7 +307,7 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         cathode.addListener( this );
         cathode.setElectronsPerSecond( 0 );
         cathode.setPosition( DischargeLampsConfig.CATHODE_LOCATION );
-        PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode.png" );
+        PhetImageGraphic cathodeGraphic = new PhetImageGraphic( getApparatusPanel(), "images/electrode-2.png" );
 
         // Make the graphic the right size
         double scaleX = 1;
@@ -387,6 +401,16 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     }
 
 
+    public void setAtomicStates( AtomicState[] atomicStates ) {
+        this.atomicStates = atomicStates;
+        java.util.List atoms = ( (DischargeLampModel)getModel() ).getAtoms();
+        for( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom)atoms.get( i );
+            atom.setStates( atomicStates );
+        }
+        elmp.setEnergyLevels( atomicStates );
+    }
+
     //----------------------------------------------------------------
     // Interface implementations
     //----------------------------------------------------------------
@@ -452,18 +476,18 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      * Wrapper for EnergyLevelMonitorPanel that adds some extra controls
      */
     protected class DischargeLampEnergyMonitorPanel2 extends JPanel {
-        private DischargeLampEnergyLevelMonitorPanel elmp;
+//        private DischargeLampEnergyLevelMonitorPanel elmp;
 
         public DischargeLampEnergyMonitorPanel2( BaseLaserModule module, AbstractClock clock,
                                                  AtomicState[] atomicStates,
                                                  int panelWidth, int panelHeight ) {
             super( new GridBagLayout() );
             elmp = new DischargeLampEnergyLevelMonitorPanel( module, clock, atomicStates, panelWidth, panelHeight );
+            elmp.setBorder( new EtchedBorder() );
             GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                              GridBagConstraints.CENTER,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 10, 0, 10 ), 0, 0 );
-            elmp.setBorder( new EtchedBorder() );
             this.add( elmp, gbc );
 
             // Add the spinner that controls the number of energy levels
@@ -476,15 +500,10 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
             numLevelsSpinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     AtomicState[] atomicStates = createAtomicStates( ( (Integer)numLevelsSpinner.getValue() ).intValue() );
-                    java.util.List atoms = ( (DischargeLampModel)getModel() ).getAtoms();
-                    for( int i = 0; i < atoms.size(); i++ ) {
-                        Atom atom = (Atom)atoms.get( i );
-                        atom.setStates( atomicStates );
-                    }
-                    elmp.setEnergyLevels( atomicStates );
+                    setAtomicStates( atomicStates );
                 }
             } );
-            gbc.gridx = 1;
+            gbc.gridy = 1;
             gbc.anchor = GridBagConstraints.CENTER;
             this.add( numLevelsSpinner, gbc );
         }

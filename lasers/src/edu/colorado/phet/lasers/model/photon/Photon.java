@@ -40,6 +40,8 @@ public class Photon extends Particle implements Collidable {
     static public double RED = 680;
     static public double DEEP_RED = 640;
     static public double BLUE = 440;
+    static public double MIN_VISIBLE_WAVELENGTH = 380;
+    static public double MAX_VISIBLE_WAVELENGTH = 710;
     static public double GRAY = 5000;
     static private double PLANCK = 6.626E-34;
     static private Random random = new Random();
