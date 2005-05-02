@@ -64,10 +64,8 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
      */
     private void makeRadioButtons( String[] speciesNames ) {
         heavySpeciesLbl = new JLabel( speciesNames[0] );
-//        heavySpeciesLbl = new JLabel( SimStrings.get( "Common.Heavy_Species" ) );
         heavySpeciesLbl.setForeground( Color.blue );
         lightSpeciesLbl = new JLabel( speciesNames[1] );
-//        lightSpeciesLbl = new JLabel( SimStrings.get( "Common.Light_Species" ) );
         lightSpeciesLbl.setForeground( Color.red );
     }
 

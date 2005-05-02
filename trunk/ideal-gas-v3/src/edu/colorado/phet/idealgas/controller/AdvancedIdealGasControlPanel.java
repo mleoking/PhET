@@ -16,6 +16,7 @@ import edu.colorado.phet.coreadditions.ToggleButton;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.Pump;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -98,8 +99,8 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
     private void makeParticlesControls() {
         particleControlsPanel = new JPanel( new GridBagLayout() );
 
-        particleControlsGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                      1, 1, 1, 1,
+        particleControlsGbc = new GridBagConstraints( 0, 0,
+                                                      2, 1, 1, 1,
                                                       GridBagConstraints.CENTER,
                                                       GridBagConstraints.HORIZONTAL,
                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -108,6 +109,34 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         JPanel speciesButtonPanel = new PChemParticleControlPanel( module, module.getPump() );
         speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Particles_In_Chamber" ) ) );
         particleControlsPanel.add( speciesButtonPanel, particleControlsGbc );
+
+        // Add control for temperature at which particles are introduced
+        JLabel tempLbl = new JLabel( SimStrings.get( "AdvancedControlPanel.Particle_Temperature"));
+        particleControlsGbc.insets = new Insets( 10, 10, 10, 10 );
+        particleControlsGbc.gridwidth = 1;
+        particleControlsGbc.gridx = 0;
+        particleControlsGbc.gridy = 1;
+        particleControlsGbc.anchor = GridBagConstraints.EAST;
+        particleControlsPanel.add( tempLbl, particleControlsGbc );
+
+        // todo: figure out where the 2.5 comes from, and don't use a hard-coded constant here!!!!!
+        final double hackConst = 2.5;
+        final JSpinner tempSpinner = new JSpinner( new SpinnerNumberModel( IdealGasModel.DEFAULT_ENERGY / IdealGasConfig.TEMPERATURE_SCALE_FACTOR / hackConst,
+                                                                           50, 1000, 1 ) );
+        particleControlsGbc.gridx = 1;
+        particleControlsGbc.anchor = GridBagConstraints.WEST;
+        particleControlsPanel.add( tempSpinner, particleControlsGbc );
+        // Changes the temperature at which particles are pumped into the box
+        tempSpinner.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                double temp = ((Double)tempSpinner.getValue()).doubleValue() * IdealGasConfig.TEMPERATURE_SCALE_FACTOR * hackConst;
+                Pump[] pumps = ((AdvancedModule)getModule()).getPumps();
+                for( int i = 0; i < pumps.length; i++ ) {
+                    pumps[i].setPumpingEnergyStrategy( new Pump.FixedEnergyStrategy( temp ));
+                }
+            }
+        } );
+
     }
 
     /**
@@ -127,8 +156,8 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
 //        gbc.fill = GridBagConstraints.NONE;
 //        miscPanel.add( pic, gbc );
 
-        Border gravityBorder = new TitledBorder( SimStrings.get( "IdealGasControlPanel.MiscPanelTitle" ) );
-        miscPanel.setBorder( gravityBorder );
+//        Border gravityBorder = new TitledBorder( SimStrings.get( "IdealGasControlPanel.MiscPanelTitle" ) );
+//        miscPanel.setBorder( gravityBorder );
 
     }
 

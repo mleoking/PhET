@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 
 import javax.swing.*;
@@ -176,6 +177,13 @@ public class DiffusionModule extends AdvancedModule {
                                                              oldBounds.getWidth(), minimumWallSeparation ) );
             }
         }
+    }
+
+    //----------------------------------------------------------------
+    // Implementation of abstract methods
+    //----------------------------------------------------------------
+    public Pump[] getPumps() {
+        return new Pump[] { getPump() };        
     }
 
     //-----------------------------------------------------------------

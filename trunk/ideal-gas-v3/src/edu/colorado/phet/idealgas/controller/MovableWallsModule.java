@@ -400,6 +400,12 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         }
     }
 
+    //----------------------------------------------------------------
+    // Implementation of abstract methods
+    //----------------------------------------------------------------
+    public Pump[] getPumps() {
+        return new Pump[] { getPump(), reactantsPump, productsPump };        
+    }
 
     //-----------------------------------------------------------------
     // Event handling
