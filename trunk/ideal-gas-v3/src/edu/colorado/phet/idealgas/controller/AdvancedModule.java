@@ -39,7 +39,8 @@ import java.awt.geom.Rectangle2D;
  */
 abstract public class AdvancedModule extends IdealGasModule {
 //    public static final Color COLOR_B = Color.orange;
-    public static final Color COLOR_B = new Color( 200, 100, 0 );
+    public static final Color COLOR_B = new Color( 252, 65, 40 );
+//    public static final Color COLOR_B = new Color( 200, 100, 0 );
     public static final Color COLOR_A = new Color( 0, 150, 0 );
 
     private static Font readoutFont = new Font( "Lucida sans", Font.BOLD, 12 );
@@ -63,6 +64,7 @@ abstract public class AdvancedModule extends IdealGasModule {
 
         Box2DGraphic boxGraphic = getBoxGraphic();
         boxGraphic.setIgnoreMouse( true );
+        boxGraphic.removeAllMouseInputListeners();
 
         // Set the two types of particles so they are the same mass and radius
         LightSpecies.setMoleculeMass( HeavySpecies.getMoleculeMass() );
@@ -78,6 +80,9 @@ abstract public class AdvancedModule extends IdealGasModule {
      */
     public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
         super( clock, s, model );
+        Box2DGraphic boxGraphic = getBoxGraphic();
+        boxGraphic.setIgnoreMouse( true );
+        boxGraphic.removeAllMouseInputListeners();
     }
 
     /**

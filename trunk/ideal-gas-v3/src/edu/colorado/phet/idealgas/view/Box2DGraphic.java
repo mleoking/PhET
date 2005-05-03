@@ -117,6 +117,13 @@ public class Box2DGraphic extends CompositePhetGraphic {
         }
     }
 
+    /**
+     * Removes the handle from the side of the box
+     */
+    public void removeAllMouseInputListeners() {
+        super.removeAllMouseInputListeners();
+        internalBoxGraphic.removeHandle();
+    }
 
     public void paint( Graphics2D g2 ) {
         internalBoxGraphic.paint( g2 );
@@ -131,6 +138,7 @@ public class Box2DGraphic extends CompositePhetGraphic {
         private Rectangle openingRect = new Rectangle();
         private BufferedImage wallHandle;
         private Point wallHandleLocation;
+        private boolean isHandleEnabled = true;
 
         public InternalBoxGraphic( Component component ) {
             super( component, null, s_defaultStroke, s_wallColor );
@@ -178,8 +186,10 @@ public class Box2DGraphic extends CompositePhetGraphic {
             // Draw the box before filling it, so the graphical interior of the box corresponds to the
             // model box. If we reversed the order, the stroke of the box would make the interior look
             // smaller than the model box.
+            if( isHandleEnabled ) {
             g.drawImage( wallHandle, (int)wallHandleLocation.x, (int)wallHandleLocation.y,
                          wallHandle.getWidth(), wallHandle.getHeight(), null );
+            }
             g.setStroke( s_defaultStroke );
             g.setColor( s_wallColor );
             g.draw( rect );
@@ -197,6 +207,10 @@ public class Box2DGraphic extends CompositePhetGraphic {
                 g.draw( mouseableArea.getBounds() );
             }
             restoreGraphicsState();
+        }
+
+        public void removeHandle() {
+            isHandleEnabled = false;
         }
     }
 }

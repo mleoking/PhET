@@ -18,7 +18,6 @@ import edu.colorado.phet.idealgas.controller.HeliumBalloonModule;
 import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.RigidHollowSphereModule;
-import edu.colorado.phet.idealgas.controller.menus.OptionsMenu;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
@@ -63,7 +62,7 @@ public class BuoyancyApplication extends PhetApplication {
 
         // Add some menus
         PhetFrame frame = getPhetFrame();
-        frame.addMenu( new OptionsMenu( this ) );
+//        frame.addMenu( new OptionsMenu( this ) );
         this.startApplication();
     }
 

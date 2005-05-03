@@ -14,11 +14,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.idealgas.controller.HeliumBalloonModule;
-import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
-import edu.colorado.phet.idealgas.controller.RigidHollowSphereModule;
-import edu.colorado.phet.idealgas.controller.menus.OptionsMenu;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
@@ -72,7 +68,7 @@ public class IdealGasApplication extends PhetApplication {
 
         // Add some menus
         PhetFrame frame = getPhetFrame();
-        frame.addMenu( new OptionsMenu( this ) );
+//        frame.addMenu( new OptionsMenu( this ) );
 //
 //        frame.getClockControlPanel().add( new StopwatchPanel( getApplicationModel().getClock()), BorderLayout.WEST );
 
