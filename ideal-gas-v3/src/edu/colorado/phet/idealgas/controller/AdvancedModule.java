@@ -51,12 +51,25 @@ abstract public class AdvancedModule extends IdealGasModule {
     private Color orgHeavyColor;
 
     /**
-     *
      * @param clock
      * @param name
      */
     public AdvancedModule( AbstractClock clock, String name ) {
         super( clock, name );
+        init();
+    }
+
+    /**
+     * @param clock
+     * @param s
+     * @param model
+     */
+    public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
+        super( clock, s, model );
+        init();
+    }
+
+    private void init() {
 
         // We can only use the top pressure-sensing slice because we don't know where the
         // floors will be
@@ -69,20 +82,6 @@ abstract public class AdvancedModule extends IdealGasModule {
         // Set the two types of particles so they are the same mass and radius
         LightSpecies.setMoleculeMass( HeavySpecies.getMoleculeMass() );
         LightSpecies.setMoleculeRadius( HeavySpecies.getMoleculeRadius() );
-
-    }
-
-    /**
-     *
-     * @param clock
-     * @param s
-     * @param model
-     */
-    public AdvancedModule( AbstractClock clock, String s, PChemModel model ) {
-        super( clock, s, model );
-        Box2DGraphic boxGraphic = getBoxGraphic();
-        boxGraphic.setIgnoreMouse( true );
-        boxGraphic.removeAllMouseInputListeners();
     }
 
     /**
@@ -133,12 +132,13 @@ abstract public class AdvancedModule extends IdealGasModule {
 
     /**
      * Specifies the labels for the types of particles in the simulation
+     *
      * @return
      */
     protected String[] getSpeciesNames() {
         System.out.println( "AdvancedModule.getSpeciesNames" );
-        return new String[] { SimStrings.get( "AdvancedModule.Particle_Type_A" ),
-                              SimStrings.get( "AdvancedModule.Particle_Type_B" ) };
+        return new String[]{SimStrings.get( "AdvancedModule.Particle_Type_A" ),
+                            SimStrings.get( "AdvancedModule.Particle_Type_B" )};
     }
 
     /**
