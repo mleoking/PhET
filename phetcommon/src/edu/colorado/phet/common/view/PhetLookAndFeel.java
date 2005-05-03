@@ -16,15 +16,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.JPanel;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.Border;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
-
-import smooth.basic.SmoothTitledBorder;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
@@ -35,7 +33,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * <p/>
  * Sample usage:
  * <code>
- * //Choose the default look and feel for your system, adding text antialias for windows.
+ * //Choose the default look and feel for your system.
  * //This must be done early in the application so no components get constructed with the wrong UI.
  * PhetLookAndFeel.setLookAndFeel();
  * //Create the usual PhetLookAndFeel (whatever we deem that to be)
@@ -95,13 +93,20 @@ public class PhetLookAndFeel {
      */
     public PhetLookAndFeel() {
         os = getOperatingSystem();
+        setDefaults();
+    }
+    
+    /**
+     * Sets the default values for the settable UI resources.
+     */
+    private void setDefaults() {
         int fontSize = getFontSizeForScreen();
         font = new Font( "Lucida Sans", Font.PLAIN, fontSize );
         titledBorderFont = new Font( "Lucida Sans", Font.PLAIN, fontSize );
         foregroundColor = Color.BLACK;
         backgroundColor = new Color( 200, 240, 200 );  // light green
         textFieldBackgroundColor = Color.WHITE;
-        insets = new Insets( 2, 2, 2, 2 );
+        insets = null;
     }
 
     //----------------------------------------------------------------------------
@@ -187,30 +192,59 @@ public class PhetLookAndFeel {
     private Object[] constructDefaults() {
         
         // UI resources
-        FontUIResource fontResource = new FontUIResource( font );
-        FontUIResource titledBorderFontResource = new FontUIResource( titledBorderFont );
-        ColorUIResource backgroundResource = new ColorUIResource( backgroundColor );
-        ColorUIResource foregroundResource = new ColorUIResource( foregroundColor );
-        ColorUIResource textFieldBackgroundResource = new ColorUIResource( textFieldBackgroundColor );
-        InsetsUIResource insetsResource = new InsetsUIResource( insets.top, insets.left, insets.bottom, insets.right );
+        FontUIResource fontResource = null;
+        FontUIResource titledBorderFontResource = null;
+        ColorUIResource backgroundResource = null;
+        ColorUIResource foregroundResource = null;
+        ColorUIResource textFieldBackgroundResource = null;
+        InsetsUIResource insetsResource = null;
+        
+        // Construct UI resources
+        if( font != null ) {
+            fontResource = new FontUIResource( font );
+        }
+        if( titledBorderFont != null ) {
+            titledBorderFontResource = new FontUIResource( titledBorderFont );
+        }
+        if( backgroundColor != null ) {
+            backgroundResource = new ColorUIResource( backgroundColor );
+        }
+        if( foregroundColor != null ) {
+            foregroundResource = new ColorUIResource( foregroundColor );
+        }
+        if( textFieldBackgroundColor != null ) {
+            textFieldBackgroundResource = new ColorUIResource( textFieldBackgroundColor );
+        }
+        if( insets != null ) {
+            insetsResource = new InsetsUIResource( insets.top, insets.left, insets.bottom, insets.right );
+        }
         
         // Uniformly modify the resources for each of the types in the "types" list.
         ArrayList keyValuePairs = new ArrayList();
         for( int i = 0; i < types.length; i++ ) {
             String type = types[i];
             
-            add( keyValuePairs, type, "font", fontResource );
-            add( keyValuePairs, type, "foreground", foregroundResource );
+            if( fontResource != null ) {
+                add( keyValuePairs, type, "font", fontResource );
+            }
+            if( foregroundResource != null ) {
+                add( keyValuePairs, type, "foreground", foregroundResource );
+            }
+            if ( backgroundResource != null ) {
             add( keyValuePairs, type, "background", backgroundResource );
-            
-            if( os != OS_MACINTOSH ) {
+            }
+            if( insetsResource != null ) {
                 add( keyValuePairs, type, "margin", insetsResource );
             }
         }
         
         // These types require some special modifications.
-        add( keyValuePairs, "TitledBorder", "font", titledBorderFontResource );
-        add( keyValuePairs, "TextField", "background", textFieldBackgroundResource );
+        if( titledBorderFontResource != null ) {
+            add( keyValuePairs, "TitledBorder", "font", titledBorderFontResource );
+        }
+        if( textFieldBackgroundResource != null ) {
+            add( keyValuePairs, "TextField", "background", textFieldBackgroundResource );
+        }
         
         return keyValuePairs.toArray();
     }
@@ -297,33 +331,21 @@ public class PhetLookAndFeel {
 
     /**
      * Gets the font size that corresponds to the screen size.
+     * Our minimum supported resolution for PhET simulations is 1024x768.
+     * For that resolution and higher, we simply use the default font size.
+     * For resolutions of 800x600 or lower, we scale the default font size by 800/1024.
      * 
      * @return the font size
      */
     public static int getFontSizeForScreen() {
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        int fontSize;
-        if( d.width > 1024 ) {
-            fontSize = 16;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        JPanel panel = new JPanel();
+        int fontSize = panel.getFont().getSize();;
+        if( screenSize.width <= 800 ) {
+            fontSize = fontSize * ( 800 / 1024 );
         }
-        else if( d.width <= 800 ) {
-            fontSize = 8;
-        }
-        else {
-            fontSize = 10;
-        }
-//        System.out.println( "PhetLookAndFeel.ScreenSizeHandler: screen size = " + d + " font size = " + fontSize );
+        System.out.println( "PhetLookAndFeel.ScreenSizeHandler: screenSize = " + screenSize + " fontSize = " + fontSize );
         return fontSize;
-    }
-    
-    /**
-     * Creates a SmoothTitledBorder.
-     * 
-     * @param title
-     * @return the titled border
-     */
-    public static Border createSmoothBorder( String title ) {
-        return new SmoothTitledBorder( title );
     }
     
     /**
