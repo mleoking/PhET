@@ -342,9 +342,9 @@ public class PhetLookAndFeel {
         JPanel panel = new JPanel();
         int fontSize = panel.getFont().getSize();;
         if( screenSize.width <= 800 ) {
-            fontSize = fontSize * ( 800 / 1024 );
+            fontSize = (int) ( fontSize * ( 800.0 / 1024 ) );
         }
-        System.out.println( "PhetLookAndFeel.ScreenSizeHandler: screenSize = " + screenSize + " fontSize = " + fontSize );
+//        System.out.println( "PhetLookAndFeel.ScreenSizeHandler: screenSize = " + screenSize + " fontSize = " + fontSize );
         return fontSize;
     }
     
