@@ -566,8 +566,9 @@ public class IdealGasModule extends Module {
     }
 
     /**
+     * Creates and displays a histogram dialog
      * @param histogramDlgEnabled
-     * @return
+     * @return the dialog
      */
     public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
         if( histogramDlg == null ) {

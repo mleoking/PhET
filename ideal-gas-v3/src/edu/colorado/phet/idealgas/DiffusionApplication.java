@@ -15,7 +15,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
-import edu.colorado.phet.idealgas.controller.menus.OptionsMenu;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
@@ -51,7 +50,7 @@ public class DiffusionApplication extends PhetApplication {
 
         // Add some menus
         PhetFrame frame = getPhetFrame();
-        frame.addMenu( new OptionsMenu( this ) );
+//        frame.addMenu( new OptionsMenu( this ) );
 
         this.startApplication();
     }
