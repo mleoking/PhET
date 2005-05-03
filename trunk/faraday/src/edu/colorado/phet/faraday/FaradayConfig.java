@@ -38,7 +38,7 @@ public class FaradayConfig {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String APP_VERSION = "1.0 (faraday-v1r0-2005-04-27)";
+    public static final String APP_VERSION = "1.1 (faraday-v1r1-2005-05-03)";
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
     
