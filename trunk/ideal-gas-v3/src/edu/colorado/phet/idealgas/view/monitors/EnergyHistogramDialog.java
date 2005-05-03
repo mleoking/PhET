@@ -26,6 +26,9 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A non-modal dialog that shows histograms of energy and average speed of the particles in an IdealGasModel.
+ */
 public class EnergyHistogramDialog extends JDialog {
 
     private Histogram energyHistogram;
@@ -44,7 +47,11 @@ public class EnergyHistogramDialog extends JDialog {
     private JLabel heavySpeedLabel;
     private IdealGasModel model;
 
-    public EnergyHistogramDialog( Frame owner, IdealGasModel model ) throws HeadlessException {
+    /**
+     * @param owner
+     * @param model
+     */
+    public EnergyHistogramDialog( Frame owner, IdealGasModel model ) {
         super( owner );
         this.model = model;
         this.setTitle( SimStrings.get( "EnergyHistorgramDialog.Title" ) );
@@ -109,8 +116,11 @@ public class EnergyHistogramDialog extends JDialog {
         updater.start();
     }
 
+    /**
+     *
+     */
     private void layoutComponents() {
-
+        // Set the proper label on the details button
         if( showDetails ) {
             detailsBtn.setText( SimStrings.get( "EnergyHistorgramDialog.Fewer_Details" ) );
         }
@@ -143,8 +153,31 @@ public class EnergyHistogramDialog extends JDialog {
         contentPane.add( new rotatedTextLabel(), gbc );
         gbc.gridx = 1;
         contentPane.add( speedHistogram, gbc );
+        contentPane.add( new rotatedTextLabel(), gbc );
         gbc.gridy++;
         contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Speed_Distribution" ) ), gbc );
+
+        // Details histograms
+        gbc.gridy++;
+//        gbc.gridx = 0;
+//        contentPane.add( new rotatedTextLabel(), gbc );
+        gbc.gridx = 1;
+        contentPane.add( heavySpeedHistogram, gbc );
+        gbc.gridy++;
+        contentPane.add( heavySpeedLabel, gbc );
+        gbc.gridy++;
+//        gbc.gridx = 0;
+//        contentPane.add( new rotatedTextLabel(), gbc );
+        gbc.gridx = 1;
+        contentPane.add( lightSpeedHistogram, gbc );
+        gbc.gridy++;
+        contentPane.add( lightSpeedLabel, gbc );
+
+        // Details button
+        gbc.gridy++;
+        gbc.gridx = 1;
+        gbc.insets = new Insets( 10, 10, 10, 10 );
+        contentPane.add( detailsBtn, gbc );
         this.repaint();
     }
 
@@ -296,7 +329,7 @@ public class EnergyHistogramDialog extends JDialog {
         public void paint( Graphics g ) {
             Graphics2D g2 = (Graphics2D)g;
             GraphicsState gs = new GraphicsState( g2 );
-            JLabel dummyLabel = new JLabel( );
+            JLabel dummyLabel = new JLabel();
             Font font = dummyLabel.getFont();
 //                super.paint( g );
             int x = 20;
