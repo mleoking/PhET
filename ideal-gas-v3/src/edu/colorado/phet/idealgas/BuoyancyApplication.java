@@ -27,8 +27,8 @@ public class BuoyancyApplication extends PhetApplication {
 
     static class IdealGasApplicationModel extends ApplicationModel {
         public IdealGasApplicationModel() {
-            super( SimStrings.get( "IdealGasApplication.title" ),
-                   SimStrings.get( "IdealGasApplication.description" ),
+            super( SimStrings.get( "BuoyancyApplication.title" ),
+                   SimStrings.get( "BuoyancyApplication.description" ),
                    IdealGasConfig.VERSION,
                    IdealGasConfig.FRAME_SETUP );
 
