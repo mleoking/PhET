@@ -20,10 +20,10 @@ information.
   codebase="http://www.colorado.edu/physics/phet/simulations"
   href="faraday/faraday.jnlp"> 
   <information> 
-    <title>Faraday's Law</title>
+    <title>Faraday's Electromagnetic Lab</title>
     <vendor>University of Colorado, Department of Physics</vendor> 
     <homepage href="docs/help.html"/> 
-    <description>Faraday's Law simulation</description> 
+    <description>Faraday's Electromagnetic Lab</description> 
     <description kind="short">An interactive demonstration of Faraday's Law.</description> 
     <icon href="icons/PhET.gif"/> 
     <icon kind="splash" href="icons/PhET.gif"/> 
