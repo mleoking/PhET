@@ -14,7 +14,10 @@ package edu.colorado.phet.dischargelamps.view;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.util.*;
+import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.Electron;
@@ -94,6 +97,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     private int levelLineOffsetX = 20;
     private int numAtoms;
     private double atomGraphicOverlap = 0.3;
+
+    // The strategy to use for picking the color of atom graphics and energy level lines
+    private EnergyLevelGraphic.ColorStrategy colorStrategy = new EnergyLevelGraphic.BlackStrategy();
 
     /**
      *
@@ -175,9 +181,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             levelGraphics[i] = new EnergyLevelGraphic( this, atomicStates[i],
                                                        Color.blue, levelLineOriginX,
                                                        levelLineLength,
-//                                                       levelLineLength - levelLineOriginX,
                                                        atomicStates[i] instanceof GroundState ? false : true );
             levelGraphics[i].setArrowsEnabled( false );
+            levelGraphics[i].setColorStrategy( this.colorStrategy );
             this.addGraphic( levelGraphics[i] );
         }
 
@@ -247,7 +253,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // Draw level atoms
         // todo: cache Color instances to improve performance
         for( int i = 0; i < atomicStates.length; i++ ) {
-            Color c = VisibleColor.wavelengthToColor( atomicStates[i].getWavelength() );
+            Color c = colorStrategy.getColor( atomicStates[i] );
             int n = ( (Integer)numAtomsInState.get( atomicStates[i] ) ).intValue();
             drawAtomsInLevel( g2, c, levelGraphics[i], n );
         }
@@ -283,14 +289,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      * @return
      */
     private BufferedImage getAtomImage( Color color ) {
-//        if( baseSphereImg == null ) {
-//            try {
-//                baseSphereImg = ImageLoader.loadBufferedImage( "images/particle-red-lrg.gif" );
-//            }
-//            catch( IOException e ) {
-//                e.printStackTrace();
-//            }
-//        }
         // Look for the image in the cache
         BufferedImage atomImg = (BufferedImage)colorToAtomImage.get( color );
         if( atomImg == null ) {
@@ -372,4 +370,23 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             adjustPanel();
         }
     }
+
+//    /**
+//     * Determines the color in which to render lines and atoms for a specified state
+//     */
+//    private interface ColorStrategy {
+//        Color getColor( AtomicState state );
+//    }
+//
+//    private class VisibleColorStrategy implements ColorStrategy {
+//        public Color getColor( AtomicState state ) {
+//            return VisibleColor.wavelengthToColor( state.getWavelength() );
+//        }
+//    }
+//
+//    private class BlackStrategy implements ColorStrategy {
+//        public Color getColor( AtomicState state ) {
+//            return Color.black;
+//        }
+//    }
 }

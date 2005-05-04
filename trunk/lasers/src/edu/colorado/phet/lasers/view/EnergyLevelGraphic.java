@@ -43,6 +43,9 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
     private ModelViewTransform1D energyYTx;
     private boolean arrowsEnabled = true;
 
+    // Strategy for setting to color of this energy level graphic
+    private ColorStrategy colorStrategy = new VisibleColorStrategy();
+
     /**
      * @param component
      * @param atomicState
@@ -85,6 +88,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
 
     public void setArrowsEnabled( boolean arrowsEnabled ) {
         this.arrowsEnabled = arrowsEnabled;
+    }
+
+    /**
+     * Sets the strategy used to pick the color for the graphic
+     *
+     * @param colorStrategy
+     */
+    public void setColorStrategy( ColorStrategy colorStrategy ) {
+        this.colorStrategy = colorStrategy;
     }
 
     //----------------------------------------------------------------
@@ -144,7 +156,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
         }
 
         private void update() {
-            color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
+            color = colorStrategy.getColor( atomicState );
+//            color = VisibleColor.wavelengthToColor( atomicState.getWavelength() );
 
             // We need to create a new color that can't be transparent. VisibleColor will return
             // an "invisible" color with RGB = 0,0,0 if the wavelenght is not visible. And since our
@@ -187,6 +200,13 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             }
         }
 
+        //----------------------------------------------------------------
+        // Rendering
+        //----------------------------------------------------------------
+
+        /**
+         * @param g
+         */
         public void paint( Graphics2D g ) {
             saveGraphicsState( g );
             if( isAdjustable && arrowsEnabled ) {
@@ -201,6 +221,26 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
 
         public Point2D getLinePosition() {
             return levelLine.getBounds().getLocation();
+        }
+    }
+
+
+    /**
+     * Determines the color in which to render lines and atoms for a specified state
+     */
+    static public interface ColorStrategy {
+        Color getColor( AtomicState state );
+    }
+
+    static public class VisibleColorStrategy implements ColorStrategy {
+        public Color getColor( AtomicState state ) {
+            return VisibleColor.wavelengthToColor( state.getWavelength() );
+        }
+    }
+
+    static public class BlackStrategy implements ColorStrategy {
+        public Color getColor( AtomicState state ) {
+            return Color.black;
         }
     }
 }

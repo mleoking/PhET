@@ -7,14 +7,14 @@
 package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
-import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
@@ -80,14 +80,29 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         energyRepRad = ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
         energyRep = new Ellipse2D.Double( 0, 0, energyRepRad * 2, energyRepRad * 2 );
         addGraphic( energyGraphic, 1 );
+        determineEnergyRadiusAndColor();
         update();
     }
+
+    /**
+     * Sets the location of the graphic, and determines the color and radius of the halo
+     */
+    public void update() {
+//        determineEnergyRadiusAndColor();
+        setLocation( (int)( atom.getPosition().getX() ),
+                     (int)( atom.getPosition().getY() ) );
+        setBoundsDirty();
+        repaint();
+    }
+
+    //----------------------------------------------------------------
+    // Rendering
+    //----------------------------------------------------------------
 
     /**
      * Determines the radius and color of the ring that represents the energy state of the atom
      */
     private void determineEnergyRadiusAndColor() {
-
         AtomicState state = atom.getCurrState();
 
         // Determine the color and thickness of the colored ring that represents the energy
@@ -114,18 +129,6 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
     }
 
     /**
-     * Sets the location of the graphic, and determines the color and radius of the halo
-     */
-    public void update() {
-        determineEnergyRadiusAndColor();
-        setLocation( (int)( atom.getPosition().getX() ),
-                     (int)( atom.getPosition().getY() ) );
-        setBoundsDirty();
-        repaint();
-    }
-
-    /**
-     *
      * @param g2
      */
     public void paint( Graphics2D g2 ) {
@@ -141,6 +144,10 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
         restoreGraphicsState();
     }
+
+    //----------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------
 
     /**
      * Determines if the atom can be moved with the mouse
@@ -171,12 +178,27 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         }
     }
 
+    /**
+     * @return
+     */
+    protected PhetShapeGraphic getEnergyGraphic() {
+        return energyGraphic;
+    }
+
+    /**
+     * @return
+     */
+    protected Atom getAtom() {
+        return atom;
+    }
+
     //----------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------
 
     public void stateChanged( Atom.ChangeEvent event ) {
-        update();
+        determineEnergyRadiusAndColor();
+//        update();
     }
 }
 

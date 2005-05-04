@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
 import edu.colorado.phet.dischargelamps.model.*;
+import edu.colorado.phet.dischargelamps.view.DischargeLampAtomGraphic;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyLevelMonitorPanel;
 import edu.colorado.phet.dischargelamps.view.ElectronGraphic;
 import edu.colorado.phet.dischargelamps.view.SpectrometerGraphic;
@@ -122,6 +123,9 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
     }
 
+    /**
+     * Adds the spectrometer and its graphic
+     */
     private void addSpectrometer() {
         spectrometer = new Spectrometer();
         spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel(), spectrometer );
@@ -355,6 +359,13 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
     protected AtomGraphic addAtom( Atom atom ) {
         energyLevelsMonitorPanel.addAtom( atom );
         AtomGraphic graphic = super.addAtom( atom );
+
+        // Replace the graphic that the super class made with one that is specific to this
+        // application
+        getApparatusPanel().removeGraphic( graphic );
+        atom.removeChangeListener( graphic );
+        graphic = new DischargeLampAtomGraphic( getApparatusPanel(), atom );
+        getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.CIRCUIT_LAYER - 1 );
         if( random.nextBoolean() ) {
             getApparatusPanel().removeGraphic( graphic );
             getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
