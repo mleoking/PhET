@@ -13,6 +13,7 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.ModuleEvent;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -42,13 +43,21 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
         application.addModuleObserver( this );
     }
 
-    public void moduleAdded( Module module ) {
-        addTab( module.getName(), module.getApparatusPanel() );
+    //----------------------------------------------------------------
+    // ModuleObserver implementation
+    //----------------------------------------------------------------
+
+    public void moduleRemoved( ModuleEvent event ) {
+        remove( event.getModule().getApparatusPanel() );
     }
 
-    public void activeModuleChanged( Module m ) {
-        if( current != m ) {
-            int index = application.indexOf( m );
+    public void moduleAdded( ModuleEvent event ) {
+        addTab( event.getModule().getName(), event.getModule().getApparatusPanel() );
+    }
+
+    public void activeModuleChanged( ModuleEvent event ) {
+        if( current != event.getModule() ) {
+            int index = application.indexOf( event.getModule() );
             int numTabs = getTabCount();
             if( index < numTabs ) {
                 setSelectedIndex( index );
@@ -57,10 +66,6 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
                 throw new RuntimeException( "Requested illegal tab: tab count=" + numTabs + ", requestedIndex=" + index );
             }
         }
-    }
-
-    public void moduleRemoved( Module module ) {
-        remove( module.getApparatusPanel() );
     }
 
 }
