@@ -87,13 +87,7 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
     private void setNumberGraphicText() {
         // Add a number to the middle of the grpahic
         int stateIdx = atom.getCurrStateNumber();
-        String numStr = null;
-        if( stateIdx == 0 ) {
-            numStr = "G";
-        }
-        else {
-            numStr = Integer.toString( atom.getCurrStateNumber() );
-        }
+        String numStr = stateIdx == 0 ? "G" : Integer.toString( stateIdx );
         numberGraphic.setText( numStr );
     }
 
