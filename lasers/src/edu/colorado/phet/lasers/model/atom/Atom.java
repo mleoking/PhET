@@ -190,6 +190,21 @@ public class Atom extends SolidSphere {
         currState.collideWithPhoton( this, photon );
     }
 
+    /**
+     * Returns the number of the atom's current state. This is the index of the state in the
+     * atom's array of state. The ground state is number 0
+     *
+     * @return
+     */
+    public int getCurrStateNumber() {
+        for( int i = 0; i < states.length; i++ ) {
+            if( getCurrState().equals( states[i] ) ) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
     //----------------------------------------------------------------
     // Events and event handling
     //----------------------------------------------------------------

@@ -298,9 +298,9 @@ public class BaseLaserModule extends Module {
     // Help-related methods
     //----------------------------------------------------------------
 
-    public boolean hasHelp() {
-        return true;
-    }
+//    public boolean hasHelp() {
+//        return true;
+//    }
 
     private void createHelp() {
         mainPanelHelpManager = new HelpManager( getApparatusPanel() );

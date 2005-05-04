@@ -16,6 +16,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 public class GroundState extends AtomicState {
 
     public GroundState() {
+//        setEnergyLevel( 0 );
         setEnergyLevel( AtomicState.minEnergy );
         setMeanLifetime( Double.POSITIVE_INFINITY );
     }

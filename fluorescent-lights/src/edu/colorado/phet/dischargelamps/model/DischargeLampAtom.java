@@ -21,7 +21,15 @@ import edu.colorado.phet.lasers.model.atom.AtomicState;
  * an electron
  */
 public class DischargeLampAtom extends Atom {
-    public static final double DEFAULT_STATE_LIFETIME = DischargeLampsConfig.DT * 6;
+
+    // The time that an atom spends in any one state before dropping to a lower one (except for
+    // the ground state)
+//    public static final double DEFAULT_STATE_LIFETIME = 500;
+    public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 500;
+//    public static final double DEFAULT_STATE_LIFETIME = DischargeLampsConfig.DT * 6;
+
+//    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new HighestStateAbsorptionStrategy();
+//    private EnergyEmissionStrategy energyEmissionStrategy = new NextLowestEnergyEmissionStrategy();
     private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
     private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
 
