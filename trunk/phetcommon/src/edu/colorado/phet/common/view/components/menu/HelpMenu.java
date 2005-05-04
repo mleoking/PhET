@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.common.view.components.menu;
 
-import edu.colorado.phet.common.application.ApplicationModel;
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleObserver;
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.application.*;
 import edu.colorado.phet.common.util.VersionUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -29,23 +26,25 @@ import java.io.IOException;
  * @author ?
  * @version $Revision$
  */
-public class HelpMenu extends JMenu {
+public class HelpMenu extends JMenu implements ModuleObserver {
     private ImageIcon icon;
+    private JMenuItem onscreenHelp;
 
-    public HelpMenu( final PhetApplication application ) throws IOException {
+    public HelpMenu( final PhetApplication application ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
-        
+
         final ApplicationModel appDescriptor = application.getApplicationModel();
         Module active = application.getModuleManager().getActiveModule();
-        
+        application.getModuleManager().addModuleObserver( this );
+
         //----------------------------------------------------------------------
         // "Help" menu item
-        JMenuItem onscreenHelp = new JMenuItem( SimStrings.get( "Common.HelpMenu.Help" ) );
+        onscreenHelp = new JCheckBoxMenuItem( SimStrings.get( "Common.HelpMenu.Help" ) );
         onscreenHelp.setMnemonic( SimStrings.get( "Common.HelpMenu.HelpMnemonic" ).charAt( 0 ) );
         onscreenHelp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                application.getModuleManager().getActiveModule().setHelpEnabled( true );
+                application.getModuleManager().getActiveModule().setHelpEnabled( onscreenHelp.isSelected() );
             }
         } );
         onscreenHelp.setEnabled( active != null && active.hasHelp() );
@@ -66,14 +65,14 @@ public class HelpMenu extends JMenu {
             }
         } );
         application.getModuleManager().addModuleObserver( new ModuleObserver() {
-            public void moduleAdded( Module m ) {
+            public void moduleAdded( ModuleEvent event ) {
             }
 
-            public void activeModuleChanged( Module m ) {
-                megaHelpItem.setEnabled( m.hasMegaHelp() );
+            public void activeModuleChanged( ModuleEvent event ) {
+                megaHelpItem.setEnabled( event.getModule().hasMegaHelp() );
             }
 
-            public void moduleRemoved( Module m ) {
+            public void moduleRemoved( ModuleEvent event ) {
             }
         } );
         megaHelpItem.setEnabled( active != null && active.hasMegaHelp() );
@@ -121,5 +120,20 @@ public class HelpMenu extends JMenu {
             }
         }
         add( about );
+    }
+
+    //----------------------------------------------------------------
+    // ModuleObserver implementation
+    //----------------------------------------------------------------
+    public void moduleAdded( ModuleEvent event ) {
+        //noop
+    }
+
+    public void activeModuleChanged( ModuleEvent event ) {
+       onscreenHelp.setEnabled( event.getModule() != null && event.getModule().hasHelp() );
+    }
+
+    public void moduleRemoved( ModuleEvent event ) {
+        //noop
     }
 }

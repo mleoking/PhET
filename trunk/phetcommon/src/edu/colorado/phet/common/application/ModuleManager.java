@@ -80,7 +80,7 @@ public class ModuleManager {
         if( isActive ) {
             setActiveModule( module );
         }
-        moduleObserverProxy.moduleAdded( module );
+        moduleObserverProxy.moduleAdded( new ModuleEvent( this, module ) );
     }
 
     public void removeModule( Module module ) {
@@ -92,7 +92,7 @@ public class ModuleManager {
             setActiveModule( (Module)modules.get( 0 ) );
         }
         // Notifiy listeners
-        moduleObserverProxy.moduleRemoved( module );
+        moduleObserverProxy.moduleRemoved( new ModuleEvent( this, module ) );
     }
 
     public void setActiveModule( int i ) {
@@ -108,7 +108,7 @@ public class ModuleManager {
     private void forceSetActiveModule( Module module ) {
         deactivate();
         activate( module );
-        moduleObserverProxy.activeModuleChanged( module );
+        moduleObserverProxy.activeModuleChanged(  new ModuleEvent( this, module ) );
     }
 
     private void activate( Module module ) {
