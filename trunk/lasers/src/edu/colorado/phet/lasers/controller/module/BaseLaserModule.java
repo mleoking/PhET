@@ -473,7 +473,7 @@ public class BaseLaserModule extends Module {
     //
     protected AtomGraphic addAtom( Atom atom ) {
         getModel().addModelElement( atom );
-        final AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
+        AtomGraphic atomGraphic = new AtomGraphic( getApparatusPanel(), atom );
         addGraphic( atomGraphic, LaserConfig.ATOM_LAYER );
 
         // Add a listener to the atom that will create a photon graphic if the atom
