@@ -14,6 +14,7 @@ package edu.colorado.phet.dischargelamps.view;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
@@ -183,12 +184,18 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                                                        levelLineLength,
                                                        atomicStates[i] instanceof GroundState ? false : true );
             levelGraphics[i].setArrowsEnabled( false );
+            // Set the strategy the level graphic uses to pick its color
             levelGraphics[i].setColorStrategy( this.colorStrategy );
+            // Add an icon to the level
+            String idxStr = i == 0 ? "G" : Integer.toString( i );
+            levelGraphics[i].setLevelIcon( new PhetTextGraphic( this, DischargeLampsConfig.defaultControlFont, idxStr, Color.black ) );
+
             this.addGraphic( levelGraphics[i] );
         }
 
-        // Set the width of the panel so it can show all the atoms
-        int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 10 );
+        // Set the width of the panel so it can show all the atoms. 20 gives us a margin for the level icon        
+        int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 20 );
+//        int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 10 );
         setPreferredSize( new Dimension( width, (int)panelHeight ) );
 //        setPreferredSize( new Dimension( (int)minPanelWidth, (int)panelHeight ) );
         // Needed to set the energyYTx

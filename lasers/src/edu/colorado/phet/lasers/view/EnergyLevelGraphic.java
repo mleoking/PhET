@@ -90,6 +90,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
         this.arrowsEnabled = arrowsEnabled;
     }
 
+    public void setLevelIcon( PhetGraphic levelIcon ) {
+        energyLevelRep.setLevelIcon( levelIcon );
+    }
+
     /**
      * Sets the strategy used to pick the color for the graphic
      *
@@ -142,13 +146,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
     /**
      * The graphic class itself
      */
-    private class EnergyLevelRep extends PhetGraphic {
+    private class EnergyLevelRep extends CompositePhetGraphic {
+//    private class EnergyLevelRep extends PhetGraphic {
 
         private Rectangle2D levelLine = new Rectangle2D.Double();
         private double thickness = 2;
         private Arrow arrow1;
         private Arrow arrow2;
         private Rectangle boundingRect;
+        private PhetGraphic levelIcon;
 
         protected EnergyLevelRep( Component component ) {
             super( component );
@@ -166,6 +172,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             color = new Color( color.getRed(), color.getGreen(), color.getBlue() );
             int y = (int)energyYTx.modelToView( atomicState.getEnergyLevel() );
             levelLine.setRect( xLoc, y - thickness / 2, width, thickness );
+
+            if( levelIcon != null ) {
+                levelIcon.setLocation( (int)( xLoc + width + 5 ), (int)( y - thickness ) );
+            }
 
             if( isAdjustable ) {
                 double xOffset = width - 50;
@@ -200,6 +210,11 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             }
         }
 
+        void setLevelIcon( PhetGraphic levelIcon ) {
+            this.levelIcon = levelIcon;
+            addGraphic( levelIcon );
+        }
+
         //----------------------------------------------------------------
         // Rendering
         //----------------------------------------------------------------
@@ -216,6 +231,9 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             }
             g.setColor( color );
             g.fill( levelLine );
+
+            super.paint( g );
+
             restoreGraphicsState();
         }
 
