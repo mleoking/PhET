@@ -662,6 +662,7 @@ public class MovingManModule extends Module {
 //        UIManager.setLookAndFeel( MetalLookAndFeel.class.getName());//to initialize for later.
 
         PhetLookAndFeel plaf = new PhetLookAndFeel();
+        plaf.setInsets( new Insets( 1, 1, 1, 1 ) );
         plaf.apply();
         PhetLookAndFeel.setLookAndFeel();
 
