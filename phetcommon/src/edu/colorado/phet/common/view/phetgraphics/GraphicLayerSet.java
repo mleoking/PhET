@@ -178,10 +178,12 @@ public class GraphicLayerSet extends PhetGraphic {
      * @param graphic the graphic to remove.
      */
     public void removeGraphic( PhetGraphic graphic ) {
-        graphicMap.removeValue( graphic );
-        graphic.setParent( null );
-        setBoundsDirty();
-        graphic.autorepaint();//Automatically repaint.
+        if( containsGraphic( graphic ) ) {
+            graphicMap.removeValue( graphic );
+            graphic.setParent( null );
+            setBoundsDirty();
+            graphic.autorepaint();//Automatically repaint.
+        }
     }
 
     public void setBoundsDirty() {
