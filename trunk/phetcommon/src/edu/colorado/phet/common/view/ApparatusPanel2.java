@@ -118,6 +118,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         scaledComponentLayout = new ScaledComponentLayout( this );
     }
 
+    public void removePanelResizeHandler() {
+        removeComponentListener( panelResizeHandler );
+    }
+
     public void setPaintStrategy( int strategy ) {
         switch( strategy ) {
             case DEFAULT_PAINT_STRATEGY:
