@@ -37,7 +37,7 @@ public class ControllerTest2 {
         final Chart ch = new Chart( apparatusPanel, new Range2D( -10, -10, 10, 10 ), new Rectangle( 50, 50, 400, 400 ) );
         x = ch.getRange().getMinX();
         apparatusPanel.addGraphic( ch );
-        ChartSlider chartSlider = new ChartSlider( apparatusPanel, ch );
+        ChartSlider chartSlider = new ChartSlider( apparatusPanel, ch, null, null );
 //        chartSlider.getSlider().setBackground( );
         apparatusPanel.addGraphic( chartSlider );
         ch.getVerticalTicks().setMajorOffset( -chartSlider.getWidth() - 5, 0 );

@@ -7,6 +7,7 @@ import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -14,6 +15,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.EventListener;
 
 /**
@@ -32,11 +35,16 @@ public class ChartSlider extends GraphicLayerSet {
     private boolean changed;
     private PhetJComponent sliderGraphic;
     private int preferredWidth;
+    private ChartSliderUI sliderUI;
 
-    public ChartSlider( Component apparatusPanel, final Chart chart ) {
+    public ChartSlider( Component apparatusPanel, final Chart chart, String imageLoc, Color foregroundColor ) {
         super( apparatusPanel );
         this.chart = chart;
-        slider = new JSlider( JSlider.VERTICAL, 0, numTicks, numTicks / 2 );
+        slider = new JSlider( JSlider.VERTICAL, 0, numTicks, numTicks / 2 ) {
+            public GraphicsConfiguration getGraphicsConfiguration() {
+                return super.getGraphicsConfiguration();
+            }
+        };
         slider.setOpaque( false );
 
         preferredWidth = slider.getPreferredSize().width;
@@ -49,16 +57,23 @@ public class ChartSlider extends GraphicLayerSet {
             }
         } );
 
-//        slider.addMouseMotionListener( new MouseMotionListener() {
-//            public void mouseDragged( MouseEvent e ) {
-////                System.out.println( "ChartSlider.mouseDragged" );
-//                slider.getUI().
-//                fireChange();
-//            }
-//
-//            public void mouseMoved( MouseEvent e ) {
-//            }
-//        } );
+
+        BufferedImage image = null;
+        try {
+            image = ImageLoader.loadBufferedImage( imageLoc );
+//            image = ImageLoader.loadBufferedImage( "images/thumb2.png" );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        UIManager.put( "Slider.trackWidth", new Integer( image.getWidth() * 2 ) );
+        UIManager.put( "Slider.majorTickLength", new Integer( 6 ) );
+        UIManager.put( "Slider.highlight", Color.white );
+        UIManager.put( "Slider.verticalThumbIcon", new ImageIcon( image ) );
+        UIManager.put( "Slider.horizontalThumbIcon", new ImageIcon( image ) );
+//        slider.setUI( new MetalSliderUI());
+        sliderUI = new ChartSliderUI( this, image, foregroundColor );
+        slider.setUI( sliderUI );
         sliderGraphic = new PhetJComponent( apparatusPanel, slider );
         addGraphic( sliderGraphic );
         updateLocation();
@@ -75,7 +90,7 @@ public class ChartSlider extends GraphicLayerSet {
 
     private void fireChange() {
         double modelValue = getValue();
-        System.out.println( "ChartSlider.fireChange: " + modelValue );
+//        System.out.println( "ChartSlider.fireChange: " + modelValue );
         proxy.valueChanged( modelValue );
         changed = true;
     }
@@ -150,6 +165,10 @@ public class ChartSlider extends GraphicLayerSet {
 
     public boolean hasMoved() {
         return changed;
+    }
+
+    public void setSelected( boolean selected ) {
+        sliderUI.setSelected( selected );
     }
 
     public interface Listener extends EventListener {
