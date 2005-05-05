@@ -39,7 +39,7 @@ public class TestPlotDevice {
         } );
         apparatusPanel.addGraphicsSetup( new BasicGraphicsSetup() );
         frame.setContentPane( apparatusPanel );
-        final PhetGraphic plotDevice = new PlotDevice( apparatusPanel, new Range2D( 0, 0, 10, 10 ), "test" );
+        final PhetGraphic plotDevice = new PlotDevice( apparatusPanel, new Range2D( 0, 0, 10, 10 ), "test", null, null );
         plotDevice.setLocation( 100, 100 );
         apparatusPanel.addGraphic( plotDevice );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

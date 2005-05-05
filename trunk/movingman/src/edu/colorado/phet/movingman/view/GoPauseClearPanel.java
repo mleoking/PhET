@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
@@ -11,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -25,6 +27,8 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
     private JButton goPauseButton;
     private JButton resetButton;
     private boolean itsAGoButton = true;
+    private ImageIcon goIcon;
+    private ImageIcon pauseIcon;
 
     public GoPauseClearPanel( final MovingManModule module ) {
         this.module = module;
@@ -35,6 +39,14 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
             }
         };
         goPauseButton = new ControlButton( SimStrings.get( "MMPlot.PauseButton" ) );//longer text
+        try {
+            goIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/light3.png" ) );
+            pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/stop-20.png" ) );
+            goPauseButton.setIcon( goIcon );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         final ActionListener goHandler = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setRecordMode();
@@ -92,13 +104,19 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         }
         if( pause ) {
             goPauseButton.setText( "Pause" );
+//            goPauseButton.setText( "" );
+            goPauseButton.setIcon( pauseIcon );
             super.invalidate();
             super.validate();
             super.doLayout();
             itsAGoButton = false;
         }
         else {
-            goPauseButton.setText( "   Go!   " );
+            goPauseButton.setText( "      Go!" );
+            goPauseButton.setIcon( goIcon );
+            super.invalidate();
+            super.validate();
+            super.doLayout();
             itsAGoButton = true;
         }
 

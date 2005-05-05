@@ -17,14 +17,13 @@ import java.awt.*;
  */
 
 public class PlotBorderGraphic extends CompositePhetGraphic {
-    private MMPlotSuite positionPlotSuite;
+    private MMPlotSuite plotSuite;
     private PhetShapeGraphic borderGraphic;
 
     public PlotBorderGraphic( MovingManApparatusPanel movingManApparatusPanel, MMPlotSuite plotSuite ) {
         super( movingManApparatusPanel );
-        this.positionPlotSuite = plotSuite;
+        this.plotSuite = plotSuite;
         borderGraphic = new PhetShapeGraphic( movingManApparatusPanel, null, new BasicStroke( 1 ), Color.gray );
-//        borderGraphic = new PhetShapeGraphic( movingManApparatusPanel, null, Color.green, new BasicStroke( 1 ), Color.black );
         addGraphic( borderGraphic );
         plotSuite.addPhetGraphicListener( new PhetGraphicListener() {
             public void phetGraphicChanged( PhetGraphic phetGraphic ) {
@@ -41,6 +40,9 @@ public class PlotBorderGraphic extends CompositePhetGraphic {
             public void plotVisibilityChanged() {
                 update();
             }
+
+            public void valueChanged( double value ) {
+            }
         } );
     }
 
@@ -50,7 +52,7 @@ public class PlotBorderGraphic extends CompositePhetGraphic {
     }
 
     private Rectangle createRectangle() {
-        return positionPlotSuite.getBorderRectangle();
+        return plotSuite.getBorderRectangle();
     }
 
     public void setSelected( boolean selected ) {

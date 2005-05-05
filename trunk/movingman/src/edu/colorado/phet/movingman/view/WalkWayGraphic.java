@@ -39,7 +39,8 @@ public class WalkWayGraphic extends CompositePhetGraphic {
     private int floorHeight = 6;
     private Dimension size;
     private Paint backgroundColor = Color.yellow;
-//    private PhetShapeGraphic tickSetBoundsGraphic;
+    private BufferedImage barrierImage;
+    private boolean boundaryConditionsClosed = true;
 
     public WalkWayGraphic( MovingManModule module, ApparatusPanel apparatusPanel, int numTicks ) throws IOException {
         this( apparatusPanel, module, numTicks, -8, 8, new Function.LinearFunction( -10, 10, 0, 500 ) );
@@ -56,20 +57,14 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         this.treeObject = new WalkwayObjectGraphic( this, treex, "images/tree.gif" );
         this.houseObject = new WalkwayObjectGraphic( this, housex, "images/cottage.gif" );
 
-
         backgroundGraphic = new PhetShapeGraphic( panel, null, Color.white, new BasicStroke( 1.0f ), Color.black );
         floorGraphic = new PhetShapeGraphic( panel, null, Color.white );
 
         tickSetGraphic = new TickSetGraphic( panel, transform );
 
         BufferedImage barrierImage = ImageLoader.loadBufferedImage( "images/barrier.jpg" );
-        barrierImage = BufferedImageUtils.rescaleYMaintainAspectRatio( panel, barrierImage, 130 );
-        rightWall = new LeftEdgeWalkwayObjectGraphic( this, 10, barrierImage );
-        leftWall = new RightEdgeWalkwayObjectGraphic( this, -10, barrierImage );
-
-//        Rectangle bounds = new Rectangle( tickSetGraphic.getBounds() );
-//        tickSetBoundsGraphic = new PhetShapeGraphic( panel, bounds, Color.green );
-//        addGraphic( tickSetBoundsGraphic,10 );
+        this.barrierImage = BufferedImageUtils.rescaleYMaintainAspectRatio( panel, barrierImage, 130 );
+        setWalls();
 
         addGraphic( backgroundGraphic );
         addGraphic( floorGraphic );
@@ -77,12 +72,36 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         addGraphic( treeObject );
         addGraphic( houseObject );
 
-        addGraphic( leftWall );
-        addGraphic( rightWall );
 
         addGraphic( tickSetGraphic );
         setSize( 900, 150 );
+        setWalls();
         update();
+
+    }
+
+    private void setWalls() {
+        removeWalls();
+
+        if( boundaryConditionsClosed ) {
+            double sign = -1;
+            if( transform.getMinInput() < transform.getMaxInput() ) {
+                sign = 1;
+            }
+
+            rightWall = new LeftEdgeWalkwayObjectGraphic( this, sign * 10, barrierImage );
+            leftWall = new RightEdgeWalkwayObjectGraphic( this, -sign * 10, barrierImage );
+            addGraphic( leftWall );
+            addGraphic( rightWall );
+        }
+    }
+
+    public void setLocation( Point p ) {
+        super.setLocation( p );
+    }
+
+    public void setLocation( int x, int y ) {
+        super.setLocation( x, y );
     }
 
     public int getFloorY() {
@@ -91,7 +110,6 @@ public class WalkWayGraphic extends CompositePhetGraphic {
 
     public void setSize( int width, int height ) {
         this.size = new Dimension( width, height );
-        transform.setOutput( 0, width );
         update();
     }
 
@@ -116,8 +134,26 @@ public class WalkWayGraphic extends CompositePhetGraphic {
     }
 
     public void setTransform( LinearTransform1d transform ) {
+
         this.transform = transform;
+        tickSetGraphic.setTransform( transform );
+        setWalls();
         update();
+    }
+
+    public void setBoundaryConditionsClosed() {
+        setWalls();
+        boundaryConditionsClosed = true;
+    }
+
+    public void setBoundaryConditionsOpen() {
+        removeWalls();
+        boundaryConditionsClosed = false;
+    }
+
+    private void removeWalls() {
+        removeGraphic( leftWall );
+        removeGraphic( rightWall );
     }
 
     public static class TickSetGraphic extends CompositePhetGraphic {
@@ -160,6 +196,13 @@ public class WalkWayGraphic extends CompositePhetGraphic {
                 tickGraphic.setY( y );
             }
         }
+
+        public void setTransform( LinearTransform1d transform ) {
+            for( int i = 0; i < graphicList.size(); i++ ) {
+                TickGraphic tickGraphic = (TickGraphic)graphicList.get( i );
+                tickGraphic.setTransform( transform );
+            }
+        }
     }
 
     public static class TickGraphic extends CompositePhetGraphic {
@@ -168,7 +211,6 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         private String text;
         private int y = 134;
         private PhetShapeGraphic shapeGraphic;
-//        private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
         private Font font = MMFontManager.getFontSet().getWalkwayFont();
         private PhetTextGraphic textGraphic;
 
@@ -199,6 +241,10 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         public void setY( int y ) {
             this.y = y;
         }
+
+        public void setTransform( LinearTransform1d transform ) {
+            this.transform = transform;
+        }
     }
 
     private void update() {
@@ -221,22 +267,9 @@ public class WalkWayGraphic extends CompositePhetGraphic {
         leftWall.update();
         rightWall.update();
 
-//        Rectangle bounds = getTickSetBounds();
-//        tickSetBoundsGraphic.setShape( new Ellipse2D.Double(50,50,50,50) );
-//        tickSetBoundsGraphic.setShape( new Rectangle(0,100,getComponent().getWidth(), 10));
-//        tickSetBoundsGraphic.autorepaint();
-
         setBoundsDirty();
         repaint();
     }
-
-//    private Rectangle getTickSetBounds() {
-//        Rectangle bounds = tickSetGraphic.getBounds();
-//        bounds.x = -30;
-//        bounds.width = getComponent().getWidth();
-//        System.out.println( "bounds = " + bounds );
-//        return bounds;
-//    }
 
     private Rectangle getFloor() {
         int y = size.height - floorHeight;

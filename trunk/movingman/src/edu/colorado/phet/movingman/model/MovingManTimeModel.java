@@ -22,9 +22,11 @@ public class MovingManTimeModel {
     private RecordMode recordMode;
     private PlaybackMode playbackMode;
     private ModelElement mainModelElement;
-    public static final double TIME_SCALE = 1.0 / 50.0;
+//    public static final double TIME_SCALE = 1.0 / 50.0;//for static model
+    public static double TIME_SCALE = 1.0;// for dynamic model.
     private int numSmoothingPoints;
     private boolean stopped = false;
+    public static boolean dynamicTime;
 
     public MovingManTimeModel( MovingManModule module ) {
         mainModelElement = new ModelElement() {
@@ -207,8 +209,16 @@ public class MovingManTimeModel {
     }
 
     public boolean isRecording() {
-
         return mode == recordMode && !isPaused();
     }
 
+    public void setDynamicTime( boolean dynamicTime ) {
+        this.dynamicTime = dynamicTime;
+        if( dynamicTime ) {
+            TIME_SCALE = 1.0;
+        }
+        else {
+            TIME_SCALE = 1.0 / 50.0;
+        }
+    }
 }

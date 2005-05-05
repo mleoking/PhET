@@ -5,6 +5,7 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.model.Mode;
+import edu.colorado.phet.movingman.plots.TimePoint;
 import org.nfunk.jep.JEP;
 
 import javax.swing.*;
@@ -61,9 +62,18 @@ public class JEPFrame extends JDialog {
             module.getMan().setPosition( x );
             module.getPosition().addPoint( module.getMan().getPosition(), module.getRecordingTimer().getTime() );
             module.getPosition().updateSmoothedSeries();
-            module.getPosition().updateDerivative( dt );
+            TimePoint dx = module.getPosition().getDerivative( dt );
+            if( dx != null ) {
+                module.getVelocityData().addPoint( dx );
+            }
+//            module.getPosition().updateDerivative( dt );
             module.getVelocityData().updateSmoothedSeries();
-            module.getVelocityData().updateDerivative( dt );
+            TimePoint dv = module.getVelocityData().getDerivative( dt );
+            if( dv != null ) {
+                module.getAcceleration().addPoint( dv );
+            }
+//            module.getVelocityData().updateDerivative( dt );
+
             module.getAcceleration().updateSmoothedSeries();
             if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
                 timeFinished();

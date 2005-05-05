@@ -3,7 +3,9 @@ package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.model.CompositeModelElement;
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -17,7 +19,6 @@ import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
 import edu.colorado.phet.movingman.plots.PlotSet;
 
-import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.KeyListener;
@@ -35,8 +36,8 @@ import java.util.Arrays;
  * Copyright (c) Mar 23, 2005 by Sam Reid
  */
 public class MovingManApparatusPanel
-//        extends ApparatusPanel2
-        extends ApparatusPanel {
+        extends ApparatusPanel2 {
+//        extends ApparatusPanel {
     private MovingManModule module;
     private LinearTransform1d manPositionTransform;
     private MMKeySuite keySuite;
@@ -54,42 +55,45 @@ public class MovingManApparatusPanel
     private PlotBorderGraphic xBorder;
     private PlotBorderGraphic vBorder;
     private PlotBorderGraphic aBorder;
+    private ArrowSetGraphic arrowSetGraphic;
 
     public MovingManApparatusPanel( MovingManModule module ) throws IOException {
-//        super( module.getClock() );
-//        module.getClock().addClockTickListener( new ClockTickListener() {
-//            public void clockTicked( ClockTickEvent event ) {
-//                handleUserInput();
-////        model.clockTicked( event );
-////                updateGraphics( event );
-//                paint();
-//            }
-//        } );
+        super( module.getClock() );
+        removeComponentListener( panelResizeHandler );
+        module.getClock().addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                handleUserInput();
+//        model.clockTicked( event );
+                updateGraphics( event );
+                paint();
+            }
+        } );
         this.module = module;
         keySuite = new MMKeySuite( module );
 
         addKeyListener( keySuite );
         addGraphicsSetup( new BasicGraphicsSetup() );
-        setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+//        setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
         manPositionTransform = new LinearTransform1d( -module.getMaxManPosition(), module.getMaxManPosition(), 50, 600 );
         backgroundColor = new Color( 250, 190, 240 );
         manGraphic = new ManGraphic( module, this, module.getMan(), 0, manPositionTransform );
 
-        this.addGraphic( manGraphic, 1 );
+        this.addGraphic( manGraphic, 11 );
         timerGraphic = new TimeGraphic( module, this, module.getTimeModel().getRecordTimer(), module.getTimeModel().getPlaybackTimer(), 80, 40 );
-        this.addGraphic( timerGraphic, 1 );
+        this.addGraphic( timerGraphic, 11 );
 
         walkwayGraphic = new WalkWayGraphic( module, this, 11 );
         bufferedWalkwayGraphic = createBuffer( walkwayGraphic, new BasicGraphicsSetup(),
                                                BufferedImage.TYPE_INT_RGB, walkwayGraphic.getBackgroundColor() );
 
-        addGraphic( bufferedWalkwayGraphic, 0 );
+        addGraphic( bufferedWalkwayGraphic, 10 );
 //        addGraphic( walkwayGraphic, 0 );
 
         Point2D start = manGraphic.getRectangle().getLocation();
         start = new Point2D.Double( start.getX() + 50, start.getY() + 50 );
         wiggleMe = new WiggleMe( this, start,
                                  new ImmutableVector2D.Double( 0, 1 ), 15, .02, SimStrings.get( "MovingManModule.DragTheManText" ) );
+//                                 new ImmutableVector2D.Double( 0, 1 ), 15, .6, SimStrings.get( "MovingManModule.DragTheManText" ) );
         wiggleMe.setVisible( false );//TODO don't delete this line.
         module.addListener( new TimeListenerAdapter() {
             public void recordingStarted() {
@@ -119,14 +123,13 @@ public class MovingManApparatusPanel
 //        PhetBorderGraphic positionBorderGraphic = new PhetBorderGraphic( plotSet.getPositionPlotSuite(), Color.red, new BasicStroke( 3 ) );
 //        PhetShapeGraphic positionBorderGraphic = new PhetShapeGraphic( this, null, new BasicStroke( 3 ), Color.red );
         xBorder = new PlotBorderGraphic( this, plotSet.getPositionPlotSuite() );
-        addGraphic( xBorder, Double.POSITIVE_INFINITY );
-//        addGraphic( xBorder, Double.NEGATIVE_INFINITY );
+//        addGraphic( xBorder, Double.POSITIVE_INFINITY );
 
         vBorder = new PlotBorderGraphic( this, plotSet.getVelocityPlotSuite() );
-        addGraphic( vBorder, Double.POSITIVE_INFINITY );
+//        addGraphic( vBorder, Double.POSITIVE_INFINITY );
 
         aBorder = new PlotBorderGraphic( this, plotSet.getAccelerationPlotSuite() );
-        addGraphic( aBorder, Double.POSITIVE_INFINITY );
+//        addGraphic( aBorder, Double.POSITIVE_INFINITY );
 
         plotSet.addListener( new PlotSet.Listener() {
             public void setAccelerationControlMode() {
@@ -168,21 +171,33 @@ public class MovingManApparatusPanel
         SliderWiggleMe sliderWiggleMe = new SliderWiggleMe( this, module, module.getClock() );
         addGraphic( sliderWiggleMe, Double.POSITIVE_INFINITY );
 //        sliderWiggleMe.setVisible( true );
+
+        arrowSetGraphic = new ArrowSetGraphic( module, this, getManGraphic() );
+        addGraphic( arrowSetGraphic, Double.POSITIVE_INFINITY );
+//        module.getClock().addClockTickListener( new ClockTickListener() {
+//            public void clockTicked( ClockTickEvent event ) {
+//                arrowSetGraphic.updateGraphics();
+//            }
+//        } );
+    }
+
+    private void updateGraphics( ClockTickEvent event ) {
+        arrowSetGraphic.updateGraphics();
     }
 
     private void highlightPlots( boolean x, boolean v, boolean a ) {
-        xBorder.setSelected( x );
-        vBorder.setSelected( v );
-        aBorder.setSelected( a );
+        getPlotSet().getPositionPlot().setSelected( x );
+        getPlotSet().getVelocityPlot().setSelected( v );
+        getPlotSet().getAccelerationPlot().setSelected( a );
+//        xBorder.setSelected( x );
+//        vBorder.setSelected( v );
+//        aBorder.setSelected( a );
     }
 
     public static PhetImageGraphic createBuffer( PhetGraphic phetGraphic, GraphicsSetup graphicsSetup,
                                                  int imageType, Paint background ) {
 
         PhetImageGraphic phetImageGraphic = new PhetImageGraphic( phetGraphic.getComponent() );
-//        if( true ) {
-//            return phetImageGraphic;
-//        }
         Rectangle bounds = phetGraphic.getBounds();
         BufferedImage im = new BufferedImage( bounds.width, bounds.height, imageType );
         Graphics2D g2 = im.createGraphics();
@@ -236,9 +251,10 @@ public class MovingManApparatusPanel
     }
 
     public void setManTransform( LinearTransform1d transform ) {
+        System.out.println( "SETTING transform = " + transform );
         this.manPositionTransform = transform;
         manGraphic.setTransform( transform );
-//        walkwayGraphic.setTransform(transform);
+        walkwayGraphic.setTransform( transform );
         repaintBackground();
     }
 
@@ -277,7 +293,8 @@ public class MovingManApparatusPanel
         bufferedWalkwayGraphic.setImage( pig.getImage() );
         bufferedWalkwayGraphic.setRegistrationPoint( -walkwayGraphic.getBounds().x, -walkwayGraphic.getBounds().y );
         if( movingManLayout != null ) {
-            bufferedWalkwayGraphic.setLocation( movingManLayout.getWalkWayInsetX(), 0 );
+//            bufferedWalkwayGraphic.setLocation( movingManLayout.getWalkWayInsetX(), 0 );
+            bufferedWalkwayGraphic.setLocation( 0, 0 );
         }
 //        System.out.println( "bufferedWalkwayGraphic.getLocation() = " + bufferedWalkwayGraphic.getLocation() );
 //        System.out.println( "walkwayGraphic.getLocation() = " + walkwayGraphic.getLocation() );
@@ -321,5 +338,25 @@ public class MovingManApparatusPanel
     public void initialize() {
 //        setCursorsVisible( true );
         repaintBackground();
+    }
+
+    public void setShowAccelerationVector( boolean showAccelerationVector ) {
+        arrowSetGraphic.setShowAccelerationVector( showAccelerationVector );
+    }
+
+    public void setShowVelocityVector( boolean showVelocityVector ) {
+        arrowSetGraphic.setShowVelocityVector( showVelocityVector );
+    }
+
+    public void setBoundaryConditionsClosed() {
+        walkwayGraphic.setBoundaryConditionsClosed();
+        repaintBackground();
+        movingManLayout.relayout();
+    }
+
+    public void setBoundaryConditionsOpen() {
+        walkwayGraphic.setBoundaryConditionsOpen();
+        repaintBackground();
+        movingManLayout.relayout();
     }
 }

@@ -1,6 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.model;
 
+import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
 
 /**
@@ -12,19 +13,18 @@ import edu.colorado.phet.movingman.plots.TimeSeries;
 public class DataSuite {
     private TimeSeries timeSeries = new TimeSeries();
     private TimeSeries smoothedSeries = new TimeSeries();
-    private DataSuite derivative;
+//    private DataSuite derivative;
     private int numSmoothingPoints;
 
     public DataSuite( int numSmoothingPoints ) {
         this.numSmoothingPoints = numSmoothingPoints;
     }
 
-    public void setDerivative( DataSuite derivative ) {
-        this.derivative = derivative;
-    }
+//    public void setDerivative( DataSuite derivative ) {
+//        this.derivative = derivative;
+//    }
 
     public void updateSmoothedSeries() {
-
         int numPtsToAvg = Math.min( numSmoothingPoints, timeSeries.size() );
         if( numPtsToAvg == 0 ) {
             System.out.println( "No points to average." );
@@ -50,18 +50,9 @@ public class DataSuite {
         return smoothedSeries;
     }
 
-    public void updateDerivative( double dt ) {
-        TimeSeries timeToDerive = this.smoothedSeries;
-        if( timeToDerive.size() > 2 ) {
-            double x1 = timeToDerive.lastPointAt( 0 ).getValue();
-            double x0 = timeToDerive.lastPointAt( 2 ).getValue();
-            double dx = x1 - x0;
-            double vel = dx / dt / 2; //centered differentiation
-//            derivative.addPoint( vel, timeToDerive.getLastPoint().getTime() );
-            double middleTime = ( timeToDerive.lastPointAt( 0 ).getTime() + timeToDerive.lastPointAt( 2 ).getTime() ) / 2.0;
-            derivative.addPoint( vel, middleTime );
-//            derivative.addPoint( vel, timeToDerive.lastPointAt( 1).getValue() );
-        }
+    public TimePoint getDerivative( double dt ) {
+        TimePoint timePoint = smoothedSeries.getLatestDerivative( dt );
+        return timePoint;
     }
 
     public void addPoint( double pt, double time ) {
@@ -85,4 +76,11 @@ public class DataSuite {
         this.numSmoothingPoints = numSmoothingPoints;
     }
 
+    public void addPoint( TimePoint dx ) {
+        timeSeries.addPoint( dx.getValue(), dx.getTime() );
+    }
+
+    public TimeSeries getRawData() {
+        return timeSeries;
+    }
 }

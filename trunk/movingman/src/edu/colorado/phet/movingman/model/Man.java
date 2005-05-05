@@ -19,6 +19,7 @@ public class Man {
     private double minX;
     private double maxX;
     private ArrayList listeners = new ArrayList();
+    private boolean boundaryConditionsClosed = true;
 
     public Man( double x, double min, double max ) {
         this.x0 = x;
@@ -29,6 +30,31 @@ public class Man {
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
+    }
+
+    public void setBoundaryConditionsClosed() {
+        boundaryConditionsClosed = true;
+    }
+
+    public void setBoundaryConditionsOpen() {
+        boundaryConditionsClosed = false;
+    }
+
+    public static class Direction {
+        String name;
+        double value;
+        public static final Direction LEFT = new Direction( "Left", -1 );
+        public static final Direction RIGHT = new Direction( "Right", 1 );
+        public static final Direction STILL = new Direction( "Still", 0 );
+
+        private Direction( String name, double value ) {
+            this.name = name;
+            this.value = value;
+        }
+
+        public double doubleValue() {
+            return value;
+        }
     }
 
     public static interface Listener {
@@ -103,14 +129,15 @@ public class Man {
         }
 //        System.out.println( "set position= " + x );
 //        new Exception( "X" ).printStackTrace();
-
-        if( x <= minX ) {
-            x = minX;
-            notifyCollision();
-        }
-        else if( x >= maxX ) {
-            x = maxX;
-            notifyCollision();
+        if( boundaryConditionsClosed ) {
+            if( x <= minX ) {
+                x = minX;
+                notifyCollision();
+            }
+            else if( x >= maxX ) {
+                x = maxX;
+                notifyCollision();
+            }
         }
         this.x = x;
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -131,22 +158,27 @@ public class Man {
         }
         double newVelocity = velocity + acceleration * dt;
         double newX = x + velocity * dt;
-
-        if( newX > maxX || newX < minX ) {
-            setVelocity( 0 );
-            setAcceleration( 0 );
-            if( newX > maxX ) {
-                setPosition( maxX );
-                notifyCollision();
+        if( boundaryConditionsClosed ) {
+            if( newX > maxX || newX < minX ) {
+                setVelocity( 0 );
+                setAcceleration( 0 );
+                if( newX > maxX ) {
+                    setPosition( maxX );
+                    notifyCollision();
+                }
+                else if( newX < minX ) {
+                    setPosition( minX );
+                    notifyCollision();
+                }
             }
-            else if( newX < minX ) {
-                setPosition( minX );
-                notifyCollision();
+            else {
+                newX = Math.min( newX, maxX );
+                newX = Math.max( newX, minX );
+                setVelocity( newVelocity );
+                setPosition( newX );
             }
         }
         else {
-            newX = Math.min( newX, maxX );
-            newX = Math.max( newX, minX );
             setVelocity( newVelocity );
             setPosition( newX );
         }
