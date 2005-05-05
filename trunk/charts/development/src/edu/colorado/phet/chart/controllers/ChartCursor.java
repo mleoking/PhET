@@ -32,7 +32,7 @@ public class ChartCursor extends CompositePhetGraphic {
     private PhetShapeGraphic shapeGraphic;
 
     public ChartCursor( Component component, final Chart chart, int width ) {
-        this( component, chart, new Color( 0, 0, 255, 20 ), Color.black, width );
+        this( component, chart, new Color( 0, 0, 220, 40 ), Color.black, width );
     }
 
     public ChartCursor( Component component, final Chart chart, Color fill, Color outline, int width ) {
