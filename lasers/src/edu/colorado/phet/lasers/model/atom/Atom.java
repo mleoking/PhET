@@ -32,6 +32,8 @@ public class Atom extends SolidSphere {
 
     static private int s_radius = 15;
     static private int s_mass = 1000;
+    private AtomicState groundState;
+    private AtomicState highestEnergyState;
 
     public static int getS_radius() {
         return s_radius;
@@ -85,12 +87,22 @@ public class Atom extends SolidSphere {
      */
     public void setStates( AtomicState[] states ) {
         this.states = states;
+        // Find the minimum and maximum energy states
+        double maxEnergy = -Double.MAX_VALUE;
+        double minEnergy = Double.MAX_VALUE;
         for( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
-            if( state instanceof GroundState ) {
-                Atom.this.setCurrState( state );
+            double energy = state.getEnergyLevel();
+            if( energy > maxEnergy ) {
+                maxEnergy = energy;
+                highestEnergyState = state;
+            }
+            if( energy < minEnergy ) {
+                minEnergy = energy;
+                groundState = state;
             }
         }
+        setCurrState( groundState );
     }
 
     /**
@@ -203,6 +215,24 @@ public class Atom extends SolidSphere {
             }
         }
         return 0;
+    }
+
+    /**
+     * Returns the atom's ground state
+     *
+     * @return
+     */
+    public AtomicState getGroundState() {
+        return groundState;
+    }
+
+    /**
+     * Returns the atom's highest energy state
+     *
+     * @return
+     */
+    public AtomicState getHighestEnergyState() {
+        return highestEnergyState;
     }
 
     //----------------------------------------------------------------

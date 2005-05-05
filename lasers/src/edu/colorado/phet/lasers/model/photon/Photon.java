@@ -15,6 +15,7 @@ import edu.colorado.phet.collision.CollidableAdapter;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Particle;
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
 
 import java.awt.geom.Point2D;
@@ -32,9 +33,10 @@ import java.util.Random;
  */
 public class Photon extends Particle implements Collidable {
 
-    ////////////////////////////////////////////////////////////////////////////////////////
-    // Class
-    //
+    //----------------------------------------------------------------
+    // Class data and methods
+    //----------------------------------------------------------------
+
     static public double SPEED = 1;
     static public double RADIUS = 10;
     static public double RED = 680;
@@ -54,11 +56,15 @@ public class Photon extends Particle implements Collidable {
     static private Rectangle2D stimulationBounds;
 
     public static double energyToWavelength( double energy ) {
-        return PLANCK / energy;
+        return PhysicsUtil.energyToWavelength( energy );
+//        return PLANCK * PhysicsUtil.LIGHT_SPEED / energy;
+//        return PLANCK / energy;
     }
 
     public static double wavelengthToEnergy( double wavelength ) {
-        return PLANCK / wavelength;
+        return PhysicsUtil.wavelengthToEnergy( wavelength );
+//        return PLANCK * PhysicsUtil.LIGHT_SPEED / wavelength;
+//        return PLANCK / wavelength;
     }
 
     // Free pool of photons. We do this so we don't have to use the heap
@@ -117,9 +123,10 @@ public class Photon extends Particle implements Collidable {
         Photon.stimulationBounds = stimulationBounds;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
-    // Instance
-    //
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
+
     private int numStimulatedPhotons;
     // If this photon was produced by the stimulation of another, this
     // is a reference to that photon.

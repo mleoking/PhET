@@ -13,13 +13,14 @@ package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
@@ -99,6 +100,10 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     private int numAtoms;
     private double atomGraphicOverlap = 0.3;
 
+    // The minimum energy and maximum energies of the states we are representing
+    private double groundStateEnergy = Double.MAX_VALUE;
+    private double maxEnergy = Double.MIN_VALUE;
+
     // The strategy to use for picking the color of atom graphics and energy level lines
     private EnergyLevelGraphic.ColorStrategy colorStrategy = new EnergyLevelGraphic.BlackStrategy();
 
@@ -142,7 +147,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                                                      getBounds().getWidth(), getBounds().getHeight() - 30 );
 
         // Set the model-to-view transform so that there will be a reasonable margin below the zero point
-        energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, -AtomicState.minEnergy,
+        energyYTx = new ModelViewTransform1D( maxEnergy, groundStateEnergy,
+//        energyYTx = new ModelViewTransform1D( AtomicState.maxEnergy, -AtomicState.groundStateEnergy,
                                               (int)bounds.getBounds().getMinY() + headingOffsetY, (int)bounds.getBounds().getMaxY() );
         for( int i = 0; i < levelGraphics.length; i++ ) {
             levelGraphics[i].update( energyYTx );
@@ -168,6 +174,18 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      */
     public void setEnergyLevels( AtomicState[] atomicStates ) {
 
+        // TODO: this next bit of code can be done away with now that atom.getGroundState() and
+        // atom.getHighestEnergyState() are around
+        // Find the minimum and maximum energy levels
+        maxEnergy = Double.MIN_VALUE;
+        groundStateEnergy = Double.MAX_VALUE;
+        for( int i = 0; i < atomicStates.length; i++ ) {
+            AtomicState atomicState = atomicStates[i];
+            double energy = atomicState.getEnergyLevel();
+            maxEnergy = energy > maxEnergy ? energy : maxEnergy;
+            groundStateEnergy = energy < groundStateEnergy ? energy : groundStateEnergy;
+        }
+
         // Remove any energy level graphics we might have
         // Add the energy level lines to the panel
         for( int i = 0; levelGraphics != null && i < levelGraphics.length; i++ ) {
@@ -187,9 +205,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             // Set the strategy the level graphic uses to pick its color
             levelGraphics[i].setColorStrategy( this.colorStrategy );
             // Add an icon to the level
-            String idxStr = i == 0 ? "G" : Integer.toString( i );
-            levelGraphics[i].setLevelIcon( new PhetTextGraphic( this, DischargeLampsConfig.defaultControlFont, idxStr, Color.black ) );
-
+            levelGraphics[i].setLevelIcon( new LevelIcon( this, i ) );
             this.addGraphic( levelGraphics[i] );
         }
 
@@ -197,7 +213,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 20 );
 //        int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 10 );
         setPreferredSize( new Dimension( width, (int)panelHeight ) );
-//        setPreferredSize( new Dimension( (int)minPanelWidth, (int)panelHeight ) );
         // Needed to set the energyYTx
         adjustPanel();
         // Set up the counters for the number of atoms in each state
@@ -217,8 +232,11 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // Populate the map we just made, and add ourself as a listener to each atom
         for( int i = 0; i < atoms.size(); i++ ) {
             Atom atom = (Atom)atoms.get( i );
-            int n = ( (Integer)numAtomsInState.get( atom.getCurrState() ) ).intValue();
-            numAtomsInState.put( atom.getCurrState(), new Integer( n + 1 ) );
+            Integer num = (Integer)numAtomsInState.get( atom.getCurrState() );            
+//            int n = ( (Integer)numAtomsInState.get( atom.getCurrState() ) ).intValue();
+            if( num != null ) {
+                numAtomsInState.put( atom.getCurrState(), new Integer( num.intValue() + 1 ) );
+            }
         }
         invalidate();
         repaint();
@@ -318,11 +336,17 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      */
     public void stateChanged( Atom.ChangeEvent event ) {
         AtomicState prevState = event.getPrevState();
+        Integer nPrev = (Integer)(Integer)numAtomsInState.get( prevState );
+        if( nPrev != null ) {
+//            int nPrev = ( (Integer)numAtomsInState.get( prevState ) ).intValue();
+            numAtomsInState.put( prevState, new Integer( nPrev.intValue() - 1 ) );
+        }
         AtomicState currState = event.getCurrState();
-        int nPrev = ( (Integer)numAtomsInState.get( prevState ) ).intValue();
-        int nCurr = ( (Integer)numAtomsInState.get( currState ) ).intValue();
-        numAtomsInState.put( prevState, new Integer( nPrev - 1 ) );
-        numAtomsInState.put( currState, new Integer( nCurr + 1 ) );
+        Integer nCurr = (Integer)numAtomsInState.get( currState );
+//        int nCurr = ( (Integer)numAtomsInState.get( currState ) ).intValue();
+        if( nCurr != null ) {
+            numAtomsInState.put( currState, new Integer( nCurr.intValue() + 1 ) );
+        }
         invalidate();
         repaint();
     }
@@ -360,7 +384,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      * @param changeEvent
      */
     public void energyChanged( Electron.ChangeEvent changeEvent ) {
-        int yLoc = (int)energyYTx.modelToView( changeEvent.getElectrion().getEnergy() );
+        int yLoc = (int)energyYTx.modelToView( changeEvent.getElectrion().getEnergy() + groundStateEnergy );
+//        int yLoc = (int)energyYTx.modelToView( changeEvent.getElectrion().getEnergy() );
         electronGraphic.setLocation( electronXLoc, yLoc );
         electronGraphic.repaint();
     }
@@ -378,22 +403,27 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         }
     }
 
-//    /**
-//     * Determines the color in which to render lines and atoms for a specified state
-//     */
-//    private interface ColorStrategy {
-//        Color getColor( AtomicState state );
-//    }
-//
-//    private class VisibleColorStrategy implements ColorStrategy {
-//        public Color getColor( AtomicState state ) {
-//            return VisibleColor.wavelengthToColor( state.getWavelength() );
-//        }
-//    }
-//
-//    private class BlackStrategy implements ColorStrategy {
-//        public Color getColor( AtomicState state ) {
-//            return Color.black;
-//        }
-//    }
+    private class LevelIcon extends CompositePhetGraphic {
+        public LevelIcon( Component component, int idx ) {
+            super( component );
+
+            // Make a dummy atom for which we can then make an atom graphic
+            DischargeLampAtom atom = new DischargeLampAtom( model, atomicStates );
+            AtomicState state = new AtomicState();
+            state.setEnergyLevel( atomicStates[idx].getEnergyLevel() );
+            state.setMeanLifetime( Double.MAX_VALUE );
+            atom.setCurrState( state );
+//            atom.setCurrState( atomicStates[idx] );
+            atom.setRadius( 5 );
+            DischargeLampAtomGraphic atomGraphic = new DischargeLampAtomGraphic( DischargeLampEnergyLevelMonitorPanel.this,
+                                                                                 atom );
+            addGraphic( atomGraphic );
+
+//            String idxStr = idx == 0 ? "G" : Integer.toString( idx );
+//            PhetGraphic text = new PhetTextGraphic( DischargeLampEnergyLevelMonitorPanel.this,
+//                                 DischargeLampsConfig.defaultControlFont,
+//                                 idxStr, Color.black );
+//            addGraphic( text );
+        }
+    }
 }
