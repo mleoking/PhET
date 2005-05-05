@@ -5,6 +5,7 @@ import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
 import edu.colorado.phet.movingman.model.Man;
@@ -66,13 +67,17 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     }
 
     public void paint( Graphics2D g ) {
-        g.drawImage( currentImage, x - currentImage.getWidth() / 2, y, null );
+        int imX = x - currentImage.getWidth() / 2;
+//        System.out.println( "imX = " + imX );
+        g.drawImage( currentImage, imX, y, apparatusPanel );
     }
 
     public void positionChanged() {
         Rectangle origRectangle = getRectangle();
 
         double output = transform.transform( m.getPosition() );
+//        System.out.println( "pc@" + hashCode() + ", transform= " + transform );
+//        System.out.println( "output = " + output );
         lastX = x;
         this.x = (int)output;
 
@@ -83,6 +88,8 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
             }
             doRepaint( origRectangle );
         }
+        setBoundsDirty();
+        autorepaint();
     }
 
     private void doRepaint( Rectangle origRectangle ) {
@@ -140,6 +147,33 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
         return x - lastX;
     }
 
+    public Point getCenter() {
+        return RectangleUtils.getCenter( getBounds() );
+    }
+
+    public LinearTransform1d getManTransform() {
+        return transform;
+    }
+
+    public Man.Direction getDirection() {
+        if( currentImage == leftMan ) {
+            return Man.Direction.LEFT;
+        }
+        else if( currentImage == rightMan ) {
+            return Man.Direction.RIGHT;
+        }
+        else {
+            return Man.Direction.STILL;
+        }
+    }
+
+    public void setDirection( double direction ) {
+//        if (direction<0){
+//
+//        }
+        setVelocity( direction );
+    }
+
     public interface Listener {
         void manGraphicChanged();
 
@@ -172,9 +206,8 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     }
 
     public void mouseDragged( MouseEvent event ) {
-        if( !module.isRecordMode() || module.isPaused() || module.getNumSmoothingPoints() != 12 ) {
+        if( ( !module.isRecordMode() ) || module.isPaused() || ( !module.isSmoothingSmooth() ) ) {
             module.setRecordMode();
-//            module.setNumSmoothingPoints( 12 );
             module.setSmoothingSmooth();
             module.setPaused( false );
         }
@@ -218,6 +251,7 @@ public class ManGraphic extends PhetGraphic implements MouseInputListener {
     public void setTransform( LinearTransform1d transform ) {
         this.transform = transform;
         this.inversion = transform.getInvertedInstance();
+        System.out.println( "MG.setTransform@" + hashCode() + "= " + transform );
         positionChanged();
     }
 

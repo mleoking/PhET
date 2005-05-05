@@ -48,7 +48,7 @@ public class PlotDevice extends GraphicLayerSet {
     private Chart chart;
     private BufferedChart bufferedChart;
 
-    public PlotDevice( ApparatusPanel apparatusPanel, Range2D range, String name ) {
+    public PlotDevice( ApparatusPanel apparatusPanel, Range2D range, String name, String sliderImageLoc, Color foregroundColor ) {
         super( apparatusPanel );
         this.name = name;
 
@@ -69,7 +69,7 @@ public class PlotDevice extends GraphicLayerSet {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        chartSlider = new ChartSlider( apparatusPanel, chart );
+        chartSlider = new ChartSlider( apparatusPanel, chart, sliderImageLoc, foregroundColor );
         minimizeButton = createMinimizeButton();
 
         addGraphic( chartSlider );
@@ -104,6 +104,7 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     public void reset() {
+        chartSlider.setValue( 0.0 );
         for( int i = 0; i < data.size(); i++ ) {
             PlotDeviceSeries plotDeviceSeries = (PlotDeviceSeries)data.get( i );
             plotDeviceSeries.reset();
@@ -239,9 +240,9 @@ public class PlotDevice extends GraphicLayerSet {
     public class ZoomPanel extends GraphicLayerSet {
         public ZoomPanel( final PlotDevice plotDevice ) throws IOException {
             BufferedImage imPlus = ImageLoader.loadBufferedImage( "images/icons/glass-20-plus.gif" );
-            imPlus = testResize( imPlus, 0.75 );
+            imPlus = testResize( imPlus, 0.9 );
             BufferedImage imgMinus = ImageLoader.loadBufferedImage( "images/icons/glass-20-minus.gif" );
-            imgMinus = testResize( imgMinus, 0.75 );
+            imgMinus = testResize( imgMinus, 0.9 );
             final double smooth = 1;
             ActionListener smoothPos = new ValueChange( smooth, 0, 100 );
             ActionListener smoothNeg = new ValueChange( -smooth, 0, 100 );

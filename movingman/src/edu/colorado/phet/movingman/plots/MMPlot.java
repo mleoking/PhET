@@ -11,6 +11,8 @@ import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceSeries;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: Mar 30, 2005
@@ -23,8 +25,8 @@ public class MMPlot extends PlotDevice {
     private String varname;
 
     public MMPlot( final MovingManModule module, final MovingManApparatusPanel movingManApparatusPanel,
-                   String name, String varname ) {
-        super( movingManApparatusPanel, new Range2D( 0, -10, 20, 10 ), name );
+                   String name, String varname, String silderImageLoc, Color foregroundColor ) {
+        super( movingManApparatusPanel, new Range2D( 0, -10, 20, 10 ), name, silderImageLoc, foregroundColor );
 //        super( movingManApparatusPanel, new Range2D( 0, -10,5, 10 ), name );
         this.module = module;
         this.varname = varname;
@@ -106,4 +108,8 @@ public class MMPlot extends PlotDevice {
     }
 
 
+    public void setSelected( boolean selected ) {
+//        getChartSlider().setSelected(selected);
+        getChartSlider().setSelected( selected );
+    }
 }

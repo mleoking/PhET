@@ -82,11 +82,6 @@ public class PlaybackPanel extends JPanel {
         add( new JSeparator() );
         add( audio );
 
-//        JLabel separator = new JLabel();
-//        separator.setPreferredSize( new Dimension( 20, 10 ) );
-//        add( separator );
-//        add( phetIconLabel );
-
         TimeListener timeListener = new TimeListener() {
             public void recordingStarted() {
                 setButtons( false, false, false, false );

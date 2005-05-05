@@ -176,6 +176,24 @@ public class TimeSeries {
         }
     }
 
+    public TimePoint getLatestDerivative( double dummy ) {
+        if( size() > 2 ) {
+            double x1 = lastPointAt( 0 ).getValue();
+            double x0 = lastPointAt( 2 ).getValue();
+            double dx = x1 - x0;
+            double dt = lastPointAt( 0 ).getTime() - lastPointAt( 2 ).getTime();
+//            double diffValue = dx / dt / 2; //centered differentiation
+            double diffValue = dx / dt; //centered differentiation
+//            System.out.println( "dx = " + dx + ", dt=" + dt );
+
+            double middleTime = ( lastPointAt( 0 ).getTime() + lastPointAt( 2 ).getTime() ) / 2.0;
+            return new TimePoint( diffValue, middleTime );
+        }
+        else {
+            return null;
+        }
+    }
+
 //    private TimePoint getLowerSample( double time ) {
 //        int testCount = 0;
 //        for( int i = pts.size() - 1; i >= 0; i-- ) {//assume points are time-ordered.  This could be asserted in the add point function.

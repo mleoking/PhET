@@ -17,8 +17,7 @@ public class MovingManLayout {
     private int walkwayHeight = 150;
     private int topInset = 20;
     private int walkwayBottomInset = 0;
-//    private int spaceBetweenPlots = 20;
-    private int spaceBetweenPlots = MMUtil.isHighScreenResolution() ? 20 : 10;
+    private int spaceBetweenPlots = MMUtil.isHighScreenResolution() ? 10 : 10;
 
     private MMVerticalLayout verticalLayout;
     private MovingManApparatusPanel movingManApparatusPanel;
@@ -149,22 +148,17 @@ public class MovingManLayout {
 
         public void setY( int y ) {
         }
-
     }
 
     public void relayout() {
-
         verticalLayout.layout();
-        int manInset = 50;
         LinearTransform1d oldTransform = movingManApparatusPanel.getManPositionTransform();
-        LinearTransform1d manGraphicTransform = new LinearTransform1d( oldTransform.getMinInput(),
-                                                                       oldTransform.getMaxInput(), manInset, movingManApparatusPanel.getWidth() - manInset );
-        movingManApparatusPanel.getManGraphic().setTransform( manGraphicTransform );
+        LinearTransform1d manGraphicTransform = new LinearTransform1d( oldTransform.getMinInput(), oldTransform.getMaxInput(),
+                                                                       walkwayInsetX, movingManApparatusPanel.getWidth() - walkwayInsetX );
         movingManApparatusPanel.setManTransform( manGraphicTransform );
         movingManApparatusPanel.getManGraphic().setY( walkwayHeight - movingManApparatusPanel.getManGraphic().getHeight() );
-        WalkWayGraphic wa = movingManApparatusPanel.getWalkwayGraphic();
-//        wa.setBounds( walkwayInsetX, 0, movingManApparatusPanel.getWidth() - walkwayInsetX * 2, walkwayHeight );
-        wa.setSize( movingManApparatusPanel.getWidth() - walkwayInsetX * 2, walkwayHeight );
+        double outputRange = manGraphicTransform.getMaxOutput() - manGraphicTransform.getMinOutput();
+        movingManApparatusPanel.getWalkwayGraphic().setSize( (int)outputRange + 200, walkwayHeight );
         movingManApparatusPanel.repaintBackground();
     }
 
