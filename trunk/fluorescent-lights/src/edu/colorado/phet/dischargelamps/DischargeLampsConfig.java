@@ -52,9 +52,9 @@ public class DischargeLampsConfig {
     public static final String ELECTRON_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "/" + "electron.gif";
 
     // Assigned graphic layers
-    public static final double ELECTRON_LAYER = 100;
     public static final double TUBE_LAYER = 110;
     public static final double CIRCUIT_LAYER = 120;
+    public static final double ELECTRON_LAYER = CIRCUIT_LAYER + 1;
 
     // Clock specification
     public static final double DT = 12;

@@ -109,7 +109,8 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         groundStateRingThickness = 5;
         // used to scale the thickness of the ring so it changes size a reasonable amount through the visible range
         double ringThicknessExponent = 0.15;
-        double energyRatio = state.getEnergyLevel() / AtomicState.minEnergy;
+        double energyRatio = state.getEnergyLevel() / atom.getGroundState().getEnergyLevel();
+//        double energyRatio = state.getEnergyLevel() / AtomicState.minEnergy;
 
         energyRepRad = Math.pow( energyRatio, ringThicknessExponent )
                        * ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;

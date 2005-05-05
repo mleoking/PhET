@@ -11,8 +11,10 @@
 package edu.colorado.phet.dischargelamps.control;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
 import edu.colorado.phet.lasers.model.photon.Photon;
@@ -77,28 +79,39 @@ public class AtomTypeChooser extends JDialog {
      */
     abstract private class AtomTypeSelectionAction extends AbstractAction {
         protected DischargeLampModule module;
-        private double[] wavelengths;
 
         protected AtomTypeSelectionAction( String name, DischargeLampModule module ) {
             super( name );
             this.module = module;
-            this.wavelengths = wavelengths;
         }
 
         public void actionPerformed( ActionEvent e ) {
             module.setAtomicStates( this.getStates() );
         }
 
-        protected void setWavelengths( double[] wavelengths ) {
-            this.wavelengths = wavelengths;
-        }
+        abstract protected double[] getEnergies();
 
         protected AtomicState[] getStates() {
-            AtomicState[] states = new AtomicState[wavelengths.length];
+            // Copy the energies into a new array, sort and normalize them
+            double[] energies = new double[getEnergies().length];
+            for( int i = 0; i < energies.length; i++ ) {
+                energies[i] = getEnergies()[i];
+            }
+            Arrays.sort( energies );
+
+            AtomicState[] states = new AtomicState[energies.length];
             states[0] = new GroundState();
+            states[0].setEnergyLevel( energies[0] );
+            double eBlue = PhysicsUtil.wavelengthToEnergy( Photon.BLUE );
+            Function.LinearFunction lf = new Function.LinearFunction( energies[0], eBlue,
+                                                                      states[0].getEnergyLevel(), Photon.wavelengthToEnergy( Photon.BLUE ) );
+            double f = states[0].getEnergyLevel() / Math.abs( energies[0] );
             for( int i = 1; i < states.length; i++ ) {
                 states[i] = new AtomicState();
-                states[i].setEnergyLevel( Photon.wavelengthToEnergy( wavelengths[i] ) );
+                double energy = ( energies[i] );
+//                double energy = ( lf.evaluate( energies[i] ));
+//                double energy = ( energies[i] - energies[0] ) * f + states[0].getEnergyLevel();
+                states[i].setEnergyLevel( energy );
                 states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
             }
             AtomicState.linkStates( states );
@@ -107,88 +120,101 @@ public class AtomTypeChooser extends JDialog {
     }
 
     private class HydrogenAction extends AtomTypeSelectionAction {
-        private double[] wavelengths = new double[]{0,
-                                                    486.133,
-                                                    656.285,
-                                                    656.272,
-                                                    434.047,
-                                                    410.174,
-                                                    397.0072,
-                                                    388.905,
-                                                    383.538};
+        private double[] energies = new double[]{-13.6,
+                                                 -3.4,
+                                                 -1.511,
+                                                 -0.850,
+                                                 -0.544,
+                                                 -0.378};
+
 
         public HydrogenAction( DischargeLampModule module ) {
             super( "Hydrogen", module );
-            setWavelengths( wavelengths );
+        }
+
+        protected double[] getEnergies() {
+            return energies;
         }
     }
 
     private class NeonAction extends AtomTypeSelectionAction {
-        private double[] wavelengths = new double[]{0,
-                                                    703.2,
-                                                    697.9,
-                                                    659.9,
-                                                    650.6,
-                                                    640.2,
-                                                    638.3,
-                                                    633.4,
-                                                    626.6,
-                                                    621.7,
-                                                    616.4,
-                                                    607.4,
-                                                    603.0,
-                                                    588.2,
-                                                    585.2,
-                                                    540.1};
+        private double[] energies = new double[]{0,
+                                                 703.2,
+                                                 697.9,
+                                                 659.9,
+                                                 650.6,
+                                                 640.2,
+                                                 638.3,
+                                                 633.4,
+                                                 626.6,
+                                                 621.7,
+                                                 616.4,
+                                                 607.4,
+                                                 603.0,
+                                                 588.2,
+                                                 585.2,
+                                                 540.1};
 
         public NeonAction( DischargeLampModule module ) {
             super( "Neon", module );
-            setWavelengths( wavelengths );
+        }
+
+        protected double[] getEnergies() {
+            return energies;
         }
     }
 
     private class MercuryAction extends AtomTypeSelectionAction {
-        private double[] wavelengths = new double[]{0,
-                                                    579.065,
-                                                    576.959,
-                                                    546.074,
-                                                    435.835,
-                                                    407.781,
-                                                    404.656};
+        private double[] energies = new double[]{0,
+                                                 579.065,
+                                                 576.959,
+                                                 546.074,
+                                                 435.835,
+                                                 407.781,
+                                                 404.656};
 
         public MercuryAction( DischargeLampModule module ) {
             super( "Mercury", module );
-            setWavelengths( wavelengths );
+        }
+
+        protected double[] getEnergies() {
+            return energies;
         }
     }
 
     private class SodiumAction extends AtomTypeSelectionAction {
-        private double[] wavelengths = new double[]{0,
-                                                    589.0,
-                                                    589.6};
+        private double[] energies = new double[]{0,
+                                                 589.0,
+                                                 589.6};
 
         public SodiumAction( DischargeLampModule module ) {
             super( "Sodium", module );
-            setWavelengths( wavelengths );
+        }
+
+        protected double[] getEnergies() {
+            return energies;
         }
     }
 
     private class MysteryAtomAction extends AtomTypeSelectionAction {
-        private double[] wavelengths = new double[]{0, Photon.RED, Photon.BLUE};
+        private double[] energies = new double[]{0, Photon.RED, Photon.BLUE};
         private Random random = new Random();
 
         public MysteryAtomAction( DischargeLampModule module ) {
             super( "Mystery Atom", module );
 
             int numWavelengths = random.nextInt( 8 ) + 2;
-            wavelengths = new double[numWavelengths];
-            wavelengths[0] = 0;
+            energies = new double[numWavelengths];
+            energies[0] = 0;
             for( int i = 1; i < numWavelengths; i++ ) {
                 double wavelength = Photon.RED + random.nextDouble() * ( Photon.BLUE - Photon.RED );
-                wavelengths[i] = wavelength;
+                energies[i] = wavelength;
             }
-            Arrays.sort( wavelengths );
-            setWavelengths( wavelengths );
+            Arrays.sort( energies );
+        }
+
+        protected double[] getEnergies() {
+            return energies;
         }
     }
 }

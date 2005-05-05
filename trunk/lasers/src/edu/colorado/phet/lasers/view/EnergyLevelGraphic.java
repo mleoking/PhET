@@ -45,6 +45,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
 
     // Strategy for setting to color of this energy level graphic
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
+//    private ColorStrategy colorStrategy = new VisibleColorStrategy();
 
     /**
      * @param component
@@ -174,7 +175,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             levelLine.setRect( xLoc, y - thickness / 2, width, thickness );
 
             if( levelIcon != null ) {
-                levelIcon.setLocation( (int)( xLoc + width + 5 ), (int)( y - thickness ) );
+                levelIcon.setLocation( (int)( xLoc + width + 20 ), (int)( y - thickness ) );
             }
 
             if( isAdjustable ) {

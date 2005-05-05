@@ -16,6 +16,7 @@ import edu.colorado.phet.collision.SphericalBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -31,7 +32,8 @@ public class Electron extends SphericalBody implements Collidable {
 
     // A fudge factor that makes the energy of an electron enough to stimulate an atom
     // only if it is moving fast enough
-    private static double ENERGY_FUDGE_FACTOR = 1E-6;
+    private static double ENERGY_FUDGE_FACTOR = 1E12;
+//    private static double ENERGY_FUDGE_FACTOR = 1E-6;
 
     // Mass of an electron, in kg
     private static final double ELECTRON_MASS = 9.11E-31 * ENERGY_FUDGE_FACTOR;
@@ -77,13 +79,29 @@ public class Electron extends SphericalBody implements Collidable {
         return collidableAdapter.getPositionPrev();
     }
 
+    /**
+     * Returns the the energy of the electron in Joules
+     *
+     * @return
+     */
     public double getEnergy() {
-        return getVelocity().getMagnitudeSq() * getMass() / 2;
+        double ke = getVelocity().getMagnitudeSq() * getMass() / 2;
+        double ev = ke * PhysicsUtil.EV_PER_JOULE;
+        return ev;
+//        return getVelocity().getMagnitudeSq() * getMass() / 2;
     }
 
+    /**
+     * Sets the energy of the electron, in EV
+     *
+     * @param e
+     */
     public void setEnergy( double e ) {
+        double ke = e * PhysicsUtil.JOULES_PER_EV;
+
         // compute the speed of the electron
-        double sNew = Math.sqrt( 2 * e / getMass() );
+        double sNew = Math.sqrt( 2 * ke / getMass() );
+//        double sNew = Math.sqrt( 2 * e / getMass() );
         double sCurr = getVelocity().getMagnitude();
         setVelocity( getVelocity().scale( sNew / sCurr ) );
         changeListenerProxy.energyChanged( new ChangeEvent( this ) );

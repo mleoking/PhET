@@ -43,6 +43,7 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
         numberGraphic.setJustification( PhetTextGraphic.CENTER );
         setNumberGraphicText();
         addGraphic( numberGraphic, 1000 );
+        getEnergyGraphic().setColor( energyRepColorStrategy.getColor( atom ) );
     }
 
     public void update() {
@@ -52,6 +53,7 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
     public void stateChanged( Atom.ChangeEvent event ) {
         super.stateChanged( event );
 
+        // TODO: go through this a clean it up
 //        double dE = event.getCurrState().getEnergyLevel();
         double dE = event.getPrevState().getEnergyLevel() - event.getCurrState().getEnergyLevel();
         Color energyRepColor = null;
@@ -134,7 +136,8 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
      * Picks a shade of gray for the energy rep color.
      */
     private class GrayScaleStrategy implements EnergyRepColorStrategy {
-        private Color[] grayScale = new Color[255];
+        private Color[] grayScale = new Color[220];
+//        private Color[] grayScale = new Color[255];
 
         GrayScaleStrategy() {
             for( int i = 0; i < grayScale.length; i++ ) {
@@ -143,9 +146,12 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
         }
 
         public Color getColor( Atom atom ) {
-            int idx = (int)( 255 * ( ( atom.getCurrState().getEnergyLevel() - Photon.wavelengthToEnergy( Photon.MAX_VISIBLE_WAVELENGTH ) ) /
-                                     ( Photon.wavelengthToEnergy( Photon.MIN_VISIBLE_WAVELENGTH ) - Photon.wavelengthToEnergy( ( Photon.MAX_VISIBLE_WAVELENGTH ) ) ) ) );
-            idx = Math.max( 0, idx );
+            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) /
+                                                  ( atom.getHighestEnergyState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) ) );
+//            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - Photon.wavelengthToEnergy( Photon.MAX_VISIBLE_WAVELENGTH ) ) /
+//                                     ( Photon.wavelengthToEnergy( Photon.MIN_VISIBLE_WAVELENGTH ) - Photon.wavelengthToEnergy( ( Photon.MAX_VISIBLE_WAVELENGTH ) ) ) ) );
+            idx = Math.min( Math.max( 0, idx ), grayScale.length - 1 );
+            System.out.println( "idx = " + idx );
             return grayScale[idx];
         }
     }
