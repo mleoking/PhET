@@ -597,7 +597,7 @@ public class MovingManModule extends Module {
     private void setDynamicTime( boolean dynamicTime ) {
         movingManModel.getTimeModel().setDynamicTime( dynamicTime );
         if( dynamicTime ) {
-            getClock().setTickConverter( new AbstractClock.TimeScaling() );
+            getClock().setTickConverter( new AbstractClock.RealTime() );
         }
         else {
             getClock().setStaticTickConverter();
