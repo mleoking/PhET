@@ -107,5 +107,9 @@ public interface Function {
             this.maxOutput = maxOutput;
             update();
         }
+
+        public String toString() {
+            return "Linear Function, [" + minInput + "," + maxInput + "]->[" + minOutput + "," + maxOutput + "]";
+        }
     }
 }
