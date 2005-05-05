@@ -211,9 +211,25 @@ public abstract class AbstractClock {
         return tickEventChannel.containsListener( tickListener );
     }
 
+    public void setStaticTickConverter() {
+        setTickConverter( new Static() );
+    }
+
+    public void setTimeScalingConverter() {
+        setTickConverter( new TimeScaling() );
+    }
+
+    public void setTickConverter( TickConverter tickConverter ) {
+        this.tickConverter = tickConverter;
+    }
+
     ///////////////////////////////////////////////////////////////////////
     // Inner classes
     //
+
+    public interface TickConverter {
+        double getSimulationTime( long wallTimeSinceLastTick );
+    }
 
     public class Static implements TickConverter {
         public double getSimulationTime( long wallTimeSinceLastTick ) {
@@ -221,14 +237,16 @@ public abstract class AbstractClock {
         }
     }
 
-    private class TimeScaling implements TickConverter {
+    public static class RealTime implements TickConverter {
         public double getSimulationTime( long wallTimeSinceLastTick ) {
-            return dt / delay * wallTimeSinceLastTick;
+            return wallTimeSinceLastTick / 1000.0;
         }
     }
 
-    private interface TickConverter {
-        double getSimulationTime( long wallTimeSinceLastTick );
+    public class TimeScaling implements TickConverter {
+        public double getSimulationTime( long wallTimeSinceLastTick ) {
+            return dt / delay * wallTimeSinceLastTick;
+        }
     }
 
 }

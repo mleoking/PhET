@@ -59,7 +59,8 @@ public class MovingManApparatusPanel
 
     public MovingManApparatusPanel( MovingManModule module ) throws IOException {
         super( module.getClock() );
-        removeComponentListener( panelResizeHandler );
+//        removeComponentListener( panelResizeHandler );
+        removePanelResizeHandler();
         module.getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
                 handleUserInput();
