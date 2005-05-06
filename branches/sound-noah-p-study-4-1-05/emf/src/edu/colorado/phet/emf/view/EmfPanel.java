@@ -13,6 +13,7 @@ import edu.colorado.phet.common.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.emf.model.Electron;
+import edu.colorado.phet.emf.NoahP_4_3_05;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -39,6 +40,10 @@ public class EmfPanel extends ApparatusPanel implements TransformListener {
         // Add the field lattice
         int latticeSpacingX = 50;
         int latticeSpacingY = 50;
+//        if( NoahP_4_3_05.enabled ) {
+//            latticeSpacingX = 46;
+//            latticeSpacingY = 46;
+//        }
         fieldLatticeView = new FieldLatticeView( electron,
                                                  origin,
                                                  fieldWidth - latticeSpacingX, fieldHeight,

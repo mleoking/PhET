@@ -27,6 +27,7 @@ public class EmfControlPanel extends JPanel {
 
     private EmfModel model;
     private EmfModule module;
+    private OptionControlPane optionControlPane;
 
     public EmfControlPanel( EmfModel model, EmfModule module ) {
         this.model = model;
@@ -36,14 +37,14 @@ public class EmfControlPanel extends JPanel {
 
         this.addContainerListener( new ContainerAdapter() {
             public void componentRemoved( ContainerEvent e ) {
-                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize( ) );
+                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize() );
             }
         } );
-                this.addComponentListener( new ComponentAdapter() {
-                    public void componentResized( ComponentEvent e ) {
-                        EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize( ) );
-                    }
-                } );
+        this.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                EmfControlPanel.this.setPreferredSize( EmfControlPanel.this.getSize() );
+            }
+        } );
     }
 
     private void createControls() {
@@ -61,7 +62,8 @@ public class EmfControlPanel extends JPanel {
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
                                               GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( container, new OptionControlPane(),
+            optionControlPane = new OptionControlPane();
+            GraphicsUtil.addGridBagComponent( container, optionControlPane,
                                               0, rowIdx++,
                                               1, 1,
                                               GridBagConstraints.HORIZONTAL,
@@ -72,12 +74,28 @@ public class EmfControlPanel extends JPanel {
         }
     }
 
+    /**
+     * Provided for Noah Podolefsky's research study, 4/3/05
+     * @param b
+     */
+    public void setStripChartOptionAvailable( boolean b ) {
+        optionControlPane.setStripChartOptionAvailable( b );
+    }
+
+    /**
+     * Provided for Noah Podolefsky's research study, 4/3/05
+     * @param b
+     */
+    public void setFieldSenseOptionsAvailable( boolean b ) {
+        optionControlPane.setFieldSenseOptionsAvailable( b );
+    }
+
     //
     // Inner classes
     //
 
     /**
-     * An inner class for the controls that enable, disable or set the values
+     * An inner class for the controls that enabled, disable or set the values
      * of various options
      */
     private class OptionControlPane extends JPanel {
@@ -90,6 +108,9 @@ public class EmfControlPanel extends JPanel {
         private JRadioButton staticFieldRB = new JRadioButton( "Static field" );
         private JRadioButton dynamicFieldRB = new JRadioButton( "Radiated field " );
         private ButtonGroup fieldDisplayRBGroup;
+        private JPanel fieldSensePane;
+        private JRadioButton fFieldRB;
+        private JRadioButton eFieldRB;
 
         OptionControlPane() {
 
@@ -127,8 +148,8 @@ public class EmfControlPanel extends JPanel {
 
             // Field sense options
             ButtonGroup fieldSenseRBGroup = new ButtonGroup();
-            JPanel fieldSensePane = new JPanel( new GridLayout( 2, 1 ) );
-            JRadioButton fFieldRB = new JRadioButton( MessageFormatter.format( "Force on\nelectron" ) );
+            fieldSensePane = new JPanel( new GridLayout( 2, 1 ) );
+            fFieldRB = new JRadioButton( MessageFormatter.format( "Force on\nelectron" ) );
             fFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setFieldSense( FieldLatticeView.FORCE_ON_ELECTRON );
@@ -136,7 +157,7 @@ public class EmfControlPanel extends JPanel {
             } );
             fieldSenseRBGroup.add( fFieldRB );
             fieldSensePane.add( fFieldRB );
-            JRadioButton eFieldRB = new JRadioButton( "Electric field" );
+            eFieldRB = new JRadioButton( "Electric field" );
             eFieldRB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setFieldSense( FieldLatticeView.ELECTRIC_FIELD );
@@ -226,6 +247,24 @@ public class EmfControlPanel extends JPanel {
             display = rb == splineCurveWVectorsRB ? EmfPanel.CURVE_WITH_VECTORS : display;
             module.setFieldDisplay( display );
             //            new SetFieldCurveEnabledCmd( splineCurveWVectorsRB.isSelected() ).doIt();
+        }
+
+        /**
+         * Provided for Noah Podolefsky's research study, 4/3/05
+         * @param b
+         */
+        public void setStripChartOptionAvailable( boolean b ) {
+            stripChartCB.setVisible( b );
+        }
+
+        /**
+         * Provided for Noah Podolefsky's research study, 4/3/05
+         * Sets view to Electric Field
+         * @param b
+         */
+        public void setFieldSenseOptionsAvailable( boolean b ) {
+                        module.setFieldSense( FieldLatticeView.ELECTRIC_FIELD );
+            fieldSensePane.setVisible( false );
         }
 
         private class DisplayTypeRBActionListener implements ActionListener {

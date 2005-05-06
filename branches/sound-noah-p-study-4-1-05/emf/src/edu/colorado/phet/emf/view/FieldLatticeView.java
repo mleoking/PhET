@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.emf.model.Electron;
 import edu.colorado.phet.emf.view.graphics.splines.CubicSpline;
+import edu.colorado.phet.emf.NoahP_4_3_05;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -122,7 +123,14 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
         if( fieldDisplayType == EmfPanel.CURVE
             || fieldDisplayType == EmfPanel.CURVE_WITH_VECTORS ) {
-            g2.setColor( curveColor );
+
+            // Provided for Noah Podolefsky's research study, 4/3/05
+            if( NoahP_4_3_05.enabled ) {
+                g2.setColor( arrowGreen );
+            }
+            else {
+                g2.setColor( curveColor );
+            }
             g2.setStroke( curveStroke );
             g2.draw( negPath );
             g2.draw( posPath );
@@ -131,7 +139,12 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         if( fieldDisplayType == EmfPanel.FULL_FIELD ) {
             for( int i = 0; i < latticePts.length; i++ ) {
                 Vector2D f = latticePts[i].field.scale( fieldSense );
+
                 double l = f.getMagnitude();
+                if( NoahP_4_3_05.enabled ) {
+                    l *= 0.5;
+                }
+                
                 if( l > 3 ) {
                     double theta = f.getAngle();
                     Arrow arrow = new Arrow( new Point2D.Double( -l / 2, 0 ), new Point2D.Double( l / 2, 0 ),
@@ -253,11 +266,20 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     }
 
     private GeneralPath createCurves( ArrayList pts ) {
-
         FieldPt orig = (FieldPt)pts.get( curveStartingIdx );
         int xSign = MathUtil.getSign( orig.getX() - transmittingElectronOrigin.getX() );
-        DoubleGeneralPath curve = new DoubleGeneralPath( orig.getX(),
-                                                         orig.getY() + orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() ) );
+        DoubleGeneralPath curve = new DoubleGeneralPath();
+
+        // Provided for Noah Podolefsky's research study, 4/3/05
+        if( NoahP_4_3_05.enabled ) {
+            curve.moveTo( orig.getX(),
+                          orig.getY() + orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() * -1 ) );
+        }
+        else {
+            curve.moveTo( orig.getX(),
+                          orig.getY() + orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() ) );
+        }
+
         double yLast = orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() );
         double yCurr = yLast;
         double xLimit = ( (FieldPt)pts.get( pts.size() - 1 ) ).getX();
@@ -267,6 +289,12 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             Vector2D field = sourceElectron.getDynamicFieldAt( new Point2D.Double( Math.abs( x ),
                                                                                    transmittingElectronOrigin.getY() ) );
             yCurr = field.getMagnitude() * MathUtil.getSign( field.getY() );
+
+            // For Noah Podolefsky's research study, 4/3/05
+            if( NoahP_4_3_05.enabled ) {
+                yCurr *= -1;
+            }
+
             if( yCurr != yLast ) {
                 curve.lineTo( x, transmittingElectronOrigin.getY() + yCurr );
                 yLast = yCurr;

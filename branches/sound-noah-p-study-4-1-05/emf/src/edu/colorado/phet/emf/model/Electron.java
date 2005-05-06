@@ -150,7 +150,7 @@ public class Electron extends Body {
         }
     }
 
-    public Vector2D getVelocity() {
+    public AbstractVector2D getVelocity() {
 //    public Vector2D.Float getVelocity() {
         return this.velocity;
     }
@@ -313,8 +313,8 @@ public class Electron extends Body {
         return result;
     }
 
-    public Point2D getCM() {
-//    public Point2D.Double getCM() {
+//    public Point2D getCM() {
+    public Point2D.Double getCM() {
         return getPosition();
     }
 

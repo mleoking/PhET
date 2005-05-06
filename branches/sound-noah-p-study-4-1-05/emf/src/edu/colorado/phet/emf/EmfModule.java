@@ -59,8 +59,30 @@ public class EmfModule extends Module {
     private boolean beenWiggled;
 
     private ModelViewTransform2D mvTx;
+    private EmfControlPanel emfControlsPanel;
 
+    /**
+     * Instatiates a special version of the module for Noah Podolefsky's research study, 4/3/05
+     *
+     * @param clock
+     * @param enable_NoahP_4_3_05
+     */
+    public EmfModule( AbstractClock clock, boolean enable_NoahP_4_3_05 ) {
+        this( clock );
 
+        NoahP_4_3_05.enabled = enable_NoahP_4_3_05;
+        if( NoahP_4_3_05.enabled ) {
+            // Remove the strip chart option from the control panel
+            emfControlsPanel.setStripChartOptionAvailable( false );
+
+            // Remove the Field Sense options from the control panel
+            emfControlsPanel.setFieldSenseOptionsAvailable( false );
+        }
+    }
+
+    /**
+     * @param clock
+     */
     public EmfModule( AbstractClock clock ) {
         super( "EMF" );
         super.setModel( new EmfModel( clock ) );
@@ -141,7 +163,7 @@ public class EmfModule extends Module {
                                            1 );
 
         // Set the control panel
-        EmfControlPanel emfControlsPanel = new EmfControlPanel( (EmfModel)this.getModel(), this );
+        emfControlsPanel = new EmfControlPanel( (EmfModel)this.getModel(), this );
         PhetControlPanel controlPanel = new PhetControlPanel( this, emfControlsPanel );
         setControlPanel( controlPanel );
 
@@ -154,8 +176,8 @@ public class EmfModule extends Module {
                                            "control panel",
                                            origin.getX() + 15, origin.getY() + 10,
                                            HelpItem.RIGHT, HelpItem.BELOW );
-        helpItem1.setForegroundColor( Color.black);
-        helpItem1.setShadowColor( Color.gray);
+        helpItem1.setForegroundColor( Color.black );
+        helpItem1.setShadowColor( Color.gray );
         addHelpItem( helpItem1 );
     }
 
