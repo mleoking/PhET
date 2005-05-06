@@ -7,6 +7,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.common.ShadowHTMLGraphic;
 
 import java.awt.*;
@@ -27,9 +28,9 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
     private Color color;
     private int dy;
     private AbstractArrowSet.ForceComponent forceComponent;
-    ShadowHTMLGraphic textGraphic;
-    PhetShapeGraphic shapeGraphic;
-    final Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
+    private ShadowHTMLGraphic textGraphic;
+    private PhetShapeGraphic shapeGraphic;
+    private final Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
     private Arrow lastArrow;
     private BlockGraphic blockGraphic;
     private boolean userVisible = true;
@@ -73,8 +74,8 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
             setVisible( true && userVisible );
         }
 
-        Point viewCtr = blockGraphic.getCenter();
-        viewCtr.y += blockGraphic.computeDimension().height / 2;
+        Point viewCtr = RectangleUtils.getCenter( blockGraphic.getBounds() );
+//        viewCtr.y += blockGraphic.computeDimension().height / 2;
         viewCtr.y -= dy;
         Point2D.Double tail = new Point2D.Double( viewCtr.x, viewCtr.y );
         Point2D tip = new Vector2D.Double( force.getX(), force.getY() ).getDestination( tail );
