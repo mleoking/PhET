@@ -24,12 +24,13 @@ public class MathUtil {
 
     /**
      * Returns the logarithm of a number to a specified base.
+     *
      * @param number
      * @param base
      * @return
      */
-    public static double logBaseX(double number, double base) {
-        return Math.log(number) / Math.log(base);
+    public static double logBaseX( double number, double base ) {
+        return Math.log( number ) / Math.log( base );
     }
 
     /**
@@ -354,10 +355,13 @@ public class MathUtil {
      * @return the clamped value
      */
     public static double clamp( double min, double value, double max ) {
-        if( value < min ) {
+        if( Double.isNaN( min ) || Double.isNaN( value ) || Double.isNaN( max ) ) {
+            return Double.NaN;
+        }
+        else if( value < min ) {
             return min;
         }
-        if( value > max ) {
+        else if( value > max ) {
             return max;
         }
         return value;
