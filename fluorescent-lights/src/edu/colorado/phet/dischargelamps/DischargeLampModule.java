@@ -119,8 +119,6 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
         // Set up the control panel
         addControls();
-
-
     }
 
     /**
@@ -185,6 +183,10 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      */
     private void addControls() {
 
+        // A combo box for atom types
+        JComponent atomTypeComboBox = new AtomTypeChooser( this );
+        getControlPanel().add( atomTypeComboBox );
+
         // A slider for the battery voltage
         final ModelSlider batterySlider = new ModelSlider( "Battery Voltage", "V", 0, .1, 0.05 );
         batterySlider.setPreferredSize( new Dimension( 250, 100 ) );
@@ -224,15 +226,6 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
         } );
         getControlPanel().add( spectrometerCB );
         spectrometerGraphic.setVisible( spectrometerCB.isSelected() );
-
-        // Add a button that will bring up the dialog for selecting an atom type
-        JToggleButton atomTypeBtn = new JToggleButton( new AbstractAction( SimStrings.get( "ControlPanel.AtomTypeButtonLabel" ) ) {
-            public void actionPerformed( ActionEvent e ) {
-                JDialog atomSelectionDlg = new AtomTypeChooser( DischargeLampModule.this );
-                atomSelectionDlg.setVisible( true );
-            }
-        } );
-        getControlPanel().add( atomTypeBtn );
     }
 
     /**

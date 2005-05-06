@@ -114,6 +114,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
         energyRepRad = Math.pow( energyRatio, ringThicknessExponent )
                        * ( imageGraphic.getImage().getWidth() / 2 ) + groundStateRingThickness;
+
         energyRep = new Ellipse2D.Double( 0, 0, energyRepRad * 2, energyRepRad * 2 );
         if( state.getWavelength() == Photon.GRAY ) {
             energyRepColor = Color.darkGray;
@@ -127,6 +128,8 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         energyGraphic.setShape( energyRep );
         energyGraphic.setColor( energyRepColor );
         energyGraphic.setRegistrationPoint( (int)energyRepRad, (int)energyRepRad );
+        setBoundsDirty();
+        repaint();
     }
 
     /**

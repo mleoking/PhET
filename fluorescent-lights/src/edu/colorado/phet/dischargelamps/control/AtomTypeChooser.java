@@ -10,8 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps.control;
 
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.lasers.model.PhysicsUtil;
@@ -22,6 +21,7 @@ import edu.colorado.phet.lasers.model.photon.Photon;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -31,48 +31,123 @@ import java.util.Random;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class AtomTypeChooser extends JDialog {
+public class AtomTypeChooser extends JPanel {
     private GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                              GridBagConstraints.NORTHWEST,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 10, 0, 10 ), 0, 0 );
 
     public AtomTypeChooser( DischargeLampModule module ) {
-        super( PhetApplication.instance().getPhetFrame(), false );
+        super( new GridBagLayout() );
 
-        JPanel contentPane = new JPanel( new GridBagLayout() );
-        setContentPane( contentPane );
+        JLabel label = new JLabel( SimStrings.get( "ControlPanel.AtomTypeButtonLabel" ) );
+        gbc.anchor = GridBagConstraints.EAST;
+        this.add( label, gbc );
 
-        gbc.gridy = GridBagConstraints.RELATIVE;
-        JRadioButton hydrogenRB = new JRadioButton( new HydrogenAction( module ) );
-        JRadioButton neonRB = new JRadioButton( new NeonAction( module ) );
-        JRadioButton mercuryRB = new JRadioButton( new MercuryAction( module ) );
-        JRadioButton sodiumRB = new JRadioButton( new SodiumAction( module ) );
-        JRadioButton mysteryRB = new JRadioButton( new MysteryAtomAction( module ) );
+        JComboBox comboBox = new JComboBox();
 
-        ButtonGroup atomTypeBtnGrp = new ButtonGroup();
-        atomTypeBtnGrp.add( hydrogenRB );
-        atomTypeBtnGrp.add( neonRB );
-        atomTypeBtnGrp.add( mercuryRB );
-        atomTypeBtnGrp.add( sodiumRB );
-        atomTypeBtnGrp.add( mysteryRB );
+        comboBox.addItem( new HydrogenItem( module ) );
+        comboBox.addItem( new NeonItem( module ) );
+        comboBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                JComboBox cb = (JComboBox)e.getSource();
+                // Get the selected item and tell it to do its thing
+                AtomTypeItem item = (AtomTypeItem)cb.getSelectedItem();
+                item.select();
+            }
+        } );
 
-        contentPane.add( hydrogenRB, gbc );
-        contentPane.add( neonRB, gbc );
-        contentPane.add( mercuryRB, gbc );
-        contentPane.add( sodiumRB, gbc );
-        contentPane.add( mysteryRB, gbc );
-
-        JFrame parent = PhetApplication.instance().getPhetFrame();
-        Point parentLoc = parent.getLocationOnScreen();
-        Point loc = new Point( (int)( parentLoc.x + 0.6 * parent.getWidth() ), (int)parentLoc.y + 50 );
-        this.setLocation( loc );
-        this.pack();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 1;
+        this.add( comboBox, gbc );
     }
 
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
+
+    abstract private class AtomTypeItem {
+        private DischargeLampModule module;
+
+        //----------------------------------------------------------------
+        // Abstract methods
+        //----------------------------------------------------------------
+
+        abstract protected double[] getEnergies();
+
+        protected AtomTypeItem( DischargeLampModule module ) {
+            this.module = module;
+        }
+
+        void select() {
+            module.setAtomicStates( this.getStates() );
+        }
+
+        private AtomicState[] getStates() {
+            // Copy the energies into a new array, sort and normalize them
+            double[] energies = new double[getEnergies().length];
+            for( int i = 0; i < energies.length; i++ ) {
+                energies[i] = getEnergies()[i];
+            }
+            Arrays.sort( energies );
+
+            AtomicState[] states = new AtomicState[energies.length];
+            states[0] = new GroundState();
+            states[0].setEnergyLevel( energies[0] );
+            double eBlue = PhysicsUtil.wavelengthToEnergy( Photon.BLUE );
+            for( int i = 1; i < states.length; i++ ) {
+                states[i] = new AtomicState();
+                double energy = ( energies[i] );
+                states[i].setEnergyLevel( energy );
+                states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
+            }
+            AtomicState.linkStates( states );
+            return states;
+        }
+    }
+
+    private class HydrogenItem extends AtomTypeItem {
+        private double[] energies = new double[]{-13.6,
+                                                 -3.4,
+                                                 -1.511,
+                                                 -0.850,
+                                                 -0.544,
+                                                 -0.378};
+
+        public HydrogenItem( DischargeLampModule module ) {
+            super( module );
+        }
+
+        public String toString() {
+            return "Hydrogen";
+        }
+
+        protected double[] getEnergies() {
+            return energies;
+        }
+    }
+
+    private class NeonItem extends AtomTypeItem {
+        private double[] energies = new double[]{-13.6,
+                                                 -3.4,
+                                                 -1.511,
+                                                 -0.850,
+                                                 -0.544,
+                                                 -0.378};
+
+        public NeonItem( DischargeLampModule module ) {
+            super( module );
+        }
+
+        public String toString() {
+            return "Neon";
+        }
+
+        protected double[] getEnergies() {
+            return energies;
+        }
+    }
+
 
     /**
      * An action for setting the type of atoms in the lamp
@@ -103,14 +178,9 @@ public class AtomTypeChooser extends JDialog {
             states[0] = new GroundState();
             states[0].setEnergyLevel( energies[0] );
             double eBlue = PhysicsUtil.wavelengthToEnergy( Photon.BLUE );
-            Function.LinearFunction lf = new Function.LinearFunction( energies[0], eBlue,
-                                                                      states[0].getEnergyLevel(), Photon.wavelengthToEnergy( Photon.BLUE ) );
-            double f = states[0].getEnergyLevel() / Math.abs( energies[0] );
             for( int i = 1; i < states.length; i++ ) {
                 states[i] = new AtomicState();
                 double energy = ( energies[i] );
-//                double energy = ( lf.evaluate( energies[i] ));
-//                double energy = ( energies[i] - energies[0] ) * f + states[0].getEnergyLevel();
                 states[i].setEnergyLevel( energy );
                 states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
             }
@@ -197,7 +267,7 @@ public class AtomTypeChooser extends JDialog {
     }
 
     private class MysteryAtomAction extends AtomTypeSelectionAction {
-        private double[] energies = new double[]{0, Photon.RED, Photon.BLUE};
+        private double[] energies = new double[]{-10, Photon.wavelengthToEnergy( Photon.RED ), Photon.wavelengthToEnergy( Photon.BLUE )};
         private Random random = new Random();
 
         public MysteryAtomAction( DischargeLampModule module ) {
@@ -207,8 +277,9 @@ public class AtomTypeChooser extends JDialog {
             energies = new double[numWavelengths];
             energies[0] = 0;
             for( int i = 1; i < numWavelengths; i++ ) {
-                double wavelength = Photon.RED + random.nextDouble() * ( Photon.BLUE - Photon.RED );
-                energies[i] = wavelength;
+                double energy = PhysicsUtil.wavelengthToEnergy( Photon.RED ) +
+                                random.nextDouble() * ( PhysicsUtil.wavelengthToEnergy( Photon.BLUE ) - PhysicsUtil.wavelengthToEnergy( Photon.RED ) );
+                energies[i] = energy;
             }
             Arrays.sort( energies );
         }
