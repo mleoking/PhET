@@ -76,7 +76,6 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     // Dimensions of the panel
     private int panelHeight = 230;
     private int minPanelWidth = 100;
-    // Amplitude of the squiggle waves
     // Location and size of energy level lines
     private Point2D origin;
     private int levelLineOriginX;
@@ -210,7 +209,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         }
 
         // Set the width of the panel so it can show all the atoms. 20 gives us a margin for the level icon        
-        int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 20 );
+        int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 35 );
 //        int width = Math.max( this.minPanelWidth, levelLineLength + levelLineOriginX + 10 );
         setPreferredSize( new Dimension( width, (int)panelHeight ) );
         // Needed to set the energyYTx

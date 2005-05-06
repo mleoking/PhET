@@ -20,6 +20,9 @@ import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
+/**
+ * A representation of the energy state of an atom
+ */
 public class AtomicState {
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -84,8 +87,9 @@ public class AtomicState {
         double energy1 = Photon.wavelengthToEnergy( this.getWavelength() );
         double energy2 = Photon.wavelengthToEnergy( nextState.getWavelength() );
 
-        // todo: this isn't right. It doesn't work for upper to middle transitions
-        double emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
+        // todo: This was changed in discharge atom model
+        double emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 ),
+//        double emittedWavelength = Math.min( Photon.energyToWavelength( energy1 - energy2 + AtomicState.minEnergy ),
                                              AtomicState.maxWavelength );
         return emittedWavelength;
     }
