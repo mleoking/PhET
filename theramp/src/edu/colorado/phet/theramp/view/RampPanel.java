@@ -8,10 +8,8 @@ import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.model.Ramp;
 import edu.colorado.phet.theramp.model.RampModel;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 /**
@@ -35,79 +33,8 @@ public class RampPanel extends ApparatusPanel2 {
     private YArrowSet yArrowSet;
     private ArrayList arrowSets = new ArrayList();
 
-    private AnimationStep animationStep;
-    private Timer animationTimer;
-    private ActionListener animator;
-
-    public Dimension getRenderingSize() {
+    public Dimension getDefaultRenderingSize() {
         return new Dimension( 1061, 871 );
-    }
-
-    public static interface AnimationStep {
-        boolean step();
-    }
-
-    public static class Moving implements AnimationStep {
-        private RampPanel rampPanel;
-        private int dx;
-        private int dy;
-
-        public Moving( RampPanel rampPanel, int dx, int dy ) {
-            this.rampPanel = rampPanel;
-            this.dx = dx;
-            this.dy = dy;
-        }
-
-        public boolean step() {
-            Point2D vpo = rampPanel.getViewPortOrigin();
-            rampPanel.setViewPortOrigin( vpo.getX() + dx, vpo.getY() + dy );
-            return true;
-        }
-    }
-
-    public static class Zooming implements AnimationStep {
-        private RampPanel rampPanel;
-        private double scaleZ;
-
-        public Zooming( RampPanel rampPanel, double scaleZ ) {
-            this.rampPanel = rampPanel;
-            this.scaleZ = scaleZ;
-        }
-
-        public boolean step() {
-//            Rectangle2D vp = getViewPort();
-
-            double scale = rampPanel.getScale();
-            double newScale = scale * scaleZ;
-//            Point2D viewPortOrigin = rampPanel.getViewPortOrigin();
-//            Rectangle ref = rampPanel.getReferenceBounds();
-//            Rectangle2D viewRect = new Rectangle2D.Double( viewPortOrigin.getX(), viewPortOrigin.getY(), ref.getWidth(), ref.getHeight() );
-//            Rectangle2D expanded = RectangleUtils.expandRectangle2D( vp, scaleZ * vp.getWidth(), scaleZ * vp.getWidth() );
-//            Rectangle2D expanded = RectangleUtils.expandRectangle2D( vp, 50, 50 );
-//            setViewPort( expanded );
-
-            rampPanel.setScale( newScale );
-//            rampPanel.setViewPortOrigin( expanded.getX(), expanded.getY() );
-            return false;
-        }
-
-//        public void setViewPort( Rectangle2D vp ) {
-//            double scale = rampPanel.getWidth() / vp.getWidth();//should be a min for aspect ratio
-//            System.out.println( "scale = " + scale );
-//            rampPanel.setViewPortOrigin( vp.getX(), vp.getY() );
-//            rampPanel.setScale( scale );
-//        }
-//
-//        public Rectangle2D getViewPort() {
-//            Point2D viewPortOrigin = rampPanel.getViewPortOrigin();
-//            double scale = rampPanel.getScale();
-//            Rectangle ref=rampPanel.getReferenceBounds();
-//            return ref;
-////            double w = ref.getWidth() * scale;//shouldn't this account for rendering size width?
-////            double h = ref.getHeight() * scale;
-////            Rectangle2D.Double vp = new Rectangle2D.Double( viewPortOrigin.getX(), viewPortOrigin.getY(), w, h );
-////            return vp;
-//        }
     }
 
     public RampPanel( RampModule module ) {
@@ -118,6 +45,7 @@ public class RampPanel extends ApparatusPanel2 {
         setBackground( new Color( 240, 200, 255 ) );
         RampModel rampModel = module.getRampModel();
         Ramp ramp = rampModel.getRamp();
+//        rampGraphic = new RampGraphic( this, ramp );
         rampGraphic = new RampGraphic( this, ramp );
         addGraphic( rampGraphic );
 
@@ -152,94 +80,27 @@ public class RampPanel extends ApparatusPanel2 {
                 }
             }
         } );
-        requestFocus();
 
-        animator = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-
-                if( animationStep != null ) {
-                    boolean done = animationStep.step();
-                    if( done ) {
-                        animationStep = null;
-                        animationTimer.stop();
-                    }
-                }
-                else {
-                    animationTimer.stop();
-                }
-            }
-        };
-        animationTimer = new Timer( 20, animator );
-        animationTimer.setInitialDelay( 0 );
-        animationTimer.setRepeats( true );
-        addKeyListener( new KeyListener() {
-            public void keyPressed( KeyEvent e ) {
-                int scrollSpeed = 20;
-                if( e.getKeyCode() == KeyEvent.VK_UP ) {
-                    animationStep = new Moving( RampPanel.this, 0, scrollSpeed );
-                    animationTimer.start();
-                }
-                if( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-                    animationStep = new Moving( RampPanel.this, 0, -scrollSpeed );
-                    animationTimer.start();
-                }
-                if( e.getKeyCode() == KeyEvent.VK_LEFT ) {
-                    animationStep = new Moving( RampPanel.this, scrollSpeed, 0 );
-                    animationTimer.start();
-                }
-                if( e.getKeyCode() == KeyEvent.VK_RIGHT ) {
-                    animationStep = new Moving( RampPanel.this, -scrollSpeed, 0 );
-                    animationTimer.start();
-                }
-                if( e.getKeyCode() == KeyEvent.VK_PAGE_UP ) {
-                    animationStep = new Zooming( RampPanel.this, 1.1 );
-                    animationTimer.start();
-                }
-                if( e.getKeyCode() == KeyEvent.VK_PAGE_DOWN ) {
-                    animationStep = new Zooming( RampPanel.this, 0.9 );
-                    animationTimer.start();
-                }
-                if( e.getKeyCode() == KeyEvent.VK_CONTROL ) {
-//                    Rectangle2D vp=new Zooming( RampPanel.this, 1).getViewPort();
-//                    System.out.println( "vp = " + vp );
-                }
-            }
-
-            public void keyReleased( KeyEvent e ) {
-                animationTimer.stop();
-                animationStep = null;
-                if( e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
-                    setReferenceSize( getRenderingSize() );//my special little rendering size.
-                    setViewPortOrigin( 0, 0 );
-                }
-                else if( e.getKeyCode() == KeyEvent.VK_1 ) {
-                    setReferenceSize( 1000, 1000 );
-                }
-                else if( e.getKeyCode() == KeyEvent.VK_2 ) {
-                    setReferenceSize( 2000, 2000 );
-                }
-                else if( e.getKeyCode() == KeyEvent.VK_0 ) {
-                    setReferenceSize();
-                }
-            }
-
-            public void keyTyped( KeyEvent e ) {
-            }
-
-        } );
+        KeyListener listener = new PanZoomKeyListener( this, getDefaultRenderingSize() );
+        addKeyListener( listener );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 System.out.println( "e = " + e );
                 Rectangle b = getBounds();
                 System.out.println( "b = " + b );
-                setReferenceSize( getRenderingSize() );//my special little rendering size.
+                setReferenceSize( getDefaultRenderingSize() );//my special little rendering size.//TODO add this method to AP2
                 requestFocus();
             }
         } );
-        removeComponentListener( resizeHandler );
+//        removeComponentListener( resizeHandler );//TODO make this work
 //        setUseOffscreenBuffer( true );
         requestFocus();
+        addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                requestFocus();
+            }
+        } );
     }
 
     private void addArrowSet( AbstractArrowSet arrowSet ) {

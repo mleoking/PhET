@@ -86,9 +86,12 @@ public class BlockGraphic extends CompositePhetGraphic {
     }
 
     Point getCenter() {
-        Point2D ctr = graphic.getNetTransform().transform( new Point2D.Double( graphic.getBounds().getWidth() / 2, graphic.getBounds().getHeight() / 2 ), null );
+//        Rectangle r = graphic.getBounds();
+//        return RectangleUtils.getCenter( r );
+        Point2D ctr = getNetTransform().transform( new Point2D.Double( graphic.getBounds().getWidth() / 2, graphic.getBounds().getHeight() / 2 ), null );
         return new Point( (int)ctr.getX(), (int)ctr.getY() );
     }
+
 
     public void updateBlock() {
 
