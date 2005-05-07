@@ -149,4 +149,18 @@ public class RampGraphic extends GraphicLayerSet {
         Point viewLoc = getScreenTransform().modelToView( location );
         return viewLoc;
     }
+
+    /**
+     * Create the AffineTransform that will put an object of size: dim centered along the ramp at position dist
+     */
+    public AffineTransform createTransform( double dist, Dimension dim ) {
+        Point viewLoc = getViewLocation( ramp.getLocation( dist ) );
+        AffineTransform transform = new AffineTransform();
+        transform.translate( viewLoc.x, viewLoc.y );
+//        transform.rotate( getViewAngle(), dim.width / 2, dim.height / 2 );
+        transform.rotate( getViewAngle() );
+        transform.translate( 0, -dim.height );
+        return transform;
+    }
+
 }

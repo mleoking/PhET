@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.common.view.util;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import java.awt.*;
 
 /**
  * A PhetGraphic that draws a grid of regularly spaced lines. Intended for use during program
- * development to aid in design and layout.  
+ * development to aid in design and layout.
  */
 public class LineGrid extends PhetGraphic implements ApparatusPanel2.ChangeListener {
     private static Stroke defaultStroke = new BasicStroke( 1f );
@@ -42,6 +42,7 @@ public class LineGrid extends PhetGraphic implements ApparatusPanel2.ChangeListe
         this.stroke = stroke;
 
         setCanvasSize( component.getCanvasSize() );
+        setIgnoreMouse( true );
     }
 
     public void setStroke( Stroke stroke ) {
@@ -62,7 +63,7 @@ public class LineGrid extends PhetGraphic implements ApparatusPanel2.ChangeListe
 
     protected Rectangle determineBounds() {
         setCanvasSize( appPanel.getCanvasSize() );
-        return new Rectangle( canvasSize);
+        return new Rectangle( canvasSize );
     }
 
     public void paint( Graphics2D g2 ) {

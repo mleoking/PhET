@@ -20,35 +20,35 @@ public class CartesianArrowSet extends AbstractArrowSet {
         RampLookAndFeel ralf = new RampLookAndFeel();
 
         final RampModel rampModel = component.getRampModule().getRampModel();
-        ForceArrowGraphic forceArrowGraphic = new ForceArrowGraphic( component, "Applied Force", ralf.getAppliedForceColor(), 0, new ForceComponent() {
+        ForceArrowGraphic forceArrowGraphic = new ForceArrowGraphic( component, "Applied", ralf.getAppliedForceColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
                 RampModel.ForceVector appliedForce = rampModel.getAppliedForce();
                 return appliedForce;
             }
         }, component.getBlockGraphic() );
 
-        ForceArrowGraphic totalArrowGraphic = new ForceArrowGraphic( component, "Total Force", ralf.getNetForceColor(), 45, new ForceComponent() {
+        ForceArrowGraphic totalArrowGraphic = new ForceArrowGraphic( component, "Total", ralf.getNetForceColor(), 45, new ForceComponent() {
             public Vector2D getForce() {
                 RampModel.ForceVector totalForce = rampModel.getTotalForce();
                 return totalForce;
             }
         }, component.getBlockGraphic() );
 
-        ForceArrowGraphic frictionArrowGraphic = new ForceArrowGraphic( component, "Friction Force", ralf.getFrictionForceColor(), 0, new ForceComponent() {
+        ForceArrowGraphic frictionArrowGraphic = new ForceArrowGraphic( component, "Friction", ralf.getFrictionForceColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
                 RampModel.ForceVector totalForce = rampModel.getFrictionForce();
                 return totalForce;
             }
         }, component.getBlockGraphic() );
 
-        ForceArrowGraphic gravityArrowGraphic = new ForceArrowGraphic( component, "Gravitational Force", ralf.getGravityParallelColor(), 0, new ForceComponent() {
+        ForceArrowGraphic gravityArrowGraphic = new ForceArrowGraphic( component, "Weight", ralf.getGravityParallelColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
                 RampModel.ForceVector totalForce = rampModel.getGravityForce();
                 return totalForce;
             }
         }, component.getBlockGraphic() );
 
-        ForceArrowGraphic normalArrowGraphic = new ForceArrowGraphic( component, "Normal Force", ralf.getNormalColor(), 0, new ForceComponent() {
+        ForceArrowGraphic normalArrowGraphic = new ForceArrowGraphic( component, "Normal", ralf.getNormalColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
                 return rampModel.getNormalForce();
             }
