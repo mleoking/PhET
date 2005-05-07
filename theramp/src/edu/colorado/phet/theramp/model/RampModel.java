@@ -107,7 +107,7 @@ public class RampModel implements ModelElement {
     }
 
     public double getPotentialEnergy() {
-        double height = block.getLocation().getY();
+        double height = block.getLocation2D().getY();
         return block.getMass() * height * gravity;
     }
 

@@ -3,9 +3,9 @@ package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.theramp.common.PhetLookAndFeel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -27,7 +27,7 @@ public class ObjectComboBox extends JComboBox {
         super( toLabelArray( rampObjects, controlPanel ) );
         setRenderer( new ComboBoxRenderer() );
         this.controlPanel = controlPanel;
-        setBorder( PhetLookAndFeel.createSmoothBorder( "Choose Object" ) );
+        setBorder( createBorder( "Choose Object" ) );
         addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
 //                Object sel = getSelectedItem();
@@ -36,6 +36,10 @@ public class ObjectComboBox extends JComboBox {
             }
         } );
         setFont( font );
+    }
+
+    private Border createBorder( String s ) {
+        return BorderFactory.createTitledBorder( s );
     }
 
     private static ImageIcon[] toLabelArray( RampObject[] imageElements, Component component ) {

@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.theramp.view;
+package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.math.AbstractVector2D;
 import edu.colorado.phet.common.math.ImmutableVector2D;
@@ -7,8 +7,10 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
-import edu.colorado.phet.theramp.common.ShadowHTMLGraphic;
+import edu.colorado.phet.theramp.view.BlockGraphic;
+import edu.colorado.phet.theramp.view.RampUtil;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -76,7 +78,7 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
 
         Point viewCtr = RectangleUtils.getCenter( blockGraphic.getBounds() );
 //        viewCtr.y += blockGraphic.computeDimension().height / 2;
-        viewCtr.y -= dy;
+        viewCtr.y -= dy;//TODO transform this to the right coordinate frame.
         Point2D.Double tail = new Point2D.Double( viewCtr.x, viewCtr.y );
         Point2D tip = new Vector2D.Double( force.getX(), force.getY() ).getDestination( tail );
         Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );

@@ -30,7 +30,7 @@ public class Block extends SimpleObservable {
         return position;
     }
 
-    public Point2D getLocation() {
+    public Point2D getLocation2D() {
         return ramp.getLocation( position );
     }
 

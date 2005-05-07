@@ -7,6 +7,8 @@ import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.model.Ramp;
 import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.view.arrows.*;
+import edu.colorado.phet.theramp.view.panzoom.PanZoomKeyListener;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -32,20 +34,20 @@ public class RampPanel extends ApparatusPanel2 {
     private XArrowSet xArrowSet;
     private YArrowSet yArrowSet;
     private ArrayList arrowSets = new ArrayList();
+    private PotentialEnergyZeroGraphic potentialEnergyZeroGraphic;
 
     public Dimension getDefaultRenderingSize() {
         return new Dimension( 1061, 871 );
     }
 
     public RampPanel( RampModule module ) {
-        super( module.getModel(), module.getClock() );
+        super( module.getClock() );
         rampLookAndFeel = new RampLookAndFeel();
         addGraphicsSetup( new BasicGraphicsSetup() );
         this.module = module;
         setBackground( new Color( 240, 200, 255 ) );
         RampModel rampModel = module.getRampModel();
         Ramp ramp = rampModel.getRamp();
-//        rampGraphic = new RampGraphic( this, ramp );
         rampGraphic = new RampGraphic( this, ramp );
         addGraphic( rampGraphic );
 
@@ -73,7 +75,6 @@ public class RampPanel extends ApparatusPanel2 {
 
         module.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-//                defaultArrowSetGraphic.updateGraphics();
                 for( int i = 0; i < arrowSets.size(); i++ ) {
                     AbstractArrowSet arrowSet = (AbstractArrowSet)arrowSets.get( i );
                     arrowSet.updateGraphics();
@@ -95,6 +96,11 @@ public class RampPanel extends ApparatusPanel2 {
         } );
 //        removeComponentListener( resizeHandler );//TODO make this work
 //        setUseOffscreenBuffer( true );
+
+
+        potentialEnergyZeroGraphic = new PotentialEnergyZeroGraphic( this );
+        addGraphic( potentialEnergyZeroGraphic, 100 );
+
         requestFocus();
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {

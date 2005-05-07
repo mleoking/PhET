@@ -94,10 +94,9 @@ public class BlockGraphic extends CompositePhetGraphic {
 
 
     public void updateBlock() {
-
-        Point viewLoc = rampGraphic.getTransform2D().modelToView( block.getLocation() );
+        setAutorepaint( false );
+        Point viewLoc = rampGraphic.getViewLocation( block.getLocation2D() );
         locationDebugGraphic.setLocation( viewLoc );
-//        setLocation( viewLoc );
         AffineTransform transform = new AffineTransform();
         transform.translate( viewLoc.x, viewLoc.y );
         transform.rotate( rampGraphic.getViewAngle(), graphic.getBounds().getWidth() / 2, graphic.getBounds().getHeight() / 2 );
@@ -107,6 +106,7 @@ public class BlockGraphic extends CompositePhetGraphic {
         double mass = block.getMass();
         double defaultScale = 0.35;
         double fracSize = mass / 1000.0 / 2.0 + defaultScale;
+        repaint();
 //        setAutoRepaint( false );
 //        setTransform( new AffineTransform() );
 //        scale( defaultScale, fracSize );
