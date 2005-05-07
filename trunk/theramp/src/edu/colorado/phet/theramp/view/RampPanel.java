@@ -5,6 +5,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.theramp.RampModule;
+import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.model.Ramp;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.view.arrows.*;
@@ -12,6 +13,7 @@ import edu.colorado.phet.theramp.view.panzoom.PanZoomKeyListener;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -27,7 +29,6 @@ public class RampPanel extends ApparatusPanel2 {
     private BlockGraphic blockGraphic;
     private BarGraphSet barGraphSet;
     private RampLookAndFeel rampLookAndFeel;
-    private AbstractArrowSet abstractArrowSet;
     private AbstractArrowSet cartesian;
     private AbstractArrowSet perp;
     private AbstractArrowSet parallel;
@@ -35,9 +36,11 @@ public class RampPanel extends ApparatusPanel2 {
     private YArrowSet yArrowSet;
     private ArrayList arrowSets = new ArrayList();
     private PotentialEnergyZeroGraphic potentialEnergyZeroGraphic;
+    private LeanerGraphic leanerGraphic;
 
     public Dimension getDefaultRenderingSize() {
         return new Dimension( 1061, 871 );
+//        return new Dimension( 800,800);
     }
 
     public RampPanel( RampModule module ) {
@@ -51,7 +54,7 @@ public class RampPanel extends ApparatusPanel2 {
         rampGraphic = new RampGraphic( this, ramp );
         addGraphic( rampGraphic );
 
-        blockGraphic = new BlockGraphic( this, rampGraphic, rampModel.getBlock() );
+        blockGraphic = new BlockGraphic( this, rampGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
         addGraphic( blockGraphic );
 
         barGraphSet = new BarGraphSet( this, rampModel );
@@ -97,9 +100,16 @@ public class RampPanel extends ApparatusPanel2 {
 //        removeComponentListener( resizeHandler );//TODO make this work
 //        setUseOffscreenBuffer( true );
 
-
         potentialEnergyZeroGraphic = new PotentialEnergyZeroGraphic( this );
         addGraphic( potentialEnergyZeroGraphic, 100 );
+
+        try {
+            leanerGraphic = new LeanerGraphic( this, blockGraphic );
+            addGraphic( leanerGraphic, 102 );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
 
         requestFocus();
         addMouseListener( new MouseAdapter() {
@@ -171,5 +181,24 @@ public class RampPanel extends ApparatusPanel2 {
             AbstractArrowSet arrowSet = (AbstractArrowSet)arrowSets.get( i );
             arrowSet.setForceVisible( force, selected );
         }
+    }
+
+    public RampGraphic getRampGraphic() {
+        return rampGraphic;
+    }
+
+    public double getBlockWidthModel() {
+        int widthView = blockGraphic.getObjectWidthView();
+        double widthModel = rampGraphic.getScreenTransform().viewToModelDifferentialX( widthView );
+        return widthModel;
+    }
+
+    public double getModelWidth( int viewWidth ) {
+        return rampGraphic.getScreenTransform().viewToModelDifferentialX( viewWidth );
+    }
+
+    public void setObject( RampObject rampObject ) {
+//        getBlockGraphic().setImage( rampObject.getImage() );
+        getBlockGraphic().setObject( rampObject );
     }
 }

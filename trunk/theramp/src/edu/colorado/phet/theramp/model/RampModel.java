@@ -8,6 +8,8 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 
+import java.util.ArrayList;
+
 /**
  * User: Sam Reid
  * Date: Feb 11, 2005
@@ -32,6 +34,7 @@ public class RampModel implements ModelElement {
     private double appliedWork = 0.0;
     private double frictiveWork = 0.0;
     private double gravityWork = 0.0;
+    private ArrayList listeners = new ArrayList();
 
     public RampModel() {
         ramp = new Ramp();
@@ -113,7 +116,15 @@ public class RampModel implements ModelElement {
 
     public void setAppliedForce( double appliedForce ) {
         this.appliedForce.setParallel( appliedForce );
+        notifyAppliedForceChanged();
 //        System.out.println( "set appliedForce = " + appliedForce );
+    }
+
+    private void notifyAppliedForceChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.appliedForceChanged();
+        }
     }
 
     public void addKEObserver( SimpleObserver simpleObserver ) {
@@ -168,6 +179,10 @@ public class RampModel implements ModelElement {
         return gravityWork;
     }
 
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
     public class ForceVector extends Vector2D.Double {
 
         public void setParallel( double parallel ) {
@@ -218,5 +233,9 @@ public class RampModel implements ModelElement {
 
     public double getAppliedWork() {
         return appliedWork;
+    }
+
+    public static interface Listener {
+        public void appliedForceChanged();
     }
 }

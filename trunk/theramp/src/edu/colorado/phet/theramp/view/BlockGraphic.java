@@ -2,11 +2,9 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.phetgraphics.BufferedPhetGraphic2;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.common.LocationDebugGraphic;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampModel;
@@ -17,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -33,27 +32,22 @@ public class BlockGraphic extends CompositePhetGraphic {
     private ThresholdedDragAdapter mouseListener;
     private double forceLengthScale = 5;
     private LocationDebugGraphic locationDebugGraphic;
+    private RampObject rampObject;
 
-    public BlockGraphic( RampPanel rampPanel, RampGraphic rampGraphic, Block block ) {
+    public BlockGraphic( RampPanel rampPanel, RampGraphic rampGraphic, Block block, RampObject rampObject ) {
         super( rampPanel );
         this.rampPanel = rampPanel;
         this.rampGraphic = rampGraphic;
         this.block = block;
+        this.rampObject = rampObject;
 
         final RampModel model = rampPanel.getRampModule().getRampModel();
 
-        int blockHeight = 30;
-        Paint color = new GradientPaint( 0, 0, Color.blue, blockHeight + blockHeight / 4, blockHeight + blockHeight / 4, Color.yellow );
-        Stroke stroke = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-        Paint border = Color.black;
-        PhetShapeGraphic shapeGraphic = new PhetShapeGraphic( rampPanel, new Rectangle( 0, 0, blockHeight, blockHeight ), color, stroke, border );
-        graphic = BufferedPhetGraphic2.createBuffer( shapeGraphic, new BasicGraphicsSetup(), BufferedImage.TYPE_INT_ARGB, new Color( 255, 255, 255, 0 ) );
+        graphic = new PhetImageGraphic( getComponent() );
         addGraphic( graphic );
+        setObject( rampObject );
 
         locationDebugGraphic = new LocationDebugGraphic( getComponent(), 10 );
-//        addGraphic( locationDebugGraphic );
-
-        updateBlock();
         block.addObserver( new SimpleObserver() {
             public void update() {
                 updateBlock();
@@ -85,38 +79,51 @@ public class BlockGraphic extends CompositePhetGraphic {
 
     }
 
-    Point getCenter() {
-//        Rectangle r = graphic.getBounds();
-//        return RectangleUtils.getCenter( r );
+    public Point getCenter() {
         Point2D ctr = getNetTransform().transform( new Point2D.Double( graphic.getBounds().getWidth() / 2, graphic.getBounds().getHeight() / 2 ), null );
         return new Point( (int)ctr.getX(), (int)ctr.getY() );
     }
 
-
     public void updateBlock() {
         setAutorepaint( false );
-        Point viewLoc = rampGraphic.getViewLocation( block.getLocation2D() );
-        locationDebugGraphic.setLocation( viewLoc );
-        AffineTransform transform = new AffineTransform();
-        transform.translate( viewLoc.x, viewLoc.y );
-        transform.rotate( rampGraphic.getViewAngle(), graphic.getBounds().getWidth() / 2, graphic.getBounds().getHeight() / 2 );
-        transform.translate( 0, -graphic.getBounds().getHeight() + 2 );
-        setTransform( transform );
 
         double mass = block.getMass();
-        double defaultScale = 0.35;
-        double fracSize = mass / 1000.0 / 2.0 + defaultScale;
+        double scale = rampObject.getScale();
+
+        double preferredMass = rampObject.getMass();
+        double sy = scale * mass / preferredMass;
+        System.out.println( "sy = " + sy );
+        AffineTransform transform = createTransform( scale, sy );
+        transform.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
+        setTransform( transform );
         repaint();
-//        setAutoRepaint( false );
-//        setTransform( new AffineTransform() );
-//        scale( defaultScale, fracSize );
     }
 
-    public Dimension computeDimension() {
-        return new Dimension( getWidth(), getHeight() );
+    private AffineTransform createTransform( double scaleX, double fracSize ) {
+        return rampGraphic.createTransform( block.getPosition(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
     }
 
-    public void setImage( BufferedImage image ) {
+    private void setImage( BufferedImage image ) {
         graphic.setImage( image );
+        updateBlock();
+    }
+
+    public int getObjectWidthView() {
+        return (int)( graphic.getImage().getWidth() * rampObject.getScale() );//TODO scaling will hurt this.
+    }
+
+    public Block getBlock() {
+        return block;
+    }
+
+    public void setObject( RampObject rampObject ) {
+        this.rampObject = rampObject;
+        try {
+            setImage( rampObject.getImage() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        updateBlock();
     }
 }
