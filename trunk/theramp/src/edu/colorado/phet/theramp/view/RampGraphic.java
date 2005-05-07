@@ -26,28 +26,29 @@ import java.awt.geom.*;
 public class RampGraphic extends GraphicLayerSet {
     private RampPanel rampPanel;
     private Ramp ramp;
-    private ModelViewTransform2D transform2D;
+    private ModelViewTransform2D screenTransform;
     private double viewAngle;
     private PhetImageGraphic surfaceGraphic;
     private PhetShapeGraphic floorGraphic;
     private PhetShapeGraphic jackGraphic;
     private int surfaceStrokeWidth = 12;
     private PhetShapeGraphic filledShapeGraphic;
+    private RampTickSetGraphic rampTickSetGraphic;
 
     public RampGraphic( RampPanel rampPanel, final Ramp ramp ) {
         super( rampPanel );
         this.rampPanel = rampPanel;
         this.ramp = ramp;
-        transform2D = new ModelViewTransform2D( new Rectangle2D.Double( -10, 0, 20, 10 ), new Rectangle( 0, 200, 800, 400 ) );
+        screenTransform = new ModelViewTransform2D( new Rectangle2D.Double( -10, 0, 20, 10 ), new Rectangle( 800, 400 ) );
 
         Stroke stroke = new BasicStroke( 6.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         Stroke surfaceStroke = new BasicStroke( surfaceStrokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-//        surfaceGraphic = new PhetShapeGraphic( rampPanel, null, surfaceStroke, Color.black );
         surfaceGraphic = new PhetImageGraphic( rampPanel, "images/wood2.jpg" );
         floorGraphic = new PhetShapeGraphic( getComponent(), null, stroke, Color.black );
         jackGraphic = new PhetShapeGraphic( getComponent(), null, stroke, Color.blue );
         filledShapeGraphic = new PhetShapeGraphic( getComponent(), null, Color.lightGray );
         addGraphic( filledShapeGraphic );
+        filledShapeGraphic.setVisible( false );
         addGraphic( floorGraphic );
         addGraphic( jackGraphic );
         addGraphic( surfaceGraphic );
@@ -64,24 +65,31 @@ public class RampGraphic extends GraphicLayerSet {
         } );
         surfaceGraphic.setCursorHand();
 
+        rampTickSetGraphic = new RampTickSetGraphic( this );
+        addGraphic( rampTickSetGraphic, 10 );
+
         updateRamp();
         ramp.addObserver( new SimpleObserver() {
             public void update() {
                 updateRamp();
             }
         } );
+
+        double rampLength = 10;//meters.
+
     }
 
     private Point getViewOrigin() {
         Point2D modelOrigin = ramp.getOrigin();
-        final Point viewOrigin = transform2D.modelToView( modelOrigin );
+        final Point viewOrigin = screenTransform.modelToView( modelOrigin );
         return viewOrigin;
     }
 
     private void updateRamp() {
+        System.out.println( "RampGraphic.updateRamp" );
         Point viewOrigin = getViewOrigin();
         Point2D modelDst = ramp.getEndPoint();
-        Point viewDst = transform2D.modelToView( modelDst );
+        Point viewDst = screenTransform.modelToView( modelDst );
         viewAngle = Math.atan2( viewDst.y - viewOrigin.y, viewDst.x - viewOrigin.x );
 
         Line2D.Double origSurface = new Line2D.Double( viewOrigin, viewDst );
@@ -92,6 +100,10 @@ public class RampGraphic extends GraphicLayerSet {
         surfaceGraphic.setLocation( getViewOrigin() );
         surfaceGraphic.setTransform( new AffineTransform() );
         surfaceGraphic.rotate( viewAngle );
+//        double rampLength = 10;//meters
+//        ramp.getLocation( 10);
+//        getViewLocation( ramp.getLocation( rampLength ) );
+        surfaceGraphic.scale( 0.8 );
         surfaceGraphic.setAutorepaint( true );
         surfaceGraphic.autorepaint();
 
@@ -108,7 +120,7 @@ public class RampGraphic extends GraphicLayerSet {
         path.closePath();
         filledShapeGraphic.setShape( path.getGeneralPath() );
 
-
+        rampTickSetGraphic.update();
     }
 
     GeneralPath createJackShape( Point src, Point dst, int wavelength ) {
@@ -121,8 +133,8 @@ public class RampGraphic extends GraphicLayerSet {
         return viewAngle;
     }
 
-    public ModelViewTransform2D getTransform2D() {
-        return transform2D;
+    public ModelViewTransform2D getScreenTransform() {
+        return screenTransform;
     }
 
     public Ramp getRamp() {
@@ -133,4 +145,8 @@ public class RampGraphic extends GraphicLayerSet {
         return surfaceStrokeWidth;
     }
 
+    public Point getViewLocation( Point2D location ) {
+        Point viewLoc = getScreenTransform().modelToView( location );
+        return viewLoc;
+    }
 }

@@ -30,7 +30,7 @@ public class JButton3D extends ApparatusPanel {
         squareButton3D.setLocation( 3, 3 );
         addGraphic( squareButton3D );
         setBackground( Color.cyan );
-        setBorder( BorderFactory.createLineBorder( Color.black));
+        setBorder( BorderFactory.createLineBorder( Color.black ) );
     }
 
     public void addActionListener( ActionListener actionListener ) {

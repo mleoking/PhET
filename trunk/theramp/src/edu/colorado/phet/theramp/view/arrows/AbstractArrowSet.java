@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.theramp.view;
+package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Time: 9:02:45 PM
  * Copyright (c) Feb 13, 2005 by Sam Reid
  */
-                                                                       
+
 public class AbstractArrowSet extends CompositePhetGraphic {
     private ArrayList graphics = new ArrayList();
 

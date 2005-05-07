@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.theramp.view;
+package edu.colorado.phet.theramp.view.panzoom;
 
 import edu.colorado.phet.common.view.ApparatusPanel2;
 
