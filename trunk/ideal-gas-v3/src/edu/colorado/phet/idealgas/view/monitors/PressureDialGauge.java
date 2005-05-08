@@ -17,6 +17,7 @@ import edu.colorado.phet.instrumentation.DialGauge;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 public class PressureDialGauge extends PhetShapeGraphic {
     private PressureSensingBox box;
@@ -27,16 +28,18 @@ public class PressureDialGauge extends PhetShapeGraphic {
     private Point2D.Double center;
     private Rectangle2D.Double stem;
     private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
+    private DecimalFormat numberFormat;
 
     public PressureDialGauge( PressureSensingBox box, Component component, Point attachmentPt ) {
         super( component );
         this.box = box;
 
         center = new Point2D.Double( attachmentPt.getX() + radius + stemLength, attachmentPt.getY() );
+        numberFormat = new DecimalFormat( "#0.0" );
         pressureGauge = new DialGauge( new ObservablePressureBox(), component,
                                        center.getX(), center.getY(),
                                        radius * 2, 0, IdealGasConfig.MAX_GAUGE_PRESSURE, "Pressure", "Atm",
-                                       font );
+                                       font, numberFormat);
         pressureGauge.setBackground( new Color( 230, 255, 230 ) );
         stem = new Rectangle2D.Double( box.getMaxX(), center.getY() - stemThickness / 2,
                                        stemLength, stemThickness );
