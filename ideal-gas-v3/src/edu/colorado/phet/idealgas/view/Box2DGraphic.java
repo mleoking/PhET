@@ -97,11 +97,15 @@ public class Box2DGraphic extends CompositePhetGraphic {
     public void fireMouseEntered( MouseEvent e ) {
         super.fireMouseEntered( e );
         leftWallHighlighted = true;
+        setBoundsDirty();
+        repaint();
     }
 
     public void fireMouseExited( MouseEvent e ) {
         super.fireMouseExited( e );
         leftWallHighlighted = false;
+        setBoundsDirty();
+        repaint();
     }
 
     protected Rectangle determineBounds() {
