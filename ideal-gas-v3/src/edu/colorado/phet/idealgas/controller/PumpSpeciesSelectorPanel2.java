@@ -99,8 +99,10 @@ public class PumpSpeciesSelectorPanel2 extends GraphicLayerSet {
 //                                                             insets, 0, 0 );
             PhetGraphic hsrbPJC = PhetJComponent.newInstance( module.getApparatusPanel(), heavySpeciesRB );
             PhetGraphic lsrbPJC = PhetJComponent.newInstance( module.getApparatusPanel(), lightSpeciesRB );
-            hsrbPJC.setLocation( 15, 20 );
-            lsrbPJC.setLocation( 15, 40 );
+            hsrbPJC.setLocation( 0, 20 );
+            lsrbPJC.setLocation( 0, 40 );
+//            hsrbPJC.setLocation( 15, 20 );
+//            lsrbPJC.setLocation( 15, 40 );
             addGraphic( hsrbPJC );
             addGraphic( lsrbPJC );
         }
