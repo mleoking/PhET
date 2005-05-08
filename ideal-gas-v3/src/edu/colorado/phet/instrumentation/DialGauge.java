@@ -32,6 +32,12 @@ import java.text.NumberFormat;
  */
 public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
 
+    //-----------------------------------------------------------------
+    // Class data
+    //-----------------------------------------------------------------
+    private static Font s_defaultFont = new Font( "Lucida Sans", Font.BOLD, 8 );
+    private static NumberFormat s_defaultFormatter = new DecimalFormat( "#0.0" );
+
     private ScalarObservable dataSource;
     private String title;
     private String units;
@@ -43,9 +49,8 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
     private double max;
     private NeedleGraphic needleGraphic;
     private FaceGraphic faceGraphic;
-    private static Font s_defaultFont = new Font( "Lucida Sans", Font.BOLD, 8 );
     private Font font;
-    private NumberFormat formatter = new DecimalFormat( "#0.0" );
+    private NumberFormat numberFormat;
 
     private double needleLength = 0.5;
     private double datum = Double.NaN;
@@ -66,7 +71,7 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
     public DialGauge( ScalarObservable dataSource, Component component,
                       double x, double y, double diam, double min, double max,
                       String title, String units ) {
-        this( dataSource, component, x, y, diam, min, max, title, units, s_defaultFont );
+        this( dataSource, component, x, y, diam, min, max, title, units, s_defaultFont, s_defaultFormatter );
     }
 
     /**
@@ -84,11 +89,12 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
      */
     public DialGauge( ScalarObservable dataSource, Component component,
                       double x, double y, double diam, double min, double max,
-                      String title, String units, Font font ) {
+                      String title, String units, Font font, NumberFormat numberFormat ) {
         this.dataSource = dataSource;
         this.title = title;
         this.units = units;
         this.font = font;
+        this.numberFormat = numberFormat;
         dataSource.addObserver( this );
         this.component = component;
         this.x = x;
@@ -199,7 +205,7 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
             g.setColor( Color.black );
             g.setStroke( new BasicStroke( 0.5f ) );
             g.draw( rect );
-            String datumString = formatter.format( datum ) + " " + units;
+            String datumString = numberFormat.format( datum ) + " " + units;
             bounds = font.getStringBounds( datumString, frc );
             g.setColor( Color.black );
             g.drawString( datumString,
