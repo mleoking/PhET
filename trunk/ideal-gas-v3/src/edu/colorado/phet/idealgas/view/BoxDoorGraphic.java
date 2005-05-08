@@ -73,15 +73,18 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
     public void fireMouseEntered( MouseEvent e ) {
         super.fireMouseEntered( e );
         doorHighlighted = true;
+        setBoundsDirty();
+        repaint();
     }
 
     public void fireMouseExited( MouseEvent e ) {
         super.fireMouseExited( e );
         doorHighlighted = false;
+        setBoundsDirty();
+        repaint();
     }
 
     public void translateDoor( double dx, double dy ) {
-
         minX = (int)( box.getMinX() - imageGraphic.getBounds().getWidth() + ( box.getMaxX() - openingMaxX ) );
         // Update the position of the image on the screen
         x = (int)Math.min( maxX, Math.max( minX, x + dx ) );
@@ -112,7 +115,6 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
     }
 
     public void paint( Graphics2D g ) {
-//        imageGraphic.paint( g );
         super.paint( g );
         if( doorHighlighted ) {
             GraphicsState gs = new GraphicsState( g );
@@ -121,10 +123,6 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
             g.draw( this.imageGraphic.getBounds() );
             gs.restoreGraphics();
         }
-    }
-
-    protected Rectangle determineBounds() {
-        return imageGraphic.getBounds();
     }
 
     protected PhetGraphic getHandler( Point p ) {

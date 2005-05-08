@@ -65,6 +65,8 @@ public class PressureSliceGraphic extends CompositePhetGraphic {
                 y = newY;
                 pressureSlice.setY( y );
                 listenerProxy.moved( new Event( PressureSliceGraphic.this ) );
+                internalGraphic.setBoundsDirty();
+                internalGraphic.repaint();
             }
         } );
         this.box = box;
@@ -98,9 +100,9 @@ public class PressureSliceGraphic extends CompositePhetGraphic {
             update();
         }
 
-        protected Rectangle determineBounds() {
-            return drawingArea.getBounds();
-        }
+//        protected Rectangle determineBounds() {
+//            return drawingArea.getBounds();
+//        }
 
         public boolean contains( int x, int y ) {
             return boundingRect.contains( x, y ) || readoutRectangle.contains( x, y );
