@@ -33,18 +33,18 @@ public class ScreenSizeHandlerFactory {
             return defaultSwingFontSize;
         }
 
-        public BufferedImage getCloseImage() {
-            try {
-                BufferedImage im = ImageLoader.loadBufferedImage( "images/x-25.gif" );
-                BufferedImage scaled = BufferedImageUtils.rescaleYMaintainAspectRatio( null, im, closeImageWidth );
-                return scaled;
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-                throw new RuntimeException( e );
-            }
-
-        }
+//        public BufferedImage getCloseImage() {
+//            try {
+//                BufferedImage im = ImageLoader.loadBufferedImage( "images/x-25.gif" );
+//                BufferedImage scaled = BufferedImageUtils.rescaleYMaintainAspectRatio( null, im, closeImageWidth );
+//                return scaled;
+//            }
+//            catch( IOException e ) {
+//                e.printStackTrace();
+//                throw new RuntimeException( e );
+//            }
+//
+//        }
 
         public BufferedImage getZoomInButtonImage() {
             try {

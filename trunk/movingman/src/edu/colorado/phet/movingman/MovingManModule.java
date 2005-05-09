@@ -49,6 +49,7 @@ public class MovingManModule extends Module {
 
     private MovingManModel movingManModel;
     private MovingManControlPanel movingManControlPanel;
+    private MMHelpSuite helpSuite;
     private boolean initMediaPanel = false;
 
     private MovingManApparatusPanel movingManApparatusPanel;
@@ -57,13 +58,14 @@ public class MovingManModule extends Module {
     public static final String localizedStringsPath = "localization/MovingManStrings";
     private boolean soundEnabled = true;
 
-
     public MovingManModule( AbstractClock clock ) throws IOException {
         super( SimStrings.get( "ModuleTitle.MovingManModule" ), clock );
 
         super.setModel( new BaseModel() );
         movingManModel = new MovingManModel( this, clock );
         movingManApparatusPanel = new MovingManApparatusPanel( this );
+        helpSuite = new MMHelpSuite( this );
+        helpSuite.init( this );
         super.setApparatusPanel( movingManApparatusPanel );
         movingManControlPanel = new MovingManControlPanel( this );
         getModel().addModelElement( movingManModel.getMainModelElement() );
@@ -150,15 +152,16 @@ public class MovingManModule extends Module {
 
     public void setHelpEnabled( boolean h ) {
         super.setHelpEnabled( h );
+        helpSuite.setHelpEnabled( h );
         getMovingManApparatusPanel().setHelpEnabled( h );
-//        Point plotLocation = null;
-        if( getPositionPlot().isVisible() ) {
-//            JButton closeButton = getPositionPlot().getCloseButton();
-//            closeHelpItem.setLocation( closeButton.getLocation().x - 100, closeButton.getLocation().y + closeButton.getHeight() );
-        }
-        else {
-//            removeHelpItem( closeHelpItem );
-        }
+////        Point plotLocation = null;
+//        if( getPositionPlot().isVisible() ) {
+////            JButton closeButton = getPositionPlot().getCloseButton();
+////            closeHelpItem.setLocation( closeButton.getLocation().x - 100, closeButton.getLocation().y + closeButton.getHeight() );
+//        }
+//        else {
+////            removeHelpItem( closeHelpItem );
+//        }
     }
 
 
@@ -519,7 +522,7 @@ public class MovingManModule extends Module {
     }
 
     public MovingManApparatusPanel getMovingManApparatusPanel() {
-        return (MovingManApparatusPanel)getApparatusPanel();
+        return movingManApparatusPanel;
     }
 
     private static void addMiscMenu( final MovingManModule module ) {

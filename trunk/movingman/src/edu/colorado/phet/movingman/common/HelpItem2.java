@@ -32,6 +32,7 @@ public class HelpItem2 extends CompositePhetGraphic {
     private int tailWidth = 5;
     private Stroke textBorderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private Stroke arrowBorderStroke = new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+    private PhetGraphic target;
 
     public HelpItem2( Component component, String text ) {
         super( component );
@@ -94,22 +95,29 @@ public class HelpItem2 extends CompositePhetGraphic {
         pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( target ), arrowLength );
         addArrowPointingLeft( arrowLength );
         RelativeLocationSetter.follow( target, this, new RelativeLocationSetter.Right( 1 ) );
+        this.target = target;
     }
 
     public void pointRightAt( PhetGraphic target, int arrowLength ) {
         pointRightAt( new RelativeLocationSetter.PhetGraphicTarget( target ), arrowLength );
         addArrowPointingRight( arrowLength );
         RelativeLocationSetter.follow( target, this, new RelativeLocationSetter.Left( 1 ) );
+        this.target = target;
     }
 
     public void pointUpAt( PhetGraphic target, int arrowLength ) {
         addArrowPointingUp( arrowLength );
         RelativeLocationSetter.follow( target, this, new RelativeLocationSetter.Bottom( 1 ) );
+        this.target = target;
     }
 
-    public void pointDownAt( PhetGraphic blockGraphic, int arrowLength ) {
+    public void pointDownAt( PhetGraphic target, int arrowLength ) {
         addArrowPointingDown( arrowLength );
-        RelativeLocationSetter.follow( blockGraphic, this, new RelativeLocationSetter.Top( 1 ) );
+        RelativeLocationSetter.follow( target, this, new RelativeLocationSetter.Top( 1 ) );
+        this.target = target;
     }
 
+    public PhetGraphic getTarget() {
+        return target;
+    }
 }

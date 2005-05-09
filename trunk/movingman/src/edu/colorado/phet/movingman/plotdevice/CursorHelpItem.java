@@ -2,6 +2,8 @@
 package edu.colorado.phet.movingman.plotdevice;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.movingman.common.HelpItem2;
 
 import java.awt.*;
@@ -14,7 +16,7 @@ import java.awt.*;
  */
 
 public class CursorHelpItem extends PlotDeviceListenerAdapter {
-    boolean helpHasBeenShown = false;
+    private boolean helpHasBeenShown = false;
     private ApparatusPanel apparatusPanel;
     private PlotDevice plotDevice;
     private HelpItem2 graphic;
@@ -29,6 +31,14 @@ public class CursorHelpItem extends PlotDeviceListenerAdapter {
         plotDevice.addListener( new PlotDeviceListenerAdapter() {
             public void playbackTimeChanged() {
                 graphic.setVisible( false );
+            }
+        } );
+        plotDevice.addPhetGraphicListener( new PhetGraphicListener() {
+            public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+            }
+
+            public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+                graphic.setVisible( phetGraphic.isVisible() );
             }
         } );
     }
