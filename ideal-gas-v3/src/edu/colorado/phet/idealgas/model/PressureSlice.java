@@ -111,7 +111,8 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
 
     public double getTemperature() {
         // The factors in this expression are pure fudge.
-        double temperature = 1.3425f * temperatureRecorder.getDataAverage() / 100;
+        double temperature = 1.4810f * temperatureRecorder.getDataAverage() / 100;
+//        double temperature = 1.3425f * temperatureRecorder.getDataAverage() / 100;
 //        double temperature = 1.33f * temperatureRecorder.getDataAverage() / 100;
         return temperature;
     }

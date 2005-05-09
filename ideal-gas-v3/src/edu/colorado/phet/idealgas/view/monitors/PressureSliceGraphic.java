@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.util.Averager;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -112,6 +113,9 @@ public class PressureSliceGraphic extends CompositePhetGraphic {
             pressure = pressureSlice.getPressure();
             temperature = pressureSlice.getTemperature();
 
+            pressAve.update( pressure );
+//            tempAve.update( temperature );
+
             // Clear the drawing area and rebuild it
             drawingArea.exclusiveOr( drawingArea );
             drawingArea.add( new Area( boundingRect ) );
@@ -119,6 +123,11 @@ public class PressureSliceGraphic extends CompositePhetGraphic {
             setBoundsDirty();
             repaint();
         }
+
+        //todo: remove after debug
+        Averager pressAve = new Averager( "slice pressure = " );
+//        Averager tempAve = new Averager( "slice temp = ");
+
 
         public void paint( Graphics2D g2 ) {
             saveGraphicsState( g2 );

@@ -179,7 +179,6 @@ public class IdealGasModule extends Module {
      * @return
      */
     protected String[] getSpeciesNames() {
-        System.out.println( "IdealGasModule.getSpeciesNames" );
         return new String[] { SimStrings.get( "Common.Heavy_Species" ), SimStrings.get( "Common.Light_Species" ) };
     }
 
