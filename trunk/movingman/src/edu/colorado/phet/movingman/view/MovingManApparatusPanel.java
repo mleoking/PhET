@@ -306,9 +306,9 @@ public class MovingManApparatusPanel
         return backgroundColor;
     }
 
-    public void setHelpEnabled( boolean h ) {
-        setWiggleMeVisible( h );
-    }
+//    public void setHelpEnabled( boolean h ) {
+//        setWiggleMeVisible( h );
+//    }
 
     public ManGraphic getManGraphic() {
         return manGraphic;

@@ -153,15 +153,6 @@ public class MovingManModule extends Module {
     public void setHelpEnabled( boolean h ) {
         super.setHelpEnabled( h );
         helpSuite.setHelpEnabled( h );
-        getMovingManApparatusPanel().setHelpEnabled( h );
-////        Point plotLocation = null;
-//        if( getPositionPlot().isVisible() ) {
-////            JButton closeButton = getPositionPlot().getCloseButton();
-////            closeHelpItem.setLocation( closeButton.getLocation().x - 100, closeButton.getLocation().y + closeButton.getHeight() );
-//        }
-//        else {
-////            removeHelpItem( closeHelpItem );
-//        }
     }
 
 
