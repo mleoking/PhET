@@ -46,8 +46,10 @@ public class FourierApplicationModel extends ApplicationModel {
         assert( frameSetup != null );
 
         // Clock
-        boolean fixedDelay = true;
-        AbstractClock clock = new SwingTimerClock( FourierConfig.TIME_STEP, FourierConfig.WAIT_TIME, fixedDelay );
+        double timeStep = FourierConfig.CLOCK_TIME_STEP;
+        int waitTime = ( 1000 / FourierConfig.CLOCK_FRAME_RATE ); // milliseconds
+        boolean isFixed = FourierConfig.CLOCK_TIME_STEP_IS_CONSTANT;
+        AbstractClock clock = new SwingTimerClock( timeStep, waitTime, isFixed );
         setClock( clock );
 
         // Clock control panel is disabled.
