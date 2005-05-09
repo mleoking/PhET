@@ -22,24 +22,37 @@ package edu.colorado.phet.fourier;
 public class FourierConfig {
 
     //----------------------------------------------------------------------------
-    // Class data
+    // Debugging switches
     //----------------------------------------------------------------------------
     
-    // Resource bundles for localization.
-    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FourierStrings";
-
-    // Clock constants
-    public static final double TIME_STEP = 1;
-    public static final int FRAME_RATE = 25;  // frames per second
-    public static final int WAIT_TIME = ( 1000 / FRAME_RATE );  // milliseconds
+    //----------------------------------------------------------------------------
+    // Application
+    //----------------------------------------------------------------------------
     
-    // Images
-    private static final String IMAGES_DIRECTORY = "images/";
-    
-    // Dimensions
+    public static final String APP_VERSION = "0.0 (fourier-v0r0-2005-XX-XX)";
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
-    public static final int CONTROL_PANEL_SPACER_HEIGHT = 15;
+    
+    //----------------------------------------------------------------------------
+    // Localization
+    //----------------------------------------------------------------------------
+    
+    public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FourierStrings";
+
+    //----------------------------------------------------------------------------
+    // Clock
+    //----------------------------------------------------------------------------
+    
+    public static final double CLOCK_TIME_STEP = 1;
+    public static final int CLOCK_FRAME_RATE = 25;  // frames per second
+    public static final boolean CLOCK_TIME_STEP_IS_CONSTANT = true;
+    public static final boolean CLOCK_ENABLE_CONTROLS = true;
+    
+    //----------------------------------------------------------------------------
+    // Images
+    //----------------------------------------------------------------------------
+
+    private static final String IMAGES_DIRECTORY = "images/";
     
     //----------------------------------------------------------------------------
     // Constructors
