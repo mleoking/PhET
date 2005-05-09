@@ -67,6 +67,11 @@ public class HotAirBalloonControlPanel extends JPanel {
                 setHotAirBalloonHeat( stoveSlider.getValue() );
             }
         } );
+        hotAirBalloon.addChangeListener( new HotAirBalloon.ChangeListener() {
+            public void heatSourceChanged( HotAirBalloon.ChangeEvent event ) {
+                stoveSlider.setValue( (int)event.getHotAirBalloon().getHeatSource() );
+            }
+        } );
         stovePanel.add( stoveSlider );
 
         stovePanel.setBorder( new TitledBorder( SimStrings.get( "ModuleTitle.HotAirBalloon" ) ) );

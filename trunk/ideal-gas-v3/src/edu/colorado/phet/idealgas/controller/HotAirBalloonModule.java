@@ -29,7 +29,6 @@ public class HotAirBalloonModule extends IdealGasModule {
     private double initX;
     private double initY;
     private int defaultGravity = 0;
-//    private int defaultGravity = IdealGasConfig.MAX_GRAVITY / 2;
 
     public HotAirBalloonModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.HotAirBalloon" ) );
@@ -125,5 +124,6 @@ public class HotAirBalloonModule extends IdealGasModule {
     public void reset() {
         super.reset();
         balloon.setPosition( new Point2D.Double( initX, initY ) );
+        balloon.setHeatSource( 0 );        
     }
 }

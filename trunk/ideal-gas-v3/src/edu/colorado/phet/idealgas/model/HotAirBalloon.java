@@ -8,6 +8,7 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HollowSphere;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -16,6 +17,8 @@ import edu.colorado.phet.mechanics.Body;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.EventListener;
+import java.util.EventObject;
 
 public class HotAirBalloon extends HollowSphere {
 
@@ -100,9 +103,39 @@ public class HotAirBalloon extends HollowSphere {
 
     public void setHeatSource( double value ) {
         heatSource = value;
+        changeListenerProxy.heatSourceChanged( new ChangeEvent( this ) );
     }
 
     public double getHeatSource() {
         return heatSource;
+    }
+
+    //-----------------------------------------------------------------
+    // Event and listener definitions
+    //-----------------------------------------------------------------
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public HotAirBalloon getHotAirBalloon() {
+            return (HotAirBalloon)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void heatSourceChanged( ChangeEvent event);
+    }
+
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
     }
 }
