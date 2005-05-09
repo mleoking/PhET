@@ -35,7 +35,7 @@ public class Harmonic extends SimpleObservable {
     
     public Harmonic( int order ) {
         super();
-        assert( order > 0 );
+        assert( order >= 0 );
         _order = order;
         _amplitude = 0.0;
     }
@@ -66,7 +66,7 @@ public class Harmonic extends SimpleObservable {
     
     public class Fundamental extends Harmonic {
         public Fundamental() {
-            super( 1 );
+            super( 0 );
         }
     }
 }
