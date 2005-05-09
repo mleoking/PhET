@@ -93,6 +93,9 @@ public class PhetGraphics2D extends Graphics2D {
             if( orgTransform != null ) {
                 wrappedGraphics.setTransform( orgTransform );
             }
+            if( orgComposite != null ) {
+                wrappedGraphics.setComposite( orgComposite );
+            }
         }
     }
 
