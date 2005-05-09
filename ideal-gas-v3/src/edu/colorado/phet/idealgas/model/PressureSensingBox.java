@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A Box2D that reports pressure. Note that a PressureSlice instance must be assigned to the box
- * before it can report pressure.
+ * A Box2D that reports pressure.
+ * <p>
+ * The pressure is reported by PressureSlice instances, the number of which is configurable.
+ * It is set in the constructor. The default value is f.
  */
 public class PressureSensingBox extends Box2D {
 

@@ -1,3 +1,8 @@
+- Hot air balloon stove resets when reset button is hit
+- Changed color of wiggle me and help
+
+
+
 - Put color L&F on panels
 - Enable reset for all modules
 - Look in to moving wall collisions
