@@ -1,14 +1,10 @@
 package edu.colorado.phet.movingman.common;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * User: Sam Reid
@@ -208,7 +204,9 @@ public abstract class RelativeLocationSetter {
         } );
         target.addVisibilityObserver( new VisibilityObserver() {
             public void visibilityChanged() {
-                tomove.setVisible( target.isVisible() );
+                if( !target.isVisible() ) {                                       //todo this is a hack.
+                    tomove.setVisible( target.isVisible() );
+                }
             }
         } );
         rel.layout( target, tomove );
@@ -242,62 +240,4 @@ public abstract class RelativeLocationSetter {
         }
     }
 
-    public static class JComponentTarget implements Target {
-        JComponent jComponent;
-        private ApparatusPanel panel;
-
-        public JComponentTarget( JComponent jComponent ) {
-            this( jComponent, null );
-        }
-
-        public JComponentTarget( JComponent jComponent, ApparatusPanel panel ) {
-            this.jComponent = jComponent;
-            this.panel = panel;
-        }
-
-        public Rectangle getBounds() {
-            if( panel != null && jComponent.getParent() != panel ) {
-                Rectangle r = SwingUtilities.convertRectangle( jComponent, jComponent.getBounds(), panel );
-                return r;
-            }
-            else {
-                return jComponent.getBounds();
-            }
-        }
-
-        public void addBoundsObserver( final BoundsObserver boundsObserver ) {
-            jComponent.addComponentListener( new ComponentAdapter() {
-                public void componentMoved( ComponentEvent e ) {
-                    boundsObserver.boundsChanged();
-                }
-
-                public void componentResized( ComponentEvent e ) {
-                    boundsObserver.boundsChanged();
-                }
-            } );
-            if( panel != null ) {
-                panel.addComponentListener( new ComponentAdapter() {
-                    public void componentResized( ComponentEvent e ) {
-                        boundsObserver.boundsChanged();
-                    }
-                } );
-            }
-        }
-
-        public void addVisibilityObserver( final VisibilityObserver visibilityObserver ) {
-            jComponent.addComponentListener( new ComponentAdapter() {
-                public void componentShown( ComponentEvent e ) {
-                    visibilityObserver.visibilityChanged();
-                }
-
-                public void componentHidden( ComponentEvent e ) {
-                    visibilityObserver.visibilityChanged();
-                }
-            } );
-        }
-
-        public boolean isVisible() {
-            return jComponent.isVisible();
-        }
-    }
 }

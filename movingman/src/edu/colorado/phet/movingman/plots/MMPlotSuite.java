@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.GraphicCriteria;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
@@ -115,6 +116,10 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
     private void setTextBoxText( double value ) {
         String text = decimalFormat.format( value );
         textBox.setText( text );
+    }
+
+    public PhetGraphic getTextBoxGraphic() {
+        return textBoxGraphic;
     }
 
     private void setPlaybackTime( double time ) {

@@ -92,7 +92,7 @@ public class PlotDevice extends GraphicLayerSet {
             }
         } );
         addGraphic( cursor );
-        addListener( new CursorHelpItem( apparatusPanel, this ) );
+//        addListener( new CursorHelpItem( apparatusPanel, this ) );
         setChartSize( 600, 200 );
     }
 
@@ -176,7 +176,8 @@ public class PlotDevice extends GraphicLayerSet {
 
     private PhetGraphic createMinimizeButton() {
         try {
-            BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
+//            BufferedImage image = ImageLoader.loadBufferedImage( "images/x-25.gif" );
+            BufferedImage image = ImageLoader.loadBufferedImage( "images/min1.jpg" );
             image = testResize( image, 0.75 );
             ImageIcon icon = new ImageIcon( image );
             JButton minimize = new JButton( icon );

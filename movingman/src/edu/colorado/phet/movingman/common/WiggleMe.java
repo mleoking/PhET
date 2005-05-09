@@ -9,7 +9,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.movingman.MMFontManager;
-import edu.colorado.phet.movingman.common.WiggleMe.Sine;
 
 import java.awt.*;
 import java.awt.geom.Area;
