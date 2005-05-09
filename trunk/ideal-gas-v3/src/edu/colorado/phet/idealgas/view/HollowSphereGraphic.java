@@ -19,7 +19,7 @@ public class HollowSphereGraphic extends PhetShapeGraphic implements SimpleObser
 
     private static Stroke s_defaultStroke = new BasicStroke( 2.0F );
     private static Color s_defaultColor = Color.GREEN;
-    private static float s_sphereOpacity = 0.1f;
+    private static float s_sphereOpacity = 0.25f;
 
     private Ellipse2D.Double rep;
     private HollowSphere sphere;
