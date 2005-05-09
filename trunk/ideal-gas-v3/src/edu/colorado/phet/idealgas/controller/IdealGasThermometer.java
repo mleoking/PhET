@@ -9,6 +9,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.util.Averager;
 import edu.colorado.phet.instrumentation.Thermometer;
 
 import java.awt.*;
@@ -31,12 +32,19 @@ class IdealGasThermometer extends Thermometer implements SimpleObserver {
         newTemperature = Double.isNaN( newTemperature ) ? 0 : newTemperature;
         // Scale to appropriate units
         newTemperature *= IdealGasConfig.TEMPERATURE_SCALE_FACTOR;
-        
+
         if( temperature != newTemperature ) {
             temperature = newTemperature;
             super.setValue( temperature );
-            super.setBoundsDirty();//TODO uncomment this line.
+            super.setBoundsDirty();
             repaint();
         }
+
+        //DEBUG
+//        averager.update( newTemperature );
     }
+
+    // TODO: remove after debug
+    private Averager averager = new Averager( "aveTemp = " );
+
 }

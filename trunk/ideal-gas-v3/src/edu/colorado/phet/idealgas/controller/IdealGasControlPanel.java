@@ -127,8 +127,8 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
 //        localGbc.fill = GridBagConstraints.NONE;
 //        miscPanel.add( pic, localGbc );
 
-        Border gravityBorder = new TitledBorder( SimStrings.get( "IdealGasControlPanel.MiscPanelTitle" ) );
-        miscPanel.setBorder( gravityBorder );
+//        Border gravityBorder = new TitledBorder( SimStrings.get( "IdealGasControlPanel.MiscPanelTitle" ) );
+//        miscPanel.setBorder( gravityBorder );
 
     }
 
