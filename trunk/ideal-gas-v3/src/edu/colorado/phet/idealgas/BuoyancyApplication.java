@@ -42,10 +42,10 @@ public class BuoyancyApplication extends PhetApplication {
             Module heliumBalloonModule = new HeliumBalloonModule( getClock() );
             Module hotAirBalloonModule = new HotAirBalloonModule( getClock() );
             Module[] modules = new Module[]{
-                idealgasModule,
+                hotAirBalloonModule,
                 rigidSphereModule,
                 heliumBalloonModule,
-                hotAirBalloonModule,
+                idealgasModule,
             };
             setModules( modules );
             setInitialModule( hotAirBalloonModule );
