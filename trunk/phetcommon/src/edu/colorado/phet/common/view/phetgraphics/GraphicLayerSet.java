@@ -19,6 +19,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -231,6 +232,28 @@ public class GraphicLayerSet extends PhetGraphic {
             graphics.add( graphic );
         }
         return (PhetGraphic[])graphics.toArray( new PhetGraphic[0] );
+    }
+
+    /**
+     * Returns graphics that satisfy the specified criteria
+     *
+     * @param criteria the criteria for the graphics to satisfy.
+     * @return the array of graphics in painting order.
+     */
+    public PhetGraphic[] getGraphics( GraphicCriteria criteria ) {
+        ArrayList all = new ArrayList();
+        PhetGraphic[] pg = getGraphics();
+        for( int i = 0; i < pg.length; i++ ) {
+            if( criteria.isSatisfied( pg[i] ) ) {
+                all.add( pg[i] );
+            }
+            if( pg[i] instanceof GraphicLayerSet ) {
+                GraphicLayerSet gls = (GraphicLayerSet)pg[i];
+                PhetGraphic[] sub = gls.getGraphics( criteria );
+                all.addAll( Arrays.asList( sub ) );
+            }
+        }
+        return (PhetGraphic[])all.toArray( new PhetGraphic[0] );
     }
 
     /**
