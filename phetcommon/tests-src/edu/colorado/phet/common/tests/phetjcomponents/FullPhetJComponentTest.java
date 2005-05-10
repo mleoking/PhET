@@ -58,6 +58,11 @@ public class FullPhetJComponentTest {
         buttonPhetJ.scale( 2 );
 
         JTextField text = new JTextField( 10 );
+        text.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "ActionEvent: Someone pressed enter: e = " + e );
+            }
+        } );
         text.setBorder( BorderFactory.createTitledBorder( "TextField" ) );
         PhetGraphic textFieldPhetJ = PhetJComponent.newInstance( ap, text );
         ap.addGraphic( textFieldPhetJ );
