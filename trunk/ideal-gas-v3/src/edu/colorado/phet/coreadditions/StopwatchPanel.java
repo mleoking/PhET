@@ -37,21 +37,24 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
     private EventChannel stopwatchEventChannel = new EventChannel( StopwatchListener.class );
     private StopwatchListener stopwatchListenerProxy = (StopwatchListener)stopwatchEventChannel.getListenerProxy();
     private JButton resetBtn;
+    // Time scale factor
+    private double scaleFactor = 1;
 
     /**
      *
      * @param simulationClock
      */
     public StopwatchPanel( AbstractClock simulationClock ) {
-        this( simulationClock, "" );
+        this( simulationClock, "", 1 );
     }
 
     /**
      *
      * @param simulationClock
      * @param timeUnits
+     * @param scaleFactor   Time scale factor
      */
-    public StopwatchPanel( AbstractClock simulationClock, String timeUnits ) {
+    public StopwatchPanel( AbstractClock simulationClock, String timeUnits, double scaleFactor ) {
 
         this.clock = new SwingTimerClock( simulationClock.getDt(), 100 );
         this.clock.addClockTickListener( this );
