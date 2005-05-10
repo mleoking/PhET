@@ -142,6 +142,23 @@ public class RampControlPanel extends ControlPanel {
 
         final ModelSlider kineticFriction = createKineticSlider( ticks, module );
         add( kineticFriction );
+
+        JButton record = new JButton( "Record" );
+
+        record.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.record();
+            }
+        } );
+
+        JButton playback = new JButton( "Playback" );
+        playback.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.playback();
+            }
+        } );
+        add( record );
+        add( playback );
     }
 
     private ModelSlider createKineticSlider( double[] ticks, final RampModule module ) {

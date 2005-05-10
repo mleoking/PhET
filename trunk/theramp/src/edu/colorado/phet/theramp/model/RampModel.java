@@ -20,23 +20,24 @@ import java.util.ArrayList;
 public class RampModel implements ModelElement {
     private Ramp ramp;
     private Block block;
-    private double gravity = 9.8;
-    private SimpleObservable peObservers = new SimpleObservable();
-    private SimpleObservable keObservers = new SimpleObservable();
-    private double lastTick;
     private ForceVector wallForce;
     private ForceVector appliedForce;
     private ForceVector gravityForce;
     private ForceVector totalForce;
     private ForceVector frictionForce;
     private ForceVector normalForce;
+    private double gravity = 9.8;
     private double appliedWork = 0.0;
     private double frictiveWork = 0.0;
     private double gravityWork = 0.0;
-    private ArrayList listeners = new ArrayList();
     private double zeroPointY = 0.0;
     private double thermalEnergy = 0.0;
+
     private boolean userAddingEnergy = false;
+    private ArrayList listeners = new ArrayList();
+    private SimpleObservable peObservers = new SimpleObservable();
+    private SimpleObservable keObservers = new SimpleObservable();
+    private double lastTick;
 
     public RampModel() {
         ramp = new Ramp();
@@ -282,6 +283,18 @@ public class RampModel implements ModelElement {
         public Vector2D toYVector() {
             return new Vector2D.Double( 0, getY() );
         }
+
+        public ForceVector copyState() {
+            ForceVector copy = new ForceVector();
+            copy.setX( getX() );
+            copy.setY( getY() );
+            return copy;
+        }
+
+        public void setState( ForceVector state ) {
+            setX( state.getX() );
+            setY( state.getY() );
+        }
     }
 
     public double getAppliedWork() {
@@ -292,5 +305,44 @@ public class RampModel implements ModelElement {
         public void appliedForceChanged();
 
         void zeroPointChanged();
+    }
+
+    //could maybe generalize with reflection.
+    public RampModel getState() {
+        RampModel modelData = new RampModel();
+        modelData.ramp = ramp.copyState();
+        modelData.block = block.copyState();
+        modelData.wallForce = wallForce.copyState();
+        modelData.appliedForce = appliedForce.copyState();
+        modelData.gravityForce = gravityForce.copyState();
+        modelData.totalForce = totalForce.copyState();
+        modelData.frictionForce = frictionForce.copyState();
+        modelData.normalForce = normalForce.copyState();
+        modelData.gravity = gravity;
+        modelData.appliedWork = appliedWork;
+        modelData.frictiveWork = frictiveWork;
+        modelData.gravityWork = gravityWork;
+        modelData.zeroPointY = zeroPointY;
+        modelData.thermalEnergy = thermalEnergy;
+        return modelData;
+    }
+
+    public void setState( RampModel state ) {
+        ramp.setState( state.getRamp() );
+        block.setState( state.getBlock() );
+        wallForce.setState( state.wallForce );
+        appliedForce.setState( state.appliedForce );
+        gravityForce.setState( state.gravityForce );
+        totalForce.setState( state.totalForce );
+        frictionForce.setState( state.frictionForce );
+        normalForce.setState( state.normalForce );
+        gravity = state.gravity;
+        appliedWork = state.appliedWork;
+        frictiveWork = state.frictiveWork;
+        gravityWork = state.gravityWork;
+        zeroPointY = state.zeroPointY;
+        thermalEnergy = state.thermalEnergy;
+
+        //todo notify observers.
     }
 }

@@ -10,7 +10,12 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.RampTimeModel;
 import edu.colorado.phet.theramp.view.RampPanel;
+
+import javax.swing.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -22,6 +27,7 @@ import edu.colorado.phet.theramp.view.RampPanel;
 public class RampModule extends Module {
     private RampPanel rampPanel;
     private RampModel rampModel;
+    private RampTimeModel rampTimeModel;
     private RampControlPanel rampControlPanel;
     private RampObject[] rampObjects;
     public static final double FORCE_LENGTH_SCALE = 0.15;//1.0;
@@ -30,7 +36,9 @@ public class RampModule extends Module {
         super( "The Ramp", clock );
         setModel( new BaseModel() );
         rampModel = new RampModel();
-        getModel().addModelElement( rampModel );
+        rampTimeModel = new RampTimeModel( rampModel );
+//        getModel().addModelElement( rampModel );
+        clock.addClockTickListener( rampTimeModel );
         rampObjects = new RampObject[]{
             new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 200, 0.3, 0.2, 0.4 ),
             new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 400, 0.7, 0.5, 0.4 ),
@@ -46,6 +54,14 @@ public class RampModule extends Module {
     }
 
     public static void main( String[] args ) {
+        JTextField field = new JTextField( "hello" );
+        field.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                System.out.println( "evt = " + evt );
+            }
+        } );
+        field.setText( "anthoeu" );
+
         SwingTimerClock clock = new SwingTimerClock( 1.0, 30 );
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.apply();
@@ -79,5 +95,13 @@ public class RampModule extends Module {
 
     public RampObject[] getRampObjects() {
         return rampObjects;
+    }
+
+    public void record() {
+        rampTimeModel.record();
+    }
+
+    public void playback() {
+        rampTimeModel.playback();
     }
 }
