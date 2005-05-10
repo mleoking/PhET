@@ -81,6 +81,6 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     //----------------------------------------------------------------------------
     
     public void update() {
-        System.out.println( "ComponentsGraphic.update" );//XXX
+//        System.out.println( "ComponentsGraphic.update" );//XXX
     }
 }
