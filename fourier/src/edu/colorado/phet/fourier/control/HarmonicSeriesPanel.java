@@ -129,8 +129,10 @@ public class HarmonicSeriesPanel extends JPanel {
         
         public void stateChanged( ChangeEvent event ) {
             if ( event.getSource() == _numberOfHarmonicsSlider ) {
-                int numberOfHarmonics = _numberOfHarmonicsSlider.getValue();
-                _harmonicSeriesModel.setNumberOfHarmonics( numberOfHarmonics );
+                if ( !_numberOfHarmonicsSlider.getSlider().getValueIsAdjusting() ) {
+                    int numberOfHarmonics = _numberOfHarmonicsSlider.getValue();
+                    _harmonicSeriesModel.setNumberOfHarmonics( numberOfHarmonics );
+                }
             }
             else if ( event.getSource() == _fundamentalFrequencySlider ) {
                 int fundamentalFrequency = _fundamentalFrequencySlider.getValue();
