@@ -38,7 +38,21 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
     private StopwatchListener stopwatchListenerProxy = (StopwatchListener)stopwatchEventChannel.getListenerProxy();
     private JButton resetBtn;
 
+    /**
+     *
+     * @param simulationClock
+     */
     public StopwatchPanel( AbstractClock simulationClock ) {
+        this( simulationClock, "" );
+    }
+
+    /**
+     *
+     * @param simulationClock
+     * @param timeUnits
+     */
+    public StopwatchPanel( AbstractClock simulationClock, String timeUnits ) {
+
         this.clock = new SwingTimerClock( simulationClock.getDt(), 100 );
         this.clock.addClockTickListener( this );
         simulationClock.addClockStateListener( this );
@@ -75,6 +89,7 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
         add( startStopBtn );
         add( resetBtn );
         add( clockTF );
+        add( new JLabel( timeUnits ));
 
         // Clear the clock
         resetClock();
