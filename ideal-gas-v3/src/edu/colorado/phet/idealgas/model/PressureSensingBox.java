@@ -8,10 +8,13 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.idealgas.PressureSlice;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
 import java.util.List;
 
 /**
@@ -22,7 +25,6 @@ import java.util.List;
  */
 public class PressureSensingBox extends Box2D {
 
-    private PressureSlice pressureSlice;
     private List averagingSlices = new ArrayList();
     private PressureSlice gaugeSlice;
     private boolean multipleSlicesEnabled;
@@ -32,12 +34,6 @@ public class PressureSensingBox extends Box2D {
      */
     public PressureSensingBox( Point2D corner1, Point2D corner2, IdealGasModel model, AbstractClock clock ) {
         super( corner1, corner2, model );
-//        pressureRecorder = new ScalarDataRecorder( 400 );
-//        pressureRecorder = new ScalarDataRecorder( clock );
-//        pressureSlice = new PressureSlice( this, model, clock );
-//        model.addModelElement( pressureSlice );
-//        pressureSlice.setY( ( corner1.getY() + corner2.getY() ) / 2 );
-//        pressureSlice.setTimeAveragingWindow( 2000 );
 
         // Create the pressure slices used to record pressure
         // Multiple slices are used to average across entire box
@@ -54,8 +50,21 @@ public class PressureSensingBox extends Box2D {
         // A single slice is used if we only want pressure at a single level
     }
 
+    /**
+     *
+     * @param areEnabled
+     */
     public void setMultipleSlicesEnabled( boolean areEnabled ) {
         this.multipleSlicesEnabled = areEnabled;
+        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean getMultipleSlicesEnabled() {
+        return multipleSlicesEnabled;
     }
 
     /**
@@ -81,7 +90,36 @@ public class PressureSensingBox extends Box2D {
      *
      * @param gaugeSlice
      */
-    public void setGuageSlice( PressureSlice gaugeSlice ) {
+    public void setGaugeSlice( PressureSlice gaugeSlice ) {
         this.gaugeSlice = gaugeSlice;
     }
+
+    //----------------------------------------------------------------
+    // Event and listener definitions
+    //----------------------------------------------------------------
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
+    }
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public PressureSensingBox getPressureSensingBox() {
+            return (PressureSensingBox)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+        void stateChanged( ChangeEvent event );
+    }
+
 }
