@@ -5,6 +5,8 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- determine why only 1 harmonic component is shown when dragging slider from more to less
+- flesh out demo of "Amplitudes" view in "Discrete" module
 
 MEDIUM PRIORITY:
 
