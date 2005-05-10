@@ -40,7 +40,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private static final double LABELS_LAYER = 2;
     private static final double SLIDERS_LAYER = 3;
     
-    private static final int OUTLINE_WIDTH = 550;
+    private static final int OUTLINE_WIDTH = 600;
     private static final int OUTLINE_HEIGHT = 175;
     
     private static final int SPACING = 10; // space between sliders
@@ -53,6 +53,8 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private Rectangle _outlineRectangle;
     private PhetShapeGraphic _outlineGraphic;
     private GraphicLayerSet _sliders;
+
+    private int _previousNumberOfharmonics;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -77,6 +79,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
         // Interactivity
         _outlineGraphic.setIgnoreMouse( true );
         
+        _previousNumberOfharmonics = -1; // force update
         update();
     }
     
@@ -90,33 +93,38 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     //----------------------------------------------------------------------------
     
     public void update() {
-        
-        _sliders.clear();
-        
-        int numberOfHarmonics = _harmonicSeriesModel.getNumberOfHarmonics();
 
-        int totalSpace = ( numberOfHarmonics + 1 ) * SPACING;
-        int barWidth = ( OUTLINE_WIDTH - totalSpace ) / numberOfHarmonics;
-        double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH -  VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
+        int numberOfHarmonics = _harmonicSeriesModel.getNumberOfHarmonics();
         
-        for ( int i = 0; i < numberOfHarmonics; i++ ) {
+        if ( _previousNumberOfharmonics != numberOfHarmonics ) {
             
-            // Get the ith harmonic.
-            Harmonic harmonic =  _harmonicSeriesModel.getHarmonic(i);
+            _sliders.clear();
             
-            // Create a slider to control the harmonic's amplitude.
-            HarmonicSlider slider = new HarmonicSlider( getComponent(), harmonic );
-            _sliders.addGraphic( slider );
-            
-            // Slider color, from the visible spectrum.
-            slider.setMaxSize( barWidth, OUTLINE_HEIGHT );
-            double wavelength = VisibleColor.MAX_WAVELENGTH - ( i * deltaWavelength );
-            Color trackColor = VisibleColor.wavelengthToColor( wavelength );
-            slider.setTrackColor( trackColor );
-            
-            // Slider location.
-            int x = ( ( i + 1 ) * SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
-            slider.setLocation( x, 0 );
+            int totalSpace = ( numberOfHarmonics + 1 ) * SPACING;
+            int barWidth = ( OUTLINE_WIDTH - totalSpace ) / numberOfHarmonics;
+            double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
+
+            for ( int i = 0; i < numberOfHarmonics; i++ ) {
+
+                // Get the ith harmonic.
+                Harmonic harmonic = _harmonicSeriesModel.getHarmonic( i );
+
+                // Create a slider to control the harmonic's amplitude.
+                HarmonicSlider slider = new HarmonicSlider( getComponent(), harmonic );
+                _sliders.addGraphic( slider );
+
+                // Slider color, from the visible spectrum.
+                slider.setMaxSize( barWidth, OUTLINE_HEIGHT );
+                double wavelength = VisibleColor.MAX_WAVELENGTH - ( i * deltaWavelength );
+                Color trackColor = VisibleColor.wavelengthToColor( wavelength );
+                slider.setTrackColor( trackColor );
+
+                // Slider location.
+                int x = ( ( i + 1 ) * SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
+                slider.setLocation( x, 0 );
+            }
+
+            _previousNumberOfharmonics = numberOfHarmonics;
         }
     }
 }
