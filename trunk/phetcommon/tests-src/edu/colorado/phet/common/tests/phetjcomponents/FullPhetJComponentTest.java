@@ -36,6 +36,7 @@ public class FullPhetJComponentTest {
     public FullPhetJComponentTest() throws IOException {
 
         frame = new JFrame( "Frame" );
+        PhetJComponent.init( frame );//todo integrate into PhetFrame.
 
         SwingTimerClock swingTimerClock = new SwingTimerClock( 1, 30 );
         ap = new ApparatusPanel2( swingTimerClock );
@@ -46,10 +47,9 @@ public class FullPhetJComponentTest {
                 System.out.println( "e = " + e );
             }
         } );
-//        PhetJComponent buttonPhetJ = PhetJComponent.newInstance( ap, jb );
         PhetGraphic buttonPhetJ = PhetJComponent.newInstance( ap, jb );
-
         ap.addGraphic( buttonPhetJ );
+
         frame.setContentPane( ap );
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
