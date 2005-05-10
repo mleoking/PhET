@@ -37,7 +37,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final double OUTLINE_LAYER = 1;
     private static final double LABELS_LAYER = 2;
     
-    private static final int OUTLINE_WIDTH = 550;
+    private static final int OUTLINE_WIDTH = 600;
     private static final int OUTLINE_HEIGHT = 175;
     
     //----------------------------------------------------------------------------
