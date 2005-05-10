@@ -67,7 +67,7 @@ public class ModelSlider extends JPanel {
         // In case this has been called in response to a change in some characteristic, remove all the items in the
         // control
         while( getComponentCount() > 0 ) {
-            this.remove( getComponent( 0 ));
+            this.remove( getComponent( 0 ) );
         }
 
         this.title = title;
@@ -284,6 +284,12 @@ public class ModelSlider extends JPanel {
     }
 
     public void setModelTicks( double[] ticks ) {
+        Hashtable table = new Hashtable();
+        for( int i = 0; i < ticks.length; i++ ) {
+            double tick = ticks[i];
+            table.put( new Double( tick ), new JLabel( tick + "" ) );
+        }
+        setModelLabels( table );
     }
 
     public void setMaximum( double max ) {
