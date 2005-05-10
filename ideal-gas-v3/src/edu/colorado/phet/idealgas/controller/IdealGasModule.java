@@ -588,7 +588,7 @@ public class IdealGasModule extends Module {
         ApplicationModel appModel = PhetApplication.instance().getApplicationModel();
         PhetFrame frame = PhetApplication.instance().getPhetFrame();
         if( stopwatchEnabled ) {
-            stopwatchPanel = new StopwatchPanel( appModel.getClock() );
+            stopwatchPanel = new StopwatchPanel( appModel.getClock(), "psec" );
             frame.getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
             frame.getClockControlPanel().revalidate();
             visibleInstruments.add( stopwatchPanel );

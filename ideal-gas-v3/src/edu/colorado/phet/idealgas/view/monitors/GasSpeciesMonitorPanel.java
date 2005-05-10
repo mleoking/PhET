@@ -18,7 +18,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.lang.reflect.Method;
 import java.text.NumberFormat;
 
 /**
@@ -27,9 +26,6 @@ import java.text.NumberFormat;
 public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleObserver {
 
     private Class speciesClass;
-    private Method aveSpeedMethod;
-    private Method numMoleculesMethod;
-
     private JTextField numParticlesTF;
     private NumberFormat aveSpeedFormat = NumberFormat.getInstance();
     private JTextField aveSpeedTF;
@@ -50,7 +46,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
             throw new RuntimeException( "Class other than a gas species class sent to constructor for GasSpeciesMonitorPanel" );
         }
 
-        this.setPreferredSize( new Dimension( 400, 60 ) );
+        this.setPreferredSize( new Dimension( 410, 60 ) );
         Border border = new TitledBorder( speciesName );
         this.setBorder( border );
 
@@ -67,6 +63,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         aveSpeedTF = new JTextField( 6 );
         aveSpeedTF.setEditable( false );
         this.add( aveSpeedTF );
+        this.add( new JLabel( "m/sec"));
 
         // Hook up to the model
         model.addObserver( this );
@@ -128,21 +125,8 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
     }
 
     //
-    // Inner classes
-    //
-    private class GaugePanel extends JPanel {
-
-        public void paintComponent( Graphics graphics ) {
-            super.paintComponent( graphics );
-            Graphics2D g2 = (Graphics2D)graphics;
-        }
-    }
-
-    //
     // Static fields and methods
     //
-    private double s_pressureReadoutFactor = 1.0 / 100;
-    private double s_temperatureReadoutFactor = 1.0 / 1000;
     private double s_screenToModelFactor = 476.0 / 290;
     private double s_aveSpeedReadoutFactor = 10 * s_screenToModelFactor;
 }

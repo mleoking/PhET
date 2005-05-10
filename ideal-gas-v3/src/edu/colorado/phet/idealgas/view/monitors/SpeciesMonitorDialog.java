@@ -18,7 +18,7 @@ import java.awt.*;
 
 public class SpeciesMonitorDialog extends JDialog {
     public SpeciesMonitorDialog( PhetFrame phetFrame, IdealGasModel idealGasModel ) {
-        super( phetFrame, SimStrings.get( "SpeciesStatisticsWindow.title"), false );
+        super( phetFrame, SimStrings.get( "GasSpeciesMonitorPanel.Title"), false );
         this.setUndecorated( true );
         this.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
 
