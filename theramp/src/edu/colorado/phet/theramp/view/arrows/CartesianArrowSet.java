@@ -53,11 +53,14 @@ public class CartesianArrowSet extends AbstractArrowSet {
                 return rampModel.getNormalForce();
             }
         }, component.getBlockGraphic() );
-        addForceArrowGraphic( forceArrowGraphic );
-        addForceArrowGraphic( totalArrowGraphic );
-        addForceArrowGraphic( frictionArrowGraphic );
+
         addForceArrowGraphic( gravityArrowGraphic );
         addForceArrowGraphic( normalArrowGraphic );
+
+        addForceArrowGraphic( frictionArrowGraphic );
+        addForceArrowGraphic( forceArrowGraphic );
+
+        addForceArrowGraphic( totalArrowGraphic );
         setIgnoreMouse( true );
     }
 

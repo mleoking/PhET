@@ -4,7 +4,6 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.theramp.common.BarGraphic;
 import edu.colorado.phet.theramp.model.RampModel;
@@ -24,6 +23,7 @@ public class BarGraphSet extends CompositePhetGraphic {
     private BarGraphic peGraphic;
     private BarGraphic totalEnergyGraphic;
     private BarGraphic workFrictionGraphic;
+    private BarGraphic thermalEnergyGraphic;
 
     private int dx = 10;
     private int dy = -10;
@@ -31,47 +31,56 @@ public class BarGraphSet extends CompositePhetGraphic {
     private BarGraphic workGravityGraphic;
     private BarGraphic workTotalGraphic;
 
+
     public BarGraphSet( RampPanel rampPanel, final RampModel rampModel ) {
         super( rampPanel );
         this.rampPanel = rampPanel;
         this.rampModel = rampModel;
         int y = 600;
-        int width = 30;
+        int width = 23;
         int dw = 10;
         int sep = width + dw;
 
-        ModelViewTransform1D transform1D = new ModelViewTransform1D( 0, 75, 0, 10 );
-        keGraphic = new BarGraphic( getComponent(), "Kinetic Energy", transform1D,
+        ModelViewTransform1D transform1D = new ModelViewTransform1D( 0, 150, 0, 10 );
+        keGraphic = new BarGraphic( getComponent(), "Kinetic", transform1D,
                                     rampModel.getBlock().getKineticEnergy(), dw, width, y, dx, dy );
         addGraphic( keGraphic );
-        rampModel.addKEObserver( new SimpleObserver() {
-            public void update() {
+
+        addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
                 keGraphic.setValue( rampModel.getBlock().getKineticEnergy() );
             }
         } );
 
-        peGraphic = new BarGraphic( getComponent(), "Potential Energy", transform1D,
+        peGraphic = new BarGraphic( getComponent(), "Potential", transform1D,
                                     rampModel.getPotentialEnergy(), dw + sep, width, y, dx, dy );
         addGraphic( peGraphic );
-        rampModel.addPEObserver( new SimpleObserver() {
-            public void update() {
+        addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
                 peGraphic.setValue( rampModel.getPotentialEnergy() );
             }
         } );
 
-        totalEnergyGraphic = new BarGraphic( getComponent(), "Total Energy", transform1D,
-                                             0, dw + sep * 2, width, y, dx, dy );
-        addGraphic( totalEnergyGraphic );
-        SimpleObserver obs = new SimpleObserver() {
-            public void update() {
-                totalEnergyGraphic.setValue( rampModel.getPotentialEnergy() + rampModel.getBlock().getKineticEnergy() );
+        thermalEnergyGraphic = new BarGraphic( getComponent(), "Thermal", transform1D,
+                                               rampModel.getThermalEnergy(), dw + sep * 2, width, y, dx, dy );
+        addGraphic( thermalEnergyGraphic );
+        addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                thermalEnergyGraphic.setValue( rampModel.getThermalEnergy() );
             }
-        };
-        rampModel.addPEObserver( obs );
-        rampModel.addKEObserver( obs );
+        } );
+
+        totalEnergyGraphic = new BarGraphic( getComponent(), "Total", transform1D,
+                                             rampModel.getTotalEnergy(), dw + sep * 3, width, y, dx, dy );
+        addGraphic( totalEnergyGraphic );
+        addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                totalEnergyGraphic.setValue( rampModel.getTotalEnergy() );
+            }
+        } );
 
         workAppliedGraphic = new BarGraphic( getComponent(), "Work Done By Applied Force", transform1D,
-                                             0, dw + sep * 3, width, y, dx, dy );
+                                             0, dw + sep * 5, width, y, dx, dy );
 
         rampPanel.getRampModule().getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
@@ -82,7 +91,7 @@ public class BarGraphSet extends CompositePhetGraphic {
         addGraphic( workAppliedGraphic );
 
         workFrictionGraphic = new BarGraphic( getComponent(), "Work Done By Friction", transform1D,
-                                              0, dw + sep * 4, width, y, dx, dy );
+                                              0, dw + sep * 6, width, y, dx, dy );
 
         rampPanel.getRampModule().getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
@@ -93,7 +102,7 @@ public class BarGraphSet extends CompositePhetGraphic {
         addGraphic( workFrictionGraphic );
 
         workGravityGraphic = new BarGraphic( getComponent(), "Work Done By Gravity", transform1D,
-                                             0, dw + sep * 5, width, y, dx, dy );
+                                             0, dw + sep * 7, width, y, dx, dy );
 
         rampPanel.getRampModule().getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
@@ -104,7 +113,7 @@ public class BarGraphSet extends CompositePhetGraphic {
         addGraphic( workGravityGraphic );
 
         workTotalGraphic = new BarGraphic( getComponent(), "Total Work", transform1D,
-                                           0, dw + sep * 6, width, y, dx, dy );
+                                           0, dw + sep * 8, width, y, dx, dy );
 
         rampPanel.getRampModule().getClock().addClockTickListener( new ClockTickListener() {
             public void clockTicked( ClockTickEvent event ) {
@@ -115,5 +124,9 @@ public class BarGraphSet extends CompositePhetGraphic {
         addGraphic( workTotalGraphic );
 
         setIgnoreMouse( true );
+    }
+
+    private void addClockTickListener( ClockTickListener clockTickListener ) {
+        rampPanel.getRampModule().getClock().addClockTickListener( clockTickListener );
     }
 }

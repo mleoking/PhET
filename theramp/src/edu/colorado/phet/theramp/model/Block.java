@@ -16,7 +16,7 @@ public class Block extends SimpleObservable {
     private Ramp ramp;
 
     private double mass = 5;//kg
-    private double position = 5.0;
+    private double position = 10.0;
     private double velocity = 0.0;//m/s
     private double acceleration = 0.0;
     private double kineticFriction = 0.50;
@@ -65,8 +65,24 @@ public class Block extends SimpleObservable {
             velocity = 0;
         }
         position += velocity * dt;
+        //boundary conditions.
+        applyBoundaryConditions();
+
         if( position != origPosition ) {
             notifyObservers();
+        }
+    }
+
+    private void applyBoundaryConditions() {
+
+        if( position < 0 ) {
+            position = 0;
+            velocity = 0;
+            //fire a collision.
+        }
+        else if( position > ramp.getLength() ) {
+            position = ramp.getLength();
+            velocity = 0;
         }
     }
 

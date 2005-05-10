@@ -57,4 +57,8 @@ public class Ramp extends SimpleObservable {
     public double getAngle() {
         return angle;
     }
+
+    public double getHeight() {
+        return length * Math.sin( angle );
+    }
 }

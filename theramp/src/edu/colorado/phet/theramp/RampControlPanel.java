@@ -105,7 +105,7 @@ public class RampControlPanel extends ControlPanel {
                 rampPanel.setForceVisible( showWall.getText(), showWall.isSelected() );
             }
         } );
-        final JCheckBox showGravity = new JCheckBox( "Gravitational", true );
+        final JCheckBox showGravity = new JCheckBox( "Weight", true );
         showGravity.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showGravity.getText(), showGravity.isSelected() );

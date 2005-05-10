@@ -48,15 +48,17 @@ public class BarGraphic extends CompositePhetGraphic {
     }
 
     public void setValue( double value ) {
-        this.value = value;
-        if( value < 0 ) {
-            rectangle3DGraphic.setLocation( 0, -computeHeight() );//a big hack to make negative values work.
+        if( value != this.value ) {
+            this.value = value;
+            if( value < 0 ) {
+                rectangle3DGraphic.setLocation( 0, -computeHeight() );//a big hack to make negative values work.
+            }
+            else {
+                rectangle3DGraphic.setLocation( 0, 0 );
+            }
+            this.value = Math.abs( value );
+            updateBar();
         }
-        else {
-            rectangle3DGraphic.setLocation( 0, 0 );
-        }
-        this.value = Math.abs( value );
-        updateBar();
     }
 
     private int computeHeight() {

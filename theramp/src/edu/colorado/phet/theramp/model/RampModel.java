@@ -35,6 +35,8 @@ public class RampModel implements ModelElement {
     private double frictiveWork = 0.0;
     private double gravityWork = 0.0;
     private ArrayList listeners = new ArrayList();
+    private double zeroPointY = 0.0;
+    private double thermalEnergy = 0.0;
 
     public RampModel() {
         ramp = new Ramp();
@@ -68,6 +70,7 @@ public class RampModel implements ModelElement {
             double origBlockPosition = block.getPosition();
             double origBlockEnergy = block.getKineticEnergy();
             double origPotEnergy = getPotentialEnergy();
+            double origEnergy = block.getKineticEnergy() + getPotentialEnergy();
 
             gravityForce.setX( 0 );
             gravityForce.setY( gravity * block.getMass() );
@@ -105,13 +108,18 @@ public class RampModel implements ModelElement {
             if( newPE != origPotEnergy ) {
                 peObservers.notifyObservers();
             }
+            thermalEnergy += Math.abs( dFrictiveWork );//this is close, but not exact.
         }
         lastTick = currentTimeSeconds();
     }
 
     public double getPotentialEnergy() {
-        double height = block.getLocation2D().getY();
+        double height = getBlockHeight();
         return block.getMass() * height * gravity;
+    }
+
+    private double getBlockHeight() {
+        return block.getLocation2D().getY() - zeroPointY;
     }
 
     public void setAppliedForce( double appliedForce ) {
@@ -160,13 +168,14 @@ public class RampModel implements ModelElement {
     }
 
     public void reset() {
-        block.setPosition( 5.0 );
+        block.setPosition( 10.0 );
         block.setAcceleration( 0.0 );
         block.setVelocity( 0.0 );
         ramp.setAngle( Math.PI / 16 );
         appliedWork = 0;
         frictiveWork = 0;
         gravityWork = 0;
+        thermalEnergy = 0.0;
         peObservers.notifyObservers();
         keObservers.notifyObservers();
     }
@@ -181,6 +190,28 @@ public class RampModel implements ModelElement {
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
+    }
+
+    public void setZeroPointY( double zeroPointY ) {
+        this.zeroPointY = zeroPointY;
+        //TODO updates.
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.zeroPointChanged();
+        }
+        peObservers.notifyObservers();
+    }
+
+    public double getZeroPointY() {
+        return zeroPointY;
+    }
+
+    public double getThermalEnergy() {
+        return thermalEnergy;//TODO good code
+    }
+
+    public double getTotalEnergy() {
+        return getPotentialEnergy() + getBlock().getKineticEnergy() + getThermalEnergy();
     }
 
     public class ForceVector extends Vector2D.Double {
@@ -237,5 +268,7 @@ public class RampModel implements ModelElement {
 
     public static interface Listener {
         public void appliedForceChanged();
+
+        void zeroPointChanged();
     }
 }

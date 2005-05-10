@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.common.LocationDebugGraphic;
 import edu.colorado.phet.theramp.model.Block;
@@ -30,7 +31,6 @@ public class BlockGraphic extends CompositePhetGraphic {
     private Block block;
     private PhetImageGraphic graphic;
     private ThresholdedDragAdapter mouseListener;
-    private double forceLengthScale = 5;
     private LocationDebugGraphic locationDebugGraphic;
     private RampObject rampObject;
 
@@ -58,7 +58,7 @@ public class BlockGraphic extends CompositePhetGraphic {
             public void mouseDragged( MouseEvent e ) {
                 Point ctr = getCenter();
                 double dx = e.getPoint().x - ctr.x;
-                double appliedForce = dx / forceLengthScale;
+                double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE;
                 model.setAppliedForce( appliedForce );
             }
 
@@ -92,7 +92,7 @@ public class BlockGraphic extends CompositePhetGraphic {
 
         double preferredMass = rampObject.getMass();
         double sy = scale * mass / preferredMass;
-        System.out.println( "sy = " + sy );
+//        System.out.println( "sy = " + sy );
         AffineTransform transform = createTransform( scale, sy );
         transform.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
         setTransform( transform );
@@ -125,5 +125,9 @@ public class BlockGraphic extends CompositePhetGraphic {
             e.printStackTrace();
         }
         updateBlock();
+    }
+
+    public RampGraphic getRampGraphic() {
+        return rampGraphic;
     }
 }

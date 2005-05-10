@@ -54,11 +54,13 @@ public class XArrowSet extends AbstractArrowSet {
                 return totalForce.toXVector();
             }
         }, component.getBlockGraphic(), sub );
-        addForceArrowGraphic( forceArrowGraphic );
-        addForceArrowGraphic( totalArrowGraphic );
-        addForceArrowGraphic( frictionArrowGraphic );
         addForceArrowGraphic( gravityArrowGraphic );
         addForceArrowGraphic( normalArrowGraphic );
+
+        addForceArrowGraphic( frictionArrowGraphic );
+        addForceArrowGraphic( forceArrowGraphic );
+
+        addForceArrowGraphic( totalArrowGraphic );
         setIgnoreMouse( true );
     }
 
