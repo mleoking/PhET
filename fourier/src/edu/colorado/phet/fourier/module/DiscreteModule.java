@@ -44,9 +44,9 @@ public class DiscreteModule extends FourierModule {
     private static final double SUM_LAYER = 3;
 
     // Locations
-    private static final Point AMPLITUDES_LOCATION = new Point( 50, 125 );
-    private static final Point COMPONENTS_LOCATION = new Point( 50, 325 );
-    private static final Point SUM_LOCATION = new Point( 50, 525 );
+    private static final Point AMPLITUDES_LOCATION = new Point( 50, 150 );
+    private static final Point COMPONENTS_LOCATION = new Point( 50, 340 );
+    private static final Point SUM_LOCATION = new Point( 50, 530 );
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.WHITE;
@@ -76,6 +76,7 @@ public class DiscreteModule extends FourierModule {
         HarmonicSeries harmonicSeriesModel = new HarmonicSeries();
         harmonicSeriesModel.setFundamentalFrequency( 440 );
         harmonicSeriesModel.setNumberOfHarmonics( 5 );
+        harmonicSeriesModel.getHarmonic( 0 ).setAmplitude( 1.0 );
         
         //----------------------------------------------------------------------------
         // View
@@ -84,7 +85,7 @@ public class DiscreteModule extends FourierModule {
         // Apparatus Panel
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
-        this.setApparatusPanel( apparatusPanel );
+        setApparatusPanel( apparatusPanel );
         
         // Amplitudes view
         AmplitudesGraphic amplitudesGraphic = new AmplitudesGraphic( apparatusPanel, harmonicSeriesModel );

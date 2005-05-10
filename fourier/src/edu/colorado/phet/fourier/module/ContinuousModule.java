@@ -70,7 +70,7 @@ public class ContinuousModule extends FourierModule {
         // Apparatus Panel
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
-        this.setApparatusPanel( apparatusPanel );
+        setApparatusPanel( apparatusPanel );
         
         //----------------------------------------------------------------------------
         // Control
