@@ -325,6 +325,20 @@ public class PhetJComponent extends PhetGraphic {
             }
         };
         addKeyListener( keyHandler );
+
+        KeyListener repaintOnKeyEvent = new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
+                repaint();
+            }
+
+            public void keyReleased( KeyEvent e ) {
+                repaint();
+            }
+
+            public void keyTyped( KeyEvent e ) {
+            }
+        };
+        component.addKeyListener( repaintOnKeyEvent );
     }
 
     private static interface KeyMethod {
