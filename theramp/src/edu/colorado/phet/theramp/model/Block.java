@@ -26,6 +26,26 @@ public class Block {
         listeners.add( listener );
     }
 
+    public Block copyState() {
+        Block dataBlock = new Block( ramp );
+        dataBlock.mass = mass;
+        dataBlock.position = position;
+        dataBlock.velocity = velocity;
+        dataBlock.acceleration = acceleration;
+        dataBlock.kineticFriction = kineticFriction;
+        dataBlock.staticFriction = staticFriction;
+        return dataBlock;
+    }
+
+    public void setState( Block state ) {
+        setMass( state.mass );
+        setPosition( state.position );
+        setVelocity( state.velocity );
+        setAcceleration( state.acceleration );
+        setKineticFriction( state.kineticFriction );
+        setStaticFriction( state.staticFriction );
+    }
+
     public static interface Listener {
         void positionChanged();
 

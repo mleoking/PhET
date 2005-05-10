@@ -21,7 +21,7 @@ public class Ramp extends SimpleObservable {
     private double length;
 
     public Ramp() {
-        angle = Math.PI / 16;
+        angle = Math.PI / 32;
         x0 = 0;
         y0 = 0;
         length = 15;
@@ -60,5 +60,22 @@ public class Ramp extends SimpleObservable {
 
     public double getHeight() {
         return length * Math.sin( angle );
+    }
+
+    public Ramp copyState() {
+        Ramp ramp = new Ramp();
+        ramp.angle = angle;
+        ramp.x0 = x0;
+        ramp.y0 = y0;
+        ramp.length = length;
+        return ramp;
+    }
+
+    public void setState( Ramp state ) {
+        setAngle( state.angle );
+        this.x0 = state.x0;
+        this.y0 = state.y0;
+        this.length = state.length;
+        //todo notify observers
     }
 }
