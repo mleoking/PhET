@@ -25,12 +25,8 @@ import java.beans.PropertyChangeListener;
 
 public class PhetJComponent extends PhetGraphic {
 
-    private static final JWindow offscreen;
-    private JComponent component;
-    private boolean topLevel;
-    private BufferedImage image;
-    private MouseInputAdapter mouseListener;
-    private KeyListener keyHandler;
+    private static JWindow offscreen;
+    private static boolean inited = false;
     private static JPanel offscreenContentPane = new JPanel( null ) {
         public void invalidate() {
         }
@@ -39,25 +35,22 @@ public class PhetJComponent extends PhetGraphic {
         }
     };
 
-    static {
-        offscreen = new JWindow() {
-            public void invalidate() {
-            }
-
-            public void paint( Graphics g ) {
-            }
-        };       //this seems to work.  I thought you might have needed a visible component, though (maybe for some JVM implementations?)
-        offscreen.setSize( 0, 0 );
-        offscreen.setVisible( true );
-        offscreenContentPane.setOpaque( false );
-        offscreen.setContentPane( offscreenContentPane );
-    }
+    private JComponent component;
+    private boolean topLevel;
+    private BufferedImage image;
+    private MouseInputAdapter mouseListener;
+    private KeyListener keyHandler;
 
     public static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent ) {
         return newInstance( apparatusPanel, jComponent, true );
     }
 
     private static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
+        if( !inited ) {
+            init( null );
+            new RuntimeException( "Focus traversal requires PhetJComponent.init(ApplicationWindow)" ).printStackTrace();
+        }
+
         if( topLevel ) {
             offscreen.getContentPane().add( jComponent );
         }
@@ -112,6 +105,28 @@ public class PhetJComponent extends PhetGraphic {
         else {
             return new PhetJComponent( apparatusPanel, jComponent, topLevel );
         }
+    }
+
+    public static void init( Window applicationWindow ) {
+        if( inited ) {
+            throw new RuntimeException( "Multiple inits." );
+        }
+
+        offscreen = new JWindow( applicationWindow ) {
+            public void invalidate() {
+            }
+
+            public void paint( Graphics g ) {
+            }
+        };       //this seems to work.  I thought you might have needed a visible component, though (maybe for some JVM implementations?)
+        System.out.println( "offscreen.getOwner() = " + offscreen.getOwner() );
+
+        offscreen.getOwner().setVisible( true );
+        offscreen.setSize( 0, 0 );
+        offscreen.setVisible( true );
+        offscreenContentPane.setOpaque( false );
+        offscreen.setContentPane( offscreenContentPane );
+        inited = true;
     }
 
     private static void validateSuperTree( Component jComponent ) {
@@ -310,7 +325,6 @@ public class PhetJComponent extends PhetGraphic {
             }
         };
         addKeyListener( keyHandler );
-
     }
 
     private static interface KeyMethod {
