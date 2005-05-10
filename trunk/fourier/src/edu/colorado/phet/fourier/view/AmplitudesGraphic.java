@@ -94,14 +94,17 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
         _sliders.clear();
         
         int numberOfHarmonics = _harmonicSeriesModel.getNumberOfHarmonics();
+
         int totalSpace = ( numberOfHarmonics + 1 ) * SPACING;
         int barWidth = ( OUTLINE_WIDTH - totalSpace ) / numberOfHarmonics;
         double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH -  VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
         
-        for ( int i = 0; i < _harmonicSeriesModel.getNumberOfHarmonics(); i++ ) {
+        for ( int i = 0; i < numberOfHarmonics; i++ ) {
             
-            // Create a slider to control the ith Harmonic's amplitude.
+            // Get the ith harmonic.
             Harmonic harmonic =  _harmonicSeriesModel.getHarmonic(i);
+            
+            // Create a slider to control the harmonic's amplitude.
             HarmonicSlider slider = new HarmonicSlider( getComponent(), harmonic );
             _sliders.addGraphic( slider );
             

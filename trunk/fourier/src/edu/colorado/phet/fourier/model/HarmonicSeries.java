@@ -64,12 +64,11 @@ public class HarmonicSeries extends SimpleObservable {
     public void setNumberOfHarmonics( int numberOfHarmonics ) {
         int currentNumber = _harmonics.size();
         if ( numberOfHarmonics != currentNumber ) {
-            System.out.println( "HarmonicSeries.setNumberOfHarmonics " + numberOfHarmonics );//DEBUG
             // Add or remove harmonics.
             if ( numberOfHarmonics < currentNumber ) {
                 int numberToRemove = currentNumber - numberOfHarmonics;
-                for ( int i = currentNumber; i > numberToRemove; i-- ) {
-                    _harmonics.remove( i - 1 );
+                for ( int i = currentNumber-1; i > currentNumber - numberToRemove - 1; i-- ) {
+                    _harmonics.remove( i );
                 }
             }
             else {
@@ -79,6 +78,7 @@ public class HarmonicSeries extends SimpleObservable {
                     _harmonics.add( harmonic );
                 }
             }
+            getNumberOfHarmonics();//XXX
             notifyObservers();
         }
     }
