@@ -12,6 +12,8 @@
 package edu.colorado.phet.fourier.module;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -49,6 +51,22 @@ public abstract class FourierModule extends Module {
         super( title, clock );
     }
 
+    //----------------------------------------------------------------------------
+    // Module overrides
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Adds a mouse listener to the apparatus panel so that it received keyboard focus.
+     */
+    public void setApparatusPanel( final ApparatusPanel apparatusPanel ) {
+        super.setApparatusPanel( apparatusPanel );
+        apparatusPanel.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                apparatusPanel.requestFocus();
+            }
+        } );
+    }
+    
     //----------------------------------------------------------------------------
     // Debugging
     //----------------------------------------------------------------------------
