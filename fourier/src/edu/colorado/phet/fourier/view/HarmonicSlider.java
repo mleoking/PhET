@@ -12,20 +12,21 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
+import javax.swing.JTextField;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.fourier.model.Harmonic;
 
 
@@ -41,10 +42,21 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double TRACK_LAYER = 1;
-    private static final double KNOB_LAYER = 2;
+    // Layers
+    private static final double LABEL_LAYER = 1;
+    private static final double VALUE_LAYER = 2;
+    private static final double TRACK_LAYER = 3;
+    private static final double KNOB_LAYER = 4;
+
+    // Label
+    private static final Font LABEL_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private static final Color LABEL_COLOR = Color.BLACK;
     
-    // Arrow "look" - see edu.colorado.phet.common.view.graphics.shapes.Arrow
+    // Value
+    private static final String VALUE_FORMAT = "0.00";
+    private static final Font VALUE_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    
+    // Knob
     private static final Color ARROW_FILL_COLOR = Color.BLACK;
     private static final Color ARROW_HIGHLIGHT_COLOR = Color.RED;
     private static final Color ARROW_STROKE_COLOR = Color.BLACK;
@@ -55,7 +67,7 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
     private static final double ARROW_TAIL_WIDTH = 3;
     private static final double ARROW_FRACTIONAL_HEAD_HEIGHT = 5;
 
-    // Track "look"
+    // Track
     private static final int DEFAULT_TRACK_WIDTH = 40;
     private static final int DEFAULT_TRACK_HEIGHT = 100;
     
@@ -67,46 +79,86 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
     private Dimension _maxSize;
     private Rectangle _trackRectangle;
     private Color _trackColor;
+    private PhetTextGraphic _labelGraphic;
+    private JTextField _valueTextField;
+    private PhetGraphic _valueGraphic;
+    private NumberFormat _valueFormatter;
     private PhetShapeGraphic _trackGraphic;
     private KnobGraphic _knobGraphic;
-
+    
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
     public HarmonicSlider( Component component, Harmonic harmonicModel ) {
-         super( component );
-         
-         assert( harmonicModel != null );
-         _harmonicModel = harmonicModel;
-         _harmonicModel.addObserver( this );
-         
-         _maxSize = new Dimension( DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_HEIGHT );
-         
-         _trackRectangle = new Rectangle();
-         _trackColor = Color.RED;
-         _trackGraphic = new PhetShapeGraphic( component );
-         _trackGraphic.setLocation( 0, 0 );
-         _trackGraphic.setShape( _trackRectangle );
-         _trackGraphic.setPaint( _trackColor );
-         _trackGraphic.setBorderColor( Color.BLACK );
-         _trackGraphic.setStroke( new BasicStroke( 1f ) );
+        super( component );
 
-         _knobGraphic = new KnobGraphic( component );
-         _knobGraphic.setLocation( 0, 0 );
+        assert ( harmonicModel != null );
+        _harmonicModel = harmonicModel;
+        _harmonicModel.addObserver( this );
 
-         // Interactivity
-         _trackGraphic.setIgnoreMouse( true );
-         _knobGraphic.setCursorHand();
-         _knobGraphic.addMouseInputListener( new MouseHandler() );
-         
-         addGraphic( _trackGraphic, TRACK_LAYER );
-         addGraphic( _knobGraphic, KNOB_LAYER );
-         
-         // Enable antialiasing for all children.
-         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        _maxSize = new Dimension( DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_HEIGHT );
 
-         update();
+        // Label
+        {
+            String text = "A" + ( _harmonicModel.getOrder() + 1 ); //XXX
+            _labelGraphic = new PhetTextGraphic( component, LABEL_FONT, text, LABEL_COLOR );
+            _labelGraphic.centerRegistrationPoint();
+            _labelGraphic.setLocation( 0, 0 );
+        }
+        
+        // Value
+        {
+            _valueFormatter = new DecimalFormat( VALUE_FORMAT );
+            _valueTextField = new JTextField( _valueFormatter.format( 0.0 ) );
+            _valueTextField.setFont( VALUE_FONT );
+            _valueTextField.setColumns( 3 );
+            _valueGraphic = PhetJComponent.newInstance( component, _valueTextField );
+            _valueGraphic.centerRegistrationPoint();
+            _valueGraphic.setLocation( 0, 0 );
+        }
+
+        // Slider track
+        {
+            _trackRectangle = new Rectangle();
+            _trackColor = Color.RED;
+            _trackGraphic = new PhetShapeGraphic( component );
+            _trackGraphic.setLocation( 0, 0 );
+            _trackGraphic.setShape( _trackRectangle );
+            _trackGraphic.setPaint( _trackColor );
+            _trackGraphic.setBorderColor( Color.BLACK );
+            _trackGraphic.setStroke( new BasicStroke( 1f ) );
+        }
+
+        // Slider knob
+        {
+            _knobGraphic = new KnobGraphic( component );
+            _knobGraphic.setLocation( 0, 0 );
+        }
+
+        // Interactivity
+        {
+            _labelGraphic.setIgnoreMouse( true );
+            
+            ValueEventListener valueListener = new ValueEventListener();
+            _valueTextField.addActionListener( valueListener );
+            _valueTextField.addFocusListener( valueListener );
+            
+            _trackGraphic.setIgnoreMouse( true );
+            
+            _knobGraphic.setCursorHand();
+            _knobGraphic.addMouseInputListener( new KnobEventListener() );
+        }
+
+        addGraphic( _labelGraphic, LABEL_LAYER );
+        addGraphic( _valueGraphic, VALUE_LAYER );
+        addGraphic( _trackGraphic, TRACK_LAYER );
+        addGraphic( _knobGraphic, KNOB_LAYER );
+
+        // Enable antialiasing for all children.
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
+        update();
     }
     
     public void finalize() {
@@ -144,17 +196,44 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
         return _trackColor;
     }
     
+    private boolean readValueTextField() {
+        boolean success = false;
+        String stringValue = _valueTextField.getText();
+        double amplitude = 0.0;
+        try {
+            Double doubleValue = new Double( stringValue );
+            amplitude = doubleValue.doubleValue();
+        }
+        catch ( NumberFormatException nfe ) {
+            update();
+        }
+        if ( amplitude > 1.0 || amplitude < -1.0 ) {
+            update();
+        }
+        else {
+            _harmonicModel.setAmplitude( amplitude );
+            success = true;
+        }
+        return success;
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
     public void update() {
         
-        int knobX = _knobGraphic.getX();
-        int knobY = (int) -( ( _maxSize.height / 2 ) * _harmonicModel.getAmplitude() );
-        _knobGraphic.setLocation( knobX, knobY );
-        
         double amplitude = _harmonicModel.getAmplitude();
+        
+        // Label location
+        _labelGraphic.setLocation( 0, -( _maxSize.height/2 + 30 ) );
+        
+        // Value
+        _valueTextField.setText( _valueFormatter.format( amplitude ) );
+        _valueGraphic.setLocation( 0, -( _maxSize.height/2 + 25 ) );
+        _valueGraphic.repaint(); // HACK: If this isn't here, then the first value displayed is out of sync.
+        
+        // Track size and color
         int trackWidth = _maxSize.width;
         int trackHeight = (int) Math.abs( ( _maxSize.height / 2 ) * amplitude );
         int trackX = -trackWidth / 2;
@@ -162,6 +241,11 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
         _trackRectangle.setBounds( trackX, trackY, trackWidth, trackHeight );
         _trackGraphic.setShape( _trackRectangle );
         _trackGraphic.setPaint( _trackColor );
+        
+        // Knob location
+        int knobX = _knobGraphic.getX();
+        int knobY = (int) -( ( _maxSize.height / 2 ) * _harmonicModel.getAmplitude() );
+        _knobGraphic.setLocation( knobX, knobY );
         
         repaint();
     }
@@ -211,11 +295,11 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
         }
     }
     
-    private class MouseHandler extends MouseInputAdapter {
+    private class KnobEventListener extends MouseInputAdapter {
         
         private Point _somePoint;
         
-        public MouseHandler() {
+        public KnobEventListener() {
             super();
             _somePoint = new Point();
         }
@@ -244,5 +328,41 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
         public void mouseExited( MouseEvent event ) {
             _knobGraphic.setHighlightEnabled( false );
         }
+    }
+    
+    private class ValueEventListener extends FocusAdapter implements ActionListener {
+        
+        public ValueEventListener() {}
+        
+        public void focusLost( FocusEvent event ) {
+            System.out.println( "HarmonicSlider.ValueEventListener.focusLost" );//XXX
+            if ( ! event.isTemporary() ) {
+                boolean success = readValueTextField();
+                if ( !success ) {
+                    _valueTextField.requestFocus();
+                }
+            }
+        }
+        
+        public void actionPerformed( ActionEvent event ) {
+            System.out.println( "HarmonicSlider.ValueEventListener.actionPerformed" );//XXX
+            if ( event.getSource() == _valueTextField ) {
+                String stringValue = _valueTextField.getText();
+                double amplitude = 0.0;
+                try {
+                    Double doubleValue = new Double( stringValue );
+                    amplitude = doubleValue.doubleValue();
+                }
+                catch ( NumberFormatException nfe ) {
+                    update();
+                }
+                if ( amplitude > 1.0 || amplitude < -1.0 ) {
+                    update();
+                }
+                else {
+                    _harmonicModel.setAmplitude( amplitude );
+                }
+            }        
+        } 
     }
 }
