@@ -19,6 +19,7 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.MouseInputAdapter;
 
@@ -27,6 +28,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.model.Harmonic;
 
 
@@ -43,18 +45,21 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     // Layers
-    private static final double LABEL_LAYER = 1;
-    private static final double VALUE_LAYER = 2;
-    private static final double TRACK_LAYER = 3;
-    private static final double KNOB_LAYER = 4;
+    private static final double TRACK_LAYER = 1;
+    private static final double KNOB_LAYER = 2;
+    private static final double VALUE_LAYER = 3;
+    private static final double LABEL_LAYER = 4;
 
     // Label
-    private static final Font LABEL_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
     private static final Color LABEL_COLOR = Color.BLACK;
+    private static final Font LABEL_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private static final Font LABEL_SUBSCRIPT_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private static final int LABEL_Y_OFFSET = 45;
     
     // Value
     private static final String VALUE_FORMAT = "0.00";
     private static final Font VALUE_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private static final int VALUE_Y_OFFSET = 25;
     
     // Knob
     private static final Color ARROW_FILL_COLOR = Color.BLACK;
@@ -79,7 +84,7 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
     private Dimension _maxSize;
     private Rectangle _trackRectangle;
     private Color _trackColor;
-    private PhetTextGraphic _labelGraphic;
+    private CompositePhetGraphic _labelGraphic;
     private JTextField _valueTextField;
     private PhetGraphic _valueGraphic;
     private NumberFormat _valueFormatter;
@@ -99,12 +104,27 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
 
         _maxSize = new Dimension( DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_HEIGHT );
 
-        // Label
+        // Label (An)
         {
-            String text = "A" + ( _harmonicModel.getOrder() + 1 ); //XXX
-            _labelGraphic = new PhetTextGraphic( component, LABEL_FONT, text, LABEL_COLOR );
+//            String text = "A" + ( _harmonicModel.getOrder() + 1 ); //XXX
+//            _labelGraphic = new PhetTextGraphic( component, LABEL_FONT, text, LABEL_COLOR );
+//            _labelGraphic.centerRegistrationPoint();
+//            _labelGraphic.setLocation( 0, 0 );
+            
+            _labelGraphic = new CompositePhetGraphic( component );
             _labelGraphic.centerRegistrationPoint();
             _labelGraphic.setLocation( 0, 0 );
+            
+            PhetTextGraphic aGraphic = new PhetTextGraphic( component, LABEL_FONT, "A", LABEL_COLOR );
+            aGraphic.setJustification( PhetTextGraphic.SOUTH_EAST );
+            aGraphic.setLocation( 0, 0 );
+            _labelGraphic.addGraphic( aGraphic );
+            
+            String subscript = String.valueOf( _harmonicModel.getOrder() + 1 );
+            PhetTextGraphic subscriptGraphic = new PhetTextGraphic( component, LABEL_SUBSCRIPT_FONT, subscript, LABEL_COLOR );
+            subscriptGraphic.setJustification( PhetTextGraphic.WEST );
+            subscriptGraphic.setLocation( 0, 0);
+            _labelGraphic.addGraphic( subscriptGraphic );
         }
         
         // Value
@@ -143,6 +163,7 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
             ValueEventListener valueListener = new ValueEventListener();
             _valueTextField.addActionListener( valueListener );
             _valueTextField.addFocusListener( valueListener );
+            _valueTextField.addKeyListener( valueListener ); // HACK
             
             _trackGraphic.setIgnoreMouse( true );
             
@@ -196,7 +217,11 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
         return _trackColor;
     }
     
-    private boolean readValueTextField() {
+    //----------------------------------------------------------------------------
+    // User input processing
+    //----------------------------------------------------------------------------
+    
+    private boolean processUserInput() {
         boolean success = false;
         String stringValue = _valueTextField.getText();
         double amplitude = 0.0;
@@ -205,9 +230,11 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
             amplitude = doubleValue.doubleValue();
         }
         catch ( NumberFormatException nfe ) {
+            showErrorDialog();
             update();
         }
         if ( amplitude > 1.0 || amplitude < -1.0 ) {
+            showErrorDialog();
             update();
         }
         else {
@@ -215,6 +242,12 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
             success = true;
         }
         return success;
+    }
+    
+    private void showErrorDialog() {
+        String message = SimStrings.get( "HarmonicSlider.inputErrorMessage" );
+        JOptionPane op = new JOptionPane( message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
+        op.createDialog( getComponent(), null ).show();
     }
     
     //----------------------------------------------------------------------------
@@ -226,11 +259,11 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
         double amplitude = _harmonicModel.getAmplitude();
         
         // Label location
-        _labelGraphic.setLocation( 0, -( _maxSize.height/2 + 30 ) );
+        _labelGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + LABEL_Y_OFFSET ) );
         
         // Value
         _valueTextField.setText( _valueFormatter.format( amplitude ) );
-        _valueGraphic.setLocation( 0, -( _maxSize.height/2 + 25 ) );
+        _valueGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + VALUE_Y_OFFSET ) );
         _valueGraphic.repaint(); // HACK: If this isn't here, then the first value displayed is out of sync.
         
         // Track size and color
@@ -330,14 +363,14 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
         }
     }
     
-    private class ValueEventListener extends FocusAdapter implements ActionListener {
+    private class ValueEventListener extends FocusAdapter implements ActionListener, KeyListener {
         
         public ValueEventListener() {}
         
         public void focusLost( FocusEvent event ) {
             System.out.println( "HarmonicSlider.ValueEventListener.focusLost" );//XXX
             if ( ! event.isTemporary() ) {
-                boolean success = readValueTextField();
+                boolean success = processUserInput();
                 if ( !success ) {
                     _valueTextField.requestFocus();
                 }
@@ -347,22 +380,18 @@ public class HarmonicSlider extends GraphicLayerSet implements SimpleObserver {
         public void actionPerformed( ActionEvent event ) {
             System.out.println( "HarmonicSlider.ValueEventListener.actionPerformed" );//XXX
             if ( event.getSource() == _valueTextField ) {
-                String stringValue = _valueTextField.getText();
-                double amplitude = 0.0;
-                try {
-                    Double doubleValue = new Double( stringValue );
-                    amplitude = doubleValue.doubleValue();
-                }
-                catch ( NumberFormatException nfe ) {
-                    update();
-                }
-                if ( amplitude > 1.0 || amplitude < -1.0 ) {
-                    update();
-                }
-                else {
-                    _harmonicModel.setAmplitude( amplitude );
-                }
+                processUserInput();
             }        
+        }
+
+        public void keyTyped( KeyEvent event ) {}
+
+        public void keyPressed( KeyEvent event ) {}
+
+        public void keyReleased( KeyEvent event ) {
+            if ( event.getKeyChar() == KeyEvent.VK_ENTER ) {
+                processUserInput();
+            }
         } 
     }
 }

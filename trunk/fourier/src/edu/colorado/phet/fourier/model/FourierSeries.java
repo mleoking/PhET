@@ -22,7 +22,7 @@ import edu.colorado.phet.common.util.SimpleObservable;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicSeries extends SimpleObservable {
+public class FourierSeries extends SimpleObservable {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -41,7 +41,7 @@ public class HarmonicSeries extends SimpleObservable {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public HarmonicSeries() {
+    public FourierSeries() {
         _fundamentalFrequency = DEFAULT_FUNDAMENTAL_FREQUENCY;
         _harmonics = new ArrayList();
     }

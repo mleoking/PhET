@@ -19,8 +19,8 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.control.HarmonicSeriesPanel;
-import edu.colorado.phet.fourier.model.HarmonicSeries;
+import edu.colorado.phet.fourier.control.FourierSeriesPanel;
+import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.view.AmplitudesGraphic;
 import edu.colorado.phet.fourier.view.ComponentsGraphic;
 import edu.colorado.phet.fourier.view.SumGraphic;
@@ -51,6 +51,10 @@ public class DiscreteModule extends FourierModule {
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.WHITE;
     
+    // Harmonics
+    private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
+    private static final int NUMBER_OF_HARMONICS = 11;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -73,9 +77,9 @@ public class DiscreteModule extends FourierModule {
         this.setModel( model );
         
         // Harmonic series
-        HarmonicSeries harmonicSeriesModel = new HarmonicSeries();
-        harmonicSeriesModel.setFundamentalFrequency( 440 );
-        harmonicSeriesModel.setNumberOfHarmonics( 5 );
+        FourierSeries harmonicSeriesModel = new FourierSeries();
+        harmonicSeriesModel.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
+        harmonicSeriesModel.setNumberOfHarmonics( NUMBER_OF_HARMONICS );
         harmonicSeriesModel.getHarmonic( 0 ).setAmplitude( 1.0 );
         
         //----------------------------------------------------------------------------
@@ -111,7 +115,7 @@ public class DiscreteModule extends FourierModule {
             ControlPanel controlPanel = new ControlPanel( this );
             setControlPanel( controlPanel );
             
-            HarmonicSeriesPanel harmonicSeriesPanel = new HarmonicSeriesPanel( harmonicSeriesModel );
+            FourierSeriesPanel harmonicSeriesPanel = new FourierSeriesPanel( harmonicSeriesModel );
             controlPanel.addFullWidth( harmonicSeriesPanel );
         }
         

@@ -22,24 +22,24 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.model.HarmonicSeries;
+import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
 
 /**
- * HarmonicSeriesPanel
+ * FourierSeriesPanel
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicSeriesPanel extends JPanel {
+public class FourierSeriesPanel extends JPanel {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     // Things to be controlled.
-    private HarmonicSeries _harmonicSeriesModel;
+    private FourierSeries _harmonicSeriesModel;
     
     // UI components
     private ControlPanelSlider _numberOfHarmonicsSlider;
@@ -54,7 +54,7 @@ public class HarmonicSeriesPanel extends JPanel {
      * 
      * @param harmonicSeriesModel
      */
-    public HarmonicSeriesPanel( HarmonicSeries harmonicSeriesModel )
+    public FourierSeriesPanel( FourierSeries harmonicSeriesModel )
     {
         assert( harmonicSeriesModel != null );
         
@@ -63,13 +63,13 @@ public class HarmonicSeriesPanel extends JPanel {
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.get( "HarmonicSeriesPanel.title" );
+        String title = SimStrings.get( "FourierSeriesPanel.title" );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
         setBorder( titleBorder );
         
         // Number of harmonics
         {
-            String format = SimStrings.get( "HarmonicSeriesPanel.numberOfHarmonics" );
+            String format = SimStrings.get( "FourierSeriesPanel.numberOfHarmonics" );
             _numberOfHarmonicsSlider = new ControlPanelSlider( format );
             _numberOfHarmonicsSlider.setMaximum( 15 );
             _numberOfHarmonicsSlider.setMinimum( 5 );
@@ -81,7 +81,7 @@ public class HarmonicSeriesPanel extends JPanel {
         
         // Fundamental frequency
         {
-            String format = SimStrings.get( "HarmonicSeriesPanel.fundamentalFrequency" );
+            String format = SimStrings.get( "FourierSeriesPanel.fundamentalFrequency" );
             _fundamentalFrequencySlider = new ControlPanelSlider( format );
             _fundamentalFrequencySlider.setMaximum( 1200 );
             _fundamentalFrequencySlider.setMinimum( 200 );
