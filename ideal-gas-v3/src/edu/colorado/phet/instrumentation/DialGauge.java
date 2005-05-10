@@ -15,7 +15,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions.ScalarObservable;
 import edu.colorado.phet.coreadditions.ScalarObserver;
-import edu.colorado.phet.idealgas.util.Averager;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -113,7 +112,7 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
 
 
     // todo: get rid of after debug
-    Averager pressAve = new Averager( "gauge press = " );
+//    Averager pressAve = new Averager( "gauge press = " );
 
     public void update() {
         double newDatum = dataSource.getValue();
@@ -126,7 +125,7 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
             faceGraphic.repaint();
         }
 
-        pressAve.update( newDatum );
+//        pressAve.update( newDatum );
     }
 
     public void setBackground( Color color ) {

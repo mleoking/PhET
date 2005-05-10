@@ -24,8 +24,8 @@ public class DiffusionApplication extends PhetApplication {
 
     static class IdealGasApplicationModel extends ApplicationModel {
         public IdealGasApplicationModel() {
-            super( SimStrings.get( "IdealGasApplication.title" ),
-                   SimStrings.get( "IdealGasApplication.description" ),
+            super( SimStrings.get( "DiffusionApplication.title" ),
+                   SimStrings.get( "DiffusionApplication.description" ),
                    IdealGasConfig.VERSION,
                    IdealGasConfig.FRAME_SETUP );
 
