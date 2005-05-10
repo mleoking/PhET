@@ -2,8 +2,6 @@
 package edu.colorado.phet.common.view.phetcomponents;
 
 import javax.swing.*;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 import javax.swing.text.Caret;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
@@ -50,11 +48,6 @@ public class PhetJTextComponent extends PhetJComponent {
         if( autorepaintCaret ) {
             timer.start();
         }
-        component.addCaretListener( new CaretListener() {
-            public void caretUpdate( CaretEvent e ) {
-                repaint();
-            }
-        } );
         caret.setVisible( false );
         caret.setSelectionVisible( true );
         component.addFocusListener( new FocusAdapter() {
