@@ -24,6 +24,7 @@ public class RampModule extends Module {
     private RampModel rampModel;
     private RampControlPanel rampControlPanel;
     private RampObject[] rampObjects;
+    public static final double FORCE_LENGTH_SCALE = 0.15;//1.0;
 
     public RampModule( AbstractClock clock ) {
         super( "The Ramp", clock );

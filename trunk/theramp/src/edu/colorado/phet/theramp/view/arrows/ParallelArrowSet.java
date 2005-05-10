@@ -54,11 +54,13 @@ public class ParallelArrowSet extends AbstractArrowSet {
                 return totalForce.toParallelVector();
             }
         }, component.getBlockGraphic(), sub );
-        addForceArrowGraphic( forceArrowGraphic );
-        addForceArrowGraphic( totalArrowGraphic );
-        addForceArrowGraphic( frictionArrowGraphic );
         addForceArrowGraphic( gravityArrowGraphic );
         addForceArrowGraphic( normalArrowGraphic );
+
+        addForceArrowGraphic( frictionArrowGraphic );
+        addForceArrowGraphic( forceArrowGraphic );
+
+        addForceArrowGraphic( totalArrowGraphic );
         setIgnoreMouse( true );
     }
 

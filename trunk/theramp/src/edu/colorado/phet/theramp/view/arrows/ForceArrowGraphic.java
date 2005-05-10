@@ -9,7 +9,9 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
+import edu.colorado.phet.theramp.view.RampGraphic;
 import edu.colorado.phet.theramp.view.RampUtil;
 
 import java.awt.*;
@@ -22,7 +24,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Feb 13, 2005 by Sam Reid
  */
 public class ForceArrowGraphic extends CompositePhetGraphic {
-    public static final double forceLengthScale = 4.0;
+    public static final double forceLengthScale = 5.0;
     private double arrowTailWidth = 30;
     private double arrowHeadHeight = 55;
 
@@ -39,11 +41,15 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
     private boolean nonZero = true;
     private String sub;
 
-    public ForceArrowGraphic( Component component, String name, Color color, int dy, AbstractArrowSet.ForceComponent forceComponent, BlockGraphic blockGraphic ) {
+    public ForceArrowGraphic( Component component, String name, Color color,
+                              int dy, AbstractArrowSet.ForceComponent forceComponent,
+                              BlockGraphic blockGraphic ) {
         this( component, name, color, dy, forceComponent, blockGraphic, null );
     }
 
-    public ForceArrowGraphic( Component component, String name, Color color, int dy, AbstractArrowSet.ForceComponent forceComponent, BlockGraphic blockGraphic, String sub ) {
+    public ForceArrowGraphic( Component component, String name, Color color,
+                              int dy, AbstractArrowSet.ForceComponent forceComponent,
+                              BlockGraphic blockGraphic, String sub ) {
         super( component );
         this.blockGraphic = blockGraphic;
         this.name = name;
@@ -65,7 +71,7 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
 
     public void update() {
         AbstractVector2D force = new ImmutableVector2D.Double( forceComponent.getForce() );
-        force = force.getScaledInstance( forceLengthScale );
+        force = force.getScaledInstance( RampModule.FORCE_LENGTH_SCALE );
         if( force.getMagnitude() == 0 ) {
             setVisible( false );
             nonZero = false;
@@ -77,8 +83,7 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
         }
 
         Point viewCtr = RectangleUtils.getCenter( blockGraphic.getBounds() );
-//        viewCtr.y += blockGraphic.computeDimension().height / 2;
-        viewCtr.y -= dy;//TODO transform this to the right coordinate frame.
+        viewCtr = translate( viewCtr );
         Point2D.Double tail = new Point2D.Double( viewCtr.x, viewCtr.y );
         Point2D tip = new Vector2D.Double( force.getX(), force.getY() ).getDestination( tail );
         Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
@@ -94,6 +99,13 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
             textGraphic.setLocation( forceArrowBody.getBounds().x, (int)y );
         }
         this.lastArrow = forceArrow;
+    }
+
+    private Point translate( Point viewCtr ) {
+        RampGraphic rampGraphic = blockGraphic.getRampGraphic();
+        double viewAngle = rampGraphic.getViewAngle();
+        Point offset = new Point( (int)( Math.sin( viewAngle ) * dy ), (int)( Math.cos( viewAngle ) * dy ) );
+        return new Point( viewCtr.x + offset.x, viewCtr.y - offset.y );
     }
 
     public String getName() {

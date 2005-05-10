@@ -26,11 +26,12 @@ import java.io.IOException;
 public class LeanerGraphic extends PhetImageGraphic {
     private FrameSequence animation;
     private PhetGraphic target;
-    private double max = 100.0;
+    private double max = 3000.0;
     private FrameSequence flippedAnimation;
     private BufferedImage standingStill;
     private RampModule module;
     private RampPanel rampPanel;
+    private double modelLocation;
 
     public LeanerGraphic( final RampPanel rampPanel, final PhetGraphic target ) throws IOException {
         super( rampPanel, (BufferedImage)null );
@@ -50,10 +51,10 @@ public class LeanerGraphic extends PhetImageGraphic {
             public void phetGraphicChanged( PhetGraphic phetGraphic ) {
                 long dt = System.currentTimeMillis() - startTime;
                 if( getAppliedForce() != 0 ) {
-                    update( false );
+                    update();
                 }
                 if( dt < 5000 ) {
-                    update( true );
+                    update();
                 }
             }
 
@@ -64,16 +65,19 @@ public class LeanerGraphic extends PhetImageGraphic {
         } );
         module.getRampModel().addListener( new RampModel.Listener() {
             public void appliedForceChanged() {
-                update( false );
+                update();
+            }
+
+            public void zeroPointChanged() {
             }
         } );
         module.getRampModel().getRamp().addObserver( new SimpleObserver() {
             public void update() {
-                LeanerGraphic.this.update( true );
+                LeanerGraphic.this.updateTransform();
             }
         } );
         setIgnoreMouse( true );
-        update( true );
+        update();
 
     }
 
@@ -99,10 +103,15 @@ public class LeanerGraphic extends PhetImageGraphic {
     }
 
     public void screenSizeChanged() {
-        update( true );
+        updateTransform();
     }
 
-    private void update( boolean forceLocation ) {
+    private void update() {
+        syncWithBlock();
+        updateTransform();
+    }
+
+    private void syncWithBlock() {
         boolean facingRight = true;
         double app = getAppliedForce();
         if( app < 0 ) {
@@ -114,19 +123,34 @@ public class LeanerGraphic extends PhetImageGraphic {
         double modelWidthObject = rampPanel.getBlockWidthModel();
         double modelWidthLeaner = rampPanel.getModelWidth( frame.getWidth() );
 
-        double leanerX = rampPanel.getBlockGraphic().getBlock().getPosition();
+        double leanerX = 0;
         if( facingRight ) {
-            leanerX = leanerX - modelWidthLeaner;
+            leanerX = getBlockLocation() - ( modelWidthLeaner + modelWidthObject ) / 2;
         }
         else {
-            leanerX = leanerX + modelWidthObject;
+            leanerX = getBlockLocation() + ( modelWidthLeaner + modelWidthObject ) / 2;
         }
-        System.out.println( "rampPanel.getBlockGraphic().getBlock().getPosition() = " + rampPanel.getBlockGraphic().getBlock().getPosition() );
-        System.out.println( "modelWidthObject = " + modelWidthObject );
-        System.out.println( "leanerX = " + leanerX );
-        if( app != 0 || forceLocation ) {
-            AffineTransform tx = rampPanel.getRampGraphic().createTransform( leanerX, new Dimension( frame.getWidth(), frame.getHeight() ) );
-            setTransform( tx );
+//        System.out.println( "rampPanel.getBlockGraphic().getBlock().getPosition() = " + rampPanel.getBlockGraphic().getBlock().getPosition() );
+//        System.out.println( "modelWidthObject = " + modelWidthObject );
+//        System.out.println( "leanerX = " + leanerX );
+        if( app == 0 ) {
+            //stay where you just were.
         }
+        else {
+            this.modelLocation = leanerX;
+        }
+    }
+
+    private double getBlockLocation() {
+        return rampPanel.getBlockGraphic().getBlock().getPosition();
+    }
+
+    private void updateTransform() {
+        AffineTransform tx = rampPanel.getRampGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
+        setTransform( tx );
+    }
+
+    private BufferedImage getFrame() {
+        return getImage();
     }
 }

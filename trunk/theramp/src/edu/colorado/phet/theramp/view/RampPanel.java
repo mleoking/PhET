@@ -37,6 +37,8 @@ public class RampPanel extends ApparatusPanel2 {
     private ArrayList arrowSets = new ArrayList();
     private PotentialEnergyZeroGraphic potentialEnergyZeroGraphic;
     private LeanerGraphic leanerGraphic;
+    private EarthGraphic earthGraphic;
+    private SkyGraphic skyGraphic;
 
     public Dimension getDefaultRenderingSize() {
         return new Dimension( 1061, 871 );
@@ -100,7 +102,7 @@ public class RampPanel extends ApparatusPanel2 {
 //        removeComponentListener( resizeHandler );//TODO make this work
 //        setUseOffscreenBuffer( true );
 
-        potentialEnergyZeroGraphic = new PotentialEnergyZeroGraphic( this );
+        potentialEnergyZeroGraphic = new PotentialEnergyZeroGraphic( this, rampModel );
         addGraphic( potentialEnergyZeroGraphic, 100 );
 
         try {
@@ -111,6 +113,11 @@ public class RampPanel extends ApparatusPanel2 {
             e.printStackTrace();
         }
 
+        earthGraphic = new EarthGraphic( this );
+        addGraphic( earthGraphic, -1 );
+
+        skyGraphic = new SkyGraphic( this );
+        addGraphic( skyGraphic, -2 );
         requestFocus();
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
@@ -200,5 +207,10 @@ public class RampPanel extends ApparatusPanel2 {
     public void setObject( RampObject rampObject ) {
 //        getBlockGraphic().setImage( rampObject.getImage() );
         getBlockGraphic().setObject( rampObject );
+    }
+
+    public int getRampBaseY() {
+        Point v = getRampGraphic().getViewLocation( getRampGraphic().getRamp().getLocation( 0 ) );
+        return v.y;
     }
 }

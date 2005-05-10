@@ -19,13 +19,13 @@ import java.util.ArrayList;
 
 public class RampTickSetGraphic extends CompositePhetGraphic {
     private RampGraphic rampGraphic;
-    private int numTicks = 11;
+//    private int numTicks = 11;
     private ArrayList tickGraphics = new ArrayList();
 
     public RampTickSetGraphic( RampGraphic rampGraphic ) {
         super( rampGraphic.getComponent() );
         this.rampGraphic = rampGraphic;
-        for( int i = 0; i < numTicks; i++ ) {
+        for( int i = 0; i <= rampGraphic.getRamp().getLength(); i++ ) {
             double x = i;
             addTickGraphic( x );
         }

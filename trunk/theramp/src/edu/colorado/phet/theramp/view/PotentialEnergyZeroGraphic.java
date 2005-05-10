@@ -5,8 +5,10 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.theramp.model.RampModel;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 /**
  * User: Sam Reid
@@ -16,16 +18,37 @@ import java.awt.*;
  */
 
 public class PotentialEnergyZeroGraphic extends CompositePhetGraphic {
-    public PotentialEnergyZeroGraphic( Component component ) {
+    private RampModel rampModel;
+    private RampPanel rampPanel;
+    private PhetShapeGraphic phetShapeGraphic;
+
+    public PotentialEnergyZeroGraphic( RampPanel component, final RampModel rampModel ) {
         super( component );
-        PhetShapeGraphic phetShapeGraphic = new PhetShapeGraphic( component, new Rectangle( 0, 0, 1000, 1 ),
-                                                                  new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{20, 20}, 0 ), Color.black );
+        this.rampPanel = component;
+        this.rampModel = rampModel;
+        phetShapeGraphic = new PhetShapeGraphic( component, new Line2D.Double( 0, 0, 1000, 0 ),
+                                                 new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{20, 20}, 0 ), Color.black );
         addGraphic( phetShapeGraphic );
         addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent translationEvent ) {
-                setLocation( translationEvent.getX(), translationEvent.getY() );
+                changeZeroPoint( translationEvent );
             }
         } );
+        RampModel.Listener listener = new RampModel.Listener() {
+            public void appliedForceChanged() {
+            }
+
+            public void zeroPointChanged() {
+                setLocation( 0, rampPanel.getRampGraphic().getScreenTransform().modelToViewY( rampModel.getZeroPointY() ) );
+            }
+        };
+        rampModel.addListener( listener );
+        listener.zeroPointChanged();
         setCursorHand();
+    }
+
+    private void changeZeroPoint( TranslationEvent translationEvent ) {
+        double zeroPointY = rampPanel.getRampGraphic().getScreenTransform().viewToModelY( translationEvent.getY() );
+        rampModel.setZeroPointY( zeroPointY );
     }
 }
