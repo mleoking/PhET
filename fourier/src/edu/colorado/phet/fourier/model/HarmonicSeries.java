@@ -24,16 +24,32 @@ import edu.colorado.phet.common.util.SimpleObservable;
  */
 public class HarmonicSeries extends SimpleObservable {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final double DEFAULT_FUNDAMENTAL_FREQUENCY = 440; // Hz  (A above middle C)
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     public double _fundamentalFrequency; // Hz
     public ArrayList _harmonics; // array of Harmonic
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public HarmonicSeries() {
         _fundamentalFrequency = DEFAULT_FUNDAMENTAL_FREQUENCY;
         _harmonics = new ArrayList();
     }
   
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
     public void setFundamentalFrequency( double fundamentalFrequency ) {
         if ( fundamentalFrequency != _fundamentalFrequency ) {
             _fundamentalFrequency = fundamentalFrequency;  
@@ -47,23 +63,24 @@ public class HarmonicSeries extends SimpleObservable {
     
     public void setNumberOfHarmonics( int numberOfHarmonics ) {
         int currentNumber = _harmonics.size();
-        
-        // Add or remove harmonics.
-        if ( numberOfHarmonics < currentNumber ) {
-            int numberToRemove = currentNumber - numberOfHarmonics;
-            for ( int i = currentNumber; i > numberToRemove; i-- ) {
-                _harmonics.remove( i - 1 );
+        if ( numberOfHarmonics != currentNumber ) {
+            System.out.println( "HarmonicSeries.setNumberOfHarmonics " + numberOfHarmonics );//DEBUG
+            // Add or remove harmonics.
+            if ( numberOfHarmonics < currentNumber ) {
+                int numberToRemove = currentNumber - numberOfHarmonics;
+                for ( int i = currentNumber; i > numberToRemove; i-- ) {
+                    _harmonics.remove( i - 1 );
+                }
             }
-        }
-        else {
-            int numberToAdd = numberOfHarmonics - currentNumber;
-            for ( int i = 0; i < numberToAdd; i++ ) {
-                Harmonic harmonic = new Harmonic( currentNumber + i );
-                _harmonics.add( harmonic );
+            else {
+                int numberToAdd = numberOfHarmonics - currentNumber;
+                for ( int i = 0; i < numberToAdd; i++ ) {
+                    Harmonic harmonic = new Harmonic( currentNumber + i );
+                    _harmonics.add( harmonic );
+                }
             }
+            notifyObservers();
         }
-        
-        notifyObservers();
     }
     
     public int getNumberOfHarmonics() {

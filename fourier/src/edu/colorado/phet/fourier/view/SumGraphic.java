@@ -81,6 +81,6 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     public void update() {
-        System.out.println( "SumGraphic.update" );//XXX
+//        System.out.println( "SumGraphic.update" );//XXX
     }
 }

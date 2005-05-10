@@ -19,6 +19,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.control.HarmonicSeriesPanel;
 import edu.colorado.phet.fourier.model.HarmonicSeries;
 import edu.colorado.phet.fourier.view.AmplitudesGraphic;
 import edu.colorado.phet.fourier.view.ComponentsGraphic;
@@ -72,9 +73,9 @@ public class DiscreteModule extends FourierModule {
         this.setModel( model );
         
         // Harmonic series
-        HarmonicSeries harmonicSeries = new HarmonicSeries();
-        harmonicSeries.setFundamentalFrequency( 440 );
-        harmonicSeries.setNumberOfHarmonics( 5 );
+        HarmonicSeries harmonicSeriesModel = new HarmonicSeries();
+        harmonicSeriesModel.setFundamentalFrequency( 440 );
+        harmonicSeriesModel.setNumberOfHarmonics( 5 );
         
         //----------------------------------------------------------------------------
         // View
@@ -86,17 +87,17 @@ public class DiscreteModule extends FourierModule {
         this.setApparatusPanel( apparatusPanel );
         
         // Amplitudes view
-        AmplitudesGraphic amplitudesGraphic = new AmplitudesGraphic( apparatusPanel, harmonicSeries );
+        AmplitudesGraphic amplitudesGraphic = new AmplitudesGraphic( apparatusPanel, harmonicSeriesModel );
         amplitudesGraphic.setLocation( AMPLITUDES_LOCATION );
         apparatusPanel.addGraphic( amplitudesGraphic, AMPLITUDES_LAYER );
         
         // Components view
-        ComponentsGraphic componentsGraphic = new ComponentsGraphic( apparatusPanel, harmonicSeries );
+        ComponentsGraphic componentsGraphic = new ComponentsGraphic( apparatusPanel, harmonicSeriesModel );
         componentsGraphic.setLocation( COMPONENTS_LOCATION );
         apparatusPanel.addGraphic( componentsGraphic, COMPONENTS_LAYER );
         
         // Sum view
-        SumGraphic sumGraphic = new SumGraphic( apparatusPanel, harmonicSeries );
+        SumGraphic sumGraphic = new SumGraphic( apparatusPanel, harmonicSeriesModel );
         sumGraphic.setLocation( SUM_LOCATION );
         apparatusPanel.addGraphic( sumGraphic, SUM_LAYER );
         
@@ -107,8 +108,10 @@ public class DiscreteModule extends FourierModule {
         // Control Panel
         {
             ControlPanel controlPanel = new ControlPanel( this );
-            //XXX add subpanels
             setControlPanel( controlPanel );
+            
+            HarmonicSeriesPanel harmonicSeriesPanel = new HarmonicSeriesPanel( harmonicSeriesModel );
+            controlPanel.addFullWidth( harmonicSeriesPanel );
         }
         
         //----------------------------------------------------------------------------

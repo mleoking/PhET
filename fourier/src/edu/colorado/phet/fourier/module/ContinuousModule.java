@@ -22,7 +22,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 
 /**
- * DiscreteModule
+ * ContinuousModule
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

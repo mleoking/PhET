@@ -21,7 +21,7 @@ import edu.colorado.phet.fourier.view.DebuggerGraphic;
 
 
 /**
- * FaradayModule
+ * FourierModule
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
