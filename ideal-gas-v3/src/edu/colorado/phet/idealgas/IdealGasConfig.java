@@ -32,13 +32,12 @@ public class IdealGasConfig {
     public static ColorScheme COLOR_SCHEME = BLACK_BACKGROUND_COLOR_SCHEME;
 
     // Physical constants
-//    public static final float TIME_STEP = 0.061f;
     public static final float TIME_STEP = 0.1f;
     public static final int WAIT_TIME = 40;
     public static final double TEMPERATURE_SCALE_FACTOR = 20;
     public static final double MAX_GAUGE_PRESSURE = 6.0;
-//    public static final double MAX_GAUGE_PRESSURE = 3.0;
     public static final int MAX_GRAVITY = 40;
+    public static final double TIME_SCALE_FACTOR = 4.5;
 
     // Title, description and version number
     public static final String TITLE = "Ideal Gas Law";
@@ -79,10 +78,8 @@ public class IdealGasConfig {
     public static final String ANIMATION_DIRECTORY = IMAGE_DIRECTORY + "animations/";
     public static final int NUM_PUSHER_ANIMATION_FRAMES = 19;
     public static final String PUSHER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-light-w-tank/pusher-3-light-w-tank";
-//    public static final String PUSHER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-light/pusher-3";
     public static final int NUM_LEANER_ANIMATION_FRAMES = 15;
     public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning-light-w-tank/pusher-leaning-light-w-tank";
-//    public static final String LEANER_ANIMATION_IMAGE_FILE_PREFIX = ANIMATION_DIRECTORY + "pusher-leaning-light/pusher-leaning-light";
     public static final String PUSHER_ANIMATION_IMAGE_FILE_TYPE = "png";
 
     // Offset for locating objects in the apparatus panel
@@ -99,7 +96,6 @@ public class IdealGasConfig {
 
     // Colors
     public static final Color HELP_COLOR = new Color( 50, 200, 200 );
-//    public static final Color HELP_COLOR = new Color( 50, 150, 50 );
 
     // Sounds
     public static final String SOUND_DIRECTORY = "http://sounds/";

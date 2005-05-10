@@ -79,7 +79,6 @@ public class IdealGasModule extends Module {
     private BufferedImage bluePumpImg;
     private BufferedImage redPumpImg;
     private PhetImageGraphic pumpGraphic;
-    private JDialog averagingControlDlg;
     private Box2DGraphic boxGraphic;
     private JPanel pressureSlideTimeAveCtrlPane;
     private StopwatchPanel stopwatchPanel;
@@ -89,6 +88,11 @@ public class IdealGasModule extends Module {
     private PumpHandleGraphic pumpHandleGraphic;
     private PumpSpeciesSelectorPanel2 pumpSelectorPanel;
     private PhetImageGraphic pumpBaseAndHoseGraphic;
+    // Coordinates of origin and opposite corner of box
+    private double xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;
+    private double yOrigin = 252 + IdealGasConfig.Y_BASE_OFFSET;
+    private double xDiag = 434 + IdealGasConfig.X_BASE_OFFSET;
+    private double yDiag = 497 + IdealGasConfig.Y_BASE_OFFSET;
 
 
     /**
@@ -213,10 +217,6 @@ public class IdealGasModule extends Module {
      * @param clock
      */
     private void createBoxAndGraphic( AbstractClock clock ) {
-        double xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;
-        double yOrigin = 252 + IdealGasConfig.Y_BASE_OFFSET;
-        double xDiag = 434 + IdealGasConfig.X_BASE_OFFSET;
-        double yDiag = 497 + IdealGasConfig.Y_BASE_OFFSET;
         box = new PressureSensingBox( new Point2D.Double( xOrigin, yOrigin ),
                                       new Point2D.Double( xDiag, yDiag ), idealGasModel, clock );
         idealGasModel.addBox( box );
@@ -588,7 +588,7 @@ public class IdealGasModule extends Module {
         ApplicationModel appModel = PhetApplication.instance().getApplicationModel();
         PhetFrame frame = PhetApplication.instance().getPhetFrame();
         if( stopwatchEnabled ) {
-            stopwatchPanel = new StopwatchPanel( appModel.getClock(), "psec" );
+            stopwatchPanel = new StopwatchPanel( appModel.getClock(), "psec", IdealGasConfig.TIME_SCALE_FACTOR );
             frame.getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
             frame.getClockControlPanel().revalidate();
             visibleInstruments.add( stopwatchPanel );
@@ -633,6 +633,7 @@ public class IdealGasModule extends Module {
     public void reset() {
         getIdealGasModel().removeAllMolecules();
         resetListenersProxy.resetOccurred( new ResetEvent( this ) );
+        box.setBounds( xOrigin, yOrigin, xDiag, yDiag );
     }
 
     public void addResetListener( ResetListener listener ) {
