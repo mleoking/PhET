@@ -150,6 +150,15 @@ public class ControlPanelSlider extends JPanel implements ChangeListener {
         _slider.setSnapToTicks( snap );
     }
   
+    /**
+     * Provides access to the JSlider.
+     * 
+     * @return the JSlider
+     */
+    public JSlider getSlider() {
+        return _slider;
+    }
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
