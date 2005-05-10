@@ -71,12 +71,10 @@ public class RampModule extends Module {
     }
 
     public void setObject( RampObject rampObject ) {
-
         rampModel.getBlock().setMass( rampObject.getMass() );
         rampModel.getBlock().setStaticFriction( rampObject.getStaticFriction() );
         rampModel.getBlock().setKineticFriction( rampObject.getKineticFriction() );
         getRampPanel().setObject( rampObject );
-//        getRampPanel().repaint( 0, 0, getRampPanel().getWidth(), getRampPanel().getHeight() );
     }
 
     public RampObject[] getRampObjects() {

@@ -39,7 +39,6 @@ public class RampGraphic extends GraphicLayerSet {
     private PhetShadowTextGraphic heightReadoutGraphic;
     private AngleGraphic angleGraphic;
 
-
     public RampGraphic( RampPanel rampPanel, final Ramp ramp ) {
         super( rampPanel );
         this.rampPanel = rampPanel;

@@ -30,7 +30,6 @@ public class ObjectComboBox extends JComboBox {
         setBorder( createBorder( "Choose Object" ) );
         addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
-//                Object sel = getSelectedItem();
                 int index = getSelectedIndex();
                 controlPanel.setup( rampObjects[index] );
             }
@@ -48,14 +47,8 @@ public class ObjectComboBox extends JComboBox {
             try {
                 BufferedImage image = ImageLoader.loadBufferedImage( imageElements[i].getLocation() );
                 image = BufferedImageUtils.rescaleYMaintainAspectRatio( component, image, 35 );
-                ImageIcon icon = new ImageIcon( image );
-//                icon.setDescription( imageElements[i].getName() );
-//                icon.setDescription( imageElements[i].getName() );
-//                icon.setDescription( imageElements[i].getName()+" ("+imageElements[i].getMass()+" kg)");
-                icon.setDescription( imageElements[i].getName() + " (" + imageElements[i].getMass() + " kg)" );
-
-                lab[i] = icon;
-//                lab[i] = new JLabel( imageElements[i].getName(), icon, JLabel.CENTER );
+                lab[i] = new ImageIcon( image );
+                lab[i].setDescription( imageElements[i].getName() + " (" + imageElements[i].getMass() + " kg)" );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -69,8 +62,6 @@ public class ObjectComboBox extends JComboBox {
             setOpaque( true );
             setHorizontalAlignment( CENTER );
             setVerticalAlignment( CENTER );
-
-//            setFont( new Font( "Lucida Sans",Font.BOLD, 10) );
         }
 
         public Component getListCellRendererComponent( JList list,

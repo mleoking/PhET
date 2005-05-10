@@ -4,11 +4,13 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.theramp.model.RampModel;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -21,6 +23,7 @@ public class PotentialEnergyZeroGraphic extends CompositePhetGraphic {
     private RampModel rampModel;
     private RampPanel rampPanel;
     private PhetShapeGraphic phetShapeGraphic;
+    private PhetShadowTextGraphic label;
 
     public PotentialEnergyZeroGraphic( RampPanel component, final RampModel rampModel ) {
         super( component );
@@ -40,11 +43,22 @@ public class PotentialEnergyZeroGraphic extends CompositePhetGraphic {
 
             public void zeroPointChanged() {
                 setLocation( 0, rampPanel.getRampGraphic().getScreenTransform().modelToViewY( rampModel.getZeroPointY() ) );
+                updateLabel();
             }
         };
         rampModel.addListener( listener );
-        listener.zeroPointChanged();
+
         setCursorHand();
+        label = new PhetShadowTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 18 ), "h=???", Color.black, 1, 1, Color.gray );
+        addGraphic( label );
+        label.setLocation( 10, -label.getHeight() - 4 );
+        listener.zeroPointChanged();
+        updateLabel();
+    }
+
+    private void updateLabel() {
+        String str = new DecimalFormat( "0.0" ).format( rampModel.getZeroPointY() );
+        label.setText( "h=0.0 @ y=" + str );
     }
 
     private void changeZeroPoint( TranslationEvent translationEvent ) {
