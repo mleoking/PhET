@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- determine why only 1 harmonic component is shown when dragging slider from more to less
 - flesh out demo of "Amplitudes" view in "Discrete" module
 
 MEDIUM PRIORITY:
@@ -25,6 +24,10 @@ CLEANUP:
 PHETCOMMON:
 
 DONE:
+(5/10) - determine why only 1 harmonic component is shown when dragging slider from more to less
+(5/9) - amplitude sliders for harmonics
+(5/9) - HarmonicSeries control panel
+(5/9) - models for Harmonic and HarmonicSeries
 (4/26) - add fourier to CVS loginfo and modules files
 (3/30) - set up basic application framework
 
