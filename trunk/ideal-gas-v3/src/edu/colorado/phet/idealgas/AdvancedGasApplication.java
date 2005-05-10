@@ -24,8 +24,8 @@ public class AdvancedGasApplication extends PhetApplication {
 
     static class IdealGasApplicationModel extends ApplicationModel {
         public IdealGasApplicationModel() {
-            super( SimStrings.get( "IdealGasApplication.title" ),
-                   SimStrings.get( "IdealGasApplication.description" ),
+            super( SimStrings.get( "UnimolecularApplication.title" ),
+                   SimStrings.get( "UnimolecularApplication.description" ),
                    IdealGasConfig.VERSION,
                    IdealGasConfig.FRAME_SETUP );
 

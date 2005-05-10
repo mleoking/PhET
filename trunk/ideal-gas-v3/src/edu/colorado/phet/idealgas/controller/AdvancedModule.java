@@ -111,20 +111,20 @@ abstract public class AdvancedModule extends IdealGasModule {
 
         // Put Text graphics above the box that indicate the reactants and products
         PhetTextGraphic leftTextGraphic = new CounterLetter( getApparatusPanel(), readoutFont, text1, COLOR_A, leftRegionParticleCounter );
-        leftTextGraphic.setLocation( (int)boxBounds.getMinX() + 50, (int)boxBounds.getMinY() - 50 );
+        leftTextGraphic.setLocation( (int)boxBounds.getMinX() + 50, (int)boxBounds.getMinY() - 30 );
         addGraphic( leftTextGraphic, IdealGasConfig.READOUT_LAYER );
         PhetTextGraphic rightTextGraphic = new CounterLetter( getApparatusPanel(), readoutFont, text2, COLOR_B, rightRegionParticleCounter );
-        rightTextGraphic.setLocation( (int)boxBounds.getMaxX() - 60, (int)boxBounds.getMinY() - 50 );
+        rightTextGraphic.setLocation( (int)boxBounds.getMaxX() - 60, (int)boxBounds.getMinY() - 30 );
         addGraphic( rightTextGraphic, IdealGasConfig.READOUT_LAYER );
 
         // Add a pair of arrows that point from one character to the other
         double arrowThickness = 2;
         double headMultiplier = 5;
-        Arrow lrArrow = new Arrow( new Point2D.Double( leftTextGraphic.getLocation().x + 50, leftTextGraphic.getLocation().y - 10 ),
-                                   new Point2D.Double( rightTextGraphic.getLocation().x - 50, rightTextGraphic.getLocation().y - 10 ),
+        Arrow lrArrow = new Arrow( new Point2D.Double( leftTextGraphic.getLocation().x + 50, leftTextGraphic.getLocation().y - 20 ),
+                                   new Point2D.Double( rightTextGraphic.getLocation().x - 50, rightTextGraphic.getLocation().y - 20 ),
                                    arrowThickness * headMultiplier, arrowThickness * headMultiplier, arrowThickness );
-        Arrow rlArrow = new Arrow( new Point2D.Double( rightTextGraphic.getLocation().x - 50, rightTextGraphic.getLocation().y + 10 ),
-                                   new Point2D.Double( leftTextGraphic.getLocation().x + 50, leftTextGraphic.getLocation().y + 10 ),
+        Arrow rlArrow = new Arrow( new Point2D.Double( rightTextGraphic.getLocation().x - 50, rightTextGraphic.getLocation().y - 0  ),
+                                   new Point2D.Double( leftTextGraphic.getLocation().x + 50, leftTextGraphic.getLocation().y - 0  ),
                                    arrowThickness * headMultiplier, arrowThickness * headMultiplier, arrowThickness );
         addGraphic( new PhetShapeGraphic( getApparatusPanel(), lrArrow.getShape(), Color.black ), IdealGasConfig.READOUT_LAYER );
         addGraphic( new PhetShapeGraphic( getApparatusPanel(), rlArrow.getShape(), Color.black ), IdealGasConfig.READOUT_LAYER );
@@ -136,7 +136,6 @@ abstract public class AdvancedModule extends IdealGasModule {
      * @return
      */
     protected String[] getSpeciesNames() {
-        System.out.println( "AdvancedModule.getSpeciesNames" );
         return new String[]{SimStrings.get( "AdvancedModule.Particle_Type_A" ),
                             SimStrings.get( "AdvancedModule.Particle_Type_B" )};
     }
@@ -211,7 +210,8 @@ abstract public class AdvancedModule extends IdealGasModule {
             this.particleCounter = particleCounter;
             particleCounter.addObserver( this );
             setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            setJustification( PhetTextGraphic.CENTER );
+            setJustification( PhetTextGraphic.SOUTH );
+//            setJustification( PhetTextGraphic.CENTER );
         }
 
         public void update() {
