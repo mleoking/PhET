@@ -15,10 +15,10 @@ import java.awt.geom.Point2D;
  */
 
 public class Ramp extends SimpleObservable {
-    double angle;
-    double x0;
-    double y0;
-    double length;
+    private double angle;
+    private double x0;
+    private double y0;
+    private double length;
 
     public Ramp() {
         angle = Math.PI / 16;

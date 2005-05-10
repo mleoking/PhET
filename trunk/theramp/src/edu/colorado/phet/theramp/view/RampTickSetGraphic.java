@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 public class RampTickSetGraphic extends CompositePhetGraphic {
     private RampGraphic rampGraphic;
-//    private int numTicks = 11;
     private ArrayList tickGraphics = new ArrayList();
 
     public RampTickSetGraphic( RampGraphic rampGraphic ) {
@@ -52,7 +51,6 @@ public class RampTickSetGraphic extends CompositePhetGraphic {
         public TickGraphic( Component component, double x ) {
             super( component );
             this.x = x;
-//            phetShapeGraphic = new PhetShapeGraphic( component, new Rectangle( 10, 10 ), Color.green );
             phetShapeGraphic = new PhetShapeGraphic( component, new Line2D.Double( 0, 0, 0, 7 ), new BasicStroke( 2 ), Color.black );
             addGraphic( phetShapeGraphic );
             update();

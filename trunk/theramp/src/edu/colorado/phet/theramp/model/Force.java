@@ -9,13 +9,13 @@ package edu.colorado.phet.theramp.model;
  */
 
 public class Force {
-    String name;
+    private String name;
     private Ramp ramp;
-    String html;
-    double x;
-    double y;
-    double parallel;
-    double perpendicular;
+    private String html;
+    private double x;
+    private double y;
+    private double parallel;
+    private double perpendicular;
 
     public Force( String name, Ramp ramp ) {
         this.name = name;

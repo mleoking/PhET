@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class RampModel implements ModelElement {
     private Ramp ramp;
     private Block block;
-    private Pusher pusher;
     private double gravity = 9.8;
     private SimpleObservable peObservers = new SimpleObservable();
     private SimpleObservable keObservers = new SimpleObservable();
@@ -37,11 +36,11 @@ public class RampModel implements ModelElement {
     private ArrayList listeners = new ArrayList();
     private double zeroPointY = 0.0;
     private double thermalEnergy = 0.0;
+    private boolean userAddingEnergy = false;
 
     public RampModel() {
         ramp = new Ramp();
         block = new Block( ramp );
-        pusher = new Pusher( ramp, block );
         wallForce = new ForceVector();
         gravityForce = new ForceVector();
         totalForce = new ForceVector();
@@ -70,7 +69,7 @@ public class RampModel implements ModelElement {
             double origBlockPosition = block.getPosition();
             double origBlockEnergy = block.getKineticEnergy();
             double origPotEnergy = getPotentialEnergy();
-            double origEnergy = block.getKineticEnergy() + getPotentialEnergy();
+            double origMech = getMechanicalEnergy();
 
             gravityForce.setX( 0 );
             gravityForce.setY( gravity * block.getMass() );
@@ -108,9 +107,33 @@ public class RampModel implements ModelElement {
             if( newPE != origPotEnergy ) {
                 peObservers.notifyObservers();
             }
-            thermalEnergy += Math.abs( dFrictiveWork );//this is close, but not exact.
+            if( userIsAddingEnergy() ) {
+                thermalEnergy += Math.abs( dFrictiveWork );//this is close, but not exact.
+            }
+            else {
+                double finalMech = getMechanicalEnergy();
+                double dE = Math.abs( finalMech ) - Math.abs( origMech );
+                if( dE <= 0 ) {
+                    thermalEnergy += Math.abs( dE );
+                }
+                else {
+                    new RuntimeException( "Gained Energy, dE=" + dE ).printStackTrace();
+                }
+            }
         }
         lastTick = currentTimeSeconds();
+    }
+
+    private double getMechanicalEnergy() {
+        return block.getKineticEnergy() + getPotentialEnergy();
+    }
+
+    private boolean userIsAddingEnergy() {
+        return userAddingEnergy;
+    }
+
+    public void setUserIsAddingEnergy( boolean userAddingEnergy ) {
+        this.userAddingEnergy = userAddingEnergy;
     }
 
     public double getPotentialEnergy() {
@@ -125,7 +148,6 @@ public class RampModel implements ModelElement {
     public void setAppliedForce( double appliedForce ) {
         this.appliedForce.setParallel( appliedForce );
         notifyAppliedForceChanged();
-//        System.out.println( "set appliedForce = " + appliedForce );
     }
 
     private void notifyAppliedForceChanged() {

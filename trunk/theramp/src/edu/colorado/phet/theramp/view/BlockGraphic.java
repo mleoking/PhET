@@ -48,8 +48,8 @@ public class BlockGraphic extends CompositePhetGraphic {
         setObject( rampObject );
 
         locationDebugGraphic = new LocationDebugGraphic( getComponent(), 10 );
-        block.addObserver( new SimpleObserver() {
-            public void update() {
+        block.addListener( new Block.Adapter() {
+            public void positionChanged() {
                 updateBlock();
             }
         } );

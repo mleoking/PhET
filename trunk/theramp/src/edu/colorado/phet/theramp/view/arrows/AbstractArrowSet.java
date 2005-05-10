@@ -15,7 +15,15 @@ import java.util.ArrayList;
  */
 
 public class AbstractArrowSet extends CompositePhetGraphic {
+    public static final String APPLIED = "Applied";
+    public static final String TOTAL = "Total";
+    public static final String FRICTION = "Friction";
+    public static final String WEIGHT = "Weight";
+    public static final String NORMAL = "Normal";
+    public static final String WALL = "Wall";
+
     private ArrayList graphics = new ArrayList();
+
 
     public AbstractArrowSet( Component component ) {
         super( component );

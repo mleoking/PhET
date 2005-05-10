@@ -40,6 +40,7 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
     private boolean userVisible = true;
     private boolean nonZero = true;
     private String sub;
+    private static final double THRESHOLD = 10E-8;
 
     public ForceArrowGraphic( Component component, String name, Color color,
                               int dy, AbstractArrowSet.ForceComponent forceComponent,
@@ -72,7 +73,10 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
     public void update() {
         AbstractVector2D force = new ImmutableVector2D.Double( forceComponent.getForce() );
         force = force.getScaledInstance( RampModule.FORCE_LENGTH_SCALE );
-        if( force.getMagnitude() == 0 ) {
+//        if( name.equals( AbstractArrowSet.TOTAL ) ) {
+//            System.out.println( "force = " + force );
+//        }
+        if( force.getMagnitude() <= THRESHOLD ) {
             setVisible( false );
             nonZero = false;
             return;

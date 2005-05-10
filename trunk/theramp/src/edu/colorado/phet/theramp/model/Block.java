@@ -1,9 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.model;
 
-import edu.colorado.phet.common.util.SimpleObservable;
-
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -12,7 +11,7 @@ import java.awt.geom.Point2D;
  * Copyright (c) Feb 11, 2005 by Sam Reid
  */
 
-public class Block extends SimpleObservable {
+public class Block {
     private Ramp ramp;
 
     private double mass = 5;//kg
@@ -21,6 +20,31 @@ public class Block extends SimpleObservable {
     private double acceleration = 0.0;
     private double kineticFriction = 0.50;
     private double staticFriction = 0.80;
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public static interface Listener {
+        void positionChanged();
+
+        void staticFrictionChanged();
+
+        void kineticFrictionChanged();
+    }
+
+    public static class Adapter implements Listener {
+
+        public void positionChanged() {
+        }
+
+        public void staticFrictionChanged() {
+        }
+
+        public void kineticFrictionChanged() {
+        }
+    }
 
     public Block( Ramp ramp ) {
         this.ramp = ramp;
@@ -36,7 +60,14 @@ public class Block extends SimpleObservable {
 
     public void setPosition( double position ) {
         this.position = position;
-        notifyObservers();
+        notifyPositionChanged();
+    }
+
+    private void notifyPositionChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.positionChanged();
+        }
     }
 
     public double getMass() {
@@ -69,7 +100,7 @@ public class Block extends SimpleObservable {
         applyBoundaryConditions();
 
         if( position != origPosition ) {
-            notifyObservers();
+            notifyPositionChanged();
         }
     }
 
@@ -99,11 +130,32 @@ public class Block extends SimpleObservable {
     }
 
     public void setStaticFriction( double staticFriction ) {
-        this.staticFriction = staticFriction;
+        if( this.staticFriction != staticFriction ) {
+            this.staticFriction = staticFriction;
+            notifyStaticFrictionChanged();
+        }
+    }
+
+    private void notifyStaticFrictionChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.staticFrictionChanged();
+        }
     }
 
     public void setKineticFriction( double kineticFriction ) {
-        this.kineticFriction = kineticFriction;
+        if( this.kineticFriction != kineticFriction ) {
+            this.kineticFriction = kineticFriction;
+            notifyKineticFrictionChanged();
+        }
+    }
+
+    private void notifyKineticFrictionChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.kineticFrictionChanged();
+
+        }
     }
 
     static class Sign {

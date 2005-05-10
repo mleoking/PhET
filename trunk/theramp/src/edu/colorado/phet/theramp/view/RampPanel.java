@@ -42,7 +42,6 @@ public class RampPanel extends ApparatusPanel2 {
 
     public Dimension getDefaultRenderingSize() {
         return new Dimension( 1061, 871 );
-//        return new Dimension( 800,800);
     }
 
     public RampPanel( RampModule module ) {
@@ -99,8 +98,7 @@ public class RampPanel extends ApparatusPanel2 {
                 requestFocus();
             }
         } );
-//        removeComponentListener( resizeHandler );//TODO make this work
-//        setUseOffscreenBuffer( true );
+        removePanelResizeHandler();
 
         potentialEnergyZeroGraphic = new PotentialEnergyZeroGraphic( this, rampModel );
         addGraphic( potentialEnergyZeroGraphic, 100 );
@@ -124,6 +122,8 @@ public class RampPanel extends ApparatusPanel2 {
                 requestFocus();
             }
         } );
+
+        addMouseListener( new UserAddingEnergyHandler( module ) );
     }
 
     private void addArrowSet( AbstractArrowSet arrowSet ) {
@@ -205,7 +205,6 @@ public class RampPanel extends ApparatusPanel2 {
     }
 
     public void setObject( RampObject rampObject ) {
-//        getBlockGraphic().setImage( rampObject.getImage() );
         getBlockGraphic().setObject( rampObject );
     }
 

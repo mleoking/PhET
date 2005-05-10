@@ -2,11 +2,16 @@
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.theramp.common.JButton3D;
+import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.view.RampPanel;
+import edu.colorado.phet.theramp.view.arrows.AbstractArrowSet;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -80,38 +85,38 @@ public class RampControlPanel extends ControlPanel {
         JPanel forcePanel = new VerticalLayoutPanel();
         forcePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Forces to Show" ) );
 
-        final JCheckBox showFriction = new JCheckBox( "Friction", true );
+        final JCheckBox showFriction = new JCheckBox( AbstractArrowSet.FRICTION, true );
         showFriction.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showFriction.getText(), showFriction.isSelected() );
             }
         } );
 
-        final JCheckBox showApplied = new JCheckBox( "Applied", true );
+        final JCheckBox showApplied = new JCheckBox( AbstractArrowSet.APPLIED, true );
         showApplied.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showApplied.getText(), showApplied.isSelected() );
             }
         } );
-        final JCheckBox showTotal = new JCheckBox( "Total", true );
+        final JCheckBox showTotal = new JCheckBox( AbstractArrowSet.TOTAL, true );
         showTotal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showTotal.getText(), showTotal.isSelected() );
             }
         } );
-        final JCheckBox showWall = new JCheckBox( "Wall", true );
+        final JCheckBox showWall = new JCheckBox( AbstractArrowSet.WALL, true );
         showWall.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showWall.getText(), showWall.isSelected() );
             }
         } );
-        final JCheckBox showGravity = new JCheckBox( "Weight", true );
+        final JCheckBox showGravity = new JCheckBox( AbstractArrowSet.WEIGHT, true );
         showGravity.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showGravity.getText(), showGravity.isSelected() );
             }
         } );
-        final JCheckBox showNormal = new JCheckBox( "Normal", true );
+        final JCheckBox showNormal = new JCheckBox( AbstractArrowSet.NORMAL, true );
         showNormal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rampPanel.setForceVisible( showNormal.getText(), showNormal.isSelected() );
@@ -124,10 +129,51 @@ public class RampControlPanel extends ControlPanel {
         forcePanel.add( showGravity );
         forcePanel.add( showNormal );
 
+
         add( forcePanel );
 
         ObjectComboBox ocb = new ObjectComboBox( module.getRampObjects(), this );
         add( ocb );
+
+        double[] ticks = new double[]{0, 0.5, 1.0, 1.5};
+
+        final ModelSlider staticFriction = createStaticSlider( ticks, module );
+        add( staticFriction );
+
+        final ModelSlider kineticFriction = createKineticSlider( ticks, module );
+        add( kineticFriction );
+    }
+
+    private ModelSlider createKineticSlider( double[] ticks, final RampModule module ) {
+        final ModelSlider kineticFriction = new ModelSlider( "Kinetic Friction", "", 0, 1.5, 0.5 );
+        kineticFriction.setModelTicks( ticks );
+        kineticFriction.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                module.getRampModel().getBlock().setKineticFriction( kineticFriction.getValue() );
+            }
+        } );
+        module.getRampModel().getBlock().addListener( new Block.Adapter() {
+            public void kineticFrictionChanged() {
+                kineticFriction.setValue( module.getRampModel().getBlock().getKineticFriction() );
+            }
+        } );
+        return kineticFriction;
+    }
+
+    private ModelSlider createStaticSlider( double[] ticks, final RampModule module ) {
+        final ModelSlider staticFriction = new ModelSlider( "Static Friction", "", 0, 1.5, 0.5 );
+        staticFriction.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                module.getRampModel().getBlock().setStaticFriction( staticFriction.getValue() );
+            }
+        } );
+        module.getRampModel().getBlock().addListener( new Block.Adapter() {
+            public void staticFrictionChanged() {
+                staticFriction.setValue( module.getRampModel().getBlock().getStaticFriction() );
+            }
+        } );
+        staticFriction.setModelTicks( ticks );
+        return staticFriction;
     }
 
     public void setup( RampObject rampObject ) {
