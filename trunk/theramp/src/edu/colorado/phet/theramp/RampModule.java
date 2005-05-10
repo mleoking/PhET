@@ -13,10 +13,6 @@ import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.RampTimeModel;
 import edu.colorado.phet.theramp.view.RampPanel;
 
-import javax.swing.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 /**
  * User: Sam Reid
  * Date: Feb 11, 2005
@@ -54,14 +50,6 @@ public class RampModule extends Module {
     }
 
     public static void main( String[] args ) {
-        JTextField field = new JTextField( "hello" );
-        field.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                System.out.println( "evt = " + evt );
-            }
-        } );
-        field.setText( "anthoeu" );
-
         SwingTimerClock clock = new SwingTimerClock( 1.0, 30 );
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.apply();
