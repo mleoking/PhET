@@ -193,7 +193,7 @@ public class IdealGasModule extends Module {
         gaugeSlice.setTimeAveragingWindow( 2500 * ( clock.getDt() / clock.getDelay() ) );
         gaugeSlice.setUpdateContinuously( true );
         gaugeSlice.setY( box.getMinY() + 50 );
-        box.setGuageSlice( gaugeSlice );
+        box.setGaugeSlice( gaugeSlice );
         idealGasModel.addModelElement( gaugeSlice );
         PressureDialGauge pressureGauge = new PressureDialGauge( box, getApparatusPanel(),
                                                                  new Point( (int)box.getMaxX(),

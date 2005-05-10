@@ -18,7 +18,7 @@ package edu.colorado.phet.idealgas.util;
  */
 
 public class Averager {
-    private long updatePeriod = 5000;
+    private long updatePeriod = 10000;
 //    private long updatePeriod = 30000;
     private long timeOfLastUpdate = System.currentTimeMillis();
     private double aveTemp = 0;

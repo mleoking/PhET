@@ -6,6 +6,7 @@
 package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.util.EventChannel;
+import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
@@ -13,7 +14,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.PressureSlice;
-import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.PressureSensingBox;
 import edu.colorado.phet.idealgas.util.Averager;
 
 import java.awt.*;
@@ -25,20 +26,22 @@ import java.text.NumberFormat;
 import java.util.EventListener;
 import java.util.EventObject;
 
-public class PressureSliceGraphic extends CompositePhetGraphic {
+public class PressureSliceGraphic extends CompositePhetGraphic implements PressureSensingBox.ChangeListener {
 
     private float s_overlayTransparency = 0.3f;
 
     private double y;
     private Rectangle2D.Double boundingRect = new Rectangle2D.Double();
     private RoundRectangle2D.Double readoutRectangle = new RoundRectangle2D.Double();
-    private PressureSlice pressureSlice;
     private Stroke pressureSliceStroke = new BasicStroke();
     private int pressureSliceHeight = 10;
     private double boxLeftEdge;
     private double boxLowerEdge;
     private double boxRightEdge;
-    private Box2D box;
+    private PressureSensingBox box;
+//    private Box2D box;
+    private PressureSlice pressureSlice;
+    private SimpleObservable pressureReadingSource;
     private NumberFormat temperatureFormatter = new DecimalFormat( "#" );
     private NumberFormat pressureFormatter = new DecimalFormat( "0.00" );
     private NumberFormat heightFormatter = new DecimalFormat( "0.00" );
@@ -53,9 +56,12 @@ public class PressureSliceGraphic extends CompositePhetGraphic {
      * @param pressureSlice
      * @param box
      */
-    public PressureSliceGraphic( Component component, final PressureSlice pressureSlice, final Box2D box ) {
+    public PressureSliceGraphic( Component component, final PressureSlice pressureSlice,
+                                 final PressureSensingBox box ) {
         super( component );
         this.pressureSlice = pressureSlice;
+        pressureReadingSource = box;
+        box.addChangeListener( this );
 
         internalGraphic = new InternalGraphic( component );
         this.setCursorHand();
@@ -101,16 +107,18 @@ public class PressureSliceGraphic extends CompositePhetGraphic {
             update();
         }
 
-//        protected Rectangle determineBounds() {
-//            return drawingArea.getBounds();
-//        }
-
         public boolean contains( int x, int y ) {
             return boundingRect.contains( x, y ) || readoutRectangle.contains( x, y );
         }
 
         public void update() {
-            pressure = pressureSlice.getPressure();
+            if( pressureReadingSource == box ) {
+                pressure = box.getPressure();
+            }
+            else {
+                pressure = pressureSlice.getPressure();
+            }
+//            pressure = pressureSlice.getPressure();
             temperature = pressureSlice.getTemperature();
 
             pressAve.update( pressure );
@@ -125,7 +133,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic {
         }
 
         //todo: remove after debug
-        Averager pressAve = new Averager( "slice pressure = " );
+        Averager pressAve = new Averager( "slice press = " );
 //        Averager tempAve = new Averager( "slice temp = ");
 
 
@@ -207,8 +215,31 @@ public class PressureSliceGraphic extends CompositePhetGraphic {
         }
     }
 
+    //----------------------------------------------------------------
+    // PressureSensingBox.ChangeListener implementation
+    //----------------------------------------------------------------
+
+    /**
+     * If the pressure sensing box is basing its readings on multiple slices,
+     * then we want to get our pressure readings from it, rather than our own
+     * slice. This keeps the pressure readings we display consistent with those
+     * on the dial gauge. If the box is only sending out readings from a single slice,
+     * that means gravity is on, and we want to use our own slice for our readings.
+     * This may not be the best way to organize this code, but what the hell...
+     * @param event
+     */
+    public void stateChanged( PressureSensingBox.ChangeEvent event ) {
+        PressureSensingBox box = event.getPressureSensingBox();
+        if( box.getMultipleSlicesEnabled() ) {
+            pressureReadingSource = box;
+        }
+        else {
+            pressureReadingSource = pressureSlice;
+        }
+    }
+
     //-----------------------------------------------------------------------------------------
-    // Events and event handling
+    // Event and Listener definitions
     //-----------------------------------------------------------------------------------------
     public class Event extends EventObject {
 
