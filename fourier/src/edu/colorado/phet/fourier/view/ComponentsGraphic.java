@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.fourier.view;
 
+import java.awt.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
@@ -19,7 +20,9 @@ import java.awt.Rectangle;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.fourier.model.HarmonicSeries;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.model.FourierSeries;
 
 
 /**
@@ -34,8 +37,13 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double OUTLINE_LAYER = 1;
-    private static final double LABELS_LAYER = 2;
+    private static final double TITLE_LAYER = 1;
+    private static final double OUTLINE_LAYER = 2;
+    private static final double LABELS_LAYER = 3;
+    
+    // Title
+    private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
+    private static final Color TITLE_COLOR = Color.BLUE;
     
     private static final int OUTLINE_WIDTH = 600;
     private static final int OUTLINE_HEIGHT = 175;
@@ -44,7 +52,7 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     // Instance data
     //----------------------------------------------------------------------------
     
-    private HarmonicSeries _harmonicSeriesModel;
+    private FourierSeries _harmonicSeriesModel;
     private Rectangle _outlineRectangle;
     private PhetShapeGraphic _outlineGraphic;
     
@@ -52,11 +60,19 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
-    public ComponentsGraphic( Component component, HarmonicSeries harmonicSeriesModel ) {
+    public ComponentsGraphic( Component component, FourierSeries harmonicSeriesModel ) {
         super( component );
         
         _harmonicSeriesModel = harmonicSeriesModel;
         _harmonicSeriesModel.addObserver( this );
+        
+        // Title
+        String title = SimStrings.get( "ComponentsGraphic.title" );
+        PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
+        titleGraphic.centerRegistrationPoint();
+        titleGraphic.rotate( -( Math.PI / 2 ) );
+        titleGraphic.setLocation( -10, 0 );
+        addGraphic( titleGraphic, TITLE_LAYER );
         
         _outlineGraphic = new PhetShapeGraphic( component );
         _outlineRectangle = new Rectangle( 0, -OUTLINE_HEIGHT/2, OUTLINE_WIDTH, OUTLINE_HEIGHT );

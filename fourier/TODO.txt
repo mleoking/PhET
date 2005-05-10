@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- fix PhetJComponent issues so that textfields get ActionEvents and FocusEvents
 - flesh out demo of "Amplitudes" view in "Discrete" module
 
 MEDIUM PRIORITY:
