@@ -12,6 +12,7 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -36,18 +37,26 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     // Class data
     //----------------------------------------------------------------------------
     
+    // Layers
     private static final double TITLE_LAYER = 1;
     private static final double OUTLINE_LAYER = 2;
-    private static final double LABELS_LAYER = 3;
-    private static final double WAVES_LAYER = 4;
+    private static final double AXES_LAYER = 3;
+    private static final double TICKS_LAYER = 4;
+    private static final double LABELS_LAYER = 5;
+    private static final double WAVES_LAYER = 6;
     
-    // Title
+    // Title parameters
     private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final int TITLE_X_OFFSET = -15; // from origin
     
+    // Outline parameters
     private static final int OUTLINE_WIDTH = 600;
     private static final int OUTLINE_HEIGHT = 175;
+    
+    // Axes parameters
+    private static final Color AXES_COLOR = Color.BLACK;
+    private static final Stroke AXES_STROKE = new BasicStroke( 1f );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -82,6 +91,20 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
         outlineGraphic.setBorderColor( Color.BLACK );
         outlineGraphic.setStroke( new BasicStroke( 1f ) );
         addGraphic( outlineGraphic, OUTLINE_LAYER );
+        
+        // X axis
+        PhetShapeGraphic xAxisGraphic = new PhetShapeGraphic( component );
+        xAxisGraphic.setShape( new Line2D.Double( 0, 0, OUTLINE_WIDTH, 0 ) );
+        xAxisGraphic.setBorderColor( AXES_COLOR );
+        xAxisGraphic.setStroke( AXES_STROKE );
+        addGraphic( xAxisGraphic, AXES_LAYER );
+        
+        // Y axis
+        PhetShapeGraphic yAxisGraphic = new PhetShapeGraphic( component );
+        yAxisGraphic.setShape( new Line2D.Double( OUTLINE_WIDTH/2, -OUTLINE_HEIGHT/2, OUTLINE_WIDTH/2, +OUTLINE_HEIGHT/2 ) );
+        yAxisGraphic.setBorderColor( AXES_COLOR );
+        yAxisGraphic.setStroke( AXES_STROKE );
+        addGraphic( yAxisGraphic, AXES_LAYER );
         
         // Waves
         _wavesGraphic = new CompositePhetGraphic( component );
