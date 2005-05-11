@@ -24,6 +24,7 @@ import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.Electron;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
@@ -335,16 +336,40 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      */
     public void stateChanged( Atom.ChangeEvent event ) {
         AtomicState prevState = event.getPrevState();
+        AtomicState currState = event.getCurrState();
+
+        // Adjust the number of atoms in each state
         Integer nPrev = (Integer)(Integer)numAtomsInState.get( prevState );
         if( nPrev != null ) {
-//            int nPrev = ( (Integer)numAtomsInState.get( prevState ) ).intValue();
             numAtomsInState.put( prevState, new Integer( nPrev.intValue() - 1 ) );
         }
-        AtomicState currState = event.getCurrState();
         Integer nCurr = (Integer)numAtomsInState.get( currState );
-//        int nCurr = ( (Integer)numAtomsInState.get( currState ) ).intValue();
         if( nCurr != null ) {
             numAtomsInState.put( currState, new Integer( nCurr.intValue() + 1 ) );
+        }
+
+        // Display a squiggle to show the transition. Remove it after a bried time
+        double dE = prevState.getEnergyLevel() - currState.getEnergyLevel();
+        if( dE > 0 ) {
+            double wavelength = PhysicsUtil.energyToWavelength( dE );
+            int length = energyYTx.modelToView( dE );
+            final EnergySquiggle squiggle = new EnergySquiggle( this, wavelength, 0, length, 10,
+                                                                EnergySquiggle.VERTICAL );
+            squiggle.setLocation( 50, energyYTx.modelToView( prevState.getEnergyLevel() ) );
+            this.addGraphic( squiggle );
+            Runnable r = new Runnable() {
+                public void run() {
+                    try {
+                        Thread.sleep( 200 );
+                    }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                    removeGraphic( squiggle );
+                }
+            };
+            Thread t = new Thread( r );
+            t.start();
         }
         invalidate();
         repaint();

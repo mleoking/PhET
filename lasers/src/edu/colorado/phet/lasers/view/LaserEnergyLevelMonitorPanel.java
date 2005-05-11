@@ -15,10 +15,10 @@ import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockStateEvent;
 import edu.colorado.phet.common.model.clock.ClockStateListener;
+import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.*;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
@@ -274,7 +274,6 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         int kPrev = height / 2;
         int iPrev = 0;
         Color c = VisibleColor.wavelengthToColor( wavelength );
-        double intensity = beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond();
         double freqFactor = 15 * wavelength / 680;
         for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
