@@ -60,7 +60,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private static final String VALUE_FORMAT = "0.00";
     private static final int VALUE_COLUMNS = 3;
     private static final Font VALUE_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
-    private static final int VALUE_Y_OFFSET = 25; // above the maximum height of the slider track
+    private static final int VALUE_Y_OFFSET = 27; // above the maximum height of the slider track
 
     // Knob parameters
     private static final Color KNOB_FILL_COLOR = Color.BLACK;
