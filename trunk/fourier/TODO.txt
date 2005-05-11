@@ -29,6 +29,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+sandbox-2005-05-10...
 (5/10) - flesh out demo of "Amplitudes" view in "Discrete" module
 (5/10) - add label and value to harmonic amplitude slider
 (5/10) - determine why only 1 harmonic component is shown when dragging slider from more to less
