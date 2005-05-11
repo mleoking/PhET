@@ -12,17 +12,16 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Rectangle;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.model.FourierComponent;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
@@ -40,6 +39,7 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     private static final double TITLE_LAYER = 1;
     private static final double OUTLINE_LAYER = 2;
     private static final double LABELS_LAYER = 3;
+    private static final double WAVES_LAYER = 4;
     
     // Title
     private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
@@ -53,19 +53,19 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FourierSeries _harmonicSeriesModel;
-    private Rectangle _outlineRectangle;
-    private PhetShapeGraphic _outlineGraphic;
+    private FourierSeries _fourierSeriesModel;
+    private CompositePhetGraphic _wavesGraphic;
+    private int _previousNumberOfComponents;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
-    public ComponentsGraphic( Component component, FourierSeries harmonicSeriesModel ) {
+    public ComponentsGraphic( Component component, FourierSeries fourierSeriesModel ) {
         super( component );
         
-        _harmonicSeriesModel = harmonicSeriesModel;
-        _harmonicSeriesModel.addObserver( this );
+        _fourierSeriesModel = fourierSeriesModel;
+        _fourierSeriesModel.addObserver( this );
         
         // Title
         String title = SimStrings.get( "ComponentsGraphic.title" );
@@ -75,22 +75,30 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
         titleGraphic.setLocation( TITLE_X_OFFSET, 0 );
         addGraphic( titleGraphic, TITLE_LAYER );
         
-        _outlineGraphic = new PhetShapeGraphic( component );
-        _outlineRectangle = new Rectangle( 0, -OUTLINE_HEIGHT/2, OUTLINE_WIDTH, OUTLINE_HEIGHT );
-        _outlineGraphic.setShape( _outlineRectangle );
-        _outlineGraphic.setBorderColor( Color.BLACK );
-        _outlineGraphic.setStroke( new BasicStroke( 1f ) );
-        addGraphic( _outlineGraphic, OUTLINE_LAYER );
+        // Outline
+        PhetShapeGraphic outlineGraphic = new PhetShapeGraphic( component );
+        Rectangle outlineRectangle = new Rectangle( 0, -OUTLINE_HEIGHT/2, OUTLINE_WIDTH, OUTLINE_HEIGHT );
+        outlineGraphic.setShape( outlineRectangle );
+        outlineGraphic.setBorderColor( Color.BLACK );
+        outlineGraphic.setStroke( new BasicStroke( 1f ) );
+        addGraphic( outlineGraphic, OUTLINE_LAYER );
+        
+        // Waves
+        _wavesGraphic = new CompositePhetGraphic( component );
+        addGraphic( _wavesGraphic, WAVES_LAYER );
         
         // Interactivity
-        _outlineGraphic.setIgnoreMouse( true );
+        titleGraphic.setIgnoreMouse( true );
+        outlineGraphic.setIgnoreMouse( true );
+        _wavesGraphic.setIgnoreMouse( true );
         
+        _previousNumberOfComponents = -1; // force update
         update();
     }
     
     public void finalize() {
-        _harmonicSeriesModel.removeObserver( this );
-        _harmonicSeriesModel = null;
+        _fourierSeriesModel.removeObserver( this );
+        _fourierSeriesModel = null;
     }
 
     //----------------------------------------------------------------------------
@@ -98,6 +106,29 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     //----------------------------------------------------------------------------
     
     public void update() {
-//        System.out.println( "ComponentsGraphic.update" );//XXX
+        
+        int numberOfComponents = _fourierSeriesModel.getNumberOfComponents();
+        
+        if ( _previousNumberOfComponents != numberOfComponents ) {
+            
+            _wavesGraphic.clear();
+            
+            for ( int i = 0; i < numberOfComponents; i++ ) {
+                
+                FourierComponent fourierComponent = (FourierComponent) _fourierSeriesModel.getComponent( i );
+                double amplitude = fourierComponent.getAmplitude();
+                Color color = FourierUtils.calculateColor( _fourierSeriesModel, i );
+                
+                SineWaveGraphic waveGraphic = new SineWaveGraphic( getComponent(), fourierComponent );
+                waveGraphic.setColor( color );
+                waveGraphic.setViewportSize( OUTLINE_WIDTH, OUTLINE_HEIGHT );
+                waveGraphic.setLocation( OUTLINE_WIDTH/2, 0 );
+                waveGraphic.update();
+                
+                _wavesGraphic.addGraphic( waveGraphic );
+            }
+            
+            repaint();
+        }
     }
 }
