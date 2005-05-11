@@ -23,6 +23,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.fourier.model.FourierComponent;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
@@ -163,7 +164,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
             addGraphic( minTickGraphic, TICKS_LAYER );
         }
         
-        // X Axis labels
+        // X axis labels
         {
             int x = -12;
             
@@ -239,9 +240,11 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
         
         // Interactivity
         {
+            titleGraphic.setIgnoreMouse( true );
             outlineGraphic.setIgnoreMouse( true );
             xAxisGraphic.setIgnoreMouse( true );
             yAxisGraphic.setIgnoreMouse( true );
+            // XXX other things need to ignore mouse !
         }
         
         _sliders = new ArrayList();
@@ -294,10 +297,11 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
                 }
                 _slidersGraphic.addGraphic( slider );
 
-                // Slider color, from the visible spectrum.
+                // Slider size.
                 slider.setMaxSize( barWidth, OUTLINE_HEIGHT );
-                double wavelength = VisibleColor.MAX_WAVELENGTH - ( i * deltaWavelength );
-                Color trackColor = VisibleColor.wavelengthToColor( wavelength );
+                
+                // Slider color.
+                Color trackColor = FourierUtils.calculateColor( _fourierSeriesModel, i );
                 slider.setTrackColor( trackColor );
 
                 // Slider location.
