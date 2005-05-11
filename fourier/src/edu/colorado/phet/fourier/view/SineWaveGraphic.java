@@ -140,7 +140,6 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
     public void update() {
 
         if ( isVisible() ) {
-            System.out.println( "SineWaveGraphic.update: order=" + _fourierComponent.getOrder() );//XXX
             
             int numberOfCycles = _fourierComponent.getOrder() + 1;
             double amplitude = _fourierComponent.getAmplitude();
