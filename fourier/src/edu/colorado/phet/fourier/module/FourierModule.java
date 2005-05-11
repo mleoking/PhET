@@ -47,6 +47,12 @@ public abstract class FourierModule extends Module {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     * 
+     * @param title the module title
+     * @param clock the simulation clock
+     */
     public FourierModule( String title, AbstractClock clock ) {
         super( title, clock );
     }

@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -20,7 +21,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.model.FourierComponent;
 import edu.colorado.phet.fourier.model.FourierSeries;
 
 
@@ -44,16 +45,17 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private static final double LABELS_LAYER = 5;
     private static final double SLIDERS_LAYER = 6;
     
-    // Title
+    // Title parameters
     private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
+    private static final int TITLE_X_OFFSET = -15; // from origin
     
-    // Outline
+    // Outline parameters
     private static final int OUTLINE_WIDTH = 600;
     private static final int OUTLINE_HEIGHT = 175;
     private static final Color OUTLINE_COLOR = Color.BLACK;
     
-    // Axes
+    // Axes parameters
     private static final Color AXES_COLOR = Color.BLACK;
     private static final Stroke AXES_STROKE = new BasicStroke( 1f );
     private static final Color MINOR_AXES_COLOR1 = new Color( 0, 0, 0, 30 );
@@ -72,37 +74,44 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private static final String X_ZERO_LABEL = "0";
     private static final String Y_AXIS_LABEL = "n";
 
-    // Sliders
+    // Sliders parameters
     private static final int SLIDER_SPACING = 10; // space between sliders
         
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FourierSeries _harmonicSeriesModel;
-    private GraphicLayerSet _sliders;
-    private int _previousNumberOfharmonics;
+    private FourierSeries _fourierSeriesModel;
+    private GraphicLayerSet _slidersGraphic;
+    private ArrayList _sliders; // array of AmplitudeSlider
+    private int _previousNumberOfComponents;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
-    public AmplitudesGraphic( Component component, FourierSeries harmonicSeriesModel ) {
+    /**
+     * Sole constructor.
+     * 
+     * @param component the parent Component
+     * @param fourierSeriesModel the model that this graphic controls
+     */
+    public AmplitudesGraphic( Component component, FourierSeries fourierSeriesModel ) {
         super( component );
         
-        _harmonicSeriesModel = harmonicSeriesModel;
-        _harmonicSeriesModel.addObserver( this );
+        _fourierSeriesModel = fourierSeriesModel;
+        _fourierSeriesModel.addObserver( this );
 
         // Title
         String title = SimStrings.get( "AmplitudesGraphic.title" );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
-        titleGraphic.setLocation( -10, 0 );
+        titleGraphic.setLocation( TITLE_X_OFFSET, 0 );
         addGraphic( titleGraphic, TITLE_LAYER );
         
         // Outline box
-        Rectangle outlineRectangle = new Rectangle( 0, -( OUTLINE_HEIGHT / 2 ), OUTLINE_WIDTH, OUTLINE_HEIGHT );
+        Rectangle outlineRectangle = new Rectangle( 0, -( OUTLINE_HEIGHT / 2 ), OUTLINE_WIDTH, OUTLINE_HEIGHT-1 );
         PhetShapeGraphic outlineGraphic = new PhetShapeGraphic( component );
         outlineGraphic.setShape( outlineRectangle );
         outlineGraphic.setBorderColor( OUTLINE_COLOR );
@@ -225,8 +234,8 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
         }
 
         // Amplitude sliders
-        _sliders = new GraphicLayerSet( component );
-        addGraphic( _sliders, SLIDERS_LAYER );
+        _slidersGraphic = new GraphicLayerSet( component );
+        addGraphic( _slidersGraphic, SLIDERS_LAYER );
         
         // Interactivity
         {
@@ -235,39 +244,55 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
             yAxisGraphic.setIgnoreMouse( true );
         }
         
-        _previousNumberOfharmonics = -1; // force update
+        _sliders = new ArrayList();
+        _previousNumberOfComponents = -1; // force update
         update();
     }
     
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void finalize() {
-        _harmonicSeriesModel.removeObserver( this );
-        _harmonicSeriesModel = null;
+        _fourierSeriesModel.removeObserver( this );
+        _fourierSeriesModel = null;
     }
 
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Synchronizes the view with the model.
+     */
     public void update() {
 
-        int numberOfHarmonics = _harmonicSeriesModel.getNumberOfHarmonics();
+        int numberOfComponents = _fourierSeriesModel.getNumberOfComponents();
         
-        if ( _previousNumberOfharmonics != numberOfHarmonics ) {
+        if ( _previousNumberOfComponents != numberOfComponents ) {
             
-            _sliders.clear();
+            _slidersGraphic.clear();
             
-            int totalSpace = ( numberOfHarmonics + 1 ) * SLIDER_SPACING;
-            int barWidth = ( OUTLINE_WIDTH - totalSpace ) / numberOfHarmonics;
-            double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
+            int totalSpace = ( numberOfComponents + 1 ) * SLIDER_SPACING;
+            int barWidth = ( OUTLINE_WIDTH - totalSpace ) / numberOfComponents;
+            double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfComponents - 1 );
 
-            for ( int i = 0; i < numberOfHarmonics; i++ ) {
+            for ( int i = 0; i < numberOfComponents; i++ ) {
 
-                // Get the ith harmonic.
-                Harmonic harmonic = _harmonicSeriesModel.getHarmonic( i );
+                // Get the ith component.
+                FourierComponent fourierComponent = _fourierSeriesModel.getComponent( i );
 
-                // Create a slider to control the harmonic's amplitude.
-                HarmonicSlider slider = new HarmonicSlider( getComponent(), harmonic );
-                _sliders.addGraphic( slider );
+                AmplitudeSlider slider = null;
+                if ( i < _sliders.size() ) {
+                    // Reuse an existing slider.
+                    slider = (AmplitudeSlider) _sliders.get( i );
+                    slider.setModel( fourierComponent );
+                }
+                else {
+                    // Allocate a new slider.
+                    slider = new AmplitudeSlider( getComponent(), fourierComponent );
+                }
+                _slidersGraphic.addGraphic( slider );
 
                 // Slider color, from the visible spectrum.
                 slider.setMaxSize( barWidth, OUTLINE_HEIGHT );
@@ -280,7 +305,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
                 slider.setLocation( x, 0 );
             }
 
-            _previousNumberOfharmonics = numberOfHarmonics;
+            _previousNumberOfComponents = numberOfComponents;
         }
     }
 }

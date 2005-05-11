@@ -111,7 +111,7 @@ public class FourierSeriesPanel extends JPanel {
      * Updates the control panel to match the state of the things that it's controlling.
      */
     public void update() {
-        _numberOfHarmonicsSlider.setValue( _harmonicSeriesModel.getNumberOfHarmonics() );
+        _numberOfHarmonicsSlider.setValue( _harmonicSeriesModel.getNumberOfComponents() );
         _fundamentalFrequencySlider.setValue( (int)_harmonicSeriesModel.getFundamentalFrequency() );
     }
     
@@ -131,7 +131,7 @@ public class FourierSeriesPanel extends JPanel {
             if ( event.getSource() == _numberOfHarmonicsSlider ) {
                 if ( !_numberOfHarmonicsSlider.getSlider().getValueIsAdjusting() ) {
                     int numberOfHarmonics = _numberOfHarmonicsSlider.getValue();
-                    _harmonicSeriesModel.setNumberOfHarmonics( numberOfHarmonics );
+                    _harmonicSeriesModel.setNumberOfComponents( numberOfHarmonics );
                 }
             }
             else if ( event.getSource() == _fundamentalFrequencySlider ) {

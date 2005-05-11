@@ -44,6 +44,7 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     // Title
     private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
+    private static final int TITLE_X_OFFSET = -15; // from origin
     
     private static final int OUTLINE_WIDTH = 600;
     private static final int OUTLINE_HEIGHT = 175;
@@ -71,7 +72,7 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
-        titleGraphic.setLocation( -10, 0 );
+        titleGraphic.setLocation( TITLE_X_OFFSET, 0 );
         addGraphic( titleGraphic, TITLE_LAYER );
         
         _outlineGraphic = new PhetShapeGraphic( component );
