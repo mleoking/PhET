@@ -15,25 +15,30 @@ import edu.colorado.phet.common.util.SimpleObservable;
 
 
 /**
- * Harmonic
+ * FourierComponent
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class Harmonic extends SimpleObservable {
+public class FourierComponent extends SimpleObservable {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private int _order;
+    private int _order; //XXX rename this
     private double _amplitude;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Harmonic( int order ) {
+    /**
+     * Sole constructor
+     * 
+     * @param order
+     */
+    public FourierComponent( int order ) {
         super();
         assert( order >= 0 );
         _order = order;
@@ -43,6 +48,13 @@ public class Harmonic extends SimpleObservable {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+    
+    public void setOrder( int order ) {
+        if ( order != _order ) {
+            _order = order;
+            notifyObservers();
+        }
+    }
     
     public int getOrder() {
         return _order;
@@ -61,12 +73,22 @@ public class Harmonic extends SimpleObservable {
     }
     
     //----------------------------------------------------------------------------
-    // Classes
+    // Inner classes
     //----------------------------------------------------------------------------
     
-    public class Fundamental extends Harmonic {
+    /**
+     * Fundamental is the fundamental Fourier component.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    public class Fundamental extends FourierComponent {  
         public Fundamental() {
             super( 0 );
+        }
+        
+        public void setOrder( int order ) {
+            // XX throw exception
         }
     }
 }

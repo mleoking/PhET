@@ -44,16 +44,16 @@ public class DiscreteModule extends FourierModule {
     private static final double SUM_LAYER = 3;
 
     // Locations
-    private static final Point AMPLITUDES_LOCATION = new Point( 50, 150 );
-    private static final Point COMPONENTS_LOCATION = new Point( 50, 340 );
-    private static final Point SUM_LOCATION = new Point( 50, 530 );
+    private static final Point AMPLITUDES_LOCATION = new Point( 60, 150 );
+    private static final Point COMPONENTS_LOCATION = new Point( 60, 340 );
+    private static final Point SUM_LOCATION = new Point( 60, 530 );
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.WHITE;
     
     // Harmonics
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
-    private static final int NUMBER_OF_HARMONICS = 11;
+    private static final int NUMBER_OF_COMPONENTS = 7;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -62,7 +62,7 @@ public class DiscreteModule extends FourierModule {
     /**
      * Sole constructor.
      * 
-     * @param appModel the application model
+     * @param clock the simulation clock
      */
     public DiscreteModule( AbstractClock clock ) {
         
@@ -77,10 +77,10 @@ public class DiscreteModule extends FourierModule {
         this.setModel( model );
         
         // Harmonic series
-        FourierSeries harmonicSeriesModel = new FourierSeries();
-        harmonicSeriesModel.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
-        harmonicSeriesModel.setNumberOfHarmonics( NUMBER_OF_HARMONICS );
-        harmonicSeriesModel.getHarmonic( 0 ).setAmplitude( 1.0 );
+        FourierSeries fourierSeriesModel = new FourierSeries();
+        fourierSeriesModel.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
+        fourierSeriesModel.setNumberOfComponents( NUMBER_OF_COMPONENTS );
+        fourierSeriesModel.getComponent( 0 ).setAmplitude( 1.0 );
         
         //----------------------------------------------------------------------------
         // View
@@ -92,17 +92,17 @@ public class DiscreteModule extends FourierModule {
         setApparatusPanel( apparatusPanel );
         
         // Amplitudes view
-        AmplitudesGraphic amplitudesGraphic = new AmplitudesGraphic( apparatusPanel, harmonicSeriesModel );
+        AmplitudesGraphic amplitudesGraphic = new AmplitudesGraphic( apparatusPanel, fourierSeriesModel );
         amplitudesGraphic.setLocation( AMPLITUDES_LOCATION );
         apparatusPanel.addGraphic( amplitudesGraphic, AMPLITUDES_LAYER );
         
         // Components view
-        ComponentsGraphic componentsGraphic = new ComponentsGraphic( apparatusPanel, harmonicSeriesModel );
+        ComponentsGraphic componentsGraphic = new ComponentsGraphic( apparatusPanel, fourierSeriesModel );
         componentsGraphic.setLocation( COMPONENTS_LOCATION );
         apparatusPanel.addGraphic( componentsGraphic, COMPONENTS_LAYER );
         
         // Sum view
-        SumGraphic sumGraphic = new SumGraphic( apparatusPanel, harmonicSeriesModel );
+        SumGraphic sumGraphic = new SumGraphic( apparatusPanel, fourierSeriesModel );
         sumGraphic.setLocation( SUM_LOCATION );
         apparatusPanel.addGraphic( sumGraphic, SUM_LAYER );
         
@@ -115,7 +115,7 @@ public class DiscreteModule extends FourierModule {
             ControlPanel controlPanel = new ControlPanel( this );
             setControlPanel( controlPanel );
             
-            FourierSeriesPanel harmonicSeriesPanel = new FourierSeriesPanel( harmonicSeriesModel );
+            FourierSeriesPanel harmonicSeriesPanel = new FourierSeriesPanel( fourierSeriesModel );
             controlPanel.addFullWidth( harmonicSeriesPanel );
         }
         

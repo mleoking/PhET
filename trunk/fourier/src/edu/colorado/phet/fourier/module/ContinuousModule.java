@@ -49,7 +49,7 @@ public class ContinuousModule extends FourierModule {
     /**
      * Sole constructor.
      * 
-     * @param appModel the application model
+     * @param clock the simulation clock
      */
     public ContinuousModule( AbstractClock clock ) {
         
