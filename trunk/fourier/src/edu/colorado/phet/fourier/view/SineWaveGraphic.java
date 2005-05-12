@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.fourier.model.FourierComponent;
 
@@ -31,11 +32,14 @@ import edu.colorado.phet.fourier.model.FourierComponent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver {
+public class SineWaveGraphic extends CompositePhetGraphic implements SimpleObserver {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
+    
+    private static final boolean USE_COSINES = false;
+    private static final double PHASE_ANGLE = 0.0;
     
     private static final Color DEFAULT_WAVE_COLOR = Color.BLACK;
     private static final Stroke DEFAULT_WAVE_STROKE = new BasicStroke( 2f );
@@ -48,7 +52,9 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
     private FourierComponent _fourierComponent;
     // Wave must be constrained to this viewport.
     private Dimension _viewportSize;
-    // Paths that describe the two halves of the sine wave.
+    // Graphicss for the two halves of the wave
+    PhetShapeGraphic _positivePathGraphic, _negativePathGraphic;
+    // Paths that describe the two halves of the wave.
     private GeneralPath _positivePath, _negativePath;
 
     //----------------------------------------------------------------------------
@@ -68,15 +74,23 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
         _fourierComponent.addObserver( this );
         
         _viewportSize = new Dimension( 200, 100 );
-        _positivePath = new GeneralPath();
-        _negativePath = new GeneralPath();
         
-        setBorderColor( DEFAULT_WAVE_COLOR );
-        setStroke( DEFAULT_WAVE_STROKE );
+        _positivePath = new GeneralPath();
+        _positivePathGraphic = new PhetShapeGraphic( component );
+        _positivePathGraphic.setShape( _positivePath );
+        _positivePathGraphic.setBorderColor( DEFAULT_WAVE_COLOR );
+        _positivePathGraphic.setStroke( DEFAULT_WAVE_STROKE );
+        addGraphic( _positivePathGraphic );
+        
+        _negativePath = new GeneralPath();
+        _negativePathGraphic = new PhetShapeGraphic( component );
+        _negativePathGraphic.setShape( _negativePath );
+        _negativePathGraphic.setBorderColor( DEFAULT_WAVE_COLOR );
+        _negativePathGraphic.setStroke( DEFAULT_WAVE_STROKE );
+        addGraphic( _negativePathGraphic );
         
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-
     }
     
     /**
@@ -98,7 +112,8 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
      * @param color the color
      */
     public void setColor( Color color ) {
-        setBorderColor( color );
+        _positivePathGraphic.setBorderColor( color );
+        _negativePathGraphic.setBorderColor( color );
         repaint();
     }
     
@@ -141,31 +156,51 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
 
         if ( isVisible() ) {
             
+            _positivePath.reset();
+            _negativePath.reset();
+            
             int numberOfCycles = _fourierComponent.getOrder() + 1;
             double amplitude = _fourierComponent.getAmplitude();
             
             // Change in angle per change in X.
-            final double deltaAngle = ( 2 * Math.PI * numberOfCycles ) / _viewportSize.width;
+            final double deltaAngle = ( 2.0 * Math.PI * numberOfCycles ) / _viewportSize.width;
 
-            // Start with 0 degree phase angle at (0,0).
-            final double phaseAngle = 0;
-            _positivePath.reset();
-            _positivePath.moveTo( 0, 0 );
-            _negativePath.reset();
-            _negativePath.moveTo( 0, 0 );
+            // Starting point
+            {
+                double radians = 0;
+                if ( USE_COSINES ) {
+                    radians = Math.cos( PHASE_ANGLE );
+                }
+                else {
+                    radians = Math.sin( PHASE_ANGLE );
+                }
+                double yStart = amplitude * radians * ( _viewportSize.height / 2.0 );
+                _positivePath.moveTo( 0, (float) -yStart ); // +Y is up
+                _negativePath.moveTo( 0, (float) -yStart ); // +Y is up
+            }
 
             // Work outwards in positive and negative X directions.
-            double angle = 0;
             for ( double x = 1; x <= ( _viewportSize.width / 2.0 ); x++ ) {
-                angle = phaseAngle + ( x * deltaAngle );
-                double y = amplitude * Math.sin( angle ) * _viewportSize.height / 2;
-                _positivePath.lineTo( (float) x, (float) -y );  // +Y is up
-                _negativePath.lineTo( (float) -x, (float) y );  // +Y is up
+                double positiveAngle = PHASE_ANGLE + ( x * deltaAngle );
+                double negativeAngle = PHASE_ANGLE - ( x * deltaAngle );
+                double positiveRadians = 0;
+                double negativeRadians = 0;
+                if ( USE_COSINES) {
+                    positiveRadians = Math.cos( positiveAngle );
+                    negativeRadians = Math.cos( negativeAngle );
+                }
+                else {
+                    positiveRadians = Math.sin( positiveAngle );
+                    negativeRadians = Math.sin( negativeAngle );
+                }
+                double positiveY = amplitude * positiveRadians * ( _viewportSize.height / 2.0 );
+                double negativeY = amplitude * negativeRadians * ( _viewportSize.height / 2.0 );
+                _positivePath.lineTo( (float) x, (float) -positiveY );  // +Y is up
+                _negativePath.lineTo( (float) -x, (float) -negativeY );  // +Y is up
             }
             
-            // Set the shape.
-            _positivePath.append( _negativePath, false );
-            setShape( _positivePath );
+            _positivePathGraphic.setShape( _positivePath );
+            _negativePathGraphic.setShape( _negativePath );
    
             repaint();
         }
