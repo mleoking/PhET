@@ -30,6 +30,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+
 sandbox-2005-05-11...
 (5/11) - first pass at "Components" view in Discrete module
 (5/11) - rename some stuff to match terminology
