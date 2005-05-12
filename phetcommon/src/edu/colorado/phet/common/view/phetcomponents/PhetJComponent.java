@@ -48,7 +48,7 @@ public class PhetJComponent extends PhetGraphic {
     private static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
         if( !inited ) {
             init( null );
-            new RuntimeException( "Focus traversal requires PhetJComponent.init(ApplicationWindow)" ).printStackTrace();
+            new RuntimeException( "Focus traversal requires PhetJComponent.init(Window)" ).printStackTrace();
         }
 
         if( topLevel ) {
