@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -64,7 +65,9 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     
     private FourierSeries _fourierSeriesModel;
     private CompositePhetGraphic _wavesGraphic;
+    private ArrayList _wavesList; // array of SineWaveGraphic
     private int _previousNumberOfComponents;
+    private int _waveType;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -107,6 +110,7 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
         addGraphic( yAxisGraphic, AXES_LAYER );
         
         // Waves
+        _waveType = SineWaveGraphic.WAVE_TYPE_SINE;
         _wavesGraphic = new CompositePhetGraphic( component );
         addGraphic( _wavesGraphic, WAVES_LAYER );
         
@@ -115,6 +119,7 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
         outlineGraphic.setIgnoreMouse( true );
         _wavesGraphic.setIgnoreMouse( true );
         
+        _wavesList = new ArrayList();
         _previousNumberOfComponents = -1; // force update
         update();
     }
@@ -124,6 +129,26 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
         _fourierSeriesModel = null;
     }
 
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setWaveType( int waveType ) {
+       if ( waveType != _waveType ) {
+           _waveType = waveType;
+           for ( int i = 0; i < _wavesList.size(); i++ ) {
+               SineWaveGraphic wave = (SineWaveGraphic)_wavesList.get( i );
+               wave.setWaveType( _waveType );
+               wave.update();
+           }
+           repaint();
+       }
+    }
+    
+    public int getWaveType() {
+        return _waveType;
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -135,6 +160,7 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
         if ( _previousNumberOfComponents != numberOfComponents ) {
             
             _wavesGraphic.clear();
+            _wavesList.clear();
             
             for ( int i = 0; i < numberOfComponents; i++ ) {
                 
@@ -143,11 +169,13 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
                 Color color = FourierUtils.calculateColor( _fourierSeriesModel, i );
                 
                 SineWaveGraphic waveGraphic = new SineWaveGraphic( getComponent(), fourierComponent );
+                waveGraphic.setWaveType( _waveType );
                 waveGraphic.setColor( color );
                 waveGraphic.setViewportSize( OUTLINE_WIDTH, OUTLINE_HEIGHT );
                 waveGraphic.setLocation( OUTLINE_WIDTH/2, 0 );
                 waveGraphic.update();
                 
+                _wavesList.add( waveGraphic );
                 _wavesGraphic.addGraphic( waveGraphic );
             }
             

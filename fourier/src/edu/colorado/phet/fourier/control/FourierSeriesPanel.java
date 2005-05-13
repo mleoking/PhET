@@ -39,10 +39,10 @@ public class FourierSeriesPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     // Things to be controlled.
-    private FourierSeries _harmonicSeriesModel;
+    private FourierSeries _fourierSeriesModel;
     
     // UI components
-    private ControlPanelSlider _numberOfHarmonicsSlider;
+    private ControlPanelSlider _numberOfComponentsSlider;
     private ControlPanelSlider _fundamentalFrequencySlider;
     
     //----------------------------------------------------------------------------
@@ -52,14 +52,14 @@ public class FourierSeriesPanel extends JPanel {
     /**
      * Sole constructor.
      * 
-     * @param harmonicSeriesModel
+     * @param fourierSeriesModel
      */
-    public FourierSeriesPanel( FourierSeries harmonicSeriesModel )
+    public FourierSeriesPanel( FourierSeries fourierSeriesModel )
     {
-        assert( harmonicSeriesModel != null );
+        assert( fourierSeriesModel != null );
         
         // Things we'll be controlling.
-        _harmonicSeriesModel = harmonicSeriesModel;
+        _fourierSeriesModel = fourierSeriesModel;
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
@@ -69,14 +69,14 @@ public class FourierSeriesPanel extends JPanel {
         
         // Number of harmonics
         {
-            String format = SimStrings.get( "FourierSeriesPanel.numberOfHarmonics" );
-            _numberOfHarmonicsSlider = new ControlPanelSlider( format );
-            _numberOfHarmonicsSlider.setMaximum( 15 );
-            _numberOfHarmonicsSlider.setMinimum( 5 );
-            _numberOfHarmonicsSlider.setValue( 7 );
-            _numberOfHarmonicsSlider.setMajorTickSpacing( 2 );
-            _numberOfHarmonicsSlider.setMinorTickSpacing( 1 );
-            _numberOfHarmonicsSlider.setSnapToTicks( true );
+            String format = SimStrings.get( "FourierSeriesPanel.numberOfComponents" );
+            _numberOfComponentsSlider = new ControlPanelSlider( format );
+            _numberOfComponentsSlider.setMaximum( 15 );
+            _numberOfComponentsSlider.setMinimum( 5 );
+            _numberOfComponentsSlider.setValue( 7 );
+            _numberOfComponentsSlider.setMajorTickSpacing( 2 );
+            _numberOfComponentsSlider.setMinorTickSpacing( 1 );
+            _numberOfComponentsSlider.setSnapToTicks( true );
         }
         
         // Fundamental frequency
@@ -95,12 +95,12 @@ public class FourierSeriesPanel extends JPanel {
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
-        layout.addFilledComponent( _numberOfHarmonicsSlider, row++, 0, GridBagConstraints.HORIZONTAL );
+        layout.addFilledComponent( _numberOfComponentsSlider, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addFilledComponent( _fundamentalFrequencySlider, row++, 0, GridBagConstraints.HORIZONTAL );
         
         // Wire up event handling.
         EventListener listener = new EventListener();
-        _numberOfHarmonicsSlider.addChangeListener( listener );
+        _numberOfComponentsSlider.addChangeListener( listener );
         _fundamentalFrequencySlider.addChangeListener( listener );
         
         // Set the state of the controls.
@@ -111,8 +111,8 @@ public class FourierSeriesPanel extends JPanel {
      * Updates the control panel to match the state of the things that it's controlling.
      */
     public void update() {
-        _numberOfHarmonicsSlider.setValue( _harmonicSeriesModel.getNumberOfComponents() );
-        _fundamentalFrequencySlider.setValue( (int)_harmonicSeriesModel.getFundamentalFrequency() );
+        _numberOfComponentsSlider.setValue( _fourierSeriesModel.getNumberOfComponents() );
+        _fundamentalFrequencySlider.setValue( (int)_fourierSeriesModel.getFundamentalFrequency() );
     }
     
     //----------------------------------------------------------------------------
@@ -128,15 +128,15 @@ public class FourierSeriesPanel extends JPanel {
         public EventListener() {}
         
         public void stateChanged( ChangeEvent event ) {
-            if ( event.getSource() == _numberOfHarmonicsSlider ) {
-                if ( !_numberOfHarmonicsSlider.getSlider().getValueIsAdjusting() ) {
-                    int numberOfHarmonics = _numberOfHarmonicsSlider.getValue();
-                    _harmonicSeriesModel.setNumberOfComponents( numberOfHarmonics );
+            if ( event.getSource() == _numberOfComponentsSlider ) {
+                if ( !_numberOfComponentsSlider.getSlider().getValueIsAdjusting() ) {
+                    int numberOfComponents = _numberOfComponentsSlider.getValue();
+                    _fourierSeriesModel.setNumberOfComponents( numberOfComponents );
                 }
             }
             else if ( event.getSource() == _fundamentalFrequencySlider ) {
                 int fundamentalFrequency = _fundamentalFrequencySlider.getValue();
-                _harmonicSeriesModel.setFundamentalFrequency( fundamentalFrequency );
+                _fourierSeriesModel.setFundamentalFrequency( fundamentalFrequency );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
