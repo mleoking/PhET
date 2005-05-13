@@ -35,11 +35,11 @@ public class PressureDialGauge extends PhetShapeGraphic {
         this.box = box;
 
         center = new Point2D.Double( attachmentPt.getX() + radius + stemLength, attachmentPt.getY() );
-        numberFormat = new DecimalFormat( "#0.0" );
+        numberFormat = new DecimalFormat( "#0.00" );
         pressureGauge = new DialGauge( new ObservablePressureBox(), component,
                                        center.getX(), center.getY(),
                                        radius * 2, 0, IdealGasConfig.MAX_GAUGE_PRESSURE, "Pressure", "Atm",
-                                       font, numberFormat);
+                                       font, numberFormat );
         pressureGauge.setBackground( new Color( 230, 255, 230 ) );
         stem = new Rectangle2D.Double( box.getMaxX(), center.getY() - stemThickness / 2,
                                        stemLength, stemThickness );
