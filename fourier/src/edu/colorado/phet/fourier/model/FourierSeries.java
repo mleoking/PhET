@@ -158,7 +158,6 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     public void update() {
-        System.out.println( "FourierSeries.update" );//XXX
         notifyObservers();
     }
 }

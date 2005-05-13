@@ -227,8 +227,6 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     
     // XXX this is quick-and-dirty, very inefficient
     public void update() {
-
-        System.out.println( "SumGraphic.update" );//XXX
         
         int numberOfComponents = _fourierSeriesModel.getNumberOfComponents();
         int width = OUTLINE_WIDTH;
