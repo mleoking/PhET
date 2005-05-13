@@ -225,7 +225,7 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
             
             // Approximate the wave as a set of line segments.
             _path.reset();
-            for ( double i = 0; i <= _viewportSize.width; i++ ) {
+            for ( int i = 0; i <= _viewportSize.width; i++ ) {
                 double angle = startAngle + ( i * deltaAngle );
                 double radians = ( _waveType == WAVE_TYPE_SINE ) ? Math.sin( angle ): Math.cos( angle );
                 double x = -( _viewportSize.width / 2 - i );

@@ -12,6 +12,7 @@ HIGH PRIORITY:
 - persistence
 
 MEDIUM PRIORITY:
+- OK to override finalize?
 
 LOW PRIORITY:
 
@@ -34,6 +35,8 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(5/13) - add Reset button to all control panels
+(5/13) - add Sum view 
 (5/12) - add Wiggle Me to Discrete module
 (5/12) - switch between sines and cosines for Components view
 sandbox-2005-05-11...

@@ -308,7 +308,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * Displays a modal error dialog for invalid user inputs.
      */
     private void showUserInputErrorDialog() {
-        String message = SimStrings.get( "AmplitudeSlider.inputErrorMessage" );
+        String message = SimStrings.get( "AmplitudeErrorDialog.message" );
         JOptionPane op = new JOptionPane( message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
         op.createDialog( getComponent(), null ).show();
     }

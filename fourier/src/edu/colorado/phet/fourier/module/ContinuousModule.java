@@ -17,8 +17,8 @@ import java.awt.Point;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.control.FourierControlPanel;
 
 
 /**
@@ -78,13 +78,25 @@ public class ContinuousModule extends FourierModule {
 
         // Control Panel
         {
-            ControlPanel controlPanel = new ControlPanel( this );
-            //XXX add subpanels
+            FourierControlPanel controlPanel = new FourierControlPanel( this );
             setControlPanel( controlPanel );
+            
+            controlPanel.addResetButton(); 
         }
         
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+    }
+    
+    //----------------------------------------------------------------------------
+    // FourierModule implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Resets everything to the initial state.
+     */
+    public void reset() {
+        //TODO
     }
 }

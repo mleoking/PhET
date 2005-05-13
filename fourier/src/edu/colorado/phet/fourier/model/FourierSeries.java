@@ -14,6 +14,7 @@ package edu.colorado.phet.fourier.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.util.SimpleObservable;
+import edu.colorado.phet.common.util.SimpleObserver;
 
 
 /**
@@ -22,7 +23,7 @@ import edu.colorado.phet.common.util.SimpleObservable;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FourierSeries extends SimpleObservable {
+public class FourierSeries extends SimpleObservable implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -49,8 +50,15 @@ public class FourierSeries extends SimpleObservable {
         _fundamentalFrequency = DEFAULT_FUNDAMENTAL_FREQUENCY;
         _components = new ArrayList();
         _availableComponents = new ArrayList();
+        setNumberOfComponents( 1 );
     }
   
+    public void finalize() {
+        for ( int i = 0; i < _components.size(); i++ ) {
+            ( (FourierComponent) _components.get( i ) ).removeObserver( this );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -85,6 +93,8 @@ public class FourierSeries extends SimpleObservable {
     public void setNumberOfComponents( int numberOfComponents ) {
         assert( numberOfComponents > 0 );
         
+        FourierComponent component = null;
+        
         int currentNumber = _components.size();
         if ( numberOfComponents != currentNumber ) {
             if ( numberOfComponents < currentNumber ) {
@@ -92,7 +102,10 @@ public class FourierSeries extends SimpleObservable {
                 int numberToRemove = currentNumber - numberOfComponents;
                 for ( int i = currentNumber-1; i > currentNumber - numberToRemove - 1; i-- ) {
                     // Move the component to the "available" list.
-                    _availableComponents.add( _components.get(i) );
+                    component = (FourierComponent) _components.get( i );
+                    component.removeObserver( this );
+                    component.setAmplitude( 0 );
+                    _availableComponents.add( component );
                     _components.remove( i );
                 }
             }
@@ -100,16 +113,17 @@ public class FourierSeries extends SimpleObservable {
                 // Add harmonics.
                 int numberToAdd = numberOfComponents - currentNumber;
                 for ( int i = 0; i < numberToAdd; i++ ) {
-                    FourierComponent component = null;
                     int numberAvailable = _availableComponents.size();
                     if ( numberAvailable > 0 ) {
                         // Get a component from the "available" list.
                         component = (FourierComponent) _availableComponents.get( numberAvailable - 1 );
-                        component.setOrder( currentNumber + i );
                         _availableComponents.remove( numberAvailable - 1 );
+                        component.setOrder( currentNumber + i );
+                        component.addObserver( this );
                     }
                     else {
-                        component = new FourierComponent( currentNumber + i );   
+                        component = new FourierComponent( currentNumber + i );
+                        component.addObserver( this );
                     }
                     _components.add( component );
                 }
@@ -137,5 +151,14 @@ public class FourierSeries extends SimpleObservable {
     public FourierComponent getComponent( int order ) {
         assert( order >= 0 && order < _components.size() );
         return (FourierComponent) _components.get( order );
+    }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    public void update() {
+        System.out.println( "FourierSeries.update" );//XXX
+        notifyObservers();
     }
 }
