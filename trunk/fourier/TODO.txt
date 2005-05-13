@@ -5,7 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- flesh out Components view in "Discrete" module
+- label axes on ComponentsGraphic
+- optimize memory allocation in ComponentsGraphic
+- make SineWaveGraphic capable of traveling animation
+- add presets for various Fourier Series (sine, sawtooth, packet, etc.)
+- persistence
 
 MEDIUM PRIORITY:
 
@@ -30,7 +34,8 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
-
+(5/12) - add Wiggle Me to Discrete module
+(5/12) - switch between sines and cosines for Components view
 sandbox-2005-05-11...
 (5/11) - first pass at "Components" view in Discrete module
 (5/11) - rename some stuff to match terminology

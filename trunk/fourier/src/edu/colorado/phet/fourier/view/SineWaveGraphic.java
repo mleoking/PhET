@@ -32,17 +32,21 @@ import edu.colorado.phet.fourier.model.FourierComponent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SineWaveGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean USE_COSINES = false;
-    private static final double PHASE_ANGLE = 0.0;
+    public static final int WAVE_TYPE_SINE = 0;
+    public static final int WAVE_TYPE_COSINE = 1;
     
+    // Defaults
+    private static final Dimension DEFAULT_VIEWPORT_SIZE = new Dimension( 200, 50 );
+    private static final double DEFAULT_PHASE_ANGLE = 0.0;
+    private static final int DEFAULT_WAVE_TYPE = WAVE_TYPE_SINE;
     private static final Color DEFAULT_WAVE_COLOR = Color.BLACK;
-    private static final Stroke DEFAULT_WAVE_STROKE = new BasicStroke( 2f );
+    private static final float DEFAULT_WAVE_LINE_WIDTH = 2f;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -52,10 +56,12 @@ public class SineWaveGraphic extends CompositePhetGraphic implements SimpleObser
     private FourierComponent _fourierComponent;
     // Wave must be constrained to this viewport.
     private Dimension _viewportSize;
-    // Graphicss for the two halves of the wave
-    PhetShapeGraphic _positivePathGraphic, _negativePathGraphic;
-    // Paths that describe the two halves of the wave.
-    private GeneralPath _positivePath, _negativePath;
+    // Paths that describes the wave.
+    private GeneralPath _path;
+    // The phase angle at the origin
+    private double _phaseAngle;
+    // Type of wave (sines or cosines)
+    private int _waveType;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,29 +79,21 @@ public class SineWaveGraphic extends CompositePhetGraphic implements SimpleObser
         _fourierComponent = fourierComponent;
         _fourierComponent.addObserver( this );
         
-        _viewportSize = new Dimension( 200, 100 );
+        _viewportSize = DEFAULT_VIEWPORT_SIZE;
+        _phaseAngle = DEFAULT_PHASE_ANGLE;
+        _waveType = DEFAULT_WAVE_TYPE;
         
-        _positivePath = new GeneralPath();
-        _positivePathGraphic = new PhetShapeGraphic( component );
-        _positivePathGraphic.setShape( _positivePath );
-        _positivePathGraphic.setBorderColor( DEFAULT_WAVE_COLOR );
-        _positivePathGraphic.setStroke( DEFAULT_WAVE_STROKE );
-        addGraphic( _positivePathGraphic );
+        _path = new GeneralPath();
+        setShape( _path );
+        setBorderColor( DEFAULT_WAVE_COLOR );
+        setStroke( new BasicStroke( DEFAULT_WAVE_LINE_WIDTH ) );
         
-        _negativePath = new GeneralPath();
-        _negativePathGraphic = new PhetShapeGraphic( component );
-        _negativePathGraphic.setShape( _negativePath );
-        _negativePathGraphic.setBorderColor( DEFAULT_WAVE_COLOR );
-        _negativePathGraphic.setStroke( DEFAULT_WAVE_STROKE );
-        addGraphic( _negativePathGraphic );
-        
-        // Enable antialiasing for all children.
+        // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
     }
     
     /**
-     * Finalizes an instance of this type.
-     * Call this method prior to releasing all references to an object of this type.
+     * Finalizes an instance of this type..
      */
     public void finalize() {
         _fourierComponent.removeObserver( this );
@@ -107,13 +105,64 @@ public class SineWaveGraphic extends CompositePhetGraphic implements SimpleObser
     //----------------------------------------------------------------------------
     
     /**
+     * Sets the wave type (sine or cosine).
+     * 
+     * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
+     */
+    public void setWaveType( int waveType ) {
+        if ( waveType != _waveType ) {
+            _waveType = waveType;
+            update();
+        }
+    }
+    
+    /**
+     * Gets the wave type.
+     * 
+     * @return WAVE_TYPE_SINES or WAVE_TYPE_COSINE
+     */
+    public int getWaveType() {
+        return _waveType;
+    }
+    
+    /**
+     * Sets the phase angle at the origin.
+     * 
+     * @param phaseAngle the phase angle, in radians
+     */
+    public void setPhaseAngle( double phaseAngle ) {
+        if ( phaseAngle != phaseAngle ) {
+            _phaseAngle = phaseAngle;
+            update();
+        }
+    }
+    
+    /**
+     * Gets the phase angle at the origin.
+     * 
+     * @return the phase angle, in radians
+     */
+    public double getPhaseAngle() {
+        return _phaseAngle;
+    }
+
+    /**
      * Sets the color used to draw the wave.
      * 
      * @param color the color
      */
     public void setColor( Color color ) {
-        _positivePathGraphic.setBorderColor( color );
-        _negativePathGraphic.setBorderColor( color );
+        setBorderColor( color );
+        repaint();
+    }
+
+    /**
+     * Sets the line width used to draw the wave.
+     * 
+     * @param viewportSize
+     */
+    public void setLineWidth( float width ) {
+        setStroke( new BasicStroke( width ) );
         repaint();
     }
     
@@ -140,68 +189,56 @@ public class SineWaveGraphic extends CompositePhetGraphic implements SimpleObser
         }
     }
     
+    /**
+     * Gets the viewport size.
+     * 
+     * @return the viewport size
+     */
+    public Dimension getViewportSize() {
+        return new Dimension( _viewportSize );
+    }
+    
     //----------------------------------------------------------------------------
     // Drawing
     //----------------------------------------------------------------------------
     
     /**
-     * Updates the graphic to match the current paramter settings.
-     * The sine wave is approximated using a set of line segments.
+     * Updates the graphic to match the current parameter settings.
+     * The wave is approximated using a set of line segments.
      * The origin is at the center of the viewport.
      * <p>
-     * NOTE! As a performance optimization, you must call this method explicitly
-     * after changing parameter values.
+     * NOTE! As a performance optimization, you must call this
+     * method explicitly after changing parameter values.
      */
     public void update() {
 
         if ( isVisible() ) {
             
-            _positivePath.reset();
-            _negativePath.reset();
-            
             int numberOfCycles = _fourierComponent.getOrder() + 1;
             double amplitude = _fourierComponent.getAmplitude();
             
-            // Change in angle per change in X.
+            // Change in angle per change in x coordinate
             final double deltaAngle = ( 2.0 * Math.PI * numberOfCycles ) / _viewportSize.width;
 
-            // Starting point
-            {
-                double radians = 0;
-                if ( USE_COSINES ) {
-                    radians = Math.cos( PHASE_ANGLE );
+            // Start angle
+            double startAngle = _phaseAngle - ( deltaAngle * ( _viewportSize.width / 2.0 ) );
+            
+            // Approximate the wave as a set of line segments.
+            _path.reset();
+            for ( double i = 0; i <= _viewportSize.width; i++ ) {
+                double angle = startAngle + ( i * deltaAngle );
+                double radians = ( _waveType == WAVE_TYPE_SINE ) ? Math.sin( angle ): Math.cos( angle );
+                double x = -( _viewportSize.width / 2 - i );
+                double y = amplitude * radians * ( _viewportSize.height / 2.0 );
+                if ( i == 0 ) {
+                    _path.moveTo( (float) x, (float) -y );  // +Y is up
                 }
                 else {
-                    radians = Math.sin( PHASE_ANGLE );
+                    _path.lineTo( (float) x, (float) -y );  // +Y is up
                 }
-                double yStart = amplitude * radians * ( _viewportSize.height / 2.0 );
-                _positivePath.moveTo( 0, (float) -yStart ); // +Y is up
-                _negativePath.moveTo( 0, (float) -yStart ); // +Y is up
-            }
-
-            // Work outwards in positive and negative X directions.
-            for ( double x = 1; x <= ( _viewportSize.width / 2.0 ); x++ ) {
-                double positiveAngle = PHASE_ANGLE + ( x * deltaAngle );
-                double negativeAngle = PHASE_ANGLE - ( x * deltaAngle );
-                double positiveRadians = 0;
-                double negativeRadians = 0;
-                if ( USE_COSINES) {
-                    positiveRadians = Math.cos( positiveAngle );
-                    negativeRadians = Math.cos( negativeAngle );
-                }
-                else {
-                    positiveRadians = Math.sin( positiveAngle );
-                    negativeRadians = Math.sin( negativeAngle );
-                }
-                double positiveY = amplitude * positiveRadians * ( _viewportSize.height / 2.0 );
-                double negativeY = amplitude * negativeRadians * ( _viewportSize.height / 2.0 );
-                _positivePath.lineTo( (float) x, (float) -positiveY );  // +Y is up
-                _negativePath.lineTo( (float) -x, (float) -negativeY );  // +Y is up
             }
             
-            _positivePathGraphic.setShape( _positivePath );
-            _negativePathGraphic.setShape( _negativePath );
-   
+            setShape( _path );
             repaint();
         }
     }
