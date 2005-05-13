@@ -21,15 +21,17 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.control.ComponentsPanel;
+import edu.colorado.phet.fourier.control.FourierControlPanel;
 import edu.colorado.phet.fourier.control.FourierSeriesPanel;
+import edu.colorado.phet.fourier.control.WaveTypePanel;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
+import edu.colorado.phet.fourier.model.FourierComponent;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.Vector2D;
 import edu.colorado.phet.fourier.view.AmplitudesGraphic;
 import edu.colorado.phet.fourier.view.ComponentsGraphic;
+import edu.colorado.phet.fourier.view.SineWaveGraphic;
 import edu.colorado.phet.fourier.view.SumGraphic;
 
 
@@ -60,9 +62,20 @@ public class DiscreteModule extends FourierModule {
     private static final Color APPARATUS_BACKGROUND = Color.WHITE;
     private static final Color WIGGLE_ME_COLOR = Color.RED;
     
-    // Harmonics
+    // Fourier Components
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
     private static final int NUMBER_OF_COMPONENTS = 7;
+    private static final int WAVE_TYPE = SineWaveGraphic.WAVE_TYPE_SINE;
+  
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private FourierSeries _fourierSeriesModel;
+    private ComponentsGraphic _componentsGraphic;
+    private SumGraphic _sumGraphic;
+    private FourierSeriesPanel _fourierSeriesPanel;
+    private WaveTypePanel _waveTypePanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -85,11 +98,8 @@ public class DiscreteModule extends FourierModule {
         BaseModel model = new BaseModel();
         this.setModel( model );
         
-        // Harmonic series
-        FourierSeries fourierSeriesModel = new FourierSeries();
-        fourierSeriesModel.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
-        fourierSeriesModel.setNumberOfComponents( NUMBER_OF_COMPONENTS );
-        fourierSeriesModel.getComponent( 0 ).setAmplitude( 1.0 );
+        // Fourier Series
+        _fourierSeriesModel = new FourierSeries();
         
         //----------------------------------------------------------------------------
         // View
@@ -101,19 +111,19 @@ public class DiscreteModule extends FourierModule {
         setApparatusPanel( apparatusPanel );
         
         // Amplitudes view
-        AmplitudesGraphic amplitudesGraphic = new AmplitudesGraphic( apparatusPanel, fourierSeriesModel );
+        AmplitudesGraphic amplitudesGraphic = new AmplitudesGraphic( apparatusPanel, _fourierSeriesModel );
         amplitudesGraphic.setLocation( AMPLITUDES_LOCATION );
         apparatusPanel.addGraphic( amplitudesGraphic, AMPLITUDES_LAYER );
         
         // Components view
-        ComponentsGraphic componentsGraphic = new ComponentsGraphic( apparatusPanel, fourierSeriesModel );
-        componentsGraphic.setLocation( COMPONENTS_LOCATION );
-        apparatusPanel.addGraphic( componentsGraphic, COMPONENTS_LAYER );
+        _componentsGraphic = new ComponentsGraphic( apparatusPanel, _fourierSeriesModel );
+        _componentsGraphic.setLocation( COMPONENTS_LOCATION );
+        apparatusPanel.addGraphic( _componentsGraphic, COMPONENTS_LAYER );
         
         // Sum view
-        SumGraphic sumGraphic = new SumGraphic( apparatusPanel, fourierSeriesModel );
-        sumGraphic.setLocation( SUM_LOCATION );
-        apparatusPanel.addGraphic( sumGraphic, SUM_LAYER );
+        _sumGraphic = new SumGraphic( apparatusPanel, _fourierSeriesModel );
+        _sumGraphic.setLocation( SUM_LOCATION );
+        apparatusPanel.addGraphic( _sumGraphic, SUM_LAYER );
         
         //----------------------------------------------------------------------------
         // Control
@@ -121,24 +131,52 @@ public class DiscreteModule extends FourierModule {
 
         // Control Panel
         {
-            ControlPanel controlPanel = new ControlPanel( this );
+            FourierControlPanel controlPanel = new FourierControlPanel( this );
             setControlPanel( controlPanel );
             
-            FourierSeriesPanel harmonicSeriesPanel = new FourierSeriesPanel( fourierSeriesModel );
-            controlPanel.addFullWidth( harmonicSeriesPanel );
+            _fourierSeriesPanel = new FourierSeriesPanel( _fourierSeriesModel );
+            controlPanel.addFullWidth( _fourierSeriesPanel );
             
-            ComponentsPanel componentsPanel = new ComponentsPanel( componentsGraphic );
-            controlPanel.addFullWidth( componentsPanel );
+            _waveTypePanel = new WaveTypePanel( _componentsGraphic, _sumGraphic );
+            controlPanel.addFullWidth( _waveTypePanel );
+            
+            controlPanel.addResetButton();
         }
+        
+        reset();
         
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
         
         // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, fourierSeriesModel );
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _fourierSeriesModel );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+    }
+    
+    //----------------------------------------------------------------------------
+    // FourierModule implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Resets everything to the initial state.
+     */
+    public void reset() {
+        
+        _fourierSeriesModel.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
+        _fourierSeriesModel.setNumberOfComponents( NUMBER_OF_COMPONENTS );
+        _fourierSeriesModel.getComponent( 0 ).setAmplitude( 1.0 );
+        for ( int i = 1; i < _fourierSeriesModel.getNumberOfComponents(); i++ ) {
+            ( (FourierComponent) _fourierSeriesModel.getComponent( i ) ).setAmplitude( 0 );
+        }
+        
+        _componentsGraphic.setWaveType( WAVE_TYPE );
+        
+        _sumGraphic.setWaveType( WAVE_TYPE );
+        
+        _fourierSeriesPanel.update();
+        _waveTypePanel.update();
     }
     
     //----------------------------------------------------------------------------
@@ -165,7 +203,7 @@ public class DiscreteModule extends FourierModule {
             _fourierSeriesModel = fourierSeriesModel;
             
             setText( SimStrings.get( "DiscreteModule.wiggleMe" ), WIGGLE_ME_COLOR );
-            addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -40, 30 ), WIGGLE_ME_COLOR );
+            addArrow( WiggleMeGraphic.MIDDLE_LEFT, new Vector2D( -40, 30 ), WIGGLE_ME_COLOR );
             addArrow( WiggleMeGraphic.TOP_LEFT, new Vector2D( -40, -30 ), WIGGLE_ME_COLOR );
             setRange( 20, 10 );
             setEnabled( true );

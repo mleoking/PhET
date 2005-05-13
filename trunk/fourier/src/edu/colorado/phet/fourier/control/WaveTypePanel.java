@@ -29,6 +29,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.view.ComponentsGraphic;
 import edu.colorado.phet.fourier.view.SineWaveGraphic;
+import edu.colorado.phet.fourier.view.SumGraphic;
 
 
 /**
@@ -37,7 +38,7 @@ import edu.colorado.phet.fourier.view.SineWaveGraphic;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class ComponentsPanel extends JPanel {
+public class WaveTypePanel extends JPanel {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -45,6 +46,7 @@ public class ComponentsPanel extends JPanel {
     
     // Things to be controlled.
     private ComponentsGraphic _componentsGraphic;
+    private SumGraphic _sumGraphic;
     
     // UI components
     private JComboBox _waveTypeComboBox;
@@ -61,16 +63,18 @@ public class ComponentsPanel extends JPanel {
      * 
      * @param componentsGraphic
      */
-    public ComponentsPanel( ComponentsGraphic componentsGraphic )
+    public WaveTypePanel( ComponentsGraphic componentsGraphic, SumGraphic sumGraphic )
     {
         assert( componentsGraphic != null );
+        assert( sumGraphic != null );
         
         // Things we'll be controlling.
         _componentsGraphic = componentsGraphic;
+        _sumGraphic = sumGraphic;
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = SimStrings.get( "ComponentsPanel.title" );
+        String title = SimStrings.get( "WaveTypePanel.title" );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
         setBorder( titleBorder );
         
@@ -78,12 +82,12 @@ public class ComponentsPanel extends JPanel {
         JPanel waveTypePanel = new JPanel();
         {
             // Label
-            JLabel label = new JLabel( SimStrings.get( "ComponentsPanel.waveType" ) );
+            JLabel label = new JLabel( SimStrings.get( "WaveTypePanel.show" ) );
             
             // Choices
             _waveTypeChoices = new Hashtable();
-            _waveTypeChoices.put( SimStrings.get( "ComponentsPanel.sines" ), new Integer( SineWaveGraphic.WAVE_TYPE_SINE ) );
-            _waveTypeChoices.put( SimStrings.get( "ComponentsPanel.cosines" ), new Integer( SineWaveGraphic.WAVE_TYPE_COSINE ) );
+            _waveTypeChoices.put( SimStrings.get( "WaveTypePanel.sines" ), new Integer( SineWaveGraphic.WAVE_TYPE_SINE ) );
+            _waveTypeChoices.put( SimStrings.get( "WaveTypePanel.cosines" ), new Integer( SineWaveGraphic.WAVE_TYPE_COSINE ) );
             
             // Wave Type combo box
             _waveTypeComboBox = new JComboBox( );
@@ -122,10 +126,10 @@ public class ComponentsPanel extends JPanel {
             Object item = null;
             switch ( _componentsGraphic.getWaveType() ) {
             case SineWaveGraphic.WAVE_TYPE_SINE:
-                item = SimStrings.get( "ComponentsPanel.sines" );
+                item = SimStrings.get( "WaveTypePanel.sines" );
                 break;
             case SineWaveGraphic.WAVE_TYPE_COSINE:
-                item = SimStrings.get( "ComponentsPanel.cosines" );
+                item = SimStrings.get( "WaveTypePanel.cosines" );
                 break;
             default:
             }
@@ -154,6 +158,7 @@ public class ComponentsPanel extends JPanel {
                 assert( value != null && value instanceof Integer ); // programming error
                 int waveType = ((Integer)value).intValue();
                 _componentsGraphic.setWaveType( waveType );
+                _sumGraphic.setWaveType( waveType );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );

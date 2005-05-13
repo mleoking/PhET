@@ -100,6 +100,9 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     public AmplitudesGraphic( Component component, FourierSeries fourierSeriesModel ) {
         super( component );
         
+        // Enable antialiasing
+        setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
         _fourierSeriesModel = fourierSeriesModel;
         _fourierSeriesModel.addObserver( this );
 
