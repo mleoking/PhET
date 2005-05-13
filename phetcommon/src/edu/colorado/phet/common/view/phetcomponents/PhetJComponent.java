@@ -6,15 +6,14 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -40,6 +39,7 @@ public class PhetJComponent extends PhetGraphic {
     private BufferedImage image;
     private MouseInputAdapter mouseListener;
     private KeyListener keyHandler;
+    private static PhetJComponentRepaintManager repaintManagerPhet = new PhetJComponentRepaintManager();
 
     public static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent ) {
         return newInstance( apparatusPanel, jComponent, true );
@@ -67,15 +67,8 @@ public class PhetJComponent extends PhetGraphic {
             container.doLayout();
 //            System.out.println( "container = " + container.getClass() + ", layout=" + container.getLayout().getClass() );
         }
-        doNotifyAll( jComponent );
-        //some special cases.
-        if( jComponent instanceof JTextComponent ) {
-            return new PhetJTextComponent( apparatusPanel, (JTextComponent)jComponent, topLevel );
-        }
-        else if( jComponent instanceof JToggleButton ) {
-            return new PhetJToggleButton( apparatusPanel, (JToggleButton)jComponent, topLevel );
-        }
-        else if( jComponent.getComponentCount() > 0 ) {
+        doNotifyAll( jComponent );//todo what is this for?
+        if( jComponent.getComponentCount() > 0 ) {
 
             //This code attempted to create a Graphic Tree with the swing components we contain.
             GraphicLayerSet graphicLayerSet = new GraphicLayerSet();
@@ -108,9 +101,14 @@ public class PhetJComponent extends PhetGraphic {
     }
 
     public static void init( Window applicationWindow ) {
+
+
         if( inited ) {
             throw new RuntimeException( "Multiple inits." );
         }
+
+        System.out.println( "Setting repaintManagerPhet." );
+        RepaintManager.setCurrentManager( repaintManagerPhet );
 
         offscreen = new JWindow( applicationWindow ) {
             public void invalidate() {
@@ -160,140 +158,81 @@ public class PhetJComponent extends PhetGraphic {
         this.topLevel = topLevel;
         repaint();
 
-        component.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-//                System.out.println( "evt = " + evt );
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
-                        repaint();
-                    }
-                } );
-            }
-        } );
-
-        //TODO see about InputMethodListener
-
-        component.addFocusListener( new FocusAdapter() {
-            public void focusGained( FocusEvent e ) {
-                repaint();
-            }
-
-            public void focusLost( FocusEvent e ) {
-                repaint();
-            }
-        } );
-
-        component.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                repaint();
-            }
-
-            public void componentShown( ComponentEvent e ) {
-                repaint();
-            }
-
-            public void componentHidden( ComponentEvent e ) {
-                repaint();
-            }
-        } );
-
 //        System.out.println( "component.getMouseListeners() = " + Arrays.asList( component.getMouseListeners() ) );
         mouseListener = new MouseInputAdapter() {
 
             public void mouseClicked( MouseEvent e ) {
-                boolean handled = applyEvent( component, e, new MouseListenerMethod() {
+                applyEvent( component, e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseClicked( newEvent );
                     }
 
                 }, toLocalFrame( e.getPoint() ) );
-                if( handled ) {
-                    repaint();
-                }
-
             }
 
             // implements java.awt.event.MouseMotionListener
             public void mouseDragged( MouseEvent e ) {
-                boolean handled = applyEvent( component, e, new MouseMotionListenerMethod() {
+                applyEvent( component, e, new MouseMotionListenerMethod() {
 
                     public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
                         mouseMotionListener.mouseDragged( newEvent );
                     }
                 }, toLocalFrame( e.getPoint() ) );
-                if( handled ) {
-                    repaint();
-                }
             }
 
             // implements java.awt.event.MouseListener
             public void mouseEntered( MouseEvent e ) {
-                boolean handled = applyEvent( component, e, new MouseListenerMethod() {
+                applyEvent( component, e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseEntered( newEvent );
                     }
 
                 }, toLocalFrame( e.getPoint() ) );
-                if( handled ) {
-                    repaint();
-                }
             }
 
             // implements java.awt.event.MouseListener
             public void mouseExited( MouseEvent e ) {
-                boolean handled = applyEvent( component, e, new MouseListenerMethod() {
+                applyEvent( component, e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseExited( newEvent );
                     }
 
                 }, toLocalFrame( e.getPoint() ) );
-                if( handled ) {
-                    repaint();
-                }
             }
 
             // implements java.awt.event.MouseMotionListener
             public void mouseMoved( MouseEvent e ) {
-                boolean handled = applyEvent( component, e, new MouseMotionListenerMethod() {
+                applyEvent( component, e, new MouseMotionListenerMethod() {
 
                     public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
                         mouseMotionListener.mouseMoved( newEvent );
                     }
                 }, toLocalFrame( e.getPoint() ) );
-                if( handled ) {
-                    repaint();
-                }
             }
 
             // implements java.awt.event.MouseListener
             public void mousePressed( MouseEvent e ) {
-                boolean handled = applyEvent( component, e, new MouseListenerMethod() {
+                applyEvent( component, e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mousePressed( newEvent );
                     }
 
                 }, toLocalFrame( e.getPoint() ) );
-                if( handled ) {
-                    repaint();
-                }
             }
 
             // implements java.awt.event.MouseListener
             public void mouseReleased( MouseEvent e ) {
-                boolean handled = applyEvent( component, e, new MouseListenerMethod() {
+                applyEvent( component, e, new MouseListenerMethod() {
 
                     public void invoke( MouseListener mouseListener, MouseEvent newEvent ) {
                         mouseListener.mouseReleased( newEvent );
                     }
 
                 }, toLocalFrame( e.getPoint() ) );
-                if( handled ) {
-                    repaint();
-                }
             }
         };
         addMouseInputListener( mouseListener );
@@ -326,19 +265,7 @@ public class PhetJComponent extends PhetGraphic {
         };
         addKeyListener( keyHandler );
 
-        KeyListener repaintOnKeyEvent = new KeyListener() {
-            public void keyPressed( KeyEvent e ) {
-                repaint();
-            }
-
-            public void keyReleased( KeyEvent e ) {
-                repaint();
-            }
-
-            public void keyTyped( KeyEvent e ) {
-            }
-        };
-        component.addKeyListener( repaintOnKeyEvent );
+        repaintManagerPhet.put( this );
     }
 
     private static interface KeyMethod {
@@ -352,7 +279,6 @@ public class PhetJComponent extends PhetGraphic {
 
         if( al != null ) {
             al.actionPerformed( ae );
-            repaint();
         }
         KeyListener[] kl = component.getKeyListeners();
         KeyEvent event = new KeyEvent( component, e.getID(), e.getWhen(), e.getModifiers(), e.getKeyCode(), e.getKeyChar(), e.getKeyLocation() );
@@ -499,4 +425,34 @@ public class PhetJComponent extends PhetGraphic {
         return component;
     }
 
+    public static class PhetJComponentRepaintManager extends RepaintManager {
+        private ArrayList dirtyComponents = new ArrayList();
+        private Hashtable table = new Hashtable();//key=JComponent, value=PhetJComponent.
+
+        public synchronized void addDirtyRegion( JComponent c, int x, int y, int w, int h ) {
+            super.addDirtyRegion( c, x, y, w, h );
+            if( table.containsKey( c ) ) {
+                dirtyComponents.add( c );
+//                System.out.println( "dirty: c = " + c );
+            }
+
+        }
+
+        public void paintDirtyRegions() {
+            super.paintDirtyRegions();
+            for( int i = 0; i < dirtyComponents.size(); i++ ) {
+                JComponent jComponent = (JComponent)dirtyComponents.get( i );
+                PhetJComponent phetJComponent = (PhetJComponent)table.get( jComponent );
+                phetJComponent.repaint();
+            }
+            dirtyComponents.clear();
+//            System.out.println( "clear dirty" );
+        }
+
+        public void put( PhetJComponent phetJComponent ) {
+            table.put( phetJComponent.component, phetJComponent );
+//            System.out.println( "put: phetJComponent = " + phetJComponent );
+        }
+
+    }
 }
