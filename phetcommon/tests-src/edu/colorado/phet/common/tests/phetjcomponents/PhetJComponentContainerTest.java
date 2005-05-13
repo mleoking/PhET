@@ -27,6 +27,7 @@ public class PhetJComponentContainerTest {
     public PhetJComponentContainerTest() {
         /*Set up the application frame and apparatusPanel.*/
         frame = new JFrame( "Frame" );
+        PhetJComponent.init( frame );
         swingTimerClock = new SwingTimerClock( 1, 30 );
         ap = new ApparatusPanel2( swingTimerClock );
         ap.addGraphicsSetup( new BasicGraphicsSetup() );

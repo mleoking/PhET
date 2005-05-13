@@ -442,8 +442,11 @@ public class PhetJComponent extends PhetGraphic {
             super.paintDirtyRegions();
             for( int i = 0; i < dirtyComponents.size(); i++ ) {
                 JComponent jComponent = (JComponent)dirtyComponents.get( i );
-                PhetJComponent phetJComponent = (PhetJComponent)table.get( jComponent );
-                phetJComponent.repaint();
+                //only leaves get to repaint, since their locations (in parents) were mangled.
+                if( jComponent.getComponentCount() == 0 ) {
+                    PhetJComponent phetJComponent = (PhetJComponent)table.get( jComponent );
+                    phetJComponent.repaint();
+                }
             }
             dirtyComponents.clear();
 //            System.out.println( "clear dirty" );
