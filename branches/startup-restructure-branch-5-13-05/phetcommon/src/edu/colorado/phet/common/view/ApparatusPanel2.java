@@ -152,12 +152,19 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * Sets the reference size for this panel. If the panel resizes after this, it will scale its graphicsTx using
-     * its current size in relation to the reference size
+     * its current size in relation to the reference size.
+     * <p>
+     * This should be called as soon as the application knows that the apparatus panel is at its reference size.
      */
     public void setReferenceSize() {
         transformManager.setReferenceSize();
         scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
         setScale( 1.0 );
+
+        // TODO: moved this here from init(). Decide whether it should stay here or move back
+//        panelResizeHandler = new PanelResizeHandler();
+//        this.addComponentListener( panelResizeHandler );
+
 
         // Set the canvas size
         determineCanvasSize();
@@ -165,6 +172,24 @@ public class ApparatusPanel2 extends ApparatusPanel {
         if( DEBUG_OUTPUT_ENABLED ) {
             System.out.println( "ApparatusPanel2.setReferenceBounds: referenceBounds=" + transformManager.getReferenceBounds() );
         }
+    }
+
+    /**
+     * Explicitly sets the apparatus panel's reference size to a specific dimension.
+     * @param renderingSize
+     */
+    public void setReferenceSize( Dimension renderingSize ) {
+        setReferenceSize( renderingSize.width, renderingSize.height );
+    }
+
+    /**
+     * Explicitly sets the apparatus panel's reference size to a specific dimension.     *
+     * @param width
+     * @param height
+     */
+    public void setReferenceSize( int width, int height ) {
+        transformManager.setReferenceSize( width, height );
+        scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
     }
 
     /**
@@ -360,15 +385,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     public Dimension getCanvasSize() {
         return transformManager.getCanvasSize();
-    }
-
-    public void setReferenceSize( Dimension renderingSize ) {
-        setReferenceSize( renderingSize.width, renderingSize.height );
-    }
-
-    public void setReferenceSize( int width, int height ) {
-        transformManager.setReferenceSize( width, height );
-        scaledComponentLayout.saveSwingComponentCoordinates( 1.0 );
     }
 
     //-----------------------------------------------------------------

@@ -42,6 +42,7 @@ public class ApplicationModel {
 
     public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup ) {
         this.windowTitle = windowTitle;
+        this.name = windowTitle;
         this.description = description;
         this.version = version;
         this.frameSetup = frameSetup;
