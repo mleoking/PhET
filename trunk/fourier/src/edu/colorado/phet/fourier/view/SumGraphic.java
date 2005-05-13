@@ -14,6 +14,8 @@ package edu.colorado.phet.fourier.view;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -68,6 +70,8 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final int MINOR_TICK_LENGTH = 5;
     private static final Color MINOR_TICK_COLOR = Color.BLACK;
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 1f );
+    private static final String X_ZERO_LABEL = "0";
+    private static final String AXES_LABEL_FORMAT = "0.00";
     
     // Wave parameters
     private static final Color WAVE_COLOR = Color.BLACK;
@@ -86,6 +90,8 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     private int _previousNumberOfComponents;
     private int _waveType;
     private double _phaseAngle;
+    private PhetTextGraphic _maxLabelGraphic, _minLabelGraphic;
+    private NumberFormat _minMaxFormatter;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -129,6 +135,52 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         yAxisGraphic.setStroke( AXES_STROKE );
         addGraphic( yAxisGraphic, AXES_LAYER );
         
+        // Major tick marks
+        {
+            Shape majorTickShape = new Line2D.Double( -MAJOR_TICK_LENGTH, 0, 0, 0 );
+            
+            PhetShapeGraphic zeroTickGraphic = new PhetShapeGraphic( component );
+            zeroTickGraphic.setShape( majorTickShape );
+            zeroTickGraphic.setBorderColor( MAJOR_TICK_COLOR );
+            zeroTickGraphic.setStroke( MAJOR_TICK_STROKE );
+            zeroTickGraphic.setLocation( 0, 0 );
+            addGraphic( zeroTickGraphic, TICKS_LAYER );
+            
+            PhetShapeGraphic maxTickGraphic = new PhetShapeGraphic( component );
+            maxTickGraphic.setShape( majorTickShape );
+            maxTickGraphic.setBorderColor( MAJOR_TICK_COLOR );
+            maxTickGraphic.setStroke( MAJOR_TICK_STROKE );
+            maxTickGraphic.setLocation( 0, -( OUTLINE_HEIGHT / 2 ) );
+            addGraphic( maxTickGraphic, TICKS_LAYER );
+           
+            PhetShapeGraphic minTickGraphic = new PhetShapeGraphic( component );
+            minTickGraphic.setShape( majorTickShape );
+            minTickGraphic.setBorderColor( MAJOR_TICK_COLOR );
+            minTickGraphic.setStroke( MAJOR_TICK_STROKE );
+            minTickGraphic.setLocation( 0, +( OUTLINE_HEIGHT / 2 ) );
+            addGraphic( minTickGraphic, TICKS_LAYER );
+        }
+        
+        // X axis labels
+        {
+            int x = -12;
+            
+            PhetTextGraphic zerolabelGraphic = new PhetTextGraphic( component, TICKS_LABEL_FONT, X_ZERO_LABEL, TICKS_LABEL_COLOR );
+            zerolabelGraphic.setJustification( PhetTextGraphic.EAST );
+            zerolabelGraphic.setLocation( x, 0 );
+            addGraphic( zerolabelGraphic, LABELS_LAYER );
+            
+            _maxLabelGraphic = new PhetTextGraphic( component, TICKS_LABEL_FONT, X_ZERO_LABEL, TICKS_LABEL_COLOR );
+            _maxLabelGraphic.setJustification( PhetTextGraphic.EAST );
+            _maxLabelGraphic.setLocation( x, -( OUTLINE_HEIGHT / 2 ) );
+            addGraphic( _maxLabelGraphic, LABELS_LAYER );
+            
+            _minLabelGraphic = new PhetTextGraphic( component, TICKS_LABEL_FONT, X_ZERO_LABEL, TICKS_LABEL_COLOR );
+            _minLabelGraphic.setJustification( PhetTextGraphic.EAST );
+            _minLabelGraphic.setLocation( x, +( OUTLINE_HEIGHT / 2 ) );
+            addGraphic( _minLabelGraphic, LABELS_LAYER );
+        }
+        
         // Wave
         _waveGraphic = new PhetShapeGraphic( component );
         _waveGraphic.setLocation( OUTLINE_WIDTH/2, 0 );
@@ -145,6 +197,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         _waveType = SineWaveGraphic.WAVE_TYPE_SINE;
         _phaseAngle = DEFAULT_PHASE_ANGLE;
         _previousNumberOfComponents = -1; // force update
+        _minMaxFormatter = new DecimalFormat( AXES_LABEL_FORMAT );
         update();
     }
     
@@ -218,6 +271,10 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
                 _wavePath.lineTo( (float) x, (float) -y ); // +Y is up
             }
         }
+        
+        // Set the min and max labels on the Y axis
+        _maxLabelGraphic.setText( _minMaxFormatter.format( maxSum ) );
+        _minLabelGraphic.setText( _minMaxFormatter.format( -maxSum ) );
 
         repaint();
     }
