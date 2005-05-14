@@ -144,8 +144,8 @@ public class ControlPanelTest {
     static class TestModule extends Module {
         protected TestModule( String name, AbstractClock clock ) {
             super( name, clock );
-            ApparatusPanel ap = new ApparatusPanel();
-//            ApparatusPanel2 ap = new ApparatusPanel2( clock );
+//            ApparatusPanel ap = new ApparatusPanel();
+            ApparatusPanel2 ap = new ApparatusPanel2( clock );
             ap.setBackground( Color.white );
             ap.setDisplayBorder( true );
             ap.setPreferredSize( new Dimension( 200, 200 ) );

@@ -47,19 +47,14 @@ public class ContentPanel extends JPanel {
     private JComponent controlPanel;
     private JComponent monitorPanel;
     private JComponent clockControlPanel;
-    private JComponent helpButtonPanel;
     private JDialog buttonDlg;
     private boolean fullScreen = false;
 
-    private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                           GridBagConstraints.WEST,
-                                                                           GridBagConstraints.BOTH,
-                                                                           new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 0, 1, 2, 0, 1,
-                                                                         GridBagConstraints.NORTHEAST,
-                                                                         GridBagConstraints.VERTICAL,
-                                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 0,
+    private GridBagConstraints appCtrlGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
+                                                                    GridBagConstraints.WEST,
+                                                                    GridBagConstraints.BOTH,
+                                                                    new Insets( 0, 0, 0, 0 ), 0, 0 );
+    private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
                                                                               GridBagConstraints.SOUTH,
                                                                               GridBagConstraints.NONE,
                                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -67,6 +62,7 @@ public class ContentPanel extends JPanel {
                                                                          GridBagConstraints.PAGE_END,
                                                                          GridBagConstraints.NONE,
                                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
+    private JSplitPane appCtrlPane;
 
 
     /**
@@ -75,10 +71,14 @@ public class ContentPanel extends JPanel {
      * @param monitorPanel
      * @param appControl
      */
-    public ContentPanel( JComponent apparatusPanelContainer, JComponent controlPanel, JComponent monitorPanel, JComponent appControl ) {
+    public ContentPanel( JComponent apparatusPanelContainer, JComponent controlPanel,
+                         JComponent monitorPanel, JComponent appControl ) {
         initializeLayout();
-        setApparatusPanelContainer( apparatusPanelContainer );
-        setControlPanel( controlPanel );
+
+        appCtrlPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, apparatusPanelContainer, controlPanel );
+        add( appCtrlPane, appCtrlGbc );
+        appCtrlPane.setResizeWeight( 1 );
+
         setMonitorPanel( monitorPanel );
         setAppControlPanel( appControl );
     }
@@ -99,17 +99,15 @@ public class ContentPanel extends JPanel {
     private void initializeLayout() {
         this.setLayout( new GridBagLayout() );
     }
-    
+
     public JComponent getApparatusPanelContainer() {
         return apparatusPanel;
     }
 
     public void setControlPanel( JComponent panel ) {
-        if( controlPanel != null ) {
-            remove( controlPanel );
+        if( panel != null ) {
+            appCtrlPane.setRightComponent( panel );
         }
-        controlPanel = panel;
-        setPanel( controlPanel, controlPanelGbc );
     }
 
     public void setMonitorPanel( JComponent panel ) {
@@ -125,12 +123,11 @@ public class ContentPanel extends JPanel {
             remove( apparatusPanel );
         }
         apparatusPanel = panel;
-        setPanel( apparatusPanel, apparatusPanelGbc );
     }
 
-    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
-        getApparatusPanelContainer().add( apparatusPanel, 0 );
-    }
+//    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
+//        getApparatusPanelContainer().add( apparatusPanel, 0 );
+//    }
 
     public void setAppControlPanel( JComponent panel ) {
         if( clockControlPanel != null ) {
@@ -209,6 +206,13 @@ public class ContentPanel extends JPanel {
         return fullScreen;
     }
 
+    /**
+     * This method is used in the older mechanism for application startup that used a public ApplicationModel
+     *
+     * @param application
+     * @return
+     * @deprecated
+     */
     private JComponent createApparatusPanelContainer( PhetApplication application ) {
         if( application.numModules() == 1 ) {
             JPanel apparatusPanelContainer = new JPanel();

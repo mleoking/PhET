@@ -54,23 +54,17 @@ public class ControlPanel extends JPanel {
      */
     public ControlPanel( Module module ) {
         this.setLayout( new GridBagLayout() );
-        GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                         1, 1, 0, 0,
+        GridBagConstraints logoGbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints logoGbc = new GridBagConstraints( 0, 0,
-                                                         1, 1, 0, 0,
+//        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 1,
                                                          GridBagConstraints.NORTH,
-                                                         GridBagConstraints.NONE,
+                                                         GridBagConstraints.BOTH,
+//                                                         GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1,
-                                                         1, 1, 0, 1,
-                                                         GridBagConstraints.NORTH,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints helpGbc = new GridBagConstraints( 0, 2,
-                                                         1, 1, 0, 0,
+        GridBagConstraints helpGbc = new GridBagConstraints( 0, 2, 1, 1, 0, 0,
                                                          GridBagConstraints.SOUTH,
                                                          GridBagConstraints.VERTICAL,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
@@ -84,7 +78,7 @@ public class ControlPanel extends JPanel {
         super.add( logoPanel, logoGbc );
 
         // The panel where the simulation-specific controls go
-        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBorder( null );
         super.add( scrollPane, controlsGbc );
 

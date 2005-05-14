@@ -182,20 +182,19 @@ public class PhetFrame extends JFrame {
      * @return
      */
     private JComponent createApparatusPanelContainer( PhetApplication application, Module[] modules ) {
-        ApplicationModel model = application.getApplicationModel();
+        JComponent apparatusPanelContainer = null;
         if( modules.length == 1 ) {
-            JPanel apparatusPanelContainer = new JPanel();
+            apparatusPanelContainer = new JPanel();
             apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
             if( modules[0].getApparatusPanel() == null ) {
-                throw new RuntimeException( "Null Apparatus Panel in Module: " + model.moduleAt( 0 ).getName() );
+                throw new RuntimeException( "Null Apparatus Panel in Module: " + modules[0].getName() );
             }
             apparatusPanelContainer.add( modules[0].getApparatusPanel() );
-            return apparatusPanelContainer;
         }
         else {
-            JComponent apparatusPanelContainer = new TabbedApparatusPanelContainer( application );
-            return apparatusPanelContainer;
+            apparatusPanelContainer = new TabbedApparatusPanelContainer( application );
         }
+        return apparatusPanelContainer;
     }
 
     public ContentPanel getBasicPhetPanel() {
