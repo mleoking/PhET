@@ -109,7 +109,7 @@ public class ContentPanel extends JPanel {
             remove( controlPanel );
         }
         controlPanel = panel;
-        setPanel2( controlPanel, controlPanelGbc );
+        setPanel( controlPanel, controlPanelGbc );
     }
 
     public void setMonitorPanel( JComponent panel ) {
@@ -117,7 +117,7 @@ public class ContentPanel extends JPanel {
             remove( monitorPanel );
         }
         monitorPanel = panel;
-        setPanel2( panel, monitorPanelGbc );
+        setPanel( panel, monitorPanelGbc );
     }
 
     public void setApparatusPanelContainer( JComponent panel ) {
@@ -125,7 +125,7 @@ public class ContentPanel extends JPanel {
             remove( apparatusPanel );
         }
         apparatusPanel = panel;
-        setPanel2( apparatusPanel, apparatusPanelGbc );
+        setPanel( apparatusPanel, apparatusPanelGbc );
     }
 
     public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
@@ -137,17 +137,10 @@ public class ContentPanel extends JPanel {
             remove( clockControlPanel );
         }
         clockControlPanel = panel;
-        setPanel2( clockControlPanel, clockControlPanelGbc );
+        setPanel( clockControlPanel, clockControlPanelGbc );
     }
 
-    private void setPanel( JComponent component, String place ) {
-        if( component != null ) {
-            add( component, place );
-        }
-        repaint();
-    }
-
-    private void setPanel2( JComponent component, GridBagConstraints gridBagConstraints ) {
+    private void setPanel( JComponent component, GridBagConstraints gridBagConstraints ) {
         if( component != null ) {
             add( component, gridBagConstraints );
         }
