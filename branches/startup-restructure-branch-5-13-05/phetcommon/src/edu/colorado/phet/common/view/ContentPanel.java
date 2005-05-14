@@ -13,6 +13,7 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.common.view.help.HelpPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,25 +47,24 @@ public class ContentPanel extends JPanel {
     private JComponent controlPanel;
     private JComponent monitorPanel;
     private JComponent clockControlPanel;
+    private JComponent helpButtonPanel;
     private JDialog buttonDlg;
     private boolean fullScreen = false;
 
     private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                           GridBagConstraints.CENTER,
+                                                                           GridBagConstraints.WEST,
                                                                            GridBagConstraints.BOTH,
                                                                            new Insets( 0, 0, 0, 0 ), 0, 0 );
     private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 0, 1, 2, 0, 1,
                                                                          GridBagConstraints.NORTHEAST,
-                                                                         GridBagConstraints.BOTH,
-//                                                                         GridBagConstraints.VERTICAL,
+                                                                         GridBagConstraints.VERTICAL,
                                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
     private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 0,
                                                                               GridBagConstraints.SOUTH,
                                                                               GridBagConstraints.NONE,
                                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
-
-    private GridBagConstraints monitorPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
-                                                                         GridBagConstraints.SOUTH,
+    private GridBagConstraints monitorPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 0,
+                                                                         GridBagConstraints.PAGE_END,
                                                                          GridBagConstraints.NONE,
                                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
 
@@ -109,17 +109,14 @@ public class ContentPanel extends JPanel {
             remove( controlPanel );
         }
         controlPanel = panel;
-//        setPanel( panel, BorderLayout.EAST );
         setPanel2( controlPanel, controlPanelGbc );
     }
-
 
     public void setMonitorPanel( JComponent panel ) {
         if( monitorPanel != null ) {
             remove( monitorPanel );
         }
         monitorPanel = panel;
-//        setPanel( panel, BorderLayout.NORTH );
         setPanel2( panel, monitorPanelGbc );
     }
 
@@ -128,12 +125,10 @@ public class ContentPanel extends JPanel {
             remove( apparatusPanel );
         }
         apparatusPanel = panel;
-//        setPanel( panel, BorderLayout.CENTER );
         setPanel2( apparatusPanel, apparatusPanelGbc );
     }
 
     public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
-//                getApparatusPanelContainer().remove( 0 );//TODO don't we need this line?
         getApparatusPanelContainer().add( apparatusPanel, 0 );
     }
 
@@ -142,7 +137,6 @@ public class ContentPanel extends JPanel {
             remove( clockControlPanel );
         }
         clockControlPanel = panel;
-//        setPanel( panel, BorderLayout.SOUTH );
         setPanel2( clockControlPanel, clockControlPanelGbc );
     }
 
@@ -222,9 +216,7 @@ public class ContentPanel extends JPanel {
         return fullScreen;
     }
 
-
     private JComponent createApparatusPanelContainer( PhetApplication application ) {
-//        ApplicationModel model = application.getApplicationModel();
         if( application.numModules() == 1 ) {
             JPanel apparatusPanelContainer = new JPanel();
             apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
@@ -238,7 +230,5 @@ public class ContentPanel extends JPanel {
             JComponent apparatusPanelContainer = new TabbedApparatusPanelContainer( application );
             return apparatusPanelContainer;
         }
-
     }
-
 }

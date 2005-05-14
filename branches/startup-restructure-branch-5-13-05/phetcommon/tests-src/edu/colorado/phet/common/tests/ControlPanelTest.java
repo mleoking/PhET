@@ -20,6 +20,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.*;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 
 import javax.swing.*;
@@ -50,41 +51,41 @@ public class ControlPanelTest {
 //            JScrollPane jsp = new JScrollPane( jp2 );
 
 
-            TestModule module = new TestModule( "", new SwingTimerClock( 10, 25, AbstractClock.FRAMES_PER_SECOND ) );
+            SwingTimerClock clock = new SwingTimerClock( 10, 25, AbstractClock.FRAMES_PER_SECOND );
+            TestModule module = new TestModule( "A", clock );
+//            TestModule module = new TestModule( "A", new SwingTimerClock( 10, 25, AbstractClock.FRAMES_PER_SECOND ) );
             JPanel jp = new JPanel( new GridBagLayout() );
 
-            ApparatusPanel appPnl = new ApparatusPanel();
-            appPnl.setPreferredSize( new Dimension( 300, 200 ) );
-            appPnl.setBackground( Color.white );
-            appPnl.setDisplayBorder( true );
-            appPnl.addGraphic( new PhetShapeGraphic( appPnl, new Rectangle( 100, 100, 50, 50 ), Color.red ) );
-            appPnl.addGraphic( new PhetImageGraphic( appPnl, "images/Phet-logo-48x48.gif" ) );
-
+//            ApparatusPanel appPnl = new ApparatusPanel();
+//            appPnl.setPreferredSize( new Dimension( 300, 200 ) );
+//            appPnl.setBackground( Color.white );
+//            appPnl.setDisplayBorder( true );
+//            appPnl.addGraphic( new PhetShapeGraphic( appPnl, new Rectangle( 100, 100, 50, 50 ), Color.red ) );
+//            appPnl.addGraphic( new PhetImageGraphic( appPnl, "images/Phet-logo-48x48.gif" ) );
+//
             ClockControlPanel appControl = null;
-            SwingTimerClock clock = new SwingTimerClock( 10, 25, AbstractClock.FRAMES_PER_SECOND );
             try {
                 appControl = new ClockControlPanel( clock );
             }
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            jp = new ContentPanel( appPnl, module.getControlPanel(), null, appControl );
-//            jp.add( jsp, gbc1 );
+            jp = new ContentPanel( module.getApparatusPanel(), module.getControlPanel(), null, appControl );
             frame.setContentPane( jp );
-            ( (ContentPanel)jp ).setControlPanel( module.getControlPanel() );
-//            frame.setContentPane( module.getControlPanel() );
+//            ( (ContentPanel)jp ).setControlPanel( module.getControlPanel() );
+            frame.setContentPane( module.getControlPanel() );
 
-            frame.pack();
-            frame.setVisible( true );
+//            frame.pack();
+//            frame.setVisible( true );
 
-//            PhetApplication app = new PhetApplication( args, "Control Panel Test",
-//                                                       "<html>A PhetApplication to test<br>the control panel layout",
-////                                                   "0.1", clock, null, false );
-//                                                       "0.1", clock, false, new FrameSetup.CenteredWithSize( 800, 600 ) );
-//            app.setModules( new Module[]{module } );
-//            app.getPhetFrame().getBasicPhetPanel().setControlPanel( module.getControlPanel() );
-//
-//            app.getPhetFrame().setVisible( true );
+            PhetApplication app = new PhetApplication( args, "Control Panel Test",
+                                                       "<html>A PhetApplication to test<br>the control panel layout",
+//                                                   "0.1", clock, null, false );
+                                                       "0.1", clock, false, new FrameSetup.CenteredWithSize( 800, 600 ) );
+            app.setModules( new Module[]{ module, new TestModule( "B", clock ), new TestModule( "C", clock )  } );
+            app.getPhetFrame().getBasicPhetPanel().setControlPanel( module.getControlPanel() );
+
+            app.getPhetFrame().setVisible( true );
 
 
             return;
@@ -150,6 +151,10 @@ public class ControlPanelTest {
             ap.setPreferredSize( new Dimension( 200, 200 ) );
             ap.addGraphic( new PhetShapeGraphic( ap, new Rectangle( 100, 100, 50, 50 ), Color.red ) );
             ap.addGraphic( new PhetImageGraphic( ap, "images/Phet-logo-48x48.gif" ) );
+            PhetTextGraphic textGraphic = new PhetTextGraphic( ap, new Font( "Lucida-sans", Font.BOLD, 30 ), name, Color.blue);
+            textGraphic.setLocation( 50, 50 );
+            ap.addGraphic( textGraphic );
+
             setApparatusPanel( ap );
 
             setModel( new BaseModel() );

@@ -59,6 +59,21 @@ public class ControlPanel extends JPanel {
                                                          GridBagConstraints.NORTH,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
+        GridBagConstraints logoGbc = new GridBagConstraints( 0, 0,
+                                                         1, 1, 0, 0,
+                                                         GridBagConstraints.NORTH,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1,
+                                                         1, 1, 0, 1,
+                                                         GridBagConstraints.NORTH,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+        GridBagConstraints helpGbc = new GridBagConstraints( 0, 2,
+                                                         1, 1, 0, 0,
+                                                         GridBagConstraints.SOUTH,
+                                                         GridBagConstraints.VERTICAL,
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // The panel with the logo
         URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
@@ -66,38 +81,16 @@ public class ControlPanel extends JPanel {
         titleLabel = ( new JLabel( imageIcon ) );
         logoPanel = new JPanel();
         logoPanel.add( titleLabel );
-        gbc.weighty = 0;
-        gbc.anchor = GridBagConstraints.NORTH;
-        gbc.fill = GridBagConstraints.PAGE_START;
-        super.add( logoPanel, gbc );
+        super.add( logoPanel, logoGbc );
 
         // The panel where the simulation-specific controls go
-        gbc.anchor = GridBagConstraints.NORTH;
-        gbc.fill = GridBagConstraints.PAGE_START;
-        gbc.gridy = 0;
         scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         scrollPane.setBorder( null );
-//        scrollPane.addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                System.out.println( "e = " + e );
-//            }
-//        } );
-        gbc.weighty = 1;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-//        super.add( controlPane, gbc );
-//        JPanel jp = new JPanel( );
-//        jp.add(scrollPane);
-//        super.add( jp, gbc );
-        super.add( scrollPane, gbc );
+        super.add( scrollPane, controlsGbc );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
-        gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.fill = GridBagConstraints.PAGE_END;
-        gbc.weighty = 0;
-        gbc.gridy = 2;
-        super.add( helpPanel, gbc );
+        super.add( helpPanel, helpGbc );
         setHelpPanelEnabled( module.hasHelp() );
     }
 
