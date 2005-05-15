@@ -1,0 +1,4 @@
+
+If I don't add a ResizeHandler to the ApparatusPanel2, we get the same problem. This says that it's not a problem with TransformManager, or any of the ApparatusPanel2 stuff.
+
+It does the same thing if I use ApparatusPanel, rather than ApparatusPanel2.
