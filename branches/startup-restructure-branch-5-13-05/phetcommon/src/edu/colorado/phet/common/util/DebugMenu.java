@@ -164,7 +164,7 @@ public class DebugMenu extends JMenu {
                 }
             } );
 
-            startRecording( app.getApplicationModel().getClock(), textArea );
+            startRecording( app.getClock(), textArea );
         }
 
         void startRecording( AbstractClock clock, final JTextArea textArea ) {
