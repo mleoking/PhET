@@ -54,7 +54,7 @@ public class ContentPanel extends JPanel {
                                                                     GridBagConstraints.WEST,
                                                                     GridBagConstraints.BOTH,
                                                                     new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+    private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 0,
                                                                               GridBagConstraints.SOUTH,
                                                                               GridBagConstraints.NONE,
                                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
