@@ -112,29 +112,32 @@ public class ControlPanelTest {
         app.startApplication();
     }
 
-    public class AP2 extends ApparatusPanel2 {
-        public AP2( AbstractClock clock ) {
+    static class AP2 extends ApparatusPanel2 {
+        private String name;
+
+        public AP2( AbstractClock clock, String name ) {
             super( clock );
+            this.name = name;
         }
 
         public void setReferenceSize() {
-            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setReferenceSize" );
+            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setReferenceSize: " + name  );
             super.setReferenceSize();
         }
 
         public void setReferenceSize( Dimension renderingSize ) {
-            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setReferenceSize" );
+            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setReferenceSize: "  + name);
             super.setReferenceSize( renderingSize );
         }
 
         public void setReferenceSize( int width, int height ) {
-            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setReferenceSize" );
+            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setReferenceSize: " + name );
             super.setReferenceSize( width, height );
         }
 
         public void setScale( double scale ) {
-            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setScale" );
             super.setScale( scale );
+            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setScale: " + name + "  scale: " + getScale() );
         }
 
 
@@ -144,8 +147,9 @@ public class ControlPanelTest {
     static class TestModule extends Module {
         protected TestModule( String name, AbstractClock clock ) {
             super( name, clock );
-//            ApparatusPanel ap = new ApparatusPanel();
-            ApparatusPanel2 ap = new ApparatusPanel2( clock );
+            ApparatusPanel ap = new ApparatusPanel();
+//            ApparatusPanel2 ap = new AP2( clock, name );
+//            ApparatusPanel2 ap = new ApparatusPanel2( clock );
             ap.setBackground( Color.white );
             ap.setDisplayBorder( true );
             ap.setPreferredSize( new Dimension( 200, 200 ) );
@@ -197,4 +201,5 @@ public class ControlPanelTest {
 //            add( comp, gbc );
         }
     }
+
 }

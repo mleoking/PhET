@@ -54,15 +54,23 @@ public class ContentPanel extends JPanel {
                                                                     GridBagConstraints.WEST,
                                                                     GridBagConstraints.BOTH,
                                                                     new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 0,
+    private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 0, 1, 2, 1, 1,
+                                                                           GridBagConstraints.WEST,
+                                                                           GridBagConstraints.BOTH,
+                                                                           new Insets( 0, 0, 0, 0 ), 0, 0 );
+    private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 1, 1, 1, 0, 0,
+                                                                         GridBagConstraints.NORTH,
+                                                                         GridBagConstraints.BOTH,
+                                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+    private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 2, 1, 1, 1, 0,
                                                                               GridBagConstraints.SOUTH,
-                                                                              GridBagConstraints.NONE,
+                                                                              GridBagConstraints.HORIZONTAL,
                                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
     private GridBagConstraints monitorPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 0,
                                                                          GridBagConstraints.PAGE_END,
                                                                          GridBagConstraints.NONE,
                                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private JSplitPane appCtrlPane;
+//    private JSplitPane appCtrlPane;
 
 
     /**
@@ -75,10 +83,12 @@ public class ContentPanel extends JPanel {
                          JComponent monitorPanel, JComponent appControl ) {
         initializeLayout();
 
-        appCtrlPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, apparatusPanelContainer, controlPanel );
-        add( appCtrlPane, appCtrlGbc );
-        appCtrlPane.setResizeWeight( 1 );
+//        appCtrlPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, apparatusPanelContainer, controlPanel );
+//        add( appCtrlPane, appCtrlGbc );
+//        appCtrlPane.setResizeWeight( 1 );
 
+//        setLayout( new BorderLayout() );
+        setApparatusPanelContainer( apparatusPanelContainer );
         setMonitorPanel( monitorPanel );
         setAppControlPanel( appControl );
     }
@@ -106,8 +116,14 @@ public class ContentPanel extends JPanel {
 
     public void setControlPanel( JComponent panel ) {
         if( panel != null ) {
-            appCtrlPane.setRightComponent( panel );
+//            appCtrlPane.setRightComponent( panel );
         }
+        if( controlPanel != null ) {
+            remove( controlPanel );
+        }
+        controlPanel = panel;
+        setPanel( panel, controlPanelGbc );
+//        add( panel, BorderLayout.EAST );
     }
 
     public void setMonitorPanel( JComponent panel ) {
@@ -123,6 +139,8 @@ public class ContentPanel extends JPanel {
             remove( apparatusPanel );
         }
         apparatusPanel = panel;
+//        add( panel, BorderLayout.CENTER );
+        setPanel( panel, apparatusPanelGbc );
     }
 
 //    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
@@ -135,6 +153,9 @@ public class ContentPanel extends JPanel {
         }
         clockControlPanel = panel;
         setPanel( clockControlPanel, clockControlPanelGbc );
+//        if( panel != null ) {
+//            add( panel, BorderLayout.SOUTH );
+//        }
     }
 
     private void setPanel( JComponent component, GridBagConstraints gridBagConstraints ) {

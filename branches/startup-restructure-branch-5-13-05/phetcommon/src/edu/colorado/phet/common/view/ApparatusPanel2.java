@@ -392,6 +392,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     //-----------------------------------------------------------------
 
     private class PanelResizeHandler extends ComponentAdapter {
+
         public void componentResized( ComponentEvent e ) {
             if( !transformManager.isReferenceSizeSet() ) {
                 setReferenceSize();

@@ -80,7 +80,10 @@ public class ControlPanel extends JPanel {
         // The panel where the simulation-specific controls go
         scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBorder( null );
-        super.add( scrollPane, controlsGbc );
+        JPanel jp = new JPanel( new FlowLayout( FlowLayout.RIGHT) );
+        jp.add( scrollPane );
+        super.add( jp, controlsGbc );
+//        super.add( scrollPane, controlsGbc );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );

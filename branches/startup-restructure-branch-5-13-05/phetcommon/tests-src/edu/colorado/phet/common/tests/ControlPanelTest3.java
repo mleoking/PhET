@@ -70,8 +70,8 @@ public class ControlPanelTest3 {
 
         frame.pack();
         frame.setVisible( true );
-
     }
+
 
 
     static class TestContentPanel extends JPanel {
