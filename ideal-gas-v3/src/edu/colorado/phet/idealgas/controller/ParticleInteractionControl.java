@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
  */
 public class ParticleInteractionControl extends JPanel {
     public ParticleInteractionControl( final IdealGasModel model ) {
-        final JCheckBox sphereSphereCollisionCB = new JCheckBox( SimStrings.get( "Molecules-interact" ) );
+        final JCheckBox sphereSphereCollisionCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Molecules-interact" ) );
         this.add( sphereSphereCollisionCB );
         sphereSphereCollisionCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
