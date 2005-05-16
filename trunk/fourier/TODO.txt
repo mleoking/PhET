@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- highlight component when mouse moves over it in Amplitudes or Components view
 - label axes on ComponentsGraphic
 - label axes on SumGraphic
 - cache trig calculations
@@ -37,6 +38,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(5/16) - add skeleton for WavePulseShaperModule
 (5/16) - optimize memory allocation in ComponentsGraphic
 (5/16) - optimize memory allocation in SumGraphic
 (5/16) - setIgnoreMouse where possible
