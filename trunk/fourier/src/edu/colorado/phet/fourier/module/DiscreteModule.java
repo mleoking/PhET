@@ -128,6 +128,7 @@ public class DiscreteModule extends FourierModule {
 
         // Control Panel
         _controlPanel = new DiscreteControlPanel( this, _fourierSeriesModel, _componentsGraphic, _sumGraphic );
+        _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
          

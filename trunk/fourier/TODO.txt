@@ -38,6 +38,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(5/16) - add all controls in Discrete module, most not wired up
 (5/16) - add skeleton for WavePulseShaperModule
 (5/16) - optimize memory allocation in ComponentsGraphic
 (5/16) - optimize memory allocation in SumGraphic

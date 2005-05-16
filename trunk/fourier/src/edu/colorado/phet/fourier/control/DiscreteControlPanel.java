@@ -11,19 +11,15 @@
 
 package edu.colorado.phet.fourier.control;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -44,6 +40,23 @@ import edu.colorado.phet.fourier.view.SumGraphic;
  */
 public class DiscreteControlPanel extends FourierControlPanel {
 
+    public static final int FUNCTION_SPACE = 0;
+    public static final int FUNCTION_TIME = 1;
+    public static final int FUNCTION_SPACE_AND_TIME = 2;
+    
+    public static final int PRESET_SINE = 0;
+    public static final int PRESET_SAWTOOTH = 1;
+    public static final int PRESET_TRIANGLE = 2;
+    public static final int PRESET_WAVE_PACKET = 3;
+    public static final int PRESET_CUSTOM = 4;
+    
+    public static final int MATH_FORM_WAVE_NUMBER = 0;
+    public static final int MATH_FORM_WAVELENGTH = 1;
+    public static final int MATH_FORM_MODE = 2;
+    public static final int MATH_FORM_ANGULAR = 3;
+    public static final int MATH_FORM_FREQUENCY = 4;
+    public static final int MATH_FORM_PERIOD = 5;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -54,12 +67,25 @@ public class DiscreteControlPanel extends FourierControlPanel {
     private SumGraphic _sumGraphic;
 
     // UI components
+    private ControlPanelComboBox _functionComboBox;
+    private ControlPanelComboBox _presetsComboBox;
+    private JCheckBox _showWavelengthCheckBox;
+    private JTextField _showWavelengthTextField;
+    private JCheckBox _showPeriodCheckBox;
+    private JTextField _showPeriodTextField;
     private ControlPanelSlider _numberOfComponentsSlider;
     private ControlPanelSlider _fundamentalFrequencySlider;
-    private JComboBox _waveTypeComboBox;
-
+    private ControlPanelComboBox _waveTypeComboBox;
+    private JButton _playSoundButton;
+    private JCheckBox _showMathCheckBox;
+    private ControlPanelComboBox _mathFormComboBox;
+    
     // Choices
+    private Hashtable _functionChoices;
+    private Hashtable _presetChoices;
     private Hashtable _waveTypeChoices;
+    private Hashtable _spaceMathFormChoices;
+    private Hashtable _timeMathFormChoices;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -87,6 +113,70 @@ public class DiscreteControlPanel extends FourierControlPanel {
         _componentsGraphic = componentsGraphic;
         _sumGraphic = sumGraphic;
 
+        // Function
+        {
+            // Label
+            String label = SimStrings.get( "DiscreteControlPanel.showFunctionOf" );
+            
+            // Choices
+            _functionChoices = new Hashtable();
+            _functionChoices.put( SimStrings.get( "DiscreteControlPanel.space" ), new Integer( FUNCTION_SPACE ) );
+            _functionChoices.put( SimStrings.get( "DiscreteControlPanel.time" ), new Integer( FUNCTION_TIME ) );
+            _functionChoices.put( SimStrings.get( "DiscreteControlPanel.spaceAndTime" ), new Integer( FUNCTION_SPACE_AND_TIME ) );
+            
+            // Function combo box
+            _functionComboBox = new ControlPanelComboBox( label, _functionChoices ); 
+        }
+        
+        // Presets
+        {
+            // Label
+            String label = SimStrings.get( "DiscreteControlPanel.selectFunction" );
+            
+            // Choices
+            _presetChoices = new Hashtable();
+            _presetChoices.put( SimStrings.get( "DiscreteControlPanel.sine" ), new Integer( PRESET_SINE ) );
+            _presetChoices.put( SimStrings.get( "DiscreteControlPanel.sawtooth" ), new Integer( PRESET_SAWTOOTH ) );
+            _presetChoices.put( SimStrings.get( "DiscreteControlPanel.triangle" ), new Integer( PRESET_TRIANGLE ) );
+            _presetChoices.put( SimStrings.get( "DiscreteControlPanel.wavePacket" ), new Integer( PRESET_WAVE_PACKET ) );
+            _presetChoices.put( SimStrings.get( "DiscreteControlPanel.custom" ), new Integer( PRESET_CUSTOM ) );
+            
+            // Presets combo box
+            _presetsComboBox = new ControlPanelComboBox( label, _presetChoices ); 
+        }
+        
+        // Show Wavelength
+        JPanel showWavelengthPanel = new JPanel();
+        {
+            _showWavelengthCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showWavelength" ) );
+        
+            _showWavelengthTextField = new JTextField();
+            _showWavelengthTextField.setColumns( 5 );
+            _showWavelengthTextField.setEnabled( false );
+            
+            // Layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( showWavelengthPanel );
+            showWavelengthPanel.setLayout( layout );
+            layout.addAnchoredComponent( _showWavelengthCheckBox, 0, 0, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( _showWavelengthTextField, 0, 1, GridBagConstraints.WEST );
+        }
+        
+        // Show Wavelength
+        JPanel showPeriodPanel = new JPanel();
+        {
+            _showPeriodCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showPeriod" ) );
+        
+            _showPeriodTextField = new JTextField();
+            _showPeriodTextField.setColumns( 5 );
+            _showPeriodTextField.setEnabled( false );
+            
+            // Layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( showPeriodPanel );
+            showPeriodPanel.setLayout( layout );
+            layout.addAnchoredComponent( _showPeriodCheckBox, 0, 0, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( _showPeriodTextField, 0, 1, GridBagConstraints.WEST );
+        } 
+        
         // Number of harmonics
         {
             String format = SimStrings.get( "DiscreteControlPanel.numberOfComponents" );
@@ -111,11 +201,13 @@ public class DiscreteControlPanel extends FourierControlPanel {
             _fundamentalFrequencySlider.setSnapToTicks( false );
         }
         
+        // Play Sound button
+        _playSoundButton = new JButton( SimStrings.get( "DiscreteControlPanel.playSound" ) );
+        
         // Wave Type
-        JPanel waveTypePanel = new JPanel();
         {
             // Label
-            JLabel label = new JLabel( SimStrings.get( "DiscreteControlPanel.show" ) );
+            String label = SimStrings.get( "DiscreteControlPanel.show" );
             
             // Choices
             _waveTypeChoices = new Hashtable();
@@ -123,35 +215,58 @@ public class DiscreteControlPanel extends FourierControlPanel {
             _waveTypeChoices.put( SimStrings.get( "DiscreteControlPanel.cosines" ), new Integer( SineWaveGraphic.WAVE_TYPE_COSINE ) );
             
             // Wave Type combo box
-            _waveTypeComboBox = new JComboBox( );
-            Enumeration enum = _waveTypeChoices.keys();
-            while ( enum.hasMoreElements() ) {
-                _waveTypeComboBox.addItem( enum.nextElement() );
-            }
-            
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( waveTypePanel );
-            waveTypePanel.setLayout( layout );
-            layout.addAnchoredComponent( label, 0, 0, GridBagConstraints.EAST );
-            layout.addAnchoredComponent( _waveTypeComboBox, 0, 1, GridBagConstraints.WEST );
+            _waveTypeComboBox = new ControlPanelComboBox( label, _waveTypeChoices ); 
         }
-
-//        // Layout
-//        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-//        setLayout( layout );
-//        int row = 0;
-//        layout.addFilledComponent( _numberOfComponentsSlider, row++, 0, GridBagConstraints.HORIZONTAL );
-//        layout.addFilledComponent( _fundamentalFrequencySlider, row++, 0, GridBagConstraints.HORIZONTAL );
-//        layout.addComponent( waveTypePanel, row++, 0 );
+        
+        // Math Mode
+        _showMathCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showMath" ) );
+        
+        // Math Forms
+        {
+            String label = SimStrings.get( "DiscreteControlPanel.mathForm" );
+            
+            // Choices
+            _timeMathFormChoices = new Hashtable();
+            _timeMathFormChoices.put( SimStrings.get( "DiscreteControlPanel.waveNumberForm" ), new Integer( MATH_FORM_WAVE_NUMBER ) );
+            _timeMathFormChoices.put( SimStrings.get( "DiscreteControlPanel.wavelengthForm" ), new Integer( MATH_FORM_WAVELENGTH ) );
+            _timeMathFormChoices.put( SimStrings.get( "DiscreteControlPanel.modeForm" ), new Integer( MATH_FORM_MODE ) );
+            _spaceMathFormChoices = new Hashtable();
+            _spaceMathFormChoices.put( SimStrings.get( "DiscreteControlPanel.angularForm" ), new Integer( MATH_FORM_ANGULAR ) );
+            _spaceMathFormChoices.put( SimStrings.get( "DiscreteControlPanel.frequencyForm" ), new Integer( MATH_FORM_FREQUENCY ) );
+            _spaceMathFormChoices.put( SimStrings.get( "DiscreteControlPanel.periodForm" ), new Integer( MATH_FORM_PERIOD ) );
+            _spaceMathFormChoices.put( SimStrings.get( "DiscreteControlPanel.modeForm" ), new Integer( MATH_FORM_MODE ) );
+            
+            // Math form combo box
+            _mathFormComboBox = new ControlPanelComboBox( label, _spaceMathFormChoices );
+            _mathFormComboBox.setVisible( false );
+        }
+        
+        // Layout
+        addFullWidth( _functionComboBox );
+        addFullWidth( _presetsComboBox );
+        addFullWidth( showWavelengthPanel );
+        addFullWidth( showPeriodPanel );
         addFullWidth( _numberOfComponentsSlider );
         addFullWidth( _fundamentalFrequencySlider );
-        addFullWidth( waveTypePanel );
+        add( _playSoundButton );
+        addFullWidth( _waveTypeComboBox );
+        add( _showMathCheckBox );
+        add( _mathFormComboBox );
 
         // Wire up event handling.
         EventListener listener = new EventListener();
+        _functionComboBox.getComboBox().addActionListener( listener );
+        _presetsComboBox.getComboBox().addActionListener( listener );
+        _showWavelengthCheckBox.addActionListener( listener );
+        _showWavelengthTextField.addActionListener( listener );
+        _showPeriodCheckBox.addActionListener( listener );
+        _showPeriodTextField.addActionListener( listener );
         _numberOfComponentsSlider.addChangeListener( listener );
         _fundamentalFrequencySlider.addChangeListener( listener );
-        _waveTypeComboBox.addActionListener( listener );
+        _waveTypeComboBox.getComboBox().addActionListener( listener );
+        _playSoundButton.addActionListener( listener );
+        _showMathCheckBox.addActionListener( listener );
+        _mathFormComboBox.getComboBox().addActionListener( listener );
 
         // Set the state of the controls.
         update();
@@ -161,10 +276,24 @@ public class DiscreteControlPanel extends FourierControlPanel {
      * Updates the control panel to match the state of the things that it's controlling.
      */
     public void update() {
+        // Function
+        //XXX
+        
+        // Presets 
+        //XXX
+        
+        // Show wavelength
+        //XXX
+        
+        // Show period
+        //XXX
+        
         // Number of components
         _numberOfComponentsSlider.setValue( _fourierSeriesModel.getNumberOfComponents() );
+        
         // Fundamental frequency
         _fundamentalFrequencySlider.setValue( (int) _fourierSeriesModel.getFundamentalFrequency() );
+        
         // Wave Type
         {
             Object item = null;
@@ -178,8 +307,14 @@ public class DiscreteControlPanel extends FourierControlPanel {
             default:
             }
             assert ( item != null );
-            _waveTypeComboBox.setSelectedItem( item );
+            _waveTypeComboBox.getComboBox().setSelectedItem( item );
         }
+        
+        // Show Math
+        //XXX
+        
+        // Math Form
+        //XXX
     }
 
     //----------------------------------------------------------------------------
@@ -195,14 +330,56 @@ public class DiscreteControlPanel extends FourierControlPanel {
         public EventListener() {}
 
         public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _waveTypeComboBox ) {
+            if ( event.getSource() == _functionComboBox.getComboBox() ) {
+                Object key = _functionComboBox.getComboBox().getSelectedItem();
+                System.out.println( "function " + key ); //XXX
+                Object value = _functionChoices.get( key );
+                assert( value != null && value instanceof Integer ); // programming error
+                int functionType = ((Integer)value).intValue();
+                if ( functionType == FUNCTION_SPACE || functionType == FUNCTION_SPACE_AND_TIME ) {
+                    _mathFormComboBox.setChoices( _spaceMathFormChoices );
+                }
+                else {
+                    _mathFormComboBox.setChoices( _timeMathFormChoices );
+                }
+            }
+            else if ( event.getSource() == _presetsComboBox.getComboBox() ) {
+                Object key = _presetsComboBox.getComboBox().getSelectedItem();
+                System.out.println( "preset " + key ); //XXX
+            }
+            else if ( event.getSource() == _showWavelengthCheckBox ) {
+                System.out.println( "showWavelengthCheckBox " + _showWavelengthCheckBox.isSelected() );//XXX
+                _showWavelengthTextField.setEnabled( _showWavelengthCheckBox.isSelected() );
+            }
+            else if ( event.getSource() == _showWavelengthTextField ) {
+                System.out.println( "showWavelengthTextfield " + _showWavelengthTextField.getText() );//XXX
+            }
+            else if ( event.getSource() == _showPeriodCheckBox ) {
+                System.out.println( "showPeriodCheckBox " + _showPeriodCheckBox.isSelected() );//XXX
+                _showPeriodTextField.setEnabled(  _showPeriodCheckBox.isSelected() );
+            }
+            else if ( event.getSource() == _showPeriodTextField ) {
+                System.out.println( "showPeriodTextField " + _showPeriodTextField.getText() );//XXX
+            }
+            else if ( event.getSource() == _waveTypeComboBox.getComboBox() ) {
                 // Use the selection to lookup the associated symbolic constant.
-                Object key = _waveTypeComboBox.getSelectedItem();
+                Object key = _waveTypeComboBox.getComboBox().getSelectedItem();
                 Object value = _waveTypeChoices.get( key );
                 assert( value != null && value instanceof Integer ); // programming error
                 int waveType = ((Integer)value).intValue();
                 _componentsGraphic.setWaveType( waveType );
                 _sumGraphic.setWaveType( waveType );
+            }
+            else if ( event.getSource() == _playSoundButton ) {
+                System.out.println( "playSoundButton" ); //XXX
+            }
+            else if ( event.getSource() == _showMathCheckBox ) {
+                System.out.println( "mathMode " + _showMathCheckBox.isSelected() ); //XXX
+                _mathFormComboBox.setVisible( _showMathCheckBox.isSelected() );
+            }
+            else if ( event.getSource() == _mathFormComboBox.getComboBox() ) {
+                Object key = _mathFormComboBox.getComboBox().getSelectedItem();
+                System.out.println( "mathForm " + key ); //XXX
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
