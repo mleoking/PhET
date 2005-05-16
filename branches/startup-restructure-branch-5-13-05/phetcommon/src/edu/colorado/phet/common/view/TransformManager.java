@@ -72,7 +72,6 @@ public class TransformManager {
     }
 
     public void setScale( double scale ) {
-
         graphicTx = AffineTransform.getScaleInstance( scale, scale );
         graphicTx.translate( viewPointOrigin.getX(), viewPointOrigin.getY() );
         this.scale = scale;
@@ -91,6 +90,10 @@ public class TransformManager {
         return mouseTx;
     }
 
+    /**
+     * Determines the size of the current drawing area.
+     * @return true if the canvas size has changed, false if not
+     */
     public boolean determineCanvasSize() {
         double refAspectRatio = referenceBounds.getHeight() / referenceBounds.getWidth();
         double currAspectRatio = ( (double)component.getHeight() ) / component.getWidth();

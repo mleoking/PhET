@@ -82,8 +82,8 @@ public class ControlPanel extends JPanel {
         scrollPane.setBorder( null );
         JPanel jp = new JPanel( new FlowLayout( FlowLayout.RIGHT) );
         jp.add( scrollPane );
-        super.add( jp, controlsGbc );
-//        super.add( scrollPane, controlsGbc );
+//        super.add( jp, controlsGbc );
+        super.add( scrollPane, controlsGbc );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
