@@ -82,6 +82,11 @@ abstract public class AdvancedModule extends IdealGasModule {
         // Set the two types of particles so they are the same mass and radius
         LightSpecies.setMoleculeMass( HeavySpecies.getMoleculeMass() );
         LightSpecies.setMoleculeRadius( HeavySpecies.getMoleculeRadius() );
+
+        // Make the walls of the box black
+        Color boxColor = new Color( 120, 120, 120 );
+        getBoxGraphic().setWallColor( boxColor );
+        getBoxDoorGraphic().setColor( boxColor );
     }
 
     /**

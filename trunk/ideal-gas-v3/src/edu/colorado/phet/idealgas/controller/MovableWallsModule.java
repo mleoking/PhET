@@ -69,7 +69,9 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
         ControlPanel controlPanel = new ControlPanel( this );
         setControlPanel( controlPanel );
-        controlPanel.add( new AdvancedIdealGasControlPanel( this ) );
+        controlPanel.add( new AdvancedIdealGasControlPanel( this,
+                                                            SimStrings.get( "AdvancedModule.Particle_Type_A" ),
+                                                            SimStrings.get( "AdvancedModule.Particle_Type_B" )));
 
         // Add a collision expert for the walls and particles
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
@@ -317,6 +319,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         WallGraphic leftFloorGraphic = new WallGraphic( leftFloor, getApparatusPanel(),
                                                         Color.gray, Color.black,
                                                         WallGraphic.NORTH_SOUTH );
+        leftFloorGraphic.setMovable( true );
         leftFloorGraphic.setResizableEast( false );
         leftFloorGraphic.setResizableWest( false );
         leftFloorGraphic.setResizableNorth( false );
@@ -335,6 +338,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         WallGraphic rightFloorGraphic = new WallGraphic( rightFloor, getApparatusPanel(),
                                                          Color.gray, Color.black,
                                                          WallGraphic.NORTH_SOUTH );
+        rightFloorGraphic.setMovable( true );
         rightFloorGraphic.setResizableEast( false );
         rightFloorGraphic.setResizableWest( false );
         rightFloorGraphic.setResizableNorth( false );
@@ -350,10 +354,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
         // Set the region for the walls
         setWallBounds();
-
-        leftFloorGraphic.setIsResizable( true );
-        leftFloorGraphic.setIsMovable( false );
-        rightFloorGraphic.setIsResizable( true );
     }
 
     /**

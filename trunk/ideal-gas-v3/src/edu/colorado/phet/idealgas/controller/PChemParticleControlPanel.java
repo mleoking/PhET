@@ -11,7 +11,6 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.Pump;
 
@@ -23,7 +22,8 @@ import edu.colorado.phet.idealgas.model.Pump;
  */
 public class PChemParticleControlPanel extends SpeciesSelectionPanel implements Pump.Listener {
 
-    public PChemParticleControlPanel( IdealGasModule module, GasSource gasSource ) {
+    public PChemParticleControlPanel( IdealGasModule module, GasSource gasSource,
+                                      String labelA, String labelB ) {
         super( module, gasSource );
 
         // Hook the spinner up so it will track molecules put in the box by the pump
@@ -42,8 +42,10 @@ public class PChemParticleControlPanel extends SpeciesSelectionPanel implements 
             }
         } );
 
-        setHeavySpeciesLabelText(SimStrings.get( "AdvancedModule.Particle_Type_A" ) );
-        setLightSpeciesLabelText( SimStrings.get( "AdvancedModule.Particle_Type_B" ) );
+        setHeavySpeciesLabelText(labelA  );
+        setLightSpeciesLabelText( labelB  );
+//        setHeavySpeciesLabelText(SimStrings.get( "AdvancedModule.Particle_Type_A" ) );
+//        setLightSpeciesLabelText( SimStrings.get( "AdvancedModule.Particle_Type_B" ) );
         setHeavySpeciesLabelColor( AdvancedModule.COLOR_A );
         setLightSpeciesLabelColor( AdvancedModule.COLOR_B );
         repaint();

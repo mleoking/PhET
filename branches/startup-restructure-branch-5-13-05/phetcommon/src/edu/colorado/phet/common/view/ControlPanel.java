@@ -16,8 +16,6 @@ import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,8 +88,9 @@ public class ControlPanel extends JPanel {
         scrollPane.setBorder( null );
         JPanel jp = new JPanel( new FlowLayout( FlowLayout.RIGHT) );
         jp.add( scrollPane );
+        super.add( controlPane, controlsGbc );
 //        super.add( jp, controlsGbc );
-        super.add( scrollPane, controlsGbc );
+//        super.add( scrollPane, controlsGbc );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
