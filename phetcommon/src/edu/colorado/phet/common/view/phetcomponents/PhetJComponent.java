@@ -107,7 +107,7 @@ public class PhetJComponent extends PhetGraphic {
             throw new RuntimeException( "Multiple inits." );
         }
 
-        System.out.println( "Setting repaintManagerPhet." );
+//        System.out.println( "Setting repaintManagerPhet." );
         RepaintManager.setCurrentManager( repaintManagerPhet );
 
         offscreen = new JWindow( applicationWindow ) {
@@ -117,7 +117,7 @@ public class PhetJComponent extends PhetGraphic {
             public void paint( Graphics g ) {
             }
         };       //this seems to work.  I thought you might have needed a visible component, though (maybe for some JVM implementations?)
-        System.out.println( "offscreen.getOwner() = " + offscreen.getOwner() );
+//        System.out.println( "offscreen.getOwner() = " + offscreen.getOwner() );
 
         offscreen.getOwner().setVisible( true );
         offscreen.setSize( 0, 0 );
