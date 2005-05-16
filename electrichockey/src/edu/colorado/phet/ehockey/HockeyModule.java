@@ -3,6 +3,7 @@ package edu.colorado.phet.ehockey;
 //Mediator applet for Electric edu.colorado.phet.ehockey.HockeyModule
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.ehockey.common.SwingUtils;
 
 import javax.swing.*;
 import java.applet.AudioClip;
@@ -96,20 +97,24 @@ public class HockeyModule extends JApplet implements Runnable {
 
         isApplet = false;
 
-        JFrame f = new JFrame( SimStrings.get( "HockeyApplication.Title" ) );
+        JFrame frame = new JFrame( SimStrings.get( "HockeyApplication.Title" ) );
         HockeyModule hockeyModule = new HockeyModule();
-        f.setContentPane( hockeyModule );
-        f.setSize( 800, 750 );
-        f.setVisible( true );
+        frame.setContentPane( hockeyModule );
+        frame.setSize( 800, 750 );
+
         hockeyModule.init();
 
-        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//        f.addWindowListener( new Exit() );
-        f.invalidate();
-        f.repaint();
-        f.validate();
-        //f.update();
-        f.repaint();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+//        frame.addWindowListener( new Exit() );
+
+        SwingUtils.centerWindowOnScreen( frame );
+        frame.setVisible( true );
+
+        frame.invalidate();
+        frame.repaint();
+        frame.validate();
+        //frame.update();
+        frame.repaint();
     }
 
     public void run() {
