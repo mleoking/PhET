@@ -27,35 +27,33 @@ import java.awt.geom.Rectangle2D;
 public class PhetShapeGraphic extends PhetGraphic {
     private Shape shape;
     private Stroke stroke;
+    private Shape strokedShape;
     private Paint fill;
     private Paint border;
     private Composite orgComposite = null;
     private Paint workingPaint;
-
-
-    public PhetShapeGraphic( Component component, Shape shape, Paint fill ) {
-        super( component );
-        this.shape = shape;
-        this.fill = fill;
-    }
-
-    public PhetShapeGraphic( Component component, Shape shape, Stroke stroke, Paint border ) {
-        super( component );
-        this.shape = shape;
-        this.stroke = stroke;
-        this.border = border;
-    }
 
     public PhetShapeGraphic( Component component, Shape shape, Paint fill, Stroke stroke, Paint border ) {
         super( component );
         this.shape = shape;
         this.fill = fill;
         this.stroke = stroke;
+        if( shape != null ) {
+            this.strokedShape = stroke.createStrokedShape( shape );
+        }
         this.border = border;
+    }
+    
+    public PhetShapeGraphic( Component component, Shape shape, Paint fill ) {
+        this( component, shape, fill, null /* stroke */, null /* border */ );
+    }
+
+    public PhetShapeGraphic( Component component, Shape shape, Stroke stroke, Paint border ) {
+        this( component, shape, null /* fill */, stroke, border );
     }
 
     public PhetShapeGraphic( Component component ) {
-        this( component, null, null );
+        this( component, null, null, null, null );
     }
 
     //----------------------------------------------------------------
@@ -66,6 +64,9 @@ public class PhetShapeGraphic extends PhetGraphic {
         boolean sameShape = sameShape( this.shape, shape );
         if( !sameShape ) {
             this.shape = shape;
+            if( stroke != null && strokedShape == null ) {
+                strokedShape = stroke.createStrokedShape( shape );
+            }
             setBoundsDirty();
             autorepaint();
         }
@@ -99,6 +100,9 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setStroke( Stroke stroke ) {
         this.stroke = stroke;
+        if( shape != null ) {
+            strokedShape = stroke.createStrokedShape( shape );
+        }
         autorepaint();
     }
 
@@ -229,8 +233,8 @@ public class PhetShapeGraphic extends PhetGraphic {
             return getNetTransform().createTransformedShape( shape.getBounds() ).getBounds();
         }
         else {
-            Shape outlineShape = stroke.createStrokedShape( shape );
-            Rectangle bounds = outlineShape.getBounds();
+            // todo: why aren't we transforming strokedShape and using its bound?
+            Rectangle bounds = strokedShape.getBounds();
             Rectangle expanded = new Rectangle( bounds.x, bounds.y, bounds.width + 1, bounds.height + 1 ); //necessary to capture the entire bounds.
             return getNetTransform().createTransformedShape( expanded ).getBounds();
         }
@@ -301,13 +305,21 @@ public class PhetShapeGraphic extends PhetGraphic {
     }
 
     private boolean borderContains( int x, int y ) {
-        Shape txBorderShape = getNetTransform().createTransformedShape( stroke.createStrokedShape( getShape() ) );
-        return txBorderShape.contains( x, y );
+        boolean contains = false;
+        if( strokedShape != null ) {
+            Shape txBorderShape = getNetTransform().createTransformedShape( strokedShape );
+            contains = txBorderShape.contains( x, y );
+        }
+        return contains;
     }
 
     private boolean shapeContains( int x, int y ) {
-        Shape txShape = getNetTransform().createTransformedShape( getShape() );
-        return txShape.contains( x, y );
+        boolean contains = false;
+        if( shape != null ) {
+            Shape txShape = getNetTransform().createTransformedShape( shape );
+            contains = txShape.contains( x, y );
+        }
+        return contains;
     }
 
     //----------------------------------------------------------------
