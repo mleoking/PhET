@@ -7,8 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - label axes on ComponentsGraphic
 - label axes on SumGraphic
-- optimize memory allocation in ComponentsGraphic
-- optimize memory allocation in SumGraphic
 - cache trig calculations
 - make SineWaveGraphic capable of traveling animation
 - add presets for various Fourier Series (sine, sawtooth, packet, etc.)
@@ -30,6 +28,7 @@ CLEANUP:
 - fix all javadoc warnings and errors
 
 PHETCOMMON:
+- bug: cursor and highlighting don't work in JTextField wrapped by PhetJComponet
 - bug: JTextField wrapped using PhetJComponent doesn't received ActionEvents or FocusEvents
 - bug: when focus moves to Control Panel, PhetJComponet in apparatus panel still appears to have focus (eg, blinking cursor)
 - bug: PhetJComponents don't work unless ApparatusPanel has a mouse listener that requests focus
@@ -38,6 +37,9 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(5/16) - optimize memory allocation in ComponentsGraphic
+(5/16) - optimize memory allocation in SumGraphic
+(5/16) - setIgnoreMouse where possible
 (5/16) - cache stroked shape in PhetShapeGraphic, improved performance by 38%
 (5/16) - add minor ticks and horizontal lines to SumGraphic
 sandbox-2005-05-13...
