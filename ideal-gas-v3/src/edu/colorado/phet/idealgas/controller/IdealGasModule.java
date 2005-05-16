@@ -93,6 +93,7 @@ public class IdealGasModule extends Module {
     private double yOrigin = 252 + IdealGasConfig.Y_BASE_OFFSET;
     private double xDiag = 434 + IdealGasConfig.X_BASE_OFFSET;
     private double yDiag = 497 + IdealGasConfig.Y_BASE_OFFSET;
+    private Color boxColor = new Color( 180, 180, 180 );
 
 
     /**
@@ -180,10 +181,11 @@ public class IdealGasModule extends Module {
 
     /**
      * Specifies the names of the particles used in the simulation. Can be overridden by other modules.
+     *
      * @return
      */
     protected String[] getSpeciesNames() {
-        return new String[] { SimStrings.get( "Common.Heavy_Species" ), SimStrings.get( "Common.Light_Species" ) };
+        return new String[]{SimStrings.get( "Common.Heavy_Species" ), SimStrings.get( "Common.Light_Species" )};
     }
 
     /**
@@ -223,15 +225,16 @@ public class IdealGasModule extends Module {
         setApparatusPanel( new BaseIdealGasApparatusPanel( this, clock, box ) );
 
         // Set up the box graphic
-        boxGraphic = new Box2DGraphic( getApparatusPanel(), box );
+        boxGraphic = new Box2DGraphic( getApparatusPanel(), box, boxColor );
         addGraphic( boxGraphic, 10 );
 
         // Set up the door for the box
         boxDoorGraphic = new BoxDoorGraphic( getApparatusPanel(),
-                                                                    IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
-                                                                    IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
-                                                                    IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
-                                                                    box );
+                                             IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
+                                             IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
+                                             IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
+                                             box,
+                                             boxColor );
         this.addGraphic( boxDoorGraphic, -6 );
     }
 
@@ -245,14 +248,14 @@ public class IdealGasModule extends Module {
 
         StoveControlPanel2 scp2 = new StoveControlPanel2( this );
         scp2.setLocation( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 100,
-                          IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 20 );
+                          IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 10 );
         getApparatusPanel().addGraphic( scp2 );
 
         // Add buttons for selecting the species that the pump will produce
         pumpSelectorPanel = new PumpSpeciesSelectorPanel2( this );
         pumpSelectorPanel.setLocation( IdealGasConfig.X_BASE_OFFSET + 630, IdealGasConfig.Y_BASE_OFFSET + 300 );
-        pumpSelectorPanel.setLocation( (int)(pumpGraphic.getLocation().getX() + pumpGraphic.getWidth() - pumpSelectorPanel.getWidth() + 10 ),
-                                       (int)(pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 22) );
+        pumpSelectorPanel.setLocation( (int)( pumpGraphic.getLocation().getX() + pumpGraphic.getWidth() - pumpSelectorPanel.getWidth() + 10 ),
+                                       (int)( pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 32 ) );
 //                                       (int)(pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 26) );
         getApparatusPanel().addGraphic( pumpSelectorPanel );
         getApparatusPanel().revalidate();
@@ -272,9 +275,9 @@ public class IdealGasModule extends Module {
             PhetImageGraphic handleGraphic = new PhetImageGraphic( getApparatusPanel(), handleImg );
 
             pumpHandleGraphic = new PumpHandleGraphic( getApparatusPanel(), pump, handleGraphic,
-                                                                                      IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238,
-                                                                                      IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
-                                                                                      IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
+                                                       IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238,
+                                                       IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
+                                                       IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
 
             bluePumpImg = new BufferedImage( basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
             redPumpImg = new BufferedImage( basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
@@ -323,7 +326,7 @@ public class IdealGasModule extends Module {
     }
 
     protected void setPumpSelectorPanelTitle( String title ) {
-        pumpSelectorPanel.setTitle( title );        
+        pumpSelectorPanel.setTitle( title );
     }
 
     protected Pump.PumpingEnergyStrategy getPumpingEnergyStrategy() {
@@ -566,6 +569,7 @@ public class IdealGasModule extends Module {
 
     /**
      * Creates and displays a histogram dialog
+     *
      * @param histogramDlgEnabled
      * @return the dialog
      */

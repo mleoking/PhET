@@ -54,7 +54,9 @@ public class DiffusionModule extends AdvancedModule {
 
         ControlPanel controlPanel = new ControlPanel( this );
         setControlPanel( controlPanel );
-        controlPanel.add( new AdvancedIdealGasControlPanel( this ) );
+        controlPanel.add( new AdvancedIdealGasControlPanel( this,
+                                                            SimStrings.get( "AdvancedModule.Particle_Type_A" ),
+                                                            SimStrings.get( "AdvancedModule.Particle_Type_A" ) ));
 
         createWalls( box );
 
@@ -79,8 +81,8 @@ public class DiffusionModule extends AdvancedModule {
             }
         } );
 
-        // Add the particle counters     
-        addParticleCounters( SimStrings.get( "AdvancedModule.Particle_Type_A" ), 
+        // Add the particle counters
+        addParticleCounters( SimStrings.get( "AdvancedModule.Particle_Type_A" ),
                              SimStrings.get( "AdvancedModule.Particle_Type_A" ) );
 
         // Change title of control under the pump
@@ -89,7 +91,7 @@ public class DiffusionModule extends AdvancedModule {
         // Remove the mannequin graphic and the box door
         getApparatusPanel().removeGraphic( getPusher() );
         getApparatusPanel().removeGraphic( getBoxDoorGraphic() );
-        
+
 
         JButton backupButton = new JButton( "Backup" );
 //        getControlPanel().add( backupButton );

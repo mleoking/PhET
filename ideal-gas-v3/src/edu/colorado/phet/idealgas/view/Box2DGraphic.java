@@ -29,10 +29,7 @@ public class Box2DGraphic extends CompositePhetGraphic {
     //----------------------------------------------------------------
 
     public static double s_thickness = 12;
-//    public static double s_thickness = 4;
     private static Stroke s_defaultStroke = new BasicStroke( (float)s_thickness );
-//    public static Color s_wallColor = Color.black;
-    public static Color s_wallColor = new Color( 180, 180, 180 );
     private static Color s_openingColor;
 
     //----------------------------------------------------------------
@@ -46,16 +43,18 @@ public class Box2DGraphic extends CompositePhetGraphic {
     private InternalBoxGraphic internalBoxGraphic;
     private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();
     private TranslationListener translationListener;
+    private Color wallColor = new Color( 180, 180, 180 );
 
     /**
      *
      * @param component
      * @param box
      */
-    public Box2DGraphic( Component component, final Box2D box ) {
+    public Box2DGraphic( Component component, final Box2D box, Color wallColor ) {
         super( component );
 
         this.box = box;
+        this.wallColor = wallColor;
         internalBoxGraphic = new InternalBoxGraphic( component );
 
         this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
@@ -78,6 +77,10 @@ public class Box2DGraphic extends CompositePhetGraphic {
         if( ignoreMouse ) {
             removeAllMouseInputListeners();
         }
+    }
+
+    public void setWallColor( Color wallColor ) {
+        this.wallColor = wallColor;
     }
 
     public boolean isGraphicSelected() {
@@ -145,7 +148,7 @@ public class Box2DGraphic extends CompositePhetGraphic {
         private boolean isHandleEnabled = true;
 
         public InternalBoxGraphic( Component component ) {
-            super( component, null, s_defaultStroke, s_wallColor );
+            super( component, null, s_defaultStroke, wallColor );
             box.addObserver( this );
             this.setShape( mouseableArea );
             try {
@@ -195,7 +198,7 @@ public class Box2DGraphic extends CompositePhetGraphic {
                          wallHandle.getWidth(), wallHandle.getHeight(), null );
             }
             g.setStroke( s_defaultStroke );
-            g.setColor( s_wallColor );
+            g.setColor( wallColor );
             g.draw( rect );
 
             s_openingColor = Color.black;

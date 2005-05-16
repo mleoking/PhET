@@ -290,7 +290,6 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
      */
     private class CursorManager implements MouseMotionListener {
         private Cursor currentCursor = Cursor.getDefaultCursor();
-        private Cursor origCursor = null;
 
         public void mouseDragged( MouseEvent e ) {
             // noop
@@ -299,11 +298,6 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
         public void mouseMoved( MouseEvent e ) {
             Point mouseLoc = e.getPoint();
             if( contains( mouseLoc.x, mouseLoc.y ) ) {
-
-                // If the mouse jsut entered the wall, save the cursor so we can restore it later
-                if( origCursor == null ) {
-                    origCursor = getComponent().getCursor();
-                }
 
                 // Highlight the wall when it's painted
                 if( isWallHighlightedByMouse ) {
@@ -343,10 +337,7 @@ public class WallGraphic extends PhetShapeGraphic implements Wall.ChangeListener
             // If the mouse isn't in the bounds of the wall, don't highlight the wall, and
             // make sure the cursor is correct
             else {
-                if( origCursor != null ) {
-                    getComponent().setCursor( origCursor );
-                    origCursor = null;
-                }
+                getComponent().setCursor( Cursor.getDefaultCursor() );
                 setHighlightWall( false );
             }
         }

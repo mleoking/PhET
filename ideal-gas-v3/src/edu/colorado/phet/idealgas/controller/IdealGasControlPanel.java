@@ -16,6 +16,7 @@ import edu.colorado.phet.coreadditions.ToggleButton;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Gravity;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.Pump;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -42,6 +43,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
     private JTextField gravityTF;
     private JSlider gravitySlider;
     private JPanel gravityControlPanel;
+    private JPanel advancedPanel;
     private IdealGasModule module;
     private IdealGasModel idealGasModel;
     private GridBagConstraints gbc;
@@ -50,6 +52,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
     private JPanel particleControlsPanel;
     private JPanel buttonPanel;
     private GridBagConstraints particleControlsGbc;
+    private JLabel label;
 
 
     public IdealGasControlPanel( IdealGasModule module ) {
@@ -65,6 +68,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         makeMiscControls();
         makeButtonPanel();
         makeParticlesControls();
+        makeAdvancedPanel();
 
         // Lay out the panel
         this.setLayout( new GridBagLayout() );
@@ -87,6 +91,10 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
 
         // Add the reset and measurement panel buttons
         this.add( buttonPanel, gbc );
+
+        // Add the panel with the advanced options. It should be invisible at first
+        advancedPanel.setVisible( false );
+        this.add( advancedPanel, gbc );
 
         Border border = BorderFactory.createEtchedBorder();
         this.setBorder( border );
@@ -122,13 +130,23 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
         JPanel gravityControls = gravityControls();
         miscPanel.add( gravityControls, localGbc );
+    }
 
-//        ParticleInteractionControl pic = new ParticleInteractionControl();
-//        localGbc.fill = GridBagConstraints.NONE;
-//        miscPanel.add( pic, localGbc );
-
-//        Border gravityBorder = new TitledBorder( SimStrings.get( "IdealGasControlPanel.MiscPanelTitle" ) );
-//        miscPanel.setBorder( gravityBorder );
+    /**
+     * Make a panel with the advanced controls
+     */
+    private void makeAdvancedPanel() {
+        advancedPanel = new JPanel( new GridBagLayout() );
+        GridBagConstraints localGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                              1, 1, 1, 1,
+                                                              GridBagConstraints.CENTER,
+                                                              GridBagConstraints.HORIZONTAL,
+                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
+        ParticleInteractionControl pic = new ParticleInteractionControl( module.getIdealGasModel() );
+        localGbc.fill = GridBagConstraints.NONE;
+        advancedPanel.add( pic, localGbc );
+        Pump[] pumps = new Pump[] { module.getPump() };
+        advancedPanel.add( new InputTemperatureControlPanel( getModule(), pumps ), localGbc );
 
     }
 
@@ -136,6 +154,10 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
      * Make buttons for Reset and Measurement Tools
      */
     private void makeButtonPanel() {
+        GridBagConstraints localGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                              1, 1, 1, 1,
+                                                              GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                                                              new Insets( 2, 2, 2, 2 ), 0, 0 );
 
         // Reset button
         JButton resetBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Reset" ) );
@@ -151,14 +173,25 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
         measurementDlgBtn.setBackground( new Color( 255, 255, 120 ) );
 
+        // Advanced options button
+        ToggleButton advancedButton = new ToggleButton( SimStrings.get("IdealGasControlPanel.MoreOptions"),
+                                                        SimStrings.get("IdealGasControlPanel.FewerOptions")) {
+            public void onAction() {
+                advancedPanel.setVisible( true );
+                SwingUtilities.getRoot( this ).invalidate();
+            }
+
+            public void offAction() {
+                advancedPanel.setVisible( false );
+                SwingUtilities.getRoot( this ).invalidate();
+            }
+        };
+
         // Put them on the button panel
         buttonPanel = new JPanel( new GridBagLayout() );
-        GridBagConstraints localGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                              1, 1, 1, 1,
-                                                              GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                                                              new Insets( 2, 2, 2, 2 ), 0, 0 );
         buttonPanel.add( resetBtn, localGbc );
         buttonPanel.add( measurementDlgBtn, localGbc );
+        buttonPanel.add( advancedButton, localGbc );
         buttonPanel.revalidate();
     }
 
@@ -211,22 +244,11 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        // Add control for gravity, set default to OFF
-//        gravityOnCB = new JCheckBox( SimStrings.get( "Common.On" ) );
-//        gravityControlPanel.add( gravityOnCB, gbc );
-//        gravityOnCB.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent event ) {
-//                updateGravity( gravityOnCB.isSelected(), gravitySlider.getValue() );
-//            }
-//        } );
-//        gravityOnCB.setSelected( false );
 
         gravitySlider = new JSlider( JSlider.HORIZONTAL, 0, IdealGasConfig.MAX_GRAVITY, 0 );
-//        gravitySlider = new JSlider( JSlider.VERTICAL, 0, IdealGasConfig.MAX_GRAVITY, 0 );
         gravitySlider.setPreferredSize( new Dimension( 150, 50 ) );
-//        gravitySlider.setPreferredSize( new Dimension( 60, 50 ) );
-        gravitySlider.setPaintTicks( false );
-//        gravitySlider.setPaintTicks( true );
+//        gravitySlider.setPaintTicks( false );
+        gravitySlider.setPaintTicks( true );
         gravitySlider.setMajorTickSpacing( 10 );
         gravitySlider.setMinorTickSpacing( 5 );
         Hashtable labelTable = new Hashtable();
@@ -238,7 +260,6 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         gravitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 module.setGravity( gravitySlider.getValue() );
-//                updateGravity( gravityOnCB.isSelected(), gravitySlider.getValue() );
             }
         } );
 
@@ -254,21 +275,6 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         gravityControlPanel.setBorder( gravityBorder );
         return gravityControlPanel;
     }
-
-
-    private void updateGravity( boolean isEnabled, int value ) {
-        gravityTF.setText( gravityFormat.format( value ) );
-        if( !isEnabled ) {
-            module.setGravity( 0 );
-        }
-        else {
-            module.setGravity( value );
-        }
-    }
-
-//    public void setGravityEnabled( boolean enabled ) {
-//        this.gravityOnCB.setSelected( enabled );
-//    }
 
     public void setGravity( double amt ) {
         this.gravitySlider.setValue( (int)amt );

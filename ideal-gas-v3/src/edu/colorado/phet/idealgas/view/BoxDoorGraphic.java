@@ -40,7 +40,7 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
 
     public BoxDoorGraphic( Component component,
                            int x, int y, int minX, int minY, int maxX, int maxY,
-                           Box2D box ) {
+                           Box2D box, Color color ) {
         super( component );
         BufferedImage doorImg = null;
         try {
@@ -53,7 +53,7 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
         this.addGraphic( imageGraphic );
 
         Rectangle door = new Rectangle( imageGraphic.getWidth(), 12 );
-        doorShapeGraphic = new PhetShapeGraphic( component, door, Box2DGraphic.s_wallColor );
+        doorShapeGraphic = new PhetShapeGraphic( component, door, color );
         this.addGraphic( doorShapeGraphic);
 
         this.x = x;
@@ -132,6 +132,10 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
         else {
             return null;
         }
+    }
+
+    public void setColor( Color color ) {
+        doorShapeGraphic.setPaint( color );
     }
 
     //----------------------------------------------------------------

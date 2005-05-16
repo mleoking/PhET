@@ -52,11 +52,15 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
     private JPanel particleControlsPanel;
     private JPanel buttonPanel;
     private GridBagConstraints particleControlsGbc;
+    private String leftParticlesLabel;
+    private String rightParticlesLabel;
 
 
-    public AdvancedIdealGasControlPanel( IdealGasModule module ) {
+    public AdvancedIdealGasControlPanel( IdealGasModule module, String leftParticlesLabel, String rightParticlesLabel ) {
         super();
         this.module = module;
+        this.leftParticlesLabel = leftParticlesLabel;
+        this.rightParticlesLabel = rightParticlesLabel;
         this.idealGasModel = (IdealGasModel)module.getModel();
         idealGasModel.getGravity().addListener( this );
         init();
@@ -77,9 +81,6 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
 
 
-        // Add control for selecting the constant parameter
-//        add( constantParamControls(), gbc );
-
         // Add controls for the number and type of molecules to put in the box
         add( particleControlsPanel, gbc );
 
@@ -91,6 +92,16 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
 
         Border border = BorderFactory.createEtchedBorder();
         this.setBorder( border );
+    }
+
+    /**
+     * Sets the labels used for the particles in the left and right portions of the box
+     * @param leftParticlesLabel
+     * @param rightParticlesLabel
+     */
+    protected void setParticlesLabels( String leftParticlesLabel, String rightParticlesLabel ){
+        this.leftParticlesLabel = leftParticlesLabel;
+        this.rightParticlesLabel = rightParticlesLabel;
     }
 
     /**
@@ -106,7 +117,9 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // Add controls for the number and type of molecules to put in the box
-        JPanel speciesButtonPanel = new PChemParticleControlPanel( module, module.getPump() );
+        JPanel speciesButtonPanel = new PChemParticleControlPanel( module, module.getPump(),
+                                                                   leftParticlesLabel,
+                                                                   rightParticlesLabel );
         speciesButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Particles_In_Chamber" ) ) );
         particleControlsPanel.add( speciesButtonPanel, particleControlsGbc );
 
@@ -136,7 +149,6 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
                 }
             }
         } );
-
     }
 
     /**
@@ -151,14 +163,6 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         JPanel gravityControls = gravityControls();
         miscPanel.add( gravityControls, gbc );
-
-//        ParticleInteractionControl pic = new ParticleInteractionControl();
-//        gbc.fill = GridBagConstraints.NONE;
-//        miscPanel.add( pic, gbc );
-
-//        Border gravityBorder = new TitledBorder( SimStrings.get( "IdealGasControlPanel.MiscPanelTitle" ) );
-//        miscPanel.setBorder( gravityBorder );
-
     }
 
     /**
@@ -192,37 +196,6 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
     }
 
     /**
-     * Returns a panel with selections for whether volume or pressure is to be held constant
-     */
-    private JPanel constantParamControls() {
-        JPanel constantParamButtonPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
-        final JRadioButton constantVolumeRB = new JRadioButton( SimStrings.get( "Common.Volume" ) );
-        final JRadioButton constantPressureRB = new JRadioButton( SimStrings.get( "Common.Pressure" ) );
-        final ButtonGroup constantParameterGroup = new ButtonGroup();
-        constantParameterGroup.add( constantVolumeRB );
-        constantParameterGroup.add( constantPressureRB );
-        constantParamButtonPanel.add( constantVolumeRB );
-        constantParamButtonPanel.add( constantPressureRB );
-        constantParamButtonPanel.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Constant_Parameter" ) ) );
-        this.add( constantParamButtonPanel );
-
-        constantVolumeRB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                idealGasModel.setConstantVolume( constantVolumeRB.isSelected() );
-                idealGasModel.setConstantPressure( constantPressureRB.isSelected() );
-            }
-        } );
-        constantPressureRB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                idealGasModel.setConstantPressure( constantPressureRB.isSelected() );
-                idealGasModel.setConstantVolume( constantVolumeRB.isSelected() );
-            }
-        } );
-        constantVolumeRB.setSelected( true );
-        return constantParamButtonPanel;
-    }
-
-    /**
      * Create a panel with controls for gravity and add it to the IdealGasControlPanel
      */
     private JPanel gravityControls() {
@@ -233,22 +206,9 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
 //                                                         GridBagConstraints.WEST,
                                                          GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-        // Add control for gravity, set default to OFF
-//        gravityOnCB = new JCheckBox( SimStrings.get( "Common.On" ) );
-//        gravityControlPanel.add( gravityOnCB, gbc );
-//        gravityOnCB.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent event ) {
-//                updateGravity( gravityOnCB.isSelected(), gravitySlider.getValue() );
-//            }
-//        } );
-//        gravityOnCB.setSelected( false );
-
         gravitySlider = new JSlider( JSlider.HORIZONTAL, 0, IdealGasConfig.MAX_GRAVITY, 0 );
-//        gravitySlider = new JSlider( JSlider.VERTICAL, 0, IdealGasConfig.MAX_GRAVITY, 0 );
         gravitySlider.setPreferredSize( new Dimension( 150, 50 ) );
-//        gravitySlider.setPreferredSize( new Dimension( 60, 50 ) );
-        gravitySlider.setPaintTicks( false );
-//        gravitySlider.setPaintTicks( true );
+        gravitySlider.setPaintTicks( true );
         gravitySlider.setMajorTickSpacing( 10 );
         gravitySlider.setMinorTickSpacing( 5 );
         Hashtable labelTable = new Hashtable();
@@ -276,21 +236,6 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         gravityControlPanel.setBorder( gravityBorder );
         return gravityControlPanel;
     }
-
-
-    private void updateGravity( boolean isEnabled, int value ) {
-        gravityTF.setText( gravityFormat.format( value ) );
-        if( !isEnabled ) {
-            module.setGravity( 0 );
-        }
-        else {
-            module.setGravity( value );
-        }
-    }
-
-//    public void setGravityEnabled( boolean enabled ) {
-//        this.gravityOnCB.setSelected( enabled );
-//    }
 
     public void setGravity( double amt ) {
         this.gravitySlider.setValue( (int)amt );
