@@ -48,9 +48,9 @@ public class ControlPanel extends JPanel {
 
 //    GridBagConstraints controlsInternalGbc = new GridBagConstraints( 0, 0,
     GridBagConstraints controlsInternalGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                     1, 1, 1, 0,
-                                                     GridBagConstraints.NORTH, GridBagConstraints.NONE,
-                                                     new Insets( 0,0,0,0 ), 0, 0 );
+                                                                     1, 1, 1, 0,
+                                                                     GridBagConstraints.NORTH, GridBagConstraints.NONE,
+                                                                     new Insets( 0, 0, 0, 0 ), 0, 0 );
 //                                                         GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0 );
 //                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
 
@@ -61,19 +61,19 @@ public class ControlPanel extends JPanel {
     public ControlPanel( Module module ) {
         this.setLayout( new GridBagLayout() );
         GridBagConstraints logoGbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
-                                                         GridBagConstraints.NORTH,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                             GridBagConstraints.NORTH,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
 //        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
         GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 1,
-                                                         GridBagConstraints.NORTH,
-                                                         GridBagConstraints.BOTH,
+                                                                 GridBagConstraints.NORTH,
+                                                                 GridBagConstraints.BOTH,
 //                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints helpGbc = new GridBagConstraints( 0, 2, 1, 1, 0, 0,
-                                                         GridBagConstraints.SOUTH,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+                                                             GridBagConstraints.SOUTH,
+                                                             GridBagConstraints.NONE,
+                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // The panel with the logo
         URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
@@ -84,13 +84,13 @@ public class ControlPanel extends JPanel {
         super.add( logoPanel, logoGbc );
 
         // The panel where the simulation-specific controls go
-        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
         scrollPane.setBorder( null );
-        JPanel jp = new JPanel( new FlowLayout( FlowLayout.RIGHT) );
-        jp.add( scrollPane );
-        super.add( controlPane, controlsGbc );
+//        JPanel jp = new JPanel( new FlowLayout( FlowLayout.RIGHT) );
+//        jp.add( scrollPane );
+//        super.add( controlPane, controlsGbc );
 //        super.add( jp, controlsGbc );
-//        super.add( scrollPane, controlsGbc );
+        super.add( scrollPane, controlsGbc );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
@@ -138,9 +138,11 @@ public class ControlPanel extends JPanel {
      * @return
      */
     public Component addFullWidth( Component comp ) {
-        GridBagConstraints gbc = new GridBagConstraints( 0, 0,
-                                                         1, 1, 0, 0,
-                                                         GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
+//        GridBagConstraints gbc = new GridBagConstraints( 0, 0,
+//                                                         1, 1, 0, 0,
+//                                                         GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
+        GridBagConstraints gbc = (GridBagConstraints)controlsInternalGbc.clone();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         return add( comp, gbc );
     }
 
@@ -152,11 +154,9 @@ public class ControlPanel extends JPanel {
      * @return
      */
     public Component add( Component comp, Insets insets ) {
-        Insets orgInsets = controlsInternalGbc.insets;
-        controlsInternalGbc.insets = insets;
-        Component returnComp = add( comp, controlsInternalGbc );
-        controlsInternalGbc.insets = orgInsets;
-        return returnComp;
+        GridBagConstraints gbc = (GridBagConstraints)controlsInternalGbc.clone();
+        gbc.insets = insets;
+        return add( comp, gbc );
     }
 
     /**
@@ -171,8 +171,9 @@ public class ControlPanel extends JPanel {
     public Component add( Component comp, GridBagConstraints constraints ) {
         controls.add( comp );
         constraints.gridy = controls.indexOf( comp );
-        this.panelEntries.put( comp, constraints );
-        controlPane.add( comp, constraints );
+        GridBagConstraints gbc = (GridBagConstraints)controlsInternalGbc.clone();
+        this.panelEntries.put( comp, gbc );
+        controlPane.add( comp, gbc );
         revalidate();
         repaint();
         return comp;
