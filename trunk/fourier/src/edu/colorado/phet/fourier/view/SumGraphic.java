@@ -16,6 +16,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -59,9 +60,10 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     // Axes parameters
     private static final Color AXES_COLOR = Color.BLACK;
     private static final Stroke AXES_STROKE = new BasicStroke( 1f );
-    private static final Color MINOR_AXES_COLOR1 = new Color( 0, 0, 0, 30 );
-    private static final Color MINOR_AXES_COLOR2 = new Color( 0, 0, 0, 100 );
-    private static final Stroke MINOR_AXES_STROKE = new BasicStroke( 1f );
+    private static final String X_ZERO_LABEL = "0";
+    private static final String AXES_LABEL_FORMAT = "0.00";
+    
+    // Tick marks
     private static final Font TICKS_LABEL_FONT = new Font( "Lucida Sans", Font.PLAIN, 16 );
     private static final Color TICKS_LABEL_COLOR = Color.BLACK;
     private static final int MAJOR_TICK_LENGTH = 10;
@@ -70,9 +72,12 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final int MINOR_TICK_LENGTH = 5;
     private static final Color MINOR_TICK_COLOR = Color.BLACK;
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final String X_ZERO_LABEL = "0";
-    private static final String AXES_LABEL_FORMAT = "0.00";
     private static final double MINOR_TICK_INTERVAL = 1.0;
+
+    // Tick lines
+    private static final Color TICK_LINE_COLOR1 = new Color( 0, 0, 0, 30 );
+    private static final Color TICK_LINE_COLOR2 = new Color( 0, 0, 0, 100 );
+    private static final Stroke TICK_LINE_STROKE = new BasicStroke( 1f );
     
     // Wave parameters
     private static final Color WAVE_COLOR = Color.BLACK;
@@ -94,6 +99,9 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     private PhetTextGraphic _maxLabelGraphic, _minLabelGraphic;
     private NumberFormat _minMaxFormatter;
     private CompositePhetGraphic _minorTicksGraphic;
+    private double[] _sums;
+    private ArrayList _tickMarksList; // array of PhetShapeGraphic
+    private ArrayList _tickLinesList; // array of PhetShapeGraphic
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -197,13 +205,16 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         addGraphic( _waveGraphic, WAVE_LAYER );
         
         // Interactivity
-        _outlineGraphic.setIgnoreMouse( true );
-        //XXX others ignore mouse?
+        this.setIgnoreMouse( true );
         
+        _sums = new double[ OUTLINE_WIDTH + 1 ];
         _waveType = SineWaveGraphic.WAVE_TYPE_SINE;
         _phaseAngle = DEFAULT_PHASE_ANGLE;
         _previousNumberOfComponents = -1; // force update
         _minMaxFormatter = new DecimalFormat( AXES_LABEL_FORMAT );
+        _tickMarksList = new ArrayList();
+        _tickLinesList = new ArrayList();
+        
         update();
     }
     
@@ -240,10 +251,9 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
 
         // Sum the components at each X point.
         double maxSum = 0;
-        double[] sums = new double[ OUTLINE_WIDTH + 1 ];
-        for ( int i = 0; i < sums.length; i++ ) {
+        for ( int i = 0; i < _sums.length; i++ ) {
 
-            sums[i] = 0;
+            _sums[i] = 0;
 
             for ( int j = 0; j < numberOfComponents; j++ ) {
 
@@ -254,18 +264,18 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
                 final double startAngle = _phaseAngle - ( deltaAngle * ( OUTLINE_WIDTH / 2.0 ) );
                 double angle = startAngle + ( i * deltaAngle );
                 double radians = ( _waveType == SineWaveGraphic.WAVE_TYPE_SINE ) ? Math.sin( angle ) : Math.cos( angle );
-                sums[i] += ( amplitude * radians );
+                _sums[i] += ( amplitude * radians );
             }
 
-            if ( Math.abs( sums[i] ) > maxSum ) {
-                maxSum = Math.abs( sums[i] );
+            if ( Math.abs( _sums[i] ) > maxSum ) {
+                maxSum = Math.abs( _sums[i] );
             }
         }
 
         // Create the path, scaled so that it fills the viewport.
-        for ( int i = 0; i < sums.length; i++ ) {
+        for ( int i = 0; i < _sums.length; i++ ) {
             double x = -( ( OUTLINE_WIDTH / 2 ) - i );
-            double y = ( sums[i] / maxSum ) * ( OUTLINE_HEIGHT / 2.0 );
+            double y = ( _sums[i] / maxSum ) * ( OUTLINE_HEIGHT / 2.0 );
             if ( i == 0 ) {
                 _wavePath.moveTo( (float) x, (float) -y ); // +Y is up
             }
@@ -296,36 +306,71 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
             
             Component component = getComponent();
             
-            for ( int i = 1; i <= numberOfMinorTicks; i++ ) {
+            for ( int i = 0; i < numberOfMinorTicks; i++ ) {
 
-                int y = (int) ( i * deltaY );
+                int y = (int) ( ( i + 1 ) * deltaY );
 
-                PhetShapeGraphic positiveTickGraphic = new PhetShapeGraphic( component );
-                positiveTickGraphic.setShape( minorTickShape );
-                positiveTickGraphic.setBorderColor( MINOR_TICK_COLOR );
-                positiveTickGraphic.setStroke( MINOR_TICK_STROKE );
+                int index = 0;
+                
+                PhetShapeGraphic positiveTickGraphic = null;
+                index = ( 2 * i );
+                if ( index < _tickMarksList.size() ) {
+                    positiveTickGraphic = ( PhetShapeGraphic ) _tickMarksList.get( index );
+                }
+                else {
+                    positiveTickGraphic = new PhetShapeGraphic( component );
+                    positiveTickGraphic.setShape( minorTickShape );
+                    positiveTickGraphic.setBorderColor( MINOR_TICK_COLOR );
+                    positiveTickGraphic.setStroke( MINOR_TICK_STROKE );
+                    _tickMarksList.add( positiveTickGraphic );
+                }
                 positiveTickGraphic.setLocation( 0, -y );
                 _minorTicksGraphic.addGraphic( positiveTickGraphic, TICKS_LAYER );
 
-                PhetShapeGraphic negativeTickGraphic = new PhetShapeGraphic( component );
-                negativeTickGraphic.setShape( minorTickShape );
-                negativeTickGraphic.setBorderColor( MINOR_TICK_COLOR );
-                negativeTickGraphic.setStroke( MINOR_TICK_STROKE );
+                PhetShapeGraphic negativeTickGraphic = null;
+                index = ( 2 * i ) + 1;
+                if ( index < _tickMarksList.size() ) {
+                    negativeTickGraphic = ( PhetShapeGraphic ) _tickMarksList.get( index );
+                }
+                else {
+                    negativeTickGraphic = new PhetShapeGraphic( component );
+                    negativeTickGraphic.setShape( minorTickShape );
+                    negativeTickGraphic.setBorderColor( MINOR_TICK_COLOR );
+                    negativeTickGraphic.setStroke( MINOR_TICK_STROKE );
+                    _tickMarksList.add( negativeTickGraphic );
+                }
                 negativeTickGraphic.setLocation( 0, y );
                 _minorTicksGraphic.addGraphic( negativeTickGraphic, TICKS_LAYER );
                 
-                Color minorAxesColor = ( i % 5 == 0 ) ? MINOR_AXES_COLOR2 : MINOR_AXES_COLOR1;
-                PhetShapeGraphic positiveLineGraphic = new PhetShapeGraphic( component );
-                positiveLineGraphic.setShape( lineShape );
-                positiveLineGraphic.setBorderColor( minorAxesColor );
-                positiveLineGraphic.setStroke( MINOR_AXES_STROKE );
+                Color tickLineColor = ( ( i + 1 ) % 5 == 0 ) ? TICK_LINE_COLOR2 : TICK_LINE_COLOR1;
+                
+                PhetShapeGraphic positiveLineGraphic = null;
+                index = ( 2 * i );
+                if ( index < _tickLinesList.size() ) {
+                    positiveLineGraphic = ( PhetShapeGraphic ) _tickLinesList.get( index );
+                }
+                else {
+                    positiveLineGraphic = new PhetShapeGraphic( component );
+                    positiveLineGraphic.setShape( lineShape );
+                    positiveLineGraphic.setBorderColor( tickLineColor );
+                    positiveLineGraphic.setStroke( TICK_LINE_STROKE );
+                    _tickLinesList.add( positiveLineGraphic );
+                }
                 positiveLineGraphic.setLocation( 0, -y );
                 _minorTicksGraphic.addGraphic( positiveLineGraphic, AXES_LAYER );
                 
-                PhetShapeGraphic negativeLineGraphic = new PhetShapeGraphic( component );
-                negativeLineGraphic.setShape( lineShape );
-                negativeLineGraphic.setBorderColor( minorAxesColor );
-                negativeLineGraphic.setStroke( MINOR_AXES_STROKE );
+                PhetShapeGraphic negativeLineGraphic = null;
+                index = ( 2 * i ) + 1;
+                if ( index < _tickLinesList.size () ) {
+                    negativeLineGraphic = ( PhetShapeGraphic ) _tickLinesList.get( index );
+                }
+                else {
+                    negativeLineGraphic = new PhetShapeGraphic( component );
+                    negativeLineGraphic.setShape( lineShape );
+                    negativeLineGraphic.setBorderColor( tickLineColor );
+                    negativeLineGraphic.setStroke( TICK_LINE_STROKE );
+                    _tickLinesList.add( negativeLineGraphic );
+                }
                 negativeLineGraphic.setLocation( 0, y );
                 _minorTicksGraphic.addGraphic( negativeLineGraphic, AXES_LAYER );
             }

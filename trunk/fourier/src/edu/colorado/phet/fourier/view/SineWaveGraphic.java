@@ -52,15 +52,17 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
     // Instance data
     //----------------------------------------------------------------------------
     
-    // Model we're viewing
-    private FourierComponent _fourierComponent;
+    // Number of cycles
+    private int _numberOfCycles;
+    // Amplitude
+    private double _amplitude;
     // Wave must be constrained to this viewport.
     private Dimension _viewportSize;
     // Paths that describes the wave.
     private GeneralPath _path;
     // The phase angle at the origin
     private double _phaseAngle;
-    // Type of wave (sines or cosines)
+    // Type of wave (sine or cosine)
     private int _waveType;
 
     //----------------------------------------------------------------------------
@@ -72,13 +74,11 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
      * 
      * @param component
      */
-    public SineWaveGraphic( Component component, FourierComponent fourierComponent ) {
+    public SineWaveGraphic( Component component ) {
         super( component );
         
-        assert( fourierComponent != null );
-        _fourierComponent = fourierComponent;
-        _fourierComponent.addObserver( this );
-        
+        _numberOfCycles = 1;
+        _amplitude = 0.0;
         _viewportSize = DEFAULT_VIEWPORT_SIZE;
         _phaseAngle = DEFAULT_PHASE_ANGLE;
         _waveType = DEFAULT_WAVE_TYPE;
@@ -92,17 +92,54 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
     }
     
-    /**
-     * Finalizes an instance of this type..
-     */
-    public void finalize() {
-        _fourierComponent.removeObserver( this );
-        _fourierComponent = null;
-    }
-    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+
+    /**
+     * Sets the number of cycles to display in the viewport.
+     * 
+     * @param numberOfCycles
+     */
+    public void setNumberOfCycles( int numberOfCycles ) {
+        assert( numberOfCycles > 0 );
+        if ( numberOfCycles != _numberOfCycles ) {
+            _numberOfCycles = numberOfCycles;
+            update();
+        }
+    }
+    
+    /**
+     * Gets the number of cycles that will be displayed in the viewport.
+     * 
+     * @return the number of cycles
+     */
+    public int getNumberOfCycles() {
+        return _numberOfCycles;
+    }
+    
+    /**
+     * Sets the amplitude.
+     * The amplitude determines how much of the vertical space in the viewport will be filled.
+     * 
+     * @param amplitude, +1 to +1
+     */
+    public void setAmplitude( double amplitude ) {
+        assert( amplitude >= -1 && amplitude <= +1 );
+        if ( amplitude != _amplitude ) {
+            _amplitude = amplitude;
+            update();
+        }
+    }
+    
+    /**
+     * Gets the amplitude.
+     * 
+     * @return the amplitude
+     */
+    public double getAmplitude() {
+        return _amplitude;
+    }
     
     /**
      * Sets the wave type (sine or cosine).
@@ -110,6 +147,7 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
      * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
      */
     public void setWaveType( int waveType ) {
+        assert( waveType == WAVE_TYPE_SINE || waveType == WAVE_TYPE_COSINE );
         if ( waveType != _waveType ) {
             _waveType = waveType;
             update();
@@ -152,6 +190,7 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
      * @param color the color
      */
     public void setColor( Color color ) {
+        assert( color != null );
         setBorderColor( color );
         repaint();
     }
@@ -162,6 +201,7 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
      * @param viewportSize
      */
     public void setLineWidth( float width ) {
+        assert( width > 0 );
         setStroke( new BasicStroke( width ) );
         repaint();
     }
@@ -183,6 +223,7 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
      * @param height the viewport height
      */
     public void setViewportSize( int width, int height ) {
+        assert( width > 0 && height > 0 );
         if ( width != _viewportSize.width || height != _viewportSize.height ) {
             _viewportSize.setSize( width, height );
             update();
@@ -214,11 +255,8 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
 
         if ( isVisible() ) {
             
-            int numberOfCycles = _fourierComponent.getOrder() + 1;
-            double amplitude = _fourierComponent.getAmplitude();
-            
             // Change in angle per change in x coordinate
-            final double deltaAngle = ( 2.0 * Math.PI * numberOfCycles ) / _viewportSize.width;
+            final double deltaAngle = ( 2.0 * Math.PI * _numberOfCycles ) / _viewportSize.width;
 
             // Start angle
             double startAngle = _phaseAngle - ( deltaAngle * ( _viewportSize.width / 2.0 ) );
@@ -229,7 +267,7 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
                 double angle = startAngle + ( i * deltaAngle );
                 double radians = ( _waveType == WAVE_TYPE_SINE ) ? Math.sin( angle ): Math.cos( angle );
                 double x = -( _viewportSize.width / 2 - i );
-                double y = amplitude * radians * ( _viewportSize.height / 2.0 );
+                double y = _amplitude * radians * ( _viewportSize.height / 2.0 );
                 if ( i == 0 ) {
                     _path.moveTo( (float) x, (float) -y );  // +Y is up
                 }

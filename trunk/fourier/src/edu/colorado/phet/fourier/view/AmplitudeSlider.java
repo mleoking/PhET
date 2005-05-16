@@ -205,8 +205,13 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * @param fourierComponentModel
      */
     public void setModel( FourierComponent fourierComponentModel ) {
+        assert( fourierComponentModel != null );
         if ( fourierComponentModel != _fourierComponentModel ) {
+            if ( _fourierComponentModel != null ) {
+                _fourierComponentModel.removeObserver( this );
+            }
             _fourierComponentModel = fourierComponentModel;
+            _fourierComponentModel.addObserver( this );
             update();
         }
     }
