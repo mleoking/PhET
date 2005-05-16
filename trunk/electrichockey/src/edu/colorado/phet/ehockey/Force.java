@@ -2,6 +2,8 @@ package edu.colorado.phet.ehockey;
 
 //edu.colorado.phet.ehockey.Force on the positivePuckImage due to a charge;  not a general edu.colorado.phet.ehockey.Force
 
+import edu.colorado.phet.ehockey.common.Arrow;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -96,7 +98,7 @@ public class Force {
         forceArrow.paint( g2D );
     }
 
-    public void paintGridArrow( Graphics2D g2D ) {
+    public void paintGridArrowOrig( Graphics2D g2D ) {
         g2D.setColor( gridColor );
         if( gridColor.getBlue() < 252 )		//don't bother to paint is grid arrow too faint
         {
@@ -105,6 +107,17 @@ public class Force {
             //g2D.fillOval(i*gridSpacing + gridSpacing/2 -2 , j*gridSpacing + gridSpacing/2 - 2, 4, 4);
             //gridArrow.paint(g2D);
         }
+    }
+
+    public void paintGridArrow( Graphics2D g2D ) {
+        Point loc = new Point( x0Int, y0Int );
+        Point dst = new Point( x0Int + xCompInt, y0Int + yCompInt );
+
+        edu.colorado.phet.ehockey.common.Arrow arrow = new Arrow( loc, dst, 6, 6, 2, 3, true );
+        g2D.setColor( gridColor );
+//        g2D.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{3, 1}, 0 ) );
+//        g2D.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{3, 1}, 0 ) );
+        g2D.draw( arrow.getShape() );
     }
 
 

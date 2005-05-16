@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class FieldGrid //extends JLabel
 {
-    private Hockey hockey;
+    private HockeyModule hockeyModule;
     private int width, height;
     private int gridNbrWidth;			//number of grid points across width of field
     private int gridSpacing;			//grid spacing
@@ -13,11 +13,12 @@ public class FieldGrid //extends JLabel
     private Charge[][] gridChargeArray;	//+1 test charge on every grid point
     private Force[][] gridForceArray;	//net force on test charge at every grid point
     private double gridForceFactor;		//arbitrary scale factor controlling force arrow length
+    private boolean antialias = false;
 
-    public FieldGrid( int width, int height, Hockey hockey ) {
+    public FieldGrid( int width, int height, HockeyModule hockeyModule ) {
         this.width = width;
         this.height = height;
-        this.hockey = hockey;
+        this.hockeyModule = hockeyModule;
         gridForceFactor = 25;
         gridNbrWidth = 25;
         gridSpacing = width / gridNbrWidth;
@@ -40,7 +41,7 @@ public class FieldGrid //extends JLabel
     }
 
     public void updateGridForceArray() {
-        Vector chargeList = hockey.getModel().getChargeList();
+        Vector chargeList = hockeyModule.getModel().getChargeList();
         for( int i = 0; i < gridNbrWidth; i++ ) {
             for( int j = 0; j < gridNbrHeight; j++ ) {
                 double gridIJNetX = 0.0;
@@ -83,22 +84,26 @@ public class FieldGrid //extends JLabel
         return gridNbrWidth;
     }
 
-    public void paintComponent( Graphics2D g2D ) {
+    public void paint( Graphics2D g2D ) {
         g2D.setColor( Color.white );
         g2D.setBackground( Color.white );
         g2D.fillRect( 0, 0, width, height );
-
+        if( antialias ) {
+            g2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        }
         for( int i = 0; i < gridNbrWidth; i++ ) {
             for( int j = 0; j < gridNbrHeight; j++ ) {
-
                 //draw arrows
                 gridForceArray[i][j].paintGridArrow( g2D );
-                //draw little swivel points
-                //g2D.fillOval(i*gridSpacing + gridSpacing/2 -2 , j*gridSpacing + gridSpacing/2 - 2, 4, 4);
-
-
             }
         }
     }//end of paint
 
+    public boolean isAntialias() {
+        return antialias;
+    }
+
+    public void setAntialias( boolean antialias ) {
+        this.antialias = antialias;
+    }
 }//end of public class

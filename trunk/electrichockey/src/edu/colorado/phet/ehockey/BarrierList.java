@@ -3,7 +3,7 @@ package edu.colorado.phet.ehockey;
 import java.awt.*;
 
 public class BarrierList {
-    private Hockey hockey;
+    private HockeyModule hockeyModule;
     static int fullWidth = 700;	//edu.colorado.phet.ehockey.BarrierMaker.fullWidth;		//edu.colorado.phet.ehockey.BarrierMaker.fullWidth;
     static int fullHeight = 600;	//edu.colorado.phet.ehockey.BarrierMaker.fullHeight;	//edu.colorado.phet.ehockey.BarrierMaker.fullHeight;
 
@@ -100,8 +100,8 @@ public class BarrierList {
     }
 
 
-    public BarrierList( Hockey hockey ) {
-        this.hockey = hockey;
+    public BarrierList( HockeyModule hockeyModule ) {
+        this.hockeyModule = hockeyModule;
     }
 
 
