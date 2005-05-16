@@ -27,21 +27,19 @@ import java.awt.geom.Rectangle2D;
 public class PhetShapeGraphic extends PhetGraphic {
     private Shape shape;
     private Stroke stroke;
-    private Shape strokedShape;
     private Paint fill;
     private Paint border;
     private Composite orgComposite = null;
     private Paint workingPaint;
+    private Shape strokedShape;
 
     public PhetShapeGraphic( Component component, Shape shape, Paint fill, Stroke stroke, Paint border ) {
         super( component );
         this.shape = shape;
         this.fill = fill;
         this.stroke = stroke;
-        if( shape != null ) {
-            this.strokedShape = stroke.createStrokedShape( shape );
-        }
         this.border = border;
+        computeStrokedShape();
     }
     
     public PhetShapeGraphic( Component component, Shape shape, Paint fill ) {
@@ -64,9 +62,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         boolean sameShape = sameShape( this.shape, shape );
         if( !sameShape ) {
             this.shape = shape;
-            if( stroke != null && strokedShape == null ) {
-                strokedShape = stroke.createStrokedShape( shape );
-            }
+            computeStrokedShape();
             setBoundsDirty();
             autorepaint();
         }
@@ -100,9 +96,7 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setStroke( Stroke stroke ) {
         this.stroke = stroke;
-        if( shape != null ) {
-            strokedShape = stroke.createStrokedShape( shape );
-        }
+        computeStrokedShape();
         autorepaint();
     }
 
@@ -130,6 +124,18 @@ public class PhetShapeGraphic extends PhetGraphic {
         setPaint( color );
     }
 
+    /*
+     * Computes and caches the stroked shape.
+     */
+    private void computeStrokedShape() {
+        if( stroke != null && shape != null ) {
+            strokedShape = stroke.createStrokedShape( shape );
+        }
+        else {
+            strokedShape = null;
+        }
+    }
+    
     //----------------------------------------------------------------
     // Rendering
     //----------------------------------------------------------------
