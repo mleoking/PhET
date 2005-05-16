@@ -29,7 +29,6 @@ import edu.colorado.phet.lasers.model.ResonatingCavity;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.atom.AtomicState;
 import edu.colorado.phet.lasers.model.atom.GroundState;
-import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.ResonatingCavityGraphic;
 
@@ -435,11 +434,14 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
 
     protected AtomicState[] createAtomicStates( int numEnergyLevels ) {
         AtomicState[] states = new AtomicState[numEnergyLevels];
-        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
-        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
+        double minVisibleEnergy = -13.6;
+        double maxVisibleEnergy = -0.3;
+//        double minVisibleEnergy = Photon.wavelengthToEnergy( Photon.DEEP_RED );
+//        double maxVisibleEnergy = Photon.wavelengthToEnergy( Photon.BLUE );
         double dE = states.length > 2 ? ( maxVisibleEnergy - minVisibleEnergy ) / ( states.length - 2 ) : 0;
 
         states[0] = new GroundState();
+        states[0].setEnergyLevel( minVisibleEnergy );
         for( int i = 1; i < states.length; i++ ) {
             states[i] = new AtomicState();
             states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
@@ -480,7 +482,6 @@ public class DischargeLampModule extends BaseLaserModule implements ElectronSour
      * Wrapper for EnergyLevelMonitorPanel that adds some extra controls
      */
     protected class DischargeLampEnergyMonitorPanel2 extends JPanel {
-//        private DischargeLampEnergyLevelMonitorPanel elmp;
 
         public DischargeLampEnergyMonitorPanel2( BaseLaserModule module, AbstractClock clock,
                                                  AtomicState[] atomicStates,
