@@ -19,6 +19,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.fourier.module.ContinuousModule;
 import edu.colorado.phet.fourier.module.DiscreteModule;
 import edu.colorado.phet.fourier.module.DiscreteToContinousModule;
+import edu.colorado.phet.fourier.module.WavePulseShaperModule;
 
 
 /**
@@ -65,7 +66,8 @@ public class FourierApplicationModel extends ApplicationModel {
             DiscreteModule discreteModule = new DiscreteModule( clock );
             DiscreteToContinousModule discreteToContinuousModule = new DiscreteToContinousModule( clock );
             ContinuousModule continuousModule = new ContinuousModule( clock );
-            setModules( new Module[] { discreteModule, discreteToContinuousModule, continuousModule } );
+            WavePulseShaperModule wavePulseShapeModule = new WavePulseShaperModule( clock );
+            setModules( new Module[] { discreteModule, discreteToContinuousModule, continuousModule, wavePulseShapeModule } );
             setInitialModule( discreteModule );
         }
     }
