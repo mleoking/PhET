@@ -22,9 +22,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.control.FourierControlPanel;
-import edu.colorado.phet.fourier.control.FourierSeriesPanel;
-import edu.colorado.phet.fourier.control.WaveTypePanel;
+import edu.colorado.phet.fourier.control.DiscreteControlPanel;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierComponent;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -74,8 +72,7 @@ public class DiscreteModule extends FourierModule {
     private FourierSeries _fourierSeriesModel;
     private ComponentsGraphic _componentsGraphic;
     private SumGraphic _sumGraphic;
-    private FourierSeriesPanel _fourierSeriesPanel;
-    private WaveTypePanel _waveTypePanel;
+    private DiscreteControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -130,19 +127,10 @@ public class DiscreteModule extends FourierModule {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        {
-            FourierControlPanel controlPanel = new FourierControlPanel( this );
-            setControlPanel( controlPanel );
-            
-            _fourierSeriesPanel = new FourierSeriesPanel( _fourierSeriesModel );
-            controlPanel.addFullWidth( _fourierSeriesPanel );
-            
-            _waveTypePanel = new WaveTypePanel( _componentsGraphic, _sumGraphic );
-            controlPanel.addFullWidth( _waveTypePanel );
-            
-            controlPanel.addResetButton();
-        }
-        
+        _controlPanel = new DiscreteControlPanel( this, _fourierSeriesModel, _componentsGraphic, _sumGraphic );
+        _controlPanel.addResetButton();
+        setControlPanel( _controlPanel );
+         
         reset();
         
         //----------------------------------------------------------------------------
@@ -175,8 +163,7 @@ public class DiscreteModule extends FourierModule {
         
         _sumGraphic.setWaveType( WAVE_TYPE );
         
-        _fourierSeriesPanel.update();
-        _waveTypePanel.update();
+        _controlPanel.update();
     }
     
     //----------------------------------------------------------------------------
