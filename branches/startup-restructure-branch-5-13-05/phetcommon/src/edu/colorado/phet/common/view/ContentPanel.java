@@ -54,13 +54,14 @@ public class ContentPanel extends JPanel {
                                                                     GridBagConstraints.WEST,
                                                                     GridBagConstraints.BOTH,
                                                                     new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 0, 1, 2, 1, 1,
+    private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
                                                                            GridBagConstraints.WEST,
                                                                            GridBagConstraints.BOTH,
                                                                            new Insets( 0, 0, 0, 0 ), 0, 0 );
     private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 1, 1, 1, 0, 0,
                                                                          GridBagConstraints.NORTH,
-                                                                         GridBagConstraints.BOTH,
+                                                                         GridBagConstraints.NONE,
+//                                                                         GridBagConstraints.BOTH,
                                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
     private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 2, 1, 1, 1, 0,
                                                                               GridBagConstraints.SOUTH,
@@ -81,7 +82,7 @@ public class ContentPanel extends JPanel {
      */
     public ContentPanel( JComponent apparatusPanelContainer, JComponent controlPanel,
                          JComponent monitorPanel, JComponent appControl ) {
-        initializeLayout();
+        setLayout( new GridBagLayout() );
 
 //        appCtrlPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, apparatusPanelContainer, controlPanel );
 //        add( appCtrlPane, appCtrlGbc );
@@ -97,17 +98,10 @@ public class ContentPanel extends JPanel {
      * @param clockControlPanel
      */
     public ContentPanel( PhetApplication application, JComponent clockControlPanel ) {
-        initializeLayout();
+        setLayout( new GridBagLayout() );
         JComponent apparatusPanelContainer = createApparatusPanelContainer( application );
         setApparatusPanelContainer( apparatusPanelContainer );
         setAppControlPanel( clockControlPanel );
-    }
-
-    /*
-     * Initializes the layout used for this ContentPanel.
-     */
-    private void initializeLayout() {
-        this.setLayout( new GridBagLayout() );
     }
 
     public JComponent getApparatusPanelContainer() {
@@ -162,6 +156,7 @@ public class ContentPanel extends JPanel {
         if( component != null ) {
             add( component, gridBagConstraints );
         }
+        revalidate();
         repaint();
     }
 

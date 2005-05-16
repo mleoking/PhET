@@ -28,6 +28,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * edu.colorado.phet.common.tests.ControlPanelTest
@@ -51,7 +52,7 @@ public class ControlPanelTest6 {
         // Create a TabbedApparatusPanelContainer and a ContentPanel
         Module[] modules = new Module[]{module, moduleB, moduleC};
         TestTabbedPane tabbedPane = new TestTabbedPane( modules );
-        TestContentPanel contentPanel = new TestContentPanel( tabbedPane, module.getControlPanel(), null, null );
+        ITestContentPanel contentPanel = new TestContentPanel2( tabbedPane, module.getControlPanel(), null, null );
         tabbedPane.setContentPanel( contentPanel );
         frame.setContentPane( contentPanel );
 
@@ -62,7 +63,7 @@ public class ControlPanelTest6 {
     static class TestTabbedPane extends JTabbedPane {
         int idx = -1;
         private Module[] modules;
-        private TestContentPanel contentPanel;
+        private ITestContentPanel contentPanel;
 //        private ContentPanel contentPanel;
 
         public TestTabbedPane( Module[] modules ) {
@@ -75,13 +76,13 @@ public class ControlPanelTest6 {
                     if( contentPanel == null ) {
                         throw new RuntimeException( "contentPanel not initialized" );
                     }
-                    int idx = getSelectedIndex();
+                    final int idx = getSelectedIndex();
                     contentPanel.setControlPanel( TestTabbedPane.this.modules[idx].getControlPanel() );
                 }
             } );
         }
 
-        public void setContentPanel( TestContentPanel contentPanel ) {
+        public void setContentPanel( ITestContentPanel contentPanel ) {
 //        public void setContentPanel( ContentPanel contentPanel ) {
             this.contentPanel = contentPanel;
             contentPanel.setControlPanel( TestTabbedPane.this.modules[0].getControlPanel() );
@@ -89,13 +90,93 @@ public class ControlPanelTest6 {
     }
 
 
-    static class TestContentPanel extends JPanel {
+    static class TestContentPanel2 extends ITestContentPanel {
+        private JComponent apparatusPanel;
+        private JComponent controlPanel;
+        private JComponent monitorPanel;
+        private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+                                                                               GridBagConstraints.WEST,
+                                                                               GridBagConstraints.BOTH,
+                                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
+        private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 1, 1, 1, 0, 0,
+                                                                             GridBagConstraints.NORTH,
+                                                                             GridBagConstraints.NONE,
+                                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+        private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 2, 1, 1, 1, 0,
+                                                                                  GridBagConstraints.SOUTH,
+                                                                                  GridBagConstraints.HORIZONTAL,
+                                                                                  new Insets( 0, 0, 0, 0 ), 0, 0 );
+        private GridBagConstraints monitorPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 0,
+                                                                             GridBagConstraints.PAGE_END,
+                                                                             GridBagConstraints.NONE,
+                                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+
+        public TestContentPanel2( JComponent apparatusPanelContainer, JComponent controlPanel,
+                             JComponent monitorPanel, JComponent appControl ) {
+//            super(apparatusPanelContainer, controlPanel, monitorPanel, appControl );
+            setLayout( new GridBagLayout() );
+            add( apparatusPanelContainer, apparatusPanelGbc );
+//            setApparatusPanelContainer( apparatusPanelContainer );
+            setMonitorPanel( monitorPanel );
+        }
+
+        private void setPanel( JComponent component, GridBagConstraints gridBagConstraints ) {
+            if( component != null ) {
+                add( component, gridBagConstraints );
+            }
+            revalidate();
+            repaint();
+        }
+
+        public void setControlPanel( JComponent panel ) {
+            if( panel != null ) {
+//            appCtrlPane.setRightComponent( panel );
+            }
+            if( controlPanel != null ) {
+                remove( controlPanel );
+            }
+            controlPanel = panel;
+            setPanel( panel, controlPanelGbc );
+//        add( panel, BorderLayout.EAST );
+        }
+
+        public void setMonitorPanel( JComponent panel ) {
+            if( monitorPanel != null ) {
+                remove( monitorPanel );
+            }
+            monitorPanel = panel;
+            setPanel( panel, monitorPanelGbc );
+        }
+
+        public void setApparatusPanelContainer( JComponent panel ) {
+            if( apparatusPanel != null ) {
+                remove( apparatusPanel );
+            }
+            apparatusPanel = panel;
+//        add( panel, BorderLayout.CENTER );
+            setPanel( panel, apparatusPanelGbc );
+        }
+
+    }
+
+
+
+    static class TestContentPanel extends ITestContentPanel {
         private JComponent controlPanel;
 
+        private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+                                                                               GridBagConstraints.WEST,
+                                                                               GridBagConstraints.BOTH,
+                                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
+        private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 1, 1, 1, 0, 0,
+                                                                             GridBagConstraints.NORTH,
+                                                                             GridBagConstraints.NONE,
+                                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
+
         public TestContentPanel( JComponent tabbedPane, JComponent controlPanel, JComponent obj, JComponent appCtrlPanel ) {
-            setLayout( new BorderLayout() );
-            add( tabbedPane, BorderLayout.CENTER );
-            add( controlPanel, BorderLayout.EAST );
+            setLayout( new GridBagLayout() );
+            add( tabbedPane, apparatusPanelGbc );
+            add( controlPanel, controlPanelGbc );
         }
 
         public void setControlPanel( JComponent panel ) {
@@ -103,12 +184,54 @@ public class ControlPanelTest6 {
                 remove( controlPanel );
             }
             controlPanel = panel;
-            add( panel, BorderLayout.EAST );
+            add( controlPanel, controlPanelGbc );
+            revalidate();
+            repaint();
+        }
+    }
+
+
+    static class TestControlPanel extends JPanel {
+        private GridBagConstraints controlsGbc;
+        private JScrollPane scrollPane;
+        private JPanel controlsPane;
+        private GridBagConstraints controlsInternalGbc;
+
+        public TestControlPanel() {
+            setLayout( new BorderLayout() );
+
+            this.setLayout( new GridBagLayout() );
+            GridBagConstraints logoGbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
+                                                                 GridBagConstraints.NORTH,
+                                                                 GridBagConstraints.NONE,
+                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
+            controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 1,
+                                                  GridBagConstraints.NORTH,
+                                                  GridBagConstraints.BOTH,
+//                                                         GridBagConstraints.NONE,
+                                                  new Insets( 0, 0, 0, 0 ), 0, 0 );
+
+            // Add the logo
+            URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+            JComponent titleLabel = ( new JLabel( new ImageIcon( resource ) ) );
+            add( titleLabel, logoGbc );
+
+            controlsPane = new JPanel( new GridBagLayout() );
+            controlsInternalGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1, 1,
+                                                          GridBagConstraints.NORTH,
+                                                          GridBagConstraints.NONE,
+                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
+
+            scrollPane = new JScrollPane( controlsPane );
+            add( scrollPane, controlsGbc );
+//            add( titleLabel, BorderLayout.NORTH );
         }
 
-        public void setApparatusPanelContainer( JComponent panel ) {
-            add( panel, BorderLayout.CENTER );
+        public Component add( Component comp ) {
+            controlsPane.add( comp, controlsInternalGbc );
+            return comp;
         }
+
     }
 
 
@@ -134,16 +257,20 @@ public class ControlPanelTest6 {
 
             JTextField textField = new JTextField( "012345678901234567890123456789" );
             JScrollPane scrollPane = new JScrollPane( textField );
+            JTextField nameField = new JTextField( name );
 
             // Depending on which of the following we use, the resizing problem does or does not occur
             if( true ) {
                 ControlPanel cp = new ControlPanel( this );
-                cp.add( scrollPane );
+                cp.add( textField );
+                cp.add( nameField );
                 setControlPanel( cp );
             }
             else {
-                JPanel testCp = new JPanel();
-                testCp.add( scrollPane );
+                TestControlPanel testCp = new TestControlPanel();
+                testCp.add( textField );
+                testCp.add( nameField );
+//                testCp.add( scrollPane );
                 setControlPanel( testCp );
             }
         }

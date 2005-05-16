@@ -48,6 +48,14 @@ public class ControlPanel extends JPanel {
     private JPanel logoPanel;
     private JScrollPane scrollPane;
 
+//    GridBagConstraints controlsInternalGbc = new GridBagConstraints( 0, 0,
+    GridBagConstraints controlsInternalGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                     1, 1, 1, 0,
+                                                     GridBagConstraints.NORTH, GridBagConstraints.NONE,
+                                                     new Insets( 0,0,0,0 ), 0, 0 );
+//                                                         GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0 );
+//                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
+
 
     /**
      * @param module
@@ -66,7 +74,7 @@ public class ControlPanel extends JPanel {
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints helpGbc = new GridBagConstraints( 0, 2, 1, 1, 0, 0,
                                                          GridBagConstraints.SOUTH,
-                                                         GridBagConstraints.VERTICAL,
+                                                         GridBagConstraints.NONE,
                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // The panel with the logo
@@ -138,6 +146,21 @@ public class ControlPanel extends JPanel {
     }
 
     /**
+     * Adds a component to the control panel with specified insets.
+     *
+     * @param comp
+     * @param insets
+     * @return
+     */
+    public Component add( Component comp, Insets insets ) {
+        Insets orgInsets = controlsInternalGbc.insets;
+        controlsInternalGbc.insets = insets;
+        Component returnComp = add( comp, controlsInternalGbc );
+        controlsInternalGbc.insets = orgInsets;
+        return returnComp;
+    }
+
+    /**
      * Adds a componenet to tne control panel using specified GridBagConstraints. Note that the gridy attribute
      * of the constraints will be set by the ControlPanel so that the control is placed below whatever controls
      * are already in the panel.
@@ -154,22 +177,6 @@ public class ControlPanel extends JPanel {
         revalidate();
         repaint();
         return comp;
-    }
-
-    /**
-     * Adds a component to the control panel with specified insets.
-     *
-     * @param comp
-     * @param insets
-     * @return
-     */
-    public Component add( Component comp, Insets insets ) {
-        GridBagConstraints gbc = new GridBagConstraints( 0, 0,
-                                                         1, 1, 1, 0,
-                                                         GridBagConstraints.NORTH, GridBagConstraints.PAGE_START, insets, 0, 0 );
-//                                                         GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0 );
-//                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
-        return add( comp, gbc );
     }
 
     /**
