@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.Vector;
 
 public class Model {
-    private Hockey hockey;
+    private HockeyModule hockeyModule;
     private int fieldWidth, fieldHeight;
     private int barrierState;
     private boolean goalState;
@@ -37,8 +37,8 @@ public class Model {
     private boolean starting;
     private double vX, vY;  	//x, y components of velocity and acceleration of positivePuckImage
 
-    public Model( int width, int height, Hockey hockey ) {
-        this.hockey = hockey;
+    public Model( int width, int height, HockeyModule hockeyModule ) {
+        this.hockeyModule = hockeyModule;
         this.fieldWidth = width;
         this.fieldHeight = height;
         chargeList = new Vector();
@@ -273,15 +273,14 @@ public class Model {
         goalState = false;
         collisionState = false;
         prt( "positivePuckImage reset y = " + puckPosition2D.getY() );
-        hockey.getPlayingField().paintAgain();
+        hockeyModule.getPlayingField().paintAgain();
     }
-
 
     class timerHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
             time++;
             updatePuckPositionVerlet();
-            if( hockey.getControlPanel().getTraceState() ) {
+            if( hockeyModule.getControlPanel().getTraceState() ) {
                 updatePath();
             }
             int x = puck.getPosition().x;
@@ -291,24 +290,24 @@ public class Model {
                 if( BarrierList.currentCollisionArray[x][y] == 1 ) {
                     prt( "Collision!" );
                     collisionState = true;
-                    if( hockey.cork != null ) {
-                        hockey.cork.play();
+                    if( hockeyModule.cork != null ) {
+                        hockeyModule.cork.play();
                     }
-                    hockey.getPlayingField().paintAgain();
+                    hockeyModule.getPlayingField().paintAgain();
                     stopTimer();
                 }
             }
-            if( hockey.getPlayingField().goal.contains( puck.getPosition() ) ) {
+            if( hockeyModule.getPlayingField().goal.contains( puck.getPosition() ) ) {
                 prt( "Goal!" );
                 goalState = true;
-                if( hockey.tada != null ) {
-                    hockey.tada.play();
+                if( hockeyModule.tada != null ) {
+                    hockeyModule.tada.play();
                 }
-                hockey.getPlayingField().paintAgain();
+                hockeyModule.getPlayingField().paintAgain();
                 stopTimer();
             }
             //if(time%4 == 0)		//use to paint at intervals
-            hockey.getPlayingField().paintAgain(); //
+            hockeyModule.getPlayingField().paintAgain(); //
 
         }
     }//end of timerHandler()
