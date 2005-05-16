@@ -350,7 +350,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
         // Display a squiggle to show the transition. Remove it after a bried time
         double dE = prevState.getEnergyLevel() - currState.getEnergyLevel();
-        if( dE > 0 ) {
+        if( false && dE > 0 ) {
             double wavelength = PhysicsUtil.energyToWavelength( dE );
             int length = energyYTx.modelToView( dE );
             final EnergySquiggle squiggle = new EnergySquiggle( this, wavelength, 0, length, 10,

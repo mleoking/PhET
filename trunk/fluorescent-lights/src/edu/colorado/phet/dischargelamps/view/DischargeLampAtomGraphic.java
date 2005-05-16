@@ -136,7 +136,8 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
      * Picks a shade of gray for the energy rep color.
      */
     private class GrayScaleStrategy implements EnergyRepColorStrategy {
-        private Color[] grayScale = new Color[220];
+        private Color[] grayScale = new Color[200];
+//        private Color[] grayScale = new Color[220];
 //        private Color[] grayScale = new Color[255];
 
         GrayScaleStrategy() {
