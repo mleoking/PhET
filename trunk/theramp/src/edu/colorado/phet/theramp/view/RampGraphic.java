@@ -5,17 +5,19 @@ import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.theramp.model.Ramp;
 
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 /**
@@ -38,6 +40,8 @@ public class RampGraphic extends GraphicLayerSet {
     private RampTickSetGraphic rampTickSetGraphic;
     private PhetShadowTextGraphic heightReadoutGraphic;
     private AngleGraphic angleGraphic;
+    public BufferedImage texture;
+    public PhetGraphic arrowGraphic;
 
     public RampGraphic( RampPanel rampPanel, final Ramp ramp ) {
         super( rampPanel );
@@ -47,11 +51,12 @@ public class RampGraphic extends GraphicLayerSet {
 
         Stroke stroke = new BasicStroke( 6.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 //        Stroke surfaceStroke = new BasicStroke( surfaceStrokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-        surfaceGraphic = new PhetImageGraphic( rampPanel, "images/wood2.jpg" );
+//        surfaceGraphic = new PhetImageGraphic( rampPanel, "images/wood2.jpg" );
         surfaceGraphic = new PhetImageGraphic( rampPanel, "images/wood5.png" );
 //        surfaceGraphic = new PhetImageGraphic( rampPanel, "images/wood3.png" );
         floorGraphic = new PhetShapeGraphic( getComponent(), null, stroke, Color.black );
-        jackGraphic = new PhetShapeGraphic( getComponent(), null, stroke, Color.blue );
+        Paint bookFill = createBookFill();
+        jackGraphic = new PhetShapeGraphic( getComponent(), null, bookFill );
         filledShapeGraphic = new PhetShapeGraphic( getComponent(), null, Color.lightGray );
         addGraphic( filledShapeGraphic );
         filledShapeGraphic.setVisible( false );
@@ -80,6 +85,8 @@ public class RampGraphic extends GraphicLayerSet {
         angleGraphic = new AngleGraphic( this );
         addGraphic( angleGraphic, 15 );
 
+        arrowGraphic = createArrowGraphic();
+        addGraphic( arrowGraphic );
 
         updateRamp();
         ramp.addObserver( new SimpleObserver() {
@@ -88,6 +95,61 @@ public class RampGraphic extends GraphicLayerSet {
             }
         } );
 
+        surfaceGraphic.addMouseInputListener( new MouseInputAdapter() {
+            // implements java.awt.event.MouseMotionListener
+            public void mouseDragged( MouseEvent e ) {
+                System.out.println( "RampGraphic.mouseDragged" );
+                arrowGraphic.setVisible( false );
+            }
+        } );
+    }
+
+    private void updateArrowGraphic() {
+//        Point pt = getEndLocation();
+        Point pt = getViewLocation( ramp.getLocation( ramp.getLength() * 0.8 ) );
+        arrowGraphic.setLocation( pt.x - arrowGraphic.getWidth() / 2, pt.y - arrowGraphic.getHeight() / 2 );
+    }
+
+    private PhetGraphic createArrowGraphic() {
+        String imageResourceName = "images/arrow-2.png";
+        BufferedImage image = null;
+        try {
+            image = ImageLoader.loadBufferedImage( imageResourceName );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        image = BufferedImageUtils.rescaleYMaintainAspectRatio( getComponent(), image, 100 );
+        PhetImageGraphic phetImageGraphic = new PhetImageGraphic( getComponent(), image );
+
+        return phetImageGraphic;
+    }
+
+    private Point getEndLocation() {
+        return getViewLocation( ramp.getLocation( ramp.getLength() ) );
+    }
+
+    private Paint createBookFill() {
+        try {
+            texture = ImageLoader.loadBufferedImage( "images/bookstack3.png" );
+//            Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() * 0.8 ) );
+            Point rampEnd = getEndLocation();
+//            System.out.println( "texture = " + texture );
+            final TexturePaint paint = new TexturePaint( texture, new Rectangle2D.Double( rampEnd.x - texture.getWidth() / 2, rampEnd.y, texture.getWidth(), texture.getHeight() ) );
+            return paint;
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+
+    }
+
+    static class ImageDebugFrame extends JFrame {
+        public ImageDebugFrame( Image im ) {
+            setContentPane( new JLabel( new ImageIcon( im ) ) );
+            pack();
+        }
     }
 
     private Point getViewOrigin() {
@@ -126,8 +188,10 @@ public class RampGraphic extends GraphicLayerSet {
         Line2D.Double floor = new Line2D.Double( viewOrigin, p2 );
         floorGraphic.setShape( null );
 
-        GeneralPath jackShape = createJackShape();
+//        GeneralPath jackShape = createJackLine();
+        Shape jackShape = createJackArea();
         jackGraphic.setShape( jackShape );
+        jackGraphic.setPaint( createBookFill() );
 
         DoubleGeneralPath path = new DoubleGeneralPath( viewOrigin );
         path.lineTo( floor.getP2() );
@@ -135,16 +199,30 @@ public class RampGraphic extends GraphicLayerSet {
         path.closePath();
         filledShapeGraphic.setShape( path.getGeneralPath() );
 
-        heightReadoutGraphic.setLocation( jackShape.getBounds().x + 5, jackShape.getBounds().y );
+        heightReadoutGraphic.setLocation( (int)( jackShape.getBounds().getMaxX() + 5 ), jackShape.getBounds().y );
         double height = ramp.getHeight();
         String heightStr = new DecimalFormat( "0.0" ).format( height );
         heightReadoutGraphic.setText( "h=" + heightStr + " m" );
 
         rampTickSetGraphic.update();
         angleGraphic.update();
+
+        updateArrowGraphic();
     }
 
-    GeneralPath createJackShape() {
+    private Shape createJackArea() {
+        Point rampStart = getViewLocation( ramp.getLocation( 0 ) );
+        Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() ) );
+
+        Rectangle rect = new Rectangle( rampEnd.x - texture.getWidth() / 2, (int)( rampEnd.y + surfaceGraphic.getImage().getHeight() * 0.75 ), texture.getWidth(), rampStart.y - rampEnd.y );
+        System.out.println( "rect = " + rect );
+        return rect;
+//        DoubleGeneralPath path = new DoubleGeneralPath( new Point( rampEnd.x, rampStart.y ) );
+//        path.lineTo( new Point( rampEnd.x, rampEnd.y ) );
+//        return path.getGeneralPath();
+    }
+
+    GeneralPath createJackLine() {
         Point rampStart = getViewLocation( ramp.getLocation( 0 ) );
         Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() ) );
 

@@ -23,14 +23,15 @@ import java.awt.event.ActionListener;
  */
 
 public class RampControlPanel extends ControlPanel {
-    private RampModule rampModule;
+    private RampModule module;
+    public ModelSlider frictionSlider;
 
     /**
      * @param module
      */
     public RampControlPanel( final RampModule module ) {
         super( module );
-        this.rampModule = module;
+        this.module = module;
         JButton3D jb = new JButton3D( "Reset" );
         add( jb );
         jb.addActionListener( new ActionListener() {
@@ -137,11 +138,23 @@ public class RampControlPanel extends ControlPanel {
 
         double[] ticks = new double[]{0, 0.5, 1.0, 1.5};
 
-        final ModelSlider staticFriction = createStaticSlider( ticks, module );
-        add( staticFriction );
 
-        final ModelSlider kineticFriction = createKineticSlider( ticks, module );
-        add( kineticFriction );
+        frictionSlider = createFrictionSlider( ticks, module );
+
+        add( frictionSlider );
+        final JCheckBox frictionless = new JCheckBox( "Frictionless", false );
+        frictionless.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setFrictionEnabled( !frictionless.isSelected() );
+            }
+        } );
+        add( frictionless );
+
+//        final ModelSlider frictionSlider = createStaticSlider( ticks, module );
+//        add( frictionSlider );
+//
+//        final ModelSlider kineticFriction = createKineticSlider( ticks, module );
+//        add( kineticFriction );
 
         JButton record = new JButton( "Record" );
 
@@ -159,6 +172,15 @@ public class RampControlPanel extends ControlPanel {
         } );
         add( record );
         add( playback );
+    }
+
+    private void setFrictionEnabled( boolean enabled ) {
+        if( enabled ) {
+            setFriction( frictionSlider.getValue() );
+        }
+        else {
+            setFriction( 0.0 );
+        }
     }
 
     private ModelSlider createKineticSlider( double[] ticks, final RampModule module ) {
@@ -193,7 +215,33 @@ public class RampControlPanel extends ControlPanel {
         return staticFriction;
     }
 
+    private void setFriction( double f ) {
+        module.getRampModel().getBlock().setStaticFriction( f );
+        module.getRampModel().getBlock().setKineticFriction( f );
+    }
+
+    private ModelSlider createFrictionSlider( double[] ticks, final RampModule module ) {
+        final ModelSlider frictionSlider = new ModelSlider( "Friction", "", 0.1, 1.5, 0.5 );
+        frictionSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                setFriction( frictionSlider.getValue() );
+            }
+        } );
+        module.getRampModel().getBlock().addListener( new Block.Adapter() {
+            public void staticFrictionChanged() {
+                frictionSlider.setValue( module.getRampModel().getBlock().getStaticFriction() );
+//                frictionSlider.setValue( module.getRampModel().getBlock().getStaticFriction() );
+            }
+
+            public void kineticFrictionChanged() {
+                frictionSlider.setValue( module.getRampModel().getBlock().getStaticFriction() );
+            }
+        } );
+        frictionSlider.setModelTicks( ticks );
+        return frictionSlider;
+    }
+
     public void setup( RampObject rampObject ) {
-        rampModule.setObject( rampObject );
+        module.setObject( rampObject );
     }
 }
