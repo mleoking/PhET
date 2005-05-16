@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.timeseries.RampTimeSeriesModel;
 import edu.colorado.phet.theramp.view.RampPanel;
+import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
 
 /**
@@ -29,6 +30,7 @@ public class RampModule extends Module {
     public static final double FORCE_LENGTH_SCALE = 0.15;//1.0;
     private RampTimeSeriesModel rampTimeSeriesModel;
     private TimeSeriesPlaybackPanel rampMediaPanel;
+    private RampPlotSet rampPlotSet;
 
     public RampModule( AbstractClock clock ) {
         super( "The Ramp", clock );
@@ -45,6 +47,8 @@ public class RampModule extends Module {
         rampPanel = new RampPanel( this );
         setApparatusPanel( rampPanel );
 
+        rampPlotSet = new RampPlotSet( this );
+
         rampControlPanel = new RampControlPanel( this );
         setControlPanel( rampControlPanel );
         setObject( rampObjects[0] );
@@ -53,7 +57,7 @@ public class RampModule extends Module {
     }
 
     public static void main( String[] args ) {
-        SwingTimerClock clock = new SwingTimerClock( 1.0, 30 );
+        SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.apply();
         PhetLookAndFeel.setLookAndFeel();
@@ -68,8 +72,9 @@ public class RampModule extends Module {
 
         application.getPhetFrame().getBasicPhetPanel().setAppControlPanel( module.rampMediaPanel );
         application.startApplication();
-        module.record();
+//        module.record();
 
+//        module.setupPlot();
     }
 
     public RampPanel getRampPanel() {
@@ -82,6 +87,7 @@ public class RampModule extends Module {
 
     public void reset() {
         rampModel.reset();
+        rampPlotSet.reset();
     }
 
     public void setObject( RampObject rampObject ) {
@@ -115,5 +121,13 @@ public class RampModule extends Module {
 
     public void updateModel( double dt ) {
         getRampModel().stepInTime( dt );
+    }
+
+    public void updatePlots( RampModel state, double recordTime ) {
+        rampPlotSet.updatePlots( state, recordTime );
+    }
+
+    public TimeSeriesModel getTimeSeriesModel() {
+        return rampTimeSeriesModel;
     }
 }

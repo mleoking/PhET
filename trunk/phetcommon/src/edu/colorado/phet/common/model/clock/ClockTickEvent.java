@@ -15,14 +15,20 @@ package edu.colorado.phet.common.model.clock;
 import java.util.EventObject;
 
 public class ClockTickEvent extends EventObject {
-    double dt;
+    private double dt;
+    private AbstractClock clock;
 
-    public ClockTickEvent( Object source, double dt ) {
+    public ClockTickEvent( AbstractClock source, double dt ) {
         super( source );
+        this.clock = source;
         this.dt = dt;
     }
 
     public double getDt() {
         return dt;
+    }
+
+    public AbstractClock getClock() {
+        return clock;
     }
 }

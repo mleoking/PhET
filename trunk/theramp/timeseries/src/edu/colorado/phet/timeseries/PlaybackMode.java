@@ -54,6 +54,7 @@ public class PlaybackMode extends Mode {
     }
 
     public void rewind() {
+        timeSeriesModel.setReplayTime( 0.0 );
         timer.setTime( 0 );
     }
 

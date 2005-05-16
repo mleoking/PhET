@@ -205,7 +205,7 @@ public class TimePlotSuite extends GraphicLayerSet {
         listeners.add( listener );
     }
 
-    private void setPlotVisible( boolean plotVisible ) {
+    public void setPlotVisible( boolean plotVisible ) {
         if( plotVisible != this.plotVisible ) {
             this.plotVisible = plotVisible;
             timePlot.setVisible( plotVisible );

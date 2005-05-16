@@ -22,19 +22,11 @@ public abstract class TimeSeriesModel implements ClockTickListener {
     private RecordMode recordMode;
     private PlaybackMode playbackMode;
 
-//    private ModelElement mainModelElement;
     public static double TIME_SCALE = 1.0;// for dynamic model.
     private static boolean dynamicTime;
     private double maxAllowedTime = 1000;
 
     public TimeSeriesModel() {
-//        mainModelElement = new ModelElement() {
-//            public void stepInTime( double dt ) {
-//                if( !paused ) {
-//                    mode.stepInTime( dt * TIME_SCALE );
-//                }
-//            }
-//        };
         recordMode = new RecordMode( this );
         playbackMode = new PlaybackMode( this );
     }
