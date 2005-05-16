@@ -133,16 +133,17 @@ public class ControlPanelTest6 {
 
 
             JTextField textField = new JTextField( "012345678901234567890123456789" );
+            JScrollPane scrollPane = new JScrollPane( textField );
 
             // Depending on which of the following we use, the resizing problem does or does not occur
-            if( false ) {
+            if( true ) {
                 ControlPanel cp = new ControlPanel( this );
-                cp.add( textField );
+                cp.add( scrollPane );
                 setControlPanel( cp );
             }
             else {
                 JPanel testCp = new JPanel();
-                testCp.add( textField );
+                testCp.add( scrollPane );
                 setControlPanel( testCp );
             }
         }
