@@ -56,23 +56,27 @@ public class ChartSlider extends GraphicLayerSet {
                 }
             }
         } );
-
-
         BufferedImage image = null;
-        try {
-            image = ImageLoader.loadBufferedImage( imageLoc );
+        if( imageLoc != null ) {
+
+            try {
+                image = ImageLoader.loadBufferedImage( imageLoc );
 //            image = ImageLoader.loadBufferedImage( "images/thumb2.png" );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
         }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        UIManager.put( "Slider.trackWidth", new Integer( image.getWidth() * 2 ) );
-        UIManager.put( "Slider.majorTickLength", new Integer( 6 ) );
-        UIManager.put( "Slider.highlight", Color.white );
-        UIManager.put( "Slider.verticalThumbIcon", new ImageIcon( image ) );
-        UIManager.put( "Slider.horizontalThumbIcon", new ImageIcon( image ) );
+        if( image != null ) {
+            UIManager.put( "Slider.trackWidth", new Integer( image.getWidth() * 2 ) );
+            UIManager.put( "Slider.majorTickLength", new Integer( 6 ) );
+            UIManager.put( "Slider.highlight", Color.white );
+            UIManager.put( "Slider.verticalThumbIcon", new ImageIcon( image ) );
+            UIManager.put( "Slider.horizontalThumbIcon", new ImageIcon( image ) );
+
 //        slider.setUI( new MetalSliderUI());
-        sliderUI = new ChartSliderUI( this, image, foregroundColor );
+            sliderUI = new ChartSliderUI( this, image, foregroundColor );
+        }
         slider.setUI( sliderUI );
         sliderGraphic = new PhetJComponent( apparatusPanel, slider );
         addGraphic( sliderGraphic );

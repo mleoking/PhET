@@ -103,6 +103,10 @@ public class Chart extends GraphicLayerSet {
         return new Dimension( chartSize );
     }
 
+    public int getDecorationInsetX() {
+        return -(int)( verticalTicks.getBounds().getMinX() - backgroundGraphic.getBounds().getMinX() );
+    }
+
     public interface Listener {
         void transformChanged( Chart chart );
     }
