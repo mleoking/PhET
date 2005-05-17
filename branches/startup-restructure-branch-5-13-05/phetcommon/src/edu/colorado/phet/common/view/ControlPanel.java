@@ -15,7 +15,10 @@ import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,13 +49,11 @@ public class ControlPanel extends JPanel {
     private JPanel logoPanel;
     private JScrollPane scrollPane;
 
-//    GridBagConstraints controlsInternalGbc = new GridBagConstraints( 0, 0,
-    GridBagConstraints controlsInternalGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+    GridBagConstraints controlsInternalGbc = new GridBagConstraints( 0, 0,
                                                                      1, 1, 1, 0,
-                                                                     GridBagConstraints.NORTH, GridBagConstraints.NONE,
+                                                                     GridBagConstraints.NORTH,
+                                                                     GridBagConstraints.BOTH,
                                                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
-//                                                         GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0 );
-//                                                         GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0 );
 
 
     /**
@@ -64,8 +65,7 @@ public class ControlPanel extends JPanel {
                                                              GridBagConstraints.NORTH,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
-//        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
-        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 1,
+        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
                                                                  GridBagConstraints.NORTH,
                                                                  GridBagConstraints.BOTH,
 //                                                         GridBagConstraints.NONE,
@@ -84,18 +84,39 @@ public class ControlPanel extends JPanel {
         super.add( logoPanel, logoGbc );
 
         // The panel where the simulation-specific controls go
-        scrollPane = new JScrollPane( controlPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+        scrollPane = new JScrollPane( controlPane,
+                                      JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                      JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        scrollPane.setMinimumSize( new Dimension( 200, 800 ) );
         scrollPane.setBorder( null );
-//        JPanel jp = new JPanel( new FlowLayout( FlowLayout.RIGHT) );
-//        jp.add( scrollPane );
-//        super.add( controlPane, controlsGbc );
-//        super.add( jp, controlsGbc );
         super.add( scrollPane, controlsGbc );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
         super.add( helpPanel, helpGbc );
         setHelpPanelEnabled( module.hasHelp() );
+
+        // Add a listener to set the preferred size of the scroll pane, amd manages
+        // the presence of a border around the pane, depending on whether the
+        // scroll bars are showing
+        addComponentListener( new ComponentAdapter() {
+            boolean sizeSet;
+
+            public void componentResized( ComponentEvent e ) {
+                Dimension size = controlPane.getSize();
+                if( size.getWidth() > 0 && size.getHeight() > 0 ) {
+                    if( !sizeSet ) {
+                        scrollPane.setPreferredSize( controlPane.getSize() );
+                    }
+                    if( scrollPane.getVerticalScrollBar().isVisible() ) {
+                        scrollPane.setBorder( BorderFactory.createEtchedBorder() );
+                    }
+                    else {
+                        scrollPane.setBorder( null );
+                    }
+                }
+            }
+        } );
     }
 
     /**
@@ -138,9 +159,6 @@ public class ControlPanel extends JPanel {
      * @return
      */
     public Component addFullWidth( Component comp ) {
-//        GridBagConstraints gbc = new GridBagConstraints( 0, 0,
-//                                                         1, 1, 0, 0,
-//                                                         GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, defaultInsets, 0, 0 );
         GridBagConstraints gbc = (GridBagConstraints)controlsInternalGbc.clone();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         return add( comp, gbc );
@@ -192,14 +210,12 @@ public class ControlPanel extends JPanel {
         // Adjust the positions of the remaining controls
         int idx = controls.indexOf( comp );
         controls.remove( comp );
-        for( int i = 0; i < controls.size(); i++ ) {
+        for( int i = idx; i < controls.size(); i++ ) {
             Component compToMove = (Component)controls.get( i );
-            if( i >= idx ) {
-                GridBagConstraints constraints = (GridBagConstraints)panelEntries.get( compToMove );
-                constraints.gridy--;
-                controlPane.remove( compToMove );
-                controlPane.add( compToMove, constraints );
-            }
+            GridBagConstraints constraints = (GridBagConstraints)panelEntries.get( compToMove );
+            constraints.gridy--;
+            controlPane.remove( compToMove );
+            controlPane.add( compToMove, constraints );
         }
 
         // Redraw the panel

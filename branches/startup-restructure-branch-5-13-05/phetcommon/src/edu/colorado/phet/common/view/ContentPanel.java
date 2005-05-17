@@ -13,7 +13,6 @@ package edu.colorado.phet.common.view;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.view.help.HelpPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,8 +59,8 @@ public class ContentPanel extends JPanel {
                                                                            new Insets( 0, 0, 0, 0 ), 0, 0 );
     private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 1, 1, 1, 0, 0,
                                                                          GridBagConstraints.NORTH,
-                                                                         GridBagConstraints.NONE,
-//                                                                         GridBagConstraints.BOTH,
+//                                                                         GridBagConstraints.NONE,
+                                                                         GridBagConstraints.BOTH,
                                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
     private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 2, 1, 1, 1, 0,
                                                                               GridBagConstraints.SOUTH,
@@ -84,11 +83,11 @@ public class ContentPanel extends JPanel {
                          JComponent monitorPanel, JComponent appControl ) {
         setLayout( new GridBagLayout() );
 
+        // Use this code to put the apparatus panel and control panel in split panes
 //        appCtrlPane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, apparatusPanelContainer, controlPanel );
 //        add( appCtrlPane, appCtrlGbc );
 //        appCtrlPane.setResizeWeight( 1 );
 
-//        setLayout( new BorderLayout() );
         setApparatusPanelContainer( apparatusPanelContainer );
         setMonitorPanel( monitorPanel );
         setAppControlPanel( appControl );
@@ -109,15 +108,14 @@ public class ContentPanel extends JPanel {
     }
 
     public void setControlPanel( JComponent panel ) {
-        if( panel != null ) {
+//        if( panel != null ) {
 //            appCtrlPane.setRightComponent( panel );
-        }
+//        }
         if( controlPanel != null ) {
             remove( controlPanel );
         }
         controlPanel = panel;
         setPanel( panel, controlPanelGbc );
-//        add( panel, BorderLayout.EAST );
     }
 
     public void setMonitorPanel( JComponent panel ) {
@@ -133,13 +131,8 @@ public class ContentPanel extends JPanel {
             remove( apparatusPanel );
         }
         apparatusPanel = panel;
-//        add( panel, BorderLayout.CENTER );
         setPanel( panel, apparatusPanelGbc );
     }
-
-//    public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
-//        getApparatusPanelContainer().add( apparatusPanel, 0 );
-//    }
 
     public void setAppControlPanel( JComponent panel ) {
         if( clockControlPanel != null ) {
@@ -147,9 +140,6 @@ public class ContentPanel extends JPanel {
         }
         clockControlPanel = panel;
         setPanel( clockControlPanel, clockControlPanelGbc );
-//        if( panel != null ) {
-//            add( panel, BorderLayout.SOUTH );
-//        }
     }
 
     private void setPanel( JComponent component, GridBagConstraints gridBagConstraints ) {

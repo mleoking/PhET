@@ -167,11 +167,12 @@ public class ControlPanelTest {
             JTextField textField = new JTextField( "012345678901234567890123456789" );
 
             cp.add( textField );
+            cp.add( new JTextField( "012345678901234567890123456789" ) );
+            cp.add( new JTextField( "012345678901234567890123456789" ) );
+            cp.add( new JTextField( "012345678901234567890123456789" ) );
+            cp.add( new JTextField( "012345678901234567890123456789" ));
+            cp.add( new JTextField( "012345678901234567890123456789" ) );
 
-//            TestPanel tp = new TestPanel();
-//            tp.add( textField );
-
-//            setControlPanel( tp );
             setControlPanel( cp );
         }
 
