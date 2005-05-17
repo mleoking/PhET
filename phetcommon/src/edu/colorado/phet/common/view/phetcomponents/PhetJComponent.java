@@ -48,7 +48,7 @@ public class PhetJComponent extends PhetGraphic {
     private static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
         if( !inited ) {
             init( null );
-            new RuntimeException( "Focus traversal requires PhetJComponent.init(Window)" ).printStackTrace();
+//            new RuntimeException( "Focus traversal requires PhetJComponent.init(Window)" ).printStackTrace();
         }
 
         if( topLevel ) {
@@ -426,30 +426,15 @@ public class PhetJComponent extends PhetGraphic {
     }
 
     public static class PhetJComponentRepaintManager extends RepaintManager {
-        private ArrayList dirtyComponents = new ArrayList();
         private Hashtable table = new Hashtable();//key=JComponent, value=PhetJComponent.
 
         public synchronized void addDirtyRegion( JComponent c, int x, int y, int w, int h ) {
             super.addDirtyRegion( c, x, y, w, h );
             if( table.containsKey( c ) ) {
-                dirtyComponents.add( c );
+                PhetJComponent phetJComponent = (PhetJComponent) table.get( c );
+                phetJComponent.repaint(); // queue up repaint request
 //                System.out.println( "dirty: c = " + c );
             }
-
-        }
-
-        public void paintDirtyRegions() {
-            super.paintDirtyRegions();
-            for( int i = 0; i < dirtyComponents.size(); i++ ) {
-                JComponent jComponent = (JComponent)dirtyComponents.get( i );
-                //only leaves get to repaint, since their locations (in parents) were mangled.
-                if( jComponent.getComponentCount() == 0 ) {
-                    PhetJComponent phetJComponent = (PhetJComponent)table.get( jComponent );
-                    phetJComponent.repaint();
-                }
-            }
-            dirtyComponents.clear();
-//            System.out.println( "clear dirty" );
         }
 
         public void put( PhetJComponent phetJComponent ) {
