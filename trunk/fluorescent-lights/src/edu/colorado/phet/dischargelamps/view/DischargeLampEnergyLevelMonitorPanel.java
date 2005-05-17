@@ -279,6 +279,9 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         // todo: cache Color instances to improve performance
         for( int i = 0; i < atomicStates.length; i++ ) {
             Color c = colorStrategy.getColor( atomicStates[i] );
+            if( numAtomsInState.get( atomicStates[i] ) == null ) {
+                System.out.println( "DischargeLampEnergyLevelMonitorPanel.paintComponent" );
+            }
             int n = ( (Integer)numAtomsInState.get( atomicStates[i] ) ).intValue();
             drawAtomsInLevel( g2, c, levelGraphics[i], n );
         }
@@ -350,9 +353,11 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
         // Display a squiggle to show the transition. Remove it after a bried time
         double dE = prevState.getEnergyLevel() - currState.getEnergyLevel();
-        if( false && dE > 0 ) {
+        if( dE > 0 ) {
             double wavelength = PhysicsUtil.energyToWavelength( dE );
-            int length = energyYTx.modelToView( dE );
+            // We need to get the absolute value here because positive energy transforms to a negative number when
+            // mapped to screen coordinates in the Y direction.
+            int length = Math.abs( energyYTx.modelToView( dE ) );
             final EnergySquiggle squiggle = new EnergySquiggle( this, wavelength, 0, length, 10,
                                                                 EnergySquiggle.VERTICAL );
             squiggle.setLocation( 50, energyYTx.modelToView( prevState.getEnergyLevel() ) );

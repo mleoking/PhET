@@ -54,6 +54,11 @@ public class EnergySquiggle extends PhetImageGraphic {
         int actualLength = length - 1;
 
         // A buffered image for generating the image data
+        if( actualLength + 2 * arrowHeight <= 0 || height <= 0 ) {
+            System.out.println( "EnergySquiggle.computeSquiggleImage" );
+        }
+
+
         BufferedImage img = new BufferedImage( actualLength + 2 * arrowHeight,
                                                height,
                                                BufferedImage.TYPE_INT_ARGB );
