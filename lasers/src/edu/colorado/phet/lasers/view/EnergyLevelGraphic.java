@@ -45,7 +45,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
 
     // Strategy for setting to color of this energy level graphic
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
-//    private ColorStrategy colorStrategy = new VisibleColorStrategy();
 
     /**
      * @param component
@@ -139,7 +138,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements AtomicSt
             // and wavelength out of range
             newWavelength = Math.min( Math.max( newWavelength, LaserConfig.MIN_WAVELENGTH + 1 ),
                                       LaserConfig.MAX_WAVELENGTH - 1 );
-            atomicState.setEnergyLevel( Photon.wavelengthToEnergy( newWavelength ) );
+            atomicState.setEnergyLevel( newEnergy );
+//            atomicState.setEnergyLevel( Photon.wavelengthToEnergy( newWavelength ) );
             atomicState.determineEmittedPhotonWavelength();
         }
     }

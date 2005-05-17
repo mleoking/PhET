@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.dischargelamps;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -30,7 +29,6 @@ import java.awt.*;
 public class DischargeLampsApp extends PhetApplication {
 
     /**
-     *
      * @param args
      */
     public DischargeLampsApp( String[] args ) {
@@ -38,7 +36,9 @@ public class DischargeLampsApp extends PhetApplication {
                SimStrings.get( "DischargeLampsApplication.title" ),
                "0.01",
                new SwingTimerClock( DischargeLampsConfig.DT, DischargeLampsConfig.FPS, AbstractClock.FRAMES_PER_SECOND ),
-               true );
+               true,
+               new String[]{DischargeLampsConfig.localizedStringsPath,
+                            LaserConfig.localizedStringsPath} );
 
         // Determine the resolution of the screen
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
