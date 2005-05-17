@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.coreadditions;
 
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.*;
 import edu.colorado.phet.common.util.EventChannel;
 
@@ -24,42 +26,40 @@ import java.util.EventObject;
 
 /**
  * A stopwatch panel.
- * <p>
+ * <p/>
  * The panel has its own clock that has the same dt as the clock provided as a parameter in the constructor.
  */
-public class StopwatchPanel extends JPanel implements ClockTickListener, ClockStateListener {
+public class StopwatchPanel extends JPanel implements ClockTickListener, ClockStateListener, ModelElement {
 
-    private int numSigDigits = 4;
     private JTextField clockTF = new JTextField();
     private NumberFormat clockFormat = new DecimalFormat( "0.00" );
-    private AbstractClock clock;
     private String[] startStopStr;
     private EventChannel stopwatchEventChannel = new EventChannel( StopwatchListener.class );
     private StopwatchListener stopwatchListenerProxy = (StopwatchListener)stopwatchEventChannel.getListenerProxy();
     private JButton resetBtn;
     // Time scale factor
     private double scaleFactor = 1;
+    private double runningTime = 0;
+    private boolean isRunning = false;
 
     /**
-     *
-     * @param simulationClock
+     * @param model
      */
-    public StopwatchPanel( AbstractClock simulationClock ) {
-        this( simulationClock, "", 1 );
+    public StopwatchPanel( BaseModel model ) {
+        this( model, "", 1 );
     }
 
     /**
-     *
-     * @param simulationClock
+     * @param model
      * @param timeUnits
-     * @param scaleFactor   Time scale factor
+     * @param scaleFactor     Time scale factor
      */
-    public StopwatchPanel( AbstractClock simulationClock, String timeUnits, double scaleFactor ) {
+    public StopwatchPanel( BaseModel model, String timeUnits, double scaleFactor ) {
 
-        this.clock = new SwingTimerClock( simulationClock.getDt(), 100 );
-        this.clock.addClockTickListener( this );
-        simulationClock.addClockStateListener( this );
+        model.addModelElement( this );
         setBackground( new Color( 237, 225, 113 ) );
+
+        this.scaleFactor = scaleFactor;
 
         // Clock readout
         setBorder( BorderFactory.createRaisedBevelBorder() );
@@ -70,7 +70,7 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
         clockTF.setHorizontalAlignment( JTextField.RIGHT );
 
         // Initialize the contents of the clockTF
-        clockTicked( new ClockTickEvent( simulationClock, 0 ) );
+        resetClock();
 
         // Start/stop button
         startStopStr = new String[2];
@@ -92,15 +92,15 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
         add( startStopBtn );
         add( resetBtn );
         add( clockTF );
-        add( new JLabel( timeUnits ));
+        add( new JLabel( timeUnits ) );
 
         // Clear the clock
         resetClock();
     }
 
     private void resetClock() {
-        clock.resetRunningTime();
-        clockTicked( new ClockTickEvent( clock, 0 ) );
+        runningTime = 0;
+        displayRunningTime();
         StopwatchEvent event = new StopwatchEvent( this );
         event.setReset( true );
         event.setRunning( false );
@@ -125,22 +125,20 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
 
         public void actionPerformed( ActionEvent e ) {
             if( startStopState == 0 ) {
-                if( !clock.hasStarted() ) {
-                    clock.start();
-                }
-                clock.setPaused( false );
                 StopwatchEvent event = new StopwatchEvent( this );
                 event.setRunning( true );
                 stopwatchListenerProxy.start( event );
                 resetBtn.setEnabled( false );
+                isRunning = true;
             }
             else {
-                clock.setPaused( true );
                 StopwatchEvent event = new StopwatchEvent( this );
                 event.setRunning( false );
                 stopwatchListenerProxy.stop( event );
                 resetBtn.setEnabled( true );
+                isRunning = false;
             }
+
             // Set the proper text for the button, and do a bunch of messing arround to
             // set the size so it doesn't change when the text changes.
             startStopState = ( startStopState + 1 ) % 2;
@@ -152,16 +150,22 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
         }
     }
 
+    private void displayRunningTime() {
+        String s = clockFormat.format( runningTime * scaleFactor );
+        clockTF.setText( s );
+    }
+
     //----------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------
     boolean savedResetState;
+
     /**
      * Responds to state changes in the simulation clock
+     *
      * @param event
      */
     public void stateChanged( ClockStateEvent event ) {
-        this.clock.setPaused( event.getIsPaused() );
         if( event.getIsPaused() ) {
             savedResetState = resetBtn.isEnabled();
             resetBtn.setEnabled( true );
@@ -173,6 +177,7 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
 
     /**
      * Responds to ticks of the stopwatch clock
+     *
      * @param event
      */
     public void clockTicked( ClockTickEvent event ) {
@@ -180,6 +185,13 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
         // TODO: scale factor goes here
         String s = clockFormat.format( c.getRunningTime() );
         clockTF.setText( s );
+    }
+
+    public void stepInTime( double dt ) {
+        if( isRunning ) {
+            runningTime += dt;
+            displayRunningTime();
+        }
     }
 
     //-----------------------------------------------------------------

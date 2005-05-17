@@ -8,7 +8,6 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision.SphereBoxExpert;
 import edu.colorado.phet.collision.SphereSphereExpert;
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
@@ -589,10 +588,9 @@ public class IdealGasModule extends Module {
     }
 
     public void stopwatchEnabled( boolean stopwatchEnabled ) {
-        ApplicationModel appModel = PhetApplication.instance().getApplicationModel();
         PhetFrame frame = PhetApplication.instance().getPhetFrame();
         if( stopwatchEnabled ) {
-            stopwatchPanel = new StopwatchPanel( appModel.getClock(), "psec", IdealGasConfig.TIME_SCALE_FACTOR );
+            stopwatchPanel = new StopwatchPanel( getModel(), "psec", IdealGasConfig.TIME_SCALE_FACTOR );
             frame.getClockControlPanel().add( stopwatchPanel, BorderLayout.WEST );
             frame.getClockControlPanel().revalidate();
             visibleInstruments.add( stopwatchPanel );
