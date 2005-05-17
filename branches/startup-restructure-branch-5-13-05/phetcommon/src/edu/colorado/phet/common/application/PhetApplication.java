@@ -95,7 +95,9 @@ public class PhetApplication {
         this.description = description;
         this.version = version;
         this.useClockControlPanel = useClockControlPanel;
-        setFrameSetup( frameSetup );
+        if( frameSetup != null ) {
+            setFrameSetup( frameSetup );
+        }
 
         // Handle command line arguments
         parseArgs( args );
