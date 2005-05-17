@@ -34,7 +34,7 @@ import java.io.IOException;
  * The prefered method of creating and starting a PhetApplication is shown here:
  * <code>
  * PhetApplication myApp = new PhetApplication( args, "Title", "Description", "Version,
- * clock, frameSetup, useClockControlPanel );
+ * clock, useClockControlPanel, frameSetup );
  * myApp.setModules( new Module[] { modA, modB };
  * myApp.startApplication();
  * </code>
@@ -58,60 +58,66 @@ public class PhetApplication {
     //----------------------------------------------------------------
     private static final String DEBUG_MENU_ARG = "-d";
     private static PhetApplication s_instance = null;
+
+    public static PhetApplication instance() {
+        return s_instance;
+    }
+
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
+
+    private PhetFrame phetFrame;
+    private ApplicationModel applicationModel;
+    private ModuleManager moduleManager;
+    private String title;
     private Module initialModule;
     private AbstractClock clock;
     private String description;
     private String version;
     private boolean useClockControlPanel;
 
-    public static PhetApplication instance() {
-        return s_instance;
-    }
-
-
-    private PhetFrame phetFrame;
-    private ApplicationModel applicationModel;
-    private ModuleManager moduleManager;
-    private String title;
-
+    /**
+     * @param args                 Command line args
+     * @param title                Title that appears in the frame and the About dialog
+     * @param description          Appears in the About dialog
+     * @param version              Appears in the About dialog
+     * @param clock                Simulation clock
+     * @param useClockControlPanel Whether clock control panel appears at bottom of window
+     * @param frameSetup           Defines the size and location of the frame
+     */
     public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
-                            boolean useClockControlPanel, FrameSetup frameSetup, String localizedStringPath ) {
+                            boolean useClockControlPanel, FrameSetup frameSetup ) {
         s_instance = this;
-
-        // Initialize the localization mechanism
-        SimStrings.setStrings( localizedStringPath );
-
-        moduleManager = new ModuleManager( this );
-        phetFrame = new PhetFrame( this, title, clock, frameSetup, useClockControlPanel, moduleManager, description, version );
+        this.moduleManager = new ModuleManager( this );
         this.title = title;
         this.clock = clock;
         this.description = description;
         this.version = version;
         this.useClockControlPanel = useClockControlPanel;
-
-        // Initialize the PhetJComponent factory
-        PhetJComponent.init( getPhetFrame() );
+        setFrameSetup( frameSetup );
 
         // Handle command line arguments
         parseArgs( args );
     }
 
     /**
-     * @param args
-     * @param title
-     * @param description
-     * @param version
-     * @param clock
-     * @param useClockControlPanel
+     * @param args                 Command line args
+     * @param title                Title that appears in the frame and the About dialog
+     * @param description          Appears in the About dialog
+     * @param version              Appears in the About dialog
+     * @param clock                Simulation clock
+     * @param useClockControlPanel Whether clock control panel appears at bottom of window
      */
     public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
-                            boolean useClockControlPanel, String localizedStringPath ) {
-        this( args, title, description, version, clock, useClockControlPanel, null, localizedStringPath );
+                            boolean useClockControlPanel ) {
+        this( args, title, description, version, clock, useClockControlPanel, null );
     }
 
     /**
      * @param descriptor
      * @deprecated, clients should pass in their String[] args.
+     * @deprecated
      */
     public PhetApplication( ApplicationModel descriptor ) {
         this( descriptor, new String[0] );
@@ -120,9 +126,9 @@ public class PhetApplication {
     /**
      * @param descriptor
      * @param args
+     * @deprecated
      */
     public PhetApplication( ApplicationModel descriptor, String args[] ) {
-
         moduleManager = new ModuleManager( this );
         clock = descriptor.getClock();
 
@@ -148,10 +154,6 @@ public class PhetApplication {
         parseArgs( args );
     }
 
-    public void setFrameSetup( FrameSetup frameSetup ) {
-        phetFrame = new PhetFrame( this, title, clock, frameSetup, useClockControlPanel, moduleManager, description, version );
-    }
-
     /**
      * Processes command line arguments. May be extended by subclasses.
      *
@@ -168,6 +170,8 @@ public class PhetApplication {
 
     /**
      * Starts the PhetApplication.
+     * <p/>
+     * Sets up the mechanism that sets the reference sizes of all ApparatusPanel2 instances.
      */
     public void startApplication() {
         if( initialModule == null ) {
@@ -188,12 +192,7 @@ public class PhetApplication {
 
                         // Add the listener to the apparatus panel that will tell it to set its
                         // reference size
-//                        apparatusPanel.addComponentListener( new ComponentAdapter() {
-//                            public void componentResized( ComponentEvent e ) {
                         apparatusPanel.setReferenceSize();
-//                                apparatusPanel.removeComponentListener( this );
-//                            }
-//                        } );
                     }
                 }
                 phetFrame.removeWindowFocusListener( this );
@@ -203,6 +202,16 @@ public class PhetApplication {
         moduleManager.setActiveModule( initialModule );
         clock.start();
         phetFrame.setVisible( true );
+    }
+
+    /**
+     * Sets the FrameSetup the application is to use, and initialized the PhetJComponent factory.
+     *
+     * @param frameSetup
+     */
+    public void setFrameSetup( FrameSetup frameSetup ) {
+        phetFrame = new PhetFrame( this, title, clock, frameSetup, useClockControlPanel, moduleManager, description, version );
+        PhetJComponent.init( phetFrame );
     }
 
     public PhetFrame getPhetFrame() {

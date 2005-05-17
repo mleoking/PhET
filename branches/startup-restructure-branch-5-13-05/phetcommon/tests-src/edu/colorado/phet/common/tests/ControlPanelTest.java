@@ -81,7 +81,7 @@ public class ControlPanelTest {
             PhetApplication app = new PhetApplication( args, "Control Panel Test",
                                                        "<html>A PhetApplication to test<br>the control panel layout",
 //                                                   "0.1", clock, null, false );
-                                                       "0.1", clock, false, new FrameSetup.CenteredWithSize( 800, 600 ), null );
+                                                       "0.1", clock, false, new FrameSetup.CenteredWithSize( 800, 600 ) );
             app.setModules( new Module[]{module, new TestModule( "B", clock ), new TestModule( "C", clock )} );
             app.getPhetFrame().getBasicPhetPanel().setControlPanel( module.getControlPanel() );
 
@@ -101,7 +101,7 @@ public class ControlPanelTest {
         PhetApplication app = new PhetApplication( args, "Control Panel Test",
                                                    "<html>A PhetApplication to test<br>the control panel layout",
 //                                                   "0.1", clock, null, false );
-                                                   "0.1", clock, false, new FrameSetup.CenteredWithSize( 800, 600 ), null );
+                                                   "0.1", clock, false, new FrameSetup.CenteredWithSize( 800, 600 ) );
         app.setModules( new Module[]{testModuleA} );
 //        app.setModules( new Module[]{testModuleA, new TestModule( "B", clock ), new TestModule( "C", clock )} );
         app.setInitialModule( testModuleA );
