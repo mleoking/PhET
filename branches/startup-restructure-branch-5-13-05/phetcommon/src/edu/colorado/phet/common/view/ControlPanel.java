@@ -65,10 +65,10 @@ public class ControlPanel extends JPanel {
                                                              GridBagConstraints.NORTH,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
+        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 1,
                                                                  GridBagConstraints.NORTH,
-                                                                 GridBagConstraints.BOTH,
-//                                                         GridBagConstraints.NONE,
+//                                                                 GridBagConstraints.BOTH,
+                                                         GridBagConstraints.HORIZONTAL,
                                                                  new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints helpGbc = new GridBagConstraints( 0, 2, 1, 1, 0, 0,
                                                              GridBagConstraints.SOUTH,
@@ -87,7 +87,6 @@ public class ControlPanel extends JPanel {
         scrollPane = new JScrollPane( controlPane,
                                       JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-        scrollPane.setMinimumSize( new Dimension( 200, 800 ) );
         scrollPane.setBorder( null );
         super.add( scrollPane, controlsGbc );
 
@@ -103,10 +102,15 @@ public class ControlPanel extends JPanel {
             boolean sizeSet;
 
             public void componentResized( ComponentEvent e ) {
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
                 Dimension size = controlPane.getSize();
                 if( size.getWidth() > 0 && size.getHeight() > 0 ) {
                     if( !sizeSet ) {
-                        scrollPane.setPreferredSize( controlPane.getSize() );
+                        scrollPane.setMinimumSize( new Dimension(
+                                (int)(controlPane.getSize().getWidth() + scrollPane.getVerticalScrollBar().getWidth()),
+                                (int)( controlPane.getSize().getHeight() )));
+//                        scrollPane.setPreferredSize( controlPane.getSize() );
                     }
                     if( scrollPane.getVerticalScrollBar().isVisible() ) {
                         scrollPane.setBorder( BorderFactory.createEtchedBorder() );
@@ -115,6 +119,8 @@ public class ControlPanel extends JPanel {
                         scrollPane.setBorder( null );
                     }
                 }
+                    }
+                } );
             }
         } );
     }
