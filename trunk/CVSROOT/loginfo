@@ -36,7 +36,7 @@
 #
 #######################################################################################################
 
-^charts\(/\|$\) mail -s "CVS commit: charts" ronlemaster
+^charts\(/\|$\) mail -s "CVS commit: charts" ronlemaster cmalley
 ^collision\(/\|$\) mail -s "CVS commit: collision" ronlemaster cmalley
 ^colorvision3\(/\|$\) mail -s "CVS commit: colorvision3" cmalley
 ^emf\(/\|$\) mail -s "CVS commit: emf" ronlemaster

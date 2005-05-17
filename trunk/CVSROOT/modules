@@ -99,8 +99,8 @@ forces1d forces1d &phetcommon &charts
 # Faraday's Law
 faradays-law faraday &phetcommon
 
-# Fourier Analysis
-fourier-analysis fourier &phetcommon
+# Fourier Transforms
+fourier-transforms fourier &phetcommon
 
 # Radio Waves
 radio-waves emf
