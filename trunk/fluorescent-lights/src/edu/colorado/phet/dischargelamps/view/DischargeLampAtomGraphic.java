@@ -13,6 +13,7 @@ package edu.colorado.phet.dischargelamps.view;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.lasers.model.PhysicsUtil;
 import edu.colorado.phet.lasers.model.atom.Atom;
 import edu.colorado.phet.lasers.model.photon.Photon;
 import edu.colorado.phet.lasers.view.AtomGraphic;
@@ -36,9 +37,16 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
     // A number to be displayed in the middle of the atom
     PhetTextGraphic numberGraphic;
 
+    /**
+     *
+     * @param component
+     * @param atom
+     */
     public DischargeLampAtomGraphic( Component component, Atom atom ) {
         super( component, atom );
         this.atom = atom;
+        getEnergyGraphic().setStroke( new BasicStroke( 0.5f ));
+        getEnergyGraphic().setBorderColor( Color.black );
         numberGraphic = new PhetTextGraphic( component, DischargeLampsConfig.defaultControlFont, "", Color.white );
         numberGraphic.setJustification( PhetTextGraphic.CENTER );
         setNumberGraphicText();
@@ -46,20 +54,34 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
         getEnergyGraphic().setColor( energyRepColorStrategy.getColor( atom ) );
     }
 
-    public void update() {
-        super.update();
+    /**
+     * Sets the text to be written on the atom to be the index of the atom's state, or
+     * "G" if it's the ground state.
+     */
+    private void setNumberGraphicText() {
+        // Add a number to the middle of the grpahic
+        int stateIdx = atom.getCurrStateNumber();
+        String numStr = stateIdx == 0 ? "G" : Integer.toString( stateIdx );
+        numberGraphic.setText( numStr );
     }
 
+    //----------------------------------------------------------------
+    // Atom.ChangeListener implementation
+    //----------------------------------------------------------------
+
+    /**
+     * Sets the color for the representation of the atom's energy level when the atom's state
+     * changes
+     * @param event
+     */
     public void stateChanged( Atom.ChangeEvent event ) {
         super.stateChanged( event );
 
         // TODO: go through this a clean it up
-//        double dE = event.getCurrState().getEnergyLevel();
         double dE = event.getPrevState().getEnergyLevel() - event.getCurrState().getEnergyLevel();
         Color energyRepColor = null;
         if( dE > 0 ) {
-            double wavelength = Photon.energyToWavelength( event.getPrevState().getEnergyLevel() );
-//            double wavelength = Photon.energyToWavelength( dE );
+            double wavelength = PhysicsUtil.energyToWavelength( event.getPrevState().getEnergyLevel() );
             if( wavelength == Photon.GRAY ) {
                 energyRepColor = Color.darkGray;
             }
@@ -80,17 +102,6 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
         setNumberGraphicText();
         setBoundsDirty();
         repaint();
-    }
-
-    /**
-     * Sets the text to be written on the atom to be the index of the atom's state, or
-     * "G" if it's the ground state.
-     */
-    private void setNumberGraphicText() {
-        // Add a number to the middle of the grpahic
-        int stateIdx = atom.getCurrStateNumber();
-        String numStr = stateIdx == 0 ? "G" : Integer.toString( stateIdx );
-        numberGraphic.setText( numStr );
     }
 
     //----------------------------------------------------------------
@@ -136,9 +147,8 @@ public class DischargeLampAtomGraphic extends AtomGraphic implements Atom.Change
      * Picks a shade of gray for the energy rep color.
      */
     private class GrayScaleStrategy implements EnergyRepColorStrategy {
-        private Color[] grayScale = new Color[200];
+        private Color[] grayScale = new Color[240];
 //        private Color[] grayScale = new Color[220];
-//        private Color[] grayScale = new Color[255];
 
         GrayScaleStrategy() {
             for( int i = 0; i < grayScale.length; i++ ) {

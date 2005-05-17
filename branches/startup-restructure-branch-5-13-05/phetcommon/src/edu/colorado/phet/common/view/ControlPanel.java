@@ -279,6 +279,8 @@ public class ControlPanel extends JPanel {
         boolean sizeSet;
 
         public void componentResized( ComponentEvent e ) {
+            // Note: If this code doesn't execute in an invokeLater() runnable, it sometimes does the
+            // wrong thing.
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
                     Dimension size = controlPane.getSize();
