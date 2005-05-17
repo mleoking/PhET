@@ -18,7 +18,9 @@ import edu.colorado.phet.common.util.VersionUtils;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -39,10 +41,10 @@ import java.io.IOException;
  * <p/>
  * The application's PhetFrame is created by the constructor, and a new one will be created
  * if setFrameSetup() is called later.
- * <p>
+ * <p/>
  * A FrameSetup can either be specified in the constructor
  * or later, in a call to setFrameSetup().
- * <p>
+ * <p/>
  * If no initial module is specified, the module with index 0 in the array sent
  * to setModules() is used.
  *
@@ -73,8 +75,12 @@ public class PhetApplication {
     private String title;
 
     public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
-                            boolean useClockControlPanel, FrameSetup frameSetup ) {
+                            boolean useClockControlPanel, FrameSetup frameSetup, String localizedStringPath ) {
         s_instance = this;
+
+        // Initialize the localization mechanism
+        SimStrings.setStrings( localizedStringPath );
+
         moduleManager = new ModuleManager( this );
         phetFrame = new PhetFrame( this, title, clock, frameSetup, useClockControlPanel, moduleManager, description, version );
         this.title = title;
@@ -83,13 +89,14 @@ public class PhetApplication {
         this.version = version;
         this.useClockControlPanel = useClockControlPanel;
 
+        // Initialize the PhetJComponent factory
+        PhetJComponent.init( getPhetFrame() );
 
         // Handle command line arguments
         parseArgs( args );
     }
 
     /**
-     *
      * @param args
      * @param title
      * @param description
@@ -98,8 +105,8 @@ public class PhetApplication {
      * @param useClockControlPanel
      */
     public PhetApplication( String[] args, String title, String description, String version, AbstractClock clock,
-                            boolean useClockControlPanel ) {
-        this( args, title, description, version, clock, useClockControlPanel, null );
+                            boolean useClockControlPanel, String localizedStringPath ) {
+        this( args, title, description, version, clock, useClockControlPanel, null, localizedStringPath );
     }
 
     /**

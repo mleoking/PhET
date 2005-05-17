@@ -81,8 +81,8 @@ public class ControlPanelTest {
             PhetApplication app = new PhetApplication( args, "Control Panel Test",
                                                        "<html>A PhetApplication to test<br>the control panel layout",
 //                                                   "0.1", clock, null, false );
-                                                       "0.1", clock, false, new FrameSetup.CenteredWithSize( 800, 600 ) );
-            app.setModules( new Module[]{ module, new TestModule( "B", clock ), new TestModule( "C", clock )  } );
+                                                       "0.1", clock, false, new FrameSetup.CenteredWithSize( 800, 600 ), null );
+            app.setModules( new Module[]{module, new TestModule( "B", clock ), new TestModule( "C", clock )} );
             app.getPhetFrame().getBasicPhetPanel().setControlPanel( module.getControlPanel() );
 
             app.getPhetFrame().setVisible( true );
@@ -101,7 +101,7 @@ public class ControlPanelTest {
         PhetApplication app = new PhetApplication( args, "Control Panel Test",
                                                    "<html>A PhetApplication to test<br>the control panel layout",
 //                                                   "0.1", clock, null, false );
-                                                   "0.1", clock, false, new FrameSetup.CenteredWithSize( 800, 600 ) );
+                                                   "0.1", clock, false, new FrameSetup.CenteredWithSize( 800, 600 ), null );
         app.setModules( new Module[]{testModuleA} );
 //        app.setModules( new Module[]{testModuleA, new TestModule( "B", clock ), new TestModule( "C", clock )} );
         app.setInitialModule( testModuleA );
@@ -121,12 +121,12 @@ public class ControlPanelTest {
         }
 
         public void setReferenceSize() {
-            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setReferenceSize: " + name  );
+            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setReferenceSize: " + name );
             super.setReferenceSize();
         }
 
         public void setReferenceSize( Dimension renderingSize ) {
-            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setReferenceSize: "  + name);
+            System.out.println( "edu.colorado.phet.common.tests.ControlPanelTest$AP2.setReferenceSize: " + name );
             super.setReferenceSize( renderingSize );
         }
 
@@ -155,7 +155,7 @@ public class ControlPanelTest {
             ap.setPreferredSize( new Dimension( 200, 200 ) );
             ap.addGraphic( new PhetShapeGraphic( ap, new Rectangle( 100, 100, 50, 50 ), Color.red ) );
             ap.addGraphic( new PhetImageGraphic( ap, "images/Phet-logo-48x48.gif" ) );
-            PhetTextGraphic textGraphic = new PhetTextGraphic( ap, new Font( "Lucida-sans", Font.BOLD, 30 ), name, Color.blue);
+            PhetTextGraphic textGraphic = new PhetTextGraphic( ap, new Font( "Lucida-sans", Font.BOLD, 30 ), name, Color.blue );
             textGraphic.setLocation( 50, 50 );
             ap.addGraphic( textGraphic );
 
@@ -170,7 +170,7 @@ public class ControlPanelTest {
             cp.add( new JTextField( "012345678901234567890123456789" ) );
             cp.add( new JTextField( "012345678901234567890123456789" ) );
             cp.add( new JTextField( "012345678901234567890123456789" ) );
-            cp.add( new JTextField( "012345678901234567890123456789" ));
+            cp.add( new JTextField( "012345678901234567890123456789" ) );
             cp.add( new JTextField( "012345678901234567890123456789" ) );
 
             setControlPanel( cp );

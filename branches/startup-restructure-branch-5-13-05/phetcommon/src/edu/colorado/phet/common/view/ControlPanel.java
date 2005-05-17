@@ -176,6 +176,8 @@ public class ControlPanel extends JPanel {
         controlPane.add( comp, gbc );
         revalidate();
         repaint();
+
+        comp.addComponentListener( new ScrollPaneManager() );
         return comp;
     }
 
@@ -277,6 +279,7 @@ public class ControlPanel extends JPanel {
      */
     private class ScrollPaneManager extends ComponentAdapter {
         boolean sizeSet;
+        Dimension refDim = new Dimension();
 
         public void componentResized( ComponentEvent e ) {
             // Note: If this code doesn't execute in an invokeLater() runnable, it sometimes does the
@@ -284,12 +287,14 @@ public class ControlPanel extends JPanel {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
                     Dimension size = controlPane.getSize();
-                    if( size.getWidth() > 0 && size.getHeight() > 0 ) {
+                    if( size.getWidth() > refDim.getWidth() || size.getHeight() > refDim.getHeight() ) {
+//                    if( size.getWidth() > 0 && size.getHeight() > 0 ) {
+                        refDim.setSize( size );
                         if( !sizeSet ) {
                             // Note: setPreferredSize() doesn't seem to work here
                             // 20 is my best estimate at the width of the vertical scroll bar.
-                            scrollPane.setMinimumSize( new Dimension( (int)( controlPane.getSize().getWidth() + 20 ),
-                                                                      (int)( controlPane.getSize().getHeight() ) ) );
+                            scrollPane.setMinimumSize( new Dimension( (int)( size.getWidth() + 20 ),
+                                                                      (int)( size.getHeight() ) ) );
                             sizeSet = true;
                         }
                         if( scrollPane.getVerticalScrollBar().isVisible() ) {
