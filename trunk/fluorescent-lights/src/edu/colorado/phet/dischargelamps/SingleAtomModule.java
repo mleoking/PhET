@@ -144,6 +144,11 @@ public class SingleAtomModule extends DischargeLampModule {
         atom.setPosition( tubeBounds.getX() + tubeBounds.getWidth() / 2,
                           tubeBounds.getY() + tubeBounds.getHeight() / 2 );
         AtomGraphic atomGraphic = addAtom( atom );
+        // The graphic may have been put behind the circuit graphic (it is randomly put in front of or behind
+        // the circuit in DischargeLampModule.addAtom(). We need to make sure it is above the circuit graphic
+        // so that we can get at it with the mouse
+        getApparatusPanel().removeGraphic( atomGraphic );
+        getApparatusPanel().addGraphic( atomGraphic, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
 
         // Make the atom movable with the mouse within the bounds of the tube
         Rectangle2D atomBounds = new Rectangle2D.Double( tubeBounds.getMinX() + atom.getRadius(),
