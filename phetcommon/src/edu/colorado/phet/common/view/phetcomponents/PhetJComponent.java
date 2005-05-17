@@ -148,7 +148,7 @@ public class PhetJComponent extends PhetGraphic {
         }
     }
 
-    public PhetJComponent( Component ap, JComponent component ) {
+    private PhetJComponent( Component ap, JComponent component ) {
         this( ap, component, true );
     }
 
