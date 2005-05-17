@@ -36,8 +36,8 @@ public class OptionsMenu extends JMenu {
         super( "Options" );
         setMnemonic( 'O' );
         this.application = application;
-        diffusionModule = new DiffusionModule( application.getApplicationModel().getClock() );
-        movableWallModule = new MovableWallsModule( application.getApplicationModel().getClock() );
+        diffusionModule = new DiffusionModule( application.getClock() );
+        movableWallModule = new MovableWallsModule( application.getClock() );
 
 //        this.add( new AdvancedMenu() );
 //        this.add( new AdvancedPanelsMI() );

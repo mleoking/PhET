@@ -169,6 +169,8 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         } );
 
         // Measurement tools button
+//        JComboBox measurementToolsList = new MeasurementToolSelector( module );
+//        ((PhetFrame)SwingUtilities.getRoot( this )).addMenu( );
         ToggleButton measurementDlgBtn = new MeasurementDialogButton();
         measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
         measurementDlgBtn.setBackground( new Color( 255, 255, 120 ) );
@@ -190,6 +192,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         // Put them on the button panel
         buttonPanel = new JPanel( new GridBagLayout() );
         buttonPanel.add( resetBtn, localGbc );
+//        buttonPanel.add( measurementToolsList, localGbc );
         buttonPanel.add( measurementDlgBtn, localGbc );
         buttonPanel.add( advancedButton, localGbc );
         buttonPanel.revalidate();
