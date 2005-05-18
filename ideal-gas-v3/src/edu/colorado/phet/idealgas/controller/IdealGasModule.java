@@ -85,7 +85,7 @@ public class IdealGasModule extends Module {
     private Mannequin pusher;
     private BoxDoorGraphic boxDoorGraphic;
     private PumpHandleGraphic pumpHandleGraphic;
-    private PumpSpeciesSelectorPanel2 pumpSelectorPanel;
+    private PumpSpeciesSelectorPanel pumpSelectorPanel;
     private PhetImageGraphic pumpBaseAndHoseGraphic;
     // Coordinates of origin and opposite corner of box
     private double xOrigin = 132 + IdealGasConfig.X_BASE_OFFSET;
@@ -251,7 +251,7 @@ public class IdealGasModule extends Module {
         getApparatusPanel().addGraphic( scp2 );
 
         // Add buttons for selecting the species that the pump will produce
-        pumpSelectorPanel = new PumpSpeciesSelectorPanel2( this );
+        pumpSelectorPanel = new PumpSpeciesSelectorPanel( this );
         pumpSelectorPanel.setLocation( IdealGasConfig.X_BASE_OFFSET + 630, IdealGasConfig.Y_BASE_OFFSET + 300 );
         pumpSelectorPanel.setLocation( (int)( pumpGraphic.getLocation().getX() + pumpGraphic.getWidth() - pumpSelectorPanel.getWidth() + 10 ),
                                        (int)( pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 32 ) );
@@ -414,6 +414,9 @@ public class IdealGasModule extends Module {
      */
     public void setGravity( double value ) {
         gravity.setAmt( value );
+        if( value == 0 ) {
+            System.out.println( "IdealGasModule.setGravity" );
+        }
         if( value != 0 ) {
             pump.setPumpingEnergyStrategy( new Pump.FixedEnergyStrategy() );
             box.setMultipleSlicesEnabled( false );

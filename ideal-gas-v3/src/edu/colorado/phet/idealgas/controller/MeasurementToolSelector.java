@@ -23,18 +23,22 @@ import java.awt.event.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MeasurementToolSelector extends JComboBox {
+public class MeasurementToolSelector extends JPopupMenu {
     private IdealGasModule module;
+    private JCheckBoxMenuItem pressureSliceMI;
 
     public MeasurementToolSelector( IdealGasModule module) {
         this.module = module;
-        addItem( new PressureSliceControlCB() );
-        addItem( new PressureSliceControl() );
-//        addItem( new RulerControl() );
-//        addItem( new HistogramControlPanel() );
-//        addItem( new CmLinesControl() );
-//        addItem( new SpeciesMonitorControl() );
-//        addItem( new StopwatchControl() );
+        pressureSliceMI = new JCheckBoxMenuItem( new PressureSliceAction() );
+//        add( pressureSliceMI );
+//        add( pressureSliceMI );
+//        add( pressureSliceMI );
+        add( new PressureSliceControlCB() );
+        add( new RulerControl() );
+        add( new HistogramControlPanel() );
+        add( new CmLinesControl() );
+        add( new SpeciesMonitorControl() );
+        add( new StopwatchControl() );
     }
 
 
@@ -42,6 +46,11 @@ public class MeasurementToolSelector extends JComboBox {
      * These controls are each done a s JPanel, so they can have multiple widgets if necessary
      */
 
+    class PressureSliceAction extends AbstractAction {
+        public void actionPerformed( ActionEvent e ) {
+            module.setPressureSliceEnabled( pressureSliceMI.isSelected() );
+        }
+    }
 
     class PressureSliceControlCB extends JCheckBox {
         PressureSliceControlCB() {
