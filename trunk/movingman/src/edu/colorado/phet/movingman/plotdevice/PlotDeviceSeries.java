@@ -3,13 +3,13 @@ package edu.colorado.phet.movingman.plotdevice;
 
 import edu.colorado.phet.chart.BufferedLinePlot;
 import edu.colorado.phet.chart.DataSet;
+import edu.colorado.phet.common.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
-import edu.colorado.phet.movingman.common.DefaultDecimalFormat;
 import edu.colorado.phet.movingman.plots.TimePoint;
 import edu.colorado.phet.movingman.plots.TimeSeries;
 

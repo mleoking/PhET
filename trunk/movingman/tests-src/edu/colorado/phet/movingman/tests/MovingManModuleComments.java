@@ -53,7 +53,7 @@ public class MovingManModuleComments {
 
     //    private void addDirectionHandler() {
 //
-//        getVelocityPlot().addListener( new MMPlot.TimeListener() {
+//        getVelocityPlot().addListener( new MMTimePlot.TimeListener() {
 //            public void nominalValueChanged( double value ) {
 //                if( manGraphic.isDragging() || getPositionPlot().isDragging() || getVelocityPlot().isDragging() || stopped ) {
 //                }
