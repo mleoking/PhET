@@ -26,22 +26,14 @@ import java.awt.geom.Point2D;
 
 public class HeliumBalloonModule extends IdealGasModule implements GasSource, IdealGasModule.ResetListener {
 
-    private static final float initialVelocity = 30;
     private static double MASS = 500;
 
     private HollowSphere balloon;
     private Class gasSpecies = LightSpecies.class;
-    private Object containerAffected;
-//    private int defaultGravity = 0;
     private int defaultGravity = IdealGasConfig.MAX_GRAVITY / 2;
 
     public HeliumBalloonModule( AbstractClock clock ) {
         super( clock, SimStrings.get( "ModuleTitle.HeliumBalloon" ) );
-
-        double xOrigin = 200;
-        double yOrigin = 250;
-        double xDiag = 434;
-        double yDiag = 397;
 
         // So we'll get events sent by parent classes
         this.addResetListener( this );
@@ -64,9 +56,6 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                                                                 getIdealGasModel() );
         balloon.addConstraint( constraintSpec );
 
-        // Turn on gravity
-        setGravity( defaultGravity );
-
         // Set up the control panel
         JPanel controlPanel = new JPanel( new GridBagLayout() );
         controlPanel.setBorder( new TitledBorder( SimStrings.get( "HeliumBalloonControlPanel.controlsTitle" ) ) );
@@ -78,6 +67,9 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                                       insets, 0, 0 );
         controlPanel.add( new HeliumBalloonModule.HeliumFactoryPanel(), gbc );
         getIdealGasControlPanel().addParticleControl( controlPanel );
+
+        // Turn on gravity
+        setGravity( defaultGravity );
     }
 
     protected Pump.PumpingEnergyStrategy getPumpingEnergyStrategy() {
