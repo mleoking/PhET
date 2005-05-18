@@ -12,7 +12,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -431,15 +430,15 @@ public class PhetJComponent extends PhetGraphic {
         public synchronized void addDirtyRegion( JComponent c, int x, int y, int w, int h ) {
             super.addDirtyRegion( c, x, y, w, h );
             if( table.containsKey( c ) ) {
-                PhetJComponent phetJComponent = (PhetJComponent) table.get( c );
-                phetJComponent.repaint(); // queue up repaint request
-//                System.out.println( "dirty: c = " + c );
+                PhetJComponent phetJComponent = (PhetJComponent)table.get( c );
+                if( c.getComponentCount() == 0 ) {
+                    phetJComponent.repaint(); // queue up repaint request
+                }
             }
         }
 
         public void put( PhetJComponent phetJComponent ) {
             table.put( phetJComponent.component, phetJComponent );
-//            System.out.println( "put: phetJComponent = " + phetJComponent );
         }
 
     }
