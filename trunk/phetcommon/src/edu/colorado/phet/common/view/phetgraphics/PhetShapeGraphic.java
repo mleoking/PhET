@@ -41,7 +41,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         this.border = border;
         computeStrokedShape();
     }
-    
+
     public PhetShapeGraphic( Component component, Shape shape, Paint fill ) {
         this( component, shape, fill, null /* stroke */, null /* border */ );
     }
@@ -253,7 +253,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         else if( a == null && b != null ) {
             return false;
         }
-        else if( a != null && b != null ) {
+        else if( a != null && b == null ) {
             return false;
         }
         else if( a.equals( b ) ) {
