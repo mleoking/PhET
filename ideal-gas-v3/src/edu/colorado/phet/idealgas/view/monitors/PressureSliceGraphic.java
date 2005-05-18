@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
+import edu.colorado.phet.idealgas.model.Box2D;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -25,7 +26,14 @@ import java.text.NumberFormat;
 import java.util.EventListener;
 import java.util.EventObject;
 
-public class PressureSliceGraphic extends CompositePhetGraphic implements PressureSensingBox.ChangeListener {
+/**
+ * The PhetGraphic for the tool that reads pressure and temperature for a horizontal slice through the
+ * box.
+ * <p/>
+ * The structure of this class is odd because it was proted forward through several versions of PhetGraphic.
+ */
+public class PressureSliceGraphic extends CompositePhetGraphic implements PressureSensingBox.ChangeListener,
+                                                                          Box2D.ChangeListener {
 
     private float s_overlayTransparency = 0.3f;
 
@@ -38,7 +46,6 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
     private double boxLowerEdge;
     private double boxRightEdge;
     private PressureSensingBox box;
-//    private Box2D box;
     private PressureSlice pressureSlice;
     private SimpleObservable pressureReadingSource;
     private NumberFormat temperatureFormatter = new DecimalFormat( "#" );
@@ -47,7 +54,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
     private double temperature;
     private double pressure;
     private Font font = new Font( "Lucida Sans", Font.BOLD, 12 );
-    private PhetGraphic internalGraphic;
+    private InternalGraphic internalGraphic;
     private Area drawingArea = new Area();
 
     /**
@@ -60,7 +67,8 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
         super( component );
         this.pressureSlice = pressureSlice;
         pressureReadingSource = box;
-        box.addChangeListener( this );
+        box.addChangeListener( (PressureSensingBox.ChangeListener)this );
+        box.addChangeListener( (Box2D.ChangeListener)this );
 
         internalGraphic = new InternalGraphic( component );
         this.setCursorHand();
@@ -71,8 +79,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
                 y = newY;
                 pressureSlice.setY( y );
                 listenerProxy.moved( new Event( PressureSliceGraphic.this ) );
-                internalGraphic.setBoundsDirty();
-                internalGraphic.repaint();
+                internalGraphic.update();
             }
         } );
         this.box = box;
@@ -97,6 +104,10 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
         internalGraphic.paint( g2 );
     }
 
+    //----------------------------------------------------------------
+    // Component graphic classes
+    //----------------------------------------------------------------
+
     private class InternalGraphic extends PhetShapeGraphic implements SimpleObserver {
 
         InternalGraphic( Component component ) {
@@ -117,24 +128,17 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
             else {
                 pressure = pressureSlice.getPressure();
             }
-//            pressure = pressureSlice.getPressure();
             temperature = pressureSlice.getTemperature();
 
-//            pressAve.update( pressure );
-//            tempAve.update( temperature );
 
             // Clear the drawing area and rebuild it
             drawingArea.exclusiveOr( drawingArea );
             drawingArea.add( new Area( boundingRect ) );
-            drawingArea.add( new Area( readoutRectangle ) );
+            drawingArea.add( new Area( new Rectangle( (int)readoutRectangle.getX() - 2, (int)readoutRectangle.getY() - 2,
+                                                      (int)readoutRectangle.getWidth() + 4, (int)readoutRectangle.getHeight() + 4 ) ) );
             setBoundsDirty();
             repaint();
         }
-
-        //todo: remove after debug
-//        Averager pressAve = new Averager( "slice press = " );
-//        Averager tempAve = new Averager( "slice temp = ");
-
 
         public void paint( Graphics2D g2 ) {
             saveGraphicsState( g2 );
@@ -225,6 +229,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
      * on the dial gauge. If the box is only sending out readings from a single slice,
      * that means gravity is on, and we want to use our own slice for our readings.
      * This may not be the best way to organize this code, but what the hell...
+     *
      * @param event
      */
     public void stateChanged( PressureSensingBox.ChangeEvent event ) {
@@ -235,6 +240,14 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
         else {
             pressureReadingSource = pressureSlice;
         }
+    }
+
+    //----------------------------------------------------------------
+    // Box2D.ChangeListener implementation
+    //----------------------------------------------------------------
+
+    public void boundsChanged( Box2D.ChangeEvent event ) {
+        internalGraphic.update();
     }
 
     //-----------------------------------------------------------------------------------------
