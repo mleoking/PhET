@@ -33,7 +33,7 @@ public class ChartSlider extends GraphicLayerSet {
     private int numTicks = 1000;
     public int offsetX = 0;
     private boolean changed;
-    private PhetJComponent sliderGraphic;
+    private PhetGraphic sliderGraphic;
     private int preferredWidth;
     private ChartSliderUI sliderUI;
 
@@ -78,7 +78,8 @@ public class ChartSlider extends GraphicLayerSet {
             sliderUI = new ChartSliderUI( this, image, foregroundColor );
         }
         slider.setUI( sliderUI );
-        sliderGraphic = new PhetJComponent( apparatusPanel, slider );
+//        sliderGraphic = new PhetJComponent( apparatusPanel, slider );
+        sliderGraphic = PhetJComponent.newInstance( apparatusPanel, slider );
         addGraphic( sliderGraphic );
         updateLocation();
         apparatusPanel.addComponentListener( new ComponentAdapter() {
