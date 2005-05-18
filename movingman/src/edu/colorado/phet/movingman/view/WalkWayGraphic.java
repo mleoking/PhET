@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -9,7 +10,6 @@ import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
-import edu.colorado.phet.movingman.common.DefaultDecimalFormat;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
 
 import java.awt.*;

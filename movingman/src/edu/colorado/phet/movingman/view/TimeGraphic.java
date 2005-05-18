@@ -1,13 +1,13 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.movingman.view;
 
+import edu.colorado.phet.common.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.movingman.MMFontManager;
 import edu.colorado.phet.movingman.MovingManModule;
-import edu.colorado.phet.movingman.common.DefaultDecimalFormat;
 import edu.colorado.phet.movingman.model.MMTimer;
 
 import java.awt.*;
