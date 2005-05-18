@@ -82,6 +82,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     }
 
     public void setConstantVolume( boolean constantVolume ) {
+        box.setVolumeFixed( true );
         this.constantVolume = constantVolume;
         SphereBoxCollision.setWorkDoneByMovingWall( constantVolume );
     }
@@ -91,9 +92,16 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     }
 
     public void setConstantPressure( boolean constantPressure ) {
+        box.setVolumeFixed( false );
         this.targetPressure = box.getPressure();
         this.constantPressure = constantPressure;
         SphereBoxCollision.setWorkDoneByMovingWall( !constantPressure );
+    }
+
+    public void setNoConstantProperty() {
+        this.constantVolume = false;
+        box.setVolumeFixed( false );
+        SphereBoxCollision.setWorkDoneByMovingWall( constantVolume );
     }
 
     /**

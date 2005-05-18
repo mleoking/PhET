@@ -197,35 +197,54 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         JPanel constantParamButtonPanel = new JPanel( new GridBagLayout() );
         final JRadioButton constantVolumeRB = new JRadioButton( SimStrings.get( "Common.Volume" ) );
         final JRadioButton constantPressureRB = new JRadioButton( SimStrings.get( "Common.Pressure" ) );
+        final JRadioButton constantTempRB = new JRadioButton( SimStrings.get( "Common.Temperature" ) );
+        final JRadioButton noneRB = new JRadioButton( SimStrings.get( "Common.None" ) );
         final ButtonGroup constantParameterGroup = new ButtonGroup();
         constantParameterGroup.add( constantVolumeRB );
         constantParameterGroup.add( constantPressureRB );
+        constantParameterGroup.add( constantTempRB );
+        constantParameterGroup.add( noneRB );
 
-        GridBagConstraints localGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+        GridBagConstraints localGbc = new GridBagConstraints( 0, 0,
                                                               1, 1, 1, 1,
                                                               GridBagConstraints.WEST, GridBagConstraints.NONE,
                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
-        constantParamButtonPanel.add( constantVolumeRB, localGbc );
-        constantParamButtonPanel.add( constantPressureRB, localGbc );
-        JPanel container = new JPanel( new GridBagLayout() );
+        localGbc.gridx = 0;
         localGbc.gridy = 0;
+        constantParamButtonPanel.add( constantVolumeRB, localGbc );
+        localGbc.gridx = 1;
+        localGbc.gridy = 0;
+        constantParamButtonPanel.add( constantPressureRB, localGbc );
+        localGbc.gridx = 0;
+        localGbc.gridy = 1;
+        constantParamButtonPanel.add( constantTempRB, localGbc );
+        localGbc.gridx = 1;
+        localGbc.gridy = 1;
+        constantParamButtonPanel.add( noneRB, localGbc );
+
+        JPanel container = new JPanel( new GridBagLayout() );
         localGbc.anchor = GridBagConstraints.CENTER;
         container.add( constantParamButtonPanel, localGbc );
         container.setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Constant_Parameter" ) ) );
 
         constantVolumeRB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                idealGasModel.setConstantVolume( constantVolumeRB.isSelected() );
                 idealGasModel.setConstantPressure( constantPressureRB.isSelected() );
+                idealGasModel.setConstantVolume( constantVolumeRB.isSelected() );
             }
         } );
         constantPressureRB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                idealGasModel.setConstantPressure( constantPressureRB.isSelected() );
                 idealGasModel.setConstantVolume( constantVolumeRB.isSelected() );
+                idealGasModel.setConstantPressure( constantPressureRB.isSelected() );
             }
         } );
-        constantVolumeRB.setSelected( true );
+        noneRB.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                idealGasModel.setNoConstantProperty();
+            }
+        } );
+        noneRB.setSelected( true );
         return container;
     }
 

@@ -427,6 +427,10 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                                                          oldBounds.getMaxX() - box.getBoundsInternal().getMinX(),
                                                          oldBounds.getHeight() ) );
         }
+
+        public void isVolumeFixedChanged( Box2D.ChangeEvent event ) {
+            // noop
+        }
     }
 
     public void moleculeCreated( PChemModel.MoleculeCreationEvent event ) {

@@ -29,7 +29,9 @@ public class Box2D extends CollidableBody {
     private double maxX;
     private double maxY;
     private double leftWallVx = 0;
-    boolean autoNotify = true;
+    private boolean autoNotify = true;
+    private boolean volumeFixed = false;
+
 
 
     // TODO: put the opening characteristics in a specialization of this class.
@@ -148,12 +150,6 @@ public class Box2D extends CollidableBody {
         oldMinX = minX;
     }
 
-    //    private boolean containsBody( SphericalBody particle ) {
-    //        super.containsBody( )
-    //        return getContainedBodies().contains( particle );
-    ////        return containedBodies.contains( particle );
-    //    }
-
     /**
      *
      */
@@ -228,10 +224,14 @@ public class Box2D extends CollidableBody {
         return leftWallVx;
     }
 
-    //    public void addContainedBody( Body body ) {
-    //        addContainedBody( body );
-    //    }
+    public boolean isVolumeFixed() {
+        return volumeFixed;
+    }
 
+    public void setVolumeFixed( boolean volumeFixed ) {
+        this.volumeFixed = volumeFixed;
+        changeListenerProxy.isVolumeFixedChanged( new ChangeEvent( this ) );
+    }
 
     //-----------------------------------------------------------------
     // Events and event handling
@@ -248,6 +248,7 @@ public class Box2D extends CollidableBody {
 
     public interface ChangeListener extends EventListener {
         void boundsChanged( ChangeEvent event );
+        void isVolumeFixedChanged( ChangeEvent event );
     }
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
