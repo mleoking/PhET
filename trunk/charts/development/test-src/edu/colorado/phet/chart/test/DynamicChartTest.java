@@ -7,109 +7,80 @@
 package edu.colorado.phet.chart.test;
 
 import edu.colorado.phet.chart.*;
-import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
 
 public class DynamicChartTest {
 
-    static ArrayList toPaint = new ArrayList();
     private static double x = -5;
 
     public static void main( String[] args ) {
-        BaseModel model = new BaseModel();
         AbstractClock clock = new SwingTimerClock( 1, 30 );
-        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock ) {
-            public void repaint( long tm, int x, int y, int width, int height ) {
-                Rectangle repaint = new Rectangle( x, y, width, height );
-                toPaint.add( repaint );
-            }
-        };
-        clock.start();
+        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         BasicGraphicsSetup gs = new BasicGraphicsSetup();
-
         apparatusPanel.addGraphicsSetup( gs );
-        Range2D range = new Range2D( -10, -10, 10, 10 );
-        Rectangle viewBounds = new Rectangle( 10, 10, 100, 100 );
-        final Chart chart = new Chart( apparatusPanel, range, viewBounds );
+
+        final Chart chart = new Chart( apparatusPanel, new Range2D( -10, -10, 10, 10 ), new Dimension( 400, 400 ) );
+        chart.setLocation( 200, 5 );
+        apparatusPanel.addComponentListener( new DynamicChartTest.GradientComputation( chart ) );
+
+        chart.addTranslationListener( new TranslationListener() {
+            public void translationOccurred( TranslationEvent translationEvent ) {
+                chart.translate( translationEvent.getDx(), translationEvent.getDy() );
+            }
+        } );
+        chart.setCursorHand();
 
         chart.getHorizonalGridlines().setMinorGridlinesVisible( false );
         chart.getHorizonalGridlines().setMajorGridlinesVisible( true );
+        chart.getHorizonalGridlines().setMajorGridlinesColor( Color.gray );
 
         chart.getVerticalGridlines().setMinorGridlinesVisible( false );
         chart.getVerticalGridlines().setMajorGridlinesVisible( true );
         chart.getVerticalGridlines().setMajorTickSpacing( 3 );
         chart.getVerticalGridlines().setMajorGridlinesColor( Color.gray );
-        chart.getHorizonalGridlines().setMajorGridlinesColor( Color.gray );
 
-        chart.getXAxis().setMajorTickFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        chart.getXAxis().setMajorTickFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
         chart.getXAxis().setMajorTicksVisible( true );
-        chart.getXAxis().setMinorTicksVisible( true );
+        chart.getXAxis().setMinorTicksVisible( false );
         chart.getXAxis().setMinorTickSpacing( .5 );
         chart.getXAxis().setMinorTickStroke( new BasicStroke( .5f ) );
 
         JFrame frame = new JFrame( "ChartTest" );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setContentPane( apparatusPanel );
         frame.setSize( 800, 800 );
         apparatusPanel.addGraphic( chart );
-
-        final int insets = 20;
-        chart.setLocation( 50, 50 );
-        apparatusPanel.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                Rectangle renderSize = new Rectangle( 0, 0, 600, 600 );
-                chart.setViewBounds( renderSize );
-                Color leftColor = new Color( 255, 255, 255 );
-                Color rightColor = new Color( 140, 160, 255 );
-//                GradientPaint background = new GradientPaint( 0, 0, leftColor, e.getComponent().getWidth(), e.getComponent().getHeight(), rightColor, false );
-                chart.setBackground( rightColor );
-//                PhetShapeGraphic backgroundGraphic=new PhetShapeGraphic( apparatusPanel,chart.getBounds(),background );
-//                Buffer
-//                chart.setBackground( rightColor );
-            }
-        } );
 
         final DataSet dataSet1 = new DataSet();
         DataSetGraphic sinGraphic = new LinePlot( apparatusPanel, chart, dataSet1, new BasicStroke( 3 ), Color.blue );
         chart.addDataSetGraphic( sinGraphic );
 
         final DataSet dataSet2 = new DataSet();
-
         ScatterPlot.CircleFactory scatterPaintFactory = new ScatterPlot.CircleFactory( apparatusPanel, Color.red, 3 );
-//        ScatterPlot.ScatterPaintFactory scatterPaintFactory = new ScatterPlot.ScatterPaintFactory() {
-//            public PhetGraphic createScatterPoint( double x, double y ) {
-//                PhetImageGraphic pig = new PhetImageGraphic( apparatusPanel, "images/icons/java/media/Play24.gif" );
-//                pig.centerRegistrationPoint();
-//                pig.setLocation( (int)x, (int)y );
-//                pig.setRenderingHints( new RenderingHints( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
-//                pig.rotate( Math.random() * 2 * Math.PI );
-//                return pig;
-//            }
-//        };
         DataSetGraphic sinGraphic3 = new ScatterPlot( apparatusPanel, chart, dataSet2, scatterPaintFactory );
-//        DataSetGraphic sinGraphic3 = new LinePlot( apparatusPanel, chart, dataSet2,
-//                                                   new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{8, 8}, 0 ),
-//                                                   Color.red );
         chart.addDataSetGraphic( sinGraphic3 );
 
-        frame.setVisible( true );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        Timer timer = new Timer( 30, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        clock.addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
+                apparatusPanel.handleUserInput();
                 x = step( x, dataSet1, dataSet2, chart, apparatusPanel );
+                apparatusPanel.paint();
             }
         } );
-        timer.start();
+        frame.setVisible( true );
+        clock.start();
     }
 
     private static double step( double x, final DataSet dataSet1, final DataSet dataSet2, final Chart chart, final ApparatusPanel2 apparatusPanel ) {
@@ -131,10 +102,25 @@ public class DynamicChartTest {
         if( dataBounds.getWidth() > 0 && dataBounds.getHeight() > 0 ) {
             chart.setRange( dataBounds.getScaledRange( 1.2, 1.2 ) );
         }
-//                    apparatusPanel.paintImmediately( new Rectangle( apparatusPanel.getWidth(), apparatusPanel.getHeight() ) );
-        apparatusPanel.paint();
         x += .15;
         return x;
     }
 
+    public static class GradientComputation extends ComponentAdapter {
+        Chart chart;
+
+        public GradientComputation( Chart chart ) {
+            this.chart = chart;
+        }
+
+        public void componentResized( ComponentEvent e ) {
+            Color leftColor = new Color( 255, 255, 255 );
+            Color rightColor = new Color( 140, 160, 255 );
+            GradientPaint background = new GradientPaint( 0, 0, leftColor, e.getComponent().getWidth(), e.getComponent().getHeight(), rightColor, false );
+            chart.setBackground( background );
+        }
+    }
+
 }
+
+
