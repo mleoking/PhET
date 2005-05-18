@@ -45,6 +45,7 @@ public class ControlPanelTest6 {
         TestModule moduleC = new TestModule( "C", clock );
         JPanel jp = new JPanel( new GridBagLayout() );
 
+        new TestControlPanel();
 
         // Create a TabbedApparatusPanelContainer and a ContentPanel
         Module[] modules = new Module[]{module, moduleB, moduleC};
@@ -195,8 +196,6 @@ public class ControlPanelTest6 {
         private GridBagConstraints controlsInternalGbc;
 
         public TestControlPanel() {
-            setLayout( new BorderLayout() );
-
             this.setLayout( new GridBagLayout() );
             GridBagConstraints logoGbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                                  GridBagConstraints.NORTH,
@@ -221,6 +220,20 @@ public class ControlPanelTest6 {
 
             scrollPane = new JScrollPane( controlsPane );
             add( scrollPane, controlsGbc );
+
+            System.out.println( "this.getSize( ) = " + this.getSize() );
+            getLayout().layoutContainer( this );
+            GridBagLayout gbl = ((GridBagLayout)getLayout());
+            System.out.println( "gbl.minimumLayoutSize( ) = " + gbl.minimumLayoutSize( this ) );
+            System.out.println( "gbl.maximumLayoutSize( ) = " + gbl.maximumLayoutSize( this ) );
+            setSize( gbl.minimumLayoutSize( this ) );
+            setSize( new Dimension( 500, 300) );
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    System.out.println( "this.getSize( ) = " + getSize() );
+
+                }
+            } );
 //            add( titleLabel, BorderLayout.NORTH );
         }
 

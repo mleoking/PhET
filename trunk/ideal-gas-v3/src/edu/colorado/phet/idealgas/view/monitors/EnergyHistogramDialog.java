@@ -38,6 +38,7 @@ public class EnergyHistogramDialog extends JDialog {
     // Bin count beyond which the energyHistogram will clip
     private int initialEnergyClippingLevel = 50;
     private int initialSpeedClippingLevel = 20;
+    private double maxSpeed = 150;
     private Histogram speedHistogram;
     private Histogram heavySpeedHistogram;
     private Histogram lightSpeedHistogram;
@@ -46,6 +47,8 @@ public class EnergyHistogramDialog extends JDialog {
     private JLabel lightSpeedLabel;
     private JLabel heavySpeedLabel;
     private IdealGasModel model;
+    private RotatedTextLabel heavySpeedYLabel;
+    private RotatedTextLabel lightSpeedYLabel;
 
     /**
      * @param owner
@@ -62,38 +65,21 @@ public class EnergyHistogramDialog extends JDialog {
 
         // Create the histograms
         energyHistogram = new Histogram( 200, 150, 0, 100E3, 20, initialEnergyClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
-        speedHistogram = new Histogram( 200, 150, 0, 70, 20, initialSpeedClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
-        heavySpeedHistogram = new Histogram( 200, 150, 0, 70, 20, initialSpeedClippingLevel * averagingRatio, new Color( 20, 0, 200 ) );
-        lightSpeedHistogram = new Histogram( 200, 150, 0, 70, 20, initialSpeedClippingLevel * averagingRatio, new Color( 200, 0, 20 ) );
+        speedHistogram = new Histogram( 200, 150, 0, maxSpeed, 20, initialSpeedClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
+        heavySpeedHistogram = new Histogram( 200, 150, 0, maxSpeed, 20, initialSpeedClippingLevel * averagingRatio, new Color( 20, 0, 200 ) );
+        lightSpeedHistogram = new Histogram( 200, 150, 0, maxSpeed, 20, initialSpeedClippingLevel * averagingRatio, new Color( 200, 0, 20 ) );
 
         // Add a button for hiding/displaying the individual species
         detailsBtn = new JButton();
         detailsBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showDetails = !showDetails;
-                heavySpeedHistogram.setVisible( showDetails );
-                heavySpeedLabel.setVisible( showDetails );
-                lightSpeedHistogram.setVisible( showDetails );
-                lightSpeedLabel.setVisible( showDetails );
-
-                if( showDetails ) {
-                    detailsBtn.setText( SimStrings.get( "EnergyHistorgramDialog.Fewer_Details" ) );
-                }
-                else {
-                    detailsBtn.setText( SimStrings.get( "EnergyHistorgramDialog.More_Details" ) );
-                }
-
-                EnergyHistogramDialog.this.pack();
-                EnergyHistogramDialog.this.repaint();
+                hideShowDetails();
             }
         } );
         this.layoutComponents();
         this.setDefaultCloseOperation( JDialog.EXIT_ON_CLOSE );
-
-        heavySpeedHistogram.setVisible( showDetails );
-        heavySpeedLabel.setVisible( showDetails );
-        lightSpeedHistogram.setVisible( showDetails );
-        lightSpeedLabel.setVisible( showDetails );
+        hideShowDetails();
 
         this.pack();
 
@@ -116,20 +102,28 @@ public class EnergyHistogramDialog extends JDialog {
         updater.start();
     }
 
-    /**
-     *
-     */
-    private void layoutComponents() {
-        // Set the proper label on the details button
+    private void hideShowDetails() {
+        heavySpeedHistogram.setVisible( showDetails );
+        heavySpeedLabel.setVisible( showDetails );
+        lightSpeedHistogram.setVisible( showDetails );
+        lightSpeedLabel.setVisible( showDetails );
+        heavySpeedYLabel.setVisible( showDetails );
+        lightSpeedYLabel.setVisible( showDetails );
         if( showDetails ) {
             detailsBtn.setText( SimStrings.get( "EnergyHistorgramDialog.Fewer_Details" ) );
         }
         else {
             detailsBtn.setText( SimStrings.get( "EnergyHistorgramDialog.More_Details" ) );
         }
+        pack();
+        repaint();
+    }
 
+    /**
+     *
+     */
+    private void layoutComponents() {
         this.getContentPane().setLayout( new GridBagLayout() );
-
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
@@ -141,7 +135,7 @@ public class EnergyHistogramDialog extends JDialog {
         Container contentPane = getContentPane();
         // Upper histogram
         gbc.gridx = 0;
-        contentPane.add( new rotatedTextLabel(), gbc );
+        contentPane.add( new RotatedTextLabel(), gbc );
         gbc.gridx = 1;
         contentPane.add( energyHistogram, gbc );
         gbc.gridy++;
@@ -150,24 +144,26 @@ public class EnergyHistogramDialog extends JDialog {
         // Second histogram
         gbc.gridx = 0;
         gbc.gridy++;
-        contentPane.add( new rotatedTextLabel(), gbc );
+        contentPane.add( new RotatedTextLabel(), gbc );
         gbc.gridx = 1;
         contentPane.add( speedHistogram, gbc );
-        contentPane.add( new rotatedTextLabel(), gbc );
+        contentPane.add( new RotatedTextLabel(), gbc );
         gbc.gridy++;
         contentPane.add( new JLabel( SimStrings.get( "EnergyHistorgramDialog.Speed_Distribution" ) ), gbc );
 
         // Details histograms
         gbc.gridy++;
-//        gbc.gridx = 0;
-//        contentPane.add( new rotatedTextLabel(), gbc );
+        gbc.gridx = 0;
+        heavySpeedYLabel = new RotatedTextLabel();
+        contentPane.add( heavySpeedYLabel, gbc );
         gbc.gridx = 1;
         contentPane.add( heavySpeedHistogram, gbc );
         gbc.gridy++;
         contentPane.add( heavySpeedLabel, gbc );
         gbc.gridy++;
-//        gbc.gridx = 0;
-//        contentPane.add( new rotatedTextLabel(), gbc );
+        gbc.gridx = 0;
+        lightSpeedYLabel = new RotatedTextLabel();
+        contentPane.add( lightSpeedYLabel, gbc );
         gbc.gridx = 1;
         contentPane.add( lightSpeedHistogram, gbc );
         gbc.gridy++;
@@ -178,16 +174,16 @@ public class EnergyHistogramDialog extends JDialog {
         gbc.gridx = 1;
         gbc.insets = new Insets( 10, 10, 10, 10 );
         contentPane.add( detailsBtn, gbc );
-        this.repaint();
-    }
-
-    public void paintComponents( Graphics g ) {
-        super.paintComponents( g );
     }
 
     //
     // Inner classes
     //
+
+    /**
+     * A thread that updates the client objects that record attributes of objects in the
+     * model. At specific intervals, it causes the histogram display to repaint.
+     */
     private class Updater extends Thread {
         private IdealGasModel model;
         private ArrayList clients = new ArrayList();
@@ -235,35 +231,15 @@ public class EnergyHistogramDialog extends JDialog {
                     }
                 }
                 catch( InterruptedException e ) {
-                    e.printStackTrace();  //To change body of catch statement use Options | File Templates.
+                    e.printStackTrace();
                 }
-
             }
         }
-
-        protected IdealGasModel getModel() {
-            return model;
-        }
     }
 
-    private class EnergyUpdaterClient extends UpdaterClient {
-        private IdealGasModel model;
-
-        EnergyUpdaterClient( IdealGasModel model, Histogram histogram ) {
-            super( histogram );
-            this.model = model;
-        }
-
-        protected double getBodyAttribute( Body body ) {
-            return model.getBodyEnergy( body );
-        }
-
-        protected int getClippingLevel() {
-            int cl = averagingRatio * Math.max( model.getBodies().size() / 3,
-                                                initialEnergyClippingLevel );
-            return cl;
-        }
-    }
+    //----------------------------------------------------------------
+    // Updater clients. These classes update a histogram's information
+    //----------------------------------------------------------------
 
     private abstract class UpdaterClient {
         Histogram histogram;
@@ -278,12 +254,32 @@ public class EnergyHistogramDialog extends JDialog {
         }
 
         void recordBody( Body body ) {
+            System.out.println( "getBodyAttribute( body ) = " + getBodyAttribute( body ) );
             histogram.add( getBodyAttribute( body ) );
         }
 
         abstract int getClippingLevel();
 
         abstract double getBodyAttribute( Body body );
+    }
+
+    private class EnergyUpdaterClient extends UpdaterClient {
+        private IdealGasModel model;
+
+        EnergyUpdaterClient( IdealGasModel model, Histogram histogram ) {
+            super( histogram );
+            this.model = model;
+        }
+
+        protected double getBodyAttribute( Body body ) {
+            return body.getKineticEnergy();
+        }
+
+        protected int getClippingLevel() {
+            int cl = averagingRatio * Math.max( model.getBodies().size() / 3,
+                                                initialEnergyClippingLevel );
+            return cl;
+        }
     }
 
     private class SpeedUpdaterClient extends UpdaterClient {
@@ -320,8 +316,15 @@ public class EnergyHistogramDialog extends JDialog {
         }
     }
 
-    private static class rotatedTextLabel extends JPanel {
-        public rotatedTextLabel() {
+    //----------------------------------------------------------------
+    // Misc inner classes
+    //----------------------------------------------------------------
+
+    /**
+     * Class for labels of the y axes
+     */
+    private static class RotatedTextLabel extends JPanel {
+        public RotatedTextLabel() {
             super( null );
             setPreferredSize( new Dimension( 20, 150 ) );
         }
@@ -331,7 +334,6 @@ public class EnergyHistogramDialog extends JDialog {
             GraphicsState gs = new GraphicsState( g2 );
             JLabel dummyLabel = new JLabel();
             Font font = dummyLabel.getFont();
-//                super.paint( g );
             int x = 20;
             int y = 150;
             AffineTransform at = new AffineTransform();

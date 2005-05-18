@@ -26,8 +26,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
 import java.util.Hashtable;
 
@@ -147,7 +145,6 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         advancedPanel.add( pic, localGbc );
         Pump[] pumps = new Pump[] { module.getPump() };
         advancedPanel.add( new InputTemperatureControlPanel( getModule(), pumps ), localGbc );
-
     }
 
     /**
@@ -169,11 +166,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         } );
 
         // Measurement tools button
-//        JComboBox measurementToolsList = new MeasurementToolSelector( module );
-//        ((PhetFrame)SwingUtilities.getRoot( this )).addMenu( );
-        ToggleButton measurementDlgBtn = new MeasurementDialogButton();
-        measurementDlgBtn.setAlignmentX( JButton.CENTER_ALIGNMENT );
-        measurementDlgBtn.setBackground( new Color( 255, 255, 120 ) );
+        JComponent measurementDlgBtn = new MeasurementDialogButton();
 
         // Advanced options button
         ToggleButton advancedButton = new ToggleButton( SimStrings.get("IdealGasControlPanel.MoreOptions"),
@@ -191,10 +184,9 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
 
         // Put them on the button panel
         buttonPanel = new JPanel( new GridBagLayout() );
-        buttonPanel.add( resetBtn, localGbc );
-//        buttonPanel.add( measurementToolsList, localGbc );
         buttonPanel.add( measurementDlgBtn, localGbc );
         buttonPanel.add( advancedButton, localGbc );
+        buttonPanel.add( resetBtn, localGbc );
         buttonPanel.revalidate();
     }
 
@@ -250,7 +242,6 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
 
         gravitySlider = new JSlider( JSlider.HORIZONTAL, 0, IdealGasConfig.MAX_GRAVITY, 0 );
         gravitySlider.setPreferredSize( new Dimension( 150, 50 ) );
-//        gravitySlider.setPaintTicks( false );
         gravitySlider.setPaintTicks( true );
         gravitySlider.setMajorTickSpacing( 10 );
         gravitySlider.setMinorTickSpacing( 5 );
@@ -303,24 +294,62 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
     // Inner classes
     //--------------------------------------------------------------------------
 
-    private class MeasurementDialogButton extends ToggleButton {
+    private class MeasurementDialogButton extends JPanel {
+//    private class MeasurementDialogButton extends ToggleButton {
+        private JPanel toolsPanel;
+        private GridBagConstraints gbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,
+                                                                 1,1,1,1,
+                                                                 GridBagConstraints.CENTER,
+                                                                 GridBagConstraints.NONE,
+                                                                 new Insets( 0,0,0,0),0,0 );
+        private GridBagConstraints toolsPanelGbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,
+                                                                 1,1,1,1,
+                                                                 GridBagConstraints.NORTHWEST,
+                                                                 GridBagConstraints.NONE,
+                                                                 new Insets( 0,0,0,0),0,0 );
 
         public MeasurementDialogButton() {
-            super( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
-                   SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
+            super( new GridBagLayout() );
+            ToggleButton button = new ToggleButton(SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
+                   SimStrings.get( "IdealGasControlPanel.Measurement_Tools" )) {
+                public void onAction() {
+                    toolsPanel.setVisible( true );
+                    IdealGasControlPanel.this.revalidate();
+                }
+
+                public void offAction() {
+                    toolsPanel.setVisible( false );
+                    IdealGasControlPanel.this.revalidate();
+                }
+            };
+//            super( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
+//                   SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
+            toolsPanel = new JPanel( new GridBagLayout() );
+            add( button, gbc );
+            toolsPanel.add( new MeasurementTools.PressureSliceControl( module ), toolsPanelGbc );
+            toolsPanel.add( new MeasurementTools.RulerControl( module ), toolsPanelGbc );
+            toolsPanel.add( new MeasurementTools.HistogramControlPanel( module ), toolsPanelGbc );
+            toolsPanel.add( new MeasurementTools.CmLinesControl( module ), toolsPanelGbc );
+            toolsPanel.add( new MeasurementTools.SpeciesMonitorControl( module ), toolsPanelGbc );
+            toolsPanel.add( new MeasurementTools.StopwatchControl( module ), toolsPanelGbc );
+            toolsPanel.setBorder( BorderFactory.createEtchedBorder());
+            add( toolsPanel, gbc );
+//            IdealGasControlPanel.this.add( toolsPanel, toolsPanelGbc );
+            toolsPanel.setVisible( false );
         }
 
         public void onAction() {
-            JDialog dlg = module.setMeasurementDlgVisible( true );
-            dlg.addWindowListener( new WindowAdapter() {
-                public void windowClosing( WindowEvent e ) {
-                    setOff();
-                }
-            } );
+//            selector.show( this, 100, 100 );
+//            IdealGasControlPanel.this.add( toolsPanel, toolsPanelGbc );
+            toolsPanel.setVisible( true );
+            revalidate();
         }
 
         public void offAction() {
-            module.setMeasurementDlgVisible( false );
+//            selector.setVisible( false );
+//            IdealGasControlPanel.this.remove(toolsPanel);
+            toolsPanel.setVisible( false );
+            revalidate();
         }
     }
 

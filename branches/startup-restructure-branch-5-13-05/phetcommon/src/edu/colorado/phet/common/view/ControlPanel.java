@@ -15,10 +15,11 @@ import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,8 +68,8 @@ public class ControlPanel extends JPanel {
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 1,
                                                                  GridBagConstraints.NORTH,
-//                                                                 GridBagConstraints.BOTH,
-                                                                 GridBagConstraints.HORIZONTAL,
+                                                                 GridBagConstraints.BOTH,
+//                                                                 GridBagConstraints.HORIZONTAL,
                                                                  new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints helpGbc = new GridBagConstraints( 0, 2, 1, 1, 0, 0,
                                                              GridBagConstraints.SOUTH,
@@ -88,6 +89,7 @@ public class ControlPanel extends JPanel {
                                       JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         scrollPane.setBorder( null );
+//        super.add( controlPane, controlsGbc );
         super.add( scrollPane, controlsGbc );
 
         // The panel for the help button
@@ -99,6 +101,17 @@ public class ControlPanel extends JPanel {
         // the presence of a border around the pane, depending on whether the
         // scroll bars are showing
         addComponentListener( new ScrollPaneManager() );
+
+        controlPane.addContainerListener( new ContainerListener() {
+            public void componentAdded( ContainerEvent e ) {
+                resizeControlPane();
+                System.out.println( "ControlPanel.componentAdded" );
+            }
+
+            public void componentRemoved( ContainerEvent e ) {
+                resizeControlPane();
+            }
+        } );
     }
 
     /**
@@ -176,8 +189,6 @@ public class ControlPanel extends JPanel {
         controlPane.add( comp, gbc );
         revalidate();
         repaint();
-
-        comp.addComponentListener( new ScrollPaneManager() );
         return comp;
     }
 
@@ -297,15 +308,36 @@ public class ControlPanel extends JPanel {
                                                                       (int)( size.getHeight() ) ) );
                             sizeSet = true;
                         }
-                        if( scrollPane.getVerticalScrollBar().isVisible() ) {
-                            scrollPane.setBorder( BorderFactory.createEtchedBorder() );
-                        }
-                        else {
-                            scrollPane.setBorder( null );
-                        }
+                    }
+                    if( scrollPane.getVerticalScrollBar().isVisible() ) {
+//                        scrollPane.setBorder( BorderFactory.createEtchedBorder() );
+                    }
+                    else {
+//                        scrollPane.setBorder( null );
                     }
                 }
             } );
         }
+    }
+
+
+    private void resizeControlPane() {
+        // Note: If this code doesn't execute in an invokeLater() runnable, it sometimes does the
+        // wrong thing.
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                Dimension size = controlPane.getSize();
+                // Note: setPreferredSize() doesn't seem to work here
+                // 20 is my best estimate at the width of the vertical scroll bar.
+                scrollPane.setMinimumSize( new Dimension( (int)( size.getWidth() + 20 ),
+                                                          (int)( size.getHeight() ) ) );
+//                if( scrollPane.getVerticalScrollBar().isVisible() ) {
+//                    scrollPane.setBorder( BorderFactory.createEtchedBorder() );
+//                }
+//                else {
+//                    scrollPane.setBorder( null );
+//                }
+            }
+        } );
     }
 }

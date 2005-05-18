@@ -592,12 +592,12 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         adjustEnergyForGravity( event.getChange() );
     }
 
-    public void enableParticleParticleInteractions( boolean selected ) {
+    public void enableParticleParticleInteractions( boolean enableInteraction ) {
         for( int i = 0; i < collisionExperts.size(); i++ ) {
             CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( i );
             if( collisionExpert instanceof SphereSphereExpert ) {
                 SphereSphereExpert sphereSphereExpert = (SphereSphereExpert)collisionExpert;
-                sphereSphereExpert.setIgnoreGasMoleculeInteractions( selected );
+                sphereSphereExpert.setIgnoreGasMoleculeInteractions( !enableInteraction );
             }
         }
     }
