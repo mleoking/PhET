@@ -30,7 +30,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
     private HollowSphere sphere;
     private Class gasSpecies = HeavySpecies.class;
     private LinkedList moleculesInSphere = new LinkedList();
-    private Random random = new Random();
+    private double defaultGravity = IdealGasConfig.MAX_GRAVITY / 4;
 
     /**
      * Constructor
@@ -69,9 +69,6 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         // Put some intial gas inside and outside sphere
         addGas( xDiag, xOrigin, yDiag, yOrigin );
 
-        // Turn on gravity
-        setGravity( IdealGasConfig.MAX_GRAVITY / 10 );
-
         // Add controls to the control panel that are specific to this module
         JPanel controlPanel = new JPanel( new GridBagLayout() );
         controlPanel.setBorder( new TitledBorder( SimStrings.get( "RigidHollowSphereControlPanel.controlsTitle" ) ) );
@@ -84,6 +81,9 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         controlPanel.add( hollowSphereControlPanel, gbc );
         this.addResetListener( hollowSphereControlPanel );
         getIdealGasControlPanel().addParticleControl( controlPanel );
+
+        // Start with gravity on
+        setGravity( defaultGravity );
     }
 
     private void addGas( double xDiag, double xOrigin, double yDiag, double yOrigin ) {
