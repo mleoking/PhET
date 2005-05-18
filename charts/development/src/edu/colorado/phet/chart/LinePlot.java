@@ -42,7 +42,6 @@ public class LinePlot extends DataSetGraphic {
             throw new RuntimeException( "Null point" );
         }
         Point viewLocation = getChart().transform( point );
-        System.out.println( "viewLocation = " + viewLocation );
         if( generalPath == null ) {
             generalPath = new GeneralPath();
             generalPath.moveTo( viewLocation.x, viewLocation.y );
