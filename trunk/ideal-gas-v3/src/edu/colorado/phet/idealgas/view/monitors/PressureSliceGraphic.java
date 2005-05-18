@@ -14,8 +14,8 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.PressureSlice;
-import edu.colorado.phet.idealgas.model.PressureSensingBox;
 import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.PressureSensingBox;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -248,6 +248,10 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
 
     public void boundsChanged( Box2D.ChangeEvent event ) {
         internalGraphic.update();
+    }
+
+    public void isVolumeFixedChanged( Box2D.ChangeEvent event ) {
+        // noop
     }
 
     //-----------------------------------------------------------------------------------------

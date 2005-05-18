@@ -22,7 +22,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Box2DGraphic extends CompositePhetGraphic {
+public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeListener {
 
     //----------------------------------------------------------------
     // Class data
@@ -42,11 +42,10 @@ public class Box2DGraphic extends CompositePhetGraphic {
     private boolean leftWallHighlighted;
     private InternalBoxGraphic internalBoxGraphic;
     private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();
-    private TranslationListener translationListener;
+//    private TranslationListener translationListener;
     private Color wallColor = new Color( 180, 180, 180 );
 
     /**
-     *
      * @param component
      * @param box
      */
@@ -54,22 +53,26 @@ public class Box2DGraphic extends CompositePhetGraphic {
         super( component );
 
         this.box = box;
+        box.addChangeListener( this );
         this.wallColor = wallColor;
         internalBoxGraphic = new InternalBoxGraphic( component );
 
-        this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
-        translationListener = new TranslationListener() {
-                    public void translationOccurred( TranslationEvent translationEvent ) {
-                        // Speed limit on wall
-                        double dx = translationEvent.getDx();
-                        dx = Math.max( -wallSpeedLimit, Math.min( dx, wallSpeedLimit ) );
-                        double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
-                        box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
-
-                        internalBoxGraphic.update();
-                    }
-                };
-        this.addTranslationListener( translationListener );
+//        this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
+//        translationListener = new TranslationListener() {
+//            public void translationOccurred( TranslationEvent translationEvent ) {
+//                if( !box.isVolumeFixed() ) {
+//                    // Speed limit on wall
+//                    double dx = translationEvent.getDx();
+//                    dx = Math.max( -wallSpeedLimit, Math.min( dx, wallSpeedLimit ) );
+//                    double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
+//                    box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
+//
+//                    internalBoxGraphic.update();
+//                }
+//            }
+//        };
+//        this.addTranslationListener( translationListener );
+        addTranslationListener( new Translator() );
     }
 
     public void setIgnoreMouse( boolean ignoreMouse ) {
@@ -137,6 +140,28 @@ public class Box2DGraphic extends CompositePhetGraphic {
     }
 
     //----------------------------------------------------------------
+    // Box2D.ChangeListener implementation
+    //----------------------------------------------------------------
+    public void boundsChanged( Box2D.ChangeEvent event ) {
+        Box2D box = event.getBox2D();
+        if( box.isVolumeFixed() ) {
+            //noop
+        }
+    }
+
+    public void isVolumeFixedChanged( Box2D.ChangeEvent event ) {
+        if( event.getBox2D().isVolumeFixed() ) {
+            setIgnoreMouse( true );
+        }
+        else {
+            setIgnoreMouse( false );
+            this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
+            addTranslationListener( new Translator() );
+        }
+    }
+
+
+    //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
 
@@ -184,7 +209,6 @@ public class Box2DGraphic extends CompositePhetGraphic {
         }
 
         /**
-         *
          * @param g
          */
         public void paint( Graphics2D g ) {
@@ -194,8 +218,8 @@ public class Box2DGraphic extends CompositePhetGraphic {
             // model box. If we reversed the order, the stroke of the box would make the interior look
             // smaller than the model box.
             if( isHandleEnabled ) {
-            g.drawImage( wallHandle, (int)wallHandleLocation.x, (int)wallHandleLocation.y,
-                         wallHandle.getWidth(), wallHandle.getHeight(), null );
+                g.drawImage( wallHandle, (int)wallHandleLocation.x, (int)wallHandleLocation.y,
+                             wallHandle.getWidth(), wallHandle.getHeight(), null );
             }
             g.setStroke( s_defaultStroke );
             g.setColor( wallColor );
@@ -218,6 +242,20 @@ public class Box2DGraphic extends CompositePhetGraphic {
 
         public void removeHandle() {
             isHandleEnabled = false;
+        }
+    }
+
+    private class Translator implements TranslationListener {
+        public void translationOccurred( TranslationEvent translationEvent ) {
+            if( !box.isVolumeFixed() ) {
+                // Speed limit on wall
+                double dx = translationEvent.getDx();
+                dx = Math.max( -wallSpeedLimit, Math.min( dx, wallSpeedLimit ) );
+                double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
+                box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
+
+                internalBoxGraphic.update();
+            }
         }
     }
 }
