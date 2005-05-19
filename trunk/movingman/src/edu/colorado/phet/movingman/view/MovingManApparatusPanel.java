@@ -341,12 +341,12 @@ public class MovingManApparatusPanel
         repaintBackground();
     }
 
-    public void setShowAccelerationVector( boolean showAccelerationVector ) {
-        arrowSetGraphic.setShowAccelerationVector( showAccelerationVector );
-    }
-
     public void setShowVelocityVector( boolean showVelocityVector ) {
         arrowSetGraphic.setShowVelocityVector( showVelocityVector );
+    }
+
+    public void setShowAccelerationVector( boolean showAccelerationVector ) {
+        arrowSetGraphic.setShowAccelerationVector( showAccelerationVector );
     }
 
     public void setBoundaryConditionsClosed() {

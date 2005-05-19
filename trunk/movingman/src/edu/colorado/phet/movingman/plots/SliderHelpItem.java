@@ -2,6 +2,7 @@
 package edu.colorado.phet.movingman.plots;
 
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.HelpItem2;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
@@ -16,9 +17,11 @@ import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 
 public class SliderHelpItem extends HelpItem2 {
     private boolean shown = false;
+    private MovingManApparatusPanel movingManApparatusPanel;
 
     public SliderHelpItem( MovingManApparatusPanel movingManApparatusPanel, PhetGraphic goButtonGraphic, final MMPlotSuite mmPlotSuite ) {
         super( movingManApparatusPanel, "Press Go!" );
+        this.movingManApparatusPanel = movingManApparatusPanel;
         setVisible( false );
         pointLeftAt( goButtonGraphic, 30 );
 
@@ -42,11 +45,19 @@ public class SliderHelpItem extends HelpItem2 {
 
         mmPlotSuite.getPlotDevice().addListener( new PlotDeviceListenerAdapter() {
             public void sliderDragged( double dragValue ) {
-                if( mmPlotSuite.isPaused() ) {
+                if( mmPlotSuite.isPaused() && !isAtEndOfTime() ) {
                     showSliderHelp();
                 }
             }
         } );
+    }
+
+    private boolean isAtEndOfTime() {
+        return getModule().isAtEndOfTime();
+    }
+
+    private MovingManModule getModule() {
+        return movingManApparatusPanel.getModule();
     }
 
     public void hideGoHelp() {//todo call this function.

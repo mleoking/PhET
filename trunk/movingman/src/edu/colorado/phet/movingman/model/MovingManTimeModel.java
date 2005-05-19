@@ -27,6 +27,7 @@ public class MovingManTimeModel {
     private int numSmoothingPoints;
     private boolean stopped = false;
     public static boolean dynamicTime;
+    private MovingManModule module;
 
     public MovingManTimeModel( MovingManModule module ) {
         mainModelElement = new ModelElement() {
@@ -38,6 +39,7 @@ public class MovingManTimeModel {
         };
         recordMode = new RecordMode( module, this );
         playbackMode = new PlaybackMode( module, this );
+        this.module = module;
     }
 
     public int getNumSmoothingPoints() {
@@ -220,5 +222,9 @@ public class MovingManTimeModel {
         else {
             TIME_SCALE = 1.0 / 50.0;
         }
+    }
+
+    public boolean isAtEndOfTime() {
+        return getRecordTimer().getTime() == module.getMovingManModel().getMaxTime();
     }
 }

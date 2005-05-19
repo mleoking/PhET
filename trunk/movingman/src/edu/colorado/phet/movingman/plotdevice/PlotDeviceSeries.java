@@ -69,6 +69,27 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
         readoutGraphic.setLocation( nameGraphic.getX() + nameGraphic.getWidth(), nameGraphic.getY() );
         addGraphic( readoutGraphic );
         addGraphic( unitsGraphic );
+
+//        SwingTimerClock debugClock = new SwingTimerClock( 1, 30 );
+//
+//        ShapeDebugGraphic shapeDebugGraphic = new ShapeDebugGraphic( getComponent(), debugClock, new ShapeGetter() {
+//            public Shape getShape() {
+//                System.out.println( "PlotDeviceSeries.getShape" );
+//                return unitsGraphic.getLocalBounds();
+//            }
+//        } );
+//        addGraphic( shapeDebugGraphic, 1000 );
+//
+//                ShapeDebugGraphic textDebug= new ShapeDebugGraphic( getComponent(), debugClock, new ShapeGetter() {
+//            public Shape getShape() {
+//                System.out.println( "PlotDeviceSeries.getShape" );
+//                return nameGraphic.getLocalBounds();
+//            }
+//        } );
+//        addGraphic( textDebug, 1000 );
+//
+//        debugClock.start();
+
         clearValue();
     }
 
@@ -130,21 +151,19 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
     }
 
     private void updateReadoutGraphic( double v ) {
-
 //        readoutGraphic.setLocation( nameGraphic.getX() + nameGraphic.getWidth(), nameGraphic.getY() );
-
-
         readoutGraphic.setAutorepaint( false );
-//        readoutGraphic.setVisible( false );
         String value = decimalFormat.format( v );
 
         readoutGraphic.setText( value + " " );
         int dx = justifyMetric.getWidth() - readoutGraphic.getWidth();
         readoutGraphic.setLocation( nameGraphic.getX() + nameGraphic.getWidth() + dx, nameGraphic.getY() );
 
-        unitsGraphic.setLocation( readoutGraphic.getX() + readoutGraphic.getWidth(), readoutGraphic.getY() );
+//        unitsGraphic.setLocation( readoutGraphic.getX() + readoutGraphic.getWidth(), readoutGraphic.getY() );
+//        System.out.println( "nameGraphic.getRegistrationPoint() = " + nameGraphic.getRegistrationPoint() );
+        unitsGraphic.setLocation( readoutGraphic.getX() + readoutGraphic.getWidth(), nameGraphic.getLocalBounds().y );
+
         readoutGraphic.setAutorepaint( true );
-//        readoutGraphic.setVisible( true );
         readoutGraphic.autorepaint();
     }
 

@@ -73,6 +73,9 @@ public class PlaybackPanel extends JPanel {
         add( rewind );
         add( clear );
 
+        JPanel arrowPanel = new ArrowPanel( module );
+        add( arrowPanel );
+
         final JCheckBox audio = new JCheckBox( "Sound", true );
         audio.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
