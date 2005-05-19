@@ -20,6 +20,8 @@ import java.awt.geom.*;
 import java.beans.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -249,6 +251,19 @@ public class ModuleManager {
                 }
             }
         }
+    }
+
+    /**
+     * Returns the an array of the modules the module manager manages
+     * @return
+     */
+    public Module[] getModules() {
+        Module[] moduleArray = new Module[ this.modules.size() ];
+        for( int i = 0; i < modules.size(); i++ ) {
+            Module module = (Module)modules.get( i );
+            moduleArray[i] = module;
+        }
+        return moduleArray;
     }
 
     /**

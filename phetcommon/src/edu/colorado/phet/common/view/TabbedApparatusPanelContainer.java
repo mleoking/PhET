@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.common.view;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleObserver;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.common.application.ModuleEvent;
+import edu.colorado.phet.common.application.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
