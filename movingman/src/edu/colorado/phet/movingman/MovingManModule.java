@@ -450,6 +450,10 @@ public class MovingManModule extends Module {
         return movingManModel.isSmoothingSmooth();
     }
 
+    public boolean isAtEndOfTime() {
+        return movingManModel.getTimeModel().isAtEndOfTime();
+    }
+
     public static interface Listener {
         public void reset();
 
@@ -532,31 +536,35 @@ public class MovingManModule extends Module {
         final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.get( "MovingManModule.InvertXAxisMenuItem" ), false );
         jcbmi.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setRightDirPositive( !jcbmi.isSelected() );
+                boolean ok = module.confirmClear();
+                if( ok ) {
+                    module.setRightDirPositive( !jcbmi.isSelected() );
+                }
+//                module.setRightDirPositive( !jcbmi.isSelected() );
             }
         } );
         miscMenu.add( jcbmi );
 
-        miscMenu.addSeparator();
-        final JCheckBoxMenuItem showVelocityVector = new JCheckBoxMenuItem( "Show Velocity", false );
-        ActionListener velListener = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setShowVelocityVector( showVelocityVector.isSelected() );
-            }
-        };
-        showVelocityVector.addActionListener( velListener );
-        velListener.actionPerformed( null );
-        miscMenu.add( showVelocityVector );
+//        miscMenu.addSeparator();
+//        final JCheckBoxMenuItem showVelocityVector = new JCheckBoxMenuItem( "Show Velocity", false );
+//        ActionListener velListener = new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                module.setShowVelocityVector( showVelocityVector.isSelected() );
+//            }
+//        };
+//        showVelocityVector.addActionListener( velListener );
+//        velListener.actionPerformed( null );
+//        miscMenu.add( showVelocityVector );
 
-        final JCheckBoxMenuItem showAccVector = new JCheckBoxMenuItem( "Show Acceleration", false );
-        ActionListener accListetner = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setShowAccelerationVector( showAccVector.isSelected() );
-            }
-        };
-        showAccVector.addActionListener( accListetner );
-        accListetner.actionPerformed( null );
-        miscMenu.add( showAccVector );
+//        final JCheckBoxMenuItem showAccVector = new JCheckBoxMenuItem( "Show Acceleration", false );
+//        ActionListener accListetner = new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                module.setShowAccelerationVector( showAccVector.isSelected() );
+//            }
+//        };
+//        showAccVector.addActionListener( accListetner );
+//        accListetner.actionPerformed( null );
+//        miscMenu.add( showAccVector );
 
         miscMenu.addSeparator();
         module.addBoundaryConditionButtons( miscMenu );
@@ -628,11 +636,11 @@ public class MovingManModule extends Module {
         movingManApparatusPanel.setBoundaryConditionsOpen();
     }
 
-    private void setShowAccelerationVector( boolean showAccelerationVector ) {
+    public void setShowAccelerationVector( boolean showAccelerationVector ) {
         movingManApparatusPanel.setShowAccelerationVector( showAccelerationVector );
     }
 
-    private void setShowVelocityVector( boolean showVelocityVector ) {
+    public void setShowVelocityVector( boolean showVelocityVector ) {
         movingManApparatusPanel.setShowVelocityVector( showVelocityVector );
     }
 
@@ -784,20 +792,47 @@ public class MovingManModule extends Module {
         movingManApparatusPanel.initialize();
     }
 
-    public void confirmAndApplyReset() {
-        MovingManModule module = this;
-        boolean paused = module.isPaused();
-        module.setPaused( true );
-        int option = JOptionPane.showConfirmDialog( module.getApparatusPanel(),
+    public boolean confirmClear() {
+        double recTime = getMovingManModel().getTimeModel().getRecordMode().getTimer().getTime();
+        if( recTime == 0.0 ) {
+            return true;
+        }
+        setPaused( true );
+        int option = JOptionPane.showConfirmDialog( getApparatusPanel(),
                                                     SimStrings.get( "MMPlot.ClearConfirmText" ),
                                                     SimStrings.get( "MMPlot.ClearConfirmButton" ),
                                                     JOptionPane.YES_NO_CANCEL_OPTION );
         if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void confirmAndApplyReset() {
+        MovingManModule module = this;
+        boolean paused = module.isPaused();
+        module.setPaused( true );
+
+        boolean ok = confirmClear();
+        if( ok ) {
             module.reset();
         }
-        else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
+        else {
             module.setPaused( paused );
         }
+//
+//        int option = JOptionPane.showConfirmDialog( module.getApparatusPanel(),
+//                                                    SimStrings.get( "MMPlot.ClearConfirmText" ),
+//                                                    SimStrings.get( "MMPlot.ClearConfirmButton" ),
+//                                                    JOptionPane.YES_NO_CANCEL_OPTION );
+//        if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
+//            module.reset();
+//        }
+//        else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
+//            module.setPaused( paused );
+//        }
     }
 }
 

@@ -78,7 +78,10 @@ public class MovingManControlPanel extends JPanel {
         final JCheckBox invertAxes = new JCheckBox( SimStrings.get( "MovingManControlPanel.InvertXAxisCheckBox" ), false );
         invertAxes.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setRightDirPositive( !invertAxes.isSelected() );
+                boolean ok = module.confirmClear();
+                if( ok ) {
+                    module.setRightDirPositive( !invertAxes.isSelected() );
+                }
             }
         } );
         northPanel.add( invertAxes );
