@@ -4,11 +4,11 @@ java -cp %classpath%;../classes edu.colorado.phet.balloon.BalloonApplet
 
 package edu.colorado.phet.balloon;
 
+import edu.colorado.phet.common.HelpPanel;
+import edu.colorado.phet.common.IHelp;
 import edu.colorado.phet.common.view.util.ImageDebugFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import phet.HelpPanel;
-import phet.IHelp;
 import phet.ImageLoader2;
 import phet.paint.*;
 import phet.paint.particle.ParticlePainterAdapter;
