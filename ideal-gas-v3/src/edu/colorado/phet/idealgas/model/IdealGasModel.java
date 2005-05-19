@@ -139,6 +139,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
                 break;
             case CONSTANT_TEMPERATURE:
                 double currTemp = getTemperature();
+                // Factor of 100 here is just a convenient number to get this working right.
                 double diffTemp = 100 *( targetTemperature - currTemp ) / targetTemperature;
                 setHeatSource( diffTemp );
                 break;
@@ -523,7 +524,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
         double currY = body.getPosition().getY();
 
-        // todo: This was commented out, 9/14/04
+        // This was commented out, 9/14/04
         //        relocateBodyY( body, newY );
 
         // Adjust the body's kinetic energy to compensate for any change we may have
