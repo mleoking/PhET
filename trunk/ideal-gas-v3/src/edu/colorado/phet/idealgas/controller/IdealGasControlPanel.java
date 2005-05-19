@@ -50,7 +50,6 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
     private JPanel particleControlsPanel;
     private JPanel buttonPanel;
     private GridBagConstraints particleControlsGbc;
-    private JLabel label;
 
 
     public IdealGasControlPanel( IdealGasModule module ) {
@@ -143,7 +142,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         ParticleInteractionControl pic = new ParticleInteractionControl( module.getIdealGasModel() );
         localGbc.fill = GridBagConstraints.NONE;
         advancedPanel.add( pic, localGbc );
-        Pump[] pumps = new Pump[] { module.getPump() };
+        Pump[] pumps = new Pump[]{module.getPump()};
         advancedPanel.add( new InputTemperatureControlPanel( getModule(), pumps ), localGbc );
     }
 
@@ -166,11 +165,11 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         } );
 
         // Measurement tools button
-        JComponent measurementDlgBtn = new MeasurementDialogButton();
+        JComponent measurementDlgBtn = new MeasurementToolsPanel();
 
         // Advanced options button
-        ToggleButton advancedButton = new ToggleButton( SimStrings.get("IdealGasControlPanel.MoreOptions"),
-                                                        SimStrings.get("IdealGasControlPanel.FewerOptions")) {
+        ToggleButton advancedButton = new ToggleButton( SimStrings.get( "IdealGasControlPanel.MoreOptions" ),
+                                                        SimStrings.get( "IdealGasControlPanel.FewerOptions" ) ) {
             public void onAction() {
                 advancedPanel.setVisible( true );
                 SwingUtilities.getRoot( this ).invalidate();
@@ -317,24 +316,40 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
     // Inner classes
     //--------------------------------------------------------------------------
 
-    private class MeasurementDialogButton extends JPanel {
-//    private class MeasurementDialogButton extends ToggleButton {
+    public class MeasurementToolsPanel extends JPanel {
         private JPanel toolsPanel;
-        private GridBagConstraints gbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,
-                                                                 1,1,1,1,
+        private GridBagConstraints toolsGbc = new GridBagConstraints( 0,1,
+                                                                 1, 1, 1, 1,
                                                                  GridBagConstraints.CENTER,
                                                                  GridBagConstraints.NONE,
-                                                                 new Insets( 0,0,0,0),0,0 );
-        private GridBagConstraints toolsPanelGbc = new GridBagConstraints( 0,GridBagConstraints.RELATIVE,
-                                                                 1,1,1,1,
-                                                                 GridBagConstraints.NORTHWEST,
-                                                                 GridBagConstraints.NONE,
-                                                                 new Insets( 0,0,0,0),0,0 );
+                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
+        private GridBagConstraints buttonGbc = new GridBagConstraints( 0, 0,
+                                                                       1, 1, 1, 1,
+                                                                       GridBagConstraints.CENTER,
+                                                                       GridBagConstraints.NONE,
+                                                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
+        private GridBagConstraints toolsPanelInternalGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                                           1, 1, 1, 1,
+                                                                           GridBagConstraints.NORTHWEST,
+                                                                           GridBagConstraints.NONE,
+                                                                           new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-        public MeasurementDialogButton() {
+        public MeasurementToolsPanel() {
             super( new GridBagLayout() );
-            ToggleButton button = new ToggleButton(SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
-                   SimStrings.get( "IdealGasControlPanel.Measurement_Tools" )) {
+
+            toolsPanel = new JPanel( new GridBagLayout() );
+            toolsPanel.add( new MeasurementTools.PressureSliceControl( module ), toolsPanelInternalGbc );
+            toolsPanel.add( new MeasurementTools.RulerControl( module ), toolsPanelInternalGbc );
+            toolsPanel.add( new MeasurementTools.HistogramControlPanel( module ), toolsPanelInternalGbc );
+            toolsPanel.add( new MeasurementTools.CmLinesControl( module ), toolsPanelInternalGbc );
+            toolsPanel.add( new MeasurementTools.SpeciesMonitorControl( module ), toolsPanelInternalGbc );
+            toolsPanel.add( new MeasurementTools.StopwatchControl( module ), toolsPanelInternalGbc );
+            toolsPanel.setBorder( BorderFactory.createEtchedBorder() );
+            toolsPanel.setVisible( false );
+            add( toolsPanel, toolsGbc );
+
+            ToggleButton button = new ToggleButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
+                                                    SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) ) {
                 public void onAction() {
                     toolsPanel.setVisible( true );
                     IdealGasControlPanel.this.revalidate();
@@ -345,32 +360,15 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
                     IdealGasControlPanel.this.revalidate();
                 }
             };
-//            super( SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ),
-//                   SimStrings.get( "IdealGasControlPanel.Measurement_Tools" ) );
-            toolsPanel = new JPanel( new GridBagLayout() );
-            add( button, gbc );
-            toolsPanel.add( new MeasurementTools.PressureSliceControl( module ), toolsPanelGbc );
-            toolsPanel.add( new MeasurementTools.RulerControl( module ), toolsPanelGbc );
-            toolsPanel.add( new MeasurementTools.HistogramControlPanel( module ), toolsPanelGbc );
-            toolsPanel.add( new MeasurementTools.CmLinesControl( module ), toolsPanelGbc );
-            toolsPanel.add( new MeasurementTools.SpeciesMonitorControl( module ), toolsPanelGbc );
-            toolsPanel.add( new MeasurementTools.StopwatchControl( module ), toolsPanelGbc );
-            toolsPanel.setBorder( BorderFactory.createEtchedBorder());
-            add( toolsPanel, gbc );
-//            IdealGasControlPanel.this.add( toolsPanel, toolsPanelGbc );
-            toolsPanel.setVisible( false );
+            add( button, buttonGbc );
         }
 
         public void onAction() {
-//            selector.show( this, 100, 100 );
-//            IdealGasControlPanel.this.add( toolsPanel, toolsPanelGbc );
             toolsPanel.setVisible( true );
             revalidate();
         }
 
         public void offAction() {
-//            selector.setVisible( false );
-//            IdealGasControlPanel.this.remove(toolsPanel);
             toolsPanel.setVisible( false );
             revalidate();
         }

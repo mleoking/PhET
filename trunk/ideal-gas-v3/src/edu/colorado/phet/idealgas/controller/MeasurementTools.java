@@ -79,36 +79,33 @@ public class MeasurementTools {
         }
     }
 
-    static public class SpeciesMonitorControl extends JPanel {
+    static public class SpeciesMonitorControl extends JCheckBox {
         SpeciesMonitorControl( final IdealGasModule module ) {
-            final JCheckBox speciesMonotorCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Show_species_information" ) );
-            this.add( speciesMonotorCB );
-            speciesMonotorCB.addActionListener( new ActionListener() {
+            super( SimStrings.get( "MeasurementControlPanel.Show_species_information" ) );
+            addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     WindowListener windowListener = new WindowAdapter() {
                         public void windowClosing( WindowEvent e ) {
-                            speciesMonotorCB.setSelected( false );
+                            setSelected( false );
                         }
                     };
-                    JDialog dlg = module.setSpeciesMonitorDlgEnabled( speciesMonotorCB.isSelected() );
+                    JDialog dlg = module.setSpeciesMonitorDlgEnabled( isSelected() );
                     dlg.addWindowListener( windowListener );
                 }
             } );
         }
     }
 
-    static public class StopwatchControl extends JPanel {
-
-        public StopwatchControl( final IdealGasModule module ) {
-            final JCheckBox stopwatchCB = new JCheckBox( SimStrings.get( "MeasurementControlPanel.Stopwatch" ), false );
-            stopwatchCB.addActionListener( new ActionListener() {
+    static public class StopwatchControl extends JCheckBox {
+        StopwatchControl( final IdealGasModule module ) {
+            super( SimStrings.get( "MeasurementControlPanel.Stopwatch" ), false );
+            addActionListener( new ActionListener() {
                 PhetFrame frame = PhetApplication.instance().getPhetFrame();
 
                 public void actionPerformed( ActionEvent e ) {
-                    module.stopwatchEnabled( stopwatchCB.isSelected() );
+                    module.stopwatchEnabled( isSelected() );
                 }
             } );
-            this.add( stopwatchCB );
         }
     }
 }

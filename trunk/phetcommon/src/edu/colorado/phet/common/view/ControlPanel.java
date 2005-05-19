@@ -90,6 +90,9 @@ public class ControlPanel extends JPanel {
                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         scrollPane.setBorder( null );
 //        super.add( controlPane, controlsGbc );
+        JPanel jp = new JPanel( new BorderLayout() );
+//        jp.add( scrollPane );
+//        super.add( jp, controlsGbc );
         super.add( scrollPane, controlsGbc );
 
         // The panel for the help button
@@ -105,7 +108,6 @@ public class ControlPanel extends JPanel {
         controlPane.addContainerListener( new ContainerListener() {
             public void componentAdded( ContainerEvent e ) {
                 resizeControlPane();
-                System.out.println( "ControlPanel.componentAdded" );
             }
 
             public void componentRemoved( ContainerEvent e ) {
@@ -320,6 +322,7 @@ public class ControlPanel extends JPanel {
         }
     }
 
+    private boolean sizeSet = false;
 
     private void resizeControlPane() {
         // Note: If this code doesn't execute in an invokeLater() runnable, it sometimes does the
@@ -327,16 +330,19 @@ public class ControlPanel extends JPanel {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 Dimension size = controlPane.getSize();
-                // Note: setPreferredSize() doesn't seem to work here
-                // 20 is my best estimate at the width of the vertical scroll bar.
-                scrollPane.setMinimumSize( new Dimension( (int)( size.getWidth() + 20 ),
-                                                          (int)( size.getHeight() ) ) );
-//                if( scrollPane.getVerticalScrollBar().isVisible() ) {
-//                    scrollPane.setBorder( BorderFactory.createEtchedBorder() );
-//                }
-//                else {
-//                    scrollPane.setBorder( null );
-//                }
+                if( !sizeSet ) {
+                    sizeSet = true;
+                    // Note: setPreferredSize() doesn't seem to work here
+                    // 20 is my best estimate at the width of the vertical scroll bar.
+                    scrollPane.setMinimumSize( new Dimension( (int)( size.getWidth() + 20 ),
+                                                              (int)( size.getHeight() ) ) );
+                }
+                if( scrollPane.getVerticalScrollBar().isVisible() ) {
+                    scrollPane.setBorder( BorderFactory.createEtchedBorder() );
+                }
+                else {
+                    scrollPane.setBorder( null );
+                }
             }
         } );
     }
