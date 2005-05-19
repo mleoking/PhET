@@ -20,6 +20,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpManager;
+import edu.colorado.phet.common.view.help.HelpPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -71,9 +72,9 @@ public class Module implements ClockTickListener {
         setModel( baseModel );
     }
 
-    /////////////////////////////////////////////////////////////////
+    //-----------------------------------------------------------------
     // Setters and getters
-    //
+    //-----------------------------------------------------------------
 
     public AbstractClock getClock() {
         return clock;
@@ -171,10 +172,9 @@ public class Module implements ClockTickListener {
         return "name=" + name + ", model=" + model + ", apparatusPanel=" + apparatusPanel + ", controlPanel=" + controlPanel + ", monitorPanel=" + monitorPanel;
     }
 
-
-    ///////////////////////////////////////////////////////////////////////////////////
-    // Help related methods
-    //
+    //-----------------------------------------------------------------
+    // Help-related methods
+    //-----------------------------------------------------------------
 
     /**
      * Tells whether this module has on-screen help
