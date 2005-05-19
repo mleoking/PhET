@@ -4,8 +4,12 @@ java -cp %classpath%;../classes edu.colorado.phet.balloon.BalloonApplet
 
 package edu.colorado.phet.balloon;
 
+import edu.colorado.phet.common.view.util.ImageDebugFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.SwingUtils;
+import phet.HelpPanel;
+import phet.IHelp;
+import phet.ImageLoader2;
 import phet.paint.*;
 import phet.paint.particle.ParticlePainterAdapter;
 import phet.phys2d.*;
@@ -16,6 +20,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Random;
 
@@ -23,7 +28,7 @@ import java.util.Random;
 /**
  * Test comment.
  */
-public class BalloonApplet extends JApplet {
+public class BalloonApplet extends JApplet implements IHelp {
     static final int CHARGE_LEVEL = 1;
     static boolean isApplet = true;
     int width;
@@ -38,6 +43,11 @@ public class BalloonApplet extends JApplet {
     static PlusPainter plussy = new PlusPainter( 14, 4, red, oval );
     static MinusPainter minnie = new MinusPainter( 14, 4, minusColor, oval );
     private PainterPanel painterPanel;
+    public LayeredPainter layeredPainter;
+    private boolean miniHelpShowing = false;
+    private Painter balloonHelp;
+    public BufferedImage sweaterImage;
+    public int wallWidth;
 
     public static void paintCharge( BufferedImage bi ) {
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
@@ -108,18 +118,18 @@ public class BalloonApplet extends JApplet {
         BalloonPainter yellowBalloon = new BalloonPainter( yelPainter, strAttach, strBase, strLength, stringStroke, stringColor );
         yellowBalloon.setInitialPosition( yPoint );
 
-        LayeredPainter lp = new LayeredPainter();
-        Reset reset = new Reset( this, lp, CHARGE_LEVEL );
+        this.layeredPainter = new LayeredPainter();
+        Reset reset = new Reset( this, layeredPainter, CHARGE_LEVEL );
         reset.addBalloonPainter( yellowBalloon );
         reset.addBalloonPainter( blueBalloon );
 
-//        lp.addPainter( new FilledRectanglePainter( width, height, Color.white ), -1 );
-        lp.addPainter( new FilledRectanglePainter( width, height, new Color( 240, 240, 255 ) ), -1 );
-        DoubleBufferPainter db = new DoubleBufferPainter( lp, width, height );
+//        layeredPainter.addPainter( new FilledRectanglePainter( width, height, Color.white ), -1 );
+        this.layeredPainter.addPainter( new FilledRectanglePainter( width, height, new Color( 240, 240, 255 ) ), -1 );
+        DoubleBufferPainter db = new DoubleBufferPainter( layeredPainter, width, height );
 
         painterPanel = new PainterPanel( db );
 
-        int wallWidth = 80;
+        wallWidth = 80;
         Rectangle dragBounds = new Rectangle( 0, 0, PANEL_WIDTH - balloon.getWidth() - wallWidth, PANEL_HEIGHT - balloon.getHeight() - 55 );
         BalloonDragger bd = new BalloonDragger( new BalloonPainter[]{blueBalloon, yellowBalloon}, painterPanel, dragBounds );
         painterPanel.addMouseListener( bd );
@@ -130,17 +140,17 @@ public class BalloonApplet extends JApplet {
         ThresholdFilter cm = new ThresholdFilter( 5, 5, thresholdSpeed );//3.2);
 
         int moveToBalloonSpeed = 9;
-        MoveToBalloon mtb = new MoveToBalloon( moveToBalloonSpeed, lp, CHARGE_LEVEL, minnie );
-        ChargeMover chargeMover = new ChargeMover( mtb, lp );
+        MoveToBalloon mtb = new MoveToBalloon( moveToBalloonSpeed, layeredPainter, CHARGE_LEVEL, minnie );
+        ChargeMover chargeMover = new ChargeMover( mtb, layeredPainter );
         reset.setChargeMover( chargeMover );
         cm.addBalloonDragListener( chargeMover );
         bd.addBalloonDragListener( cm );
 
-        BufferedImage sweaterImage = loader.loadBufferedImage( "images/sweaterWidth300.gif" );
+        sweaterImage = loader.loadBufferedImage( "images/sweaterWidth300.gif" );
 
         FixedImagePainter sweater = new FixedImagePainter( sweaterImage );
-        lp.addPainter( sweater, 0 );
-        lp.addPainter( bd, 2 );
+        layeredPainter.addPainter( sweater, 0 );
+        layeredPainter.addPainter( bd, 2 );
 
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.X_AXIS ) );
@@ -171,7 +181,7 @@ public class BalloonApplet extends JApplet {
         }
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout( new BoxLayout( buttonPanel, BoxLayout.X_AXIS ) );
+        buttonPanel.setLayout( new BoxLayout( buttonPanel, BoxLayout.Y_AXIS ) );
         buttonPanel.add( showAllCharges );
         buttonPanel.add( showNoCharges );
         buttonPanel.add( showDiff );
@@ -203,13 +213,16 @@ public class BalloonApplet extends JApplet {
         JCheckBox showWall = new JCheckBox( SimStrings.get( "BalloonApplet.Wall" ), true );
         controlPanel.add( showWall );
 
+        HelpPanel helpPanel = new HelpPanel( this );
+        controlPanel.add( helpPanel );
+
         int wallInset = 10;
         Rectangle wallBounds = new Rectangle( PANEL_WIDTH - wallWidth, 0, wallWidth, PANEL_HEIGHT );
         Rectangle wallChargeBounds = new Rectangle( PANEL_WIDTH - wallWidth + wallInset, 0, wallWidth - wallInset * 2, PANEL_HEIGHT );
         Painter wallBack = new FilledRectanglePainter( wallBounds.x, wallBounds.y, wallBounds.width, wallBounds.height, Color.yellow );
         Random r = new Random();
         Wall w = new Wall( showWall, 50, wallChargeBounds, wallBack, plussy, minnie, r, blueBalloon, yellowBalloon );
-        lp.addPainter( w, 10 );
+        layeredPainter.addPainter( w, 10 );
 
         int numSweaterCharges = 100;
         int minX = 50;
@@ -247,10 +260,10 @@ public class BalloonApplet extends JApplet {
 
             Painter plusPaint = new ParticlePainterAdapter( plussy, plus );
             plus.setDefaultPainter( plusPaint );
-            lp.addPainter( plusPaint, CHARGE_LEVEL );
+            layeredPainter.addPainter( plusPaint, CHARGE_LEVEL );
             Painter minusPaint = new ParticlePainterAdapter( minnie, minus );
             minus.setDefaultPainter( minusPaint );
-            lp.addPainter( minusPaint, CHARGE_LEVEL );
+            layeredPainter.addPainter( minusPaint, CHARGE_LEVEL );
             plus.setPainter( plusPaint, CHARGE_LEVEL );
             minus.setPainter( minusPaint, CHARGE_LEVEL );
             reset.addCharge( plus );
@@ -287,6 +300,7 @@ public class BalloonApplet extends JApplet {
 //            }
 //        } );
 //        timer.start();
+        balloonHelp = new BalloonHelpPainter( this );
     }
 
     public static void main( String[] args ) throws UnsupportedLookAndFeelException {
@@ -310,6 +324,51 @@ public class BalloonApplet extends JApplet {
         jf.getContentPane().validate();
         jf.getContentPane().repaint();
         //System.out.println("main: height="+ba.getHeight()); //476 for full application.
+    }
+
+    public void setHelpEnabled( boolean miniHelpShowing ) {
+        if( this.miniHelpShowing != miniHelpShowing ) {
+            this.miniHelpShowing = miniHelpShowing;
+            int layer = 100;
+            if( miniHelpShowing ) {
+                layeredPainter.addPainter( balloonHelp, layer );
+            }
+            else {
+
+                layeredPainter.removePainter( balloonHelp, layer );
+            }
+            repaintAll();
+        }
+
+    }
+
+    private void repaintAll() {
+    }
+
+    public void showMegaHelp() {
+        try {
+//            new ImageDebugFrame( ImageLoader2.loadBufferedImage("images/sweaterWidth300.gif" ) ).setVisible( true );
+            new ImageDebugFrame( ImageLoader2.loadBufferedImage( "balloon-meg.gif" ) ).setVisible( true );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean hasMegaHelp() {
+        return true;
+    }
+
+    public float getSweaterMaxX() {
+        return sweaterImage.getWidth();
+    }
+
+    public int getWallX() {
+        return getWidth() - wallWidth;
+    }
+
+    public int getWallHeight() {
+        return painterPanel.getHeight();
     }
 
     public static class Exit extends WindowAdapter {
