@@ -6,6 +6,9 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
@@ -20,16 +23,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Hashtable;
 
-public class StoveControlPanel extends JPanel {
+public class StoveControlPanel extends GraphicLayerSet {
     private static final int s_stoveSliderHeight = 60;
-
-    protected void paintComponent( Graphics g ) {
-        super.paintComponent( g );
-    }
-
-    public void setBounds( int x, int y, int width, int height ) {
-        super.setBounds( x, y, width, height );
-    }
 
     public StoveControlPanel( final IdealGasModule module ) {
 
@@ -39,35 +34,6 @@ public class StoveControlPanel extends JPanel {
         // it must be put into an intermediate JPanel with a simple layout manager (in this case
         // we use the default), and that intermediate panel is then added to the ApparatusPanel.
         JPanel stovePanel = new JPanel();
-        this.setOpaque( false );
-        this.add( stovePanel );
-
-//        JPanel stoveSliderPanel = new JPanel();
-        // The following commented code is left from the days that we had small icons
-        // to the left of the slider. I'm leaving the commented code in here, just in
-        // case we want to go back to that
-        //        JPanel iconPanel = new JPanel( new GridLayout( 3, 1 ) );
-        //        Image stoveAndFlameImage = null;
-        //        Image stoveImage = null;
-        //        Image stoveAndIceImage = null;
-        //        try {
-        //            stoveAndFlameImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_AND_FLAME_ICON_FILE );
-        //            stoveImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_ICON_FILE );
-        //            stoveAndIceImage = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_AND_ICE_ICON_FILE );
-        //        }
-        //        catch( IOException e ) {
-        //            e.printStackTrace();
-        //        }
-
-        //        Icon stoveAndFlameIcon = new ImageIcon( stoveAndFlameImage );
-        //        Icon stoveIcon = new ImageIcon( stoveImage );
-        //        Icon stoveAndIceIcon = new ImageIcon( stoveAndIceImage );
-        //        iconPanel.add( new JLabel( stoveAndFlameIcon ) );
-        //        iconPanel.add( new JLabel( stoveIcon ) );
-        //        iconPanel.add( new JLabel( stoveAndIceIcon ) );
-        //        stoveSliderPanel.add( iconPanel );
-        //        iconPanel.setPreferredSize( new Dimension( 24, s_stoveSliderHeight ) );
-
         int maxStoveSliderValue = 40;
         final JSlider stoveSlider = new JSlider( JSlider.VERTICAL, -maxStoveSliderValue,
                                                  maxStoveSliderValue, 0 );
@@ -93,24 +59,26 @@ public class StoveControlPanel extends JPanel {
                 stoveSlider.setValue( 0 );
             }
         } );
-//        stoveSliderPanel.add( stoveSlider );
-
-        // Put the panel together
-        stovePanel.setLayout( new GridBagLayout() );
-        GridBagConstraints gbc = null;
-        gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        stovePanel.add( stoveSlider, gbc );
-//        stovePanel.add( stoveSliderPanel, gbc );
 
         Border border = new TitledBorder( new EtchedBorder( BevelBorder.RAISED,
                                                             new Color( 40, 20, 255 ),
                                                             Color.black ),
                                           SimStrings.get( "IdealGasControlPanel.Heat_Control" ) );
         stovePanel.setBorder( border );
-
+        stovePanel.setPreferredSize( new Dimension( 115, 85 ) );
         Color background = new Color( 240, 230, 255 );
         stovePanel.setBackground( background );
+        PhetGraphic panelPJC = PhetJComponent.newInstance( module.getApparatusPanel(), stovePanel );
+        this.addGraphic( panelPJC );
+
         stoveSlider.setBackground( background );
-        stovePanel.getLayout().layoutContainer( this );
+        PhetGraphic sliderPJC = PhetJComponent.newInstance( module.getApparatusPanel(), stoveSlider );
+        sliderPJC.setCursorHand();
+        this.addGraphic( sliderPJC );
+        sliderPJC.setLocation( 10, 20 );
+    }
+
+    public void setBounds( int x, int y, int width, int height ) {
+        super.setBounds( new Rectangle( x, y, width, height ) );
     }
 }

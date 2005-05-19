@@ -151,7 +151,7 @@ public class IdealGasModule extends Module {
         gravity = new Gravity( idealGasModel );
         setGravity( 0 );
         idealGasModel.addModelElement( gravity );
-
+        
         // Add the animated mannequin
         pusher = new Mannequin( getApparatusPanel(), idealGasModel, box, boxGraphic );
         addGraphic( pusher, 10 );
@@ -241,11 +241,7 @@ public class IdealGasModule extends Module {
      *
      */
     private void createApparatusSwingControls() {
-        StoveControlPanel stoveControlPanel = new StoveControlPanel( this );
-        stoveControlPanel.setBounds( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
-                                     IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 30, 300, 120 );
-
-        StoveControlPanel2 scp2 = new StoveControlPanel2( this );
+        StoveControlPanel scp2 = new StoveControlPanel( this );
         scp2.setLocation( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET + 100,
                           IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET - 10 );
         getApparatusPanel().addGraphic( scp2 );
