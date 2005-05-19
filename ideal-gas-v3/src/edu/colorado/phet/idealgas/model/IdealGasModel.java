@@ -11,13 +11,12 @@ import edu.colorado.phet.collision.*;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.util.EventChannel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.mechanics.Body;
 
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -29,13 +28,14 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     // The distance that a molecule travels out from the box before it
     // is removed from the system.
     private static double s_escapeOffset = -30;
+    private static final float s_pressureAdjustmentFactor = 0.05f;
+
     public static final int CONSTANT_NONE = 0, CONSTANT_VOLUME = 1, CONSTANT_PRESSURE = 2, CONSTANT_TEMPERATURE = 3;
 
     private Gravity gravity;
     private double heatSource;
     private PressureSensingBox box;
-    private boolean constantVolume = true;
-    private boolean constantPressure = false;
+    private int constantProperty = CONSTANT_NONE;
     private double targetPressure = 0;
     private double averageMoleculeEnergy;
     // Accumulates kinetic energy deliberately added to the system in a single time step.
@@ -59,6 +59,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     private int heavySpeciesCnt;
     private int lightSpeciesCnt;
     private Rectangle2D modelBounds;
+    private double targetTemperature;
 
     public IdealGasModel( double dt ) {
         // Add a collision collisionGod
@@ -78,39 +79,72 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         collisionExperts.add( expert );
     }
 
+    //----------------------------------------------------------------
+    // Methods related to the constant gas property
+    //----------------------------------------------------------------
+
     public boolean isConstantVolume() {
-        return constantVolume;
+        return constantProperty == CONSTANT_VOLUME;
     }
 
     public boolean isConstantPressure() {
-        return constantPressure;
+        return constantProperty == CONSTANT_PRESSURE;
     }
 
     public void setConstantProperty( int constantProperty ) {
         switch( constantProperty ) {
             case CONSTANT_NONE:
-                this.constantVolume = false;
-                this.constantPressure = false;
                 box.setVolumeFixed( false );
-                SphereBoxCollision.setWorkDoneByMovingWall( constantVolume );
+                SphereBoxCollision.setWorkDoneByMovingWall( true );
                 break;
             case CONSTANT_VOLUME:
                 box.setVolumeFixed( true );
-                this.constantVolume = true;
-                this.constantPressure = false;
-                SphereBoxCollision.setWorkDoneByMovingWall( constantVolume );
+                SphereBoxCollision.setWorkDoneByMovingWall( true );
                 break;
             case CONSTANT_PRESSURE:
                 box.setVolumeFixed( false );
                 this.targetPressure = box.getPressure();
-                this.constantVolume = false;
-                this.constantPressure = true;
-                SphereBoxCollision.setWorkDoneByMovingWall( !constantPressure );
+                SphereBoxCollision.setWorkDoneByMovingWall( false );
                 break;
             case CONSTANT_TEMPERATURE:
+                this.targetTemperature = getTemperature();
+                SphereBoxCollision.setWorkDoneByMovingWall( true );
+                break;
             default:
-                throw new RuntimeException( "Invalid constantProperty");
+                throw new RuntimeException( "Invalid constantProperty" );
         }
+        this.constantProperty = constantProperty;
+    }
+
+    /**
+     * Adjusts the model to keep the specified constant parameter constant
+     */
+    private void updateFreeParameter() {
+        switch( constantProperty ) {
+            case CONSTANT_PRESSURE:
+                double currPressure = box.getPressure();
+                double diffPressure = ( currPressure - targetPressure ) / targetPressure;
+                if( currPressure > 0 && diffPressure > s_pressureAdjustmentFactor ) {
+                    box.setBounds( box.getMinX() - 1,
+                                   box.getMinY(),
+                                   box.getMaxX(),
+                                   box.getMaxY() );
+                }
+                else if( currPressure > 0 && diffPressure < -s_pressureAdjustmentFactor ) {
+                    box.setBounds( box.getMinX() + 1,
+                                   box.getMinY(),
+                                   box.getMaxX(),
+                                   box.getMaxY() );
+                }
+                break;
+            case CONSTANT_TEMPERATURE:
+                double currTemp = getTemperature();
+                double diffTemp = 100 *( targetTemperature - currTemp ) / targetTemperature;
+                setHeatSource( diffTemp );
+                break;
+        }
+
+
     }
 
     /**
@@ -125,6 +159,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
      */
     public void setHeatSource( double value ) {
         heatSource = value;
+        heatSourceChangeListenerProxy.heatSourceChanged( new HeatSourceChangeEvent( this ) );
     }
 
     public double getHeatSource() {
@@ -392,7 +427,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 //            }
             if( body instanceof GasMolecule ) {
                 GasMolecule gasMolecule = (GasMolecule)body;
-                if( !modelBounds.contains( gasMolecule.getPosition() )) {
+                if( !modelBounds.contains( gasMolecule.getPosition() ) ) {
                     removeList.add( gasMolecule );
                 }
             }
@@ -435,38 +470,10 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     }
 
     /**
-     * Adjusts the model to keep the specified constant parameter constant
-     */
-    private void updateFreeParameter() {
-
-        if( constantPressure ) {
-            double currPressure = box.getPressure();
-
-            double diffPressure = ( currPressure - targetPressure ) / targetPressure;
-            if( currPressure > 0 && diffPressure > s_pressureAdjustmentFactor ) {
-                box.setBounds( box.getMinX() - 1,
-                               box.getMinY(),
-                               box.getMaxX(),
-                               box.getMaxY() );
-            }
-            else if( currPressure > 0 && diffPressure < -s_pressureAdjustmentFactor ) {
-                box.setBounds( box.getMinX() + 1,
-                               box.getMinY(),
-                               box.getMaxX(),
-                               box.getMaxY() );
-            }
-        }
-    }
-
-    private static final float s_pressureAdjustmentFactor = 0.05f;
-
-    /**
      *
      */
     private void addHeatFromStove() {
         if( heatSource != 0 ) {
-            //            for( int i = 0; i < getBodies().sizebj(); i++ ) {
-            //                Object obj = getBodies().get( i );
             for( int i = 0; i < numModelElements(); i++ ) {
                 Object modelElement = modelElementAt( i );
                 if( modelElement instanceof CollidableBody && !IdealGasConfig.HEAT_ONLY_FROM_FLOOR ) {
@@ -617,6 +624,34 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
                 sphereSphereExpert.setIgnoreGasMoleculeInteractions( !enableInteraction );
             }
         }
+    }
+
+    //----------------------------------------------------------------
+    // Event and Listener definitions
+    //----------------------------------------------------------------
+    private EventChannel heatSourceChangeChannel = new EventChannel( HeatSourceChangeListener.class );
+    private HeatSourceChangeListener heatSourceChangeListenerProxy = (HeatSourceChangeListener)heatSourceChangeChannel.getListenerProxy();
+
+    public void addHeatSourceChangeListener( HeatSourceChangeListener listener ) {
+        heatSourceChangeChannel.addListener( listener);
+    }
+
+    public void removeHeatSourceChangeListener( HeatSourceChangeListener listener ) {
+        heatSourceChangeChannel.removeListener( listener);
+    }
+
+    public class HeatSourceChangeEvent extends EventObject {
+        public HeatSourceChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public double getHeatSource() {
+            return heatSource;
+        }
+    }
+
+    public interface HeatSourceChangeListener extends EventListener {
+        void heatSourceChanged( HeatSourceChangeEvent event );
     }
 }
 

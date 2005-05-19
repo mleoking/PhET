@@ -204,7 +204,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         constantParameterGroup.add( constantPressureRB );
         constantParameterGroup.add( constantTempRB );
         constantParameterGroup.add( noneRB );
-        constantTempRB.setEnabled( false );
+//        constantTempRB.setEnabled( false );
 
         GridBagConstraints localGbc = new GridBagConstraints( 0, 0,
                                                               1, 1, 1, 1,
@@ -236,6 +236,11 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         constantPressureRB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 idealGasModel.setConstantProperty( IdealGasModel.CONSTANT_PRESSURE );
+            }
+        } );
+        constantTempRB.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                idealGasModel.setConstantProperty( IdealGasModel.CONSTANT_TEMPERATURE );
             }
         } );
         noneRB.addActionListener( new ActionListener() {
