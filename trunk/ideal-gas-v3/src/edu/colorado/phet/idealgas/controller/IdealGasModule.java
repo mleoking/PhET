@@ -296,7 +296,7 @@ public class IdealGasModule extends Module {
 
             if( wiggleMeGraphic == null ) {
                 wiggleMeGraphic = new WiggleMeGraphic( getApparatusPanel(),
-                                                       new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 470, IdealGasConfig.Y_BASE_OFFSET + 200 ),
+                                                       new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 480, IdealGasConfig.Y_BASE_OFFSET + 170 ),
                                                        getModel() );
                 addGraphic( wiggleMeGraphic, 40 );
                 wiggleMeGraphic.start();

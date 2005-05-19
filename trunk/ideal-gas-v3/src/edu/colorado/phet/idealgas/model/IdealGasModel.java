@@ -29,6 +29,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     // The distance that a molecule travels out from the box before it
     // is removed from the system.
     private static double s_escapeOffset = -30;
+    public static final int CONSTANT_NONE = 0, CONSTANT_VOLUME = 1, CONSTANT_PRESSURE = 2, CONSTANT_TEMPERATURE = 3;
 
     private Gravity gravity;
     private double heatSource;
@@ -81,27 +82,35 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         return constantVolume;
     }
 
-    public void setConstantVolume( boolean constantVolume ) {
-        box.setVolumeFixed( true );
-        this.constantVolume = constantVolume;
-        SphereBoxCollision.setWorkDoneByMovingWall( constantVolume );
-    }
-
     public boolean isConstantPressure() {
         return constantPressure;
     }
 
-    public void setConstantPressure( boolean constantPressure ) {
-        box.setVolumeFixed( false );
-        this.targetPressure = box.getPressure();
-        this.constantPressure = constantPressure;
-        SphereBoxCollision.setWorkDoneByMovingWall( !constantPressure );
-    }
-
-    public void setNoConstantProperty() {
-        this.constantVolume = false;
-        box.setVolumeFixed( false );
-        SphereBoxCollision.setWorkDoneByMovingWall( constantVolume );
+    public void setConstantProperty( int constantProperty ) {
+        switch( constantProperty ) {
+            case CONSTANT_NONE:
+                this.constantVolume = false;
+                this.constantPressure = false;
+                box.setVolumeFixed( false );
+                SphereBoxCollision.setWorkDoneByMovingWall( constantVolume );
+                break;
+            case CONSTANT_VOLUME:
+                box.setVolumeFixed( true );
+                this.constantVolume = true;
+                this.constantPressure = false;
+                SphereBoxCollision.setWorkDoneByMovingWall( constantVolume );
+                break;
+            case CONSTANT_PRESSURE:
+                box.setVolumeFixed( false );
+                this.targetPressure = box.getPressure();
+                this.constantVolume = false;
+                this.constantPressure = true;
+                SphereBoxCollision.setWorkDoneByMovingWall( !constantPressure );
+                break;
+            case CONSTANT_TEMPERATURE:
+            default:
+                throw new RuntimeException( "Invalid constantProperty");
+        }
     }
 
     /**

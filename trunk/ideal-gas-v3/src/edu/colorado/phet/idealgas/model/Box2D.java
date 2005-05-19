@@ -33,7 +33,6 @@ public class Box2D extends CollidableBody {
     private boolean volumeFixed = false;
 
 
-
     // TODO: put the opening characteristics in a specialization of this class.
     private Point2D[] opening = new Point2D.Double[]{
         new Point2D.Double(),
@@ -229,8 +228,14 @@ public class Box2D extends CollidableBody {
     }
 
     public void setVolumeFixed( boolean volumeFixed ) {
+        boolean notifyListeners = false;
+        if( this.volumeFixed != volumeFixed ) {
+            notifyListeners = true;
+        }
         this.volumeFixed = volumeFixed;
-        changeListenerProxy.isVolumeFixedChanged( new ChangeEvent( this ) );
+        if( notifyListeners ) {
+            changeListenerProxy.isVolumeFixedChanged( new ChangeEvent( this ) );
+        }
     }
 
     //-----------------------------------------------------------------
@@ -248,6 +253,7 @@ public class Box2D extends CollidableBody {
 
     public interface ChangeListener extends EventListener {
         void boundsChanged( ChangeEvent event );
+
         void isVolumeFixedChanged( ChangeEvent event );
     }
 

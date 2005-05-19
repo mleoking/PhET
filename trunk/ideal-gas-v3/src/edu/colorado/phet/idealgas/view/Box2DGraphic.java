@@ -56,31 +56,16 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
         box.addChangeListener( this );
         this.wallColor = wallColor;
         internalBoxGraphic = new InternalBoxGraphic( component );
-
-//        this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
-//        translationListener = new TranslationListener() {
-//            public void translationOccurred( TranslationEvent translationEvent ) {
-//                if( !box.isVolumeFixed() ) {
-//                    // Speed limit on wall
-//                    double dx = translationEvent.getDx();
-//                    dx = Math.max( -wallSpeedLimit, Math.min( dx, wallSpeedLimit ) );
-//                    double x = Math.min( Math.max( box.getMinX() + dx, 50 ), box.getMaxX() - box.getMinimumWidth() );
-//                    box.setBounds( x, box.getMinY(), box.getMaxX(), box.getMaxY() );
-//
-//                    internalBoxGraphic.update();
-//                }
-//            }
-//        };
-//        this.addTranslationListener( translationListener );
+        this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
         addTranslationListener( new Translator() );
     }
 
-    public void setIgnoreMouse( boolean ignoreMouse ) {
-        super.setIgnoreMouse( ignoreMouse );
-        if( ignoreMouse ) {
-            removeAllMouseInputListeners();
-        }
-    }
+//    public void setIgnoreMouse( boolean ignoreMouse ) {
+//        super.setIgnoreMouse( ignoreMouse );
+//        if( ignoreMouse ) {
+//            removeAllMouseInputListeners();
+//        }
+//    }
 
     public void setWallColor( Color wallColor ) {
         this.wallColor = wallColor;
@@ -132,7 +117,7 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
      */
     public void removeAllMouseInputListeners() {
         super.removeAllMouseInputListeners();
-        internalBoxGraphic.removeHandle();
+        internalBoxGraphic.showHandle( false );
     }
 
     public void paint( Graphics2D g2 ) {
@@ -152,11 +137,12 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
     public void isVolumeFixedChanged( Box2D.ChangeEvent event ) {
         if( event.getBox2D().isVolumeFixed() ) {
             setIgnoreMouse( true );
+            internalBoxGraphic.showHandle( false );
         }
         else {
             setIgnoreMouse( false );
             this.setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
-            addTranslationListener( new Translator() );
+            internalBoxGraphic.showHandle( true );
         }
     }
 
@@ -183,6 +169,14 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
                 e.printStackTrace();
             }
             update();
+        }
+
+        /**
+         * Always report the bounds that include the handle, even when it isn't showing
+         * @return
+         */
+        protected Rectangle determineBounds() {
+            return mouseableArea.getBounds();
         }
 
         /**
@@ -240,8 +234,10 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
             restoreGraphicsState();
         }
 
-        public void removeHandle() {
-            isHandleEnabled = false;
+        void showHandle( boolean b ) {
+            isHandleEnabled = b;
+            setBoundsDirty();
+            repaint();
         }
     }
 
