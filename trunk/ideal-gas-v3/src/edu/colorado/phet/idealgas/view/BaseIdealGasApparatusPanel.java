@@ -7,7 +7,6 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
@@ -16,7 +15,9 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasApplication;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -33,12 +34,13 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     private PhetImageGraphic flamesGraphicImage;
     private PhetImageGraphic iceGraphicImage;
     protected PhetImageGraphic doorGraphicImage;
+    private BufferedImage stoveImg;
 
 
     /**
      *
      */
-    public BaseIdealGasApparatusPanel( Module module, AbstractClock clock, Box2D box ) {
+    public BaseIdealGasApparatusPanel( IdealGasModule module, AbstractClock clock, Box2D box ) {
         super( clock );
         init( module, box );
 //        setUseOffscreenBuffer( true );
@@ -47,13 +49,13 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     /**
      *
      */
-    public void init( final Module module, Box2D box ) {
+    public void init( final IdealGasModule module, Box2D box ) {
         // Set the background color
         setBackground( IdealGasConfig.COLOR_SCHEME.background );
 
         try {
             // Set up the stove, flames, and ice
-            BufferedImage stoveImg = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_IMAGE_FILE );
+            stoveImg = ImageLoader.loadBufferedImage( IdealGasConfig.STOVE_IMAGE_FILE );
             Point stoveLocation = new Point( IdealGasConfig.X_BASE_OFFSET + IdealGasConfig.X_STOVE_OFFSET,
                                              IdealGasConfig.Y_BASE_OFFSET + IdealGasConfig.Y_STOVE_OFFSET );
             PhetImageGraphic stoveGraphic = new PhetImageGraphic( this, stoveImg );
@@ -75,6 +77,11 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
         catch( IOException ioe ) {
             throw new RuntimeException( ioe.getMessage() );
         }
+
+        // Add a listener that will adjust the flames and ice graphics as the heat
+        // source in the model changes
+        ( (IdealGasModel)module.getModel() ).addHeatSourceChangeListener( new FlameIceAdjuster() );
+
     }
 
     /**
@@ -99,10 +106,25 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
         int flameHeight = baseFlameHeight - value;
         int iceHeight = baseFlameHeight + value;
         flamesGraphicImage.setLocation( (int)flamesGraphicImage.getLocation().getX(),
-                                        (int)Math.min( (float)flameHeight, baseFlameHeight ) );
+                                        (int)Math.max( Math.min( (float)flameHeight, baseFlameHeight ),
+                                                       baseFlameHeight - stoveImg.getHeight()));
         iceGraphicImage.setLocation( (int)iceGraphicImage.getLocation().getX(),
-                                     (int)Math.min( (float)iceHeight, baseFlameHeight ) );
+                                     (int)Math.max( Math.min( (float)iceHeight, baseFlameHeight ),
+                                                    baseFlameHeight - stoveImg.getHeight() ));
         this.repaint();
+    }
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    /**
+     * Implementation of IdealGasModel.HeatSourceChangeListener
+     */
+    private class FlameIceAdjuster implements IdealGasModel.HeatSourceChangeListener {
+        public void heatSourceChanged( IdealGasModel.HeatSourceChangeEvent event ) {
+            setStove( (int)event.getHeatSource() );
+        }
     }
 
     /**
@@ -138,4 +160,5 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     //            new AddHelpItemCmd( helpText3 ).doIt();
     //        }
     //    }
+
 }
