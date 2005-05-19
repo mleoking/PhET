@@ -48,6 +48,7 @@ public class BalloonApplet extends JApplet implements IHelp {
     private Painter balloonHelp;
     public BufferedImage sweaterImage;
     public int wallWidth;
+    public JPanel controlPanel;
 
     public static void paintCharge( BufferedImage bi ) {
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
@@ -152,7 +153,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         layeredPainter.addPainter( sweater, 0 );
         layeredPainter.addPainter( bd, 2 );
 
-        JPanel controlPanel = new JPanel();
+        controlPanel = new JPanel();
         controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.X_AXIS ) );
 
         JPanel panel = new JPanel();
@@ -313,7 +314,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         JFrame jf = new JFrame( "Balloons!" );
         jf.addWindowListener( new Exit() );
         jf.setContentPane( ba );
-        jf.setSize( PANEL_WIDTH, PANEL_HEIGHT + 40 );
+        jf.setSize( PANEL_WIDTH, PANEL_HEIGHT + ba.controlPanel.getPreferredSize().height + 10 );
         SwingUtils.centerWindowOnScreen( jf );
         jf.setVisible( true );
 
