@@ -24,7 +24,6 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
-import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -230,15 +229,16 @@ abstract public class AdvancedModule extends IdealGasModule {
     public void activate( PhetApplication app ) {
         super.activate( app );
         // Set the colors of the particle graphics
-        orgLightColor = LightSpeciesGraphic.getColor();
+        // No longer needed because the original color is now the one we want here, too
+//        orgLightColor = LightSpeciesGraphic.getColor();
         orgHeavyColor = HeavySpeciesGraphic.getColor();
-        LightSpeciesGraphic.setColor( COLOR_B );
+//        LightSpeciesGraphic.setColor( COLOR_B );
         HeavySpeciesGraphic.setColor( COLOR_A );
     }
 
     public void deactivate( PhetApplication app ) {
         super.deactivate( app );
-        LightSpeciesGraphic.setColor( orgLightColor );
+//        LightSpeciesGraphic.setColor( orgLightColor );
         HeavySpeciesGraphic.setColor( orgHeavyColor );
     }
 
