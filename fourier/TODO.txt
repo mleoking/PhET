@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- restructure app startup
 - try putting multi-line choices in Math Form menu
 - autorescale checkbox for Components/Sum graphs
 - Sums graphic range is +-5 when autoscale is off
@@ -46,6 +45,8 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(5/20) - convert to new PhetApplication startup sequence
+(5/19) - "Fourier Component" to "Harmonic" throughout
 sandbox...
 (5/16) - add all controls in Discrete module, most not wired up
 (5/16) - add skeleton for WavePulseShaperModule
