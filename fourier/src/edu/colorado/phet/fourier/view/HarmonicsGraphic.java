@@ -21,18 +21,18 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.model.FourierComponent;
+import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
- * ComponentsGraphic
+ * HarmonicsGraphic
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver {
+public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -87,7 +87,7 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
-    public ComponentsGraphic( Component component, FourierSeries fourierSeriesModel ) {
+    public HarmonicsGraphic( Component component, FourierSeries fourierSeriesModel ) {
         super( component );
         
         // Enable antialiasing
@@ -146,18 +146,18 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
     
     public void update() {
         
-        int numberOfComponents = _fourierSeriesModel.getNumberOfComponents();
+        int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
         
-        if ( _previousNumberOfComponents != numberOfComponents ) {
+        if ( _previousNumberOfComponents != numberOfHarmonics ) {
             
             _wavesGraphic.clear();
             
-            for ( int i = 0; i < numberOfComponents; i++ ) {
+            for ( int i = 0; i < numberOfHarmonics; i++ ) {
                 
-                FourierComponent fourierComponent = (FourierComponent) _fourierSeriesModel.getComponent( i );
+                Harmonic harmonic = (Harmonic) _fourierSeriesModel.getHarmonic( i );
                 
-                int numberOfCycles = fourierComponent.getOrder() + 1;
-                double amplitude = fourierComponent.getAmplitude();
+                int numberOfCycles = harmonic.getOrder() + 1;
+                double amplitude = harmonic.getAmplitude();
                 Color color = FourierUtils.calculateColor( _fourierSeriesModel, i );
                 
                 SineWaveGraphic waveGraphic = null;
@@ -201,7 +201,7 @@ public class ComponentsGraphic extends GraphicLayerSet implements SimpleObserver
             super( component );
             
             // Title
-            String title = SimStrings.get( "ComponentsGraphic.title" );
+            String title = SimStrings.get( "HarmonicsGraphic.title" );
             PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
             titleGraphic.centerRegistrationPoint();
             titleGraphic.rotate( -( Math.PI / 2 ) );

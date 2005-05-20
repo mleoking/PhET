@@ -24,7 +24,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.model.FourierComponent;
+import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 
 
@@ -93,7 +93,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     private PhetShapeGraphic _outlineGraphic;
     private PhetShapeGraphic _waveGraphic;
     private GeneralPath _wavePath;
-    private int _previousNumberOfComponents;
+    private int _previousNumberOfHarmonics;
     private int _waveType;
     private double _phaseAngle;
     private PhetTextGraphic _maxLabelGraphic, _minLabelGraphic;
@@ -210,7 +210,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         _sums = new double[ OUTLINE_WIDTH + 1 ];
         _waveType = SineWaveGraphic.WAVE_TYPE_SINE;
         _phaseAngle = DEFAULT_PHASE_ANGLE;
-        _previousNumberOfComponents = -1; // force update
+        _previousNumberOfHarmonics = -1; // force update
         _minMaxFormatter = new DecimalFormat( AXES_LABEL_FORMAT );
         _tickMarksList = new ArrayList();
         _tickLinesList = new ArrayList();
@@ -245,7 +245,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     // XXX this is quick-and-dirty, very inefficient
     public void update() {
         
-        int numberOfComponents = _fourierSeriesModel.getNumberOfComponents();
+        int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
 
         _wavePath.reset();
 
@@ -255,11 +255,11 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
 
             _sums[i] = 0;
 
-            for ( int j = 0; j < numberOfComponents; j++ ) {
+            for ( int j = 0; j < numberOfHarmonics; j++ ) {
 
-                FourierComponent fourierComponent = (FourierComponent) _fourierSeriesModel.getComponent( j );
-                final double amplitude = fourierComponent.getAmplitude();
-                final int numberOfCycles = fourierComponent.getOrder() + 1;
+                Harmonic harmonic = (Harmonic) _fourierSeriesModel.getHarmonic( j );
+                final double amplitude = harmonic.getAmplitude();
+                final int numberOfCycles = harmonic.getOrder() + 1;
                 final double deltaAngle = ( 2.0 * Math.PI * numberOfCycles ) / OUTLINE_WIDTH;
                 final double startAngle = _phaseAngle - ( deltaAngle * ( OUTLINE_WIDTH / 2.0 ) );
                 double angle = startAngle + ( i * deltaAngle );

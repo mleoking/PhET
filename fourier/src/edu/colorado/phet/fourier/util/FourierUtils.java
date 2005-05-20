@@ -29,11 +29,11 @@ public class FourierUtils {
     
     public static Color calculateColor( FourierSeries fourierSeriesModel, int n ) {
         double wavelengthRange = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
-        int numberOfComponents = fourierSeriesModel.getNumberOfComponents();
-        if ( n >= numberOfComponents ) {
+        int numberOfHarmonics = fourierSeriesModel.getNumberOfHarmonics();
+        if ( n >= numberOfHarmonics ) {
             throw new IllegalArgumentException( "n is out of range: " + n );
         }
-        double deltaWavelength = wavelengthRange / ( numberOfComponents - 1 );
+        double deltaWavelength = wavelengthRange / ( numberOfHarmonics - 1 );
         double wavelength = VisibleColor.MAX_WAVELENGTH - ( n * deltaWavelength );
         Color color = VisibleColor.wavelengthToColor( wavelength );
         return color;

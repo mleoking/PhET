@@ -36,8 +36,8 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     public double _fundamentalFrequency; // Hz
-    public ArrayList _components; // array of FourierComponent
-    public ArrayList _availableComponents; // array of FourierComponent
+    public ArrayList _harmonics; // array of Harmonic
+    public ArrayList _availableHarmonics; // array of Harmonic
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -48,14 +48,14 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
      */
     public FourierSeries() {
         _fundamentalFrequency = DEFAULT_FUNDAMENTAL_FREQUENCY;
-        _components = new ArrayList();
-        _availableComponents = new ArrayList();
-        setNumberOfComponents( 1 );
+        _harmonics = new ArrayList();
+        _availableHarmonics = new ArrayList();
+        setNumberOfHarmonics( 1 );
     }
   
     public void finalize() {
-        for ( int i = 0; i < _components.size(); i++ ) {
-            ( (FourierComponent) _components.get( i ) ).removeObserver( this );
+        for ( int i = 0; i < _harmonics.size(); i++ ) {
+            ( (Harmonic) _harmonics.get( i ) ).removeObserver( this );
         }
     }
     
@@ -86,46 +86,46 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     }
     
     /**
-     * Sets the number of components in the series.
+     * Sets the number of harmonics in the series.
      * 
-     * @param numberOfComponents the number of components
+     * @param numberOfHarmonics the number of harmonics
      */
-    public void setNumberOfComponents( int numberOfComponents ) {
-        assert( numberOfComponents > 0 );
+    public void setNumberOfHarmonics( int numberOfHarmonics ) {
+        assert( numberOfHarmonics > 0 );
         
-        FourierComponent component = null;
+        Harmonic harmonic = null;
         
-        int currentNumber = _components.size();
-        if ( numberOfComponents != currentNumber ) {
-            if ( numberOfComponents < currentNumber ) {
+        int currentNumber = _harmonics.size();
+        if ( numberOfHarmonics != currentNumber ) {
+            if ( numberOfHarmonics < currentNumber ) {
                 // Remove components.
-                int numberToRemove = currentNumber - numberOfComponents;
+                int numberToRemove = currentNumber - numberOfHarmonics;
                 for ( int i = currentNumber-1; i > currentNumber - numberToRemove - 1; i-- ) {
                     // Move the component to the "available" list.
-                    component = (FourierComponent) _components.get( i );
-                    component.removeObserver( this );
-                    component.setAmplitude( 0 );
-                    _availableComponents.add( component );
-                    _components.remove( i );
+                    harmonic = (Harmonic) _harmonics.get( i );
+                    harmonic.removeObserver( this );
+                    harmonic.setAmplitude( 0 );
+                    _availableHarmonics.add( harmonic );
+                    _harmonics.remove( i );
                 }
             }
             else {
                 // Add harmonics.
-                int numberToAdd = numberOfComponents - currentNumber;
+                int numberToAdd = numberOfHarmonics - currentNumber;
                 for ( int i = 0; i < numberToAdd; i++ ) {
-                    int numberAvailable = _availableComponents.size();
+                    int numberAvailable = _availableHarmonics.size();
                     if ( numberAvailable > 0 ) {
-                        // Get a component from the "available" list.
-                        component = (FourierComponent) _availableComponents.get( numberAvailable - 1 );
-                        _availableComponents.remove( numberAvailable - 1 );
-                        component.setOrder( currentNumber + i );
-                        component.addObserver( this );
+                        // Get a harmonic from the "available" list.
+                        harmonic = (Harmonic) _availableHarmonics.get( numberAvailable - 1 );
+                        _availableHarmonics.remove( numberAvailable - 1 );
+                        harmonic.setOrder( currentNumber + i );
+                        harmonic.addObserver( this );
                     }
                     else {
-                        component = new FourierComponent( currentNumber + i );
-                        component.addObserver( this );
+                        harmonic = new Harmonic( currentNumber + i );
+                        harmonic.addObserver( this );
                     }
-                    _components.add( component );
+                    _harmonics.add( harmonic );
                 }
             }
             notifyObservers();
@@ -133,24 +133,24 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     }
     
     /**
-     * Gets the number of components in the series.
+     * Gets the number of harmonics in the series.
      * 
-     * @return the number of components
+     * @return the number of harmonics
      */
-    public int getNumberOfComponents() {
-        return _components.size();
+    public int getNumberOfHarmonics() {
+        return _harmonics.size();
     }
     
     /**
-     * Gets a specific component in the series.
-     * The index of the fundamental component is zero.
+     * Gets a specific harmonics in the series.
+     * The index of the fundamental harmonic is zero.
      * 
      * @param order the index
      * @return
      */
-    public FourierComponent getComponent( int order ) {
-        assert( order >= 0 && order < _components.size() );
-        return (FourierComponent) _components.get( order );
+    public Harmonic getHarmonic( int order ) {
+        assert( order >= 0 && order < _harmonics.size() );
+        return (Harmonic) _harmonics.get( order );
     }
     
     //----------------------------------------------------------------------------
