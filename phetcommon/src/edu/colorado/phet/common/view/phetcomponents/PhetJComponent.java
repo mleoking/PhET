@@ -118,7 +118,7 @@ public class PhetJComponent extends PhetGraphic {
         };       //this seems to work.  I thought you might have needed a visible component, though (maybe for some JVM implementations?)
 //        System.out.println( "offscreen.getOwner() = " + offscreen.getOwner() );
 
-        offscreen.getOwner().setVisible( true );
+//        offscreen.getOwner().setVisible( true );
         offscreen.setSize( 0, 0 );
         offscreen.setVisible( true );
         offscreenContentPane.setOpaque( false );
