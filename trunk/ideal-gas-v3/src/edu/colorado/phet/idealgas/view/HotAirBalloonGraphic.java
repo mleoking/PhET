@@ -63,7 +63,7 @@ public class HotAirBalloonGraphic extends PhetGraphic implements SimpleObserver 
     protected Rectangle determineBounds() {
         bounds.setBounds( (int)( balloonShape.getMinX() - s_strokeWidth / 2 ),
                           (int)( balloonShape.getMinY() - s_strokeWidth / 2 ),
-                          (int)( balloonShape.getWidth() + s_strokeWidth ),
+                          (int)( balloonShape.getWidth() + 2 * s_strokeWidth ),
                           (int)( balloonShape.getHeight() + burner.getHeight() + s_strokeWidth / 2 ) );
         return bounds;
     }
