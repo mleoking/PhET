@@ -17,7 +17,7 @@ import java.util.EventObject;
 
 
 /**
- * A 2 dimensional box
+ * A 2 dimensional box with an opening at the top
  */
 public class Box2D extends CollidableBody {
 
