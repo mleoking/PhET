@@ -6,8 +6,8 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
-import edu.colorado.phet.theramp.model.Ramp;
 import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.Surface;
 import edu.colorado.phet.theramp.view.arrows.*;
 import edu.colorado.phet.theramp.view.panzoom.PanZoomKeyListener;
 
@@ -39,6 +39,7 @@ public class RampPanel extends ApparatusPanel2 {
     private LeanerGraphic leanerGraphic;
     private EarthGraphic earthGraphic;
     private SkyGraphic skyGraphic;
+    private RampGraphic groundGraphic;
 
     public Dimension getDefaultRenderingSize() {
         return new Dimension( 1061, 871 );
@@ -51,11 +52,15 @@ public class RampPanel extends ApparatusPanel2 {
         this.module = module;
         setBackground( new Color( 240, 200, 255 ) );
         RampModel rampModel = module.getRampModel();
-        Ramp ramp = rampModel.getRamp();
+        Surface ramp = rampModel.getRamp();
         rampGraphic = new RampGraphic( this, ramp );
         addGraphic( rampGraphic );
 
-        blockGraphic = new BlockGraphic( this, rampGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
+        groundGraphic = new RampGraphic( this, rampModel.getGround() );
+        groundGraphic.setIgnoreMouse( true );
+        addGraphic( groundGraphic );
+
+        blockGraphic = new BlockGraphic( module, this, rampGraphic, groundGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
         addGraphic( blockGraphic );
 
         barGraphSet = new BarGraphSet( this, rampModel );
@@ -209,7 +214,7 @@ public class RampPanel extends ApparatusPanel2 {
     }
 
     public int getRampBaseY() {
-        Point v = getRampGraphic().getViewLocation( getRampGraphic().getRamp().getLocation( 0 ) );
+        Point v = getRampGraphic().getViewLocation( getRampGraphic().getSurface().getLocation( 0 ) );
         return v.y;
     }
 }

@@ -24,7 +24,7 @@ public class RampTickSetGraphic extends CompositePhetGraphic {
     public RampTickSetGraphic( RampGraphic rampGraphic ) {
         super( rampGraphic.getComponent() );
         this.rampGraphic = rampGraphic;
-        for( int i = 0; i <= rampGraphic.getRamp().getLength(); i++ ) {
+        for( int i = 0; i <= rampGraphic.getSurface().getLength(); i++ ) {
             double x = i;
             addTickGraphic( x );
         }
@@ -57,7 +57,7 @@ public class RampTickSetGraphic extends CompositePhetGraphic {
         }
 
         public void update() {
-            Point2D loc = rampGraphic.getRamp().getLocation( x );
+            Point2D loc = rampGraphic.getSurface().getLocation( x );
             setLocation( rampGraphic.getViewLocation( loc ) );
             setTransform( new AffineTransform() );
             rotate( rampGraphic.getViewAngle() );

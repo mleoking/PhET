@@ -146,7 +146,8 @@ public class LeanerGraphic extends PhetImageGraphic {
     }
 
     private void updateTransform() {
-        AffineTransform tx = rampPanel.getRampGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
+//        AffineTransform tx = rampPanel.getRampGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
+        AffineTransform tx = rampPanel.getBlockGraphic().getCurrentSurfaceGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
         setTransform( tx );
     }
 

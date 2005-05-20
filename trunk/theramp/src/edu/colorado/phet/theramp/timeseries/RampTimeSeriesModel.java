@@ -37,7 +37,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
 //        timeSeries.addPoint( state, time );
         series.addPoint( state, getRecordTime() );
         rampModule.updatePlots( state, getRecordTime() );
-        System.out.println( "series.numPoints() = " + series.numPoints() + ", running Time=" + clockEvent.getClock().getRunningTime() );
+//        System.out.println( "series.numPoints() = " + series.numPoints() + ", running Time=" + clockEvent.getClock().getRunningTime() );
     }
 
     public void setReplayTime( double requestedTime ) {
@@ -56,6 +56,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
     public void reset() {
         super.reset();
         series.reset();
+        rampModule.reset();
         //set an initialization state.
     }
 

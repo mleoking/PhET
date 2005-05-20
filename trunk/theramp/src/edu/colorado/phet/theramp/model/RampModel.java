@@ -18,7 +18,8 @@ import java.util.ArrayList;
  */
 
 public class RampModel implements ModelElement {
-    private Ramp ramp;
+    private Surface ground;
+    private Surface ramp;
     private Block block;
     private ForceVector wallForce;
     private ForceVector appliedForce;
@@ -40,7 +41,9 @@ public class RampModel implements ModelElement {
     private double lastTick;
 
     public RampModel() {
-        ramp = new Ramp();
+        ramp = new Ramp( Math.PI / 32, 15.0 );
+        ground = new Ground( 0, 10, -10, 0 );
+
         block = new Block( ramp );
         wallForce = new ForceVector();
         gravityForce = new ForceVector();
@@ -50,7 +53,7 @@ public class RampModel implements ModelElement {
         normalForce = new ForceVector();
     }
 
-    public Ramp getRamp() {
+    public Surface getRamp() {
         return ramp;
     }
 
@@ -89,7 +92,7 @@ public class RampModel implements ModelElement {
 //            System.out.println( "acceleration = " + acceleration );
 //            System.out.println( "" );
             block.setAcceleration( acceleration );
-            block.stepInTime( dt );
+            block.stepInTime( this, dt );
 
             double newBlockPosition = block.getPosition();
             double blockDX = newBlockPosition - origBlockPosition;
@@ -191,6 +194,7 @@ public class RampModel implements ModelElement {
     }
 
     public void reset() {
+        block.setSurface( ramp );
         block.setPosition( 10.0 );
         block.setAcceleration( 0.0 );
         block.setVelocity( 0.0 );
@@ -237,30 +241,41 @@ public class RampModel implements ModelElement {
         return getPotentialEnergy() + getBlock().getKineticEnergy() + getThermalEnergy();
     }
 
+    public Surface getGround() {
+        return ground;
+    }
+
+
+    private Surface getSurface() {
+        return block.getSurface();
+    }
+
     public class ForceVector extends Vector2D.Double {
 
         public void setParallel( double parallel ) {
-            setX( Math.cos( -ramp.getAngle() ) * parallel );
-            setY( Math.sin( -ramp.getAngle() ) * parallel );
+            setX( Math.cos( -getSurface().getAngle() ) * parallel );
+            setY( Math.sin( -getSurface().getAngle() ) * parallel );
 //            System.out.println( "parallel = " + parallel + " magnitude=" + getMagnitude() );
         }
 
         public double getParallelComponent() {
-            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
+//            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
+            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -getSurface().getAngle() );
             double result = dir.dot( this );
             return result;
         }
 
         public double getPerpendicularComponent() {
-            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
+//            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -ramp.getAngle() );
+            AbstractVector2D dir = Vector2D.Double.parseAngleAndMagnitude( 1, -getSurface().getAngle() );
             dir = dir.getNormalVector();
             double result = dir.dot( this );
             return result;
         }
 
         public void setPerpendicular( double perpendicularComponent ) {
-            setX( Math.sin( ramp.getAngle() ) * perpendicularComponent );
-            setY( Math.cos( ramp.getAngle() ) * perpendicularComponent );
+            setX( Math.sin( getSurface().getAngle() ) * perpendicularComponent );
+            setY( Math.cos( getSurface().getAngle() ) * perpendicularComponent );
 //            System.out.println( "perp= " + perpendicularComponent + " magnitude=" + getMagnitude() );
         }
 
@@ -344,5 +359,9 @@ public class RampModel implements ModelElement {
         thermalEnergy = state.thermalEnergy;
 
         //todo notify observers.
+    }
+
+    public double getTotalWork() {
+        return getGravityWork() + getFrictiveWork() + getAppliedWork();
     }
 }

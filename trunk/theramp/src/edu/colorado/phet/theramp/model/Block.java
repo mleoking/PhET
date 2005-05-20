@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 
 public class Block {
-    private Ramp ramp;
+    private Surface surface;
 
     private double mass = 5;//kg
     private double position = 10.0;
@@ -27,7 +27,7 @@ public class Block {
     }
 
     public Block copyState() {
-        Block dataBlock = new Block( ramp );
+        Block dataBlock = new Block( surface );
         dataBlock.mass = mass;
         dataBlock.position = position;
         dataBlock.velocity = velocity;
@@ -44,6 +44,14 @@ public class Block {
         setAcceleration( state.acceleration );
         setKineticFriction( state.kineticFriction );
         setStaticFriction( state.staticFriction );
+    }
+
+    public void setSurface( Surface surface ) {
+        this.surface = surface;
+    }
+
+    public Surface getSurface() {
+        return surface;
     }
 
     public static interface Listener {
@@ -66,8 +74,8 @@ public class Block {
         }
     }
 
-    public Block( Ramp ramp ) {
-        this.ramp = ramp;
+    public Block( Surface ramp ) {
+        this.surface = ramp;
     }
 
     public double getPosition() {
@@ -75,7 +83,7 @@ public class Block {
     }
 
     public Point2D getLocation2D() {
-        return ramp.getLocation( position );
+        return surface.getLocation( position );
     }
 
     public void setPosition( double position ) {
@@ -102,7 +110,7 @@ public class Block {
         this.acceleration = acceleration;
     }
 
-    public void stepInTime( double dt ) {
+    public void stepInTime( RampModel rampModel, double dt ) {
         double origPosition = position;
         double origVelocity = velocity;
         double accValue = acceleration;
@@ -117,23 +125,24 @@ public class Block {
         }
         position += velocity * dt;
         //boundary conditions.
-        applyBoundaryConditions();
+        applyBoundaryConditions( rampModel );
 
         if( position != origPosition ) {
             notifyPositionChanged();
         }
     }
 
-    private void applyBoundaryConditions() {
-
+    private void applyBoundaryConditions( RampModel rampModel ) {
+        surface.applyBoundaryConditions( rampModel, this );
         if( position < 0 ) {
             position = 0;
             velocity = 0;
-            //fire a collision.
+            //todo fire a collision.
         }
-        else if( position > ramp.getLength() ) {
-            position = ramp.getLength();
+        else if( position > surface.getLength() ) {
+            position = surface.getLength();
             velocity = 0;
+            //todo fire a collision.
         }
     }
 
@@ -217,7 +226,7 @@ public class Block {
     public double getFrictionForce( double gravity, double otherForces ) {
 //        if (true)
 //        return 0;
-        double N = this.getMass() * gravity * Math.cos( ramp.getAngle() );
+        double N = this.getMass() * gravity * Math.cos( surface.getAngle() );
         if( this.isMoving() ) {
             double sign = this.getVelocity() >= 0 ? -1 : 1;
             double kineticFrictionForce = sign * this.getKineticFriction() * N;

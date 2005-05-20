@@ -106,8 +106,9 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
     }
 
     private Point translate( Point viewCtr ) {
-        RampGraphic rampGraphic = blockGraphic.getRampGraphic();
+        RampGraphic rampGraphic = blockGraphic.getCurrentSurfaceGraphic();
         double viewAngle = rampGraphic.getViewAngle();
+//        System.out.println( "viewAngle = " + viewAngle );
         Point offset = new Point( (int)( Math.sin( viewAngle ) * dy ), (int)( Math.cos( viewAngle ) * dy ) );
         return new Point( viewCtr.x + offset.x, viewCtr.y - offset.y );
     }
