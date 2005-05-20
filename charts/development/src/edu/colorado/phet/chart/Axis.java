@@ -19,20 +19,21 @@ public class Axis extends GraphicLayerSet {
     private Chart chart;
     private AxisTicks minorTicks;
     private AxisTicks majorTicks;
-    private int orientation;
+    private Orientation orientation;
     private double crossesOtherAxisAt = 0;
     private GraphicLayerSet lineGraphic;
     private Stroke stroke;
     private Color color;
+    private boolean inBounds = true;
 
-    public Axis( Chart chart, int orientation ) {
+    public Axis( Chart chart, Orientation orientation ) {
         this( chart, orientation, new BasicStroke( 2 ), Color.black, 2, 1 );
     }
 
-    public Axis( Chart chart, int orientation, Stroke stroke, Color color, double minorTickSpacing, double majorTickSpacing ) {
-        minorTicks = new AxisTicks( chart, orientation, stroke, color, minorTickSpacing );
+    public Axis( Chart chart, Orientation orientation, Stroke stroke, Color color, double minorTickSpacing, double majorTickSpacing ) {
+        minorTicks = new AxisTicks( chart, orientation.opposite(), stroke, color, minorTickSpacing );
         minorTicks.setShowLabels( false );
-        majorTicks = new AxisTicks( chart, orientation, stroke, color, majorTickSpacing );
+        majorTicks = new AxisTicks( chart, orientation.opposite(), stroke, color, majorTickSpacing );
         majorTicks.setShowLabels( true );
         this.stroke = stroke;
         this.orientation = orientation;
@@ -53,7 +54,7 @@ public class Axis extends GraphicLayerSet {
 
     public void update() {
         lineGraphic.clear();
-        if( orientation == AbstractGrid.HORIZONTAL ) {
+        if( orientation.isHorizontal() ) {
             Point2D.Double leftEndOfAxis = new Point2D.Double( chart.getRange().getMinX(), crossesOtherAxisAt );
             Point left = chart.transform( leftEndOfAxis );
             Point2D.Double rightEndOfAxis = new Point2D.Double( chart.getRange().getMaxX(), crossesOtherAxisAt );
@@ -62,7 +63,7 @@ public class Axis extends GraphicLayerSet {
             PhetShapeGraphic phetShapeGraphic = new PhetShapeGraphic( chart.getComponent(), line, stroke, color );
             lineGraphic.addGraphic( phetShapeGraphic );
         }
-        else if( orientation == AbstractGrid.VERTICAL ) {
+        else if( orientation.isVertical() ) {
             Point2D.Double bottomEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMinY() );
             Point bottom = chart.transform( bottomEndOfAxis );
             Point2D.Double topEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMaxY() );
@@ -71,8 +72,39 @@ public class Axis extends GraphicLayerSet {
             PhetShapeGraphic phetShapeGraphic = new PhetShapeGraphic( chart.getComponent(), line, stroke, color );
             lineGraphic.addGraphic( phetShapeGraphic );
         }
+
         majorTicks.update();
         minorTicks.update();
+        inBounds = isInBounds();
+//        System.out.println( "inBounds = " + inBounds );
+        setBoundsDirty();
+    }
+
+    protected Rectangle determineBounds() {
+        if( !inBounds ) {
+            return null;
+        }
+        else {
+            return super.determineBounds();
+        }
+    }
+
+    private boolean isInBounds() {
+        if( orientation.isHorizontal() ) {
+            return chart.getRange().containsY( crossesOtherAxisAt );
+        }
+        else if( orientation.isVertical() ) {
+            return chart.getRange().containsX( crossesOtherAxisAt );
+        }
+        else {
+            throw new RuntimeException( "Illegal orientation" );
+        }
+    }
+
+    public void paint( Graphics2D g2 ) {
+        if( inBounds ) {
+            super.paint( g2 );
+        }
     }
 
     protected AxisTicks getMinorTicks() {
@@ -93,10 +125,6 @@ public class Axis extends GraphicLayerSet {
 
     public void setMajorTickFont( Font font ) {
         majorTicks.setFont( font );
-    }
-
-    public void setMajorTickSpacing( double spacing ) {
-        majorTicks.setSpacing( spacing );
     }
 
     public void setMajorTickColor( Color color ) {
@@ -123,10 +151,6 @@ public class Axis extends GraphicLayerSet {
         minorTicks.setFont( font );
     }
 
-    public void setMinorTickSpacing( double spacing ) {
-        minorTicks.setSpacing( spacing );
-    }
-
     public void setMinorTickColor( Color color ) {
         minorTicks.setColor( color );
     }
@@ -148,12 +172,6 @@ public class Axis extends GraphicLayerSet {
         minorTicks.setNumberFormat( numberFormat );
     }
 
-    public void setCrossesOtherAxisAt( double crossesOtherAxisAt ) {
-        this.crossesOtherAxisAt = crossesOtherAxisAt;
-        majorTicks.setCrossesOtherAxisAt( crossesOtherAxisAt );
-        minorTicks.setCrossesOtherAxisAt( crossesOtherAxisAt );
-    }
-
     public void setMinorTickStroke( Stroke stroke ) {
         minorTicks.setStroke( stroke );
     }
@@ -162,9 +180,13 @@ public class Axis extends GraphicLayerSet {
         majorTicks.setGridlines( lines );
     }
 
+    public void setMinorTickSpacing( double x ) {
+        minorTicks.setSpacing( x );
+    }
+
     public static class AxisTicks extends AbstractTicks {
 
-        public AxisTicks( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing ) {
+        public AxisTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double tickSpacing ) {
             super( chart, orientation, stroke, color, tickSpacing, 0 );
         }
 
@@ -172,6 +194,15 @@ public class Axis extends GraphicLayerSet {
             Point2D.Double bottomEndOfAxis = new Point2D.Double( getCrossesOtherAxisAt(), getChart().getRange().getMinY() );
             Point bottom = getChart().transform( bottomEndOfAxis );
             return bottom.x;
+        }
+
+        private double getCrossesOtherAxisAt() {
+            if( getGridStrategy() instanceof GridStrategy.Relative ) {
+                return ( (GridStrategy.Relative)getGridStrategy() ).getCrossesOtherAxisAt();
+            }
+            else {
+                throw new RuntimeException( "Axes must use Relative grid strategy." );
+            }
         }
 
         public int getHorizontalTickY() {

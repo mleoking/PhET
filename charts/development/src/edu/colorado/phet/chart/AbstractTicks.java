@@ -20,18 +20,16 @@ public abstract class AbstractTicks extends AbstractGrid {
     private int tickHeight = 6;
     private NumberFormat format = new DecimalFormat( "#.#" );
     private Font font = new Font( "Lucida Sans", 0, 12 );
-    private FontMetrics fontMetrics;
     private boolean showLabels = true;
     private GraphicLayerSet tickGraphics;
     private GraphicLayerSet labelGraphics;
 
-    public AbstractTicks( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing ) {
+    public AbstractTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double tickSpacing ) {
         this( chart, orientation, stroke, color, tickSpacing, 0 );
     }
 
-    public AbstractTicks( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing, double crossesOtherAxisAt ) {
+    public AbstractTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double tickSpacing, double crossesOtherAxisAt ) {
         super( chart, orientation, stroke, color, tickSpacing, crossesOtherAxisAt );
-        fontMetrics = chart.getComponent().getFontMetrics( font );
         tickGraphics = new GraphicLayerSet( chart.getComponent() );
         labelGraphics = new GraphicLayerSet( chart.getComponent() );
         addGraphic( tickGraphics );
@@ -48,36 +46,39 @@ public abstract class AbstractTicks extends AbstractGrid {
         labelGraphics.clear();
         tickGraphics.clear();
         Chart chart = getChart();
-        if( getOrientation() == HORIZONTAL ) {
-            double[] gridLines = getGridLines( getCrossesOtherAxisAt(), chart.getRange().getMinX(), chart.getRange().getMaxX(), getSpacing() );
+        double[] gridLines = getVisibleGridlines();
+        if( getOrientation().isVertical() ) {
             for( int i = 0; i < gridLines.length; i++ ) {
                 double gridLineX = gridLines[i];
-                int x = chart.transformX( gridLineX );
-                int y = getHorizontalTickY();
-                Line2D.Double line = new Line2D.Double( x, y - tickHeight / 2, x, y + tickHeight / 2 );
-                PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
-                tickGraphics.addGraphic( lineGraphic );
+                if( chart.getRange().containsX( gridLineX ) ) {
+                    int x = chart.transformX( gridLineX );
+                    int y = getHorizontalTickY();
+                    Line2D.Double line = new Line2D.Double( x, y - tickHeight / 2, x, y + tickHeight / 2 );
+                    PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
+                    tickGraphics.addGraphic( lineGraphic );
 
-                String string = format.format( gridLineX );
-                PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
-                labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
-                labelGraphics.addGraphic( labelGraphic );
+                    String string = format.format( gridLineX );
+                    PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
+                    labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
+                    labelGraphics.addGraphic( labelGraphic );
+                }
             }
         }
-        else if( getOrientation() == VERTICAL ) {
-            double[] gridLines = getGridLines( getCrossesOtherAxisAt(), chart.getRange().getMinY(), chart.getRange().getMaxY(), getSpacing() );
+        else if( getOrientation().isHorizontal() ) {
             for( int i = 0; i < gridLines.length; i++ ) {
                 double gridLineY = gridLines[i];
-                int x = getVerticalTickX();
-                int y = chart.transformY( gridLineY );
-                Line2D.Double line = new Line2D.Double( x - tickHeight / 2, y, x + tickHeight / 2, y );
-                PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
-                tickGraphics.addGraphic( lineGraphic );
+                if( chart.getRange().containsY( gridLineY ) ) {
+                    int x = getVerticalTickX();
+                    int y = chart.transformY( gridLineY );
+                    Line2D.Double line = new Line2D.Double( x - tickHeight / 2, y, x + tickHeight / 2, y );
+                    PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
+                    tickGraphics.addGraphic( lineGraphic );
 
-                String string = format.format( gridLineY );
-                PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
-                labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
-                labelGraphics.addGraphic( labelGraphic );
+                    String string = format.format( gridLineY );
+                    PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
+                    labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
+                    labelGraphics.addGraphic( labelGraphic );
+                }
             }
         }
     }
