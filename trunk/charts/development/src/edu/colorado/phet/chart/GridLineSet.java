@@ -21,7 +21,7 @@ public class GridLineSet extends CompositePhetGraphic {
         majorGrid.setSpacing( majorTickSpacing );
     }
 
-    public GridLineSet( Chart chart, int orientation, int minorTickSpacing, int majorTickSpacing, int crossesOtherAxisAt ) {
+    public GridLineSet( Chart chart, int orientation, double minorTickSpacing, double majorTickSpacing, double crossesOtherAxisAt ) {
         minorGrid = new Grid( chart, orientation, new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{7, 7}, 0 ),
                               Color.black, minorTickSpacing, crossesOtherAxisAt );
         majorGrid = new Grid( chart, orientation, new BasicStroke( 1 ),
