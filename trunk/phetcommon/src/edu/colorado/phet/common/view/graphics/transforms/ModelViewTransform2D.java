@@ -278,4 +278,8 @@ public class ModelViewTransform2D {
     public TransformListener[] getTransformListeners() {
         return this.listeners.getTransformListeners();
     }
+
+    public String toString() {
+        return "modelBounds=" + modelBounds.toString() + ", viewBounds=" + viewBounds;
+    }
 }
