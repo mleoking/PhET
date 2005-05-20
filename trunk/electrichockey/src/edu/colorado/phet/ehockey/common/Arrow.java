@@ -79,11 +79,13 @@ public class Arrow {
     }
 
     private void computeArrow() {
-
-        if ( tailLocation.equals( tipLocation ) ) {
+        this.arrowPath.reset();
+        headShape.reset();
+        tailShape.reset();
+        if( tailLocation.equals( tipLocation ) ) {
             return;
         }
-        
+
         AbstractVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
         AbstractVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
         direction = tipPt.getSubtractedInstance( tailPt ).getNormalizedInstance();
@@ -110,7 +112,7 @@ public class Arrow {
         AbstractVector2D.Double rightTail = getPoint( -1 * dist, -tempTailWidth / 2 );
         AbstractVector2D.Double leftTail = getPoint( -1 * dist, tempTailWidth / 2 );
 
-        this.arrowPath.reset();
+
         arrowPath.moveTo( (float)tipPt.getX(), (float)tipPt.getY() );
         lineTo( arrowPath, rightFlap );
         lineTo( arrowPath, rightPin );
@@ -120,13 +122,13 @@ public class Arrow {
         lineTo( arrowPath, leftFlap );
         lineTo( arrowPath, tipPt );
 
-        headShape.reset();
+
         headShape.moveTo( (float)tipPt.getX(), (float)tipPt.getY() );
         lineTo( headShape, rightFlap );
         lineTo( headShape, leftFlap );
         lineTo( headShape, tipPt );
 
-        tailShape.reset();
+
         tailShape.moveTo( (float)rightPin.getX(), (float)rightPin.getY() );
         lineTo( tailShape, rightTail );
         lineTo( tailShape, leftTail );
