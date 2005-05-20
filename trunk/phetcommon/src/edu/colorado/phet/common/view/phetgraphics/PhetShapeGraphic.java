@@ -140,8 +140,8 @@ public class PhetShapeGraphic extends PhetGraphic {
      * Because the bounds have changed, we must refresh our cached stroked shape
      */
     public void setBoundsDirty() {
-        super.setBoundsDirty();
         computeStrokedShape();
+        super.setBoundsDirty();
     }
 
     //----------------------------------------------------------------
