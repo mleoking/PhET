@@ -101,10 +101,10 @@ public class FourierApplication extends PhetApplication {
         // Initialize localization.
         SimStrings.init( args, FourierConfig.LOCALIZATION_BUNDLE_BASENAME );
         
-        // Initialize Look-&-Feel
-        PhetLookAndFeel.setLookAndFeel();
-        PhetLookAndFeel laf = new PhetLookAndFeel();
-        laf.apply();
+//        // Initialize Look-&-Feel
+//        PhetLookAndFeel.setLookAndFeel();
+//        PhetLookAndFeel laf = new PhetLookAndFeel();
+//        laf.apply();
         
         // Get stuff needed to initialize the application model.
         String title = SimStrings.get( "FourierApplication.title" );
