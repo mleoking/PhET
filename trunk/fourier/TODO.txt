@@ -5,7 +5,6 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- try putting multi-line choices in Math Form menu
 - autorescale checkbox for Components/Sum graphs
 - Sums graphic range is +-5 when autoscale is off
 - Amplitudes graph range of 4/PI, label -1,0,+1
@@ -13,7 +12,6 @@ HIGH PRIORITY:
 - X-axis tick marks at L/4 on Components & Sum graphs
 - X-axis labels as zoom permits on Components & Sum graphs
 - different background behind Components & Sum graphs to group them
-- comboBoxes for "Show wavelength" and "Show period"
 - highlight component when mouse moves over it in Amplitudes or Components view
 - make SineWaveGraphic capable of traveling animation
 - add presets for various Fourier Series (sine, sawtooth, packet, etc.)
@@ -45,8 +43,10 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+
 (5/20) - convert to new PhetApplication startup sequence
 (5/19) - "Fourier Component" to "Harmonic" throughout
+(5/18) - comboBoxes for "Show wavelength" and "Show period"
 sandbox...
 (5/16) - add all controls in Discrete module, most not wired up
 (5/16) - add skeleton for WavePulseShaperModule
@@ -77,3 +77,6 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
+(5/20) - use multi-line choices in Math Form menu (doesn't work on Mac)
+
+===============================================================================

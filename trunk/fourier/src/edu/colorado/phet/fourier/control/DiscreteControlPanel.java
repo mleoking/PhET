@@ -24,6 +24,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
@@ -183,9 +184,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
         {
             String format = SimStrings.get( "DiscreteControlPanel.numberOfHarmonics" );
             _numberOfHarmonicsSlider = new ControlPanelSlider( format );
-            _numberOfHarmonicsSlider.setMaximum( 15 );
-            _numberOfHarmonicsSlider.setMinimum( 5 );
-            _numberOfHarmonicsSlider.setValue( 7 );
+            _numberOfHarmonicsSlider.setMaximum( FourierConfig.MAX_HARMONICS );
+            _numberOfHarmonicsSlider.setMinimum( FourierConfig.MIN_HARMONICS );
             _numberOfHarmonicsSlider.setMajorTickSpacing( 2 );
             _numberOfHarmonicsSlider.setMinorTickSpacing( 1 );
             _numberOfHarmonicsSlider.setSnapToTicks( true );
