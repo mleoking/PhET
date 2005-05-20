@@ -406,10 +406,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
                     double vy = body.getVelocity().getY();
                     vx *= ratio;
                     vy *= ratio;
-                    if( Double.isNaN( ratio ) ) {
-                        System.out.println( "halt!" );
-                    }
-                    else if( body.getKineticEnergy() > 0 ) {
+                    if( !Double.isNaN( ratio ) && body.getKineticEnergy() > 0 ) {
                         body.setVelocity( vx, vy );
                     }
                 }

@@ -55,7 +55,37 @@ import java.util.EventObject;
 
 public class IdealGasModule extends Module {
 
-    protected static WiggleMeGraphic wiggleMeGraphic;
+    //----------------------------------------------------------------
+    // Class data,initializers and methods
+    //----------------------------------------------------------------
+
+    static private BufferedImage basePumpImg;
+    static private BufferedImage bluePumpImg;
+    static private BufferedImage redPumpImg;
+    static protected WiggleMeGraphic wiggleMeGraphic;
+    static private BufferedImage pumpBaseAndHoseImg;
+    static private BufferedImage handleImg;
+
+    static {
+        try {
+            basePumpImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_IMAGE_FILE );
+            pumpBaseAndHoseImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_BASE_IMAGE_FILE );
+            handleImg = ImageLoader.loadBufferedImage( IdealGasConfig.HANDLE_IMAGE_FILE );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        bluePumpImg = new BufferedImage( basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        redPumpImg = new BufferedImage( basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
+        BufferedImageOp blueOp = new MakeDuotoneImageOp( Color.blue );
+        blueOp.filter( basePumpImg, bluePumpImg );
+        BufferedImageOp redOp = new MakeDuotoneImageOp( Color.red );
+        redOp.filter( basePumpImg, redPumpImg );
+    }
+
+    //----------------------------------------------------------------
+    // Instance data and methods
+    //----------------------------------------------------------------
 
     private IdealGasModel idealGasModel;
     private PressureSensingBox box;
@@ -73,11 +103,8 @@ public class IdealGasModule extends Module {
     private JDialog speciesMonitorDlg;
     private IdealGasControlPanel idealGasControlPanel;
     private Thermometer thermometer;
-    private BufferedImage basePumpImg;
-    private BufferedImage currentPumpImg;
-    private BufferedImage bluePumpImg;
-    private BufferedImage redPumpImg;
     private PhetImageGraphic pumpGraphic;
+    private BufferedImage currentPumpImg;
     private Box2DGraphic boxGraphic;
     private JPanel pressureSlideTimeAveCtrlPane;
     private StopwatchPanel stopwatchPanel;
@@ -151,7 +178,7 @@ public class IdealGasModule extends Module {
         gravity = new Gravity( idealGasModel );
         setGravity( 0 );
         idealGasModel.addModelElement( gravity );
-        
+
         // Add the animated mannequin
         pusher = new Mannequin( getApparatusPanel(), idealGasModel, box, boxGraphic );
         addGraphic( pusher, 10 );
@@ -263,54 +290,39 @@ public class IdealGasModule extends Module {
         pump = new Pump( this, box, getPumpingEnergyStrategy() );
 
         // Set up the graphics for the pump
-        try {
-            basePumpImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_IMAGE_FILE );
-            BufferedImage pumpBaseAndHoseImg = ImageLoader.loadBufferedImage( IdealGasConfig.PUMP_BASE_IMAGE_FILE );
-            BufferedImage handleImg = ImageLoader.loadBufferedImage( IdealGasConfig.HANDLE_IMAGE_FILE );
-            PhetImageGraphic handleGraphic = new PhetImageGraphic( getApparatusPanel(), handleImg );
+        PhetImageGraphic handleGraphic = new PhetImageGraphic( getApparatusPanel(), handleImg );
+        pumpHandleGraphic = new PumpHandleGraphic( getApparatusPanel(), pump, handleGraphic,
+                                                   IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238,
+                                                   IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
+                                                   IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
 
-            pumpHandleGraphic = new PumpHandleGraphic( getApparatusPanel(), pump, handleGraphic,
-                                                       IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238,
-                                                       IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 100,
-                                                       IdealGasConfig.X_BASE_OFFSET + 578, IdealGasConfig.Y_BASE_OFFSET + 238 );
+        currentPumpImg = bluePumpImg;
 
-            bluePumpImg = new BufferedImage( basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
-            redPumpImg = new BufferedImage( basePumpImg.getWidth(), basePumpImg.getHeight(), BufferedImage.TYPE_INT_ARGB );
-            BufferedImageOp blueOp = new MakeDuotoneImageOp( Color.blue );
-            blueOp.filter( basePumpImg, bluePumpImg );
-            BufferedImageOp redOp = new MakeDuotoneImageOp( Color.red );
-            redOp.filter( basePumpImg, redPumpImg );
-            currentPumpImg = bluePumpImg;
-
-            this.addGraphic( pumpHandleGraphic, -6 );
-            pumpBaseAndHoseGraphic = new PhetImageGraphic( getApparatusPanel(), pumpBaseAndHoseImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 258 );
-            pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 258 );
+        this.addGraphic( pumpHandleGraphic, -6 );
+        pumpBaseAndHoseGraphic = new PhetImageGraphic( getApparatusPanel(), pumpBaseAndHoseImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 258 );
+        pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 258 );
 //            pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
-            pumpGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            this.addGraphic( pumpGraphic, -4 );
-            this.addGraphic( pumpBaseAndHoseGraphic, -3.5 );
+        pumpGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+        this.addGraphic( pumpGraphic, -4 );
+        this.addGraphic( pumpBaseAndHoseGraphic, -3.5 );
 
-            if( wiggleMeGraphic == null ) {
-                wiggleMeGraphic = new WiggleMeGraphic( getApparatusPanel(),
-                                                       new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 480, IdealGasConfig.Y_BASE_OFFSET + 170 ),
-                                                       getModel() );
-                addGraphic( wiggleMeGraphic, 40 );
-                wiggleMeGraphic.start();
-            }
-            pump.addObserver( new SimpleObserver() {
-                public void update() {
-                    if( wiggleMeGraphic != null ) {
-                        wiggleMeGraphic.kill();
-                        getApparatusPanel().removeGraphic( wiggleMeGraphic );
-                        wiggleMeGraphic = null;
-                        pump.removeObserver( this );
-                    }
+        if( wiggleMeGraphic == null ) {
+            wiggleMeGraphic = new WiggleMeGraphic( getApparatusPanel(),
+                                                   new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 480, IdealGasConfig.Y_BASE_OFFSET + 170 ),
+                                                   getModel() );
+            addGraphic( wiggleMeGraphic, 40 );
+            wiggleMeGraphic.start();
+        }
+        pump.addObserver( new SimpleObserver() {
+            public void update() {
+                if( wiggleMeGraphic != null ) {
+                    wiggleMeGraphic.kill();
+                    getApparatusPanel().removeGraphic( wiggleMeGraphic );
+                    wiggleMeGraphic = null;
+                    pump.removeObserver( this );
                 }
-            } );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+            }
+        } );
     }
 
     protected void removePumpGraphic() {
@@ -410,9 +422,6 @@ public class IdealGasModule extends Module {
      */
     public void setGravity( double value ) {
         gravity.setAmt( value );
-        if( value == 0 ) {
-            System.out.println( "IdealGasModule.setGravity" );
-        }
         if( value != 0 ) {
             pump.setPumpingEnergyStrategy( new Pump.FixedEnergyStrategy() );
             box.setMultipleSlicesEnabled( false );
