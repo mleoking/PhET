@@ -37,6 +37,10 @@ public class ChartSlider extends GraphicLayerSet {
     private int preferredWidth;
     private ChartSliderUI sliderUI;
 
+    public ChartSlider( Component apparatusPanel, final Chart chart, Color foregroundColor ) {
+        this( apparatusPanel, chart, null, foregroundColor );
+    }
+
     public ChartSlider( Component apparatusPanel, final Chart chart, String imageLoc, Color foregroundColor ) {
         super( apparatusPanel );
         this.chart = chart;
