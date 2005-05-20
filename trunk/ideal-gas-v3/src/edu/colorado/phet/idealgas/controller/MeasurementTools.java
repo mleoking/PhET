@@ -108,4 +108,89 @@ public class MeasurementTools {
             } );
         }
     }
+
+    //----------------------------------------------------------------
+    // Menu items
+    //----------------------------------------------------------------
+
+    static public class PressureSliceControlMI extends JCheckBoxMenuItem {
+        PressureSliceControlMI( final IdealGasModule module ) {
+            super( SimStrings.get( "MeasurementControlPanel.Measure_pressure_in_layer" ) );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setPressureSliceEnabled( isSelected() );
+                }
+            } );
+        }
+    }
+
+    static public class RulerControlMI extends JCheckBoxMenuItem {
+        RulerControlMI( final IdealGasModule module ) {
+            super( SimStrings.get( "MeasurementControlPanel.Display_ruler" ) );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    module.setRulerEnabed( isSelected() );
+                }
+            } );
+        }
+    }
+
+    static public class HistogramControlPanelMI extends JCheckBoxMenuItem {
+        HistogramControlPanelMI( final IdealGasModule module ) {
+            super( SimStrings.get( "MeasurementControlPanel.Display_energy_histograms" ) );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    WindowListener windowListener = new WindowAdapter() {
+                        public void windowClosing( WindowEvent e ) {
+                            setSelected( false );
+                        }
+                    };
+                    JDialog dlg = module.setHistogramDlgEnabled( isSelected() );
+                    dlg.addWindowListener( windowListener );
+                }
+            } );
+        }
+    }
+
+    static public class CmLinesControlMI extends JCheckBoxMenuItem {
+        CmLinesControlMI( final IdealGasModule module ) {
+            super( SimStrings.get( "IdealGasControlPanel.Show_CM_lines" ) );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    module.setCmLinesOn( isSelected() );
+                }
+            } );
+        }
+    }
+
+    static public class SpeciesMonitorControlMI extends JCheckBoxMenuItem {
+        SpeciesMonitorControlMI( final IdealGasModule module ) {
+            super( SimStrings.get( "MeasurementControlPanel.Show_species_information" ) );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    WindowListener windowListener = new WindowAdapter() {
+                        public void windowClosing( WindowEvent e ) {
+                            setSelected( false );
+                        }
+                    };
+                    JDialog dlg = module.setSpeciesMonitorDlgEnabled( isSelected() );
+                    dlg.addWindowListener( windowListener );
+                }
+            } );
+        }
+    }
+
+    static public class StopwatchControlMI extends JCheckBoxMenuItem {
+        StopwatchControlMI( final IdealGasModule module ) {
+            super( SimStrings.get( "MeasurementControlPanel.Stopwatch" ), false );
+            addActionListener( new ActionListener() {
+                PhetFrame frame = PhetApplication.instance().getPhetFrame();
+
+                public void actionPerformed( ActionEvent e ) {
+                    module.stopwatchEnabled( isSelected() );
+                }
+            } );
+        }
+    }
+
 }
