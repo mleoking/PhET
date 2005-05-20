@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.model.FourierComponent;
+import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
@@ -83,7 +83,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FourierComponent _fourierComponentModel;
+    private Harmonic _harmonicModel;
     private Dimension _maxSize;
     private CompositePhetGraphic _labelGraphic;
     private PhetGraphic _valueGraphic;
@@ -102,14 +102,14 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * Sole constructor.
      * 
      * @param component the parent Component
-     * @param fourierComponentModel the model that this slider controls
+     * @param harmonicModel the model that this slider controls
      */
-    public AmplitudeSlider( Component component, FourierComponent fourierComponentModel ) {
+    public AmplitudeSlider( Component component, Harmonic harmonicModel ) {
         super( component );
 
-        assert ( fourierComponentModel != null );
-        _fourierComponentModel = fourierComponentModel;
-        _fourierComponentModel.addObserver( this );
+        assert ( harmonicModel != null );
+        _harmonicModel = harmonicModel;
+        _harmonicModel.addObserver( this );
 
         _maxSize = new Dimension( DEFAULT_TRACK_SIZE );
 
@@ -124,7 +124,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             aGraphic.setLocation( 0, 0 );
             _labelGraphic.addGraphic( aGraphic );
             
-            String subscript = String.valueOf( _fourierComponentModel.getOrder() + 1 );
+            String subscript = String.valueOf( _harmonicModel.getOrder() + 1 );
             PhetTextGraphic subscriptGraphic = new PhetTextGraphic( component, LABEL_SUBSCRIPT_FONT, subscript, LABEL_COLOR );
             subscriptGraphic.setJustification( PhetTextGraphic.WEST );
             subscriptGraphic.setLocation( 0, 0);
@@ -191,8 +191,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _fourierComponentModel.removeObserver( this );
-        _fourierComponentModel = null;
+        _harmonicModel.removeObserver( this );
+        _harmonicModel = null;
     }
 
     //----------------------------------------------------------------------------
@@ -202,16 +202,16 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     /**
      * Sets the model that this slider controls.
      * 
-     * @param fourierComponentModel
+     * @param harmonicModel
      */
-    public void setModel( FourierComponent fourierComponentModel ) {
-        assert( fourierComponentModel != null );
-        if ( fourierComponentModel != _fourierComponentModel ) {
-            if ( _fourierComponentModel != null ) {
-                _fourierComponentModel.removeObserver( this );
+    public void setModel( Harmonic harmonicModel ) {
+        assert( harmonicModel != null );
+        if ( harmonicModel != _harmonicModel ) {
+            if ( _harmonicModel != null ) {
+                _harmonicModel.removeObserver( this );
             }
-            _fourierComponentModel = fourierComponentModel;
-            _fourierComponentModel.addObserver( this );
+            _harmonicModel = harmonicModel;
+            _harmonicModel.addObserver( this );
             update();
         }
     }
@@ -221,8 +221,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * 
      * @return the model
      */
-    public FourierComponent getModel() {
-        return _fourierComponentModel;
+    public Harmonic getModel() {
+        return _harmonicModel;
     }
     
     /**
@@ -303,7 +303,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             update();
         }
         else {
-            _fourierComponentModel.setAmplitude( amplitude );
+            _harmonicModel.setAmplitude( amplitude );
             success = true;
         }
         return success;
@@ -327,7 +327,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      */
     public void update() {
         
-        double amplitude = _fourierComponentModel.getAmplitude();
+        double amplitude = _harmonicModel.getAmplitude();
         
         // Label location
         _labelGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + LABEL_Y_OFFSET ) );
@@ -348,7 +348,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         
         // Knob location
         int knobX = _knobGraphic.getX();
-        int knobY = (int) -( ( _maxSize.height / 2 ) * _fourierComponentModel.getAmplitude() );
+        int knobY = (int) -( ( _maxSize.height / 2 ) * _harmonicModel.getAmplitude() );
         _knobGraphic.setLocation( knobX, knobY );
         
         repaint();
@@ -446,7 +446,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             
             double amplitude = (double) mouseY / ( _maxSize.height / 2.0 );
             amplitude = MathUtil.clamp( -1, amplitude, +1 );
-            _fourierComponentModel.setAmplitude( -amplitude );
+            _harmonicModel.setAmplitude( -amplitude );
         }
         
         /**

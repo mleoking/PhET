@@ -15,12 +15,12 @@ import edu.colorado.phet.common.util.SimpleObservable;
 
 
 /**
- * FourierComponent
+ * Harmonic
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FourierComponent extends SimpleObservable {
+public class Harmonic extends SimpleObservable {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -38,7 +38,7 @@ public class FourierComponent extends SimpleObservable {
      * 
      * @param order
      */
-    public FourierComponent( int order ) {
+    public Harmonic( int order ) {
         super();
         assert( order >= 0 );
         _order = order;
@@ -77,12 +77,12 @@ public class FourierComponent extends SimpleObservable {
     //----------------------------------------------------------------------------
     
     /**
-     * Fundamental is the fundamental Fourier component.
+     * Fundamental is the fundamental harmonic.
      *
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    public class Fundamental extends FourierComponent {  
+    public class Fundamental extends Harmonic {  
         public Fundamental() {
             super( 0 );
         }

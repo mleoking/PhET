@@ -22,7 +22,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.fourier.model.FourierComponent;
+import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.FourierUtils;
 
@@ -86,7 +86,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private FourierSeries _fourierSeriesModel;
     private GraphicLayerSet _slidersGraphic;
     private ArrayList _sliders; // array of AmplitudeSlider
-    private int _previousNumberOfComponents;
+    private int _previousNumberOfHarmonics;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -120,7 +120,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
         backgroundGraphic.setIgnoreMouse( true );
         
         _sliders = new ArrayList();
-        _previousNumberOfComponents = -1; // force update
+        _previousNumberOfHarmonics = -1; // force update
         update();
     }
     
@@ -142,30 +142,30 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
      */
     public void update() {
 
-        int numberOfComponents = _fourierSeriesModel.getNumberOfComponents();
+        int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
         
-        if ( _previousNumberOfComponents != numberOfComponents ) {
+        if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
             
             _slidersGraphic.clear();
             
-            int totalSpace = ( numberOfComponents + 1 ) * SLIDER_SPACING;
-            int barWidth = ( OUTLINE_WIDTH - totalSpace ) / numberOfComponents;
-            double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfComponents - 1 );
+            int totalSpace = ( numberOfHarmonics + 1 ) * SLIDER_SPACING;
+            int barWidth = ( OUTLINE_WIDTH - totalSpace ) / numberOfHarmonics;
+            double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
 
-            for ( int i = 0; i < numberOfComponents; i++ ) {
+            for ( int i = 0; i < numberOfHarmonics; i++ ) {
 
-                // Get the ith component.
-                FourierComponent fourierComponent = _fourierSeriesModel.getComponent( i );
+                // Get the ith harmonic.
+                Harmonic harmonic = _fourierSeriesModel.getHarmonic( i );
 
                 AmplitudeSlider slider = null;
                 if ( i < _sliders.size() ) {
                     // Reuse an existing slider.
                     slider = (AmplitudeSlider) _sliders.get( i );
-                    slider.setModel( fourierComponent );
+                    slider.setModel( harmonic );
                 }
                 else {
                     // Allocate a new slider.
-                    slider = new AmplitudeSlider( getComponent(), fourierComponent );
+                    slider = new AmplitudeSlider( getComponent(), harmonic );
                 }
                 _slidersGraphic.addGraphic( slider );
 
@@ -181,7 +181,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
                 slider.setLocation( x, 0 );
             }
 
-            _previousNumberOfComponents = numberOfComponents;
+            _previousNumberOfHarmonics = numberOfHarmonics;
         }
     }
     

@@ -24,11 +24,11 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
-import edu.colorado.phet.fourier.model.FourierComponent;
+import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.Vector2D;
 import edu.colorado.phet.fourier.view.AmplitudesGraphic;
-import edu.colorado.phet.fourier.view.ComponentsGraphic;
+import edu.colorado.phet.fourier.view.HarmonicsGraphic;
 import edu.colorado.phet.fourier.view.SineWaveGraphic;
 import edu.colorado.phet.fourier.view.SumGraphic;
 
@@ -52,7 +52,7 @@ public class DiscreteModule extends FourierModule {
 
     // Locations
     private static final Point AMPLITUDES_LOCATION = new Point( 60, 150 );
-    private static final Point COMPONENTS_LOCATION = new Point( 60, 340 );
+    private static final Point HARMONICS_LOCATION = new Point( 60, 340 );
     private static final Point SUM_LOCATION = new Point( 60, 530 );
     private static final Point WIGGLE_ME_LOCATION = new Point( 260, 80 );
     
@@ -62,7 +62,7 @@ public class DiscreteModule extends FourierModule {
     
     // Fourier Components
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
-    private static final int NUMBER_OF_COMPONENTS = 7;
+    private static final int NUMBER_OF_HARMONICS = 7;
     private static final int WAVE_TYPE = SineWaveGraphic.WAVE_TYPE_SINE;
   
     //----------------------------------------------------------------------------
@@ -70,7 +70,7 @@ public class DiscreteModule extends FourierModule {
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeriesModel;
-    private ComponentsGraphic _componentsGraphic;
+    private HarmonicsGraphic _harmonicsGraphic;
     private SumGraphic _sumGraphic;
     private DiscreteControlPanel _controlPanel;
     
@@ -113,9 +113,9 @@ public class DiscreteModule extends FourierModule {
         apparatusPanel.addGraphic( amplitudesGraphic, AMPLITUDES_LAYER );
         
         // Components view
-        _componentsGraphic = new ComponentsGraphic( apparatusPanel, _fourierSeriesModel );
-        _componentsGraphic.setLocation( COMPONENTS_LOCATION );
-        apparatusPanel.addGraphic( _componentsGraphic, COMPONENTS_LAYER );
+        _harmonicsGraphic = new HarmonicsGraphic( apparatusPanel, _fourierSeriesModel );
+        _harmonicsGraphic.setLocation( HARMONICS_LOCATION );
+        apparatusPanel.addGraphic( _harmonicsGraphic, COMPONENTS_LAYER );
         
         // Sum view
         _sumGraphic = new SumGraphic( apparatusPanel, _fourierSeriesModel );
@@ -127,7 +127,7 @@ public class DiscreteModule extends FourierModule {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        _controlPanel = new DiscreteControlPanel( this, _fourierSeriesModel, _componentsGraphic, _sumGraphic );
+        _controlPanel = new DiscreteControlPanel( this, _fourierSeriesModel, _harmonicsGraphic, _sumGraphic );
         _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
@@ -154,13 +154,13 @@ public class DiscreteModule extends FourierModule {
     public void reset() {
         
         _fourierSeriesModel.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
-        _fourierSeriesModel.setNumberOfComponents( NUMBER_OF_COMPONENTS );
-        _fourierSeriesModel.getComponent( 0 ).setAmplitude( 1.0 );
-        for ( int i = 1; i < _fourierSeriesModel.getNumberOfComponents(); i++ ) {
-            ( (FourierComponent) _fourierSeriesModel.getComponent( i ) ).setAmplitude( 0 );
+        _fourierSeriesModel.setNumberOfHarmonics( NUMBER_OF_HARMONICS );
+        _fourierSeriesModel.getHarmonic( 0 ).setAmplitude( 1.0 );
+        for ( int i = 1; i < _fourierSeriesModel.getNumberOfHarmonics(); i++ ) {
+            ( (Harmonic) _fourierSeriesModel.getHarmonic( i ) ).setAmplitude( 0 );
         }
         
-        _componentsGraphic.setWaveType( WAVE_TYPE );
+        _harmonicsGraphic.setWaveType( WAVE_TYPE );
         
         _sumGraphic.setWaveType( WAVE_TYPE );
         
