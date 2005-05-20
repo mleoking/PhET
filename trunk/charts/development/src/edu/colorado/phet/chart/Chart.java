@@ -47,18 +47,41 @@ public class Chart extends GraphicLayerSet {
     }
 
     public Chart( Component component, Range2D range, Dimension chartSize ) {
+        this( component, range, chartSize, getDefaultMinor( range.getWidth() ), getDefaultMajor( range.getWidth() ), getDefaultMinor( range.getHeight() ), getDefaultMajor( range.getHeight() ) );
+    }
+
+    private static int getDefaultMinor( double range ) {
+        if( range < 20 ) {
+            return 1;
+        }
+        else {
+            double defaultNumTicks = 20;
+            return (int)( range / defaultNumTicks );
+        }
+    }
+
+    private static int getDefaultMajor( double range ) {
+        return getDefaultMinor( range ) * 2;
+    }
+
+    public Chart( Component component, Range2D range, Dimension chartSize, int horizMinorSpacing, int horizMajorSpacing, int vertMinorSpacing, int vertMajorSpacing ) {
         super( component );
+//        System.out.println( "horizMinorSpacing = " + horizMinorSpacing );
+//        System.out.println( "horizMajorSpacing = " + horizMajorSpacing );
+//        System.out.println( "vertMinor= " + vertMinorSpacing );
+//        System.out.println( "vertMaj= " + vertMajorSpacing );
         this.chartSize = chartSize;
         this.component = component;
         this.range = range;
 
         this.transform = new ModelViewTransform2D( range.getBounds(), new Rectangle( chartSize ) );
-        this.xAxis = new Axis( this, AbstractGrid.HORIZONTAL );
-        this.yAxis = new Axis( this, AbstractGrid.VERTICAL );
-        this.verticalGridlines = new GridLineSet( this, AbstractGrid.VERTICAL );
-        this.horizonalGridlines = new GridLineSet( this, AbstractGrid.HORIZONTAL );
-        this.verticalTicks = new TickMarkSet( this, AbstractGrid.VERTICAL, 1, 2 );
-        this.horizontalTicks = new TickMarkSet( this, AbstractGrid.HORIZONTAL, 1, 2 );
+        this.yAxis = new Axis( this, AbstractGrid.VERTICAL, new BasicStroke( 2 ), Color.black, vertMinorSpacing, vertMajorSpacing );
+        this.verticalTicks = new TickMarkSet( this, AbstractGrid.VERTICAL, vertMinorSpacing, vertMajorSpacing );
+        this.verticalGridlines = new GridLineSet( this, AbstractGrid.VERTICAL, vertMinorSpacing, vertMajorSpacing, 0 );
+
+        this.xAxis = new Axis( this, AbstractGrid.HORIZONTAL, new BasicStroke( 2 ), Color.black, horizMinorSpacing, horizMajorSpacing );
+        this.horizontalTicks = new TickMarkSet( this, AbstractGrid.HORIZONTAL, horizMinorSpacing, horizMajorSpacing );
+        this.horizonalGridlines = new GridLineSet( this, AbstractGrid.HORIZONTAL, horizMinorSpacing, horizMajorSpacing, 0 );
 
         backgroundGraphic = new PhetShapeGraphic( component, getChartBounds(), background );
         compositeDataSetGraphic = new GraphicLayerSet( component );
