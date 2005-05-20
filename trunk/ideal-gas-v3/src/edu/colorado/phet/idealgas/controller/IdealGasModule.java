@@ -261,7 +261,8 @@ public class IdealGasModule extends Module {
                                              IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
                                              box,
                                              boxColor );
-        this.addGraphic( boxDoorGraphic, -6 );
+        this.addGraphic( boxDoorGraphic, 11 );
+//        this.addGraphic( boxDoorGraphic, -6 );
     }
 
     /**

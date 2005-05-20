@@ -13,7 +13,6 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
@@ -24,7 +23,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserver, Box2D.ChangeListener {
     private int x;
     private int y;
     private int minX;
@@ -33,8 +32,8 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
     private int maxY;
     private Box2D box;
     private PhetImageGraphic imageGraphic;
+    private PhetShapeGraphic highlightGraphic;
     private double openingMaxX;
-    private boolean doorHighlighted;
     private Point2D[] opening = new Point2D[2];
     private PhetShapeGraphic doorShapeGraphic;
 
@@ -56,6 +55,11 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
         doorShapeGraphic = new PhetShapeGraphic( component, door, color );
         this.addGraphic( doorShapeGraphic);
 
+        highlightGraphic = new PhetShapeGraphic( component, new Rectangle( imageGraphic.getBounds() ),
+                                                 new BasicStroke( 1 ), Color.red );
+        highlightGraphic.setVisible( false );
+        this.addGraphic( highlightGraphic);
+
         this.x = x;
         this.y = y;
         this.minX = minX;
@@ -64,7 +68,9 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
         this.maxY = maxY;
         this.box = box;
         this.openingMaxX = x + imageGraphic.getBounds().getWidth();
+
         box.addObserver( this );
+        box.addChangeListener( this );
 
         setCursor( Cursor.getPredefinedCursor( Cursor.E_RESIZE_CURSOR ) );
         addTranslationListener( new DoorTranslator() );
@@ -72,20 +78,20 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
 
     public void fireMouseEntered( MouseEvent e ) {
         super.fireMouseEntered( e );
-        doorHighlighted = true;
+        highlightGraphic.setVisible( true );
         setBoundsDirty();
         repaint();
     }
 
     public void fireMouseExited( MouseEvent e ) {
         super.fireMouseExited( e );
-        doorHighlighted = false;
+        highlightGraphic.setVisible( false );
         setBoundsDirty();
         repaint();
     }
 
     public void translateDoor( double dx, double dy ) {
-        minX = (int)( box.getMinX() - imageGraphic.getBounds().getWidth() + ( box.getMaxX() - openingMaxX ) );
+        minX = (int)( box.getMinX() - imageGraphic.getBounds().getWidth() );
         // Update the position of the image on the screen
         x = (int)Math.min( maxX, Math.max( minX, x + dx ) );
         y = (int)Math.min( maxY, Math.max( minY, y + dy ) );
@@ -96,6 +102,8 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
                                          box.getMinY() );
         opening[1] = new Point2D.Double( openingMaxX,
                                          box.getMinY() );
+        setBoundsDirty();
+        repaint();
     }
 
     public void update() {
@@ -104,24 +112,15 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
             minX = (int)box.getMinX();
             minY = (int)box.getMinY();
             maxY = (int)box.getMinY();
+            // For some reason, -1 is needed here to line this up properly with the box
             imageGraphic.setLocation( (int)imageGraphic.getBounds().getMinX(),
-                                      minY - (int)imageGraphic.getBounds().getHeight() );
+                                      minY - (int)imageGraphic.getBounds().getHeight() - 1 );
 
             doorShapeGraphic.setLocation( (int)imageGraphic.getLocation().getX(),
                                           (int)imageGraphic.getLocation().getY()+ 13 );
+            highlightGraphic.setLocation( imageGraphic.getLocation() );
+            setBoundsDirty();
             repaint();
-
-        }
-    }
-
-    public void paint( Graphics2D g ) {
-        super.paint( g );
-        if( doorHighlighted ) {
-            GraphicsState gs = new GraphicsState( g );
-            g.setStroke( new BasicStroke( 1 ) );
-            g.setColor( Color.red );
-            g.draw( this.imageGraphic.getBounds() );
-            gs.restoreGraphics();
         }
     }
 
@@ -136,6 +135,21 @@ public class BoxDoorGraphic extends CompositePhetGraphic implements SimpleObserv
 
     public void setColor( Color color ) {
         doorShapeGraphic.setPaint( color );
+    }
+
+    //----------------------------------------------------------------
+    // Listener implementations
+    //----------------------------------------------------------------
+
+    public void boundsChanged( Box2D.ChangeEvent event ) {
+        double newMinX = (int)( box.getMinX() - imageGraphic.getBounds().getWidth() );
+        if( newMinX > minX ) {
+            translateDoor( newMinX - minX, 0);
+        }
+    }
+
+    public void isVolumeFixedChanged( Box2D.ChangeEvent event ) {
+        //noop
     }
 
     //----------------------------------------------------------------

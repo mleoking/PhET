@@ -60,13 +60,6 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
         addTranslationListener( new Translator() );
     }
 
-//    public void setIgnoreMouse( boolean ignoreMouse ) {
-//        super.setIgnoreMouse( ignoreMouse );
-//        if( ignoreMouse ) {
-//            removeAllMouseInputListeners();
-//        }
-//    }
-
     public void setWallColor( Color wallColor ) {
         this.wallColor = wallColor;
     }
