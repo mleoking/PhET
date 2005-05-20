@@ -53,7 +53,6 @@ public class Thermometer extends PhetGraphic {
     private int readoutWidth;
     private float readoutRectStrokeWidth = 0.5f;
     private BasicStroke readoutRectStroke = new BasicStroke( readoutRectStrokeWidth );
-;
 
 
     public Thermometer( Component component, Point2D.Double location, double maxScreenLevel, double thickness,
@@ -155,7 +154,7 @@ public class Thermometer extends PhetGraphic {
 
         double minX = Math.min( boundingRect.getMinX(), readoutRect.getMinX() );
         double minY = Math.min( boundingRect.getMinY(), readoutRect.getMinY() - readoutRectStrokeWidth );
-        double w = Math.max( boundingRect.getMaxX(), readoutRect.getMaxX() ) - minX;
+        double w = Math.max( boundingRect.getMaxX(), readoutRect.getMaxX() ) - minX + 4 * readoutRectStrokeWidth;
         double h = Math.max( boundingRect.getMaxY(), readoutRect.getMaxY() ) - minY;
         boundingRect.setRect( minX, minY, w, h );
         return RectangleUtils.toRectangle( boundingRect );

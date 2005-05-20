@@ -6,7 +6,6 @@
  */
 package edu.colorado.phet.collision;
 
-import edu.colorado.phet.idealgas.model.Balloon;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 public class SphereBalloonExpert extends SphereHollowSphereExpert {
@@ -23,10 +22,10 @@ public class SphereBalloonExpert extends SphereHollowSphereExpert {
 
     public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean haveCollided = super.detectAndDoCollision( bodyA, bodyB );
-        if( haveCollided ) {
-            Balloon balloon = bodyA instanceof Balloon ? (Balloon)bodyA : (Balloon)bodyB;
-            balloon.collideWithParticle( bodyB );
-        }
+//        if( haveCollided ) {
+//            Balloon balloon = bodyA instanceof Balloon ? (Balloon)bodyA : (Balloon)bodyB;
+//            balloon.collideWithParticle( bodyB );
+//        }
         return haveCollided;
     }
 }

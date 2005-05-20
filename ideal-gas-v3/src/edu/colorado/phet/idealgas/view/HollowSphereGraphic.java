@@ -30,14 +30,14 @@ public class HollowSphereGraphic extends PhetShapeGraphic implements SimpleObser
         sphere.addObserver( this );
         rep = new Ellipse2D.Double();
         setShape( rep );
+        setStroke( s_defaultStroke );
+        setColor( s_defaultColor );
         update();
 
         super.setIgnoreMouse( true );
     }
 
     public void update() {
-        //    public void update( Observable o, Object arg ) {
-        //        this.setPosition( sphere );
         rep.setFrameFromCenter( sphere.getPosition().getX(), sphere.getPosition().getY(),
                                 sphere.getPosition().getX() + sphere.getRadius(),
                                 sphere.getPosition().getY() + sphere.getRadius() );
@@ -48,9 +48,9 @@ public class HollowSphereGraphic extends PhetShapeGraphic implements SimpleObser
     public void paint( Graphics2D g ) {
         saveGraphicsState( g );
 
-        g.setColor( s_defaultColor );
-        g.setStroke( s_defaultStroke );
         GraphicsUtil.setAntiAliasingOn( g );
+        g.setStroke( s_defaultStroke );
+        g.setColor( s_defaultColor );
         g.draw( rep );
         GraphicsUtil.setAlpha( g, s_sphereOpacity );
         g.fill( rep );

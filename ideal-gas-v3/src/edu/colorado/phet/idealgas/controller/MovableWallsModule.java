@@ -260,16 +260,11 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         energyCurve.curveTo( c5A.getX(), c5A.getY(), c5B.getX(), c5B.getY(), p5.getX(), p5.getY() );
         energyCurve.curveTo( c9A.getX(), c9A.getY(), c9B.getX(), c9B.getY(), p9.getX(), p9.getY() );
         energyCurve.lineTo( p10 );
-//        energyCurve.lineTo( p11 );
-//        energyCurve.lineTo( p12 );
-//        energyCurve.closePath();
 
         Color borderColor = Color.cyan;
         Color fill = new Color( 255, 255, 255, 160 );
         energyCurveGraphic = new PhetShapeGraphic( getApparatusPanel(), energyCurve.getGeneralPath(),
                                                    new BasicStroke( 2f ), borderColor );
-//        energyCurveGraphic = new PhetShapeGraphic( getApparatusPanel(), energyCurve.getGeneralPath(),
-//                                                   fill, new BasicStroke( 2f ), borderColor );
         energyCurveGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         energyCurveGraphic.setIgnoreMouse( true );
         getApparatusPanel().addGraphic( energyCurveGraphic, s_verticalWallLayer + 10 );
@@ -330,7 +325,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
         // Create the right movable floor
         rightFloor = new Wall( new Rectangle2D.Double( verticalWall.getBounds().getMaxX(), box.getCorner2Y() - 40,
-//                                                       box.getCorner2X() - verticalWall.getBounds().getMaxX(), 40 ),
                                                        box.getCorner2X() - verticalWall.getBounds().getMaxX(),
                                                        wallThickness ),
                                box.getBoundsInternal() );

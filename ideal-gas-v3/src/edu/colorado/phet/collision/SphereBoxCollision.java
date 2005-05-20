@@ -55,6 +55,7 @@ public class SphereBoxCollision implements Collision {
 
         // Collision with left wall?
         if( leftWall && !rightWall ) {
+
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             double wx = box.getMinX();
             double dx = wx - ( sx - r );
