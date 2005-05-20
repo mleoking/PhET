@@ -121,6 +121,9 @@ public interface AbstractVector2D {
 
         public AbstractVector2D getNormalizedInstance() {
             double mag = getMagnitude();
+            if( mag == 0 ) {
+                throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
+            }
             return new AbstractVector2D.Double( getX() / mag, getY() / mag );
         }
 
@@ -261,6 +264,9 @@ public interface AbstractVector2D {
 
         public AbstractVector2D getNormalizedInstance() {
             double mag = getMagnitude();
+            if( mag == 0 ) {
+                throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
+            }
             return new AbstractVector2D.Float( getX() / mag, getY() / mag );
         }
 
