@@ -69,8 +69,8 @@ public class ControlPanel extends JPanel {
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 1,
                                                                  GridBagConstraints.NORTH,
-                                                                 GridBagConstraints.BOTH,
-//                                                                 GridBagConstraints.HORIZONTAL,
+//                                                                 GridBagConstraints.BOTH,
+                                                                 GridBagConstraints.HORIZONTAL,
                                                                  new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints helpGbc = new GridBagConstraints( 0, 2, 1, 1, 0, 0,
                                                              GridBagConstraints.SOUTH,
@@ -94,6 +94,7 @@ public class ControlPanel extends JPanel {
         JPanel jp = new JPanel( new BorderLayout() );
 //        jp.add( scrollPane );
 //        super.add( jp, controlsGbc );
+//        super.add( controlPane, controlsGbc );
         super.add( scrollPane, controlsGbc );
 
         // The panel for the help button
