@@ -35,9 +35,9 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
                 double sy = sphere.getPosition().getY();
                 double r = sphere.getRadius();
 
-                if( box.isInOpening( sphere ) ) {
-                    return result;
-                }
+//                if( box.isInOpening( sphere ) ) {
+//                    return result;
+//                }
 
                 // Check for contact with each of the walls
                 boolean leftWall = ( sx - r ) <= box.getMinX();
@@ -51,8 +51,9 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
                     collision = new SphereBoxCollision( sphere, box, model );
                     collision.collide();
                     // If the following line is enabled, the helium balloon will freeze the simulation
-                    // if it expands to fill the box
-                    haveCollided = true;
+                    // if it expands to fill the box, and so will the hot air balloon if you just edge
+                    // the movable wall up to it.
+//                    haveCollided = true;
                 }
             }
         }

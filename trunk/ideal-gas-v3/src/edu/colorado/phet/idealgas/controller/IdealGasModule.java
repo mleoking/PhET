@@ -256,9 +256,9 @@ public class IdealGasModule extends Module {
 
         // Set up the door for the box
         boxDoorGraphic = new BoxDoorGraphic( getApparatusPanel(),
-                                             IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
-                                             IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 227,
-                                             IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 227,
+                                             IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 22,
+                                             IdealGasConfig.X_BASE_OFFSET + 150, IdealGasConfig.Y_BASE_OFFSET + 220,
+                                             IdealGasConfig.X_BASE_OFFSET + 230, IdealGasConfig.Y_BASE_OFFSET + 220,
                                              box,
                                              boxColor );
         this.addGraphic( boxDoorGraphic, 11 );
