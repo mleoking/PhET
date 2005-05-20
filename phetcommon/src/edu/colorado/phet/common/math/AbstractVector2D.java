@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 /**
  * High level abstraction of a 2-D Vector data structure.  The two main implementations
  * are the Vector2D and ImmutableVector2D.
- * 
+ *
  * @author Ron LeMaster
  * @version $Revision$
  */
@@ -121,6 +121,9 @@ public interface AbstractVector2D {
 
         public AbstractVector2D getNormalizedInstance() {
             double mag = getMagnitude();
+            if( mag == 0 ) {
+                throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
+            }
             return new AbstractVector2D.Double( getX() / mag, getY() / mag );
         }
 
@@ -261,6 +264,9 @@ public interface AbstractVector2D {
 
         public AbstractVector2D getNormalizedInstance() {
             double mag = getMagnitude();
+            if( mag == 0 ) {
+                throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
+            }
             return new AbstractVector2D.Float( getX() / mag, getY() / mag );
         }
 

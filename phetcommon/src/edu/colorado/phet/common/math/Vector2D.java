@@ -65,6 +65,9 @@ public interface Vector2D extends AbstractVector2D {
 
         public Vector2D normalize() {
             double length = getMagnitude();
+            if( length == 0 ) {
+                throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
+            }
             return scale( 1.0 / length );
         }
 
@@ -137,6 +140,9 @@ public interface Vector2D extends AbstractVector2D {
 
         public Vector2D normalize() {
             double length = getMagnitude();
+            if( length == 0 ) {
+                throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
+            }
             return scale( 1.0 / length );
         }
 
@@ -183,7 +189,7 @@ public interface Vector2D extends AbstractVector2D {
             double alpha = getAngle();
             double gamma = alpha + theta;
             double xPrime = r * Math.sin( gamma );
-            double yPrime  = r * Math.cos( gamma );
+            double yPrime = r * Math.cos( gamma );
             this.setComponents( xPrime, yPrime );
             return this;
         }
