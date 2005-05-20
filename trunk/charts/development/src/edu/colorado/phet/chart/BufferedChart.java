@@ -66,15 +66,4 @@ public class BufferedChart extends PhetImageGraphic {
         return new Rectangle( getChartPosition(), chart.getChartSize() );
     }
 
-//    public Point2D getLocationInChart( Point screenPoint ) {
-//        try {
-//            return getNetTransform().inverseTransform( screenPoint,null);
-//        }
-//        catch( NoninvertibleTransformException e ) {
-//            e.printStackTrace();
-//            throw new RuntimeException( e);
-//        }
-////        LinearTransform2D transform2D=new LinearTransform2D( new Rectangle( chart.getChartSize()),getChartArea() );
-////        return transform2D.modelToView( screenPoint);
-//    }
 }

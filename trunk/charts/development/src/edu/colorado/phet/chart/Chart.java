@@ -66,22 +66,23 @@ public class Chart extends GraphicLayerSet {
 
     public Chart( Component component, Range2D range, Dimension chartSize, int horizMinorSpacing, int horizMajorSpacing, int vertMinorSpacing, int vertMajorSpacing ) {
         super( component );
-//        System.out.println( "horizMinorSpacing = " + horizMinorSpacing );
-//        System.out.println( "horizMajorSpacing = " + horizMajorSpacing );
-//        System.out.println( "vertMinor= " + vertMinorSpacing );
-//        System.out.println( "vertMaj= " + vertMajorSpacing );
+        System.out.println( "horizMinorSpacing = " + horizMinorSpacing );
+        System.out.println( "horizMajorSpacing = " + horizMajorSpacing );
+        System.out.println( "vertMinor= " + vertMinorSpacing );
+        System.out.println( "vertMaj= " + vertMajorSpacing );
         this.chartSize = chartSize;
         this.component = component;
         this.range = range;
 
         this.transform = new ModelViewTransform2D( range.getBounds(), new Rectangle( chartSize ) );
-        this.yAxis = new Axis( this, AbstractGrid.VERTICAL, new BasicStroke( 2 ), Color.black, vertMinorSpacing, vertMajorSpacing );
-        this.verticalTicks = new TickMarkSet( this, AbstractGrid.VERTICAL, vertMinorSpacing, vertMajorSpacing );
-        this.verticalGridlines = new GridLineSet( this, AbstractGrid.VERTICAL, vertMinorSpacing, vertMajorSpacing, 0 );
 
-        this.xAxis = new Axis( this, AbstractGrid.HORIZONTAL, new BasicStroke( 2 ), Color.black, horizMinorSpacing, horizMajorSpacing );
-        this.horizontalTicks = new TickMarkSet( this, AbstractGrid.HORIZONTAL, horizMinorSpacing, horizMajorSpacing );
-        this.horizonalGridlines = new GridLineSet( this, AbstractGrid.HORIZONTAL, horizMinorSpacing, horizMajorSpacing, 0 );
+        this.yAxis = new Axis( this, Orientation.VERTICAL, new BasicStroke( 2 ), Color.black, vertMinorSpacing, vertMajorSpacing );
+        this.verticalTicks = new TickMarkSet( this, Orientation.HORIZONTAL, vertMinorSpacing, vertMajorSpacing );
+        this.verticalGridlines = new GridLineSet( this, Orientation.VERTICAL, horizMinorSpacing, horizMajorSpacing, 0 );
+
+        this.xAxis = new Axis( this, Orientation.HORIZONTAL, new BasicStroke( 2 ), Color.black, horizMinorSpacing, horizMajorSpacing );
+        this.horizontalTicks = new TickMarkSet( this, Orientation.VERTICAL, horizMinorSpacing, horizMajorSpacing );
+        this.horizonalGridlines = new GridLineSet( this, Orientation.HORIZONTAL, vertMinorSpacing, vertMajorSpacing, 0 );
 
         backgroundGraphic = new PhetShapeGraphic( component, getChartBounds(), background );
         compositeDataSetGraphic = new GraphicLayerSet( component );
@@ -93,8 +94,8 @@ public class Chart extends GraphicLayerSet {
         addGraphic( verticalGridlines );
         addGraphic( horizonalGridlines );
         addGraphic( verticalTicks );
-        addGraphic( horizontalTicks );//todo this is a bug, just removed for convenience
-        //the bounds were computed in GraphicLayerSet with invisible graphics thrown in.
+        addGraphic( horizontalTicks );
+
         addGraphic( xAxis );
         addGraphic( yAxis );
         addGraphic( compositeDataSetGraphic );
@@ -130,6 +131,32 @@ public class Chart extends GraphicLayerSet {
         return -(int)( verticalTicks.getBounds().getMinX() - backgroundGraphic.getBounds().getMinX() );
     }
 
+    public double[] getLinesInBounds( Orientation orientation, double[] gridLines ) {
+        ArrayList bounded = new ArrayList();
+        if( orientation.isHorizontal() ) {
+            for( int i = 0; i < gridLines.length; i++ ) {
+                double gridLine = gridLines[i];
+                if( range.containsY( gridLine ) ) {
+                    bounded.add( new Double( gridLine ) );
+                }
+            }
+        }
+        else {
+            for( int i = 0; i < gridLines.length; i++ ) {
+                double gridLine = gridLines[i];
+                if( range.containsX( gridLine ) ) {
+                    bounded.add( new Double( gridLine ) );
+                }
+            }
+        }
+        double[] out = new double[bounded.size()];
+        for( int i = 0; i < bounded.size(); i++ ) {
+            java.lang.Double aDouble = (java.lang.Double)bounded.get( i );
+            out[i] = aDouble.doubleValue();
+        }
+        return out;
+    }
+
     public interface Listener {
         void transformChanged( Chart chart );
     }
@@ -142,7 +169,7 @@ public class Chart extends GraphicLayerSet {
         private GridTicks majorTicks;
         private GridTicks minorTicks;
 
-        public TickMarkSet( Chart chart, int orientation, double minorTickSpacing, double majorTickSpacing ) {
+        public TickMarkSet( Chart chart, Orientation orientation, double minorTickSpacing, double majorTickSpacing ) {
             minorTicks = new GridTicks( chart, orientation, new BasicStroke( 2 ), Color.black, minorTickSpacing );
             majorTicks = new GridTicks( chart, orientation, new BasicStroke( 2 ), Color.black, majorTickSpacing );
             minorTicks.setVisible( false );
@@ -180,7 +207,7 @@ public class Chart extends GraphicLayerSet {
         private int dx = 0;
         private int dy = 0;
 
-        public GridTicks( Chart chart, int orientation, Stroke stroke, Color color, double tickSpacing ) {
+        public GridTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double tickSpacing ) {
             super( chart, orientation, stroke, color, tickSpacing );
         }
 
