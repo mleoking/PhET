@@ -53,7 +53,8 @@ public class ControlPanel extends JPanel {
     GridBagConstraints controlsInternalGbc = new GridBagConstraints( 0, 0,
                                                                      1, 1, 1, 0,
                                                                      GridBagConstraints.NORTH,
-                                                                     GridBagConstraints.BOTH,
+                                                                     GridBagConstraints.NONE,
+//                                                                     GridBagConstraints.BOTH,
                                                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
 
 
