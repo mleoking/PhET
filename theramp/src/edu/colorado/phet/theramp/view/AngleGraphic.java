@@ -43,7 +43,7 @@ public class AngleGraphic extends CompositePhetGraphic {
         Rectangle2D ellipseBounds = new Rectangle2D.Double();
         ellipseBounds.setFrameFromCenter( origin, new Point2D.Double( origin.x + squareWidth / 2, origin.y + squareWidth / 2 ) );
 
-        double extent = rampGraphic.getRamp().getAngle() * 180 / Math.PI;
+        double extent = rampGraphic.getSurface().getAngle() * 180 / Math.PI;
         extent = Math.max( extent, 0.00001 );
         Arc2D.Double arc = new Arc2D.Double( ellipseBounds, 0, extent, Arc2D.OPEN );
         phetShapeGraphic.setShape( arc );
@@ -54,13 +54,13 @@ public class AngleGraphic extends CompositePhetGraphic {
     }
 
     private String getAngleMessage() {
-        double angle = rampGraphic.getRamp().getAngle() * 180 / Math.PI;
+        double angle = rampGraphic.getSurface().getAngle() * 180 / Math.PI;
         String text = "<html>" + new DecimalFormat( "0.0" ).format( angle ) + "<sup>o</sup></html>";
         return text;
     }
 
     private Point getGroundLocationView( double dist ) {
-        Point2D modelOrigion = rampGraphic.getRamp().getOrigin();
+        Point2D modelOrigion = rampGraphic.getSurface().getOrigin();
         Point2D.Double pt = new Point2D.Double( modelOrigion.getX() + dist, modelOrigion.getY() );
         return rampGraphic.getViewLocation( pt );
     }

@@ -23,7 +23,7 @@ public class VerticalTextGraphic extends CompositePhetGraphic {
         this.font = font;
         this.text = text;
         this.color = color;
-        PhetShadowTextGraphic phetTextGraphic = new PhetShadowTextGraphic( component, font, text, color, 1, 1, Color.yellow );
+        PhetShadowTextGraphic phetTextGraphic = new PhetShadowTextGraphic( component, font, text, color, 1, 1, Color.black );
 
         phetTextGraphic.rotate( -Math.PI / 2 );
         addGraphic( phetTextGraphic );

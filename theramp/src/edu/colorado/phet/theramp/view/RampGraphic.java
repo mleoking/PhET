@@ -9,7 +9,7 @@ import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.theramp.model.Ramp;
+import edu.colorado.phet.theramp.model.Surface;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -29,7 +29,7 @@ import java.text.DecimalFormat;
 
 public class RampGraphic extends GraphicLayerSet {
     private RampPanel rampPanel;
-    private Ramp ramp;
+    private Surface ramp;
     private ModelViewTransform2D screenTransform;
     private double viewAngle;
     private PhetImageGraphic surfaceGraphic;
@@ -43,7 +43,7 @@ public class RampGraphic extends GraphicLayerSet {
     public BufferedImage texture;
     public PhetGraphic arrowGraphic;
 
-    public RampGraphic( RampPanel rampPanel, final Ramp ramp ) {
+    public RampGraphic( final RampPanel rampPanel, final Surface ramp ) {
         super( rampPanel );
         this.rampPanel = rampPanel;
         this.ramp = ramp;
@@ -75,6 +75,7 @@ public class RampGraphic extends GraphicLayerSet {
                 double angle = -vec.getAngle();
                 angle = MathUtil.clamp( 0, angle, Math.PI / 2.0 );
                 ramp.setAngle( angle );
+                rampPanel.getRampModule().record();
             }
         } );
         surfaceGraphic.setCursorHand();
@@ -121,7 +122,7 @@ public class RampGraphic extends GraphicLayerSet {
         }
         image = BufferedImageUtils.rescaleYMaintainAspectRatio( getComponent(), image, 100 );
         PhetImageGraphic phetImageGraphic = new PhetImageGraphic( getComponent(), image );
-
+        phetImageGraphic.setIgnoreMouse( true );
         return phetImageGraphic;
     }
 
@@ -239,7 +240,7 @@ public class RampGraphic extends GraphicLayerSet {
         return screenTransform;
     }
 
-    public Ramp getRamp() {
+    public Surface getSurface() {
         return ramp;
     }
 

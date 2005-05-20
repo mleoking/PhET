@@ -74,24 +74,35 @@ public class TimePlotSuite extends GraphicLayerSet {
         textBoxGraphic = PhetJComponent.newInstance( component, textBox );
         addGraphic( textBoxGraphic );
 
-        timePlot.dataSeriesAt( 0 ).getRawData().addObserver( new TimeSeries.Observer() {
-            public void dataAdded( TimeSeries timeSeries ) {
-                setTextBoxText( timeSeries.getLastPoint().getValue() );
-                notifyValueChanged( timeSeries.getLastPoint().getValue() );
-            }
+        if( timePlot.numPlotDeviceData() > 0 ) {
+            timePlot.dataSeriesAt( 0 ).getRawData().addObserver( new TimeSeries.Observer() {
+                public void dataAdded( TimeSeries timeSeries ) {
+                    setTextBoxText( timeSeries.getLastPoint().getValue() );
+                    notifyValueChanged( timeSeries.getLastPoint().getValue() );
+                }
 
-            public void cleared( TimeSeries timeSeries ) {
-            }
-        } );
+                public void cleared( TimeSeries timeSeries ) {
+                }
+            } );
 
+        }
         titleGraphic = new ShadowHTMLGraphic( component, timePlot.getName(),
                                               getTitleFont(),
-                                              timePlot.dataSeriesAt( 0 ).getColor(), 1, 1, Color.black );
+                                              getTitleColor(), 1, 1, Color.black );
         addGraphic( titleGraphic );
-
         titleGraphic.setLocation( 2, 0 );
+
         textBoxGraphic.setLocation( 2, 20 );
         goPauseClearGraphic.setLocation( 10, textBoxGraphic.getHeight() + textBoxGraphic.getY() + 5 );
+    }
+
+    private Color getTitleColor() {
+        if( timePlot.numPlotDeviceData() > 0 ) {
+            return timePlot.dataSeriesAt( 0 ).getColor();
+        }
+        else {
+            return Color.blue;
+        }
     }
 
     private Font getTitleFont() {
@@ -193,6 +204,10 @@ public class TimePlotSuite extends GraphicLayerSet {
     public void reset() {
         timePlot.reset();
         valueChanged( 0.0 );
+    }
+
+    public void addPlotDeviceData( PlotDeviceSeries plotDeviceData ) {
+        getPlotDevice().addPlotDeviceData( plotDeviceData );
     }
 
     public static interface Listener {

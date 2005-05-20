@@ -7,6 +7,7 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.theramp.common.BarGraphic;
 import edu.colorado.phet.theramp.model.RampModel;
+import edu.colorado.phet.theramp.model.ValueAccessor;
 
 /**
  * User: Sam Reid
@@ -19,18 +20,8 @@ public class BarGraphSet extends CompositePhetGraphic {
     private RampPanel rampPanel;
     private RampModel rampModel;
 
-    private BarGraphic keGraphic;
-    private BarGraphic peGraphic;
-    private BarGraphic totalEnergyGraphic;
-    private BarGraphic workFrictionGraphic;
-    private BarGraphic thermalEnergyGraphic;
-
     private int dx = 10;
     private int dy = -10;
-    private BarGraphic workAppliedGraphic;
-    private BarGraphic workGravityGraphic;
-    private BarGraphic workTotalGraphic;
-
 
     public BarGraphSet( RampPanel rampPanel, final RampModel rampModel ) {
         super( rampPanel );
@@ -42,87 +33,40 @@ public class BarGraphSet extends CompositePhetGraphic {
         int sep = width + dw;
 
         ModelViewTransform1D transform1D = new ModelViewTransform1D( 0, 150, 0, 10 );
-        keGraphic = new BarGraphic( getComponent(), "Kinetic", transform1D,
-                                    rampModel.getBlock().getKineticEnergy(), dw, width, y, dx, dy );
-        addGraphic( keGraphic );
 
-        addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
-                keGraphic.setValue( rampModel.getBlock().getKineticEnergy() );
-            }
-        } );
+        ValueAccessor[] energyAccess = new ValueAccessor[]{
+            new ValueAccessor.KineticEnergy(), new ValueAccessor.PotentialEnergy(),
+            new ValueAccessor.ThermalEnergy(), new ValueAccessor.TotalEnergy()
 
-        peGraphic = new BarGraphic( getComponent(), "Potential", transform1D,
-                                    rampModel.getPotentialEnergy(), dw + sep, width, y, dx, dy );
-        addGraphic( peGraphic );
-        addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
-                peGraphic.setValue( rampModel.getPotentialEnergy() );
-            }
-        } );
+        };
+        ValueAccessor[] workAccess = new ValueAccessor[]{
+            new ValueAccessor.AppliedWork(), new ValueAccessor.FrictiveWork(),
+            new ValueAccessor.GravityWork(), new ValueAccessor.TotalWork()
+        };
 
-        thermalEnergyGraphic = new BarGraphic( getComponent(), "Thermal", transform1D,
-                                               rampModel.getThermalEnergy(), dw + sep * 2, width, y, dx, dy );
-        addGraphic( thermalEnergyGraphic );
-        addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
-                thermalEnergyGraphic.setValue( rampModel.getThermalEnergy() );
-            }
-        } );
+        for( int i = 0; i < energyAccess.length; i++ ) {
+            final ValueAccessor accessor = energyAccess[i];
+            final BarGraphic barGraphic = new BarGraphic( getComponent(), accessor.getName(), transform1D,
+                                                          accessor.getValue( rampModel ), sep * i + dw, width, y, dx, dy );
+            addClockTickListener( new ClockTickListener() {
+                public void clockTicked( ClockTickEvent event ) {
+                    barGraphic.setValue( accessor.getValue( rampModel ) );
+                }
+            } );
+            addGraphic( barGraphic );
+        }
 
-        totalEnergyGraphic = new BarGraphic( getComponent(), "Total", transform1D,
-                                             rampModel.getTotalEnergy(), dw + sep * 3, width, y, dx, dy );
-        addGraphic( totalEnergyGraphic );
-        addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
-                totalEnergyGraphic.setValue( rampModel.getTotalEnergy() );
-            }
-        } );
-
-        workAppliedGraphic = new BarGraphic( getComponent(), "Work Done By Applied Force", transform1D,
-                                             0, dw + sep * 5, width, y, dx, dy );
-
-        rampPanel.getRampModule().getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
-                double work = rampModel.getAppliedWork();
-                workAppliedGraphic.setValue( work );
-            }
-        } );
-        addGraphic( workAppliedGraphic );
-
-        workFrictionGraphic = new BarGraphic( getComponent(), "Work Done By Friction", transform1D,
-                                              0, dw + sep * 6, width, y, dx, dy );
-
-        rampPanel.getRampModule().getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
-                double work = rampModel.getFrictiveWork();
-                workFrictionGraphic.setValue( work );
-            }
-        } );
-        addGraphic( workFrictionGraphic );
-
-        workGravityGraphic = new BarGraphic( getComponent(), "Work Done By Gravity", transform1D,
-                                             0, dw + sep * 7, width, y, dx, dy );
-
-        rampPanel.getRampModule().getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
-                double work = rampModel.getGravityWork();
-                workGravityGraphic.setValue( work );
-            }
-        } );
-        addGraphic( workGravityGraphic );
-
-        workTotalGraphic = new BarGraphic( getComponent(), "Total Work", transform1D,
-                                           0, dw + sep * 8, width, y, dx, dy );
-
-        rampPanel.getRampModule().getClock().addClockTickListener( new ClockTickListener() {
-            public void clockTicked( ClockTickEvent event ) {
-                double work = rampModel.getGravityWork() + rampModel.getFrictiveWork() + rampModel.getAppliedWork();
-                workTotalGraphic.setValue( work );
-            }
-        } );
-        addGraphic( workTotalGraphic );
-
+        for( int i = 0; i < workAccess.length; i++ ) {
+            final ValueAccessor accessor = workAccess[i];
+            final BarGraphic barGraphic = new BarGraphic( getComponent(), accessor.getName(), transform1D,
+                                                          accessor.getValue( rampModel ), ( energyAccess.length + 1 + i ) * sep + dw, width, y, dx, dy );
+            addClockTickListener( new ClockTickListener() {
+                public void clockTicked( ClockTickEvent event ) {
+                    barGraphic.setValue( accessor.getValue( rampModel ) );
+                }
+            } );
+            addGraphic( barGraphic );
+        }
         setIgnoreMouse( true );
     }
 

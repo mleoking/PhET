@@ -26,18 +26,22 @@ import java.io.IOException;
  */
 
 public class BlockGraphic extends CompositePhetGraphic {
+    private RampModule module;
     private RampPanel rampPanel;
     private RampGraphic rampGraphic;
+    private RampGraphic groundGraphic;
     private Block block;
     private PhetImageGraphic graphic;
     private ThresholdedDragAdapter mouseListener;
     private LocationDebugGraphic locationDebugGraphic;
     private RampObject rampObject;
 
-    public BlockGraphic( RampPanel rampPanel, RampGraphic rampGraphic, Block block, RampObject rampObject ) {
+    public BlockGraphic( final RampModule module, RampPanel rampPanel, RampGraphic rampGraphic, RampGraphic groundGraphic, Block block, RampObject rampObject ) {
         super( rampPanel );
+        this.module = module;
         this.rampPanel = rampPanel;
         this.rampGraphic = rampGraphic;
+        this.groundGraphic = groundGraphic;
         this.block = block;
         this.rampObject = rampObject;
 
@@ -60,6 +64,7 @@ public class BlockGraphic extends CompositePhetGraphic {
                 double dx = e.getPoint().x - ctr.x;
                 double appliedForce = dx / RampModule.FORCE_LENGTH_SCALE;
                 model.setAppliedForce( appliedForce );
+                module.record();
             }
 
             // implements java.awt.event.MouseListener
@@ -71,7 +76,7 @@ public class BlockGraphic extends CompositePhetGraphic {
         this.mouseListener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
         addMouseInputListener( this.mouseListener );
         setCursorHand();
-        rampGraphic.getRamp().addObserver( new SimpleObserver() {
+        rampGraphic.getSurface().addObserver( new SimpleObserver() {
             public void update() {
                 updateBlock();
             }
@@ -100,7 +105,8 @@ public class BlockGraphic extends CompositePhetGraphic {
     }
 
     private AffineTransform createTransform( double scaleX, double fracSize ) {
-        return rampGraphic.createTransform( block.getPosition(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
+//        return rampGraphic.createTransform( block.getPosition(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
+        return getCurrentSurfaceGraphic().createTransform( block.getPosition(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
     }
 
     private void setImage( BufferedImage image ) {
@@ -127,7 +133,12 @@ public class BlockGraphic extends CompositePhetGraphic {
         updateBlock();
     }
 
-    public RampGraphic getRampGraphic() {
-        return rampGraphic;
+    public RampGraphic getCurrentSurfaceGraphic() {
+        if( block.getSurface() == rampGraphic.getSurface() ) {
+            return rampGraphic;
+        }
+        else {
+            return groundGraphic;
+        }
     }
 }

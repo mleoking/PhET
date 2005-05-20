@@ -31,9 +31,11 @@ public class BarGraphic extends CompositePhetGraphic {
         this.width = width;
 
         Stroke stroke = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-
-        rectangle3DGraphic = new Rectangle3DGraphic( component, null, Color.blue, stroke, Color.green, Color.red, dx, dy, Color.black );
-        label = new VerticalTextGraphic( component, new Font( "Lucida Sans", 0, 16 ), text, Color.black );
+        Color face = new Color( 200, 200, 255 );
+        Color top = new Color( 150, 150, 255 );
+        Color side = new Color( 10, 10, 210 );
+        rectangle3DGraphic = new Rectangle3DGraphic( component, null, face, stroke, top, side, dx, dy, Color.black );
+        label = new VerticalTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 20 ), text, Color.yellow );
         addGraphic( rectangle3DGraphic );
 
         addGraphic( label );

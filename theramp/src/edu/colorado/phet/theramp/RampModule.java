@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
@@ -57,24 +56,18 @@ public class RampModule extends Module {
     }
 
     public static void main( String[] args ) {
-        SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.apply();
         PhetLookAndFeel.setLookAndFeel();
-
-
+        SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
         FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 600, 600 ) );
+        PhetApplication application = new PhetApplication( args, "The Ramp", "Ramp Application", "0", clock, true, frameSetup );
         RampModule module = new RampModule( clock );
-        ApplicationModel applicationModel = new ApplicationModel( "The Ramp", "Ramp Application", "0", frameSetup, module, module.getClock() );
-//        PhetApplication application = new PhetApplication( args, "title", "desc", "v", clock, true, frameSetup );
-        PhetApplication application = new PhetApplication( applicationModel, args );
-//        application.setModules( new Module[]{module, new RampModule( clock )} );
 
+        application.setModules( new Module[]{module} );
         application.getPhetFrame().getBasicPhetPanel().setAppControlPanel( module.rampMediaPanel );
         application.startApplication();
-//        module.record();
 
-//        module.setupPlot();
     }
 
     public RampPanel getRampPanel() {
@@ -113,6 +106,7 @@ public class RampModule extends Module {
 
     public void repaintBackground() {
         System.out.println( "RampModule.repaintBackground: NOOP" );
+        rampPlotSet.repaintBackground();
     }
 
     public void setCursorsVisible( boolean b ) {

@@ -91,6 +91,10 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
         return rawData.getLastTime();
     }
 
+    public int getTextHeight() {
+        return readoutGraphic.getHeight();
+    }
+
     private class TimeSeriesObserver implements TimeSeries.Observer {
         public void dataAdded( TimeSeries timeSeries ) {
             TimePoint timePoint = timeSeries.getLastPoint();
