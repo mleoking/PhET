@@ -134,7 +134,7 @@ public class PlayingField extends JPanel {
 
     }//end of FieldMouseListener
 
-    private void updateBufferedImage() {
+    public void updateBufferedImage() {
 
         Graphics2D g2D = (Graphics2D)fieldLinesImage.getGraphics();
 
