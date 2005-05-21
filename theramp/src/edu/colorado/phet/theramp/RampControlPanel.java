@@ -4,7 +4,6 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.theramp.common.JButton3D;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.view.arrows.AbstractArrowSet;
@@ -14,6 +13,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 public class RampControlPanel extends ControlPanel {
     private RampModule module;
     public ModelSlider frictionSlider;
+    private ModelSlider massSlider;
 
     /**
      * @param module
@@ -32,7 +33,8 @@ public class RampControlPanel extends ControlPanel {
     public RampControlPanel( final RampModule module ) {
         super( module );
         this.module = module;
-        JButton3D jb = new JButton3D( "Reset" );
+//        JButton3D jb = new JButton3D( "Reset" );
+        JButton jb = new JButton( "Reset" );
         add( jb );
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -137,8 +139,6 @@ public class RampControlPanel extends ControlPanel {
         add( ocb );
 
         double[] ticks = new double[]{0, 0.5, 1.0, 1.5};
-
-
         frictionSlider = createFrictionSlider( ticks, module );
 
         add( frictionSlider );
@@ -150,28 +150,25 @@ public class RampControlPanel extends ControlPanel {
         } );
         add( frictionless );
 
-//        final ModelSlider frictionSlider = createStaticSlider( ticks, module );
-//        add( frictionSlider );
-//
-//        final ModelSlider kineticFriction = createKineticSlider( ticks, module );
-//        add( kineticFriction );
+        massSlider = createMassSlider();
+        add( massSlider );
+    }
 
-//        JButton record = new JButton( "Record" );
-//
-//        record.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                module.record();
-//            }
-//        } );
-//
-//        JButton playback = new JButton( "Playback" );
-//        playback.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                module.playback();
-//            }
-//        } );
-//        add( record );
-//        add( playback );
+    private ModelSlider createMassSlider() {
+        final ModelSlider ms = new ModelSlider( "Mass", "kg", 100, 500, 100, new DecimalFormat( "000" ) );
+        ms.setModelTicks( new double[]{100, 500} );
+        ms.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                double value = ms.getValue();
+                module.setMass( value );
+            }
+        } );
+        module.getRampModel().getBlock().addListener( new Block.Adapter() {
+            public void massChanged() {
+                ms.setValue( module.getBlock().getMass() );
+            }
+        } );
+        return ms;
     }
 
     private void setFrictionEnabled( boolean enabled ) {

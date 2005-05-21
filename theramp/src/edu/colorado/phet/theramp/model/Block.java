@@ -60,6 +60,8 @@ public class Block {
         void staticFrictionChanged();
 
         void kineticFrictionChanged();
+
+        void massChanged();
     }
 
     public static class Adapter implements Listener {
@@ -71,6 +73,9 @@ public class Block {
         }
 
         public void kineticFrictionChanged() {
+        }
+
+        public void massChanged() {
         }
     }
 
@@ -156,6 +161,14 @@ public class Block {
 
     public void setMass( double mass ) {
         this.mass = mass;
+        notifyMassChanged();
+    }
+
+    private void notifyMassChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.massChanged();
+        }
     }
 
     public void setStaticFriction( double staticFriction ) {

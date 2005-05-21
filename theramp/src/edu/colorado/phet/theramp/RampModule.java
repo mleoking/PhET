@@ -8,11 +8,14 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.timeseries.RampTimeSeriesModel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
+
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -30,6 +33,7 @@ public class RampModule extends Module {
     private RampTimeSeriesModel rampTimeSeriesModel;
     private TimeSeriesPlaybackPanel rampMediaPanel;
     private RampPlotSet rampPlotSet;
+    private ArrayList listeners = new ArrayList();
 
     public RampModule( AbstractClock clock ) {
         super( "The Ramp", clock );
@@ -84,10 +88,24 @@ public class RampModule extends Module {
     }
 
     public void setObject( RampObject rampObject ) {
-        rampModel.getBlock().setMass( rampObject.getMass() );
-        rampModel.getBlock().setStaticFriction( rampObject.getStaticFriction() );
-        rampModel.getBlock().setKineticFriction( rampObject.getKineticFriction() );
+        rampModel.setObject( rampObject );
         getRampPanel().setObject( rampObject );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.objectChanged();
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public Block getBlock() {
+        return rampModel.getBlock();
+    }
+
+    public static interface Listener {
+        void objectChanged();
     }
 
     public RampObject[] getRampObjects() {
@@ -123,5 +141,9 @@ public class RampModule extends Module {
 
     public TimeSeriesModel getTimeSeriesModel() {
         return rampTimeSeriesModel;
+    }
+
+    public void setMass( double value ) {
+        rampModel.setMass( value );
     }
 }

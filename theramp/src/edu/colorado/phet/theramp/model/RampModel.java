@@ -7,6 +7,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.theramp.RampObject;
 
 import java.util.ArrayList;
 
@@ -248,6 +249,16 @@ public class RampModel implements ModelElement {
 
     private Surface getSurface() {
         return block.getSurface();
+    }
+
+    public void setMass( double value ) {
+        block.setMass( value );
+    }
+
+    public void setObject( RampObject rampObject ) {
+        getBlock().setMass( rampObject.getMass() );
+        getBlock().setStaticFriction( rampObject.getStaticFriction() );
+        getBlock().setKineticFriction( rampObject.getKineticFriction() );
     }
 
     public class ForceVector extends Vector2D.Double {
