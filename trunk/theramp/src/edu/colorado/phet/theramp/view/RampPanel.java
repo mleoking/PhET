@@ -4,8 +4,10 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
+import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
+import edu.colorado.phet.theramp.common.MeasuringTape;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.colorado.phet.theramp.view.arrows.*;
@@ -40,6 +42,7 @@ public class RampPanel extends ApparatusPanel2 {
     private EarthGraphic earthGraphic;
     private SkyGraphic skyGraphic;
     private RampGraphic groundGraphic;
+    private MeasuringTape measuringTape;
 
     public Dimension getDefaultRenderingSize() {
         return new Dimension( 1061, 871 );
@@ -129,6 +132,9 @@ public class RampPanel extends ApparatusPanel2 {
         } );
 
         addMouseListener( new UserAddingEnergyHandler( module ) );
+        measuringTape = new MeasuringTape( this, rampGraphic.getScreenTransform(),
+                                           RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
+        addGraphic( measuringTape, 100 );
     }
 
     private void addArrowSet( AbstractArrowSet arrowSet ) {
