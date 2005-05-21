@@ -56,6 +56,10 @@ public class BlockGraphic extends CompositePhetGraphic {
             public void positionChanged() {
                 updateBlock();
             }
+
+            public void massChanged() {
+                updateBlock();
+            }
         } );
 
         MouseInputAdapter mia = new MouseInputAdapter() {
