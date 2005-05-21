@@ -24,6 +24,11 @@ public class AbstractArrowSet extends CompositePhetGraphic {
 
     private ArrayList graphics = new ArrayList();
 
+    private int totalForceDY = 45;
+
+    public int getDefaultOffsetDY() {
+        return totalForceDY;
+    }
 
     public AbstractArrowSet( Component component ) {
         super( component );

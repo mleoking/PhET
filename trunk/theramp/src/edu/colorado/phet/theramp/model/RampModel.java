@@ -83,8 +83,12 @@ public class RampModel implements ModelElement {
 
             double force = appliedForce.getParallelComponent() + gravityForce.getParallelComponent() + frictionForce.getParallelComponent();
             normalForce.setPerpendicular( gravityForce.getPerpendicularComponent() );
-            totalForce.setParallel( force );
 
+            double wallForce = getSurface().getWallForce( force, getBlock() );
+            force += wallForce;
+            this.wallForce.setParallel( wallForce );
+
+            totalForce.setParallel( force );
             double acceleration = force / block.getMass();
 //            System.out.println( "gravityForce = " + gravityForce );
 //            System.out.println( "frictionForce= " + frictionForce );
@@ -122,7 +126,10 @@ public class RampModel implements ModelElement {
                     thermalEnergy += Math.abs( dE );
                 }
                 else {
-                    new RuntimeException( "Gained Energy, dE=" + dE ).printStackTrace();
+//                    new RuntimeException( "Gained Energy, dE=" + dE ).printStackTrace();
+                    String message = "Gained Energy, dE=" + dE;
+                    System.out.println( "message = " + message );
+//                    new RuntimeException( message ).printStackTrace();
                 }
             }
         }
