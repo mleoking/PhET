@@ -77,4 +77,6 @@ public abstract class Surface extends SimpleObservable {
     }
 
     public abstract void applyBoundaryConditions( RampModel rampModel, Block block );
+
+    public abstract double getWallForce( double sumOtherForces, Block block );
 }

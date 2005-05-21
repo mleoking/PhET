@@ -27,7 +27,7 @@ public class XArrowSet extends AbstractArrowSet {
             }
         }, component.getBlockGraphic(), sub );
 
-        ForceArrowGraphic totalArrowGraphic = new ForceArrowGraphic( component, TOTAL, ralf.getNetForceColor(), 45, new ForceComponent() {
+        ForceArrowGraphic totalArrowGraphic = new ForceArrowGraphic( component, TOTAL, ralf.getNetForceColor(), getDefaultOffsetDY(), new ForceComponent() {
             public Vector2D getForce() {
                 RampModel.ForceVector totalForce = rampModel.getTotalForce();
                 return totalForce.toXVector();
@@ -54,11 +54,18 @@ public class XArrowSet extends AbstractArrowSet {
                 return totalForce.toXVector();
             }
         }, component.getBlockGraphic(), sub );
+        ForceArrowGraphic wallArrowGraphic = new ForceArrowGraphic( component, WALL, ralf.getWallForceColor(), getDefaultOffsetDY(), new ForceComponent() {
+            public Vector2D getForce() {
+                RampModel.ForceVector totalForce = rampModel.getWallForce();
+                return totalForce.toXVector();
+            }
+        }, component.getBlockGraphic(), sub );
         addForceArrowGraphic( gravityArrowGraphic );
         addForceArrowGraphic( normalArrowGraphic );
 
         addForceArrowGraphic( frictionArrowGraphic );
         addForceArrowGraphic( forceArrowGraphic );
+        addForceArrowGraphic( wallArrowGraphic );
 
         addForceArrowGraphic( totalArrowGraphic );
         setIgnoreMouse( true );

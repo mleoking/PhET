@@ -36,4 +36,13 @@ public class Ground extends Surface {
             //todo fire a collision.
         }
     }
+
+    public double getWallForce( double sumOtherForces, Block block ) {
+        if( block.getPosition() == 0.0 && sumOtherForces < 0 ) {
+            return -sumOtherForces;
+        }
+        else {
+            return 0.0;
+        }
+    }
 }

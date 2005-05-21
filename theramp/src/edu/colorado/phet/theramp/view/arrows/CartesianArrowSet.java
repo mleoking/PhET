@@ -27,7 +27,7 @@ public class CartesianArrowSet extends AbstractArrowSet {
             }
         }, component.getBlockGraphic() );
 
-        ForceArrowGraphic totalArrowGraphic = new ForceArrowGraphic( component, TOTAL, ralf.getNetForceColor(), 45, new ForceComponent() {
+        ForceArrowGraphic totalArrowGraphic = new ForceArrowGraphic( component, TOTAL, ralf.getNetForceColor(), getDefaultOffsetDY(), new ForceComponent() {
             public Vector2D getForce() {
                 RampModel.ForceVector totalForce = rampModel.getTotalForce();
                 return totalForce;
@@ -54,11 +54,19 @@ public class CartesianArrowSet extends AbstractArrowSet {
             }
         }, component.getBlockGraphic() );
 
+        ForceArrowGraphic wallArrowGraphic = new ForceArrowGraphic( component, WALL, ralf.getWallForceColor(), getDefaultOffsetDY(), new ForceComponent() {
+            public Vector2D getForce() {
+                return rampModel.getWallForce();
+            }
+        }, component.getBlockGraphic() );
+
         addForceArrowGraphic( gravityArrowGraphic );
         addForceArrowGraphic( normalArrowGraphic );
 
         addForceArrowGraphic( frictionArrowGraphic );
         addForceArrowGraphic( forceArrowGraphic );
+
+        addForceArrowGraphic( wallArrowGraphic );
 
         addForceArrowGraphic( totalArrowGraphic );
         setIgnoreMouse( true );
