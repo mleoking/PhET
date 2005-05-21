@@ -105,5 +105,7 @@ public class FieldGrid //extends JLabel
 
     public void setAntialias( boolean antialias ) {
         this.antialias = antialias;
+        hockeyModule.getPlayingField().updateBufferedImage();
+        hockeyModule.getPlayingField().repaint();
     }
 }//end of public class
