@@ -83,7 +83,7 @@
     <target name="Compile" depends="init, Build Dependencies, Clean"
         description="compile the source ">
         <mkdir dir="${ant.classes}"/>
-        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;${ant.lib}/smoothmetal.jar" destdir="${ant.classes}"/>
+        <javac srcdir="${src}:timeseries/src" classpath="${ant.lib}/phetcommon.jar;${ant.lib}/charts.jar;${ant.lib}/smoothmetal.jar" destdir="${ant.classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
