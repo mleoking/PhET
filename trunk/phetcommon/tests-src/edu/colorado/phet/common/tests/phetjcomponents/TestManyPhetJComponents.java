@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.common.tests.phetjcomponents;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
@@ -44,8 +43,9 @@ public class TestManyPhetJComponents extends Module {
 
     public static void main( String[] args ) {
         SwingTimerClock clock = new SwingTimerClock( 1, 30 );
+        PhetApplication phetApplication = new PhetApplication( args, "title", "desc", "version", clock, true, new FrameSetup.CenteredWithSize( 600, 600 ) );
         TestManyPhetJComponents module = new TestManyPhetJComponents( "name", clock );
-        PhetApplication phetApplication = new PhetApplication( new ApplicationModel( "window title", "desc", "version", new FrameSetup.CenteredWithSize( 600, 600 ), module, clock ), args );
+        phetApplication.setModules( new Module[]{module} );
         phetApplication.startApplication();
     }
 }
