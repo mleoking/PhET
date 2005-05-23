@@ -54,9 +54,7 @@ public class ControlPanel extends JPanel {
                                                                      1, 1, 1, 0,
                                                                      GridBagConstraints.NORTH,
                                                                      GridBagConstraints.NONE,
-//                                                                     GridBagConstraints.BOTH,
                                                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
-
 
     /**
      * @param module
@@ -69,8 +67,8 @@ public class ControlPanel extends JPanel {
                                                              new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 1,
                                                                  GridBagConstraints.NORTH,
-//                                                                 GridBagConstraints.BOTH,
-                                                                 GridBagConstraints.HORIZONTAL,
+                                                                 GridBagConstraints.BOTH,
+//                                                                 GridBagConstraints.HORIZONTAL,
                                                                  new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints helpGbc = new GridBagConstraints( 0, 2, 1, 1, 0, 0,
                                                              GridBagConstraints.SOUTH,
@@ -90,10 +88,6 @@ public class ControlPanel extends JPanel {
                                       JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         scrollPane.setBorder( null );
-//        super.add( controlPane, controlsGbc );
-        JPanel jp = new JPanel( new BorderLayout() );
-//        jp.add( scrollPane );
-//        super.add( jp, controlsGbc );
 //        super.add( controlPane, controlsGbc );
         super.add( scrollPane, controlsGbc );
 
@@ -222,7 +216,6 @@ public class ControlPanel extends JPanel {
         repaint();
     }
 
-
     /**
      * Vestigial code used to center the controls in the panel using a SpringLayout. I'm hanging om to this so
      * I'll have an example of SpringLayout use
@@ -284,68 +277,55 @@ public class ControlPanel extends JPanel {
     }
 
     //-----------------------------------------------------------------
-    // Inner classes
+    // ControlPanel size management
     //-----------------------------------------------------------------
 
+    private boolean sizeSet = false;
+
     /**
-     * Sets the minimum size of the scroll pane, which is needed for it to size properly, for some
-     * reason. Also sets a border around the pane whenever it is showing a scroll bar, but removes
-     * the border when there is no scroll bar.
+     * Called when a control is added to the control panel. Forces the ScrollPaneManager
+     * to recompute its prefered and minimum sizes.
+     */
+    private void resizeControlPane() {
+        sizeSet = false;
+        ControlPanel.this.revalidate();
+    }
+
+    /**
+     * Sets the size of the scroll pane, which is needed for it to size properly under the conditions
+     * we are using it: We want the scroll pane to be top justified in its grid. Normally you would
+     * get something justified like that by setting the fill = HORIZONTAL or NONE. But when you do this
+     * the scroll pane doesn't work right. To get it to work right, we have to do all this stuff below.
+     * <p/>
+     * JScrollPane will collapse to a very small thing if it is layed out by a GridBagLayout manager
+     * without fill = BOTH, and the setMinimumSize() has not been set properly on the JScrollPane.
      */
     private class ScrollPaneManager extends ComponentAdapter {
-        boolean sizeSet;
-        Dimension refDim = new Dimension();
 
         public void componentResized( ComponentEvent e ) {
+
             // Note: If this code doesn't execute in an invokeLater() runnable, it sometimes does the
             // wrong thing.
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
-                    Dimension size = controlPane.getSize();
-                    if( size.getWidth() > refDim.getWidth() || size.getHeight() > refDim.getHeight() ) {
-//                    if( size.getWidth() > 0 && size.getHeight() > 0 ) {
-                        refDim.setSize( size );
+                    Dimension size = controlPane.getPreferredSize();
+                    if( size.getWidth() > 0 && size.getHeight() > 0 ) {
                         if( !sizeSet ) {
-                            // Note: setPreferredSize() doesn't seem to work here
-                            // 20 is my best estimate at the width of the vertical scroll bar.
-                            scrollPane.setMinimumSize( new Dimension( (int)( size.getWidth() + 20 ),
-                                                                      (int)( size.getHeight() ) ) );
+                            scrollPane.setPreferredSize( new Dimension( (int)( size.getWidth() ),
+                                                                        (int)( size.getHeight() ) ) );
+                            scrollPane.setMinimumSize( getPreferredSize() );
                             sizeSet = true;
+                            ControlPanel.this.revalidate();
                         }
                     }
                     if( scrollPane.getVerticalScrollBar().isVisible() ) {
-//                        scrollPane.setBorder( BorderFactory.createEtchedBorder() );
+                        scrollPane.setBorder( BorderFactory.createEtchedBorder() );
                     }
                     else {
-//                        scrollPane.setBorder( null );
+                        scrollPane.setBorder( null );
                     }
                 }
             } );
         }
-    }
-
-    private boolean sizeSet = false;
-
-    private void resizeControlPane() {
-        // Note: If this code doesn't execute in an invokeLater() runnable, it sometimes does the
-        // wrong thing.
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                Dimension size = controlPane.getSize();
-                if( !sizeSet ) {
-                    sizeSet = true;
-                    // Note: setPreferredSize() doesn't seem to work here
-                    // 20 is my best estimate at the width of the vertical scroll bar.
-                    scrollPane.setMinimumSize( new Dimension( (int)( size.getWidth() + 20 ),
-                                                              (int)( size.getHeight() ) ) );
-                }
-                if( scrollPane.getVerticalScrollBar().isVisible() ) {
-                    scrollPane.setBorder( BorderFactory.createEtchedBorder() );
-                }
-                else {
-                    scrollPane.setBorder( null );
-                }
-            }
-        } );
     }
 }
