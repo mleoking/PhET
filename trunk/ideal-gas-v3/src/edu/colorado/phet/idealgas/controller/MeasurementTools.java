@@ -13,6 +13,7 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -25,9 +26,9 @@ import java.awt.event.*;
  */
 public class MeasurementTools {
 
-    /**
-     * These controls are each done as a JPanel, so they can have multiple widgets if necessary
-     */
+    //----------------------------------------------------------------
+    // Check boxes
+    //----------------------------------------------------------------
 
     static public class PressureSliceControl extends JCheckBox {
         PressureSliceControl( final IdealGasModule module ) {
@@ -109,6 +110,18 @@ public class MeasurementTools {
         }
     }
 
+
+    static public class ParticleInteractionControl extends JCheckBox {
+        ParticleInteractionControl( final IdealGasModel model ) {
+            super( SimStrings.get( "MeasurementControlPanel.Molecules-interact" ), true );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.enableParticleParticleInteractions( isSelected() );
+                }
+            } );
+        }
+    }
+
     //----------------------------------------------------------------
     // Menu items
     //----------------------------------------------------------------
@@ -184,8 +197,6 @@ public class MeasurementTools {
         StopwatchControlMI( final IdealGasModule module ) {
             super( SimStrings.get( "MeasurementControlPanel.Stopwatch" ), false );
             addActionListener( new ActionListener() {
-                PhetFrame frame = PhetApplication.instance().getPhetFrame();
-
                 public void actionPerformed( ActionEvent e ) {
                     module.stopwatchEnabled( isSelected() );
                 }
@@ -193,4 +204,14 @@ public class MeasurementTools {
         }
     }
 
+    static public class ParticleInteractionMI extends JCheckBoxMenuItem {
+        ParticleInteractionMI( final IdealGasModel model ) {
+            super( SimStrings.get( "MeasurementControlPanel.Molecules-interact" ), true );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.enableParticleParticleInteractions( isSelected() );
+                }
+            } );
+        }
+    }
 }

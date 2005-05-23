@@ -87,11 +87,12 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         this.add( miscPanel, gbc );
 
         // Add the measurement panel button
-        this.add( buttonPanel, gbc );
+        this.add( new ToolPanel( module ), gbc );
+//        this.add( buttonPanel, gbc );
 
         // Add the panel with the advanced options. It should be invisible at first
-        advancedPanel.setVisible( false );
-        this.add( advancedPanel, gbc );
+//        advancedPanel.setVisible( false );
+//        this.add( advancedPanel, gbc );
 
         // Reset button
         JButton resetBtn = new JButton( SimStrings.get( "IdealGasControlPanel.Reset" ) );
@@ -146,15 +147,23 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
      * Make a panel with the advanced controls
      */
     private void makeAdvancedPanel() {
+        JPopupMenu advancedToolsMenu = new JPopupMenu( "Advanced Tools" );
+//        advancedToolsMenu.add()
+
         advancedPanel = new JPanel( new GridBagLayout() );
         GridBagConstraints localGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                               1, 1, 1, 1,
-                                                              GridBagConstraints.CENTER,
+                                                              GridBagConstraints.WEST,
+//                                                              GridBagConstraints.CENTER,
                                                               GridBagConstraints.HORIZONTAL,
                                                               new Insets( 0, 0, 0, 0 ), 0, 0 );
-        ParticleInteractionControl pic = new ParticleInteractionControl( module.getIdealGasModel() );
-        localGbc.fill = GridBagConstraints.NONE;
-        advancedPanel.add( pic, localGbc );
+
+        advancedPanel.add( new MeasurementTools.HistogramControlPanel( module ), localGbc );
+        advancedPanel.add( new MeasurementTools.CmLinesControl( module ), localGbc );
+//        ParticleInteractionControl pic = new ParticleInteractionControl( module.getIdealGasModel() );
+//        localGbc.fill = GridBagConstraints.NONE;
+//        advancedPanel.add( pic, localGbc );
+        advancedPanel.add( new MeasurementTools.ParticleInteractionMI( module.getIdealGasModel() ), localGbc );
         Pump[] pumps = new Pump[]{module.getPump()};
         advancedPanel.add( new InputTemperatureControlPanel( getModule(), pumps ), localGbc );
     }
@@ -169,7 +178,7 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
                                                               new Insets( 2, 2, 2, 2 ), 0, 0 );
 
         // Measurement tools button
-        JComponent measurementDlgBtn = new MeasurementToolsPanel();
+        JComponent toolsPanel = new MeasurementToolsPanel();
 
         // Advanced options button
         ToggleButton advancedButton = new ToggleButton( SimStrings.get( "IdealGasControlPanel.MoreOptions" ),
@@ -187,9 +196,8 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
 
         // Put them on the button panel
         buttonPanel = new JPanel( new GridBagLayout() );
-        buttonPanel.add( measurementDlgBtn, localGbc );
+        buttonPanel.add( toolsPanel, localGbc );
         buttonPanel.add( advancedButton, localGbc );
-//        buttonPanel.add( resetBtn, localGbc );
         buttonPanel.revalidate();
     }
 
@@ -345,8 +353,8 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
             toolsPanel = new JPanel( new GridBagLayout() );
             toolsPanel.add( new MeasurementTools.PressureSliceControl( module ), toolsPanelInternalGbc );
             toolsPanel.add( new MeasurementTools.RulerControl( module ), toolsPanelInternalGbc );
-            toolsPanel.add( new MeasurementTools.HistogramControlPanel( module ), toolsPanelInternalGbc );
-            toolsPanel.add( new MeasurementTools.CmLinesControl( module ), toolsPanelInternalGbc );
+//            toolsPanel.add( new MeasurementTools.HistogramControlPanel( module ), toolsPanelInternalGbc );
+//            toolsPanel.add( new MeasurementTools.CmLinesControl( module ), toolsPanelInternalGbc );
             toolsPanel.add( new MeasurementTools.SpeciesMonitorControl( module ), toolsPanelInternalGbc );
             toolsPanel.add( new MeasurementTools.StopwatchControl( module ), toolsPanelInternalGbc );
             toolsPanel.setBorder( BorderFactory.createEtchedBorder() );

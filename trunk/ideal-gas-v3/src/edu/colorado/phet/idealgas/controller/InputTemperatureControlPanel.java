@@ -19,6 +19,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * InputTemperatureControlPanel
@@ -27,45 +29,56 @@ import java.awt.*;
  * @version $Revision$
  */
 public class InputTemperatureControlPanel extends JPanel {
-    private GridBagConstraints particleControlsGbc;
+    private GridBagConstraints gbc;
+    private IdealGasModule module;
 
     public InputTemperatureControlPanel( IdealGasModule module, Pump[] pumps ) {
         super( new GridBagLayout() );
-        makeParticlesControls( module, pumps );
+        this.module = module;
+        makeParticlesControls( pumps );
     }
 
     /**
      * Creates the panel that holds controls for the particles in the box
      */
-    private void makeParticlesControls( IdealGasModule module, final Pump[] pumps ) {
-        particleControlsGbc = new GridBagConstraints( 0, 0,
-                                                      2, 1, 1, 1,
-                                                      GridBagConstraints.CENTER,
-                                                      GridBagConstraints.HORIZONTAL,
-                                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
+    private void makeParticlesControls( final Pump[] pumps ) {
+        gbc = new GridBagConstraints( 0, 0,
+                                      1, 1, 1, 1,
+                                      GridBagConstraints.CENTER,
+                                      GridBagConstraints.HORIZONTAL,
+                                      new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         // Add control for temperature at which particles are introduced
-        JLabel tempLbl = new JLabel( SimStrings.get( "AdvancedControlPanel.Particle_Temperature"));
-        particleControlsGbc.insets = new Insets( 10, 10, 10, 10 );
-        particleControlsGbc.gridwidth = 1;
-        particleControlsGbc.gridx = 0;
-        particleControlsGbc.gridy = 1;
-        particleControlsGbc.anchor = GridBagConstraints.EAST;
-        this.add( tempLbl, particleControlsGbc );
-
         // todo: figure out where the 2.5 comes from, and don't use a hard-coded constant here!!!!!
         final double hackConst = 2.5;
         final JSpinner tempSpinner = new JSpinner( new SpinnerNumberModel( IdealGasModel.DEFAULT_ENERGY / IdealGasConfig.TEMPERATURE_SCALE_FACTOR / hackConst,
                                                                            50, 1000, 1 ) );
-        particleControlsGbc.gridx = 1;
-        particleControlsGbc.anchor = GridBagConstraints.WEST;
-        this.add( tempSpinner, particleControlsGbc );
+        tempSpinner.setEnabled( false );
+        final JCheckBox tempLbl = new JCheckBox( SimStrings.get( "AdvancedControlPanel.Particle_Temperature" ), false );
+        tempLbl.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                tempSpinner.setEnabled( tempLbl.isSelected() );
+                if( !tempLbl.isSelected() ) {
+                    for( int i = 0; i < pumps.length; i++ ) {
+                        pumps[i].setPumpingEnergyStrategy( new Pump.ConstantEnergyStrategy( module.getIdealGasModel() ) );
+                    }
+                }
+            }
+        } );
+
+        gbc.insets = new Insets( 0, 10, 0, 0 );
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        this.add( tempLbl, gbc );
+
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        this.add( tempSpinner, gbc );
         // Changes the temperature at which particles are pumped into the box
         tempSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double temp = ((Double)tempSpinner.getValue()).doubleValue() * IdealGasConfig.TEMPERATURE_SCALE_FACTOR * hackConst;
+                double temp = ( (Double)tempSpinner.getValue() ).doubleValue() * IdealGasConfig.TEMPERATURE_SCALE_FACTOR * hackConst;
                 for( int i = 0; i < pumps.length; i++ ) {
-                    pumps[i].setPumpingEnergyStrategy( new Pump.FixedEnergyStrategy( temp ));
+                    pumps[i].setPumpingEnergyStrategy( new Pump.FixedEnergyStrategy( temp ) );
                 }
             }
         } );
