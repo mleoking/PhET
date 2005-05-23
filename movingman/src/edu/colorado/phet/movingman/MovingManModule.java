@@ -7,6 +7,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.util.QuickTimer;
 import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
@@ -659,6 +660,7 @@ public class MovingManModule extends Module {
 
 
     public static void main( final String[] args ) throws Exception {
+        QuickTimer initTime = new QuickTimer();
 //        boolean same = 0 == -0;
 //        System.out.println( "same = " + same );
 //        UIManager.setLookAndFeel( MetalLookAndFeel.class.getName());//to initialize for later.
@@ -690,6 +692,7 @@ public class MovingManModule extends Module {
                 }
             }
         } );
+        System.out.println( "initTime = " + initTime );
     }
 
     private static void runMain( String[] args ) throws IOException {
@@ -719,14 +722,14 @@ public class MovingManModule extends Module {
 //        m.backgroundGraphic.addGraphic( rdp, 100 );
 
         tpa.startApplication();
-        fixComponent( frame.getContentPane() );
+        /*fixComponent( frame.getContentPane() );
 
         frame.invalidate();
         frame.validate();
         frame.repaint();
-        m.repaintBackground();
+        m.repaintBackground();*/
         m.getTimeModel().getRecordMode().initialize();
-        m.getApparatusPanel().repaint();
+        /*m.getApparatusPanel().repaint();
 
         final Runnable dofix = new Runnable() {
             public void run() {
@@ -781,7 +784,7 @@ public class MovingManModule extends Module {
                 new Thread( dofix ).start();
             }
         } );
-        dofix.run();
+        dofix.run();*/
 
         m.setInited( true );
         m.relayout();
