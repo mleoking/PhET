@@ -136,14 +136,6 @@ public class PhetShapeGraphic extends PhetGraphic {
         }
     }
 
-    /**
-     * Because the bounds have changed, we must refresh our cached stroked shape
-     */
-    public void setBoundsDirty() {
-        computeStrokedShape();
-        super.setBoundsDirty();
-    }
-
     //----------------------------------------------------------------
     // Rendering
     //----------------------------------------------------------------
@@ -247,6 +239,7 @@ public class PhetShapeGraphic extends PhetGraphic {
             return getNetTransform().createTransformedShape( shape.getBounds() ).getBounds();
         }
         else {
+            computeStrokedShape();
             // todo: why aren't we transforming strokedShape and using its bound?
             Rectangle bounds = strokedShape.getBounds();
             Rectangle expanded = new Rectangle( bounds.x, bounds.y, bounds.width + 1, bounds.height + 1 ); //necessary to capture the entire bounds.
