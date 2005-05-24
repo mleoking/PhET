@@ -9,8 +9,9 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
+import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
@@ -21,6 +22,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener {
 
@@ -29,8 +31,10 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
     private Line2D.Double leaderLine1;
     private Line2D.Double leaderLine2;
     private AlphaDecayControlPanel alphaDecayControlPanel;
-    private Graphic ringGraphic;
-    private Graphic leaderLines;
+    private PhetGraphic ringGraphic;
+    private PhetGraphic leaderLines;
+//    private Graphic ringGraphic;
+//    private Graphic leaderLines;
     private double ringLevel = Config.backgroundGraphicLevel;
     private double leaderLineLevel = 0;
 
@@ -47,7 +51,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         //        clock.setDt( clock.getDt() / 10 );
 
         getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
-        physicalPanel = new AlphaDecayPhysicalPanel( getModel() );
+        physicalPanel = new AlphaDecayPhysicalPanel( clock );
         super.setPhysicalPanel( physicalPanel );
         getApparatusPanel().remove( 0 );
         getApparatusPanel().add( physicalPanel, 0 );
@@ -111,47 +115,105 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         getPotentialProfilePanel().addAlphaParticle( alphaParticle, nucleus );
     }
 
+    /**
+     * todo: Change to PhetCompositGraphic
+     *
+     * @param nucleus
+     */
     private void addRingGraphic( Nucleus nucleus ) {
-        // Add a ring around the nucleus to show where its alpha decay radius is
-        setRingAttributes( nucleus );
-        final Stroke ringStroke = new BasicStroke( 2f );
-        ringGraphic = new Graphic() {
-            public void paint( Graphics2D g ) {
-                if( alphaRing != null ) {
-                    GraphicsUtil.setAntiAliasingOn( g );
-                    GraphicsUtil.setAlpha( g, 0.4 );
-                    g.setColor( Color.blue );
-                    g.setStroke( ringStroke );
-                    g.draw( alphaRing );
-                    GraphicsUtil.setAlpha( g, 1 );
-                }
-            }
-        };
-        this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic, ringLevel );
+        addGraphic( new RingGraphic( getApparatusPanel(), nucleus ), ringLevel );
 
-        // Add leader lines from the ring up to the profile
-        leaderLines = new Graphic() {
-            public void paint( Graphics2D g ) {
-                if( leaderLine1 != null && leaderLine2 != null ) {
-                    g.setColor( Color.black );
-                    g.setStroke( leaderLineStroke );
-                    GraphicsUtil.setAlpha( g, 0.4 );
-                    g.draw( leaderLine1 );
-                    g.draw( leaderLine2 );
-                    GraphicsUtil.setAlpha( g, 1 );
-                }
-            }
-        };
-        this.getPhysicalPanel().addOriginCenteredGraphic( leaderLines, leaderLineLevel );
-        this.getPotentialProfilePanel().addOriginCenteredGraphic( leaderLines );
+//        // Add a ring around the nucleus to show where its alpha decay radius is
+//        setRingAttributes( nucleus );
+//        final Stroke ringStroke = new BasicStroke( 2f );
+//        ringGraphic = new PhetGraphic() {
+//            public void paint( Graphics2D g ) {
+//                if( alphaRing != null ) {
+//                    GraphicsUtil.setAntiAliasingOn( g );
+//                    GraphicsUtil.setAlpha( g, 0.4 );
+//                    g.setColor( Color.blue );
+//                    g.setStroke( ringStroke );
+//                    g.draw( alphaRing );
+//                    GraphicsUtil.setAlpha( g, 1 );
+//                }
+//            }
+//
+//            // Added in port: 5/24/05
+//            protected Rectangle determineBounds() {
+//                return new Rectangle( getApparatusPanel().getBounds() );
+//            }
+//        };
+//        this.getPhysicalPanel().addOriginCenteredGraphic( ringGraphic, ringLevel );
+//
+//        // Add leader lines from the ring up to the profile
+//        leaderLines = new PhetGraphic() {
+//            public void paint( Graphics2D g ) {
+//                if( leaderLine1 != null && leaderLine2 != null ) {
+//                    g.setColor( Color.black );
+//                    g.setStroke( leaderLineStroke );
+//                    GraphicsUtil.setAlpha( g, 0.4 );
+//                    g.draw( leaderLine1 );
+//                    g.draw( leaderLine2 );
+//                    GraphicsUtil.setAlpha( g, 1 );
+//                }
+//            }
+//
+//            // Added in port: 5/24/05
+//            protected Rectangle determineBounds() {
+//                return new Rectangle( getApparatusPanel().getBounds() );
+//            }
+//        };
+//        this.getPhysicalPanel().addOriginCenteredGraphic( leaderLines, leaderLineLevel );
+//        this.getPotentialProfilePanel().addOriginCenteredGraphic( leaderLines );
     }
 
+    //------------------------------------------------------------------------------
+    private class RingGraphic extends CompositePhetGraphic {
+        public RingGraphic( Component component, Nucleus nucleus ) {
+            super( component );
+
+            // The ring
+            double radius = Math.abs( nucleus.getPotentialProfile().getAlphaDecayX() );
+            double x = getNucleus().getPosition().getX() - radius;
+            double y = getNucleus().getPosition().getY() - radius;
+            alphaRing = new Ellipse2D.Double( x, y, radius * 2, radius * 2 );
+            PhetShapeGraphic ring = new PhetShapeGraphic( component );
+            ring.setShape( alphaRing );
+            setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+//            GraphicsUtil.setAntiAliasingOn( g );
+//            GraphicsUtil.setAlpha( g, 0.4 );
+            ring.setColor( new Color( 0, 255, 0, 115 ) );
+            ring.setStroke( new BasicStroke( 2f ) );
+            addGraphic( ring );
+
+            // The leader lines
+            leaderLine1 = new Line2D.Double( x, -1000, x, 1000 );
+            leaderLine2 = new Line2D.Double( x + radius * 2, -1000, x + radius * 2, 1000 );
+            PhetShapeGraphic line1 = new PhetShapeGraphic( component );
+            line1.setShape( new Rectangle2D.Double( leaderLine1.getX1(),
+                                                    leaderLine1.getY1(),
+                                                    leaderLine1.getX2() - leaderLine1.getX1(),
+                                                    leaderLine1.getY2() - leaderLine1.getY1() ) );
+            line1.setColor( new Color( 0, 0, 0, 115 ) );
+            addGraphic( line1 );
+            PhetShapeGraphic line2 = new PhetShapeGraphic( component );
+            line1.setShape( new Rectangle2D.Double( leaderLine2.getX1(),
+                                                    leaderLine2.getY1(),
+                                                    leaderLine2.getX2() - leaderLine2.getX1(),
+                                                    leaderLine2.getY2() - leaderLine2.getY1() ) );
+            line2.setColor( new Color( 0, 0, 0, 115 ) );
+            addGraphic( line2 );
+        }
+    }
+
+    //------------------------------------------------------------------------------
     private void setRingAttributes( Nucleus nucleus ) {
         if( nucleus.getPotentialProfile().getAlphaDecayX() < 0 ) {
             double radius = Math.abs( nucleus.getPotentialProfile().getAlphaDecayX() );
             double x = getNucleus().getPosition().getX() - radius;
             double y = getNucleus().getPosition().getY() - radius;
-            alphaRing = new Ellipse2D.Double( x, y, radius * 2, radius * 2 );
+            alphaRing.setFrame( x, y, radius * 2, radius * 2 );
+//            alphaRing = new Ellipse2D.Double( x, y, radius * 2, radius * 2 );
             leaderLine1 = new Line2D.Double( x, -1000, x, 1000 );
             leaderLine2 = new Line2D.Double( x + radius * 2, -1000, x + radius * 2, 1000 );
         }
@@ -188,7 +250,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         setRingAttributes( decayProducts.getDaughter() );
 
         // Make a bang!
-        Kaboom kaboom = new Kaboom( new Point2D.Double(), 25, 300, getPhysicalPanel() );
+        Kaboom kaboom = new Kaboom( getApparatusPanel(), new Point2D.Double(), 25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
     }
 }

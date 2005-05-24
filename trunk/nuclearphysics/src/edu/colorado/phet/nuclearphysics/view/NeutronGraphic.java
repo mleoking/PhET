@@ -19,6 +19,10 @@ import java.io.IOException;
 
 public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
 
+    //----------------------------------------------------------------
+    // Class data and methods
+    //----------------------------------------------------------------
+
     private static Stroke outlineStroke = new BasicStroke( 0.35f );
     private static Color color = Color.gray;
     private static BufferedImage neutronImage;
@@ -39,19 +43,19 @@ public class NeutronGraphic extends ParticleGraphic implements ImageObserver {
         }
     }
 
-    //    private static HashMap graphicToModelMap = new HashMap();
-
-    //    public static NeutronGraphic getGraphicForNeutron( Neutron neutron ) {
-    //        return (NeutronGraphic)graphicToModelMap.get( neutron );
-    //    }
-
-    public NeutronGraphic() {
-        super( color );
+    /**
+     * @param component
+     */
+    public NeutronGraphic( Component component ) {
+        super( component, color );
     }
 
-    public NeutronGraphic( NuclearParticle particle ) {
-        super( particle, NeutronGraphic.color );
-        //        graphicToModelMap.put( particle, this );
+    /**
+     * @param component
+     * @param particle
+     */
+    public NeutronGraphic( Component component, NuclearParticle particle ) {
+        super( component, particle, NeutronGraphic.color );
     }
 
     public void paint( Graphics2D g, double x, double y ) {

@@ -24,7 +24,7 @@ public class NuclearPhysicsModule extends Module {
     private AbstractClock clock;
 
     public NuclearPhysicsModule( String name, AbstractClock clock ) {
-        super( name );
+        super( name, clock );
         this.clock = clock;
 
         // Start the model
@@ -40,7 +40,7 @@ public class NuclearPhysicsModule extends Module {
         apparatusPanel = new ApparatusPanel();
         super.setApparatusPanel( apparatusPanel );
 
-        physicalPanel = new PhysicalPanel( getModel() );
+        physicalPanel = new PhysicalPanel( clock );
         apparatusPanel.setLayout( new GridLayout( 1, 1 ) );
         setPhysicalPanel( physicalPanel );
         apparatusPanel.add( physicalPanel );
@@ -70,7 +70,7 @@ public class NuclearPhysicsModule extends Module {
 
     protected void addNeutron( final NuclearParticle particle ) {
         this.getModel().addModelElement( particle );
-        final NeutronGraphic ng = new NeutronGraphic( particle );
+        final NeutronGraphic ng = new NeutronGraphic( getApparatusPanel(), particle );
         physicalPanel.addGraphic( ng );
 
         particle.addListener( new NuclearModelElement.Listener() {
@@ -83,7 +83,7 @@ public class NuclearPhysicsModule extends Module {
 
     protected void addNeutron( final NuclearParticle particle, Nucleus nucleus ) {
         this.getModel().addModelElement( particle );
-        final NeutronGraphic ng = new NeutronGraphic( particle );
+        final NeutronGraphic ng = new NeutronGraphic( getApparatusPanel(), particle );
         physicalPanel.addGraphic( ng );
 
         particle.addListener( new NuclearModelElement.Listener() {

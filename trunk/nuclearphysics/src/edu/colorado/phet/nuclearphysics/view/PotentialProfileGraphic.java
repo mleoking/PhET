@@ -7,8 +7,7 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.PotentialProfile;
@@ -19,7 +18,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
-public class PotentialProfileGraphic implements Graphic, SimpleObserver {
+public class PotentialProfileGraphic extends PhetImageGraphic implements SimpleObserver {
 
     //
     // Statics
@@ -40,19 +39,22 @@ public class PotentialProfileGraphic implements Graphic, SimpleObserver {
     private PotentialProfile profile;
     private Point2D.Double origin;
     private AffineTransform profileTx = new AffineTransform();
-    private Image image;
+    private BufferedImage image;
     private Nucleus nucleus;
 
-    public PotentialProfileGraphic( Nucleus nucleus ) {
+    public PotentialProfileGraphic( Component component, Nucleus nucleus ) {
+        super( component );
         this.nucleus = nucleus;
         this.profile = nucleus.getPotentialProfile();
         this.profile.addObserver( this );
         image = buildImage();
+        setImage( image );
     }
 
     public void setColor( Color color ) {
         this.color = color;
         image = buildImage();
+        setImage( image );
     }
 
     public void setOrigin( Point2D.Double origin ) {
@@ -63,26 +65,26 @@ public class PotentialProfileGraphic implements Graphic, SimpleObserver {
         return profile;
     }
 
-    public void paint( Graphics2D g ) {
-        GraphicsState gs = new GraphicsState( g );
+//    public void paint( Graphics2D g ) {
+//        GraphicsState gs = new GraphicsState( g );
+//
+//        profileTx.setToIdentity();
+//        /**
+//         *  Note: This line now puts the x location at 0, so it won't jiggle while a
+//         * nucleus that is fissioning jiggles. This will not work if we want to go
+//         * back to having two profiles that move away with the daughter nuclei after
+//         * a fission event. To make that happen, inable the commented line of code
+//         */
+//        profileTx.translate( 0, 0 );
+//        //        profileTx.translate( nucleus.getLocation().getX(), 0 );
+//        g.transform( profileTx );
+//        g.drawImage( image, -image.getWidth( imgObs ) / 2,
+//                     -image.getHeight( imgObs ), imgObs );
+//
+//        gs.restoreGraphics();
+//    }
 
-        profileTx.setToIdentity();
-        /**
-         *  Note: This line now puts the x location at 0, so it won't jiggle while a
-         * nucleus that is fissioning jiggles. This will not work if we want to go
-         * back to having two profiles that move away with the daughter nuclei after
-         * a fission event. To make that happen, inable the commented line of code
-         */
-        profileTx.translate( 0, 0 );
-        //        profileTx.translate( nucleus.getLocation().getX(), 0 );
-        g.transform( profileTx );
-        g.drawImage( image, -image.getWidth( imgObs ) / 2,
-                     -image.getHeight( imgObs ), imgObs );
-
-        gs.restoreGraphics();
-    }
-
-    private Image buildImage() {
+    private BufferedImage buildImage() {
         AffineTransform atx = new AffineTransform();
         int imageHeight = (int)Math.max( profile.getMaxPotential(), profile.getWellPotential() );
         BufferedImage bi = new BufferedImage( (int)( profile.getWidth() ),

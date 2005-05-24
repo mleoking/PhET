@@ -7,8 +7,7 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
@@ -18,30 +17,44 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
-public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
+public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver, ImageObserver {
 
-    private static NeutronGraphic neutronGraphic = new NeutronGraphic();
-    private static ProtonGraphic protonGraphic = new ProtonGraphic();
+    private NeutronGraphic neutronGraphic;
+    private ProtonGraphic protonGraphic;
+//    private static NeutronGraphic neutronGraphic = new NeutronGraphic( null );
+//    private static ProtonGraphic protonGraphic = new ProtonGraphic( null );
 
 
     private Point2D.Double position = new Point2D.Double();
     Nucleus nucleus;
-    private Image img;
+    private BufferedImage img;
     private AffineTransform atx = new AffineTransform();
 
-    public NucleusGraphic( Nucleus nucleus ) {
+    /**
+     * @param component
+     * @param nucleus
+     */
+    public NucleusGraphic( Component component, Nucleus nucleus ) {
+        super( component );
         nucleus.addObserver( this );
+
+        neutronGraphic = new NeutronGraphic( component );
+        protonGraphic = new ProtonGraphic( component );
         this.nucleus = nucleus;
         this.position.x = nucleus.getPosition().getX();
         this.position.y = nucleus.getPosition().getY();
         img = computeImage();
+        setImage( img );
+
+        setRegistrationPoint( (int)( nucleus.getRadius() + NuclearParticle.RADIUS ),
+                              (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) );
     }
 
-    public void setTransform( AffineTransform atx ) {
-        this.atx = atx;
-    }
+//    public void setTransform( AffineTransform atx ) {
+//        this.atx = atx;
+//    }
 
-    protected Image computeImage() {
+    protected BufferedImage computeImage() {
         BufferedImage bi = new BufferedImage( (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
                                               (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
                                               BufferedImage.TYPE_INT_ARGB );
@@ -67,26 +80,30 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
     }
 
     public void paint( Graphics2D g2, double x, double y ) {
-        GraphicsState gs = new GraphicsState( g2 );
-        g2.transform( atx );
-        g2.drawImage( img,
-                      (int)( x - nucleus.getRadius() - NuclearParticle.RADIUS ),
-                      (int)( y - nucleus.getRadius() - NuclearParticle.RADIUS ),
-                      this );
-        gs.restoreGraphics();
+        setLocation( (int)x + 200, (int)y + 200 );
+        super.paint( g2 );
+//        GraphicsState gs = new GraphicsState( g2 );
+//        g2.transform( atx );
+//        g2.drawImage( img,
+//                      (int)( x - nucleus.getRadius() - NuclearParticle.RADIUS ),
+//                      (int)( y - nucleus.getRadius() - NuclearParticle.RADIUS ),
+//                      this );
+//        gs.restoreGraphics();
     }
 
-    public void paint( Graphics2D g2 ) {
-        GraphicsState gs = new GraphicsState( g2 );
-        g2.transform( atx );
-        update();
-        g2.drawImage( img, (int)position.getX(), (int)position.getY(), this );
-        gs.restoreGraphics();
-    }
+//    public void paint( Graphics2D g2 ) {
+//        GraphicsState gs = new GraphicsState( g2 );
+//        g2.transform( atx );
+//        update();
+//        g2.drawImage( img, (int)position.getX(), (int)position.getY(), this );
+//        gs.restoreGraphics();
+//    }
 
     public void update() {
         this.position.x = nucleus.getPosition().getX() - nucleus.getRadius() - NuclearParticle.RADIUS;
         this.position.y = nucleus.getPosition().getY() - nucleus.getRadius() - NuclearParticle.RADIUS;
+
+        setLocation( (int)position.getX(), (int)position.getY() );
     }
 
     public Nucleus getNucleus() {
