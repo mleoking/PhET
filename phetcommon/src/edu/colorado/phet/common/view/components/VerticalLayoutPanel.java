@@ -48,4 +48,8 @@ public class VerticalLayoutPanel extends JPanel {
     public void setInsets( Insets insets ) {
         gridBagConstraints.insets = insets;
     }
+
+    public int getFill() {
+        return gridBagConstraints.fill;
+    }
 }
