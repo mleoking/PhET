@@ -32,6 +32,7 @@ public class TxGraphic extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
+        -
         return graphic.getBounds();
     }
 
