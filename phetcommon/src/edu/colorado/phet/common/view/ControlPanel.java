@@ -11,18 +11,16 @@
 package edu.colorado.phet.common.view;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.help.HelpPanel;
-import edu.colorado.phet.common.view.util.FractionSpring;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 
 /**
  * ControlPanel
@@ -37,86 +35,90 @@ import java.util.HashMap;
  * @version $Revision$
  */
 public class ControlPanel extends JPanel {
-    private JPanel controlPane = new JPanel( new GridBagLayout() );
-    private SpringLayout layout;
-    private JLabel titleLabel;
-    private HelpPanel helpPanel;
+    private static final int CONTROLS_OFF = 0;
+    private static final int CONTROLS_ON = 1;
+    private static final int CONTROLS_SCROLL = 2;
+
+    private ControlPanel.ContentPanel controlPane = new ContentPanel();
     private ImageIcon imageIcon;
-    private int padX = 5;
-    private int padY = 5;
-    private ArrayList controls = new ArrayList();
-    private HashMap panelEntries = new HashMap();
-    private Insets defaultInsets = new Insets( 0, 0, 0, 0 );
-    private JPanel logoPanel;
+    private JLabel titleLabel;
     private JScrollPane scrollPane;
+    private HelpPanel helpPanel;
+    private JPanel northPanel;
+    private int paddingDY = 5;
 
-    GridBagConstraints controlsInternalGbc = new GridBagConstraints( 0, 0,
-                                                                     1, 1, 1, 0,
-                                                                     GridBagConstraints.NORTH,
-                                                                     GridBagConstraints.NONE,
-                                                                     new Insets( 0, 0, 0, 0 ), 0, 0 );
-
-    /**
-     * @param module
-     */
     public ControlPanel( Module module ) {
-        this.setLayout( new GridBagLayout() );
-        GridBagConstraints logoGbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
-                                                             GridBagConstraints.NORTH,
-                                                             GridBagConstraints.NONE,
-                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints controlsGbc = new GridBagConstraints( 0, 1, 1, 1, 0, 1,
-                                                                 GridBagConstraints.NORTH,
-                                                                 GridBagConstraints.BOTH,
-//                                                                 GridBagConstraints.HORIZONTAL,
-                                                                 new Insets( 0, 0, 0, 0 ), 0, 0 );
-        GridBagConstraints helpGbc = new GridBagConstraints( 0, 2, 1, 1, 0, 0,
-                                                             GridBagConstraints.SOUTH,
-                                                             GridBagConstraints.NONE,
-                                                             new Insets( 0, 0, 0, 0 ), 0, 0 );
-
+        setLayout( new ControlPanel.Layout() );
         // The panel with the logo
         URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
         imageIcon = new ImageIcon( resource );
         titleLabel = ( new JLabel( imageIcon ) );
-        logoPanel = new JPanel();
-        logoPanel.add( titleLabel );
-        super.add( logoPanel, logoGbc );
+        northPanel = new JPanel();
+        northPanel.add( titleLabel );
+        addToPanel( northPanel );
 
         // The panel where the simulation-specific controls go
-        scrollPane = new JScrollPane( controlPane,
-                                      JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        scrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-        scrollPane.setBorder( null );
-//        super.add( controlPane, controlsGbc );
-        super.add( scrollPane, controlsGbc );
+        scrollPane.setBorder( new EtchedBorder( new Color( 220, 200, 255 ), Color.gray ) );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
-        super.add( helpPanel, helpGbc );
+        addToPanel( helpPanel );
         setHelpPanelEnabled( module.hasHelp() );
 
-        // Add a listener to set the minimum size of the scroll pane, and manage
-        // the presence of a border around the pane, depending on whether the
-        // scroll bars are showing
-        addComponentListener( new ScrollPaneManager() );
-
-        controlPane.addContainerListener( new ContainerListener() {
-            public void componentAdded( ContainerEvent e ) {
-                resizeControlPane();
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                relayoutControlPanel();
             }
 
-            public void componentRemoved( ContainerEvent e ) {
-                resizeControlPane();
+            public void componentShown( ComponentEvent e ) {
+                relayoutControlPanel();
             }
         } );
+        relayoutControlPanel();
+    }
+
+    /**
+     * Called when a control is added to the control panel. Forces the ScrollPaneManager
+     * to recompute its prefered and minimum sizes.
+     *
+     * @deprecated
+     */
+    public void resizeControlPane() {
+        ControlPanel.this.revalidate();
+    }
+
+    /**
+     * Helper function so clients can safely use add(Component) to add to the control section.
+     *
+     * @param component
+     */
+    private void addToPanel( Component component ) {
+        super.add( component );
+    }
+
+    /**
+     * Adds a component to the control area.
+     *
+     * @param comp
+     * @return
+     */
+    public Component add( Component comp ) {
+        return addControl( comp );
+    }
+
+    private void relayoutControlPanel() {
+        invalidate();
+        validate();
+        doLayout();
     }
 
     /**
      * Removes the logo from the control panel
      */
     public void removeTitle() {
-        logoPanel.remove( titleLabel );
+        northPanel.remove( titleLabel );
     }
 
     /**
@@ -128,204 +130,199 @@ public class ControlPanel extends JPanel {
         helpPanel.setVisible( isEnabled );
     }
 
-
-    //----------------------------------------------------------------
-    // Methods for clients to add/remove controls from the panel
-    //----------------------------------------------------------------
-
     /**
-     * Adds a component to the control panel using the default positioning. The control will be
-     * centered in the panel with default insets.
+     * Adds a component to the control area.
      *
-     * @param comp
+     * @param component
      * @return
      */
-    public Component add( Component comp ) {
-        return add( comp, defaultInsets );
+    public Component addControl( Component component ) {
+        return controlPane.add( component );
     }
 
     /**
-     * Adds a component to the control panel. The component is expanded horizontally to be as wide as the
-     * widest component in the panel.
+     * Adds a component to the control area, to fill the width.
      *
-     * @param comp
+     * @param component
      * @return
      */
-    public Component addFullWidth( Component comp ) {
-        GridBagConstraints gbc = (GridBagConstraints)controlsInternalGbc.clone();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        return add( comp, gbc );
+    public Component addFullWidth( Component component ) {
+        return controlPane.addFullWidth( component );
     }
 
-    /**
-     * Adds a component to the control panel with specified insets.
-     *
-     * @param comp
-     * @param insets
-     * @return
-     */
-    public Component add( Component comp, Insets insets ) {
-        GridBagConstraints gbc = (GridBagConstraints)controlsInternalGbc.clone();
-        gbc.insets = insets;
-        return add( comp, gbc );
-    }
+    public class Layout implements LayoutManager {
+        private int lastState;
 
-    /**
-     * Adds a componenet to tne control panel using specified GridBagConstraints. Note that the gridy attribute
-     * of the constraints will be set by the ControlPanel so that the control is placed below whatever controls
-     * are already in the panel.
-     *
-     * @param comp
-     * @param constraints
-     * @return
-     */
-    public Component add( Component comp, GridBagConstraints constraints ) {
-        controls.add( comp );
-        constraints.gridy = controls.indexOf( comp );
-        GridBagConstraints gbc = (GridBagConstraints)constraints.clone();
-        this.panelEntries.put( comp, gbc );
-        controlPane.add( comp, gbc );
-        revalidate();
-        repaint();
-        return comp;
-    }
-
-    /**
-     * Removes a compoonent from the control panel. All controls that were below the component will be
-     * moved up in the panel.
-     *
-     * @param comp
-     */
-    public void remove( Component comp ) {
-        // remove the component from the pane
-        controlPane.remove( comp );
-
-        // Adjust the positions of the remaining controls
-        int idx = controls.indexOf( comp );
-        controls.remove( comp );
-        for( int i = idx; i < controls.size(); i++ ) {
-            Component compToMove = (Component)controls.get( i );
-            GridBagConstraints constraints = (GridBagConstraints)panelEntries.get( compToMove );
-            constraints.gridy--;
-            controlPane.remove( compToMove );
-            controlPane.add( compToMove, constraints );
+        public void removeLayoutComponent( Component comp ) {
         }
 
-        // Redraw the panel
-        revalidate();
-        repaint();
-    }
+        public void layoutContainer( Container parent ) {
+            northPanel.reshape( getPositionToCenter( northPanel ), 0, northPanel.getPreferredSize().width, northPanel.getPreferredSize().height );
+            helpPanel.reshape( getPositionToCenter( helpPanel ), getHeight() - helpPanel.getPreferredSize().height, helpPanel.getPreferredSize().width, helpPanel.getPreferredSize().height );
+            int controlTop = getLogoBottom() + paddingDY;
+            int controlBottom = getHelpTop() - paddingDY;
+            int remainingHeight = controlBottom - controlTop;
 
-    /**
-     * Vestigial code used to center the controls in the panel using a SpringLayout. I'm hanging om to this so
-     * I'll have an example of SpringLayout use
-     */
-    private void adjustLayout() {
-        Dimension controlPaneSize = controlPane.getPreferredSize();
-        int controlPaneWidth = (int)Math.round( controlPaneSize.getWidth() );
-        int controlPaneHeight = (int)Math.round( controlPaneSize.getHeight() );
-        int width = (int)Math.max( imageIcon.getIconWidth() + padX * 2,
-                                   controlPaneWidth /*+ padX * 2 */ );
-        int height = (int)( padY * 4 + imageIcon.getIconHeight()
-                            + helpPanel.getPreferredSize().getHeight()
-                            + controlPaneHeight );
+            remove( scrollPane );
+            remove( controlPane );
+            scrollPane.setViewportView( null );
 
-        this.setMinimumSize( new Dimension( width, height ) );
-        this.setPreferredSize( new Dimension( width, height ) );
+            if( remainingHeight <= 0 ) {
+                //no room for controls, sorry.
+                lastState = CONTROLS_OFF;
+            }
+            else if( controlPane.getPreferredSize().height > remainingHeight ) {
+                //not enough room for all controls, so use vertical scrolling.
+                controlPane.setLocation( 0, 0 );
+                scrollPane.setViewportView( controlPane );
+                addToPanel( scrollPane );
 
-        // Create springs to the center of the panel
-        Spring containerSouthEdge = layout.getConstraint( SpringLayout.SOUTH, this );
-        Spring containerEastEdge = layout.getConstraint( SpringLayout.EAST, this );
-        Spring yCenterS = FractionSpring.half( containerSouthEdge );
-        Spring xCenterS = FractionSpring.half( containerEastEdge );
+                scrollPane.setLocation( 0, controlTop );
+                scrollPane.setSize( new Dimension( controlPane.getPreferredSize().width + getScrollBarWidth(), remainingHeight ) );//could add scrollPane.getVerticalScrollBar().getWidth()
+                //and get the parent to refit us.
+                //for now, just truncate the right side of things on control panel.
 
-        // Place the logo icon
-        Spring middleOfIconS = Spring.constant( imageIcon.getIconWidth() / 2 );
-        Spring leftOfIconS = Spring.sum( xCenterS, Spring.minus( middleOfIconS ) );
-        layout.putConstraint( SpringLayout.NORTH, titleLabel, padY,
-                              SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, titleLabel, leftOfIconS,
-                              SpringLayout.WEST, this );
+                scrollPane.invalidate();
+                scrollPane.validate();
+                scrollPane.doLayout();
+                lastState = CONTROLS_SCROLL;
+            }
+            else {
+                //controls will fit without scrollpane.
+                addToPanel( controlPane );
+                controlPane.reshape( 0, controlTop, controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
+                lastState = CONTROLS_ON;
+            }
+        }
 
-        // Place the panel with the controls
-        Spring controlsHalfHeightS = Spring.constant( controlPaneHeight / 2 );
-        Spring bottomOfIconS = Spring.constant( imageIcon.getIconHeight() + padY * 2 );
-        Spring controlsTopS = Spring.constant( padY * 2 );
-        // Enable the following line if you want the controls to float in the middle of
-        // the control panel
-        //        Spring controlsTopS = Spring.sum( yCenterS, Spring.minus( controlsHalfHeightS ) );
-        Spring controlsTopSS = Spring.max( bottomOfIconS, controlsTopS );
-        layout.putConstraint( SpringLayout.NORTH, controlPane, controlsTopSS,
-                              SpringLayout.NORTH, this );
-        layout.putConstraint( SpringLayout.WEST, controlPane,
-                              (int)( ( this.getPreferredSize().getWidth() - controlPaneWidth ) / 2 ),
-                              SpringLayout.WEST, this );
+        /**
+         * Determine what x will center the specified component in this.
+         *
+         * @param component
+         * @return
+         */
+        private int getPositionToCenter( Component component ) {
+            int availWidth = getWidth() - component.getWidth();
+            if( availWidth <= 0 ) {
+                return 0;
+            }
+            else {
+                return availWidth / 2;
+            }
+        }
 
-        // Place the help panel
-        Spring middleOfHelpPanelS = Spring.constant( (int)helpPanel.getPreferredSize().getWidth() / 2 );
-        Spring leftOfHelpPanelS = Spring.sum( xCenterS, Spring.minus( middleOfHelpPanelS ) );
-        layout.putConstraint( SpringLayout.WEST, helpPanel, leftOfHelpPanelS,
-                              SpringLayout.WEST, this );
-        Spring bottomOfControlsS = Spring.sum( controlsTopSS, Spring.constant( controlPaneHeight ) );
-        Spring minOffsetY = Spring.sum( containerSouthEdge, Spring.minus( Spring.constant( (int)helpPanel.getPreferredSize().getHeight() ) ) );
-        Spring s = Spring.max( Spring.sum( bottomOfControlsS, Spring.constant( padY ) ),
-                               minOffsetY );
-        layout.putConstraint( SpringLayout.NORTH, helpPanel, s,
-                              SpringLayout.NORTH, this );
-        this.invalidate();
-        this.repaint();
-    }
+        /**
+         * Find the top of the south (help) panel.
+         *
+         * @return
+         */
+        private int getHelpTop() {
+            if( helpPanel.isVisible() && containsComponent( helpPanel ) ) {
+                return helpPanel.getY();
+            }
+            else {
+                return getHeight();
+            }
+        }
 
-    //-----------------------------------------------------------------
-    // ControlPanel size management
-    //-----------------------------------------------------------------
+        /**
+         * Find the bottom of the north (logo) panel.
+         *
+         * @return
+         */
+        private int getLogoBottom() {
+            if( northPanel.isVisible() && containsComponent( northPanel ) ) {
+                return northPanel.getY() + northPanel.getHeight();
+            }
+            else {
+                return 0;
+            }
+        }
 
-    private boolean sizeSet = false;
+        /**
+         * Determine whether this container contains the specified component.
+         *
+         * @param component
+         * @return
+         */
+        private boolean containsComponent( Component component ) {
+            return Arrays.asList( getComponents() ).contains( component );
+        }
 
-    /**
-     * Called when a control is added to the control panel. Forces the ScrollPaneManager
-     * to recompute its prefered and minimum sizes.
-     */
-    private void resizeControlPane() {
-        sizeSet = false;
-        ControlPanel.this.revalidate();
-    }
+        public void addLayoutComponent( String name, Component comp ) {
+        }
 
-    /**
-     * Sets the size of the scroll pane, which is needed for it to size properly under the conditions
-     * we are using it: We want the scroll pane to be top justified in its grid. Normally you would
-     * get something justified like that by setting the fill = HORIZONTAL or NONE. But when you do this
-     * the scroll pane doesn't work right. To get it to work right, we have to do all this stuff below.
-     * <p/>
-     * JScrollPane will collapse to a very small thing if it is layed out by a GridBagLayout manager
-     * without fill = BOTH, and the setMinimumSize() has not been set properly on the JScrollPane.
-     */
-    private class ScrollPaneManager extends ComponentAdapter {
+        public Dimension minimumLayoutSize( Container parent ) {
+            return preferredLayoutSize( parent );
+        }
 
-        public void componentResized( ComponentEvent e ) {
+        public Dimension preferredLayoutSize( Container parent ) {
+            int minWidth = getMinWidth();
+            return new Dimension( minWidth, parent.getHeight() );
+        }
 
-            // Note: If this code doesn't execute in an invokeLater() runnable, it sometimes does the
-            // wrong thing.
-            SwingUtilities.invokeLater( new Runnable() {
-                public void run() {
-                    Dimension size = controlPane.getPreferredSize();
-                    if( size.getWidth() > 0 && size.getHeight() > 0 ) {
-                        if( !sizeSet ) {
-                            scrollPane.setPreferredSize( new Dimension( (int)( size.getWidth() ),
-                                                                        (int)( size.getHeight() ) ) );
-                            scrollPane.setMinimumSize( getPreferredSize() );
-                            sizeSet = true;
-                            ControlPanel.this.revalidate();
-                        }
-                    }
-                    if( scrollPane.getVerticalScrollBar().isVisible() ) {
-                        scrollPane.setBorder( BorderFactory.createEtchedBorder() );
-                    }
-                    else {
-                        scrollPane.setBorder( null );
-                    }
-                }
-            } );
+        /**
+         * Computes the preferred width of the control panel.
+         * If we anticipate scrollbars, we widen to accomodate.
+         *
+         * @return
+         */
+        private int getMinWidth() {
+            int width = 0;
+            if( northPanel.isVisible() ) {
+                width = Math.max( width, northPanel.getWidth() );
+            }
+            if( controlPane.isVisible() ) {
+                width = Math.max( width, controlPane.getWidth() );
+            }
+            if( helpPanel.isVisible() ) {
+                width = Math.max( width, helpPanel.getWidth() );
+            }
+            if( getLayoutRequiresScrollPane() ) {
+                width += getScrollBarWidth();
+            }
+            return width;
+        }
+
+        private int getScrollBarWidth() {
+            return scrollPane.getVerticalScrollBar().getPreferredSize().width;
+        }
+
+        /**
+         * Determine whether we anticipate using vertical scrollbars.
+         *
+         * @return
+         */
+        private boolean getLayoutRequiresScrollPane() {
+            int controlTop = getLogoBottom() + paddingDY;
+            int controlBottom = getHelpTop() - paddingDY;
+            int remainingHeight = controlBottom - controlTop;
+            if( remainingHeight < controlPane.getPreferredSize().height ) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     }
+
+    public class ContentPanel extends VerticalLayoutPanel {
+        public ContentPanel() {
+            setFill( GridBagConstraints.NONE );
+        }
+
+        public Component add( Component comp ) {
+            return super.add( comp );
+        }
+
+        public Component addFullWidth( Component component ) {
+            int fill = getFill();
+            setFill( GridBagConstraints.HORIZONTAL );
+            Component c = addControl( component );
+            setFill( fill );
+            return c;
+        }
+
+    }
+
 }
