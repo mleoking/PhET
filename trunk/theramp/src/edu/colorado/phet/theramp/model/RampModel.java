@@ -43,7 +43,7 @@ public class RampModel implements ModelElement {
 
     public RampModel() {
         ramp = new Ramp( Math.PI / 32, 15.0 );
-        ground = new Ground( 0, 10, -10, 0 );
+        ground = new Ground( 0, 6, -6, 0 );
 
         block = new Block( ramp );
         wallForce = new ForceVector();
