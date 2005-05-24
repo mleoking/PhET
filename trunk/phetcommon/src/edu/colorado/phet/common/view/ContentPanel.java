@@ -16,8 +16,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
 
 /**
@@ -57,7 +56,7 @@ public class ContentPanel extends JPanel {
                                                                            GridBagConstraints.WEST,
                                                                            GridBagConstraints.BOTH,
                                                                            new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 1, 1, 1, 0, 0,
+    private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 1, 1, 1, 0, 1000,
                                                                          GridBagConstraints.NORTH,
 //                                                                         GridBagConstraints.NONE,
                                                                          GridBagConstraints.BOTH,
@@ -91,6 +90,32 @@ public class ContentPanel extends JPanel {
         setApparatusPanelContainer( apparatusPanelContainer );
         setMonitorPanel( monitorPanel );
         setAppControlPanel( appControl );
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                relayoutContentPanel();
+            }
+
+            public void componentShown( ComponentEvent e ) {
+                relayoutContentPanel();
+            }
+        } );
+        relayoutContentPanel();
+        addContainerListener( new ContainerListener() {
+            public void componentAdded( ContainerEvent e ) {
+                relayoutContentPanel();
+            }
+
+            public void componentRemoved( ContainerEvent e ) {
+                relayoutContentPanel();
+            }
+        } );
+    }
+
+    private void relayoutContentPanel() {
+        invalidate();
+        validateTree();
+        doLayout();
+        repaint();
     }
 
     /**
