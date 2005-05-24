@@ -92,6 +92,7 @@ public class TransformManager {
 
     /**
      * Determines the size of the current drawing area.
+     *
      * @return true if the canvas size has changed, false if not
      */
     public boolean determineCanvasSize() {
@@ -123,7 +124,7 @@ public class TransformManager {
         setScale( aspectRatio );
         component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
 
-        System.out.println( "referenceBounds = " + referenceBounds );
+//        System.out.println( "referenceBounds = " + referenceBounds );
     }
 
     public Point2D getViewPortOrigin() {
