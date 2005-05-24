@@ -99,9 +99,9 @@ public class RampPanel extends ApparatusPanel2 {
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                System.out.println( "e = " + e );
+//                System.out.println( "e = " + e );
                 Rectangle b = getBounds();
-                System.out.println( "b = " + b );
+//                System.out.println( "b = " + b );
                 setReferenceSize( getDefaultRenderingSize() );//my special little rendering size.//TODO add this method to AP2
                 requestFocus();
             }
