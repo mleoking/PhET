@@ -12,7 +12,6 @@ import edu.colorado.phet.common.application.ModuleManager;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.view.IdealGasLandF;
@@ -45,14 +44,16 @@ public class DiffusionApplication extends PhetApplication {
         }
     }
 
-    public DiffusionApplication( String[] args) {
-        super( new IdealGasApplicationModel(), args );
+    public DiffusionApplication( String[] args ) {
+        super( args,
+               SimStrings.get( "DiffusionApplication.title" ),
+               SimStrings.get( "DiffusionApplication.description" ),
+               IdealGasConfig.VERSION,
+               new SwingTimerClock( IdealGasConfig.TIME_STEP, IdealGasConfig.WAIT_TIME, true ),
+               true,
+               IdealGasConfig.FRAME_SETUP );
 
-        // Add some menus
-        PhetFrame frame = getPhetFrame();
-//        frame.addMenu( new OptionsMenu( this ) );
-
-        this.startApplication();
+        setModules( new Module[] { new DiffusionModule( getClock() ) } );
     }
 
     protected void parseArgs( String[] args ) {
@@ -60,11 +61,11 @@ public class DiffusionApplication extends PhetApplication {
 
         for( int i = 0; i < args.length; i++ ) {
             String arg = args[i];
-            if( arg.startsWith( "-B")) {
+            if( arg.startsWith( "-B" ) ) {
                 ModuleManager mm = this.getModuleManager();
                 for( int j = 0; j < mm.numModules(); j++ ) {
                     ApparatusPanel ap = mm.moduleAt( j ).getApparatusPanel();
-                    ap.setBackground( Color.black);
+                    ap.setBackground( Color.black );
                     ap.paintImmediately( ap.getBounds() );
                 }
             }
@@ -81,6 +82,6 @@ public class DiffusionApplication extends PhetApplication {
         }
 
         SimStrings.setStrings( IdealGasConfig.localizedStringsPath );
-        new DiffusionApplication( args );
+        new DiffusionApplication( args ).startApplication();
     }
 }
