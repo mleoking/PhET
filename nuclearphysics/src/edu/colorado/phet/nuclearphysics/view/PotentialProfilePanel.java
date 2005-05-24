@@ -15,14 +15,13 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.GraphicsSetup;
-import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.coreadditions.TxApparatusPanel;
-import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
@@ -38,7 +37,8 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class PotentialProfilePanel extends TxApparatusPanel {
+public class PotentialProfilePanel extends ApparatusPanel2 {
+//public class PotentialProfilePanel extends TxApparatusPanel {
 
     private static Color axisColor = new Color( 100, 100, 100 );
     private static Stroke axisStroke = new BasicStroke( 1f );
@@ -103,9 +103,11 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     private boolean init = false;
     private Rectangle orgBounds;
 
-    public PotentialProfilePanel( BaseModel model ) {
-        super( model );
-        //        origin = new Point2D.Double( 250, 250 );
+    public PotentialProfilePanel( AbstractClock clock ) {
+        super( clock );
+//    public PotentialProfilePanel( BaseModel model ) {
+//        super( model );
+//                origin = new Point2D.Double( 250, 250 );
         this.setBackground( backgroundColor );
 
         addComponentListener( new ComponentAdapter() {
@@ -147,7 +149,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         Iterator nucleusIt = profileNucleusMap.keySet().iterator();
         while( nucleusIt.hasNext() ) {
             Nucleus nucleus = (Nucleus)nucleusIt.next();
-            Graphic ng = (Graphic)profileNucleusMap.get( nucleus );
+            PhetGraphic ng = (PhetGraphic)profileNucleusMap.get( nucleus );
             AffineTransform orgTx = g2.getTransform();
             AffineTransform nucleusTx = new AffineTransform();
             nucleusTx.concatenate( profileTx );
@@ -234,16 +236,19 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     }
 
     public void addPotentialProfile( Nucleus nucleus ) {
-        PotentialProfileGraphic ppg = new PotentialProfileGraphic( nucleus );
+        PotentialProfileGraphic ppg = new PotentialProfileGraphic( this, nucleus );
         nucleus.getPotentialProfile().addObserver( ppg );
         ppg.setOrigin( new Point2D.Double( 0, 0 ) );
-        TxGraphic txg = new TxGraphic( ppg, profileTx );
-        potentialProfileMap.put( nucleus.getPotentialProfile(), txg );
-        addGraphic( txg, nucleusLayer );
+//        TxGraphic txg = new TxGraphic( ppg, profileTx );
+//        potentialProfileMap.put( nucleus.getPotentialProfile(), txg );
+        potentialProfileMap.put( nucleus.getPotentialProfile(), ppg );
+        addGraphic( ppg, nucleusLayer );
+//        addGraphic( txg, nucleusLayer );
     }
 
     public void removePotentialProfile( PotentialProfile potentialProfile ) {
-        Graphic ppg = (Graphic)potentialProfileMap.get( potentialProfile );
+        PhetGraphic ppg = (PhetGraphic)potentialProfileMap.get( potentialProfile );
+//        Graphic ppg = (Graphic)potentialProfileMap.get( potentialProfile );
         removeGraphic( ppg );
         potentialProfileMap.remove( potentialProfile );
     }
@@ -251,7 +256,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
     public void removeAllPotentialProfiles() {
         Iterator it = potentialProfileMap.values().iterator();
         while( it.hasNext() ) {
-            Graphic ppg = (Graphic)it.next();
+            PhetGraphic ppg = (PhetGraphic)it.next();
             this.removeGraphic( ppg );
         }
         potentialProfileMap.clear();
@@ -259,7 +264,7 @@ public class PotentialProfilePanel extends TxApparatusPanel {
 
     public synchronized void addAlphaParticle( final AlphaParticle alphaParticle, Nucleus nucleus ) {
         // Add an alpha particle for the specified nucleus
-        final AlphaParticleGraphic alphaParticleGraphic = new AlphaParticleGraphic( alphaParticle );
+        final AlphaParticleGraphic alphaParticleGraphic = new AlphaParticleGraphic( this, alphaParticle );
         wellParticles.put( alphaParticleGraphic, nucleus );
         alphaParticle.addListener( new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
@@ -285,13 +290,15 @@ public class PotentialProfilePanel extends TxApparatusPanel {
         super.removeAllGraphics();
     }
 
-    public void addOriginCenteredGraphic( Graphic graphic ) {
-        TxGraphic txg = new TxGraphic( graphic, profileTx );
-        this.addGraphic( txg );
+    public void addOriginCenteredGraphic( PhetGraphic graphic ) {
+//    public void addOriginCenteredGraphic( Graphic graphic ) {
+//        TxGraphic txg = new TxGraphic( graphic, profileTx );
+        this.addGraphic( graphic );
+//        this.addGraphic( txg );
     }
 
     public void addNucleusGraphic( final Nucleus nucleus ) {
-        final NucleusGraphic ng = new NucleusGraphic( nucleus );
+        final NucleusGraphic ng = new NucleusGraphic( this, nucleus );
         //        TxGraphic txg = new TxGraphic( ng, );
         profileNucleusMap.put( nucleus, ng );
         nucleus.addListener( new NuclearModelElement.Listener() {

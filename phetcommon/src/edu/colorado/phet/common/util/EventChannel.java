@@ -11,9 +11,9 @@
 package edu.colorado.phet.common.util;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
@@ -67,15 +67,6 @@ public class EventChannel implements InvocationHandler {
     private List targets = new ArrayList();
     private Class targetInterface;
     private Object proxy;
-
-    /**
-     * Provided so EventRegistry can still work.
-     *
-     * @deprecated
-     */
-    protected EventChannel() {
-        // noop
-    }
 
     /**
      * Creates a proxy for a list of objects that implement a specified interface

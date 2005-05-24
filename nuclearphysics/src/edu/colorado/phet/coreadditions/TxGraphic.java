@@ -1,47 +1,44 @@
-/**
- * Class: TxGraphic
- * Package: edu.colorado.phet.coreadditions
- * Author: Another Guy
- * Date: Oct 5, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.coreadditions;
 
-import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**
- * A decorator class for Graphic that applies associates an Affine Transform
- * with the graphic.
+ * TxGraphic
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
  */
-public class TxGraphic implements Graphic {
-    private Graphic graphic;
+public class TxGraphic extends PhetGraphic {
     private AffineTransform atx;
+    private PhetGraphic graphic;
 
-    public TxGraphic( Graphic graphic, AffineTransform atx ) {
+    public TxGraphic( Component component, PhetGraphic graphic, AffineTransform atx ) {
+        super( component );
+        this.atx = atx;
         this.graphic = graphic;
-        this.atx = atx;
     }
 
-    public void paint( Graphics2D g ) {
-        GraphicsState gs = new GraphicsState( g );
-        g.transform( atx );
-        graphic.paint( g );
-        gs.restoreGraphics();
+    protected Rectangle determineBounds() {
+        return graphic.getBounds();
     }
 
-    public Graphic getWrappedGraphic() {
-        return graphic;
-    }
-
-    public AffineTransform getTransform() {
-        return atx;
-    }
-
-    public void setAtx( AffineTransform atx ) {
-        this.atx = atx;
+    public void paint( Graphics2D g2 ) {
+        saveGraphicsState( g2 );
+        g2.transform( atx );
+        graphic.paint( g2 );
+        restoreGraphicsState();
     }
 }
-

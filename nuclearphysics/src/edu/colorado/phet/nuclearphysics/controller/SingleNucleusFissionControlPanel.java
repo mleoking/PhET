@@ -7,8 +7,8 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.coreadditions.GridBagUtil;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -41,26 +41,26 @@ public class SingleNucleusFissionControlPanel extends JPanel {
         } );
 
         try {
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, fireNeutronBtn,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, new JLabel( "  " ),
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
-            GraphicsUtil.addGridBagComponent( this, resetBtn,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.NONE,
-                                              GridBagConstraints.CENTER );
+            GridBagUtil.addGridBagComponent( this, new JLabel( "  " ),
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
+            GridBagUtil.addGridBagComponent( this, fireNeutronBtn,
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
+            GridBagUtil.addGridBagComponent( this, new JLabel( "  " ),
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
+            GridBagUtil.addGridBagComponent( this, resetBtn,
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.NONE,
+                                             GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             e.printStackTrace();

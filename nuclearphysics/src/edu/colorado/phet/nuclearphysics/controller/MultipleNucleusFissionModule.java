@@ -264,7 +264,7 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         Neutron[] neutronProducts = products.getNeutronProducts();
 
         for( int i = 0; i < neutronProducts.length; i++ ) {
-            final NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
+            final NeutronGraphic npg = new NeutronGraphic( getApparatusPanel(), neutronProducts[i] );
             getModel().addModelElement( neutronProducts[i] );
             getPhysicalPanel().addGraphic( npg );
             neutrons.add( neutronProducts[i] );
@@ -276,7 +276,8 @@ public class MultipleNucleusFissionModule extends NuclearPhysicsModule
         }
 
         // Add some pizzazz
-        Kaboom kaboom = new Kaboom( products.getParent().getPosition(),
+        Kaboom kaboom = new Kaboom( getApparatusPanel(),
+                                    products.getParent().getPosition(),
                                     25, 300, getPhysicalPanel() );
         getPhysicalPanel().addGraphic( kaboom );
 

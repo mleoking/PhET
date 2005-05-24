@@ -40,12 +40,12 @@ public class ProtonGraphic extends ParticleGraphic implements ImageObserver {
     }
 
 
-    public ProtonGraphic() {
-        super( color );
+    public ProtonGraphic( Component component ) {
+        super( component, color );
     }
 
-    public ProtonGraphic( NuclearParticle particle ) {
-        super( particle, ProtonGraphic.color );
+    public ProtonGraphic( Component component, NuclearParticle particle ) {
+        super( component, particle, ProtonGraphic.color );
     }
 
     public void paint( Graphics2D g, double x, double y ) {

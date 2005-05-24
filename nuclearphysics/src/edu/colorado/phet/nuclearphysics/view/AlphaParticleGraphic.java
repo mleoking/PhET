@@ -27,8 +27,9 @@ public class AlphaParticleGraphic extends NucleusGraphic {
         BufferedImage alphaBi = new BufferedImage( (int)w, (int)h,
                                                    BufferedImage.TYPE_INT_ARGB );
         Graphics2D ga = (Graphics2D)alphaBi.getGraphics();
-        ProtonGraphic pg = new ProtonGraphic();
-        NeutronGraphic ng = new NeutronGraphic();
+        JPanel dummyPanel = new JPanel();
+        ProtonGraphic pg = new ProtonGraphic( dummyPanel );
+        NeutronGraphic ng = new NeutronGraphic( dummyPanel );
         pg.paint( ga, w * 0, h * 0 );
         ng.paint( ga, w * 0, h * 0.3 );
         pg.paint( ga, w * 0.3, h * 0.3 );
@@ -38,7 +39,7 @@ public class AlphaParticleGraphic extends NucleusGraphic {
         return alphaParticleImg;
     }
 
-    public AlphaParticleGraphic( Nucleus nucleus ) {
-        super( nucleus );
+    public AlphaParticleGraphic( Component component, Nucleus nucleus ) {
+        super( component, nucleus );
     }
 }

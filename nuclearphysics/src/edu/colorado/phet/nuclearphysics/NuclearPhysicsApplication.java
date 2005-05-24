@@ -11,7 +11,6 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
@@ -24,7 +23,6 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 
 public class NuclearPhysicsApplication extends PhetApplication {
 
@@ -33,6 +31,23 @@ public class NuclearPhysicsApplication extends PhetApplication {
 
     public NuclearPhysicsApplication( ApplicationModel descriptor ) {
         super( descriptor );
+    }
+
+    public NuclearPhysicsApplication( String[] args ) {
+        super( args, SimStrings.get( "NuclearPhysicsApplication.title" ),
+               SimStrings.get( "NuclearPhysicsApplication.description" ),
+               SimStrings.get( "NuclearPhysicsApplication.version" ),
+               new SwingTimerClock( 10, 20, true ), true,
+               new FrameSetup.CenteredWithSize( 1024, 768 ) );
+
+        Module alphaModule = new AlphaDecayModule( getClock() );
+        Module singleNucleusFissionModule = new SingleNucleusFissionModule( getClock() );
+        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( getClock() );
+        setModules( new Module[]{
+            alphaModule,
+            singleNucleusFissionModule,
+            multipleNucleusFissionModule
+        } );
     }
 
     public static void main( String[] args ) {
@@ -44,39 +59,8 @@ public class NuclearPhysicsApplication extends PhetApplication {
         catch( UnsupportedLookAndFeelException e ) {
             e.printStackTrace();
         }
-        String desc = SimStrings.get( "NuclearPhysicsApplication.description" );
-        ApplicationModel appDesc = new ApplicationModel( SimStrings.get( "NuclearPhysicsApplication.title" ),
-                                                         desc,
-                                                         SimStrings.get( "NuclearPhysicsApplication.version" ),
-                                                         new FrameSetup.MaxExtent() );
-        // Note: a ThreadedClock here ends up looking balky
-        SwingTimerClock clock = new SwingTimerClock( 10, 20, true );
-        Module alphaModule = new AlphaDecayModule( clock );
-        Module singleNucleusFissionModule = new SingleNucleusFissionModule( clock );
-        Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( clock );
-        Module[] modules = new Module[]{
-            alphaModule,
-            singleNucleusFissionModule,
-            multipleNucleusFissionModule
-        };
-        appDesc.setModules( modules );
-        //        appDesc.setInitialModule( multipleNucleusFissionModule );
-        appDesc.setInitialModule( singleNucleusFissionModule );
-        //        appDesc.setInitialModule( alphaModule );
-        appDesc.setClock( clock );
-        //        app.startApplication( multipleNucleusFissionModule );
-        //        app.startApplication( singleNucleusFissionModule );
-        appDesc.setFrameSetup( new FrameSetup.CenteredWithSize( 1024, 768 ) );
-        //                appDesc.setFrameSetup( new FrameSetup.Full() );
-        //                appDesc.setFrameSetup( new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 1024, 768 ) ) );
 
-        NuclearPhysicsApplication app = new NuclearPhysicsApplication( appDesc );
-        try {
-            app.startApplication();
-        }
-        catch( Throwable t ) {
-            t.printStackTrace();
-        }
+        new NuclearPhysicsApplication( args ).startApplication();
     }
 
     private static class NuclearAppLookAndFeel extends LandF {

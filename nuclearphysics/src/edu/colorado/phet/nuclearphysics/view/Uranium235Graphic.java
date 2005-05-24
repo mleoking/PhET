@@ -25,8 +25,8 @@ public class Uranium235Graphic extends NucleusGraphic {
 
     private boolean displayLabel = true;
 
-    public Uranium235Graphic( Nucleus nucleus ) {
-        super( nucleus );
+    public Uranium235Graphic( Component component, Nucleus nucleus ) {
+        super( component, nucleus );
         this.nucleus = nucleus;
     }
 
