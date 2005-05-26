@@ -61,12 +61,12 @@ public class ToolPanel extends JPanel {
                                    SimStrings.get( "IdealGasControlPanel.Measurement_Tools_off" ) ) {
             public void onAction() {
                 toolsPanel.setVisible( true );
-                revalidate();
+                module.getControlPanel().revalidate();
             }
 
             public void offAction() {
                 toolsPanel.setVisible( false );
-                revalidate();
+                module.getControlPanel().revalidate();
             }
         };
         topLevelGbc.fill = GridBagConstraints.NONE;
