@@ -77,10 +77,6 @@ public class PressureDialGauge extends PhetShapeGraphic {
             box.addObserver( this );
         }
 
-//        ObservablePressureBox() {
-//            box.addObserver( this );
-//        }
-
         public double getValue() {
             return box.getPressure();
         }
