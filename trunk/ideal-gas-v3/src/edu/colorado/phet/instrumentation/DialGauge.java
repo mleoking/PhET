@@ -110,10 +110,6 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
         update();
     }
 
-
-    // todo: get rid of after debug
-//    Averager pressAve = new Averager( "gauge press = " );
-
     public void update() {
         double newDatum = dataSource.getValue();
         if( datum != newDatum ) {
@@ -124,8 +120,6 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
             needleGraphic.update( theta );
             faceGraphic.repaint();
         }
-
-//        pressAve.update( newDatum );
     }
 
     public void setBackground( Color color ) {

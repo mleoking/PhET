@@ -30,13 +30,15 @@ public class PressureDialGauge extends PhetShapeGraphic {
     private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
     private DecimalFormat numberFormat;
 
+    private long updatePeriod = 200;
+
     public PressureDialGauge( PressureSensingBox box, Component component, Point attachmentPt ) {
         super( component );
         this.box = box;
 
         center = new Point2D.Double( attachmentPt.getX() + radius + stemLength, attachmentPt.getY() );
         numberFormat = new DecimalFormat( "#0.00" );
-        pressureGauge = new DialGauge( new ObservablePressureBox(), component,
+        pressureGauge = new DialGauge( new ObservablePressureBox( updatePeriod ), component,
                                        center.getX(), center.getY(),
                                        radius * 2, 0, IdealGasConfig.MAX_GAUGE_PRESSURE, "Pressure", "Atm",
                                        font, numberFormat );
@@ -67,17 +69,28 @@ public class PressureDialGauge extends PhetShapeGraphic {
      * A ScalarObservable that reports the pressure in the box
      */
     private class ObservablePressureBox extends ScalarObservable implements SimpleObserver {
+        private long notificationPeriod = 0;
+        private long lastNotificationTime;
 
-        ObservablePressureBox() {
+        public ObservablePressureBox( long notificationPeriod ) {
+            this.notificationPeriod = notificationPeriod;
             box.addObserver( this );
         }
+
+//        ObservablePressureBox() {
+//            box.addObserver( this );
+//        }
 
         public double getValue() {
             return box.getPressure();
         }
 
         public void update() {
-            notifyObservers();
+            long now = System.currentTimeMillis();
+            if( now - lastNotificationTime > notificationPeriod ) {
+                notifyObservers();
+                lastNotificationTime = now;
+            }
         }
     }
 }
