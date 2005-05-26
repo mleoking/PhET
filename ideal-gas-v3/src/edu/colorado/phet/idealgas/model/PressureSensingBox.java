@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * A Box2D that reports pressure.
- * <p>
+ * <p/>
  * The pressure is reported by PressureSlice instances, the number of which is configurable.
  * It is set in the constructor. The default value is f.
  */
@@ -47,11 +47,26 @@ public class PressureSensingBox extends Box2D {
             averagingSlices.add( ps );
         }
 
-        // A single slice is used if we only want pressure at a single level
+        // Set the averaging time for pressure readings
+        setTimeAveragingWindow( clock.getDt() * 100 );
     }
 
     /**
+     * Sets the time over which each pressure reading is averaged
      *
+     * @param simTime
+     */
+    public void setTimeAveragingWindow( double simTime ) {
+        for( int i = 0; i < averagingSlices.size(); i++ ) {
+            PressureSlice pressureSlice = (PressureSlice)averagingSlices.get( i );
+            pressureSlice.setTimeAveragingWindow( simTime );
+        }
+        if( gaugeSlice != null ) {
+            gaugeSlice.setTimeAveragingWindow( simTime );
+        }
+    }
+
+    /**
      * @param areEnabled
      */
     public void setMultipleSlicesEnabled( boolean areEnabled ) {
@@ -60,7 +75,6 @@ public class PressureSensingBox extends Box2D {
     }
 
     /**
-     *
      * @return
      */
     public boolean getMultipleSlicesEnabled() {
@@ -86,7 +100,8 @@ public class PressureSensingBox extends Box2D {
     }
 
     /**
-     * Sets the PressureSlice that the box is to use to report pressure
+     * Sets the PressureSlice that the box is to use to report pressure when pressure
+     * is to be read from a single slice.
      *
      * @param gaugeSlice
      */
