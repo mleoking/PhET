@@ -21,7 +21,7 @@ public class VerticalGuideline extends DefaultInteractiveGraphic {
         super( null );
         final VerticalLine verticalLine = new VerticalLine( component, color, position );
         setBoundedGraphic( verticalLine );
-        this.addCursorHandBehavior();
+        this.addCursorBehavior( Cursor.getPredefinedCursor( Cursor.W_RESIZE_CURSOR ) );
         this.xLocation = position;
         this.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
@@ -53,6 +53,7 @@ public class VerticalGuideline extends DefaultInteractiveGraphic {
 
         public void setLocation( int xLocation ) {
             line.setRect( xLocation, 0, 1, 800 );
+            setBoundsDirty();
             super.repaint();
         }
     }

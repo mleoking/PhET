@@ -6,14 +6,14 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.sound.SoundConfig;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.sound.model.SoundModel;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class SoundApparatusPanel extends ApparatusPanel {
+public class SoundApparatusPanel extends ApparatusPanel2 {
     private int audioSource = SPEAKER_SOURCE;
     private double frequency = 0;
     private double amplitude = 0;
@@ -30,9 +30,8 @@ public class SoundApparatusPanel extends ApparatusPanel {
     public final static int LISTENER_SOURCE = 2;
 
     private SoundModel model;
-
-    public SoundApparatusPanel( SoundModel model ) {
-        this.model = model;
-        this.setPreferredSize( new Dimension( 600, SoundConfig.s_speakerBaseY * 3 ) );
+    public SoundApparatusPanel( SoundModel model, AbstractClock clock ) {
+        super( model, clock );
+//        this.setUseOffscreenBuffer( true );
     }
 }

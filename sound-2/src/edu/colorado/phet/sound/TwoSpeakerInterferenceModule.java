@@ -41,7 +41,7 @@ public class TwoSpeakerInterferenceModule extends SoundModule {
         headListener = new Listener( (SoundModel)getModel(),
                                      new Point2D.Double() );
 
-        setApparatusPanel( new SoundApparatusPanel( soundModel ) );
+        setApparatusPanel( new SoundApparatusPanel( soundModel, appModel.getClock() ) );
         initApparatusPanel();
         initControlPanel();
     }

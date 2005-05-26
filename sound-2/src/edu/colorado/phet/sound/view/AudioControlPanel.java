@@ -84,4 +84,18 @@ public class AudioControlPanel extends JPanel {
     public void setSpeakerRBEnabled( boolean enabled ) {
         speakerRB.setEnabled( enabled );
     }
+
+    /**
+     * Sets the audio source to be the speaker, and hides the radio buttons that
+     * allow the selection of the audio source.
+     * <p/>
+     * Provided for Noah Podolefsky's research study on 4/7/05
+     *
+     * @param b
+     */
+    public void setAudioAtSpeakerOnly( boolean b ) {
+        speakerRB.setSelected( true );
+        speakerRB.setVisible( false );
+        listenerRB.setVisible( false );
+    }
 }

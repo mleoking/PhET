@@ -7,6 +7,9 @@
  */
 package edu.colorado.phet.sound.view;
 
+/**
+ * Reports the RGB value at a given point
+ */
 public interface RgbReporter {
     int rgbAt( int x, int y );
 }
