@@ -109,9 +109,8 @@ public class ControlPanel extends JPanel {
     }
 
     private void relayoutControlPanel() {
-        invalidate();
-        validate();
-        doLayout();
+        revalidate();
+        repaint();
     }
 
     /**
