@@ -36,7 +36,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
 
     // TODO: This should be set by a call to initLayout, not here.
     private Point2D.Double origin = new Point2D.Double( SoundConfig.s_wavefrontBaseX, SoundConfig.s_wavefrontBaseY );
-    private int height = SoundConfig.s_wavefrontHeight;
+    private double height = SoundConfig.s_wavefrontHeight;
     private double stroke = 1;
     // Adjust this to control the dispersion angle of a spherical wavefront
     private double radius = SoundConfig.s_wavefrontRadius;
@@ -131,14 +131,14 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
      * @param height
      * @param radius
      */
-    public void initLayout( Point2D.Double origin, int height, double radius ) {
+    public void initLayout( Point2D.Double origin, double height, double radius ) {
         initLayout( origin, height, radius, 0 );
     }
 
     /**
      *
      */
-    public void initLayout( Point2D.Double origin, int height, double radius,
+    public void initLayout( Point2D.Double origin, double height, double radius,
                             double theta ) {
         this.origin = origin;
         this.height = height;

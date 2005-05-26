@@ -19,8 +19,14 @@ import edu.colorado.phet.sound.view.WavefrontOscillator;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+/**
+ * Base module for the Sound simulations
+ */
 public class SoundModule extends Module implements RgbReporter {
 
+    //------------------------------------------------------------------------------
+    // Class fields and methods
+    //------------------------------------------------------------------------------
     private static WavefrontOscillator primaryOscillator = new WavefrontOscillator();
     private static WavefrontOscillator octaveOscillator = new WavefrontOscillator();
     private Listener speakerListener;
@@ -32,11 +38,18 @@ public class SoundModule extends Module implements RgbReporter {
         //        octaveOscillator.run();
     }
 
+    //------------------------------------------------------------------------------
+    // Instance fielda and methods
+    //------------------------------------------------------------------------------
     private boolean audioEnabled = false;
     private Wavefront primaryWavefront;
     private Wavefront octaveWavefront;
     private Listener currentListener;
 
+    /**
+     * @param appModel
+     * @param name
+     */
     public SoundModule( ApplicationModel appModel, String name ) {
         super( name );
         this.setModel( new SoundModel( appModel.getClock() ) );
@@ -65,7 +78,6 @@ public class SoundModule extends Module implements RgbReporter {
     }
 
     private void initModel() {
-
         // Set up the primary wavefront
         primaryWavefront = new Wavefront();
         primaryWavefront.setWaveFunction( new SineWaveFunction( primaryWavefront ) );

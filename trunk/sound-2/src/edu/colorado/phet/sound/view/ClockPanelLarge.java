@@ -7,8 +7,10 @@
  */
 package edu.colorado.phet.sound.view;
 
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.model.clock.ClockTickListener;
+import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.sound.SoundConfig;
 
@@ -18,29 +20,52 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.EventListener;
+import java.util.EventObject;
 
-public class ClockPanelLarge extends JPanel implements ClockTickListener {
+public class ClockPanelLarge extends JPanel {
 
-    private int numSigDigits = 4;
     private JTextField clockTF = new JTextField();
     private NumberFormat clockFormat = new DecimalFormat( "0.0000" );
-    private AbstractClock clock;
+    private String[] startStopStr;
+    private EventRegistry eventRegistry = new EventRegistry();
+    private JButton resetBtn;
 
-    public ClockPanelLarge( AbstractClock clock ) {
-        this.clock = clock;
-        clock.addClockTickListener( this );
+    private ModelElement modelTickCounter;
+    private BaseModel model;
+    private double runningTime = 0;
+
+    public ClockPanelLarge( BaseModel model ) {
+        this.model = model;
         setBackground( new Color( 237, 225, 113 ) );
 
-        // Create widgets
+        // Clock readout
         setBorder( BorderFactory.createRaisedBevelBorder() );
         clockTF = new JTextField( 5 );
         Font clockFont = clockTF.getFont();
         clockTF.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ) );
-
         clockTF.setEditable( false );
         clockTF.setHorizontalAlignment( JTextField.RIGHT );
+        clockTF.setText( clockFormat.format( 0 ) );
 
-        JButton resetBtn = new JButton( SimStrings.get( "ClockPanelLarge.Reset" ) );
+        // Model element that keeps track of the time ticked off by the model
+        runningTime = 0;
+        modelTickCounter = new ModelElement() {
+            public void stepInTime( double dt ) {
+                runningTime = dt + runningTime;
+                clockTF.setText( clockFormat.format( runningTime * SoundConfig.CLOCK_SCALE_FACTOR ) );
+            }
+        };
+
+        // Start/stop button
+        startStopStr = new String[2];
+        startStopStr[0] = "Start";
+        startStopStr[1] = "Stop";
+        JButton startStopBtn = new JButton( startStopStr[0] );
+        startStopBtn.addActionListener( new StartStopActionListener( startStopBtn ) );
+
+        // Reset button
+        resetBtn = new JButton( "Reset" );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 resetClock();
@@ -71,16 +96,26 @@ public class ClockPanelLarge extends JPanel implements ClockTickListener {
         gbc = new GridBagConstraints( 0, rowIdx, 2, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,
                                       insets, padX, padY );
+        gbc.gridy = ++rowIdx;
+        this.add( startStopBtn, gbc );
+        gbc.gridy = ++rowIdx;
         this.add( resetBtn, gbc );
     }
 
     private void resetClock() {
-        clock.resetRunningTime();
-        clockTicked( clock, 0 );
+
+        model.removeModelElement( modelTickCounter );
+        runningTime = 0;
+        modelTickCounter.stepInTime( 0 );
+
+        ClockPanelEvent event = new ClockPanelEvent( this );
+        event.setReset( true );
+        event.setRunning( false );
+        eventRegistry.fireEvent( event );
     }
 
     public void clockTicked( AbstractClock c, double dt ) {
-        String s = clockFormat.format( c.getRunningTime() * SoundConfig.s_clockScaleFactor / 1000 );
+        String s = clockFormat.format( c.getRunningTime() * SoundConfig.CLOCK_SCALE_FACTOR );
         clockTF.setText( s );
     }
 
@@ -90,5 +125,73 @@ public class ClockPanelLarge extends JPanel implements ClockTickListener {
 
     public boolean isClockPanelVisible() {
         return isVisible();
+    }
+
+    private class StartStopActionListener implements ActionListener {
+        JButton startStopBtn;
+        int startStopState = 0;
+
+        public StartStopActionListener( JButton startStopBtn ) {
+            this.startStopBtn = startStopBtn;
+        }
+
+        public void actionPerformed( ActionEvent e ) {
+            if( startStopState == 0 ) {
+                model.addModelElement( modelTickCounter );
+                ClockPanelEvent event = new ClockPanelEvent( this );
+                event.setRunning( true );
+                eventRegistry.fireEvent( event );
+                resetBtn.setEnabled( false );
+            }
+            else {
+                model.removeModelElement( modelTickCounter );
+                ClockPanelEvent event = new ClockPanelEvent( this );
+                event.setRunning( false );
+                eventRegistry.fireEvent( event );
+                resetBtn.setEnabled( true );
+            }
+            startStopState = ( startStopState + 1 ) % 2;
+            startStopBtn.setText( startStopStr[startStopState] );
+        }
+    }
+
+    //-----------------------------------------------------------------
+    // Event stuff
+    //-----------------------------------------------------------------
+    public interface ClockPanelListener extends EventListener {
+        void clockPaneEventOccurred( ClockPanelEvent event );
+    }
+
+    public class ClockPanelEvent extends EventObject {
+        boolean isRunning = true;
+        boolean isReset;
+
+        public ClockPanelEvent( Object source ) {
+            super( source );
+        }
+
+        public boolean isRunning() {
+            return isRunning;
+        }
+
+        public void setRunning( boolean running ) {
+            isRunning = running;
+        }
+
+        public boolean isReset() {
+            return isReset;
+        }
+
+        public void setReset( boolean reset ) {
+            isReset = reset;
+        }
+    }
+
+    public void addListener( ClockPanelListener listener ) {
+        eventRegistry.addListener( listener );
+    }
+
+    public void removeListener( ClockPanelListener listener ) {
+        eventRegistry.removeListener( listener );
     }
 }

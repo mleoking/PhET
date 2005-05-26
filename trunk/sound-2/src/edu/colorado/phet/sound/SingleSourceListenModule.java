@@ -32,7 +32,14 @@ public class SingleSourceListenModule extends SingleSourceModule {
     private ListenerGraphic listenerGraphic;
 
     public SingleSourceListenModule( ApplicationModel appModel ) {
-        this( appModel, SimStrings.get( "ModuleTitle.SingleSourceListen" ) );
+        this( appModel, SimStrings.get( "ModuleTitle.SingleSourceListen" ) );    }
+
+    public SingleSourceListenModule( ApplicationModel appModel, boolean showListener ) {
+        this( appModel );
+        if( !showListener ) {
+            getApparatusPanel().removeGraphic( listenerGraphic );
+            audioControlPanel.setAudioAtSpeakerOnly( true );
+        }
     }
 
     protected SingleSourceListenModule( ApplicationModel appModel, String title ) {
