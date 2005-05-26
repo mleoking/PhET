@@ -79,20 +79,23 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
         for( int i = 0; i < bodies.size(); i++ ) {
             Body body = (Body)bodies.get( i );
             if( body instanceof GasMolecule ) {
-                numMolecules++;
                 GasMolecule molecule = (GasMolecule)body;
                 // If the molecule has passed through the slice in the last time step, record
                 // it's properties
+//                numMolecules++;
                 if( molecule.getPositionPrev() != null &&
                     ( molecule.getPositionPrev().getY() - y ) * ( molecule.getPosition().getY() - y ) < 0 ) {
                     momentum += Math.abs( molecule.getVelocity().getY() * molecule.getMass() );
-                    temperatureRecorder.addDataRecordEntry( body.getKineticEnergy() );
-//                    ke += molecule.getKineticEnergy();
+//                    temperatureRecorder.addDataRecordEntry( body.getKineticEnergy() );
+                    ke += molecule.getKineticEnergy();
+                    numMolecules++;
                 }
             }
         }
         pressureRecorder.addDataRecordEntry( momentum );
-//        temperatureRecorder.addDataRecordEntry( ke / numMolecules );
+        if( numMolecules > 0 ) {
+            temperatureRecorder.addDataRecordEntry( ke / numMolecules );
+        }
 
         // Notify observers if the avergaing time window has elapsed
         if( updateContinuously || System.currentTimeMillis() - timeOfLastUpdate > timeAveWindow / timeScale ) {
@@ -110,10 +113,7 @@ public class PressureSlice extends SimpleObservable implements ModelElement {
     }
 
     public double getTemperature() {
-        // The factors in this expression are pure fudge.
-        double temperature = 1.4810f * temperatureRecorder.getDataAverage() / 100;
-//        double temperature = 1.3425f * temperatureRecorder.getDataAverage() / 100;
-//        double temperature = 1.33f * temperatureRecorder.getDataAverage() / 100;
+        double temperature = temperatureRecorder.getDataAverage() / 50;
         return temperature;
     }
 
