@@ -50,7 +50,9 @@ public class RemoveMoleculeCmd implements Command {
                 }
             }
         }
-        GasMolecule molecule = (GasMolecule)obj;
-        idealGasModel.removeModelElement( molecule );
+        if( obj instanceof GasMolecule ) {
+            GasMolecule molecule = (GasMolecule)obj;
+            idealGasModel.removeModelElement( molecule );
+        }
     }
 }

@@ -46,6 +46,7 @@ public class SphereHollowSphereContactDetector implements ContactDetector {
         }
 
         double dist = sphere.getPosition().distance( hollowSphere.getPosition() );
+//        double distPrev = sphere.getPositionBeforeTimeStep().distance( hollowSphere.getPositionBeforeTimeStep() );
         double distPrev = sphere.getPositionPrev().distance( hollowSphere.getPositionPrev() );
         double radS = sphere.getRadius();
         double radH = hollowSphere.getRadius();

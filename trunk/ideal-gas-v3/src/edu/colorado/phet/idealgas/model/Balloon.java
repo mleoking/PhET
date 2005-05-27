@@ -73,6 +73,9 @@ public class Balloon extends HollowSphere {
             accumulatedImpact = 0;
             timeStepsSinceLastRadiusAdjustment = 0;
         }
+
+        // This will take care of containment issues
+        super.collideWithParticle( particle );
     }
 
     private void adjustRadius() {
@@ -86,11 +89,6 @@ public class Balloon extends HollowSphere {
             newRadius = Math.min( maxRadius, Math.max( newRadius, MIN_RADIUS ) );
             this.setRadius( newRadius );
         }
-    }
-
-    private boolean contains( Body body ) {
-        double distSq = this.getCenter().distanceSq( body.getCM() );
-        return distSq < this.getRadius() * this.getRadius();
     }
 
     /**

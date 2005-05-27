@@ -45,7 +45,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         double yDiag = 397;
 
         // Add collision experts to the model
-        getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert( getIdealGasModel(), clock.getDt() ) );
+        getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert() );
 
         // Set the size of the box
         final Box2D box = getIdealGasModel().getBox();
@@ -160,7 +160,9 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 //        if( !found ) {
 //            gasMolecule = (GasMolecule)moleculesInSphere.removeFirst();
 //        }
-        getIdealGasModel().removeModelElement( gasMolecule );
+        if( found ) {
+            getIdealGasModel().removeModelElement( gasMolecule );
+        }
     }
 
     public void addMoleculeToSphere( Class species ) {

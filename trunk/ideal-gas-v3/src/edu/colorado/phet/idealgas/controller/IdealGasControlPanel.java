@@ -49,6 +49,9 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
     private GridBagConstraints particleControlsGbc;
 
 
+    /**
+     * @param module
+     */
     public IdealGasControlPanel( IdealGasModule module ) {
         super();
         this.module = module;
