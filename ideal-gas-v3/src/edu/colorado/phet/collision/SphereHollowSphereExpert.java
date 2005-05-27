@@ -8,17 +8,11 @@ package edu.colorado.phet.collision;
 
 import edu.colorado.phet.idealgas.model.HollowSphere;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.Balloon;
 
 public class SphereHollowSphereExpert implements CollisionExpert {
 
     private ContactDetector detector = new SphereHollowSphereContactDetector();
-    private IdealGasModel model;
-    private double dt;
-
-    public SphereHollowSphereExpert( IdealGasModel model, double dt ) {
-        this.model = model;
-        this.dt = dt;
-    }
 
     public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean haveCollided = false;
@@ -59,6 +53,13 @@ public class SphereHollowSphereExpert implements CollisionExpert {
                 }
             }
         }
+
+        // If a collision occurred, tell the balloon so it can adjust its radius
+        if( haveCollided ) {
+            HollowSphere hollowSphere = bodyA instanceof HollowSphere ? (HollowSphere)bodyA : (HollowSphere)bodyB;
+            hollowSphere.collideWithParticle( bodyB );
+        }
+
         return haveCollided;
     }
 }

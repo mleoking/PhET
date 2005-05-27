@@ -25,10 +25,7 @@ import edu.colorado.phet.coreadditions.StopwatchPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
-import edu.colorado.phet.idealgas.model.Gravity;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.PressureSensingBox;
-import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.*;
 import edu.colorado.phet.idealgas.view.monitors.*;
 import edu.colorado.phet.instrumentation.Thermometer;
@@ -48,14 +45,15 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
+import java.util.*;
 
+/**
+ *
+ */
 public class IdealGasModule extends Module {
 
     //----------------------------------------------------------------
-    // Class data,initializers and methods
+    // Class data, initializers and methods
     //----------------------------------------------------------------
 
     static private BufferedImage basePumpImg;
@@ -185,7 +183,7 @@ public class IdealGasModule extends Module {
         // Set up the control panel
         idealGasControlPanel = new IdealGasControlPanel( this );
         ControlPanel controlPanel = new ControlPanel( this );
-        controlPanel.add( idealGasControlPanel );
+        controlPanel.addControl( idealGasControlPanel );
         setControlPanel( controlPanel );
 
         // Place a slider to control the stove
@@ -446,9 +444,42 @@ public class IdealGasModule extends Module {
         cmd.doIt();
     }
 
+    private Random random = new Random();
+
     public void removeGasMolecule( Class species ) {
-        Command cmd = new RemoveMoleculeCmd( idealGasModel, species );
-        cmd.doIt();
+        java.util.List bodies = idealGasModel.getBodies();
+
+        // Randomize which end of the list of bodies we start searching from,
+        // just to make sure there is no non-random effect on the temperature
+        // of the system
+        Object obj = null;
+        while( obj == null ) {
+            boolean randomB = random.nextBoolean();
+            if( randomB ) {
+                for( int i = 0; i < bodies.size(); i++ ) {
+                    obj = bodies.get( i );
+                    if( species.isInstance( obj ) ) {
+                        break;
+                    }
+                }
+            }
+            else {
+                for( int i = bodies.size() - 1; i >= 0; i-- ) {
+                    obj = bodies.get( i );
+                    if( species.isInstance( obj ) ) {
+                        break;
+                    }
+                }
+            }
+        }
+        if( obj instanceof GasMolecule ) {
+            GasMolecule molecule = (GasMolecule)obj;
+            idealGasModel.removeModelElement( molecule );
+        }
+
+//
+//        Command cmd = new RemoveMoleculeCmd( idealGasModel, species );
+//        cmd.doIt();
     }
 
     protected PressureSensingBox getBox() {

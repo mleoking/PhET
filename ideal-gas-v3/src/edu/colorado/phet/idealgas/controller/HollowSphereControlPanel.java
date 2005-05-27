@@ -11,6 +11,9 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.idealgas.model.HollowSphere;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.LightSpecies;
 
 
 /**
@@ -40,7 +43,6 @@ public class HollowSphereControlPanel extends SpeciesSelectionPanel implements H
         getRhsModule().removeGasMoleculeFromSphere( moleculeClass );
     }
 
-
     protected int getHeavySpeciesCnt() {
         return sphere.getHeavySpeciesCnt();
     }
@@ -51,15 +53,26 @@ public class HollowSphereControlPanel extends SpeciesSelectionPanel implements H
 
 
     public void moleculeAdded( HollowSphere.MoleculeEvent event ) {
-//        Class species = event.getMoleculeType();
-//        if( HeavySpecies.class.isAssignableFrom( species ) ) {
-//            int oldCnt = ((Integer)getHeavySpinner().getValue()).intValue();
-//            getHeavySpinner().setValue( new Integer( oldCnt + 1 ));
-//        }
-//
+        GasMolecule molecule = event.getMolecule();
+        if( molecule instanceof HeavySpecies ) {
+            int oldCnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
+            getHeavySpinner().setValue( new Integer( oldCnt + 1 ) );
+        }
+        else if( molecule instanceof LightSpecies ) {
+            int oldCnt = ( (Integer)getLightSpinner().getValue() ).intValue();
+            getLightSpinner().setValue( new Integer( oldCnt + 1 ) );
+        }
     }
 
     public void moleculeRemoved( HollowSphere.MoleculeEvent event ) {
-
+        GasMolecule molecule = event.getMolecule();
+        if( molecule instanceof HeavySpecies ) {
+            int oldCnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
+            getHeavySpinner().setValue( new Integer( oldCnt - 1 ) );
+        }
+        else if( molecule instanceof LightSpecies ) {
+            int oldCnt = ( (Integer)getLightSpinner().getValue() ).intValue();
+            getLightSpinner().setValue( new Integer( oldCnt - 1 ) );
+        }
     }
 }

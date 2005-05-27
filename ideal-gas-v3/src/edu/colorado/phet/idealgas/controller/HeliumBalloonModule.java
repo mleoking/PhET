@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.collision.SphereBalloonExpert;
+import edu.colorado.phet.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -39,8 +39,9 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         this.addResetListener( this );
 
         // Add collision experts to the model
-        getIdealGasModel().addCollisionExpert( new SphereBalloonExpert( getIdealGasModel(), clock.getDt() ) );
+        getIdealGasModel().addCollisionExpert( new SphereHollowSphereExpert() );
 
+        // Create the balloon
         balloon = new Balloon( new Point2D.Double( 300, 350 ),
                                new Vector2D.Double( 0, 0 ),
                                new Vector2D.Double( 0, 0 ),

@@ -23,9 +23,7 @@ public abstract class CollidableBody extends Body {
     // List of contraints that must be applied to the body's state
     // at the end of each doYourThing
     protected ArrayList constraints = new ArrayList();
-    // Working copy of constraint list used in case a constraint
-    // needs to modify the real constraint list
-    private ArrayList workingList = new ArrayList();
+    private Point2D positionBeforeTimeStep = new Point2D.Double();
 
 
     protected CollidableBody() {
@@ -51,6 +49,7 @@ public abstract class CollidableBody extends Body {
             positionPrev = new Point2D.Double( getPosition().getX(), getPosition().getY() );
         }
         positionPrev.setLocation( getPosition() );
+        positionBeforeTimeStep.setLocation( getPosition() );
 
         super.stepInTime( dt );
     }
@@ -87,6 +86,10 @@ public abstract class CollidableBody extends Body {
 
     public int numContainedBodies() {
         return containedBodies.size();
+    }
+
+    public Point2D getPositionBeforeTimeStep() {
+        return positionBeforeTimeStep;
     }
 
     //

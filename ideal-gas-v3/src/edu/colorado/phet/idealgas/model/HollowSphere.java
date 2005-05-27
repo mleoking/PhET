@@ -7,6 +7,7 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.collision.SphericalBody;
+import edu.colorado.phet.collision.CollidableBody;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.mechanics.Body;
 
@@ -43,7 +44,7 @@ public class HollowSphere extends SphericalBody {
         containedBodies.add( body );
         if( body instanceof GasMolecule ) {
             GasMolecule molecule = (GasMolecule)body;
-            MoleculeEvent event = new MoleculeEvent( this, molecule.getClass() );
+            MoleculeEvent event = new MoleculeEvent( this, molecule );
             for( int i = 0; i < listeners.size(); i++ ) {
                 Object o = listeners.get( i );
                 if( o instanceof HollowSphereListener ) {
@@ -58,7 +59,7 @@ public class HollowSphere extends SphericalBody {
         containedBodies.remove( body );
         if( body instanceof GasMolecule ) {
             GasMolecule molecule = (GasMolecule)body;
-            MoleculeEvent event = new MoleculeEvent( this, molecule.getClass() );
+            MoleculeEvent event = new MoleculeEvent( this, molecule );
             for( int i = 0; i < listeners.size(); i++ ) {
                 Object o = listeners.get( i );
                 if( o instanceof HollowSphereListener ) {
@@ -83,6 +84,33 @@ public class HollowSphere extends SphericalBody {
 
     public void removeHollowSphereListener( HollowSphereListener listener ) {
         listeners.remove( listener );
+    }
+
+    public void collideWithParticle( CollidableBody particle ) {
+        // If the particle isn't supposed to be inside the sphere but it is, get it out
+        if( this.contains( particle ) && !containsBody( particle ) ) {
+            Vector2D.Double d = new Vector2D.Double( particle.getPosition().getX() - this.getPosition().getX(),
+                                                     particle.getPosition().getY() - this.getPosition().getY() );
+            d.normalize();
+            d.scale( this.getRadius() * 1.2 );
+            particle.setPosition( this.getPosition().getX() + d.getX(), this.getPosition().getY() + d.getY() );
+            return;
+        }
+
+        // If the particle is supposed to be inside the sphere but it isn't, put it inside
+        if( !this.contains( particle ) && containsBody( particle ) ) {
+            Vector2D.Double d = new Vector2D.Double( particle.getPosition().getX() - this.getPosition().getX(),
+                                                     particle.getPosition().getY() - this.getPosition().getY() );
+            d.normalize();
+            d.scale( this.getRadius() * 0.8 );
+            particle.setPosition( this.getPosition().getX() + d.getX(), this.getPosition().getY() + d.getY() );
+            return;
+        }
+    }
+
+    protected boolean contains( Body body ) {
+        double distSq = this.getCenter().distanceSq( body.getCM() );
+        return distSq < this.getRadius() * this.getRadius();
     }
 
     //----------------------------------------------------------------------------------------------
@@ -147,15 +175,15 @@ public class HollowSphere extends SphericalBody {
     }
 
     public class MoleculeEvent extends EventObject {
-        private Class moleculeType;
+        private GasMolecule molecule;
 
-        public MoleculeEvent( Object source, Class moleculeType ) {
+        public MoleculeEvent( Object source, GasMolecule molecule ) {
             super( source );
-            this.moleculeType = moleculeType;
+            this.molecule = molecule;
         }
 
-        public Class getMoleculeType() {
-            return moleculeType;
+        public GasMolecule getMolecule() {
+            return molecule;
         }
     }
 }

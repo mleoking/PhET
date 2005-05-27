@@ -61,6 +61,9 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     private Rectangle2D modelBounds;
     private double targetTemperature;
 
+    /**
+     * @param dt
+     */
     public IdealGasModel( double dt ) {
         // Add a collision collisionGod
         collisionGod = new CollisionGod( this, dt,
@@ -140,12 +143,10 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
             case CONSTANT_TEMPERATURE:
                 double currTemp = getTemperature();
                 // Factor of 100 here is just a convenient number to get this working right.
-                double diffTemp = 100 *( targetTemperature - currTemp ) / targetTemperature;
+                double diffTemp = 100 * ( targetTemperature - currTemp ) / targetTemperature;
                 setHeatSource( diffTemp );
                 break;
         }
-
-
     }
 
     /**
@@ -163,6 +164,11 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         heatSourceChangeListenerProxy.heatSourceChanged( new HeatSourceChangeEvent( this ) );
     }
 
+    /**
+     * Returns the amount of heat added to or removed from the model in each time step
+     *
+     * @return
+     */
     public double getHeatSource() {
         return heatSource;
     }
@@ -297,6 +303,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     /**
      * Returns the total energy OF THE GAS PARTICLES in the model. Note that this
      * does not include the energy of any balloons, etc.
+     *
      * @return
      */
     public double getTotalGasEnergy() {
@@ -313,6 +320,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
     /**
      * Returns the total energy in the model.
+     *
      * @return
      */
     public double getTotalEnergy() {
@@ -584,6 +592,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
     /**
      * Returns the average energy of the gas molecules in the model
+     *
      * @return
      */
     public double getAverageGasEnergy() {
@@ -656,11 +665,11 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     private HeatSourceChangeListener heatSourceChangeListenerProxy = (HeatSourceChangeListener)heatSourceChangeChannel.getListenerProxy();
 
     public void addHeatSourceChangeListener( HeatSourceChangeListener listener ) {
-        heatSourceChangeChannel.addListener( listener);
+        heatSourceChangeChannel.addListener( listener );
     }
 
     public void removeHeatSourceChangeListener( HeatSourceChangeListener listener ) {
-        heatSourceChangeChannel.removeListener( listener);
+        heatSourceChangeChannel.removeListener( listener );
     }
 
     public class HeatSourceChangeEvent extends EventObject {
