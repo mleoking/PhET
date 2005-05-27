@@ -23,28 +23,19 @@ import edu.colorado.phet.idealgas.model.Pump;
 public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.Listener {
     public PumpControlPanel( IdealGasModule module, GasSource gasSource, String[] speciesNames ) {
         super( module, gasSource, speciesNames );
-//        module.getPump().addResetListener( this );
 
-        // Hook the spinner up so it will track molecules put in the box by the pump
+        // Hook the spinners up so they will track molecules put in the box by the pump
         getModule().getModel().addObserver( new SimpleObserver() {
             public void update() {
                 int h = getModule().getIdealGasModel().getHeavySpeciesCnt();
                 getHeavySpinner().setValue( new Integer( h ) );
-            }
-        } );
-
-        // Hook the spinner up so it will track molecules put in the box by the pump
-        getModule().getModel().addObserver( new SimpleObserver() {
-            public void update() {
-                int h = getModule().getIdealGasModel().getLightSpeciesCnt();
-                getLightSpinner().setValue( new Integer( h ) );
+                int l = getModule().getIdealGasModel().getLightSpeciesCnt();
+                getLightSpinner().setValue( new Integer( l ) );
             }
         } );
     }
 
     protected void createMolecule( Class moleculeClass ) {
-        Pump pump = getModule().getPump();
-//        pump.setCurrentGasSpecies( moleculeClass );
         getModule().pumpGasMolecules( 1, moleculeClass );
     }
 

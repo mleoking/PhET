@@ -67,7 +67,6 @@ public class IdealGasControlPanel extends JPanel implements Gravity.ChangeListen
         gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                       1, 1, 1, 1,
                                       GridBagConstraints.NORTH,
-//                                      GridBagConstraints.CENTER,
                                       GridBagConstraints.HORIZONTAL,
                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
 

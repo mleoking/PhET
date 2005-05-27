@@ -229,7 +229,7 @@ public class IdealGasModule extends Module {
         PressureDialGauge pressureGauge = new PressureDialGauge( box, getApparatusPanel(),
                                                                  new Point( (int)box.getMaxX(),
                                                                             (int)gaugeSlice.getY() ) );
-        addGraphic( pressureGauge, 20 );
+        addGraphic( pressureGauge, IdealGasConfig.MOLECULE_LAYER );
 
         // Add the thermometer
         double thermometerHeight = 100;
@@ -237,7 +237,7 @@ public class IdealGasModule extends Module {
         thermometer = new IdealGasThermometer( getApparatusPanel(),
                                                idealGasModel, thermometerLoc,
                                                thermometerHeight, 10, true, 0, 1000E3 );
-        addGraphic( thermometer, 20 );
+        addGraphic( thermometer, IdealGasConfig.MOLECULE_LAYER + .1 );
     }
 
     /**
@@ -402,7 +402,7 @@ public class IdealGasModule extends Module {
             cmLines = new CmLines( getApparatusPanel(), idealGasModel );
         }
         if( cmLinesOn ) {
-            addGraphic( cmLines, 20 );
+            addGraphic( cmLines, IdealGasConfig.MOLECULE_LAYER + 1 );
         }
         else {
             getApparatusPanel().removeGraphic( cmLines );
