@@ -294,6 +294,27 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         deltaPE += dPE;
     }
 
+    /**
+     * Returns the total energy OF THE GAS PARTICLES in the model. Note that this
+     * does not include the energy of any balloons, etc.
+     * @return
+     */
+    public double getTotalGasEnergy() {
+        double eTotal = 0;
+        for( int i = 0; i < this.numModelElements(); i++ ) {
+            ModelElement element = this.modelElementAt( i );
+            if( element instanceof GasMolecule ) {
+                Body body = (Body)element;
+                eTotal += getBodyEnergy( body );
+            }
+        }
+        return eTotal;
+    }
+
+    /**
+     * Returns the total energy in the model.
+     * @return
+     */
     public double getTotalEnergy() {
         double eTotal = 0;
         for( int i = 0; i < this.numModelElements(); i++ ) {
@@ -561,8 +582,12 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         return bodies;
     }
 
-    public double getAverageEnergy() {
-        return getTotalEnergy() / getNumMolecules();
+    /**
+     * Returns the average energy of the gas molecules in the model
+     * @return
+     */
+    public double getAverageGasEnergy() {
+        return getTotalGasEnergy() / getNumMolecules();
     }
 
     public int getNumMolecules() {

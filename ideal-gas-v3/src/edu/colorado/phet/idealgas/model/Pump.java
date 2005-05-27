@@ -77,7 +77,7 @@ public class Pump extends SimpleObservable implements GasSource {
      */
     public void pump( int numMolecules, Class species ) {
         for( int i = 0; i < numMolecules; i++ ) {
-            Object obj = this.pumpGasMolecule( species );
+            this.pumpGasMolecule( species );
         }
         MoleculeEvent event = new MoleculeEvent( this, species, numMolecules );
         for( int i = 0; i < listeners.size(); i++ ) {
@@ -274,7 +274,7 @@ public class Pump extends SimpleObservable implements GasSource {
         public double getMoleculeEnergy() {
             double energy = 0;
             if( model.getNumMolecules() > 0 ) {
-                energy = model.getAverageEnergy();
+                energy = model.getAverageGasEnergy();
             }
             else {
                 energy = IdealGasModel.DEFAULT_ENERGY;

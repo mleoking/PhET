@@ -17,6 +17,8 @@ import edu.colorado.phet.idealgas.model.LightSpecies;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 
+import java.util.Random;
+
 public class PumpMoleculeCmd extends AddModelElementCmd {
 
     //-------------------------------------------------------------
@@ -30,6 +32,7 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
     protected Class speciesClass;
     private double initialEnergy;
     private IdealGasModel idealGasModel;
+    private Random random = new Random();
 
 
     public PumpMoleculeCmd( IdealGasModel model,
@@ -53,6 +56,9 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
             graphic = new LightSpeciesGraphic( module.getApparatusPanel(), molecule );
         }
         idealGasModel.getBox().addContainedBody( molecule );
-        module.getApparatusPanel().addGraphic( graphic, IdealGasConfig.MOLECULE_LAYER );
+        // Randomize the placement of the graphic above and below the MOLECULE_LAYER. This
+        // gives the scene depth when objects like the thermometer are placed at the MOLECULE_LAYER
+        double dLayer = 1 * ( random.nextBoolean() ? 1 : 0 );
+        module.getApparatusPanel().addGraphic( graphic, IdealGasConfig.MOLECULE_LAYER + dLayer );
     }
 }
