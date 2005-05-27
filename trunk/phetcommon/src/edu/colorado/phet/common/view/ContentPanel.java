@@ -48,17 +48,14 @@ public class ContentPanel extends JPanel {
     private JDialog buttonDlg;
     private boolean fullScreen = false;
 
-    private GridBagConstraints appCtrlGbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
-                                                                    GridBagConstraints.WEST,
-                                                                    GridBagConstraints.BOTH,
-                                                                    new Insets( 0, 0, 0, 0 ), 0, 0 );
     private GridBagConstraints apparatusPanelGbc = new GridBagConstraints( 0, 1, 1, 1, 1, 1,
                                                                            GridBagConstraints.WEST,
                                                                            GridBagConstraints.BOTH,
                                                                            new Insets( 0, 0, 0, 0 ), 0, 0 );
-    private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 1, 1, 1, 0, 1000,
+    // The control panel has a gridheight of 2 so the Help button comes up at the same level as the
+    // simulation clock control buttons
+    private GridBagConstraints controlPanelGbc = new GridBagConstraints( 1, 1, 1, 2, 0, 1000,
                                                                          GridBagConstraints.NORTH,
-//                                                                         GridBagConstraints.NONE,
                                                                          GridBagConstraints.BOTH,
                                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
     private GridBagConstraints clockControlPanelGbc = new GridBagConstraints( 0, 2, 1, 1, 1, 0,
@@ -69,7 +66,6 @@ public class ContentPanel extends JPanel {
                                                                          GridBagConstraints.PAGE_END,
                                                                          GridBagConstraints.NONE,
                                                                          new Insets( 0, 0, 0, 0 ), 0, 0 );
-//    private JSplitPane appCtrlPane;
 
 
     /**
