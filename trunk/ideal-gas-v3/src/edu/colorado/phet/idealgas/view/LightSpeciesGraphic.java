@@ -38,8 +38,8 @@ public class LightSpeciesGraphic extends GasMoleculeGraphic {
             AffineTransform atx = AffineTransform.getScaleInstance( 0.7, 0.7 );
             BufferedImageOp op = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
             myImage = op.filter( s_particleImage, null );
-            MakeDuotoneImageOp colorOp = new MakeDuotoneImageOp( COLOR_B );
-            myImage = colorOp.filter( myImage, myImage );
+//            MakeDuotoneImageOp colorOp = new MakeDuotoneImageOp( COLOR_B );
+//            myImage = colorOp.filter( myImage, myImage );
         }
         catch( IOException e ) {
             e.printStackTrace();
