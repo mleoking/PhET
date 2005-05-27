@@ -19,6 +19,8 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ContainerAdapter;
+import java.awt.event.ContainerEvent;
 import java.net.URL;
 import java.util.Arrays;
 
@@ -76,6 +78,16 @@ public class ControlPanel extends JPanel {
                 relayoutControlPanel();
             }
         } );
+
+        addContainerListener( new ContainerAdapter() {
+            public void componentAdded( ContainerEvent e ) {
+                relayoutControlPanel();
+            }
+
+            public void componentRemoved( ContainerEvent e ) {
+                relayoutControlPanel();
+            }
+        } );
         relayoutControlPanel();
     }
 
@@ -103,14 +115,10 @@ public class ControlPanel extends JPanel {
      *
      * @param comp
      * @return
+     * @deprecated Use addControl instead
      */
     public Component add( Component comp ) {
         return addControl( comp );
-    }
-
-    private void relayoutControlPanel() {
-        revalidate();
-        repaint();
     }
 
     /**
@@ -140,6 +148,15 @@ public class ControlPanel extends JPanel {
     }
 
     /**
+     * Removes a component from the control area
+     *
+     * @param comp
+     */
+    public void removeControl( Component comp ) {
+        controlPane.remove( comp );
+    }
+
+    /**
      * Adds a component to the control area, to fill the width.
      *
      * @param component
@@ -149,12 +166,28 @@ public class ControlPanel extends JPanel {
         return controlPane.addFullWidth( component );
     }
 
-    public class Layout implements LayoutManager {
-        private int lastState;
+    private void relayoutControlPanel() {
+        revalidate();
+        repaint();
+    }
+
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    /**
+     * Layout manager for the panel
+     */
+    private class Layout implements LayoutManager {
 
         public void removeLayoutComponent( Component comp ) {
         }
 
+        /**
+         * Determines whether a vertical scroll bar is needed, and sizes the panel appropriately
+         *
+         * @param parent
+         */
         public void layoutContainer( Container parent ) {
             northPanel.reshape( getPositionToCenter( northPanel ), 0, northPanel.getPreferredSize().width, northPanel.getPreferredSize().height );
             helpPanel.reshape( getPositionToCenter( helpPanel ), getHeight() - helpPanel.getPreferredSize().height, helpPanel.getPreferredSize().width, helpPanel.getPreferredSize().height );
@@ -168,7 +201,6 @@ public class ControlPanel extends JPanel {
 
             if( remainingHeight <= 0 ) {
                 //no room for controls, sorry.
-                lastState = CONTROLS_OFF;
             }
             else if( controlPane.getPreferredSize().height > remainingHeight ) {
                 //not enough room for all controls, so use vertical scrolling.
@@ -177,20 +209,13 @@ public class ControlPanel extends JPanel {
                 addToPanel( scrollPane );
 
                 scrollPane.setLocation( 0, controlTop );
-                scrollPane.setSize( new Dimension( controlPane.getPreferredSize().width + getScrollBarWidth(), remainingHeight ) );//could add scrollPane.getVerticalScrollBar().getWidth()
-                //and get the parent to refit us.
-                //for now, just truncate the right side of things on control panel.
-
-                scrollPane.invalidate();
-                scrollPane.validate();
-                scrollPane.doLayout();
-                lastState = CONTROLS_SCROLL;
+                scrollPane.setSize( new Dimension( controlPane.getPreferredSize().width + getScrollBarWidth(), remainingHeight ) );
+                scrollPane.revalidate();
             }
             else {
                 //controls will fit without scrollpane.
                 addToPanel( controlPane );
                 controlPane.reshape( 0, controlTop, controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
-                lastState = CONTROLS_ON;
             }
         }
 
@@ -269,13 +294,16 @@ public class ControlPanel extends JPanel {
         private int getMinWidth() {
             int width = 0;
             if( northPanel.isVisible() ) {
-                width = Math.max( width, northPanel.getWidth() );
+                width = Math.max( width, northPanel.getPreferredSize().width );
+//                width = Math.max( width, northPanel.getWidth() );
             }
             if( controlPane.isVisible() ) {
-                width = Math.max( width, controlPane.getWidth() );
+                width = Math.max( width, controlPane.getPreferredSize().width );
+//                width = Math.max( width, controlPane.getWidth() );
             }
             if( helpPanel.isVisible() ) {
-                width = Math.max( width, helpPanel.getWidth() );
+                width = Math.max( width, helpPanel.getPreferredSize().width );
+//                width = Math.max( width, helpPanel.getWidth() );
             }
             if( getLayoutRequiresScrollPane() ) {
                 width += getScrollBarWidth();
@@ -305,7 +333,10 @@ public class ControlPanel extends JPanel {
         }
     }
 
-    public class ContentPanel extends VerticalLayoutPanel {
+    /**
+     * Class of panel for holding simulation-specific controls
+     */
+    private class ContentPanel extends VerticalLayoutPanel {
         public ContentPanel() {
             setFill( GridBagConstraints.NONE );
         }

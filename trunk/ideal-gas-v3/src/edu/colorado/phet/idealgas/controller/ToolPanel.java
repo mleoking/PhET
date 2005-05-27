@@ -55,17 +55,19 @@ public class ToolPanel extends JPanel {
     public ToolPanel( final IdealGasModule module ) {
         setLayout( new GridBagLayout() );
 
-        setBorder( new TitledBorder( SimStrings.get("IdealGasControlPanel.Tools_and_options" ) ));
+        setBorder( new TitledBorder( SimStrings.get( "IdealGasControlPanel.Tools_and_options" ) ) );
 
         button = new ToggleButton( SimStrings.get( "IdealGasControlPanel.Measurement_Tools_on" ),
                                    SimStrings.get( "IdealGasControlPanel.Measurement_Tools_off" ) ) {
             public void onAction() {
                 toolsPanel.setVisible( true );
+//                ((ControlPanel)module.getControlPanel()).resizeControlPane();
                 module.getControlPanel().revalidate();
             }
 
             public void offAction() {
                 toolsPanel.setVisible( false );
+//                ((ControlPanel)module.getControlPanel()).resizeControlPane();
                 module.getControlPanel().revalidate();
             }
         };
@@ -91,12 +93,12 @@ public class ToolPanel extends JPanel {
                                                    SimStrings.get( "IdealGasControlPanel.FewerOptions" ) ) {
             public void onAction() {
                 advToolPanel.setVisible( true );
-                ((ControlPanel)module.getControlPanel()).resizeControlPane();
+                module.getControlPanel().revalidate();
             }
 
             public void offAction() {
                 advToolPanel.setVisible( false );
-                ((ControlPanel)module.getControlPanel()).resizeControlPane();
+                module.getControlPanel().revalidate();
             }
         };
 
