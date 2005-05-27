@@ -13,7 +13,6 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.Command;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.util.EventChannel;
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.help.HelpItem;
@@ -307,23 +306,24 @@ public class IdealGasModule extends Module {
         this.addGraphic( pumpGraphic, -4 );
         this.addGraphic( pumpBaseAndHoseGraphic, -3.5 );
 
-        if( wiggleMeGraphic == null ) {
-            wiggleMeGraphic = new WiggleMeGraphic( getApparatusPanel(),
-                                                   new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 480, IdealGasConfig.Y_BASE_OFFSET + 170 ),
-                                                   getModel() );
-            addGraphic( wiggleMeGraphic, 40 );
-            wiggleMeGraphic.start();
-        }
-        pump.addObserver( new SimpleObserver() {
-            public void update() {
-                if( wiggleMeGraphic != null ) {
-                    wiggleMeGraphic.kill();
-                    getApparatusPanel().removeGraphic( wiggleMeGraphic );
-                    wiggleMeGraphic = null;
-                    pump.removeObserver( this );
-                }
-            }
-        } );
+//        if( wiggleMeGraphic == null ) {
+//            wiggleMeGraphic = new WiggleMeGraphic( getApparatusPanel(),
+//                                                   new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 480, IdealGasConfig.Y_BASE_OFFSET + 170 ),
+//                                                   getModel() );
+//            wiggleMeGraphic.start();
+//        }
+//            addGraphic( wiggleMeGraphic, 40 );
+////        }
+//        pump.addObserver( new SimpleObserver() {
+//            public void update() {
+//                if( wiggleMeGraphic != null ) {
+//                    wiggleMeGraphic.kill();
+//                    getApparatusPanel().removeGraphic( wiggleMeGraphic );
+//                    wiggleMeGraphic = null;
+//                    pump.removeObserver( this );
+//                }
+//            }
+//        } );
     }
 
     protected void removePumpGraphic() {
