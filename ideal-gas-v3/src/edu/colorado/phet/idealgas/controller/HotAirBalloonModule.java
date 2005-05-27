@@ -12,12 +12,12 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.BoxMustContainParticle;
 import edu.colorado.phet.idealgas.model.Constraint;
 import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.HotAirBalloonGraphic;
-import edu.colorado.phet.idealgas.IdealGasConfig;
 
 import java.awt.geom.Point2D;
 

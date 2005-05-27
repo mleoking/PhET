@@ -55,7 +55,7 @@ public class HotAirBalloonControlPanel extends JPanel {
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
         labelTable.put( new Integer( 0 ), new JLabel( SimStrings.get( "Common.0" ) ) );
-        labelTable.put( new Integer( 40 ), new JLabel( SimStrings.get( "Common.Add" ) ) );
+        labelTable.put( new Integer( 30 ), new JLabel( SimStrings.get( "Common.Add" ) ) );
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
 
