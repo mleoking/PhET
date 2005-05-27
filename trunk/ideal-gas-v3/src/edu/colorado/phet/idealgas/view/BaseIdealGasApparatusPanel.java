@@ -43,7 +43,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
     public BaseIdealGasApparatusPanel( IdealGasModule module, AbstractClock clock, Box2D box ) {
         super( clock );
         init( module, box );
-//        setUseOffscreenBuffer( true );
+        setUseOffscreenBuffer( true );
     }
 
     /**
