@@ -582,15 +582,20 @@ public class IdealGasModule extends Module {
      * @return the dialog
      */
     public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
-        if( histogramDlg == null ) {
-            histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getPhetFrame(),
-                                                      (IdealGasModel)getModel() );
-        }
-        histogramDlg.setVisible( histogramDlgEnabled );
+//        if( histogramDlg == null ) {
+//            histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getPhetFrame(),
+//                                                      (IdealGasModel)getModel() );
+//        }
+//        histogramDlg.setVisible( histogramDlgEnabled );
         if( histogramDlgEnabled ) {
             visibleInstruments.add( histogramDlg );
+            histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getPhetFrame(),
+                                                      (IdealGasModel)getModel() );
+            histogramDlg.setVisible( true );
         }
         else {
+            histogramDlg.setVisible( false );
+            histogramDlg = null;
             visibleInstruments.remove( histogramDlg );
         }
         return histogramDlg;

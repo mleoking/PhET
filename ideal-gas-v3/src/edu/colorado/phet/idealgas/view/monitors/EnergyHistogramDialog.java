@@ -49,6 +49,7 @@ public class EnergyHistogramDialog extends JDialog {
     private IdealGasModel model;
     private RotatedTextLabel heavySpeedYLabel;
     private RotatedTextLabel lightSpeedYLabel;
+    private Updater updater;
 
     /**
      * @param owner
@@ -58,10 +59,14 @@ public class EnergyHistogramDialog extends JDialog {
         super( owner );
         this.model = model;
         this.setTitle( SimStrings.get( "EnergyHistorgramDialog.Title" ) );
-
 //        this.setUndecorated( true );
 //        this.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
         this.setResizable( false );
+        addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                updater.setRunning( false );
+            }
+        } );
 
         // Create the histograms
         energyHistogram = new Histogram( 200, 150, 0, 100E3, 20, initialEnergyClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
@@ -94,7 +99,7 @@ public class EnergyHistogramDialog extends JDialog {
         } );
 
         // Create and start updaters for the histograms
-        Updater updater = new Updater( model );
+        updater = new Updater( model );
         updater.addClient( new EnergyUpdaterClient( model, energyHistogram ) );
         updater.addClient( new SpeedUpdaterClient( speedHistogram ) );
         updater.addClient( new SpeciesSpeedUpdaterClient( HeavySpecies.class, heavySpeedHistogram ) );
@@ -187,6 +192,7 @@ public class EnergyHistogramDialog extends JDialog {
     private class Updater extends Thread {
         private IdealGasModel model;
         private ArrayList clients = new ArrayList();
+        private boolean isRunning = false;
 
         Updater( IdealGasModel model ) {
             this.model = model;
@@ -196,9 +202,18 @@ public class EnergyHistogramDialog extends JDialog {
             clients.add( client );
         }
 
+        public synchronized boolean isRunning() {
+            return isRunning;
+        }
+
+        public synchronized void setRunning( boolean running ) {
+            isRunning = running;
+        }
+
         public void run() {
             int cnt = 0;
-            while( true ) {
+            isRunning = true;
+            while( isRunning() ) {
                 try {
                     Thread.sleep( 200 );
 
@@ -233,7 +248,7 @@ public class EnergyHistogramDialog extends JDialog {
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
-            }
+            } // while( isRunning() )
         }
     }
 
@@ -254,7 +269,6 @@ public class EnergyHistogramDialog extends JDialog {
         }
 
         void recordBody( Body body ) {
-            System.out.println( "getBodyAttribute( body ) = " + getBodyAttribute( body ) );
             histogram.add( getBodyAttribute( body ) );
         }
 
