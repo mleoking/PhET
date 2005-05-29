@@ -574,6 +574,15 @@ public abstract class PhetGraphic {
     }
 
     /**
+     * Determine whether this PhetGraphic has changed since its last paint.
+     *
+     * @return
+     */
+    public boolean isDirty() {
+        return boundsDirty;
+    }
+
+    /**
      * Determines whether this phetGraphic contains the appropriate point.
      *
      * @param x
@@ -614,9 +623,9 @@ public abstract class PhetGraphic {
             bounds.setBounds( newBounds );
         }
     }
-    
+
     /**
-     * Determine the Local Bounds of this PhetGraphic, ie, the bounds of this 
+     * Determine the Local Bounds of this PhetGraphic, ie, the bounds of this
      * PhetGraphic without accounting for any parent transforms.
      *
      * @return the bounds of this PhetGraphic without accounting for parent transforms.
@@ -642,7 +651,7 @@ public abstract class PhetGraphic {
             }
         }
     }
-    
+
     /**
      * Please oh please give me some javadoc.
      */
