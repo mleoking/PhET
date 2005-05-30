@@ -118,4 +118,8 @@ public class PhetShadowTextGraphic extends PhetGraphic {
     public void setBackground( PhetTextGraphic background ) {
         this.background = background;
     }
+
+    public String getText() {
+        return foreground.getText();
+    }
 }
