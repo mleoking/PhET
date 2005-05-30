@@ -1,7 +1,12 @@
-/**
- *
- * Author: Another Guy
- * Date: Jan 13, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.view.monitors;
 
@@ -14,6 +19,7 @@ import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.PressureSlice;
+import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
 
@@ -56,6 +62,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
     private Font font = new Font( "Lucida Sans", Font.BOLD, 12 );
     private InternalGraphic internalGraphic;
     private Area drawingArea = new Area();
+    private boolean displayTemperature;
 
     /**
      * @param component
@@ -74,8 +81,9 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
         this.setCursorHand();
         this.addTranslationListener( new TranslationListener() {
             public void translationOccurred( TranslationEvent event ) {
-                double newY = Math.min( box.getMaxY(),
-                                        Math.max( y + event.getDy(), box.getMinY() ) );
+                double yOffset = .1 * IdealGasConfig.PIXELS_PER_NANOMETER;
+                double newY = Math.min( box.getMaxY() - yOffset,
+                                        Math.max( y + event.getDy(), box.getMinY() + yOffset ) );
                 y = newY;
                 pressureSlice.setY( y );
                 listenerProxy.moved( new Event( PressureSliceGraphic.this ) );
@@ -147,7 +155,8 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
             FontMetrics fontMetrics = g2.getFontMetrics();
             int readoutWidth = 95;
             int borderThickness = 8;
-            int readoutHeight = fontMetrics.getHeight() * 3 + fontMetrics.getMaxDescent();// + 2 * borderThickness;
+            int numReadoutLines = displayTemperature ? 3 : 2;
+            int readoutHeight = fontMetrics.getHeight() * numReadoutLines + fontMetrics.getMaxDescent();
 
             g2.setStroke( pressureSliceStroke );
 
@@ -187,6 +196,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC, s_overlayTransparency ) );
             g2.fillRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight );
 
+            // Display the pressure
             g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1f ) );
             g2.setColor( Color.yellow );
             g2.drawRoundRect( readoutLocation.x, readoutLocation.y, readoutWidth, readoutHeight, 5, 5 );
@@ -196,16 +206,21 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
             strLocY += borderThickness;
             g2.drawString( pressureStr, readoutLocation.x + 5, strLocY );
 
-            if( Double.isInfinite( temperature ) || Double.isNaN( temperature ) ) {
-                temperature = 0.0;
+            // Display the temperature, if its display is enabled
+            if( displayTemperature ) {
+                if( Double.isInfinite( temperature ) || Double.isNaN( temperature ) ) {
+                    temperature = 0.0;
+                }
+                String temperatureStr = "T = " + temperatureFormatter.format( temperature ) + " K";
+                g2.setColor( Color.black );
+                strLocY += fontMetrics.getHeight();
+                g2.drawString( temperatureStr, readoutLocation.x + 5, strLocY );
             }
-            String temperatureStr = "T = " + temperatureFormatter.format( temperature ) + " K";
-            g2.setColor( Color.black );
-            strLocY += fontMetrics.getHeight();
-            g2.drawString( temperatureStr, readoutLocation.x + 5, strLocY );
 
             // y location must be converted to units compatible with the graphic ruler
-            String heightStr = "height = " + heightFormatter.format( ( ( ( boxLowerEdge - y ) - 3.3 ) / 70.857 ) );
+            double h = ( boxLowerEdge - y ) / IdealGasConfig.PIXELS_PER_NANOMETER;
+            String heightStr = "height = " + heightFormatter.format( h );
+//            String heightStr = "height = " + heightFormatter.format( ( ( ( boxLowerEdge - y ) - 3.3 ) / 70.857 ) );
             g2.setColor( Color.black );
             strLocY += fontMetrics.getHeight();
             g2.drawString( heightStr, readoutLocation.x + 5, strLocY );
