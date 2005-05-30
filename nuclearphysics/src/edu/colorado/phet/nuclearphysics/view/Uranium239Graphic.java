@@ -23,11 +23,12 @@ public class Uranium239Graphic extends NucleusGraphic {
 
     public Uranium239Graphic( Component component, Nucleus nucleus ) {
         super( component, nucleus );
-        this.nucleus = nucleus;
+//        this.nucleus = nucleus;
     }
 
     public void paint( Graphics2D g ) {
-        nucleusTx.setToTranslation( nucleus.getPosition().getX(), nucleus.getPosition().getY() );
+        nucleusTx.setToTranslation( getNucleus().getPosition().getX(), getNucleus().getPosition().getY() );
+//        nucleusTx.setToTranslation( nucleus.getPosition().getX(), nucleus.getPosition().getY() );
         super.paint( g );
 
         AffineTransform orgTx = g.getTransform();

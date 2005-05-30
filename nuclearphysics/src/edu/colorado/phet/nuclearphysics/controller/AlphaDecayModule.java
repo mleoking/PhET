@@ -50,7 +50,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         // DEBUG ONLY!!!
         //        clock.setDt( clock.getDt() / 10 );
 
-        getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
+        // Todo: investigate if this really needs to be here. I don't think it does because the parent class
+        // does the same thing
+//        getApparatusPanel().setLayout( new GridLayout( 2, 1 ) );
         physicalPanel = new AlphaDecayPhysicalPanel( clock );
         super.setPhysicalPanel( physicalPanel );
         getApparatusPanel().remove( 0 );
