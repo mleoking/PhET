@@ -97,6 +97,12 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         return active;
     }
 
+    /**
+     * Make it so that pressing SPACE while the apparatus panel has focus will enable a RepaintDebugGraphic.
+     *
+     * @param apparatusPanel
+     * @param clock
+     */
     public static void enable( final ApparatusPanel apparatusPanel, AbstractClock clock ) {
         final RepaintDebugGraphic debugGraphic = new RepaintDebugGraphic( apparatusPanel, clock );
         apparatusPanel.addMouseListener( new MouseAdapter() {
