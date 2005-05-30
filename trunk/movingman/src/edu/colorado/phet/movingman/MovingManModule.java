@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.help.HelpPanel;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -789,6 +790,7 @@ public class MovingManModule extends Module {
         m.setInited( true );
         m.relayout();
         m.setSmoothingSmooth();
+        RepaintDebugGraphic.enable( m.getApparatusPanel(), clock );
     }
 
     public void initialize() {

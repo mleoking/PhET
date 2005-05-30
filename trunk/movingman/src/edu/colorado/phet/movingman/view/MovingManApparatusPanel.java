@@ -360,4 +360,5 @@ public class MovingManApparatusPanel
         repaintBackground();
         movingManLayout.relayout();
     }
+
 }
