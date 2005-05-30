@@ -45,8 +45,8 @@ public class NuclearPhysicsApplication extends PhetApplication {
         Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( getClock() );
         setModules( new Module[]{
             alphaModule,
-            singleNucleusFissionModule,
-            multipleNucleusFissionModule
+//            singleNucleusFissionModule,
+//            multipleNucleusFissionModule
         } );
     }
 

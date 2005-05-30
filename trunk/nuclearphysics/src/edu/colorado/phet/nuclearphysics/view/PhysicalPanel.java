@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.coreadditions.TxGraphic;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -68,7 +69,7 @@ public class PhysicalPanel extends ApparatusPanel2 {
     // Ported: 5/24/05
     public void addNucleus( final Nucleus nucleus ) {
         final NucleusGraphic ng = NucleusGraphicFactory.create( this, nucleus );
-//        final TxGraphic txg = new TxGraphic( ng, nucleonTx );
+//        final TxGraphic txg = new TxGraphic( this, ng, nucleonTx );
         nucleusCnt++;
         NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
@@ -90,13 +91,21 @@ public class PhysicalPanel extends ApparatusPanel2 {
     protected synchronized void paintComponent( Graphics graphics ) {
         Graphics2D g2 = (Graphics2D)graphics;
         GraphicsState gs = new GraphicsState( g2 );
-        GraphicsUtil.setAlpha( (Graphics2D)graphics, 1 );
+
+        // Added in port. Sets the origin
+        g2.transform( originTx );
+
+        // todo: this shouldn't be needed
+//        GraphicsUtil.setAlpha( (Graphics2D)graphics, 1 );
+
         super.paintComponent( g2 );
         gs.restoreGraphics();
     }
 
+    // todo:
     public void addOriginCenteredGraphic( PhetGraphic graphic, double level ) {
 //        TxGraphic txg = new TxGraphic( graphic, this.nucleonTx );
+        graphic.transform( originTx );
         addGraphic( graphic, level );
 //        addGraphic( txg, level );
     }

@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
+// todo: make this a CompositePhetGraphic. The nucleusTx should be replaced with setLocation()
 public class Uranium235Graphic extends NucleusGraphic {
     private static Font isotopeFont = new Font( "SansSerif", Font.BOLD, 16 );
     private static Font elementFont = new Font( "SansSerif", Font.BOLD, 34 );
@@ -27,7 +28,6 @@ public class Uranium235Graphic extends NucleusGraphic {
 
     public Uranium235Graphic( Component component, Nucleus nucleus ) {
         super( component, nucleus );
-        this.nucleus = nucleus;
     }
 
     public void setDisplayLabel( boolean displayLabel ) {
@@ -35,11 +35,11 @@ public class Uranium235Graphic extends NucleusGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        nucleusTx.setToTranslation( nucleus.getPosition().getX(), nucleus.getPosition().getY() );
+//        nucleusTx.setToTranslation( getNucleus().getPosition().getX(), getNucleus().getPosition().getY() );
         super.paint( g );
 
         AffineTransform orgTx = g.getTransform();
-        g.transform( nucleusTx );
+//        g.transform( nucleusTx );
 
         if( displayLabel ) {
             GraphicsUtil.setAntiAliasingOn( g );

@@ -19,16 +19,14 @@ public class Uranium238Graphic extends NucleusGraphic {
     //    private static Font elementFont = new Font( "Serif", Font.BOLD, 30 );
     private static Font font = new Font( "Serif", Font.BOLD, 18 );
     private static Color color = Color.cyan;
-    //    private static Color color = Color.green;
     private static AffineTransform nucleusTx = new AffineTransform();
 
     public Uranium238Graphic( Component component, Nucleus nucleus ) {
         super( component, nucleus );
-        this.nucleus = nucleus;
     }
 
     public void paint( Graphics2D g ) {
-        nucleusTx.setToTranslation( nucleus.getPosition().getX(), nucleus.getPosition().getY() );
+        nucleusTx.setToTranslation( getNucleus().getPosition().getX(), getNucleus().getPosition().getY() );
         super.paint( g );
 
         AffineTransform orgTx = g.getTransform();
