@@ -103,8 +103,8 @@ public class HelpItem3 extends CompositePhetGraphic implements HelpTargetListene
         }
         this.attachX = attachX;
         this.attachY = attachY;
-        System.out.println( "attachX = " + attachX );
-        System.out.println( "attachY = " + attachY );
+//        System.out.println( "attachX = " + attachX );
+//        System.out.println( "attachY = " + attachY );
         arrowGraphic.setLocation( attachX, attachY );
     }
 
