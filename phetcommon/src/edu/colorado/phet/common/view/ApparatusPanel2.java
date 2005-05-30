@@ -122,6 +122,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
         removeComponentListener( panelResizeHandler );
     }
 
+    public void setPaintStrategyDisjoint() {
+        paintStrategy = new DisjointRectanglePaintStrategy( this );
+    }
+
     public void setPaintStrategy( int strategy ) {
         switch( strategy ) {
             case DEFAULT_PAINT_STRATEGY:
@@ -153,7 +157,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     /**
      * Sets the reference size for this panel. If the panel resizes after this, it will scale its graphicsTx using
      * its current size in relation to the reference size.
-     * <p>
+     * <p/>
      * This should be called as soon as the application knows that the apparatus panel is at its reference size.
      */
     public void setReferenceSize() {
@@ -176,6 +180,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * Explicitly sets the apparatus panel's reference size to a specific dimension.
+     *
      * @param renderingSize
      */
     public void setReferenceSize( Dimension renderingSize ) {
@@ -184,6 +189,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
     /**
      * Explicitly sets the apparatus panel's reference size to a specific dimension.     *
+     *
      * @param width
      * @param height
      */
@@ -336,8 +342,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     private void addRectangleToRepaintList( int x, int y, int width, int height ) {
-        Rectangle r = new Rectangle( x, y, width, height );
-        rectangles.add( r );
+        if( height > 0 && width > 0 ) {
+            Rectangle r = new Rectangle( x, y, width, height );
+            rectangles.add( r );
+        }
     }
 
     /**
@@ -590,6 +598,36 @@ public class ApparatusPanel2 extends ApparatusPanel {
         void render( Graphics2D g2, AffineTransform graphicTx );
 
         void componentResized();
+    }
+
+    private static class DisjointRectanglePaintStrategy implements PaintStrategy {
+
+        ApparatusPanel2 apparatusPanel2;
+
+        public DisjointRectanglePaintStrategy( ApparatusPanel2 apparatusPanel2 ) {
+            this.apparatusPanel2 = apparatusPanel2;
+            componentResized();
+        }
+
+        public void paintImmediately() {
+            apparatusPanel2.paintImmediatelyDisjoint();
+        }
+
+        public void render( Graphics2D g2, AffineTransform graphicTx ) {
+            g2.transform( graphicTx );
+            apparatusPanel2.getGraphic().paint( g2 );
+        }
+
+        public void componentResized() {
+        }
+    }
+
+    private void paintImmediatelyDisjoint() {
+        for( int i = 0; i < rectangles.size(); i++ ) {
+            Rectangle rectangle = (Rectangle)rectangles.get( i );
+            paintImmediately( transformManager.transform( rectangle ) );
+        }
+        rectangles.clear();
     }
 
     public class OffscreenBufferDirtyRegion extends OffscreenBufferStrategy {
