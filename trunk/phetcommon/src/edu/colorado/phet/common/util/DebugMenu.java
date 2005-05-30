@@ -50,16 +50,19 @@ public class DebugMenu extends JMenu {
         OffscreenBufferMenuItem menuItem = new OffscreenBufferMenuItem( "OffscreenBuffer", true );
         OffscreenBufferMenuItem menuItem2 = new OffscreenBufferMenuItem( "Paint directly to screen.", false );
         OffscreenBufferDirtyItem menuItem4 = new OffscreenBufferDirtyItem();
+        JRadioButtonMenuItem disjoint = new DisjointPaintMenuItem();
 
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( menuItem );
         buttonGroup.add( menuItem2 );
         buttonGroup.add( menuItem4 );
+        buttonGroup.add( disjoint );
 
         this.addSeparator();
         this.add( menuItem );
         this.add( menuItem2 );
         this.add( menuItem4 );
+        this.add( disjoint );
         this.addSeparator();
 
 
@@ -222,6 +225,22 @@ public class DebugMenu extends JMenu {
                         ApparatusPanel ap = PhetApplication.instance().getModuleManager().moduleAt( i ).getApparatusPanel();
                         if( ap instanceof ApparatusPanel2 ) {
                             ( (ApparatusPanel2)ap ).setUseOffscreenBufferDirtyRegion();
+                        }
+                    }
+                }
+            } );
+        }
+    }
+
+    public class DisjointPaintMenuItem extends JRadioButtonMenuItem {
+        public DisjointPaintMenuItem() {
+            super( "Paint Direct/Disjoint" );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    for( int i = 0; i < PhetApplication.instance().getModuleManager().numModules(); i++ ) {
+                        ApparatusPanel ap = PhetApplication.instance().getModuleManager().moduleAt( i ).getApparatusPanel();
+                        if( ap instanceof ApparatusPanel2 ) {
+                            ( (ApparatusPanel2)ap ).setPaintStrategyDisjoint();
                         }
                     }
                 }
