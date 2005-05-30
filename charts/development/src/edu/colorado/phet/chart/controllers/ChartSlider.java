@@ -164,12 +164,21 @@ public class ChartSlider extends GraphicLayerSet {
             ChangeListener changeListener = s[i];
             slider.removeChangeListener( changeListener );
         }
-        slider.setValue( tick );
+        int val = slider.getValue();
+//        System.out.println( "val = " + val+", tick="+tick );
+        boolean changed = false;
+        if( val != tick ) {
+//                    System.out.println( "val = " + val+", tick="+tick );
+            slider.setValue( tick );
+            changed = true;
+        }
         for( int i = 0; i < s.length; i++ ) {
             ChangeListener changeListener = s[i];
             slider.addChangeListener( changeListener );
         }
-        sliderGraphic.repaint();
+        if( changed ) {
+            sliderGraphic.repaint();
+        }
     }
 
     public boolean hasMoved() {

@@ -125,6 +125,7 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
             Rectangle r = bufferedLinePlot.lineTo( storedData.getLastPoint() );
 
             //todo optimize this correct code (keeping it correct)
+            //todo move this code to buffered line plot.
             Rectangle sourceRect = new Rectangle( plotDevice.getBufferedChart().getSize() );
             Rectangle destRect = new Rectangle( plotDevice.getBufferedChart().getBounds() );
             LinearTransform2D linearTransform2D = new LinearTransform2D( sourceRect, destRect, false );
@@ -150,12 +151,12 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
         }
     }
 
-    private void updateReadoutGraphic( double v ) {
+    private void updateReadoutGraphic( double value ) {
 //        readoutGraphic.setLocation( nameGraphic.getX() + nameGraphic.getWidth(), nameGraphic.getY() );
         readoutGraphic.setAutorepaint( false );
-        String value = decimalFormat.format( v );
+        String valueText = decimalFormat.format( value );
 
-        readoutGraphic.setText( value + " " );
+        readoutGraphic.setText( valueText + " " );
         int dx = justifyMetric.getWidth() - readoutGraphic.getWidth();
         readoutGraphic.setLocation( nameGraphic.getX() + nameGraphic.getWidth() + dx, nameGraphic.getY() );
 
@@ -163,8 +164,12 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
 //        System.out.println( "nameGraphic.getRegistrationPoint() = " + nameGraphic.getRegistrationPoint() );
         unitsGraphic.setLocation( readoutGraphic.getX() + readoutGraphic.getWidth(), nameGraphic.getLocalBounds().y );
 
+        //todo encapsulate this code
         readoutGraphic.setAutorepaint( true );
-        readoutGraphic.autorepaint();
+        boolean dirty = readoutGraphic.isDirty();
+        if( dirty ) {
+            readoutGraphic.autorepaint();
+        }
     }
 
     private void updateReadoutGraphic( TimePoint timePoint ) {

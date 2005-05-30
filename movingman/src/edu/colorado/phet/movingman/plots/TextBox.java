@@ -113,9 +113,11 @@ public class TextBox extends JPanel {
     }
 
     public void setText( String valueString ) {
+        if( !textField.getText().equals( valueString ) ) {
+            textField.setText( valueString );
+        }
 //        if( valueString.length() > textField.getColumns() ) {
 //            valueString = valueString.subSequence( 0, textField.getColumns() ) + "";
 //        }
-        textField.setText( valueString );
     }
 }
