@@ -156,7 +156,8 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
         readoutGraphic.setAutorepaint( false );
         String valueText = decimalFormat.format( value );
 
-        readoutGraphic.setText( valueText + " " );
+        String newText = valueText + " ";
+        readoutGraphic.setText( newText );
         int dx = justifyMetric.getWidth() - readoutGraphic.getWidth();
         readoutGraphic.setLocation( nameGraphic.getX() + nameGraphic.getWidth() + dx, nameGraphic.getY() );
 
@@ -166,10 +167,7 @@ public class PlotDeviceSeries extends CompositePhetGraphic {
 
         //todo encapsulate this code
         readoutGraphic.setAutorepaint( true );
-        boolean dirty = readoutGraphic.isDirty();
-        if( dirty ) {
-            readoutGraphic.autorepaint();
-        }
+        readoutGraphic.autorepaint();
     }
 
     private void updateReadoutGraphic( TimePoint timePoint ) {

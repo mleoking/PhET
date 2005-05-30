@@ -97,8 +97,10 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
                                               plot.dataSeriesAt( 0 ).getColor(), 1, 1, Color.black );
         addGraphic( titleGraphic );
 
-        SliderHelpItem sliderHelpItem = new SliderHelpItem( movingManApparatusPanel, goButtonGraphic, this );
-        addGraphic( sliderHelpItem );
+        if( MovingManConfig.isUseSliderHelpItemReminder() ) {
+            SliderHelpItem sliderHelpItem = new SliderHelpItem( movingManApparatusPanel, goButtonGraphic, this );
+            addGraphic( sliderHelpItem );
+        }
 
 //        movingManApparatusPanel.addGraphic( new ShapeDebugGraphic( getComponent(), module.getClock(), new ShapeGetter() {
 //            public Shape getShape() {
