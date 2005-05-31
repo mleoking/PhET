@@ -29,7 +29,8 @@ public class RampModule extends Module {
     private RampModel rampModel;
     private RampControlPanel rampControlPanel;
     private RampObject[] rampObjects;
-    public static final double FORCE_LENGTH_SCALE = 0.15;//1.0;
+//    public static final double FORCE_LENGTH_SCALE = 0.15;//1.0;
+    public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
     private RampTimeSeriesModel rampTimeSeriesModel;
     private TimeSeriesPlaybackPanel rampMediaPanel;
     private RampPlotSet rampPlotSet;
@@ -45,7 +46,8 @@ public class RampModule extends Module {
             new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 200, 0.3, 0.2, 0.4 ),
             new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 400, 0.7, 0.5, 0.4 ),
             new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2, 0.3 ),
-            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.5, 100, 0.1, 0.1, 0.35 ),
+            new RampObject( "images/piano.png", "Piano", 0.8, 250, 0.6, 0.6, 0.8, 20 ),
+//            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.5, 30, 0.1, 0.1, 0.35 ),
         };
         rampPanel = new RampPanel( this );
         setApparatusPanel( rampPanel );

@@ -242,6 +242,15 @@ public abstract class TimeSeriesModel implements ClockTickListener {
         return maxAllowedTime;
     }
 
+    public double getTime() {
+        if( isRecordMode() ) {
+            return getRecordTime();
+        }
+        else {
+            return getPlaybackTime();
+        }
+    }
+
     public interface PlaybackTimeListener {
         public void timeChanged();
     }

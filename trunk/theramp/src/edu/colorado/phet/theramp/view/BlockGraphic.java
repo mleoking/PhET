@@ -2,7 +2,8 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
@@ -25,7 +26,7 @@ import java.io.IOException;
  * Copyright (c) Feb 11, 2005 by Sam Reid
  */
 
-public class BlockGraphic extends CompositePhetGraphic {
+public class BlockGraphic extends GraphicLayerSet {
     private RampModule module;
     private RampPanel rampPanel;
     private RampGraphic rampGraphic;
@@ -35,6 +36,7 @@ public class BlockGraphic extends CompositePhetGraphic {
     private ThresholdedDragAdapter mouseListener;
     private LocationDebugGraphic locationDebugGraphic;
     private RampObject rampObject;
+    private PhetImageGraphic wheelGraphic;
 
     public BlockGraphic( final RampModule module, RampPanel rampPanel, RampGraphic rampGraphic, RampGraphic groundGraphic, Block block, RampObject rampObject ) {
         super( rampPanel );
@@ -47,7 +49,12 @@ public class BlockGraphic extends CompositePhetGraphic {
 
         final RampModel model = rampPanel.getRampModule().getRampModel();
 
+        wheelGraphic = new PhetImageGraphic( getComponent(), "images/skateboard.png" );
+        wheelGraphic.setVisible( false );
+        addGraphic( wheelGraphic );
+
         graphic = new PhetImageGraphic( getComponent() );
+        graphic.setCursorHand();
         addGraphic( graphic );
         setObject( rampObject );
 
@@ -58,6 +65,14 @@ public class BlockGraphic extends CompositePhetGraphic {
             }
 
             public void massChanged() {
+                updateBlock();
+            }
+
+            public void staticFrictionChanged() {
+                updateBlock();
+            }
+
+            public void kineticFrictionChanged() {
                 updateBlock();
             }
         } );
@@ -78,7 +93,7 @@ public class BlockGraphic extends CompositePhetGraphic {
         };
 
         this.mouseListener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
-        addMouseInputListener( this.mouseListener );
+        graphic.addMouseInputListener( this.mouseListener );
         setCursorHand();
         rampGraphic.getSurface().addObserver( new SimpleObserver() {
             public void update() {
@@ -89,7 +104,7 @@ public class BlockGraphic extends CompositePhetGraphic {
     }
 
     public Point getCenter() {
-        Point2D ctr = getNetTransform().transform( new Point2D.Double( graphic.getBounds().getWidth() / 2, graphic.getBounds().getHeight() / 2 ), null );
+        Point2D ctr = graphic.getNetTransform().transform( new Point2D.Double( graphic.getBounds().getWidth() / 2, graphic.getBounds().getHeight() / 2 ), null );
         return new Point( (int)ctr.getX(), (int)ctr.getY() );
     }
 
@@ -104,8 +119,42 @@ public class BlockGraphic extends CompositePhetGraphic {
 //        System.out.println( "sy = " + sy );
         AffineTransform transform = createTransform( scale, sy );
         transform.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
-        setTransform( transform );
+        transform.concatenate( AffineTransform.getTranslateInstance( 0, getYOffset() ) );
+        graphic.setTransform( transform );
+        if( isFrictionless() ) {
+            wheelGraphic.setVisible( true );
+            AffineTransform wheelTx = createTransform( block.getPosition(), 1.0, 1.0, wheelGraphic.getImage().getWidth(), wheelGraphic.getImage().getHeight() );
+//            wheelTx.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
+//            wheelTx.concatenate( AffineTransform.getTranslateInstance( 0, getYOffset() ) );
+            wheelGraphic.setTransform( wheelTx );
+//            this.graphic.setVisible( false );
+        }
+        else {
+            wheelGraphic.setVisible( false );
+//            this.graphic.setVisible( true );
+        }
         repaint();
+    }
+
+    private boolean isFrictionless() {
+        return block.getStaticFriction() == 0 || block.getKineticFriction() == 0;
+    }
+
+    private double getYOffset() {
+        if( isFrictionless() ) {
+            return rampObject.getYOffset() - getSkateboardHeight();
+        }
+        else {
+            return rampObject.getYOffset();
+        }
+    }
+
+    private double getSkateboardHeight() {
+        return wheelGraphic.getImage().getHeight();
+    }
+
+    private AffineTransform createTransform( double x, double scaleX, double fracSize, int imageWidth, int imageHeight ) {
+        return getCurrentSurfaceGraphic().createTransform( x, new Dimension( (int)( imageWidth * scaleX ), (int)( imageHeight * fracSize ) ) );
     }
 
     private AffineTransform createTransform( double scaleX, double fracSize ) {
@@ -144,5 +193,9 @@ public class BlockGraphic extends CompositePhetGraphic {
         else {
             return groundGraphic;
         }
+    }
+
+    public PhetGraphic getObjectGraphic() {
+        return graphic;
     }
 }

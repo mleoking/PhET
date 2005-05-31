@@ -20,6 +20,14 @@ public class RampLookAndFeel {
     private Color positionColor = Color.black;
     private Color wallColor = Color.cyan;
     private Color gParallelColor = Color.green;
+    private Color totalEnergyColor = Color.blue;
+    private Color kineticEnergyColor = Color.red;
+    private Color potentialEnergyColor = Color.green;
+    private Color thermalEnergyColor = Color.red;
+    private Color appliedWorkColor = Color.blue;
+    private Color frictionWorkColor = Color.orange;
+    private Color gravityWorkColor = Color.green;
+    private Color totalWorkColor = Color.yellow;
 
     public Color getAppliedForceColor() {
         return appliedForceColor;
@@ -59,5 +67,37 @@ public class RampLookAndFeel {
 
     public Color getGravityParallelColor() {
         return gParallelColor;
+    }
+
+    public Color getTotalEnergyColor() {
+        return totalEnergyColor;
+    }
+
+    public Color getKineticEnergyColor() {
+        return kineticEnergyColor;
+    }
+
+    public Color getPotentialEnergyColor() {
+        return potentialEnergyColor;
+    }
+
+    public Color getThermalEnergyColor() {
+        return thermalEnergyColor;
+    }
+
+    public Color getAppliedWorkColor() {
+        return appliedWorkColor;
+    }
+
+    public Color getFrictionWorkColor() {
+        return frictionWorkColor;
+    }
+
+    public Color getGravityWorkColor() {
+        return gravityWorkColor;
+    }
+
+    public Color getTotalWorkColor() {
+        return totalWorkColor;
     }
 }
