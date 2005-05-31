@@ -11,8 +11,8 @@ import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
-import edu.colorado.phet.theramp.view.RampGraphic;
 import edu.colorado.phet.theramp.view.RampUtil;
+import edu.colorado.phet.theramp.view.SurfaceGraphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -107,8 +107,8 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
     }
 
     private Point translate( Point viewCtr ) {
-        RampGraphic rampGraphic = blockGraphic.getCurrentSurfaceGraphic();
-        double viewAngle = rampGraphic.getViewAngle();
+        SurfaceGraphic surfaceGraphic = blockGraphic.getCurrentSurfaceGraphic();
+        double viewAngle = surfaceGraphic.getViewAngle();
 //        System.out.println( "viewAngle = " + viewAngle );
         Point offset = new Point( (int)( Math.sin( viewAngle ) * dy ), (int)( Math.cos( viewAngle ) * dy ) );
         return new Point( viewCtr.x + offset.x, viewCtr.y - offset.y );

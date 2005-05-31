@@ -10,24 +10,29 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class RampLookAndFeel {
-    private Color appliedForceColor = Color.blue;
-    private Color netForceColor = new Color( 0.0f, 0.8f, 0.0f );
+    private final Color modifiedGreen = new Color( 0.0f, 0.8f, 0.1f );
+    private Color appliedForceColor = modifiedGreen;
+    private Color netForceColor = Color.blue;
     private Color frictionForceColor = Color.red;
-    private Color weightColor = Color.magenta;
-    private Color normalColor = Color.orange;
+    private Color weightColor = Color.yellow;
+    private Color normalColor = Color.magenta;
+    private Color wallForceColor = Color.orange;
+
     private Color accelColor = Color.black;
     private Color velColor = Color.black;
     private Color positionColor = Color.black;
-    private Color wallColor = Color.cyan;
-    private Color gParallelColor = Color.green;
+
+    private Color gParallelColor = modifiedGreen;
+
     private Color totalEnergyColor = Color.blue;
-    private Color kineticEnergyColor = Color.red;
-    private Color potentialEnergyColor = Color.green;
+    private Color kineticEnergyColor = modifiedGreen;
+    private Color potentialEnergyColor = Color.yellow;
     private Color thermalEnergyColor = Color.red;
-    private Color appliedWorkColor = Color.blue;
-    private Color frictionWorkColor = Color.orange;
-    private Color gravityWorkColor = Color.green;
-    private Color totalWorkColor = Color.yellow;
+
+    private Color appliedWorkColor = Color.green;
+    private Color frictionWorkColor = Color.red;
+    private Color gravityWorkColor = Color.yellow;
+    private Color totalWorkColor = Color.blue;
 
     public Color getAppliedForceColor() {
         return appliedForceColor;
@@ -62,11 +67,7 @@ public class RampLookAndFeel {
     }
 
     public Color getWallForceColor() {
-        return wallColor;
-    }
-
-    public Color getGravityParallelColor() {
-        return gParallelColor;
+        return wallForceColor;
     }
 
     public Color getTotalEnergyColor() {

@@ -95,7 +95,7 @@ public abstract class ValueAccessor {
 
     public static class FrictiveWork extends WorkAccessor {
         public FrictiveWork( RampLookAndFeel rampLookAndFeel ) {
-            super( "Frictive", rampLookAndFeel.getFrictionWorkColor() );
+            super( "Friction", rampLookAndFeel.getFrictionWorkColor() );
         }
 
         public double getValue( RampModel rampModel ) {

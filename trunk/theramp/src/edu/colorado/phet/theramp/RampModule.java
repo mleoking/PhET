@@ -85,6 +85,7 @@ public class RampModule extends Module {
     }
 
     public void reset() {
+        rampTimeSeriesModel.reset();
         rampModel.reset();
         rampPlotSet.reset();
     }
