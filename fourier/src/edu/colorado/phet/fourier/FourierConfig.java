@@ -58,8 +58,8 @@ public class FourierConfig {
     // Images
     //----------------------------------------------------------------------------
     
-    public static final int MIN_HARMONICS = 5;
-    public static final int MAX_HARMONICS = 15;
+    public static final int MIN_HARMONICS = 1;
+    public static final int MAX_HARMONICS = 11;
     
     //----------------------------------------------------------------------------
     // Constructors
