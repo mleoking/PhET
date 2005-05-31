@@ -1,9 +1,12 @@
-/**
- * Created by IntelliJ IDEA.
- * User: Another Guy
- * Date: Mar 5, 2003
- * Time: 10:09:34 AM
- * To change this template use Options | File Templates.
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.controller;
 
@@ -30,11 +33,16 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
     private GasMolecule molecule;
     private Module module;
     protected Class speciesClass;
-    private double initialEnergy;
     private IdealGasModel idealGasModel;
-    private Random random = new Random();
+    static private Random random = new Random();
 
 
+    /**
+     *
+     * @param model
+     * @param molecule
+     * @param module
+     */
     public PumpMoleculeCmd( IdealGasModel model,
                             GasMolecule molecule,
                             Module module ) {
@@ -42,12 +50,13 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
         this.idealGasModel = model;
         this.molecule = molecule;
         this.module = module;
-        this.initialEnergy = DEFAULT_ENERGY;
     }
 
+    /**
+     *
+     */
     public void doIt() {
         super.doIt();
-
         PhetGraphic graphic = null;
         if( molecule instanceof HeavySpecies ) {
             graphic = new HeavySpeciesGraphic( module.getApparatusPanel(), molecule );

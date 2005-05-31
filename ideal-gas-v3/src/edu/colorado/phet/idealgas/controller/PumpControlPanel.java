@@ -13,9 +13,12 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.model.LightSpecies;
 
 /**
  * PumpControlPanel
+ * <p>
+ * A JPanel with spinners that make gas molecules come into the box from the pump.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -23,16 +26,7 @@ import edu.colorado.phet.idealgas.model.Pump;
 public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.Listener {
     public PumpControlPanel( IdealGasModule module, GasSource gasSource, String[] speciesNames ) {
         super( module, gasSource, speciesNames );
-
-        // Hook the spinners up so they will track molecules put in the box by the pump
-        getModule().getModel().addObserver( new SimpleObserver() {
-            public void update() {
-                int h = getModule().getIdealGasModel().getHeavySpeciesCnt();
-                getHeavySpinner().setValue( new Integer( h ) );
-                int l = getModule().getIdealGasModel().getLightSpeciesCnt();
-                getLightSpinner().setValue( new Integer( l ) );
-            }
-        } );
+        module.getPump().addListener( this );
     }
 
     protected void createMolecule( Class moleculeClass ) {
@@ -44,21 +38,24 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
     }
 
     protected int getHeavySpeciesCnt() {
-        return getModule().getIdealGasModel().getHeavySpeciesCnt();
+        return getModule().getHeavySpeciesCnt();
     }
 
     protected int getLightSpeciesCnt() {
-        return getModule().getIdealGasModel().getLightSpeciesCnt();
+        return getModule().getLightSpeciesCnt();
     }
 
     //--------------------------------------------------------------
-    // Event handling
+    // Pump.Listener implementation
     //--------------------------------------------------------------
+
     public void moleculesAdded( Pump.MoleculeEvent event ) {
         Class species = event.getSpecies();
         if( HeavySpecies.class.isAssignableFrom( species ) ) {
-            int cnt = ( (Integer)getHeavySpinner().getValue() ).intValue();
-            getHeavySpinner().setValue( new Integer( cnt + event.getNumMolecules() ) );
+            getHeavySpinner().setValue( new Integer( getModule().getHeavySpeciesCnt() ) );
+        }
+        if( LightSpecies.class.isAssignableFrom( species ) ) {
+            getHeavySpinner().setValue( new Integer( getModule().getLightSpeciesCnt() ) );
         }
     }
 }

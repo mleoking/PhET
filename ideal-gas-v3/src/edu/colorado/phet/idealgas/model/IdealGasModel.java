@@ -1,9 +1,12 @@
+/* Copyright 2003-2004, University of Colorado */
+
 /*
- * Class: IdealGasSystem
- * Package: edu.colorado.phet.idealgas.model
- *
- * Created by: Ron LeMaster
- * Date: Nov 8, 2002
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.model;
 
@@ -110,7 +113,8 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
                 SphereBoxCollision.setWorkDoneByMovingWall( false );
                 break;
             case CONSTANT_TEMPERATURE:
-                this.targetTemperature = getTemperature();
+                double t = getTemperature();
+                this.targetTemperature = !Double.isNaN( t ) ? t : IdealGasModel.DEFAULT_ENERGY;
                 SphereBoxCollision.setWorkDoneByMovingWall( true );
                 break;
             default:
@@ -142,8 +146,14 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
                 break;
             case CONSTANT_TEMPERATURE:
                 double currTemp = getTemperature();
-                // Factor of 100 here is just a convenient number to get this working right.
-                double diffTemp = 100 * ( targetTemperature - currTemp ) / targetTemperature;
+                // Factor of 100 here is just a convenient number to get this working right. The variable set
+                // here is used to control how much the system should react to changes in temperature.
+                double diffTemp = 0;
+                // Check for currTemp not being a good number. This happens when there are currently no molecules
+                // in the model
+                if( !Double.isNaN( currTemp ) ) {
+                    diffTemp = 100 * ( targetTemperature - currTemp ) / targetTemperature;
+                }
                 setHeatSource( diffTemp );
                 break;
         }
@@ -652,8 +662,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
         for( int i = 0; i < collisionExperts.size(); i++ ) {
             CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( i );
             if( collisionExpert instanceof SphereSphereExpert ) {
-                SphereSphereExpert sphereSphereExpert = (SphereSphereExpert)collisionExpert;
-                sphereSphereExpert.setIgnoreGasMoleculeInteractions( !enableInteraction );
+                SphereSphereExpert.setIgnoreGasMoleculeInteractions( !enableInteraction );
             }
         }
     }
@@ -661,6 +670,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     //----------------------------------------------------------------
     // Event and Listener definitions
     //----------------------------------------------------------------
+    
     private EventChannel heatSourceChangeChannel = new EventChannel( HeatSourceChangeListener.class );
     private HeatSourceChangeListener heatSourceChangeListenerProxy = (HeatSourceChangeListener)heatSourceChangeChannel.getListenerProxy();
 
