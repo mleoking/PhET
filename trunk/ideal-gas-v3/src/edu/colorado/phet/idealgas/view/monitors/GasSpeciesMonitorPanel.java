@@ -25,6 +25,16 @@ import java.text.NumberFormat;
  */
 public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleObserver {
 
+    //----------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------
+
+    // The following factors make the speed of molecules displayed correct
+    private double s_screenToModelFactor = 476.0 / 327;
+//    private double s_screenToModelFactor = 476.0 / 290;
+    private double s_aveSpeedReadoutFactor = 10 * s_screenToModelFactor;
+
+
     private Class speciesClass;
     private JTextField numParticlesTF;
     private NumberFormat aveSpeedFormat = NumberFormat.getInstance();
@@ -123,10 +133,4 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
     public void paintComponent( Graphics graphics ) {
         super.paintComponent( graphics );
     }
-
-    //
-    // Static fields and methods
-    //
-    private double s_screenToModelFactor = 476.0 / 290;
-    private double s_aveSpeedReadoutFactor = 10 * s_screenToModelFactor;
 }
