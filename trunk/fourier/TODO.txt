@@ -34,6 +34,7 @@ CLEANUP:
 - fix all javadoc warnings and errors
 
 PHETCOMMON:
+- bug: custom layout manager in ControlPanel is broken on Macintosh
 - bug: cursor and highlighting don't work in JTextField wrapped by PhetJComponet
 - bug: JTextField wrapped using PhetJComponent doesn't received ActionEvents or FocusEvents
 - bug: when focus moves to Control Panel, PhetJComponet in apparatus panel still appears to have focus (eg, blinking cursor)
