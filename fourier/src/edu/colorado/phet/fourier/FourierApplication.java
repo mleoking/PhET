@@ -14,12 +14,13 @@ package edu.colorado.phet.fourier;
 import java.io.IOException;
 
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.module.ContinuousModule;
@@ -75,14 +76,29 @@ public class FourierApplication extends PhetApplication {
      * Initializes the menubar.
      */
     private void initMenubar() {
-           
+     
+        PhetFrame frame = getPhetFrame();
+        
+        // File menu
+        {
+            JMenuItem saveItem = new JMenuItem( SimStrings.get( "FileMenu.save" ) );
+            saveItem.setMnemonic( SimStrings.get( "FileMenu.save.mnemonic" ).charAt(0) );
+            
+            JMenuItem loadItem = new JMenuItem( SimStrings.get( "FileMenu.load" ) );
+            loadItem.setMnemonic( SimStrings.get( "FileMenu.load.mnemonic" ).charAt(0) );
+
+            frame.addFileMenuItem( saveItem );
+            frame.addFileMenuItem( loadItem );
+            frame.addFileMenuSeparator();
+        }
+        
         // Developer menu
         if ( ENABLE_DEVELOPER_MENU ) {
 
             JMenu developerMenu = new JMenu( "Developer" );
             developerMenu.setMnemonic( 'v' );
-            getPhetFrame().addMenu( developerMenu );
-
+            frame.addMenu( developerMenu );
+            
             //XXX Add menu items for Developer menu
         }
     }

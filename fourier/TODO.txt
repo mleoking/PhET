@@ -5,6 +5,9 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- investigate Sam's charts package
+- investigate Jex for rendering equations
+- combobox choices should appear in the order that they're added
 - autorescale checkbox for Components/Sum graphs
 - Sums graphic range is +-5 when autoscale is off
 - Amplitudes graph range of 4/PI, label -1,0,+1
@@ -44,7 +47,11 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
-
+(5/31) - add new controls to "Discrete" module, they don't do anything yet
+(5/31) - add File>Save and File>Load, not wire up yet
+(5/31) - disable wiggle me in "Discrete" module
+(5/31) - Select function choice "sine" -> "sine/cosine"
+(5/31) - change range of harmonics to 1-11.
 (5/20) - convert to new PhetApplication startup sequence
 (5/19) - "Fourier Component" to "Harmonic" throughout
 (5/18) - comboBoxes for "Show wavelength" and "Show period"

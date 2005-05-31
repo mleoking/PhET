@@ -142,6 +142,7 @@ public class DiscreteModule extends FourierModule {
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _fourierSeriesModel );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+        wiggleMe.setEnabled( false ); //XXX remove this line to enable the wiggle me
     }
     
     //----------------------------------------------------------------------------
