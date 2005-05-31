@@ -22,8 +22,9 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.FourierUtils;
 
 
@@ -49,7 +50,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private static final int TITLE_X_OFFSET = -15; // from origin
     
     // Outline parameters
-    private static final int OUTLINE_WIDTH = 600;
+    private static final int OUTLINE_WIDTH = 650;
     private static final int OUTLINE_HEIGHT = 175;
     private static final Color OUTLINE_COLOR = Color.BLACK;
     
@@ -148,8 +149,8 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
             
             _slidersGraphic.clear();
             
-            int totalSpace = ( numberOfHarmonics + 1 ) * SLIDER_SPACING;
-            int barWidth = ( OUTLINE_WIDTH - totalSpace ) / numberOfHarmonics;
+            int totalSpace = ( FourierConfig.MAX_HARMONICS + 1 ) * SLIDER_SPACING;
+            int barWidth = ( OUTLINE_WIDTH - totalSpace ) / FourierConfig.MAX_HARMONICS;
             double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
 
             for ( int i = 0; i < numberOfHarmonics; i++ ) {

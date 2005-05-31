@@ -12,15 +12,13 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.GridBagConstraints;
-import java.text.MessageFormat;
+import java.awt.event.ActionListener;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
@@ -33,6 +31,7 @@ import edu.colorado.phet.fourier.util.EasyGridBagLayout;
  */
 public class ControlPanelComboBox extends JPanel {
 
+    private JLabel _label;
     private JComboBox _comboBox;
     private Hashtable _choices;
 
@@ -42,7 +41,7 @@ public class ControlPanelComboBox extends JPanel {
         assert ( choices != null );
 
         // Label
-        JLabel jlabel = new JLabel( label );
+        _label = new JLabel( label );
 
         // Choices 
         _choices = choices;
@@ -57,12 +56,21 @@ public class ControlPanelComboBox extends JPanel {
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
-        layout.addAnchoredComponent( jlabel, 0, 0, GridBagConstraints.EAST );
+        layout.addAnchoredComponent( _label, 0, 0, GridBagConstraints.EAST );
         layout.addAnchoredComponent( _comboBox, 0, 1, GridBagConstraints.WEST );
     }
     
     public JComboBox getComboBox() {
         return _comboBox;
+    }
+    
+    public void setEnabled( boolean enabled ) {
+        _label.setEnabled( enabled );
+        _comboBox.setEnabled( enabled );
+    }
+    
+    public boolean isEnabled() {
+        return _comboBox.isEnabled();
     }
     
     public void setChoices( Hashtable choices ) {
@@ -73,5 +81,29 @@ public class ControlPanelComboBox extends JPanel {
         while ( enum.hasMoreElements() ) {
             _comboBox.addItem( enum.nextElement() );
         }
+    }
+    
+    public void addActionListener( ActionListener listener ) {
+        _comboBox.addActionListener( listener );
+    }
+ 
+    public void removeActionListener( ActionListener listener ) {
+        _comboBox.removeActionListener( listener );
+    }
+    
+    public void setSelectedItem( Object item ) {
+        _comboBox.setSelectedItem( item );
+    }
+    
+    public Object getSelectedItem() {
+        return _comboBox.getSelectedItem();
+    }
+    
+    public void setSelectedIndex( int index ) {
+        _comboBox.setSelectedIndex( index );
+    }
+    
+    public int getSelectedIndex() {
+        return _comboBox.getSelectedIndex();
     }
 }
