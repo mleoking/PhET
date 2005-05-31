@@ -10,10 +10,9 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.model.LightSpecies;
+import edu.colorado.phet.idealgas.model.Pump;
 
 /**
  * PumpControlPanel
@@ -55,7 +54,7 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
             getHeavySpinner().setValue( new Integer( getModule().getHeavySpeciesCnt() ) );
         }
         if( LightSpecies.class.isAssignableFrom( species ) ) {
-            getHeavySpinner().setValue( new Integer( getModule().getLightSpeciesCnt() ) );
+            getLightSpinner().setValue( new Integer( getModule().getLightSpeciesCnt() ) );
         }
     }
 }
