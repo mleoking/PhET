@@ -1,9 +1,12 @@
+/* Copyright 2003-2004, University of Colorado */
+
 /*
- * Class: LightSpeciesGraphic
- * Package: edu.colorado.phet.graphics.idealgas
- *
- * Created by: Ron LeMaster
- * Date: Nov 4, 2002
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.view;
 

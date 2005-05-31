@@ -8,7 +8,6 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.view.util.SimStrings;

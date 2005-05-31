@@ -1,9 +1,12 @@
-/**
- * Created by IntelliJ IDEA.
- * User: Another Guy
- * Date: Feb 13, 2003
- * Time: 2:20:47 PM
- * To change this template use Options | File Templates.
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.controller;
 
@@ -16,6 +19,7 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
+import edu.colorado.phet.mechanics.Body;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -23,7 +27,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Random;
 
+/**
+ * 
+ */
 public class HeliumBalloonModule extends IdealGasModule implements GasSource, IdealGasModule.ResetListener {
 
     private static double MASS = 500;
@@ -89,6 +97,64 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         Command cmd = new RemoveMoleculeCmd( getIdealGasModel(), LightSpecies.class );
         cmd.doIt();
     }
+
+    //-----------------------------------------------------------------
+    // Overrides of parent behavior
+    //-----------------------------------------------------------------
+
+    /**
+     * Overrides behavior of superclass to only remove molecules that are NOT in the balloon
+     * @param species
+     */
+    public void removeGasMolecule( Class species ) {
+        java.util.List bodies = getIdealGasModel().getBodies();
+
+        // Randomize which end of the list of bodies we start searching from,
+        // just to make sure there is no non-random effect on the temperature
+        // of the system
+        Object obj = null;
+        while( obj == null ) {
+            boolean randomB = new Random().nextBoolean();
+            if( randomB ) {
+                for( int i = 0; i < bodies.size(); i++ ) {
+                    obj = bodies.get( i );
+                    if( species.isInstance( obj ) && !balloon.containsBody( (Body)obj )) {
+                        break;
+                    }
+                }
+            }
+            else {
+                for( int i = bodies.size() - 1; i >= 0; i-- ) {
+                    obj = bodies.get( i );
+                    if( species.isInstance( obj ) && !balloon.containsBody( (Body)obj )) {
+                        break;
+                    }
+                }
+            }
+        }
+        if( obj instanceof GasMolecule  && !balloon.containsBody( (Body)obj )) {
+            GasMolecule molecule = (GasMolecule)obj;
+            getIdealGasModel().removeModelElement( molecule );
+        }
+    }
+
+
+    /**
+     * Overrides parent behavior to return the count of heavy molecules in the box, but not in the sphere
+     * @return
+     */
+    public int getHeavySpeciesCnt() {
+        return super.getHeavySpeciesCnt() - balloon.getHeavySpeciesCnt();
+    }
+
+    /**
+     * Overrides parent behavior to return the count of light molecules in the box, but not in the sphere
+     * @return
+     */
+    public int getLightSpeciesCnt() {
+        return super.getLightSpeciesCnt() - balloon.getLightSpeciesCnt();
+    }
+
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////

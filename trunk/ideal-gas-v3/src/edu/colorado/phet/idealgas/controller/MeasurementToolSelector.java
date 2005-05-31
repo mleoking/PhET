@@ -150,7 +150,7 @@ public class MeasurementToolSelector extends JPopupMenu {
             stopwatchCB.addActionListener( new ActionListener() {
                 PhetFrame frame = PhetApplication.instance().getPhetFrame();
                 public void actionPerformed( ActionEvent e ) {
-                    module.stopwatchEnabled( stopwatchCB.isSelected() );
+                    module.setStopwatchEnabled( stopwatchCB.isSelected() );
                 }
             } );
             this.add( stopwatchCB );

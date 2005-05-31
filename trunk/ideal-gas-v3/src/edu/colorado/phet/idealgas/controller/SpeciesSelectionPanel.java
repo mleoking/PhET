@@ -1,8 +1,12 @@
-/**
- * Class: SpeciesSelectionPanel
- * Package: edu.colorado.phet.idealgas.controller
- * Author: Another Guy
- * Date: Sep 27, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.controller;
 
@@ -15,7 +19,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
-
+/**
+ * A JPanel with two spinners for adding and removing molecules from the model.
+ */
 public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasModule.ResetListener {
     private IdealGasModule module;
     private GasSource gasSource;

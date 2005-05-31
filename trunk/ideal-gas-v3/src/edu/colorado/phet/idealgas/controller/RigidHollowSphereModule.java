@@ -15,6 +15,7 @@ import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 import edu.colorado.phet.instrumentation.Thermometer;
+import edu.colorado.phet.mechanics.Body;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -156,10 +157,6 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
             }
         }
 
-        // TODO: this next thing looks really wrong. Why remove something if nothing was found?
-//        if( !found ) {
-//            gasMolecule = (GasMolecule)moleculesInSphere.removeFirst();
-//        }
         if( found ) {
             getIdealGasModel().removeModelElement( gasMolecule );
         }
@@ -181,4 +178,61 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         cmd.doIt();
         this.sphere.addContainedBody( gm );
     }
+
+    //-----------------------------------------------------------------
+    // Overrides of parent behavior
+    //-----------------------------------------------------------------
+
+    /**
+     * Overrides behavior of superclass to only remove molecules that are NOT in the sphere
+     * @param species
+     */
+    public void removeGasMolecule( Class species ) {
+        java.util.List bodies = getIdealGasModel().getBodies();
+
+        // Randomize which end of the list of bodies we start searching from,
+        // just to make sure there is no non-random effect on the temperature
+        // of the system
+        Object obj = null;
+        while( obj == null ) {
+            boolean randomB = new Random().nextBoolean();
+            if( randomB ) {
+                for( int i = 0; i < bodies.size(); i++ ) {
+                    obj = bodies.get( i );
+                    if( species.isInstance( obj ) && !sphere.containsBody( (Body)obj )) {
+                        break;
+                    }
+                }
+            }
+            else {
+                for( int i = bodies.size() - 1; i >= 0; i-- ) {
+                    obj = bodies.get( i );
+                    if( species.isInstance( obj ) && !sphere.containsBody( (Body)obj )) {
+                        break;
+                    }
+                }
+            }
+        }
+        if( obj instanceof GasMolecule  && !sphere.containsBody( (Body)obj )) {
+            GasMolecule molecule = (GasMolecule)obj;
+            getIdealGasModel().removeModelElement( molecule );
+        }
+    }
+
+    /**
+     * Overrides parent behavior to return the count of heavy molecules in the box, but not in the sphere
+     * @return
+     */
+    public int getHeavySpeciesCnt() {
+        return super.getHeavySpeciesCnt() - sphere.getHeavySpeciesCnt();
+    }
+
+    /**
+     * Overrides parent behavior to return the count of light molecules in the box, but not in the sphere
+     * @return
+     */
+    public int getLightSpeciesCnt() {
+        return super.getLightSpeciesCnt() - sphere.getLightSpeciesCnt();
+    }
+
 }

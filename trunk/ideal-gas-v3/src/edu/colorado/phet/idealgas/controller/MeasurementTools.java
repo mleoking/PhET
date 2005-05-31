@@ -104,7 +104,7 @@ public class MeasurementTools {
                 PhetFrame frame = PhetApplication.instance().getPhetFrame();
 
                 public void actionPerformed( ActionEvent e ) {
-                    module.stopwatchEnabled( isSelected() );
+                    module.setStopwatchEnabled( isSelected() );
                 }
             } );
         }
@@ -198,7 +198,7 @@ public class MeasurementTools {
             super( SimStrings.get( "MeasurementControlPanel.Stopwatch" ), false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.stopwatchEnabled( isSelected() );
+                    module.setStopwatchEnabled( isSelected() );
                 }
             } );
         }

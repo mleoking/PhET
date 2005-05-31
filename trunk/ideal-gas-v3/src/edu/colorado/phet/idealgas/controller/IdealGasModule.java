@@ -1,8 +1,12 @@
-/**
- * Class: IdealGasModule
- * Package: edu.colorado.phet.idealgas.controller
- * Author: Another Guy
- * Date: Sep 10, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.controller;
 
@@ -117,7 +121,13 @@ public class IdealGasModule extends Module {
     private double xDiag = 434 + IdealGasConfig.X_BASE_OFFSET;
     private double yDiag = 497 + IdealGasConfig.Y_BASE_OFFSET;
     private Color boxColor = new Color( 180, 180, 180 );
+    private Random random = new Random();
 
+
+
+    //-----------------------------------------------------------------
+    // Constructors and initialization
+    //-----------------------------------------------------------------
 
     /**
      * @param clock
@@ -259,7 +269,6 @@ public class IdealGasModule extends Module {
                                              box,
                                              boxColor );
         this.addGraphic( boxDoorGraphic, 11 );
-//        this.addGraphic( boxDoorGraphic, -6 );
     }
 
     /**
@@ -276,7 +285,6 @@ public class IdealGasModule extends Module {
         pumpSelectorPanel.setLocation( IdealGasConfig.X_BASE_OFFSET + 630, IdealGasConfig.Y_BASE_OFFSET + 300 );
         pumpSelectorPanel.setLocation( (int)( pumpGraphic.getLocation().getX() + pumpGraphic.getWidth() - pumpSelectorPanel.getWidth() + 10 ),
                                        (int)( pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 32 ) );
-//                                       (int)(pumpGraphic.getLocation().getY() + pumpGraphic.getHeight() + 26) );
         getApparatusPanel().addGraphic( pumpSelectorPanel );
         getApparatusPanel().revalidate();
     }
@@ -299,29 +307,9 @@ public class IdealGasModule extends Module {
         this.addGraphic( pumpHandleGraphic, -6 );
         pumpBaseAndHoseGraphic = new PhetImageGraphic( getApparatusPanel(), pumpBaseAndHoseImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 258 );
         pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 258 );
-//            pumpGraphic = new PhetImageGraphic( getApparatusPanel(), currentPumpImg, IdealGasConfig.X_BASE_OFFSET + 436, IdealGasConfig.Y_BASE_OFFSET + 253 );
         pumpGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         this.addGraphic( pumpGraphic, -4 );
         this.addGraphic( pumpBaseAndHoseGraphic, -3.5 );
-
-//        if( wiggleMeGraphic == null ) {
-//            wiggleMeGraphic = new WiggleMeGraphic( getApparatusPanel(),
-//                                                   new Point2D.Double( IdealGasConfig.X_BASE_OFFSET + 480, IdealGasConfig.Y_BASE_OFFSET + 170 ),
-//                                                   getModel() );
-//            wiggleMeGraphic.start();
-//        }
-//            addGraphic( wiggleMeGraphic, 40 );
-////        }
-//        pump.addObserver( new SimpleObserver() {
-//            public void update() {
-//                if( wiggleMeGraphic != null ) {
-//                    wiggleMeGraphic.kill();
-//                    getApparatusPanel().removeGraphic( wiggleMeGraphic );
-//                    wiggleMeGraphic = null;
-//                    pump.removeObserver( this );
-//                }
-//            }
-//        } );
     }
 
     protected void removePumpGraphic() {
@@ -357,6 +345,45 @@ public class IdealGasModule extends Module {
         helpItem3.setForegroundColor( IdealGasConfig.HELP_COLOR );
         addHelpItem( helpItem3 );
     }
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        for( int i = 0; i < visibleInstruments.size(); i++ ) {
+            Component component = (Component)visibleInstruments.get( i );
+            component.setVisible( true );
+        }
+
+        // FOR DEBUG. displays the total energy in the system
+//        TotalEnergyMonitor tem = new TotalEnergyMonitor( null, idealGasModel );
+//        tem.setVisible( true );
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        for( int i = 0; i < visibleInstruments.size(); i++ ) {
+            Component component = (Component)visibleInstruments.get( i );
+            component.setVisible( false );
+        }
+    }
+
+    protected IdealGasControlPanel getIdealGasControlPanel() {
+        return idealGasControlPanel;
+    }
+
+    //-----------------------------------------------------------------
+    // Getters
+    //-----------------------------------------------------------------
+    public int getHeavySpeciesCnt() {
+        return idealGasModel.getHeavySpeciesCnt();
+    }
+
+    public int getLightSpeciesCnt() {
+        return idealGasModel.getLightSpeciesCnt();
+    }
+    
+    //-----------------------------------------------------------------
+    // Setters
+    //-----------------------------------------------------------------
 
     public JDialog setMeasurementDlgVisible( boolean isVisible ) {
         if( measurementDlg == null ) {
@@ -408,6 +435,11 @@ public class IdealGasModule extends Module {
 
     }
 
+    /**
+     * Sets the amount of heat that is added or removed from the system at each step in time
+     *
+     * @param value
+     */
     public void setStove( int value ) {
         idealGasModel.setHeatSource( (double)value );
         ( (BaseIdealGasApparatusPanel)getApparatusPanel() ).setStove( value );
@@ -444,8 +476,6 @@ public class IdealGasModule extends Module {
         cmd.doIt();
     }
 
-    private Random random = new Random();
-
     public void removeGasMolecule( Class species ) {
         java.util.List bodies = idealGasModel.getBodies();
 
@@ -476,10 +506,6 @@ public class IdealGasModule extends Module {
             GasMolecule molecule = (GasMolecule)obj;
             idealGasModel.removeModelElement( molecule );
         }
-
-//
-//        Command cmd = new RemoveMoleculeCmd( idealGasModel, species );
-//        cmd.doIt();
     }
 
     protected PressureSensingBox getBox() {
@@ -613,11 +639,6 @@ public class IdealGasModule extends Module {
      * @return the dialog
      */
     public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
-//        if( histogramDlg == null ) {
-//            histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getPhetFrame(),
-//                                                      (IdealGasModel)getModel() );
-//        }
-//        histogramDlg.setVisible( histogramDlgEnabled );
         if( histogramDlgEnabled ) {
             visibleInstruments.add( histogramDlg );
             histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getPhetFrame(),
@@ -632,7 +653,7 @@ public class IdealGasModule extends Module {
         return histogramDlg;
     }
 
-    public void stopwatchEnabled( boolean stopwatchEnabled ) {
+    public void setStopwatchEnabled( boolean stopwatchEnabled ) {
         PhetFrame frame = PhetApplication.instance().getPhetFrame();
         if( stopwatchEnabled ) {
             stopwatchPanel = new StopwatchPanel( getModel(), "psec", IdealGasConfig.TIME_SCALE_FACTOR );
@@ -645,30 +666,6 @@ public class IdealGasModule extends Module {
             frame.getClockControlPanel().revalidate();
             visibleInstruments.remove( stopwatchPanel );
         }
-    }
-
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        for( int i = 0; i < visibleInstruments.size(); i++ ) {
-            Component component = (Component)visibleInstruments.get( i );
-            component.setVisible( true );
-        }
-
-        // FOR DEBUG. displays the total energy in the system
-//        TotalEnergyMonitor tem = new TotalEnergyMonitor( null, idealGasModel );
-//        tem.setVisible( true );
-    }
-
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        for( int i = 0; i < visibleInstruments.size(); i++ ) {
-            Component component = (Component)visibleInstruments.get( i );
-            component.setVisible( false );
-        }
-    }
-
-    protected IdealGasControlPanel getIdealGasControlPanel() {
-        return idealGasControlPanel;
     }
 
     //-----------------------------------------------------

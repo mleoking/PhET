@@ -1,8 +1,12 @@
-/**
- * Class: Pump
- * Package: edu.colorado.phet.idealgas.physics
- * Author: Another Guy
- * Date: Jun 25, 2004
+/* Copyright 2003-2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.idealgas.model;
 
@@ -18,13 +22,15 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 
+/**
+ *
+ */
 public class Pump extends SimpleObservable implements GasSource {
 
 
     // Coordinates of the intake port on the box
     public static final float s_intakePortX = 430 + IdealGasConfig.X_BASE_OFFSET;
     public static final float s_intakePortY = 405 + IdealGasConfig.Y_BASE_OFFSET;
-//    public static final float s_intakePortY = 400 + IdealGasConfig.Y_BASE_OFFSET;
     // Offset for dithering the initial position of particles pumped into the box
     private static float s_intakePortOffsetY = 1;
 
@@ -200,20 +206,11 @@ public class Pump extends SimpleObservable implements GasSource {
             System.out.println( "vSq <= 0 in PumpMoleculeCmd.createMolecule" );
         }
         float v = vSq > 0 ? (float)Math.sqrt( vSq ) : 10;
-
-        // Calibrate nm/sec to pixels/clock-tick
-//        double factor = 10 / .22;  // 10px = .22nm
-//        v *= factor;
-
         double theta = Math.random() * (maxTheta - minTheta ) + minTheta;
-//        float theta = (float)Math.random() * PI_OVER_2 - PI_OVER_4;
 
-        // xV must be negative so that molecules move away from the intake port
-        // Set the velocity twice, so the previous velocity is set to be
-        // the same
         float xV = v * (float)Math.cos( theta );
-//        float xV = -(float)Math.abs( v * Math.cos( theta ) );
         float yV = v * (float)Math.sin( theta );
+        // Set the velocity twice, so the previous velocity is set to be the same
         newMolecule.setVelocity( xV, yV );
         newMolecule.setVelocity( xV, yV );
 
@@ -221,7 +218,7 @@ public class Pump extends SimpleObservable implements GasSource {
     }
 
     //-------------------------------------------------------------------------------------
-    // Inner classes
+    // Event and Listener definitions
     //-------------------------------------------------------------------------------------
     private ArrayList listeners = new ArrayList();
 
@@ -260,10 +257,17 @@ public class Pump extends SimpleObservable implements GasSource {
     // Pumping energy strategies
     //------------------------------------------------------------------------------
 
+    /**
+     * Defines an interface for strategies that determine the energy at which molecules should be introduced
+     * into the system
+     */
     public interface PumpingEnergyStrategy {
         double getMoleculeEnergy();
     }
 
+    /**
+     * A strategy that pumps in molecules at the average kinetic energy of the molecules already in the system
+     */
     public static class ConstantEnergyStrategy implements PumpingEnergyStrategy {
         private IdealGasModel model;
 
@@ -283,6 +287,9 @@ public class Pump extends SimpleObservable implements GasSource {
         }
     }
 
+    /**
+     * A strategy that pumps in molecules at a specified energy
+     */
     public static class FixedEnergyStrategy implements PumpingEnergyStrategy {
         private double fixedEnergy = IdealGasModel.DEFAULT_ENERGY;
 
