@@ -211,14 +211,14 @@ public class PhetFrame extends JFrame {
      * @param menu
      */
     public void addMenu( JMenu menu ) {
-        SwingUtils.addMenuAt( menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1 );
+        SwingUtils.addMenuAt( menu, getJMenuBar(), getJMenuBar().getMenuCount() - 1 );
     }
 
     /**
-     * Adds a menu separator to the File menu
+     * Adds a menu separator to the File menu, just before the Exit menu item.
      */
     public void addFileMenuSeparator() {
-        defaultFileMenu.insertSeparator( defaultFileMenu.getComponentCount() + 1 );
+        defaultFileMenu.insertSeparator( defaultFileMenu.getMenuComponentCount() - 1 );
     }
 
     /**
@@ -256,11 +256,11 @@ public class PhetFrame extends JFrame {
     }
 
     /**
-     * Adds a menu item to the File menu
+     * Adds a menu item to the File menu, just before the Exit menu item.
      * @param menuItem
      */
     public void addFileMenuItem( JMenuItem menuItem ) {
-        defaultFileMenu.insert( menuItem, defaultFileMenu.getComponentCount() );
+        defaultFileMenu.insert( menuItem, defaultFileMenu.getMenuComponentCount() - 1 );
     }
 
     /**
