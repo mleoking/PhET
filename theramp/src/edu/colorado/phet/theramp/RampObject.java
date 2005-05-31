@@ -20,9 +20,15 @@ public class RampObject {
     private double staticFriction;
     private double kineticFriction;
     private double scale;
+    private double yOffset;
 
     public RampObject( String location, String name, double defaultScale,
                        double mass, double staticFriction, double kineticFriction, double scale ) {
+        this( location, name, defaultScale, mass, staticFriction, kineticFriction, scale, 0.0 );
+    }
+
+    public RampObject( String location, String name, double defaultScale,
+                       double mass, double staticFriction, double kineticFriction, double scale, double yOffset ) {
         this.location = location;
         this.name = name;
         this.defaultScale = defaultScale;
@@ -30,7 +36,9 @@ public class RampObject {
         this.staticFriction = staticFriction;
         this.kineticFriction = kineticFriction;
         this.scale = scale;
+        this.yOffset = yOffset;
     }
+
 
     public String getLocation() {
         return location;
@@ -66,5 +74,9 @@ public class RampObject {
 
     public double getScale() {
         return scale;
+    }
+
+    public double getYOffset() {
+        return yOffset;
     }
 }

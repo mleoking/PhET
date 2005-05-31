@@ -34,7 +34,7 @@ public class RampGraphic extends GraphicLayerSet {
     private double viewAngle;
     private PhetImageGraphic surfaceGraphic;
     private PhetShapeGraphic floorGraphic;
-    private PhetShapeGraphic jackGraphic;
+    private PhetShapeGraphic bookStackGraphic;
     private int surfaceStrokeWidth = 12;
     private PhetShapeGraphic filledShapeGraphic;
     private RampTickSetGraphic rampTickSetGraphic;
@@ -42,6 +42,7 @@ public class RampGraphic extends GraphicLayerSet {
     private AngleGraphic angleGraphic;
     public BufferedImage texture;
     public PhetGraphic arrowGraphic;
+    public PhetImageGraphic barrierGraphic;
 
     public RampGraphic( final RampPanel rampPanel, final Surface ramp ) {
         super( rampPanel );
@@ -50,18 +51,15 @@ public class RampGraphic extends GraphicLayerSet {
         screenTransform = new ModelViewTransform2D( new Rectangle2D.Double( -10, 0, 20, 10 ), new Rectangle( -50, -50, 800, 400 ) );
 
         Stroke stroke = new BasicStroke( 6.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-//        Stroke surfaceStroke = new BasicStroke( surfaceStrokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-//        surfaceGraphic = new PhetImageGraphic( rampPanel, "images/wood2.jpg" );
         surfaceGraphic = new PhetImageGraphic( rampPanel, "images/wood5.png" );
-//        surfaceGraphic = new PhetImageGraphic( rampPanel, "images/wood3.png" );
         floorGraphic = new PhetShapeGraphic( getComponent(), null, stroke, Color.black );
         Paint bookFill = createBookFill();
-        jackGraphic = new PhetShapeGraphic( getComponent(), null, bookFill );
+        bookStackGraphic = new PhetShapeGraphic( getComponent(), null, bookFill );
         filledShapeGraphic = new PhetShapeGraphic( getComponent(), null, Color.lightGray );
         addGraphic( filledShapeGraphic );
         filledShapeGraphic.setVisible( false );
         addGraphic( floorGraphic );
-        addGraphic( jackGraphic );
+        addGraphic( bookStackGraphic );
         addGraphic( surfaceGraphic );
 
         heightReadoutGraphic = new PhetShadowTextGraphic( rampPanel, new Font( "Lucida Sans", 0, 14 ), "h=0.0 m", Color.black, 1, 1, Color.gray );
@@ -70,14 +68,16 @@ public class RampGraphic extends GraphicLayerSet {
         surfaceGraphic.addMouseInputListener( new MouseInputAdapter() {
             // implements java.awt.event.MouseMotionListener
             public void mouseDragged( MouseEvent e ) {
-                Point pt = e.getPoint();
-                Vector2D.Double vec = new Vector2D.Double( getViewOrigin(), pt );
-                double angle = -vec.getAngle();
-                angle = MathUtil.clamp( 0, angle, Math.PI / 2.0 );
-                ramp.setAngle( angle );
-                rampPanel.getRampModule().record();
+                RampGraphic.this.mouseDragged( e );
             }
         } );
+        bookStackGraphic.addMouseInputListener( new MouseInputAdapter() {
+            // implements java.awt.event.MouseMotionListener
+            public void mouseDragged( MouseEvent e ) {
+                RampGraphic.this.mouseDragged( e );
+            }
+        } );
+        bookStackGraphic.setCursorHand();
         surfaceGraphic.setCursorHand();
 
         rampTickSetGraphic = new RampTickSetGraphic( this );
@@ -88,6 +88,9 @@ public class RampGraphic extends GraphicLayerSet {
 
         arrowGraphic = createArrowGraphic();
         addGraphic( arrowGraphic );
+
+        barrierGraphic = new PhetImageGraphic( getComponent(), "images/barrier.jpg" );
+        addGraphic( barrierGraphic, 1000 );
 
         updateRamp();
         ramp.addObserver( new SimpleObserver() {
@@ -103,6 +106,16 @@ public class RampGraphic extends GraphicLayerSet {
                 arrowGraphic.setVisible( false );
             }
         } );
+//        barrierGraphic.setGlobal(true);
+    }
+
+    private void mouseDragged( MouseEvent e ) {
+        Point pt = e.getPoint();
+        Vector2D.Double vec = new Vector2D.Double( getViewOrigin(), pt );
+        double angle = -vec.getAngle();
+        angle = MathUtil.clamp( 0, angle, Math.PI / 2.0 );
+        ramp.setAngle( angle );
+        rampPanel.getRampModule().record();
     }
 
     private void updateArrowGraphic() {
@@ -191,8 +204,8 @@ public class RampGraphic extends GraphicLayerSet {
 
 //        GeneralPath jackShape = createJackLine();
         Shape jackShape = createJackArea();
-        jackGraphic.setShape( jackShape );
-        jackGraphic.setPaint( createBookFill() );
+        bookStackGraphic.setShape( jackShape );
+        bookStackGraphic.setPaint( createBookFill() );
 
         DoubleGeneralPath path = new DoubleGeneralPath( viewOrigin );
         path.lineTo( floor.getP2() );
@@ -209,6 +222,16 @@ public class RampGraphic extends GraphicLayerSet {
         angleGraphic.update();
 
         updateArrowGraphic();
+        AffineTransform transform = createTransform( ramp.getLength(), barrierGraphic.getSize() );//that's a global transform.
+//        try {
+////            transform.preConcatenate( getNetTransform().createInverse() );
+//            transform.preConcatenate( getNetTransform().createInverse() );
+//        }
+//        catch( NoninvertibleTransformException e ) {
+//            e.printStackTrace();
+//        }
+        barrierGraphic.setTransform( transform );
+
     }
 
     private Shape createJackArea() {

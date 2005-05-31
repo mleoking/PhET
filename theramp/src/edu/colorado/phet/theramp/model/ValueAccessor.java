@@ -1,6 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.model;
 
+import edu.colorado.phet.theramp.view.RampLookAndFeel;
+
+import java.awt.*;
+
 /**
  * User: Sam Reid
  * Date: May 16, 2005
@@ -12,17 +16,23 @@ public abstract class ValueAccessor {
     private String name;
     private String units;
     private String unitAbbreviation;
+    private Color color;
 
     public static final String joules = "Joules";
     public static final String joulesAbbreviation = "J";
 
-    protected ValueAccessor( String name, String units, String unitAbbreviation ) {
+    protected ValueAccessor( String name, String units, String unitAbbreviation, Color color ) {
         this.name = name;
         this.units = units;
         this.unitAbbreviation = unitAbbreviation;
+        this.color = color;
     }
 
     public abstract double getValue( RampModel rampModel );
+
+    public Color getColor() {
+        return color;
+    }
 
     public String getName() {
         return name;
@@ -33,8 +43,8 @@ public abstract class ValueAccessor {
     }
 
     public static class TotalEnergy extends EnergyAccessor {
-        public TotalEnergy() {
-            super( "Total" );
+        public TotalEnergy( RampLookAndFeel rampLookAndFeel ) {
+            super( "Total", rampLookAndFeel.getTotalEnergyColor() );
         }
 
         public double getValue( RampModel rampModel ) {
@@ -44,8 +54,8 @@ public abstract class ValueAccessor {
 
     public static class KineticEnergy extends EnergyAccessor {
 
-        public KineticEnergy() {
-            super( "Kinetic" );
+        public KineticEnergy( RampLookAndFeel rampLookAndFeel ) {
+            super( "Kinetic", rampLookAndFeel.getKineticEnergyColor() );
         }
 
         public double getValue( RampModel rampModel ) {
@@ -54,8 +64,8 @@ public abstract class ValueAccessor {
     }
 
     public static class PotentialEnergy extends EnergyAccessor {
-        public PotentialEnergy() {
-            super( "Potential" );
+        public PotentialEnergy( RampLookAndFeel rampLookAndFeel ) {
+            super( "Potential", rampLookAndFeel.getPotentialEnergyColor() );
         }
 
         public double getValue( RampModel rampModel ) {
@@ -64,8 +74,8 @@ public abstract class ValueAccessor {
     }
 
     public static class ThermalEnergy extends EnergyAccessor {
-        public ThermalEnergy() {
-            super( "Thermal" );
+        public ThermalEnergy( RampLookAndFeel rampLookAndFeel ) {
+            super( "Thermal", rampLookAndFeel.getThermalEnergyColor() );
         }
 
         public double getValue( RampModel rampModel ) {
@@ -74,8 +84,8 @@ public abstract class ValueAccessor {
     }
 
     public static class AppliedWork extends WorkAccessor {
-        public AppliedWork() {
-            super( "Applied" );
+        public AppliedWork( RampLookAndFeel rampLookAndFeel ) {
+            super( "Applied", rampLookAndFeel.getAppliedWorkColor() );
         }
 
         public double getValue( RampModel rampModel ) {
@@ -84,8 +94,8 @@ public abstract class ValueAccessor {
     }
 
     public static class FrictiveWork extends WorkAccessor {
-        public FrictiveWork() {
-            super( "Frictive" );
+        public FrictiveWork( RampLookAndFeel rampLookAndFeel ) {
+            super( "Frictive", rampLookAndFeel.getFrictionWorkColor() );
         }
 
         public double getValue( RampModel rampModel ) {
@@ -94,8 +104,8 @@ public abstract class ValueAccessor {
     }
 
     public static class GravityWork extends WorkAccessor {
-        public GravityWork() {
-            super( "Gravity" );
+        public GravityWork( RampLookAndFeel rampLookAndFeel ) {
+            super( "Gravity", rampLookAndFeel.getGravityWorkColor() );
         }
 
         public double getValue( RampModel rampModel ) {
@@ -104,8 +114,8 @@ public abstract class ValueAccessor {
     }
 
     public static class TotalWork extends WorkAccessor {
-        public TotalWork() {
-            super( "Total" );
+        public TotalWork( RampLookAndFeel rampLookAndFeel ) {
+            super( "Total", rampLookAndFeel.getTotalWorkColor() );
         }
 
         public double getValue( RampModel rampModel ) {
@@ -114,14 +124,14 @@ public abstract class ValueAccessor {
     }
 
     public static abstract class EnergyAccessor extends ValueAccessor {
-        public EnergyAccessor( String name ) {
-            super( name, joules, joulesAbbreviation );
+        public EnergyAccessor( String name, Color color ) {
+            super( name, joules, joulesAbbreviation, color );
         }
     }
 
     public static abstract class WorkAccessor extends ValueAccessor {
-        public WorkAccessor( String name ) {
-            super( name, joules, joulesAbbreviation );
+        public WorkAccessor( String name, Color color ) {
+            super( name, joules, joulesAbbreviation, color );
         }
     }
 

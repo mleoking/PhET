@@ -24,7 +24,8 @@ import java.awt.geom.Point2D;
  * Copyright (c) Feb 13, 2005 by Sam Reid
  */
 public class ForceArrowGraphic extends CompositePhetGraphic {
-    public static final double forceLengthScale = 5.0;
+//    public static final double forceLengthScale = 5.0;
+//    public static final double forceLengthScale = 1.0;
     private double arrowTailWidth = 30;
     private double arrowHeadHeight = 55;
 
@@ -86,7 +87,7 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
             setVisible( true && userVisible );
         }
 
-        Point viewCtr = RectangleUtils.getCenter( blockGraphic.getBounds() );
+        Point viewCtr = RectangleUtils.getCenter( blockGraphic.getObjectGraphic().getBounds() );
         viewCtr = translate( viewCtr );
         Point2D.Double tail = new Point2D.Double( viewCtr.x, viewCtr.y );
         Point2D tip = new Vector2D.Double( force.getX(), force.getY() ).getDestination( tail );

@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
+import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.timeseries.TimeSeries;
 import edu.colorado.phet.timeseries.plot.PlotDeviceSeries;
 import edu.colorado.phet.timeseries.plot.TimePlot;
@@ -83,15 +84,19 @@ public class RampPlotSet {
         TimePlotSuite energyPlot = createTimePlotSuite( new Range2D( 0, -20000, 20, 20000 ), "Energy", 400, 200 );
         module.getRampPanel().addGraphic( energyPlot, 10 );
 
-        addTimeSeries( energyPlot, new ValueAccessor.TotalEnergy(), Color.black, "10000.00" );
-        addTimeSeries( energyPlot, new ValueAccessor.ThermalEnergy(), Color.red, "10000.00" );
-        addTimeSeries( energyPlot, new ValueAccessor.PotentialEnergy(), Color.green, "10000.00" );
-        addTimeSeries( energyPlot, new ValueAccessor.KineticEnergy(), Color.blue, "10000.00" );
+        addTimeSeries( energyPlot, new ValueAccessor.TotalEnergy( getLookAndFeel() ), Color.black, "10000.00" );
+        addTimeSeries( energyPlot, new ValueAccessor.ThermalEnergy( getLookAndFeel() ), Color.red, "10000.00" );
+        addTimeSeries( energyPlot, new ValueAccessor.PotentialEnergy( getLookAndFeel() ), Color.green, "10000.00" );
+        addTimeSeries( energyPlot, new ValueAccessor.KineticEnergy( getLookAndFeel() ), Color.blue, "10000.00" );
 
         TimePlotSuite workPlot = createTimePlotSuite( new Range2D( 0, -20000, 20, 20000 ), "Work", 620, 200 );
         module.getRampPanel().addGraphic( workPlot, 11 );
-        addTimeSeries( workPlot, new ValueAccessor.AppliedWork(), Color.red, "10000.00" );
-        addTimeSeries( workPlot, new ValueAccessor.FrictiveWork(), Color.blue, "10000.00" );
+        addTimeSeries( workPlot, new ValueAccessor.AppliedWork( getLookAndFeel() ), Color.red, "10000.00" );
+        addTimeSeries( workPlot, new ValueAccessor.FrictiveWork( getLookAndFeel() ), Color.blue, "10000.00" );
+    }
+
+    private RampLookAndFeel getLookAndFeel() {
+        return module.getRampPanel().getLookAndFeel();
     }
 
     private TimePlotSuite createTimePlotSuite( Range2D range, String name, int y, int height ) {

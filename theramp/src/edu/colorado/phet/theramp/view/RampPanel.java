@@ -43,6 +43,7 @@ public class RampPanel extends ApparatusPanel2 {
     private SkyGraphic skyGraphic;
     private RampGraphic groundGraphic;
     private MeasuringTape measuringTape;
+    private TimeGraphic timeGraphic;
 
     public Dimension getDefaultRenderingSize() {
         return new Dimension( 1061, 871 );
@@ -112,7 +113,7 @@ public class RampPanel extends ApparatusPanel2 {
         addGraphic( potentialEnergyZeroGraphic, 100 );
 
         try {
-            leanerGraphic = new LeanerGraphic( this, blockGraphic );
+            leanerGraphic = new LeanerGraphic( this, blockGraphic.getObjectGraphic() );
             addGraphic( leanerGraphic, 102 );
         }
         catch( IOException e ) {
@@ -135,6 +136,11 @@ public class RampPanel extends ApparatusPanel2 {
         measuringTape = new MeasuringTape( this, rampGraphic.getScreenTransform(),
                                            RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
         addGraphic( measuringTape, 100 );
+
+        timeGraphic = new TimeGraphic( this, module.getTimeSeriesModel() );
+        timeGraphic.setLocation( 60, 60 );
+        addGraphic( timeGraphic, 100 );
+        module.getModel().addModelElement( timeGraphic );
     }
 
     private void addArrowSet( AbstractArrowSet arrowSet ) {

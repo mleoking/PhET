@@ -35,7 +35,7 @@ public class RampControlPanel extends ControlPanel {
         this.module = module;
 //        JButton3D jb = new JButton3D( "Reset" );
         JButton jb = new JButton( "Reset" );
-        add( jb );
+        addControl( jb );
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
@@ -83,7 +83,7 @@ public class RampControlPanel extends ControlPanel {
         coordinatePanel.add( perpendicular );
         coordinatePanel.add( x );
         coordinatePanel.add( y );
-        add( coordinatePanel );
+        addControl( coordinatePanel );
 
         JPanel forcePanel = new VerticalLayoutPanel();
         forcePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Forces to Show" ) );
@@ -132,26 +132,30 @@ public class RampControlPanel extends ControlPanel {
         forcePanel.add( showGravity );
         forcePanel.add( showNormal );
 
-
-        add( forcePanel );
+        addControl( forcePanel );
 
         ObjectComboBox ocb = new ObjectComboBox( module.getRampObjects(), this );
-        add( ocb );
+        addControl( ocb );
 
         double[] ticks = new double[]{0, 0.5, 1.0, 1.5};
         frictionSlider = createFrictionSlider( ticks, module );
 
-        add( frictionSlider );
+        addControl( frictionSlider );
         final JCheckBox frictionless = new JCheckBox( "Frictionless", false );
         frictionless.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setFrictionEnabled( !frictionless.isSelected() );
             }
         } );
-        add( frictionless );
+        module.addListener( new RampModule.Listener() {
+            public void objectChanged() {
+                frictionless.setSelected( false );
+            }
+        } );
+        addControl( frictionless );
 
         massSlider = createMassSlider();
-        add( massSlider );
+        addControl( massSlider );
     }
 
     private ModelSlider createMassSlider() {
