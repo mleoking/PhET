@@ -56,7 +56,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
     public void reset() {
         super.reset();
         series.reset();
-        rampModule.reset();
+//        rampModule.reset();
         //set an initialization state.
     }
 

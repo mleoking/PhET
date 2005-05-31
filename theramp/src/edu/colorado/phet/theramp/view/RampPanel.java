@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class RampPanel extends ApparatusPanel2 {
     private RampModule module;
-    private RampGraphic rampGraphic;
+    private SurfaceGraphic rampGraphic;
     private BlockGraphic blockGraphic;
     private BarGraphSet barGraphSet;
     private RampLookAndFeel rampLookAndFeel;
@@ -41,9 +41,12 @@ public class RampPanel extends ApparatusPanel2 {
     private LeanerGraphic leanerGraphic;
     private EarthGraphic earthGraphic;
     private SkyGraphic skyGraphic;
-    private RampGraphic groundGraphic;
+    private SurfaceGraphic groundGraphic;
     private MeasuringTape measuringTape;
     private TimeGraphic timeGraphic;
+    private RightBarrierGraphic rightBarrierGraphic;
+    private LeftBarrierGraphic leftBarrierGraphic;
+    private SpeedReadoutGraphic velocityGraphic;
 
     public Dimension getDefaultRenderingSize() {
         return new Dimension( 1061, 871 );
@@ -60,12 +63,12 @@ public class RampPanel extends ApparatusPanel2 {
         rampGraphic = new RampGraphic( this, ramp );
         addGraphic( rampGraphic );
 
-        groundGraphic = new RampGraphic( this, rampModel.getGround() );
+        groundGraphic = new SurfaceGraphic( this, rampModel.getGround() );
         groundGraphic.setIgnoreMouse( true );
         addGraphic( groundGraphic );
 
         blockGraphic = new BlockGraphic( module, this, rampGraphic, groundGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
-        addGraphic( blockGraphic );
+        addGraphic( blockGraphic, 2 );
 
         barGraphSet = new BarGraphSet( this, rampModel );
         addGraphic( barGraphSet );
@@ -141,10 +144,21 @@ public class RampPanel extends ApparatusPanel2 {
         timeGraphic.setLocation( 60, 60 );
         addGraphic( timeGraphic, 100 );
         module.getModel().addModelElement( timeGraphic );
+
+        velocityGraphic = new SpeedReadoutGraphic( this, rampModel );
+        velocityGraphic.setLocation( timeGraphic.getX(), timeGraphic.getY() + timeGraphic.getHeight() + 20 );
+        addGraphic( velocityGraphic );
+        module.getModel().addModelElement( velocityGraphic );
+
+        rightBarrierGraphic = new RightBarrierGraphic( this, this, rampGraphic );
+        addGraphic( rightBarrierGraphic, 1 );
+
+        leftBarrierGraphic = new LeftBarrierGraphic( this, this, groundGraphic );
+        addGraphic( leftBarrierGraphic, 1 );
     }
 
     private void addArrowSet( AbstractArrowSet arrowSet ) {
-        addGraphic( arrowSet );
+        addGraphic( arrowSet, 3 );
         arrowSets.add( arrowSet );
     }
 
@@ -207,7 +221,7 @@ public class RampPanel extends ApparatusPanel2 {
         }
     }
 
-    public RampGraphic getRampGraphic() {
+    public SurfaceGraphic getRampGraphic() {
         return rampGraphic;
     }
 

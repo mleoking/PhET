@@ -41,7 +41,7 @@ public class XArrowSet extends AbstractArrowSet {
             }
         }, component.getBlockGraphic(), sub );
 
-        ForceArrowGraphic gravityArrowGraphic = new ForceArrowGraphic( component, WEIGHT, ralf.getGravityParallelColor(), 0, new ForceComponent() {
+        ForceArrowGraphic gravityArrowGraphic = new ForceArrowGraphic( component, WEIGHT, ralf.getWeightColor(), 0, new ForceComponent() {
             public Vector2D getForce() {
                 RampModel.ForceVector totalForce = rampModel.getGravityForce();
                 return totalForce.toXVector();

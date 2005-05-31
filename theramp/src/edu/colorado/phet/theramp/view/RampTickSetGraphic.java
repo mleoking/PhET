@@ -18,13 +18,13 @@ import java.util.ArrayList;
  */
 
 public class RampTickSetGraphic extends CompositePhetGraphic {
-    private RampGraphic rampGraphic;
+    private SurfaceGraphic surfaceGraphic;
     private ArrayList tickGraphics = new ArrayList();
 
-    public RampTickSetGraphic( RampGraphic rampGraphic ) {
-        super( rampGraphic.getComponent() );
-        this.rampGraphic = rampGraphic;
-        for( int i = 0; i <= rampGraphic.getSurface().getLength(); i++ ) {
+    public RampTickSetGraphic( SurfaceGraphic surfaceGraphic ) {
+        super( surfaceGraphic.getComponent() );
+        this.surfaceGraphic = surfaceGraphic;
+        for( int i = 0; i <= surfaceGraphic.getSurface().getLength(); i++ ) {
             double x = i;
             addTickGraphic( x );
         }
@@ -57,10 +57,10 @@ public class RampTickSetGraphic extends CompositePhetGraphic {
         }
 
         public void update() {
-            Point2D loc = rampGraphic.getSurface().getLocation( x );
-            setLocation( rampGraphic.getViewLocation( loc ) );
+            Point2D loc = surfaceGraphic.getSurface().getLocation( x );
+            setLocation( surfaceGraphic.getViewLocation( loc ) );
             setTransform( new AffineTransform() );
-            rotate( rampGraphic.getViewAngle() );
+            rotate( surfaceGraphic.getViewAngle() );
         }
     }
 }
