@@ -30,7 +30,9 @@ public class SkyGraphic extends CompositePhetGraphic {
     }
 
     private Shape createShape() {
-        Rectangle skyRect = new Rectangle( 0, 0, 1000, rampPanel.getRampBaseY() );
+        int dw = 10000;
+        int dh = 10000;
+        Rectangle skyRect = new Rectangle( -dw, -dh, 1000 + dw * 2, rampPanel.getRampBaseY() + dh );
         return skyRect;
     }
 }

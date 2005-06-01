@@ -10,8 +10,8 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class RampLookAndFeel {
-    private final Color modifiedGreen = new Color( 0.0f, 0.8f, 0.1f );
-    private Color appliedForceColor = modifiedGreen;
+    private final Color myGreen = new Color( 0.0f, 0.8f, 0.1f );
+    private Color appliedForceColor = myGreen;
     private Color netForceColor = Color.blue;
     private Color frictionForceColor = Color.red;
     private Color weightColor = Color.yellow;
@@ -22,12 +22,15 @@ public class RampLookAndFeel {
     private Color velColor = Color.black;
     private Color positionColor = Color.black;
 
-    private Color gParallelColor = modifiedGreen;
+    private Color totalEnergyColor = new Color( 100, 0, 160 );//purple
+    private Color kineticEnergyColor = new Color( 234, 152, 168 );//light red
+    private Color potentialEnergyColor = new Color( 134, 208, 197 );//light blue
+    private Color thermalEnergyColor = new Color( 223, 188, 22 );//orange
 
-    private Color totalEnergyColor = Color.blue;
-    private Color kineticEnergyColor = modifiedGreen;
-    private Color potentialEnergyColor = Color.yellow;
-    private Color thermalEnergyColor = Color.red;
+//    private Color totalEnergyColor = Color.blue;
+//    private Color kineticEnergyColor = myGreen;
+//    private Color potentialEnergyColor = Color.yellow;
+//    private Color thermalEnergyColor = Color.red;
 
     private Color appliedWorkColor = Color.green;
     private Color frictionWorkColor = Color.red;

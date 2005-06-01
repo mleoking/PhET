@@ -26,12 +26,12 @@ public class EarthGraphic extends CompositePhetGraphic {
     }
 
     private void update() {
-
         phetShapeGraphic.setShape( createShape() );
     }
 
     private Shape createShape() {
         int y = rampPanel.getRampBaseY();
-        return new Rectangle( 0, y, 1000, 1000 );
+        int dw = 10000;
+        return new Rectangle( -dw, y, 1000 + dw * 2, 100000 );
     }
 }

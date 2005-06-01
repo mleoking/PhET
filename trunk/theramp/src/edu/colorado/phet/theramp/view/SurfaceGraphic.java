@@ -39,8 +39,7 @@ public class SurfaceGraphic extends GraphicLayerSet {
     private RampTickSetGraphic rampTickSetGraphic;
     private PhetShadowTextGraphic heightReadoutGraphic;
     private AngleGraphic angleGraphic;
-    public BufferedImage texture;
-    public PhetGraphic arrowGraphic;
+    private BufferedImage texture;
 
     public SurfaceGraphic( final RampPanel rampPanel, final Surface ramp ) {
         super( rampPanel );
@@ -91,6 +90,7 @@ public class SurfaceGraphic extends GraphicLayerSet {
             }
         } );
     }
+
 
     private void mouseDragged( MouseEvent e ) {
         Point pt = e.getPoint();
@@ -173,6 +173,7 @@ public class SurfaceGraphic extends GraphicLayerSet {
         Shape jackShape = createJackArea();
         bookStackGraphic.setShape( jackShape );
         bookStackGraphic.setPaint( createBookFill() );
+        bookStackGraphic.setVisible( ramp.getAngle() * 360 / 2 / Math.PI < 85 );
 
         DoubleGeneralPath path = new DoubleGeneralPath( viewOrigin );
         path.lineTo( floor.getP2() );
