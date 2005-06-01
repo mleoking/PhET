@@ -47,6 +47,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/1) - use specific colors for specific harmonics, instead of allocating dynamically from visible spectrum
 (5/31) - add new controls to "Discrete" module, they don't do anything yet
 (5/31) - add File>Save and File>Load, not wire up yet
 (5/31) - disable wiggle me in "Discrete" module

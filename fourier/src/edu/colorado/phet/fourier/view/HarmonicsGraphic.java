@@ -156,9 +156,13 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
                 
                 Harmonic harmonic = (Harmonic) _fourierSeriesModel.getHarmonic( i );
                 
-                int numberOfCycles = harmonic.getOrder() + 1;
                 double amplitude = harmonic.getAmplitude();
-                Color color = FourierUtils.calculateColor( _fourierSeriesModel, i );
+                if ( amplitude == 0 ) {
+                    continue;
+                }
+                
+                int numberOfCycles = harmonic.getOrder() + 1;
+                Color color = FourierUtils.calculateHarmonicColor( i );
                 
                 SineWaveGraphic waveGraphic = null;
                 if ( i < _wavesList.size() ) {
