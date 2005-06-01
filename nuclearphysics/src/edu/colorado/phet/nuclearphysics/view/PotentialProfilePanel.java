@@ -1,17 +1,12 @@
-/**
- * Class: PotentialProfilePanel
- * Class: edu.colorado.phet.nuclearphysics.view
- * User: Ron LeMaster
- * Date: Feb 28, 2004
- * Time: 6:03:01 AM
- */
+/* Copyright 2004, University of Colorado */
 
-/**
- * Class: PotentialProfilePanelOld
- * Class: edu.colorado.phet.nuclearphysics.view
- * User: Ron LeMaster
- * Date: Feb 28, 2004
- * Time: 6:03:01 AM
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.nuclearphysics.view;
 
@@ -36,6 +31,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Iterator;
+
 
 public class PotentialProfilePanel extends ApparatusPanel2 {
 //public class PotentialProfilePanel extends TxApparatusPanel {
@@ -103,23 +99,24 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
     private boolean init = false;
     private Rectangle orgBounds;
 
+    /**
+     * @param clock
+     */
     public PotentialProfilePanel( AbstractClock clock ) {
         super( clock );
-//    public PotentialProfilePanel( BaseModel model ) {
-//        super( model );
-//                origin = new Point2D.Double( 250, 250 );
         this.setBackground( backgroundColor );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                if( !init ) {
-                    orgBounds = new Rectangle( getBounds() );
-                    origin = new Point2D.Double( getWidth() / 2, getHeight() * 0.8 );
-                    //            origin = new Point2D.Double( 250, 250 );
-                    profileTx.setToTranslation( origin.getX(),
-                                                origin.getY() );
-                    init = true;
-                }
+//                if( !init ) {
+                orgBounds = new Rectangle( getBounds() );
+                origin = new Point2D.Double( getWidth() / 2, getHeight() * 0.8 );
+                //            origin = new Point2D.Double( 250, 250 );
+                profileTx.setToTranslation( origin.getX(),
+                                            origin.getY() );
+                System.out.println( "profileTx = " + profileTx );
+                init = true;
+//                }
             }
 
             public void componentShown( ComponentEvent e ) {
@@ -127,22 +124,35 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
         } );
     }
 
+    /**
+     * todo: does this need to be synchronized anymore?
+     *
+     * @param graphics
+     */
     protected synchronized void paintComponent( Graphics graphics ) {
+
         Graphics2D g2 = (Graphics2D)graphics;
         GraphicsState gs = new GraphicsState( g2 );
+
+//        // Set the transform that will center the origin
+        g2.transform( profileTx );
 
         // Draw everything that isn't special to this panel. This includes the
         // profiles themselves
         GraphicsUtil.setAlpha( g2, 1 );
         g2.setColor( backgroundColor );
-        GraphicsState gs2 = new GraphicsState( g2 );
+//        GraphicsState gs2 = new GraphicsState( g2 );
         g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         super.paintComponent( g2 );
-        gs2.restoreGraphics();
+//        gs2.restoreGraphics();
+
+        // Set the transform that will center the origin
+//        g2.transform( profileTx );
+
 
         // Draw axes
         AffineTransform gTx = getGraphicTx();
-        g2.transform( gTx );
+//        g2.transform( gTx );
         drawAxes( g2 );
 
         // Draw nuclei
@@ -152,13 +162,15 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
             PhetGraphic ng = (PhetGraphic)profileNucleusMap.get( nucleus );
             AffineTransform orgTx = g2.getTransform();
             AffineTransform nucleusTx = new AffineTransform();
-            nucleusTx.concatenate( profileTx );
-            nucleusTx.translate( 0, -nucleus.getPotential() );
-            nucleusTx.scale( 0.5, 0.5 );
-            nucleusTx.translate( nucleus.getPosition().getX(), -nucleus.getPosition().getY() );
-            g2.transform( nucleusTx );
+//            nucleusTx.concatenate( profileTx );
+//            nucleusTx.translate( 0, -nucleus.getPotential() );
+//            nucleusTx.scale( 0.5, 0.5 );
+//            nucleusTx.translate( nucleus.getPosition().getX(), -nucleus.getPosition().getY() );
+//            g2.transform( nucleusTx );
+            ng.setLocation( 0, 0 );
+//            ng.setLocation( (int)nucleus.getPosition().getX(), (int)-nucleus.getPosition().getY() );
             ng.paint( g2 );
-            g2.setTransform( orgTx );
+//            g2.setTransform( orgTx );
         }
 
         // Draw "ghost" alpha particles in the potential well
@@ -170,31 +182,40 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
             double d = ( Math.sqrt( xStat * xStat + yStat * yStat ) ) * ( xStat > 0 ? 1 : -1 );
             GraphicsUtil.setAlpha( g2, ghostAlpha );
             AffineTransform orgTx = g2.getTransform();
-            g2.transform( profileTx );
+//            g2.transform( profileTx );
             double dy = -( (AlphaParticle)alphaParticleGraphic.getNucleus() ).getPotential();
-            alphaParticleGraphic.paint( g2, (int)d, (int)dy );
-            GraphicsUtil.setAlpha( g2, 1 );
-            g2.setTransform( orgTx );
+            alphaParticleGraphic.setLocation( (int)d, (int)dy );
+            alphaParticleGraphic.paint( g2 );
+//            alphaParticleGraphic.paint( g2, (int)d, (int)dy );
+//            GraphicsUtil.setAlpha( g2, 1 );
+//            g2.setTransform( orgTx );
         }
 
         gs.restoreGraphics();
     }
 
+    /**
+     * Draw the axes
+     *
+     * @param g2
+     */
     private void drawAxes( Graphics2D g2 ) {
         GraphicsState gs = new GraphicsState( g2 );
         AffineTransform orgTx = g2.getTransform();
         int arrowOffset = 20;
 
-        g2.transform( profileTx );
+//        g2.transform( profileTx );
         g2.setColor( axisColor );
         g2.setStroke( axisStroke );
 
         int xAxisMin = -this.getWidth() / 2 + arrowOffset;
         int xAxisMax = this.getWidth() / 2 - arrowOffset;
-        double yRat = profileTx.getTranslateY() / this.getHeight();
 
         int yAxisMin = -(int)( profileTx.getTranslateY() ) + arrowOffset;
         int yAxisMax = (int)orgBounds.getHeight() - (int)profileTx.getTranslateY() - 2 * arrowOffset;
+//        int yAxisMin = -(int)( profileTx.getTranslateY() ) + arrowOffset;
+//        int yAxisMax = (int)orgBounds.getHeight() - (int)profileTx.getTranslateY() - 2 * arrowOffset;
+
 
         xAxis.setLine( xAxisMin, 0, xAxisMax, 0 );
         yAxis.setLine( 0, yAxisMin, 0, yAxisMax );
@@ -238,7 +259,8 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
     public void addPotentialProfile( Nucleus nucleus ) {
         PotentialProfileGraphic ppg = new PotentialProfileGraphic( this, nucleus );
         nucleus.getPotentialProfile().addObserver( ppg );
-        ppg.setOrigin( new Point2D.Double( 0, 0 ) );
+        ppg.setOrigin( new Point2D.Double( 200, 200 ) );
+//        ppg.setOrigin( new Point2D.Double( 0, 0 ) );
 //        TxGraphic txg = new TxGraphic( ppg, profileTx );
 //        potentialProfileMap.put( nucleus.getPotentialProfile(), txg );
         potentialProfileMap.put( nucleus.getPotentialProfile(), ppg );
@@ -262,6 +284,12 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
         potentialProfileMap.clear();
     }
 
+    /**
+     * todo: does this need to be synchronized
+     *
+     * @param alphaParticle
+     * @param nucleus
+     */
     public synchronized void addAlphaParticle( final AlphaParticle alphaParticle, Nucleus nucleus ) {
         // Add an alpha particle for the specified nucleus
         final AlphaParticleGraphic alphaParticleGraphic = new AlphaParticleGraphic( this, alphaParticle );

@@ -1,9 +1,12 @@
-/**
- * Class: AlphaDecayModule
- * Class: edu.colorado.phet.nuclearphysics.view
- * User: Ron LeMaster
- * Date: Feb 28, 2004
- * Time: 11:58:03 AM
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
@@ -24,6 +27,12 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * AlphaDecayModule
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener {
 
     private AlphaDecayPhysicalPanel physicalPanel;
@@ -123,7 +132,8 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
      * @param nucleus
      */
     private void addRingGraphic( Nucleus nucleus ) {
-        addGraphic( new RingGraphic( getApparatusPanel(), nucleus ), ringLevel );
+        ringGraphic = new RingGraphic( getApparatusPanel(), nucleus );
+        addGraphic( ringGraphic, ringLevel );
 
 //        // Add a ring around the nucleus to show where its alpha decay radius is
 //        setRingAttributes( nucleus );

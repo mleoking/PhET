@@ -1,8 +1,12 @@
-/**
- * Class: NucleusGraphic
- * Package: edu.colorado.phet.nuclearphysics.view
- * Author: Another Guy
- * Date: Feb 26, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.nuclearphysics.view;
 
@@ -15,7 +19,13 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver /*, ImageObserver*/ {
+/**
+ * NucleusGraphic
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
+public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver {
 
     private NeutronGraphic neutronGraphic;
     private ProtonGraphic protonGraphic;
@@ -37,7 +47,7 @@ public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver /
         img = computeImage();
         setImage( img );
 
-        setRegistrationPoint( img.getWidth() / 2 ,
+        setRegistrationPoint( img.getWidth() / 2,
                               img.getHeight() / 2 );
         update();
     }
@@ -71,10 +81,10 @@ public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver /
         return bi;
     }
 
-    public void paint( Graphics2D g2, double x, double y ) {
-        setLocation( (int)x, (int)y );
-        super.paint( g2 );
-    }
+//    public void paint( Graphics2D g2, double x, double y ) {
+//        setLocation( (int)x, (int)y );
+//        super.paint( g2 );
+//    }
 
     public void update() {
         setLocation( (int)nucleus.getPosition().getX(), (int)nucleus.getPosition().getY() );
