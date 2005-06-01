@@ -47,6 +47,8 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/1) - change Amplitude slider to have a configurable maximum value (in this case, 4/PI)
+(6/1) - convert Amplitudes graph to use charts package
 (6/1) - use specific colors for specific harmonics, instead of allocating dynamically from visible spectrum
 (5/31) - add new controls to "Discrete" module, they don't do anything yet
 (5/31) - add File>Save and File>Load, not wire up yet
