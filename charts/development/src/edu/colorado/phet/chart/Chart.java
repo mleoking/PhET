@@ -177,6 +177,22 @@ public class Chart extends GraphicLayerSet {
             addGraphic( majorTicks );
         }
 
+        public void setMajorTicksVisible( boolean visible ) {
+           majorTicks.setVisible( visible );    
+        }
+        
+        public void setMinorTicksVisible( boolean visible ) {
+            minorTicks.setVisible( visible );
+        }
+        
+        public void setMajorTickLabelsVisible( boolean visible ) {
+            majorTicks.setLabelsVisible( visible );
+        }
+        
+        public void setMinorTickLabelsVisible( boolean visible ) {
+            minorTicks.setLabelsVisible( visible );
+        }
+        
         public void setMajorTickSpacing( double majorTickSpacing ) {
             majorTicks.setSpacing( majorTickSpacing );
         }
@@ -193,6 +209,21 @@ public class Chart extends GraphicLayerSet {
             majorTicks.setOffset( dx, dy );
         }
 
+        public void setMajorTickFont( Font font ) {
+            majorTicks.setFont( font );
+        }
+        
+        public void setMinorTickFont( Font font ) {
+            minorTicks.setFont( font );
+        }
+        
+        public void setMajorTickStroke( Stroke stroke ) {
+            majorTicks.setStroke( stroke );
+        }
+        
+        public void setMinorTickStroke( Stroke stroke ) {
+            minorTicks.setStroke( stroke );
+        }
     }
 
     public TickMarkSet getVerticalTicks() {
