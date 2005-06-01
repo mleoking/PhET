@@ -1,7 +1,8 @@
 "To Do" list for "colorvision3" simulation
 
 HIGH:
-o Help, based on Kathy's requirements
+o add Help, based on Aaron's screenshots
+o add MegaHelp, as provided by Aaron
 
 MEDIUM:
 o phetcommon-based controls don't work while simulation is paused
