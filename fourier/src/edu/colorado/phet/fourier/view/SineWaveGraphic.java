@@ -15,9 +15,7 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
