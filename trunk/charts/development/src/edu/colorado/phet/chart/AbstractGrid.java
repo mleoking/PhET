@@ -85,6 +85,7 @@ public abstract class AbstractGrid extends CompositePhetGraphic {
         if( gridStrategy instanceof GridStrategy.Relative ) {
             ( (GridStrategy.Relative)gridStrategy ).setSpacing( spacing );
         }
+        update();
     }
 
 }
