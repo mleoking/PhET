@@ -13,9 +13,6 @@ package edu.colorado.phet.fourier.util;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.view.util.VisibleColor;
-import edu.colorado.phet.fourier.model.FourierSeries;
-
 
 /**
  * FourierComponentColor
@@ -25,17 +22,27 @@ import edu.colorado.phet.fourier.model.FourierSeries;
  */
 public class FourierUtils {
 
+    private static final Color[] HARMONIC_COLORS =
+    {
+            new Color( 1f, 0f, 0f ),
+            new Color( 1f, 0.5f, 0f ),
+            new Color( 1f, 1f, 0f ),
+            new Color( 0f, 1f, 0f ),
+            new Color( 0f, 0.790002f, 0.340007f ),
+            new Color( 0.392193f, 0.584307f, 0.929395f ),
+            new Color( 0f, 0f, 1f ),
+            new Color( 0f, 0f, 0.501999f ),
+            new Color( 0.569994f, 0.129994f, 0.61999f ),
+            new Color( 0.729408f, 0.333293f, 0.827494f ),
+            new Color( 1f, 0.411802f, 0.705893f )
+    };
+    
     private FourierUtils() {}
     
-    public static Color calculateColor( FourierSeries fourierSeriesModel, int n ) {
-        double wavelengthRange = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
-        int numberOfHarmonics = fourierSeriesModel.getNumberOfHarmonics();
-        if ( n >= numberOfHarmonics ) {
-            throw new IllegalArgumentException( "n is out of range: " + n );
-        }
-        double deltaWavelength = wavelengthRange / ( numberOfHarmonics - 1 );
-        double wavelength = VisibleColor.MAX_WAVELENGTH - ( n * deltaWavelength );
-        Color color = VisibleColor.wavelengthToColor( wavelength );
-        return color;
+    public static Color calculateHarmonicColor( int n ) {
+      if ( n < 0 || n >= HARMONIC_COLORS.length ) {
+          throw new IllegalArgumentException( "n is out of range: " + n );
+      }
+      return HARMONIC_COLORS[ n ];
     }
 }

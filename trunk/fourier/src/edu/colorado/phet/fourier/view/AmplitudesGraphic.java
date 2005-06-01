@@ -174,7 +174,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
                 slider.setMaxSize( barWidth, OUTLINE_HEIGHT );
                 
                 // Slider color.
-                Color trackColor = FourierUtils.calculateColor( _fourierSeriesModel, i );
+                Color trackColor = FourierUtils.calculateHarmonicColor( i );
                 slider.setTrackColor( trackColor );
 
                 // Slider location.
