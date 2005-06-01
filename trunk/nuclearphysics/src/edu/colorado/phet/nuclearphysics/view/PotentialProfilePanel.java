@@ -11,7 +11,7 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
-import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.GraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
@@ -33,7 +33,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 
-public class PotentialProfilePanel extends ApparatusPanel2 {
+public class PotentialProfilePanel extends ApparatusPanel {
+//public class PotentialProfilePanel extends ApparatusPanel2 {
 //public class PotentialProfilePanel extends TxApparatusPanel {
 
     private static Color axisColor = new Color( 100, 100, 100 );
@@ -61,6 +62,7 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
     }
 
     private static GeneralPath arrowhead = new GeneralPath();
+    private PotentialProfileGraphic profile;
 
     static {
         arrowhead.moveTo( 0, 0 );
@@ -124,6 +126,10 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
         } );
     }
 
+    //----------------------------------------------------------------
+    //  Rendering
+    //----------------------------------------------------------------
+
     /**
      * todo: does this need to be synchronized anymore?
      *
@@ -135,7 +141,7 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
         GraphicsState gs = new GraphicsState( g2 );
 
 //        // Set the transform that will center the origin
-        g2.transform( profileTx );
+//        g2.transform( profileTx );
 
         // Draw everything that isn't special to this panel. This includes the
         // profiles themselves
@@ -143,18 +149,24 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
         g2.setColor( backgroundColor );
 //        GraphicsState gs2 = new GraphicsState( g2 );
         g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+
         super.paintComponent( g2 );
+
+        // Draw the profile
+//        profile.paint( g2 );
+
 //        gs2.restoreGraphics();
 
         // Set the transform that will center the origin
-//        g2.transform( profileTx );
+        g2.transform( profileTx );
 
 
         // Draw axes
-        AffineTransform gTx = getGraphicTx();
+//        AffineTransform gTx = getGraphicTx();
 //        g2.transform( gTx );
         drawAxes( g2 );
 
+//        profile.paint( g2 );
         // Draw nuclei
         Iterator nucleusIt = profileNucleusMap.keySet().iterator();
         while( nucleusIt.hasNext() ) {
@@ -256,15 +268,28 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
         gs.restoreGraphics();
     }
 
+    //----------------------------------------------------------------
+    // Managing graphic elements
+    //----------------------------------------------------------------
+
+    public void addGraphic( PhetGraphic graphic, double level ) {
+        super.addGraphic( graphic, level );
+    }
+
+    public void addGraphic( PhetGraphic graphic ) {
+        super.addGraphic( graphic );
+    }
+
     public void addPotentialProfile( Nucleus nucleus ) {
         PotentialProfileGraphic ppg = new PotentialProfileGraphic( this, nucleus );
         nucleus.getPotentialProfile().addObserver( ppg );
-        ppg.setOrigin( new Point2D.Double( 200, 200 ) );
-//        ppg.setOrigin( new Point2D.Double( 0, 0 ) );
+        ppg.setOrigin( new Point2D.Double( 0, 0 ) );
+//        ppg.setLocation( -ppg.getWidth() / 2, -ppg.getHeight() );
+        this.profile = ppg;
 //        TxGraphic txg = new TxGraphic( ppg, profileTx );
 //        potentialProfileMap.put( nucleus.getPotentialProfile(), txg );
         potentialProfileMap.put( nucleus.getPotentialProfile(), ppg );
-        addGraphic( ppg, nucleusLayer );
+        addOriginCenteredGraphic( ppg, nucleusLayer );
 //        addGraphic( txg, nucleusLayer );
     }
 
@@ -321,7 +346,20 @@ public class PotentialProfilePanel extends ApparatusPanel2 {
     public void addOriginCenteredGraphic( PhetGraphic graphic ) {
 //    public void addOriginCenteredGraphic( Graphic graphic ) {
 //        TxGraphic txg = new TxGraphic( graphic, profileTx );
+        AffineTransform atx = graphic.getTransform();
+        atx.concatenate( profileTx );
+        graphic.setTransform( atx );
         this.addGraphic( graphic );
+//        this.addGraphic( txg );
+    }
+
+    public void addOriginCenteredGraphic( PhetGraphic graphic, double layer ) {
+//    public void addOriginCenteredGraphic( Graphic graphic ) {
+//        TxGraphic txg = new TxGraphic( graphic, profileTx );
+        AffineTransform atx = graphic.getTransform();
+        atx.preConcatenate( profileTx );
+        graphic.setTransform( atx );
+        this.addGraphic( graphic, layer );
 //        this.addGraphic( txg );
     }
 
