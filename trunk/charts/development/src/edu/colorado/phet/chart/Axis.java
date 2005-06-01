@@ -117,6 +117,7 @@ public class Axis extends GraphicLayerSet {
 
     public void setColor( Color color ) {
         this.color = color;
+        update();
     }
 
     public void setStroke( Stroke stroke ) {
