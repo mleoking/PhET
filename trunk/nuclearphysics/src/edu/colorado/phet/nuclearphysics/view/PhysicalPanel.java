@@ -11,11 +11,9 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.GraphicsState;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.coreadditions.TxGraphic;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -105,6 +103,7 @@ public class PhysicalPanel extends ApparatusPanel2 {
     // todo:
     public void addOriginCenteredGraphic( PhetGraphic graphic, double level ) {
 //        TxGraphic txg = new TxGraphic( graphic, this.nucleonTx );
+        graphic.setLocation( 0, 0 );
         graphic.transform( originTx );
         addGraphic( graphic, level );
 //        addGraphic( txg, level );

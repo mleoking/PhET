@@ -1,8 +1,12 @@
-/**
- * Class: TestModule
- * Package: edu.colorado.phet.nuclearphysics.modules
- * Author: Another Guy
- * Date: Feb 26, 2004
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
@@ -20,6 +24,12 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * SingleNucleusFissionModule
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class SingleNucleusFissionModule extends ProfiledNucleusModule implements NeutronGun, FissionListener {
     private static Random random = new Random();
     private Neutron neutronToAdd;

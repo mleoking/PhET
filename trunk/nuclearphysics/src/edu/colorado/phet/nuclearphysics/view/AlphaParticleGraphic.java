@@ -1,9 +1,12 @@
-/**
- * Class: AlphaParticleGraphic
- * Class: edu.colorado.phet.nuclearphysics.view
- * User: Ron LeMaster
- * Date: Mar 4, 2004
- * Time: 8:57:31 AM
+/* Copyright 2004, University of Colorado */
+
+/*
+ * CVS Info -
+ * Filename : $Source$
+ * Branch : $Name$
+ * Modified by : $Author$
+ * Revision : $Revision$
+ * Date modified : $Date$
  */
 package edu.colorado.phet.nuclearphysics.view;
 
@@ -14,6 +17,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * AlphaParticleGraphic
+ *
+ * @author Ron LeMaster
+ * @version $Revision$
+ */
 public class AlphaParticleGraphic extends NucleusGraphic {
 
     /**
@@ -34,7 +43,6 @@ public class AlphaParticleGraphic extends NucleusGraphic {
         ng.paint( ga, w * 0, h * 0.3 );
         pg.paint( ga, w * 0.3, h * 0.3 );
         ng.paint( ga, w * 0.3, h * 0. );
-//        new AlphaParticleGraphic( new AlphaParticle( new Point2D.Double(), 0 ) ).paint( ga, NuclearParticle.RADIUS, NuclearParticle.RADIUS );
         ImageIcon alphaParticleImg = new ImageIcon( alphaBi );
         return alphaParticleImg;
     }
