@@ -5,7 +5,9 @@ import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.theramp.common.BarGraphic2D;
+import edu.colorado.phet.theramp.common.CurlyLabel;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 
@@ -60,6 +62,14 @@ public class BarGraphSet extends CompositePhetGraphic {
             addGraphic( barGraphic );
         }
 
+        CurlyLabel curlyLabel = new CurlyLabel( getComponent(), "Energy" );
+        curlyLabel.setLocation( 0, y );
+        addGraphic( curlyLabel, 1 );
+
+        int energyWidth = ( energyAccess.length ) * sep;
+        curlyLabel.rescaleToWidth( energyWidth );
+
+        int workX = energyWidth + dw + sep;
         for( int i = 0; i < workAccess.length; i++ ) {
             final ValueAccessor accessor = workAccess[i];
             final BarGraphic2D barGraphic = new BarGraphic2D( getComponent(), accessor.getName(), transform1D,
@@ -71,6 +81,19 @@ public class BarGraphSet extends CompositePhetGraphic {
             } );
             addGraphic( barGraphic );
         }
+
+        int workWidth = ( workAccess.length ) * sep;
+
+        CurlyLabel workLabel = new CurlyLabel( getComponent(), "Work" );
+        workLabel.setLocation( workX, y );
+        workLabel.rescaleToWidth( workWidth );
+        addGraphic( workLabel, 1 );
+
+        PhetShapeGraphic energyBackground = new PhetShapeGraphic( getComponent(), new Rectangle( -5, 0, 5 * 2 + energyWidth, 10000 ), Color.white, new BasicStroke(), Color.black );
+        addGraphic( energyBackground, -10 );
+
+        PhetShapeGraphic workBackground = new PhetShapeGraphic( getComponent(), new Rectangle( workX - 5, 0, 5 * 2 + workWidth, 10000 ), new Color( 240, 250, 245 ), new BasicStroke(), Color.black );
+        addGraphic( workBackground, -10 );
         setIgnoreMouse( true );
     }
 

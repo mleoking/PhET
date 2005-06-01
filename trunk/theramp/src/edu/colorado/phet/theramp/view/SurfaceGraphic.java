@@ -126,6 +126,10 @@ public class SurfaceGraphic extends GraphicLayerSet {
         return surfaceGraphic;
     }
 
+    public AngleGraphic getAngleGraphic() {
+        return angleGraphic;
+    }
+
     static class ImageDebugFrame extends JFrame {
         public ImageDebugFrame( Image im ) {
             setContentPane( new JLabel( new ImageIcon( im ) ) );

@@ -36,7 +36,7 @@ public class MalleyChart extends GraphicLayerSet {
     private static final double CHART_LAYER = 1;
     private static final Range2D CHART_RANGE = new Range2D( 1, -4 / Math.PI, 11, +4 / Math.PI );
     private static final Dimension CHART_SIZE = new Dimension( 650, 175 );
-    private static final double Y_MAJOR_TICK_SPACING = 0.5;
+    public static final double Y_MAJOR_TICK_SPACING = 0.5;
     private static final double Y_MINOR_TICK_SPACING = 0.1;
     private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Stroke Y_MINOR_TICK_STROKE = new BasicStroke( 1f );
@@ -89,6 +89,20 @@ public class MalleyChart extends GraphicLayerSet {
             _chartGraphic.getHorizonalGridlines().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
             _chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( Y_MINOR_GRIDLINE_COLOR );
             _chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( Y_MINOR_GRIDLINE_STROKE );
+
+            //* (1) How do I get the X axis ticks & labels (2,4,6,8,10) at the bottom of the graph to disappear?
+            _chartGraphic.getHorizontalTicks().setVisible( false );
+
+            //* (2) How do I get the Y axis ticks & major labels to appear?
+            _chartGraphic.getVerticalTicks().setVisible( true );
+            _chartGraphic.getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
+            _chartGraphic.getVerticalGridlines().setVisible( false );
+
+            //to disable the labeled grid lines, if you want.
+            _chartGraphic.getHorizonalGridlines().setMajorGridlinesVisible( false );
+
+            //* (3) Why is the horizontal line at Y=0 so bold/fat, and how can I change it?
+            _chartGraphic.getXAxis().setStroke( new BasicStroke( 1 ) );
         }
 
         //.......
