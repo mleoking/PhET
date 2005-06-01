@@ -55,11 +55,12 @@ public class FourierConfig {
     private static final String IMAGES_DIRECTORY = "images/";
     
     //----------------------------------------------------------------------------
-    // Images
+    // Harmonics
     //----------------------------------------------------------------------------
     
     public static final int MIN_HARMONICS = 1;
     public static final int MAX_HARMONICS = 11;
+    public static final double MAX_HARMONIC_AMPLITUDE = ( 4 / Math.PI );
     
     //----------------------------------------------------------------------------
     // Constructors

@@ -29,6 +29,7 @@ import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.model.Harmonic;
 
 
@@ -57,6 +58,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private static final int LABEL_Y_OFFSET = 45; // above the maximum height of the slider track
     
     // Value parameters
+    private static final double MAX_AMPLITUDE = FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final String VALUE_FORMAT = "0.00";
     private static final int VALUE_COLUMNS = 3;
     private static final Font VALUE_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
@@ -167,7 +169,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             ValueEventListener valueListener = new ValueEventListener();
             _valueTextField.addActionListener( valueListener );
             _valueTextField.addFocusListener( valueListener );
-            _valueTextField.addKeyListener( valueListener ); // HACK: unnecessary when ActionEvents and FocusEvents are fixed
             
             _trackGraphic.setIgnoreMouse( true );
             
@@ -298,7 +299,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             showUserInputErrorDialog();
             update();
         }
-        if ( amplitude > 1.0 || amplitude < -1.0 ) {
+        if ( Math.abs( amplitude ) > MAX_AMPLITUDE ) {
             showUserInputErrorDialog();
             update();
         }
@@ -339,7 +340,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         
         // Track size and color
         int trackWidth = _maxSize.width;
-        int trackHeight = (int) Math.abs( ( _maxSize.height / 2 ) * amplitude );
+        int trackHeight = (int) Math.abs( ( _maxSize.height / 2 ) * ( amplitude / MAX_AMPLITUDE ) );
         int trackX = -trackWidth / 2;
         int trackY = ( amplitude > 0 ) ? -trackHeight : 0;
         _trackRectangle.setBounds( trackX, trackY, trackWidth, trackHeight );
@@ -348,7 +349,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         
         // Knob location
         int knobX = _knobGraphic.getX();
-        int knobY = (int) -( ( _maxSize.height / 2 ) * _harmonicModel.getAmplitude() );
+        int knobY = (int) -( ( _maxSize.height / 2 ) * ( amplitude / MAX_AMPLITUDE ) );
         _knobGraphic.setLocation( knobX, knobY );
         
         repaint();
@@ -444,8 +445,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
                 e.printStackTrace();
             }
             
-            double amplitude = (double) mouseY / ( _maxSize.height / 2.0 );
-            amplitude = MathUtil.clamp( -1, amplitude, +1 );
+            double amplitude = MAX_AMPLITUDE * ( mouseY / ( _maxSize.height / 2.0 ) );
+            amplitude = MathUtil.clamp( -MAX_AMPLITUDE, amplitude, +MAX_AMPLITUDE );
             _harmonicModel.setAmplitude( -amplitude );
         }
         
@@ -471,7 +472,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     /**
      * ValueEventListener handles events related to the value input field.
      */
-    private class ValueEventListener extends FocusAdapter implements ActionListener, KeyListener {
+    private class ValueEventListener extends FocusAdapter implements ActionListener {
         
         /** Sole constructor. */
         public ValueEventListener() {}
@@ -502,21 +503,5 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
                 processUserInput();
             }        
         }
-
-        // HACK: KeyListener will be unnecessary when ActionEvents and FocusEvents are fixed.
-        public void keyTyped( KeyEvent event ) {}
-
-        public void keyPressed( KeyEvent event ) {}
-
-        /**
-         * Processes the input value when the user presses the Enter key.
-         * 
-         * @param event
-         */
-        public void keyReleased( KeyEvent event ) {
-            if ( event.getKeyChar() == KeyEvent.VK_ENTER ) {
-                processUserInput();
-            }
-        } 
     }
 }
