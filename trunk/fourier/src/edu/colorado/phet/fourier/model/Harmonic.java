@@ -61,7 +61,6 @@ public class Harmonic extends SimpleObservable {
     }
     
     public void setAmplitude( double amplitude ) {
-        assert( amplitude >= -1 && amplitude <= +1 );
         if ( amplitude != _amplitude ) {
             _amplitude = amplitude;
             notifyObservers();
