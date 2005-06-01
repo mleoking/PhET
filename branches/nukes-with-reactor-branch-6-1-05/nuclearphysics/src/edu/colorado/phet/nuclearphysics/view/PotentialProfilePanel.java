@@ -5,14 +5,6 @@
  * Date: Feb 28, 2004
  * Time: 6:03:01 AM
  */
-
-/**
- * Class: PotentialProfilePanelOld
- * Class: edu.colorado.phet.nuclearphysics.view
- * User: Ron LeMaster
- * Date: Feb 28, 2004
- * Time: 6:03:01 AM
- */
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.model.BaseModel;

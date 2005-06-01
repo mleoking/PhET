@@ -16,6 +16,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
+import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -36,7 +37,8 @@ public class NuclearPhysicsApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-        SimStrings.init( args, localizedStringsPath );
+        SimStrings.setStrings( localizedStringsPath );
+//        SimStrings.init( args, localizedStringsPath );
 
         try {
             UIManager.setLookAndFeel( new NuclearAppLookAndFeel() );
@@ -54,10 +56,12 @@ public class NuclearPhysicsApplication extends PhetApplication {
         Module alphaModule = new AlphaDecayModule( clock );
         Module singleNucleusFissionModule = new SingleNucleusFissionModule( clock );
         Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( clock );
+        Module controlledReactionModule = new ControlledFissionModule( clock );
         Module[] modules = new Module[]{
-            alphaModule,
-            singleNucleusFissionModule,
-            multipleNucleusFissionModule
+//            alphaModule,
+//            singleNucleusFissionModule,
+//            multipleNucleusFissionModule,
+            controlledReactionModule
         };
         appDesc.setModules( modules );
         //        appDesc.setInitialModule( multipleNucleusFissionModule );

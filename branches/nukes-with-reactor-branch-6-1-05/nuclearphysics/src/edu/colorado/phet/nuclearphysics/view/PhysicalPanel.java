@@ -97,4 +97,8 @@ public class PhysicalPanel extends TxApparatusPanel {
     public AffineTransform getNucleonTx() {
         return nucleonTx;
     }
+
+    public AffineTransform getGraphicTx() {
+        return super.getGraphicTx();
+    }
 }
