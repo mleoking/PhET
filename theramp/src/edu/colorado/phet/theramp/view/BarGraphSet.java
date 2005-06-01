@@ -9,6 +9,10 @@ import edu.colorado.phet.theramp.common.BarGraphic2D;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+
 /**
  * User: Sam Reid
  * Date: Feb 12, 2005
@@ -47,7 +51,7 @@ public class BarGraphSet extends CompositePhetGraphic {
         for( int i = 0; i < energyAccess.length; i++ ) {
             final ValueAccessor accessor = energyAccess[i];
             final BarGraphic2D barGraphic = new BarGraphic2D( getComponent(), accessor.getName(), transform1D,
-                                                              accessor.getValue( rampModel ), sep * i + dw, width, y, dx, dy, accessor.getColor() );
+                                                              accessor.getValue( rampModel ), sep * i + dw, width, y, dx, dy, toEnergyPaint( accessor.getColor() ) );
             addClockTickListener( new ClockTickListener() {
                 public void clockTicked( ClockTickEvent event ) {
                     barGraphic.setValue( accessor.getValue( rampModel ) );
@@ -68,6 +72,22 @@ public class BarGraphSet extends CompositePhetGraphic {
             addGraphic( barGraphic );
         }
         setIgnoreMouse( true );
+    }
+
+    private Paint toEnergyPaint( Color color ) {
+        int imageSize = 10;
+        BufferedImage texture = new BufferedImage( imageSize, imageSize, BufferedImage.TYPE_INT_RGB );
+        Graphics2D g = texture.createGraphics();
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g.setColor( color );
+        g.fillRect( 0, 0, imageSize, imageSize );
+        g.setColor( color.brighter() );
+        int ovalRadius = 3;
+        int ovalDiameter = ovalRadius * 2;
+        int ovalX = imageSize - ovalDiameter;
+        g.fillOval( ovalX, ovalX, ovalDiameter, ovalDiameter );
+        Paint p = new TexturePaint( texture, new Rectangle2D.Double( 0, 0, 10, 10 ) );
+        return p;
     }
 
     private RampLookAndFeel getLookAndFeel() {

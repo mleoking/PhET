@@ -23,7 +23,7 @@ public class BarGraphic2D extends CompositePhetGraphic {
     private VerticalTextGraphic label;
     private PhetShapeGraphic rectangle3DGraphic;
 
-    public BarGraphic2D( Component component, String text, ModelViewTransform1D transform1D, double value, int x, int width, int y, int dx, int dy, Color color ) {
+    public BarGraphic2D( Component component, String text, ModelViewTransform1D transform1D, double value, int x, int width, int y, int dx, int dy, Paint paint ) {
         super( component );
         this.transform1D = transform1D;
         this.value = value;
@@ -31,7 +31,7 @@ public class BarGraphic2D extends CompositePhetGraphic {
         this.y = y;
         this.width = width;
 
-        rectangle3DGraphic = new PhetShapeGraphic( component, null, color, new BasicStroke( 1 ), Color.black );
+        rectangle3DGraphic = new PhetShapeGraphic( component, null, paint, new BasicStroke( 1 ), Color.black );
         label = new VerticalTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 20 ), text, Color.yellow );
         addGraphic( rectangle3DGraphic );
 

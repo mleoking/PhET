@@ -21,6 +21,8 @@ import java.io.IOException;
  */
 
 public class RampGraphic extends SurfaceGraphic {
+    private PhetGraphic arrowGraphic;
+
     public RampGraphic( RampPanel rampPanel, Surface ramp ) {
         super( rampPanel, ramp );
         arrowGraphic = createArrowGraphic();

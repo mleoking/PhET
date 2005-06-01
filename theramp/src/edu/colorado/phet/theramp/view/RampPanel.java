@@ -63,7 +63,7 @@ public class RampPanel extends ApparatusPanel2 {
         rampGraphic = new RampGraphic( this, ramp );
         addGraphic( rampGraphic );
 
-        groundGraphic = new SurfaceGraphic( this, rampModel.getGround() );
+        groundGraphic = new FloorGraphic( this, rampModel.getGround() );
         groundGraphic.setIgnoreMouse( true );
         addGraphic( groundGraphic );
 
