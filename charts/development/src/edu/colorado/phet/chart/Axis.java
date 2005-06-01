@@ -121,6 +121,7 @@ public class Axis extends GraphicLayerSet {
 
     public void setStroke( Stroke stroke ) {
         this.stroke = stroke;
+        update();
     }
 
     public void setMajorTickFont( Font font ) {
