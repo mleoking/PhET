@@ -27,25 +27,27 @@ import java.util.ArrayList;
 
 public class RampPanel extends ApparatusPanel2 {
     private RampModule module;
+    private RampLookAndFeel rampLookAndFeel;
+    private ArrayList arrowSets = new ArrayList();
+
     private SurfaceGraphic rampGraphic;
     private BlockGraphic blockGraphic;
-    private BarGraphSet barGraphSet;
-    private RampLookAndFeel rampLookAndFeel;
     private AbstractArrowSet cartesian;
     private AbstractArrowSet perp;
     private AbstractArrowSet parallel;
     private XArrowSet xArrowSet;
     private YArrowSet yArrowSet;
-    private ArrayList arrowSets = new ArrayList();
     private PotentialEnergyZeroGraphic potentialEnergyZeroGraphic;
     private LeanerGraphic leanerGraphic;
     private EarthGraphic earthGraphic;
     private SkyGraphic skyGraphic;
     private SurfaceGraphic groundGraphic;
     private MeasuringTape measuringTape;
-    private TimeGraphic timeGraphic;
     private RightBarrierGraphic rightBarrierGraphic;
     private LeftBarrierGraphic leftBarrierGraphic;
+
+    private BarGraphSet barGraphSet;
+    private TimeGraphic timeGraphic;
     private SpeedReadoutGraphic velocityGraphic;
 
     public Dimension getDefaultRenderingSize() {
@@ -71,6 +73,9 @@ public class RampPanel extends ApparatusPanel2 {
         addGraphic( blockGraphic, 2 );
 
         barGraphSet = new BarGraphSet( this, rampModel );
+        barGraphSet.scale( 0.93, 0.93 );
+        barGraphSet.setLocation( getDefaultRenderingSize().width - barGraphSet.getWidth() - 1, barGraphSet.getY() );
+
         addGraphic( barGraphSet );
 
         cartesian = new CartesianArrowSet( this );
@@ -91,21 +96,16 @@ public class RampPanel extends ApparatusPanel2 {
 
         module.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                for( int i = 0; i < arrowSets.size(); i++ ) {
-                    AbstractArrowSet arrowSet = (AbstractArrowSet)arrowSets.get( i );
-                    arrowSet.updateGraphics();
-                }
+                updateArrowSetGraphics();
             }
         } );
 
+        updateArrowSetGraphics();
         KeyListener listener = new PanZoomKeyListener( this, getDefaultRenderingSize() );
         addKeyListener( listener );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-//                System.out.println( "e = " + e );
-                Rectangle b = getBounds();
-//                System.out.println( "b = " + b );
                 setReferenceSize( getDefaultRenderingSize() );//my special little rendering size.//TODO add this method to AP2
                 requestFocus();
             }
@@ -155,6 +155,14 @@ public class RampPanel extends ApparatusPanel2 {
 
         leftBarrierGraphic = new LeftBarrierGraphic( this, this, groundGraphic );
         addGraphic( leftBarrierGraphic, 1 );
+    }
+
+    private void updateArrowSetGraphics() {
+
+        for( int i = 0; i < arrowSets.size(); i++ ) {
+            AbstractArrowSet arrowSet = (AbstractArrowSet)arrowSets.get( i );
+            arrowSet.updateGraphics();
+        }
     }
 
     private void addArrowSet( AbstractArrowSet arrowSet ) {
