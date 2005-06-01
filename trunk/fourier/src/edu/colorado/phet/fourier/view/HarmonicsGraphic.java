@@ -21,8 +21,8 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.FourierUtils;
 
 
