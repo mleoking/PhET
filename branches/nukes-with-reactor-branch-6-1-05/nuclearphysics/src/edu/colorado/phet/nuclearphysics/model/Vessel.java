@@ -73,4 +73,12 @@ public class Vessel {
     public int getNumControlRodChannels() {
         return this.numChannels;
     }
+
+    public boolean contains( double x, double y ) {
+        return getShape().contains( x, y );
+    }
+    
+    public boolean contains( Point2D p ) {
+        return getShape().contains( p.getX(), p.getY() );
+    }
 }

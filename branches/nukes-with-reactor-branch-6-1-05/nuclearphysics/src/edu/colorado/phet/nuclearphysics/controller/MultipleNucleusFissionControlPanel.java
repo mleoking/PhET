@@ -36,13 +36,15 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     //
     // Instance fields and methods
     //
-    private MultipleNucleusFissionModule module;
+    private ChainReactionModule module;
+//    private MultipleNucleusFissionModule module;
     private JSpinner numU235Spinner;
     private JSpinner numU238Spinner;
     private JTextField percentDecayTF;
     private int startNumU235;
 
-    public MultipleNucleusFissionControlPanel( final MultipleNucleusFissionModule module ) {
+    public MultipleNucleusFissionControlPanel( final ChainReactionModule module ) {
+//    public MultipleNucleusFissionControlPanel( final MultipleNucleusFissionModule module ) {
         super();
         this.module = module;
 

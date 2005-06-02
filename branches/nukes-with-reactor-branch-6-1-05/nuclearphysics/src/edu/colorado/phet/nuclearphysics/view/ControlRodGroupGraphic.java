@@ -19,7 +19,11 @@ import edu.colorado.phet.nuclearphysics.model.Vessel;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 
 /**
  * ControlRodGroupGraphic
@@ -31,15 +35,37 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
     private Rep rep;
     private int orientation;
     private Vessel vessel;
+    private PhysicalPanel panel;
+    private AffineTransform atx;
 
-    public ControlRodGroupGraphic( Component component, ControlRod[] controlRods, Vessel vessel ) {
+    public ControlRodGroupGraphic( Component component, ControlRod[] controlRods, Vessel vessel, AffineTransform atx ) {
         super( null );
+        this.panel = (PhysicalPanel)component;
         this.vessel = vessel;
+        this.atx = atx;
         rep = new Rep( component, controlRods );
         setBoundedGraphic( rep );
         addCursorHandBehavior();
         addTranslationBehavior( new Translator() );
         orientation = controlRods[0].getOrientation();
+    }
+
+    /**
+     *  Must be overridden because of the transform used to center the graphic
+     *
+     * @param i
+     * @param i1
+     * @return
+     */
+    public boolean contains( int i, int i1 ) {
+        Point2D p = new Point2D.Double( i, i1 );
+        try {
+            atx.inverseTransform( p, p );
+        }
+        catch( NoninvertibleTransformException e ) {
+            e.printStackTrace();
+        }
+        return super.contains( (int)p.getX(), (int)p.getY() );
     }
 
     //----------------------------------------------------------------
@@ -79,6 +105,13 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
             connector.setRect( location.getX(), location.getY(), connectorWidth, 20 );
         }
 
+        public void paint( Graphics2D graphics2D ) {
+            saveGraphicsState( graphics2D );
+            graphics2D.transform( atx );
+            super.paint( graphics2D );
+            restoreGraphicsState();
+        }
+
         private void translate( double dx, double dy ) {
             for( int i = 0; i < rodGraphics.length; i++ ) {
                 rodGraphics[i].translate( dx, dy );
@@ -110,7 +143,8 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
                         dy = 0;
                     }
             }
-            rep.translate( dx, dy );
+            // Have to account for the scale of the affine transform before telling the model element to move
+            rep.translate( dx / atx.getScaleX(), dy / atx.getScaleY() );
         }
     }
 }

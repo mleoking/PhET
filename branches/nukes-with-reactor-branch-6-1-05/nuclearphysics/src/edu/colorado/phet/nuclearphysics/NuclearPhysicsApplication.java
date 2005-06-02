@@ -60,7 +60,7 @@ public class NuclearPhysicsApplication extends PhetApplication {
         Module[] modules = new Module[]{
 //            alphaModule,
 //            singleNucleusFissionModule,
-//            multipleNucleusFissionModule,
+            multipleNucleusFissionModule,
             controlledReactionModule
         };
         appDesc.setModules( modules );
