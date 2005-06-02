@@ -104,3 +104,6 @@ fourier-transforms fourier &phetcommon
 
 # Radio Waves
 radio-waves emf
+
+# The Ramp
+theramp theramp &phetcommon &charts
