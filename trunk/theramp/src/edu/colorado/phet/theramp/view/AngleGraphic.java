@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
@@ -36,6 +37,9 @@ public class AngleGraphic extends CompositePhetGraphic {
 
     public void update() {
         Point origin = surfaceGraphic.getViewLocation( 0 );
+//        if( getRampWorld() != null ) {
+//            origin = getRampWorld().convertToWorld( origin );
+//        }
         Point twoMetersOver = getGroundLocationView( 5 );
 
         int squareWidth = ( twoMetersOver.x - origin.x ) * 2;
@@ -48,9 +52,20 @@ public class AngleGraphic extends CompositePhetGraphic {
         Arc2D.Double arc = new Arc2D.Double( ellipseBounds, 0, extent, Arc2D.OPEN );
         phetShapeGraphic.setShape( arc );
 
-        label.setLocation( RectangleUtils.getRightCenter( phetShapeGraphic.getBounds() ) );
+        label.setLocation( RectangleUtils.getRightCenter( phetShapeGraphic.getBoundsInAncestor( getRampWorld() ) ) );
         label.setLocation( label.getLocation().x, label.getLocation().y + surfaceGraphic.getImageHeight() + 5 );
         label.setHTML( "" + getAngleMessage() );
+    }
+
+    private RampWorld getRampWorld() {
+        PhetGraphic parent = getParent();
+        while( parent != null ) {
+            if( parent instanceof RampWorld ) {
+                return (RampWorld)parent;
+            }
+            parent = parent.getParent();
+        }
+        return null;
     }
 
     private String getAngleMessage() {

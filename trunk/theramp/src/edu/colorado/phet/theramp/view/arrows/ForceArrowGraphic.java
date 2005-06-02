@@ -6,12 +6,14 @@ import edu.colorado.phet.common.math.ImmutableVector2D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampUtil;
+import edu.colorado.phet.theramp.view.RampWorld;
 import edu.colorado.phet.theramp.view.SurfaceGraphic;
 
 import java.awt.*;
@@ -86,8 +88,12 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
             nonZero = true;
             setVisible( true && userVisible );
         }
-
-        Point viewCtr = RectangleUtils.getCenter( blockGraphic.getObjectGraphic().getBounds() );
+        RampWorld rampWorld = getRampWorld();
+        if( rampWorld == null ) {
+            System.out.println( "rampWorld = " + rampWorld );
+            return;
+        }
+        Point viewCtr = RectangleUtils.getCenter( blockGraphic.getObjectGraphic().getBoundsInAncestor( rampWorld ) );
         viewCtr = translate( viewCtr );
         Point2D.Double tail = new Point2D.Double( viewCtr.x, viewCtr.y );
         Point2D tip = new Vector2D.Double( force.getX(), force.getY() ).getDestination( tail );
@@ -104,6 +110,17 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
             textGraphic.setLocation( forceArrowBody.getBounds().x, (int)y );
         }
         this.lastArrow = forceArrow;
+    }
+
+    private RampWorld getRampWorld() {
+        PhetGraphic parent = getParent();
+        while( parent != null ) {
+            if( parent instanceof RampWorld ) {
+                return (RampWorld)parent;
+            }
+            parent = parent.getParent();
+        }
+        return null;
     }
 
     private Point translate( Point viewCtr ) {

@@ -91,14 +91,22 @@ public class SurfaceGraphic extends GraphicLayerSet {
         } );
     }
 
+    public PhetShadowTextGraphic getHeightReadoutGraphic() {
+        return heightReadoutGraphic;
+    }
 
     private void mouseDragged( MouseEvent e ) {
         Point pt = e.getPoint();
+        pt = getRampWorld().convertToWorld( pt );
         Vector2D.Double vec = new Vector2D.Double( getViewOrigin(), pt );
         double angle = -vec.getAngle();
         angle = MathUtil.clamp( 0, angle, Math.PI / 2.0 );
         ramp.setAngle( angle );
         rampPanel.getRampModule().record();
+    }
+
+    private RampWorld getRampWorld() {
+        return rampPanel.getRampWorld();
     }
 
 
@@ -193,16 +201,6 @@ public class SurfaceGraphic extends GraphicLayerSet {
         rampTickSetGraphic.update();
         angleGraphic.update();
 
-//        AffineTransform transform = createTransform( ramp.getLength(), barrierGraphic.getSize() );//that's a global transform.
-//        try {
-////            transform.preConcatenate( getNetTransform().createInverse() );
-//            transform.preConcatenate( getNetTransform().createInverse() );
-//        }
-//        catch( NoninvertibleTransformException e ) {
-//            e.printStackTrace();
-//        }
-//        barrierGraphic.setTransform( transform );
-
     }
 
     private Shape createJackArea() {
@@ -244,6 +242,7 @@ public class SurfaceGraphic extends GraphicLayerSet {
 
     public Point getViewLocation( Point2D location ) {
         Point viewLoc = getScreenTransform().modelToView( location );
+//        return getRampWorld().convertToWorld( viewLoc );
         return viewLoc;
     }
 

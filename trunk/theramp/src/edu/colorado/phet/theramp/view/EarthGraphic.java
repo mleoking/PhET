@@ -16,9 +16,11 @@ import java.awt.*;
 public class EarthGraphic extends CompositePhetGraphic {
     private PhetShapeGraphic phetShapeGraphic;
     private RampPanel rampPanel;
+    private RampWorld rampWorld;
 
-    public EarthGraphic( RampPanel rampPanel ) {
+    public EarthGraphic( RampPanel rampPanel, RampWorld rampWorld ) {
         this.rampPanel = rampPanel;
+        this.rampWorld = rampWorld;
         Color earthGreen = new Color( 83, 175, 38 );
         phetShapeGraphic = new PhetShapeGraphic( rampPanel, null, earthGreen, new BasicStroke( 1 ), Color.black );
         addGraphic( phetShapeGraphic );
@@ -30,7 +32,7 @@ public class EarthGraphic extends CompositePhetGraphic {
     }
 
     private Shape createShape() {
-        int y = rampPanel.getRampBaseY();
+        int y = rampWorld.getRampBaseY();
         int dw = 10000;
         return new Rectangle( -dw, y, 1000 + dw * 2, 100000 );
     }

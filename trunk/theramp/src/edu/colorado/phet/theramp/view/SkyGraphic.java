@@ -15,10 +15,12 @@ import java.awt.*;
 
 public class SkyGraphic extends CompositePhetGraphic {
     private RampPanel rampPanel;
+    private RampWorld rampWorld;
     private PhetShapeGraphic phetShapeGraphic;
 
-    public SkyGraphic( RampPanel rampPanel ) {
+    public SkyGraphic( RampPanel rampPanel, RampWorld rampWorld ) {
         this.rampPanel = rampPanel;
+        this.rampWorld = rampWorld;
         Color lightBlue = new Color( 165, 220, 252 );
         phetShapeGraphic = new PhetShapeGraphic( rampPanel, null, lightBlue );
         addGraphic( phetShapeGraphic );
@@ -32,7 +34,7 @@ public class SkyGraphic extends CompositePhetGraphic {
     private Shape createShape() {
         int dw = 10000;
         int dh = 10000;
-        Rectangle skyRect = new Rectangle( -dw, -dh, 1000 + dw * 2, rampPanel.getRampBaseY() + dh );
+        Rectangle skyRect = new Rectangle( -dw, -dh, 1000 + dw * 2, rampWorld.getRampBaseY() + dh );
         return skyRect;
     }
 }

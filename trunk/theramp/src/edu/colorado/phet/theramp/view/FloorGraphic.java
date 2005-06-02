@@ -15,5 +15,6 @@ public class FloorGraphic extends SurfaceGraphic {
         super( rampPanel, ground );
         getSurfaceGraphic().setVisible( false );
         getAngleGraphic().setVisible( false );
+        getHeightReadoutGraphic().setVisible( false );
     }
 }
