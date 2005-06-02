@@ -21,7 +21,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ControlRodGraphic extends PhetShapeGraphic {
+public class ControlRodGraphic extends PhetShapeGraphic implements ControlRod.ChangeListener {
     private static Color defaultColor = Color.blue;
     private static Stroke stroke = new BasicStroke( 1 );
     private static Color strokeColor = Color.black;
@@ -31,6 +31,7 @@ public class ControlRodGraphic extends PhetShapeGraphic {
     public ControlRodGraphic( Component component, ControlRod controlRod ) {
         super( component, null, defaultColor, stroke, strokeColor );
         this.controlRod = controlRod;
+        controlRod.addChangeListener( this );
         setShape( shape );
         update();
     }
@@ -43,6 +44,17 @@ public class ControlRodGraphic extends PhetShapeGraphic {
                        rodShape.getBounds().getHeight() );
         setBoundsDirty();
         repaint();
+    }
+
+    public void translate( double dx, double dy ) {
+        controlRod.translate( dx, dy );
+    }
+
+    //----------------------------------------------------------------
+    // Implementation of ControlRod.ChangeListener
+    //----------------------------------------------------------------
+    public void changed( ControlRod.ChangeEvent event ) {
+        update();
     }
 }
 
