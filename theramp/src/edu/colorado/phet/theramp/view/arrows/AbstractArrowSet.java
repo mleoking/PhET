@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.theramp.view.BlockGraphic;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,13 +26,19 @@ public class AbstractArrowSet extends CompositePhetGraphic {
     private ArrayList graphics = new ArrayList();
 
     private int totalForceDY = 45;
+    private BlockGraphic blockGraphic;
 
     public int getDefaultOffsetDY() {
         return totalForceDY;
     }
 
-    public AbstractArrowSet( Component component ) {
+    public AbstractArrowSet( Component component, BlockGraphic blockGraphic ) {
         super( component );
+        this.blockGraphic = blockGraphic;
+    }
+
+    public BlockGraphic getBlockGraphic() {
+        return blockGraphic;
     }
 
     protected void addForceArrowGraphic( ForceArrowGraphic forceArrowGraphic ) {

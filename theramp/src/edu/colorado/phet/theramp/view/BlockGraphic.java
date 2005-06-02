@@ -47,7 +47,7 @@ public class BlockGraphic extends GraphicLayerSet {
         this.block = block;
         this.rampObject = rampObject;
 
-        final RampModel model = rampPanel.getRampModule().getRampModel();
+        final RampModel model = module.getRampModel();
 
         wheelGraphic = new PhetImageGraphic( getComponent(), "images/skateboard.png" );
         wheelGraphic.setVisible( false );

@@ -27,6 +27,7 @@ public class SpeedReadoutGraphic extends CompositePhetGraphic implements ModelEl
         Font font = new Font( "Lucida Sans", Font.BOLD, 28 );
         phetTextGraphic = new PhetTextGraphic( component, font, "", Color.black );
         addGraphic( phetTextGraphic );
+        setIgnoreMouse( true );
     }
 
     public void stepInTime( double dt ) {

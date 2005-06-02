@@ -4,19 +4,12 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
-import edu.colorado.phet.common.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
-import edu.colorado.phet.theramp.common.MeasuringTape;
-import edu.colorado.phet.theramp.model.RampModel;
-import edu.colorado.phet.theramp.model.Surface;
-import edu.colorado.phet.theramp.view.arrows.*;
 import edu.colorado.phet.theramp.view.panzoom.PanZoomKeyListener;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -28,27 +21,12 @@ import java.util.ArrayList;
 public class RampPanel extends ApparatusPanel2 {
     private RampModule module;
     private RampLookAndFeel rampLookAndFeel;
-    private ArrayList arrowSets = new ArrayList();
 
-    private SurfaceGraphic rampGraphic;
-    private BlockGraphic blockGraphic;
-    private AbstractArrowSet cartesian;
-    private AbstractArrowSet perp;
-    private AbstractArrowSet parallel;
-    private XArrowSet xArrowSet;
-    private YArrowSet yArrowSet;
-    private PotentialEnergyZeroGraphic potentialEnergyZeroGraphic;
-    private LeanerGraphic leanerGraphic;
-    private EarthGraphic earthGraphic;
-    private SkyGraphic skyGraphic;
-    private SurfaceGraphic groundGraphic;
-    private MeasuringTape measuringTape;
-    private RightBarrierGraphic rightBarrierGraphic;
-    private LeftBarrierGraphic leftBarrierGraphic;
 
     private BarGraphSet barGraphSet;
     private TimeGraphic timeGraphic;
     private SpeedReadoutGraphic velocityGraphic;
+    public RampWorld rampWorld;
 
     public Dimension getDefaultRenderingSize() {
         return new Dimension( 1061, 871 );
@@ -56,43 +34,23 @@ public class RampPanel extends ApparatusPanel2 {
 
     public RampPanel( RampModule module ) {
         super( module.getClock() );
-        rampLookAndFeel = new RampLookAndFeel();
-        addGraphicsSetup( new BasicGraphicsSetup() );
         this.module = module;
+        rampLookAndFeel = new RampLookAndFeel();
+
+
+        addGraphicsSetup( new BasicGraphicsSetup() );
+
         setBackground( new Color( 240, 200, 255 ) );
-        RampModel rampModel = module.getRampModel();
-        Surface ramp = rampModel.getRamp();
-        rampGraphic = new RampGraphic( this, ramp );
-        addGraphic( rampGraphic );
 
-        groundGraphic = new FloorGraphic( this, rampModel.getGround() );
-        groundGraphic.setIgnoreMouse( true );
-        addGraphic( groundGraphic );
+        rampWorld = new RampWorld( this, module, this );
+        rampWorld.scale( 0.73, 0.73 );
+        addGraphic( rampWorld );
 
-        blockGraphic = new BlockGraphic( module, this, rampGraphic, groundGraphic, rampModel.getBlock(), module.getRampObjects()[0] );
-        addGraphic( blockGraphic, 2 );
-
-        barGraphSet = new BarGraphSet( this, rampModel );
+        barGraphSet = new BarGraphSet( this, module.getRampModel() );
         barGraphSet.scale( 0.93, 0.93 );
         barGraphSet.setLocation( getDefaultRenderingSize().width - barGraphSet.getWidth() - 1, barGraphSet.getY() );
 
         addGraphic( barGraphSet );
-
-        cartesian = new CartesianArrowSet( this );
-        perp = new PerpendicularArrowSet( this );
-        parallel = new ParallelArrowSet( this );
-        xArrowSet = new XArrowSet( this );
-        yArrowSet = new YArrowSet( this );
-        addArrowSet( cartesian );
-        addArrowSet( perp );
-        addArrowSet( parallel );
-        addArrowSet( xArrowSet );
-        addArrowSet( yArrowSet );
-
-        perp.setVisible( false );
-        parallel.setVisible( false );
-        xArrowSet.setVisible( false );
-        yArrowSet.setVisible( false );
 
         module.getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -112,22 +70,16 @@ public class RampPanel extends ApparatusPanel2 {
         } );
         removePanelResizeHandler();
 
-        potentialEnergyZeroGraphic = new PotentialEnergyZeroGraphic( this, rampModel );
-        addGraphic( potentialEnergyZeroGraphic, 100 );
+        timeGraphic = new TimeGraphic( this, module.getTimeSeriesModel() );
+        timeGraphic.setLocation( 60, 60 );
+        addGraphic( timeGraphic, 100 );
+        module.getModel().addModelElement( timeGraphic );
 
-        try {
-            leanerGraphic = new LeanerGraphic( this, blockGraphic.getObjectGraphic() );
-            addGraphic( leanerGraphic, 102 );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        velocityGraphic = new SpeedReadoutGraphic( this, module.getRampModel() );
+        velocityGraphic.setLocation( timeGraphic.getX(), timeGraphic.getY() + timeGraphic.getHeight() + 20 );
+        addGraphic( velocityGraphic );
+        module.getModel().addModelElement( velocityGraphic );
 
-        earthGraphic = new EarthGraphic( this );
-        addGraphic( earthGraphic, -1 );
-
-        skyGraphic = new SkyGraphic( this );
-        addGraphic( skyGraphic, -2 );
         requestFocus();
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
@@ -136,39 +88,12 @@ public class RampPanel extends ApparatusPanel2 {
         } );
 
         addMouseListener( new UserAddingEnergyHandler( module ) );
-        measuringTape = new MeasuringTape( this, rampGraphic.getScreenTransform(),
-                                           RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
-        addGraphic( measuringTape, 100 );
-
-        timeGraphic = new TimeGraphic( this, module.getTimeSeriesModel() );
-        timeGraphic.setLocation( 60, 60 );
-        addGraphic( timeGraphic, 100 );
-        module.getModel().addModelElement( timeGraphic );
-
-        velocityGraphic = new SpeedReadoutGraphic( this, rampModel );
-        velocityGraphic.setLocation( timeGraphic.getX(), timeGraphic.getY() + timeGraphic.getHeight() + 20 );
-        addGraphic( velocityGraphic );
-        module.getModel().addModelElement( velocityGraphic );
-
-        rightBarrierGraphic = new RightBarrierGraphic( this, this, rampGraphic );
-        addGraphic( rightBarrierGraphic, 1 );
-
-        leftBarrierGraphic = new LeftBarrierGraphic( this, this, groundGraphic );
-        addGraphic( leftBarrierGraphic, 1 );
     }
 
     private void updateArrowSetGraphics() {
-
-        for( int i = 0; i < arrowSets.size(); i++ ) {
-            AbstractArrowSet arrowSet = (AbstractArrowSet)arrowSets.get( i );
-            arrowSet.updateGraphics();
-        }
+        rampWorld.updateArrowSetGraphics();
     }
 
-    private void addArrowSet( AbstractArrowSet arrowSet ) {
-        addGraphic( arrowSet, 3 );
-        arrowSets.add( arrowSet );
-    }
 
     public RampModule getRampModule() {
         return module;
@@ -179,68 +104,63 @@ public class RampPanel extends ApparatusPanel2 {
     }
 
     public BlockGraphic getBlockGraphic() {
-        return blockGraphic;
+        return rampWorld.getBlockGraphic();
     }
 
     public void setCartesianArrowsVisible( boolean selected ) {
-        cartesian.setVisible( selected );
+        rampWorld.setCartesianArrowsVisible( selected );
     }
 
     public void setParallelArrowsVisible( boolean selected ) {
-        parallel.setVisible( selected );
+        rampWorld.setParallelArrowsVisible( selected );
     }
 
     public void setPerpendicularArrowsVisible( boolean selected ) {
-        perp.setVisible( selected );
+        rampWorld.setPerpendicularArrowsVisible( selected );
     }
 
     public void setXArrowsVisible( boolean selected ) {
-        xArrowSet.setVisible( selected );
+        rampWorld.setXArrowsVisible( selected );
     }
 
     public void setYArrowsVisible( boolean selected ) {
-        yArrowSet.setVisible( selected );
+        rampWorld.setYArrowsVisible( selected );
     }
 
     public boolean isCartesianVisible() {
-        return cartesian.isVisible();
+        return rampWorld.isCartesianVisible();
     }
 
     public boolean isParallelVisible() {
-        return parallel.isVisible();
+        return rampWorld.isParallelVisible();
     }
 
     public boolean isPerpendicularVisible() {
-        return perp.isVisible();
+        return rampWorld.isPerpendicularVisible();
     }
 
     public boolean isXVisible() {
-        return xArrowSet.isVisible();
+        return rampWorld.isXVisible();
     }
 
     public boolean isYVisible() {
-        return yArrowSet.isVisible();
+        return rampWorld.isYVisible();
     }
 
     public void setForceVisible( String force, boolean selected ) {
-        for( int i = 0; i < arrowSets.size(); i++ ) {
-            AbstractArrowSet arrowSet = (AbstractArrowSet)arrowSets.get( i );
-            arrowSet.setForceVisible( force, selected );
-        }
+        rampWorld.setForceVisible( force, selected );
     }
 
     public SurfaceGraphic getRampGraphic() {
-        return rampGraphic;
+        return rampWorld.getRampGraphic();
     }
 
     public double getBlockWidthModel() {
-        int widthView = blockGraphic.getObjectWidthView();
-        double widthModel = rampGraphic.getScreenTransform().viewToModelDifferentialX( widthView );
-        return widthModel;
+        return rampWorld.getBlockWidthModel();
     }
 
     public double getModelWidth( int viewWidth ) {
-        return rampGraphic.getScreenTransform().viewToModelDifferentialX( viewWidth );
+        return rampWorld.getModelWidth( viewWidth );
     }
 
     public void setObject( RampObject rampObject ) {
@@ -250,5 +170,9 @@ public class RampPanel extends ApparatusPanel2 {
     public int getRampBaseY() {
         Point v = getRampGraphic().getViewLocation( getRampGraphic().getSurface().getLocation( 0 ) );
         return v.y;
+    }
+
+    public RampWorld getRampWorld() {
+        return rampWorld;
     }
 }

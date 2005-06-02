@@ -28,6 +28,7 @@ public class TimeGraphic extends CompositePhetGraphic implements ModelElement {
         phetTextGraphic = new PhetTextGraphic( component, font, "", Color.black );
         addGraphic( phetTextGraphic );
         stepInTime( 0.0 );
+        setIgnoreMouse( true );
     }
 
     public void stepInTime( double dt ) {

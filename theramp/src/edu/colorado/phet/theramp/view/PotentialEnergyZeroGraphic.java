@@ -21,14 +21,16 @@ import java.text.DecimalFormat;
 
 public class PotentialEnergyZeroGraphic extends CompositePhetGraphic {
     private RampModel rampModel;
+    private RampWorld rampWorld;
     private RampPanel rampPanel;
     private PhetShapeGraphic phetShapeGraphic;
     private PhetShadowTextGraphic label;
 
-    public PotentialEnergyZeroGraphic( RampPanel component, final RampModel rampModel ) {
+    public PotentialEnergyZeroGraphic( RampPanel component, final RampModel rampModel, final RampWorld rampWorld ) {
         super( component );
         this.rampPanel = component;
         this.rampModel = rampModel;
+        this.rampWorld = rampWorld;
         phetShapeGraphic = new PhetShapeGraphic( component, new Line2D.Double( 0, 0, 1000, 0 ),
                                                  new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{20, 20}, 0 ), Color.black );
         addGraphic( phetShapeGraphic );
@@ -42,7 +44,7 @@ public class PotentialEnergyZeroGraphic extends CompositePhetGraphic {
             }
 
             public void zeroPointChanged() {
-                setLocation( 0, rampPanel.getRampGraphic().getScreenTransform().modelToViewY( rampModel.getZeroPointY() ) );
+                setLocation( 0, rampWorld.getRampGraphic().getScreenTransform().modelToViewY( rampModel.getZeroPointY() ) );
                 updateLabel();
             }
         };
@@ -62,7 +64,8 @@ public class PotentialEnergyZeroGraphic extends CompositePhetGraphic {
     }
 
     private void changeZeroPoint( TranslationEvent translationEvent ) {
-        double zeroPointY = rampPanel.getRampGraphic().getScreenTransform().viewToModelY( translationEvent.getY() );
+        Point pt = rampWorld.convertToWorld( translationEvent.getMouseEvent().getPoint() );
+        double zeroPointY = rampPanel.getRampGraphic().getScreenTransform().viewToModelY( pt.y );
         rampModel.setZeroPointY( zeroPointY );
     }
 }

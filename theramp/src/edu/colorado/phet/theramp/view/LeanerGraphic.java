@@ -26,6 +26,7 @@ import java.io.IOException;
 public class LeanerGraphic extends PhetImageGraphic {
     private FrameSequence animation;
     private PhetGraphic target;
+    private RampWorld rampWorld;
     private double max = 3000.0;
     private FrameSequence flippedAnimation;
     private BufferedImage standingStill;
@@ -33,9 +34,10 @@ public class LeanerGraphic extends PhetImageGraphic {
     private RampPanel rampPanel;
     private double modelLocation;
 
-    public LeanerGraphic( final RampPanel rampPanel, final PhetGraphic target ) throws IOException {
+    public LeanerGraphic( final RampPanel rampPanel, final PhetGraphic target, RampWorld rampWorld ) throws IOException {
         super( rampPanel, (BufferedImage)null );
         this.target = target;
+        this.rampWorld = rampWorld;
         this.module = rampPanel.getRampModule();
         this.rampPanel = rampPanel;
         standingStill = ImageLoader.loadBufferedImage( "images/standing-man.png" );
@@ -120,8 +122,8 @@ public class LeanerGraphic extends PhetImageGraphic {
         BufferedImage frame = getFrame( facingRight );
         setImage( frame );
 
-        double modelWidthObject = rampPanel.getBlockWidthModel();
-        double modelWidthLeaner = rampPanel.getModelWidth( frame.getWidth() );
+        double modelWidthObject = rampWorld.getBlockWidthModel();
+        double modelWidthLeaner = rampWorld.getModelWidth( frame.getWidth() );
 
         double leanerX = 0;
         if( facingRight ) {
@@ -142,12 +144,12 @@ public class LeanerGraphic extends PhetImageGraphic {
     }
 
     private double getBlockLocation() {
-        return rampPanel.getBlockGraphic().getBlock().getPosition();
+        return rampWorld.getBlockGraphic().getBlock().getPosition();
     }
 
     private void updateTransform() {
 //        AffineTransform tx = rampPanel.getRampGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
-        AffineTransform tx = rampPanel.getBlockGraphic().getCurrentSurfaceGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
+        AffineTransform tx = rampWorld.getBlockGraphic().getCurrentSurfaceGraphic().createTransform( modelLocation, new Dimension( getFrame().getWidth(), getFrame().getHeight() ) );
         setTransform( tx );
     }
 

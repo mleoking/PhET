@@ -2,16 +2,14 @@
 package edu.colorado.phet.theramp.common;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
 import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetgraphics.*;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 import java.text.DecimalFormat;
 
 /**
@@ -41,7 +39,6 @@ public class MeasuringTape extends GraphicLayerSet {
         endGraphic = new EndGraphic();
         readoutGraphic = new ReadoutGraphic( "m" );
 
-
         addGraphic( tapeGraphic );
         addGraphic( bodyGraphic );
 
@@ -60,7 +57,8 @@ public class MeasuringTape extends GraphicLayerSet {
 
             addTranslationListener( new TranslationListener() {
                 public void translationOccurred( TranslationEvent translationEvent ) {
-                    MeasuringTape.this.translateAll( translationEvent.getDx(), translationEvent.getDy() );
+                    Point2D dx = convertToLocalFrameDifferential( BodyGraphic.this, translationEvent );
+                    MeasuringTape.this.translateAll( dx.getX(), dx.getY() );
                 }
             } );
             CrossHairGraphic crossHairGraphic = new CrossHairGraphic( getComponent(), 10 );
@@ -68,10 +66,29 @@ public class MeasuringTape extends GraphicLayerSet {
             crossHairGraphic.setLocation( imageGraphic.getWidth(), imageGraphic.getHeight() );
             setCursorHand();
         }
+
+
     }
 
-    private void translateAll( int dx, int dy ) {
-        Point2D modelTx = modelViewTransform2D.viewToModelDifferential( dx, dy );
+    private static Point2D convertToLocalFrameDifferential( PhetGraphic leaf, TranslationEvent translationEvent ) {
+        Point2D dx = new Point2D.Double( translationEvent.getDx(), translationEvent.getDy() );
+        ApparatusPanel ap = (ApparatusPanel)translationEvent.getMouseEvent().getComponent();
+        GraphicLayerSet inputSource = ap.getGraphic();
+        GraphicLayerSet myContainer = leaf.getParent();
+        Point2D dxOrig = new Point2D.Double( dx.getX(), dx.getY() );
+        AffineTransform tx = myContainer.getIntermediateTransform( inputSource );
+        try {
+            dx = tx.createInverse().deltaTransform( dx, null );
+        }
+        catch( NoninvertibleTransformException e ) {
+            e.printStackTrace();
+        }
+        System.out.println( "dxOrig = " + dxOrig + ", dx=" + dx );
+        return dx;
+    }
+
+    private void translateAll( double dx, double dy ) {
+        Point2D modelTx = modelViewTransform2D.viewToModelDifferential( new Point2D.Double( dx, dy ) );
         modelSrc.x += modelTx.getX();
         modelSrc.y += modelTx.getY();
         modelDst.x += modelTx.getX();
@@ -120,7 +137,8 @@ public class MeasuringTape extends GraphicLayerSet {
             setRegistrationPoint( phetShapeGraphic.getWidth() / 2, phetShapeGraphic.getHeight() / 2 );
             addTranslationListener( new TranslationListener() {
                 public void translationOccurred( TranslationEvent translationEvent ) {
-                    MeasuringTape.this.translateEndPoint( translationEvent.getDx(), translationEvent.getDy() );
+                    Point2D local = convertToLocalFrameDifferential( EndGraphic.this, translationEvent );
+                    MeasuringTape.this.translateEndPoint( local.getX(), local.getY() );
                 }
             } );
             setCursorHand();
@@ -132,8 +150,8 @@ public class MeasuringTape extends GraphicLayerSet {
         }
     }
 
-    private void translateEndPoint( int dx, int dy ) {
-        Point2D modelDX = modelViewTransform2D.viewToModelDifferential( dx, dy );
+    private void translateEndPoint( double dx, double dy ) {
+        Point2D modelDX = modelViewTransform2D.viewToModelDifferential( new Point2D.Double( dx, dy ) );
         modelDst.x += modelDX.getX();
         modelDst.y += modelDX.getY();
         update();
