@@ -16,6 +16,7 @@ import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.fourier.FourierConfig;
 
 
 /**
@@ -265,7 +266,7 @@ public class SineWaveGraphic extends PhetShapeGraphic implements SimpleObserver 
                 double angle = startAngle + ( i * deltaAngle );
                 double radians = ( _waveType == WAVE_TYPE_SINE ) ? Math.sin( angle ): Math.cos( angle );
                 double x = -( _viewportSize.width / 2 - i );
-                double y = _amplitude * radians * ( _viewportSize.height / 2.0 );
+                double y = ( _amplitude / FourierConfig.MAX_HARMONIC_AMPLITUDE ) * radians * ( _viewportSize.height / 2.0 );
                 if ( i == 0 ) {
                     _path.moveTo( (float) x, (float) -y );  // +Y is up
                 }
