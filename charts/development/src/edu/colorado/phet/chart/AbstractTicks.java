@@ -2,6 +2,7 @@
 package edu.colorado.phet.chart;
 
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 
@@ -23,12 +24,15 @@ public abstract class AbstractTicks extends AbstractGrid {
     private boolean showLabels = true;
     private GraphicLayerSet tickGraphics;
     private GraphicLayerSet labelGraphics;
+    private LabelTable labelTable;
 
-    public AbstractTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double tickSpacing ) {
+    public AbstractTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double
+            tickSpacing ) {
         this( chart, orientation, stroke, color, tickSpacing, 0 );
     }
 
-    public AbstractTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double tickSpacing, double crossesOtherAxisAt ) {
+    public AbstractTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double
+            tickSpacing, double crossesOtherAxisAt ) {
         super( chart, orientation, stroke, color, tickSpacing, crossesOtherAxisAt );
         tickGraphics = new GraphicLayerSet( chart.getComponent() );
         labelGraphics = new GraphicLayerSet( chart.getComponent() );
@@ -57,11 +61,28 @@ public abstract class AbstractTicks extends AbstractGrid {
                     PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
                     tickGraphics.addGraphic( lineGraphic );
 
-                    String string = format.format( gridLineX );
-                    PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
-                    labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
-                    labelGraphic.setVisible( showLabels );
-                    labelGraphics.addGraphic( labelGraphic );
+                    if( labelTable == null ) {
+                        String string = format.format( gridLineX );
+                        PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
+                        labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
+                        labelGraphic.setVisible( showLabels );
+                        labelGraphics.addGraphic( labelGraphic );
+                    }
+                }
+            }
+            if( labelTable != null ) {
+                double[] keys = labelTable.keys();
+                for( int i = 0; i < keys.length; i++ ) {
+                    double gridLineX = keys[i];
+                    if( chart.getRange().containsX( gridLineX ) ) {
+                        int x = chart.transformX( gridLineX );
+                        int y = getHorizontalTickY();
+
+                        PhetGraphic labelGraphic = labelTable.get( gridLineX );
+                        labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
+                        labelGraphic.setVisible( showLabels );
+                        labelGraphics.addGraphic( labelGraphic );
+                    }
                 }
             }
         }
@@ -75,11 +96,29 @@ public abstract class AbstractTicks extends AbstractGrid {
                     PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
                     tickGraphics.addGraphic( lineGraphic );
 
-                    String string = format.format( gridLineY );
-                    PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
-                    labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
-                    labelGraphic.setVisible( showLabels );
-                    labelGraphics.addGraphic( labelGraphic );
+                    if( labelTable == null ) {
+                        String string = format.format( gridLineY );
+                        PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font,
+                                                                            string, getColor() );
+                        labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
+                        labelGraphic.setVisible( showLabels );
+                        labelGraphics.addGraphic( labelGraphic );
+                    }
+                }
+            }
+            if( labelTable != null ) {
+                double[] keys = labelTable.keys();
+                for( int i = 0; i < keys.length; i++ ) {
+                    double gridLineY = keys[i];
+                    if( chart.getRange().containsY( gridLineY ) ) {
+                        int x = getVerticalTickX();
+                        int y = chart.transformY( gridLineY );
+
+                        PhetGraphic labelGraphic = labelTable.get( gridLineY );
+                        labelGraphic.setVisible( showLabels );
+                        labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
+                        labelGraphics.addGraphic( labelGraphic );
+                    }
                 }
             }
         }
@@ -122,5 +161,10 @@ public abstract class AbstractTicks extends AbstractGrid {
     public abstract int getVerticalTickX();
 
     public abstract int getHorizontalTickY();
+
+    public void setLabels( LabelTable labelTable ) {
+        this.labelTable = labelTable;
+        update();
+    }
 
 }
