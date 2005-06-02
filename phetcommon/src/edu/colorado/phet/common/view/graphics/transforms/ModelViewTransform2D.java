@@ -223,7 +223,7 @@ public class ModelViewTransform2D {
         return viewToModelDifferential( dx, 0 ).getX();
     }
 
-    public Point2D viewToModelDifferential( Point rel ) {
+    public Point2D viewToModelDifferential( Point2D rel ) {
         fixBackTransform();
         return backTransform.deltaTransform( rel, null );
     }
