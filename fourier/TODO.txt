@@ -47,6 +47,8 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/2) - create a "Zoom" control graphic
+(6/2) - convert Harmonics graph to use charts package for the graphic (but not the wavesforms)
 (6/1) - change Amplitude slider to have a configurable maximum value (in this case, 4/PI)
 (6/1) - convert Amplitudes graph to use charts package
 (6/1) - use specific colors for specific harmonics, instead of allocating dynamically from visible spectrum
