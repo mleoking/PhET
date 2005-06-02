@@ -149,6 +149,10 @@ public class Axis extends GraphicLayerSet {
         majorTicks.setStroke( stroke );
     }
 
+    public void setMajorTickSpacing( double x ) {
+        majorTicks.setSpacing( x );
+    }
+    
     public void setMinorTickFont( Font font ) {
         minorTicks.setFont( font );
     }
