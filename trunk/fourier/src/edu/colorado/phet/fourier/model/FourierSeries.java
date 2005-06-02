@@ -55,7 +55,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
   
     public void finalize() {
         for ( int i = 0; i < _harmonics.size(); i++ ) {
-            ( (Harmonic) _harmonics.get( i ) ).removeObserver( this );
+            ( (Harmonic) _harmonics.get( i ) ).removeAllObservers();
         }
     }
     
@@ -103,7 +103,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
                 for ( int i = currentNumber-1; i > currentNumber - numberToRemove - 1; i-- ) {
                     // Move the component to the "available" list.
                     harmonic = (Harmonic) _harmonics.get( i );
-                    harmonic.removeObserver( this );
+                    harmonic.removeAllObservers();
                     harmonic.setAmplitude( 0 );
                     _availableHarmonics.add( harmonic );
                     _harmonics.remove( i );
