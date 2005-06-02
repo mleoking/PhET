@@ -25,6 +25,7 @@ import edu.colorado.phet.nuclearphysics.view.ControlRodGroupGraphic;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * ControlledFissionModule
@@ -49,28 +50,32 @@ public class ControlledFissionModule extends ChainReactionModule {
         getPhysicalPanel().addGraphic( vesselGraphic, VESSEL_LAYER );
 
         // Add control rods
-        ControlRod[] controlRods = createControlRods( 5, VERTICAL, vessel );
+        ControlRod[] controlRods = createControlRods( VERTICAL, vessel );
         ControlRodGroupGraphic controlRodGroupGraphic = new ControlRodGroupGraphic( getPhysicalPanel(),
                                                                                     controlRods,
                                                                                     vessel );
         getPhysicalPanel().addGraphic( controlRodGroupGraphic, CONTROL_ROD_LAYER );
 
-
         // Add a thermometer
     }
 
-    private ControlRod[] createControlRods( int numRods, int orientation, Vessel vessel ) {
-        double initialInsertDist = 100;
-        double length = 200;
-        double spacing = 0;
-        ControlRod[] rods = new ControlRod[numRods];
+    /**
+     * Creates a control rod for each channel in the specified vessel
+     *
+     * @param orientation
+     * @param vessel
+     * @return
+     */
+    private ControlRod[] createControlRods( int orientation, Vessel vessel ) {
+        ControlRod[] rods = new ControlRod[vessel.getNumControlRodChannels()];
         if( orientation == VERTICAL ) {
-            spacing = vessel.getWidth() / ( numRods + 1 );
-            for( int i = 0; i < numRods; i++ ) {
-                double x = vessel.getX() + spacing *  ( i + 1 );
-                double y = vessel.getY() + vessel.getHeight() - initialInsertDist;
-                rods[i] = new ControlRod( new Point2D.Double( x, y ),
-                                          new Point2D.Double( x, y + length ), 15 );
+            Rectangle2D[] channels = vessel.getChannels();
+            for( int i = 0; i < channels.length; i++ ) {
+                Rectangle2D channel = channels[i];
+                rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
+                                                              channel.getMinY() ),
+                                          new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
+                                                              channel.getMaxY() ), 15 );
             }
         }
         return rods;
