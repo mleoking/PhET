@@ -395,6 +395,31 @@ public abstract class PhetGraphic {
     }
 
     /**
+     * Determine the bounds of this graphic, as seen by the parent graphic layer set.
+     *
+     * @see PhetGraphic#getIntermediateTransform(GraphicLayerSet)
+     */
+    public Rectangle getBoundsInAncestor( GraphicLayerSet parent ) {
+        return getIntermediateTransform( parent ).createTransformedShape( getLocalBounds() ).getBounds();
+    }
+
+    /**
+     * Determine the transform between this graphic and an ancestor.
+     *
+     * @param ancestor
+     * @return
+     */
+    public AffineTransform getIntermediateTransform( GraphicLayerSet ancestor ) {
+        AffineTransform totalTransform = new AffineTransform();
+        GraphicLayerSet up = getParent();
+        while( up != ancestor ) {
+            totalTransform.concatenate( up.getTransform() );//todo: doesn't handle registration point.
+            up = up.getParent();
+        }
+        return totalTransform;
+    }
+
+    /**
      * Concatenates a transform to the local transform.
      *
      * @param transform the transform to concatenate.
@@ -1163,7 +1188,6 @@ public abstract class PhetGraphic {
     public void setClip( Shape clip ) {
         this.clip = clip;
     }
-    
     //----------------------------------------------------------------------------
     // 
     //----------------------------------------------------------------------------
