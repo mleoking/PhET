@@ -49,13 +49,17 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final int TITLE_X_OFFSET = -20; // from origin
     
-    // Chart parameters
-    private static final Range2D CHART_RANGE = new Range2D( 1, -4/Math.PI, 11, +4/Math.PI ); // xMin,yMin,xMax,yMax
-    private static final Dimension CHART_SIZE = new Dimension( 650, 130 );
+    // X axis
+    private static final double X_MIN = FourierConfig.MIN_HARMONICS;
+    private static final double X_MAX = FourierConfig.MAX_HARMONICS;
     private static final Color X_AXIS_COLOR = Color.BLACK;
+    private static final Stroke X_AXIS_STROKE = new BasicStroke( 2f );
+    
+    // Y axis
+    private static final double Y_MIN = -FourierConfig.MAX_HARMONIC_AMPLITUDE;
+    private static final double Y_MAX = +FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final Color Y_AXIS_COLOR = Color.BLACK;
-    private static final Stroke X_AXIS_STROKE = new BasicStroke( 1f );
-    private static final Stroke Y_AXIS_STROKE = new BasicStroke( 1f );
+    private static final Stroke Y_AXIS_STROKE = new BasicStroke( 2f );
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
     private static final double Y_MINOR_TICK_SPACING = 0.1;
     private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
@@ -65,6 +69,10 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private static final Color Y_MINOR_GRIDLINE_COLOR = new Color( 0, 0, 0, 60 );
     private static final Stroke Y_MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
     private static final Stroke Y_MINOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
+    
+    // Chart parameters
+    private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
+    private static final Dimension CHART_SIZE = new Dimension( 650, 130 );
     
     // Sliders parameters
     private static final int SLIDER_SPACING = 10; // space between sliders
@@ -135,7 +143,13 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
                 _chartGraphic.getYAxis().setStroke( Y_AXIS_STROKE );
                 _chartGraphic.getYAxis().setColor( Y_AXIS_COLOR );
                 
-                // Major ticks with labels
+                // No ticks or labels on the axis
+                _chartGraphic.getYAxis().setMajorTicksVisible( false );
+                _chartGraphic.getYAxis().setMajorTickLabelsVisible( false );
+                _chartGraphic.getYAxis().setMinorTicksVisible( false );
+                _chartGraphic.getYAxis().setMinorTickLabelsVisible( false );
+                
+                // Major ticks and labels to the left of the chart
                 _chartGraphic.getVerticalTicks().setMajorTicksVisible( true );
                 _chartGraphic.getVerticalTicks().setMajorTickLabelsVisible( true );
                 _chartGraphic.getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
