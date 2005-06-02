@@ -107,6 +107,13 @@ public class Chart extends GraphicLayerSet {
         dataSetGraphics.remove( dataSetGraphic );
         compositeDataSetGraphic.removeGraphic( dataSetGraphic );
     }
+    
+    public void removeAllDataSetGraphics() {
+        for( int i = 0; i < dataSetGraphics.size(); i++ ) {
+            compositeDataSetGraphic.removeGraphic( (DataSetGraphic) dataSetGraphics.get( i ) );
+        }
+        dataSetGraphics.clear();
+    }
 
     public boolean containsDataSetGraphic( DataSetGraphic dataSetGraphic ) {
         return dataSetGraphics.contains( dataSetGraphic );
