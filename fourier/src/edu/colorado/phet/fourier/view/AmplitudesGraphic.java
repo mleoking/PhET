@@ -107,7 +107,6 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
         _fourierSeriesModel = fourierSeriesModel;
         _fourierSeriesModel.addObserver( this );
         
-        // Title 
         // Title
         String title = SimStrings.get( "AmplitudesGraphic.title" );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
