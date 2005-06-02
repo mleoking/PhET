@@ -13,11 +13,8 @@ import java.awt.*;
  */
 public abstract class AbstractGrid extends CompositePhetGraphic {
     private Orientation orientation;
-//    public final static int HORIZONTAL = 1;
-//    public final static int VERTICAL = 2;
 
     private Chart chart;
-//    private int orientation;
     private Stroke stroke;
     private Color color;
 
