@@ -64,9 +64,9 @@ public class NuclearPhysicsApplication extends PhetApplication {
             controlledReactionModule
         };
         appDesc.setModules( modules );
-        //        appDesc.setInitialModule( multipleNucleusFissionModule );
-        appDesc.setInitialModule( singleNucleusFissionModule );
-        //        appDesc.setInitialModule( alphaModule );
+                appDesc.setInitialModule( controlledReactionModule );
+//        appDesc.setInitialModule( singleNucleusFissionModule );
+//                appDesc.setInitialModule( alphaModule );
         appDesc.setClock( clock );
         //        app.startApplication( multipleNucleusFissionModule );
         //        app.startApplication( singleNucleusFissionModule );

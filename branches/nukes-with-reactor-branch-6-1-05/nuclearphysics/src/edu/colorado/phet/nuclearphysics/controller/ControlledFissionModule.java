@@ -11,15 +11,18 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.nuclearphysics.model.FissionProducts;
 import edu.colorado.phet.nuclearphysics.model.Vessel;
 import edu.colorado.phet.nuclearphysics.model.ControlRod;
+import edu.colorado.phet.nuclearphysics.model.Containment;
 import edu.colorado.phet.nuclearphysics.view.VesselGraphic;
 import edu.colorado.phet.nuclearphysics.view.ControlRodGraphic;
 import edu.colorado.phet.nuclearphysics.view.ControlRodGroupGraphic;
+import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 
 import java.awt.geom.Point2D;
 
@@ -47,8 +50,11 @@ public class ControlledFissionModule extends ChainReactionModule {
 
         // Add control rods
         ControlRod[] controlRods = createControlRods( 5, VERTICAL, vessel );
-        ControlRodGroupGraphic controlRodGroupGraphic = new ControlRodGroupGraphic( getPhysicalPanel(), controlRods );
+        ControlRodGroupGraphic controlRodGroupGraphic = new ControlRodGroupGraphic( getPhysicalPanel(),
+                                                                                    controlRods,
+                                                                                    vessel );
         getPhysicalPanel().addGraphic( controlRodGroupGraphic, CONTROL_ROD_LAYER );
+
 
         // Add a thermometer
     }

@@ -25,19 +25,22 @@ public class ControlRodGraphic extends PhetShapeGraphic {
     private static Color defaultColor = Color.blue;
     private static Stroke stroke = new BasicStroke( 1 );
     private static Color strokeColor = Color.black;
+    private Rectangle shape = new Rectangle();
+    private ControlRod controlRod;
 
     public ControlRodGraphic( Component component, ControlRod controlRod ) {
         super( component, null, defaultColor, stroke, strokeColor );
-
-        Shape rodShape = controlRod.getShape();
-        Rectangle shape = new Rectangle( rodShape.getBounds().getLocation(),
-                                         new Dimension( (int)rodShape.getBounds().getWidth(),
-                                                        (int)rodShape.getBounds().getHeight()) );
+        this.controlRod = controlRod;
         setShape( shape );
         update();
     }
 
-    private void update() {
+    public void update() {
+        Shape rodShape = controlRod.getShape();
+        shape.setRect( rodShape.getBounds().getLocation().getX(),
+                       rodShape.getBounds().getLocation().getY(),
+                       rodShape.getBounds().getWidth(),
+                       rodShape.getBounds().getHeight() );
         setBoundsDirty();
         repaint();
     }
