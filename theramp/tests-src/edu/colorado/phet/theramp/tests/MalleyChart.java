@@ -1,9 +1,13 @@
 package edu.colorado.phet.theramp.tests;
 
 import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -96,6 +100,10 @@ public class MalleyChart extends GraphicLayerSet {
             //* (2) How do I get the Y axis ticks & major labels to appear?
             _chartGraphic.getVerticalTicks().setVisible( true );
             _chartGraphic.getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
+
+            LabelTable verticalLabelTable = new LabelTable();
+            verticalLabelTable.put( 0, new PhetShadowTextGraphic( component, new Font( "Lucida Sans", Font.PLAIN, 14 ), "Zero (0.0)", Color.red, 1, 1, Color.black ) );
+            _chartGraphic.getVerticalTicks().setMajorLabels( verticalLabelTable );
             _chartGraphic.getVerticalGridlines().setVisible( false );
 
             //to disable the labeled grid lines, if you want.
@@ -103,6 +111,14 @@ public class MalleyChart extends GraphicLayerSet {
 
             //* (3) Why is the horizontal line at Y=0 so bold/fat, and how can I change it?
             _chartGraphic.getXAxis().setStroke( new BasicStroke( 1 ) );
+
+            _chartGraphic.getHorizontalTicks().setVisible( true );
+            _chartGraphic.getHorizontalTicks().setMajorTickSpacing( 1 );
+            LabelTable labelTable = new LabelTable();
+            labelTable.put( 3, new PhetTextGraphic( component, new Font( "Lucida Sans", Font.PLAIN, 28 ), "Three", Color.blue ) );
+            labelTable.put( 6, new PhetTextGraphic( component, new Font( "Lucida Sans", Font.PLAIN, 28 ), "L/6", Color.blue ) );
+            labelTable.put( 9, new ShadowHTMLGraphic( component, "<html>9<sup>TM</html>", new Font( "Lucida Sans", Font.BOLD, 16 ), Color.blue, 1, 1, Color.black ) );
+            _chartGraphic.getHorizontalTicks().setMajorLabels( labelTable );
         }
 
         //.......
