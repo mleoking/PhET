@@ -90,18 +90,11 @@ public class RampModel implements ModelElement {
 
             totalForce.setParallel( force );
             double acceleration = force / block.getMass();
-//            System.out.println( "gravityForce = " + gravityForce );
-//            System.out.println( "frictionForce= " + frictionForce );
-//            System.out.println( "appliedForce= " + appliedForce );
-//            System.out.println( "force = " + force );
-//            System.out.println( "acceleration = " + acceleration );
-//            System.out.println( "" );
             block.setAcceleration( acceleration );
             block.stepInTime( this, dt );
 
             double newBlockPosition = block.getPosition();
             double blockDX = newBlockPosition - origBlockPosition;
-//            double dAppliedWork = Math.abs( appliedForce.getMagnitude() * blockDX );
             double dAppliedWork = ( appliedForce.getParallelComponent() * blockDX );
             double dFrictiveWork = ( frictionForce.getParallelComponent() * blockDX );
             double dGravityWork = ( gravityForce.getParallelComponent() * blockDX );
@@ -131,6 +124,16 @@ public class RampModel implements ModelElement {
                     System.out.println( "message = " + message );
 //                    new RuntimeException( message ).printStackTrace();
                 }
+            }
+            //So height of totalEnergy bar should always be same as height W_app bar
+            double dE = getTotalEnergy() - getAppliedWork();
+            if( dE != 0.0 ) {
+                System.out.println( "dE=" + dE + ", EnergyTotal=" + getTotalEnergy() + ", WorkApplied=" + getAppliedWork() );
+            }
+            //deltaKE = W_net
+            double dK = getBlock().getKineticEnergy() - getTotalWork();
+            if( dK != 0.0 ) {
+                System.out.println( "dK=" + dK + ", Delta KE=" + getBlock().getKineticEnergy() + ", Net Work=" + getTotalWork() );
             }
         }
         lastTick = currentTimeSeconds();
@@ -213,6 +216,12 @@ public class RampModel implements ModelElement {
         thermalEnergy = 0.0;
         peObservers.notifyObservers();
         keObservers.notifyObservers();
+        initWorks();
+    }
+
+    public void initWorks() {
+        gravityWork = -getPotentialEnergy();
+        appliedWork = -gravityWork;
     }
 
     public double getFrictiveWork() {
