@@ -10,6 +10,13 @@ import java.awt.*;
  * To change this template use File | Settings | File Templates.
  */
 public class RampLookAndFeel {
+
+    /**
+     * W_grav and deltaPE should be the same color:  Blue (sky blue, sky-high --get it?)
+     * W_fric and deltaThermal should be same color: Red (red hot)
+     * W_net and deltaKE should be same color: green (green for go)
+     * x-W_app and deltaTotalEnergy should be same color: Yellow (yellow for... I don't know, it just has to be different than blue, red, green).
+     */
     private final Color myGreen = new Color( 0.0f, 0.8f, 0.1f );
     private Color appliedForceColor = myGreen;
     private Color netForceColor = Color.blue;
@@ -22,20 +29,20 @@ public class RampLookAndFeel {
     private Color velColor = Color.black;
     private Color positionColor = Color.black;
 
-    private Color totalEnergyColor = new Color( 100, 0, 160 );//purple
-    private Color kineticEnergyColor = new Color( 234, 152, 168 );//light red
-    private Color potentialEnergyColor = new Color( 134, 208, 197 );//light blue
-    private Color thermalEnergyColor = new Color( 223, 188, 22 );//orange
-
-//    private Color totalEnergyColor = Color.blue;
-//    private Color kineticEnergyColor = myGreen;
-//    private Color potentialEnergyColor = Color.yellow;
-//    private Color thermalEnergyColor = Color.red;
-
-    private Color appliedWorkColor = Color.green;
+    private Color appliedWorkColor = Color.yellow;
     private Color frictionWorkColor = Color.red;
-    private Color gravityWorkColor = Color.yellow;
-    private Color totalWorkColor = Color.blue;
+    private Color gravityWorkColor = Color.blue;
+    private Color totalWorkColor = Color.green;
+
+//    private Color totalEnergyColor = new Color( 100, 0, 160 );//purple
+//    private Color kineticEnergyColor = new Color( 234, 152, 168 );//light red
+//    private Color potentialEnergyColor = new Color( 134, 208, 197 );//light blue
+//    private Color thermalEnergyColor = new Color( 223, 188, 22 );//orange
+
+    private Color totalEnergyColor = appliedWorkColor;
+    private Color kineticEnergyColor = totalWorkColor;
+    private Color potentialEnergyColor = gravityWorkColor;
+    private Color thermalEnergyColor = frictionWorkColor;
 
     public Color getAppliedForceColor() {
         return appliedForceColor;

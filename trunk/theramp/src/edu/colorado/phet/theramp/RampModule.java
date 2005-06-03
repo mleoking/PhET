@@ -15,6 +15,8 @@ import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.timeseries.TimeSeriesModel;
 import edu.colorado.phet.timeseries.TimeSeriesPlaybackPanel;
 
+import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
@@ -68,11 +70,24 @@ public class RampModule extends Module {
         SwingTimerClock clock = new SwingTimerClock( 1.0 / 30.0, 30 );
         FrameSetup frameSetup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 600, 600 ) );
         PhetApplication application = new PhetApplication( args, "The Ramp", "Ramp Application", "0", clock, true, frameSetup );
-        RampModule module = new RampModule( clock );
+        final RampModule module = new RampModule( clock );
 
         application.setModules( new Module[]{module} );
         application.getPhetFrame().getBasicPhetPanel().setAppControlPanel( module.rampMediaPanel );
         application.startApplication();
+        try {
+            SwingUtilities.invokeAndWait( new Runnable() {
+                public void run() {
+                    module.reset();
+                }
+            } );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
+        catch( InvocationTargetException e ) {
+            e.printStackTrace();
+        }
 
     }
 

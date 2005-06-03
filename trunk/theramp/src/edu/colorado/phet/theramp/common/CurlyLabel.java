@@ -3,7 +3,7 @@ package edu.colorado.phet.theramp.common;
 
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
 
 import java.awt.*;
 
@@ -17,17 +17,21 @@ import java.awt.*;
 public class CurlyLabel extends GraphicLayerSet {
     private String label;
     public PhetImageGraphic phetImageGraphic;
-    public PhetShadowTextGraphic phetShadowTextGraphic;
+    public ShadowHTMLGraphic textGraphic;
 
     public CurlyLabel( Component component, String label ) {
         super( component );
         this.label = label;
         phetImageGraphic = new PhetImageGraphic( component, "images/curly-label-200x50.gif" );
         addGraphic( phetImageGraphic );
-        phetShadowTextGraphic = new PhetShadowTextGraphic( component, new Font( "Lucida Sans", Font.PLAIN, 28 ), label, Color.blue, 1, 1, Color.black );
-        addGraphic( phetShadowTextGraphic );
+        Font font = new Font( "Lucida Sans", Font.BOLD, 34 );
+//        phetShadowTextGraphic = new PhetShadowTextGraphic( component, font, label, Color.blue, 1, 1, Color.black );
+
+        textGraphic = new ShadowHTMLGraphic( component, label, font, Color.green, 1, 1, Color.black );
+        addGraphic( textGraphic );
+        textGraphic.scale( 1.3, 1.3 );
         int offsetDY = 2;
-        phetShadowTextGraphic.setLocation( phetImageGraphic.getWidth() / 2 - phetShadowTextGraphic.getWidth() / 2, phetImageGraphic.getHeight() + offsetDY );
+        textGraphic.setLocation( phetImageGraphic.getWidth() / 2 - textGraphic.getWidth() / 2, phetImageGraphic.getHeight() + offsetDY );
     }
 
     public void rescaleToWidth( int width ) {
