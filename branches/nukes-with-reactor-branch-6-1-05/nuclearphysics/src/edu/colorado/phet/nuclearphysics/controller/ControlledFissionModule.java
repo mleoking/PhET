@@ -30,11 +30,12 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     private static final double VESSEL_LAYER = 100;
     private static final double CONTROL_ROD_LAYER = VESSEL_LAYER - 1;
-    private static final double refWidth = 600;
-    private static final double refHeight = 200;
+    private static final double refWidth = 700;
+    private static final double refHeight = 300;
 
-    private double vesselWidth = 4000;
-    private double vesselHeight = 1500;
+    private double vesselWidth;
+    private double vesselHeight;
+    private int numChannels = 5;
     private Vessel vessel;
     private int nCols = 20;
     private double scale = 0.2;
@@ -57,7 +58,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         vesselHeight = refHeight / scale;
 
         // Add the chamber
-        vessel = new Vessel( -vesselWidth / 2, -vesselHeight, vesselWidth, vesselHeight );
+        vessel = new Vessel( -vesselWidth / 2, -vesselHeight, vesselWidth, vesselHeight, numChannels );
         VesselGraphic vesselGraphic = new VesselGraphic( getPhysicalPanel(), vessel );
         getPhysicalPanel().addOriginCenteredGraphic( vesselGraphic, VESSEL_LAYER );
 
@@ -66,7 +67,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         ControlRodGroupGraphic controlRodGroupGraphic = new ControlRodGroupGraphic( getPhysicalPanel(),
                                                                                     controlRods,
                                                                                     vessel,
-                                                                                    getPhysicalPanel().getNucleonTx());
+                                                                                    getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( controlRodGroupGraphic, CONTROL_ROD_LAYER );
 
         // Add a thermometer
@@ -89,12 +90,12 @@ public class ControlledFissionModule extends ChainReactionModule {
             Rectangle2D[] channels = vessel.getChannels();
             for( int i = 0; i < channels.length; i++ ) {
                 Rectangle2D channel = channels[i];
-                rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth()) / 2,
+                rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth() ) / 2,
                                                               channel.getMinY() ),
                                           new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
                                                               channel.getMaxY() ), channel.getWidth(),
                                           model );
-                model.addModelElement( rods[i]);
+                model.addModelElement( rods[i] );
             }
         }
         return rods;
@@ -103,23 +104,45 @@ public class ControlledFissionModule extends ChainReactionModule {
     /**
      *
      */
-    protected void createNuclei( ) {
-        double xSpacing = vessel.getWidth() / ( nCols + 1 );
-
-        double ySpacing = xSpacing;
-        int nRows = (int)( ( vessel.getHeight() / ySpacing ) - 1 );
-
-        for( int i = 0; i < nCols; i++ ) {
-            double x = vessel.getX() + ( xSpacing * ( i + 1) );
-            for( int j = 0; j < nRows; j++ ) {
-                double y = vessel.getY() + ( ySpacing * ( j + 1 ));
-                Nucleus nucleus = new Uranium235( new Point2D.Double( x, y ), getModel() );
-                u235Nuclei.add( nucleus );
-                addNucleus( nucleus );
-            }
+    protected void createNuclei() {
+        Point2D[] locations = vessel.getInitialNucleusLocations( nCols );
+        for( int i = 0; i < locations.length; i++ ) {
+            Point2D location = locations[i];
+            Nucleus nucleus = new Uranium235( location, getModel() );
+            u235Nuclei.add( nucleus );
+            addNucleus( nucleus );
         }
+
+//        double xSpacing = vessel.getWidth() / ( nCols + 1 );
+//
+//        double ySpacing = xSpacing;
+//        int nRows = (int)( ( vessel.getHeight() / ySpacing ) - 1 );
+//
+//        for( int i = 0; i < nCols; i++ ) {
+//            double x = vessel.getX() + ( xSpacing * ( i + 1 ) );
+//            for( int j = 0; j < nRows; j++ ) {
+//                double y = vessel.getY() + ( ySpacing * ( j + 1 ) );
+//                Point2D.Double position = new Point2D.Double( x, y );
+//                if( !vessel.isInChannel( position ) ) {
+//                    Nucleus nucleus = new Uranium235( position, getModel() );
+//                    u235Nuclei.add( nucleus );
+//                    addNucleus( nucleus );
+//                }
+//            }
+//        }
     }
 
+    //----------------------------------------------------------------
+    // Extensions of superclass behavior
+    //----------------------------------------------------------------
+
+    /**
+     * Extends superclass behavior to recompute the launch parameters each time a neutron is fired
+     */
+    public void fireNeutron() {
+        computeNeutronLaunchParams();
+        super.fireNeutron();
+    }
 
     //----------------------------------------------------------------
     // Implementation of abstract methods
@@ -133,9 +156,11 @@ public class ControlledFissionModule extends ChainReactionModule {
         // Compute how we'll fire the neutron
         double bounds = 600 / getPhysicalPanel().getScale();
         neutronLaunchGamma = random.nextDouble() * Math.PI + Math.PI;
-        double x = bounds * Math.cos( neutronLaunchGamma );
-        double y = bounds * Math.sin( neutronLaunchGamma );
-        neutronLaunchPoint = new Point2D.Double( x, y );
+        do {
+            double x = vessel.getBounds().getMinX() + random.nextDouble() * vessel.getBounds().getWidth();
+            double y = vessel.getBounds().getMinY() + random.nextDouble() * vessel.getBounds().getHeight();
+            neutronLaunchPoint = new Point2D.Double( x, y );
+        } while( vessel.isInChannel( neutronLaunchPoint ) );
         neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
     }
 
@@ -160,12 +185,12 @@ public class ControlledFissionModule extends ChainReactionModule {
         do {
             overlapping = false;
 
-            // Generate a random location and test to see if it's acceptable
+// Generate a random location and test to see if it's acceptable
             double x = random.nextDouble() * ( modelBounds.getWidth() - 50 ) + modelBounds.getMinX() + 25;
             double y = random.nextDouble() * ( modelBounds.getHeight() - 50 ) + modelBounds.getMinY() + 25;
             location.setLocation( x, y );
 
-            // Check that the nucleus will not overlap an existing nucleus
+// Check that the nucleus will not overlap an existing nucleus
             for( int j = 0; j < getNuclei().size() && !overlapping; j++ ) {
                 //
             }
@@ -173,7 +198,7 @@ public class ControlledFissionModule extends ChainReactionModule {
             // Check that the nucleus won't overlap a channel, and will be inside the vessel
             Rectangle2D[] channels = vessel.getChannels();
             for( int i = 0; !overlapping && i < channels.length; i++ ) {
-                if( channels[i].contains( location ) || !vessel.contains( location )) {
+                if( channels[i].contains( location ) || !vessel.contains( location ) ) {
                     overlapping = true;
                 }
             }

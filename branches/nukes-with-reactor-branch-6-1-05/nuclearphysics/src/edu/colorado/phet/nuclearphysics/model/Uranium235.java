@@ -31,7 +31,7 @@ public class Uranium235 extends Nucleus {
     private boolean doMorph = false;
     private double jiggleOrgX;
 
-    public Uranium235( Point2D.Double position, BaseModel model ) {
+    public Uranium235( Point2D position, BaseModel model ) {
         super( position, 92, 143 );
         this.model = model;
         for( int i = 0; i < alphaParticles.length; i++ ) {
