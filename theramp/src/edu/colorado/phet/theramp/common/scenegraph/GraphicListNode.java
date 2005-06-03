@@ -21,5 +21,4 @@ public class GraphicListNode extends GraphicNode {
         return (AbstractGraphic[])children.toArray( new AbstractGraphic[0] );
     }
 
-
 }
