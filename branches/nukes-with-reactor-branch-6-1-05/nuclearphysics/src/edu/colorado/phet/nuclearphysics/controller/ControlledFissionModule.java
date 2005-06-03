@@ -12,12 +12,15 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ControlRodGroupGraphic;
 import edu.colorado.phet.nuclearphysics.view.VesselGraphic;
 import edu.colorado.phet.nuclearphysics.view.VesselBackgroundPanel;
 
 import java.awt.geom.*;
+import java.awt.*;
 
 /**
  * ControlledFissionModule
@@ -53,10 +56,14 @@ public class ControlledFissionModule extends ChainReactionModule {
     public ControlledFissionModule( AbstractClock clock ) {
         super( "Controlled Reaction", clock );
 
+
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setScale( SCALE );
         vesselWidth = refWidth / SCALE;
         vesselHeight = refHeight / SCALE;
+
+        // Set up the control panel
+        super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
 
         // Add the vessel
         vessel = new Vessel( -vesselWidth / 2,
@@ -173,13 +180,15 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     public void start() {
         computeNeutronLaunchParams();
+        createNuclei();
+        return;
     }
 
     /**
      * Computes where the neutron will be fired from, and in what direction
      */
     protected void computeNeutronLaunchParams() {
-        // Compute how we'll fire the neutron
+        // Find a location that's not within a channel in the vessel
         neutronLaunchGamma = random.nextDouble() * Math.PI + Math.PI;
         do {
             double x = vessel.getBounds().getMinX() + random.nextDouble() * vessel.getBounds().getWidth();
@@ -187,11 +196,25 @@ public class ControlledFissionModule extends ChainReactionModule {
             neutronLaunchPoint = new Point2D.Double( x, y );
         } while( vessel.isInChannel( neutronLaunchPoint ) );
 
+        // Fire the neutron toward the center of the vessel
         Point2D vesselCenter = new Point2D.Double( vessel.getX() + vessel.getWidth() / 2,
                                                    vessel.getY() + vessel.getHeight() / 2 );
-        neutronLaunchGamma = Math.atan2( vesselCenter.getX() - neutronLaunchPoint.getX(),
-                                         vesselCenter.getY() - neutronLaunchPoint.getY() );
+        neutronLaunchGamma = Math.atan2( vesselCenter.getY() - neutronLaunchPoint.getY(),
+                                         vesselCenter.getX() - neutronLaunchPoint.getX() );
         neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
+
+//        getPhysicalPanel().addOriginCenteredGraphic( new PhetShapeGraphic( getApparatusPanel(),
+//                                                                           new Rectangle2D.Double( neutronLaunchPoint.getX(),
+//                                                                                                   neutronLaunchPoint.getY(),
+//                                                                                                   50, 50 ),
+//                                                                           Color.red ),
+//                                                     1000 );
+//        getPhysicalPanel().addOriginCenteredGraphic( new PhetShapeGraphic( getApparatusPanel(),
+//                                                                           new Rectangle2D.Double( neutronLaunchPoint.getX() + Math.cos( neutronLaunchGamma ) * 300,
+//                                                                                              neutronLaunchPoint.getY() + Math.sin( neutronLaunchGamma ) * 300,
+//                                                                           20,20 ),
+//                                                                           Color.green ),
+//                                                     1000 );
     }
 
     protected Point2D.Double findLocationForNewNucleus() {
@@ -215,15 +238,10 @@ public class ControlledFissionModule extends ChainReactionModule {
         do {
             overlapping = false;
 
-// Generate a random location and test to see if it's acceptable
+            // Generate a random location and test to see if it's acceptable
             double x = random.nextDouble() * ( modelBounds.getWidth() - 50 ) + modelBounds.getMinX() + 25;
             double y = random.nextDouble() * ( modelBounds.getHeight() - 50 ) + modelBounds.getMinY() + 25;
             location.setLocation( x, y );
-
-// Check that the nucleus will not overlap an existing nucleus
-            for( int j = 0; j < getNuclei().size() && !overlapping; j++ ) {
-                //
-            }
 
             // Check that the nucleus won't overlap a channel, and will be inside the vessel
             Rectangle2D[] channels = vessel.getChannels();
@@ -232,7 +250,6 @@ public class ControlledFissionModule extends ChainReactionModule {
                     overlapping = true;
                 }
             }
-
             attempts++;
         } while( overlapping && attempts < s_maxPlacementAttempts );
 

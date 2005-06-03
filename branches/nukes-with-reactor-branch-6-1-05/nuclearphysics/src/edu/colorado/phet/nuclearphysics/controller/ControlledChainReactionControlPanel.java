@@ -24,7 +24,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.Random;
 
-public class MultipleNucleusFissionControlPanel extends JPanel {
+public class ControlledChainReactionControlPanel extends JPanel {
 
     //
     // Static fields and methods
@@ -36,19 +36,20 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
     //
     // Instance fields and methods
     //
-    private MultipleNucleusFissionModule module;
+    private ChainReactionModule module;
+//    private MultipleNucleusFissionModule module;
     private JSpinner numU235Spinner;
     private JSpinner numU238Spinner;
     private JTextField percentDecayTF;
     private int startNumU235;
 
-    public MultipleNucleusFissionControlPanel( final MultipleNucleusFissionModule module ) {
+    public ControlledChainReactionControlPanel( final ChainReactionModule module ) {
         super();
         this.module = module;
 
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                SwingUtilities.getWindowAncestor( MultipleNucleusFissionControlPanel.this ).validate();
+                SwingUtilities.getWindowAncestor( ControlledChainReactionControlPanel.this ).validate();
             }
         } );
 
@@ -131,41 +132,35 @@ public class MultipleNucleusFissionControlPanel extends JPanel {
         percentDecayTF.setBackground( Color.white );
 
 
-        final JCheckBox containmentCB = new JCheckBox( SimStrings.get( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" ) );
-        containmentCB.setForeground( Color.white );
-        containmentCB.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.setContainmentEnabled( containmentCB.isSelected() );
-            }
-        } );
-
         // Layout the panel
         setLayout( new GridBagLayout() );
-        GridBagConstraints gbcLeft = new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.EAST,
+        GridBagConstraints gbcLeft = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                             1, 1, 1, 1,
+                                                             GridBagConstraints.EAST,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 5, 5, 5, 5 ), 5, 5 );
         GridBagConstraints gbcRight = new GridBagConstraints( 1, 0, 1, 1, 1, 1, GridBagConstraints.WEST,
                                                               GridBagConstraints.NONE,
                                                               new Insets( 5, 5, 5, 5 ), 5, 5 );
-        GridBagConstraints gbcCenter = new GridBagConstraints( 0, 0, 2, 1, 1, 1, GridBagConstraints.CENTER,
+        GridBagConstraints gbcCenter = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                               2, 1, 1, 1, GridBagConstraints.CENTER,
                                                                GridBagConstraints.NONE,
                                                                new Insets( 5, 5, 5, 5 ), 5, 5 );
-        add( containmentCB, gbcCenter );
-        gbcLeft.gridy = 1;
-        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.235ULabel" ) ), gbcLeft );
-        gbcRight.gridy = 1;
-        add( numU235Spinner, gbcRight );
-        gbcLeft.gridy = 2;
-        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.238ULabel" ) ), gbcLeft );
-        gbcRight.gridy = 2;
-        add( numU238Spinner, gbcRight );
-        gbcLeft.gridy = 3;
-        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.FissionPercentLabel" ) ), gbcLeft );
-        gbcRight.gridy = 3;
-        add( percentDecayTF, gbcRight );
-        gbcCenter.gridy = 4;
+//        gbcLeft.gridy = 1;
+//        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.235ULabel" ) ), gbcLeft );
+//        gbcRight.gridy = 1;
+//        add( numU235Spinner, gbcRight );
+//        gbcLeft.gridy = 2;
+//        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.238ULabel" ) ), gbcLeft );
+//        gbcRight.gridy = 2;
+//        add( numU238Spinner, gbcRight );
+//        gbcLeft.gridy = 3;
+//        add( new JLabel( SimStrings.get( "MultipleNucleusFissionControlPanel.FissionPercentLabel" ) ), gbcLeft );
+//        gbcRight.gridy = 3;
+//        add( percentDecayTF, gbcRight );
+//        gbcCenter.gridy = 4;
         add( fireNeutronBtn, gbcCenter );
-        gbcCenter.gridy = 5;
+//        gbcCenter.gridy = 5;
         add( resetBtn, gbcCenter );
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "MultipleNucleusFissionControlPanel.ControlBorder" ) );

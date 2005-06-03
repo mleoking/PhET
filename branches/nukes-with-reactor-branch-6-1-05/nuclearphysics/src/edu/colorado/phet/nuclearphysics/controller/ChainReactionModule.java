@@ -37,8 +37,6 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     protected ArrayList u238Nuclei = new ArrayList();
     protected ArrayList u239Nuclei = new ArrayList();
     protected ArrayList neutrons = new ArrayList();
-    private long orgDelay;
-    private double orgDt;
     protected double neutronLaunchGamma;
     protected Point2D.Double neutronLaunchPoint;
     protected Line2D.Double neutronPath;
@@ -48,7 +46,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setScale( 0.5 );
-        super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
+//        super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
 
         // Add a model element that watches for collisions between neutrons and
         // U235 nuclei
@@ -95,52 +93,8 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
     }
 
-    public void stop() {
-
-        // The class should be re-written so that everything is taken care
-        // of by the nuclei list, and the others don't need to be iterated
-        // here
-        for( int i = 0; i < nuclei.size(); i++ ) {
-            removeNucleus( (Nucleus)nuclei.get( i ) );
-        }
-        for( int i = 0; i < u235Nuclei.size(); i++ ) {
-            removeNucleus( (Nucleus)u235Nuclei.get( i ) );
-        }
-        for( int i = 0; i < u238Nuclei.size(); i++ ) {
-            removeNucleus( (Nucleus)u238Nuclei.get( i ) );
-        }
-        for( int i = 0; i < u239Nuclei.size(); i++ ) {
-            removeNucleus( (Nucleus)u239Nuclei.get( i ) );
-        }
-        for( int i = 0; i < neutrons.size(); i++ ) {
-            Neutron neutron = (Neutron)neutrons.get( i );
-            getModel().removeModelElement( neutron );
-        }
-        nuclei.clear();
-        neutrons.clear();
-        u239Nuclei.clear();
-        u235Nuclei.clear();
-        u238Nuclei.clear();
-    }
-
     protected Line2D.Double getNeutronPath() {
         return neutronPath;
-    }
-
-    public void activate( PhetApplication app ) {
-        super.activate( app );
-        orgDelay = getClock().getDelay();
-        orgDt = getClock().getDt();
-        getClock().setDelay( 10 );
-        getClock().setDt( orgDt * 0.6 );
-        this.start();
-    }
-
-    public void deactivate( PhetApplication app ) {
-        super.deactivate( app );
-        getClock().setDelay( (int)( orgDelay ) );
-        getClock().setDt( orgDt );
-        this.stop();
     }
 
     public ArrayList getNuclei() {
@@ -254,4 +208,30 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     // TODO: clean up when refactoring is done
     public abstract void setContainmentEnabled( boolean b );
 
+    public void stop() {
+        // The class should be re-written so that everything is taken care
+        // of by the nuclei list, and the others don't need to be iterated
+        // here
+        for( int i = 0; i < nuclei.size(); i++ ) {
+            removeNucleus( (Nucleus)nuclei.get( i ) );
+        }
+        for( int i = 0; i < u235Nuclei.size(); i++ ) {
+            removeNucleus( (Nucleus)u235Nuclei.get( i ) );
+        }
+        for( int i = 0; i < u238Nuclei.size(); i++ ) {
+            removeNucleus( (Nucleus)u238Nuclei.get( i ) );
+        }
+        for( int i = 0; i < u239Nuclei.size(); i++ ) {
+            removeNucleus( (Nucleus)u239Nuclei.get( i ) );
+        }
+        for( int i = 0; i < neutrons.size(); i++ ) {
+            Neutron neutron = (Neutron)neutrons.get( i );
+            getModel().removeModelElement( neutron );
+        }
+        nuclei.clear();
+        neutrons.clear();
+        u239Nuclei.clear();
+        u235Nuclei.clear();
+        u238Nuclei.clear();
+    }
 }

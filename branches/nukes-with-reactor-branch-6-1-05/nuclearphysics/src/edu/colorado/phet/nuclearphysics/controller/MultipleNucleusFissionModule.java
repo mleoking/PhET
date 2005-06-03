@@ -9,10 +9,8 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.nuclearphysics.model.Containment;
-import edu.colorado.phet.nuclearphysics.model.FissionProducts;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 
 import java.awt.*;
@@ -23,14 +21,16 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
 
     private Containment containment;
     private ContainmentGraphic containmentGraphic;
+    private long orgDelay;
+    private double orgDt;
 
     public MultipleNucleusFissionModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleNucleusFissionModule" ), clock );
 
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setScale( 0.5 );
-//        super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
-//
+        super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
+
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 if( MultipleNucleusFissionModule.this.neutronToAdd != null ) {
@@ -275,5 +275,21 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
             u238Nuclei.remove( nucleus );
             u239Nuclei.remove( nucleus );
         }
+    }
+
+    public void deactivate( PhetApplication app ) {
+        super.deactivate( app );
+        getClock().setDelay( (int)( orgDelay ) );
+        getClock().setDt( orgDt );
+        this.stop();
+    }
+
+    public void activate( PhetApplication app ) {
+        super.activate( app );
+        orgDelay = getClock().getDelay();
+        orgDt = getClock().getDt();
+        getClock().setDelay( 10 );
+        getClock().setDt( orgDt * 0.6 );
+        this.start();
     }
 }
