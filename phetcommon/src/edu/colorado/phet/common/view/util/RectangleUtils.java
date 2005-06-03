@@ -123,4 +123,26 @@ public class RectangleUtils {
         }
         return union;
     }
+
+    public static Rectangle2D union( Rectangle2D[] rectangles ) {
+        if( rectangles.length == 0 ) {
+            return null;
+        }
+        Rectangle2D.Double union = null;//new Rectangle( rectangles[0] );
+        for( int i = 0; i < rectangles.length; i++ ) {
+            Rectangle2D rectangle = rectangles[i];
+            if( rectangle != null ) {
+                if( union == null ) {
+                    union = new Rectangle2D.Double( rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight() );
+                }
+                else {
+                    Rectangle2D.union( union, rectangle, union );
+//                    union = union.union( rectangle.getX(),rectangle.getY(),rectangle.getWidth(),rectangle.getHeight() );
+                }
+            }
+
+        }
+        return union;
+    }
+
 }
