@@ -37,11 +37,11 @@ public class ControlRodGraphic extends PhetShapeGraphic implements ControlRod.Ch
     }
 
     public void update() {
-        Shape rodShape = controlRod.getShape();
-        shape.setRect( rodShape.getBounds().getLocation().getX(),
-                       rodShape.getBounds().getLocation().getY(),
-                       rodShape.getBounds().getWidth(),
-                       rodShape.getBounds().getHeight() );
+        Shape rod = controlRod.getShape();
+        shape.setRect( rod.getBounds().getLocation().getX(),
+                       rod.getBounds().getLocation().getY(),
+                       rod.getBounds().getWidth(),
+                       rod.getBounds().getHeight() );
         setBoundsDirty();
         repaint();
     }

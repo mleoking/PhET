@@ -28,8 +28,8 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     public MultipleNucleusFissionModule( AbstractClock clock ) {
         super( SimStrings.get( "ModuleTitle.MultipleNucleusFissionModule" ), clock );
 
-//        // set the scale of the physical panel so we can fit more nuclei in it
-//        getPhysicalPanel().setScale( 0.5 );
+        // set the scale of the physical panel so we can fit more nuclei in it
+        getPhysicalPanel().setScale( 0.5 );
 //        super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
 //
         getModel().addModelElement( new ModelElement() {

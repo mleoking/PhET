@@ -28,10 +28,16 @@ public class Vessel {
     private Rectangle2D boundary;
 
     private int numChannels = 5;
-    private double channelThickness = 20;
+    private double channelThickness = 100;
     private Rectangle2D[] rodChannels = new Rectangle2D[numChannels];
 
-
+    /**
+     *
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
     public Vessel( double x, double y, double width, double height ) {
         boundary = new Rectangle2D.Double( x, y, width, height );
         for( int i = 0; i < rodChannels.length; i++ ) {

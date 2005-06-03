@@ -10,15 +10,16 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
-import edu.colorado.phet.mechanics.Body;
 import edu.colorado.phet.coreadditions.EventChannel;
+import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
+import edu.colorado.phet.common.model.ModelElement;
 
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.*;
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
+import java.util.List;
 
 /**
  * ControlRod
@@ -26,13 +27,15 @@ import java.util.EventListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ControlRod {
+public class ControlRod implements ModelElement {
     private Rectangle2D.Double rep = new Rectangle2D.Double();
     private int orientation;
     private double thickness;
+    private NuclearPhysicsModel model;
 
-    public ControlRod( Point2D p1, Point2D p2, double thickness ) {
+    public ControlRod( Point2D p1, Point2D p2, double thickness, NuclearPhysicsModel model ) {
 
+        this.model = model;
         this.thickness = thickness;
         // Is the rod horizontal?
         if( p1.getY() == p2.getY() ) {
@@ -96,6 +99,17 @@ public class ControlRod {
         changeEventChannel.removeListener( listener );
     }
 
+    public double getLength() {
+        double result = 0;
+        if( orientation == ControlledFissionModule.VERTICAL ) {
+            result = getBounds().getHeight();
+        }
+        if( orientation == ControlledFissionModule.HORIZONTAL ) {
+            result = getBounds().getWidth();
+        }
+        return result;
+    }
+
     public class ChangeEvent extends EventObject {
         public ChangeEvent( Object source ) {
             super( source );
@@ -110,4 +124,20 @@ public class ControlRod {
         void changed( ChangeEvent event );
     }
 
+    //----------------------------------------------------------------
+    // Implementation of ModelElement
+    //----------------------------------------------------------------
+
+    public void stepInTime( double v ) {
+        List modelElements = model.getNuclearModelElements();
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            Object obj = modelElements.get( i );
+            if( obj instanceof Neutron ) {
+                Neutron neutron = (Neutron)obj;
+                if( this.getBounds().contains( neutron.getPosition()) ) {
+                    model.removeModelElement( neutron );
+                }
+            }
+        }
+    }
 }

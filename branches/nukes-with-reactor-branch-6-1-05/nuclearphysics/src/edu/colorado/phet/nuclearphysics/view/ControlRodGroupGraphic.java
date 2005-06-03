@@ -14,16 +14,15 @@ import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.model.ControlRod;
 import edu.colorado.phet.nuclearphysics.model.Vessel;
-import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * ControlRodGroupGraphic
@@ -37,6 +36,8 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
     private Vessel vessel;
     private PhysicalPanel panel;
     private AffineTransform atx;
+    private AffineTransform invAtx;
+    private double rodLength;
 
     public ControlRodGroupGraphic( Component component, ControlRod[] controlRods, Vessel vessel, AffineTransform atx ) {
         super( null );
@@ -44,6 +45,7 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
         this.vessel = vessel;
         this.atx = atx;
         rep = new Rep( component, controlRods );
+        this.rodLength = controlRods[0].getLength();
         setBoundedGraphic( rep );
         addCursorHandBehavior();
         addTranslationBehavior( new Translator() );
@@ -51,7 +53,7 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
     }
 
     /**
-     *  Must be overridden because of the transform used to center the graphic
+     * Must be overridden because of the transform used to center the graphic
      *
      * @param i
      * @param i1
@@ -59,12 +61,17 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
      */
     public boolean contains( int i, int i1 ) {
         Point2D p = new Point2D.Double( i, i1 );
-        try {
-            atx.inverseTransform( p, p );
+        // Note: if we try to do this in the constructor, atx doesn't work because it is the identity
+        // matrix at that time
+        if( invAtx == null ) {
+            try {
+                this.invAtx = atx.createInverse();
+            }
+            catch( NoninvertibleTransformException e ) {
+                e.printStackTrace();
+            }
         }
-        catch( NoninvertibleTransformException e ) {
-            e.printStackTrace();
-        }
+        invAtx.transform( p, p );
         return super.contains( (int)p.getX(), (int)p.getY() );
     }
 
@@ -127,6 +134,7 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
 
         /**
          * Constrains the translation of the graphic to not go too far into the vessel
+         *
          * @param dx
          * @param dy
          */
@@ -134,12 +142,15 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
             switch( orientation ) {
                 case ControlledFissionModule.HORIZONTAL:
                     dy = 0;
-                    if( rep.location.getX() + dx <= vessel.getX() + vessel.getWidth() ) {
+                    if( rep.location.getX() + dx <= vessel.getX() + rodLength ) {
                         dx = 0;
                     }
                 case ControlledFissionModule.VERTICAL:
                     dx = 0;
-                    if( rep.location.getY() + dy <= vessel.getY() + vessel.getHeight() ) {
+                    if( dy < 0 && rep.location.getY() + dy <= vessel.getY() + rodLength ) {
+                        dy = 0;
+                    }
+                    if( dy > 0 && rep.location.getY() + dy >= vessel.getY() + rodLength * 2 ) {
                         dy = 0;
                     }
             }

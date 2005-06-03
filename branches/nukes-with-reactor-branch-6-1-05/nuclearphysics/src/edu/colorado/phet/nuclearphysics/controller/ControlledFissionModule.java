@@ -28,9 +28,16 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     public static final int VERTICAL = 1, HORIZONTAL = 2;
 
-    private Vessel vessel;
     private static final double VESSEL_LAYER = 100;
     private static final double CONTROL_ROD_LAYER = VESSEL_LAYER - 1;
+    private static final double refWidth = 600;
+    private static final double refHeight = 200;
+
+    private double vesselWidth = 4000;
+    private double vesselHeight = 1500;
+    private Vessel vessel;
+    private int nCols = 20;
+    private double scale = 0.2;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -44,9 +51,13 @@ public class ControlledFissionModule extends ChainReactionModule {
     public ControlledFissionModule( AbstractClock clock ) {
         super( "Controlled Reaction", clock );
 
+        // set the scale of the physical panel so we can fit more nuclei in it
+        getPhysicalPanel().setScale( scale );
+        vesselWidth = refWidth / scale;
+        vesselHeight = refHeight / scale;
+
         // Add the chamber
-        vessel = new Vessel( -500, -600, 1000, 800 );
-//        vessel = new Vessel( 100, 100, 600, 400 );
+        vessel = new Vessel( -vesselWidth / 2, -vesselHeight, vesselWidth, vesselHeight );
         VesselGraphic vesselGraphic = new VesselGraphic( getPhysicalPanel(), vessel );
         getPhysicalPanel().addOriginCenteredGraphic( vesselGraphic, VESSEL_LAYER );
 
@@ -60,6 +71,8 @@ public class ControlledFissionModule extends ChainReactionModule {
 
         // Add a thermometer
 
+        // Create the nuclei
+        createNuclei();
     }
 
     /**
@@ -71,18 +84,42 @@ public class ControlledFissionModule extends ChainReactionModule {
      */
     private ControlRod[] createControlRods( int orientation, Vessel vessel ) {
         ControlRod[] rods = new ControlRod[vessel.getNumControlRodChannels()];
+        NuclearPhysicsModel model = (NuclearPhysicsModel)getModel();
         if( orientation == VERTICAL ) {
             Rectangle2D[] channels = vessel.getChannels();
             for( int i = 0; i < channels.length; i++ ) {
                 Rectangle2D channel = channels[i];
-                rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
+                rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth()) / 2,
                                                               channel.getMinY() ),
                                           new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
-                                                              channel.getMaxY() ), 15 );
+                                                              channel.getMaxY() ), channel.getWidth(),
+                                          model );
+                model.addModelElement( rods[i]);
             }
         }
         return rods;
     }
+
+    /**
+     *
+     */
+    protected void createNuclei( ) {
+        double xSpacing = vessel.getWidth() / ( nCols + 1 );
+
+        double ySpacing = xSpacing;
+        int nRows = (int)( ( vessel.getHeight() / ySpacing ) - 1 );
+
+        for( int i = 0; i < nCols; i++ ) {
+            double x = vessel.getX() + ( xSpacing * ( i + 1) );
+            for( int j = 0; j < nRows; j++ ) {
+                double y = vessel.getY() + ( ySpacing * ( j + 1 ));
+                Nucleus nucleus = new Uranium235( new Point2D.Double( x, y ), getModel() );
+                u235Nuclei.add( nucleus );
+                addNucleus( nucleus );
+            }
+        }
+    }
+
 
     //----------------------------------------------------------------
     // Implementation of abstract methods
@@ -95,7 +132,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     protected void computeNeutronLaunchParams() {
         // Compute how we'll fire the neutron
         double bounds = 600 / getPhysicalPanel().getScale();
-        neutronLaunchGamma = random.nextDouble() * Math.PI * 2;
+        neutronLaunchGamma = random.nextDouble() * Math.PI + Math.PI;
         double x = bounds * Math.cos( neutronLaunchGamma );
         double y = bounds * Math.sin( neutronLaunchGamma );
         neutronLaunchPoint = new Point2D.Double( x, y );
@@ -121,42 +158,26 @@ public class ControlledFissionModule extends ChainReactionModule {
         Point2D.Double location = new Point2D.Double();
         int attempts = 0;
         do {
-            // If there is already a nucleus at (0,0), then generate a random location
-            boolean centralNucleusExists = false;
-            if( !centralNucleusExists ) {
-//            for( int i = 0; i < getNuclei().size() && !centralNucleusExists; i++ ) {
-                Nucleus testNucleus = new Uranium235( new Point2D.Double( ), getModel() );
-//                Nucleus testNucleus = (Nucleus)getNuclei().get( i );
-                if( testNucleus.getPosition().getX() == 0 && testNucleus.getPosition().getY() == 0 ) {
-                    centralNucleusExists = true;
-                }
-            }
-            overlapping = !centralNucleusExists;
+            overlapping = false;
 
             // Generate a random location and test to see if it's acceptable
-            double x = centralNucleusExists ? random.nextDouble() * ( modelBounds.getWidth() - 50 ) + modelBounds.getMinX() + 25 : 0;
-            double y = centralNucleusExists ? random.nextDouble() * ( modelBounds.getHeight() - 50 ) + modelBounds.getMinY() + 25 : 0;
+            double x = random.nextDouble() * ( modelBounds.getWidth() - 50 ) + modelBounds.getMinX() + 25;
+            double y = random.nextDouble() * ( modelBounds.getHeight() - 50 ) + modelBounds.getMinY() + 25;
             location.setLocation( x, y );
+
+            // Check that the nucleus will not overlap an existing nucleus
             for( int j = 0; j < getNuclei().size() && !overlapping; j++ ) {
-                Rectangle2D[] channels = vessel.getChannels();
-                for( int i = 0; !overlapping && i < channels.length; i++ ) {
-                    Rectangle2D channel = channels[i];
-                    System.out.println( "vessel.contains( location ) = " + vessel.contains( location ) );
-                    if( channel.contains( location ) || !vessel.contains( location )) {
-                        overlapping = true;
-                    }
+                //
+            }
+
+            // Check that the nucleus won't overlap a channel, and will be inside the vessel
+            Rectangle2D[] channels = vessel.getChannels();
+            for( int i = 0; !overlapping && i < channels.length; i++ ) {
+                if( channels[i].contains( location ) || !vessel.contains( location )) {
+                    overlapping = true;
                 }
             }
 
-            // Test that the new location won't put the nucleus on the path of the neutron that will
-            // be fired to start the reaction
-            // todo: the hard-coded 50 here should be replaced with the radius of a Uranium nucleus
-            if( !overlapping ) {
-//            if( location.getX() != 0 && location.getY() != 0 ) {
-                overlapping = overlapping
-                              || getNeutronPath().ptSegDist( location ) < 50;
-//                              || location.distance( 0, 0 ) + 50 > bounds.getBounds2D().getWidth() / 2;
-            }
             attempts++;
         } while( overlapping && attempts < s_maxPlacementAttempts );
 
