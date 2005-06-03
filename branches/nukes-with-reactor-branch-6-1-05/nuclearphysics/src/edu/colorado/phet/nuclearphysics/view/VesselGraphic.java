@@ -13,6 +13,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.nuclearphysics.model.Vessel;
+import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -24,22 +25,19 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class VesselGraphic extends CompositePhetGraphic {
-//public class VesselGraphic extends PhetShapeGraphic {
-    private static float wallThickness = 10;
+    private static double wallThickness = 10 / ControlledFissionModule.SCALE;
+    private Color backgroundColor = new Color( 180, 180, 180 );
     private Vessel vessel;
 
     public VesselGraphic( Component component, Vessel vessel ) {
         super( component );
         this.vessel = vessel;
-//        super( component, new Rectangle2D.Double( vessel.getX() - wallThickness,
-//                                                  vessel.getY() - wallThickness,
-//                                                  vessel.getWidth(), vessel.getHeight() ),
-//               new BasicStroke( wallThickness ), Color.black );
         PhetShapeGraphic boundary = new PhetShapeGraphic( component,
                                                           new Rectangle2D.Double( vessel.getX() - wallThickness,
                                                                                   vessel.getY() - wallThickness,
                                                                                   vessel.getWidth(), vessel.getHeight() ),
-                                                          new BasicStroke( wallThickness ), Color.black );
+                                                          new BasicStroke( 10 ), Color.black );
+//                                                          new BasicStroke( (float)wallThickness ), Color.black );
         addGraphic( boundary );
         Rectangle2D[] channels = vessel.getChannels();
         for( int i = 0; i < channels.length; i++ ) {

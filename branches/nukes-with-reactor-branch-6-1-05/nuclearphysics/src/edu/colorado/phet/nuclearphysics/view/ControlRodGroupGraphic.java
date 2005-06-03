@@ -154,7 +154,7 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
                         dy = 0;
                     }
             }
-            // Have to account for the scale of the affine transform before telling the model element to move
+            // Have to account for the SCALE of the affine transform before telling the model element to move
             rep.translate( dx / atx.getScaleX(), dy / atx.getScaleY() );
         }
     }

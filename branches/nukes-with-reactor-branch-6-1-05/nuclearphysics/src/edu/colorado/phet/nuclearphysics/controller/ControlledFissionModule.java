@@ -11,11 +11,12 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ControlRodGroupGraphic;
 import edu.colorado.phet.nuclearphysics.view.VesselGraphic;
+import edu.colorado.phet.nuclearphysics.view.VesselBackgroundPanel;
 
-import java.awt.*;
 import java.awt.geom.*;
 
 /**
@@ -27,6 +28,7 @@ import java.awt.geom.*;
 public class ControlledFissionModule extends ChainReactionModule {
 
     public static final int VERTICAL = 1, HORIZONTAL = 2;
+    public static double SCALE = 0.2;
 
     private static final double VESSEL_LAYER = 100;
     private static final double CONTROL_ROD_LAYER = VESSEL_LAYER - 1;
@@ -38,7 +40,6 @@ public class ControlledFissionModule extends ChainReactionModule {
     private int numChannels = 5;
     private Vessel vessel;
     private int nCols = 20;
-    private double scale = 0.2;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -52,13 +53,20 @@ public class ControlledFissionModule extends ChainReactionModule {
     public ControlledFissionModule( AbstractClock clock ) {
         super( "Controlled Reaction", clock );
 
-        // set the scale of the physical panel so we can fit more nuclei in it
-        getPhysicalPanel().setScale( scale );
-        vesselWidth = refWidth / scale;
-        vesselHeight = refHeight / scale;
+        // set the SCALE of the physical panel so we can fit more nuclei in it
+        getPhysicalPanel().setScale( SCALE );
+        vesselWidth = refWidth / SCALE;
+        vesselHeight = refHeight / SCALE;
 
-        // Add the chamber
-        vessel = new Vessel( -vesselWidth / 2, -vesselHeight, vesselWidth, vesselHeight, numChannels );
+        // Add the vessel
+        vessel = new Vessel( -vesselWidth / 2,
+                             -vesselHeight,
+                             vesselWidth,
+                             vesselHeight,
+                             numChannels,
+                             (NuclearPhysicsModel)getModel(),
+                             clock );
+        getModel().addModelElement( vessel );
         VesselGraphic vesselGraphic = new VesselGraphic( getPhysicalPanel(), vessel );
         getPhysicalPanel().addOriginCenteredGraphic( vesselGraphic, VESSEL_LAYER );
 
@@ -69,6 +77,10 @@ public class ControlledFissionModule extends ChainReactionModule {
                                                                                     vessel,
                                                                                     getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( controlRodGroupGraphic, CONTROL_ROD_LAYER );
+
+        // Add a background to the vessel that will change color with the energy being produced by the reaction
+        VesselBackgroundPanel vesselBackgroundPanel = new VesselBackgroundPanel( getApparatusPanel(), vessel );
+        getPhysicalPanel().addOriginCenteredGraphic( vesselBackgroundPanel, ApparatusPanel.LAYER_DEFAULT - 1 );
 
         // Add a thermometer
 
@@ -102,7 +114,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     }
 
     /**
-     *
+     * Puts nuclei in the vessel on a grid laid out by the vessel.
      */
     protected void createNuclei() {
         Point2D[] locations = vessel.getInitialNucleusLocations( nCols );
@@ -111,25 +123,11 @@ public class ControlledFissionModule extends ChainReactionModule {
             Nucleus nucleus = new Uranium235( location, getModel() );
             u235Nuclei.add( nucleus );
             addNucleus( nucleus );
-        }
 
-//        double xSpacing = vessel.getWidth() / ( nCols + 1 );
-//
-//        double ySpacing = xSpacing;
-//        int nRows = (int)( ( vessel.getHeight() / ySpacing ) - 1 );
-//
-//        for( int i = 0; i < nCols; i++ ) {
-//            double x = vessel.getX() + ( xSpacing * ( i + 1 ) );
-//            for( int j = 0; j < nRows; j++ ) {
-//                double y = vessel.getY() + ( ySpacing * ( j + 1 ) );
-//                Point2D.Double position = new Point2D.Double( x, y );
-//                if( !vessel.isInChannel( position ) ) {
-//                    Nucleus nucleus = new Uranium235( position, getModel() );
-//                    u235Nuclei.add( nucleus );
-//                    addNucleus( nucleus );
-//                }
-//            }
-//        }
+            // Add listeners to the nucleus for when it fissions
+            nucleus.addFissionListener( this );
+            nucleus.addFissionListener( vessel );
+        }
     }
 
     //----------------------------------------------------------------
@@ -144,6 +142,31 @@ public class ControlledFissionModule extends ChainReactionModule {
         super.fireNeutron();
     }
 
+    /**
+     * Prevents the fission products from flying apart by setting their positions and setting their
+     * velocities to 0 before calling the parent class behavior
+     *
+     * @param products
+     */
+    public void fission( FissionProducts products ) {
+        double nominalDisplacement = 150;
+        double displacement = nominalDisplacement * SCALE;
+        double theta = random.nextDouble() * Math.PI * 2;
+        double dx = displacement * Math.sin( theta );
+        double dy = displacement * Math.cos( theta );
+        products.getDaughter1().setPosition( products.getParent().getPosition().getX() + dx,
+                                             products.getParent().getPosition().getY() + dy );
+        products.getDaughter2().setPosition( products.getParent().getPosition().getX() - dx,
+                                             products.getParent().getPosition().getY() - dy );
+//        products.getDaughter1().setPosition( products.getDaughter1().getPosition().getX() + dx,
+//                                             products.getDaughter1().getPosition().getY() + dy );
+//        products.getDaughter2().setPosition( products.getDaughter2().getPosition().getX() - dx,
+//                                             products.getDaughter2().getPosition().getY() - dy );
+        products.getDaughter1().setVelocity( 0, 0 );
+        products.getDaughter2().setVelocity( 0, 0 );
+        super.fission( products );
+    }
+
     //----------------------------------------------------------------
     // Implementation of abstract methods
     //----------------------------------------------------------------
@@ -152,15 +175,22 @@ public class ControlledFissionModule extends ChainReactionModule {
         computeNeutronLaunchParams();
     }
 
+    /**
+     * Computes where the neutron will be fired from, and in what direction
+     */
     protected void computeNeutronLaunchParams() {
         // Compute how we'll fire the neutron
-        double bounds = 600 / getPhysicalPanel().getScale();
         neutronLaunchGamma = random.nextDouble() * Math.PI + Math.PI;
         do {
             double x = vessel.getBounds().getMinX() + random.nextDouble() * vessel.getBounds().getWidth();
             double y = vessel.getBounds().getMinY() + random.nextDouble() * vessel.getBounds().getHeight();
             neutronLaunchPoint = new Point2D.Double( x, y );
         } while( vessel.isInChannel( neutronLaunchPoint ) );
+
+        Point2D vesselCenter = new Point2D.Double( vessel.getX() + vessel.getWidth() / 2,
+                                                   vessel.getY() + vessel.getHeight() / 2 );
+        neutronLaunchGamma = Math.atan2( vesselCenter.getX() - neutronLaunchPoint.getX(),
+                                         vesselCenter.getY() - neutronLaunchPoint.getY() );
         neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
     }
 

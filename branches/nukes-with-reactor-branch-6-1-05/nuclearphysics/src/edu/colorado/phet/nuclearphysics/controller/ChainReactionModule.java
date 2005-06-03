@@ -46,7 +46,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     public ChainReactionModule( String name, AbstractClock clock ) {
         super( name, clock );
 
-        // set the scale of the physical panel so we can fit more nuclei in it
+        // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setScale( 0.5 );
         super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
 
@@ -199,12 +199,11 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
     public void removeNucleus( Nucleus nucleus ) {
         nuclei.remove( nucleus );
-        //        getPhysicalPanel().removeNucleus( nucleus );
         getModel().removeModelElement( nucleus );
     }
 
     public void fireNeutron() {
-        Neutron neutron = new Neutron( neutronLaunchPoint, neutronLaunchGamma + Math.PI );
+        Neutron neutron = new Neutron( neutronLaunchPoint, neutronLaunchGamma );
         neutrons.add( neutron );
         addNeutron( neutron );
     }

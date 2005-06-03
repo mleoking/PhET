@@ -10,13 +10,19 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
+import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.coreadditions.EventChannel;
+import edu.colorado.phet.coreadditions.ScalarDataRecorder;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.List;
 
 /**
  * Vessel
@@ -26,10 +32,15 @@ import java.util.Arrays;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class Vessel {
+public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder.UpdateListener {
+
+    public static final double MAX_TEMPERATURE = 0.5;
+
     private Rectangle2D boundary;
     private double channelThickness = 100;
     private Rectangle2D[] rodChannels;
+    private NuclearPhysicsModel model;
+    private ScalarDataRecorder temperatureRecorder;
 
     /**
      * @param x
@@ -37,14 +48,18 @@ public class Vessel {
      * @param width
      * @param height
      */
-    public Vessel( double x, double y, double width, double height, int numChannels ) {
-        rodChannels = new Rectangle2D[numChannels];
-        boundary = new Rectangle2D.Double( x, y, width, height );
+    public Vessel( double x, double y, double width, double height, int numChannels,
+                   NuclearPhysicsModel model,  AbstractClock clock ) {
+        this.model = model;
+        this.temperatureRecorder = new ScalarDataRecorder( clock, 50, 500 );
+        temperatureRecorder.addUpdateListener( this );
+        this.rodChannels = new Rectangle2D[numChannels];
+        this.boundary = new Rectangle2D.Double( x, y, width, height );
+        int orientation = ControlledFissionModule.VERTICAL;
+        double spacing = ( getWidth() + channelThickness ) / ( numChannels + 1 );
         for( int i = 0; i < rodChannels.length; i++ ) {
-            int orientation = ControlledFissionModule.VERTICAL;
             if( orientation == ControlledFissionModule.VERTICAL ) {
-                double spacing = getWidth() / ( numChannels + 1 );
-                double channelX = getX() + spacing * ( i + 1 );
+                double channelX = ( getX() - channelThickness ) + ( spacing * ( i + 1 ) );
                 double channelY = getY();
                 rodChannels[i] = new Rectangle2D.Double( channelX - channelThickness / 2, channelY,
                                                          channelThickness, getHeight() );
@@ -140,7 +155,8 @@ public class Vessel {
 
         // Get the width of the area and the spacing between columns, the spacing between rows,
         // and the number of rows
-        double areaWidth = ( this.getWidth() - ( rodChannels.length * channelThickness ) ) / nInterChannelAreas;
+        double areaWidth = rodChannels[0].getMinX() - getX();
+//        double areaWidth = ( this.getWidth() - ( rodChannels.length * channelThickness ) ) / nInterChannelAreas;
         double colSpacing = areaWidth / ( nColsPerArea + 1 );
         double rowSpacing = colSpacing;
         int nRows = (int)( getHeight() / rowSpacing ) - 1;
@@ -158,5 +174,89 @@ public class Vessel {
             }
         }
         return (Point2D[])locations.toArray( new Point2D[locations.size()] );
+    }
+
+    /**
+     * Absorbs neutrons that get into the wals of the vessel
+     * <p>
+     * Implements ModelElement
+     * @param v
+     */
+    public void stepInTime( double v ) {
+        List modelElements = model.getNuclearModelElements();
+        for( int i = 0; i < modelElements.size(); i++ ) {
+            ModelElement modelElement = (ModelElement)modelElements.get( i );
+            if( modelElement instanceof Neutron ) {
+                Neutron neutron = (Neutron)modelElement;
+                if( !this.contains( neutron.getPosition() )) {
+                    model.removeModelElement( neutron );
+                }
+            }
+        }
+    }
+
+    //----------------------------------------------------------------
+    // Temperature
+    //----------------------------------------------------------------
+
+    /**
+     * Updates the temperature recorde with a fission event
+     * <p>
+     * Implements FissionListener
+     * @param products
+     */
+    public void fission( FissionProducts products ) {
+        temperatureRecorder.addDataRecordEntry( 1 );
+    }
+
+    /**
+     * Returns the temperature in the vessel.
+     * <p>
+     * Temperature is determined as the number of fission events per unit time
+     * @return
+     */
+    public double getTemperature() {
+        double temperature = temperatureRecorder.getDataTotal() / temperatureRecorder.getTimeSpanOfEntries();
+        // Handle situations where data is not usable
+        temperature = Double.isNaN( temperature ) || Double.isInfinite( temperature ) ? 0 : temperature;
+        return temperature;
+    }
+
+    /**
+     * Event handler for events published by the temperature ScalarDataRecorder
+     * @param event
+     */
+    public void update( ScalarDataRecorder.UpdateEvent event ) {
+        changeListenerProxy.temperatureChanged( new ChangeEvent( this ) );
+    }
+
+    //----------------------------------------------------------------
+    // Events and listeners
+    //----------------------------------------------------------------
+
+    private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
+    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+
+    public class ChangeEvent extends EventObject {
+        public ChangeEvent( Object source ) {
+            super( source );
+        }
+
+        public Vessel getVessel() {
+            return (Vessel)getSource();
+        }
+    }
+
+    public interface ChangeListener extends EventListener {
+
+        void temperatureChanged( ChangeEvent event );
+    }
+
+    public void addChangeListener( ChangeListener listener ) {
+        changeEventChannel.addListener( listener );
+    }
+
+    public void removeChangeListener( ChangeListener listener ) {
+        changeEventChannel.removeListener( listener );
     }
 }
