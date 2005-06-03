@@ -62,7 +62,7 @@ public class BarGraphSet extends CompositePhetGraphic {
             addGraphic( barGraphic );
         }
 
-        CurlyLabel curlyLabel = new CurlyLabel( getComponent(), "Energy" );
+        CurlyLabel curlyLabel = new CurlyLabel( getComponent(), "<html>Energy<font SIZE=-1><br>of the block</html>" );
         curlyLabel.setLocation( 0, y );
         addGraphic( curlyLabel, 1 );
 
@@ -84,7 +84,7 @@ public class BarGraphSet extends CompositePhetGraphic {
 
         int workWidth = ( workAccess.length ) * sep;
 
-        CurlyLabel workLabel = new CurlyLabel( getComponent(), "Work" );
+        CurlyLabel workLabel = new CurlyLabel( getComponent(), "<html>Work<font SIZE=-1><br>done on the block</html>" );
         workLabel.setLocation( workX, y );
         workLabel.rescaleToWidth( workWidth );
         addGraphic( workLabel, 1 );
