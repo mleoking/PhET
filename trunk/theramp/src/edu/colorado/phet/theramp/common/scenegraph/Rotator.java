@@ -12,7 +12,7 @@ public class Rotator extends SceneGraphMouseAdapter {
     public void mouseDragged( SceneGraphMouseEvent event ) {
         if( event.getMouseEvent().isControlDown() ) {
             AbstractGraphic graphic = event.getAbstractGraphic();
-            graphic.rotate( Math.PI / 64, graphic.getWidth() / 2, graphic.getHeight() / 2 );
+            graphic.rotate( Math.PI / 64, graphic.getLocalWidth() / 2, graphic.getLocalHeight() / 2 );
         }
     }
 }

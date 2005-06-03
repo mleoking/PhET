@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.common.scenegraph;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -25,15 +26,11 @@ public class OutlineGraphic extends AbstractGraphic {
         super.restore( graphics2D );
     }
 
-    public boolean contains( double x, double y ) {
+    public boolean containsLocal( double x, double y ) {
         return stroke != null && shape != null && stroke.createStrokedShape( shape ).contains( x, y );//todo this will be slow.
     }
 
-    public double getWidth() {
-        return stroke.createStrokedShape( shape ).getBounds2D().getWidth();
-    }
-
-    public double getHeight() {
-        return stroke.createStrokedShape( shape ).getBounds2D().getHeight();
+    public Rectangle2D getLocalBounds() {
+        return stroke.createStrokedShape( shape ).getBounds2D();
     }
 }

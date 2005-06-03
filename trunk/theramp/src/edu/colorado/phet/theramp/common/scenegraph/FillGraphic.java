@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.common.scenegraph;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -23,19 +24,12 @@ public class FillGraphic extends AbstractGraphic {
         super.restore( graphics2D );
     }
 
-    public boolean contains( double x, double y ) {
+    public boolean containsLocal( double x, double y ) {
         return shape.contains( x, y );
     }
 
-    public double getWidth() {
-        return shape.getBounds2D().getWidth();
+    public Rectangle2D getLocalBounds() {
+        return shape.getBounds2D();
     }
 
-    public double getHeight() {
-        return shape.getBounds2D().getHeight();
-    }
-
-    public void setCursorHand() {
-        addMouseListener( new CursorHand() );
-    }
 }

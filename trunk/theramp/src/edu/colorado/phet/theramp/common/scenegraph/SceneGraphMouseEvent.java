@@ -121,4 +121,7 @@ public class SceneGraphMouseEvent {
         return consumed;
     }
 
+    public int getID() {
+        return mouseEvent.getID();
+    }
 }

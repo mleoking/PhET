@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp.common.scenegraph;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.RenderedImage;
 
 /**
@@ -26,16 +27,8 @@ public class ImageGraphic extends AbstractGraphic {
         super.restore( graphics2D );
     }
 
-    public boolean contains( double x, double y ) {
-        return image != null && x >= 0 && y >= 0 && x < image.getWidth() && y < image.getHeight();
-    }
-
-    public double getWidth() {
-        return image.getWidth();
-    }
-
-    public double getHeight() {
-        return image.getHeight();
+    public Rectangle2D getLocalBounds() {
+        return new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() );
     }
 
 }

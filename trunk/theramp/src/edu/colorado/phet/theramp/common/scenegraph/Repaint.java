@@ -10,6 +10,26 @@ package edu.colorado.phet.theramp.common.scenegraph;
 
 public class Repaint extends SceneGraphMouseAdapter {
     public void mouseDragged( SceneGraphMouseEvent event ) {
+        repaint( event );
+    }
+
+    private void repaint( SceneGraphMouseEvent event ) {
         event.getMouseEvent().getComponent().repaint();
+    }
+
+    public void mouseEntered( SceneGraphMouseEvent event ) {
+        repaint( event );
+    }
+
+    public void mouseExited( SceneGraphMouseEvent event ) {
+        repaint( event );
+    }
+
+    public void mousePressed( SceneGraphMouseEvent event ) {
+        repaint( event );
+    }
+
+    public void mouseReleased( SceneGraphMouseEvent event ) {
+        repaint( event );
     }
 }
