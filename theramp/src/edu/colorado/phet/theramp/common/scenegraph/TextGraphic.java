@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp.common.scenegraph;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -22,23 +23,32 @@ public class TextGraphic extends AbstractGraphic {
 
     public void paint( Graphics2D graphics2D ) {
         super.setup( graphics2D );
-        graphics2D.drawString( text, 0, 0 );
         this.fontRenderContext = graphics2D.getFontRenderContext();
         this.font = graphics2D.getFont();
+        Rectangle2D stringBounds = getStringBounds();
+        graphics2D.drawString( text, -(float)stringBounds.getX(), -(float)stringBounds.getY() );
+
         super.restore( graphics2D );
     }
 
-    public boolean contains( double x, double y ) {
-        return font != null && fontRenderContext != null && font.getStringBounds( text, fontRenderContext ).contains( x, y );
+    private Rectangle2D getStringBounds() {
+        if( font == null || fontRenderContext == null || text == null ) {
+            return new Rectangle2D.Double();
+        }
+        else {
+            return font.getStringBounds( text, fontRenderContext );
+        }
     }
 
-    public double getWidth() {
-        return font.getStringBounds( text, fontRenderContext ).getBounds2D().getWidth();
+    public Rectangle2D getLocalBounds() {
+        if( font == null || fontRenderContext == null || text == null ) {
+            return new Rectangle2D.Double();
+        }
+        else {
+            Rectangle2D stringBounds = font.getStringBounds( text, fontRenderContext );
+            stringBounds = new Rectangle2D.Double( 0, 0, stringBounds.getWidth(), stringBounds.getHeight() );
+            return stringBounds;
+        }
     }
-
-    public double getHeight() {
-        return font.getStringBounds( text, fontRenderContext ).getBounds2D().getHeight();
-    }
-
 
 }

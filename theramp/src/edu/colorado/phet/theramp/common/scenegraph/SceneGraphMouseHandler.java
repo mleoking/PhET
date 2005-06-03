@@ -19,4 +19,6 @@ public interface SceneGraphMouseHandler {
     void mousePressed( SceneGraphMouseEvent event );
 
     void mouseReleased( SceneGraphMouseEvent event );
+
+    void mouseClicked( SceneGraphMouseEvent event );
 }

@@ -21,9 +21,5 @@ public class GraphicListNode extends GraphicNode {
         return (AbstractGraphic[])children.toArray( new AbstractGraphic[0] );
     }
 
-    public boolean contains( double x, double y ) {
-        return false;
-    }
-
 
 }

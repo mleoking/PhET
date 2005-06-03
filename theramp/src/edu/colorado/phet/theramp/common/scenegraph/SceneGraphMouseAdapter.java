@@ -25,5 +25,8 @@ public class SceneGraphMouseAdapter implements SceneGraphMouseHandler {
     public void mouseReleased( SceneGraphMouseEvent event ) {
     }
 
+    public void mouseClicked( SceneGraphMouseEvent event ) {
+    }
+
 
 }

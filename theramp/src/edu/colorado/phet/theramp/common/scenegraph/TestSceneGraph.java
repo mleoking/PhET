@@ -20,31 +20,70 @@ public class TestSceneGraph {
 
     public static void main( String[] args ) {
         final SceneGraphPanel sceneGraphPanel = new SceneGraphPanel();
+        sceneGraphPanel.getGraphic().setName( "root" );
 
-        GraphicListNode mainTree = createMainTree();
+        GraphicListNode mainTree = createSimpleTree();
+
+        mainTree.setComposite( true );
+        mainTree.setCursorHand();
+        mainTree.addMouseListener( new Translator() );
+        mainTree.addMouseListener( new Rotator() );
+        mainTree.addMouseListener( new Repaint() );
         sceneGraphPanel.addGraphic( mainTree );
-        GraphicListNode m2 = createMainTree();
-        m2.scale( 0.5, 0.5 );
-        sceneGraphPanel.addGraphic( m2 );
+//        RepeatedBufferGraphic repeatedBufferGraphic=new RepeatedBufferGraphic( mainTree );
+//
+//        sceneGraphPanel.addGraphic( repeatedBufferGraphic );
+
+//        GraphicListNode m2 = createMainTree();
+//        m2.scale( 0.5, 0.5 );
+//        sceneGraphPanel.addGraphic( m2 );
 
         sceneGraphPanel.addMouseMotionListener( new MouseMotionAdapter() {
             // implements java.awt.event.MouseMotionListener
             public void mouseDragged( MouseEvent e ) {
-                if( e.isControlDown() ) {
+                if( e.isShiftDown() ) {
                     sceneGraphPanel.getGraphic().rotate( Math.PI / 32, sceneGraphPanel.getWidth() / 2, sceneGraphPanel.getHeight() / 2 );
                     sceneGraphPanel.repaint();
                 }
             }
         } );
+
         JFrame frame = new JFrame( "Test" );
+//        SceneGraphJComponent.init( frame );
+//
+//        JButton jButton = new JButton( "text" );
+//        AbstractGraphic sceneGraphJComponent = SceneGraphJComponent.newInstance( sceneGraphPanel, jButton );
+//        sceneGraphPanel.addGraphic( sceneGraphJComponent );
+//        sceneGraphJComponent.addMouseListener( new Repaint() );
+//        sceneGraphJComponent.translate( 400, 400 );
+//        sceneGraphJComponent.setAntialias( true );
+//        sceneGraphJComponent.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+//        sceneGraphJComponent.setCursorHand();
+//        sceneGraphJComponent.addMouseListener( new Translator() );
+//        sceneGraphJComponent.addMouseListener( new Rotator() );
+//
+//        TextGraphic textGraphic = new TextGraphic( "Top-Level text" );
+//        sceneGraphPanel.addGraphic( textGraphic );
+//        textGraphic.addMouseListener( new Rotator() );
+//        textGraphic.addMouseListener( new Translator() );
+//        textGraphic.addMouseListener( new Repaint());
+
         frame.setContentPane( sceneGraphPanel );
         frame.setSize( 800, 800 );
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
 
+    private static GraphicListNode createSimpleTree() {
+        GraphicListNode graphicListNode = new GraphicListNode();
+        graphicListNode.setFont( new Font( "Lucida Sans",Font.PLAIN, 36) );
+        graphicListNode.addGraphic( new TextGraphic( "Hello" ) );
+        return graphicListNode;
+    }
+
     private static GraphicListNode createMainTree() {
         GraphicListNode mainTree = new GraphicListNode();
+        mainTree.setName( "Main Tree" );
 
         TextGraphic textGraphic = new TextGraphic( "Test" );
         textGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 28 ) );
@@ -53,6 +92,7 @@ public class TestSceneGraph {
         textGraphic.translate( 100, 100 );
 
         GraphicListNode list = new GraphicListNode();
+        list.setName( "Blocks" );
         for( int i = 0; i < 10; i++ ) {
 //            FillGraphic graphic = new FillGraphic( new Ellipse2D.Double( 0, 0, 20, 20 ) );
             FillGraphic graphic = new FillGraphic( new Rectangle( 20, 20 ) );
@@ -73,7 +113,7 @@ public class TestSceneGraph {
         textGraphic.addMouseListener( new CursorHand() );
         textGraphic.addMouseListener( new Repaint() );
 
-        mainTree.scale( 2, 2 );
+//        mainTree.scale( 2, 2 );
 
         try {
             ImageGraphic imageGraphic = new ImageGraphic( ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" ) );
@@ -101,6 +141,8 @@ public class TestSceneGraph {
             e.printStackTrace();
         }
 //        sceneGraphPanel.getRootGraphic().rotate( Math.PI / 16 );
+
+
         return mainTree;
     }
 

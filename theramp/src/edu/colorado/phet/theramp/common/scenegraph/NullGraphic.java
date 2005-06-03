@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.common.scenegraph;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -14,15 +15,7 @@ public class NullGraphic extends AbstractGraphic {
     public void paint( Graphics2D graphics2D ) {
     }
 
-    public boolean contains( double x, double y ) {
-        return false;
-    }
-
-    public double getWidth() {
-        return 0;
-    }
-
-    public double getHeight() {
-        return 0;
+    public Rectangle2D getLocalBounds() {
+        return new Rectangle2D.Double( );
     }
 }

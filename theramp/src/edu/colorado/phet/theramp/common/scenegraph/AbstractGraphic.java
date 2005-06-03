@@ -4,6 +4,7 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +22,11 @@ public abstract class AbstractGraphic {
     private Font font;
     private ArrayList savedStates = new ArrayList();
     private ArrayList mouseHandlers = new ArrayList();
-    private boolean pressed;
+    private boolean visible = true;
+    private String name;
+
+    private boolean mousePressed = false;
+    private boolean mouseEntered = false;
 
     public abstract void paint( Graphics2D graphics2D );
 
@@ -31,6 +36,7 @@ public abstract class AbstractGraphic {
     protected void setup( Graphics2D graphics2D ) {
         GraphicsState state = new GraphicsState( graphics2D );
         savedStates.add( state );
+
         if( transform != null ) {
             graphics2D.transform( transform );
         }
@@ -49,9 +55,15 @@ public abstract class AbstractGraphic {
         if( renderingHints != null ) {
             graphics2D.setRenderingHints( renderingHints );
         }
+
     }
 
     protected void restore( Graphics2D graphics2D ) {
+        if( !( this instanceof GraphicNode ) ) {
+            graphics2D.setStroke( new BasicStroke( 1 ) );
+            graphics2D.setColor( Color.black );
+            graphics2D.draw( getLocalBounds() );
+        }
         GraphicsState state = (GraphicsState)savedStates.remove( savedStates.size() - 1 );
         state.restoreGraphics();
     }
@@ -104,6 +116,10 @@ public abstract class AbstractGraphic {
         setRenderingHint( RenderingHints.KEY_ANTIALIASING, b ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF );
     }
 
+    public AffineTransform getTransform() {
+        return transform;
+    }
+
     public void scale( double sx, double sy ) {
         if( transform == null ) {
             transform = new AffineTransform();
@@ -130,27 +146,21 @@ public abstract class AbstractGraphic {
     }
 
     public AbstractGraphic getHandler( SceneGraphMouseEvent event ) {
-        SceneGraphMouseEvent orig = event.push( getTransform(), this );
-        System.out.println( "event = " + event );
-        if( contains( event.getX(), event.getY() ) ) {
-            event.restore( orig );
+        if( containsLocal( event.getX(), event.getY() ) ) {
             return this;
         }
         else {
-            event.restore( orig );
             return null;
         }
     }
 
-    public abstract boolean contains( double x, double y );
-
-    public AffineTransform getTransform() {
-        return transform;
+    public boolean containsLocal( double x, double y ) {
+        return getLocalBounds().contains( x, y );
     }
 
     public void mouseDragged( SceneGraphMouseEvent event ) {
         SceneGraphMouseEvent orig = event.push( getTransform(), this );
-        if( pressed && !event.isConsumed() ) {
+        if( mousePressed && !event.isConsumed() ) {//TODO only drag if we're the right guy.
             event.consume();
             for( int i = 0; i < mouseHandlers.size(); i++ ) {
                 SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
@@ -161,6 +171,7 @@ public abstract class AbstractGraphic {
     }
 
     public void mouseEntered( SceneGraphMouseEvent event ) {
+        setMouseEntered( true );
         SceneGraphMouseEvent orig = event.push( transform, this );
         for( int i = 0; i < mouseHandlers.size(); i++ ) {
             SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
@@ -169,7 +180,16 @@ public abstract class AbstractGraphic {
         event.restore( orig );
     }
 
+    private void setMouseEntered( boolean mouseEntered ) {
+        this.mouseEntered = mouseEntered;
+    }
+
+    public boolean isMouseEntered() {
+        return mouseEntered;
+    }
+
     public void mouseExited( SceneGraphMouseEvent event ) {
+        setMouseEntered( false );
         SceneGraphMouseEvent orig = event.push( transform, this );
         for( int i = 0; i < mouseHandlers.size(); i++ ) {
             SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
@@ -178,36 +198,92 @@ public abstract class AbstractGraphic {
         event.restore( orig );
     }
 
-    public void mousePressed( SceneGraphMouseEvent event ) {
-        SceneGraphMouseEvent orig = event.push( transform, this );
-        if( contains( event.getX(), event.getY() ) && !event.isConsumed() ) {
+    public void mouseClicked( SceneGraphMouseEvent event ) {
+        if( event.isConsumed() ) {
+            return;
+        }
+        if( containsLocal( event.getX(), event.getY() ) ) {
             event.consume();
-            pressed = true;
+            for( int i = 0; i < mouseHandlers.size(); i++ ) {
+                SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
+                sceneGraphMouseHandler.mouseClicked( event );
+            }
+        }
+    }
+
+    public void mousePressed( SceneGraphMouseEvent event ) {
+        if( event.isConsumed() ) {
+            setMousePressed( false );
+            return;
+        }
+//        SceneGraphMouseEvent orig = event.push( transform, this );
+        if( containsLocal( event.getX(), event.getY() ) ) {
+            event.consume();
+            setMousePressed( true );
             for( int i = 0; i < mouseHandlers.size(); i++ ) {
                 SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
                 sceneGraphMouseHandler.mousePressed( event );
             }
         }
-        else {
-            pressed = false;
-        }
-        event.restore( orig );
+//        event.restore( orig );
+    }
+
+    private void setMousePressed( boolean mousePressed ) {
+        this.mousePressed = mousePressed;
+        System.out.println( "Set: pressed = " + mousePressed );
     }
 
     public void mouseReleased( SceneGraphMouseEvent event ) {
         SceneGraphMouseEvent orig = event.push( transform, this );
-        if( contains( event.getX(), event.getY() ) && !event.isConsumed() ) {
+        if( containsLocal( orig.getX(), orig.getY() ) && !event.isConsumed() ) {
             event.consume();
             for( int i = 0; i < mouseHandlers.size(); i++ ) {
                 SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
                 sceneGraphMouseHandler.mouseReleased( event );
             }
         }
-        pressed = false;
+        setMousePressed( false );
         event.restore( orig );
     }
 
-    public abstract double getWidth();
+    public void handleEntranceAndExit( SceneGraphMouseEvent event ) {
+        if( !mouseEntered && containsLocal( event.getX(), event.getY() ) ) {
+            mouseEntered( event );
+        }
+        else if( mouseEntered && !containsLocal( event.getX(), event.getY() ) ) {
+            mouseExited( event );
+        }
+    }
 
-    public abstract double getHeight();
+    public double getLocalWidth() {
+        return getLocalBounds().getWidth();
+    }
+
+    public double getLocalHeight() {
+        return getLocalBounds().getHeight();
+    }
+
+    public abstract Rectangle2D getLocalBounds();
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible( boolean visible ) {
+        this.visible = visible;
+    }
+
+    public void setCursorHand() {
+        addMouseListener( new CursorHand() );
+    }
+
+    public void setName( String name ) {
+        this.name = name;
+    }
+
+    public String toString() {
+        return "name=" + name + "@" + hashCode();
+    }
+
+
 }

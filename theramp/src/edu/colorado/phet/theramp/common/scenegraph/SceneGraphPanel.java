@@ -47,20 +47,19 @@ public class SceneGraphPanel extends JPanel {
     }
 
     private class MouseHandler implements MouseInputListener {
-        private AbstractGraphic handler = new NullGraphic();
+//        private AbstractGraphic handler = new NullGraphic();
         private MouseEvent lastEvent = null;
 
         public void mouseClicked( MouseEvent e ) {
+            rootGraphic.mouseClicked( toSceneGraphMouseEvent( e ) );
             lastEvent = e;
         }
 
         public void mouseEntered( MouseEvent e ) {
-//            rootGraphic.mouseEntered( new SceneGraphMouseEvent( e ) );
             lastEvent = e;
         }
 
         public void mouseExited( MouseEvent e ) {
-//            rootGraphic.mouseExited( new SceneGraphMouseEvent( e ) );
             lastEvent = e;
         }
 
@@ -79,6 +78,11 @@ public class SceneGraphPanel extends JPanel {
             lastEvent = e;
         }
 
+        public void mouseMoved( MouseEvent e ) {
+            rootGraphic.handleEntranceAndExit( toSceneGraphMouseEvent( e ) );
+            lastEvent = e;
+        }
+
         private SceneGraphMouseEvent toSceneGraphMouseEvent( MouseEvent e ) {
             return new SceneGraphMouseEvent( e, getPreviousMouseEvent( e ) );
         }
@@ -92,19 +96,6 @@ public class SceneGraphPanel extends JPanel {
             }
         }
 
-        public void mouseMoved( MouseEvent e ) {
-            AbstractGraphic mouseOver = rootGraphic.getHandler( toSceneGraphMouseEvent( e ) );
-            if( mouseOver == null ) {
-                mouseOver = new NullGraphic();
-            }
-            if( mouseOver != handler ) {
-                handler.mouseExited( toSceneGraphMouseEvent( e ) );
-                mouseOver.mouseEntered( toSceneGraphMouseEvent( e ) );
-                this.handler = mouseOver;
-            }
-            System.out.println( "mouseOver = " + mouseOver );
-            lastEvent = e;
-        }
     }
 
     protected void paintComponent( Graphics g ) {
