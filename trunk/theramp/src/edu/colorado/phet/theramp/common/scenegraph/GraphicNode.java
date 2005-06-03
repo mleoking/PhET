@@ -101,18 +101,16 @@ public abstract class GraphicNode extends AbstractGraphic {
         super.mouseDragged( event );
     }
 
-    public AbstractGraphic getHandler( SceneGraphMouseEvent event ) {
-        //todo handle composite
+
+    public void handleEntranceAndExit( SceneGraphMouseEvent event ) {
         SceneGraphMouseEvent orig = event.push( getTransform(), this );
-        for( int i = 0; i < getChildrenMouseOrder().length; i++ ) {
-            AbstractGraphic handler = getChildrenMouseOrder()[i].getHandler( event );
-            if( handler != null ) {
-                event.restore( orig );
-                return handler;
-            }
+        AbstractGraphic[] children = getChildrenMouseOrder();
+        for( int i = 0; i < children.length; i++ ) {
+            AbstractGraphic child = children[i];
+            child.handleEntranceAndExit( event );
         }
         event.restore( orig );
-        return null;
+        super.handleEntranceAndExit( event );
     }
 
     public AbstractGraphic[] getChildrenMouseOrder() {
@@ -131,32 +129,16 @@ public abstract class GraphicNode extends AbstractGraphic {
     }
 
     public boolean containsLocal( double x, double y ) {
-        Point2D pt = new Point2D.Double( x, y );
-        Point2D txed = push( pt );
+        Point2D src = new Point2D.Double( x, y );
+        Point2D pt = null;
         AbstractGraphic[] children = getChildren();
         for( int i = 0; i < children.length; i++ ) {
-            if( children[i].containsLocal( txed.getX(), txed.getY() ) ) {
+            pt = children[i].push( src );
+            if( children[i].containsLocal( pt.getX(), pt.getY() ) ) {
                 return true;
             }
         }
         return false;
-    }
-
-    public Point2D push( Point2D src ) {
-        AffineTransform transform = getTransform();
-        if( transform == null ) {
-            transform = new AffineTransform();
-        }
-        try {
-            AffineTransform inverse = transform.createInverse();
-
-            Point2D pt = inverse.transform( src, null );
-            return pt;
-        }
-        catch( NoninvertibleTransformException e ) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     public Rectangle2D getLocalBounds() {
@@ -167,6 +149,7 @@ public abstract class GraphicNode extends AbstractGraphic {
         }
         Rectangle2D union = RectangleUtils.union( r2 );
         try {
+            //they report in their frame, need the answer in my frame.
             return getTransformOrIdentity().createInverse().createTransformedShape( union ).getBounds2D();//todo is this correct?
         }
         catch( NoninvertibleTransformException e ) {
@@ -174,6 +157,7 @@ public abstract class GraphicNode extends AbstractGraphic {
         }
         return null;
     }
+
 
     private AffineTransform getTransformOrIdentity() {
         if( getTransform() == null ) {
@@ -192,4 +176,23 @@ public abstract class GraphicNode extends AbstractGraphic {
             graphics2D.draw( getLocalBounds() );
         }
     }
+
+    public AbstractGraphic getHandler( SceneGraphMouseEvent event ) {
+        if( !composite ) {
+            SceneGraphMouseEvent orig = event.push( getTransform(), this );
+            for( int i = 0; i < getChildrenMouseOrder().length; i++ ) {
+                AbstractGraphic handler = getChildrenMouseOrder()[i].getHandler( event );
+                if( handler != null ) {
+                    event.restore( orig );
+                    return handler;
+                }
+            }
+            event.restore( orig );
+            return null;
+        }
+        else {
+            return super.getHandler( event );
+        }
+    }
+
 }

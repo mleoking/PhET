@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 
 /**
@@ -22,21 +23,29 @@ public class TestSceneGraph {
         final SceneGraphPanel sceneGraphPanel = new SceneGraphPanel();
         sceneGraphPanel.getGraphic().setName( "root" );
 
-        GraphicListNode mainTree = createSimpleTree();
-
-        mainTree.setComposite( true );
-        mainTree.setCursorHand();
-        mainTree.addMouseListener( new Translator() );
-        mainTree.addMouseListener( new Rotator() );
-        mainTree.addMouseListener( new Repaint() );
-        sceneGraphPanel.addGraphic( mainTree );
-//        RepeatedBufferGraphic repeatedBufferGraphic=new RepeatedBufferGraphic( mainTree );
-//
-//        sceneGraphPanel.addGraphic( repeatedBufferGraphic );
+//        AbstractGraphic userRoot = new TextGraphic( "MYTEXT!" );
+//        userRoot.setName( "MyText!" );
+//        userRoot.setFontLucidaSansBold( 32 );
+//        userRoot.setCursorHand();
+//        userRoot.addMouseListener( new Translator() );
+//        userRoot.addMouseListener( new Rotator() );
+//        userRoot.addMouseListener( new Repaint() );
 
 //        GraphicListNode m2 = createMainTree();
-//        m2.scale( 0.5, 0.5 );
+//        m2.scale( 2, 2 );
 //        sceneGraphPanel.addGraphic( m2 );
+
+        GraphicListNode m3 = createMainTree();
+        m3.scale( .5, .5 );
+        m3.setComposite( true );
+        m3.setCursorHand();
+        m3.addMouseListener( new Translator() );
+        m3.addMouseListener( new Rotator() );
+        m3.addMouseListener( new Repaint() );
+        sceneGraphPanel.addGraphic( m3 );
+
+        m3.setLocation( new Point2D.Double( 100, 100 ) );
+        m3.setRegistrationPoint( new Point2D.Double( -75, -75 ) );
 
         sceneGraphPanel.addMouseMotionListener( new MouseMotionAdapter() {
             // implements java.awt.event.MouseMotionListener
@@ -49,8 +58,8 @@ public class TestSceneGraph {
         } );
 
         JFrame frame = new JFrame( "Test" );
+
 //        SceneGraphJComponent.init( frame );
-//
 //        JButton jButton = new JButton( "text" );
 //        AbstractGraphic sceneGraphJComponent = SceneGraphJComponent.newInstance( sceneGraphPanel, jButton );
 //        sceneGraphPanel.addGraphic( sceneGraphJComponent );
@@ -76,7 +85,7 @@ public class TestSceneGraph {
 
     private static GraphicListNode createSimpleTree() {
         GraphicListNode graphicListNode = new GraphicListNode();
-        graphicListNode.setFont( new Font( "Lucida Sans",Font.PLAIN, 36) );
+        graphicListNode.setFont( new Font( "Lucida Sans", Font.PLAIN, 36 ) );
         graphicListNode.addGraphic( new TextGraphic( "Hello" ) );
         return graphicListNode;
     }
@@ -110,22 +119,24 @@ public class TestSceneGraph {
 
         textGraphic.addMouseListener( new Translator() );
         textGraphic.addMouseListener( new Rotator() );
-        textGraphic.addMouseListener( new CursorHand() );
+        textGraphic.setCursorHand();
         textGraphic.addMouseListener( new Repaint() );
 
 //        mainTree.scale( 2, 2 );
 
         try {
             ImageGraphic imageGraphic = new ImageGraphic( ImageLoader.loadBufferedImage( "images/Phet-Flatirons-logo-3-small.gif" ) );
-            imageGraphic.addMouseListener( new CursorHand() );
+//            imageGraphic.addMouseListener( new CursorHand() );
+            mainTree.setCursorHand();
             mainTree.addGraphic( imageGraphic );
             imageGraphic.translate( 10, 10 );
-//            imageGraphic.scale( 2, 2 );
+            imageGraphic.scale( 2, 2 );
 
             imageGraphic.rotate( Math.PI / 16 );
             imageGraphic.addMouseListener( new Translator() );
             imageGraphic.addMouseListener( new Rotator() );
             imageGraphic.addMouseListener( new Repaint() );
+            imageGraphic.setCursorHand();
             imageGraphic.addMouseListener( new SceneGraphMouseAdapter() {
                 public void mousePressed( SceneGraphMouseEvent event ) {
                     System.out.println( "Pressed: event = " + event );

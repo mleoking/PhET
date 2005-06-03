@@ -4,6 +4,8 @@ import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -27,6 +29,10 @@ public abstract class AbstractGraphic {
 
     private boolean mousePressed = false;
     private boolean mouseEntered = false;
+    private Cursor cursor;
+
+    private Point2D registrationPoint = new Point2D.Double( 0, 0 );
+    private Point2D location = new Point2D.Double( 0, 0 );
 
     public abstract void paint( Graphics2D graphics2D );
 
@@ -37,9 +43,9 @@ public abstract class AbstractGraphic {
         GraphicsState state = new GraphicsState( graphics2D );
         savedStates.add( state );
 
-        if( transform != null ) {
-            graphics2D.transform( transform );
-        }
+//        if( transform != null ) {
+        graphics2D.transform( getTransform() );
+//        }
         if( paint != null ) {
             graphics2D.setPaint( paint );
         }
@@ -117,7 +123,19 @@ public abstract class AbstractGraphic {
     }
 
     public AffineTransform getTransform() {
-        return transform;
+
+        AffineTransform net = new AffineTransform();
+        AffineTransform translation = AffineTransform.getTranslateInstance( -registrationPoint.getX(), -registrationPoint.getY() );
+
+
+        // Apply local transform
+        if( transform != null ) {
+            net.preConcatenate( transform );
+        }
+        net.preConcatenate( translation );
+        // Translate to location
+        net.preConcatenate( AffineTransform.getTranslateInstance( location.getX(), location.getY() ) );
+        return net;
     }
 
     public void scale( double sx, double sy ) {
@@ -145,22 +163,13 @@ public abstract class AbstractGraphic {
         mouseHandlers.add( mouseHandler );
     }
 
-    public AbstractGraphic getHandler( SceneGraphMouseEvent event ) {
-        if( containsLocal( event.getX(), event.getY() ) ) {
-            return this;
-        }
-        else {
-            return null;
-        }
-    }
-
     public boolean containsLocal( double x, double y ) {
         return getLocalBounds().contains( x, y );
     }
 
     public void mouseDragged( SceneGraphMouseEvent event ) {
         SceneGraphMouseEvent orig = event.push( getTransform(), this );
-        if( mousePressed && !event.isConsumed() ) {//TODO only drag if we're the right guy.
+        if( mousePressed && !event.isConsumed() ) {//only drag if we're the right guy.
             event.consume();
             for( int i = 0; i < mouseHandlers.size(); i++ ) {
                 SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
@@ -172,7 +181,7 @@ public abstract class AbstractGraphic {
 
     public void mouseEntered( SceneGraphMouseEvent event ) {
         setMouseEntered( true );
-        SceneGraphMouseEvent orig = event.push( transform, this );
+        SceneGraphMouseEvent orig = event.push( getTransform(), this );
         for( int i = 0; i < mouseHandlers.size(); i++ ) {
             SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
             sceneGraphMouseHandler.mouseEntered( event );
@@ -190,7 +199,7 @@ public abstract class AbstractGraphic {
 
     public void mouseExited( SceneGraphMouseEvent event ) {
         setMouseEntered( false );
-        SceneGraphMouseEvent orig = event.push( transform, this );
+        SceneGraphMouseEvent orig = event.push( getTransform(), this );
         for( int i = 0; i < mouseHandlers.size(); i++ ) {
             SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
             sceneGraphMouseHandler.mouseExited( event );
@@ -202,7 +211,7 @@ public abstract class AbstractGraphic {
         if( event.isConsumed() ) {
             return;
         }
-        if( containsLocal( event.getX(), event.getY() ) ) {
+        if( containsLocal( event ) ) {
             event.consume();
             for( int i = 0; i < mouseHandlers.size(); i++ ) {
                 SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
@@ -216,8 +225,8 @@ public abstract class AbstractGraphic {
             setMousePressed( false );
             return;
         }
-//        SceneGraphMouseEvent orig = event.push( transform, this );
-        if( containsLocal( event.getX(), event.getY() ) ) {
+        SceneGraphMouseEvent orig = event.push( getTransform(), this );
+        if( containsLocal( event ) ) {
             event.consume();
             setMousePressed( true );
             for( int i = 0; i < mouseHandlers.size(); i++ ) {
@@ -225,7 +234,7 @@ public abstract class AbstractGraphic {
                 sceneGraphMouseHandler.mousePressed( event );
             }
         }
-//        event.restore( orig );
+        event.restore( orig );
     }
 
     private void setMousePressed( boolean mousePressed ) {
@@ -234,8 +243,8 @@ public abstract class AbstractGraphic {
     }
 
     public void mouseReleased( SceneGraphMouseEvent event ) {
-        SceneGraphMouseEvent orig = event.push( transform, this );
-        if( containsLocal( orig.getX(), orig.getY() ) && !event.isConsumed() ) {
+        SceneGraphMouseEvent orig = event.push( getTransform(), this );
+        if( containsLocal( event ) && !event.isConsumed() ) {
             event.consume();
             for( int i = 0; i < mouseHandlers.size(); i++ ) {
                 SceneGraphMouseHandler sceneGraphMouseHandler = (SceneGraphMouseHandler)mouseHandlers.get( i );
@@ -247,12 +256,19 @@ public abstract class AbstractGraphic {
     }
 
     public void handleEntranceAndExit( SceneGraphMouseEvent event ) {
-        if( !mouseEntered && containsLocal( event.getX(), event.getY() ) ) {
+        SceneGraphMouseEvent orig = event.push( getTransform(), this );
+        if( !mouseEntered && containsLocal( event ) ) {
+            event.restore( orig );
             mouseEntered( event );
         }
-        else if( mouseEntered && !containsLocal( event.getX(), event.getY() ) ) {
+        else if( mouseEntered && !containsLocal( event ) ) {
+            event.restore( orig );
             mouseExited( event );
         }
+    }
+
+    protected boolean containsLocal( SceneGraphMouseEvent event ) {
+        return containsLocal( event.getX(), event.getY() );
     }
 
     public double getLocalWidth() {
@@ -274,7 +290,7 @@ public abstract class AbstractGraphic {
     }
 
     public void setCursorHand() {
-        addMouseListener( new CursorHand() );
+        this.cursor = Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
     }
 
     public void setName( String name ) {
@@ -282,8 +298,63 @@ public abstract class AbstractGraphic {
     }
 
     public String toString() {
-        return "name=" + name + "@" + hashCode();
+        return getClass().getName() + "@" + hashCode() + ", name=" + name;
     }
 
+    public void setFontLucidaSansPlain( int size ) {
+        setFont( new Font( "Lucida Sans", Font.PLAIN, size ) );
+    }
 
+    public void setFontLucidaSansBold( int size ) {
+        setFont( new Font( "Lucida Sans", Font.BOLD, size ) );
+    }
+
+    public AbstractGraphic getHandler( SceneGraphMouseEvent event ) {
+        SceneGraphMouseEvent orig = event.push( getTransform(), this );
+        AbstractGraphic handler = containsLocal( event ) ? this : null;
+        event.restore( orig );
+        return handler;
+    }
+
+    public Cursor getCursor() {
+        return cursor;
+    }
+
+    public Cursor determineCursor( SceneGraphMouseEvent event ) {
+        AbstractGraphic handler = getHandler( event );
+        return handler == null ? null : handler.getCursor();
+    }
+
+    public Point2D push( Point2D src ) {
+        AffineTransform transform = getTransform();
+        if( transform == null ) {
+            transform = new AffineTransform();
+        }
+        try {
+            AffineTransform inverse = transform.createInverse();
+
+            Point2D pt = inverse.transform( src, null );
+            return pt;
+        }
+        catch( NoninvertibleTransformException e ) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Point2D getRegistrationPoint() {
+        return new Point2D.Double( registrationPoint.getX(), registrationPoint.getY() );
+    }
+
+    public void setRegistrationPoint( Point2D registrationPoint ) {
+        this.registrationPoint = registrationPoint;
+    }
+
+    public Point2D getLocation() {
+        return new Point2D.Double( location.getX(), location.getY() );
+    }
+
+    public void setLocation( Point2D location ) {
+        this.location = location;
+    }
 }

@@ -80,6 +80,13 @@ public class SceneGraphPanel extends JPanel {
 
         public void mouseMoved( MouseEvent e ) {
             rootGraphic.handleEntranceAndExit( toSceneGraphMouseEvent( e ) );
+            AbstractGraphic graphic = rootGraphic.getHandler( toSceneGraphMouseEvent( e ) );
+            System.out.println( "handler= " + graphic );
+            Cursor cursor = graphic == null ? null : graphic.getCursor();
+            if( cursor == null ) {
+                cursor = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
+            }
+            setCursor( cursor );
             lastEvent = e;
         }
 
