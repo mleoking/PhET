@@ -1,7 +1,8 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.theramp.common.scenegraph;
+package edu.colorado.phet.theramp.common.scenegraph.tests;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.theramp.common.scenegraph.*;
 
 import javax.swing.*;
 import java.awt.*;
