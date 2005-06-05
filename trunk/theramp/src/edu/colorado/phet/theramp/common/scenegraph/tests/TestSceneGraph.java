@@ -24,17 +24,17 @@ public class TestSceneGraph {
         final SceneGraphPanel sceneGraphPanel = new SceneGraphPanel();
         sceneGraphPanel.getGraphic().setName( "root" );
 
-//        AbstractGraphic userRoot = new TextGraphic( "MYTEXT!" );
-//        userRoot.setName( "MyText!" );
-//        userRoot.setFontLucidaSansBold( 32 );
-//        userRoot.setCursorHand();
-//        userRoot.addMouseListener( new Translator() );
-//        userRoot.addMouseListener( new Rotator() );
-//        userRoot.addMouseListener( new Repaint() );
+        AbstractGraphic userRoot = new TextGraphic( "MYTEXT!" );
+        userRoot.setName( "MyText!" );
+        userRoot.setFontLucidaSansBold( 32 );
+        userRoot.setCursorHand();
+        userRoot.addMouseListener( new Translator() );
+        userRoot.addMouseListener( new Rotator() );
+        userRoot.addMouseListener( new Repaint() );
 
-//        GraphicListNode m2 = createMainTree();
-//        m2.scale( 2, 2 );
-//        sceneGraphPanel.addGraphic( m2 );
+        GraphicListNode m2 = createMainTree();
+        m2.scale( 2, 2 );
+        sceneGraphPanel.addGraphic( m2 );
 
         GraphicListNode m3 = createMainTree();
         m3.scale( .5, .5 );
@@ -60,23 +60,23 @@ public class TestSceneGraph {
 
         JFrame frame = new JFrame( "Test" );
 
-//        SceneGraphJComponent.init( frame );
-//        JButton jButton = new JButton( "text" );
-//        AbstractGraphic sceneGraphJComponent = SceneGraphJComponent.newInstance( sceneGraphPanel, jButton );
-//        sceneGraphPanel.addGraphic( sceneGraphJComponent );
-//        sceneGraphJComponent.addMouseListener( new Repaint() );
-//        sceneGraphJComponent.translate( 400, 400 );
-//        sceneGraphJComponent.setAntialias( true );
-//        sceneGraphJComponent.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-//        sceneGraphJComponent.setCursorHand();
-//        sceneGraphJComponent.addMouseListener( new Translator() );
-//        sceneGraphJComponent.addMouseListener( new Rotator() );
-//
-//        TextGraphic textGraphic = new TextGraphic( "Top-Level text" );
-//        sceneGraphPanel.addGraphic( textGraphic );
-//        textGraphic.addMouseListener( new Rotator() );
-//        textGraphic.addMouseListener( new Translator() );
-//        textGraphic.addMouseListener( new Repaint());
+        SceneGraphJComponent.init( frame );
+        JButton jButton = new JButton( "text" );
+        AbstractGraphic sceneGraphJComponent = SceneGraphJComponent.newInstance( jButton );
+        sceneGraphPanel.addGraphic( sceneGraphJComponent );
+        sceneGraphJComponent.addMouseListener( new Repaint() );
+        sceneGraphJComponent.translate( 400, 400 );
+        sceneGraphJComponent.setAntialias( true );
+        sceneGraphJComponent.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+        sceneGraphJComponent.setCursorHand();
+        sceneGraphJComponent.addMouseListener( new Translator() );
+        sceneGraphJComponent.addMouseListener( new Rotator() );
+
+        TextGraphic textGraphic = new TextGraphic( "Top-Level text" );
+        sceneGraphPanel.addGraphic( textGraphic );
+        textGraphic.addMouseListener( new Rotator() );
+        textGraphic.addMouseListener( new Translator() );
+        textGraphic.addMouseListener( new Repaint() );
 
         frame.setContentPane( sceneGraphPanel );
         frame.setSize( 800, 800 );
