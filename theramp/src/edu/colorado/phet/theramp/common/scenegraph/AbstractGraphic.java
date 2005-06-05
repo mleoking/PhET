@@ -1,5 +1,6 @@
 package edu.colorado.phet.theramp.common.scenegraph;
 
+import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
@@ -33,6 +34,9 @@ public abstract class AbstractGraphic {
 
     private Point2D registrationPoint = new Point2D.Double( 0, 0 );
     private Point2D location = new Point2D.Double( 0, 0 );
+    private SceneGraphPanel sceneGraphPanel;
+    private GraphicNode parent;
+    private boolean drawBorder = false;
 
     public abstract void paint( Graphics2D graphics2D );
 
@@ -65,7 +69,7 @@ public abstract class AbstractGraphic {
     }
 
     protected void restore( Graphics2D graphics2D ) {
-        if( !( this instanceof GraphicNode ) ) {
+        if( !( this instanceof GraphicNode ) && drawBorder ) {
             graphics2D.setStroke( new BasicStroke( 1 ) );
             graphics2D.setColor( Color.black );
             graphics2D.draw( getLocalBounds() );
@@ -356,5 +360,107 @@ public abstract class AbstractGraphic {
 
     public void setLocation( Point2D location ) {
         this.location = location;
+    }
+
+    public void setLocation( double x, double y ) {
+        setLocation( new Point2D.Double( x, y ) );
+    }
+
+    public void setSceneGraphPanel( SceneGraphPanel sceneGraphPanel ) {
+        this.sceneGraphPanel = sceneGraphPanel;
+    }
+
+    public SceneGraphPanel getSceneGraphPanel() {
+        if( getParent() != null ) {
+            return getParent().getSceneGraphPanel();
+        }
+        else {
+            return sceneGraphPanel;
+        }
+    }
+
+    public GraphicNode getParent() {
+        return parent;
+    }
+
+    public GraphicNode getRoot() {
+        if( parent == null ) {
+            if( this instanceof GraphicNode ) {
+                return (GraphicNode)this;
+            }
+            else {
+                return null;
+            }
+        }
+        else {
+            return parent.getRoot();
+        }
+    }
+
+    public void setParent( GraphicNode parent ) {
+        this.parent = parent;
+    }
+
+    public Stroke getStroke() {
+        return stroke;
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    public void setTransformViewport( Rectangle screenLocation, Rectangle2D.Double modelViewPort ) {
+        AffineTransform tx = new ModelViewTransform2D( modelViewPort, screenLocation, false ).getAffineTransform();
+        setTransform( tx );
+    }
+
+    public void repaint() {
+        if( getSceneGraphPanel() != null ) {
+            getSceneGraphPanel().repaint();
+        }
+    }
+
+    public void setTransformBounds( Rectangle2D bounds ) {
+        setTransformBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
+    }
+
+    public void setTransformBounds( double x, double y, double width, double height ) {
+        double sx = width / getLocalWidth();
+        double sy = height / getLocalHeight();
+        AffineTransform transform = new AffineTransform();
+        transform.translate( x, y );
+        transform.scale( sx, sy );
+
+        setTransform( transform );
+    }
+
+    public Shape getBoundsIn( GraphicNode ancestor ) {
+        Shape shape = getLocalBounds();
+        AbstractGraphic p = this;
+        while( p != ancestor ) {
+            try {
+                shape = p.getTransform().createTransformedShape( shape );
+
+                Rectangle2D b = shape.getBounds2D();
+                System.out.println( "b = " + b );
+//
+//                System.out.println( "frame=" + p );
+//                System.out.println( "p.getTx=" + p.getTransform() );
+//                System.out.println( "bounds=" + b );
+//                System.out.println( "" );
+            }
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+            p = p.getParent();
+        }
+//        shape = p.getTransform().createTransformedShape( shape );
+
+//        Rectangle2D b = shape.getBounds2D();
+//        System.out.println( "frame=" + p );
+//        System.out.println( "p.getTx=" + p.getTransform() );
+//        System.out.println( "bounds=" + b );
+//        System.out.println( "" );
+        return shape;
     }
 }

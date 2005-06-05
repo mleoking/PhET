@@ -36,11 +36,11 @@ public class SceneGraphJComponent extends AbstractGraphic {
     private static PhetJComponentRepaintManager repaintManagerPhet = new PhetJComponentRepaintManager();
     public static final AffineTransform IDENTITY = new AffineTransform();
 
-    public static AbstractGraphic newInstance( Component apparatusPanel, JComponent jComponent ) {
-        return newInstance( apparatusPanel, jComponent, true );
+    public static AbstractGraphic newInstance( JComponent jComponent ) {
+        return newInstance( jComponent, true );
     }
 
-    private static AbstractGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
+    private static AbstractGraphic newInstance( JComponent jComponent, boolean topLevel ) {
         if( !inited ) {
             init( null );
 //            new RuntimeException( "Focus traversal requires PhetJComponent.init(Window)" ).printStackTrace();
@@ -70,7 +70,7 @@ public class SceneGraphJComponent extends AbstractGraphic {
             Component[] children = jComponent.getComponents();
 
             validateSuperTree( jComponent );
-            graphicLayerSet.addGraphic( new SceneGraphJComponent( apparatusPanel, jComponent, topLevel ) );//the container is the background.
+            graphicLayerSet.addGraphic( new SceneGraphJComponent( jComponent, topLevel ) );//the container is the background.
 
             for( int i = 0; i < children.length; i++ ) {
                 if( !( children[i] instanceof JComponent ) ) {
@@ -80,7 +80,7 @@ public class SceneGraphJComponent extends AbstractGraphic {
                     JComponent child = (JComponent)children[i];
                     Point location = child.getLocation();
 //                System.out.println( "location@" + child.getClass() + " = " + location );
-                    AbstractGraphic pj = SceneGraphJComponent.newInstance( apparatusPanel, child, false );
+                    AbstractGraphic pj = SceneGraphJComponent.newInstance( child, false );
                     graphicLayerSet.addGraphic( pj );
                     //have to account for parent's locations.
 
@@ -91,7 +91,7 @@ public class SceneGraphJComponent extends AbstractGraphic {
             return graphicLayerSet;
         }
         else {
-            return new SceneGraphJComponent( apparatusPanel, jComponent, topLevel );
+            return new SceneGraphJComponent( jComponent, topLevel );
         }
     }
 
@@ -143,11 +143,11 @@ public class SceneGraphJComponent extends AbstractGraphic {
         }
     }
 
-    protected SceneGraphJComponent( Component ap, JComponent component ) {
-        this( ap, component, true );
+    protected SceneGraphJComponent( JComponent component ) {
+        this( component, true );
     }
 
-    protected SceneGraphJComponent( Component ap, final JComponent component, boolean topLevel ) {
+    protected SceneGraphJComponent( final JComponent component, boolean topLevel ) {
 //        super( ap );
         this.component = component;
         this.topLevel = topLevel;
@@ -340,7 +340,7 @@ public class SceneGraphJComponent extends AbstractGraphic {
 
     public void repaint() {
         redraw();//TODO is this necessary?
-//        super.repaint();//TODO fixme
+        super.repaint();//TODO fixme
     }
 
     private interface MouseListenerMethod extends MouseMethod {

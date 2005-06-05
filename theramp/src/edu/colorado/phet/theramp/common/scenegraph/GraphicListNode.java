@@ -14,6 +14,7 @@ public class GraphicListNode extends GraphicNode {
     private ArrayList children = new ArrayList();
 
     public void addGraphic( AbstractGraphic graphic ) {
+        super.graphicAdded( graphic );
         children.add( graphic );
     }
 

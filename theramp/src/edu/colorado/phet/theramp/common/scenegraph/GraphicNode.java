@@ -20,6 +20,8 @@ import java.util.Collections;
  */
 
 public abstract class GraphicNode extends AbstractGraphic {
+    private boolean drawBorder = false;
+
     public abstract AbstractGraphic[] getChildren();
 
     private boolean composite = false;
@@ -170,7 +172,7 @@ public abstract class GraphicNode extends AbstractGraphic {
 
     protected void restore( Graphics2D graphics2D ) {
         super.restore( graphics2D );
-        if( !( this instanceof GraphicNode ) ) {
+        if( !( this instanceof GraphicNode ) && drawBorder ) {
             graphics2D.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{4, 4}, 0 ) );
             graphics2D.setColor( Color.red );
             graphics2D.draw( getLocalBounds() );
@@ -195,4 +197,7 @@ public abstract class GraphicNode extends AbstractGraphic {
         }
     }
 
+    protected void graphicAdded( AbstractGraphic graphic ) {
+        graphic.setParent( this );
+    }
 }

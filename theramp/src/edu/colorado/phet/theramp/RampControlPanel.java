@@ -11,6 +11,7 @@ import edu.colorado.phet.theramp.view.arrows.AbstractArrowSet;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -154,8 +155,35 @@ public class RampControlPanel extends ControlPanel {
         } );
         addControl( frictionless );
 
+
         massSlider = createMassSlider();
         addControl( massSlider );
+
+        addControl( createModelSelector() );
+    }
+
+    private Component createModelSelector() {
+        VerticalLayoutPanel panel = new VerticalLayoutPanel();
+        JRadioButton emergent = new JRadioButton( "Emergent" );
+        JRadioButton constrained = new JRadioButton( "Constrained" );
+        panel.add( emergent );
+        panel.add( constrained );
+        panel.setBorder( BorderFactory.createTitledBorder( "Model" ) );
+        constrained.setSelected( true );
+        emergent.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getRampModel().setStepStrategyEmergent();
+            }
+        } );
+        constrained.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getRampModel().setStepStrategyConstrained();
+            }
+        } );
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add( emergent );
+        buttonGroup.add( constrained );
+        return panel;
     }
 
     private ModelSlider createMassSlider() {

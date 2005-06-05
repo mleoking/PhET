@@ -17,12 +17,14 @@ import java.awt.geom.AffineTransform;
  */
 
 public class SceneGraphPanel extends JPanel {
-    private GraphicListNode rootGraphic;
+    private GraphicLayerNode rootGraphic;
     private MouseHandler mouseHandler;
     private Cursor cursor;
 
     public SceneGraphPanel() {
-        rootGraphic = new GraphicListNode();
+        rootGraphic = new GraphicLayerNode();
+        rootGraphic.setName( "Root (in " + this + ")" );
+        rootGraphic.setSceneGraphPanel( this );
         mouseHandler = new MouseHandler();
         addMouseListener( mouseHandler );
         addMouseMotionListener( mouseHandler );
@@ -114,7 +116,7 @@ public class SceneGraphPanel extends JPanel {
         rootGraphic.addGraphic( graphic );
     }
 
-    public GraphicListNode getGraphic() {
+    public GraphicLayerNode getGraphic() {
         return rootGraphic;
     }
 

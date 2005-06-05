@@ -14,14 +14,15 @@ import java.util.Iterator;
  */
 
 public class GraphicLayerNode extends GraphicNode {
-    private MultiMap multiMap;
+    private MultiMap multiMap = new MultiMap();
 
     public void addGraphic( AbstractGraphic graphic ) {
         addGraphic( graphic, 0 );
     }
 
     public void addGraphic( AbstractGraphic graphic, double layer ) {
-        multiMap.put( graphic, new Double( layer ) );
+        super.graphicAdded( graphic );
+        multiMap.put( new Double( layer ), graphic );
     }
 
     public AbstractGraphic[] getChildren() {

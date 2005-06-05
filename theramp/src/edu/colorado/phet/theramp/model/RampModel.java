@@ -41,6 +41,8 @@ public class RampModel implements ModelElement {
     private SimpleObservable keObservers = new SimpleObservable();
     private double lastTick;
 
+    ModelElement stepStrategy;
+
     public RampModel() {
         ramp = new Ramp( Math.PI / 32, 15.0 );
         ground = new Ground( 0, 6, -6, 0 );
@@ -52,6 +54,12 @@ public class RampModel implements ModelElement {
         frictionForce = new ForceVector();
         appliedForce = new ForceVector();
         normalForce = new ForceVector();
+//        setStepStrategy( new RampModel.OriginalStepCode() );
+        setStepStrategy( new RampModel.NewStepCode() );
+    }
+
+    public void setStepStrategy( ModelElement stepStrategy ) {
+        this.stepStrategy = stepStrategy;
     }
 
     public Surface getRamp() {
@@ -66,7 +74,13 @@ public class RampModel implements ModelElement {
         return System.currentTimeMillis() / 1000.0;
     }
 
+
     public void stepInTime( double dt ) {
+        stepStrategy.stepInTime( dt );
+    }
+
+    private void originalStepCode( double dt ) {
+//        double dt;
         if( lastTick != 0.0 ) {
             dt = currentTimeSeconds() - lastTick;
             dt = MathUtil.clamp( 1 / 30.0, dt, 1 / 5.0 );
@@ -133,6 +147,91 @@ public class RampModel implements ModelElement {
             //deltaKE = W_net
             double dK = getBlock().getKineticEnergy() - getTotalWork();
             if( dK != 0.0 ) {
+                System.out.println( "dK=" + dK + ", Delta KE=" + getBlock().getKineticEnergy() + ", Net Work=" + getTotalWork() );
+            }
+        }
+        lastTick = currentTimeSeconds();
+    }
+
+
+    private void newStepCode( double dt ) {
+//        double dt;
+        if( lastTick != 0.0 ) {
+            dt = currentTimeSeconds() - lastTick;
+            dt = MathUtil.clamp( 1 / 30.0, dt, 1 / 5.0 );
+
+            double origBlockPosition = block.getPosition();
+            double origBlockEnergy = block.getKineticEnergy();
+            double origPotEnergy = getPotentialEnergy();
+            double origMech = getMechanicalEnergy();
+
+            gravityForce.setX( 0 );
+            gravityForce.setY( gravity * block.getMass() );
+            double fa = block.getFrictionForce( gravity, appliedForce.getParallelComponent() + gravityForce.getParallelComponent() );
+            frictionForce.setParallel( fa );
+
+            double force = appliedForce.getParallelComponent() + gravityForce.getParallelComponent() + frictionForce.getParallelComponent();
+            normalForce.setPerpendicular( gravityForce.getPerpendicularComponent() );
+
+            double wallForce = getSurface().getWallForce( force, getBlock() );
+            force += wallForce;
+            this.wallForce.setParallel( wallForce );
+
+            totalForce.setParallel( force );
+            double acceleration = force / block.getMass();
+            block.setAcceleration( acceleration );
+            block.stepInTime( this, dt );
+
+            double newBlockPosition = block.getPosition();
+            double blockDX = newBlockPosition - origBlockPosition;
+
+            double newKE = block.getKineticEnergy();
+            if( newKE != origBlockEnergy ) {
+                keObservers.notifyObservers();
+            }
+            double newPE = getPotentialEnergy();
+            if( newPE != origPotEnergy ) {
+                peObservers.notifyObservers();
+            }
+
+
+//            double dAppliedWork = ( appliedForce.getParallelComponent() * blockDX );
+            double totalWork = newKE;
+            double dFrictiveWork = ( frictionForce.getParallelComponent() * blockDX );
+//            double dGravityWork = ( gravityForce.getParallelComponent() * blockDX );
+//            appliedWork += dAppliedWork;
+            frictiveWork += dFrictiveWork;
+//            gravityWork += dGravityWork;
+
+            thermalEnergy -= dFrictiveWork;
+            double totalEnergy = getTotalEnergy();
+            appliedWork = totalEnergy;
+            gravityWork = totalWork - appliedWork - frictiveWork;
+
+//            if( userIsAddingEnergy() ) {
+//                thermalEnergy += Math.abs( dFrictiveWork );//this is close, but not exact.
+//            }
+//            else {
+//                double finalMech = getMechanicalEnergy();
+//                double dE = Math.abs( finalMech ) - Math.abs( origMech );
+//                if( dE <= 0 ) {
+//                    thermalEnergy += Math.abs( dE );
+//                }
+//                else {
+////                    new RuntimeException( "Gained Energy, dE=" + dE ).printStackTrace();
+//                    String message = "Gained Energy, dE=" + dE;
+//                    System.out.println( "message = " + message );
+////                    new RuntimeException( message ).printStackTrace();
+//                }
+//            }
+            //So height of totalEnergy bar should always be same as height W_app bar
+            double dE = getTotalEnergy() - getAppliedWork();
+            if( Math.abs( dE ) > 1.0E-9 ) {
+                System.out.println( "dE=" + dE + ", EnergyTotal=" + getTotalEnergy() + ", WorkApplied=" + getAppliedWork() );
+            }
+            //deltaKE = W_net
+            double dK = getBlock().getKineticEnergy() - getTotalWork();
+            if( Math.abs( dK ) > 1.0E-9 ) {
                 System.out.println( "dK=" + dK + ", Delta KE=" + getBlock().getKineticEnergy() + ", Net Work=" + getTotalWork() );
             }
         }
@@ -277,6 +376,14 @@ public class RampModel implements ModelElement {
         getBlock().setKineticFriction( rampObject.getKineticFriction() );
     }
 
+    public void setStepStrategyEmergent() {
+        setStepStrategy( new OriginalStepCode() );
+    }
+
+    public void setStepStrategyConstrained() {
+        setStepStrategy( new NewStepCode() );
+    }
+
     public class ForceVector extends Vector2D.Double {
 
         public void setParallel( double parallel ) {
@@ -390,5 +497,25 @@ public class RampModel implements ModelElement {
 
     public double getTotalWork() {
         return getGravityWork() + getFrictiveWork() + getAppliedWork();
+    }
+
+    public OriginalStepCode getOriginalStepCode() {
+        return new OriginalStepCode();
+    }
+
+    public NewStepCode getNewStepCode() {
+        return new NewStepCode();
+    }
+
+    public class OriginalStepCode implements ModelElement {
+        public void stepInTime( double dt ) {
+            originalStepCode( dt );
+        }
+    }
+
+    public class NewStepCode implements ModelElement {
+        public void stepInTime( double dt ) {
+            newStepCode( dt );
+        }
     }
 }
