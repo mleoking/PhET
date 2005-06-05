@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	!!! ATTENTION !!!
+
+If you can read this, you do not have a proper
+version of Java installed on your computer.
+
+If you have installed the PhET software on a local
+computer running Windows, click on the shortcut
+titled "Install Java 1.4.2". Otherwise, please go
+the "Simulations" page of the PhET web site and
+click on "Setup & Troubleshooting" for more
+information.
+
+-->
+
+<!--
+    This is a proxy JNLP file. It points to the actual JNLP on the PhET server. The
+    actual JNLP will have the actual resources required by the CacheTracker. By using
+    this proxy mechanism, we don't have to update the JNLP on client computers. When
+    a new simulation is added to the server, the resources for it only need to be added
+    to the actual JNLP file on the server.
+ -->
+<jnlp spec="1.0+" codebase="http://www.colorado.edu/physics/phet/dev/" href="psl/psl.jnlp">
+    <information>
+        <title>PhET Simulation Launcher</title>
+        <vendor>University of Colorado, Department of Physics</vendor>
+        <offline-allowed/>
+    </information>
+    <resources>
+        <j2se version="1.4+"/>
+        <jar href="psl/psl.jar" />
+    </resources>
+    <application-desc main-class="edu.colorado.phet.psl.CacheTracker">
+        <argument>-B</argument>
+    </application-desc>
+</jnlp>
