@@ -62,7 +62,6 @@ public class PhetShapeGraphic extends PhetGraphic {
         boolean sameShape = sameShape( this.shape, shape );
         if( !sameShape ) {
             this.shape = shape;
-            computeStrokedShape();
             setBoundsDirty();
             autorepaint();
         }
@@ -96,7 +95,7 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setStroke( Stroke stroke ) {
         this.stroke = stroke;
-        computeStrokedShape();
+        setBoundsDirty();
         autorepaint();
     }
 
