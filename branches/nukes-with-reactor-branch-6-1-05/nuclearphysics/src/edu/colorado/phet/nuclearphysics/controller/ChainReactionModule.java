@@ -13,6 +13,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
@@ -134,6 +135,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         addNucleus( nucleus );
     }
 
+    // todo: Push down to subclasses?
     protected void addNucleus( Nucleus nucleus ) {
         nuclei.add( nucleus );
         nucleus.addFissionListener( this );
@@ -163,37 +165,42 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     }
 
     public void fission( FissionProducts products ) {
-         // Remove the neutron and old nucleus
-         getModel().removeModelElement( products.getInstigatingNeutron() );
-         this.neutrons.remove( products.getInstigatingNeutron() );
-         getModel().removeModelElement( products.getParent() );
-         nuclei.remove( products.getParent() );
+        // Remove the neutron and old nucleus
+        getModel().removeModelElement( products.getInstigatingNeutron() );
+        this.neutrons.remove( products.getInstigatingNeutron() );
+        getModel().removeModelElement( products.getParent() );
+        nuclei.remove( products.getParent() );
 
-         // We know this must be a U235 nucleus
-         u235Nuclei.remove( products.getParent() );
+        // We know this must be a U235 nucleus
+        u235Nuclei.remove( products.getParent() );
 
-         // Add fission products
-         super.addNucleus( products.getDaughter1() );
-         super.addNucleus( products.getDaughter2() );
-         Neutron[] neutronProducts = products.getNeutronProducts();
+        // Add fission products
+        super.addNucleus( products.getDaughter1() );
+        super.addNucleus( products.getDaughter2() );
+        nuclei.add( products.getDaughter1() );
+        nuclei.add( products.getDaughter2() );
 
-         for( int i = 0; i < neutronProducts.length; i++ ) {
-             final NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
-             getModel().addModelElement( neutronProducts[i] );
-             getPhysicalPanel().addGraphic( npg );
-             neutrons.add( neutronProducts[i] );
-             neutronProducts[i].addListener( new NuclearModelElement.Listener() {
-                 public void leavingSystem( NuclearModelElement nme ) {
-                     getPhysicalPanel().removeGraphic( npg );
-                 }
-             } );
-         }
+        Neutron[] neutronProducts = products.getNeutronProducts();
+        for( int i = 0; i < neutronProducts.length; i++ ) {
+            final NeutronGraphic npg = new NeutronGraphic( neutronProducts[i] );
+            getModel().addModelElement( neutronProducts[i] );
+            getPhysicalPanel().addGraphic( npg );
+            neutrons.add( neutronProducts[i] );
+            neutronProducts[i].addListener( new NuclearModelElement.Listener() {
+                public void leavingSystem( NuclearModelElement nme ) {
+                    if( nme instanceof Rubidium ) {
+                        System.out.println( "ChainReactionModule.leavingSystem" );
+                    }
+                    getPhysicalPanel().removeGraphic( npg );
+                }
+            } );
+        }
 
-         // Add some pizzazz
-         Kaboom kaboom = new Kaboom( products.getParent().getPosition(),
-                                     25, 300, getPhysicalPanel() );
-         getPhysicalPanel().addGraphic( kaboom );
-     }
+        // Add some pizzazz
+        Kaboom kaboom = new Kaboom( products.getParent().getPosition(),
+                                    25, 300, getPhysicalPanel() );
+        getPhysicalPanel().addGraphic( kaboom );
+    }
 
     //----------------------------------------------------------------
     // Abstract methods
@@ -205,7 +212,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
     protected abstract Point2D.Double findLocationForNewNucleus();
 
-    // TODO: clean up when refactoring is done
+    // TODO: clean up when refactoring is done. Push down to the Multiple... subclass
     public abstract void setContainmentEnabled( boolean b );
 
     public void stop() {
@@ -228,10 +235,27 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
             Neutron neutron = (Neutron)neutrons.get( i );
             getModel().removeModelElement( neutron );
         }
+
+        // todo: I think that the rest of these calls are redundant
         nuclei.clear();
         neutrons.clear();
         u239Nuclei.clear();
         u235Nuclei.clear();
         u238Nuclei.clear();
+    }
+
+    //----------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------
+    public class GraphicRemover implements NuclearModelElement.Listener {
+        private Graphic graphic;
+
+        public GraphicRemover( Graphic graphic ) {
+            this.graphic = graphic;
+        }
+
+        public void leavingSystem( NuclearModelElement nme ) {
+            getPhysicalPanel().removeGraphic( graphic );
+        }
     }
 }

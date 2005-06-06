@@ -16,6 +16,7 @@ import edu.colorado.phet.coreadditions.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.nuclearphysics.model.Rubidium;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -67,12 +68,16 @@ public class PhysicalPanel extends TxApparatusPanel {
         NucleusGraphic ng = NucleusGraphicFactory.create( nucleus );
         final TxGraphic txg = new TxGraphic( ng, nucleonTx );
         nucleusCnt++;
-        NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
-            public void leavingSystem( NuclearModelElement nme ) {
-                PhysicalPanel.this.removeGraphic( txg );
-            }
-        };
-        nucleus.addListener( listener );
+//        NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
+//            public void leavingSystem( NuclearModelElement nme ) {
+//                if( nme instanceof Rubidium ) {
+//                    System.out.println( "PhysicalPanel.leavingSystem" );
+//                }
+//                PhysicalPanel.this.removeGraphic( txg );
+//            }
+//        };
+//        nucleus.addListener( listener );
+        nucleus.addListener( new GraphicRemover( txg ));
         addGraphic( txg, nucleusLevel );
     }
 
@@ -100,5 +105,21 @@ public class PhysicalPanel extends TxApparatusPanel {
 
     public AffineTransform getGraphicTx() {
         return super.getGraphicTx();
+    }
+
+
+    //----------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------
+    public class GraphicRemover implements NuclearModelElement.Listener {
+        private Graphic graphic;
+
+        public GraphicRemover( Graphic graphic ) {
+            this.graphic = graphic;
+        }
+
+        public void leavingSystem( NuclearModelElement nme ) {
+            removeGraphic( graphic );
+        }
     }
 }

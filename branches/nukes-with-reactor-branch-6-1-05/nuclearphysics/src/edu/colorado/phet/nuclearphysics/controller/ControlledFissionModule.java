@@ -12,12 +12,15 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.graphics.Graphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
-import edu.colorado.phet.nuclearphysics.view.ControlRodGroupGraphic;
-import edu.colorado.phet.nuclearphysics.view.VesselBackgroundPanel;
-import edu.colorado.phet.nuclearphysics.view.VesselGraphic;
+import edu.colorado.phet.nuclearphysics.view.*;
+import edu.colorado.phet.nuclearphysics.Config;
+import edu.colorado.phet.coreadditions.TxGraphic;
 
 import java.awt.geom.*;
+import java.awt.*;
 
 /**
  * ControlledFissionModule
@@ -28,6 +31,7 @@ import java.awt.geom.*;
 public class ControlledFissionModule extends ChainReactionModule {
 
     public static final int VERTICAL = 1, HORIZONTAL = 2;
+//    public static double SCALE = 1;
     public static double SCALE = 0.2;
 
     private static final double VESSEL_LAYER = 100;
@@ -120,6 +124,28 @@ public class ControlledFissionModule extends ChainReactionModule {
         return rods;
     }
 
+    protected void addNucleus( Nucleus nucleus ) {
+        nuclei.add( nucleus );
+        nucleus.addFissionListener( this );
+        getModel().addModelElement( nucleus );
+        double rad = nucleus.getRadius();
+        final Graphic ng = new PhetShapeGraphic( getPhysicalPanel(),
+                                                        new Ellipse2D.Double(nucleus.getPosition().getX() - rad,
+                                                                             nucleus.getPosition().getY() - rad,
+                                                                             rad * 2, rad * 2),
+                                                        Color.red);
+//        final Graphic ng2 = new Uranium235Graphic( nucleus );
+        NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
+            public void leavingSystem( NuclearModelElement nme ) {
+//                getPhysicalPanel().removeGraphic( ng2 );
+                getPhysicalPanel().removeGraphic( ng );
+            }
+        };
+        nucleus.addListener( listener );
+        getPhysicalPanel().addOriginCenteredGraphic( ng, Config.nucleusLevel );
+    }
+
+
     /**
      * Puts nuclei in the vessel on a grid laid out by the vessel.
      */
@@ -135,6 +161,7 @@ public class ControlledFissionModule extends ChainReactionModule {
             nucleus.addFissionListener( this );
             nucleus.addFissionListener( vessel );
         }
+        getPhysicalPanel().repaint( getPhysicalPanel().getBounds() );
     }
 
     //----------------------------------------------------------------

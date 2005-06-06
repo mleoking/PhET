@@ -18,7 +18,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
-public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
+public class NucleusGraphic implements Graphic, SimpleObserver /*, ImageObserver*/ {
 
     private static NeutronGraphic neutronGraphic = new NeutronGraphic();
     private static ProtonGraphic protonGraphic = new ProtonGraphic();
@@ -72,7 +72,8 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
         g2.drawImage( img,
                       (int)( x - nucleus.getRadius() - NuclearParticle.RADIUS ),
                       (int)( y - nucleus.getRadius() - NuclearParticle.RADIUS ),
-                      this );
+                      null );
+//                      this );
         gs.restoreGraphics();
     }
 
@@ -80,7 +81,8 @@ public class NucleusGraphic implements Graphic, SimpleObserver, ImageObserver {
         GraphicsState gs = new GraphicsState( g2 );
         g2.transform( atx );
         update();
-        g2.drawImage( img, (int)position.getX(), (int)position.getY(), this );
+        g2.drawImage( img, (int)position.getX(), (int)position.getY(), null );
+//        g2.drawImage( img, (int)position.getX(), (int)position.getY(), this );
         gs.restoreGraphics();
     }
 

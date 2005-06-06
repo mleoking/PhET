@@ -34,6 +34,9 @@ public abstract class NuclearModelElement extends Body {
     }
 
     public void leaveSystem() {
+        if( this instanceof Rubidium ) {
+            System.out.println( "NuclearModelElement.leaveSystem" );
+        }
         // Do it this way, in case a listener calls removeListener( this ) in leavingSystem();
         while( listeners.size() > 0 ) {
             Listener listener = (Listener)listeners.get( 0 );

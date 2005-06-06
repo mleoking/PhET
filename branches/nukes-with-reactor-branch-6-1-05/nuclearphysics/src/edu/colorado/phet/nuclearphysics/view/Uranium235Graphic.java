@@ -43,7 +43,6 @@ public class Uranium235Graphic extends NucleusGraphic {
 
         if( displayLabel ) {
             GraphicsUtil.setAntiAliasingOn( g );
-            FontRenderContext frc = g.getFontRenderContext();
 
             g.setColor( color );
             g.setFont( isotopeFont );
