@@ -1,6 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.common.scenegraph;
 
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
+import edu.colorado.phet.common.view.util.GraphicsState;
+
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
@@ -8,6 +11,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -20,6 +24,8 @@ public class SceneGraphPanel extends JPanel {
     private GraphicLayerNode rootGraphic;
     private MouseHandler mouseHandler;
     private Cursor cursor;
+    private ArrayList dirtyRegions = new ArrayList();
+    private boolean drawDirtyRegions = false;
 
     public SceneGraphPanel() {
         rootGraphic = new GraphicLayerNode();
@@ -44,8 +50,14 @@ public class SceneGraphPanel extends JPanel {
         } );
     }
 
-    protected void processMouseMotionEvent( MouseEvent e ) {
-        super.processMouseMotionEvent( e );
+    public void addDirtyRegion( Shape dirty ) {
+        if( dirty != null ) {
+            Rectangle bounds = dirty.getBounds();
+//        System.out.println( "SceneGraphPanel.addDirtyRegion, shape=" + bounds );
+//        new Exception( "SceneGraphPanel.addDirtyRegion, shape=" + bounds ).printStackTrace( );
+            RepaintManager.currentManager( this ).addDirtyRegion( this, bounds.x, bounds.y, bounds.width, bounds.height );
+            dirtyRegions.add( bounds );
+        }
     }
 
     private class MouseHandler implements MouseInputListener {
@@ -53,7 +65,7 @@ public class SceneGraphPanel extends JPanel {
         private MouseEvent lastEvent = null;
 
         public void mouseClicked( MouseEvent e ) {
-            rootGraphic.mouseClicked( toSceneGraphMouseEvent( e ) );
+            rootGraphic.mouseClicked( toSceneGraphMouseEvent( e ) );//todo not implemented yet.
             lastEvent = e;
         }
 
@@ -83,7 +95,7 @@ public class SceneGraphPanel extends JPanel {
         public void mouseMoved( MouseEvent e ) {
             rootGraphic.handleEntranceAndExit( toSceneGraphMouseEvent( e ) );
             AbstractGraphic graphic = rootGraphic.getHandler( toSceneGraphMouseEvent( e ) );
-            System.out.println( "handler= " + graphic );
+//            System.out.println( "handler= " + graphic );
             Cursor cursor = graphic == null ? null : graphic.getCursor();
             if( cursor == null ) {
                 cursor = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
@@ -109,7 +121,29 @@ public class SceneGraphPanel extends JPanel {
 
     protected void paintComponent( Graphics g ) {
         super.paintComponent( g );
-        rootGraphic.paint( (Graphics2D)g );
+        PhetGraphics2D phetGraphics2D = new PhetGraphics2D( (Graphics2D)g );
+        GraphicsState state = new GraphicsState( phetGraphics2D );
+        rootGraphic.paint( phetGraphics2D );
+        state.restoreGraphics();
+        state = new GraphicsState( phetGraphics2D );
+        debugDirtyRegions( phetGraphics2D );
+        state.restoreGraphics();
+    }
+
+    private void debugDirtyRegions( Graphics2D graphics2D ) {
+        if( drawDirtyRegions ) {
+            graphics2D.setStroke( new BasicStroke( 1 ) );
+            for( int i = 0; i < dirtyRegions.size(); i++ ) {
+                Rectangle rectangle = (Rectangle)dirtyRegions.get( i );
+                graphics2D.setColor( randomColor() );
+                graphics2D.drawRect( rectangle.x, rectangle.y, rectangle.width - 1, rectangle.height - 1 );
+            }
+        }
+        dirtyRegions.clear();
+    }
+
+    private Color randomColor() {
+        return new Color( (float)Math.random(), (float)Math.random(), (float)Math.random() );
     }
 
     public void addGraphic( AbstractGraphic graphic ) {
@@ -118,6 +152,14 @@ public class SceneGraphPanel extends JPanel {
 
     public GraphicLayerNode getGraphic() {
         return rootGraphic;
+    }
+
+    public boolean isDrawDirtyRegions() {
+        return drawDirtyRegions;
+    }
+
+    public void setDrawDirtyRegions( boolean drawDirtyRegions ) {
+        this.drawDirtyRegions = drawDirtyRegions;
     }
 
 }

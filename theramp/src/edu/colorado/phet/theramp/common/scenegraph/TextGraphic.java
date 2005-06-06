@@ -50,7 +50,6 @@ public class TextGraphic extends AbstractGraphic {
         }
     }
 
-
     public Rectangle2D getLocalBounds() {
         if( getFont() == null || fontRenderContext == null || text == null ) {
             return new Rectangle2D.Double();
@@ -62,8 +61,11 @@ public class TextGraphic extends AbstractGraphic {
         }
     }
 
-
     public void setText( String text ) {
-        this.text = text;
+        if( !this.text.equals( text ) ) {
+            setRegionDirty();
+            this.text = text;
+            setRegionDirty();
+        }
     }
 }

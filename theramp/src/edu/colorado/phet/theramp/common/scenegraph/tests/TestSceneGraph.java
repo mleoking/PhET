@@ -30,7 +30,7 @@ public class TestSceneGraph {
         userRoot.setCursorHand();
         userRoot.addMouseListener( new Translator() );
         userRoot.addMouseListener( new Rotator() );
-        userRoot.addMouseListener( new Repaint() );
+//        userRoot.addMouseListener( new Repaint() );
 
         GraphicListNode m2 = createMainTree();
         m2.scale( 2, 2 );
@@ -39,10 +39,11 @@ public class TestSceneGraph {
         GraphicListNode m3 = createMainTree();
         m3.scale( .5, .5 );
         m3.setComposite( true );
+        m3.setDrawBorderDebug( true );
         m3.setCursorHand();
         m3.addMouseListener( new Translator() );
         m3.addMouseListener( new Rotator() );
-        m3.addMouseListener( new Repaint() );
+//        m3.addMouseListener( new Repaint() );
         sceneGraphPanel.addGraphic( m3 );
 
         m3.setLocation( new Point2D.Double( 100, 100 ) );
@@ -64,7 +65,7 @@ public class TestSceneGraph {
         JButton jButton = new JButton( "text" );
         AbstractGraphic sceneGraphJComponent = SceneGraphJComponent.newInstance( jButton );
         sceneGraphPanel.addGraphic( sceneGraphJComponent );
-        sceneGraphJComponent.addMouseListener( new Repaint() );
+//        sceneGraphJComponent.addMouseListener( new Repaint() );
         sceneGraphJComponent.translate( 400, 400 );
         sceneGraphJComponent.setAntialias( true );
         sceneGraphJComponent.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
@@ -76,19 +77,12 @@ public class TestSceneGraph {
         sceneGraphPanel.addGraphic( textGraphic );
         textGraphic.addMouseListener( new Rotator() );
         textGraphic.addMouseListener( new Translator() );
-        textGraphic.addMouseListener( new Repaint() );
+//        textGraphic.addMouseListener( new Repaint() );
 
         frame.setContentPane( sceneGraphPanel );
         frame.setSize( 800, 800 );
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-    }
-
-    private static GraphicListNode createSimpleTree() {
-        GraphicListNode graphicListNode = new GraphicListNode();
-        graphicListNode.setFont( new Font( "Lucida Sans", Font.PLAIN, 36 ) );
-        graphicListNode.addGraphic( new TextGraphic( "Hello" ) );
-        return graphicListNode;
     }
 
     private static GraphicListNode createMainTree() {
@@ -109,7 +103,7 @@ public class TestSceneGraph {
             graphic.setCursorHand();
             graphic.addMouseListener( new Translator() );
             graphic.addMouseListener( new Rotator() );
-            graphic.addMouseListener( new Repaint() );
+//            graphic.addMouseListener( new Repaint() );
 
             graphic.setColor( randomColor() );
             graphic.translate( 10 + i * 30, 50 );
@@ -121,7 +115,7 @@ public class TestSceneGraph {
         textGraphic.addMouseListener( new Translator() );
         textGraphic.addMouseListener( new Rotator() );
         textGraphic.setCursorHand();
-        textGraphic.addMouseListener( new Repaint() );
+//        textGraphic.addMouseListener( new Repaint() );
 
 //        mainTree.scale( 2, 2 );
 
@@ -136,7 +130,7 @@ public class TestSceneGraph {
             imageGraphic.rotate( Math.PI / 16 );
             imageGraphic.addMouseListener( new Translator() );
             imageGraphic.addMouseListener( new Rotator() );
-            imageGraphic.addMouseListener( new Repaint() );
+//            imageGraphic.addMouseListener( new Repaint() );
             imageGraphic.setCursorHand();
             imageGraphic.addMouseListener( new SceneGraphMouseAdapter() {
                 public void mousePressed( SceneGraphMouseEvent event ) {
@@ -152,9 +146,6 @@ public class TestSceneGraph {
         catch( IOException e ) {
             e.printStackTrace();
         }
-//        sceneGraphPanel.getRootGraphic().rotate( Math.PI / 16 );
-
-
         return mainTree;
     }
 
