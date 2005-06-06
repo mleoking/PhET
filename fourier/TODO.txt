@@ -3,11 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
+- convert to charts package
 
 HIGH PRIORITY:
-- investigate Sam's charts package
 - investigate Jex for rendering equations
-- combobox choices should appear in the order that they're added
 - autorescale checkbox for Components/Sum graphs
 - Sums graphic range is +-5 when autoscale is off
 - Amplitudes graph range of 4/PI, label -1,0,+1
@@ -47,6 +46,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/6) - combobox choices should appear in the order that they're added
 (6/2) - create a "Zoom" control graphic
 (6/2) - convert Harmonics graph to use charts package for the graphic (but not the wavesforms)
 (6/1) - change Amplitude slider to have a configurable maximum value (in this case, 4/PI)
