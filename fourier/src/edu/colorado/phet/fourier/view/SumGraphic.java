@@ -24,6 +24,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 
@@ -208,7 +209,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         this.setIgnoreMouse( true );
         
         _sums = new double[ OUTLINE_WIDTH + 1 ];
-        _waveType = SineWaveGraphic.WAVE_TYPE_SINE;
+        _waveType = FourierConstants.WAVE_TYPE_SINE;
         _phaseAngle = DEFAULT_PHASE_ANGLE;
         _previousNumberOfHarmonics = -1; // force update
         _minMaxFormatter = new DecimalFormat( AXES_LABEL_FORMAT );
@@ -263,7 +264,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
                 final double deltaAngle = ( 2.0 * Math.PI * numberOfCycles ) / OUTLINE_WIDTH;
                 final double startAngle = _phaseAngle - ( deltaAngle * ( OUTLINE_WIDTH / 2.0 ) );
                 double angle = startAngle + ( i * deltaAngle );
-                double radians = ( _waveType == SineWaveGraphic.WAVE_TYPE_SINE ) ? Math.sin( angle ) : Math.cos( angle );
+                double radians = ( _waveType == FourierConstants.WAVE_TYPE_SINE ) ? Math.sin( angle ) : Math.cos( angle );
                 _sums[i] += ( amplitude * radians );
             }
 

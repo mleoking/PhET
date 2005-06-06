@@ -28,40 +28,40 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.view.HarmonicsGraphic;
-import edu.colorado.phet.fourier.view.SineWaveGraphic;
 import edu.colorado.phet.fourier.view.SumGraphic;
 
 
 /**
- * DiscreteControlPanel
+ * DiscreteControlPanel is the control panel for the "Discrete" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class DiscreteControlPanel extends FourierControlPanel {
 
-    public static final int DOMAIN_SPACE = 0;
-    public static final int DOMAIN_TIME = 1;
-    public static final int DOMAIN_SPACE_AND_TIME = 2;
-    
-    public static final int PRESET_SINE_COSINE = 0;
-    public static final int PRESET_SAWTOOTH = 1;
-    public static final int PRESET_TRIANGLE = 2;
-    public static final int PRESET_WAVE_PACKET = 3;
-    public static final int PRESET_CUSTOM = 4;
-    
-    public static final int MATH_FORM_WAVE_NUMBER = 0;
-    public static final int MATH_FORM_WAVELENGTH = 1;
-    public static final int MATH_FORM_MODE = 2;
-    public static final int MATH_FORM_ANGULAR_FREQUENCY = 3;
-    public static final int MATH_FORM_FREQUENCY = 4;
-    public static final int MATH_FORM_PERIOD = 5;
-    public static final int MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY = 6;
-    public static final int MATH_FORM_WAVELENGTH_AND_PERIOD = 7;
+//    public static final int DOMAIN_SPACE = 0;
+//    public static final int DOMAIN_TIME = 1;
+//    public static final int DOMAIN_SPACE_AND_TIME = 2;
+//    
+//    public static final int PRESET_SINE_COSINE = 0;
+//    public static final int PRESET_SAWTOOTH = 1;
+//    public static final int PRESET_TRIANGLE = 2;
+//    public static final int PRESET_WAVE_PACKET = 3;
+//    public static final int PRESET_CUSTOM = 4;
+//    
+//    public static final int MATH_FORM_WAVE_NUMBER = 0;
+//    public static final int MATH_FORM_WAVELENGTH = 1;
+//    public static final int MATH_FORM_MODE = 2;
+//    public static final int MATH_FORM_ANGULAR_FREQUENCY = 3;
+//    public static final int MATH_FORM_FREQUENCY = 4;
+//    public static final int MATH_FORM_PERIOD = 5;
+//    public static final int MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY = 6;
+//    public static final int MATH_FORM_WAVELENGTH_AND_PERIOD = 7;
     
     private static final int TITLED_BORDER_WIDTH = 1;
     
@@ -140,9 +140,9 @@ public class DiscreteControlPanel extends FourierControlPanel {
 
                 // Choices
                 _domainChoices = new ArrayList();
-                _domainChoices.add( new ControlPanelComboBox.Choice( DOMAIN_SPACE, SimStrings.get( "domain.space" ) ) );
-                _domainChoices.add( new ControlPanelComboBox.Choice( DOMAIN_TIME, SimStrings.get( "domain.time" ) ) );
-                _domainChoices.add( new ControlPanelComboBox.Choice( DOMAIN_SPACE_AND_TIME, SimStrings.get( "domain.spaceAndTime" ) ) );
+                _domainChoices.add( new ControlPanelComboBox.Choice( FourierConstants.DOMAIN_SPACE, SimStrings.get( "domain.space" ) ) );
+                _domainChoices.add( new ControlPanelComboBox.Choice( FourierConstants.DOMAIN_TIME, SimStrings.get( "domain.time" ) ) );
+                _domainChoices.add( new ControlPanelComboBox.Choice( FourierConstants.DOMAIN_SPACE_AND_TIME, SimStrings.get( "domain.spaceAndTime" ) ) );
 
                 // Function combo box
                 _domainComboBox = new ControlPanelComboBox( label, _domainChoices );
@@ -155,11 +155,11 @@ public class DiscreteControlPanel extends FourierControlPanel {
 
                 // Choices
                 _presetChoices = new ArrayList();
-                _presetChoices.add( new ControlPanelComboBox.Choice( PRESET_SINE_COSINE, SimStrings.get( "preset.sinecosine" ) ) );
-                _presetChoices.add( new ControlPanelComboBox.Choice( PRESET_SAWTOOTH, SimStrings.get( "preset.sawtooth" ) ) );
-                _presetChoices.add( new ControlPanelComboBox.Choice( PRESET_TRIANGLE, SimStrings.get( "preset.triangle" ) ) );
-                _presetChoices.add( new ControlPanelComboBox.Choice( PRESET_WAVE_PACKET, SimStrings.get( "preset.wavePacket" ) ) );
-                _presetChoices.add( new ControlPanelComboBox.Choice( PRESET_CUSTOM, SimStrings.get( "preset.custom" ) ) );
+                _presetChoices.add( new ControlPanelComboBox.Choice( FourierConstants.PRESET_SINE_COSINE, SimStrings.get( "preset.sinecosine" ) ) );
+                _presetChoices.add( new ControlPanelComboBox.Choice( FourierConstants.PRESET_SAWTOOTH, SimStrings.get( "preset.sawtooth" ) ) );
+                _presetChoices.add( new ControlPanelComboBox.Choice( FourierConstants.PRESET_TRIANGLE, SimStrings.get( "preset.triangle" ) ) );
+                _presetChoices.add( new ControlPanelComboBox.Choice( FourierConstants.PRESET_WAVE_PACKET, SimStrings.get( "preset.wavePacket" ) ) );
+                _presetChoices.add( new ControlPanelComboBox.Choice( FourierConstants.PRESET_CUSTOM, SimStrings.get( "preset.custom" ) ) );
 
                 // Presets combo box
                 _presetsComboBox = new ControlPanelComboBox( label, _presetChoices );
@@ -223,8 +223,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 
                 // Choices
                 _waveTypeChoices = new ArrayList();
-                _waveTypeChoices.add( new ControlPanelComboBox.Choice( SineWaveGraphic.WAVE_TYPE_SINE, SimStrings.get( "waveType.sines" ) ) );
-                _waveTypeChoices.add( new ControlPanelComboBox.Choice( SineWaveGraphic.WAVE_TYPE_COSINE, SimStrings.get( "waveType.cosines" ) ) );
+                _waveTypeChoices.add( new ControlPanelComboBox.Choice( FourierConstants.WAVE_TYPE_SINE, SimStrings.get( "waveType.sines" ) ) );
+                _waveTypeChoices.add( new ControlPanelComboBox.Choice( FourierConstants.WAVE_TYPE_COSINE, SimStrings.get( "waveType.cosines" ) ) );
                 
                 // Wave Type combo box
                 _waveTypeComboBox = new ControlPanelComboBox( label, _waveTypeChoices ); 
@@ -302,20 +302,20 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 // Choices
                 {
                     _spaceMathFormChoices = new ArrayList();
-                    _spaceMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_WAVE_NUMBER, SimStrings.get( "mathForm.waveNumber" ) ) );
-                    _spaceMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_WAVELENGTH, SimStrings.get( "mathForm.wavelength" ) ) );
-                    _spaceMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
+                    _spaceMathFormChoices.add( new ControlPanelComboBox.Choice( FourierConstants.MATH_FORM_WAVE_NUMBER, SimStrings.get( "mathForm.waveNumber" ) ) );
+                    _spaceMathFormChoices.add( new ControlPanelComboBox.Choice( FourierConstants.MATH_FORM_WAVELENGTH, SimStrings.get( "mathForm.wavelength" ) ) );
+                    _spaceMathFormChoices.add( new ControlPanelComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
 
                     _timeMathFormChoices = new ArrayList();
-                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.angularFrequency" ) ) );
-                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_FREQUENCY, SimStrings.get( "mathForm.frequency" ) ) );
-                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_PERIOD, SimStrings.get( "mathForm.period" ) ) );
-                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
+                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( FourierConstants.MATH_FORM_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.angularFrequency" ) ) );
+                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( FourierConstants.MATH_FORM_FREQUENCY, SimStrings.get( "mathForm.frequency" ) ) );
+                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( FourierConstants.MATH_FORM_PERIOD, SimStrings.get( "mathForm.period" ) ) );
+                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
 
                     _spaceAndTimeMathFormChoices = new ArrayList();
-                    _spaceAndTimeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.waveNumberAndAngularFrequency" ) ) );
-                    _spaceAndTimeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_WAVELENGTH_AND_PERIOD, SimStrings.get( "mathForm.wavelengthAndPeriod" ) ) );
-                    _spaceAndTimeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new ControlPanelComboBox.Choice( FourierConstants.MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.waveNumberAndAngularFrequency" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new ControlPanelComboBox.Choice( FourierConstants.MATH_FORM_WAVELENGTH_AND_PERIOD, SimStrings.get( "mathForm.wavelengthAndPeriod" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new ControlPanelComboBox.Choice( FourierConstants.MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
                 }
 
                 // Math form combo box
@@ -359,7 +359,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
 
         // Set the state of the controls.
         { /* XXX - this block should be replaced by model sync in update */
-            _domainComboBox.setSelectedItem( SimStrings.get( "domain.space" ) );
+            _domainComboBox.setSelectedItem( SimStrings.get( "domain.space" ) );//XXX
             _showInfiniteCheckBox.setSelected( false );
             _showWavelengthTextField.setEnabled( false );
             _showPeriodTextField.setEnabled( false );
@@ -396,11 +396,11 @@ public class DiscreteControlPanel extends FourierControlPanel {
         {
             Object item = null;
             switch ( _harmonicsGraphic.getWaveType() ) {
-            case SineWaveGraphic.WAVE_TYPE_SINE:
-                item = SimStrings.get( "waveType.sines" );
+            case FourierConstants.WAVE_TYPE_SINE:
+                item = SimStrings.get( "waveType.sines" );//XXX SimString in non-init code
                 break;
-            case SineWaveGraphic.WAVE_TYPE_COSINE:
-                item = SimStrings.get( "waveType.cosines" );
+            case FourierConstants.WAVE_TYPE_COSINE:
+                item = SimStrings.get( "waveType.cosines" );//XXX SimString in non-init code
                 break;
             default:
             }
@@ -432,17 +432,17 @@ public class DiscreteControlPanel extends FourierControlPanel {
             if ( event.getSource() == _domainComboBox.getComboBox() ) {
                 System.out.println( "_domainComboBox " + _domainComboBox.getSelectedItem() ); //XXX
                 switch ( _domainComboBox.getSelectedKey() ) {
-                case DOMAIN_SPACE:
+                case FourierConstants.DOMAIN_SPACE:
                     _mathFormComboBox.setChoices( _spaceMathFormChoices );
                     _showWavelengthCheckBox.setEnabled( true );
                     _showPeriodCheckBox.setEnabled( false );
                     break;
-                case DOMAIN_TIME:
+                case FourierConstants.DOMAIN_TIME:
                     _mathFormComboBox.setChoices( _timeMathFormChoices );
                     _showWavelengthCheckBox.setEnabled( false );
                     _showPeriodCheckBox.setEnabled( true );
                     break;
-                case DOMAIN_SPACE_AND_TIME:
+                case FourierConstants.DOMAIN_SPACE_AND_TIME:
                     _mathFormComboBox.setChoices( _spaceAndTimeMathFormChoices );
                     _showWavelengthCheckBox.setEnabled( true );
                     _showPeriodCheckBox.setEnabled( true );

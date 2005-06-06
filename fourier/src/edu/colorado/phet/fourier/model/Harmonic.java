@@ -15,7 +15,7 @@ import edu.colorado.phet.common.util.SimpleObservable;
 
 
 /**
- * Harmonic
+ * Harmonic is the model of a harmonic.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -87,7 +87,7 @@ public class Harmonic extends SimpleObservable {
         }
         
         public void setOrder( int order ) {
-            // XX throw exception
+            //XXX throw exception
         }
     }
 }
