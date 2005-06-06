@@ -15,7 +15,6 @@ HIGH PRIORITY:
 - X-axis labels as zoom permits on Components & Sum graphs
 - different background behind Components & Sum graphs to group them
 - highlight component when mouse moves over it in Amplitudes or Components view
-- make SineWaveGraphic capable of traveling animation
 - add presets for various Fourier Series (sine, sawtooth, packet, etc.)
 - persistence
 
@@ -36,9 +35,6 @@ CLEANUP:
 - fix all javadoc warnings and errors
 
 PHETCOMMON:
-- bug: custom layout manager in ControlPanel is broken on Macintosh
-- bug: cursor and highlighting don't work in JTextField wrapped by PhetJComponet
-- bug: JTextField wrapped using PhetJComponent doesn't received ActionEvents or FocusEvents
 - bug: when focus moves to Control Panel, PhetJComponet in apparatus panel still appears to have focus (eg, blinking cursor)
 - bug: PhetJComponents don't work unless ApparatusPanel has a mouse listener that requests focus
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
@@ -46,6 +42,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/6) - convert waveforms in Harmonics graph to data sets in charts package
 (6/6) - combobox choices should appear in the order that they're added
 (6/2) - create a "Zoom" control graphic
 (6/2) - convert Harmonics graph to use charts package for the graphic (but not the wavesforms)
