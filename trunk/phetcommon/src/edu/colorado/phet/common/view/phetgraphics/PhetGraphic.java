@@ -1188,7 +1188,13 @@ public abstract class PhetGraphic {
     public void setClip( Shape clip ) {
         this.clip = clip;
     }
+
     //----------------------------------------------------------------------------
     // 
     //----------------------------------------------------------------------------
+    protected void applyClip( Graphics2D graphics2D ) {
+        if( getClip() != null ) {
+            graphics2D.clip( getClip() );
+        }
+    }
 }
