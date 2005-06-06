@@ -63,9 +63,9 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
         _harmonic = harmonic;
         _harmonic.addObserver( this );
         
-        _numberOfPoints = numberOfPoints; //XXX 2000
-        _fundamentalCycle = fundamentalCycle; //XXX 1.0
-        _numberOfFundamentalCycles = numberOfFundamentalCycles; //XXX 4
+        _numberOfPoints = numberOfPoints;
+        _fundamentalCycle = fundamentalCycle;
+        _numberOfFundamentalCycles = numberOfFundamentalCycles;
         
         _waveType = WAVE_TYPE_SINE;
 
