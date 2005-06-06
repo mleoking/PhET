@@ -30,6 +30,7 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private static double[] _sineValues;
+    private static double[] _cosineValues;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -71,6 +72,14 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
             _sineValues = new double[360];
             for ( int i = 0; i < 360; i++ ) {
                 _sineValues[i] = Math.sin( Math.toRadians( i ) );
+            }
+        }
+        
+        // Cache of cosine values.
+        if ( _cosineValues == null ) {
+            _cosineValues = new double[360];
+            for ( int i = 0; i < 360; i++ ) {
+                _cosineValues[i] = Math.cos( Math.toRadians( i ) );
             }
         }
 
@@ -142,7 +151,7 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
                     radians = _sineValues[ degrees ];
                 }
                 else { /* cosines */
-                    radians = 1 - _sineValues[ degrees ];
+                    radians = _cosineValues[ degrees ];
                 }
                 double x = startX + ( i * deltaX );
                 double y = amplitude * radians;
