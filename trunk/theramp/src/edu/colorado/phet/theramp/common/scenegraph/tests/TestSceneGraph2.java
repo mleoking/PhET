@@ -26,14 +26,14 @@ public class TestSceneGraph2 extends SceneGraphPanel {
     public TestSceneGraph2() {
         getGraphic().setAntialias( true );
         getGraphic().setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-
+//        setDrawDirtyRegions( true );
         FillGraphic spaceGraphic = new FillGraphic( new Rectangle( 1000, 1000 ), Color.black );
         addGraphic( spaceGraphic );
 
         worldGraphic = new WorldGraphic();
         addGraphic( worldGraphic );
-        worldGraphic.addMouseListener( new Translator() );
-        worldGraphic.addMouseListener( new Repaint() );
+//        worldGraphic.addMouseListener( new Translator() );
+//        worldGraphic.addMouseListener( new Repaint() );
 
 
 
@@ -77,7 +77,7 @@ public class TestSceneGraph2 extends SceneGraphPanel {
         Timer t = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 pointerGraphic.update();
-                repaint();
+//                repaint();
             }
         } );
         t.start();
@@ -163,7 +163,7 @@ public class TestSceneGraph2 extends SceneGraphPanel {
             Rectangle2D r = new Rectangle2D.Double( 0, -radiusEarth - stickHeight, stickHeight / 2, stickHeight );
             manGraphic = new FillGraphic( r, Color.orange );
             manGraphic.addMouseListener( new Translator() );
-            manGraphic.addMouseListener( new Repaint() );
+//            manGraphic.addMouseListener( new Repaint() );
             addGraphic( manGraphic );
 
             JButton buttonhead = new JButton( "Button" );
@@ -211,15 +211,17 @@ public class TestSceneGraph2 extends SceneGraphPanel {
             textGraphic = new TextGraphic( "", Color.white );
             textGraphic.setFontLucidaSansBold( 16 );
             addGraphic( textGraphic );
+            setDrawBorderDebug( true );
             update();
+
         }
 
         public void update() {
             GraphicNode root = target.getRoot();
 //            System.out.println( "root = " + root );
             Shape boundsInRoot = target.getBoundsIn( root );
-//            System.out.println( "target.getLocalBounds() = " + target.getLocalBounds() );
-//            System.out.println( "boundsInRoot = " + boundsInRoot );
+            System.out.println( "target.getLocalBounds() = " + target.getLocalBounds() );
+            System.out.println( "boundsInRoot = " + boundsInRoot );
             Rectangle2D rectInRoot = boundsInRoot.getBounds2D();
             System.out.println( "rectInRoot = " + rectInRoot );
             System.out.println( "rectInRoot.getCenterY() = " + rectInRoot.getCenterY() );

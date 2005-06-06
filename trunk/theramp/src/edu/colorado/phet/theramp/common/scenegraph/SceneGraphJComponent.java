@@ -339,8 +339,10 @@ public class SceneGraphJComponent extends AbstractGraphic {
     }
 
     public void repaint() {
+        super.setRegionDirty();
         redraw();//TODO is this necessary?
-        super.repaint();//TODO fixme
+//        super.repaint();//TODO fixme
+        super.setRegionDirty();
     }
 
     private interface MouseListenerMethod extends MouseMethod {

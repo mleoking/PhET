@@ -1,11 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.common.scenegraph;
 
+import edu.colorado.phet.common.view.util.GraphicsState;
 import edu.colorado.phet.common.view.util.RectangleUtils;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -20,23 +19,25 @@ import java.util.Collections;
  */
 
 public abstract class GraphicNode extends AbstractGraphic {
-    private boolean drawBorder = false;
 
     public abstract AbstractGraphic[] getChildren();
 
     private boolean composite = false;
 
     public void paint( Graphics2D graphics2D ) {
-        super.setup( graphics2D );
+        setup( graphics2D );
         AbstractGraphic[] g = getChildren();
         for( int i = 0; i < g.length; i++ ) {
             AbstractGraphic abstractGraphic = g[i];
             abstractGraphic.paint( graphics2D );
         }
-        super.restore( graphics2D );
+        restore( graphics2D );
     }
 
     public void mouseEntered( SceneGraphMouseEvent event ) {
+        if( isIgnoreMouse() ) {
+            return;
+        }
         if( !composite ) {
             SceneGraphMouseEvent orig = event.push( getTransform(), this );
             for( int i = 0; i < getChildrenMouseOrder().length; i++ ) {
@@ -48,6 +49,9 @@ public abstract class GraphicNode extends AbstractGraphic {
     }
 
     public void mouseExited( SceneGraphMouseEvent event ) {
+        if( isIgnoreMouse() ) {
+            return;
+        }
         if( !composite ) {
             SceneGraphMouseEvent orig = event.push( getTransform(), this );
             for( int i = 0; i < getChildrenMouseOrder().length; i++ ) {
@@ -59,6 +63,9 @@ public abstract class GraphicNode extends AbstractGraphic {
     }
 
     public void mousePressed( SceneGraphMouseEvent event ) {
+        if( isIgnoreMouse() ) {
+            return;
+        }
         if( !composite ) {
             SceneGraphMouseEvent orig = event.push( getTransform(), this );
             for( int i = 0; i < getChildrenMouseOrder().length; i++ ) {
@@ -70,6 +77,9 @@ public abstract class GraphicNode extends AbstractGraphic {
     }
 
     public void mouseClicked( SceneGraphMouseEvent event ) {
+        if( isIgnoreMouse() ) {
+            return;
+        }
         if( !composite ) {
             SceneGraphMouseEvent orig = event.push( getTransform(), this );
             for( int i = 0; i < getChildrenMouseOrder().length; i++ ) {
@@ -81,6 +91,9 @@ public abstract class GraphicNode extends AbstractGraphic {
     }
 
     public void mouseReleased( SceneGraphMouseEvent event ) {
+        if( isIgnoreMouse() ) {
+            return;
+        }
         if( !composite ) {
             SceneGraphMouseEvent orig = event.push( getTransform(), this );
             for( int i = 0; i < getChildrenMouseOrder().length; i++ ) {
@@ -93,6 +106,9 @@ public abstract class GraphicNode extends AbstractGraphic {
 
 
     public void mouseDragged( SceneGraphMouseEvent event ) {
+        if( isIgnoreMouse() ) {
+            return;
+        }
         if( !composite ) {
             SceneGraphMouseEvent orig = event.push( getTransform(), this );
             for( int i = 0; i < getChildrenMouseOrder().length; i++ ) {
@@ -105,6 +121,9 @@ public abstract class GraphicNode extends AbstractGraphic {
 
 
     public void handleEntranceAndExit( SceneGraphMouseEvent event ) {
+        if( isIgnoreMouse() ) {
+            return;
+        }
         SceneGraphMouseEvent orig = event.push( getTransform(), this );
         AbstractGraphic[] children = getChildrenMouseOrder();
         for( int i = 0; i < children.length; i++ ) {
@@ -147,39 +166,41 @@ public abstract class GraphicNode extends AbstractGraphic {
         AbstractGraphic[] children = getChildren();
         Rectangle2D[] r2 = new Rectangle2D[children.length];
         for( int i = 0; i < r2.length; i++ ) {
-            r2[i] = children[i].getLocalBounds();
+            AbstractGraphic child = children[i];
+//            r2[i] = children[i].getTransform().createTransformedShape( children[i].getLocalBounds() ).getBounds2D();
+            if( child == null ) {
+                throw new RuntimeException( "Null child" );
+            }
+            if( child.getTransform() == null ) {
+                throw new RuntimeException( "Null transform" );
+            }
+            if( child.getLocalBounds() == null ) {
+                child.getLocalBounds();
+                throw new RuntimeException( "Null bounds" );
+            }
+            r2[i] = child.getTransform().createTransformedShape( child.getLocalBounds() ).getBounds2D();
         }
-        Rectangle2D union = RectangleUtils.union( r2 );
-        try {
-            //they report in their frame, need the answer in my frame.
-            return getTransformOrIdentity().createInverse().createTransformedShape( union ).getBounds2D();//todo is this correct?
-        }
-        catch( NoninvertibleTransformException e ) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    private AffineTransform getTransformOrIdentity() {
-        if( getTransform() == null ) {
-            return new AffineTransform();
+        if( r2.length == 0 ) {
+            return new Rectangle2D.Double();
         }
         else {
-            return getTransform();
+            Rectangle2D union = RectangleUtils.union( r2 );
+            return union;
         }
     }
 
-    protected void restore( Graphics2D graphics2D ) {
-        super.restore( graphics2D );
-        if( !( this instanceof GraphicNode ) && drawBorder ) {
-            graphics2D.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{4, 4}, 0 ) );
-            graphics2D.setColor( Color.red );
-            graphics2D.draw( getLocalBounds() );
-        }
+    protected void drawBorderDebug( Graphics2D graphics2D ) {
+        GraphicsState state = new GraphicsState( graphics2D );
+        graphics2D.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{4, 4}, 0 ) );
+        graphics2D.setColor( Color.red );
+        graphics2D.draw( getLocalBounds() );
+        state.restoreGraphics();
     }
 
     public AbstractGraphic getHandler( SceneGraphMouseEvent event ) {
+        if( isIgnoreMouse() ) {
+            return null;
+        }
         if( !composite ) {
             SceneGraphMouseEvent orig = event.push( getTransform(), this );
             for( int i = 0; i < getChildrenMouseOrder().length; i++ ) {
