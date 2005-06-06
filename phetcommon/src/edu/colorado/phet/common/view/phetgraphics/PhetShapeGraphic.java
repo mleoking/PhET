@@ -239,12 +239,21 @@ public class PhetShapeGraphic extends PhetGraphic {
             return getNetTransform().createTransformedShape( shape.getBounds() ).getBounds();
         }
         else {
-            computeStrokedShape();
             // todo: why aren't we transforming strokedShape and using its bound?
             Rectangle bounds = strokedShape.getBounds();
             Rectangle expanded = new Rectangle( bounds.x, bounds.y, bounds.width + 1, bounds.height + 1 ); //necessary to capture the entire bounds.
             return getNetTransform().createTransformedShape( expanded ).getBounds();
         }
+    }
+
+    /**
+     * Extends the parent class behavior to compute the stroked shape, if it has
+     * a stroke. Otherwise, if the shape itself changes size, the stoke won't be
+     * re-computed.
+     */
+    public void setBoundsDirty() {
+        computeStrokedShape();
+        super.setBoundsDirty();
     }
 
     private boolean sameShape( Shape a, Shape b ) {
