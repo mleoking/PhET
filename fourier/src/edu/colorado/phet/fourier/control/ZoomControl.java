@@ -46,8 +46,8 @@ public class ZoomControl extends GraphicLayerSet {
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
     
-    private static final Point IN_LOCATION = new Point( 3, 13 );
-    private static final Point OUT_LOCATION = new Point( 31, 13 );
+    private static final Point IN_LOCATION = new Point( 31, 13 );
+    private static final Point OUT_LOCATION = new Point( 3, 13 );
     
     //----------------------------------------------------------------------------
     // Instance data
