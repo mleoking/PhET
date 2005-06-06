@@ -41,7 +41,7 @@ public class HollowSphereGraphic extends PhetShapeGraphic implements SimpleObser
         rep.setFrameFromCenter( sphere.getPosition().getX(), sphere.getPosition().getY(),
                                 sphere.getPosition().getX() + sphere.getRadius(),
                                 sphere.getPosition().getY() + sphere.getRadius() );
-        setBoundsDirty();
+        setShapeDirty();
         repaint();
     }
 
