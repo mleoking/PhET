@@ -104,21 +104,27 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
     /**
      * Overrides behavior of superclass to only remove molecules that are NOT in the balloon
+     *
      * @param species
      */
     public void removeGasMolecule( Class species ) {
+        removeGasMolecule( species, false );
+    }
+
+    private void removeGasMolecule( Class species, boolean fromBalloon ) {
         java.util.List bodies = getIdealGasModel().getBodies();
 
         // Randomize which end of the list of bodies we start searching from,
         // just to make sure there is no non-random effect on the temperature
-        // of the system
+        // of the system. We must also take care to remove the particle from the
+       // balloon or the box, depending on the parameter we got
         Object obj = null;
         while( obj == null ) {
             boolean randomB = new Random().nextBoolean();
             if( randomB ) {
                 for( int i = 0; i < bodies.size(); i++ ) {
                     obj = bodies.get( i );
-                    if( species.isInstance( obj ) && !balloon.containsBody( (Body)obj )) {
+                    if( species.isInstance( obj ) && balloon.containsBody( (Body)obj ) == fromBalloon ) {
                         break;
                     }
                 }
@@ -126,21 +132,27 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
             else {
                 for( int i = bodies.size() - 1; i >= 0; i-- ) {
                     obj = bodies.get( i );
-                    if( species.isInstance( obj ) && !balloon.containsBody( (Body)obj )) {
+                    if( species.isInstance( obj ) && balloon.containsBody( (Body)obj ) == fromBalloon ) {
                         break;
                     }
                 }
             }
         }
-        if( obj instanceof GasMolecule  && !balloon.containsBody( (Body)obj )) {
+
+        // Remove the molecule from the system. If we are removing it from the balloon, tell the balloon
+        if( obj instanceof GasMolecule ) {
             GasMolecule molecule = (GasMolecule)obj;
             getIdealGasModel().removeModelElement( molecule );
+            if( fromBalloon ) {
+                balloon.removeContainedBody( molecule );
+            }
         }
     }
 
 
     /**
      * Overrides parent behavior to return the count of heavy molecules in the box, but not in the sphere
+     *
      * @return
      */
     public int getHeavySpeciesCnt() {
@@ -149,6 +161,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
     /**
      * Overrides parent behavior to return the count of light molecules in the box, but not in the sphere
+     *
      * @return
      */
     public int getLightSpeciesCnt() {
@@ -220,7 +233,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
             }
             else if( dn < 0 ) {
                 for( int i = 0; i < -dn; i++ ) {
-                    removeGasMolecule( LightSpecies.class );
+                    removeGasMolecule( LightSpecies.class, true );
                 }
             }
             currNumMolecules += dn;
