@@ -11,10 +11,9 @@
 
 package edu.colorado.phet.fourier.model;
 
-import java.util.Hashtable;
-
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
@@ -30,8 +29,7 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final int WAVE_TYPE_SINE = 0;
-    public static final int WAVE_TYPE_COSINE = 1;
+    private static double[] _sineValues;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -39,7 +37,6 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
     
     private Harmonic _harmonic;
     private int _waveType;
-    private double[] _sineValues;
     private double _fundamentalCycle;;
     private int _numberOfPoints;
     private int _numberOfFundamentalCycles;
@@ -67,16 +64,23 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
         _fundamentalCycle = fundamentalCycle;
         _numberOfFundamentalCycles = numberOfFundamentalCycles;
         
-        _waveType = WAVE_TYPE_SINE;
+        _waveType = FourierConstants.WAVE_TYPE_SINE;
 
-        _sineValues = new double[360];
-        for ( int i = 0; i < 360; i++ ) {
-            _sineValues[i] = Math.sin( Math.toRadians( i ) );
+        // Cache of sine values.
+        if ( _sineValues == null ) {
+            _sineValues = new double[360];
+            for ( int i = 0; i < 360; i++ ) {
+                _sineValues[i] = Math.sin( Math.toRadians( i ) );
+            }
         }
 
         update();
     }
     
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void finalize() {
         _harmonic.removeObserver( this );
         _harmonic = null;
@@ -92,7 +96,7 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
      * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
      */
     public void setWaveType( int waveType ) {
-        assert( waveType == WAVE_TYPE_SINE || waveType == WAVE_TYPE_COSINE );
+        assert( waveType == FourierConstants.WAVE_TYPE_SINE || waveType == FourierConstants.WAVE_TYPE_COSINE );
         if ( waveType != _waveType ) {
             _waveType = waveType;
             update();
@@ -112,10 +116,10 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates this data set to match its associated Harmonic model.
+     */
     public void update() {
-//        System.out.println( "HarmonicDataSet.update " + _harmonic.getOrder() );//XXX
-//        addPoint( 0, 0 ); //XXX
-//        addPoint( 0.5, ( 4 / Math.PI ) / ( _harmonic.getOrder() + 1 ) );//XXX
         
         clear();
 
@@ -133,8 +137,13 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
             for ( int i = 0; i <= _numberOfPoints; i++ ) {
                 double angle = startAngle + ( i * deltaAngle );
                 int degrees = (int)( Math.toDegrees( angle ) % 360 );
-//                double radians = ( _waveType == WAVE_TYPE_SINE ) ? Math.sin( angle ) : Math.cos( angle );
-                double radians = _sineValues[ degrees ];
+                double radians;
+                if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                    radians = _sineValues[ degrees ];
+                }
+                else { /* cosines */
+                    radians = 1 - _sineValues[ degrees ];
+                }
                 double x = startX + ( i * deltaX );
                 double y = amplitude * radians;
                 addPoint( x, y );

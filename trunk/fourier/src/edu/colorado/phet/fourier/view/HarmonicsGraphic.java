@@ -106,6 +106,12 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     * 
+     * @param component the parent Component
+     * @param fourierSeriesModel the Fourier series that this view displays
+     */
     public HarmonicsGraphic( Component component, FourierSeries fourierSeriesModel ) {
         super( component );
         
@@ -235,6 +241,10 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         update();
     }
     
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void finalize() {
         _fourierSeriesModel.removeObserver( this );
         _fourierSeriesModel = null;
@@ -244,6 +254,11 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the wave type, sine or cosine.
+     * 
+     * @param waveType FourierConstants.WAVE_TYPE_SINE or FourierConstants.WAVE_TYPE_COSINE
+     */
     public void setWaveType( int waveType ) {
        if ( waveType != _waveType ) {
            _waveType = waveType;
@@ -255,6 +270,11 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
        }
     }
     
+    /**
+     * Gets the wave type.
+     * 
+     * @return FourierConstants.WAVE_TYPE_SINE or FourierConstants.WAVE_TYPE_COSINE
+     */
     public int getWaveType() {
         return _waveType;
     }
@@ -263,6 +283,9 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Updates the view to match the model.
+     */
     public void update() {
         
         int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
@@ -292,6 +315,9 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     // Inner classes
     //----------------------------------------------------------------------------
     
+    /* 
+     * EventListener handles events related to this view.
+     */
     private class EventListener implements ActionListener {
         public EventListener() {}
 

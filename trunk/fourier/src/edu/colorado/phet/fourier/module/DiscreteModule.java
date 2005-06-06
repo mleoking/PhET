@@ -22,14 +22,14 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
-import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.Vector2D;
 import edu.colorado.phet.fourier.view.AmplitudesGraphic;
 import edu.colorado.phet.fourier.view.HarmonicsGraphic;
-import edu.colorado.phet.fourier.view.SineWaveGraphic;
 import edu.colorado.phet.fourier.view.SumGraphic;
 
 
@@ -63,7 +63,7 @@ public class DiscreteModule extends FourierModule {
     // Fourier Components
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
     private static final int NUMBER_OF_HARMONICS = 7;
-    private static final int WAVE_TYPE = SineWaveGraphic.WAVE_TYPE_SINE;
+    private static final int WAVE_TYPE = FourierConstants.WAVE_TYPE_SINE;
   
     //----------------------------------------------------------------------------
     // Instance data
