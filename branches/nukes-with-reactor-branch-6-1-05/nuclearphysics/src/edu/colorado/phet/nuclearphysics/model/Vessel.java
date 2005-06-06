@@ -59,7 +59,7 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
         double spacing = ( getWidth() + channelThickness ) / ( numChannels + 1 );
         for( int i = 0; i < rodChannels.length; i++ ) {
             if( orientation == ControlledFissionModule.VERTICAL ) {
-                double channelX = ( getX() - channelThickness ) + ( spacing * ( i + 1 ) );
+                double channelX = ( getX() - channelThickness /2 ) + ( spacing * ( i + 1 ) );
                 double channelY = getY();
                 rodChannels[i] = new Rectangle2D.Double( channelX - channelThickness / 2, channelY,
                                                          channelThickness, getHeight() );

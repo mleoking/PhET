@@ -12,15 +12,12 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.ControlRodGroupGraphic;
-import edu.colorado.phet.nuclearphysics.view.VesselGraphic;
 import edu.colorado.phet.nuclearphysics.view.VesselBackgroundPanel;
+import edu.colorado.phet.nuclearphysics.view.VesselGraphic;
 
 import java.awt.geom.*;
-import java.awt.*;
 
 /**
  * ControlledFissionModule
@@ -77,6 +74,10 @@ public class ControlledFissionModule extends ChainReactionModule {
         VesselGraphic vesselGraphic = new VesselGraphic( getPhysicalPanel(), vessel );
         getPhysicalPanel().addOriginCenteredGraphic( vesselGraphic, VESSEL_LAYER );
 
+        // Add a background to the vessel that will change color with the energy being produced by the reaction
+        VesselBackgroundPanel vesselBackgroundPanel = new VesselBackgroundPanel( getPhysicalPanel(), vessel );
+        getPhysicalPanel().addOriginCenteredGraphic( vesselBackgroundPanel, ApparatusPanel.LAYER_DEFAULT - 1 );
+
         // Add control rods
         ControlRod[] controlRods = createControlRods( VERTICAL, vessel );
         ControlRodGroupGraphic controlRodGroupGraphic = new ControlRodGroupGraphic( getPhysicalPanel(),
@@ -84,10 +85,6 @@ public class ControlledFissionModule extends ChainReactionModule {
                                                                                     vessel,
                                                                                     getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( controlRodGroupGraphic, CONTROL_ROD_LAYER );
-
-        // Add a background to the vessel that will change color with the energy being produced by the reaction
-        VesselBackgroundPanel vesselBackgroundPanel = new VesselBackgroundPanel( getApparatusPanel(), vessel );
-        getPhysicalPanel().addOriginCenteredGraphic( vesselBackgroundPanel, ApparatusPanel.LAYER_DEFAULT - 1 );
 
         // Add a thermometer
 
@@ -109,6 +106,9 @@ public class ControlledFissionModule extends ChainReactionModule {
             Rectangle2D[] channels = vessel.getChannels();
             for( int i = 0; i < channels.length; i++ ) {
                 Rectangle2D channel = channels[i];
+                // The computation of the x coordinate may look funny. Here's why it's the way it is: The rod is
+                // specified by its centerline, rather than its corner. The second offset of half the channel width
+                // is there to make all the rods evenly spaced within the vessel. 
                 rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth() ) / 2,
                                                               channel.getMinY() ),
                                           new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
@@ -165,12 +165,9 @@ public class ControlledFissionModule extends ChainReactionModule {
                                              products.getParent().getPosition().getY() + dy );
         products.getDaughter2().setPosition( products.getParent().getPosition().getX() - dx,
                                              products.getParent().getPosition().getY() - dy );
-//        products.getDaughter1().setPosition( products.getDaughter1().getPosition().getX() + dx,
-//                                             products.getDaughter1().getPosition().getY() + dy );
-//        products.getDaughter2().setPosition( products.getDaughter2().getPosition().getX() - dx,
-//                                             products.getDaughter2().getPosition().getY() - dy );
         products.getDaughter1().setVelocity( 0, 0 );
         products.getDaughter2().setVelocity( 0, 0 );
+
         super.fission( products );
     }
 

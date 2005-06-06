@@ -33,8 +33,8 @@ public class VesselGraphic extends CompositePhetGraphic {
         super( component );
         this.vessel = vessel;
         PhetShapeGraphic boundary = new PhetShapeGraphic( component,
-                                                          new Rectangle2D.Double( vessel.getX() - wallThickness,
-                                                                                  vessel.getY() - wallThickness,
+                                                          new Rectangle2D.Double( vessel.getX(),
+                                                                                  vessel.getY(),
                                                                                   vessel.getWidth(), vessel.getHeight() ),
                                                           new BasicStroke( 10 ), Color.black );
 //                                                          new BasicStroke( (float)wallThickness ), Color.black );
