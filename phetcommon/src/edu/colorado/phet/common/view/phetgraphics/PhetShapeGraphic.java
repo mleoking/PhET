@@ -73,7 +73,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         setBoundsDirty();
         autorepaint();
     }
-    
+
     public Shape getShape() {
         return shape;
     }
@@ -153,7 +153,9 @@ public class PhetShapeGraphic extends PhetGraphic {
      */
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
+            Shape origClip = g2.getClip();
             super.saveGraphicsState( g2 );
+            super.applyClip( g2 );
             RenderingHints hints = super.getRenderingHints();
             if( hints != null ) {
                 g2.setRenderingHints( hints );
@@ -180,6 +182,7 @@ public class PhetShapeGraphic extends PhetGraphic {
                 }
             }
             super.restoreGraphicsState();
+            g2.setClip( origClip );
         }
     }
 
