@@ -40,12 +40,16 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
     private SimpleObservable peObservers = new SimpleObservable();
     private SimpleObservable keObservers = new SimpleObservable();
     private double lastTick;
-    private double lastRampAngle = 0.0;
+
 
     ModelElement stepStrategy;
     private double originalBlockKE;
-    private double lastPotentialEnergy;
-    private double lastTotalEnergy;
+
+//    private double lastPotentialEnergy;
+//    private double lastTotalEnergy;
+//    private double lastRampAngle = 0.0;
+
+    private RampModel lastState;
 
 //    private double rampAngleSavValue;
 
@@ -167,24 +171,26 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
             dt = currentTimeSeconds() - lastTick;
             dt = MathUtil.clamp( 1 / 30.0, dt, 1 / 5.0 );
 
-            RampModel orig = getState();
+            RampModel orig = lastState;
             setupForces();
             updateBlock( dt );
 
             double blockDX = getBlockPosition() - orig.getBlockPosition();
-            if( getDTheta( orig ) != 0.0 ) {
-                System.out.println( "RampModel.newStepCode" );
-            }
-//            double energyAddedByRaisingRamp = getEnergyAddedByRaisingRamp( orig );
-//            if( energyAddedByRaisingRamp != 0.0 ) {
-//                System.out.println( "**************energyAddedByRaisingRamp = " + energyAddedByRaisingRamp );
-//            }
 
-            double addedEnergy = appliedForce.getParallelComponent() * blockDX;
-            thermalEnergy += addedEnergy - ( getMechanicalEnergy() - orig.getMechanicalEnergy() );
-            appliedWork += ( getTotalEnergy() - lastTotalEnergy );
-            frictiveWork += -( getThermalEnergy() - orig.getThermalEnergy() );
-            gravityWork += -( getPotentialEnergy() - lastPotentialEnergy );
+            if( getDTheta( orig ) != 0.0 ) {//angle changed.
+                double dThermal = frictionForce.getParallelComponent() * blockDX;
+                thermalEnergy += dThermal;//dThermal - ( getMechanicalEnergy() - orig.getMechanicalEnergy() );
+                appliedWork += ( getTotalEnergy() - orig.getTotalEnergy() );
+                frictiveWork += -( getThermalEnergy() - orig.getThermalEnergy() );
+                gravityWork += -( getPotentialEnergy() - orig.getPotentialEnergy() );
+            }
+            else {//applied force
+                double addedEnergy = appliedForce.getParallelComponent() * blockDX;
+                thermalEnergy += addedEnergy - ( getMechanicalEnergy() - orig.getMechanicalEnergy() );
+                appliedWork += ( getTotalEnergy() - orig.getTotalEnergy() );
+                frictiveWork += -( getThermalEnergy() - orig.getThermalEnergy() );
+                gravityWork += -( getPotentialEnergy() - orig.getPotentialEnergy() );
+            }
 
             //So height of totalEnergy bar should always be same as height W_app bar
             double dE = getTotalEnergy() - getAppliedWork();
@@ -206,9 +212,11 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
             }
         }
         lastTick = currentTimeSeconds();
-        lastRampAngle = getRamp().getAngle();
-        lastPotentialEnergy = getPotentialEnergy();
-        lastTotalEnergy = getTotalEnergy();
+        lastState = getState();
+    }
+
+    private boolean isFrictionEnabled() {
+        return getBlock().getKineticFriction() != 0.0;
     }
 
     private double getDTheta( RampModel orig ) {
@@ -217,23 +225,7 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         System.out.println( "origAng=" + origSurf.getAngle() + ", newAng=" + currSurf.getAngle() );
 
         if( origSurf.getClass().equals( currSurf.getClass() ) ) {
-//            System.out.println( "Same Surface" );
-            return ramp.getAngle() - lastRampAngle;
-//            return currSurf.getAngle() - origSurf.getAngle();
-        }
-        else {
-//            System.out.println( "Different Surface" );
-            return 0.0;
-        }
-    }
-
-    private double getEnergyAddedByRaisingRamp( RampModel orig ) {
-        double dTheta = getDTheta( orig );
-        if( dTheta != 0.0 ) {
-            double errOrig = orig.getTotalEnergy() - orig.getAppliedWork();
-            System.out.println( "dTheta = " + dTheta );
-            System.out.println( "errOrig = " + errOrig );
-            return errOrig;
+            return ramp.getAngle() - orig.ramp.getAngle();
         }
         else {
             return 0.0;
@@ -262,99 +254,14 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
 
         this.wallForce.setParallel( wallForce );
         totalForce.setParallel( netForce );
-
-
     }
 
     private double getBlockPosition() {
         return getBlock().getPosition();
     }
 
-//        private void newStepCode( double dt ) {
-////        double dt;
-//        if( lastTick != 0.0 ) {
-//            dt = currentTimeSeconds() - lastTick;
-//            dt = MathUtil.clamp( 1 / 30.0, dt, 1 / 5.0 );
-//
-//            double origBlockPosition = block.getPosition();
-//            double origBlockEnergy = block.getKineticEnergy();
-//            double origPotEnergy = getPotentialEnergy();
-//            double origMech = getMechanicalEnergy();
-//
-//            gravityForce.setX( 0 );
-//            gravityForce.setY( gravity * block.getMass() );
-//            double fa = block.getFrictionForce( gravity, appliedForce.getParallelComponent() + gravityForce.getParallelComponent() );
-//            frictionForce.setParallel( fa );
-//
-//            double force = appliedForce.getParallelComponent() + gravityForce.getParallelComponent() + frictionForce.getParallelComponent();
-//            normalForce.setPerpendicular( gravityForce.getPerpendicularComponent() );
-//
-//            double wallForce = getSurface().getWallForce( force, getBlock() );
-//            force += wallForce;
-//            this.wallForce.setParallel( wallForce );
-//
-//            totalForce.setParallel( force );
-//            double acceleration = force / block.getMass();
-//            block.setAcceleration( acceleration );
-//            originalBlockKE = block.getKineticEnergy();
-//            block.stepInTime( this, dt ); //could fire a collision event.
-//
-//            double newKE = block.getKineticEnergy();
-//            if( newKE != origBlockEnergy ) {
-//                keObservers.notifyObservers();
-//            }
-//            double newPE = getPotentialEnergy();
-//            if( newPE != origPotEnergy ) {
-//                peObservers.notifyObservers();
-//            }
-//
-//            double totalWork = newKE;
-//            double blockDX = block.getPosition() - origBlockPosition;
-//            double dFrictiveWork = ( frictionForce.getParallelComponent() * blockDX );
-//            frictiveWork += dFrictiveWork;
-//
-//            thermalEnergy -= dFrictiveWork;
-//            double totalEnergy = getTotalEnergy();
-//            appliedWork = totalEnergy;
-//            gravityWork = totalWork - appliedWork - frictiveWork;
-////            System.out.println( "getPotentialEnergy() = " + getPotentialEnergy() );
-////            if( userIsAddingEnergy() ) {
-////                thermalEnergy += Math.abs( dFrictiveWork );//this is close, but not exact.
-////            }
-////            else {
-////                double finalMech = getMechanicalEnergy();
-////                double dE = Math.abs( finalMech ) - Math.abs( origMech );
-////                if( dE <= 0 ) {
-////                    thermalEnergy += Math.abs( dE );
-////                }
-////                else {
-//////                    new RuntimeException( "Gained Energy, dE=" + dE ).printStackTrace();
-////                    String message = "Gained Energy, dE=" + dE;
-////                    System.out.println( "message = " + message );
-//////                    new RuntimeException( message ).printStackTrace();
-////                }
-////            }
-//            //So height of totalEnergy bar should always be same as height W_app bar
-//            double dE = getTotalEnergy() - getAppliedWork();
-//            if( Math.abs( dE ) > 1.0E-9 ) {
-//                System.out.println( "dE=" + dE + ", EnergyTotal=" + getTotalEnergy() + ", WorkApplied=" + getAppliedWork() );
-//            }
-//            //deltaKE = W_net
-//            double dK = getBlock().getKineticEnergy() - getTotalWork();
-//            if( Math.abs( dK ) > 1.0E-9 ) {
-//                System.out.println( "dK=" + dK + ", Delta KE=" + getBlock().getKineticEnergy() + ", Net Work=" + getTotalWork() );
-//            }
-//
-//        }
-//        lastTick = currentTimeSeconds();
-//    }
-
     private double getMechanicalEnergy() {
         return block.getKineticEnergy() + getPotentialEnergy();
-    }
-
-    private boolean userIsAddingEnergy() {
-        return userAddingEnergy;
     }
 
     public void setUserIsAddingEnergy( boolean userAddingEnergy ) {
