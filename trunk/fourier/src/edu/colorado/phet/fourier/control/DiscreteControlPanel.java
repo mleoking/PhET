@@ -15,7 +15,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Hashtable;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -91,13 +91,12 @@ public class DiscreteControlPanel extends FourierControlPanel {
     private JCheckBox _expandSumCheckBox;
     
     // Choices
-    private Hashtable _domainChoices;
-    private Hashtable _presetChoices;
-    private Hashtable _waveTypeChoices;
-    private Hashtable _spaceMathFormChoices;
-    private Hashtable _timeMathFormChoices;
-    private Hashtable _spaceAndTimeMathFormChoices;
-    private String _sinesString, _cosinesString;
+    private ArrayList _domainChoices;
+    private ArrayList _presetChoices;
+    private ArrayList _waveTypeChoices;
+    private ArrayList _spaceMathFormChoices;
+    private ArrayList _timeMathFormChoices;
+    private ArrayList _spaceAndTimeMathFormChoices;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -140,10 +139,10 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 String label = SimStrings.get( "DiscreteControlPanel.domain" );
 
                 // Choices
-                _domainChoices = new Hashtable();
-                _domainChoices.put( SimStrings.get( "domain.space" ), new Integer( DOMAIN_SPACE ) );
-                _domainChoices.put( SimStrings.get( "domain.time" ), new Integer( DOMAIN_TIME ) );
-                _domainChoices.put( SimStrings.get( "domain.spaceAndTime" ), new Integer( DOMAIN_SPACE_AND_TIME ) );
+                _domainChoices = new ArrayList();
+                _domainChoices.add( new ControlPanelComboBox.Choice( DOMAIN_SPACE, SimStrings.get( "domain.space" ) ) );
+                _domainChoices.add( new ControlPanelComboBox.Choice( DOMAIN_TIME, SimStrings.get( "domain.time" ) ) );
+                _domainChoices.add( new ControlPanelComboBox.Choice( DOMAIN_SPACE_AND_TIME, SimStrings.get( "domain.spaceAndTime" ) ) );
 
                 // Function combo box
                 _domainComboBox = new ControlPanelComboBox( label, _domainChoices );
@@ -155,12 +154,12 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 String label = SimStrings.get( "DiscreteControlPanel.presets" );
 
                 // Choices
-                _presetChoices = new Hashtable();
-                _presetChoices.put( SimStrings.get( "preset.sinecosine" ), new Integer( PRESET_SINE_COSINE ) );
-                _presetChoices.put( SimStrings.get( "preset.sawtooth" ), new Integer( PRESET_SAWTOOTH ) );
-                _presetChoices.put( SimStrings.get( "preset.triangle" ), new Integer( PRESET_TRIANGLE ) );
-                _presetChoices.put( SimStrings.get( "preset.wavePacket" ), new Integer( PRESET_WAVE_PACKET ) );
-                _presetChoices.put( SimStrings.get( "preset.custom" ), new Integer( PRESET_CUSTOM ) );
+                _presetChoices = new ArrayList();
+                _presetChoices.add( new ControlPanelComboBox.Choice( PRESET_SINE_COSINE, SimStrings.get( "preset.sinecosine" ) ) );
+                _presetChoices.add( new ControlPanelComboBox.Choice( PRESET_SAWTOOTH, SimStrings.get( "preset.sawtooth" ) ) );
+                _presetChoices.add( new ControlPanelComboBox.Choice( PRESET_TRIANGLE, SimStrings.get( "preset.triangle" ) ) );
+                _presetChoices.add( new ControlPanelComboBox.Choice( PRESET_WAVE_PACKET, SimStrings.get( "preset.wavePacket" ) ) );
+                _presetChoices.add( new ControlPanelComboBox.Choice( PRESET_CUSTOM, SimStrings.get( "preset.custom" ) ) );
 
                 // Presets combo box
                 _presetsComboBox = new ControlPanelComboBox( label, _presetChoices );
@@ -223,11 +222,9 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 String label = SimStrings.get( "DiscreteControlPanel.waveType" );
                 
                 // Choices
-                _sinesString = SimStrings.get( "waveType.sines" );
-                _cosinesString = SimStrings.get( "waveType.cosines" );
-                _waveTypeChoices = new Hashtable();
-                _waveTypeChoices.put( _sinesString, new Integer( SineWaveGraphic.WAVE_TYPE_SINE ) );
-                _waveTypeChoices.put( _cosinesString, new Integer( SineWaveGraphic.WAVE_TYPE_COSINE ) );
+                _waveTypeChoices = new ArrayList();
+                _waveTypeChoices.add( new ControlPanelComboBox.Choice( SineWaveGraphic.WAVE_TYPE_SINE, SimStrings.get( "waveType.sines" ) ) );
+                _waveTypeChoices.add( new ControlPanelComboBox.Choice( SineWaveGraphic.WAVE_TYPE_COSINE, SimStrings.get( "waveType.cosines" ) ) );
                 
                 // Wave Type combo box
                 _waveTypeComboBox = new ControlPanelComboBox( label, _waveTypeChoices ); 
@@ -304,21 +301,21 @@ public class DiscreteControlPanel extends FourierControlPanel {
 
                 // Choices
                 {
-                    _spaceMathFormChoices = new Hashtable();
-                    _spaceMathFormChoices.put( SimStrings.get( "mathForm.waveNumber" ), new Integer( MATH_FORM_WAVE_NUMBER ) );
-                    _spaceMathFormChoices.put( SimStrings.get( "mathForm.wavelength" ), new Integer( MATH_FORM_WAVELENGTH ) );
-                    _spaceMathFormChoices.put( SimStrings.get( "mathForm.mode" ), new Integer( MATH_FORM_MODE ) );
+                    _spaceMathFormChoices = new ArrayList();
+                    _spaceMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_WAVE_NUMBER, SimStrings.get( "mathForm.waveNumber" ) ) );
+                    _spaceMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_WAVELENGTH, SimStrings.get( "mathForm.wavelength" ) ) );
+                    _spaceMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
 
-                    _timeMathFormChoices = new Hashtable();
-                    _timeMathFormChoices.put( SimStrings.get( "mathForm.angularFrequency" ), new Integer( MATH_FORM_ANGULAR_FREQUENCY ) );
-                    _timeMathFormChoices.put( SimStrings.get( "mathForm.frequency" ), new Integer( MATH_FORM_FREQUENCY ) );
-                    _timeMathFormChoices.put( SimStrings.get( "mathForm.period" ), new Integer( MATH_FORM_PERIOD ) );
-                    _timeMathFormChoices.put( SimStrings.get( "mathForm.mode" ), new Integer( MATH_FORM_MODE ) );
+                    _timeMathFormChoices = new ArrayList();
+                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.angularFrequency" ) ) );
+                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_FREQUENCY, SimStrings.get( "mathForm.frequency" ) ) );
+                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_PERIOD, SimStrings.get( "mathForm.period" ) ) );
+                    _timeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
 
-                    _spaceAndTimeMathFormChoices = new Hashtable();
-                    _spaceAndTimeMathFormChoices.put( SimStrings.get( "mathForm.waveNumberAndAngularFrequency" ), new Integer( MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY ) );
-                    _spaceAndTimeMathFormChoices.put( SimStrings.get( "mathForm.wavelengthAndPeriod" ), new Integer( MATH_FORM_WAVELENGTH_AND_PERIOD ) );
-                    _spaceAndTimeMathFormChoices.put( SimStrings.get( "mathForm.mode" ), new Integer( MATH_FORM_MODE ) );
+                    _spaceAndTimeMathFormChoices = new ArrayList();
+                    _spaceAndTimeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY, SimStrings.get( "mathForm.waveNumberAndAngularFrequency" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_WAVELENGTH_AND_PERIOD, SimStrings.get( "mathForm.wavelengthAndPeriod" ) ) );
+                    _spaceAndTimeMathFormChoices.add( new ControlPanelComboBox.Choice( MATH_FORM_MODE, SimStrings.get( "mathForm.mode" ) ) );
                 }
 
                 // Math form combo box
@@ -400,10 +397,10 @@ public class DiscreteControlPanel extends FourierControlPanel {
             Object item = null;
             switch ( _harmonicsGraphic.getWaveType() ) {
             case SineWaveGraphic.WAVE_TYPE_SINE:
-                item = _sinesString;
+                item = SimStrings.get( "waveType.sines" );
                 break;
             case SineWaveGraphic.WAVE_TYPE_COSINE:
-                item = _cosinesString;
+                item = SimStrings.get( "waveType.cosines" );
                 break;
             default:
             }
@@ -433,12 +430,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
         public void actionPerformed( ActionEvent event ) {
 
             if ( event.getSource() == _domainComboBox.getComboBox() ) {
-                Object key = _domainComboBox.getSelectedItem();
-                System.out.println( "_domainComboBox " + key ); //XXX
-                Object value = _domainChoices.get( key );
-                assert( value != null && value instanceof Integer ); // programming error
-                int domain = ((Integer)value).intValue();
-                switch ( domain ) {
+                System.out.println( "_domainComboBox " + _domainComboBox.getSelectedItem() ); //XXX
+                switch ( _domainComboBox.getSelectedKey() ) {
                 case DOMAIN_SPACE:
                     _mathFormComboBox.setChoices( _spaceMathFormChoices );
                     _showWavelengthCheckBox.setEnabled( true );
@@ -480,11 +473,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 System.out.println( "_showPeriodTextField " + _showPeriodTextField.getText() );//XXX
             }
             else if ( event.getSource() == _waveTypeComboBox.getComboBox() ) {
-                // Use the selection to lookup the associated symbolic constant.
-                Object key = _waveTypeComboBox.getSelectedItem();
-                Object value = _waveTypeChoices.get( key );
-                assert( value != null && value instanceof Integer ); // programming error
-                int waveType = ((Integer)value).intValue();
+                System.out.println( "_waveTypeComboBox " + _waveTypeComboBox.getSelectedItem() ); //XXX
+                int waveType = _waveTypeComboBox.getSelectedKey();
                 _harmonicsGraphic.setWaveType( waveType );
                 _sumGraphic.setWaveType( waveType );
             }
@@ -497,8 +487,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 _expandSumCheckBox.setEnabled( _showMathCheckBox.isSelected() );
             }
             else if ( event.getSource() == _mathFormComboBox.getComboBox() ) {
-                Object key = _mathFormComboBox.getSelectedItem();
-                System.out.println( "_mathFormComboBox " + key ); //XXX
+                System.out.println( "_mathFormComboBox " + _mathFormComboBox.getSelectedItem() ); //XXX
             }
             else if ( event.getSource() == _expandSumCheckBox ) {
                 System.out.println( "_expandSumCheckBox " + _expandSumCheckBox.isSelected() );//XXX

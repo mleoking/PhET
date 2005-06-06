@@ -13,8 +13,7 @@ package edu.colorado.phet.fourier.control;
 
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -33,9 +32,8 @@ public class ControlPanelComboBox extends JPanel {
 
     private JLabel _label;
     private JComboBox _comboBox;
-    private Hashtable _choices;
 
-    public ControlPanelComboBox( String label, Hashtable choices ) {
+    public ControlPanelComboBox( String label, ArrayList choices ) {
 
         assert ( label != null );
         assert ( choices != null );
@@ -43,15 +41,11 @@ public class ControlPanelComboBox extends JPanel {
         // Label
         _label = new JLabel( label );
 
-        // Choices 
-        _choices = choices;
-
         // Combo box
         _comboBox = new JComboBox();
-        Enumeration enum = _choices.keys();
-        while ( enum.hasMoreElements() ) {
-            _comboBox.addItem( enum.nextElement() );
-        }
+        
+        // Choices 
+        setChoices( choices );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -73,13 +67,11 @@ public class ControlPanelComboBox extends JPanel {
         return _comboBox.isEnabled();
     }
     
-    public void setChoices( Hashtable choices ) {
+    public void setChoices( ArrayList choices ) {
         assert( choices != null );
-        _choices = choices;
         _comboBox.removeAllItems();
-        Enumeration enum = _choices.keys();
-        while ( enum.hasMoreElements() ) {
-            _comboBox.addItem( enum.nextElement() );
+        for ( int i = 0; i < choices.size(); i++ ) {
+            _comboBox.addItem( choices.get( i ) );
         }
     }
     
@@ -99,11 +91,35 @@ public class ControlPanelComboBox extends JPanel {
         return _comboBox.getSelectedItem();
     }
     
-    public void setSelectedIndex( int index ) {
-        _comboBox.setSelectedIndex( index );
+    public int getSelectedKey() {
+        int key = -1;
+        Object item = _comboBox.getSelectedItem();
+        if ( item instanceof Choice ) {
+            key = ((Choice)item).getKey();
+        }
+        return key;
     }
     
-    public int getSelectedIndex() {
-        return _comboBox.getSelectedIndex();
+    public static class Choice {
+
+        private int _key;
+        private Object _value;
+        
+        public Choice( int key, Object value ) {
+            _key = key;
+            _value = value;
+        }
+        
+        public int getKey() {
+            return _key;
+        }
+        
+        public Object getValue() {
+            return _value;
+        }
+        
+        public String toString() {
+            return _value.toString();
+        }
     }
 }
