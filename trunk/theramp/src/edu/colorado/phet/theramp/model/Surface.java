@@ -6,6 +6,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.util.SimpleObservable;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -19,16 +20,19 @@ public abstract class Surface extends SimpleObservable {
     private double x0;
     private double y0;
     private double length;
+    private double distanceOffset;
+    ArrayList collisionListeners = new ArrayList();
 
     public Surface( double angle, double length ) {
-        this( angle, length, 0, 0 );
+        this( angle, length, 0, 0, 0.0 );
     }
 
-    public Surface( double angle, double length, double x0, double y0 ) {
+    public Surface( double angle, double length, double x0, double y0, double distanceOffset ) {
         this.angle = angle;
         this.x0 = x0;
         this.y0 = y0;
         this.length = length;
+        this.distanceOffset = distanceOffset;
     }
 
     public Point2D getOrigin() {
@@ -73,10 +77,35 @@ public abstract class Surface extends SimpleObservable {
         this.x0 = state.x0;
         this.y0 = state.y0;
         this.length = state.length;
+        this.distanceOffset = state.distanceOffset;
         //todo notify observers
     }
 
     public abstract void applyBoundaryConditions( RampModel rampModel, Block block );
 
     public abstract double getWallForce( double sumOtherForces, Block block );
+
+    public double getDistanceOffset() {
+        return distanceOffset;
+    }
+
+    public void setDistanceOffset( double distanceOffset ) {
+        this.distanceOffset = distanceOffset;
+    }
+
+    public void notifyCollision() {
+        for( int i = 0; i < collisionListeners.size(); i++ ) {
+            CollisionListener collisionListener = (CollisionListener)collisionListeners.get( i );
+            collisionListener.collided( this );
+        }
+    }
+
+
+    public void addCollisionListener( CollisionListener collisionListener ) {
+        collisionListeners.add( collisionListener );
+    }
+
+    public static interface CollisionListener {
+        void collided( Surface surface );
+    }
 }

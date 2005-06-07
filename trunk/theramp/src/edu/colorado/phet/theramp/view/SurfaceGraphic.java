@@ -208,7 +208,7 @@ public class SurfaceGraphic extends GraphicLayerSet {
         Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() ) );
 
         Rectangle rect = new Rectangle( rampEnd.x - texture.getWidth() / 2, (int)( rampEnd.y + surfaceGraphic.getImage().getHeight() * 0.75 ), texture.getWidth(), rampStart.y - rampEnd.y );
-        System.out.println( "rect = " + rect );
+//        System.out.println( "rect = " + rect );
         return rect;
 //        DoubleGeneralPath path = new DoubleGeneralPath( new Point( rampEnd.x, rampStart.y ) );
 //        path.lineTo( new Point( rampEnd.x, rampEnd.y ) );

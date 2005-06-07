@@ -144,7 +144,7 @@ public class LeanerGraphic extends PhetImageGraphic {
     }
 
     private double getBlockLocation() {
-        return rampWorld.getBlockGraphic().getBlock().getPosition();
+        return rampWorld.getBlockGraphic().getBlock().getPositionInSurface();
     }
 
     private void updateTransform() {

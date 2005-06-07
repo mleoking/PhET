@@ -31,7 +31,7 @@ public class RampGraphic extends SurfaceGraphic {
         getSurfaceGraphic().addMouseInputListener( new MouseInputAdapter() {
             // implements java.awt.event.MouseMotionListener
             public void mouseDragged( MouseEvent e ) {
-                System.out.println( "RampGraphic.mouseDragged" );
+//                System.out.println( "RampGraphic.mouseDragged" );
                 arrowGraphic.setVisible( false );
             }
         } );
