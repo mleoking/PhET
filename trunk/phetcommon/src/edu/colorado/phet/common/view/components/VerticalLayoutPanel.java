@@ -41,6 +41,14 @@ public class VerticalLayoutPanel extends JPanel {
         gridBagConstraints.fill = fill;
     }
 
+    public void setFillHorizontal() {
+        setFill( GridBagConstraints.HORIZONTAL );
+    }
+
+    public void setFillNone() {
+        setFill( GridBagConstraints.NONE );
+    }
+
     public void setAnchor( int anchor ) {
         gridBagConstraints.anchor = anchor;
     }
@@ -51,5 +59,13 @@ public class VerticalLayoutPanel extends JPanel {
 
     public int getFill() {
         return gridBagConstraints.fill;
+    }
+
+    public Component addFullWidth( Component component ) {
+        int fill = getFill();
+        setFill( GridBagConstraints.HORIZONTAL );
+        Component c = add( component );
+        setFill( fill );
+        return c;
     }
 }
