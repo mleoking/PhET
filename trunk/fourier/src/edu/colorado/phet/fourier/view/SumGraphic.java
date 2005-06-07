@@ -379,14 +379,12 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
             }
         }
          
-        if ( _autoScaleEnabled && isVisible() ) {
-            Range2D currentRange = _chartGraphic.getRange();
-            double minX = currentRange.getMinX();
-            double maxX = currentRange.getMaxX();
-            double minY = -maxSum;
-            double maxY = +maxSum;
-            Range2D newRange = new Range2D( minX, minY, maxX, maxY );
-            _chartGraphic.setRange( newRange );
+        // If auto scaling is enabled, adjust the chart range to show the max.
+        if ( _autoScaleEnabled ) {
+            Range2D range = _chartGraphic.getRange();
+            range.setMinY( -maxSum );
+            range.setMaxY( +maxSum );
+            _chartGraphic.setRange( range );
         }
 
         repaint();
