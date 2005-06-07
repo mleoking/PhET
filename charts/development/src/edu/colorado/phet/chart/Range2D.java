@@ -29,10 +29,6 @@ public class Range2D {
         this( range.minX, range.minY, range.maxX, range.maxY );
     }
 
-    public double getMinX() {
-        return minX;
-    }
-
     public Range2D union( Range2D range ) {
         Range2D union = new Range2D( Math.min( minX, range.minX ),
                                      Math.min( minY, range.minY ),
@@ -41,34 +37,45 @@ public class Range2D {
         return union;
     }
 
+    public void setRange( double minX, double minY, double maxX, double maxY ) {
+        this.minX = minX;
+        this.minY = minY;
+        this.maxX = maxX;
+        this.maxY = maxY;
+    }
+    
     public void setMinX( double minX ) {
         this.minX = minX;
     }
 
-    public double getMinY() {
-        return minY;
+    public double getMinX() {
+        return minX;
     }
-
-    public void setMinY( double minY ) {
-        this.minY = minY;
-    }
-
-    public double getMaxX() {
-        return maxX;
-    }
-
+    
     public void setMaxX( double maxX ) {
         this.maxX = maxX;
     }
-
-    public double getMaxY() {
-        return maxY;
+    
+    public double getMaxX() {
+        return maxX;
+    }
+    
+    public void setMinY( double minY ) {
+        this.minY = minY;
+    }
+    
+    public double getMinY() {
+        return minY;
     }
 
     public void setMaxY( double maxY ) {
         this.maxY = maxY;
     }
-
+    
+    public double getMaxY() {
+        return maxY;
+    }
+    
     public Rectangle2D.Double getBounds() {
         Rectangle2D.Double r = new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
         return r;
