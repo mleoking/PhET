@@ -386,18 +386,6 @@ public class ControlPanel extends JPanel {
             setFill( GridBagConstraints.NONE );
         }
 
-        public Component add( Component comp ) {
-            return super.add( comp );
-        }
-
-        public Component addFullWidth( Component component ) {
-            int fill = getFill();
-            setFill( GridBagConstraints.HORIZONTAL );
-            Component c = addControl( component );
-            setFill( fill );
-            return c;
-        }
-
     }
 
 }
