@@ -232,8 +232,17 @@ public class ControlPanel extends JPanel {
                 controlPane.reshape( 0, controlTop, controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
 //                reshapeAll(controlPane);
             }
-            fixAll( controlPane );
+            if( isMacOSX() ) {
+                fixAll( controlPane );
+            }
 //            controlPane.repaint();
+        }
+
+        private boolean isMacOSX() {
+            String lcOSName = System.getProperty( "os.name" ).toLowerCase();
+            boolean MAC_OS_X = lcOSName.startsWith( "mac os x" );
+//            System.out.println( "MAC_OS_X = " + MAC_OS_X );
+            return MAC_OS_X;
         }
 
         /**
