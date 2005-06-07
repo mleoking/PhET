@@ -41,18 +41,20 @@ public class BarGraphSet extends CompositePhetGraphic {
         transform1D = new ModelViewTransform1D( 0, 300, 0, 3 );
         topY = (int)( rampPanel.getRampBaseY() * 0.82 ) + 120;
         y = 750;
-//        int height = y - topY;
         width = 23;
         dw = 10;
         sep = width + dw;
         PhetShadowTextGraphic phetShadowTextGraphic = new PhetShadowTextGraphic( rampPanel, new Font( "Lucida Sans", Font.BOLD, 22 ), title, Color.black, 1, 1, Color.gray );
         phetShadowTextGraphic.translate( 5, topY + 10 );
         addGraphic( phetShadowTextGraphic, 100 );
-
     }
 
     protected RampLookAndFeel getLookAndFeel() {
         return rampPanel.getLookAndFeel();
+    }
+
+    public double getMaxDisplayableEnergy() {
+        return Math.abs( transform1D.viewToModelDifferential( y - topY ) );
     }
 
     protected void addClockTickListener( ClockTickListener clockTickListener ) {
@@ -60,7 +62,6 @@ public class BarGraphSet extends CompositePhetGraphic {
     }
 
     public void setAccessors( ValueAccessor[] workAccess ) {
-
         for( int i = 0; i < workAccess.length; i++ ) {
             final ValueAccessor accessor = workAccess[i];
             final BarGraphic2D barGraphic = new BarGraphic2D( getComponent(), accessor.getName(), transform1D,

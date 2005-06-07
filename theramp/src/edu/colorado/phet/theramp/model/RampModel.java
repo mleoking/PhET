@@ -142,6 +142,10 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         }
         lastTick = currentTimeSeconds();
         lastState = getState();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.stepFinished();
+        }
     }
 
     private double getKineticEnergy() {
@@ -414,12 +418,13 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
     }
 
     public static interface Listener {
-        public void appliedForceChanged();
+        void appliedForceChanged();
 
         void zeroPointChanged();
+
+        void stepFinished();
     }
 
-    //could maybe generalize with reflection.
     public RampModel getState() {
         RampModel copy = new RampModel();
         copy.ramp = ramp.copyState();

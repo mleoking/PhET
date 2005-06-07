@@ -66,4 +66,8 @@ public class BarGraphSuite extends CompositePhetGraphic {
     public void setWorkBarsVisible( boolean selected ) {
         workBarGraphSet.setVisible( selected );
     }
+
+    public double getMaxDisplayableEnergy() {
+        return energyBarGraphSet.getMaxDisplayableEnergy();
+    }
 }

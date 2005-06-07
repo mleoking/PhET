@@ -71,6 +71,7 @@ public class ParallelArrowSet extends AbstractArrowSet {
         addForceArrowGraphic( wallArrowGraphic );
 
         addForceArrowGraphic( totalArrowGraphic );
+
         setIgnoreMouse( true );
     }
 
