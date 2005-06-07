@@ -53,7 +53,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private static final double X_MIN = FourierConfig.MIN_HARMONICS;
     private static final double X_MAX = FourierConfig.MAX_HARMONICS;
     private static final Color X_AXIS_COLOR = Color.BLACK;
-    private static final Stroke X_AXIS_STROKE = new BasicStroke( 2f );
+    private static final Stroke X_AXIS_STROKE = new BasicStroke( 1f );
     
     // Y axis
     private static final double Y_MIN = -FourierConfig.MAX_HARMONIC_AMPLITUDE;
