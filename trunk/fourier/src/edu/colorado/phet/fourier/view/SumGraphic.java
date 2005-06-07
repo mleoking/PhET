@@ -469,10 +469,17 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         double maxY;
         if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
             maxY = range.getMaxY() - Y_ZOOM_STEP;
+            if ( maxY < Y_MAX ) {
+                maxY = Y_MAX;
+            }
         }
         else { 
             maxY = range.getMaxY() + Y_ZOOM_STEP;
+            if ( maxY % Y_ZOOM_STEP > 0 ) {
+                maxY = ((int) ( ( maxY + 1 ) / Y_ZOOM_STEP ) ) * Y_ZOOM_STEP;
+            }
         }
+
         range.setMaxY( maxY );
         range.setMinY( -maxY );
         _chartGraphic.setRange( range );
@@ -508,11 +515,11 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
             _verticalZoomControl.setZoomOutEnabled( false );
             _verticalZoomControl.setZoomInEnabled( false );
         }
-        else if ( range.getMaxY() >= 15 ) {
+        else if ( range.getMaxY() >= 3 * Y_MAX ) {
             _verticalZoomControl.setZoomOutEnabled( false );
             _verticalZoomControl.setZoomInEnabled( true );
         }
-        else if ( range.getMaxY() <= 5 ) {
+        else if ( range.getMaxY() <= Y_MAX ) {
             _verticalZoomControl.setZoomOutEnabled( true );
             _verticalZoomControl.setZoomInEnabled( false );
         }
