@@ -483,7 +483,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
          * @param event
          */
         public void focusLost( FocusEvent event ) {
-            System.out.println( "HarmonicSlider.ValueEventListener.focusLost" );//DEBUG
             if ( ! event.isTemporary() ) {
                 boolean success = processUserInput();
                 if ( !success ) {
@@ -498,7 +497,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
          * @param event
          */
         public void actionPerformed( ActionEvent event ) {
-            System.out.println( "HarmonicSlider.ValueEventListener.actionPerformed" );//DEBUG
             if ( event.getSource() == _valueTextField ) {
                 processUserInput();
             }        
