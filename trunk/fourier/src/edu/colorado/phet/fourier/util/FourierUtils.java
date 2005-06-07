@@ -88,7 +88,7 @@ public class FourierUtils {
                 _sineValues[i] = Math.sin( Math.toRadians( i ) );
             }
         }
-        int index = (int) ( Math.round( Math.toDegrees( radians) )  % 360 );
+        int index = (int) ( Math.round( Math.toDegrees( radians) ) % 360 );
         return _sineValues[ index ];
     }
     
@@ -108,7 +108,7 @@ public class FourierUtils {
                 _cosineValues[i] = Math.cos( Math.toRadians( i ) );
             }
         }
-        int index = (int) (int) ( Math.round( Math.toDegrees( radians) )  % 360 );
+        int index = (int) ( Math.round( Math.toDegrees( radians) ) % 360 );
         return _cosineValues[ index ];
     }
 }
