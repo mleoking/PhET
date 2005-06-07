@@ -69,11 +69,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private static final Color KNOB_HIGHLIGHT_COLOR = Color.RED;
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
-    private static final double ARROW_LENGTH = 15;
-    private static final double ARROW_HEAD_HEIGHT = 10;
-    private static final double ARROW_HEAD_WIDTH = 10;
-    private static final double ARROW_TAIL_WIDTH = 3;
-    private static final double ARROW_FRACTIONAL_HEAD_HEIGHT = 5;
 
     // Track parameters
     private static final Dimension DEFAULT_TRACK_SIZE = new Dimension( 40, 100 );
@@ -172,7 +167,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             
             _trackGraphic.setIgnoreMouse( true );
             
-            _knobGraphic.setCursorHand();
+            _knobGraphic.setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ) );
             _knobGraphic.addMouseInputListener( new KnobEventListener() );
         }
 
@@ -341,7 +336,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         // Track size and color
         int trackWidth = _maxSize.width;
         int trackHeight = (int) Math.abs( ( _maxSize.height / 2 ) * ( amplitude / MAX_AMPLITUDE ) );
-        int trackX = -trackWidth / 2;
+        int trackX = -( trackWidth / 2 );
         int trackY = ( amplitude > 0 ) ? -trackHeight : 0;
         _trackRectangle.setBounds( trackX, trackY, trackWidth, trackHeight );
         _trackGraphic.setShape( _trackRectangle );
@@ -350,6 +345,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         // Knob location
         int knobX = _knobGraphic.getX();
         int knobY = (int) -( ( _maxSize.height / 2 ) * ( amplitude / MAX_AMPLITUDE ) );
+        _knobGraphic.updateSize();
+        _knobGraphic.centerRegistrationPoint();
         _knobGraphic.setLocation( knobX, knobY );
         
         repaint();
@@ -362,54 +359,32 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     /**
      * KnobGraphic is the graphic for the slider's knob.
      */
-    private class KnobGraphic extends CompositePhetGraphic {
+    private class KnobGraphic extends PhetShapeGraphic {
         
-        PhetShapeGraphic _topArrowGraphic;
-        PhetShapeGraphic _bottomArrowGraphic;
+        private Rectangle _rectangle;
         
-        /**
-         * Sole constructor.
-         * 
-         * @param component the parent Component
-         */
         public KnobGraphic( Component component ) {
             super( component );
-            
-            Point2D tail = new Point2D.Double( 0, 0 );
-            Point2D topTip = new Point2D.Double( 0, -ARROW_LENGTH );
-            Point2D bottomTip = new Point2D.Double( 0, ARROW_LENGTH );
-            Arrow topArrow = new Arrow( tail, topTip, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH, ARROW_FRACTIONAL_HEAD_HEIGHT, false );
-            Arrow bottomArrow = new Arrow( tail, bottomTip, ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH, ARROW_FRACTIONAL_HEAD_HEIGHT, false );
-            
-            _topArrowGraphic = new PhetShapeGraphic( getComponent() );
-            _topArrowGraphic.setShape( topArrow.getShape() );
-            _topArrowGraphic.setPaint( KNOB_FILL_COLOR );
-            _topArrowGraphic.setBorderColor( KNOB_STROKE_COLOR );
-            _topArrowGraphic.setStroke( KNOB_STROKE );
-            addGraphic( _topArrowGraphic );
-            
-            _bottomArrowGraphic = new PhetShapeGraphic( getComponent() );
-            _bottomArrowGraphic.setShape( bottomArrow.getShape() );
-            _bottomArrowGraphic.setPaint( KNOB_FILL_COLOR );
-            _bottomArrowGraphic.setBorderColor( KNOB_STROKE_COLOR );
-            _bottomArrowGraphic.setStroke( KNOB_STROKE );
-            addGraphic( _bottomArrowGraphic );
+            _rectangle = new Rectangle( 1, 1, 1, 1 );
+            setShape( _rectangle );
+            setPaint( KNOB_FILL_COLOR );
+            setStroke( KNOB_STROKE );
+            setBorderColor( KNOB_STROKE_COLOR );
+            updateSize();
         }
         
-        /**
-         * Enables and disables highlighting of the knob.
-         * 
-         * @param enabled true or false
-         */
         public void setHighlightEnabled( boolean enabled ) {
             if ( enabled ) {
-                _topArrowGraphic.setPaint( KNOB_HIGHLIGHT_COLOR );
-                _bottomArrowGraphic.setPaint( KNOB_HIGHLIGHT_COLOR );
+                setPaint( KNOB_HIGHLIGHT_COLOR );
             }
             else {
-                _topArrowGraphic.setPaint( KNOB_FILL_COLOR );
-                _bottomArrowGraphic.setPaint( KNOB_FILL_COLOR );
+                setPaint( KNOB_FILL_COLOR );
             }
+        }
+        
+        public void updateSize() {
+            _rectangle.setSize( _trackRectangle.width, 2 );
+            setShapeDirty();
         }
     }
     

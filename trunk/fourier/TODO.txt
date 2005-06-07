@@ -48,6 +48,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/7) - replace arrows with a small rectangle on AmplitudeSlider
 (6/7) - move sin/cos caching functions to FourierUtils
 (6/7) - add charts.jar to JNLP file
 (6/7) - add auto scale control to Sum graph
