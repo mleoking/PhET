@@ -1,11 +1,11 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
+import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
 import edu.colorado.phet.theramp.view.panzoom.PanZoomKeyListener;
 
 import java.awt.*;
@@ -21,9 +21,7 @@ import java.awt.event.*;
 public class RampPanel extends ApparatusPanel2 {
     private RampModule module;
     private RampLookAndFeel rampLookAndFeel;
-
-
-    private BarGraphSet barGraphSet;
+    private BarGraphSuite barGraphSuite;
     private TimeGraphic timeGraphic;
     private SpeedReadoutGraphic velocityGraphic;
     public RampWorld rampWorld;
@@ -37,28 +35,22 @@ public class RampPanel extends ApparatusPanel2 {
         this.module = module;
         rampLookAndFeel = new RampLookAndFeel();
 
-
         addGraphicsSetup( new BasicGraphicsSetup() );
-
         setBackground( new Color( 240, 200, 255 ) );
 
         rampWorld = new RampWorld( this, module, this );
-        rampWorld.scale( 0.73, 0.73 );
+        double rampWorldScale = 1.0;
+        rampWorld.scale( rampWorldScale, rampWorldScale );
+        rampWorld.translate( 0, -30 );
         addGraphic( rampWorld );
 
-        barGraphSet = new BarGraphSet( this, module.getRampModel() );
-        barGraphSet.scale( 0.93, 0.93 );
-        barGraphSet.setLocation( getDefaultRenderingSize().width - barGraphSet.getWidth() - 1, barGraphSet.getY() );
+        barGraphSuite = new BarGraphSuite( this, module.getRampModel() );
+//        barGraphSet.scale( 0.93, 0.93 );
+        barGraphSuite.scale( 0.82, 0.82 );
+        barGraphSuite.setLocation( getDefaultRenderingSize().width - barGraphSuite.getWidth() - 1, barGraphSuite.getY() );
 
-        addGraphic( barGraphSet );
+        addGraphic( barGraphSuite );
 
-        module.getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                updateArrowSetGraphics();
-            }
-        } );
-
-        updateArrowSetGraphics();
         KeyListener listener = new PanZoomKeyListener( this, getDefaultRenderingSize() );
         addKeyListener( listener );
 
@@ -174,5 +166,21 @@ public class RampPanel extends ApparatusPanel2 {
 
     public RampWorld getRampWorld() {
         return rampWorld;
+    }
+
+    public void setMeasureTapeVisible( boolean visible ) {
+        rampWorld.setMeasureTapeVisible( visible );
+    }
+
+    public void updateGraphics() {
+        updateArrowSetGraphics();
+    }
+
+    public void setEnergyBarsVisible( boolean selected ) {
+        barGraphSuite.setEnergyBarsVisible( selected );
+    }
+
+    public void setWorkBarsVisible( boolean selected ) {
+        barGraphSuite.setWorkBarsVisible( selected );
     }
 }

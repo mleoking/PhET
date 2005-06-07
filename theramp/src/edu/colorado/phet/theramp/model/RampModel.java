@@ -68,6 +68,7 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         normalForce = new ForceVector();
 //        setStepStrategy( new RampModel.OriginalStepCode() );
         setStepStrategy( new RampModel.NewStepCode() );
+        setupForces();
 //        reset();
 //        lastState = getState();
     }
@@ -110,9 +111,9 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
 
             double dW = getAppliedWorkDifferential( beforeNewton );
 
-            if( dW != 0.0 ) {
-                System.out.println( "dw = " + dW + ", total Applied Work=" + appliedWork );
-            }
+//            if( dW != 0.0 ) {
+//                System.out.println( "dw = " + dW + ", total Applied Work=" + appliedWork );
+//            }
 
             appliedWork += dW;
             gravityWork = -getPotentialEnergy();
@@ -152,9 +153,9 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         double workDueToAppliedForce = getAppliedForce().getParallelComponent() * blockDX;
 
         double workDueToRampLift = beforeNewton.getPotentialEnergy() - lastState.getPotentialEnergy();
-        if( workDueToRampLift != 0.0 ) {
-            System.out.println( "workDueToRampLift = " + workDueToRampLift );
-        }
+//        if( workDueToRampLift != 0.0 ) {
+//            System.out.println( "workDueToRampLift = " + workDueToRampLift );
+//        }
 
         double dW = workDueToAppliedForce + workDueToRampLift;
         return dW;
@@ -261,6 +262,7 @@ public class RampModel implements ModelElement, Surface.CollisionListener {
         peObservers.notifyObservers();
         keObservers.notifyObservers();
         lastState = getState();
+        setupForces();
         initWorks();
     }
 

@@ -42,7 +42,7 @@ public class TestRectangle3DGraphic {
         ap.addGraphic( rectangle3DGraphic3 );
         ap.addGraphic( rectangle3DGraphic4 );
 
-        final VerticalTextGraphic vtg = new VerticalTextGraphic( ap, new Font( "Lucida Sans", 0, 24 ), "Hello", Color.black );
+        final VerticalTextGraphic vtg = new VerticalTextGraphic( ap, new Font( "Lucida Sans", 0, 24 ), "Hello", Color.black, Color.black );
         vtg.setLocation( 5 + (int)rectangle3DGraphic.getRectangle().getX(), -5 + (int)rectangle3DGraphic.getRectangle().getMaxY() );
         ap.addGraphic( vtg );
         SwingTimerClock clock = new SwingTimerClock( 1, 30 );

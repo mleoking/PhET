@@ -22,6 +22,8 @@ public class BarGraphic2D extends CompositePhetGraphic {
     private int y;
     private VerticalTextGraphic label;
     private PhetShapeGraphic rectangle3DGraphic;
+    public int labelHeight;
+    private int labelWidth;
 
     public BarGraphic2D( Component component, String text, ModelViewTransform1D transform1D, double value, int x, int width, int y, int dx, int dy, Paint paint ) {
         super( component );
@@ -32,17 +34,26 @@ public class BarGraphic2D extends CompositePhetGraphic {
         this.width = width;
 
         rectangle3DGraphic = new PhetShapeGraphic( component, null, paint, new BasicStroke( 1 ), Color.black );
-        label = new VerticalTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 20 ), text, Color.yellow );
+
+        Color lightBlue = new Color( 240, 225, 255 );
+//        label = new VerticalTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 20 ), text, lightBlue, Color.black );
+        label = new VerticalTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 20 ), text, Color.black, lightBlue );
         addGraphic( rectangle3DGraphic );
 
         addGraphic( label );
+        labelHeight = label.getHeight();
+        labelWidth = label.getWidth();
         updateBar();
     }
 
     private void updateBar() {
         int height = computeHeight();
         Rectangle rect = new Rectangle( x, y - height, width, height );
-        label.setLocation( rect.x + 5, (int)( -5 + rect.getMaxY() ) );
+//        label.setLocation( rect.x + 5, (int)( 5 + rect.getMaxY() + label.getHeight() ) );
+//        if (label.getText().equalsIgnoreCase( "kinetic")){
+//        System.out.println( "Name=" + label.getText() + ", y=" + y + ", labelHeight=" + label.getHeight() );
+//        }
+        label.setLocation( rect.x + 7 - labelWidth, (int)( 5 + y + labelHeight ) );
         rectangle3DGraphic.setShape( rect );
     }
 

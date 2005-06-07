@@ -53,14 +53,18 @@ public class PotentialEnergyZeroGraphic extends CompositePhetGraphic {
         setCursorHand();
         label = new PhetShadowTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 18 ), "h=???", Color.black, 1, 1, Color.gray );
         addGraphic( label );
-        label.setLocation( 10, -label.getHeight() - 4 );
+//        label.setLocation( 10, -label.getHeight() - 4 );
+//        label.setLocation( 10, 0);//-label.getHeight() - 4 );
+//        label.setLocation( 10, (int)( label.getHeight()*.075 ) );//-label.getHeight() - 4 );
+        label.setLocation( 10, label.getHeight() - 15 );//-label.getHeight() - 4 );
         listener.zeroPointChanged();
         updateLabel();
     }
 
     private void updateLabel() {
         String str = new DecimalFormat( "0.0" ).format( rampModel.getZeroPointY() );
-        label.setText( "h=0.0 @ y=" + str );
+//        label.setText( "h=0.0 @ y=" + str );
+        label.setText( "y=0.0" );
     }
 
     private void changeZeroPoint( TranslationEvent translationEvent ) {

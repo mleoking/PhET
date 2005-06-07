@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.theramp;
 
+import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
@@ -25,7 +26,7 @@ import java.text.DecimalFormat;
 
 public class RampControlPanel extends ControlPanel {
     private RampModule module;
-    public ModelSlider frictionSlider;
+    private ModelSlider frictionSlider;
     private ModelSlider massSlider;
 
     /**
@@ -34,14 +35,17 @@ public class RampControlPanel extends ControlPanel {
     public RampControlPanel( final RampModule module ) {
         super( module );
         this.module = module;
-//        JButton3D jb = new JButton3D( "Reset" );
         JButton jb = new JButton( "Reset" );
-        addControl( jb );
+        jb.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
             }
         } );
+        addControl( jb );
+
+
         JButton clearHeat = new JButton( "Clear Heat" );
         addControl( clearHeat );
         clearHeat.addActionListener( new ActionListener() {
@@ -50,6 +54,31 @@ public class RampControlPanel extends ControlPanel {
             }
         } );
 
+        final JCheckBox measureCheckBox = new JCheckBox( "Measuring Tape" );
+        addControl( measureCheckBox );
+        measureCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getRampPanel().setMeasureTapeVisible( measureCheckBox.isSelected() );
+            }
+        } );
+
+        final JCheckBox energyBars = new JCheckBox( "Energy", true );
+        energyBars.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getRampPanel().setEnergyBarsVisible( energyBars.isSelected() );
+            }
+        } );
+        final JCheckBox workBars = new JCheckBox( "Work", true );
+        workBars.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getRampPanel().setWorkBarsVisible( workBars.isSelected() );
+            }
+        } );
+        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
+        verticalLayoutPanel.add( workBars );
+        verticalLayoutPanel.add( energyBars );
+        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( "Bar Graphs" ) );
+        addControlFullWidth( verticalLayoutPanel );
 
         JPanel coordinatePanel = new VerticalLayoutPanel();
         final RampPanel rampPanel = module.getRampPanel();
@@ -92,7 +121,9 @@ public class RampControlPanel extends ControlPanel {
         coordinatePanel.add( perpendicular );
         coordinatePanel.add( x );
         coordinatePanel.add( y );
-        addControl( coordinatePanel );
+
+
+//        addControlFullWidth( coordinatePanel );
 
         JPanel forcePanel = new VerticalLayoutPanel();
         forcePanel.setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), "Forces to Show" ) );
@@ -141,10 +172,15 @@ public class RampControlPanel extends ControlPanel {
         forcePanel.add( showGravity );
         forcePanel.add( showNormal );
 
-        addControl( forcePanel );
+
+        AdvancedPanel advancedPanel = new AdvancedPanel();
+        advancedPanel.addControlFullWidth( coordinatePanel );
+        advancedPanel.addControlFullWidth( forcePanel );
+        addControlFullWidth( advancedPanel );
 
         ObjectComboBox ocb = new ObjectComboBox( module.getRampObjects(), this );
         addControl( ocb );
+//        addControlFullWidth( new JComboBox() );
 
         double[] ticks = new double[]{0, 0.5, 1.0, 1.5};
         frictionSlider = createFrictionSlider( ticks, module );
@@ -161,14 +197,17 @@ public class RampControlPanel extends ControlPanel {
                 frictionless.setSelected( false );
             }
         } );
+
+
         addControl( frictionless );
 
 
         massSlider = createMassSlider();
         addControl( massSlider );
 
-        addControl( createModelSelector() );
+//        addControl( createModelSelector() );
     }
+
 
     private Component createModelSelector() {
         VerticalLayoutPanel panel = new VerticalLayoutPanel();

@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.common;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetOutlineTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.ShadowHTMLGraphic;
 
 import java.awt.*;
 
@@ -18,17 +18,23 @@ public class VerticalTextGraphic extends CompositePhetGraphic {
     private String text;
     private Paint color;
 
-    public VerticalTextGraphic( Component component, Font font, String text, Color color ) {
+    public VerticalTextGraphic( Component component, Font font, String text, Color color, Color outline ) {
         super( component );
         this.font = font;
         this.text = text;
         this.color = color;
-//        PhetShadowTextGraphic phetTextGraphic = new PhetShadowTextGraphic( component, font, text, color, 1, 1, Color.black );
-        PhetOutlineTextGraphic phetTextGraphic = new PhetOutlineTextGraphic( component, font, text, color, new BasicStroke( 1 ), Color.black );
+//        PhetShadowTextGraphic phetTextGraphic = new PhetShadowTextGraphic( component, font, text, color, 1, 1, outline );
+        ShadowHTMLGraphic phetTextGraphic = new ShadowHTMLGraphic( component, text, font, color, 1, 1, outline );
+//        PhetOutlineTextGraphic phetTextGraphic = new PhetOutlineTextGraphic( component, font, text, color, new BasicStroke( 1 ), outline );
+
         int h = phetTextGraphic.getHeight();
         phetTextGraphic.translate( 0, h / 2 + 4 );
         phetTextGraphic.rotate( -Math.PI / 2 );
 
         addGraphic( phetTextGraphic );
+    }
+
+    public String getText() {
+        return text;
     }
 }

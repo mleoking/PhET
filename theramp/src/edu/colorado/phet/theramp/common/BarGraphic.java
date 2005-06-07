@@ -35,7 +35,7 @@ public class BarGraphic extends CompositePhetGraphic {
         Color top = new Color( 150, 150, 255 );
         Color side = new Color( 10, 10, 210 );
         rectangle3DGraphic = new Rectangle3DGraphic( component, null, face, stroke, top, side, dx, dy, Color.black );
-        label = new VerticalTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 20 ), text, Color.yellow );
+        label = new VerticalTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 20 ), text, Color.yellow, Color.black );
         addGraphic( rectangle3DGraphic );
 
         addGraphic( label );

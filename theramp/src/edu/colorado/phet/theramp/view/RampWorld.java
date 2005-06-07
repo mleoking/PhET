@@ -90,6 +90,7 @@ public class RampWorld extends GraphicLayerSet {
 
         measuringTape = new MeasuringTape( rampPanel, rampGraphic.getScreenTransform(),
                                            RectangleUtils.getCenter2D( rampGraphic.getScreenTransform().getModelBounds() ) );
+        measuringTape.setVisible( false );
         addGraphic( measuringTape, 100 );
 
         rightBarrierGraphic = new RightBarrierGraphic( rampPanel, rampPanel, rampGraphic );
@@ -100,7 +101,6 @@ public class RampWorld extends GraphicLayerSet {
     }
 
     void updateArrowSetGraphics() {
-
         for( int i = 0; i < arrowSets.size(); i++ ) {
             AbstractArrowSet arrowSet = (AbstractArrowSet)arrowSets.get( i );
             arrowSet.updateGraphics();
@@ -192,5 +192,9 @@ public class RampWorld extends GraphicLayerSet {
             e.printStackTrace();
         }
         return new Point( (int)out.getX(), (int)out.getY() );
+    }
+
+    public void setMeasureTapeVisible( boolean visible ) {
+        measuringTape.setVisible( visible );
     }
 }

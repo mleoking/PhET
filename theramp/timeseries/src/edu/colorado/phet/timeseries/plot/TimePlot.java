@@ -248,7 +248,8 @@ public class TimePlot extends GraphicLayerSet {
     public void addPlotDeviceData( final PlotDeviceSeries plotDeviceSeries ) {
         data.add( plotDeviceSeries );
         addGraphic( plotDeviceSeries );
-        plotDeviceSeries.setLocation( 10, 5 + getNumDataSeries() * ( plotDeviceSeries.getTextHeight() + 2 ) );
+//        plotDeviceSeries.setLocation( 10, 5 + getNumDataSeries() * ( plotDeviceSeries.getTextHeight() + 2 ) );
+        plotDeviceSeries.setLocation( 10, getNumDataSeries() * ( plotDeviceSeries.getTextHeight() - 1 ) );
         //todo how to decide which datasets to observe with the slider?
         plotDeviceSeries.getRawData().addObserver( new TimeSeries.Observer() {
             public void dataAdded( TimeSeries timeSeries ) {

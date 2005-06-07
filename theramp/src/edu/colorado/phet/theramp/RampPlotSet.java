@@ -115,7 +115,7 @@ public class RampPlotSet {
         TimePlot timePlot = new TimePlot( module.getApparatusPanel(), module.getTimeSeriesModel(), range, name, "var", null, Color.blue );
         TimePlotSuite timePlotSuite = new TimePlotSuite( module.getTimeSeriesModel(), module.getRampPanel(), timePlot );
         timePlotSuite.setPlotVisible( false );
-        timePlotSuite.setSize( 900, height );
+        timePlotSuite.setSize( 785, height );
         timePlotSuite.setLocation( 10, y );
         return timePlotSuite;
     }
