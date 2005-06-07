@@ -28,6 +28,7 @@ public class ScatterPlot extends DataSetGraphic {
         this.scatterPaintFactory = scatterPaintFactory;
         points = new GraphicLayerSet();
         addGraphic( points );
+        addAllPoints();
     }
 
     public static interface ScatterPaintFactory {
