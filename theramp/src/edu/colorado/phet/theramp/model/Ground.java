@@ -13,36 +13,34 @@ public class Ground extends Surface {
         super( angle, length );
     }
 
-    public Ground( double angle, double length, double x0, double y0 ) {
-        super( angle, length, x0, y0 );
+    public Ground( double angle, double length, double x0, double y0, double distanceOffset ) {
+        super( angle, length, x0, y0, distanceOffset );
     }
 
     public Surface copyState() {
-        return new Ground( getAngle(), getLength(), getOrigin().getX(), getOrigin().getY() );
+        return new Ground( getAngle(), getLength(), getOrigin().getX(), getOrigin().getY(), getDistanceOffset() );
     }
 
     public void applyBoundaryConditions( RampModel rampModel, Block block ) {
-        if( block.getPosition() < 0 ) {
-//            block.setSurface( rampModel.getGround() );
-            block.setPosition( 0 );
+        if( block.getPositionInSurface() < 0 ) {
+            block.setPositionInSurface( 0 );
             block.setVelocity( 0 );
-//            position = 0;
-//            velocity = 0;
-            //todo fire a collision.
+            super.notifyCollision();
         }
-        else if( block.getPosition() > getLength() ) {
+        else if( block.getPositionInSurface() > getLength() ) {
             block.setSurface( rampModel.getRamp() );
-            block.setPosition( 0.0 );
-            //todo fire a collision.
+            block.setPositionInSurface( 0.0 );
         }
     }
 
+
     public double getWallForce( double sumOtherForces, Block block ) {
-        if( block.getPosition() == 0.0 && sumOtherForces < 0 ) {
+        if( block.getPositionInSurface() == 0.0 && sumOtherForces < 0 ) {
             return -sumOtherForces;
         }
         else {
             return 0.0;
         }
     }
+
 }

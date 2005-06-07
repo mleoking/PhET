@@ -115,7 +115,7 @@ public abstract class ValueAccessor {
 
     public static class TotalWork extends WorkAccessor {
         public TotalWork( RampLookAndFeel rampLookAndFeel ) {
-            super( "Total", rampLookAndFeel.getTotalWorkColor() );
+            super( "Net", rampLookAndFeel.getTotalWorkColor() );
         }
 
         public double getValue( RampModel rampModel ) {

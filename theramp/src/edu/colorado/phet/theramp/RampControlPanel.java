@@ -42,6 +42,14 @@ public class RampControlPanel extends ControlPanel {
                 module.reset();
             }
         } );
+        JButton clearHeat = new JButton( "Clear Heat" );
+        addControl( clearHeat );
+        clearHeat.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.clearHeat();
+            }
+        } );
+
 
         JPanel coordinatePanel = new VerticalLayoutPanel();
         final RampPanel rampPanel = module.getRampPanel();

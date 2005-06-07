@@ -42,6 +42,7 @@ public class RampModule extends Module {
         super( "The Ramp", clock );
         setModel( new BaseModel() );
         rampModel = new RampModel();
+        rampModel.reset();
         rampTimeSeriesModel = new RampTimeSeriesModel( this );
         clock.addClockTickListener( rampTimeSeriesModel );
         rampObjects = new RampObject[]{
@@ -120,6 +121,10 @@ public class RampModule extends Module {
 
     public Block getBlock() {
         return rampModel.getBlock();
+    }
+
+    public void clearHeat() {
+        rampModel.clearHeat();
     }
 
     public static interface Listener {

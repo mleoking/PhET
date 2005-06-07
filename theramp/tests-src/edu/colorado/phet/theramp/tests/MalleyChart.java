@@ -1,6 +1,7 @@
 package edu.colorado.phet.theramp.tests;
 
 import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.chart.DataSetGraphic;
 import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.view.ApparatusPanel;
@@ -129,6 +130,7 @@ public class MalleyChart extends GraphicLayerSet {
         ApparatusPanel apparatusPanel = new ApparatusPanel();
 
         MalleyChart mc = new MalleyChart( apparatusPanel );
+//        mc._chartGraphic.addDataSetGraphic( createSineCurve(mc._chartGraphic));
         apparatusPanel.addGraphic( mc );
         mc.setLocation( 50, 200 );
 
@@ -137,5 +139,13 @@ public class MalleyChart extends GraphicLayerSet {
         frame.setSize( 800, 800 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
+    }
+
+    private static DataSetGraphic createSineCurve( ApparatusPanel apparatusPanel ) {
+        //11 data sets
+
+        //each 1000 data points.
+//        DataSetGraphic dataSetGraphic=new LinePlot( apparatusPanel, );
+        return null;
     }
 }

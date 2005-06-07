@@ -123,7 +123,7 @@ public class BlockGraphic extends GraphicLayerSet {
         graphic.setTransform( transform );
         if( isFrictionless() ) {
             wheelGraphic.setVisible( true );
-            AffineTransform wheelTx = createTransform( block.getPosition(), 1.0, 1.0, wheelGraphic.getImage().getWidth(), wheelGraphic.getImage().getHeight() );
+            AffineTransform wheelTx = createTransform( block.getPositionInSurface(), 1.0, 1.0, wheelGraphic.getImage().getWidth(), wheelGraphic.getImage().getHeight() );
 //            wheelTx.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
 //            wheelTx.concatenate( AffineTransform.getTranslateInstance( 0, getYOffset() ) );
             wheelGraphic.setTransform( wheelTx );
@@ -159,7 +159,7 @@ public class BlockGraphic extends GraphicLayerSet {
 
     private AffineTransform createTransform( double scaleX, double fracSize ) {
 //        return rampGraphic.createTransform( block.getPosition(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
-        return getCurrentSurfaceGraphic().createTransform( block.getPosition(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
+        return getCurrentSurfaceGraphic().createTransform( block.getPositionInSurface(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
     }
 
     private void setImage( BufferedImage image ) {

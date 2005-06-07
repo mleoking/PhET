@@ -15,7 +15,7 @@ public class Block {
     private Surface surface;
 
     private double mass = 5;//kg
-    private double position = 10.0;
+    private double positionInSurface = 10.0;
     private double velocity = 0.0;//m/s
     private double acceleration = 0.0;
     private double kineticFriction = 0.50;
@@ -26,10 +26,10 @@ public class Block {
         listeners.add( listener );
     }
 
-    public Block copyState() {
-        Block dataBlock = new Block( surface );
+    public Block copyState( RampModel original, RampModel newModel ) {
+        Block dataBlock = new Block( surface == original.getRamp() ? newModel.getRamp() : newModel.getGround() );
         dataBlock.mass = mass;
-        dataBlock.position = position;
+        dataBlock.positionInSurface = positionInSurface;
         dataBlock.velocity = velocity;
         dataBlock.acceleration = acceleration;
         dataBlock.kineticFriction = kineticFriction;
@@ -38,8 +38,9 @@ public class Block {
     }
 
     public void setState( Block state ) {
+        setSurface( state.getSurface() );
         setMass( state.mass );
-        setPosition( state.position );
+        setPositionInSurface( state.positionInSurface );
         setVelocity( state.velocity );
         setAcceleration( state.acceleration );
         setKineticFriction( state.kineticFriction );
@@ -84,15 +85,19 @@ public class Block {
     }
 
     public double getPosition() {
-        return position;
+        return getPositionInSurface() + getSurface().getDistanceOffset();
+    }
+
+    public double getPositionInSurface() {
+        return positionInSurface;
     }
 
     public Point2D getLocation2D() {
-        return surface.getLocation( position );
+        return surface.getLocation( positionInSurface );
     }
 
-    public void setPosition( double position ) {
-        this.position = position;
+    public void setPositionInSurface( double positionInSurface ) {
+        this.positionInSurface = positionInSurface;
         notifyPositionChanged();
     }
 
@@ -116,36 +121,42 @@ public class Block {
     }
 
     public void stepInTime( RampModel rampModel, double dt ) {
-        double origPosition = position;
+        double origPosition = positionInSurface;
         double origVelocity = velocity;
         double accValue = acceleration;
         if( Math.abs( accValue ) < 0.0000001 ) {
             accValue = 0.0;
         }
+//        double origEnergy=rampModel.getTotalEnergy();
         velocity += accValue * dt;
         boolean changedVelSign = changedSign( origVelocity, velocity );
 //        System.out.println( "acc=" + acceleration + ", origVelocity = " + origVelocity + " velocity=" + velocity + " ch=" + changedVelSign );
         if( changedVelSign ) {
             velocity = 0;
         }
-        position += velocity * dt;
+        positionInSurface += velocity * dt;
+
+//        double finalEnergy=rampModel.getTotalEnergy();
+//        double dE=finalEnergy-origEnergy;
+//        System.out.println( "dE="+dE+", origEnergy = " + origEnergy+", finalEnergy="+finalEnergy );
+
         //boundary conditions.
         applyBoundaryConditions( rampModel );
 
-        if( position != origPosition ) {
+        if( positionInSurface != origPosition ) {
             notifyPositionChanged();
         }
     }
 
     private void applyBoundaryConditions( RampModel rampModel ) {
         surface.applyBoundaryConditions( rampModel, this );
-        if( position < 0 ) {
-            position = 0;
+        if( positionInSurface < 0 ) {
+            positionInSurface = 0;
             velocity = 0;
             //todo fire a collision.
         }
-        else if( position > surface.getLength() ) {
-            position = surface.getLength();
+        else if( positionInSurface > surface.getLength() ) {
+            positionInSurface = surface.getLength();
             velocity = 0;
             //todo fire a collision.
         }
@@ -266,6 +277,10 @@ public class Block {
 
     public double getKineticFriction() {
         return kineticFriction;
+    }
+
+    public boolean isFrictionless() {
+        return staticFriction == 0 && kineticFriction == 0;
     }
 
     private boolean isMoving() {

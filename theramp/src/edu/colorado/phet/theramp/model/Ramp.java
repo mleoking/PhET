@@ -13,32 +13,28 @@ public class Ramp extends Surface {
         super( angle, length );
     }
 
-    public Ramp( double angle, double length, double x0, double y0 ) {
-        super( angle, length, x0, y0 );
+    public Ramp( double angle, double length, double x0, double y0, double distanceOffset ) {
+        super( angle, length, x0, y0, distanceOffset );
     }
 
     public Surface copyState() {
-        return new Ramp( getAngle(), getLength(), getOrigin().getX(), getOrigin().getY() );
+        return new Ramp( getAngle(), getLength(), getOrigin().getX(), getOrigin().getY(), getDistanceOffset() );
     }
 
     public void applyBoundaryConditions( RampModel rampModel, Block block ) {
-        if( block.getPosition() < 0 ) {
+        if( block.getPositionInSurface() < 0 ) {
             block.setSurface( rampModel.getGround() );
-            block.setPosition( rampModel.getGround().getLength() );
-//            block.setVelocity( 0 );
-//            position = 0;
-//            velocity = 0;
-            //todo fire a collision.
+            block.setPositionInSurface( rampModel.getGround().getLength() );
         }
-        else if( block.getPosition() > getLength() ) {
-            block.setPosition( getLength() );
+        else if( block.getPositionInSurface() > getLength() ) {
+            block.setPositionInSurface( getLength() );
             block.setVelocity( 0.0 );
-            //todo fire a collision.
+            super.notifyCollision();
         }
     }
 
     public double getWallForce( double sumOtherForces, Block block ) {
-        if( block.getPosition() == getLength() && sumOtherForces > 0 ) {
+        if( block.getPositionInSurface() == getLength() && sumOtherForces > 0 ) {
             return -sumOtherForces;
         }
         else {
