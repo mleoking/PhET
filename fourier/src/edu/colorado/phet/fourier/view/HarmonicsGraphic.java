@@ -387,6 +387,4 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
             _horizontalZoomControl.setZoomInEnabled( true );
         }
     }
-    
-
 }
