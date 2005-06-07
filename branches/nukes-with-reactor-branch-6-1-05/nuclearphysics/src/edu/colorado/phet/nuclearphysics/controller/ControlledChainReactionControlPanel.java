@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
+import edu.colorado.phet.coreadditions.ModelSlider;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -168,7 +169,7 @@ public class ControlledChainReactionControlPanel extends JPanel {
 //        gbcCenter.gridy = 5;
         add( resetBtn, gbcCenter );
 
-        // A spinner for the number of control rods
+        // SWpinner for the number of control rods
         final JSpinner controlRodSpinner = new JSpinner( new SpinnerNumberModel( module.getNumControlRods(),
                                                                            0, 10, 1 ) );
         controlRodSpinner.addChangeListener( new ChangeListener() {
@@ -178,6 +179,32 @@ public class ControlledChainReactionControlPanel extends JPanel {
         } );
         add( new JLabel( "<html>Number of<br>Control Rods</html"), gbcCenter );
         add( controlRodSpinner, gbcCenter );
+
+        // Slider for absorption probability
+        final ModelSlider absorptionSlider = new ModelSlider( "Absorption Probability", 0, 1, 1 );
+        absorptionSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                module.setAbsorptionProbability( absorptionSlider.getModelValue() );
+            }
+        } );
+        absorptionSlider.setMajorTickSpacing( 0.25 );
+        absorptionSlider.setPaintLabels( true );
+        absorptionSlider.setPaintTicks( true );
+        add( absorptionSlider, gbcCenter );
+
+        // Control for the spacing between nuclei
+
+        final ModelSlider nucleusSpacingSlider = new ModelSlider( "<html>Spacing Between<br>Nuclei (nuc. diam.)</html>",
+                                                                  1, 3, 2.5 );
+        nucleusSpacingSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                module.setInterNucleusSpacing( nucleusSpacingSlider.getModelValue());
+            }
+        } );
+        nucleusSpacingSlider.setMajorTickSpacing( 1 );
+        nucleusSpacingSlider.setPaintTicks( true );
+        nucleusSpacingSlider.setPaintLabels( true );
+        add( nucleusSpacingSlider, gbcCenter );
     }
 
     private synchronized int setNumU235Nuclei( int num ) {

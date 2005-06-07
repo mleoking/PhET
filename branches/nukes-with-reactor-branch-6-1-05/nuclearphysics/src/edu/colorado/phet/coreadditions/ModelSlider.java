@@ -60,5 +60,21 @@ public class ModelSlider extends JPanel {
     public void setModelValue( double value ) {
         slider.setValue( (int)tx.modelToView( value ) );
     }
+
+    public void setMajorTickSpacing( double spacing ) {
+        slider.setMajorTickSpacing( (int)tx.modelToView( spacing ));
+    }
+
+    public void setMinorTickSpacing( double spacing ) {
+        slider.setMinorTickSpacing( (int)tx.modelToView( spacing ));
+    }
+
+    public void setPaintTicks( boolean b) {
+        slider.setPaintTicks( b );
+    }
+
+    public void setPaintLabels( boolean b ) {
+        slider.setPaintLabels( b );
+    }
 }
 

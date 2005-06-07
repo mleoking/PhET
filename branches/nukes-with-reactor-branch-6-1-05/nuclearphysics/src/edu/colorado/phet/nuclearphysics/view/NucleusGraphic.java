@@ -26,7 +26,7 @@ public class NucleusGraphic implements Graphic, SimpleObserver /*, ImageObserver
 
     private Point2D.Double position = new Point2D.Double();
     Nucleus nucleus;
-    private Image img;
+    private BufferedImage img;
     private AffineTransform atx = new AffineTransform();
 
     public NucleusGraphic( Nucleus nucleus ) {
@@ -41,7 +41,7 @@ public class NucleusGraphic implements Graphic, SimpleObserver /*, ImageObserver
         this.atx = atx;
     }
 
-    protected Image computeImage() {
+    protected BufferedImage computeImage() {
         BufferedImage bi = new BufferedImage( (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
                                               (int)( nucleus.getRadius() + NuclearParticle.RADIUS ) * 2,
                                               BufferedImage.TYPE_INT_ARGB );
@@ -97,5 +97,9 @@ public class NucleusGraphic implements Graphic, SimpleObserver /*, ImageObserver
 
     public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height ) {
         return false;
+    }
+
+    public BufferedImage getImage() {
+        return img;
     }
 }
