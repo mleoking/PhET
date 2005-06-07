@@ -47,6 +47,9 @@ public class PotentialEnergyZeroGraphic extends CompositePhetGraphic {
                 setLocation( 0, rampWorld.getRampGraphic().getScreenTransform().modelToViewY( rampModel.getZeroPointY() ) );
                 updateLabel();
             }
+
+            public void stepFinished() {
+            }
         };
         rampModel.addListener( listener );
 

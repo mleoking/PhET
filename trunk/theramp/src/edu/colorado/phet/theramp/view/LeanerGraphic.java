@@ -72,6 +72,9 @@ public class LeanerGraphic extends PhetImageGraphic {
 
             public void zeroPointChanged() {
             }
+
+            public void stepFinished() {
+            }
         } );
         module.getRampModel().getRamp().addObserver( new SimpleObserver() {
             public void update() {

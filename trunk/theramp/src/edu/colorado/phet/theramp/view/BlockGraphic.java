@@ -9,6 +9,7 @@ import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampObject;
 import edu.colorado.phet.theramp.common.LocationDebugGraphic;
 import edu.colorado.phet.theramp.model.Block;
+import edu.colorado.phet.theramp.model.Ramp;
 import edu.colorado.phet.theramp.model.RampModel;
 
 import javax.swing.event.MouseInputAdapter;
@@ -29,7 +30,7 @@ import java.io.IOException;
 public class BlockGraphic extends GraphicLayerSet {
     private RampModule module;
     private RampPanel rampPanel;
-    private SurfaceGraphic surfaceGraphic;
+    private SurfaceGraphic rampGraphic;
     private SurfaceGraphic groundGraphic;
     private Block block;
     private PhetImageGraphic graphic;
@@ -38,11 +39,11 @@ public class BlockGraphic extends GraphicLayerSet {
     private RampObject rampObject;
     private PhetImageGraphic wheelGraphic;
 
-    public BlockGraphic( final RampModule module, RampPanel rampPanel, SurfaceGraphic surfaceGraphic, SurfaceGraphic groundGraphic, Block block, RampObject rampObject ) {
+    public BlockGraphic( final RampModule module, RampPanel rampPanel, SurfaceGraphic rampGraphic, SurfaceGraphic groundGraphic, Block block, RampObject rampObject ) {
         super( rampPanel );
         this.module = module;
         this.rampPanel = rampPanel;
-        this.surfaceGraphic = surfaceGraphic;
+        this.rampGraphic = rampGraphic;
         this.groundGraphic = groundGraphic;
         this.block = block;
         this.rampObject = rampObject;
@@ -95,7 +96,7 @@ public class BlockGraphic extends GraphicLayerSet {
         this.mouseListener = new ThresholdedDragAdapter( mia, 10, 0, 1000 );
         graphic.addMouseInputListener( this.mouseListener );
         setCursorHand();
-        surfaceGraphic.getSurface().addObserver( new SimpleObserver() {
+        rampGraphic.getSurface().addObserver( new SimpleObserver() {
             public void update() {
                 updateBlock();
             }
@@ -187,8 +188,8 @@ public class BlockGraphic extends GraphicLayerSet {
     }
 
     public SurfaceGraphic getCurrentSurfaceGraphic() {
-        if( block.getSurface() == surfaceGraphic.getSurface() ) {
-            return surfaceGraphic;
+        if( block.getSurface() instanceof Ramp ) {
+            return rampGraphic;
         }
         else {
             return groundGraphic;

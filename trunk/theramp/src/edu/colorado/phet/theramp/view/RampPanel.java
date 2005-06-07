@@ -45,6 +45,8 @@ public class RampPanel extends ApparatusPanel2 {
         addGraphic( rampWorld );
 
         barGraphSuite = new BarGraphSuite( this, module.getRampModel() );
+        addGraphic( new OverheatButton( this, module.getRampModel(), barGraphSuite.getMaxDisplayableEnergy() ) );
+
 //        barGraphSet.scale( 0.93, 0.93 );
         barGraphSuite.scale( 0.82, 0.82 );
         barGraphSuite.setLocation( getDefaultRenderingSize().width - barGraphSuite.getWidth() - 1, barGraphSuite.getY() );

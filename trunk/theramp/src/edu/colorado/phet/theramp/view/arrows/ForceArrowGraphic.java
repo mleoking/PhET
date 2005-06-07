@@ -26,8 +26,6 @@ import java.awt.geom.Point2D;
  * Copyright (c) Feb 13, 2005 by Sam Reid
  */
 public class ForceArrowGraphic extends CompositePhetGraphic {
-//    public static final double forceLengthScale = 5.0;
-//    public static final double forceLengthScale = 1.0;
     private double arrowTailWidth = 30;
     private double arrowHeadHeight = 55;
 
@@ -44,6 +42,7 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
     private boolean nonZero = true;
     private String sub;
     private static final double THRESHOLD = 10E-8;
+    private Color baseColor;
 
     public ForceArrowGraphic( Component component, String name, Color color,
                               int dy, AbstractArrowSet.ForceComponent forceComponent,
@@ -57,6 +56,7 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
         super( component );
         this.blockGraphic = blockGraphic;
         this.name = name;
+        this.baseColor = color;
         this.sub = sub;
         if( sub != null && !sub.trim().equals( "" ) ) {
             name = "<html>" + name + "<sub>" + sub + "</sub></html>";
@@ -72,6 +72,10 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
         addGraphic( textGraphic );
         setIgnoreMouse( true );
         update();
+    }
+
+    public AbstractArrowSet.ForceComponent getForceComponent() {
+        return forceComponent;
     }
 
     public void update() {
@@ -139,5 +143,13 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
     public void setUserVisible( boolean userVisible ) {
         this.userVisible = userVisible;
         setVisible( userVisible && nonZero );
+    }
+
+    public void setPaint( Paint paint ) {
+        shapeGraphic.setPaint( paint );
+    }
+
+    public Color getBaseColor() {
+        return baseColor;
     }
 }

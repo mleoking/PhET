@@ -20,19 +20,5 @@ public class EnergyBarGraphSet extends BarGraphSet {
             new ValueAccessor.ThermalEnergy( getLookAndFeel() ), new ValueAccessor.TotalEnergy( getLookAndFeel() )
         };
         setAccessors( energyAccess );
-//        for( int i = 0; i < energyAccess.length; i++ ) {
-//            final ValueAccessor accessor = energyAccess[i];
-//            final BarGraphic2D barGraphic = new BarGraphic2D( getComponent(), accessor.getName(), transform1D,
-////                                                              accessor.getValue( rampModel ), sep * ( i + energyAccess.length + 1 ) + dw, width, y, dx, dy, toEnergyPaint( accessor.getColor() ) );
-//                                                              accessor.getValue( rampModel ), sep * ( i + energyAccess.length + 1 ) + dw, width, y, dx, dy, accessor.getColor() );
-//            addClockTickListener( new ClockTickListener() {
-//                public void clockTicked( ClockTickEvent event ) {
-//                    barGraphic.setValue( accessor.getValue( rampModel ) );
-//                }
-//            } );
-//            addGraphic( barGraphic );
-//        }
-
-
     }
 }
