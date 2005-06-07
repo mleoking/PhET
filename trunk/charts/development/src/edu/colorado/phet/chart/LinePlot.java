@@ -35,6 +35,7 @@ public class LinePlot extends DataSetGraphic {
             public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
             }
         } );
+        addAllPoints();
     }
 
     public void pointAdded( Point2D point ) {
