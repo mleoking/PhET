@@ -51,10 +51,10 @@ public class DiscreteModule extends FourierModule {
     private static final double SUM_LAYER = 3;
 
     // Locations
-    private static final Point AMPLITUDES_LOCATION = new Point( 60, 150 );
-    private static final Point HARMONICS_LOCATION = new Point( 60, 340 );
-    private static final Point SUM_LOCATION = new Point( 60, 530 );
-    private static final Point WIGGLE_ME_LOCATION = new Point( 260, 80 );
+    private static final Point AMPLITUDES_LOCATION = new Point( 60, 125 );
+    private static final Point HARMONICS_LOCATION = new Point( 60, 325 );
+    private static final Point SUM_LOCATION = new Point( 60, 540 );
+    private static final Point WIGGLE_ME_LOCATION = new Point( 260, 55 );
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.WHITE;

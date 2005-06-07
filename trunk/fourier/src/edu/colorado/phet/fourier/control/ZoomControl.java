@@ -137,7 +137,8 @@ public class ZoomControl extends GraphicLayerSet {
         _listenerList.remove( ActionListener.class, listener );
     }
     
-    private void fireActionEvent( ActionEvent event ) {
+    private void fireActionEvent( int actionID, String actionCommand ) {
+        ActionEvent event = new ActionEvent( this, actionID, actionCommand );
         Object[] listeners = _listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
             if ( listeners[i] == ActionListener.class ) {
@@ -174,14 +175,14 @@ public class ZoomControl extends GraphicLayerSet {
                 _inButtonPressed.setVisible( false );
                 _inPressed = false;
                 if ( _inButtonPressed.getBounds().contains( event.getPoint() ) ) {
-                    fireActionEvent( new ActionEvent( this, ACTION_ID_ZOOM_IN, ACTION_COMMAND_ZOOM_IN ) );
+                    fireActionEvent( ACTION_ID_ZOOM_IN, ACTION_COMMAND_ZOOM_IN );
                 }
             }
             else if ( _outPressed ) {
                 _outButtonPressed.setVisible( false );
                 _outPressed = false;
                 if ( _outButtonPressed.getBounds().contains( event.getPoint() ) ) {
-                    fireActionEvent( new ActionEvent( this, ACTION_ID_ZOOM_OUT, ACTION_COMMAND_ZOOM_OUT ) );
+                    fireActionEvent( ACTION_ID_ZOOM_OUT, ACTION_COMMAND_ZOOM_OUT );
                 }    
             }
         }

@@ -19,6 +19,7 @@ HIGH PRIORITY:
 - persistence
 
 MEDIUM PRIORITY:
+- refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 - cache trig calculations
 - OK to override finalize?
 
@@ -34,6 +35,9 @@ CLEANUP:
 - save all images using Photoshop's "Save for Web" feature
 - fix all javadoc warnings and errors
 
+CHARTS:
+- bug: bottom and right edges of charts stopped drawing when Sam added clipping
+
 PHETCOMMON:
 - bug: when focus moves to Control Panel, PhetJComponet in apparatus panel still appears to have focus (eg, blinking cursor)
 - bug: PhetJComponents don't work unless ApparatusPanel has a mouse listener that requests focus
@@ -42,6 +46,9 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/7) - add auto scale control to Sum graph
+(6/7) - add vertical zoom control to Sum graph
+(6/7) - convert Sum graph to charts package
 (6/6) - convert waveforms in Harmonics graph to data sets in charts package
 (6/6) - combobox choices should appear in the order that they're added
 (6/2) - create a "Zoom" control graphic

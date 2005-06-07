@@ -98,7 +98,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     private ArrayList _dataSets; // array of HarmonicDataSet
     private int _previousNumberOfHarmonics;
     private int _waveType;
-    private ZoomControl _zoomControl;
+    private ZoomControl _horizontalZoomControl;
     private int _xZoomLevel;
     private LabelTable _spaceLabels1, _spaceLabels2;
     
@@ -225,19 +225,26 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         
         // Zoom controls
         {
-            _zoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
-            addGraphic( _zoomControl, CONTROLS_LAYER );
-            _zoomControl.setLocation( _chartGraphic.getWidth() - 20, 0 ); //XXX why this X value?
-            _zoomControl.addActionListener( new EventListener() );
+            _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
+            addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
+            _horizontalZoomControl.setLocation( CHART_SIZE.width + 10, -50 );
         }
         
         // Interactivity
-        titleGraphic.setIgnoreMouse( true );
-        // XXX others setIgnoreMouse ?
+        {
+            titleGraphic.setIgnoreMouse( true );
+            // XXX others setIgnoreMouse ?
+            EventListener listener = new EventListener();
+            _horizontalZoomControl.addActionListener( listener );
+        }
+
+        // Misc initialization
+        {
+            _xZoomLevel = 0;
+            _dataSets = new ArrayList();
+            _previousNumberOfHarmonics = -1; // force update
+        }
         
-        _xZoomLevel = 0;
-        _dataSets = new ArrayList();
-        _previousNumberOfHarmonics = -1; // force update
         update();
     }
     
@@ -322,8 +329,8 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         public EventListener() {}
 
         public void actionPerformed( ActionEvent event ) {
-            if ( event.getID() == ZoomControl.ACTION_ID_ZOOM_IN  || event.getID() == ZoomControl.ACTION_ID_ZOOM_OUT ) {
-                handleZoom( event.getID() );
+            if ( event.getSource() == _horizontalZoomControl ) {
+                handleHorizontalZoom( event.getID() );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -336,16 +343,15 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     //----------------------------------------------------------------------------
     
     /*
-     * Handles zoom in/out buttons.
-     * Zooming applies to the X axis only.
+     * Handles horizontal zooming.
      * 
      * @param actionID indicates the type of zoom
      */
-    private void handleZoom( int actionID ) {
-
+    private void handleHorizontalZoom( int actionID ) {
+        
+        // Adjust the chart range.
         Range2D currentRange = _chartGraphic.getRange();
         Range2D newRange = null;
-
         if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
             /* Zoom In */
             double minX = currentRange.getMinX() / X_ZOOM_FACTOR;
@@ -364,9 +370,9 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
             newRange = new Range2D( minX, minY, maxX, maxY );
             _xZoomLevel--;
         }
+        _chartGraphic.setRange( newRange );
         
         // Adjust the labels to match the zoom level.
-        _chartGraphic.setRange( newRange );
         if ( _xZoomLevel > -3 ) {
             _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
         }
@@ -377,16 +383,18 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         // Disable a zoom button when we reach a max zoom level.
         switch ( _xZoomLevel ) {
         case X_MIN_ZOOM_LEVEL:
-            _zoomControl.setZoomOutEnabled( false );
-            _zoomControl.setZoomInEnabled( true );
+            _horizontalZoomControl.setZoomOutEnabled( false );
+            _horizontalZoomControl.setZoomInEnabled( true );
             break;
         case X_MAX_ZOOM_LEVEL:
-            _zoomControl.setZoomOutEnabled( true );
-            _zoomControl.setZoomInEnabled( false );
+            _horizontalZoomControl.setZoomOutEnabled( true );
+            _horizontalZoomControl.setZoomInEnabled( false );
             break;
         default:
-            _zoomControl.setZoomOutEnabled( true );
-            _zoomControl.setZoomInEnabled( true );
+            _horizontalZoomControl.setZoomOutEnabled( true );
+            _horizontalZoomControl.setZoomInEnabled( true );
         }
     }
+    
+
 }
