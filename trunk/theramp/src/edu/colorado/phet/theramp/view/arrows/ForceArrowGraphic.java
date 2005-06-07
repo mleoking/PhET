@@ -61,7 +61,8 @@ public class ForceArrowGraphic extends CompositePhetGraphic {
         if( sub != null && !sub.trim().equals( "" ) ) {
             name = "<html>" + name + "<sub>" + sub + "</sub></html>";
         }
-        color = RampUtil.transparify( color, 128 );
+//        color = RampUtil.transparify( color, 128 );
+        color = RampUtil.transparify( color, 175 );
         this.color = color;
         this.dy = dy;
         this.forceComponent = forceComponent;

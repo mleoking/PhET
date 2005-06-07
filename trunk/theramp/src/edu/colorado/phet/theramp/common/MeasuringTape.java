@@ -75,7 +75,7 @@ public class MeasuringTape extends GraphicLayerSet {
         ApparatusPanel ap = (ApparatusPanel)translationEvent.getMouseEvent().getComponent();
         GraphicLayerSet inputSource = ap.getGraphic();
         GraphicLayerSet myContainer = leaf.getParent();
-        Point2D dxOrig = new Point2D.Double( dx.getX(), dx.getY() );
+//        Point2D dxOrig = new Point2D.Double( dx.getX(), dx.getY() );
         AffineTransform tx = myContainer.getIntermediateTransform( inputSource );
         try {
             dx = tx.createInverse().deltaTransform( dx, null );
@@ -83,7 +83,7 @@ public class MeasuringTape extends GraphicLayerSet {
         catch( NoninvertibleTransformException e ) {
             e.printStackTrace();
         }
-        System.out.println( "dxOrig = " + dxOrig + ", dx=" + dx );
+//        System.out.println( "dxOrig = " + dxOrig + ", dx=" + dx );
         return dx;
     }
 

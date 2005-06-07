@@ -5,8 +5,10 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampModel;
@@ -46,10 +48,10 @@ public class RampModule extends Module {
         rampTimeSeriesModel = new RampTimeSeriesModel( this );
         clock.addClockTickListener( rampTimeSeriesModel );
         rampObjects = new RampObject[]{
-            new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 200, 0.3, 0.2, 0.4 ),
+            new RampObject( "images/cabinet.gif", "File Cabinet", 0.8, 100, 0.3, 0.2, 0.4 ),
             new RampObject( "images/fridge.gif", "Refrigerator", 0.35, 400, 0.7, 0.5, 0.4 ),
             new RampObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2, 0.3 ),
-            new RampObject( "images/piano.png", "Piano", 0.8, 250, 0.6, 0.6, 0.8, 20 ),
+            new RampObject( "images/piano.png", "Piano", 0.8, 225, 0.6, 0.6, 0.8, 20 ),
 //            new RampObject( "images/ollie.gif", "Sleepy Dog", 0.5, 30, 0.1, 0.1, 0.35 ),
         };
         rampPanel = new RampPanel( this );
@@ -64,6 +66,11 @@ public class RampModule extends Module {
         rampMediaPanel = new TimeSeriesPlaybackPanel( rampTimeSeriesModel );
     }
 
+    public void updateGraphics( ClockTickEvent event ) {
+        super.updateGraphics( event );
+        rampPanel.updateGraphics();
+    }
+
     public static void main( String[] args ) {
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.apply();
@@ -76,6 +83,7 @@ public class RampModule extends Module {
         application.setModules( new Module[]{module} );
         application.getPhetFrame().getBasicPhetPanel().setAppControlPanel( module.rampMediaPanel );
         application.startApplication();
+//        module.updateGraphics( new ClockTickEvent( clock, 0 ) );
         try {
             SwingUtilities.invokeAndWait( new Runnable() {
                 public void run() {
@@ -89,6 +97,7 @@ public class RampModule extends Module {
         catch( InvocationTargetException e ) {
             e.printStackTrace();
         }
+        RepaintDebugGraphic.enable( module.getApparatusPanel(), clock );
 
     }
 

@@ -18,10 +18,12 @@ public class RampLookAndFeel {
      * x-W_app and deltaTotalEnergy should be same color: Yellow (yellow for... I don't know, it just has to be different than blue, red, green).
      */
     private final Color myGreen = new Color( 0.0f, 0.8f, 0.1f );
-    private Color appliedForceColor = myGreen;
-    private Color netForceColor = Color.blue;
+    private final Color lightBlue = new Color( 160, 220, 255 );
+
+    private Color appliedForceColor = Color.yellow;
+    private Color netForceColor = myGreen;
     private Color frictionForceColor = Color.red;
-    private Color weightColor = Color.yellow;
+    private Color weightColor = lightBlue;//used to be Color.blue
     private Color normalColor = Color.magenta;
     private Color wallForceColor = Color.orange;
 
@@ -29,10 +31,10 @@ public class RampLookAndFeel {
     private Color velColor = Color.black;
     private Color positionColor = Color.black;
 
-    private Color appliedWorkColor = Color.yellow;
-    private Color frictionWorkColor = Color.red;
-    private Color gravityWorkColor = Color.blue;
-    private Color totalWorkColor = Color.green;
+    private Color appliedWorkColor = appliedForceColor;
+    private Color frictionWorkColor = frictionForceColor;
+    private Color gravityWorkColor = weightColor;
+    private Color totalWorkColor = myGreen;
 
 //    private Color totalEnergyColor = new Color( 100, 0, 160 );//purple
 //    private Color kineticEnergyColor = new Color( 234, 152, 168 );//light red

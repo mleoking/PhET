@@ -16,6 +16,6 @@ public class NullGraphic extends AbstractGraphic {
     }
 
     public Rectangle2D getLocalBounds() {
-        return new Rectangle2D.Double( );
+        return new Rectangle2D.Double();
     }
 }
