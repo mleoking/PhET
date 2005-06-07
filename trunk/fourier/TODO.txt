@@ -6,6 +6,7 @@ IN PROGRESS:
 - convert to charts package
 
 HIGH PRIORITY:
+- redo Amplitude sliders
 - investigate Jex for rendering equations
 - autorescale checkbox for Components/Sum graphs
 - Sums graphic range is +-5 when autoscale is off
@@ -39,6 +40,7 @@ CHARTS:
 - bug: bottom and right edges of charts stopped drawing when Sam added clipping
 
 PHETCOMMON:
+- bug: JTextField wrapped by PhetJComponent doesn't work on Windows
 - bug: when focus moves to Control Panel, PhetJComponet in apparatus panel still appears to have focus (eg, blinking cursor)
 - bug: PhetJComponents don't work unless ApparatusPanel has a mouse listener that requests focus
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
@@ -46,6 +48,8 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/7) - move sin/cos caching functions to FourierUtils
+(6/7) - add charts.jar to JNLP file
 (6/7) - add auto scale control to Sum graph
 (6/7) - add vertical zoom control to Sum graph
 (6/7) - convert Sum graph to charts package
