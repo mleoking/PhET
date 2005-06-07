@@ -148,11 +148,12 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
                     }
                 case ControlledFissionModule.VERTICAL:
                     dx = 0;
-                    if( dy < 0 && rep.location.getY() + dy <= vessel.getY() + rodLength ) {
-                        dy = 0;
+                    if( dy < 0 && rep.location.getY()- rodLength + ( dy / atx.getScaleY() ) <= vessel.getY() ) {
+                        dy = ( vessel.getY() - ( rep.location.getY()- rodLength ) ) * atx.getScaleY();
                     }
-                    if( dy > 0 && rep.location.getY() + dy >= vessel.getY() + rodLength * 2 ) {
-                        dy = 0;
+                    else if( dy > 0 && rep.location.getY() - rodLength + ( dy /atx.getScaleY() )
+                                       >= vessel.getY() + vessel.getHeight() ) {
+                        dy = (vessel.getY() - rep.location.getY() + ( rodLength * 2 )) * atx.getScaleY();
                     }
             }
             // Have to account for the SCALE of the affine transform before telling the model element to move

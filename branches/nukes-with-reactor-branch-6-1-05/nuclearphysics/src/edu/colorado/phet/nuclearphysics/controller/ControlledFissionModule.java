@@ -48,19 +48,16 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     private static NucleusGraphic ng2;
     private static BufferedImage bi;
-    private static NucleusGraphic u235Graphic = new Uranium235Graphic( new Uranium235( new Point2D.Double(),
-                                                                                       null ) );
     private static BufferedImage u235Img;
+    private static BufferedImage rubidiumImg;
+    private static BufferedImage cesiumImg;
 
     static {
         ng2 = NucleusGraphicFactory.create( new Uranium235( new Point2D.Double(),
                                                             null ) );
-        bi = ng2.getImage();
-        AffineTransformOp atxOp = new AffineTransformOp( AffineTransform.getScaleInstance( 1, 1 ),
-//        AffineTransformOp atxOp = new AffineTransformOp( AffineTransform.getScaleInstance( 1, 1 ),
-                                                         new RenderingHints( RenderingHints.KEY_INTERPOLATION,
-                                                                             RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
-        u235Img = atxOp.filter( bi, null );
+        u235Img = ng2.getImage();
+        rubidiumImg = NucleusGraphicFactory.create( new Rubidium( new Point2D.Double() ) ).getImage();
+        cesiumImg = NucleusGraphicFactory.create( new Cesium( new Point2D.Double() ) ).getImage();
     }
 
     //----------------------------------------------------------------
@@ -74,6 +71,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private int nCols = 20;
     private ControlRodGroupGraphic controlRodGroupGraphic;
     private ControlRod[] controlRods;
+    private int numNeutronsFired = 1;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -100,7 +98,7 @@ public class ControlledFissionModule extends ChainReactionModule {
 
         // Add the vessel
         vessel = new Vessel( -vesselWidth / 2,
-                             -vesselHeight,
+                             -vesselHeight * .7,
                              vesselWidth,
                              vesselHeight,
                              numChannels,
@@ -162,28 +160,42 @@ public class ControlledFissionModule extends ChainReactionModule {
      * @param nucleus
      */
     protected void addNucleus( Nucleus nucleus ) {
-//        final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),
-//                                                           u235Img,
-//                                                           (int)nucleus.getPosition().getX(),
-//                                                           (int)nucleus.getPosition().getY() );
+        BufferedImage sourceImg = null;
+        if( nucleus instanceof Uranium235 ) {
+            sourceImg = u235Img;
+        }
+        else if( nucleus instanceof Rubidium ) {
+            sourceImg = rubidiumImg;
+        }
+        else if( nucleus instanceof Cesium ) {
+            sourceImg = cesiumImg;
+        }
+        else if( sourceImg == null ) {
+            System.out.println( "ControlledFissionModule.addNucleus" );
+        }
+
+        final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),
+                                                           sourceImg,
+                                                           (int)( nucleus.getPosition().getX() - nucleus.getRadius() ),
+                                                           (int)( nucleus.getPosition().getY() - nucleus.getRadius() ) );
         nuclei.add( nucleus );
         nucleus.addFissionListener( this );
         getModel().addModelElement( nucleus );
         double rad = nucleus.getRadius();
         final Graphic ng = new PhetShapeGraphic( getPhysicalPanel(),
-                                                        new Ellipse2D.Double(nucleus.getPosition().getX() - rad,
-                                                                             nucleus.getPosition().getY() - rad,
-                                                                             rad * 2, rad * 2),
-                                                        Color.red);
+                                                 new Ellipse2D.Double( nucleus.getPosition().getX() - rad,
+                                                                       nucleus.getPosition().getY() - rad,
+                                                                       rad * 2, rad * 2 ),
+                                                 Color.red );
         NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
-//                getPhysicalPanel().removeGraphic( nig );
-                getPhysicalPanel().removeGraphic( ng );
+                getPhysicalPanel().removeGraphic( nig );
+//                getPhysicalPanel().removeGraphic( ng );
             }
         };
         nucleus.addListener( listener );
-//        getPhysicalPanel().addOriginCenteredGraphic( nig, Config.nucleusLevel );
-        getPhysicalPanel().addOriginCenteredGraphic( ng, Config.nucleusLevel );
+        getPhysicalPanel().addOriginCenteredGraphic( nig, Config.nucleusLevel );
+//        getPhysicalPanel().addOriginCenteredGraphic( ng, Config.nucleusLevel );
     }
 
 
@@ -209,6 +221,14 @@ public class ControlledFissionModule extends ChainReactionModule {
     // Getters and setters
     //----------------------------------------------------------------
 
+    public void setNumNeutronsFired( int numNeutronsFired ) {
+        this.numNeutronsFired = numNeutronsFired;
+    }
+
+    public int getNumNeutronsFired() {
+        return numNeutronsFired;
+    }
+
     public int getNumControlRods() {
         return numChannels;
     }
@@ -223,6 +243,20 @@ public class ControlledFissionModule extends ChainReactionModule {
         Uranium235.setAbsoptionProbability( probability );
     }
 
+    public void setInterNucleusSpacing( double modelValue ) {
+        double diam = new Uranium235( new Point2D.Double(), null ).getRadius() * 2;
+        double spacing = diam * modelValue;
+        nCols = (int)( vessel.getWidth() / spacing );
+        stop();
+        start();
+    }
+
+    public double getInterNucleusSpacing() {
+        double spacing = vesselWidth / nCols;
+        double diam = new Uranium235( new Point2D.Double(), null ).getRadius() * 2;
+        return diam / spacing;
+    }
+
     //----------------------------------------------------------------
     // Extensions of superclass behavior
     //----------------------------------------------------------------
@@ -231,8 +265,10 @@ public class ControlledFissionModule extends ChainReactionModule {
      * Extends superclass behavior to recompute the launch parameters each time a neutron is fired
      */
     public void fireNeutron() {
-        computeNeutronLaunchParams();
-        super.fireNeutron();
+        for( int i = 0; i < numNeutronsFired; i++ ) {
+            computeNeutronLaunchParams();
+            super.fireNeutron();
+        }
     }
 
     /**
@@ -336,20 +372,6 @@ public class ControlledFissionModule extends ChainReactionModule {
             location = null;
         }
         return location;
-    }
-
-    public void setInterNucleusSpacing( double modelValue ) {
-        double diam = new Uranium235( new Point2D.Double( ), null ).getRadius() * 2;
-        double spacing = diam * modelValue;
-        nCols = (int)(vessel.getWidth() / spacing );
-        stop();
-        start();
-    }
-
-    public double getInterNucleusSpacing() {
-        double spacing = vesselWidth / nCols;
-        double diam = new Uranium235( new Point2D.Double( ), null ).getRadius() * 2;
-        return diam / spacing;
     }
 }
 

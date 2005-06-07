@@ -128,13 +128,28 @@ public class ControlRod implements ModelElement {
     // Implementation of ModelElement
     //----------------------------------------------------------------
 
+    /**
+     * Looks for neutrons that it should absorb
+     * @param v
+     */
     public void stepInTime( double v ) {
         List modelElements = model.getNuclearModelElements();
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object obj = modelElements.get( i );
             if( obj instanceof Neutron ) {
                 Neutron neutron = (Neutron)obj;
+                // Is the neutron in the control rod now?
                 if( this.getBounds().contains( neutron.getPosition()) ) {
+                    model.removeModelElement( neutron );
+                }
+                // Did the neutron pass through the control rod from left to right?
+                else if( neutron.getPositionPrev().getX() < this.getBounds().getMaxX() &&
+                    neutron.getPosition().getX() > this.getBounds().getMinX()) {
+                    model.removeModelElement( neutron );
+                }
+                // Did the neutron pass through the control rod from right to left?
+                else if( neutron.getPositionPrev().getX() > this.getBounds().getMinX() &&
+                    neutron.getPosition().getX() < this.getBounds().getMaxX()) {
                     model.removeModelElement( neutron );
                 }
             }

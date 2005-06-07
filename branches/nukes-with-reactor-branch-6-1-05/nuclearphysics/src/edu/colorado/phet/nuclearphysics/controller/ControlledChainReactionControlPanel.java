@@ -169,7 +169,10 @@ public class ControlledChainReactionControlPanel extends JPanel {
 //        gbcCenter.gridy = 5;
         add( resetBtn, gbcCenter );
 
-        // SWpinner for the number of control rods
+        // Spinner for the number of control rods
+        JPanel jp = new JPanel( new GridBagLayout());
+        GridBagConstraints jpGbc = new GridBagConstraints( 0,0,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+                                                           new Insets( 0,0,0,0),0,0 );
         final JSpinner controlRodSpinner = new JSpinner( new SpinnerNumberModel( module.getNumControlRods(),
                                                                            0, 10, 1 ) );
         controlRodSpinner.addChangeListener( new ChangeListener() {
@@ -177,8 +180,23 @@ public class ControlledChainReactionControlPanel extends JPanel {
                 module.setNumControlRods( ((Integer)controlRodSpinner.getValue()).intValue() );
             }
         } );
-        add( new JLabel( "<html>Number of<br>Control Rods</html"), gbcCenter );
-        add( controlRodSpinner, gbcCenter );
+        jp.add( new JLabel( "<html>Number of<br>Control Rods</html"), jpGbc );
+        jpGbc.gridx = 1;
+        jp.add( controlRodSpinner, jpGbc );
+
+        final JSpinner numNeutronsSpinner = new JSpinner( new SpinnerNumberModel( module.getNumNeutronsFired(),
+                                                                                  1, 10, 1) );
+        numNeutronsSpinner.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                module.setNumNeutronsFired( ((Integer)numNeutronsSpinner.getValue()).intValue() );
+            }
+        } );
+        jpGbc.gridy = 1;
+        jpGbc.gridx = 0;
+        jp.add( new JLabel( "Number Neutrons"), jpGbc );
+        jpGbc.gridx = 1;
+        jp.add( numNeutronsSpinner, jpGbc );
+        add( jp, gbcCenter);
 
         // Slider for absorption probability
         final ModelSlider absorptionSlider = new ModelSlider( "Absorption Probability", 0, 1, 1 );

@@ -17,8 +17,6 @@ import java.awt.geom.AffineTransform;
 public class Uranium235Graphic extends NucleusGraphic {
     private static Font isotopeFont = new Font( "SansSerif", Font.BOLD, 16 );
     private static Font elementFont = new Font( "SansSerif", Font.BOLD, 34 );
-    //    private static Font isotopeFont = new Font( "Serif", Font.BOLD, 12 );
-    //    private static Font elementFont = new Font( "Serif", Font.BOLD, 30 );
     private static Color color = Color.yellow;
     private static AffineTransform nucleusTx = new AffineTransform();
     private static Stroke fontOutlineStroke = new BasicStroke( 1f );
@@ -35,13 +33,13 @@ public class Uranium235Graphic extends NucleusGraphic {
     }
 
     public void paint( Graphics2D g ) {
-        nucleusTx.setToTranslation( nucleus.getPosition().getX(), nucleus.getPosition().getY() );
         super.paint( g );
 
-        AffineTransform orgTx = g.getTransform();
-        g.transform( nucleusTx );
-
         if( displayLabel ) {
+            nucleusTx.setToTranslation( nucleus.getPosition().getX(), nucleus.getPosition().getY() );
+            AffineTransform orgTx = g.getTransform();
+            g.transform( nucleusTx );
+
             GraphicsUtil.setAntiAliasingOn( g );
 
             g.setColor( color );
@@ -53,7 +51,7 @@ public class Uranium235Graphic extends NucleusGraphic {
             g.setColor( color );
             g.setFont( elementFont );
             g.drawString( SimStrings.get( "Uranium235Graphic.Symbol" ), 0, dy );
+            g.setTransform( orgTx );
         }
-        g.setTransform( orgTx );
     }
 }

@@ -175,8 +175,10 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         u235Nuclei.remove( products.getParent() );
 
         // Add fission products
-        super.addNucleus( products.getDaughter1() );
-        super.addNucleus( products.getDaughter2() );
+        addNucleus( products.getDaughter1() );
+        addNucleus( products.getDaughter2() );
+//        super.addNucleus( products.getDaughter1() );
+//        super.addNucleus( products.getDaughter2() );
         nuclei.add( products.getDaughter1() );
         nuclei.add( products.getDaughter2() );
 
@@ -188,9 +190,6 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
             neutrons.add( neutronProducts[i] );
             neutronProducts[i].addListener( new NuclearModelElement.Listener() {
                 public void leavingSystem( NuclearModelElement nme ) {
-                    if( nme instanceof Rubidium ) {
-                        System.out.println( "ChainReactionModule.leavingSystem" );
-                    }
                     getPhysicalPanel().removeGraphic( npg );
                 }
             } );
