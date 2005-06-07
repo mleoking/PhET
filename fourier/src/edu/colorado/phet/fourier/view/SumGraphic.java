@@ -12,19 +12,20 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JCheckBox;
+
+import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 
@@ -43,66 +44,69 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     
     // Layers
     private static final double TITLE_LAYER = 1;
-    private static final double OUTLINE_LAYER = 2;
-    private static final double AXES_LAYER = 3;
-    private static final double TICKS_LAYER = 4;
-    private static final double LABELS_LAYER = 5;
-    private static final double WAVE_LAYER = 6;
-    
-    // Title
+    private static final double CHART_LAYER = 2;
+    private static final double CONTROLS_LAYER = 3;
+
+    // Title parameters
     private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final int TITLE_X_OFFSET = -15; // from origin
     
-    // Outline
-    private static final int OUTLINE_WIDTH = 600;
-    private static final int OUTLINE_HEIGHT = 175;
+    // X axis
+    private static final double L = 1.0;
+    private static final Color X_AXIS_COLOR = Color.BLACK;
+    private static final Stroke X_AXIS_STROKE = new BasicStroke( 2f );
+    private static final double X_MAJOR_TICK_SPACING = ( L / 4 );
+    private static final Stroke X_MAJOR_TICK_STROKE = new BasicStroke( 1f );
+    private static final Font X_MAJOR_TICK_FONT = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private static final Color X_MAJOR_TICK_COLOR = Color.BLACK;
+    private static final Color X_MAJOR_GRIDLINE_COLOR = Color.BLACK;
+    private static final Stroke X_MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
+    private static final double X_ZOOM_FACTOR = Math.sqrt( 2 );
+    private static final int X_MIN_ZOOM_LEVEL = -4;
+    private static final int X_MAX_ZOOM_LEVEL = 1;
     
-    // Axes parameters
-    private static final Color AXES_COLOR = Color.BLACK;
-    private static final Stroke AXES_STROKE = new BasicStroke( 1f );
-    private static final String X_ZERO_LABEL = "0";
-    private static final String AXES_LABEL_FORMAT = "0.00";
+    // Y axis
+    private static final double Y_MIN = -5.0;
+    private static final double Y_MAX = +5.0;
+    private static final Color Y_AXIS_COLOR = Color.BLACK;
+    private static final Stroke Y_AXIS_STROKE = new BasicStroke( 2f );
+    private static final double Y_MAJOR_TICK_SPACING = 5.0;
+    private static final double Y_MINOR_TICK_SPACING = 1.0;
+    private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
+    private static final Stroke Y_MINOR_TICK_STROKE = new BasicStroke( 1f );
+    private static final Font Y_MAJOR_TICK_FONT = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private static final Color Y_MAJOR_GRIDLINE_COLOR = Color.BLACK;
+    private static final Color Y_MINOR_GRIDLINE_COLOR = new Color( 0, 0, 0, 60 );
+    private static final Stroke Y_MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
+    private static final Stroke Y_MINOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
+    private static final int Y_ZOOM_STEP = 5;
     
-    // Tick marks
-    private static final Font TICKS_LABEL_FONT = new Font( "Lucida Sans", Font.PLAIN, 16 );
-    private static final Color TICKS_LABEL_COLOR = Color.BLACK;
-    private static final int MAJOR_TICK_LENGTH = 10;
-    private static final Color MAJOR_TICK_COLOR = Color.BLACK;
-    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final int MINOR_TICK_LENGTH = 5;
-    private static final Color MINOR_TICK_COLOR = Color.BLACK;
-    private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final double MINOR_TICK_INTERVAL = 1.0;
-
-    // Tick lines
-    private static final Color TICK_LINE_COLOR1 = new Color( 0, 0, 0, 30 );
-    private static final Color TICK_LINE_COLOR2 = new Color( 0, 0, 0, 100 );
-    private static final Stroke TICK_LINE_STROKE = new BasicStroke( 1f );
+    // Chart parameters
+    private static final Range2D CHART_RANGE = new Range2D( -L/2, Y_MIN, L/2, Y_MAX );
+    private static final Dimension CHART_SIZE = new Dimension( 600, 130 );
     
     // Wave parameters
-    private static final Color WAVE_COLOR = Color.BLACK;
-    private static final Stroke WAVE_STROKE = new BasicStroke( 2f );
-    private static final double DEFAULT_PHASE_ANGLE = 0.0;
+    private static final Stroke WAVE_STROKE = new BasicStroke( 1f );
+    private static final int NUMBER_OF_DATA_POINTS = 1000;
+    private static final int MAX_FUNDAMENTAL_CYCLES = 4;
+    private static final Color SUM_COLOR = Color.BLACK; 
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeriesModel;
-    private Rectangle _outlineRectangle;
-    private PhetShapeGraphic _outlineGraphic;
-    private PhetShapeGraphic _waveGraphic;
-    private GeneralPath _wavePath;
-    private int _previousNumberOfHarmonics;
+    private Chart _chartGraphic;
+    private DataSet _sumDataSet;
+    private DataSet _presetDataSet;
     private int _waveType;
-    private double _phaseAngle;
-    private PhetTextGraphic _maxLabelGraphic, _minLabelGraphic;
-    private NumberFormat _minMaxFormatter;
-    private CompositePhetGraphic _minorTicksGraphic;
+    private ZoomControl _horizontalZoomControl, _verticalZoomControl;
+    private JCheckBox _autoScaleCheckBox;
+    private int _xZoomLevel;
+    private LabelTable _spaceLabels1, _spaceLabels2;
     private double[] _sums;
-    private ArrayList _tickMarksList; // array of PhetShapeGraphic
-    private ArrayList _tickLinesList; // array of PhetShapeGraphic
+    private boolean _autoScaleEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -114,6 +118,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
+        // Model
         _fourierSeriesModel = fourierSeriesModel;
         _fourierSeriesModel.addObserver( this );
         
@@ -125,100 +130,157 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         titleGraphic.setLocation( TITLE_X_OFFSET, 0 );
         addGraphic( titleGraphic, TITLE_LAYER );
         
-        _outlineGraphic = new PhetShapeGraphic( component );
-        _outlineRectangle = new Rectangle( 0, -OUTLINE_HEIGHT/2, OUTLINE_WIDTH, OUTLINE_HEIGHT-1 );
-        _outlineGraphic.setShape( _outlineRectangle );
-        _outlineGraphic.setBorderColor( Color.BLACK );
-        _outlineGraphic.setStroke( new BasicStroke( 1f ) );
-        addGraphic( _outlineGraphic, OUTLINE_LAYER );
-        
-        // X axis
-        PhetShapeGraphic xAxisGraphic = new PhetShapeGraphic( component );
-        xAxisGraphic.setShape( new Line2D.Double( 0, 0, OUTLINE_WIDTH, 0 ) );
-        xAxisGraphic.setBorderColor( AXES_COLOR );
-        xAxisGraphic.setStroke( AXES_STROKE );
-        addGraphic( xAxisGraphic, AXES_LAYER );
-        
-        // Y axis
-        PhetShapeGraphic yAxisGraphic = new PhetShapeGraphic( component );
-        yAxisGraphic.setShape( new Line2D.Double( OUTLINE_WIDTH/2, -OUTLINE_HEIGHT/2, OUTLINE_WIDTH/2, +OUTLINE_HEIGHT/2 ) );
-        yAxisGraphic.setBorderColor( AXES_COLOR );
-        yAxisGraphic.setStroke( AXES_STROKE );
-        addGraphic( yAxisGraphic, AXES_LAYER );
-        
-        // Major tick marks
+        // Chart
         {
-            Shape majorTickShape = new Line2D.Double( -MAJOR_TICK_LENGTH, 0, 0, 0 );
+            _chartGraphic = new Chart( component, CHART_RANGE, CHART_SIZE );
+            addGraphic( _chartGraphic, CHART_LAYER );
             
-            PhetShapeGraphic zeroTickGraphic = new PhetShapeGraphic( component );
-            zeroTickGraphic.setShape( majorTickShape );
-            zeroTickGraphic.setBorderColor( MAJOR_TICK_COLOR );
-            zeroTickGraphic.setStroke( MAJOR_TICK_STROKE );
-            zeroTickGraphic.setLocation( 0, 0 );
-            addGraphic( zeroTickGraphic, TICKS_LAYER );
+            _chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
+
+            // Symbolic labels for the X axis
+            {
+                _spaceLabels1 = new LabelTable();
+                _spaceLabels1.put( -1.00 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( -0.75 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-3L/4", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( -0.50 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L/2", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( -0.25 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L/4", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put(     0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "0", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put(  0.25 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/4", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put(  0.50 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/2", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put(  0.75 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "3L/4", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put(  1.00 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L", X_MAJOR_TICK_COLOR ) );
+                
+                _spaceLabels2 = new LabelTable();
+                _spaceLabels2.put( -2.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-2L", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( -1.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-3L/2", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( -1.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( -0.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L/2", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put(    0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "0", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put(  0.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/2", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put(  1.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put(  1.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "3L/2", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put(  2.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "2L", X_MAJOR_TICK_COLOR ) );
+            }
             
-            PhetShapeGraphic maxTickGraphic = new PhetShapeGraphic( component );
-            maxTickGraphic.setShape( majorTickShape );
-            maxTickGraphic.setBorderColor( MAJOR_TICK_COLOR );
-            maxTickGraphic.setStroke( MAJOR_TICK_STROKE );
-            maxTickGraphic.setLocation( 0, -( OUTLINE_HEIGHT / 2 ) );
-            addGraphic( maxTickGraphic, TICKS_LAYER );
-           
-            PhetShapeGraphic minTickGraphic = new PhetShapeGraphic( component );
-            minTickGraphic.setShape( majorTickShape );
-            minTickGraphic.setBorderColor( MAJOR_TICK_COLOR );
-            minTickGraphic.setStroke( MAJOR_TICK_STROKE );
-            minTickGraphic.setLocation( 0, +( OUTLINE_HEIGHT / 2 ) );
-            addGraphic( minTickGraphic, TICKS_LAYER );
+            // X axis
+            {
+                _chartGraphic.getXAxis().setStroke( X_AXIS_STROKE );
+                _chartGraphic.getXAxis().setColor( X_AXIS_COLOR );
+
+                // No ticks or labels on the axis
+                _chartGraphic.getXAxis().setMajorTicksVisible( false );
+                _chartGraphic.getXAxis().setMajorTickLabelsVisible( false );
+                _chartGraphic.getXAxis().setMinorTicksVisible( false );
+                _chartGraphic.getXAxis().setMinorTickLabelsVisible( false );
+                
+                // Major ticks with labels below the chart
+                _chartGraphic.getHorizontalTicks().setMajorTicksVisible( true );
+                _chartGraphic.getHorizontalTicks().setMajorTickLabelsVisible( true );
+                _chartGraphic.getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
+                _chartGraphic.getHorizontalTicks().setMajorTickStroke( X_MAJOR_TICK_STROKE );
+                _chartGraphic.getHorizontalTicks().setMajorTickFont( X_MAJOR_TICK_FONT );
+                _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
+
+                // Vertical gridlines for major ticks.
+                _chartGraphic.getVerticalGridlines().setMajorGridlinesVisible( true );
+                _chartGraphic.getVerticalGridlines().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
+                _chartGraphic.getVerticalGridlines().setMajorGridlinesColor( X_MAJOR_GRIDLINE_COLOR );
+                _chartGraphic.getVerticalGridlines().setMajorGridlinesStroke( X_MAJOR_GRIDLINE_STROKE );
+                
+                // No vertical gridlines for minor ticks.
+                _chartGraphic.getVerticalGridlines().setMinorGridlinesVisible( false );
+            }
+            
+            // Y axis
+            {
+                _chartGraphic.getYAxis().setStroke( Y_AXIS_STROKE );
+                _chartGraphic.getYAxis().setColor( Y_AXIS_COLOR );
+                
+                // No ticks or labels on the axis
+                _chartGraphic.getYAxis().setMajorTicksVisible( false );
+                _chartGraphic.getYAxis().setMajorTickLabelsVisible( false );
+                _chartGraphic.getYAxis().setMinorTicksVisible( false );
+                _chartGraphic.getYAxis().setMinorTickLabelsVisible( false );
+                
+                // Major ticks with labels to the left of the chart
+                _chartGraphic.getVerticalTicks().setMajorTicksVisible( true );
+                _chartGraphic.getVerticalTicks().setMajorTickLabelsVisible( true );
+                _chartGraphic.getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
+                _chartGraphic.getVerticalTicks().setMajorTickStroke( Y_MAJOR_TICK_STROKE );
+                _chartGraphic.getVerticalTicks().setMajorTickFont( Y_MAJOR_TICK_FONT );
+
+                // Horizontal gridlines for major ticks
+                _chartGraphic.getHorizonalGridlines().setMajorGridlinesVisible( true );
+                _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
+                _chartGraphic.getHorizonalGridlines().setMajorGridlinesColor( Y_MAJOR_GRIDLINE_COLOR );
+                _chartGraphic.getHorizonalGridlines().setMajorGridlinesStroke( Y_MAJOR_GRIDLINE_STROKE );
+
+                // Horizontal gridlines for minor ticks
+                _chartGraphic.getHorizonalGridlines().setMinorGridlinesVisible( true );
+                _chartGraphic.getHorizonalGridlines().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
+                _chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( Y_MINOR_GRIDLINE_COLOR );
+                _chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( Y_MINOR_GRIDLINE_STROKE );
+            }
         }
         
-        // Minor tick marks
-        _minorTicksGraphic = new CompositePhetGraphic( component );
-        addGraphic( _minorTicksGraphic, TICKS_LAYER );
-        
-        // X axis labels
+        // Zoom controls
         {
-            int x = -12;
+            _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
+            addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
+            _horizontalZoomControl.setLocation( CHART_SIZE.width + 10, -50 );
             
-            PhetTextGraphic zerolabelGraphic = new PhetTextGraphic( component, TICKS_LABEL_FONT, X_ZERO_LABEL, TICKS_LABEL_COLOR );
-            zerolabelGraphic.setJustification( PhetTextGraphic.EAST );
-            zerolabelGraphic.setLocation( x, 0 );
-            addGraphic( zerolabelGraphic, LABELS_LAYER );
-            
-            _maxLabelGraphic = new PhetTextGraphic( component, TICKS_LABEL_FONT, X_ZERO_LABEL, TICKS_LABEL_COLOR );
-            _maxLabelGraphic.setJustification( PhetTextGraphic.EAST );
-            _maxLabelGraphic.setLocation( x, -( OUTLINE_HEIGHT / 2 ) );
-            addGraphic( _maxLabelGraphic, LABELS_LAYER );
-            
-            _minLabelGraphic = new PhetTextGraphic( component, TICKS_LABEL_FONT, X_ZERO_LABEL, TICKS_LABEL_COLOR );
-            _minLabelGraphic.setJustification( PhetTextGraphic.EAST );
-            _minLabelGraphic.setLocation( x, +( OUTLINE_HEIGHT / 2 ) );
-            addGraphic( _minLabelGraphic, LABELS_LAYER );
+            _verticalZoomControl = new ZoomControl( component, ZoomControl.VERTICAL );
+            addGraphic( _verticalZoomControl, CONTROLS_LAYER );
+            _verticalZoomControl.setLocation( _horizontalZoomControl.getX(), 
+                    _horizontalZoomControl.getY() + _horizontalZoomControl.getHeight() + 5 );
         }
         
-        // Wave
-        _waveGraphic = new PhetShapeGraphic( component );
-        _waveGraphic.setLocation( OUTLINE_WIDTH/2, 0 );
-        _wavePath = new GeneralPath();
-        _waveGraphic.setShape( _wavePath );
-        _waveGraphic.setBorderColor( WAVE_COLOR );
-        _waveGraphic.setStroke( WAVE_STROKE );
-        addGraphic( _waveGraphic, WAVE_LAYER );
+        // Auto Scale control
+        {
+            _autoScaleCheckBox = new JCheckBox( "Auto scale" );//XXX i18n
+            _autoScaleCheckBox.setOpaque( false );
+            PhetGraphic graphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
+            addGraphic( graphic, CONTROLS_LAYER );
+            graphic.setLocation( _verticalZoomControl.getX(), 
+                    _verticalZoomControl.getY() + _verticalZoomControl.getHeight() + 5 );
+            graphic.scale( 0.8 );
+        }
+        
+        // Sum data set
+        _sumDataSet = new DataSet();
+        DataSetGraphic sumDataSetGraphic = new LinePlot( getComponent(), _chartGraphic, _sumDataSet, WAVE_STROKE, SUM_COLOR );
+        _chartGraphic.addDataSetGraphic( sumDataSetGraphic );
+        
+        // Preset data set
+        _presetDataSet = new DataSet();
+        DataSetGraphic presetDataSetGraphic = new LinePlot( getComponent(), _chartGraphic, _presetDataSet, WAVE_STROKE, SUM_COLOR );
+        _chartGraphic.addDataSetGraphic( presetDataSetGraphic );
         
         // Interactivity
-        this.setIgnoreMouse( true );
+        {
+            titleGraphic.setIgnoreMouse( true );
+            // XXX others setIgnoreMouse ?
+            EventListener listener = new EventListener();
+            _horizontalZoomControl.addActionListener( listener );
+            _verticalZoomControl.addActionListener( listener );
+            _autoScaleCheckBox.addActionListener( listener );
+        }
         
-        _sums = new double[ OUTLINE_WIDTH + 1 ];
-        _waveType = FourierConstants.WAVE_TYPE_SINE;
-        _phaseAngle = DEFAULT_PHASE_ANGLE;
-        _previousNumberOfHarmonics = -1; // force update
-        _minMaxFormatter = new DecimalFormat( AXES_LABEL_FORMAT );
-        _tickMarksList = new ArrayList();
-        _tickLinesList = new ArrayList();
+        // Misc initialization
+        {
+            _sums = new double[NUMBER_OF_DATA_POINTS];
+            _xZoomLevel = 0;
+            _autoScaleEnabled = false;
+        }
         
+        updateZoomButtons();
         update();
     }
     
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void finalize() {
         _fourierSeriesModel.removeObserver( this );
         _fourierSeriesModel = null;
@@ -228,6 +290,11 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the wave type, sine or cosine.
+     * 
+     * @param waveType FourierConstants.WAVE_TYPE_SINE or FourierConstants.WAVE_TYPE_COSINE
+     */
     public void setWaveType( int waveType ) {
        if ( waveType != _waveType ) {
            _waveType = waveType;
@@ -235,148 +302,230 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
        }
     }
     
+    /**
+     * Gets the wave type.
+     * 
+     * @return FourierConstants.WAVE_TYPE_SINE or FourierConstants.WAVE_TYPE_COSINE
+     */
     public int getWaveType() {
         return _waveType;
+    }
+    
+    public void setAutoScaleEnabled( boolean autoRescaleEnabled ) {
+        if ( autoRescaleEnabled != _autoScaleEnabled ) {
+            _autoScaleEnabled = autoRescaleEnabled;
+            updateZoomButtons();
+            update();
+        }
+    }
+    
+    public boolean isAutoScaleEnabled() {
+        return _autoScaleEnabled;
     }
     
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
-    // XXX this is quick-and-dirty, very inefficient
+    /**
+     * Updates the view to match the model.
+     */
     public void update() {
+
+        _sumDataSet.clear();
+        _presetDataSet.clear();
+
+        final double startX = -2 * L;
+        final double startAngle = 0.0;
+
+        // XXX This algorithm is quick-and-dirty, very inefficient!
         
-        int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
-
-        _wavePath.reset();
-
         // Sum the components at each X point.
-        double maxSum = 0;
+        final int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
+        double maxSum = 5.0;
+        final double deltaX = ( MAX_FUNDAMENTAL_CYCLES * L ) / NUMBER_OF_DATA_POINTS;
+        
         for ( int i = 0; i < _sums.length; i++ ) {
 
             _sums[i] = 0;
-
             for ( int j = 0; j < numberOfHarmonics; j++ ) {
 
                 Harmonic harmonic = (Harmonic) _fourierSeriesModel.getHarmonic( j );
+                
+                final int numberOfCycles = MAX_FUNDAMENTAL_CYCLES * ( harmonic.getOrder() + 1 );
+                final double pointsPerCycle = NUMBER_OF_DATA_POINTS / (double) numberOfCycles;
+                final double deltaAngle = ( 2.0 * Math.PI ) / pointsPerCycle;
+
+                final double angle = startAngle + ( i * deltaAngle );
+                final double radians = ( _waveType == FourierConstants.WAVE_TYPE_SINE ) ? Math.sin( angle ) : Math.cos( angle );
+                
                 final double amplitude = harmonic.getAmplitude();
-                final int numberOfCycles = harmonic.getOrder() + 1;
-                final double deltaAngle = ( 2.0 * Math.PI * numberOfCycles ) / OUTLINE_WIDTH;
-                final double startAngle = _phaseAngle - ( deltaAngle * ( OUTLINE_WIDTH / 2.0 ) );
-                double angle = startAngle + ( i * deltaAngle );
-                double radians = ( _waveType == FourierConstants.WAVE_TYPE_SINE ) ? Math.sin( angle ) : Math.cos( angle );
                 _sums[i] += ( amplitude * radians );
             }
 
+            final double x = startX + ( i * deltaX );
+            final double y = _sums[ i ];
+            _sumDataSet.addPoint( x, y );
+            
             if ( Math.abs( _sums[i] ) > maxSum ) {
                 maxSum = Math.abs( _sums[i] );
             }
         }
+         
+        if ( _autoScaleEnabled && isVisible() ) {
+            Range2D currentRange = _chartGraphic.getRange();
+            double minX = currentRange.getMinX();
+            double maxX = currentRange.getMaxX();
+            double minY = -maxSum;
+            double maxY = +maxSum;
+            Range2D newRange = new Range2D( minX, minY, maxX, maxY );
+            _chartGraphic.setRange( newRange );
+        }
 
-        // Create the path, scaled so that it fills the viewport.
-        for ( int i = 0; i < _sums.length; i++ ) {
-            double x = -( ( OUTLINE_WIDTH / 2 ) - i );
-            double y = ( _sums[i] / maxSum ) * ( OUTLINE_HEIGHT / 2.0 );
-            if ( i == 0 ) {
-                _wavePath.moveTo( (float) x, (float) -y ); // +Y is up
+        repaint();
+    }     
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /* 
+     * EventListener handles events related to this view.
+     */
+    private class EventListener implements ActionListener {
+        public EventListener() {}
+
+        public void actionPerformed( ActionEvent event ) {
+            if ( event.getSource() == _horizontalZoomControl ) {
+                handleHorizontalZoom( event.getID() );
+            }
+            else if ( event.getSource() == _verticalZoomControl ) {
+                handleVerticalZoom( event.getID() );
+            }
+            else if ( event.getSource() == _autoScaleCheckBox ) {
+                setAutoScaleEnabled( _autoScaleCheckBox.isSelected() );
             }
             else {
-                _wavePath.lineTo( (float) x, (float) -y ); // +Y is up
+                throw new IllegalArgumentException( "unexpected event: " + event );
             }
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Handles horizontal zooming.
+     * 
+     * @param actionID indicates the type of zoom
+     */
+    private void handleHorizontalZoom( int actionID ) {
+
+        // Adjust the chart range.
+        Range2D currentRange = _chartGraphic.getRange();
+        Range2D newRange = null;
+        if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
+            /* Zoom In */
+            double minX = currentRange.getMinX() / X_ZOOM_FACTOR;
+            double maxX = currentRange.getMaxX() / X_ZOOM_FACTOR;
+            double minY = currentRange.getMinY();
+            double maxY = currentRange.getMaxY();
+            newRange = new Range2D( minX, minY, maxX, maxY );
+            _xZoomLevel++;
+        }
+        else { 
+            /* Zoom Out */
+            double minX = currentRange.getMinX() * X_ZOOM_FACTOR;
+            double maxX = currentRange.getMaxX() * X_ZOOM_FACTOR;
+            double minY = currentRange.getMinY();
+            double maxY = currentRange.getMaxY();
+            newRange = new Range2D( minX, minY, maxX, maxY );
+            _xZoomLevel--;
+        }
+        _chartGraphic.setRange( newRange );
         
-        // Set the min and max labels on the Y axis
-        _maxLabelGraphic.setText( _minMaxFormatter.format( maxSum ) );
-        _minLabelGraphic.setText( _minMaxFormatter.format( -maxSum ) );
-
-        // Minor tick marks & horizontal lines
-        {
-            _minorTicksGraphic.clear();
-              
-            int numberOfMinorTicks = (int) ( maxSum / MINOR_TICK_INTERVAL );
-            
-            double deltaY = 0;
-            if ( numberOfMinorTicks > 0 ) {
-                double remainder = maxSum % MINOR_TICK_INTERVAL;
-                double height = ( OUTLINE_HEIGHT - ( OUTLINE_HEIGHT * remainder / maxSum ) ) / 2.0;
-                deltaY = height / numberOfMinorTicks;
-            }
-            
-            Shape minorTickShape = new Line2D.Double( -MINOR_TICK_LENGTH, 0, 0, 0 );
-            Shape lineShape = new Line2D.Double( 0, 0, OUTLINE_WIDTH, 0 );
-            
-            Component component = getComponent();
-            
-            for ( int i = 0; i < numberOfMinorTicks; i++ ) {
-
-                int y = (int) ( ( i + 1 ) * deltaY );
-
-                int index = 0;
-                
-                PhetShapeGraphic positiveTickGraphic = null;
-                index = ( 2 * i );
-                if ( index < _tickMarksList.size() ) {
-                    positiveTickGraphic = ( PhetShapeGraphic ) _tickMarksList.get( index );
-                }
-                else {
-                    positiveTickGraphic = new PhetShapeGraphic( component );
-                    positiveTickGraphic.setShape( minorTickShape );
-                    positiveTickGraphic.setBorderColor( MINOR_TICK_COLOR );
-                    positiveTickGraphic.setStroke( MINOR_TICK_STROKE );
-                    _tickMarksList.add( positiveTickGraphic );
-                }
-                positiveTickGraphic.setLocation( 0, -y );
-                _minorTicksGraphic.addGraphic( positiveTickGraphic, TICKS_LAYER );
-
-                PhetShapeGraphic negativeTickGraphic = null;
-                index = ( 2 * i ) + 1;
-                if ( index < _tickMarksList.size() ) {
-                    negativeTickGraphic = ( PhetShapeGraphic ) _tickMarksList.get( index );
-                }
-                else {
-                    negativeTickGraphic = new PhetShapeGraphic( component );
-                    negativeTickGraphic.setShape( minorTickShape );
-                    negativeTickGraphic.setBorderColor( MINOR_TICK_COLOR );
-                    negativeTickGraphic.setStroke( MINOR_TICK_STROKE );
-                    _tickMarksList.add( negativeTickGraphic );
-                }
-                negativeTickGraphic.setLocation( 0, y );
-                _minorTicksGraphic.addGraphic( negativeTickGraphic, TICKS_LAYER );
-                
-                Color tickLineColor = ( ( i + 1 ) % 5 == 0 ) ? TICK_LINE_COLOR2 : TICK_LINE_COLOR1;
-                
-                PhetShapeGraphic positiveLineGraphic = null;
-                index = ( 2 * i );
-                if ( index < _tickLinesList.size() ) {
-                    positiveLineGraphic = ( PhetShapeGraphic ) _tickLinesList.get( index );
-                }
-                else {
-                    positiveLineGraphic = new PhetShapeGraphic( component );
-                    positiveLineGraphic.setShape( lineShape );
-                    positiveLineGraphic.setBorderColor( tickLineColor );
-                    positiveLineGraphic.setStroke( TICK_LINE_STROKE );
-                    _tickLinesList.add( positiveLineGraphic );
-                }
-                positiveLineGraphic.setLocation( 0, -y );
-                _minorTicksGraphic.addGraphic( positiveLineGraphic, AXES_LAYER );
-                
-                PhetShapeGraphic negativeLineGraphic = null;
-                index = ( 2 * i ) + 1;
-                if ( index < _tickLinesList.size () ) {
-                    negativeLineGraphic = ( PhetShapeGraphic ) _tickLinesList.get( index );
-                }
-                else {
-                    negativeLineGraphic = new PhetShapeGraphic( component );
-                    negativeLineGraphic.setShape( lineShape );
-                    negativeLineGraphic.setBorderColor( tickLineColor );
-                    negativeLineGraphic.setStroke( TICK_LINE_STROKE );
-                    _tickLinesList.add( negativeLineGraphic );
-                }
-                negativeLineGraphic.setLocation( 0, y );
-                _minorTicksGraphic.addGraphic( negativeLineGraphic, AXES_LAYER );
-            }
+        // Adjust the labels to match the zoom level.
+        if ( _xZoomLevel > -3 ) {
+            _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
+        }
+        else {
+            _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels2 );
         }
         
-        repaint();
+        updateZoomButtons();
+    }
+    
+    /*
+     * Handles vertical zooming.
+     * 
+     * @param actionID indicates the type of zoom
+     */
+    private void handleVerticalZoom( int actionID ) {
+        
+        // Adjust the chart range.
+        Range2D currentRange = _chartGraphic.getRange();
+        Range2D newRange = null;
+        if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
+            /* Zoom In */
+            double minX = currentRange.getMinX();
+            double maxX = currentRange.getMaxX();
+            double minY = currentRange.getMinY() + Y_ZOOM_STEP;
+            double maxY = currentRange.getMaxY() - Y_ZOOM_STEP;
+            newRange = new Range2D( minX, minY, maxX, maxY );
+        }
+        else { 
+            /* Zoom Out */
+            double minX = currentRange.getMinX();
+            double maxX = currentRange.getMaxX();
+            double minY = currentRange.getMinY() - Y_ZOOM_STEP;
+            double maxY = currentRange.getMaxY() + Y_ZOOM_STEP;
+            newRange = new Range2D( minX, minY, maxX, maxY );
+        }
+        _chartGraphic.setRange( newRange );
+        
+        updateZoomButtons();
+    }
+    
+    /*
+     * Enables and disabled zoom buttons based on the current
+     * zoom levels and range of the chart.
+     */
+    private void updateZoomButtons() {
+        
+        Range2D range = _chartGraphic.getRange();
+        
+        // Horizontal buttons
+        switch ( _xZoomLevel ) {
+        case X_MIN_ZOOM_LEVEL:
+            _horizontalZoomControl.setZoomOutEnabled( false );
+            _horizontalZoomControl.setZoomInEnabled( true );
+            break;
+        case X_MAX_ZOOM_LEVEL:
+            _horizontalZoomControl.setZoomOutEnabled( true );
+            _horizontalZoomControl.setZoomInEnabled( false );
+            break;
+        default:
+            _horizontalZoomControl.setZoomOutEnabled( true );
+            _horizontalZoomControl.setZoomInEnabled( true );
+        }
+        
+        // Vertical buttons
+        if ( _autoScaleEnabled ) {
+            _verticalZoomControl.setZoomOutEnabled( false );
+            _verticalZoomControl.setZoomInEnabled( false );
+        }
+        else if ( range.getMaxY() >= 15 ) {
+            _verticalZoomControl.setZoomOutEnabled( false );
+            _verticalZoomControl.setZoomInEnabled( true );
+        }
+        else if ( range.getMaxY() <= 5 ) {
+            _verticalZoomControl.setZoomOutEnabled( true );
+            _verticalZoomControl.setZoomInEnabled( false );
+        }
+        else {
+            _verticalZoomControl.setZoomOutEnabled( true );
+            _verticalZoomControl.setZoomInEnabled( true );
+        }
     }
 }
