@@ -98,7 +98,8 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
                 this.addGraphic( rodGraphics[i] );
             }
             PhetShapeGraphic connectorGraphic = new PhetShapeGraphic( component, connector,
-                                                                      (Color)rodGraphics[0].getFill() );
+                                                                      (Color)rodGraphics[0].getFill(),
+                                                                      new BasicStroke( 5 ), Color.black);
             this.addGraphic( connectorGraphic );
             update();
         }
@@ -109,7 +110,7 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
                                     + rodGraphics[rodGraphics.length - 1].getShape().getBounds().getWidth();
             location.setLocation( controlRods[0].getBounds().getMinX(),
                                   controlRods[0].getBounds().getMaxY() );
-            connector.setRect( location.getX(), location.getY(), connectorWidth, 20 );
+            connector.setRect( location.getX(), location.getY(), connectorWidth, 100 );
         }
 
         public void paint( Graphics2D graphics2D ) {

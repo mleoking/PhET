@@ -37,16 +37,20 @@ public class ControlledChainReactionControlPanel extends JPanel {
     // Instance fields and methods
     //
     private ChainReactionModule module;
-//    private MultipleNucleusFissionModule module;
     private JSpinner numU235Spinner;
     private JSpinner numU238Spinner;
     private JTextField percentDecayTF;
     private int startNumU235;
 
-    public ControlledChainReactionControlPanel( final ChainReactionModule module ) {
+    public ControlledChainReactionControlPanel( final ControlledFissionModule module ) {
         super();
         this.module = module;
 
+        BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "MultipleNucleusFissionControlPanel.ControlBorder" ) );
+        this.setBorder( titledBorder );
+
+        //-----------------------------------
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 SwingUtilities.getWindowAncestor( ControlledChainReactionControlPanel.this ).validate();
@@ -113,6 +117,7 @@ public class ControlledChainReactionControlPanel extends JPanel {
         numU238Spinner.setPreferredSize( new Dimension( 80, 30 ) );
         numU238Spinner.setFont( spinnerFont );
 
+        // The reset button
         JButton resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -162,9 +167,17 @@ public class ControlledChainReactionControlPanel extends JPanel {
         add( fireNeutronBtn, gbcCenter );
 //        gbcCenter.gridy = 5;
         add( resetBtn, gbcCenter );
-        BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-        Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "MultipleNucleusFissionControlPanel.ControlBorder" ) );
-        this.setBorder( titledBorder );
+
+        // A spinner for the number of control rods
+        final JSpinner controlRodSpinner = new JSpinner( new SpinnerNumberModel( module.getNumControlRods(),
+                                                                           0, 10, 1 ) );
+        controlRodSpinner.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                module.setNumControlRods( ((Integer)controlRodSpinner.getValue()).intValue() );
+            }
+        } );
+        add( new JLabel( "<html>Number of<br>Control Rods</html"), gbcCenter );
+        add( controlRodSpinner, gbcCenter );
     }
 
     private synchronized int setNumU235Nuclei( int num ) {

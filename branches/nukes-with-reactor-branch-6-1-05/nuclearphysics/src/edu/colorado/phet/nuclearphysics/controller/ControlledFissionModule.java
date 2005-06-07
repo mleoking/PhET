@@ -44,6 +44,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private int numChannels = 5;
     private Vessel vessel;
     private int nCols = 20;
+    private ControlRodGroupGraphic controlRodGroupGraphic;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -57,14 +58,18 @@ public class ControlledFissionModule extends ChainReactionModule {
     public ControlledFissionModule( AbstractClock clock ) {
         super( "Controlled Reaction", clock );
 
+        // Set up the control panel
+        super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
 
+        init( getClock() );
+
+    }
+
+    private void init( AbstractClock clock ) {
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setScale( SCALE );
         vesselWidth = refWidth / SCALE;
         vesselHeight = refHeight / SCALE;
-
-        // Set up the control panel
-        super.addControlPanelElement( new ControlledChainReactionControlPanel( this ) );
 
         // Add the vessel
         vessel = new Vessel( -vesselWidth / 2,
@@ -84,10 +89,10 @@ public class ControlledFissionModule extends ChainReactionModule {
 
         // Add control rods
         ControlRod[] controlRods = createControlRods( VERTICAL, vessel );
-        ControlRodGroupGraphic controlRodGroupGraphic = new ControlRodGroupGraphic( getPhysicalPanel(),
-                                                                                    controlRods,
-                                                                                    vessel,
-                                                                                    getPhysicalPanel().getNucleonTx() );
+        controlRodGroupGraphic = new ControlRodGroupGraphic( getPhysicalPanel(),
+                                                                                            controlRods,
+                                                                                            vessel,
+                                                                                            getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( controlRodGroupGraphic, CONTROL_ROD_LAYER );
 
         // Add a thermometer
@@ -165,6 +170,14 @@ public class ControlledFissionModule extends ChainReactionModule {
     }
 
     //----------------------------------------------------------------
+    // Getters and setters
+    //----------------------------------------------------------------
+
+    public int getNumControlRods() {
+        return numChannels;
+    }
+
+    //----------------------------------------------------------------
     // Extensions of superclass behavior
     //----------------------------------------------------------------
 
@@ -203,8 +216,9 @@ public class ControlledFissionModule extends ChainReactionModule {
     //----------------------------------------------------------------
 
     public void start() {
-        computeNeutronLaunchParams();
-        createNuclei();
+//        computeNeutronLaunchParams();
+//        createNuclei();
+        init( getClock() );
         return;
     }
 
@@ -281,6 +295,14 @@ public class ControlledFissionModule extends ChainReactionModule {
             location = null;
         }
         return location;
+    }
+
+    public void setNumControlRods( int n ) {
+        getPhysicalPanel().removeAllGraphics();
+//        getPhysicalPanel().removeGraphic( controlRodGroupGraphic );
+        numChannels = n;
+        stop();
+        start();
     }
 }
 
