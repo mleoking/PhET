@@ -66,10 +66,10 @@ public class Chart extends GraphicLayerSet {
 
     public Chart( Component component, Range2D range, Dimension chartSize, int horizMinorSpacing, int horizMajorSpacing, int vertMinorSpacing, int vertMajorSpacing ) {
         super( component );
-        System.out.println( "horizMinorSpacing = " + horizMinorSpacing );
-        System.out.println( "horizMajorSpacing = " + horizMajorSpacing );
-        System.out.println( "vertMinor= " + vertMinorSpacing );
-        System.out.println( "vertMaj= " + vertMajorSpacing );
+//        System.out.println( "horizMinorSpacing = " + horizMinorSpacing );
+//        System.out.println( "horizMajorSpacing = " + horizMajorSpacing );
+//        System.out.println( "vertMinor= " + vertMinorSpacing );
+//        System.out.println( "vertMaj= " + vertMajorSpacing );
         this.chartSize = chartSize;
         this.component = component;
         this.range = range;
