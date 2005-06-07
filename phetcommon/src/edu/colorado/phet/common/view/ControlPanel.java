@@ -53,45 +53,45 @@ public class ControlPanel extends JPanel {
         return controlPane;
     }
 
-    public ControlPanel(Module module) {
-        setLayout(new ControlPanel.Layout());
+    public ControlPanel( Module module ) {
+        setLayout( new ControlPanel.Layout() );
         // The panel with the logo
-        URL resource = getClass().getClassLoader().getResource("images/Phet-Flatirons-logo-3-small.gif");
-        imageIcon = new ImageIcon(resource);
-        titleLabel = (new JLabel(imageIcon));
+        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
+        imageIcon = new ImageIcon( resource );
+        titleLabel = ( new JLabel( imageIcon ) );
         northPanel = new JPanel();
-        northPanel.add(titleLabel);
-        addToPanel(northPanel);
+        northPanel.add( titleLabel );
+        addToPanel( northPanel );
 
         // The panel where the simulation-specific controls go
-        scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setBorder(new EtchedBorder(new Color(220, 200, 255), Color.gray));
+        scrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                                      JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        scrollPane.setBorder( new EtchedBorder( new Color( 220, 200, 255 ), Color.gray ) );
 
         // The panel for the help button
-        helpPanel = new HelpPanel(module);
-        addToPanel(helpPanel);
-        setHelpPanelEnabled(module.hasHelp());
+        helpPanel = new HelpPanel( module );
+        addToPanel( helpPanel );
+        setHelpPanelEnabled( module.hasHelp() );
 
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
                 relayoutControlPanel();
             }
 
-            public void componentShown(ComponentEvent e) {
+            public void componentShown( ComponentEvent e ) {
                 relayoutControlPanel();
             }
-        });
+        } );
 
-        addContainerListener(new ContainerAdapter() {
-            public void componentAdded(ContainerEvent e) {
+        addContainerListener( new ContainerAdapter() {
+            public void componentAdded( ContainerEvent e ) {
                 relayoutControlPanel();
             }
 
-            public void componentRemoved(ContainerEvent e) {
+            public void componentRemoved( ContainerEvent e ) {
                 relayoutControlPanel();
             }
-        });
+        } );
         relayoutControlPanel();
     }
 
@@ -110,8 +110,8 @@ public class ControlPanel extends JPanel {
      *
      * @param component
      */
-    private void addToPanel(Component component) {
-        super.add(component);
+    private void addToPanel( Component component ) {
+        super.add( component );
     }
 
     /**
@@ -121,15 +121,15 @@ public class ControlPanel extends JPanel {
      * @return
      * @deprecated Use addControl instead
      */
-    public Component add(Component comp) {
-        return addControl(comp);
+    public Component add( Component comp ) {
+        return addControl( comp );
     }
 
     /**
      * Removes the logo from the control panel
      */
     public void removeTitle() {
-        northPanel.remove(titleLabel);
+        northPanel.remove( titleLabel );
     }
 
     /**
@@ -137,8 +137,8 @@ public class ControlPanel extends JPanel {
      *
      * @param isEnabled
      */
-    public void setHelpPanelEnabled(boolean isEnabled) {
-        helpPanel.setVisible(isEnabled);
+    public void setHelpPanelEnabled( boolean isEnabled ) {
+        helpPanel.setVisible( isEnabled );
     }
 
     /**
@@ -147,8 +147,8 @@ public class ControlPanel extends JPanel {
      * @param component
      * @return
      */
-    public Component addControl(Component component) {
-        return controlPane.add(component);
+    public Component addControl( Component component ) {
+        return controlPane.add( component );
     }
 
     /**
@@ -156,8 +156,8 @@ public class ControlPanel extends JPanel {
      *
      * @param comp
      */
-    public void removeControl(Component comp) {
-        controlPane.remove(comp);
+    public void removeControl( Component comp ) {
+        controlPane.remove( comp );
     }
 
     /**
@@ -166,8 +166,17 @@ public class ControlPanel extends JPanel {
      * @param component
      * @return
      */
-    public Component addFullWidth(Component component) {
-        return controlPane.addFullWidth(component);
+    public Component addFullWidth( Component component ) {
+        return controlPane.addFullWidth( component );
+    }
+
+    /**
+     * Adds a component to the control area, to fill the width.
+     *
+     * @param component
+     */
+    public void addControlFullWidth( JComponent component ) {
+        controlPane.addFullWidth( component );
     }
 
     private void relayoutControlPanel() {
@@ -184,7 +193,7 @@ public class ControlPanel extends JPanel {
      */
     private class Layout implements LayoutManager {
 
-        public void removeLayoutComponent(Component comp) {
+        public void removeLayoutComponent( Component comp ) {
         }
 
         /**
@@ -192,36 +201,38 @@ public class ControlPanel extends JPanel {
          *
          * @param parent
          */
-        public void layoutContainer(Container parent) {
-            northPanel.reshape(getPositionToCenter(northPanel), 0, northPanel.getPreferredSize().width, northPanel.getPreferredSize().height);
-            helpPanel.reshape(getPositionToCenter(helpPanel), getHeight() - helpPanel.getPreferredSize().height, helpPanel.getPreferredSize().width, helpPanel.getPreferredSize().height);
+        public void layoutContainer( Container parent ) {
+            northPanel.reshape( getPositionToCenter( northPanel ), 0, northPanel.getPreferredSize().width, northPanel.getPreferredSize().height );
+            helpPanel.reshape( getPositionToCenter( helpPanel ), getHeight() - helpPanel.getPreferredSize().height, helpPanel.getPreferredSize().width, helpPanel.getPreferredSize().height );
             int controlTop = getLogoBottom() + paddingDY;
             int controlBottom = getHelpTop() - paddingDY;
             int remainingHeight = controlBottom - controlTop;
 
-            remove(scrollPane);
-            remove(controlPane);
-            scrollPane.setViewportView(null);
+            remove( scrollPane );
+            remove( controlPane );
+            scrollPane.setViewportView( null );
 
-            if (remainingHeight <= 0) {
+            if( remainingHeight <= 0 ) {
                 //no room for controls, sorry.
-            } else if (controlPane.getPreferredSize().height > remainingHeight) {
+            }
+            else if( controlPane.getPreferredSize().height > remainingHeight ) {
                 //not enough room for all controls, so use vertical scrolling.
-                controlPane.setLocation(0, 0);
-                scrollPane.setViewportView(controlPane);
-                addToPanel(scrollPane);
+                controlPane.setLocation( 0, 0 );
+                scrollPane.setViewportView( controlPane );
+                addToPanel( scrollPane );
 
-                scrollPane.setLocation(0, controlTop);
-                scrollPane.setSize(new Dimension(controlPane.getPreferredSize().width + getScrollBarWidth(), remainingHeight));
+                scrollPane.setLocation( 0, controlTop );
+                scrollPane.setSize( new Dimension( controlPane.getPreferredSize().width + getScrollBarWidth(), remainingHeight ) );
 
                 scrollPane.revalidate();
-            } else {
+            }
+            else {
                 //controls will fit without scrollpane.
-                addToPanel(controlPane);
-                controlPane.reshape(0, controlTop, controlPane.getPreferredSize().width, controlPane.getPreferredSize().height);
+                addToPanel( controlPane );
+                controlPane.reshape( 0, controlTop, controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
 //                reshapeAll(controlPane);
             }
-            fixAll(controlPane);
+            fixAll( controlPane );
 //            controlPane.repaint();
         }
 
@@ -230,15 +241,15 @@ public class ControlPanel extends JPanel {
          *
          * @param component
          */
-        private void fixAll(Component component) {
+        private void fixAll( Component component ) {
             Dimension d = component.getPreferredSize();
 
-            component.setBounds(component.getX(), component.getY(), d.width, d.height);
+            component.setBounds( component.getX(), component.getY(), d.width, d.height );
             component.repaint();
-            if (component instanceof Container) {
-                Container c = (Container) component;
-                for (int i = 0; i < c.getComponentCount(); i++) {
-                    fixAll(c.getComponent(i));
+            if( component instanceof Container ) {
+                Container c = (Container)component;
+                for( int i = 0; i < c.getComponentCount(); i++ ) {
+                    fixAll( c.getComponent( i ) );
                 }
             }
 
@@ -250,11 +261,12 @@ public class ControlPanel extends JPanel {
          * @param component
          * @return
          */
-        private int getPositionToCenter(Component component) {
+        private int getPositionToCenter( Component component ) {
             int availWidth = getWidth() - component.getWidth();
-            if (availWidth <= 0) {
+            if( availWidth <= 0 ) {
                 return 0;
-            } else {
+            }
+            else {
                 return availWidth / 2;
             }
         }
@@ -265,9 +277,10 @@ public class ControlPanel extends JPanel {
          * @return
          */
         private int getHelpTop() {
-            if (helpPanel.isVisible() && containsComponent(helpPanel)) {
+            if( helpPanel.isVisible() && containsComponent( helpPanel ) ) {
                 return helpPanel.getY();
-            } else {
+            }
+            else {
                 return getHeight();
             }
         }
@@ -278,9 +291,10 @@ public class ControlPanel extends JPanel {
          * @return
          */
         private int getLogoBottom() {
-            if (northPanel.isVisible() && containsComponent(northPanel)) {
+            if( northPanel.isVisible() && containsComponent( northPanel ) ) {
                 return northPanel.getY() + northPanel.getHeight();
-            } else {
+            }
+            else {
                 return 0;
             }
         }
@@ -291,20 +305,20 @@ public class ControlPanel extends JPanel {
          * @param component
          * @return
          */
-        private boolean containsComponent(Component component) {
-            return Arrays.asList(getComponents()).contains(component);
+        private boolean containsComponent( Component component ) {
+            return Arrays.asList( getComponents() ).contains( component );
         }
 
-        public void addLayoutComponent(String name, Component comp) {
+        public void addLayoutComponent( String name, Component comp ) {
         }
 
-        public Dimension minimumLayoutSize(Container parent) {
-            return preferredLayoutSize(parent);
+        public Dimension minimumLayoutSize( Container parent ) {
+            return preferredLayoutSize( parent );
         }
 
-        public Dimension preferredLayoutSize(Container parent) {
+        public Dimension preferredLayoutSize( Container parent ) {
             int minWidth = getMinWidth();
-            return new Dimension(minWidth, parent.getHeight());
+            return new Dimension( minWidth, parent.getHeight() );
         }
 
         /**
@@ -315,19 +329,19 @@ public class ControlPanel extends JPanel {
          */
         private int getMinWidth() {
             int width = 0;
-            if (northPanel.isVisible()) {
-                width = Math.max(width, northPanel.getPreferredSize().width);
+            if( northPanel.isVisible() ) {
+                width = Math.max( width, northPanel.getPreferredSize().width );
 //                width = Math.max( width, northPanel.getWidth() );
             }
-            if (controlPane.isVisible()) {
-                width = Math.max(width, controlPane.getPreferredSize().width);
+            if( controlPane.isVisible() ) {
+                width = Math.max( width, controlPane.getPreferredSize().width );
 //                width = Math.max( width, controlPane.getWidth() );
             }
-            if (helpPanel.isVisible()) {
-                width = Math.max(width, helpPanel.getPreferredSize().width);
+            if( helpPanel.isVisible() ) {
+                width = Math.max( width, helpPanel.getPreferredSize().width );
 //                width = Math.max( width, helpPanel.getWidth() );
             }
-            if (getLayoutRequiresScrollPane()) {
+            if( getLayoutRequiresScrollPane() ) {
                 width += getScrollBarWidth();
             }
             return width;
@@ -346,9 +360,10 @@ public class ControlPanel extends JPanel {
             int controlTop = getLogoBottom() + paddingDY;
             int controlBottom = getHelpTop() - paddingDY;
             int remainingHeight = controlBottom - controlTop;
-            if (remainingHeight < controlPane.getPreferredSize().height) {
+            if( remainingHeight < controlPane.getPreferredSize().height ) {
                 return true;
-            } else {
+            }
+            else {
                 return false;
             }
         }
@@ -359,18 +374,18 @@ public class ControlPanel extends JPanel {
      */
     private class ContentPanel extends VerticalLayoutPanel {
         public ContentPanel() {
-            setFill(GridBagConstraints.NONE);
+            setFill( GridBagConstraints.NONE );
         }
 
-        public Component add(Component comp) {
-            return super.add(comp);
+        public Component add( Component comp ) {
+            return super.add( comp );
         }
 
-        public Component addFullWidth(Component component) {
+        public Component addFullWidth( Component component ) {
             int fill = getFill();
-            setFill(GridBagConstraints.HORIZONTAL);
-            Component c = addControl(component);
-            setFill(fill);
+            setFill( GridBagConstraints.HORIZONTAL );
+            Component c = addControl( component );
+            setFill( fill );
             return c;
         }
 
