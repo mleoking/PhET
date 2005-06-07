@@ -28,6 +28,7 @@ import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
@@ -357,7 +358,13 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
                 final double deltaAngle = ( 2.0 * Math.PI ) / pointsPerCycle;
 
                 final double angle = startAngle + ( i * deltaAngle );
-                final double radians = ( _waveType == FourierConstants.WAVE_TYPE_SINE ) ? Math.sin( angle ) : Math.cos( angle );
+                double radians;
+                if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                    radians = FourierUtils.sin( angle );
+                }
+                else {
+                    radians = FourierUtils.cos( angle );
+                }
                 
                 final double amplitude = harmonic.getAmplitude();
                 _sums[i] += ( amplitude * radians );
@@ -422,28 +429,22 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
      */
     private void handleHorizontalZoom( int actionID ) {
 
-        // Adjust the chart range.
-        Range2D currentRange = _chartGraphic.getRange();
-        Range2D newRange = null;
+        // Adjust the chart's horizontal range.
+        Range2D range = _chartGraphic.getRange();
+        double maxX;
         if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
             /* Zoom In */
-            double minX = currentRange.getMinX() / X_ZOOM_FACTOR;
-            double maxX = currentRange.getMaxX() / X_ZOOM_FACTOR;
-            double minY = currentRange.getMinY();
-            double maxY = currentRange.getMaxY();
-            newRange = new Range2D( minX, minY, maxX, maxY );
+            maxX = range.getMaxX() / X_ZOOM_FACTOR;
             _xZoomLevel++;
         }
         else { 
             /* Zoom Out */
-            double minX = currentRange.getMinX() * X_ZOOM_FACTOR;
-            double maxX = currentRange.getMaxX() * X_ZOOM_FACTOR;
-            double minY = currentRange.getMinY();
-            double maxY = currentRange.getMaxY();
-            newRange = new Range2D( minX, minY, maxX, maxY );
+            maxX = range.getMaxX() * X_ZOOM_FACTOR;
             _xZoomLevel--;
         }
-        _chartGraphic.setRange( newRange );
+        range.setMaxX( maxX );
+        range.setMinX( -maxX );
+        _chartGraphic.setRange( range );
         
         // Adjust the labels to match the zoom level.
         if ( _xZoomLevel > -3 ) {
@@ -463,26 +464,18 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
      */
     private void handleVerticalZoom( int actionID ) {
         
-        // Adjust the chart range.
-        Range2D currentRange = _chartGraphic.getRange();
-        Range2D newRange = null;
+        // Adjust the chart's vertical range.
+        Range2D range = _chartGraphic.getRange();
+        double maxY;
         if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
-            /* Zoom In */
-            double minX = currentRange.getMinX();
-            double maxX = currentRange.getMaxX();
-            double minY = currentRange.getMinY() + Y_ZOOM_STEP;
-            double maxY = currentRange.getMaxY() - Y_ZOOM_STEP;
-            newRange = new Range2D( minX, minY, maxX, maxY );
+            maxY = range.getMaxY() - Y_ZOOM_STEP;
         }
         else { 
-            /* Zoom Out */
-            double minX = currentRange.getMinX();
-            double maxX = currentRange.getMaxX();
-            double minY = currentRange.getMinY() - Y_ZOOM_STEP;
-            double maxY = currentRange.getMaxY() + Y_ZOOM_STEP;
-            newRange = new Range2D( minX, minY, maxX, maxY );
+            maxY = range.getMaxY() + Y_ZOOM_STEP;
         }
-        _chartGraphic.setRange( newRange );
+        range.setMaxY( maxY );
+        range.setMinY( -maxY );
+        _chartGraphic.setRange( range );
         
         updateZoomButtons();
     }

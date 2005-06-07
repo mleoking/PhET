@@ -14,6 +14,7 @@ package edu.colorado.phet.fourier.model;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
@@ -24,13 +25,6 @@ import edu.colorado.phet.fourier.FourierConstants;
  * @version $Revision$
  */
 public class HarmonicDataSet extends DataSet implements SimpleObserver {
-    
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static double[] _sineValues;
-    private static double[] _cosineValues;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -66,22 +60,6 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
         _numberOfFundamentalCycles = numberOfFundamentalCycles;
         
         _waveType = FourierConstants.WAVE_TYPE_SINE;
-
-        // Cache of sine values.
-        if ( _sineValues == null ) {
-            _sineValues = new double[360];
-            for ( int i = 0; i < 360; i++ ) {
-                _sineValues[i] = Math.sin( Math.toRadians( i ) );
-            }
-        }
-        
-        // Cache of cosine values.
-        if ( _cosineValues == null ) {
-            _cosineValues = new double[360];
-            for ( int i = 0; i < 360; i++ ) {
-                _cosineValues[i] = Math.cos( Math.toRadians( i ) );
-            }
-        }
 
         update();
     }
@@ -145,13 +123,12 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
             double startAngle = 0.0;
             for ( int i = 0; i <= _numberOfPoints; i++ ) {
                 double angle = startAngle + ( i * deltaAngle );
-                int degrees = (int)( Math.toDegrees( angle ) % 360 );
                 double radians;
                 if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
-                    radians = _sineValues[ degrees ];
+                    radians = FourierUtils.sin( angle );
                 }
                 else { /* cosines */
-                    radians = _cosineValues[ degrees ];
+                    radians = FourierUtils.cos( angle );
                 }
                 double x = startX + ( i * deltaX );
                 double y = amplitude * radians;

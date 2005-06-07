@@ -349,28 +349,20 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
      */
     private void handleHorizontalZoom( int actionID ) {
         
-        // Adjust the chart range.
-        Range2D currentRange = _chartGraphic.getRange();
-        Range2D newRange = null;
+        // Adjust the chart's horizontal range.
+        Range2D range = _chartGraphic.getRange();
+        double maxX;
         if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
-            /* Zoom In */
-            double minX = currentRange.getMinX() / X_ZOOM_FACTOR;
-            double maxX = currentRange.getMaxX() / X_ZOOM_FACTOR;
-            double minY = currentRange.getMinY();
-            double maxY = currentRange.getMaxY();
-            newRange = new Range2D( minX, minY, maxX, maxY );
+            maxX = range.getMaxX() / X_ZOOM_FACTOR;
             _xZoomLevel++;
         }
         else { 
-            /* Zoom Out */
-            double minX = currentRange.getMinX() * X_ZOOM_FACTOR;
-            double maxX = currentRange.getMaxX() * X_ZOOM_FACTOR;
-            double minY = currentRange.getMinY();
-            double maxY = currentRange.getMaxY();
-            newRange = new Range2D( minX, minY, maxX, maxY );
+            maxX = range.getMaxX() * X_ZOOM_FACTOR;
             _xZoomLevel--;
         }
-        _chartGraphic.setRange( newRange );
+        range.setMaxX( maxX );
+        range.setMinX( -maxX );
+        _chartGraphic.setRange( range );
         
         // Adjust the labels to match the zoom level.
         if ( _xZoomLevel > -3 ) {
