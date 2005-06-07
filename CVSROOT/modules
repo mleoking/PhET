@@ -100,7 +100,7 @@ forces1d forces1d &phetcommon &charts
 faradays-law faraday &phetcommon
 
 # Fourier Transforms
-fourier-transforms fourier &phetcommon
+fourier fourier &phetcommon &charts
 
 # Radio Waves
 radio-waves emf
