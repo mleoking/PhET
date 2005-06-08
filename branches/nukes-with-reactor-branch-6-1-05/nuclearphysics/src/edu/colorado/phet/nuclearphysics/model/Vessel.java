@@ -14,6 +14,7 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.coreadditions.EventChannel;
 import edu.colorado.phet.coreadditions.ScalarDataRecorder;
+import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 
 import java.awt.*;
@@ -34,7 +35,7 @@ import java.util.List;
  */
 public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder.UpdateListener {
 
-    public static final double MAX_TEMPERATURE = 0.5;
+    public static final double MAX_TEMPERATURE = Config.MAX_TEMPERATURE;
 
     private Rectangle2D boundary;
     private double channelThickness = 100;
@@ -49,7 +50,7 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
      * @param height
      */
     public Vessel( double x, double y, double width, double height, int numChannels,
-                   NuclearPhysicsModel model,  AbstractClock clock ) {
+                   NuclearPhysicsModel model, AbstractClock clock ) {
         this.model = model;
         this.temperatureRecorder = new ScalarDataRecorder( clock, 50, 500 );
         temperatureRecorder.addUpdateListener( this );
@@ -59,7 +60,7 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
         double spacing = ( getWidth() + channelThickness ) / ( numChannels + 1 );
         for( int i = 0; i < rodChannels.length; i++ ) {
             if( orientation == ControlledFissionModule.VERTICAL ) {
-                double channelX = ( getX() - channelThickness /2 ) + ( spacing * ( i + 1 ) );
+                double channelX = ( getX() - channelThickness / 2 ) + ( spacing * ( i + 1 ) );
                 double channelY = getY();
                 rodChannels[i] = new Rectangle2D.Double( channelX - channelThickness / 2, channelY,
                                                          channelThickness, getHeight() );
@@ -178,8 +179,9 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
 
     /**
      * Absorbs neutrons that get into the wals of the vessel
-     * <p>
+     * <p/>
      * Implements ModelElement
+     *
      * @param v
      */
     public void stepInTime( double v ) {
@@ -188,7 +190,7 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
             ModelElement modelElement = (ModelElement)modelElements.get( i );
             if( modelElement instanceof Neutron ) {
                 Neutron neutron = (Neutron)modelElement;
-                if( !this.contains( neutron.getPosition() )) {
+                if( !this.contains( neutron.getPosition() ) ) {
                     model.removeModelElement( neutron );
                 }
             }
@@ -201,8 +203,9 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
 
     /**
      * Updates the temperature recorde with a fission event
-     * <p>
+     * <p/>
      * Implements FissionListener
+     *
      * @param products
      */
     public void fission( FissionProducts products ) {
@@ -211,8 +214,9 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
 
     /**
      * Returns the temperature in the vessel.
-     * <p>
+     * <p/>
      * Temperature is determined as the number of fission events per unit time
+     *
      * @return
      */
     public double getTemperature() {
@@ -224,6 +228,7 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
 
     /**
      * Event handler for events published by the temperature ScalarDataRecorder
+     *
      * @param event
      */
     public void update( ScalarDataRecorder.UpdateEvent event ) {

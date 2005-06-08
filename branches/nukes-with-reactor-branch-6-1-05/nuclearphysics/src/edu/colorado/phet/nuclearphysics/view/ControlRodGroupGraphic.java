@@ -13,7 +13,10 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.common.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.model.ControlRod;
 import edu.colorado.phet.nuclearphysics.model.Vessel;
@@ -23,6 +26,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * ControlRodGroupGraphic
@@ -34,14 +40,12 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
     private Rep rep;
     private int orientation;
     private Vessel vessel;
-    private PhysicalPanel panel;
     private AffineTransform atx;
     private AffineTransform invAtx;
     private double rodLength;
 
     public ControlRodGroupGraphic( Component component, ControlRod[] controlRods, Vessel vessel, AffineTransform atx ) {
         super( null );
-        this.panel = (PhysicalPanel)component;
         this.vessel = vessel;
         this.atx = atx;
         rep = new Rep( component, controlRods );
@@ -87,9 +91,12 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
         private ControlRodGraphic[] rodGraphics;
         private Point location = new Point();
         private ControlRod[] controlRods;
+        private PhetImageGraphic handleGraphic;
 
         public Rep( Component component, ControlRod[] controlRods ) {
             super( component );
+
+            // Graphics for the rods
             this.controlRods = controlRods;
             rodGraphics = new ControlRodGraphic[controlRods.length];
             for( int i = 0; i < controlRods.length; i++ ) {
@@ -97,10 +104,28 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
                 rodGraphics[i] = new ControlRodGraphic( component, controlRod );
                 this.addGraphic( rodGraphics[i] );
             }
+
+            // A graphic for the bar connecting the rods
             PhetShapeGraphic connectorGraphic = new PhetShapeGraphic( component, connector,
                                                                       (Color)rodGraphics[0].getFill(),
-                                                                      new BasicStroke( 5 ), Color.black);
+                                                                      new BasicStroke( 5 ), Color.black );
             this.addGraphic( connectorGraphic );
+
+            // A handle to put on the connector bar
+            BufferedImage bi = null;
+            try {
+                bi = ImageLoader.loadBufferedImage( Config.HANDLE_IMAGE_NAME );
+                AffineTransformOp atxOp = new AffineTransformOp( AffineTransform.getScaleInstance( 1 / ControlledFissionModule.SCALE,
+                                                                                                   1 / ControlledFissionModule.SCALE ),
+                                                                 AffineTransformOp.TYPE_BILINEAR );
+                bi = atxOp.filter( bi, null );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            handleGraphic = new PhetImageGraphic( component, bi, 0, 0 );
+            this.addGraphic( handleGraphic );
+
             update();
         }
 
@@ -111,6 +136,8 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
             location.setLocation( controlRods[0].getBounds().getMinX(),
                                   controlRods[0].getBounds().getMaxY() );
             connector.setRect( location.getX(), location.getY(), connectorWidth, 150 );
+            handleGraphic.setPosition( (int)( location.getX() + ( connectorWidth - handleGraphic.getBounds().getWidth() ) / 2 ),
+                                       (int)( connector.getY() + connector.getHeight() ) );
         }
 
         public void paint( Graphics2D graphics2D ) {
@@ -148,12 +175,12 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
                     }
                 case ControlledFissionModule.VERTICAL:
                     dx = 0;
-                    if( dy < 0 && rep.location.getY()- rodLength + ( dy / atx.getScaleY() ) <= vessel.getY() ) {
-                        dy = ( vessel.getY() - ( rep.location.getY()- rodLength ) ) * atx.getScaleY();
+                    if( dy < 0 && rep.location.getY() - rodLength + ( dy / atx.getScaleY() ) <= vessel.getY() ) {
+                        dy = ( vessel.getY() - ( rep.location.getY() - rodLength ) ) * atx.getScaleY();
                     }
-                    else if( dy > 0 && rep.location.getY() - rodLength + ( dy /atx.getScaleY() )
+                    else if( dy > 0 && rep.location.getY() - rodLength + ( dy / atx.getScaleY() )
                                        >= vessel.getY() + vessel.getHeight() ) {
-                        dy = (vessel.getY() - rep.location.getY() + ( rodLength * 2 )) * atx.getScaleY();
+                        dy = ( vessel.getY() - rep.location.getY() + ( rodLength * 2 ) ) * atx.getScaleY();
                     }
             }
             // Have to account for the SCALE of the affine transform before telling the model element to move

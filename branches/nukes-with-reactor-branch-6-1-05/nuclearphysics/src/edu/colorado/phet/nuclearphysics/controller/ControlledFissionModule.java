@@ -15,6 +15,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
@@ -118,7 +119,19 @@ public class ControlledFissionModule extends ChainReactionModule {
                                                              getPhysicalPanel().getNucleonTx() );
         getPhysicalPanel().addGraphic( controlRodGroupGraphic, CONTROL_ROD_LAYER );
 
-        // Add a thermometer
+        // Add a thermometer and a listener that will control the thermometer
+        double thermometerColumnHeight = 400;
+        final Thermometer thermometer = new Thermometer( getPhysicalPanel(),
+                                                         new Point2D.Double( vessel.getX() + 200,
+                                                                             vessel.getY() - thermometerColumnHeight ),
+                                                         thermometerColumnHeight, 80, true, 0, Config.MAX_TEMPERATURE );
+        thermometer.setNumericReadoutEnabled( false );
+        getPhysicalPanel().addOriginCenteredGraphic( thermometer, 1000 );
+        vessel.addChangeListener( new Vessel.ChangeListener() {
+            public void temperatureChanged( Vessel.ChangeEvent event ) {
+                thermometer.setValue( event.getVessel().getTemperature() );
+            }
+        } );
 
         // Create the nuclei
         createNuclei();

@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.nuclearphysics.model.Vessel;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.nuclearphysics.model.Vessel;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -35,7 +35,7 @@ public class VesselBackgroundPanel extends PhetShapeGraphic implements Vessel.Ch
 
     static {
         for( int i = 0; i < lut.length; i++ ) {
-            int red = baseGray + (int)( ( 255 - baseGray ) * (double) i / lut.length );
+            int red = baseGray + (int)( ( 255 - baseGray ) * (double)i / lut.length );
             int blue = baseGray;
             int green = baseGray;
             lut[i] = new Color( red, green, blue );
@@ -43,7 +43,6 @@ public class VesselBackgroundPanel extends PhetShapeGraphic implements Vessel.Ch
     }
 
     /**
-     *
      * @param component
      * @param vessel
      */
@@ -59,10 +58,7 @@ public class VesselBackgroundPanel extends PhetShapeGraphic implements Vessel.Ch
 
     public void temperatureChanged( Vessel.ChangeEvent event ) {
         int lutIdx = (int)( lut.length * ( event.getVessel().getTemperature() / maxTemp ) );
-        lutIdx = Math.min( lutIdx, lut.length - 1);
-
-//        System.out.println( "Temperature: " + event.getVessel().getTemperature() + "  idx: " + lutIdx + "  color: " + lut[lutIdx]);
-
+        lutIdx = Math.min( lutIdx, lut.length - 1 );
         setPaint( lut[lutIdx] );
         setBoundsDirty();
         repaint();

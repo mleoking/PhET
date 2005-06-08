@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.nuclearphysics.model.Vessel;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
+import edu.colorado.phet.nuclearphysics.model.Vessel;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -32,10 +32,12 @@ public class VesselGraphic extends CompositePhetGraphic {
     public VesselGraphic( Component component, Vessel vessel ) {
         super( component );
         this.vessel = vessel;
+        // The -5 in the constructor below accounts for roundoff error, and the scale
         PhetShapeGraphic boundary = new PhetShapeGraphic( component,
-                                                          new Rectangle2D.Double( vessel.getX(),
-                                                                                  vessel.getY(),
-                                                                                  vessel.getWidth(), vessel.getHeight() ),
+                                                          new Rectangle2D.Double( vessel.getX() - wallThickness / 2,
+                                                                                  vessel.getY() - wallThickness / 2,
+                                                                                  vessel.getWidth() + wallThickness,
+                                                                                  vessel.getHeight() + wallThickness - 5 ),
 //                                                          new BasicStroke( 10 ), Color.black );
                                                           new BasicStroke( (float)wallThickness ), Color.black );
         addGraphic( boundary );
@@ -43,11 +45,11 @@ public class VesselGraphic extends CompositePhetGraphic {
         for( int i = 0; i < channels.length; i++ ) {
             Rectangle2D channel = channels[i];
             PhetShapeGraphic channelGraphic = new PhetShapeGraphic( component,
-                                                             new Rectangle2D.Double( channel.getX(),
-                                                                                     channel.getY(),
-                                                                                     channel.getWidth(),
-                                                                                     channel.getHeight() ),
-                                                             new BasicStroke( 1 ), Color.black );
+                                                                    new Rectangle2D.Double( channel.getX(),
+                                                                                            channel.getY(),
+                                                                                            channel.getWidth(),
+                                                                                            channel.getHeight() ),
+                                                                    new BasicStroke( 1 ), Color.black );
             addGraphic( channelGraphic );
         }
         update();
