@@ -38,7 +38,15 @@ public class LinePlot extends DataSetGraphic {
         addAllPoints();
     }
 
-    public void pointAdded( Point2D point ) {
+    public void pointsAdded( Point2D[] points ) {
+        for( int i = 0; i < points.length; i++ ) {
+            pointAddedNoRepaint( points[i] );
+        }
+        repaintAll();
+
+    }
+
+    protected void pointAddedNoRepaint( Point2D point ) {
         if( point == null ) {
             throw new RuntimeException( "Null point" );
         }
@@ -51,9 +59,21 @@ public class LinePlot extends DataSetGraphic {
         else {
             //Determine the exact region for repaint.
             generalPath.lineTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
-            phetShapeGraphic.setBoundsDirty();
-            phetShapeGraphic.autorepaint();
         }
+    }
+
+    public void pointAdded( Point2D point ) {
+        pointAddedNoRepaint( point );
+        repaintAll();
+    }
+
+    private void repaintAll() {
+        phetShapeGraphic.setShapeDirty();
+        phetShapeGraphic.setBoundsDirty();
+
+        phetShapeGraphic.autorepaint();
+        setBoundsDirty();
+        autorepaint();
     }
 
     public void cleared() {

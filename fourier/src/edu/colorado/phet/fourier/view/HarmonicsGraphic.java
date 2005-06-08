@@ -11,11 +11,6 @@
 
 package edu.colorado.phet.fourier.view;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -27,6 +22,11 @@ import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.model.HarmonicDataSet;
 import edu.colorado.phet.fourier.util.FourierUtils;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 /**
@@ -50,7 +50,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final int TITLE_X_OFFSET = -15; // from origin
-    
+
     // X axis
     private static final double L = 1.0;
     private static final Color X_AXIS_COLOR = Color.BLACK;
@@ -64,7 +64,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     private static final double X_ZOOM_FACTOR = Math.sqrt( 2 );
     private static final int X_MIN_ZOOM_LEVEL = -4;
     private static final int X_MAX_ZOOM_LEVEL = 1;
-    
+
     // Y axis
     private static final double Y_MIN = -FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_MAX = +FourierConfig.MAX_HARMONIC_AMPLITUDE;
@@ -79,11 +79,11 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     private static final Color Y_MINOR_GRIDLINE_COLOR = new Color( 0, 0, 0, 60 );
     private static final Stroke Y_MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
     private static final Stroke Y_MINOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
-    
+
     // Chart parameters
-    private static final Range2D CHART_RANGE = new Range2D( -L/2, Y_MIN, L/2, Y_MAX );
+    private static final Range2D CHART_RANGE = new Range2D( -L / 2, Y_MIN, L / 2, Y_MAX );
     private static final Dimension CHART_SIZE = new Dimension( 600, 130 );
-    
+
     // Wave parameters
     private static final Stroke WAVE_STROKE = new BasicStroke( 1f );
     private static final int NUMBER_OF_DATA_POINTS = 1000;
@@ -108,8 +108,8 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     
     /**
      * Sole constructor.
-     * 
-     * @param component the parent Component
+     *
+     * @param component          the parent Component
      * @param fourierSeriesModel the Fourier series that this view displays
      */
     public HarmonicsGraphic( Component component, FourierSeries fourierSeriesModel ) {
@@ -134,7 +134,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         {
             _chartGraphic = new Chart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
-            
+
             _chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
 
             // Symbolic labels for the X axis
@@ -144,22 +144,22 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
                 _spaceLabels1.put( -0.75 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-3L/4", X_MAJOR_TICK_COLOR ) );
                 _spaceLabels1.put( -0.50 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L/2", X_MAJOR_TICK_COLOR ) );
                 _spaceLabels1.put( -0.25 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L/4", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(     0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "0", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(  0.25 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/4", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(  0.50 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/2", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(  0.75 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "3L/4", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(  1.00 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L", X_MAJOR_TICK_COLOR ) );
-                
+                _spaceLabels1.put( 0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "0", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( 0.25 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/4", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( 0.50 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/2", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( 0.75 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "3L/4", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( 1.00 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L", X_MAJOR_TICK_COLOR ) );
+
                 _spaceLabels2 = new LabelTable();
                 _spaceLabels2.put( -2.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-2L", X_MAJOR_TICK_COLOR ) );
                 _spaceLabels2.put( -1.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-3L/2", X_MAJOR_TICK_COLOR ) );
                 _spaceLabels2.put( -1.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L", X_MAJOR_TICK_COLOR ) );
                 _spaceLabels2.put( -0.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L/2", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(    0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "0", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(  0.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/2", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(  1.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(  1.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "3L/2", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(  2.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "2L", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( 0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "0", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( 0.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/2", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( 1.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( 1.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "3L/2", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( 2.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "2L", X_MAJOR_TICK_COLOR ) );
             }
             
             // X axis
@@ -244,10 +244,10 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
             _dataSets = new ArrayList();
             _previousNumberOfHarmonics = -1; // force update
         }
-        
+
         update();
     }
-    
+
     /**
      * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
@@ -263,23 +263,23 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     
     /**
      * Sets the wave type, sine or cosine.
-     * 
+     *
      * @param waveType FourierConstants.WAVE_TYPE_SINE or FourierConstants.WAVE_TYPE_COSINE
      */
     public void setWaveType( int waveType ) {
-       if ( waveType != _waveType ) {
-           _waveType = waveType;
-           for ( int i = 0; i < _dataSets.size(); i++ ) {
-               HarmonicDataSet dataSet = (HarmonicDataSet)_dataSets.get( i );
-               dataSet.setWaveType( _waveType );
-           }
-           repaint();
-       }
+        if( waveType != _waveType ) {
+            _waveType = waveType;
+            for( int i = 0; i < _dataSets.size(); i++ ) {
+                HarmonicDataSet dataSet = (HarmonicDataSet)_dataSets.get( i );
+                dataSet.setWaveType( _waveType );
+            }
+            repaint();
+        }
     }
-    
+
     /**
      * Gets the wave type.
-     * 
+     *
      * @return FourierConstants.WAVE_TYPE_SINE or FourierConstants.WAVE_TYPE_COSINE
      */
     public int getWaveType() {
@@ -296,13 +296,13 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     public void update() {
 
         int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
-    
-        if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
+
+        if( _previousNumberOfHarmonics != numberOfHarmonics ) {
 
             _dataSets.clear();
             _chartGraphic.removeAllDataSetGraphics();
-            
-            for ( int i = 0; i < _fourierSeriesModel.getNumberOfHarmonics(); i++ ) {
+
+            for( int i = 0; i < _fourierSeriesModel.getNumberOfHarmonics(); i++ ) {
                 Harmonic harmonic = _fourierSeriesModel.getHarmonic( i );
 
                 HarmonicDataSet dataSet = new HarmonicDataSet( harmonic, NUMBER_OF_DATA_POINTS, L, MAX_FUNDAMENTAL_CYCLES );
@@ -312,11 +312,13 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
                 DataSetGraphic dataSetGraphic = new LinePlot( getComponent(), _chartGraphic, dataSet, WAVE_STROKE, harmonicColor );
                 _chartGraphic.addDataSetGraphic( dataSetGraphic );
             }
-            
+
             _previousNumberOfHarmonics = numberOfHarmonics;
+            setBoundsDirty();
+            autorepaint();
 //            repaint();
         }
-        repaint();///HACK Should be inside if block, but LinePlot is not updating itself when its DataSet changes.
+//        repaint();///HACK Should be inside if block, but LinePlot is not updating itself when its DataSet changes.
     }
     
     //----------------------------------------------------------------------------
@@ -330,7 +332,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         public EventListener() {}
 
         public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _horizontalZoomControl ) {
+            if( event.getSource() == _horizontalZoomControl ) {
                 handleHorizontalZoom( event.getID() );
             }
             else {
@@ -349,15 +351,15 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
      * @param actionID indicates the type of zoom
      */
     private void handleHorizontalZoom( int actionID ) {
-        
+
         // Adjust the chart's horizontal range.
         Range2D range = _chartGraphic.getRange();
         double maxX;
-        if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
+        if( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
             maxX = range.getMaxX() / X_ZOOM_FACTOR;
             _xZoomLevel++;
         }
-        else { 
+        else {
             maxX = range.getMaxX() * X_ZOOM_FACTOR;
             _xZoomLevel--;
         }
@@ -366,7 +368,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         _chartGraphic.setRange( range );
         
         // Adjust the labels to match the zoom level.
-        if ( _xZoomLevel > -3 ) {
+        if( _xZoomLevel > -3 ) {
             _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
         }
         else {
@@ -374,18 +376,18 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         }
         
         // Disable a zoom button when we reach a max zoom level.
-        switch ( _xZoomLevel ) {
-        case X_MIN_ZOOM_LEVEL:
-            _horizontalZoomControl.setZoomOutEnabled( false );
-            _horizontalZoomControl.setZoomInEnabled( true );
-            break;
-        case X_MAX_ZOOM_LEVEL:
-            _horizontalZoomControl.setZoomOutEnabled( true );
-            _horizontalZoomControl.setZoomInEnabled( false );
-            break;
-        default:
-            _horizontalZoomControl.setZoomOutEnabled( true );
-            _horizontalZoomControl.setZoomInEnabled( true );
+        switch( _xZoomLevel ) {
+            case X_MIN_ZOOM_LEVEL:
+                _horizontalZoomControl.setZoomOutEnabled( false );
+                _horizontalZoomControl.setZoomInEnabled( true );
+                break;
+            case X_MAX_ZOOM_LEVEL:
+                _horizontalZoomControl.setZoomOutEnabled( true );
+                _horizontalZoomControl.setZoomInEnabled( false );
+                break;
+            default:
+                _horizontalZoomControl.setZoomOutEnabled( true );
+                _horizontalZoomControl.setZoomInEnabled( true );
         }
     }
 }

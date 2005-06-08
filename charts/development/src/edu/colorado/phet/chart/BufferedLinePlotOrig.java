@@ -95,6 +95,10 @@ public class BufferedLinePlotOrig implements DataSet.Observer {
         generalPath = null;
     }
 
+    public void pointsAdded( Point2D[] points ) {
+        throw new RuntimeException( "Not implemented yet." );
+    }
+
     public void repaintAll() {
         Graphics2D graphics2D = bufferedPhetGraphic.getBuffer().createGraphics();
         Shape origClip = graphics2D.getClip();

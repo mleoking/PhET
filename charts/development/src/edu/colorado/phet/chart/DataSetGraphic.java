@@ -9,7 +9,6 @@ package edu.colorado.phet.chart;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.Observer {
     private DataSet dataSet;
@@ -28,11 +27,7 @@ public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.
 
     protected void addAllPoints() {
         DataSet dataSet = getDataSet();
-        for( int i = 0; i < dataSet.size(); i++ ) {
-//            System.out.println( "i = " + i + ", point=" + dataSet.pointAt( i ) );
-            Point2D point = dataSet.pointAt( i );
-            pointAdded( point );
-        }
+        pointsAdded( dataSet.getPoints() );
     }
 
     protected Chart getChart() {

@@ -49,6 +49,11 @@ public class ScatterPlot extends DataSetGraphic {
         points.clear();
     }
 
+    public void pointsAdded( Point2D[] points ) {
+        //todo not implemented yet
+        throw new RuntimeException( "Not implemented yet." );
+    }
+
     public static class CircleFactory implements ScatterPaintFactory {
         private Component component;
         private Color color;
