@@ -5,8 +5,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.ClockTickEvent;
 import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
-import edu.colorado.phet.theramp.common.scenegraph.AbstractGraphic;
-import edu.colorado.phet.theramp.common.scenegraph.GraphicLayerNode;
+import edu.colorado.phet.theramp.common.scenegraph.Rotator;
 import edu.colorado.phet.theramp.common.scenegraph.SceneGraphPanel;
 
 import javax.swing.*;
@@ -21,31 +20,31 @@ import java.awt.geom.Rectangle2D;
  * Copyright (c) Jun 7, 2005 by Sam Reid
  */
 
-public class BoidTest2 extends SceneGraphPanel {
+public class BoidViewportTest extends SceneGraphPanel {
     private BoidTest boidTest;
-    public GraphicLayerNode centerNode;
-    public GraphicLayerNode clipNode;
+    public ViewportGraphic viewportGraphic;
+    public Rectangle clip;
 
-    public BoidTest2() {
+    public BoidViewportTest() {
         boidTest = new BoidTest();
-        clipNode = new GraphicLayerNode();
-        clipNode.setClip( new Rectangle( 100, 100, 400, 400 ) );
-        centerNode = new GraphicLayerNode();
-        clipNode.addGraphic( centerNode );
-        centerNode.addGraphic( boidTest.getGraphic() );
-        addGraphic( clipNode );
+        clip = new Rectangle( 400, 400 );
+        viewportGraphic = new ViewportGraphic( boidTest.getGraphic(), clip );
+        viewportGraphic.setLocation( 100, 100 );
+        viewportGraphic.setComposite( true );
+        viewportGraphic.addMouseListener( new Rotator() );
+        addGraphic( viewportGraphic );
     }
 
-    private void viewBoid( AbstractGraphic graphic, BoidTest.Boid b0 ) {
+    private void viewBoid( BoidTest.Boid b0 ) {
         Rectangle viewport = new Rectangle();
-        viewport.setFrameFromCenter( b0.getLocation(), new Point2D.Double( b0.getLocation().getX() + getWidth(), b0.getLocation().getY() + getHeight() ) );
-        graphic.setTransformViewport( new Rectangle( getWidth(), getHeight() ), viewport );
+        viewport.setFrameFromCenter( b0.getLocation(), new Point2D.Double( b0.getLocation().getX() + clip.getWidth(), b0.getLocation().getY() + clip.getHeight() ) );
+        boidTest.getGraphic().setTransformViewport( new Rectangle( clip ), viewport );
     }
 
     public static void main( String[] args ) {
         AbstractClock clock = new SwingTimerClock( 1, 30 );
 
-        final BoidTest2 boidTest = new BoidTest2();
+        final BoidViewportTest boidTest = new BoidViewportTest();
         JFrame jf = new JFrame();
         jf.setSize( 600, 600 );
         jf.setContentPane( boidTest );
@@ -65,7 +64,9 @@ public class BoidTest2 extends SceneGraphPanel {
 
     private void tick( ClockTickEvent event ) {
         boidTest.updateBoids( event );
-        viewBoid( centerNode, boidTest.boidAt( 0 ) );
+//        viewBoid( boidTest.getGraphic(), boidTest.boidAt( 0 ) );
+        viewBoid( boidTest.boidAt( 0 ) );
         repaint();
     }
+
 }
