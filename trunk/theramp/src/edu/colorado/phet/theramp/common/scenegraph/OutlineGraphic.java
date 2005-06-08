@@ -24,16 +24,24 @@ public class OutlineGraphic extends AbstractGraphic {
     }
 
     public void paint( Graphics2D graphics2D ) {
-        super.setup( graphics2D );
-        graphics2D.draw( shape );
-        super.restore( graphics2D );
+        if( isVisible() ) {
+            super.setup( graphics2D );
+            graphics2D.draw( shape );
+            super.restore( graphics2D );
+        }
     }
 
-    public boolean containsLocal( double x, double y ) {
-        return super.getStroke() != null && shape != null && getStroke().createStrokedShape( shape ).contains( x, y );//todo this will be slow.
+    public boolean containsMousePointLocal( double x, double y ) {
+        return isVisible() && super.getStroke() != null && shape != null && getStroke().createStrokedShape( shape ).contains( x, y );//todo this will be slow.
     }
 
     public Rectangle2D getLocalBounds() {
         return getStroke().createStrokedShape( shape ).getBounds2D();
+    }
+
+    public void setShape( Shape shape ) {
+        setRegionDirty();
+        this.shape = shape;
+        setRegionDirty();
     }
 }

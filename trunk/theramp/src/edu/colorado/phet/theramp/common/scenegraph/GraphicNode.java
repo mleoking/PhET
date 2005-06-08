@@ -180,13 +180,13 @@ public abstract class GraphicNode extends AbstractGraphic {
         this.composite = composite;
     }
 
-    public boolean containsLocal( double x, double y ) {
+    public boolean containsMousePointLocal( double x, double y ) {
         Point2D src = new Point2D.Double( x, y );
         Point2D pt = null;
         AbstractGraphic[] children = getChildren();
         for( int i = 0; i < children.length; i++ ) {
             pt = children[i].push( src );
-            if( children[i].containsLocal( pt.getX(), pt.getY() ) ) {
+            if( children[i].containsMousePointLocal( pt.getX(), pt.getY() ) ) {
                 return true;
             }
         }

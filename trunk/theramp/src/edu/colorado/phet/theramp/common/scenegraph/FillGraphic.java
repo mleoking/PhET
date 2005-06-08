@@ -39,8 +39,8 @@ public class FillGraphic extends AbstractGraphic {
         super.restore( graphics2D );
     }
 
-    public boolean containsLocal( double x, double y ) {
-        return shape.contains( x, y );
+    public boolean containsMousePointLocal( double x, double y ) {
+        return isVisible() && shape.contains( x, y );
     }
 
     public Rectangle2D getLocalBounds() {

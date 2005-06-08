@@ -8,10 +8,7 @@ import edu.colorado.phet.theramp.common.scenegraph.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 
@@ -37,11 +34,11 @@ public class TestSceneGraph {
         userRoot.addMouseListener( new Rotator() );
 //        userRoot.addMouseListener( new Repaint() );
 
-        GraphicListNode m2 = createMainTree();
+        GraphicListNode m2 = createMainTree( sceneGraphPanel );
         m2.scale( 2, 2 );
         sceneGraphPanel.addGraphic( m2 );
 
-        GraphicListNode m3 = createMainTree();
+        GraphicListNode m3 = createMainTree( sceneGraphPanel );
         m3.scale( .5, .5 );
         m3.setComposite( true );
         m3.setDrawBorderDebug( true );
@@ -93,7 +90,7 @@ public class TestSceneGraph {
         clock.start();
     }
 
-    private static GraphicListNode createMainTree() {
+    private static GraphicListNode createMainTree( SceneGraphPanel sceneGraphPanel ) {
         GraphicListNode mainTree = new GraphicListNode();
         mainTree.setName( "Main Tree" );
 
@@ -107,17 +104,26 @@ public class TestSceneGraph {
         list.setName( "Blocks" );
         for( int i = 0; i < 10; i++ ) {
 //            FillGraphic blockGraphic = new FillGraphic( new Ellipse2D.Double( 0, 0, 20, 20 ) );
+            final GraphicListNode blockRootNode = new GraphicListNode();
+
             final FillGraphic blockGraphic = new FillGraphic( new Rectangle( 20, 20 ) );
+
+
             blockGraphic.setCursorHand();
             blockGraphic.addMouseListener( new Translator() );
             blockGraphic.addMouseListener( new Rotator() );
 
-//            blockGraphic.addMouseListener( new Repaint() );
-
             blockGraphic.setColor( randomColor() );
             blockGraphic.translate( 10 + i * 30, 50 );
-            RotatorGraphic rotatorGraphic = new RotatorGraphic( blockGraphic, clock, Math.PI / 64 );
-            list.addGraphic( rotatorGraphic );
+
+            RotatorNode rotatorNode = new RotatorNode( blockGraphic, clock, Math.PI / 64 );
+//            HighlightGraphicLeaf highlightLeaf = new HighlightGraphicLeaf( rotatorNode, Color.yellow, new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 1, new float[]{5, 2}, 0 ) );
+            final HighlightGraphicLeaf highlightLeaf = new HighlightGraphicLeaf( rotatorNode, clock, Color.yellow, new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{10, 5}, 0 ) );
+
+            blockRootNode.addGraphic( rotatorNode );
+            sceneGraphPanel.addGraphic( highlightLeaf, Double.POSITIVE_INFINITY );
+            list.addGraphic( blockRootNode );
+
             final int i1 = i;
             blockGraphic.addKeyListener( new KeyListener() {
                 public void keyPressed( KeyEvent e ) {
@@ -132,13 +138,20 @@ public class TestSceneGraph {
                     //To change body of implemented methods use File | Settings | File Templates.
                 }
             } );
-//            list.addGraphic(blockGraphic);
-//            clock.addClockTickListener(new ClockTickListener() {
-//                public void clockTicked(ClockTickEvent event) {
-//                    Point2D center=RectangleUtils.getCenter2D(blockGraphic.getLocalBounds());
-//                    blockGraphic.rotate(Math.PI/64,center.getX(),center.getY());
-//                }
-//            });
+
+            blockGraphic.addFocusListener( new FocusAdapter() {
+                public void focusGained( FocusEvent e ) {
+                    System.out.println( "TestSceneGraph.focusGained" );
+                    highlightLeaf.setVisible( true );
+                }
+
+                public void focusLost( FocusEvent e ) {
+                    System.out.println( "TestSceneGraph.focusLost" );
+                    highlightLeaf.setVisible( false );
+                }
+            } );
+            highlightLeaf.setVisible( false );
+
         }
         list.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         mainTree.addGraphic( list );

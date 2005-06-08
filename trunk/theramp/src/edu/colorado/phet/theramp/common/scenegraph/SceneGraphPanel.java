@@ -156,7 +156,6 @@ public class SceneGraphPanel extends JPanel {
                 return lastEvent;
             }
         }
-
     }
 
     protected void paintComponent( Graphics g ) {
@@ -188,6 +187,10 @@ public class SceneGraphPanel extends JPanel {
 
     public void addGraphic( AbstractGraphic graphic ) {
         rootGraphic.addGraphic( graphic );
+    }
+
+    public void addGraphic( AbstractGraphic graphic, double layer ) {
+        rootGraphic.addGraphic( graphic, layer );
     }
 
     public GraphicLayerNode getGraphic() {
