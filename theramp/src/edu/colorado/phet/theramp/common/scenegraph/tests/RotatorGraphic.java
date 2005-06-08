@@ -21,21 +21,21 @@ public class RotatorGraphic extends GraphicNode {
     private AbstractClock clock;
     private double dTheta;
 
-    public RotatorGraphic(final AbstractGraphic child, AbstractClock clock, final double dTheta) {
+    public RotatorGraphic( final AbstractGraphic child, AbstractClock clock, final double dTheta ) {
         this.child = child;
         this.clock = clock;
         this.dTheta = dTheta;
-        clock.addClockTickListener(new ClockTickListener() {
-            public void clockTicked(ClockTickEvent event) {
+        clock.addClockTickListener( new ClockTickListener() {
+            public void clockTicked( ClockTickEvent event ) {
                 doRotate();
             }
-        });
-        child.setParent(this);
+        } );
+        child.setParent( this );
     }
 
     private void doRotate() {
-        Point2D center = RectangleUtils.getCenter2D(getLocalBounds());
-        rotate(dTheta, center.getX(), center.getY());
+        Point2D center = RectangleUtils.getCenter2D( getLocalBounds() );
+        rotate( dTheta, center.getX(), center.getY() );
     }
 
     public AbstractGraphic[] getChildren() {

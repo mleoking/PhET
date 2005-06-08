@@ -11,7 +11,7 @@ import edu.colorado.phet.theramp.common.scenegraph.GraphicLayerNode;
  */
 public class PanZoomNode extends GraphicLayerNode {
     public PanZoomNode() {
-        setComposite(true);
+        setComposite( true );
 //        addKeyHandler(new PanZoomNode.PanZoomKeyHandler());
     }
 
