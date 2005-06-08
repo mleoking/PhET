@@ -16,22 +16,22 @@ import java.util.Iterator;
 public class GraphicLayerNode extends GraphicNode {
     private MultiMap multiMap = new MultiMap();
 
-    public void addGraphic( AbstractGraphic graphic ) {
-        addGraphic( graphic, 0 );
+    public void addGraphic(AbstractGraphic graphic) {
+        addGraphic(graphic, 0);
     }
 
-    public void addGraphic( AbstractGraphic graphic, double layer ) {
-        super.graphicAdded( graphic );
-        multiMap.put( new Double( layer ), graphic );
+    public void addGraphic(AbstractGraphic graphic, double layer) {
+        super.graphicAdded(graphic);
+        multiMap.put(new Double(layer), graphic);
     }
 
     public AbstractGraphic[] getChildren() {
         Iterator it = multiMap.iterator();
         ArrayList list = new ArrayList();
-        while( it.hasNext() ) {
-            list.add( it.next() );
+        while (it.hasNext()) {
+            list.add(it.next());
         }
-        return (AbstractGraphic[])list.toArray( new AbstractGraphic[0] );
+        return (AbstractGraphic[]) list.toArray(new AbstractGraphic[0]);
     }
 
 }
