@@ -18,23 +18,19 @@ public class ViewportGraphic extends GraphicListNode {
     private AbstractGraphic graphic;
     private Clipper clipper;
     private AbstractGraphic postGraphic;
-    private Rectangle clip;
+    private Dimension clip;
 
-    public ViewportGraphic( AbstractGraphic graphic, Rectangle clip ) {
+    public ViewportGraphic( AbstractGraphic graphic, Dimension clip ) {
         this.clip = clip;
         this.graphic = graphic;
-        clipper = new ViewportGraphic.Clipper( graphic, clip );
-        postGraphic = new OutlineGraphic( clip, new BasicStroke(), Color.black );
+        clipper = new ViewportGraphic.Clipper( graphic, new Rectangle( clip ) );
+        postGraphic = new OutlineGraphic( new Rectangle( clip ), new BasicStroke(), Color.black );
         addGraphic( clipper );
         addGraphic( postGraphic );
     }
 
-    public AbstractGraphic getViewportGraphic() {
-        return clipper.graphic;
-    }
-
     public boolean containsMousePointLocal( double x, double y ) {
-        return clip.contains( x, y );
+        return new Rectangle( clip ).contains( x, y );
     }
 
     private class Clipper extends GraphicListNode {

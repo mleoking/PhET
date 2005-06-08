@@ -15,7 +15,6 @@ public class PanZoomNode extends GraphicLayerNode {
 //        addKeyHandler(new PanZoomNode.PanZoomKeyHandler());
     }
 
-
     public class PanZoomKeyHandler {
     }
 }
