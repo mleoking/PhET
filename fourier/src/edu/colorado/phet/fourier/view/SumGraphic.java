@@ -333,61 +333,66 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
      */
     public void update() {
 
-        _sumDataSet.clear();
-        _presetDataSet.clear();
-
-        final double startX = -2 * L;
-        final double startAngle = 0.0;
-
-        // XXX This algorithm is quick-and-dirty, very inefficient!
-        
-        // Sum the components at each X point.
-        final int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
-        double maxSum = 5.0;
-        final double deltaX = ( MAX_FUNDAMENTAL_CYCLES * L ) / NUMBER_OF_DATA_POINTS;
-        
-        for ( int i = 0; i < _sums.length; i++ ) {
-
-            _sums[i] = 0;
-            for ( int j = 0; j < numberOfHarmonics; j++ ) {
-
-                Harmonic harmonic = (Harmonic) _fourierSeriesModel.getHarmonic( j );
-                
-                final int numberOfCycles = MAX_FUNDAMENTAL_CYCLES * ( harmonic.getOrder() + 1 );
-                final double pointsPerCycle = NUMBER_OF_DATA_POINTS / (double) numberOfCycles;
-                final double deltaAngle = ( 2.0 * Math.PI ) / pointsPerCycle;
-
-                final double angle = startAngle + ( i * deltaAngle );
-                double radians;
-                if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
-                    radians = FourierUtils.sin( angle );
-                }
-                else {
-                    radians = FourierUtils.cos( angle );
-                }
-                
-                final double amplitude = harmonic.getAmplitude();
-                _sums[i] += ( amplitude * radians );
-            }
-
-            final double x = startX + ( i * deltaX );
-            final double y = _sums[ i ];
-            _sumDataSet.addPoint( x, y );
-            
-            if ( Math.abs( _sums[i] ) > maxSum ) {
-                maxSum = Math.abs( _sums[i] );
-            }
-        }
-         
-        // If auto scaling is enabled, adjust the chart range to show the max.
-        if ( _autoScaleEnabled ) {
-            Range2D range = _chartGraphic.getRange();
-            range.setMinY( -maxSum );
-            range.setMaxY( +maxSum );
-            _chartGraphic.setRange( range );
-        }
-
-        repaint();
+//        _sumDataSet.clear();
+//        _presetDataSet.clear();
+//
+//        final int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
+//        double maxSum = 5.0;
+//        final double deltaX = ( MAX_FUNDAMENTAL_CYCLES * L ) / NUMBER_OF_DATA_POINTS;
+//        final double startX = -2 * L;
+//        final double startAngle = 0.0;
+//        
+//        for ( int j = 0; j < numberOfHarmonics; j++ ) {
+//
+//            Harmonic harmonic = (Harmonic) _fourierSeriesModel.getHarmonic( j );
+//            final double amplitude = harmonic.getAmplitude();
+//            final int numberOfCycles = MAX_FUNDAMENTAL_CYCLES * ( harmonic.getOrder() + 1 );
+//            final double pointsPerCycle = NUMBER_OF_DATA_POINTS / (double) numberOfCycles;
+//            final double deltaAngle = ( 2.0 * Math.PI ) / pointsPerCycle;
+//
+//            for ( int i = 0; i < _sums.length; i++ ) {
+//
+//                if ( j == 0 ) {
+//                    _sums[i] = 0;
+//                }
+//
+//                if ( amplitude != 0 ) {
+//                    final double angle = startAngle + ( i * deltaAngle );
+//                    double radians;
+//                    if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
+//                        radians = FourierUtils.sin( angle );
+//                    }
+//                    else {
+//                        radians = FourierUtils.cos( angle );
+//                    }
+//
+//                    _sums[i] += ( amplitude * radians );
+//                }
+//
+//                if ( j == numberOfHarmonics - 1 ) {
+//
+//                    final double x = startX + ( i * deltaX );
+//                    final double y = _sums[i];
+//                    _sumDataSet.addPoint( x, y );
+//
+//                    if ( Math.abs( _sums[i] ) > maxSum ) {
+//                        maxSum = Math.abs( _sums[i] );
+//                    }
+//                }
+//            }
+//        }
+//
+//        // If auto scaling is enabled, adjust the chart range to show the max.
+//        if ( _autoScaleEnabled ) {
+//            Range2D range = _chartGraphic.getRange();
+//            if ( maxSum != range.getMaxY() ) {
+//                range.setMinY( -maxSum );
+//                range.setMaxY( +maxSum );
+//                _chartGraphic.setRange( range );
+//            }
+//        }
+//
+//        repaint();
     }     
     
     //----------------------------------------------------------------------------
