@@ -39,9 +39,10 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
-(6/7) - redo Amplitude slider: no arrows, small rectangle knob, click above/below/on to jump to a value
-(6/7) - work with Sam to reduce the overhead of adding a collection of points to charts
-(6/7) - work with Sam to fix repaint problems in charts
+sandbox-2005-06-08...
+(6/8) - redo Amplitude slider: no arrows, small rectangle knob, click above/below/on to jump to a value
+(6/8) - work with Sam to reduce the overhead of adding a collection of points to charts
+(6/8) - work with Sam to fix repaint problems in charts
 (6/7) - add charts package to fourier CVS module dependencies
 (6/7) - replace arrows with a small rectangle on AmplitudeSlider
 (6/7) - move sin/cos caching functions to FourierUtils
