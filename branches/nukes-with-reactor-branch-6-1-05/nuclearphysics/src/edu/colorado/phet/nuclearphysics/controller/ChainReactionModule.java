@@ -52,33 +52,24 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         // Add a model element that watches for collisions between neutrons and
         // U235 nuclei
         getModel().addModelElement( new ModelElement() {
+            private Line2D utilLine = new Line2D.Double();
+
             public void stepInTime( double dt ) {
                 for( int i = 0; i < neutrons.size(); i++ ) {
                     Neutron neutron = (Neutron)neutrons.get( i );
-                    Line2D neutronPath = new Line2D.Double( neutron.getPosition(), neutron.getPositionPrev() );
+                    utilLine.setLine( neutron.getPosition(), neutron.getPositionPrev() );
                     for( int j = 0; j < u235Nuclei.size(); j++ ) {
                         Uranium235 u235 = (Uranium235)u235Nuclei.get( j );
-                        double perpDist = neutronPath.ptSegDistSq( u235.getPosition() );
+                        double perpDist = utilLine.ptSegDistSq( u235.getPosition() );
                         if( perpDist <= u235.getRadius() * u235.getRadius() ) {
                             u235.fission( neutron );
                         }
                     }
                 }
-//                for( int j = 0; j < u235Nuclei.size(); j++ ) {
-//                    Uranium235 u235 = (Uranium235)u235Nuclei.get( j );
-//                    for( int i = 0; i < neutrons.size(); i++ ) {
-//                        Neutron neutron = (Neutron)neutrons.get( i );
-//
-//                        Line2D neutronPath = new Line2D.Double( neutron.getPosition(), neutron.getPositionPrev());
-//                        double perpDist = neutronPath.ptSegDistSq( u235.getPosition() );
-//                        if( perpDist <= u235.getRadius() * u235.getRadius() ) {
-//                            u235.fission( neutron );
-//                        }
-//                    }
-//                }
             }
         } );
 
+        // todo: make this detector look like the one above, which has a better way of detecting collisions
         // Add model element that watches for collisions between neutrons and
         // U238 nuclei
         getModel().addModelElement( new ModelElement() {
