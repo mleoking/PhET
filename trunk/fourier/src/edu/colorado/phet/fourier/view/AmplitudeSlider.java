@@ -67,6 +67,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     
     // Value parameters
     private static final double MAX_AMPLITUDE = FourierConfig.MAX_HARMONIC_AMPLITUDE;
+    private static final double VALUE_STEP = 0.01;
     private static final String VALUE_FORMAT = "0.00";
     private static final int VALUE_COLUMNS = 3;
     private static final Font VALUE_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
@@ -191,10 +192,10 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             _labelGraphic.setIgnoreMouse( true );
             _trackGraphic.setIgnoreMouse( true );
             
-            ValueEventListener valueListener = new ValueEventListener();
-            _valueTextField.addActionListener( valueListener );
-            _valueTextField.addFocusListener( valueListener );
-            _valueTextField.addKeyListener( valueListener );
+            TextFieldEventListener textFieldListener = new TextFieldEventListener();
+            _valueTextField.addActionListener( textFieldListener );
+            _valueTextField.addFocusListener( textFieldListener );
+            _valueTextField.addKeyListener( textFieldListener );
             
             SliderEventListener sliderListener = new SliderEventListener();
             _clickZoneGraphic.setCursorHand();
@@ -397,26 +398,30 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     // Inner classes
     //----------------------------------------------------------------------------
     
-    /**
+    /*
      * SliderEventListener handles events related to the slider.
      */
     private class SliderEventListener extends MouseInputAdapter {
         
         private Point _somePoint;
         
+        /* Sole constructor */
         public SliderEventListener() {
             super();
             _somePoint = new Point();
         }
         
+        /* Handles mouse drags. */
         public void mouseDragged( MouseEvent event ) {
             setAmplitude( event.getPoint() );
         }
         
+        /* Handles mouse presses. */
         public void mousePressed( MouseEvent event ) {
             setAmplitude( event.getPoint() );
         }
         
+        /* Sets the harmonic's amplitude based on the mouse location. */
         private void setAmplitude( Point mousePoint ) {
             double localY = 0;
             try {
@@ -434,39 +439,27 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         }
     }
     
-    /**
-     * ValueEventListener handles events related to the value input field.
+    /*
+     * TextFieldEventListener handles events related to the text field.
      */
-    private class ValueEventListener extends KeyAdapter implements ActionListener, FocusListener {
+    private class TextFieldEventListener extends KeyAdapter implements ActionListener, FocusListener {
         
-        /** Sole constructor. */
-        public ValueEventListener() {}
+        /* Sole constructor. */
+        public TextFieldEventListener() {}
         
-        /**
-         * Processes the input value when the user presses the Enter key.
-         * 
-         * @param event
-         */
+        /* Processes the input value when the user presses the Enter key. */
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == _valueTextField ) {
                 processUserInput();
             }        
         }
         
-        /**
-         * Selects the contents of the text field when focus is gained.
-         * 
-         * @param event
-         */
+        /* Selects the contents of the text field when focus is gained. */
         public void focusGained( FocusEvent event ) {
             _valueTextField.selectAll();
         }
         
-        /**
-         * Processes the input value when focus is lost.
-         * 
-         * @param event
-         */
+        /* Processes the input value when focus is lost. */
         public void focusLost( FocusEvent event ) {
             if ( ! event.isTemporary() ) {
                 boolean success = processUserInput();
@@ -476,14 +469,21 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             }
         }
         
+        /* Changes the amplitude value using the up/down arrow keys. */
         public void keyPressed( KeyEvent event ) {
             if ( event.getKeyCode() == KeyEvent.VK_UP ) {
-                double amplitude = _harmonicModel.getAmplitude();
-                _harmonicModel.setAmplitude( amplitude + 0.01 );
+                double amplitude = _harmonicModel.getAmplitude() + VALUE_STEP;
+                if ( amplitude > MAX_AMPLITUDE ) {
+                    amplitude = MAX_AMPLITUDE;
+                }
+                _harmonicModel.setAmplitude( amplitude );
             }
             else if ( event.getKeyCode() == KeyEvent.VK_DOWN ) {
-                double amplitude = _harmonicModel.getAmplitude();
-                _harmonicModel.setAmplitude( amplitude - 0.01 );
+                double amplitude = _harmonicModel.getAmplitude() - VALUE_STEP;
+                if ( amplitude < -MAX_AMPLITUDE ) {
+                   amplitude = -MAX_AMPLITUDE; 
+                }
+                _harmonicModel.setAmplitude( amplitude );
             }
         }
     }
