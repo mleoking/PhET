@@ -294,7 +294,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
      * Updates the view to match the model.
      */
     public void update() {
-        
+
         int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
     
         if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
@@ -304,18 +304,19 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
             
             for ( int i = 0; i < _fourierSeriesModel.getNumberOfHarmonics(); i++ ) {
                 Harmonic harmonic = _fourierSeriesModel.getHarmonic( i );
-                
+
                 HarmonicDataSet dataSet = new HarmonicDataSet( harmonic, NUMBER_OF_DATA_POINTS, L, MAX_FUNDAMENTAL_CYCLES );
                 _dataSets.add( dataSet );
-                
+
                 Color harmonicColor = FourierUtils.calculateHarmonicColor( i );
                 DataSetGraphic dataSetGraphic = new LinePlot( getComponent(), _chartGraphic, dataSet, WAVE_STROKE, harmonicColor );
                 _chartGraphic.addDataSetGraphic( dataSetGraphic );
             }
             
             _previousNumberOfHarmonics = numberOfHarmonics;
-            repaint();
+//            repaint();
         }
+        repaint();///HACK Should be inside if block, but LinePlot is not updating itself when its DataSet changes.
     }
     
     //----------------------------------------------------------------------------
