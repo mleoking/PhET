@@ -6,6 +6,9 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- allow horizontal 2x zoom in
+- Sum manual zoom in vertically to +-1 
+- Sum autoscale fills the graph in all (?) situations, adjust labels
 - link horizontal zoom buttons
 - different background behind Components & Sum graphs to group them
 - investigate Jex for rendering equations
