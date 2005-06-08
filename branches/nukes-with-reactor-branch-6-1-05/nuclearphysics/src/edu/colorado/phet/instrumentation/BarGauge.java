@@ -22,6 +22,7 @@ public class BarGauge extends AbstractGauge {
     private Point2D location;
     private double maxScreenLevel;
     private Color outlineColor = Color.black;
+    private double screenLevel;
 
 
     /**
@@ -70,6 +71,7 @@ public class BarGauge extends AbstractGauge {
     public void paint( Graphics2D g ) {
         Color oldColor = g.getColor();
         g.setColor( color );
+
         g.draw( bar );
         g.fill( bar );
         g.setColor( outlineColor );
@@ -83,7 +85,7 @@ public class BarGauge extends AbstractGauge {
 
     public void setLevel( double level ) {
 
-        double screenLevel = Math.min( Math.max( offset + scale * level, 0 ), maxScreenLevel );
+        screenLevel = Math.min( Math.max( offset + scale * level, 0 ), maxScreenLevel );
         if( isVertical ) {
             bar.setRect( location.getX(),
                          location.getY() + maxScreenLevel - screenLevel,
@@ -99,5 +101,9 @@ public class BarGauge extends AbstractGauge {
 
     public void setLocation( Point2D.Double location ) {
         this.location.setLocation( location );
+    }
+
+    public double getLevel() {
+        return screenLevel;
     }
 }

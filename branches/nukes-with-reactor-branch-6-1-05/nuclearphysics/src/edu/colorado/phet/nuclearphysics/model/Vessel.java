@@ -253,7 +253,6 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
     }
 
     public interface ChangeListener extends EventListener {
-
         void temperatureChanged( ChangeEvent event );
     }
 

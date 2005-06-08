@@ -32,6 +32,8 @@ import java.io.IOException;
 
 /**
  * ControlRodGroupGraphic
+ * <p/>
+ * A graphic that includes the control rods, a bar that connects them, and a handle
  *
  * @author Ron LeMaster
  * @version $Revision$

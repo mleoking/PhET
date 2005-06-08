@@ -10,19 +10,18 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
-import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
 
-import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 /**
  * ControlledFissionModule
@@ -71,6 +70,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private ControlRodGroupGraphic controlRodGroupGraphic;
     private ControlRod[] controlRods;
     private int numNeutronsFired = 1;
+    private EnergyGraphDialog energyGraphDialog;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -192,21 +192,19 @@ public class ControlledFissionModule extends ChainReactionModule {
         nuclei.add( nucleus );
         nucleus.addFissionListener( this );
         getModel().addModelElement( nucleus );
-        double rad = nucleus.getRadius();
-        final Graphic ng = new PhetShapeGraphic( getPhysicalPanel(),
-                                                 new Ellipse2D.Double( nucleus.getPosition().getX() - rad,
-                                                                       nucleus.getPosition().getY() - rad,
-                                                                       rad * 2, rad * 2 ),
-                                                 Color.red );
+//        double rad = nucleus.getRadius();
+//        final Graphic ng = new PhetShapeGraphic( getPhysicalPanel(),
+//                                                 new Ellipse2D.Double( nucleus.getPosition().getX() - rad,
+//                                                                       nucleus.getPosition().getY() - rad,
+//                                                                       rad * 2, rad * 2 ),
+//                                                 Color.red );
         NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
             public void leavingSystem( NuclearModelElement nme ) {
                 getPhysicalPanel().removeGraphic( nig );
-//                getPhysicalPanel().removeGraphic( ng );
             }
         };
         nucleus.addListener( listener );
         getPhysicalPanel().addOriginCenteredGraphic( nig, Config.nucleusLevel );
-//        getPhysicalPanel().addOriginCenteredGraphic( ng, Config.nucleusLevel );
     }
 
 
@@ -224,9 +222,40 @@ public class ControlledFissionModule extends ChainReactionModule {
             // Add the vessel as a listener for when the nucleus fissions, so
             // it can track the energy being released
             nucleus.addFissionListener( vessel );
+            if( energyGraphDialog != null ) {
+                nucleus.addFissionListener( energyGraphDialog );
+            }
         }
         getPhysicalPanel().repaint( getPhysicalPanel().getBounds() );
     }
+
+    /**
+     * Handle all the gummy stuff caused by the fact that our constructor gets called before the PhetFrame is made.
+     *
+     * @param application
+     */
+    public void activate( PhetApplication application ) {
+        super.activate( application );
+
+        // Add the dialog that will show the energy tracking gauges
+        if( energyGraphDialog == null ) {
+            energyGraphDialog = new EnergyGraphDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
+                                                       vessel,
+                                                       getClock() );
+            energyGraphDialog.setVisible( true );
+
+            // Add the energyGraphDialog as a listener to all the U235 nuclei that are already in existence
+            List modelElements = ( (NuclearPhysicsModel)getModel() ).getNuclearModelElements();
+            for( int i = 0; i < modelElements.size(); i++ ) {
+                Object o = modelElements.get( i );
+                if( o instanceof Nucleus ) {
+                    Nucleus nucleus = (Nucleus)o;
+                    nucleus.addFissionListener( energyGraphDialog );
+                }
+            }
+        }
+    }
+
 
     //----------------------------------------------------------------
     // Getters and setters
@@ -280,6 +309,8 @@ public class ControlledFissionModule extends ChainReactionModule {
             computeNeutronLaunchParams();
             super.fireNeutron();
         }
+
+        energyGraphDialog.startAcquisition();
     }
 
     /**
@@ -310,6 +341,9 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     public void start() {
         init( getClock() );
+
+        energyGraphDialog.reset();
+
         return;
     }
 
