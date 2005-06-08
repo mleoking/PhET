@@ -8,6 +8,8 @@ import java.awt.geom.Rectangle2D;
  */
 public class FeatureChange extends AbstractGraphic {
     public void paint( Graphics2D graphics2D ) {
+        setup( graphics2D );
+        //no teardown, since we are intended to change features for later graphics.
     }
 
     public Rectangle2D getLocalBounds() {
