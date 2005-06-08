@@ -37,7 +37,8 @@ import edu.colorado.phet.fourier.model.Harmonic;
  * AmplitudeSlider is a slider for controlling harmonic amplitude.
  * The user can change the amplitude by (1) clicking anywhere above,
  * below or on the colored section of the slider, (2) click and drag
- * the knob, or (3) typing a value into the text field.
+ * the knob, (3) typing a value into the text field, or (4) selecting
+ * the text field and using the up/down arrow keys.
  * <br>
  * The clickable area (aka, the click zone) is indicated by a hand
  * cursor.  The knob is indicated by an "up down" cursor.
@@ -193,6 +194,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             ValueEventListener valueListener = new ValueEventListener();
             _valueTextField.addActionListener( valueListener );
             _valueTextField.addFocusListener( valueListener );
+            _valueTextField.addKeyListener( valueListener );
             
             SliderEventListener sliderListener = new SliderEventListener();
             _clickZoneGraphic.setCursorHand();
@@ -435,10 +437,30 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     /**
      * ValueEventListener handles events related to the value input field.
      */
-    private class ValueEventListener extends FocusAdapter implements ActionListener {
+    private class ValueEventListener extends KeyAdapter implements ActionListener, FocusListener {
         
         /** Sole constructor. */
         public ValueEventListener() {}
+        
+        /**
+         * Processes the input value when the user presses the Enter key.
+         * 
+         * @param event
+         */
+        public void actionPerformed( ActionEvent event ) {
+            if ( event.getSource() == _valueTextField ) {
+                processUserInput();
+            }        
+        }
+        
+        /**
+         * Selects the contents of the text field when focus is gained.
+         * 
+         * @param event
+         */
+        public void focusGained( FocusEvent event ) {
+            _valueTextField.selectAll();
+        }
         
         /**
          * Processes the input value when focus is lost.
@@ -454,15 +476,15 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             }
         }
         
-        /**
-         * Processes the input value when the user presses the Enter key.
-         * 
-         * @param event
-         */
-        public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _valueTextField ) {
-                processUserInput();
-            }        
+        public void keyPressed( KeyEvent event ) {
+            if ( event.getKeyCode() == KeyEvent.VK_UP ) {
+                double amplitude = _harmonicModel.getAmplitude();
+                _harmonicModel.setAmplitude( amplitude + 0.01 );
+            }
+            else if ( event.getKeyCode() == KeyEvent.VK_DOWN ) {
+                double amplitude = _harmonicModel.getAmplitude();
+                _harmonicModel.setAmplitude( amplitude - 0.01 );
+            }
         }
     }
 }
