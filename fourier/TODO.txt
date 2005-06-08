@@ -6,8 +6,9 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- investigate Jex for rendering equations
+- link horizontal zoom buttons
 - different background behind Components & Sum graphs to group them
+- investigate Jex for rendering equations
 - highlight component when mouse moves over it in Amplitudes or Components view
 - persistence
 
@@ -39,6 +40,8 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/8) - up/down arrows control amplitude text field
+(6/8) - fully select amplitude value when text field gains focus
 sandbox-2005-06-08...
 (6/8) - redo Amplitude slider: no arrows, small rectangle knob, click above/below/on to jump to a value
 (6/8) - work with Sam to reduce the overhead of adding a collection of points to charts
