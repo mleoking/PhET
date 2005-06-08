@@ -32,6 +32,7 @@ public class PhetShapeGraphic extends PhetGraphic {
     private Composite orgComposite = null;
     private Paint workingPaint;
     private Shape strokedShape;
+    private boolean shapeDirty = false;
 
     public PhetShapeGraphic( Component component, Shape shape, Paint fill, Stroke stroke, Paint border ) {
         super( component );
@@ -62,14 +63,15 @@ public class PhetShapeGraphic extends PhetGraphic {
         boolean sameShape = sameShape( this.shape, shape );
         if( !sameShape ) {
             this.shape = shape;
-            computeStrokedShape();
-            setBoundsDirty();
-            autorepaint();
+            setShapeDirty();
+//            computeStrokedShape();
+//            setBoundsDirty();
+//            autorepaint();
         }
     }
 
     public void setShapeDirty() {
-        computeStrokedShape();
+        this.shapeDirty = true;
         setBoundsDirty();
         autorepaint();
     }
@@ -102,8 +104,8 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setStroke( Stroke stroke ) {
         this.stroke = stroke;
-        computeStrokedShape();
-        autorepaint();
+        setShapeDirty();
+//        autorepaint();
     }
 
     public void setPaint( Paint paint ) {
@@ -249,9 +251,17 @@ public class PhetShapeGraphic extends PhetGraphic {
         }
         else {
             // todo: why aren't we transforming strokedShape and using its bound?
+            synchronizeStrokedShape();
             Rectangle bounds = strokedShape.getBounds();
             Rectangle expanded = new Rectangle( bounds.x, bounds.y, bounds.width + 1, bounds.height + 1 ); //necessary to capture the entire bounds.
             return getNetTransform().createTransformedShape( expanded ).getBounds();
+        }
+    }
+
+    private void synchronizeStrokedShape() {
+        if( shapeDirty ) {
+            computeStrokedShape();
+            shapeDirty = false;
         }
     }
 
@@ -321,6 +331,7 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     private boolean borderContains( int x, int y ) {
         boolean contains = false;
+        synchronizeStrokedShape();
         if( strokedShape != null ) {
             Shape txBorderShape = getNetTransform().createTransformedShape( strokedShape );
             contains = txBorderShape.contains( x, y );

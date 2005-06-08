@@ -68,10 +68,23 @@ public class DataSet {
         }
     }
 
+    public Point2D[] getPoints() {
+        return (Point2D[])dataPoints.toArray( new Point2D[0] );
+    }
+
+    public void addAllPoints( Point2D[] pts ) {
+        for( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer)observers.get( i );
+            observer.pointsAdded( pts );
+        }
+    }
+
     public interface Observer {
         void pointAdded( Point2D point );
 
         void cleared();
+
+        void pointsAdded( Point2D[] points );
     }
 
     public boolean isValid( Point2D dataPoint ) {
