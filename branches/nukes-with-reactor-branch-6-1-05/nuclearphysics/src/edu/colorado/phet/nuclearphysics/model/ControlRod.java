@@ -13,6 +13,7 @@ package edu.colorado.phet.nuclearphysics.model;
 import edu.colorado.phet.coreadditions.EventChannel;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.common.model.ModelElement;
+import edu.colorado.phet.collision.Collidable;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -23,6 +24,8 @@ import java.util.List;
 
 /**
  * ControlRod
+ * <p>
+ * A control rod's primary behavior is to absorb neutrons that pass through it.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -130,6 +133,7 @@ public class ControlRod implements ModelElement {
 
     /**
      * Looks for neutrons that it should absorb
+     *
      * @param v
      */
     public void stepInTime( double v ) {
@@ -139,20 +143,38 @@ public class ControlRod implements ModelElement {
             if( obj instanceof Neutron ) {
                 Neutron neutron = (Neutron)obj;
                 // Is the neutron in the control rod now?
-                if( this.getBounds().contains( neutron.getPosition()) ) {
+                if( this.getBounds().contains( neutron.getPosition() ) ) {
                     model.removeModelElement( neutron );
                 }
-                // Did the neutron pass through the control rod from left to right?
-                else if( neutron.getPositionPrev().getX() < this.getBounds().getMaxX() &&
-                    neutron.getPosition().getX() > this.getBounds().getMinX()) {
-                    model.removeModelElement( neutron );
-                }
-                // Did the neutron pass through the control rod from right to left?
-                else if( neutron.getPositionPrev().getX() > this.getBounds().getMinX() &&
-                    neutron.getPosition().getX() < this.getBounds().getMaxX()) {
+                else if( passedThroughInLastTimeStep( neutron ) ) {
                     model.removeModelElement( neutron );
                 }
             }
         }
+    }
+
+    /**
+     * Tells if a body passed through the rod during the last time step
+     * @param body
+     * @return
+     */
+    private boolean passedThroughInLastTimeStep( NuclearParticle body ) {
+        return body.getPositionPrev().getX() < this.getBounds().getMaxX()
+               && body.getPosition().getX() > this.getBounds().getMinX()
+               && isWithinYBounds( body.getPosition() )
+               ||
+               body.getPositionPrev().getX() > this.getBounds().getMinX()
+               && body.getPosition().getX() < this.getBounds().getMaxX()
+               && isWithinYBounds( body.getPosition() );
+    }
+
+    /**
+     * Tells if a point is between the minimum and maximum y coordinates of the rod
+     *
+     * @param p
+     * @return
+     */
+    private boolean isWithinYBounds( Point2D p ) {
+        return p.getY() >= this.getBounds().getMinY() && p.getY() <= this.getBounds().getMaxY();
     }
 }

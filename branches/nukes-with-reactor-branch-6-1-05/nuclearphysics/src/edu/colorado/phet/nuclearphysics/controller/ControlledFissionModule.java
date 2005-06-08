@@ -13,17 +13,15 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.graphics.Graphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
-import edu.colorado.phet.nuclearphysics.Config;
-import edu.colorado.phet.coreadditions.TxGraphic;
 
-import java.awt.geom.*;
 import java.awt.*;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.AffineTransformOp;
 
 /**
  * ControlledFissionModule
@@ -171,7 +169,7 @@ public class ControlledFissionModule extends ChainReactionModule {
             sourceImg = cesiumImg;
         }
         else if( sourceImg == null ) {
-            throw new RuntimeException( "nucleus is of unexpected type");
+            throw new RuntimeException( "nucleus is of unexpected type" );
         }
 
         final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),

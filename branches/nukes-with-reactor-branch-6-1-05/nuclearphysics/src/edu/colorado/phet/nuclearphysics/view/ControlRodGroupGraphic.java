@@ -110,7 +110,7 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
                                     + rodGraphics[rodGraphics.length - 1].getShape().getBounds().getWidth();
             location.setLocation( controlRods[0].getBounds().getMinX(),
                                   controlRods[0].getBounds().getMaxY() );
-            connector.setRect( location.getX(), location.getY(), connectorWidth, 100 );
+            connector.setRect( location.getX(), location.getY(), connectorWidth, 150 );
         }
 
         public void paint( Graphics2D graphics2D ) {

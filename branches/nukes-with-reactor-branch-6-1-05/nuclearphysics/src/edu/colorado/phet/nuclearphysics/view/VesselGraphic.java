@@ -25,7 +25,7 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class VesselGraphic extends CompositePhetGraphic {
-    private static double wallThickness = 10 / ControlledFissionModule.SCALE;
+    private static double wallThickness = 25 / ControlledFissionModule.SCALE;
     private Color backgroundColor = new Color( 180, 180, 180 );
     private Vessel vessel;
 
@@ -36,8 +36,8 @@ public class VesselGraphic extends CompositePhetGraphic {
                                                           new Rectangle2D.Double( vessel.getX(),
                                                                                   vessel.getY(),
                                                                                   vessel.getWidth(), vessel.getHeight() ),
-                                                          new BasicStroke( 10 ), Color.black );
-//                                                          new BasicStroke( (float)wallThickness ), Color.black );
+//                                                          new BasicStroke( 10 ), Color.black );
+                                                          new BasicStroke( (float)wallThickness ), Color.black );
         addGraphic( boundary );
         Rectangle2D[] channels = vessel.getChannels();
         for( int i = 0; i < channels.length; i++ ) {

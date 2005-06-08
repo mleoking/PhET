@@ -105,15 +105,15 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // Compute how we'll fire the neutron
         if( containment != null ) {
             neutronLaunchPoint = containment.getNeutronLaunchPoint();
-            neutronLaunchGamma = 0;
+            neutronLaunchAngle = 0;
             neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
         }
         else {
             double bounds = 600 / getPhysicalPanel().getScale();
-            neutronLaunchGamma = random.nextDouble() * Math.PI * 2;
-            double x = bounds * Math.cos( neutronLaunchGamma );
-            double y = bounds * Math.sin( neutronLaunchGamma );
-            neutronLaunchGamma += Math.PI;
+            neutronLaunchAngle = random.nextDouble() * Math.PI * 2;
+            double x = bounds * Math.cos( neutronLaunchAngle );
+            double y = bounds * Math.sin( neutronLaunchAngle );
+            neutronLaunchAngle += Math.PI;
             neutronLaunchPoint = new Point2D.Double( x, y );
             neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
         }
