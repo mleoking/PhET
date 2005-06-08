@@ -73,6 +73,10 @@ public class DataSet {
     }
 
     public void addAllPoints( Point2D[] pts ) {
+        // dataPoints.add( Arrays.asList( pts ) ); /* this causes getPoints to throw ArrayStoreException on Mac at java.lang.System.arraycopy(Native Method) */
+        for( int i = 0; i < pts.length; i++ ) {
+            dataPoints.add( pts[i] );
+        }
         for( int i = 0; i < observers.size(); i++ ) {
             Observer observer = (Observer)observers.get( i );
             observer.pointsAdded( pts );
