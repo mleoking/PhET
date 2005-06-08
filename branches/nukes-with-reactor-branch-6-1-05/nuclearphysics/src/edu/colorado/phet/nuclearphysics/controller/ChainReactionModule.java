@@ -10,13 +10,12 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.graphics.Graphic;
 import edu.colorado.phet.nuclearphysics.model.*;
-import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
+import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -54,16 +53,29 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         // U235 nuclei
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                for( int j = 0; j < u235Nuclei.size(); j++ ) {
-                    Uranium235 u235 = (Uranium235)u235Nuclei.get( j );
-                    for( int i = 0; i < neutrons.size(); i++ ) {
-                        Neutron neutron = (Neutron)neutrons.get( i );
-                        if( neutron.getPosition().distanceSq( u235.getPosition() )
-                            <= u235.getRadius() * u235.getRadius() ) {
+                for( int i = 0; i < neutrons.size(); i++ ) {
+                    Neutron neutron = (Neutron)neutrons.get( i );
+                    Line2D neutronPath = new Line2D.Double( neutron.getPosition(), neutron.getPositionPrev() );
+                    for( int j = 0; j < u235Nuclei.size(); j++ ) {
+                        Uranium235 u235 = (Uranium235)u235Nuclei.get( j );
+                        double perpDist = neutronPath.ptSegDistSq( u235.getPosition() );
+                        if( perpDist <= u235.getRadius() * u235.getRadius() ) {
                             u235.fission( neutron );
                         }
                     }
                 }
+//                for( int j = 0; j < u235Nuclei.size(); j++ ) {
+//                    Uranium235 u235 = (Uranium235)u235Nuclei.get( j );
+//                    for( int i = 0; i < neutrons.size(); i++ ) {
+//                        Neutron neutron = (Neutron)neutrons.get( i );
+//
+//                        Line2D neutronPath = new Line2D.Double( neutron.getPosition(), neutron.getPositionPrev());
+//                        double perpDist = neutronPath.ptSegDistSq( u235.getPosition() );
+//                        if( perpDist <= u235.getRadius() * u235.getRadius() ) {
+//                            u235.fission( neutron );
+//                        }
+//                    }
+//                }
             }
         } );
 

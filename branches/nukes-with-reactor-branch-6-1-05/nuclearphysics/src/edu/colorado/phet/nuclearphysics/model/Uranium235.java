@@ -82,7 +82,10 @@ public class Uranium235 extends Nucleus {
             // Move the neutron way, way away so it doesn't show and doesn't
             // cause another fission event. It will be destroyed later.
             neutron.setPosition( 100E3, 100E3 );
+            neutron.setPosition( 100E3, 100E3 );
             neutron.setVelocity( 0, 0 );
+
+
 
             // Make note of the x coordinate of the nucleus, so we can keep the jiggling
             // centered
@@ -90,6 +93,11 @@ public class Uranium235 extends Nucleus {
         }
     }
 
+    /**
+     * Detects if alpha particles have escaped.
+     *
+     * @param dt
+     */
     public void stepInTime( double dt ) {
 
         // See if any of the alpha particles has escaped, and initiate alpha decay if it has
