@@ -4,6 +4,8 @@ import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.util.GraphicsState;
 
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
@@ -41,7 +43,9 @@ public abstract class AbstractGraphic {
     private GraphicNode parent;
     private boolean drawBorderDebug = false;
     private ArrayList keyListeners = new ArrayList();
+    private ArrayList focusListeners = new ArrayList();
     private boolean hasKeyFocus = false;
+    private static int focusEventID = 0;
 
     public abstract void paint( Graphics2D graphics2D );
 
@@ -53,7 +57,7 @@ public abstract class AbstractGraphic {
         savedStates.add( state );
 
 //        if( transform != null ) {
-        graphics2D.transform( getTransform() );
+        graphics2D.transform( getTransform() );//todo could account for no-op transform smartly.
 //        }
         if( paint != null ) {
             graphics2D.setPaint( paint );
@@ -183,8 +187,8 @@ public abstract class AbstractGraphic {
         mouseHandlers.add( mouseHandler );
     }
 
-    public boolean containsLocal( double x, double y ) {
-        return getLocalBounds().contains( x, y );
+    public boolean containsMousePointLocal( double x, double y ) {
+        return isVisible() && getLocalBounds().contains( x, y );
     }
 
     public void mouseDragged( SceneGraphMouseEvent event ) {
@@ -275,7 +279,7 @@ public abstract class AbstractGraphic {
 
     private void setMousePressed( boolean mousePressed ) {
         this.mousePressed = mousePressed;
-        System.out.println( "Set: pressed = " + mousePressed );
+//        System.out.println( "Set: pressed = " + mousePressed );
     }
 
     public void mouseReleased( SceneGraphMouseEvent event ) {
@@ -310,7 +314,7 @@ public abstract class AbstractGraphic {
     }
 
     protected boolean containsLocal( SceneGraphMouseEvent event ) {
-        return containsLocal( event.getX(), event.getY() );
+        return containsMousePointLocal( event.getX(), event.getY() );
     }
 
     public double getLocalWidth() {
@@ -550,16 +554,17 @@ public abstract class AbstractGraphic {
         keyListeners.add( keyListener );
     }
 
-
     public void requestKeyFocus() {
-        getRoot().disableKeyFocusTree();
-        this.hasKeyFocus = true;
+        if( !hasKeyFocus ) {
+            getRoot().disableKeyFocusTree();
+            this.hasKeyFocus = true;
+            notifyFocusGained();
+        }
     }
 
     private boolean hasKeyFocus() {
         return hasKeyFocus;
     }
-
 
     public void keyPressed( KeyEvent e ) {
         if( e.isConsumed() ) {
@@ -599,7 +604,30 @@ public abstract class AbstractGraphic {
 
     public void disableKeyFocusTree() {
         //To change body of created methods use File | Settings | File Templates.
-        hasKeyFocus = false;
+        if( hasKeyFocus ) {
+            hasKeyFocus = false;
+            notifyFocusLost();
+        }
+    }
+
+    private void notifyFocusLost() {
+        FocusEvent focusEvent = new FocusEvent( getSceneGraphPanel(), focusEventID++ );
+        for( int i = 0; i < focusListeners.size(); i++ ) {
+            FocusListener focusListener = (FocusListener)focusListeners.get( i );
+            focusListener.focusLost( focusEvent );
+        }
+    }
+
+    private void notifyFocusGained() {
+        FocusEvent focusEvent = new FocusEvent( getSceneGraphPanel(), focusEventID++ );
+        for( int i = 0; i < focusListeners.size(); i++ ) {
+            FocusListener focusListener = (FocusListener)focusListeners.get( i );
+            focusListener.focusGained( focusEvent );
+        }
+    }
+
+    public void addFocusListener( FocusListener focusListener ) {
+        focusListeners.add( focusListener );
     }
 
 }

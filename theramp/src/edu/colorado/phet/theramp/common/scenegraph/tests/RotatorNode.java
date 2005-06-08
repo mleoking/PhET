@@ -16,12 +16,12 @@ import java.awt.geom.Point2D;
  * Time: 12:08:21 AM
  * To change this template use File | Settings | File Templates.
  */
-public class RotatorGraphic extends GraphicNode {
+public class RotatorNode extends GraphicNode {
     AbstractGraphic child;
     private AbstractClock clock;
     private double dTheta;
 
-    public RotatorGraphic( final AbstractGraphic child, AbstractClock clock, final double dTheta ) {
+    public RotatorNode( final AbstractGraphic child, AbstractClock clock, final double dTheta ) {
         this.child = child;
         this.clock = clock;
         this.dTheta = dTheta;
