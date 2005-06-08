@@ -46,10 +46,11 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     // Layers
-    private static final double TRACK_LAYER = 1;
-    private static final double KNOB_LAYER = 2;
-    private static final double VALUE_LAYER = 3;
-    private static final double LABEL_LAYER = 4;
+    private static final double CLICK_ZONE_LAYER = 1;
+    private static final double TRACK_LAYER = 2;
+    private static final double KNOB_LAYER = 3;
+    private static final double VALUE_LAYER = 4;
+    private static final double LABEL_LAYER = 5;
 
     // Label parameters
     private static final Color LABEL_COLOR = Color.BLACK;
@@ -90,6 +91,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private Rectangle _trackRectangle;
     private Color _trackColor;
     private KnobGraphic _knobGraphic;
+    private PhetShapeGraphic _clickZoneGraphic;
+    private Rectangle _clickZoneRectangle;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -139,6 +142,14 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             _valueGraphic.setLocation( 0, 0 );
         }
 
+        // Click Zone
+        {
+           _clickZoneGraphic = new PhetShapeGraphic( component );
+           _clickZoneRectangle = new Rectangle();
+           _clickZoneGraphic.setShape( _clickZoneRectangle );
+           _clickZoneGraphic.setPaint( new Color( 0, 0, 0, 0 ) ); // transparent
+        }
+        
         // Slider Track
         {
             _trackRectangle = new Rectangle();
@@ -156,7 +167,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             _knobGraphic = new KnobGraphic( component );
             _knobGraphic.setLocation( 0, 0 );
         }
-
+        
         // Interactivity
         {
             _labelGraphic.setIgnoreMouse( true );
@@ -164,6 +175,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             ValueEventListener valueListener = new ValueEventListener();
             _valueTextField.addActionListener( valueListener );
             _valueTextField.addFocusListener( valueListener );
+            
+            _clickZoneGraphic.setCursorHand();
             
             _trackGraphic.setIgnoreMouse( true );
             
@@ -173,6 +186,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
 
         addGraphic( _labelGraphic, LABEL_LAYER );
         addGraphic( _valueGraphic, VALUE_LAYER );
+        addGraphic( _clickZoneGraphic, CLICK_ZONE_LAYER );
         addGraphic( _trackGraphic, TRACK_LAYER );
         addGraphic( _knobGraphic, KNOB_LAYER );
 
@@ -239,6 +253,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     public void setMaxSize( int width, int height ) {
         if ( width != _maxSize.width || height != _maxSize.height ) {
             _maxSize.setSize( width, height );
+            _knobGraphic.updateSize();
             update();
         }      
     }
@@ -260,7 +275,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     public void setTrackColor( Color trackColor ) {
         if ( ! trackColor.equals( _trackColor ) ) {
             _trackColor = trackColor;
-            update();
+            _trackGraphic.setPaint( _trackColor );
+            repaint();
         }
     }
     
@@ -333,19 +349,17 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         _valueGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + VALUE_Y_OFFSET ) );
         _valueGraphic.repaint(); // HACK: If this isn't here, then the first value displayed is out of sync.
         
-        // Track size and color
+        // Track size
         int trackWidth = _maxSize.width;
         int trackHeight = (int) Math.abs( ( _maxSize.height / 2 ) * ( amplitude / MAX_AMPLITUDE ) );
         int trackX = -( trackWidth / 2 );
         int trackY = ( amplitude > 0 ) ? -trackHeight : 0;
         _trackRectangle.setBounds( trackX, trackY, trackWidth, trackHeight );
-        _trackGraphic.setShape( _trackRectangle );
-        _trackGraphic.setPaint( _trackColor );
+        _trackGraphic.setShapeDirty();
         
         // Knob location
         int knobX = _knobGraphic.getX();
         int knobY = (int) -( ( _maxSize.height / 2 ) * ( amplitude / MAX_AMPLITUDE ) );
-        _knobGraphic.updateSize();
         _knobGraphic.centerRegistrationPoint();
         _knobGraphic.setLocation( knobX, knobY );
         
@@ -410,19 +424,19 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
          */
         public void mouseDragged( MouseEvent event ) {
             
-            int mouseY = 0;
+            double mouseY = 0;
             try {
                 AffineTransform transform = getNetTransform();
                 transform.inverseTransform( event.getPoint(), _somePoint /* output */ );
-                mouseY = (int) _somePoint.getY();
+                mouseY = _somePoint.getY();
             }
             catch ( NoninvertibleTransformException e ) {
                 e.printStackTrace();
             }
-            
+            mouseY = -mouseY; // +Y is up
             double amplitude = MAX_AMPLITUDE * ( mouseY / ( _maxSize.height / 2.0 ) );
             amplitude = MathUtil.clamp( -MAX_AMPLITUDE, amplitude, +MAX_AMPLITUDE );
-            _harmonicModel.setAmplitude( -amplitude );
+            _harmonicModel.setAmplitude( amplitude );
         }
         
         /**
