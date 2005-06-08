@@ -38,8 +38,10 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     protected ArrayList u238Nuclei = new ArrayList();
     protected ArrayList u239Nuclei = new ArrayList();
     protected ArrayList neutrons = new ArrayList();
-    protected double neutronLaunchGamma;
+    protected double neutronLaunchAngle;
     protected Point2D.Double neutronLaunchPoint;
+
+    // todo: push this down to the MultipleNucleusFissionModule
     protected Line2D.Double neutronPath;
 
     public ChainReactionModule( String name, AbstractClock clock ) {
@@ -47,7 +49,6 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
         // set the SCALE of the physical panel so we can fit more nuclei in it
         getPhysicalPanel().setScale( 0.5 );
-//        super.addControlPanelElement( new MultipleNucleusFissionControlPanel( this ) );
 
         // Add a model element that watches for collisions between neutrons and
         // U235 nuclei
@@ -159,7 +160,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
     }
 
     public void fireNeutron() {
-        Neutron neutron = new Neutron( neutronLaunchPoint, neutronLaunchGamma );
+        Neutron neutron = new Neutron( neutronLaunchPoint, neutronLaunchAngle );
         neutrons.add( neutron );
         addNeutron( neutron );
     }

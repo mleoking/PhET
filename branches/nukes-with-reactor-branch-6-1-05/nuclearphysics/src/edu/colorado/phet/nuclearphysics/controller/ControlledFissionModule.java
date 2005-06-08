@@ -171,7 +171,7 @@ public class ControlledFissionModule extends ChainReactionModule {
             sourceImg = cesiumImg;
         }
         else if( sourceImg == null ) {
-            System.out.println( "ControlledFissionModule.addNucleus" );
+            throw new RuntimeException( "nucleus is of unexpected type");
         }
 
         final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),
@@ -210,8 +210,8 @@ public class ControlledFissionModule extends ChainReactionModule {
             u235Nuclei.add( nucleus );
             addNucleus( nucleus );
 
-            // Add listeners to the nucleus for when it fissions
-            nucleus.addFissionListener( this );
+            // Add the vessel as a listener for when the nucleus fissions, so
+            // it can track the energy being released
             nucleus.addFissionListener( vessel );
         }
         getPhysicalPanel().repaint( getPhysicalPanel().getBounds() );
@@ -316,8 +316,8 @@ public class ControlledFissionModule extends ChainReactionModule {
      * Computes where the neutron will be fired from, and in what direction
      */
     protected void computeNeutronLaunchParams() {
+
         // Find a location that's not within a channel in the vessel
-        neutronLaunchGamma = random.nextDouble() * Math.PI + Math.PI;
         do {
             double x = vessel.getBounds().getMinX() + random.nextDouble() * vessel.getBounds().getWidth();
             double y = vessel.getBounds().getMinY() + random.nextDouble() * vessel.getBounds().getHeight();
@@ -327,7 +327,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         // Fire the neutron toward the center of the vessel
         Point2D vesselCenter = new Point2D.Double( vessel.getX() + vessel.getWidth() / 2,
                                                    vessel.getY() + vessel.getHeight() / 2 );
-        neutronLaunchGamma = Math.atan2( vesselCenter.getY() - neutronLaunchPoint.getY(),
+        neutronLaunchAngle = Math.atan2( vesselCenter.getY() - neutronLaunchPoint.getY(),
                                          vesselCenter.getX() - neutronLaunchPoint.getX() );
         neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
     }
@@ -372,6 +372,11 @@ public class ControlledFissionModule extends ChainReactionModule {
             location = null;
         }
         return location;
+    }
+
+    public void testFireNeutron() {
+        stop();
+
     }
 }
 
