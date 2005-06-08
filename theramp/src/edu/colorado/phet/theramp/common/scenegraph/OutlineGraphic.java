@@ -23,6 +23,11 @@ public class OutlineGraphic extends AbstractGraphic {
         setStroke( stroke );
     }
 
+    public OutlineGraphic( Shape shape, Stroke stroke, Color color ) {
+        this( shape, stroke );
+        setColor( color );
+    }
+
     public void paint( Graphics2D graphics2D ) {
         if( isVisible() ) {
             super.setup( graphics2D );
