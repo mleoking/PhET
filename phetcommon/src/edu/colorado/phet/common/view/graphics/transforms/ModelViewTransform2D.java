@@ -40,11 +40,11 @@ public class ModelViewTransform2D {
      * @param modelBounds
      * @param viewBounds
      */
-    public ModelViewTransform2D( Rectangle2D.Double modelBounds, Rectangle viewBounds ) {
+    public ModelViewTransform2D( Rectangle2D modelBounds, Rectangle viewBounds ) {
         this( modelBounds, viewBounds, true );
     }
 
-    public ModelViewTransform2D( Rectangle2D.Double modelBounds, Rectangle viewBounds, boolean invertY ) {
+    public ModelViewTransform2D( Rectangle2D modelBounds, Rectangle viewBounds, boolean invertY ) {
         setModelBounds( modelBounds );
         setViewBounds( viewBounds );
         this.invertY = invertY;
@@ -177,14 +177,14 @@ public class ModelViewTransform2D {
         return modelBounds;
     }
 
-    public void setModelBounds( Rectangle2D.Double modelBounds ) {
-        if( modelBounds.width <= 0 ) {
+    public void setModelBounds( Rectangle2D modelBounds ) {
+        if( modelBounds.getWidth() <= 0 ) {
             throw new RuntimeException( "Model Width <= 0" );
         }
-        else if( modelBounds.height <= 0 ) {
+        else if( modelBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "Model height<= 0" );
         }
-        this.modelBounds = modelBounds;
+        this.modelBounds = new Rectangle2D.Double( modelBounds.getX(), modelBounds.getY(), modelBounds.getWidth(), modelBounds.getHeight() );
         forwardTransformDirty = true;
         backTransformDirty = true;
         listeners.transformChanged( this );
