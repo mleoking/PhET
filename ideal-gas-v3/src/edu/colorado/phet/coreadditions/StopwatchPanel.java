@@ -115,6 +115,10 @@ public class StopwatchPanel extends JPanel implements ClockTickListener, ClockSt
         return isVisible();
     }
 
+    public void reset() {
+        resetClock();
+    }
+
     private class StartStopActionListener implements ActionListener {
         JButton startStopBtn;
         int startStopState = 0;
