@@ -3,25 +3,16 @@
 ===============================================================================
 
 IN PROGRESS:
-- convert to charts package
+
 
 HIGH PRIORITY:
-- redo Amplitude sliders
 - investigate Jex for rendering equations
-- autorescale checkbox for Components/Sum graphs
-- Sums graphic range is +-5 when autoscale is off
-- Amplitudes graph range of 4/PI, label -1,0,+1
-- zoom in max to show 1/2 cycle, out max to show 4 cycles, root of 2 zoom factors
-- X-axis tick marks at L/4 on Components & Sum graphs
-- X-axis labels as zoom permits on Components & Sum graphs
 - different background behind Components & Sum graphs to group them
 - highlight component when mouse moves over it in Amplitudes or Components view
-- add presets for various Fourier Series (sine, sawtooth, packet, etc.)
 - persistence
 
 MEDIUM PRIORITY:
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
-- cache trig calculations
 - OK to override finalize?
 
 LOW PRIORITY:
@@ -48,6 +39,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/7) - redo Amplitude slider: no arrows, small rectangle knob, click above/below/on to jump to a value
 (6/7) - work with Sam to reduce the overhead of adding a collection of points to charts
 (6/7) - work with Sam to fix repaint problems in charts
 (6/7) - add charts package to fourier CVS module dependencies
