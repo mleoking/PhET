@@ -34,7 +34,13 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * AmplitudeSlider
+ * AmplitudeSlider is a slider for controlling harmonic amplitude.
+ * The user can change the amplitude by (1) clicking anywhere above,
+ * below or on the colored section of the slider, (2) click and drag
+ * the knob, or (3) typing a value into the text field.
+ * <br>
+ * The clickable area (aka, the click zone) is indicated by a hand
+ * cursor.  The knob is indicated by an "up down" cursor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -67,7 +73,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
 
     // Knob parameters
     private static final Color KNOB_FILL_COLOR = Color.BLACK;
-    private static final Color KNOB_HIGHLIGHT_COLOR = Color.RED;
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
 
@@ -76,6 +81,9 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private static final Color DEFAULT_TRACK_COLOR = Color.WHITE;
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
     private static final Color TRACK_BORDER_COLOR = Color.BLACK;
+    
+    // Cursors
+    private static final Cursor UP_DOWN_CURSOR = new Cursor( Cursor.N_RESIZE_CURSOR );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -90,7 +98,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private PhetShapeGraphic _trackGraphic;
     private Rectangle _trackRectangle;
     private Color _trackColor;
-    private KnobGraphic _knobGraphic;
+    private PhetShapeGraphic _knobGraphic;
+    private Rectangle _knobRectangle;
     private PhetShapeGraphic _clickZoneGraphic;
     private Rectangle _clickZoneRectangle;
     
@@ -145,9 +154,11 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         // Click Zone
         {
            _clickZoneGraphic = new PhetShapeGraphic( component );
-           _clickZoneRectangle = new Rectangle();
+           _clickZoneRectangle = new Rectangle( 1, 1, _maxSize.width, _maxSize.height );
            _clickZoneGraphic.setShape( _clickZoneRectangle );
            _clickZoneGraphic.setPaint( new Color( 0, 0, 0, 0 ) ); // transparent
+           _clickZoneGraphic.centerRegistrationPoint();
+           _clickZoneGraphic.setLocation( 0, 0 );
         }
         
         // Slider Track
@@ -155,33 +166,39 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             _trackRectangle = new Rectangle();
             _trackColor = DEFAULT_TRACK_COLOR;
             _trackGraphic = new PhetShapeGraphic( component );
-            _trackGraphic.setLocation( 0, 0 );
             _trackGraphic.setShape( _trackRectangle );
             _trackGraphic.setPaint( _trackColor );
             _trackGraphic.setBorderColor( TRACK_BORDER_COLOR );
             _trackGraphic.setStroke( TRACK_STROKE );
+            _trackGraphic.setLocation( 0, 0 );
         }
 
         // Slider Knob
         {
-            _knobGraphic = new KnobGraphic( component );
+            _knobRectangle = new Rectangle( 0, 0, _maxSize.width, 2 );
+            _knobGraphic = new PhetShapeGraphic( component );
+            _knobGraphic.setShape( _knobRectangle );
+            _knobGraphic.setPaint( KNOB_FILL_COLOR );
+            _knobGraphic.setStroke( KNOB_STROKE );
+            _knobGraphic.setBorderColor( KNOB_STROKE_COLOR );
+            _knobGraphic.centerRegistrationPoint();
             _knobGraphic.setLocation( 0, 0 );
         }
         
         // Interactivity
         {
             _labelGraphic.setIgnoreMouse( true );
+            _trackGraphic.setIgnoreMouse( true );
             
             ValueEventListener valueListener = new ValueEventListener();
             _valueTextField.addActionListener( valueListener );
             _valueTextField.addFocusListener( valueListener );
             
+            SliderEventListener sliderListener = new SliderEventListener();
             _clickZoneGraphic.setCursorHand();
-            
-            _trackGraphic.setIgnoreMouse( true );
-            
-            _knobGraphic.setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ) );
-            _knobGraphic.addMouseInputListener( new KnobEventListener() );
+            _clickZoneGraphic.addMouseInputListener( sliderListener );
+            _knobGraphic.setCursor( UP_DOWN_CURSOR );
+            _knobGraphic.addMouseInputListener( sliderListener );
         }
 
         addGraphic( _labelGraphic, LABEL_LAYER );
@@ -253,7 +270,15 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     public void setMaxSize( int width, int height ) {
         if ( width != _maxSize.width || height != _maxSize.height ) {
             _maxSize.setSize( width, height );
-            _knobGraphic.updateSize();
+            
+            _clickZoneRectangle.setRect( 0, 0, _maxSize.width, _maxSize.height );
+            _clickZoneGraphic.setShapeDirty();
+            _clickZoneGraphic.centerRegistrationPoint();
+            
+            _knobRectangle.setRect( 1, 1, _maxSize.width, 2 ); //XXX why is 1,1 necessary?
+            _knobGraphic.setShapeDirty();
+            _knobGraphic.centerRegistrationPoint();
+            
             update();
         }      
     }
@@ -371,90 +396,39 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /**
-     * KnobGraphic is the graphic for the slider's knob.
+     * SliderEventListener handles events related to the slider.
      */
-    private class KnobGraphic extends PhetShapeGraphic {
-        
-        private Rectangle _rectangle;
-        
-        public KnobGraphic( Component component ) {
-            super( component );
-            _rectangle = new Rectangle( 1, 1, 1, 1 );
-            setShape( _rectangle );
-            setPaint( KNOB_FILL_COLOR );
-            setStroke( KNOB_STROKE );
-            setBorderColor( KNOB_STROKE_COLOR );
-            updateSize();
-        }
-        
-        public void setHighlightEnabled( boolean enabled ) {
-            if ( enabled ) {
-                setPaint( KNOB_HIGHLIGHT_COLOR );
-            }
-            else {
-                setPaint( KNOB_FILL_COLOR );
-            }
-        }
-        
-        public void updateSize() {
-            _rectangle.setSize( _trackRectangle.width, 2 );
-            setShapeDirty();
-        }
-    }
-    
-    /**
-     * KnobEventListener handles events related to the slider knob.
-     */
-    private class KnobEventListener extends MouseInputAdapter {
+    private class SliderEventListener extends MouseInputAdapter {
         
         private Point _somePoint;
         
-        /**
-         * Sole constructor.
-         */
-        public KnobEventListener() {
+        public SliderEventListener() {
             super();
             _somePoint = new Point();
         }
         
-        /**
-         * Handles mouse drags.
-         * 
-         * @param event
-         */
         public void mouseDragged( MouseEvent event ) {
-            
-            double mouseY = 0;
+            setAmplitude( event.getPoint() );
+        }
+        
+        public void mousePressed( MouseEvent event ) {
+            setAmplitude( event.getPoint() );
+        }
+        
+        private void setAmplitude( Point mousePoint ) {
+            double localY = 0;
             try {
                 AffineTransform transform = getNetTransform();
-                transform.inverseTransform( event.getPoint(), _somePoint /* output */ );
-                mouseY = _somePoint.getY();
+                transform.inverseTransform( mousePoint, _somePoint /* output */ );
+                localY = _somePoint.getY();
             }
             catch ( NoninvertibleTransformException e ) {
                 e.printStackTrace();
             }
-            mouseY = -mouseY; // +Y is up
-            double amplitude = MAX_AMPLITUDE * ( mouseY / ( _maxSize.height / 2.0 ) );
+            localY = -localY; // +Y is up
+            double amplitude = MAX_AMPLITUDE * ( localY / ( _maxSize.height / 2.0 ) );
             amplitude = MathUtil.clamp( -MAX_AMPLITUDE, amplitude, +MAX_AMPLITUDE );
             _harmonicModel.setAmplitude( amplitude );
-        }
-        
-        /**
-         * Highlights the knob when the mouse cursor enters it.
-         * 
-         * @param event
-         */
-        public void mouseEntered( MouseEvent event ) {
-            _knobGraphic.setHighlightEnabled( true );
-        }
-        
-        /**
-         * Unhighlights the knob when the mouse cursor exits it.
-         * 
-         * @param event
-         */
-        public void mouseExited( MouseEvent event ) {
-            _knobGraphic.setHighlightEnabled( false );
         }
     }
     
