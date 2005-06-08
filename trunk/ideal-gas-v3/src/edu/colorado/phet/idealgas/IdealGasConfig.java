@@ -37,7 +37,8 @@ public class IdealGasConfig {
     public static final double TEMPERATURE_SCALE_FACTOR = 20;
     public static final double MAX_GAUGE_PRESSURE = 6.0;
     public static final int MAX_GRAVITY = 40;
-    public static final double TIME_SCALE_FACTOR = 4.5;
+    // Calibration factor for stopwatch. Determined from data given me by Linda Koch and Jack Barbera
+    public static final double TIME_SCALE_FACTOR = 1.71;
     public static final double PIXELS_PER_NANOMETER = 45.4;
 
     // Title, description and version number

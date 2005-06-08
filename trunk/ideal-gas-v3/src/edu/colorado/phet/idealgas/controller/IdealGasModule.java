@@ -49,7 +49,10 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.Random;
 
 /**
  *
@@ -678,6 +681,10 @@ public class IdealGasModule extends Module {
         getIdealGasModel().removeAllMolecules();
         resetListenersProxy.resetOccurred( new ResetEvent( this ) );
         box.setBounds( xOrigin, yOrigin, xDiag, yDiag );
+
+        if( stopwatchPanel != null ) {
+            stopwatchPanel.reset();
+        }
     }
 
     public void addResetListener( ResetListener listener ) {
