@@ -14,6 +14,7 @@ package edu.colorado.phet.fourier.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 
 import javax.swing.JCheckBox;
 
@@ -106,8 +107,8 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     private JCheckBox _autoScaleCheckBox;
     private int _xZoomLevel;
     private LabelTable _spaceLabels1, _spaceLabels2;
-    private double[] _sums;
     private boolean _autoScaleEnabled;
+    private Point2D[] _points;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -269,9 +270,13 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         
         // Misc initialization
         {
-            _sums = new double[NUMBER_OF_DATA_POINTS];
             _xZoomLevel = 0;
             _autoScaleEnabled = false;
+            
+            _points = new Point2D[ NUMBER_OF_DATA_POINTS + 1 ];
+            for ( int i = 0; i < _points.length; i++ ) {
+                _points[ i ] = new Point2D.Double();
+            }
         }
         
         updateZoomButtons();
@@ -333,66 +338,72 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
      */
     public void update() {
 
-//        _sumDataSet.clear();
-//        _presetDataSet.clear();
-//
-//        final int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
-//        double maxSum = 5.0;
-//        final double deltaX = ( MAX_FUNDAMENTAL_CYCLES * L ) / NUMBER_OF_DATA_POINTS;
-//        final double startX = -2 * L;
-//        final double startAngle = 0.0;
-//        
-//        for ( int j = 0; j < numberOfHarmonics; j++ ) {
-//
-//            Harmonic harmonic = (Harmonic) _fourierSeriesModel.getHarmonic( j );
-//            final double amplitude = harmonic.getAmplitude();
-//            final int numberOfCycles = MAX_FUNDAMENTAL_CYCLES * ( harmonic.getOrder() + 1 );
-//            final double pointsPerCycle = NUMBER_OF_DATA_POINTS / (double) numberOfCycles;
-//            final double deltaAngle = ( 2.0 * Math.PI ) / pointsPerCycle;
-//
-//            for ( int i = 0; i < _sums.length; i++ ) {
-//
-//                if ( j == 0 ) {
-//                    _sums[i] = 0;
-//                }
-//
-//                if ( amplitude != 0 ) {
-//                    final double angle = startAngle + ( i * deltaAngle );
-//                    double radians;
-//                    if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
-//                        radians = FourierUtils.sin( angle );
-//                    }
-//                    else {
-//                        radians = FourierUtils.cos( angle );
-//                    }
-//
-//                    _sums[i] += ( amplitude * radians );
-//                }
-//
-//                if ( j == numberOfHarmonics - 1 ) {
-//
-//                    final double x = startX + ( i * deltaX );
-//                    final double y = _sums[i];
-//                    _sumDataSet.addPoint( x, y );
-//
-//                    if ( Math.abs( _sums[i] ) > maxSum ) {
-//                        maxSum = Math.abs( _sums[i] );
-//                    }
-//                }
-//            }
-//        }
-//
-//        // If auto scaling is enabled, adjust the chart range to show the max.
-//        if ( _autoScaleEnabled ) {
-//            Range2D range = _chartGraphic.getRange();
-//            if ( maxSum != range.getMaxY() ) {
-//                range.setMinY( -maxSum );
-//                range.setMaxY( +maxSum );
-//                _chartGraphic.setRange( range );
-//            }
-//        }
-//
-//        repaint();
+        _sumDataSet.clear();
+        _presetDataSet.clear();
+
+        final int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
+        double maxSum = 5.0;
+        final double deltaX = ( MAX_FUNDAMENTAL_CYCLES * L ) / NUMBER_OF_DATA_POINTS;
+        final double startX = -2 * L;
+        final double startAngle = 0.0;
+        
+        for ( int harmonicIndex = 0; harmonicIndex < numberOfHarmonics; harmonicIndex++ ) {
+
+            Harmonic harmonic = (Harmonic) _fourierSeriesModel.getHarmonic( harmonicIndex );
+            final double amplitude = harmonic.getAmplitude();
+            final int numberOfCycles = MAX_FUNDAMENTAL_CYCLES * ( harmonic.getOrder() + 1 );
+            final double pointsPerCycle = NUMBER_OF_DATA_POINTS / (double) numberOfCycles;
+            final double deltaAngle = ( 2.0 * Math.PI ) / pointsPerCycle;
+
+            for ( int pointIndex = 0; pointIndex < _points.length; pointIndex++ ) {
+
+                // Clear the points the first time through.
+                if ( harmonicIndex == 0 ) {
+                    final double x = startX + ( pointIndex * deltaX );
+                    final double y = 0;
+                    _points[pointIndex].setLocation( x, y );
+                }
+
+                // Add the Y contribution for harmonics with non-zero amplitude.
+                if ( amplitude != 0 ) {
+                    final double angle = startAngle + ( pointIndex * deltaAngle );
+                    double radians;
+                    if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                        radians = FourierUtils.sin( angle );
+                    }
+                    else {
+                        radians = FourierUtils.cos( angle );
+                    }
+
+                    final double x = startX + ( pointIndex * deltaX );
+                    final double y = _points[pointIndex].getY() + ( amplitude * radians );
+                    _points[pointIndex].setLocation( x, y );
+                }
+
+                // Determine the max Y value the last time through.
+                if ( harmonicIndex == numberOfHarmonics - 1 ) {
+                    final double absoluteY = Math.abs( _points[pointIndex].getY() );
+                    if ( absoluteY > maxSum ) {
+                        maxSum = absoluteY;
+                    }
+                }
+            }
+        }
+        
+        // Add the points the the data set.
+        _sumDataSet.addAllPoints( _points );
+
+        // If auto scaling is enabled, adjust the vertical scale to fit the curve.
+        if ( _autoScaleEnabled ) {
+            Range2D range = _chartGraphic.getRange();
+            if ( maxSum != range.getMaxY() ) {
+                range.setMinY( -maxSum );
+                range.setMaxY( +maxSum );
+                _chartGraphic.setRange( range );
+            }
+        }
+
+        repaint();
     }     
     
     //----------------------------------------------------------------------------
