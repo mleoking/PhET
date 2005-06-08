@@ -32,15 +32,18 @@ import java.util.Comparator;
  */
 
 public class BoidTest extends SceneGraphPanel {
-    ArrayList boids = new ArrayList();
+    private ArrayList boids = new ArrayList();
 
-    static class Boid extends SimpleObservable {
-        Particle state;
-        BoidBrain boidBrain;
+    public Boid boidAt( int i ) {
+        return (Boid)boids.get( i );
+    }
+
+    public static class Boid extends SimpleObservable {
+        private Particle state;
+        private BoidBrain boidBrain;
         private double maxMagnitude = 0.2;
         private BoidTest boidTest;
-//        private double mass = 1.0;
-        private double mass = 0.2;
+        private double mass = 0.3;
 
         public Boid( BoidTest boidTest ) {
             this( boidTest, new BoidTest.DefaultBoidBrain() );
@@ -103,14 +106,18 @@ public class BoidTest extends SceneGraphPanel {
         addGraphic( boidGraphic );
     }
 
-    private void tick( ClockTickEvent event ) {
+    public void tick( ClockTickEvent event ) {
+        updateBoids( event );
+
+        viewAll();
+//        viewBoid( 0 );
+    }
+
+    public void updateBoids( ClockTickEvent event ) {
         for( int i = 0; i < boids.size(); i++ ) {
             Boid boid = (Boid)boids.get( i );
             boid.step( event );
         }
-
-        viewAll();
-//        viewBoid( 0 );
     }
 
     private void viewBoid( int i ) {
