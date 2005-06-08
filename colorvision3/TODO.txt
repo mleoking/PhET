@@ -1,15 +1,19 @@
 "To Do" list for "colorvision3" simulation
 
 HIGH:
-o add Help, based on Aaron's screenshots
-o add MegaHelp, as provided by Aaron
+- redesign of "RGB Bulbs" module, lights shine on a piece of paper, person looks at the paper
+- add a readout (0-100%) to intensity sliders in "RGB Bulbs" module
+- add "Beam" view to "RGB Bulbs" module
+- move "Bulb Color" control closer to and above "Filter Color" control in "Single Bulb" module
+- add Help, based on Aaron's screenshots
+- add MegaHelp, as provided by Aaron
 
 MEDIUM:
-o phetcommon-based controls don't work while simulation is paused
-o background color on Windows
+- port to latest phetcommon
+- phetcommon-based controls don't work while simulation is paused
+- background color on Windows
 
 LOW:
-o font antialiasing on Windows (and Linux?)
-(DONE) o remove filter switch label from localization files
+
 
 
