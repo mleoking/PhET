@@ -431,7 +431,7 @@ public class PhetJComponent extends PhetGraphic {
             super.addDirtyRegion( c, x, y, w, h );
             if( table.containsKey( c ) ) {
                 PhetJComponent phetJComponent = (PhetJComponent)table.get( c );
-                if( c.getComponentCount() == 0 ) {
+                if( c.getComponentCount() == 0 && new Exception().getStackTrace().length < 75 ) {
                     phetJComponent.repaint(); // queue up repaint request
                 }
             }
