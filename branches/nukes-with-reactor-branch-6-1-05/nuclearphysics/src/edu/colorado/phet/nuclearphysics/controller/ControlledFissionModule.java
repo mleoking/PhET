@@ -95,7 +95,12 @@ public class ControlledFissionModule extends ChainReactionModule {
         vesselWidth = refWidth / SCALE;
         vesselHeight = refHeight / SCALE;
 
-        // Add the vessel
+        // Add the vessel. In case we are called in a reset, ditch the old vessel before
+        // we build a new one
+        if( vessel != null ) {
+            getModel().removeModelElement( vessel );
+            vessel.removeAllChangeListeners();
+        }
         vessel = new Vessel( -vesselWidth / 2,
                              -vesselHeight * .7,
                              vesselWidth,
@@ -111,7 +116,11 @@ public class ControlledFissionModule extends ChainReactionModule {
         VesselBackgroundPanel vesselBackgroundPanel = new VesselBackgroundPanel( getPhysicalPanel(), vessel );
         getPhysicalPanel().addOriginCenteredGraphic( vesselBackgroundPanel, ApparatusPanel.LAYER_DEFAULT - 1 );
 
-        // Add control rods
+        // Add control rods. In case we are in a reset, get rid of the old ones first
+        for( int i = 0; controlRods != null && i < controlRods.length; i++ ) {
+            ControlRod controlRod = controlRods[i];
+            getModel().removeModelElement( controlRod );
+        }
         controlRods = createControlRods( VERTICAL, vessel );
         controlRodGroupGraphic = new ControlRodGroupGraphic( getPhysicalPanel(),
                                                              controlRods,
@@ -135,6 +144,9 @@ public class ControlledFissionModule extends ChainReactionModule {
 
         // Create the nuclei
         createNuclei();
+
+        // Reset the energy graph dialog
+        resetEnergyGraphDialog();
     }
 
     /**
@@ -222,11 +234,27 @@ public class ControlledFissionModule extends ChainReactionModule {
             // Add the vessel as a listener for when the nucleus fissions, so
             // it can track the energy being released
             nucleus.addFissionListener( vessel );
-            if( energyGraphDialog != null ) {
-                nucleus.addFissionListener( energyGraphDialog );
-            }
         }
         getPhysicalPanel().repaint( getPhysicalPanel().getBounds() );
+    }
+
+    private void resetEnergyGraphDialog() {
+        if( energyGraphDialog != null ) {
+            // Tell the energy dialog how many nuclei there are, so it can set up the
+            // total energy gauge
+            energyGraphDialog.reset( u235Nuclei.size() );
+            vessel.addChangeListener( energyGraphDialog.getVesselChangeListener() );
+
+            // Add the energyGraphDialog as a listener to all the U235 nuclei that are already in existence
+            List modelElements = ( (NuclearPhysicsModel)getModel() ).getNuclearModelElements();
+            for( int i = 0; i < modelElements.size(); i++ ) {
+                Object o = modelElements.get( i );
+                if( o instanceof Nucleus ) {
+                    Nucleus nucleus = (Nucleus)o;
+                    nucleus.addFissionListener( energyGraphDialog.getFissionListener() );
+                }
+            }
+        }
     }
 
     /**
@@ -240,20 +268,10 @@ public class ControlledFissionModule extends ChainReactionModule {
         // Add the dialog that will show the energy tracking gauges
         if( energyGraphDialog == null ) {
             energyGraphDialog = new EnergyGraphDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
-                                                       vessel,
-                                                       getClock() );
+                                                       u235Nuclei.size() );
             energyGraphDialog.setVisible( true );
-
-            // Add the energyGraphDialog as a listener to all the U235 nuclei that are already in existence
-            List modelElements = ( (NuclearPhysicsModel)getModel() ).getNuclearModelElements();
-            for( int i = 0; i < modelElements.size(); i++ ) {
-                Object o = modelElements.get( i );
-                if( o instanceof Nucleus ) {
-                    Nucleus nucleus = (Nucleus)o;
-                    nucleus.addFissionListener( energyGraphDialog );
-                }
-            }
         }
+        resetEnergyGraphDialog();
     }
 
 
@@ -309,8 +327,6 @@ public class ControlledFissionModule extends ChainReactionModule {
             computeNeutronLaunchParams();
             super.fireNeutron();
         }
-
-        energyGraphDialog.startAcquisition();
     }
 
     /**
@@ -341,9 +357,6 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     public void start() {
         init( getClock() );
-
-        energyGraphDialog.reset();
-
         return;
     }
 
@@ -377,6 +390,9 @@ public class ControlledFissionModule extends ChainReactionModule {
         neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
     }
 
+    /**
+     * @return
+     */
     protected Point2D.Double findLocationForNewNucleus() {
         // Determine the model bounds represented by the current size of the apparatus panel
         Rectangle2D r = getPhysicalPanel().getBounds();

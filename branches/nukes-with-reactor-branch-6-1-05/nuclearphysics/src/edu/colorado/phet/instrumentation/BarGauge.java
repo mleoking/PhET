@@ -23,6 +23,7 @@ public class BarGauge extends AbstractGauge {
     private double maxScreenLevel;
     private Color outlineColor = Color.black;
     private double screenLevel;
+    private double minLevel;
 
 
     /**
@@ -36,6 +37,7 @@ public class BarGauge extends AbstractGauge {
                      double minLevel, double maxLevel ) {
         this.location = location;
         this.maxScreenLevel = maxScreenLevel;
+        this.minLevel = minLevel;
         this.color = color;
         double barWidth = 0;
         double barHeight = 0;
@@ -56,6 +58,14 @@ public class BarGauge extends AbstractGauge {
         }
         bar = new Rectangle2D.Double( location.getX(), location.getY(), barWidth, barHeight );
         frame = new Rectangle2D.Double( location.getX(), location.getY(), frameWidth, frameHeight );
+    }
+
+    /**
+     * @param max
+     */
+    public void setMax( double max ) {
+        super.setMax( max );
+        scale = maxScreenLevel / ( max - minLevel );
     }
 
     /**

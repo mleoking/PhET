@@ -263,4 +263,8 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
     public void removeChangeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
     }
+
+    public void removeAllChangeListeners() {
+        changeEventChannel.removeAllListeners();
+    }
 }

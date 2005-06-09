@@ -213,6 +213,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
 
     protected abstract void computeNeutronLaunchParams();
 
+    // todo: push down to Multiple... subclass
     protected abstract Point2D.Double findLocationForNewNucleus();
 
     // TODO: clean up when refactoring is done. Push down to the Multiple... subclass
