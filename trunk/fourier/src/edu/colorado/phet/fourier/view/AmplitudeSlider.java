@@ -84,9 +84,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
     private static final Color TRACK_BORDER_COLOR = Color.BLACK;
     
-    // Cursors
-    private static final Cursor UP_DOWN_CURSOR = new Cursor( Cursor.N_RESIZE_CURSOR );
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -200,7 +197,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             SliderEventListener sliderListener = new SliderEventListener();
             _clickZoneGraphic.setCursorHand();
             _clickZoneGraphic.addMouseInputListener( sliderListener );
-            _knobGraphic.setCursor( UP_DOWN_CURSOR );
+            _knobGraphic.setCursorHand();
             _knobGraphic.addMouseInputListener( sliderListener );
         }
 
