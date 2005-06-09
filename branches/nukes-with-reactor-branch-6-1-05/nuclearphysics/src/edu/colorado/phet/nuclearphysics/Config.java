@@ -26,4 +26,5 @@ public class Config {
     // Images
     private static final String IMAGE_DIR = "images/";
     public static final String HANDLE_IMAGE_NAME = IMAGE_DIR + "wall-handle-horizontal.gif";
+    public static final String CONTROL_ROD_IMAGE = IMAGE_DIR + "control-rod-1.png";
 }

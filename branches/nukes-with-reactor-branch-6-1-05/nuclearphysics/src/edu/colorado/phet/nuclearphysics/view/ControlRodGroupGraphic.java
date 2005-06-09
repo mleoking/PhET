@@ -109,7 +109,8 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
 
             // A graphic for the bar connecting the rods
             PhetShapeGraphic connectorGraphic = new PhetShapeGraphic( component, connector,
-                                                                      (Color)rodGraphics[0].getFill(),
+                                                                      Color.ORANGE,
+//                                                                      (Color)rodGraphics[0].getFill(),
                                                                       new BasicStroke( 5 ), Color.black );
             this.addGraphic( connectorGraphic );
 
