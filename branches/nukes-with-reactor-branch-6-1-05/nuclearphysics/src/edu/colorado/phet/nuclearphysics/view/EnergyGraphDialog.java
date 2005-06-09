@@ -17,6 +17,7 @@ import edu.colorado.phet.nuclearphysics.model.Vessel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 /**
@@ -79,7 +80,7 @@ public class EnergyGraphDialog extends JDialog {
             setBackground( BACKGROUND_COLOR );
             setPreferredSize( new Dimension( 100, 200 ) );
             rateGauge = new BarGauge( new Point2D.Double( ( getPreferredSize().getWidth() - barWidth ) / 2, 0 ),
-                                      200, Color.green,
+                                      200, Color.yellow,
                                       barWidth, true, 0, 1 );
         }
 
@@ -87,6 +88,12 @@ public class EnergyGraphDialog extends JDialog {
             super.paintComponent( g );
             Graphics2D g2 = (Graphics2D)g;
             rateGauge.paint( g2 );
+            // Draw string rotated counter-clockwise 90 degrees
+            AffineTransform at = new AffineTransform();
+            at.setToTranslation( 35, (int)getPreferredSize().getHeight() - 10 );
+            at.rotate( -Math.PI / 2.0 );
+            g2.transform( at );
+            g2.drawString( "Energy production rate (J/sec)", 0, 0 );
         }
 
         public void temperatureChanged( Vessel.ChangeEvent event ) {
@@ -108,6 +115,12 @@ public class EnergyGraphDialog extends JDialog {
             super.paintComponent( g );
             Graphics2D g2 = (Graphics2D)g;
             totalEnergyGauge.paint( g2 );
+            // Draw string rotated counter-clockwise 90 degrees
+            AffineTransform at = new AffineTransform();
+            at.setToTranslation( 35, (int)getPreferredSize().getHeight() - 10 );
+            at.rotate( -Math.PI / 2.0 );
+            g2.transform( at );
+            g2.drawString( "Total energy produced (J)", 0, 0 );
         }
 
         public void fission( FissionProducts products ) {
