@@ -64,10 +64,9 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final Color X_MAJOR_TICK_COLOR = Color.BLACK;
     private static final Color X_MAJOR_GRIDLINE_COLOR = Color.BLACK;
     private static final Stroke X_MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
-    private static final double X_ZOOM_FACTOR = Math.sqrt( 2 );
-    private static final int X_MIN_ZOOM_LEVEL = -4;
-    private static final int X_MAX_ZOOM_LEVEL = 1;
-    
+    private static final int X_MAX_ZOOM_LEVEL = 2; // number of times you can press the zoom in (+) button
+    private static final int X_MIN_ZOOM_LEVEL = -4; // number of times you can press the zoom out (-) button
+
     // Y axis
     private static final double Y_MIN = -5.0;
     private static final double Y_MAX = +5.0;
@@ -443,23 +442,30 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
      */
     private void handleHorizontalZoom( int actionID ) {
 
+        // Adjust the zoom level.
+        if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
+            _xZoomLevel++;
+        }
+        else {
+            _xZoomLevel--;
+        }
+        
         // Adjust the chart's horizontal range.
         Range2D range = _chartGraphic.getRange();
         double maxX;
-        if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
-            /* Zoom In */
-            maxX = range.getMaxX() / X_ZOOM_FACTOR;
-            _xZoomLevel++;
+        if ( _xZoomLevel == 0 ) {
+            maxX = ( L / 2 );
         }
-        else { 
-            /* Zoom Out */
-            maxX = range.getMaxX() * X_ZOOM_FACTOR;
-            _xZoomLevel--;
+        else if ( _xZoomLevel > 0 ) {
+            maxX = ( L / 2 ) / Math.pow( 2, _xZoomLevel / 2.0 ); // sqrt(2) zoom factor, not subject to precision errors
+        }
+        else {
+            maxX = ( L / 2 ) * Math.pow( 2, Math.abs( _xZoomLevel ) / 2.0 );
         }
         range.setMaxX( maxX );
         range.setMinX( -maxX );
         _chartGraphic.setRange( range );
-        
+
         // Adjust the labels to match the zoom level.
         if ( _xZoomLevel > -3 ) {
             _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
@@ -467,7 +473,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         else {
             _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels2 );
         }
-        
+
         updateZoomButtons();
     }
     
