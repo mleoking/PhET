@@ -6,10 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- Sum manual zoom in vertically to +-1 
-- Sum autoscale fills the graph in all (?) situations, adjust labels
 - link horizontal zoom buttons
-- different background behind Components & Sum graphs to group them
 - investigate Jex for rendering equations
 - highlight component when mouse moves over it in Amplitudes or Components view
 - persistence
@@ -42,6 +39,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/9) - different background behind graphs to group them
 (6/9) - Sum graph: support vertical zoom from 4/PI to 12.
 (6/9) - Harmonics & Sum graphs: support horizontal zoom +2x to -4x
 (6/9) - fix horizontal zoom, precision errors with Math.sqrt(2)

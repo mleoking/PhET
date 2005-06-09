@@ -11,9 +11,15 @@
 
 package edu.colorado.phet.fourier.view;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
@@ -22,11 +28,6 @@ import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.model.HarmonicDataSet;
 import edu.colorado.phet.fourier.util.FourierUtils;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 
 /**
@@ -42,10 +43,15 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     //----------------------------------------------------------------------------
 
     // Layers
-    private static final double TITLE_LAYER = 1;
-    private static final double CHART_LAYER = 2;
-    private static final double CONTROLS_LAYER = 3;
+    private static final double BACKGROUND_LAYER = 1;
+    private static final double TITLE_LAYER = 2;
+    private static final double CHART_LAYER = 3;
+    private static final double CONTROLS_LAYER = 4;
 
+    // Background parameters
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 210 );
+    private static final Color BACKGROUND_COLOR = new Color( 255, 231, 222 ); // pastel red
+    
     // Title parameters
     private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
@@ -120,10 +126,17 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
+        // Background
+        PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
+        backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
+        backgroundGraphic.setPaint( BACKGROUND_COLOR );
+        addGraphic( backgroundGraphic, BACKGROUND_LAYER );
+        backgroundGraphic.setLocation( -100, -125 );
+        
         // Model
         _fourierSeriesModel = fourierSeriesModel;
         _fourierSeriesModel.addObserver( this );
-
+        
         // Title
         String title = SimStrings.get( "HarmonicsGraphic.title" );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
