@@ -61,9 +61,8 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     private static final Color X_MAJOR_TICK_COLOR = Color.BLACK;
     private static final Color X_MAJOR_GRIDLINE_COLOR = Color.BLACK;
     private static final Stroke X_MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
-    private static final double X_ZOOM_FACTOR = Math.sqrt( 2 );
-    private static final int X_MIN_ZOOM_LEVEL = -4;
-    private static final int X_MAX_ZOOM_LEVEL = 1;
+    private static final int X_MAX_ZOOM_LEVEL = 2; // number of times you can press the zoom in (+) button
+    private static final int X_MIN_ZOOM_LEVEL = -4; // number of times you can press the zoom out (-) button
 
     // Y axis
     private static final double Y_MIN = -FourierConfig.MAX_HARMONIC_AMPLITUDE;
@@ -351,16 +350,25 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
      */
     private void handleHorizontalZoom( int actionID ) {
 
-        // Adjust the chart's horizontal range.
-        Range2D range = _chartGraphic.getRange();
-        double maxX;
+        // Adjust the zoom level.
         if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
-            maxX = range.getMaxX() / X_ZOOM_FACTOR;
             _xZoomLevel++;
         }
         else {
-            maxX = range.getMaxX() * X_ZOOM_FACTOR;
             _xZoomLevel--;
+        }
+        
+        // Adjust the chart's horizontal range.
+        Range2D range = _chartGraphic.getRange();
+        double maxX;
+        if ( _xZoomLevel == 0 ) {
+            maxX = ( L / 2 );
+        }
+        else if ( _xZoomLevel > 0 ) {
+            maxX = ( L / 2 ) / Math.pow( 2, _xZoomLevel / 2.0 ); // sqrt(2) zoom factor, not subject to precision errors
+        }
+        else {
+            maxX = ( L / 2 ) * Math.pow( 2, Math.abs( _xZoomLevel ) / 2.0 );
         }
         range.setMaxX( maxX );
         range.setMinX( -maxX );
@@ -374,7 +382,18 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
             _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels2 );
         }
 
-        // Disable a zoom button when we reach a max zoom level.
+        updateZoomButtons();
+    }
+    
+    /*
+     * Enables and disabled zoom buttons based on the current
+     * zoom levels and range of the chart.
+     */
+    private void updateZoomButtons() {
+        
+        Range2D range = _chartGraphic.getRange();
+        
+        // Horizontal buttons
         switch ( _xZoomLevel ) {
         case X_MIN_ZOOM_LEVEL:
             _horizontalZoomControl.setZoomOutEnabled( false );

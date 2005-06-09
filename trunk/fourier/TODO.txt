@@ -6,7 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- allow horizontal 2x zoom in
 - Sum manual zoom in vertically to +-1 
 - Sum autoscale fills the graph in all (?) situations, adjust labels
 - link horizontal zoom buttons
@@ -43,6 +42,9 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/9) - support horizontal zoom +2x to -4x
+(6/9) - fix horizontal zoom, precision errors with Math.sqrt(2)
+(6/9) - remove up/down cursor on Amplitude sliders
 (6/8) - up/down arrows control amplitude text field
 (6/8) - fully select amplitude value when text field gains focus
 sandbox-2005-06-08...
