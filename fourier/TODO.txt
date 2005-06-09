@@ -42,7 +42,8 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
-(6/9) - support horizontal zoom +2x to -4x
+(6/9) - Sum graph: support vertical zoom from 4/PI to 12.
+(6/9) - Harmonics & Sum graphs: support horizontal zoom +2x to -4x
 (6/9) - fix horizontal zoom, precision errors with Math.sqrt(2)
 (6/9) - remove up/down cursor on Amplitude sliders
 (6/8) - up/down arrows control amplitude text field

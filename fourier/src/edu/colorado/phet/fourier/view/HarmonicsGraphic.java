@@ -51,36 +51,39 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final int TITLE_X_OFFSET = -15; // from origin
 
-    // X axis
+    // Axis parameter
+    private static final Color AXIS_COLOR = Color.BLACK;
+    private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
+    
+    // Tick Mark parameter
+    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
+    private static final Font MAJOR_TICK_FONT = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private static final Color MAJOR_TICK_COLOR = Color.BLACK;
+    private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
+    private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
+    private static final Color MINOR_TICK_COLOR = MAJOR_TICK_COLOR;
+    
+    // Gridline parameters
+    private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
+    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
+    private static final Color MINOR_GRIDLINE_COLOR = new Color( 0, 0, 0, 100 );
+    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
+    
+    // X Axis parameters
     private static final double L = 1.0;
-    private static final Color X_AXIS_COLOR = Color.BLACK;
-    private static final Stroke X_AXIS_STROKE = new BasicStroke( 2f );
+    private static final double X_RANGE_START = ( L / 2 );
+    private static final double X_RANGE_MIN = ( L / 4 );
+    private static final double X_RANGE_MAX = ( 2 * L );
     private static final double X_MAJOR_TICK_SPACING = ( L / 4 );
-    private static final Stroke X_MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font X_MAJOR_TICK_FONT = new Font( "Lucida Sans", Font.BOLD, 12 );
-    private static final Color X_MAJOR_TICK_COLOR = Color.BLACK;
-    private static final Color X_MAJOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Stroke X_MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
-    private static final int X_MAX_ZOOM_LEVEL = 2; // number of times you can press the zoom in (+) button
-    private static final int X_MIN_ZOOM_LEVEL = -4; // number of times you can press the zoom out (-) button
+    private static final double X_MINOR_TICK_SPACING = ( L / 8 );
 
-    // Y axis
-    private static final double Y_MIN = -FourierConfig.MAX_HARMONIC_AMPLITUDE;
-    private static final double Y_MAX = +FourierConfig.MAX_HARMONIC_AMPLITUDE;
-    private static final Color Y_AXIS_COLOR = Color.BLACK;
-    private static final Stroke Y_AXIS_STROKE = new BasicStroke( 2f );
+    // Y Axis parameters
+    private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
     private static final double Y_MINOR_TICK_SPACING = 0.1;
-    private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Stroke Y_MINOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font Y_MAJOR_TICK_FONT = new Font( "Lucida Sans", Font.BOLD, 12 );
-    private static final Color Y_MAJOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Color Y_MINOR_GRIDLINE_COLOR = new Color( 0, 0, 0, 60 );
-    private static final Stroke Y_MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
-    private static final Stroke Y_MINOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
 
     // Chart parameters
-    private static final Range2D CHART_RANGE = new Range2D( -L / 2, Y_MIN, L / 2, Y_MAX );
+    private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 600, 130 );
 
     // Wave parameters
@@ -139,32 +142,32 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
             // Symbolic labels for the X axis
             {
                 _spaceLabels1 = new LabelTable();
-                _spaceLabels1.put( -1.00 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put( -0.75 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-3L/4", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put( -0.50 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L/2", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put( -0.25 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L/4", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(     0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "0", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put( +0.25 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/4", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put( +0.50 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/2", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put( +0.75 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "3L/4", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put( +1.00 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( -1.00 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( -0.75 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3L/4", MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( -0.50 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/2", MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( -0.25 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/4", MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put(     0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( +0.25 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/4", MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( +0.50 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/2", MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( +0.75 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3L/4", MAJOR_TICK_COLOR ) );
+                _spaceLabels1.put( +1.00 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L", MAJOR_TICK_COLOR ) );
 
                 _spaceLabels2 = new LabelTable();
-                _spaceLabels2.put( -2.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-2L", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put( -1.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-3L/2", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put( -1.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put( -0.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "-L/2", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(    0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "0", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put( +0.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L/2", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put( +1.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "L", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put( +1.5 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "3L/2", X_MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put( +2.0 * L, new PhetTextGraphic( component, X_MAJOR_TICK_FONT, "2L", X_MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( -2.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-2L", MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( -1.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3L/2", MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( -1.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( -0.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/2", MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put(    0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( +0.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/2", MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( +1.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L", MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( +1.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3L/2", MAJOR_TICK_COLOR ) );
+                _spaceLabels2.put( +2.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2L", MAJOR_TICK_COLOR ) );
             }
 
             // X axis
             {
-                _chartGraphic.getXAxis().setStroke( X_AXIS_STROKE );
-                _chartGraphic.getXAxis().setColor( X_AXIS_COLOR );
+                _chartGraphic.getXAxis().setStroke( AXIS_STROKE );
+                _chartGraphic.getXAxis().setColor( AXIS_COLOR );
 
                 // No ticks or labels on the axis
                 _chartGraphic.getXAxis().setMajorTicksVisible( false );
@@ -176,24 +179,27 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
                 _chartGraphic.getHorizontalTicks().setMajorTicksVisible( true );
                 _chartGraphic.getHorizontalTicks().setMajorTickLabelsVisible( true );
                 _chartGraphic.getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
-                _chartGraphic.getHorizontalTicks().setMajorTickStroke( X_MAJOR_TICK_STROKE );
-                _chartGraphic.getHorizontalTicks().setMajorTickFont( X_MAJOR_TICK_FONT );
+                _chartGraphic.getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
+                _chartGraphic.getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
                 _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
 
                 // Vertical gridlines for major ticks.
                 _chartGraphic.getVerticalGridlines().setMajorGridlinesVisible( true );
                 _chartGraphic.getVerticalGridlines().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
-                _chartGraphic.getVerticalGridlines().setMajorGridlinesColor( X_MAJOR_GRIDLINE_COLOR );
-                _chartGraphic.getVerticalGridlines().setMajorGridlinesStroke( X_MAJOR_GRIDLINE_STROKE );
-
-                // No vertical gridlines for minor ticks.
-                _chartGraphic.getVerticalGridlines().setMinorGridlinesVisible( false );
+                _chartGraphic.getVerticalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
+                _chartGraphic.getVerticalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
+                
+                // Vertical gridlines for minor ticks.
+                _chartGraphic.getVerticalGridlines().setMinorGridlinesVisible( true );
+                _chartGraphic.getVerticalGridlines().setMinorTickSpacing( X_MINOR_TICK_SPACING );
+                _chartGraphic.getVerticalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
+                _chartGraphic.getVerticalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
             }
 
             // Y axis
             {
-                _chartGraphic.getYAxis().setStroke( Y_AXIS_STROKE );
-                _chartGraphic.getYAxis().setColor( Y_AXIS_COLOR );
+                _chartGraphic.getYAxis().setStroke( AXIS_STROKE );
+                _chartGraphic.getYAxis().setColor( AXIS_COLOR );
 
                 // No ticks or labels on the axis
                 _chartGraphic.getYAxis().setMajorTicksVisible( false );
@@ -205,20 +211,20 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
                 _chartGraphic.getVerticalTicks().setMajorTicksVisible( true );
                 _chartGraphic.getVerticalTicks().setMajorTickLabelsVisible( true );
                 _chartGraphic.getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-                _chartGraphic.getVerticalTicks().setMajorTickStroke( Y_MAJOR_TICK_STROKE );
-                _chartGraphic.getVerticalTicks().setMajorTickFont( Y_MAJOR_TICK_FONT );
+                _chartGraphic.getVerticalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
+                _chartGraphic.getVerticalTicks().setMajorTickFont( MAJOR_TICK_FONT );
 
                 // Horizontal gridlines for major ticks
                 _chartGraphic.getHorizonalGridlines().setMajorGridlinesVisible( true );
                 _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesColor( Y_MAJOR_GRIDLINE_COLOR );
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesStroke( Y_MAJOR_GRIDLINE_STROKE );
+                _chartGraphic.getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
+                _chartGraphic.getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
 
                 // Horizontal gridlines for minor ticks
                 _chartGraphic.getHorizonalGridlines().setMinorGridlinesVisible( true );
                 _chartGraphic.getHorizonalGridlines().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( Y_MINOR_GRIDLINE_COLOR );
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( Y_MINOR_GRIDLINE_STROKE );
+                _chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
+                _chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
             }
         }
 
@@ -232,7 +238,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         // Interactivity
         {
             titleGraphic.setIgnoreMouse( true );
-            // XXX others setIgnoreMouse ?
+            
             EventListener listener = new EventListener();
             _horizontalZoomControl.addActionListener( listener );
         }
@@ -296,11 +302,14 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
 
         int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
 
+        // If the number of harmonics has changed...
         if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
 
+            // Dump the old data sets & graphics.
             _dataSets.clear();
             _chartGraphic.removeAllDataSetGraphics();
 
+            // Create new data sets & graphics for each harmonic.
             for ( int i = 0; i < _fourierSeriesModel.getNumberOfHarmonics(); i++ ) {
                 Harmonic harmonic = _fourierSeriesModel.getHarmonic( i );
 
@@ -358,31 +367,45 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
             _xZoomLevel--;
         }
         
+        // Obtuse sqrt(2) zoom factor, immune to numeric precision errors 
+        double zoomFactor = Math.pow( 2, Math.abs( _xZoomLevel ) / 2.0 );
+        
         // Adjust the chart's horizontal range.
         Range2D range = _chartGraphic.getRange();
-        double maxX;
+        double xRange;
         if ( _xZoomLevel == 0 ) {
-            maxX = ( L / 2 );
+            xRange = ( L / 2 );
         }
         else if ( _xZoomLevel > 0 ) {
-            maxX = ( L / 2 ) / Math.pow( 2, _xZoomLevel / 2.0 ); // sqrt(2) zoom factor, not subject to precision errors
+            xRange = ( L / 2 ) / zoomFactor; 
         }
         else {
-            maxX = ( L / 2 ) * Math.pow( 2, Math.abs( _xZoomLevel ) / 2.0 );
+            xRange = ( L / 2 ) * zoomFactor;
         }
-        range.setMaxX( maxX );
-        range.setMinX( -maxX );
+        range.setMaxX( xRange );
+        range.setMinX( -xRange );
         _chartGraphic.setRange( range );
 
-        // Adjust the labels to match the zoom level.
-        if ( _xZoomLevel > -3 ) {
-            _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
-        }
-        else {
-            _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels2 );
-        }
-
+        updateTicksAndGridlines();
         updateZoomButtons();
+    }
+    
+    /*
+     * Adjusts ticks and gridlines to match the chart range.
+     */
+    private void updateTicksAndGridlines() {
+        
+        Range2D range = _chartGraphic.getRange();
+        
+        // X axis ticks and gridlines
+        {
+            if ( _xZoomLevel > -3 ) {
+                _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
+            }
+            else {
+                _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels2 );
+            }
+        }
     }
     
     /*
@@ -394,16 +417,15 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         Range2D range = _chartGraphic.getRange();
         
         // Horizontal buttons
-        switch ( _xZoomLevel ) {
-        case X_MIN_ZOOM_LEVEL:
+        if ( range.getMaxX() >= X_RANGE_MAX ) {
             _horizontalZoomControl.setZoomOutEnabled( false );
             _horizontalZoomControl.setZoomInEnabled( true );
-            break;
-        case X_MAX_ZOOM_LEVEL:
+        }
+        else if ( range.getMaxX() <= X_RANGE_MIN ) {
             _horizontalZoomControl.setZoomOutEnabled( true );
             _horizontalZoomControl.setZoomInEnabled( false );
-            break;
-        default:
+        }
+        else {
             _horizontalZoomControl.setZoomOutEnabled( true );
             _horizontalZoomControl.setZoomInEnabled( true );
         }
