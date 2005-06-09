@@ -23,6 +23,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
@@ -46,10 +47,15 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     // Layers
-    private static final double TITLE_LAYER = 1;
-    private static final double CHART_LAYER = 2;
-    private static final double CONTROLS_LAYER = 3;
+    private static final double BACKGROUND_LAYER = 1;
+    private static final double TITLE_LAYER = 2;
+    private static final double CHART_LAYER = 3;
+    private static final double CONTROLS_LAYER = 4;
 
+    // Background parameters
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 210 );
+    private static final Color BACKGROUND_COLOR = new Color( 207, 246, 255 ); // pastel blue
+    
     // Title parameters
     private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
@@ -128,6 +134,13 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         // Model
         _fourierSeriesModel = fourierSeriesModel;
         _fourierSeriesModel.addObserver( this );
+        
+        // Background
+        PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
+        backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
+        backgroundGraphic.setPaint( BACKGROUND_COLOR );
+        addGraphic( backgroundGraphic, BACKGROUND_LAYER );
+        backgroundGraphic.setLocation( -100, -125 );
         
         // Title
         String title = SimStrings.get( "SumGraphic.title" );
