@@ -6,18 +6,11 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium235;
-import edu.colorado.phet.nuclearphysics.model.Uranium238;
-import edu.colorado.phet.coreadditions.ModelSlider;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,7 +44,7 @@ public class ControlledChainReactionControlPanel extends JPanel {
         Border titledBorder = BorderFactory.createTitledBorder( baseBorder, SimStrings.get( "MultipleNucleusFissionControlPanel.ControlBorder" ) );
         this.setBorder( titledBorder );
 
-        //-----------------------------------
+        //
         this.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 SwingUtilities.getWindowAncestor( ControlledChainReactionControlPanel.this ).validate();
@@ -60,30 +53,30 @@ public class ControlledChainReactionControlPanel extends JPanel {
 
         // Add an element to the model that will update the spinner with the number of
         // nuclei
-        module.getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                int modelNum = module.getU235Nuclei().size();
-                int viewNum = ( (Integer)numU235Spinner.getValue() ).intValue();
-                if( modelNum != viewNum ) {
-                    numU235Spinner.setEnabled( false );
-                    numU235Spinner.setValue( new Integer( module.getU235Nuclei().size() ) );
-                    numU235Spinner.setEnabled( true );
-                }
-
-                // Compute and display the number of U235 nuclei that have fissioned
-                if( startNumU235 != 0 ) {
-                    percentDecayTF.setText( Integer.toString( ( startNumU235 - modelNum ) * 100 / startNumU235 ) );
-                }
-
-                modelNum = module.getU238Nuclei().size();
-                viewNum = ( (Integer)numU238Spinner.getValue() ).intValue();
-                if( modelNum != viewNum ) {
-                    numU238Spinner.setEnabled( false );
-                    numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
-                    numU238Spinner.setEnabled( true );
-                }
-            }
-        } );
+//        module.getModel().addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                int modelNum = module.getU235Nuclei().size();
+//                int viewNum = ( (Integer)numU235Spinner.getValue() ).intValue();
+//                if( modelNum != viewNum ) {
+//                    numU235Spinner.setEnabled( false );
+//                    numU235Spinner.setValue( new Integer( module.getU235Nuclei().size() ) );
+//                    numU235Spinner.setEnabled( true );
+//                }
+//
+//                // Compute and display the number of U235 nuclei that have fissioned
+//                if( startNumU235 != 0 ) {
+//                    percentDecayTF.setText( Integer.toString( ( startNumU235 - modelNum ) * 100 / startNumU235 ) );
+//                }
+//
+//                modelNum = module.getU238Nuclei().size();
+//                viewNum = ( (Integer)numU238Spinner.getValue() ).intValue();
+//                if( modelNum != viewNum ) {
+//                    numU238Spinner.setEnabled( false );
+//                    numU238Spinner.setValue( new Integer( module.getU238Nuclei().size() ) );
+//                    numU238Spinner.setEnabled( true );
+//                }
+//            }
+//        } );
 
         // Create the controls
         JButton fireNeutronBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.FireButton" ) );
@@ -93,30 +86,30 @@ public class ControlledChainReactionControlPanel extends JPanel {
                 percentDecayTF.setText( "0" );
                 percentDecayTF.setEditable( false );
                 percentDecayTF.setBackground( Color.white );
-                startNumU235 = ( (Integer)numU235Spinner.getValue() ).intValue();
+//                startNumU235 = ( (Integer)numU235Spinner.getValue() ).intValue();
             }
         } );
 
-        Font spinnerFont = new Font( "SansSerif", Font.BOLD, 40 );
-        numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 200, 1 ) );
-        numU235Spinner.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                int netNuclei = setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
-                percentDecayTF.setText( "0" );
-            }
-        } );
-        numU235Spinner.setPreferredSize( new Dimension( 80, 30 ) );
-        numU235Spinner.setFont( spinnerFont );
-
-        numU238Spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 200, 1 ) );
-        numU238Spinner.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                setNumU238Nuclei( ( (Integer)numU238Spinner.getValue() ).intValue() );
-                percentDecayTF.setText( "0" );
-            }
-        } );
-        numU238Spinner.setPreferredSize( new Dimension( 80, 30 ) );
-        numU238Spinner.setFont( spinnerFont );
+//        Font spinnerFont = new Font( "SansSerif", Font.BOLD, 40 );
+//        numU235Spinner = new JSpinner( new SpinnerNumberModel( 1, 0, 200, 1 ) );
+//        numU235Spinner.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                int netNuclei = setNumU235Nuclei( ( (Integer)numU235Spinner.getValue() ).intValue() );
+//                percentDecayTF.setText( "0" );
+//            }
+//        } );
+//        numU235Spinner.setPreferredSize( new Dimension( 80, 30 ) );
+//        numU235Spinner.setFont( spinnerFont );
+//
+//        numU238Spinner = new JSpinner( new SpinnerNumberModel( 0, 0, 200, 1 ) );
+//        numU238Spinner.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                setNumU238Nuclei( ( (Integer)numU238Spinner.getValue() ).intValue() );
+//                percentDecayTF.setText( "0" );
+//            }
+//        } );
+//        numU238Spinner.setPreferredSize( new Dimension( 80, 30 ) );
+//        numU238Spinner.setFont( spinnerFont );
 
         // The reset button
         JButton resetBtn = new JButton( SimStrings.get( "MultipleNucleusFissionControlPanel.ResetButton" ) );
@@ -126,8 +119,8 @@ public class ControlledChainReactionControlPanel extends JPanel {
                 module.start();
                 startNumU235 = 0;
                 percentDecayTF.setText( "0" );
-                numU235Spinner.setValue( new Integer( 1 ) );
-                numU238Spinner.setValue( new Integer( 0 ) );
+//                numU235Spinner.setValue( new Integer( 1 ) );
+//                numU238Spinner.setValue( new Integer( 0 ) );
             }
         } );
 
@@ -168,90 +161,90 @@ public class ControlledChainReactionControlPanel extends JPanel {
         add( fireNeutronBtn, gbcCenter );
 //        gbcCenter.gridy = 5;
         add( resetBtn, gbcCenter );
-
-        // Spinner for the number of control rods
-        JPanel jp = new JPanel( new GridBagLayout());
-        GridBagConstraints jpGbc = new GridBagConstraints( 0,0,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
-                                                           new Insets( 0,0,0,0),0,0 );
-        final JSpinner controlRodSpinner = new JSpinner( new SpinnerNumberModel( module.getNumControlRods(),
-                                                                           0, 10, 1 ) );
-        controlRodSpinner.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                module.setNumControlRods( ((Integer)controlRodSpinner.getValue()).intValue() );
-            }
-        } );
-        jp.add( new JLabel( "<html>Number of<br>Control Rods</html"), jpGbc );
-        jpGbc.gridx = 1;
-        jp.add( controlRodSpinner, jpGbc );
-
-        final JSpinner numNeutronsSpinner = new JSpinner( new SpinnerNumberModel( module.getNumNeutronsFired(),
-                                                                                  1, 10, 1) );
-        numNeutronsSpinner.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                module.setNumNeutronsFired( ((Integer)numNeutronsSpinner.getValue()).intValue() );
-            }
-        } );
-        jpGbc.gridy = 1;
-        jpGbc.gridx = 0;
-        jp.add( new JLabel( "Number Neutrons"), jpGbc );
-        jpGbc.gridx = 1;
-        jp.add( numNeutronsSpinner, jpGbc );
-        add( jp, gbcCenter);
-
-        // Slider for absorption probability
-        final ModelSlider absorptionSlider = new ModelSlider( "Absorption Probability", 0, 1, 1 );
-        absorptionSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                module.setAbsorptionProbability( absorptionSlider.getModelValue() );
-            }
-        } );
-        absorptionSlider.setMajorTickSpacing( 0.25 );
-        absorptionSlider.setPaintLabels( true );
-        absorptionSlider.setPaintTicks( true );
-        add( absorptionSlider, gbcCenter );
-
-        // Control for the spacing between nuclei
-
-        final ModelSlider nucleusSpacingSlider = new ModelSlider( "<html>Spacing Between<br>Nuclei (nuc. diam.)</html>",
-                                                                  1, 3, 2.5 );
-        nucleusSpacingSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                module.setInterNucleusSpacing( nucleusSpacingSlider.getModelValue());
-            }
-        } );
-        nucleusSpacingSlider.setMajorTickSpacing( 1 );
-        nucleusSpacingSlider.setPaintTicks( true );
-        nucleusSpacingSlider.setPaintLabels( true );
-        add( nucleusSpacingSlider, gbcCenter );
+//
+//        // Spinner for the number of control rods
+//        JPanel jp = new JPanel( new GridBagLayout());
+//        GridBagConstraints jpGbc = new GridBagConstraints( 0,0,1,1,1,1,GridBagConstraints.NORTHWEST, GridBagConstraints.NONE,
+//                                                           new Insets( 0,0,0,0),0,0 );
+//        final JSpinner controlRodSpinner = new JSpinner( new SpinnerNumberModel( module.getNumControlRods(),
+//                                                                           0, 10, 1 ) );
+//        controlRodSpinner.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                module.setNumControlRods( ((Integer)controlRodSpinner.getValue()).intValue() );
+//            }
+//        } );
+//        jp.add( new JLabel( "<html>Number of<br>Control Rods</html"), jpGbc );
+//        jpGbc.gridx = 1;
+//        jp.add( controlRodSpinner, jpGbc );
+//
+//        final JSpinner numNeutronsSpinner = new JSpinner( new SpinnerNumberModel( module.getNumNeutronsFired(),
+//                                                                                  1, 10, 1) );
+//        numNeutronsSpinner.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                module.setNumNeutronsFired( ((Integer)numNeutronsSpinner.getValue()).intValue() );
+//            }
+//        } );
+//        jpGbc.gridy = 1;
+//        jpGbc.gridx = 0;
+//        jp.add( new JLabel( "Number Neutrons"), jpGbc );
+//        jpGbc.gridx = 1;
+//        jp.add( numNeutronsSpinner, jpGbc );
+//        add( jp, gbcCenter);
+//
+//        // Slider for absorption probability
+//        final ModelSlider absorptionSlider = new ModelSlider( "Absorption Probability", 0, 1, 1 );
+//        absorptionSlider.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                module.setU235AbsorptionProbability( absorptionSlider.getModelValue() );
+//            }
+//        } );
+//        absorptionSlider.setMajorTickSpacing( 0.25 );
+//        absorptionSlider.setPaintLabels( true );
+//        absorptionSlider.setPaintTicks( true );
+//        add( absorptionSlider, gbcCenter );
+//
+//        // Control for the spacing between nuclei
+//
+//        final ModelSlider nucleusSpacingSlider = new ModelSlider( "<html>Spacing Between<br>Nuclei (nuc. diam.)</html>",
+//                                                                  1, 3, 2.5 );
+//        nucleusSpacingSlider.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                module.setInterNucleusSpacing( nucleusSpacingSlider.getModelValue());
+//            }
+//        } );
+//        nucleusSpacingSlider.setMajorTickSpacing( 1 );
+//        nucleusSpacingSlider.setPaintTicks( true );
+//        nucleusSpacingSlider.setPaintLabels( true );
+//        add( nucleusSpacingSlider, gbcCenter );
     }
-
-    private synchronized int setNumU235Nuclei( int num ) {
-        int netNuclei = 0;
-        int delta = num - module.getU235Nuclei().size();
-        for( int i = 0; i < delta; i++ ) {
-            Nucleus nucleus = module.addU235Nucleus();
-            if( nucleus != null ) {
-                netNuclei++;
-            }
-        }
-        for( int i = 0; i < -delta; i++ ) {
-            int numNuclei = module.getU235Nuclei().size();
-            Uranium235 nucleus = (Uranium235)module.getU235Nuclei().get( random.nextInt( numNuclei ) );
-            module.removeU235Nucleus( nucleus );
-            netNuclei--;
-        }
-        return netNuclei;
-    }
-
-    private void setNumU238Nuclei( int num ) {
-        int delta = num - module.getU238Nuclei().size();
-        for( int i = 0; i < delta; i++ ) {
-            module.addU238Nucleus();
-        }
-        for( int i = 0; i < -delta; i++ ) {
-            int numNuclei = module.getU238Nuclei().size();
-            Uranium238 nucleus = (Uranium238)module.getU238Nuclei().get( random.nextInt( numNuclei ) );
-            module.removeU238Nucleus( nucleus );
-        }
-    }
+//
+//    private synchronized int setNumU235Nuclei( int num ) {
+//        int netNuclei = 0;
+//        int delta = num - module.getU235Nuclei().size();
+//        for( int i = 0; i < delta; i++ ) {
+//            Nucleus nucleus = module.addU235Nucleus();
+//            if( nucleus != null ) {
+//                netNuclei++;
+//            }
+//        }
+//        for( int i = 0; i < -delta; i++ ) {
+//            int numNuclei = module.getU235Nuclei().size();
+//            Uranium235 nucleus = (Uranium235)module.getU235Nuclei().get( random.nextInt( numNuclei ) );
+//            module.removeU235Nucleus( nucleus );
+//            netNuclei--;
+//        }
+//        return netNuclei;
+//    }
+//
+//    private void setNumU238Nuclei( int num ) {
+//        int delta = num - module.getU238Nuclei().size();
+//        for( int i = 0; i < delta; i++ ) {
+//            module.addU238Nucleus();
+//        }
+//        for( int i = 0; i < -delta; i++ ) {
+//            int numNuclei = module.getU238Nuclei().size();
+//            Uranium238 nucleus = (Uranium238)module.getU238Nuclei().get( random.nextInt( numNuclei ) );
+//            module.removeU238Nucleus( nucleus );
+//        }
+//    }
 }

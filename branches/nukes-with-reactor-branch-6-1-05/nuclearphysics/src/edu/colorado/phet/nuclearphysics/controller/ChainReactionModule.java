@@ -50,7 +50,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
         getPhysicalPanel().setScale( 0.5 );
 
         // Add a model element that watches for collisions between neutrons and
-        // U235 nuclei
+        // nuclei
         getModel().addModelElement( new ModelElement() {
             private Line2D utilLine = new Line2D.Double();
 
@@ -58,6 +58,7 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
                 for( int i = 0; i < neutrons.size(); i++ ) {
                     Neutron neutron = (Neutron)neutrons.get( i );
                     utilLine.setLine( neutron.getPosition(), neutron.getPositionPrev() );
+                    // Check U235 nuclei
                     for( int j = 0; j < u235Nuclei.size(); j++ ) {
                         Uranium235 u235 = (Uranium235)u235Nuclei.get( j );
                         double perpDist = utilLine.ptSegDistSq( u235.getPosition() );
@@ -65,37 +66,17 @@ public abstract class ChainReactionModule extends NuclearPhysicsModule implement
                             u235.fission( neutron );
                         }
                     }
-                }
-            }
-        } );
-
-        // todo: make this detector look like the one above, which has a better way of detecting collisions
-        // Add model element that watches for collisions between neutrons and
-        // U238 nuclei
-        getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                for( int j = 0; j < u238Nuclei.size(); j++ ) {
-                    Uranium238 u238 = (Uranium238)u238Nuclei.get( j );
-                    for( int i = 0; i < neutrons.size(); i++ ) {
-                        Neutron neutron = (Neutron)neutrons.get( i );
-                        if( neutron.getPosition().distanceSq( u238.getPosition() )
-                            <= u238.getRadius() * u238.getRadius() ) {
-
-                            // Create a new uranium 239 nucleus to replace the U238
-                            Uranium239 u239 = new Uranium239( u238.getPosition(), getModel() );
-                            addU239Nucleus( u239 );
-
-                            // Remove the old U238 nucleus and the neutron
-                            nuclei.remove( u238 );
-                            neutrons.remove( neutron );
-                            getModel().removeModelElement( u238 );
-                            getModel().removeModelElement( neutron );
+                    // Check U238 nuclei
+                    for( int j = 0; j < u238Nuclei.size(); j++ ) {
+                        Uranium238 u238 = (Uranium238)u238Nuclei.get( j );
+                        double perpDist = utilLine.ptSegDistSq( u238.getPosition() );
+                        if( perpDist <= u238.getRadius() * u238.getRadius() ) {
+                            u238.fission( neutron );
                         }
                     }
                 }
             }
         } );
-
     }
 
     protected Line2D.Double getNeutronPath() {

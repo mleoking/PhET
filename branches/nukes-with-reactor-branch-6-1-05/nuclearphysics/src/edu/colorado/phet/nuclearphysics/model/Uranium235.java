@@ -80,12 +80,11 @@ public class Uranium235 extends Nucleus {
             morph( getNumNeutrons() - 100, getNumProtons() );
             fissionInstigatingNeutron = neutron;
             // Move the neutron way, way away so it doesn't show and doesn't
-            // cause another fission event. It will be destroyed later.
+            // cause another fission event. It will be destroyed later. Do it
+            // twice so the neutron's previous position gets set to the same thing
             neutron.setPosition( 100E3, 100E3 );
             neutron.setPosition( 100E3, 100E3 );
             neutron.setVelocity( 0, 0 );
-
-
 
             // Make note of the x coordinate of the nucleus, so we can keep the jiggling
             // centered

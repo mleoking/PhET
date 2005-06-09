@@ -13,6 +13,7 @@ package edu.colorado.phet.nuclearphysics.controller;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.nuclearphysics.Config;
@@ -45,7 +46,6 @@ public class ControlledFissionModule extends ChainReactionModule {
     private static final double refHeight = 300;
 
     private static NucleusGraphic ng2;
-    private static BufferedImage bi;
     private static BufferedImage u235Img;
     private static BufferedImage rubidiumImg;
     private static BufferedImage cesiumImg;
@@ -64,8 +64,10 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     private double vesselWidth;
     private double vesselHeight;
+//    private int numChannels = 2;
     private int numChannels = 5;
     private Vessel vessel;
+//    private int nCols = 3;
     private int nCols = 20;
     private ControlRodGroupGraphic controlRodGroupGraphic;
     private ControlRod[] controlRods;
@@ -183,6 +185,10 @@ public class ControlledFissionModule extends ChainReactionModule {
      * @param nucleus
      */
     protected void addNucleus( Nucleus nucleus ) {
+        nuclei.add( nucleus );
+        nucleus.addFissionListener( this );
+        getModel().addModelElement( nucleus );
+
         BufferedImage sourceImg = null;
         if( nucleus instanceof Uranium235 ) {
             sourceImg = u235Img;
@@ -194,29 +200,27 @@ public class ControlledFissionModule extends ChainReactionModule {
             sourceImg = cesiumImg;
         }
         else if( sourceImg == null ) {
-            throw new RuntimeException( "nucleus is of unexpected type" );
+//            throw new RuntimeException( "nucleus is of unexpected type" );
         }
-
-        final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),
-                                                           sourceImg,
-                                                           (int)( nucleus.getPosition().getX() - nucleus.getRadius() ),
-                                                           (int)( nucleus.getPosition().getY() - nucleus.getRadius() ) );
-        nuclei.add( nucleus );
-        nucleus.addFissionListener( this );
-        getModel().addModelElement( nucleus );
+        if( sourceImg != null ) {
 //        double rad = nucleus.getRadius();
 //        final Graphic ng = new PhetShapeGraphic( getPhysicalPanel(),
 //                                                 new Ellipse2D.Double( nucleus.getPosition().getX() - rad,
 //                                                                       nucleus.getPosition().getY() - rad,
 //                                                                       rad * 2, rad * 2 ),
 //                                                 Color.red );
-        NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
-            public void leavingSystem( NuclearModelElement nme ) {
-                getPhysicalPanel().removeGraphic( nig );
-            }
-        };
-        nucleus.addListener( listener );
-        getPhysicalPanel().addOriginCenteredGraphic( nig, Config.nucleusLevel );
+            final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),
+                                                               sourceImg,
+                                                               (int)( nucleus.getPosition().getX() - nucleus.getRadius() ),
+                                                               (int)( nucleus.getPosition().getY() - nucleus.getRadius() ) );
+            NuclearModelElement.Listener listener = new NuclearModelElement.Listener() {
+                public void leavingSystem( NuclearModelElement nme ) {
+                    getPhysicalPanel().removeGraphic( nig );
+                }
+            };
+            nucleus.addListener( listener );
+            getPhysicalPanel().addOriginCenteredGraphic( nig, Config.nucleusLevel );
+        }
     }
 
 
@@ -224,6 +228,7 @@ public class ControlledFissionModule extends ChainReactionModule {
      * Puts nuclei in the vessel on a grid laid out by the vessel.
      */
     protected void createNuclei() {
+        // Create U235 nuclei
         Point2D[] locations = vessel.getInitialNucleusLocations( nCols );
         for( int i = 0; i < locations.length; i++ ) {
             Point2D location = locations[i];
@@ -235,6 +240,21 @@ public class ControlledFissionModule extends ChainReactionModule {
             // it can track the energy being released
             nucleus.addFissionListener( vessel );
         }
+
+        // Create U238 nuclei
+        double spacing = locations[0].distance( locations[1] );
+        for( int i = 0; i < locations.length; i++ ) {
+            Point2D location = new Point2D.Double( locations[i].getX() + spacing / 2,
+                                                   locations[i].getY() + spacing / 2 );
+            Nucleus nucleus = new Uranium238( location, getModel() );
+            u238Nuclei.add( nucleus );
+            addNucleus( nucleus );
+
+            // Add the vessel as a listener for when the nucleus fissions, so
+            // it can track the energy being released
+            nucleus.addFissionListener( vessel );
+        }
+
         getPhysicalPanel().repaint( getPhysicalPanel().getBounds() );
     }
 
@@ -264,14 +284,22 @@ public class ControlledFissionModule extends ChainReactionModule {
      */
     public void activate( PhetApplication application ) {
         super.activate( application );
+        PhetFrame phetFrame = PhetApplication.instance().getApplicationView().getPhetFrame();
 
         // Add the dialog that will show the energy tracking gauges
         if( energyGraphDialog == null ) {
-            energyGraphDialog = new EnergyGraphDialog( PhetApplication.instance().getApplicationView().getPhetFrame(),
+            energyGraphDialog = new EnergyGraphDialog( phetFrame,
                                                        u235Nuclei.size() );
             energyGraphDialog.setVisible( true );
         }
         resetEnergyGraphDialog();
+
+        // create the dialog with the developers' controls
+        DevelopmentControlDialog developmentControlDialog = new DevelopmentControlDialog( phetFrame, this );
+        developmentControlDialog.setLocation( (int)phetFrame.getWidth(),
+                                              (int)( phetFrame.getLocation().getX() + phetFrame.getHeight() / 2 ) );
+        developmentControlDialog.setVisible( true );
+
     }
 
 
@@ -297,8 +325,12 @@ public class ControlledFissionModule extends ChainReactionModule {
         start();
     }
 
-    public void setAbsorptionProbability( double probability ) {
+    public void setU235AbsorptionProbability( double probability ) {
         Uranium235.setAbsoptionProbability( probability );
+    }
+
+    public void setU238AbsorptionProbability( double probability ) {
+        Uranium238.setAbsoptionProbability( probability );
     }
 
     public void setInterNucleusSpacing( double modelValue ) {
@@ -438,6 +470,18 @@ public class ControlledFissionModule extends ChainReactionModule {
     public void testFireNeutron() {
         stop();
 
+    }
+
+    private double orgDt;
+
+    public void setSlowMotion( boolean b ) {
+        if( b ) {
+            orgDt = getClock().getDt();
+            getClock().setDt( orgDt / 5 );
+        }
+        else {
+            getClock().setDt( orgDt );
+        }
     }
 }
 
