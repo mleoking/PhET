@@ -47,6 +47,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     private static final double TITLE_LAYER = 2;
     private static final double CHART_LAYER = 3;
     private static final double CONTROLS_LAYER = 4;
+    private static final double EQUATIONS_LAYER = 5;
 
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 210 );
@@ -98,6 +99,10 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     private static final Stroke WAVE_STROKE = new BasicStroke( 1f );
     private static final int NUMBER_OF_DATA_POINTS = 1000;
     private static final int MAX_FUNDAMENTAL_CYCLES = 4;
+    
+    // Equation parameters
+    private static final Font EQUATION_FONT = new Font( "Lucida Sans", Font.ITALIC, 18 );
+    private static final Color EQUATION_COLOR = Color.BLACK;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -105,6 +110,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
 
     private FourierSeries _fourierSeriesModel;
     private Chart _chartGraphic;
+    private PhetTextGraphic _equationGraphic;
     private ArrayList _dataSets; // array of HarmonicDataSet
     private int _previousNumberOfHarmonics;
     private int _waveType;
@@ -245,6 +251,15 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
             }
         }
 
+        
+        // Equation
+        {
+            _equationGraphic = new PhetTextGraphic( component, EQUATION_FONT, "Equation goes here", EQUATION_COLOR );
+            addGraphic( _equationGraphic, EQUATIONS_LAYER );
+            _equationGraphic.centerRegistrationPoint();
+            _equationGraphic.setLocation( CHART_SIZE.width / 2, -CHART_SIZE.height / 2 );
+        }
+        
         // Zoom controls
         {
             _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );

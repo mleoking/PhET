@@ -51,6 +51,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final double TITLE_LAYER = 2;
     private static final double CHART_LAYER = 3;
     private static final double CONTROLS_LAYER = 4;
+    private static final double EQUATIONS_LAYER = 5;
 
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 210 );
@@ -107,12 +108,17 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final int MAX_FUNDAMENTAL_CYCLES = 4;
     private static final Color SUM_COLOR = Color.BLACK; 
     
+    // Equation parameters
+    private static final Font EQUATION_FONT = new Font( "Lucida Sans", Font.ITALIC, 18 );
+    private static final Color EQUATION_COLOR = Color.BLACK;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeriesModel;
     private Chart _chartGraphic;
+    private PhetTextGraphic _equationGraphic;
     private DataSet _sumDataSet;
     private DataSet _presetDataSet;
     private int _waveType;
@@ -248,6 +254,14 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
                 _chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
                 _chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
             }
+        }
+        
+        // Equation
+        {
+            _equationGraphic = new PhetTextGraphic( component, EQUATION_FONT, "Equation goes here", EQUATION_COLOR );
+            addGraphic( _equationGraphic, EQUATIONS_LAYER );
+            _equationGraphic.centerRegistrationPoint();
+            _equationGraphic.setLocation( CHART_SIZE.width / 2, -CHART_SIZE.height / 2 );
         }
         
         // Zoom controls
