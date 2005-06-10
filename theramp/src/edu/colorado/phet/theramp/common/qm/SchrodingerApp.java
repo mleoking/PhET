@@ -16,20 +16,27 @@ import java.awt.*;
 public class SchrodingerApp {
     public void run( int Steps ) {
         int show = 1;
-        int XMESH = 100;
-        int YMESH = 100;
+        int XMESH = 50;
+        int YMESH = 50;
 
-        double TAU = 5E-6;
+        double deltaTime = 5E-6;
+
+        double k = 10 * Math.PI;
+        double LAMBDA = (int)2 * Math.PI / k * XMESH;
+
         final Complex[][] wavefunction = new Complex[XMESH + 1][YMESH + 1];
 
-//        Potential potential = new ConstantPotential( 0 );
-        Potential potential = new SimpleGradientPotential( 30 );
-        BoundaryCondition boundaryCondition = new ZeroBoundaryCondition();
-        CNCPropagator cncPropagator = new CNCPropagator( TAU, boundaryCondition, potential );
-        double K = 10 * Math.PI;
-        double LAMBDA = (int)2 * Math.PI / K * XMESH;
+        Potential potential = new ConstantPotential( 0 );
+//        Potential potential = new SimpleGradientPotential( 30 );
 
-        new SquareWave().initialize( wavefunction );
+//        BoundaryCondition boundaryCondition = new ZeroBoundaryCondition();
+        BoundaryCondition boundaryCondition = new PlaneWave( k, XMESH );
+
+//        new CylinderWave().initialize( wavefunction );
+        new PlaneWave( k, XMESH ).initialize( wavefunction );
+
+        CNCPropagator cncPropagator = new CNCPropagator( deltaTime, boundaryCondition, potential );
+
 //        initGaussian( wavefunction );
         ColorGrid colorGrid = new ColorGrid( 600, 600, XMESH, YMESH );
         ColorMap colorMap = new ColorMap() {
