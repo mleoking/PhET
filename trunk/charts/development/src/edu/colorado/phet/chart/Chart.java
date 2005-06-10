@@ -35,6 +35,7 @@ public class Chart extends GraphicLayerSet {
     private PhetShapeGraphic frameGraphic;
     private HTMLGraphic title;
     private Dimension chartSize;
+    private PhetGraphic xAxisTitleGraphic;
 
     /**
      * @param component
@@ -103,14 +104,24 @@ public class Chart extends GraphicLayerSet {
         addGraphic( title );
     }
 
+    public void setXAxisTitle( PhetGraphic phetGraphic ) {
+        if( xAxisTitleGraphic != null ) {
+            removeGraphic( xAxisTitleGraphic );
+        }
+        xAxisTitleGraphic = phetGraphic;
+        xAxisTitleGraphic.setLocation( chartSize.width + 2, chartSize.height / 2 - xAxisTitleGraphic.getHeight() / 2 );
+        xAxisTitleGraphic.setClippingDisabled( true );
+        addGraphic( xAxisTitleGraphic, Double.POSITIVE_INFINITY );
+    }
+
     public void removeDataSetGraphic( DataSetGraphic dataSetGraphic ) {
         dataSetGraphics.remove( dataSetGraphic );
         compositeDataSetGraphic.removeGraphic( dataSetGraphic );
     }
-    
+
     public void removeAllDataSetGraphics() {
         for( int i = 0; i < dataSetGraphics.size(); i++ ) {
-            compositeDataSetGraphic.removeGraphic( (DataSetGraphic) dataSetGraphics.get( i ) );
+            compositeDataSetGraphic.removeGraphic( (DataSetGraphic)dataSetGraphics.get( i ) );
         }
         dataSetGraphics.clear();
     }
@@ -175,13 +186,22 @@ public class Chart extends GraphicLayerSet {
     public static class TickMarkSet extends CompositePhetGraphic {
         private GridTicks majorTicks;
         private GridTicks minorTicks;
+//        private RangeLabel maxRangeLabel;
+//        private RangeLabel minRangeLabel;
 
         public TickMarkSet( Chart chart, Orientation orientation, double minorTickSpacing, double majorTickSpacing ) {
+            super( chart.getComponent() );
             minorTicks = new GridTicks( chart, orientation, new BasicStroke( 2 ), Color.black, minorTickSpacing );
             majorTicks = new GridTicks( chart, orientation, new BasicStroke( 2 ), Color.black, majorTickSpacing );
+//            maxRangeLabel = new RangeLabel( getComponent(), chart, majorTicks );
+//            minRangeLabel = new RangeLabel( getComponent(), chart, majorTicks );
             minorTicks.setVisible( false );
             addGraphic( minorTicks );
             addGraphic( majorTicks );
+
+//            addGraphic( maxRangeLabel );
+//            addGraphic( minRangeLabel );
+            setRangeLabelsVisible( false );
         }
 
         public void setMajorTicksVisible( boolean visible ) {
@@ -239,6 +259,10 @@ public class Chart extends GraphicLayerSet {
         public void setMinorLabels( LabelTable labelTable ) {
             minorTicks.setLabels( labelTable );
         }
+
+        public void setRangeLabelsVisible( boolean rangeLabelsVisible ) {
+            majorTicks.setRangeLabelsVisible( rangeLabelsVisible );
+        }
     }
 
     public TickMarkSet getVerticalTicks() {
@@ -271,6 +295,7 @@ public class Chart extends GraphicLayerSet {
             Chart chart = getChart();
             return chart.transformY( chart.getRange().getMinY() ) + dy;
         }
+
     }
 
     public ModelViewTransform2D getModelViewTransform() {

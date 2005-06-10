@@ -72,6 +72,7 @@ public abstract class PhetGraphic {
     // Utility objects to avoid dynamic allocations in getNetTransform() 
     AffineTransform netUtilTx = new AffineTransform();
     AffineTransform xlateUtilTx = new AffineTransform();
+    private boolean clippingDisabled = false;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -1189,12 +1190,25 @@ public abstract class PhetGraphic {
         this.clip = clip;
     }
 
+    public void setClippingDisabled( boolean clippingDisabled ) {
+        this.clippingDisabled = clippingDisabled;
+        System.out.println( "clippingDisabled = " + clippingDisabled );
+    }
+
     //----------------------------------------------------------------------------
     // 
     //----------------------------------------------------------------------------
     protected void applyClip( Graphics2D graphics2D ) {
-        if( getClip() != null ) {
+        if( isClippingDisabled() ) {
+//            graphics2D.setClip( new Rectangle( 0, 0, getComponent().getWidth(), getComponent().getHeight() ) );
+            graphics2D.setClip( null );
+        }
+        else if( getClip() != null ) {
             graphics2D.clip( getClip() );
         }
+    }
+
+    protected boolean isClippingDisabled() {
+        return clippingDisabled || ( getParent() != null && getParent().isClippingDisabled() );
     }
 }

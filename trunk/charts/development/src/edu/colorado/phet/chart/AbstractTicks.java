@@ -25,6 +25,7 @@ public abstract class AbstractTicks extends AbstractGrid {
     private GraphicLayerSet tickGraphics;
     private GraphicLayerSet labelGraphics;
     private LabelTable labelTable;
+    private boolean rangeLabelsVisible = false;
 
     public AbstractTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double
             tickSpacing ) {
@@ -49,79 +50,119 @@ public abstract class AbstractTicks extends AbstractGrid {
     protected void update() {
         labelGraphics.clear();
         tickGraphics.clear();
-        Chart chart = getChart();
+
         double[] gridLines = getVisibleGridlines();
         if( getOrientation().isVertical() ) {
-            for( int i = 0; i < gridLines.length; i++ ) {
-                double gridLineX = gridLines[i];
-                if( chart.getRange().containsX( gridLineX ) ) {
-                    int x = chart.transformX( gridLineX );
-                    int y = getHorizontalTickY();
-                    Line2D.Double line = new Line2D.Double( x, y - tickHeight / 2, x, y + tickHeight / 2 );
-                    PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
-                    tickGraphics.addGraphic( lineGraphic );
-
-                    if( labelTable == null ) {
-                        String string = format.format( gridLineX );
-                        PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
-                        labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
-                        labelGraphic.setVisible( showLabels );
-                        labelGraphics.addGraphic( labelGraphic );
-                    }
-                }
-            }
-            if( labelTable != null ) {
-                double[] keys = labelTable.keys();
-                for( int i = 0; i < keys.length; i++ ) {
-                    double gridLineX = keys[i];
-                    if( chart.getRange().containsX( gridLineX ) ) {
-                        int x = chart.transformX( gridLineX );
-                        int y = getHorizontalTickY();
-
-                        PhetGraphic labelGraphic = labelTable.get( gridLineX );
-                        labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
-                        labelGraphic.setVisible( showLabels );
-                        labelGraphics.addGraphic( labelGraphic );
-                    }
-                }
-            }
+            addVerticalStuff( gridLines );
         }
         else if( getOrientation().isHorizontal() ) {
-            for( int i = 0; i < gridLines.length; i++ ) {
-                double gridLineY = gridLines[i];
-                if( chart.getRange().containsY( gridLineY ) ) {
-                    int x = getVerticalTickX();
-                    int y = chart.transformY( gridLineY );
-                    Line2D.Double line = new Line2D.Double( x - tickHeight / 2, y, x + tickHeight / 2, y );
-                    PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
-                    tickGraphics.addGraphic( lineGraphic );
+            addHorizontalStuff( gridLines );
+        }
 
-                    if( labelTable == null ) {
-                        String string = format.format( gridLineY );
-                        PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font,
-                                                                            string, getColor() );
-                        labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
-                        labelGraphic.setVisible( showLabels );
-                        labelGraphics.addGraphic( labelGraphic );
-                    }
-                }
+    }
+
+    private void addHorizontalStuff( double[] gridLines ) {
+        Chart chart = getChart();
+        for( int i = 0; i < gridLines.length; i++ ) {
+            double gridLineY = gridLines[i];
+            if( chart.getRange().containsY( gridLineY ) ) {
+                addHorizontalTick( gridLineY );
             }
-            if( labelTable != null ) {
-                double[] keys = labelTable.keys();
-                for( int i = 0; i < keys.length; i++ ) {
-                    double gridLineY = keys[i];
-                    if( chart.getRange().containsY( gridLineY ) ) {
-                        int x = getVerticalTickX();
-                        int y = chart.transformY( gridLineY );
+        }
+        if( labelTable != null ) {
+            double[] keys = labelTable.keys();
+            for( int i = 0; i < keys.length; i++ ) {
+                double gridLineY = keys[i];
+                if( chart.getRange().containsY( gridLineY ) ) {
 
-                        PhetGraphic labelGraphic = labelTable.get( gridLineY );
-                        labelGraphic.setVisible( showLabels );
-                        labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
-                        labelGraphics.addGraphic( labelGraphic );
-                    }
+                    PhetGraphic labelGraphic = getVerticalLabelFromTable( gridLineY );
+                    labelGraphic.setVisible( showLabels );
+                    labelGraphics.addGraphic( labelGraphic );
                 }
             }
         }
+        if( rangeLabelsVisible ) {
+            addHorizontalTick( chart.getRange().getMinY() );
+            addHorizontalTick( chart.getRange().getMaxY() );
+        }
+    }
+
+    private void addHorizontalTick( double gridLineY ) {
+        Chart chart = getChart();
+        int x = getVerticalTickX();
+        int y = chart.transformY( gridLineY );
+        Line2D.Double line = new Line2D.Double( x - tickHeight / 2, y, x + tickHeight / 2, y );
+        PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
+        tickGraphics.addGraphic( lineGraphic );
+
+        if( labelTable == null ) {
+            String string = format.format( gridLineY );
+            PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font,
+                                                                string, getColor() );
+            labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
+            labelGraphic.setVisible( showLabels );
+            labelGraphics.addGraphic( labelGraphic );
+        }
+    }
+
+    public PhetGraphic getHorizontalLabelFromTable( double gridLineX ) {
+        int x = getChart().transformX( gridLineX );
+        int y = getHorizontalTickY();
+
+        PhetGraphic labelGraphic = labelTable.get( gridLineX );
+        labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
+        return labelGraphic;
+    }
+
+    private void addVerticalStuff( double[] gridLines ) {
+        Chart chart = getChart();
+        for( int i = 0; i < gridLines.length; i++ ) {
+            double gridLineX = gridLines[i];
+            if( chart.getRange().containsX( gridLineX ) ) {
+                addVerticalTick( gridLineX );
+            }
+        }
+        if( labelTable != null ) {
+            double[] keys = labelTable.keys();
+            for( int i = 0; i < keys.length; i++ ) {
+                double gridLineX = keys[i];
+                if( chart.getRange().containsX( gridLineX ) ) {
+                    PhetGraphic labelGraphic = getHorizontalLabelFromTable( gridLineX );
+
+                    labelGraphic.setVisible( showLabels );
+                    labelGraphics.addGraphic( labelGraphic );
+                }
+            }
+        }
+        if( rangeLabelsVisible ) {
+            addVerticalTick( chart.getRange().getMinX() );
+            addVerticalTick( chart.getRange().getMaxX() );
+        }
+    }
+
+    private void addVerticalTick( double gridLineX ) {
+        Chart chart = getChart();
+        int x = chart.transformX( gridLineX );
+        int y = getHorizontalTickY();
+        Line2D.Double line = new Line2D.Double( x, y - tickHeight / 2, x, y + tickHeight / 2 );
+        PhetShapeGraphic lineGraphic = new PhetShapeGraphic( chart.getComponent(), line, getStroke(), getColor() );
+        tickGraphics.addGraphic( lineGraphic );
+
+        if( labelTable == null ) {
+            String string = format.format( gridLineX );
+            PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
+            labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
+            labelGraphic.setVisible( showLabels );
+            labelGraphics.addGraphic( labelGraphic );
+        }
+    }
+
+    public PhetGraphic getVerticalLabelFromTable( double gridLineY ) {
+        int x = getVerticalTickX();
+        int y = getChart().transformY( gridLineY );
+        PhetGraphic labelGraphic = labelTable.get( gridLineY );
+        labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
+        return labelGraphic;
     }
 
     public boolean isShowLabels() {
@@ -167,4 +208,8 @@ public abstract class AbstractTicks extends AbstractGrid {
         update();
     }
 
+    public void setRangeLabelsVisible( boolean rangeLabelsVisible ) {
+        this.rangeLabelsVisible = rangeLabelsVisible;
+        update();
+    }
 }
