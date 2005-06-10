@@ -39,6 +39,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/9) - use grayscales instead of colors for graph backgrounds, add a stroke
 (6/9) - different background behind graphs to group them
 (6/9) - Sum graph: support vertical zoom from 4/PI to 12.
 (6/9) - Harmonics & Sum graphs: support horizontal zoom +2x to -4x

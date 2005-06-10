@@ -54,7 +54,9 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
 
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 210 );
-    private static final Color BACKGROUND_COLOR = new Color( 207, 246, 255 ); // pastel blue
+    private static final Color BACKGROUND_COLOR = new Color( 195, 195, 195 );
+    private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
+    private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
     private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
@@ -139,6 +141,8 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
         backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
         backgroundGraphic.setPaint( BACKGROUND_COLOR );
+        backgroundGraphic.setStroke( BACKGROUND_STROKE );
+        backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
         addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         backgroundGraphic.setLocation( -100, -125 );
         
