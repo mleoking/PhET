@@ -32,16 +32,7 @@ public class Schrodinger {
         this.TAU = TAU;
         Time = 0.0;
     }
-/*
-** Initialize the wave pack.
-void InitWave(Complex w[XMESH+1][YMESH+1])
-{
-  int i,j;
-  for (i=0;i<=XMESH;i++)
-    for (j=0;j<=YMESH;j++)
-      w[i][j] = Complex(cos(K*i/XMESH),sin(K*i/XMESH));
-}
-*/
+
     void initPlaneWave( Complex[][] w ) {
         int i, j;
         for( i = 0; i <= XMESH; i++ ) {
@@ -51,20 +42,7 @@ void InitWave(Complex w[XMESH+1][YMESH+1])
         }
     }
 
-/*
-** Potential function
-
-float V(int i,int j)
-{
-  if (Time < 300*TAU) return(0);
-  if ((i-250)*(i-250)+(j-250)*(j-250)<2500)
-    return (1E4);
-  else return(0.);
-}
-*/
     double getPotential( int i, int j ) {
-//        return 0;
-//        if( Time < 300 * TAU ) {
         if( Time < 100000 * TAU ) {
             return ( 0 );
         }
@@ -100,38 +78,17 @@ float V(int i,int j)
         Complex bi = new Complex();
         Complex bj = new Complex();
 
-//        int i,  N;
-
         for( int j = 1; j < YMESH; j++ ) {
-
-//     N = XMESH;
-//     alpha[N-1] = 0;
-//     beta[N-1]  = Complex(cos(K-K*K*Time),sin(K-K*K*Time));
-
             int N = XMESH;
             alpha[N - 1].zero();
             beta[N - 1] = new Complex( Math.cos( K - K * K * Time ), Math.sin( K - K * K * Time ) );
-
-//                 for (i=N-1;i>=1;i--)
-//       {
-//	 XA0 = XA00+XA0V*V(i,j)/2.;
-//	 bi = (2-XA0)*w[i][j]-XAP*(w[i-1][j]+w[i+1][j]);
-//	 gamma[i] = -1/(XA0+XAP*alpha[i]);
-//	 alpha[i-1] = gamma[i]*XAP;
-//	 beta[i-1]  = gamma[i]*(XAP*beta[i]-bi);
-//       }
             for( int i = N - 1; i >= 1; i-- ) {
                 XA0 = XA00.plus( XA0V.times( getPotential( i, j ) / 2.0 ) );
-                bi = ( ( TWO.minus( XA0 ) ).times( w[i][j] ) ).minus( XAP.times( w[i - 1][j].plus( w[i + 1][j] ) ) );
+                bi = ( ( TWO.minus( XA0 ) ).times( w[i][j] ) ).minus( ( XAP.times( w[i - 1][j].plus( w[i + 1][j] ) ) ) );
                 gamma[i] = MINUS_ONE.divideBy( ( XA0.plus( XAP.times( alpha[i] ) ) ) );
                 alpha[i - 1] = gamma[i].times( XAP );
                 beta[i - 1] = gamma[i].times( ( XAP.times( beta[i] ) ).minus( bi ) );
             }
-
-//                 w[0][j] = Complex(cos(K*K*Time),-sin(K*K*Time));
-//     for (i=0;i<=N-1;i++)
-//       w[i+1][j] = alpha[i]*w[i][j]+beta[i];
-
             w[0][j] = new Complex( Math.cos( K * K * Time ), -Math.sin( K * K * Time ) );
             for( int i = 0; i <= N - 1; i++ ) {
                 w[i + 1][j] = ( alpha[i].times( w[i][j] ) ).plus( beta[i] );
