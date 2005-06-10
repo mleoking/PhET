@@ -11,7 +11,6 @@ import edu.colorado.phet.common.view.phetgraphics.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -270,8 +269,8 @@ public class Chart extends GraphicLayerSet {
             majorTicks.setNumberFormat( numberFormat );
         }
 
-        public void setRangeLabelsNumberFormat( DecimalFormat decimalFormat ) {
-            majorTicks.setRangeLabelsNumberFormat( decimalFormat );
+        public void setRangeLabelsNumberFormat( NumberFormat numberFormat ) {
+            majorTicks.setRangeLabelsNumberFormat( numberFormat );
         }
     }
 
