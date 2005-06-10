@@ -172,10 +172,7 @@ public class PhetTextGraphic extends PhetGraphic {
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
             super.saveGraphicsState( g2 );
-            RenderingHints hints = getRenderingHints();
-            if( hints != null ) {
-                g2.setRenderingHints( hints );
-            }
+            super.updateGraphicsState( g2 );
             g2.setFont( font );
             g2.setColor( color );
             g2.transform( getNetTransform() );
