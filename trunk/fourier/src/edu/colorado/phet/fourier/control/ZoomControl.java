@@ -13,8 +13,6 @@ package edu.colorado.phet.fourier.control;
 
 import java.awt.Component;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.EventListenerList;
@@ -23,6 +21,8 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.event.ZoomEvent;
+import edu.colorado.phet.fourier.event.ZoomListener;
 
 
 /**
@@ -37,12 +37,6 @@ public class ZoomControl extends GraphicLayerSet {
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final int ACTION_ID_ZOOM_IN = 0;
-    public static final int ACTION_ID_ZOOM_OUT = 1;
-    
-    public static final String ACTION_COMMAND_ZOOM_IN = "ZOOM_IN";
-    public static final String ACTION_COMMAND_ZOOM_OUT = "ZOOM_OUT";
-    
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
     
@@ -53,6 +47,7 @@ public class ZoomControl extends GraphicLayerSet {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private int _orientation;
     private PhetImageGraphic _inButton, _inButtonPressed, _inButtonDisabled;
     private PhetImageGraphic _outButton, _outButtonPressed, _outButtonDisabled;
     private EventListenerList _listenerList;
@@ -61,10 +56,12 @@ public class ZoomControl extends GraphicLayerSet {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ZoomControl( Component component, int direction ) {
+    public ZoomControl( Component component, int orientation ) {
+        
+        _orientation = orientation;
         
         PhetImageGraphic background;
-        if ( direction == HORIZONTAL ) {
+        if ( orientation == HORIZONTAL ) {
             background = new PhetImageGraphic( component, FourierConfig.ZOOM_BACKGROUND_HORIZONTAL_IMAGE );
         }
         else {
@@ -129,20 +126,29 @@ public class ZoomControl extends GraphicLayerSet {
     // Event handling
     //----------------------------------------------------------------------------
     
-    public void addActionListener( ActionListener listener ) {
-        _listenerList.add( ActionListener.class, listener );
+    public void addZoomListener( ZoomListener listener ) {
+        _listenerList.add( ZoomListener.class, listener );
     }
   
-    public void removeActionListener( ActionListener listener ) {
-        _listenerList.remove( ActionListener.class, listener );
+    public void removeZoomListener( ZoomListener listener ) {
+        _listenerList.remove( ZoomListener.class, listener );
     }
     
-    private void fireActionEvent( int actionID, String actionCommand ) {
-        ActionEvent event = new ActionEvent( this, actionID, actionCommand );
+    public void removeAllZoomListeners() {
         Object[] listeners = _listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
-            if ( listeners[i] == ActionListener.class ) {
-                ((ActionListener) listeners[ i + 1 ] ).actionPerformed( event );
+            if ( listeners[i] == ZoomListener.class ) {
+                _listenerList.remove( ZoomListener.class, (ZoomListener) listeners[ i + 1 ] );
+            }
+        }
+    }
+    
+    private void fireZoomEvent( int zoomType ) {
+        ZoomEvent event = new ZoomEvent( this, zoomType );
+        Object[] listeners = _listenerList.getListenerList();
+        for ( int i = 0; i < listeners.length; i+=2 ) {
+            if ( listeners[i] == ZoomListener.class ) {
+                ((ZoomListener) listeners[ i + 1 ] ).zoomPerformed( event );
             }
         }
     }
@@ -175,14 +181,25 @@ public class ZoomControl extends GraphicLayerSet {
                 _inButtonPressed.setVisible( false );
                 _inPressed = false;
                 if ( _inButtonPressed.getBounds().contains( event.getPoint() ) ) {
-                    fireActionEvent( ACTION_ID_ZOOM_IN, ACTION_COMMAND_ZOOM_IN );
+                    int zoomType;
+                    if ( _orientation == HORIZONTAL ) {
+                        fireZoomEvent( ZoomEvent.HORIZONTAL_ZOOM_IN );
+                    }
+                    else {
+                        fireZoomEvent( ZoomEvent.VERTICAL_ZOOM_IN );
+                    }
                 }
             }
             else if ( _outPressed ) {
                 _outButtonPressed.setVisible( false );
                 _outPressed = false;
                 if ( _outButtonPressed.getBounds().contains( event.getPoint() ) ) {
-                    fireActionEvent( ACTION_ID_ZOOM_OUT, ACTION_COMMAND_ZOOM_OUT );
+                    if ( _orientation == HORIZONTAL ) {
+                        fireZoomEvent( ZoomEvent.HORIZONTAL_ZOOM_OUT );
+                    }
+                    else {
+                        fireZoomEvent( ZoomEvent.VERTICAL_ZOOM_OUT );
+                    }
                 }    
             }
         }
