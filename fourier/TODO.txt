@@ -38,6 +38,11 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/10) - add Y-axis range labels to graphs 
+(6/10) - add X-axis titles to graphs
+(6/10) - add PhetGraphic.updateGraphicsState, use in paint method of all subclasses
+(6/10) - fix clip support in phetgraphics
+(6/10) - work with Sam on new charts features
 (6/10) - link horizontal zoom buttons
 (6/10) - add placeholders for equation graphics
 (6/10) - use grayscales instead of colors for graph backgrounds, add a stroke

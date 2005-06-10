@@ -12,6 +12,8 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.chart.Chart;
@@ -57,17 +59,22 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final int TITLE_X_OFFSET = -20; // from origin
     
+    // Axis parameters
+    private static final Color AXIS_COLOR = Color.BLACK;
+    private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
+    private static final Font AXIS_TITLE_FONT = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private static final Color AXIS_TITLE_COLOR = Color.BLACK;
+    
+    // Range labels
+    private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
+    
     // X axis
     private static final double X_MIN = FourierConfig.MIN_HARMONICS;
     private static final double X_MAX = FourierConfig.MAX_HARMONICS;
-    private static final Color X_AXIS_COLOR = Color.BLACK;
-    private static final Stroke X_AXIS_STROKE = new BasicStroke( 1f );
     
     // Y axis
     private static final double Y_MIN = -FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_MAX = +FourierConfig.MAX_HARMONIC_AMPLITUDE;
-    private static final Color Y_AXIS_COLOR = Color.BLACK;
-    private static final Stroke Y_AXIS_STROKE = new BasicStroke( 2f );
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
     private static final double Y_MINOR_TICK_SPACING = 0.1;
     private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
@@ -141,9 +148,13 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
 
             // X axis
             {
-                _chartGraphic.getXAxis().setStroke( X_AXIS_STROKE );
-                _chartGraphic.getXAxis().setColor( X_AXIS_COLOR );
+                _chartGraphic.getXAxis().setStroke( AXIS_STROKE );
+                _chartGraphic.getXAxis().setColor( AXIS_COLOR );
 
+                String xTitle = SimStrings.get( "AmplitudesGraphic.xAxisTitle" );
+                PhetTextGraphic xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, xTitle, AXIS_TITLE_COLOR );
+                _chartGraphic.setXAxisTitle( xAxisTitleGraphic );
+                
                 // No ticks, labels or gridlines
                 _chartGraphic.getHorizontalTicks().setVisible( false );
                 _chartGraphic.getXAxis().setMajorTicksVisible( false );
@@ -156,14 +167,18 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
             
             // Y axis
             {
-                _chartGraphic.getYAxis().setStroke( Y_AXIS_STROKE );
-                _chartGraphic.getYAxis().setColor( Y_AXIS_COLOR );
+                _chartGraphic.getYAxis().setStroke( AXIS_STROKE );
+                _chartGraphic.getYAxis().setColor( AXIS_COLOR );
                 
                 // No ticks or labels on the axis
                 _chartGraphic.getYAxis().setMajorTicksVisible( false );
                 _chartGraphic.getYAxis().setMajorTickLabelsVisible( false );
                 _chartGraphic.getYAxis().setMinorTicksVisible( false );
                 _chartGraphic.getYAxis().setMinorTickLabelsVisible( false );
+
+                // Range labels
+                _chartGraphic.getVerticalTicks().setRangeLabelsVisible( true );
+                _chartGraphic.getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
                 
                 // Major ticks and labels to the left of the chart
                 _chartGraphic.getVerticalTicks().setMajorTicksVisible( true );
