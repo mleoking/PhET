@@ -26,6 +26,7 @@ public abstract class AbstractTicks extends AbstractGrid {
     private GraphicLayerSet labelGraphics;
     private LabelTable labelTable;
     private boolean rangeLabelsVisible = false;
+    private DecimalFormat rangeLabelsNumberFormat = new DecimalFormat( "#.#" );
 
     public AbstractTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double
             tickSpacing ) {
@@ -66,7 +67,7 @@ public abstract class AbstractTicks extends AbstractGrid {
         for( int i = 0; i < gridLines.length; i++ ) {
             double gridLineY = gridLines[i];
             if( chart.getRange().containsY( gridLineY ) ) {
-                addHorizontalTick( gridLineY );
+                addHorizontalTick( numberFormat, gridLineY );
             }
         }
         if( labelTable != null ) {
@@ -82,12 +83,12 @@ public abstract class AbstractTicks extends AbstractGrid {
             }
         }
         if( rangeLabelsVisible ) {
-            addHorizontalTick( chart.getRange().getMinY() );
-            addHorizontalTick( chart.getRange().getMaxY() );
+            addHorizontalTick( rangeLabelsNumberFormat, chart.getRange().getMinY() );
+            addHorizontalTick( rangeLabelsNumberFormat, chart.getRange().getMaxY() );
         }
     }
 
-    private void addHorizontalTick( double gridLineY ) {
+    private void addHorizontalTick( NumberFormat numberFormat, double gridLineY ) {
         Chart chart = getChart();
         int x = getVerticalTickX();
         int y = chart.transformY( gridLineY );
@@ -119,7 +120,7 @@ public abstract class AbstractTicks extends AbstractGrid {
         for( int i = 0; i < gridLines.length; i++ ) {
             double gridLineX = gridLines[i];
             if( chart.getRange().containsX( gridLineX ) ) {
-                addVerticalTick( gridLineX );
+                addVerticalTick( numberFormat, gridLineX );
             }
         }
         if( labelTable != null ) {
@@ -135,12 +136,12 @@ public abstract class AbstractTicks extends AbstractGrid {
             }
         }
         if( rangeLabelsVisible ) {
-            addVerticalTick( chart.getRange().getMinX() );
-            addVerticalTick( chart.getRange().getMaxX() );
+            addVerticalTick( rangeLabelsNumberFormat, chart.getRange().getMinX() );
+            addVerticalTick( rangeLabelsNumberFormat, chart.getRange().getMaxX() );
         }
     }
 
-    private void addVerticalTick( double gridLineX ) {
+    private void addVerticalTick( NumberFormat numberFormat, double gridLineX ) {
         Chart chart = getChart();
         int x = chart.transformX( gridLineX );
         int y = getHorizontalTickY();
@@ -213,5 +214,9 @@ public abstract class AbstractTicks extends AbstractGrid {
         update();
     }
 
+    public void setRangeLabelsNumberFormat( DecimalFormat decimalFormat ) {
+        rangeLabelsNumberFormat = decimalFormat;
+        update();
+    }
 
 }
