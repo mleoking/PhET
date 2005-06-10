@@ -12,4 +12,8 @@ public class ZeroBoundaryCondition implements BoundaryCondition {
     public void setValue( Complex[][] w, int i, int j, int t ) {
         w[i][j].zero();
     }
+
+    public Complex getValue( int xmesh, int j, double simulationTime ) {
+        return new Complex();
+    }
 }

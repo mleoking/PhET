@@ -8,7 +8,7 @@ package edu.colorado.phet.theramp.common.qm;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SquareWave implements InitialWavefunction {
+public class CylinderWave implements InitialWavefunction {
 
     public void initialize( Complex[][] wavefunction ) {
         initGaussian( wavefunction );

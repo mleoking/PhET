@@ -11,11 +11,11 @@ package edu.colorado.phet.theramp.common.qm;
  */
 
 public class CNCPropagator {
-    double K;
-    double simulationTime;
+    private double K = 10 * Math.PI;
+    private double simulationTime;
 
-    double deltaTime;
-    int timeStep;
+    private double deltaTime;
+    private int timeStep;
 
     private static final Complex TWO = new Complex( 2, 0 );
     private static final Complex MINUS_ONE = new Complex( -1, 0 );
@@ -66,7 +66,7 @@ public class CNCPropagator {
         for( int j = 1; j < YMESH; j++ ) {
             int N = XMESH;
             alpha[N - 1].zero();
-            beta[N - 1] = new Complex( Math.cos( K - K * K * simulationTime ), Math.sin( K - K * K * simulationTime ) );
+            beta[N - 1] = boundaryCondition.getValue( XMESH, j, simulationTime );
             for( int i = N - 1; i >= 1; i-- ) {
                 XA0 = XA00.plus( XA0V.times( getPotential( i, j ) / 2.0 ) );
                 bi = ( ( TWO.minus( XA0 ) ).times( w[i][j] ) ).minus( ( XAP.times( w[i - 1][j].plus( w[i + 1][j] ) ) ) );
@@ -74,23 +74,21 @@ public class CNCPropagator {
                 alpha[i - 1] = gamma[i].times( XAP );
                 beta[i - 1] = gamma[i].times( ( XAP.times( beta[i] ) ).minus( bi ) );
             }
-            setValue( w, 0, j );
-            setValue( w, XMESH, j );
-            fixCorners( w );
-            fixEdges( w );
+//            setValue( w, 0, j );
+//            setValue( w, XMESH, j );
+////            fixCorners( w );
+//            fixEdges( w );
+            origFixA( w, j );
             for( int i = 0; i <= N - 1; i++ ) {
                 w[i + 1][j] = ( alpha[i].times( w[i][j] ) ).plus( beta[i] );
-                if( w[i + 1][j].getReal() < 10E-4 && w[i + 1][j].getImaginary() < 10E-4 ) {
-                    w[i + 1][j].zero();
-                }
             }
         }
-        fixCorners( w );
-        fixEdges( w );
+//        fixCorners( w );
+//        fixEdges( w );
         for( int i = 1; i < XMESH; i++ ) {
             int N = YMESH;
             alpha[N - 1].zero();
-            beta[N - 1] = new Complex( Math.cos( K * i / XMESH - K * K * simulationTime ), Math.sin( K * i / XMESH - K * K * simulationTime ) );
+            beta[N - 1] = boundaryCondition.getValue( i, YMESH, simulationTime );
 
             for( int j = N - 1; j >= 1; j-- ) {
                 YA0 = YA00.plus( YA0V.times( getPotential( i, j ) / 2.0 ) );
@@ -99,23 +97,30 @@ public class CNCPropagator {
                 alpha[j - 1] = gamma[j].times( YAP );
                 beta[j - 1] = gamma[j].times( ( ( YAP.times( beta[j] ) ).minus( bj ) ) );
             }
-            setValue( w, i, 0 );
-            setValue( w, i, YMESH );
-            fixCorners( w );
-            fixEdges( w );
+//            setValue( w, i, 0 );
+//            setValue( w, i, YMESH );
+////            fixCorners( w );
+//            fixEdges( w );
+            origFixB( w, i );
             for( int j = 0; j <= N - 1; j++ ) {
                 w[i][j + 1] = ( alpha[j].times( w[i][j] ) ).plus( beta[j] );
-                if( w[i][j + 1].getReal() < 10E-4 && w[i][j + 1].getImaginary() < 10E-4 ) {
-                    w[i][j + 1].zero();
-                }
             }
         }
-        fixEdges( w );
-        fixCorners( w );
+//        fixEdges( w );
+//        fixCorners( w );
+    }
+
+    private void origFixB( Complex[][] w, int i ) {
+        int XMESH = w.length - 1;
+        w[i][0] = new Complex( Math.cos( K * i / XMESH - K * K * simulationTime ), Math.sin( K * i / XMESH - K * K * simulationTime ) );
+    }
+
+    private void origFixA( Complex[][] w, int j ) {
+        w[0][j] = new Complex( Math.cos( K * K * simulationTime ), -Math.sin( K * K * simulationTime ) );
     }
 
     private void fixEdges( Complex[][] w ) {
-//        int border = 2;
+//        int border = 10;
         int border = 1;
         int XMESH = w.length - 1;
         int YMESH = w[0].length - 1;
