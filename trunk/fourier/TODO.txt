@@ -7,7 +7,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - investigate Jex for rendering equations
-- highlight component when mouse moves over it in Amplitudes or Components view
+- highlight component when mouse moves over it in Harmonics graph
 - persistence
 
 MEDIUM PRIORITY:
@@ -38,6 +38,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/10) - highlight component when mouse moves over it in Amplitudes graph
 (6/10) - add Y-axis range labels to graphs 
 (6/10) - add X-axis titles to graphs
 (6/10) - add PhetGraphic.updateGraphicsState, use in paint method of all subclasses

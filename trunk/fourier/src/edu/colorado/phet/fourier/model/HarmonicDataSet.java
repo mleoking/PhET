@@ -107,6 +107,10 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
         return _waveType;
     }
 
+    public Harmonic getHarmonic() {
+        return _harmonic;
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------

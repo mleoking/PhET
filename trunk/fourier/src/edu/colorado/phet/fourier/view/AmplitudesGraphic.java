@@ -16,7 +16,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import javax.swing.event.EventListenerList;
+
 import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.chart.DataSetGraphic;
+import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -25,8 +29,11 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
+import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.model.HarmonicDataSet;
 import edu.colorado.phet.fourier.util.FourierUtils;
 
 
@@ -101,6 +108,8 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private GraphicLayerSet _slidersGraphic;
     private ArrayList _sliders; // array of AmplitudeSlider
     private int _previousNumberOfHarmonics;
+    private EventListenerList _listenerList;
+    private HarmonicFocusListener _harmonicFocusListener;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -206,11 +215,19 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
         addGraphic( _slidersGraphic, SLIDERS_LAYER );
         
         // Interactivity
-        titleGraphic.setIgnoreMouse( true );
-        _chartGraphic.setIgnoreMouse( true );
+        {
+            titleGraphic.setIgnoreMouse( true );
+            _chartGraphic.setIgnoreMouse( true );
+        }
         
-        _sliders = new ArrayList();
-        _previousNumberOfHarmonics = -1; // force update
+        // Misc initialization
+        {
+            _sliders = new ArrayList();
+            _previousNumberOfHarmonics = -1; // force update
+            _listenerList = new EventListenerList();
+            _harmonicFocusListener = new ThisHarmonicFocusListener();
+        }
+        
         update();
     }
     
@@ -256,6 +273,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
                 else {
                     // Allocate a new slider.
                     slider = new AmplitudeSlider( getComponent(), harmonic );
+                    slider.addHarmonicFocusListener( _harmonicFocusListener );
                 }
                 _slidersGraphic.addGraphic( slider );
 
@@ -274,5 +292,40 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
             _previousNumberOfHarmonics = numberOfHarmonics;
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
+    public void addHarmonicFocusListener( HarmonicFocusListener listener ) {
+        _listenerList.add( HarmonicFocusListener.class, listener );
+    }
+  
+    public void removeHarmonicFocusListener( HarmonicFocusListener listener ) {
+        _listenerList.remove( HarmonicFocusListener.class, listener );
+    }
+    
+    /*
+     * Propogates HarmonicFocusEvents from AmplitudeSliders to listeners.
+     */
+    private class ThisHarmonicFocusListener implements HarmonicFocusListener {
 
+        public void focusGained( HarmonicFocusEvent event ) {
+            Object[] listeners = _listenerList.getListenerList();
+            for ( int i = 0; i < listeners.length; i += 2 ) {
+                if ( listeners[i] == HarmonicFocusListener.class ) {
+                    ( (HarmonicFocusListener) listeners[i + 1] ).focusGained( event );
+                }
+            }
+        }
+
+        public void focusLost( HarmonicFocusEvent event ) {
+            Object[] listeners = _listenerList.getListenerList();
+            for ( int i = 0; i < listeners.length; i += 2 ) {
+                if ( listeners[i] == HarmonicFocusListener.class ) {
+                    ( (HarmonicFocusListener) listeners[i + 1] ).focusLost( event );
+                }
+            }
+        }
+    }
 }
