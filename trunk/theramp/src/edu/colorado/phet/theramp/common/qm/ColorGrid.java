@@ -106,8 +106,9 @@ public class ColorGrid {
 
     static int time = 0;
 
-    private Image getBufferedImage() {
+    public Image getBufferedImage() {
         return image;
     }
+
 
 }
