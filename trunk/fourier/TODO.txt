@@ -15,6 +15,7 @@ MEDIUM PRIORITY:
 - OK to override finalize?
 
 LOW PRIORITY:
+- make graph titles prettier
 
 OPTIMIZATIONS:
 
@@ -27,7 +28,7 @@ CLEANUP:
 - fix all javadoc warnings and errors
 
 CHARTS:
-- bug: bottom and right edges of charts stopped drawing when Sam added clipping
+- flatten static graphics elements
 
 PHETCOMMON:
 - bug: JTextField wrapped by PhetJComponent doesn't work on Windows
