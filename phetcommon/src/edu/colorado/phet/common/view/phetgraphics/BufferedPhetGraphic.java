@@ -84,10 +84,7 @@ public class BufferedPhetGraphic extends PhetGraphic {
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
             super.saveGraphicsState( g2 );
-            RenderingHints hints = getRenderingHints();
-            if( hints != null ) {
-                g2.setRenderingHints( hints );
-            }
+            super.updateGraphicsState( g2 );
             g2.drawRenderedImage( buffer, getNetTransform() );
             super.restoreGraphicsState();
         }

@@ -81,10 +81,7 @@ public class PhetImageGraphic extends PhetGraphic {
     public void paint( Graphics2D g2 ) {
         if( isVisible() && image != null ) {
             super.saveGraphicsState( g2 );
-            RenderingHints hints = getRenderingHints();
-            if( hints != null ) {
-                g2.setRenderingHints( hints );
-            }
+            super.updateGraphicsState( g2 );
             g2.drawRenderedImage( image, getNetTransform() );
             super.restoreGraphicsState();
         }

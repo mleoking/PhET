@@ -251,6 +251,33 @@ public abstract class PhetGraphic {
     public RenderingHints getRenderingHints() {
         return renderingHints;
     }
+  
+    public void setClip( Shape clip ) {
+        this.clip = clip;
+    }
+    
+    public Shape getClip() {
+        return clip;
+    }
+
+    /**
+     * Updates the graphics state to include changes that are specific for this graphic.
+     * Subclasses should call this method in their paint method, immediately after 
+     * calling saveGraphicsState.
+     * 
+     * @param g2
+     */
+    protected void updateGraphicsState( Graphics2D g2 ) {
+        // Clipping
+        if( clip != null ) {
+            g2.setClip( clip );
+        } 
+        // Rendering hints
+        RenderingHints hints = getRenderingHints();
+        if( hints != null ) {
+            g2.setRenderingHints( hints );
+        }
+    }
 
     //----------------------------------------------------------------------------
     // Visibility methods
@@ -1167,17 +1194,5 @@ public abstract class PhetGraphic {
     }
 
     public void lostKeyFocus() {
-    }
-
-    //----------------------------------------------------------------------------
-    // Clipping methods
-    //----------------------------------------------------------------------------
-    
-    public Shape getClip() {
-        return clip;
-    }
-
-    public void setClip( Shape clip ) {
-        this.clip = clip;
     }
 }

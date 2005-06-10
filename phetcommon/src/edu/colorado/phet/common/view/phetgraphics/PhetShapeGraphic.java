@@ -64,9 +64,6 @@ public class PhetShapeGraphic extends PhetGraphic {
         if( !sameShape ) {
             this.shape = shape;
             setShapeDirty();
-//            computeStrokedShape();
-//            setBoundsDirty();
-//            autorepaint();
         }
     }
 
@@ -105,7 +102,6 @@ public class PhetShapeGraphic extends PhetGraphic {
     public void setStroke( Stroke stroke ) {
         this.stroke = stroke;
         setShapeDirty();
-//        autorepaint();
     }
 
     public void setPaint( Paint paint ) {
@@ -156,14 +152,7 @@ public class PhetShapeGraphic extends PhetGraphic {
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
             super.saveGraphicsState( g2 );
-            Shape clip = super.getClip();
-            if( clip != null ) {
-                g2.setClip( clip );
-            }
-            RenderingHints hints = super.getRenderingHints();
-            if( hints != null ) {
-                g2.setRenderingHints( hints );
-            }
+            super.updateGraphicsState( g2 );
             if( shape != null ) {
                 g2.transform( getNetTransform() );
                 if( fill != null ) {

@@ -44,10 +44,7 @@ public class PhetShadowTextGraphic extends PhetGraphic {
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
             super.saveGraphicsState( g2 );
-            RenderingHints hints = getRenderingHints();
-            if( hints != null ) {
-                g2.setRenderingHints( hints );
-            }
+            super.updateGraphicsState( g2 );
             g2.transform( getNetTransform() );
             background.paint( g2 );
             foreground.paint( g2 );
