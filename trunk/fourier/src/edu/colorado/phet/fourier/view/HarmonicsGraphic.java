@@ -103,7 +103,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
 
     // Chart parameters
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
-    private static final Dimension CHART_SIZE = new Dimension( 600, 130 );
+    private static final Dimension CHART_SIZE = new Dimension( 580, 130 );
 
     // Wave parameters
     private static final Stroke WAVE_STROKE = new BasicStroke( 1f );
@@ -206,8 +206,8 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
                 _chartGraphic.getXAxis().setColor( AXIS_COLOR );
                 
                 // Title
-                _xAxisTitleTime = SimStrings.get( "HarmonicsGraphic.xAxisTitle.time" );
-                _xAxisTitleSpace = SimStrings.get( "HarmonicsGraphic.xAxisTitle.space" );
+                _xAxisTitleTime = SimStrings.get( "symbol.time" );
+                _xAxisTitleSpace = SimStrings.get( "symbol.space" );
                 _xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, _xAxisTitleSpace, AXIS_TITLE_COLOR );
                 _chartGraphic.setXAxisTitle( _xAxisTitleGraphic );
 
