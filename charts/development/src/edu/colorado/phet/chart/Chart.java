@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.phetgraphics.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class Chart extends GraphicLayerSet {
@@ -262,6 +263,10 @@ public class Chart extends GraphicLayerSet {
 
         public void setRangeLabelsVisible( boolean rangeLabelsVisible ) {
             majorTicks.setRangeLabelsVisible( rangeLabelsVisible );
+        }
+
+        public void setMajorNumberFormat( NumberFormat numberFormat ) {
+            majorTicks.setNumberFormat( numberFormat );
         }
     }
 

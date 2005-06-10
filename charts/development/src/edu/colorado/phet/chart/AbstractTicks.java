@@ -19,7 +19,7 @@ import java.text.NumberFormat;
  */
 public abstract class AbstractTicks extends AbstractGrid {
     private int tickHeight = 6;
-    private NumberFormat format = new DecimalFormat( "#.#" );
+    private NumberFormat numberFormat = new DecimalFormat( "#.#" );
     private Font font = new Font( "Lucida Sans", 0, 12 );
     private boolean showLabels = true;
     private GraphicLayerSet tickGraphics;
@@ -96,7 +96,7 @@ public abstract class AbstractTicks extends AbstractGrid {
         tickGraphics.addGraphic( lineGraphic );
 
         if( labelTable == null ) {
-            String string = format.format( gridLineY );
+            String string = numberFormat.format( gridLineY );
             PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font,
                                                                 string, getColor() );
             labelGraphic.setLocation( x - tickHeight / 2 - labelGraphic.getWidth(), y - labelGraphic.getHeight() / 2 );
@@ -149,7 +149,7 @@ public abstract class AbstractTicks extends AbstractGrid {
         tickGraphics.addGraphic( lineGraphic );
 
         if( labelTable == null ) {
-            String string = format.format( gridLineX );
+            String string = numberFormat.format( gridLineX );
             PhetTextGraphic labelGraphic = new PhetTextGraphic( chart.getComponent(), font, string, getColor() );
             labelGraphic.setLocation( x - labelGraphic.getWidth() / 2, y + tickHeight / 2 );
             labelGraphic.setVisible( showLabels );
@@ -180,7 +180,7 @@ public abstract class AbstractTicks extends AbstractGrid {
     }
 
     public void setFormatter( DecimalFormat formatter ) {
-        this.format = formatter;
+        this.numberFormat = formatter;
         update();
     }
 
@@ -190,7 +190,7 @@ public abstract class AbstractTicks extends AbstractGrid {
     }
 
     public void setNumberFormat( NumberFormat numberFormat ) {
-        this.format = numberFormat;
+        this.numberFormat = numberFormat;
         update();
     }
 
@@ -212,4 +212,6 @@ public abstract class AbstractTicks extends AbstractGrid {
         this.rangeLabelsVisible = rangeLabelsVisible;
         update();
     }
+
+
 }
