@@ -110,7 +110,7 @@ public class Chart extends GraphicLayerSet {
         }
         xAxisTitleGraphic = phetGraphic;
         xAxisTitleGraphic.setLocation( chartSize.width + 2, chartSize.height / 2 - xAxisTitleGraphic.getHeight() / 2 );
-        xAxisTitleGraphic.setClippingDisabled( true );
+//        xAxisTitleGraphic.setClippingDisabled( true );
         addGraphic( xAxisTitleGraphic, Double.POSITIVE_INFINITY );
     }
 
