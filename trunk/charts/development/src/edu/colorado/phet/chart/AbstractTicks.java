@@ -26,7 +26,7 @@ public abstract class AbstractTicks extends AbstractGrid {
     private GraphicLayerSet labelGraphics;
     private LabelTable labelTable;
     private boolean rangeLabelsVisible = false;
-    private DecimalFormat rangeLabelsNumberFormat = new DecimalFormat( "#.#" );
+    private NumberFormat rangeLabelsNumberFormat = new DecimalFormat( "#.#" );
 
     public AbstractTicks( Chart chart, Orientation orientation, Stroke stroke, Color color, double
             tickSpacing ) {
@@ -214,8 +214,8 @@ public abstract class AbstractTicks extends AbstractGrid {
         update();
     }
 
-    public void setRangeLabelsNumberFormat( DecimalFormat decimalFormat ) {
-        rangeLabelsNumberFormat = decimalFormat;
+    public void setRangeLabelsNumberFormat( NumberFormat numberFormat ) {
+        rangeLabelsNumberFormat = numberFormat;
         update();
     }
 
