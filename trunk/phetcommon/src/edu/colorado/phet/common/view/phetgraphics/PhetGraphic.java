@@ -1174,41 +1174,10 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     
     public Shape getClip() {
-        if( parent != null && clip == null ) {
-            return parent.getClip();
-        }
-        else if( parent == null ) {
-            return clip;
-        }
-        else {
-            //todo compose the clips
-            return clip;
-        }
+        return clip;
     }
 
     public void setClip( Shape clip ) {
         this.clip = clip;
-    }
-
-    public void setClippingDisabled( boolean clippingDisabled ) {
-        this.clippingDisabled = clippingDisabled;
-        System.out.println( "clippingDisabled = " + clippingDisabled );
-    }
-
-    //----------------------------------------------------------------------------
-    // 
-    //----------------------------------------------------------------------------
-    protected void applyClip( Graphics2D graphics2D ) {
-        if( isClippingDisabled() ) {
-//            graphics2D.setClip( new Rectangle( 0, 0, getComponent().getWidth(), getComponent().getHeight() ) );
-            graphics2D.setClip( null );
-        }
-        else if( getClip() != null ) {
-            graphics2D.setClip( getClip() );
-        }
-    }
-
-    protected boolean isClippingDisabled() {
-        return clippingDisabled || ( getParent() != null && getParent().isClippingDisabled() );
     }
 }

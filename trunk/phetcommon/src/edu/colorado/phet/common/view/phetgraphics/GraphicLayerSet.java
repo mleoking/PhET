@@ -75,7 +75,10 @@ public class GraphicLayerSet extends PhetGraphic {
     public void paint( Graphics2D g2 ) {
         if( isVisible() ) {
             super.saveGraphicsState( g2 );
-
+            Shape clip = super.getClip();
+            if( clip != null ) {
+                g2.setClip( clip );
+            }
             // Apply rendering hints to all children.
             RenderingHints hints = getRenderingHints();
             if( hints != null ) {
