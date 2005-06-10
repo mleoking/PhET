@@ -34,7 +34,7 @@ information.
         <!--
         This section should contain all the jar files for all the simulations
         -->
-        <jar href="http://www.colorado.edu/physics/phet/dev/idealgas/v3r19/idealgas.jar" download="lazy" />
+        <jar href="http://www.colorado.edu/physics/phet/dev/psl/test.jar" download="lazy" />
     </resources>
     <application-desc main-class="edu.colorado.phet.psl.CacheTracker">
         <argument>-B</argument>
