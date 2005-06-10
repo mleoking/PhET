@@ -39,6 +39,7 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+v0r1...
 (6/10) - i18n of all mathematical symbols
 (6/10) - stubs for all control handlers in "Discrete" module
 (6/10) - populate "Show wavelength" and "Show period" controls
