@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.phetgraphics.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -268,6 +269,10 @@ public class Chart extends GraphicLayerSet {
         public void setMajorNumberFormat( NumberFormat numberFormat ) {
             majorTicks.setNumberFormat( numberFormat );
         }
+
+        public void setRangeLabelsNumberFormat( DecimalFormat decimalFormat ) {
+            majorTicks.setRangeLabelsNumberFormat( decimalFormat );
+        }
     }
 
     public TickMarkSet getVerticalTicks() {
@@ -300,6 +305,7 @@ public class Chart extends GraphicLayerSet {
             Chart chart = getChart();
             return chart.transformY( chart.getRange().getMinY() ) + dy;
         }
+
 
     }
 
