@@ -39,6 +39,9 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+(6/10) - i18n of all mathematical symbols
+(6/10) - stubs for all control handlers in "Discrete" module
+(6/10) - populate "Show wavelength" and "Show period" controls
 (6/10) - highlight component when mouse moves over it in Amplitudes graph
 (6/10) - add Y-axis range labels to graphs 
 (6/10) - add X-axis titles to graphs

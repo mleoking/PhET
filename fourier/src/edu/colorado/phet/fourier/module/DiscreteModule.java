@@ -172,7 +172,7 @@ public class DiscreteModule extends FourierModule {
         
         _sumGraphic.setWaveType( WAVE_TYPE );
         
-        _controlPanel.update();
+        _controlPanel.reset();
     }
     
     //----------------------------------------------------------------------------

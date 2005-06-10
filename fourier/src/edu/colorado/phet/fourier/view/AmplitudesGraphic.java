@@ -160,7 +160,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
                 _chartGraphic.getXAxis().setStroke( AXIS_STROKE );
                 _chartGraphic.getXAxis().setColor( AXIS_COLOR );
 
-                String xTitle = SimStrings.get( "AmplitudesGraphic.xAxisTitle" );
+                String xTitle = SimStrings.get( "symbol.mode" );
                 PhetTextGraphic xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, xTitle, AXIS_TITLE_COLOR );
                 _chartGraphic.setXAxisTitle( xAxisTitleGraphic );
                 
