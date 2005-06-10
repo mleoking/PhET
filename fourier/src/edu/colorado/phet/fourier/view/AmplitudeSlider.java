@@ -15,21 +15,23 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
+import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.Harmonic;
 
 
@@ -101,6 +103,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private Rectangle _knobRectangle;
     private PhetShapeGraphic _clickZoneGraphic;
     private Rectangle _clickZoneRectangle;
+    private EventListenerList _listenerList;
+    private Point _somePoint;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -115,11 +119,17 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     public AmplitudeSlider( Component component, Harmonic harmonicModel ) {
         super( component );
 
+        // Model
         assert ( harmonicModel != null );
         _harmonicModel = harmonicModel;
         _harmonicModel.addObserver( this );
 
-        _maxSize = new Dimension( DEFAULT_TRACK_SIZE );
+        // Misc initialization
+        {
+            _maxSize = new Dimension( DEFAULT_TRACK_SIZE );
+            _listenerList = new EventListenerList();
+            _somePoint = new Point();
+        }
 
         // Label (An)
         {          
@@ -146,6 +156,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             _valueTextField.setFont( VALUE_FONT );
             _valueTextField.setColumns( VALUE_COLUMNS );
             _valueGraphic = PhetJComponent.newInstance( component, _valueTextField );
+            _valueGraphic.setName( "AmplitudeSlider.value" );
             _valueGraphic.centerRegistrationPoint();
             _valueGraphic.setLocation( 0, 0 );
         }
@@ -155,6 +166,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
            _clickZoneGraphic = new PhetShapeGraphic( component );
            _clickZoneRectangle = new Rectangle( 1, 1, _maxSize.width, _maxSize.height );
            _clickZoneGraphic.setShape( _clickZoneRectangle );
+           _clickZoneGraphic.setName( "AmplitudeSlider.clickZone" );
            _clickZoneGraphic.setPaint( new Color( 0, 0, 0, 0 ) ); // transparent
            _clickZoneGraphic.centerRegistrationPoint();
            _clickZoneGraphic.setLocation( 0, 0 );
@@ -165,6 +177,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             _trackRectangle = new Rectangle();
             _trackColor = DEFAULT_TRACK_COLOR;
             _trackGraphic = new PhetShapeGraphic( component );
+            _trackGraphic.setName( "AmplitudeSlider.track" );
             _trackGraphic.setShape( _trackRectangle );
             _trackGraphic.setPaint( _trackColor );
             _trackGraphic.setBorderColor( TRACK_BORDER_COLOR );
@@ -176,6 +189,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         {
             _knobRectangle = new Rectangle( 0, 0, _maxSize.width, 2 );
             _knobGraphic = new PhetShapeGraphic( component );
+            _knobGraphic.setName( "AmplitudeSlider.knob" );
             _knobGraphic.setShape( _knobRectangle );
             _knobGraphic.setPaint( KNOB_FILL_COLOR );
             _knobGraphic.setStroke( KNOB_STROKE );
@@ -187,18 +201,20 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         // Interactivity
         {
             _labelGraphic.setIgnoreMouse( true );
-            _trackGraphic.setIgnoreMouse( true );
             
             TextFieldEventListener textFieldListener = new TextFieldEventListener();
             _valueTextField.addActionListener( textFieldListener );
             _valueTextField.addFocusListener( textFieldListener );
             _valueTextField.addKeyListener( textFieldListener );
             
-            SliderEventListener sliderListener = new SliderEventListener();
             _clickZoneGraphic.setCursorHand();
-            _clickZoneGraphic.addMouseInputListener( sliderListener );
+            _clickZoneGraphic.addMouseInputListener( new ClickZoneEventListener() );
+            
             _knobGraphic.setCursorHand();
-            _knobGraphic.addMouseInputListener( sliderListener );
+            _knobGraphic.addMouseInputListener( new KnobEventListener() );
+            
+            _trackGraphic.setCursorHand();
+            _trackGraphic.addMouseInputListener( new TrackEventListener() );
         }
 
         addGraphic( _labelGraphic, LABEL_LAYER );
@@ -346,7 +362,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         return success;
     }
     
-    /**
+    /*
      * Displays a modal error dialog for invalid user inputs.
      */
     private void showUserInputErrorDialog() {
@@ -355,6 +371,34 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         op.createDialog( getComponent(), null ).show();
     }
     
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
+    public void addHarmonicFocusListener( HarmonicFocusListener listener ) {
+        _listenerList.add( HarmonicFocusListener.class, listener );
+    }
+  
+    public void removeHarmonicFocusListener( HarmonicFocusListener listener ) {
+        _listenerList.remove( HarmonicFocusListener.class, listener );
+    }
+    
+    private void fireHarmonicFocusEvent( boolean hasFocus ) {
+        HarmonicFocusEvent event = new HarmonicFocusEvent( this, _harmonicModel, hasFocus );
+        Object[] listeners = _listenerList.getListenerList();
+        for ( int i = 0; i < listeners.length; i+=2 ) {
+            if ( listeners[i] == HarmonicFocusListener.class ) {
+                HarmonicFocusListener listener = (HarmonicFocusListener) listeners[ i + 1 ];
+                if ( hasFocus ) {
+                    listener.focusGained( event );
+                }
+                else {
+                    listener.focusLost( event );
+                }
+            }
+        }
+    }
+
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -396,44 +440,101 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /*
-     * SliderEventListener handles events related to the slider.
+     * ClickZoneEventListener handles events related to the "click zone".
      */
-    private class SliderEventListener extends MouseInputAdapter {
-        
-        private Point _somePoint;
+    private class ClickZoneEventListener extends MouseInputAdapter {
         
         /* Sole constructor */
-        public SliderEventListener() {
+        public ClickZoneEventListener() {
             super();
-            _somePoint = new Point();
         }
         
-        /* Handles mouse drags. */
+        /* Sets the harmonic's amplitude as the mouse is dragged. */
         public void mouseDragged( MouseEvent event ) {
             setAmplitude( event.getPoint() );
         }
         
-        /* Handles mouse presses. */
+        /* Sets the harmonic's amplitude when based on where the mouse is pressed. */
+        public void mousePressed( MouseEvent event ) {
+            setAmplitude( event.getPoint() );
+        }
+    }
+    
+    /*
+     * KnobEventListener handles events related to the knob.
+     */
+    private class KnobEventListener extends MouseInputAdapter {
+        
+        public KnobEventListener() {
+            super();
+        }
+        
+        /* Sets the harmonic's amplitude as the mouse is dragged. */
+        public void mouseDragged( MouseEvent event ) {
+            setAmplitude( event.getPoint() );
+        }
+        
+        /* Harmonic gains focus when the mouse enters the track. */
+        public void mouseEntered( MouseEvent event ) {
+            fireHarmonicFocusEvent( true );
+        }
+        
+        /* Harmonic loses focus when the mouse exits the track. */
+        public void mouseExited( MouseEvent event ) {
+            fireHarmonicFocusEvent( false );
+        }
+    }
+    
+    /**
+     * TrackEventListener handles events related to the slider track.
+     *
+     * @author Chris Malley (cmalley@pixelzoom.com)
+     * @version $Revision$
+     */
+    private class TrackEventListener extends MouseInputAdapter {
+        
+        public TrackEventListener() {
+            super();
+        }
+        
+        /* Sets the harmonic's amplitude as the mouse is dragged. */
+        public void mouseDragged( MouseEvent event ) {
+            setAmplitude( event.getPoint() );
+        }
+        
+        /* Sets the harmonic's ampltude when based on where the mouse is pressed. */
         public void mousePressed( MouseEvent event ) {
             setAmplitude( event.getPoint() );
         }
         
-        /* Sets the harmonic's amplitude based on the mouse location. */
-        private void setAmplitude( Point mousePoint ) {
-            double localY = 0;
-            try {
-                AffineTransform transform = getNetTransform();
-                transform.inverseTransform( mousePoint, _somePoint /* output */ );
-                localY = _somePoint.getY();
-            }
-            catch ( NoninvertibleTransformException e ) {
-                e.printStackTrace();
-            }
-            localY = -localY; // +Y is up
-            double amplitude = MAX_AMPLITUDE * ( localY / ( _maxSize.height / 2.0 ) );
-            amplitude = MathUtil.clamp( -MAX_AMPLITUDE, amplitude, +MAX_AMPLITUDE );
-            _harmonicModel.setAmplitude( amplitude );
+        /* Harmonic gains focus when the mouse enters the track. */
+        public void mouseEntered( MouseEvent event ) {
+            fireHarmonicFocusEvent( true );
         }
+        
+        /* Harmonic loses focus when the mouse exits the track. */
+        public void mouseExited( MouseEvent event ) {
+            fireHarmonicFocusEvent( false );
+        }
+    }
+    
+    /* 
+     * Sets the harmonic's amplitude based on the mouse location.
+     */
+    private void setAmplitude( Point mousePoint ) {
+        double localY = 0;
+        try {
+            AffineTransform transform = getNetTransform();
+            transform.inverseTransform( mousePoint, _somePoint /* output */ );
+            localY = _somePoint.getY();
+        }
+        catch ( NoninvertibleTransformException e ) {
+            e.printStackTrace();
+        }
+        localY = -localY; // +Y is up
+        double amplitude = MAX_AMPLITUDE * ( localY / ( _maxSize.height / 2.0 ) );
+        amplitude = MathUtil.clamp( -MAX_AMPLITUDE, amplitude, +MAX_AMPLITUDE );
+        _harmonicModel.setAmplitude( amplitude );
     }
     
     /*

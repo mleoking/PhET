@@ -126,6 +126,9 @@ public class DiscreteModule extends FourierModule {
         _harmonicsGraphic.getHorizontalZoomControl().addZoomListener( _sumGraphic );
         _sumGraphic.getHorizontalZoomControl().addZoomListener( _harmonicsGraphic );
         
+        // Harmonic hightlighting
+        amplitudesGraphic.addHarmonicFocusListener( _harmonicsGraphic );
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------

@@ -13,6 +13,8 @@ package edu.colorado.phet.fourier.util;
 
 import java.awt.Color;
 
+import edu.colorado.phet.fourier.model.Harmonic;
+
 
 /**
  * FourierUtils is a collection of static utility methods.
@@ -70,6 +72,10 @@ public class FourierUtils {
           throw new IllegalArgumentException( "n is out of range: " + n );
       }
       return HARMONIC_COLORS[ n ];
+    }
+    
+    public static Color calculateHarmonicColor( Harmonic harmonic ) {
+        return calculateHarmonicColor( harmonic.getOrder() );
     }
     
     /**

@@ -24,6 +24,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.control.ZoomControl;
+import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
+import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -38,7 +40,8 @@ import edu.colorado.phet.fourier.util.FourierUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver, ZoomListener {
+public class HarmonicsGraphic extends GraphicLayerSet 
+implements SimpleObserver, ZoomListener, HarmonicFocusListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -104,6 +107,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver,
 
     // Wave parameters
     private static final Stroke WAVE_STROKE = new BasicStroke( 1f );
+    private static final Color WAVE_DIMMED_COLOR = Color.GRAY;
     private static final int NUMBER_OF_DATA_POINTS = 1000;
     private static final int MAX_FUNDAMENTAL_CYCLES = 4;
     
@@ -394,7 +398,38 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver,
             throw new IllegalArgumentException( "unexpected event: " + event );
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // HarmonicFocusListener implementation
+    //----------------------------------------------------------------------------
 
+    //XXX contains evil casts
+    /**
+     * When a harmonic gains focus, grays out all harmonics except for the one with focus.
+     */
+    public void focusGained( HarmonicFocusEvent event ) {
+        DataSetGraphic[] dataSetGraphics = _chartGraphic.getDataSetGraphics();
+        for ( int i = 0; i < dataSetGraphics.length; i++ ) { 
+            HarmonicDataSet dataSet = (HarmonicDataSet) dataSetGraphics[i].getDataSet();
+            if ( dataSet.getHarmonic() != event.getHarmonic() ) {
+                    ( (LinePlot) dataSetGraphics[i] ).setBorderColor( WAVE_DIMMED_COLOR );
+            }
+        }
+    }
+    
+    // XXX contains evil casts
+    /**
+     * When a harmonic loses focus, sets all harmonics to their assigned color.
+     */
+    public void focusLost( HarmonicFocusEvent event ) {
+        DataSetGraphic[] dataSetGraphics = _chartGraphic.getDataSetGraphics();
+        for ( int i = 0; i < dataSetGraphics.length; i++ ) {
+            HarmonicDataSet dataSet = (HarmonicDataSet) dataSetGraphics[i].getDataSet();
+            Color harmonicColor = FourierUtils.calculateHarmonicColor( dataSet.getHarmonic() );
+            ( (LinePlot) dataSetGraphics[i] ).setBorderColor( harmonicColor );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
