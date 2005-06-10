@@ -131,6 +131,10 @@ public class Chart extends GraphicLayerSet {
         return dataSetGraphics.contains( dataSetGraphic );
     }
 
+    public DataSetGraphic[] getDataSetGraphics() {
+        return (DataSetGraphic[]) dataSetGraphics.toArray( new DataSetGraphic[0] );
+    }
+    
     public void setVerticalTitle( String title, Color color, Font verticalTitleFont ) {
         //todo implement me.
         this.title.setHtml( title );
