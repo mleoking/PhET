@@ -457,6 +457,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         /* Sets the harmonic's amplitude when based on where the mouse is pressed. */
         public void mousePressed( MouseEvent event ) {
             setAmplitude( event.getPoint() );
+            fireHarmonicFocusEvent( true );
         }
     }
     
