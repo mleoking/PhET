@@ -12,6 +12,8 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.chart.*;
@@ -63,6 +65,11 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver,
     // Axis parameter
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
+    private static final Font AXIS_TITLE_FONT = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private static final Color AXIS_TITLE_COLOR = Color.BLACK;
+    
+    // Range labels
+    private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
     
     // Tick Mark parameter
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
@@ -111,6 +118,8 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver,
     private FourierSeries _fourierSeriesModel;
     private Chart _chartGraphic;
     private PhetTextGraphic _equationGraphic;
+    private PhetTextGraphic _xAxisTitleGraphic;
+    private String _xAxisTitleTime, _xAxisTitleSpace;
     private ArrayList _dataSets; // array of HarmonicDataSet
     private int _previousNumberOfHarmonics;
     private int _waveType;
@@ -191,6 +200,12 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver,
             {
                 _chartGraphic.getXAxis().setStroke( AXIS_STROKE );
                 _chartGraphic.getXAxis().setColor( AXIS_COLOR );
+                
+                // Title
+                _xAxisTitleTime = SimStrings.get( "HarmonicsGraphic.xAxisTitle.time" );
+                _xAxisTitleSpace = SimStrings.get( "HarmonicsGraphic.xAxisTitle.space" );
+                _xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, _xAxisTitleSpace, AXIS_TITLE_COLOR );
+                _chartGraphic.setXAxisTitle( _xAxisTitleGraphic );
 
                 // No ticks or labels on the axis
                 _chartGraphic.getXAxis().setMajorTicksVisible( false );
@@ -230,6 +245,10 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver,
                 _chartGraphic.getYAxis().setMinorTicksVisible( false );
                 _chartGraphic.getYAxis().setMinorTickLabelsVisible( false );
 
+                // Range labels
+                _chartGraphic.getVerticalTicks().setRangeLabelsVisible( true );
+                _chartGraphic.getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
+                
                 // Major ticks with labels to the left of the chart
                 _chartGraphic.getVerticalTicks().setMajorTicksVisible( true );
                 _chartGraphic.getVerticalTicks().setMajorTickLabelsVisible( true );
@@ -264,7 +283,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver,
         {
             _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
-            _horizontalZoomControl.setLocation( CHART_SIZE.width + 10, -50 );
+            _horizontalZoomControl.setLocation( CHART_SIZE.width + 20, -50 );
         }
 
         // Interactivity
