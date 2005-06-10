@@ -1204,7 +1204,7 @@ public abstract class PhetGraphic {
             graphics2D.setClip( null );
         }
         else if( getClip() != null ) {
-            graphics2D.clip( getClip() );
+            graphics2D.setClip( getClip() );
         }
     }
 
