@@ -37,17 +37,36 @@ public class Schrodinger {
         int i, j;
         for( i = 0; i <= XMESH; i++ ) {
             for( j = 0; j <= YMESH; j++ ) {
-                w[i][j] = new Complex( Math.cos( K * i / XMESH ), Math.sin( K * i / XMESH ) );
+                fixPlaneWaveValue( w, i, j );
+//                w[i][j] = new Complex( Math.cos( K * i / XMESH ), Math.sin( K * i / XMESH ) );
+            }
+        }
+    }
+
+    void initGaussian( Complex[][] w ) {
+        int i, j;
+        for( i = 0; i <= XMESH; i++ ) {
+            for( j = 0; j <= YMESH; j++ ) {
+//                fixPlaneWaveValue( w, i, j );
+//                w[i][j] = new Complex( Math.cos( K * i / XMESH ), Math.sin( K * i / XMESH ) );
+
+                if( ( i - XMESH / 2 ) * ( i - XMESH / 2 ) + ( j - YMESH / 2 ) * ( j - YMESH / 2 ) < XMESH * YMESH / 64 ) {
+                    w[i][j] = new Complex( Math.cos( i / XMESH ), Math.sin( ( i / XMESH ) ) );
+//                    w[i][j]=new Complex( );
+                }
+                else {
+                    w[i][j] = new Complex();
+                }
             }
         }
     }
 
     double getPotential( int i, int j ) {
-        if( Time < 100000 * TAU ) {
+        if( Time < 500000 * TAU ) {
             return ( 0 );
         }
-        if( ( i - XMESH / 2 ) * ( i - XMESH / 2 ) + ( j - YMESH / 2 ) * ( j - YMESH / 2 ) < XMESH * YMESH / 32 ) {
-            return ( 1E2 );
+        if( ( i - XMESH / 2 ) * ( i - XMESH / 2 ) + ( j - YMESH / 2 ) * ( j - YMESH / 2 ) < XMESH * YMESH / 64 ) {
+            return ( 1E4 );
         }
         else {
             return ( 0. );
@@ -89,56 +108,112 @@ public class Schrodinger {
                 alpha[i - 1] = gamma[i].times( XAP );
                 beta[i - 1] = gamma[i].times( ( XAP.times( beta[i] ) ).minus( bi ) );
             }
-            w[0][j] = new Complex( Math.cos( K * K * Time ), -Math.sin( K * K * Time ) );
+            fixPlaneWaveValue( w, 0, j );
+//            w[0][j] = new Complex( Math.cos( K * K * Time ), -Math.sin( K * K * Time ) );
+            fixPlaneWaveValue( w, XMESH, j );
+            fixCorners( w );
+            fixEdges( w );
+//            w[XMESH][j]=new Complex( Math.cos( K * XMESH / XMESH - K * K * Time ), Math.sin( K * XMESH / XMESH - K * K * Time ) );
             for( int i = 0; i <= N - 1; i++ ) {
                 w[i + 1][j] = ( alpha[i].times( w[i][j] ) ).plus( beta[i] );
+                if( w[i + 1][j].getReal() < 10E-4 && w[i + 1][j].getImaginary() < 10E-4 ) {
+                    w[i + 1][j].zero();
+                }
+//                if (!w[i+1][j].isZero()){
+//                    Complex val=w[i+1][j];
+//                     System.out.println( "nonzero" );
+//                }
             }
         }
-
+        fixCorners( w );
+        fixEdges( w );
         for( int i = 1; i < XMESH; i++ ) {
-
-//                 N = YMESH;
-//     alpha[N-1] = 0;
-//     beta[N-1]  = Complex(cos(K*i/XMESH-K*K*Time),sin(K*i/XMESH-K*K*Time));
             int N = YMESH;
             alpha[N - 1].zero();
             beta[N - 1] = new Complex( Math.cos( K * i / XMESH - K * K * Time ), Math.sin( K * i / XMESH - K * K * Time ) );
 
-//            for (j=N-1;j>=1;j--)
-//              {
-//            YA0 = YA00+YA0V*V(i,j)/2.;
-//            bj = (2-YA0)*w[i][j]-YAP*(w[i][j-1]+w[i][j+1]);
-//            gamma[j] = -1/(YA0+YAP*alpha[j]);
-//            alpha[j-1] = gamma[j]*YAP;
-//            beta[j-1]  = gamma[j]*(YAP*beta[j]-bj);
-//              }
-
             for( int j = N - 1; j >= 1; j-- ) {
                 YA0 = YA00.plus( YA0V.times( getPotential( i, j ) / 2.0 ) );
-                bj = ( ( TWO.minus( YA0 ) ).times( w[i][j] ) ).minus( YAP.times( w[i][j - 1].plus( w[i][j + 1] ) ) );
+                bj = ( ( TWO.minus( YA0 ) ).times( w[i][j] ) ).minus( ( YAP.times( w[i][j - 1].plus( w[i][j + 1] ) ) ) );
                 gamma[j] = MINUS_ONE.divideBy( YA0.plus( YAP.times( alpha[j] ) ) );
                 alpha[j - 1] = gamma[j].times( YAP );
-                beta[j - 1] = gamma[j].times( ( YAP.times( beta[j] ) ).minus( bj ) );
+                beta[j - 1] = gamma[j].times( ( ( YAP.times( beta[j] ) ).minus( bj ) ) );
             }
-
-//                 w[i][0] = Complex(cos(K*i/XMESH-K*K*Time),sin(K*i/XMESH-K*K*Time));
-//     for (j=0;j<=N-1;j++)
-//       w[i][j+1] = alpha[j]*w[i][j]+beta[j];
-            w[i][0] = new Complex( Math.cos( K * i / XMESH - K * K * Time ), Math.sin( K * i / XMESH - K * K * Time ) );
+            fixPlaneWaveValue( w, i, 0 );
+            fixPlaneWaveValue( w, i, YMESH );
+            fixCorners( w );
+            fixEdges( w );
+//            w[i][0] = new Complex( Math.cos( K * i / XMESH - K * K * Time ), Math.sin( K * i / XMESH - K * K * Time ) );
+//            w[i][YMESH] = new Complex( Math.cos( K * i / XMESH - K * K * Time ), Math.sin( K * i / XMESH - K * K * Time ) );
             for( int j = 0; j <= N - 1; j++ ) {
                 w[i][j + 1] = ( alpha[j].times( w[i][j] ) ).plus( beta[j] );
+                if( w[i][j + 1].getReal() < 10E-4 && w[i][j + 1].getImaginary() < 10E-4 ) {
+                    w[i][j + 1].zero();
+                }
+//                if (!w[i][j+1].isZero()){
+//                    Complex val=w[i][j+1];
+//                     System.out.println( "nonzero" );
+//                }
+            }
+        }
+        fixEdges( w );
+        fixCorners( w );
+//        w[0][0] = new Complex( Math.cos( K * K * Time ), -Math.sin( K * K * Time ) );
+//        w[0][YMESH] = new Complex( Math.cos( K * K * Time ), -Math.sin( K * K * Time ) );
+//        w[XMESH][0] = new Complex( Math.cos( K * i / XMESH - K * K * Time ), Math.sin( K * i / XMESH - K * K * Time ) );
+//        w[XMESH][YMESH] = new Complex( Math.cos( K * i / XMESH - K * K * Time ), Math.sin( K * i / XMESH - K * K * Time ) );
+//        w[0][0] = new Complex( Math.cos( K * K * Time ), -Math.sin( K * K * Time ) );
+//        w[XMESH][0] = new Complex( Math.cos( K * K * Time ), -Math.sin( K * K * Time ) );
+//        w[XMESH][YMESH] = new Complex( Math.cos( K * K * Time ), -Math.sin( K * K * Time ) );
+    }
+
+    private void fixEdges( Complex[][] w ) {
+        int border = 2;
+        for( int i = 0; i <= XMESH; i++ ) {
+            fixPlaneWaveValue( w, i, 0 );
+            fixPlaneWaveValue( w, i, YMESH );
+            for( int b = 0; b < border; b++ ) {
+                fixPlaneWaveValue( w, i, 0 + 1 + b );
+                fixPlaneWaveValue( w, i, YMESH - 1 - b );
+            }
+        }
+        for( int j = 0; j <= YMESH; j++ ) {
+            fixPlaneWaveValue( w, 0, j );
+            fixPlaneWaveValue( w, XMESH, j );
+
+            for( int b = 0; b < border; b++ ) {
+                fixPlaneWaveValue( w, 0 + 1 + b, j );
+                fixPlaneWaveValue( w, XMESH - 1 - b, j );
             }
         }
     }
 
+    private void fixCorners( Complex[][] w ) {
+        fixPlaneWaveValue( w, 0, 0 );
+        fixPlaneWaveValue( w, 0, YMESH );
+        fixPlaneWaveValue( w, XMESH, 0 );
+        fixPlaneWaveValue( w, XMESH, YMESH );
+
+//        w[0][0] = new Complex( Math.cos( K * K * Time ), -Math.sin( K * K * Time ) );
+//        w[0][YMESH] = new Complex( Math.cos( K * K * Time ), -Math.sin( K * K * Time ) );
+//        w[XMESH][0] = new Complex( Math.cos( K * i / XMESH - K * K * Time ), Math.sin( K * i / XMESH - K * K * Time ) );
+//        w[XMESH][YMESH] = new Complex( Math.cos( K * i / XMESH - K * K * Time ), Math.sin( K * i / XMESH - K * K * Time ) );
+    }
+
+    private void fixPlaneWaveValue( Complex[][] w, int i, int j ) {
+        w[i][j] = new Complex();
+//        w[i][j] = new Complex( Math.cos( K * i / XMESH - K * K * Time ), Math.sin( K * i / XMESH - K * K * Time ) );
+    }
+
     public void run( int Steps ) {
 //        int show = 30;
-        int show = 20;
+        int show = 2;
         final Complex[][] wavefunction = new Complex[XMESH + 1][YMESH + 1];
         K = 10 * PI;
         LAMBDA = (int)2 * PI / K * XMESH;
 
-        initPlaneWave( wavefunction );
+//        initPlaneWave( wavefunction );
+        initGaussian( wavefunction );
         ColorGrid colorGrid = new ColorGrid( 600, 600, XMESH, YMESH );
         ColorMap colorMap = new ColorMap() {
             public Paint getPaint( int i, int k ) {
@@ -160,12 +235,12 @@ public class Schrodinger {
             if( i % show == 0 ) {
                 colorGrid.colorize( colorMap );
                 frame.setImage( colorGrid.getBufferedImage() );
-                for( int j = 0; j <= YMESH; j += 5 ) {
-                    for( int ii = 0; ii <= XMESH; ii += 5 ) {
-//                        System.out.println( "wavefunction[" + ii + "][" + j + "]=" + wavefunction[ii][j] );
-                    }
-//                    System.out.println( "" );
-                }
+//                for( int j = 0; j <= YMESH; j += 5 ) {
+//                    for( int ii = 0; ii <= XMESH; ii += 5 ) {
+////                        System.out.println( "wavefunction[" + ii + "][" + j + "]=" + wavefunction[ii][j] );
+//                    }
+////                    System.out.println( "" );
+//                }
             }
             Time += TAU;
             Cayley( wavefunction );
@@ -173,14 +248,14 @@ public class Schrodinger {
     }
 
     public static void main( String[] args ) {
-        int XMESH = 500;
-        int YMESH = 500;
+        int XMESH = 100;
+        int YMESH = 100;
 
 //        int XMESH = 500;
 //        int YMESH = 500;
 
-        double TAU = 5E-6;
-//        double TAU = 1E-8;
+//        double TAU = 5E-6;
+        double TAU = 5E-5;
 //        double TAU = 1E-3;
         new Schrodinger( XMESH, YMESH, TAU ).run( 15000 );
     }

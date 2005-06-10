@@ -52,4 +52,20 @@ public class Complex {
         double h = imag * a.real - real * a.imag;
         return ( new Complex( g / q, h / q ) );
     }
+
+    public double abs() {
+        return ( Math.sqrt( real * real + imag * imag ) );
+    }
+
+    public double getReal() {
+        return real;
+    }
+
+    public double getImaginary() {
+        return imag;
+    }
+
+    public boolean isZero() {
+        return real == 0 && imag == 0;
+    }
 }
