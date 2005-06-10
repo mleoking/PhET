@@ -12,8 +12,6 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import edu.colorado.phet.chart.*;
@@ -24,6 +22,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.control.ZoomControl;
+import edu.colorado.phet.fourier.event.ZoomEvent;
+import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.model.HarmonicDataSet;
@@ -36,7 +36,7 @@ import edu.colorado.phet.fourier.util.FourierUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver {
+public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver, ZoomListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -270,9 +270,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         // Interactivity
         {
             titleGraphic.setIgnoreMouse( true );
-            
-            EventListener listener = new EventListener();
-            _horizontalZoomControl.addActionListener( listener );
+            _horizontalZoomControl.addZoomListener( this );
         }
 
         // Misc initialization
@@ -292,6 +290,7 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     public void finalize() {
         _fourierSeriesModel.removeObserver( this );
         _fourierSeriesModel = null;
+        _horizontalZoomControl.removeAllZoomListeners();
     }
 
     //----------------------------------------------------------------------------
@@ -323,6 +322,10 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
         return _waveType;
     }
 
+    public ZoomControl getHorizontalZoomControl() {
+        return _horizontalZoomControl;
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -360,23 +363,16 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     }
 
     //----------------------------------------------------------------------------
-    // Inner classes
+    // ZoomListener implementation
     //----------------------------------------------------------------------------
 
-    /* 
-     * EventListener handles events related to this view.
-     */
-    private class EventListener implements ActionListener {
-
-        public EventListener() {}
-
-        public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _horizontalZoomControl ) {
-                handleHorizontalZoom( event.getID() );
-            }
-            else {
-                throw new IllegalArgumentException( "unexpected event: " + event );
-            }
+    public void zoomPerformed( ZoomEvent event ) {
+        int zoomType = event.getZoomType();
+        if ( zoomType == ZoomEvent.HORIZONTAL_ZOOM_IN || zoomType == ZoomEvent.HORIZONTAL_ZOOM_OUT ) {
+            handleHorizontalZoom( zoomType );
+        }
+        else {
+            throw new IllegalArgumentException( "unexpected event: " + event );
         }
     }
 
@@ -387,12 +383,12 @@ public class HarmonicsGraphic extends GraphicLayerSet implements SimpleObserver 
     /*
      * Handles horizontal zooming.
      * 
-     * @param actionID indicates the type of zoom
+     * @param zoomType indicates the type of zoom
      */
-    private void handleHorizontalZoom( int actionID ) {
+    private void handleHorizontalZoom( int zoomType ) {
 
         // Adjust the zoom level.
-        if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
+        if ( zoomType == ZoomEvent.HORIZONTAL_ZOOM_IN ) {
             _xZoomLevel++;
         }
         else {

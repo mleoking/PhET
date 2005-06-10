@@ -29,6 +29,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.ZoomControl;
+import edu.colorado.phet.fourier.event.ZoomEvent;
+import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.FourierUtils;
@@ -40,7 +42,7 @@ import edu.colorado.phet.fourier.util.FourierUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
+public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomListener {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -278,7 +280,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         
         // Auto Scale control
         {
-            _autoScaleCheckBox = new JCheckBox( "Auto scale" );//XXX i18n
+            _autoScaleCheckBox = new JCheckBox( SimStrings.get( "SumGraphic.autoScale" ) );
             _autoScaleCheckBox.setOpaque( false );
             PhetGraphic graphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
             addGraphic( graphic, CONTROLS_LAYER );
@@ -300,10 +302,10 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         // Interactivity
         {
             titleGraphic.setIgnoreMouse( true );
-            // XXX others setIgnoreMouse ?
+            _equationGraphic.setIgnoreMouse( true );
+            _horizontalZoomControl.addZoomListener( this );
+            _verticalZoomControl.addZoomListener( this );
             EventListener listener = new EventListener();
-            _horizontalZoomControl.addActionListener( listener );
-            _verticalZoomControl.addActionListener( listener );
             _autoScaleCheckBox.addActionListener( listener );
         }
         
@@ -329,6 +331,8 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     public void finalize() {
         _fourierSeriesModel.removeObserver( this );
         _fourierSeriesModel = null;
+        _horizontalZoomControl.removeAllZoomListeners();
+        _verticalZoomControl.removeAllZoomListeners();
     }
 
     //----------------------------------------------------------------------------
@@ -366,6 +370,10 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     
     public boolean isAutoScaleEnabled() {
         return _autoScaleEnabled;
+    }
+    
+    public ZoomControl getHorizontalZoomControl() {
+        return _horizontalZoomControl;
     }
     
     //----------------------------------------------------------------------------
@@ -448,6 +456,23 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
     }     
     
     //----------------------------------------------------------------------------
+    // ZoomListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void zoomPerformed( ZoomEvent event ) {
+        int zoomType = event.getZoomType();
+        if ( zoomType == ZoomEvent.HORIZONTAL_ZOOM_IN || zoomType == ZoomEvent.HORIZONTAL_ZOOM_OUT ) {
+            handleHorizontalZoom( zoomType );
+        }
+        else if ( zoomType == ZoomEvent.VERTICAL_ZOOM_IN || zoomType == ZoomEvent.VERTICAL_ZOOM_OUT ) {
+            handleHorizontalZoom( zoomType );
+        }
+        else {
+            throw new IllegalArgumentException( "unexpected event: " + event );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
     
@@ -458,13 +483,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         public EventListener() {}
 
         public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _horizontalZoomControl ) {
-                handleHorizontalZoom( event.getID() );
-            }
-            else if ( event.getSource() == _verticalZoomControl ) {
-                handleVerticalZoom( event.getID() );
-            }
-            else if ( event.getSource() == _autoScaleCheckBox ) {
+            if ( event.getSource() == _autoScaleCheckBox ) {
                 setAutoScaleEnabled( _autoScaleCheckBox.isSelected() );
             }
             else {
@@ -482,10 +501,10 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
      * 
      * @param actionID indicates the type of zoom
      */
-    private void handleHorizontalZoom( int actionID ) {
+    private void handleHorizontalZoom( int zoomType ) {
 
         // Adjust the zoom level.
-        if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
+        if ( zoomType == ZoomEvent.HORIZONTAL_ZOOM_IN ) {
             _xZoomLevel++;
         }
         else {
@@ -520,7 +539,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
      * 
      * @param actionID indicates the type of zoom
      */
-    private void handleVerticalZoom( int actionID ) {
+    private void handleVerticalZoom( int zoomType ) {
         
         // Get the chart's vertical range.
         Range2D range = _chartGraphic.getRange();
@@ -532,12 +551,11 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver {
         }
         
         // Adjust the scale.
-        if ( actionID == ZoomControl.ACTION_ID_ZOOM_IN ) {
-            yRange -= Y_ZOOM_STEP;
+        if ( zoomType == ZoomEvent.VERTICAL_ZOOM_IN ) {
+            yRange += Y_ZOOM_STEP;
         }
         else {
-
-            yRange += Y_ZOOM_STEP;
+            yRange -= Y_ZOOM_STEP;
         }
 
         // Constrain the scale's range.

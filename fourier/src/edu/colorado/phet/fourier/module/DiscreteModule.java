@@ -122,6 +122,10 @@ public class DiscreteModule extends FourierModule {
         _sumGraphic.setLocation( SUM_LOCATION );
         apparatusPanel.addGraphic( _sumGraphic, SUM_LAYER );
         
+        // Link horizontal zoom controls
+        _harmonicsGraphic.getHorizontalZoomControl().addZoomListener( _sumGraphic );
+        _sumGraphic.getHorizontalZoomControl().addZoomListener( _harmonicsGraphic );
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
