@@ -87,4 +87,8 @@ public class LinePlot extends DataSetGraphic {
         addAllPoints();
     }
 
+    public void setBorderColor( Color color ) {
+        phetShapeGraphic.setBorderColor( color );
+        autorepaint();
+    }
 }
