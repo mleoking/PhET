@@ -107,3 +107,6 @@ radio-waves emf
 
 # The Ramp
 theramp theramp &phetcommon &charts
+
+#Schrodinger
+schrodinger schrodinger &phetcommon
