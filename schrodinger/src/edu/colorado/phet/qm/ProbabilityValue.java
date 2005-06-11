@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
-import edu.colorado.phet.qm.Complex;
 
 /**
  * User: Sam Reid
@@ -11,22 +10,23 @@ import edu.colorado.phet.qm.Complex;
  */
 
 public class ProbabilityValue {
-    public double compute( Complex[][] w ) {
-        int XMESH = w.length - 1;
-        int YMESH = w[0].length - 1;
-        Complex sum = new Complex();
+    public double compute( Complex[][] wavefunction ) {
+        int XMESH = wavefunction.length - 1;
+        int YMESH = wavefunction[0].length - 1;
+        Complex runningSum = new Complex();
         for( int i = 1; i < XMESH; i++ ) {
             for( int j = 1; j < YMESH; j++ ) {
-                Complex psiStar = w[i][j].complexConjugate();
-//                Complex observable = new Complex( ((double)i/XMESH), 0 );
-                Complex psi = w[i][j];
+                Complex psiStar = wavefunction[i][j].complexConjugate();
+                Complex psi = wavefunction[i][j];
                 Complex term = psiStar.times( psi );
-//                System.out.println( "term = " + term );
-                sum = sum.plus( term );
-//                double term=w[i][j].complexConjugate()
+                runningSum = runningSum.plus( term );
             }
         }
-//        System.out.println( "sum = " + sum );
-        return sum.abs();
+        if( !runningSum.equals( new Complex( runningSum.abs(), 0 ) ) ) {
+
+            System.out.println( "running sum=" + runningSum );
+            System.out.println( "running sum.abs=" + runningSum.abs() );
+        }
+        return runningSum.abs();
     }
 }

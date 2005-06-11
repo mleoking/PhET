@@ -4,6 +4,7 @@ package edu.colorado.phet.qm;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
@@ -16,7 +17,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
  */
 
 public class SchrodingerModule extends Module {
-    public SchrodingerApparatusPanel schrodingerApparatusPanel;
+    public SchrodingerPanel schrodingerPanel;
     public DiscreteModel discreteModel;
 
     /**
@@ -24,16 +25,22 @@ public class SchrodingerModule extends Module {
      */
     public SchrodingerModule( AbstractClock clock ) {
         super( "Schrodinger Module", clock );
-        schrodingerApparatusPanel = new SchrodingerApparatusPanel();
-        setApparatusPanel( schrodingerApparatusPanel );
+        schrodingerPanel = new SchrodingerPanel();
+        setApparatusPanel( schrodingerPanel );
         setModel( new BaseModel() );
         SchrodingerControlPanel schrodingerControlPanel = new SchrodingerControlPanel( this );
         setControlPanel( schrodingerControlPanel );
-        discreteModel = new DiscreteModel();
+        discreteModel = new DiscreteModel( 100, 100 );
+        addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                discreteModel.stepInTime( dt );
+            }
+        } );
+        discreteModel.addListener( new ScreenUpdate( discreteModel ) );
     }
 
-    public SchrodingerApparatusPanel getSchrodingerApparatusPanel() {
-        return schrodingerApparatusPanel;
+    public SchrodingerPanel getSchrodingerApparatusPanel() {
+        return schrodingerPanel;
     }
 
     public DiscreteModel getDiscreteModel() {
@@ -50,6 +57,11 @@ public class SchrodingerModule extends Module {
 
     public void reset() {
         discreteModel.reset();
-        schrodingerApparatusPanel.reset();
+        schrodingerPanel.reset();
+    }
+
+    public void fireParticle( InitialWavefunction initialWavefunction ) {
+        discreteModel.fireParticle( initialWavefunction );
+        schrodingerPanel.updateGraphics();
     }
 }

@@ -83,6 +83,6 @@ public class Complex {
     }
 
     public Complex complexConjugate() {
-        return new Complex( real, imag );
+        return new Complex( real, -imag );
     }
 }

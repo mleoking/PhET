@@ -10,5 +10,10 @@ import edu.colorado.phet.common.view.ApparatusPanel;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SchrodingerApparatusPanel extends ApparatusPanel {
+public class SchrodingerPanel extends ApparatusPanel {
+    public void reset() {
+    }
+
+    public void updateGraphics() {
+    }
 }
