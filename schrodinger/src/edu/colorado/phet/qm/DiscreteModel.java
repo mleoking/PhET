@@ -40,14 +40,13 @@ public class DiscreteModel {
         cncPropagator = new CNCPropagator( deltaTime, boundaryCondition, potential );
     }
 
-
     private void step() {
         cncPropagator.propagate( wavefunction );
         timeStep++;
         finishedTimeStep();
-//            double barrierX = new PositionValue().compute( wavefunction );
-//            System.out.println( "barrierX = " + barrierX );
-//            System.out.println( "new ProbabilityValue().compute( wavefunction ) = " + new ProbabilityValue().compute( wavefunction ) );
+
+        System.out.println( "new ProbabilityValue().compute( wavefunction ) = " + new ProbabilityValue().compute( wavefunction ) );
+        System.out.println( "new PositionValue().compute( ) = " + new PositionValue().compute( wavefunction ) );
     }
 
     private void finishedTimeStep() {
@@ -77,7 +76,9 @@ public class DiscreteModel {
     }
 
     public void stepInTime( double dt ) {
+//        System.out.println( "DiscreteModel.stepInTime" );
         step();
+//        System.out.println( "/DiscreteModel.stepInTime" );
     }
 
     public Complex[][] getWavefunction() {
@@ -92,8 +93,44 @@ public class DiscreteModel {
         initialWavefunction.initialize( wavefunction );
     }
 
+    public void setGridSpacing( int nx, int ny ) {
+        if( ny != xmesh || ny != ymesh ) {
+            xmesh = nx;
+            ymesh = ny;
+            wavefunction = new Complex[xmesh + 1][ymesh + 1];
+            initialWavefunction.initialize( wavefunction );
+            notifySizeChanged();
+        }
+    }
+
+    private void notifySizeChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.sizeChanged();
+        }
+    }
+
+    public double getDeltaTime() {
+        return deltaTime;
+    }
+
+    public void setDeltaTime( double t ) {
+        this.deltaTime = t;
+        cncPropagator.setDeltaTime( deltaTime );
+    }
+
+    public void setPotential( Potential potential ) {
+        this.potential = potential;
+        cncPropagator.setPotential( potential );
+    }
+
+
     public static interface Listener {
         void finishedTimeStep( DiscreteModel model );
+
+        void sizeChanged();
+
+        void potentialChanged();
     }
 
 }

@@ -25,21 +25,24 @@ public class SchrodingerModule extends Module {
      */
     public SchrodingerModule( AbstractClock clock ) {
         super( "Schrodinger Module", clock );
-        schrodingerPanel = new SchrodingerPanel();
-        setApparatusPanel( schrodingerPanel );
+
         setModel( new BaseModel() );
-        SchrodingerControlPanel schrodingerControlPanel = new SchrodingerControlPanel( this );
-        setControlPanel( schrodingerControlPanel );
+
         discreteModel = new DiscreteModel( 100, 100 );
         addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 discreteModel.stepInTime( dt );
             }
         } );
-        discreteModel.addListener( new ScreenUpdate( discreteModel ) );
+//        discreteModel.addListener( new ScreenUpdate( discreteModel ) );
+        schrodingerPanel = new SchrodingerPanel( this );
+        setApparatusPanel( schrodingerPanel );
+
+        SchrodingerControlPanel schrodingerControlPanel = new SchrodingerControlPanel( this );
+        setControlPanel( schrodingerControlPanel );
     }
 
-    public SchrodingerPanel getSchrodingerApparatusPanel() {
+    public SchrodingerPanel getSchrodingerPanel() {
         return schrodingerPanel;
     }
 
@@ -63,5 +66,17 @@ public class SchrodingerModule extends Module {
     public void fireParticle( InitialWavefunction initialWavefunction ) {
         discreteModel.fireParticle( initialWavefunction );
         schrodingerPanel.updateGraphics();
+    }
+
+    public void setGridSpacing( final int nx, final int ny ) {
+        getModel().addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+//                System.out.println( "SchrodingerModule.stepInTime" );
+                discreteModel.setGridSpacing( nx, ny );
+                getModel().removeModelElement( this );
+//                System.out.println( "/SchrodingerModule.stepInTime" );
+            }
+        } );
+//        discreteModel.setGridSpacing(nx,ny);
     }
 }

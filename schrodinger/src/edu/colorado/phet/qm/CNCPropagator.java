@@ -1,7 +1,5 @@
 package edu.colorado.phet.qm;
 
-import edu.colorado.phet.qm.BoundaryCondition;
-
 
 /*********************************************************/
 /* Two-dimensional Time dependent Schrodinger Equation.  */
@@ -117,7 +115,7 @@ public class CNCPropagator {
 
     private void origFixA( Complex[][] w, int j ) {
 //        w[0][j] = new Complex( Math.cos( k * k * simulationTime ), Math.sin( -k * k * simulationTime ) );
-        setValue( w,0,j);
+        setValue( w, 0, j );
     }
 
     private void fixEdges( Complex[][] w ) {
@@ -155,7 +153,14 @@ public class CNCPropagator {
     }
 
     private void setValue( Complex[][] w, int x, int y ) {
-        boundaryCondition.setValue( w, x, y, timeStep*deltaTime );
+        boundaryCondition.setValue( w, x, y, timeStep * deltaTime );
     }
 
+    public void setDeltaTime( double deltaTime ) {
+        this.deltaTime = deltaTime;
+    }
+
+    public void setPotential( Potential potential ) {
+        this.potential = potential;
+    }
 }

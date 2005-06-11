@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.qm.Complex;
 
 import java.awt.*;
 
@@ -14,15 +13,12 @@ import java.awt.*;
  */
 
 public class GaussianWave implements InitialWavefunction {
-    private int XMESH;
-    private int YMESH;
+
     private Point center;
     private Vector2D momentum;
     private double a;
 
-    public GaussianWave( int XMESH, int YMESH, Point center, Vector2D momentum, double a ) {
-        this.XMESH = XMESH;
-        this.YMESH = YMESH;
+    public GaussianWave( Point center, Vector2D momentum, double a ) {
         this.center = center;
         this.momentum = momentum;
         this.a = a;
@@ -30,9 +26,10 @@ public class GaussianWave implements InitialWavefunction {
 
     public void initialize( Complex[][] wavefunction ) {
         initGaussian( wavefunction );
+        Wavefunction.normalize( wavefunction );
     }
 
-    void initGaussian( Complex[][] w ) {
+    private void initGaussian( Complex[][] w ) {
         int XMESH = w.length - 1;
         int YMESH = w[0].length - 1;
         for( int i = 0; i <= XMESH; i++ ) {
@@ -72,16 +69,4 @@ public class GaussianWave implements InitialWavefunction {
         return 1.0;
     }
 
-//    public void waveSim() {
-//        for( int x = 0; x < XMESH; x++ ) {
-//            double r, xval;
-//            xval = xmin + dx * x;
-//            xpts[x] = (int)( xscale * ( xval - xmin ) );
-//            r = Math.exp( -( ( xval - x0 ) / width ) * ( ( xval - x0 ) / width ) );
-//            psi[x] = new McComplex( r * Math.cos( mass * vx * xval / hbar ),
-//                                    r * Math.sin( mass * vx * xval / hbar ) );
-//            r = v( xval ) * dt / hbar;
-//            EtoV[x] = new McComplex( Math.cos( r ), -Math.sin( r ) );
-//        }
-//    }
 }

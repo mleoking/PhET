@@ -11,7 +11,7 @@ import java.awt.*;
  */
 
 public class DoubleSlit {
-    private CompositePotential createDoubleSlit( int XMESH, int YMESH, int x, int width, int slitHeight, int slitSeparation, double val ) {
+    public CompositePotential createDoubleSlit( int XMESH, int YMESH, int x, int width, int slitHeight, int slitSeparation, double val ) {
         CompositePotential compositePotential = new CompositePotential();
         int barHeight = ( YMESH - 2 * slitHeight - slitSeparation ) / 2;
         Rectangle top = new Rectangle( x, 0, width, barHeight );
