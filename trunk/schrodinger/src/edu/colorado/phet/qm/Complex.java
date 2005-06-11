@@ -85,4 +85,9 @@ public class Complex {
     public Complex complexConjugate() {
         return new Complex( real, -imag );
     }
+
+    public void scale( double scale ) {
+        real *= scale;
+        imag *= scale;
+    }
 }

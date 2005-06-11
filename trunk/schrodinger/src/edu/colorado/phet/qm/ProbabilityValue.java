@@ -22,11 +22,6 @@ public class ProbabilityValue {
                 runningSum = runningSum.plus( term );
             }
         }
-        if( !runningSum.equals( new Complex( runningSum.abs(), 0 ) ) ) {
-
-            System.out.println( "running sum=" + runningSum );
-            System.out.println( "running sum.abs=" + runningSum.abs() );
-        }
         return runningSum.abs();
     }
 }
