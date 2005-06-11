@@ -10,36 +10,41 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.coreadditions.EventChannel;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
-import edu.colorado.phet.common.model.ModelElement;
-import edu.colorado.phet.collision.Collidable;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.*;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
+import java.util.Random;
 
 /**
  * ControlRod
- * <p>
+ * <p/>
  * A control rod's primary behavior is to absorb neutrons that pass through it.
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class ControlRod implements ModelElement {
+
+    private static Random random = new Random();
+
     private Rectangle2D.Double rep = new Rectangle2D.Double();
     private int orientation;
     private double thickness;
+    private double absoprtionProbability;
     private NuclearPhysicsModel model;
 
-    public ControlRod( Point2D p1, Point2D p2, double thickness, NuclearPhysicsModel model ) {
+    public ControlRod( Point2D p1, Point2D p2, double thickness, NuclearPhysicsModel model, double absoprtionProbability ) {
 
         this.model = model;
         this.thickness = thickness;
+        this.absoprtionProbability = absoprtionProbability;
         // Is the rod horizontal?
         if( p1.getY() == p2.getY() ) {
             orientation = ControlledFissionModule.HORIZONTAL;
@@ -143,10 +148,10 @@ public class ControlRod implements ModelElement {
             if( obj instanceof Neutron ) {
                 Neutron neutron = (Neutron)obj;
                 // Is the neutron in the control rod now?
-                if( this.getBounds().contains( neutron.getPosition() ) ) {
+                if( this.getBounds().contains( neutron.getPosition() ) && random.nextDouble() < absoprtionProbability ) {
                     model.removeModelElement( neutron );
                 }
-                else if( passedThroughInLastTimeStep( neutron ) ) {
+                else if( passedThroughInLastTimeStep( neutron ) && random.nextDouble() < absoprtionProbability ) {
                     model.removeModelElement( neutron );
                 }
             }
@@ -155,6 +160,7 @@ public class ControlRod implements ModelElement {
 
     /**
      * Tells if a body passed through the rod during the last time step
+     *
      * @param body
      * @return
      */

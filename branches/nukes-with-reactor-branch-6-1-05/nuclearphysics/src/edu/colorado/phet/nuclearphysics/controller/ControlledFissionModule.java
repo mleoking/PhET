@@ -11,6 +11,8 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.model.BaseModel;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
@@ -73,6 +75,9 @@ public class ControlledFissionModule extends ChainReactionModule {
     private ControlRod[] controlRods;
     private int numNeutronsFired = 1;
     private EnergyGraphDialog energyGraphDialog;
+    private long fissionDelay;
+    private double rodAbsorptionProbability;
+    private DevelopmentControlDialog developmentControlDialog;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -167,12 +172,13 @@ public class ControlledFissionModule extends ChainReactionModule {
                 Rectangle2D channel = channels[i];
                 // The computation of the x coordinate may look funny. Here's why it's the way it is: The rod is
                 // specified by its centerline, rather than its corner. The second offset of half the channel width
-                // is there to make all the rods evenly spaced within the vessel. 
+                // is there to make all the rods evenly spaced within the vessel.
                 rods[i] = new ControlRod( new Point2D.Double( channel.getMinX() + ( channel.getWidth() ) / 2,
                                                               channel.getMinY() ),
                                           new Point2D.Double( channel.getMinX() + channel.getWidth() / 2,
                                                               channel.getMaxY() ), channel.getWidth(),
-                                          model );
+                                          model,
+                                          rodAbsorptionProbability );
                 model.addModelElement( rods[i] );
             }
         }
@@ -295,11 +301,9 @@ public class ControlledFissionModule extends ChainReactionModule {
         resetEnergyGraphDialog();
 
         // create the dialog with the developers' controls
-        DevelopmentControlDialog developmentControlDialog = new DevelopmentControlDialog( phetFrame, this );
-        developmentControlDialog.setLocation( (int)phetFrame.getWidth(),
+        developmentControlDialog = new DevelopmentControlDialog( phetFrame, this );
+        developmentControlDialog.setLocation( (int)phetFrame.getWidth() - developmentControlDialog.getWidth(),
                                               (int)( phetFrame.getLocation().getX() + phetFrame.getHeight() / 2 ) );
-        developmentControlDialog.setVisible( true );
-
     }
 
 
@@ -367,7 +371,7 @@ public class ControlledFissionModule extends ChainReactionModule {
      *
      * @param products
      */
-    public void fission( FissionProducts products ) {
+    public void fission( final FissionProducts products ) {
         double nominalDisplacement = 150;
         double displacement = nominalDisplacement * SCALE;
         double theta = random.nextDouble() * Math.PI * 2;
@@ -380,7 +384,10 @@ public class ControlledFissionModule extends ChainReactionModule {
         products.getDaughter1().setVelocity( 0, 0 );
         products.getDaughter2().setVelocity( 0, 0 );
 
-        super.fission( products );
+        // Delay for a fixed time before we actually release the neutron
+        getModel().addModelElement( new NeutronLauncher( getModel(), products ) );
+
+//        super.fission( products );
     }
 
     //----------------------------------------------------------------
@@ -481,6 +488,37 @@ public class ControlledFissionModule extends ChainReactionModule {
         }
         else {
             getClock().setDt( orgDt );
+        }
+    }
+
+    public void setFissionDelay( long msec ) {
+        fissionDelay = msec;
+    }
+
+    public void setRodAbsorptionProbability( double probability ) {
+        rodAbsorptionProbability = probability;
+    }
+
+    public void setDevelopmentControlDialog( boolean selected ) {
+        developmentControlDialog.setVisible( true );
+    }
+
+
+    private class NeutronLauncher implements ModelElement {
+        private long startTime = System.currentTimeMillis();
+        private BaseModel model;
+        private FissionProducts fissionProducts;
+
+        public NeutronLauncher( BaseModel model, FissionProducts fissionProducts ) {
+            this.model = model;
+            this.fissionProducts = fissionProducts;
+        }
+
+        public void stepInTime( double v ) {
+            if( System.currentTimeMillis() - startTime > fissionDelay ) {
+                model.removeModelElement( this );
+                ControlledFissionModule.super.fission( fissionProducts );
+            }
         }
     }
 }

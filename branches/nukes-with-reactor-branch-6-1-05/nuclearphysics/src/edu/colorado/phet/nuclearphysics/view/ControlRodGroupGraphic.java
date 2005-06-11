@@ -22,10 +22,7 @@ import edu.colorado.phet.nuclearphysics.model.ControlRod;
 import edu.colorado.phet.nuclearphysics.model.Vessel;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -89,11 +86,13 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
      * The graphic itself
      */
     private class Rep extends CompositePhetGraphic {
+        private Shape connectorShape;
         private Rectangle2D connector = new Rectangle2D.Double();
         private ControlRodGraphic[] rodGraphics;
         private Point location = new Point();
         private ControlRod[] controlRods;
         private PhetImageGraphic handleGraphic;
+        private PhetShapeGraphic connectorGraphic;
 
         public Rep( Component component, ControlRod[] controlRods ) {
             super( component );
@@ -108,18 +107,21 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
             }
 
             // A graphic for the bar connecting the rods
-            PhetShapeGraphic connectorGraphic = new PhetShapeGraphic( component, connector,
-                                                                      Color.ORANGE,
-//                                                                      (Color)rodGraphics[0].getFill(),
-                                                                      new BasicStroke( 5 ), Color.black );
+            connectorGraphic = new PhetShapeGraphic( component, connectorShape,
+                                                     new Color( 130, 150, 40 ),
+//                                                     Color.ORANGE,
+//                                                     (Color)rodGraphics[0].getFill(),
+                                                     new BasicStroke( 5 ), Color.black );
             this.addGraphic( connectorGraphic );
 
             // A handle to put on the connector bar
             BufferedImage bi = null;
             try {
                 bi = ImageLoader.loadBufferedImage( Config.HANDLE_IMAGE_NAME );
-                AffineTransformOp atxOp = new AffineTransformOp( AffineTransform.getScaleInstance( 1 / ControlledFissionModule.SCALE,
-                                                                                                   1 / ControlledFissionModule.SCALE ),
+                AffineTransform atx = AffineTransform.getScaleInstance( 1 / ControlledFissionModule.SCALE,
+                                                                        1 / ControlledFissionModule.SCALE );
+                atx.concatenate( AffineTransform.getRotateInstance( Math.PI, bi.getWidth() / 2, bi.getHeight() / 2 ) );
+                AffineTransformOp atxOp = new AffineTransformOp( atx,
                                                                  AffineTransformOp.TYPE_BILINEAR );
                 bi = atxOp.filter( bi, null );
             }
@@ -133,14 +135,23 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
         }
 
         private void update() {
-            double connectorWidth = rodGraphics[rodGraphics.length - 1].getShape().getBounds().getX()
-                                    - rodGraphics[0].getShape().getBounds().getX()
-                                    + rodGraphics[rodGraphics.length - 1].getShape().getBounds().getWidth();
+            // 150 is for the thickness of the vessel wall
+            double connectorWidth = vessel.getBounds().getMaxX()
+                                    - rodGraphics[0].getShape().getBounds().getX() + 150;
             location.setLocation( controlRods[0].getBounds().getMinX(),
                                   controlRods[0].getBounds().getMaxY() );
-            connector.setRect( location.getX(), location.getY(), connectorWidth, 150 );
-            handleGraphic.setPosition( (int)( location.getX() + ( connectorWidth - handleGraphic.getBounds().getWidth() ) / 2 ),
-                                       (int)( connector.getY() + connector.getHeight() ) );
+            Rectangle2D horizontalBar = new Rectangle2D.Double( location.getX(), location.getY(), connectorWidth, 150 );
+            Rectangle2D verticalBar = new Rectangle2D.Double( location.getX() + connectorWidth,
+                                                              controlRods[0].getBounds().getY(), 100,
+                                                              horizontalBar.getMaxY() - controlRods[0].getBounds().getY() );
+            Area connectorArea = new Area( horizontalBar );
+            connectorArea.add( new Area( verticalBar ) );
+            connectorShape = connectorArea;
+            connectorGraphic.setShape( connectorShape );
+            handleGraphic.setPosition( (int)( verticalBar.getBounds().getMaxX() ),
+                                       (int)( verticalBar.getBounds().getMinY() + 100 ) );
+            setBoundsDirty();
+            repaint();
         }
 
         public void paint( Graphics2D graphics2D ) {
@@ -157,6 +168,14 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
             update();
         }
     }
+
+//    private class ConnectorGraphic extends CompositePhetGraphic {
+//        pr
+//        public ConnectorGraphic( Component component ) {
+//            super( component );
+//        }
+//    }
+
 
     /**
      * Translation handler

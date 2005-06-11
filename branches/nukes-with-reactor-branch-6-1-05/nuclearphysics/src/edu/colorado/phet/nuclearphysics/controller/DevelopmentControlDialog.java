@@ -59,7 +59,7 @@ public class DevelopmentControlDialog extends JDialog {
                     module.setNumControlRods( ( (Integer)controlRodSpinner.getValue() ).intValue() );
                 }
             } );
-            jp.add( new JLabel( "<html>Number of<br>Control Rods</html" ), jpGbc );
+            jp.add( new JLabel( "<html>Number of<br>control rods</html" ), jpGbc );
             jpGbc.gridx = 1;
             jp.add( controlRodSpinner, jpGbc );
 
@@ -72,13 +72,13 @@ public class DevelopmentControlDialog extends JDialog {
             } );
             jpGbc.gridy = 1;
             jpGbc.gridx = 0;
-            jp.add( new JLabel( "Number Neutrons" ), jpGbc );
+            jp.add( new JLabel( "<html>Number of<br>neutrons to fire</html>" ), jpGbc );
             jpGbc.gridx = 1;
             jp.add( numNeutronsSpinner, jpGbc );
             add( jp, gbc );
 
             // Slider for U235 absorption probability
-            final ModelSlider u235absorptionSlider = new ModelSlider( "U235 Absorption Probability", 0, 1, 1 );
+            final ModelSlider u235absorptionSlider = new ModelSlider( "U235 absorption prob.", 0, 1, 1 );
             u235absorptionSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     module.setU235AbsorptionProbability( u235absorptionSlider.getModelValue() );
@@ -90,7 +90,7 @@ public class DevelopmentControlDialog extends JDialog {
             add( u235absorptionSlider, gbc );
 
             // Slider for U238 absorption probability
-            final ModelSlider u238AbsorptionSlider = new ModelSlider( "U238 Absorption Probability", 0, 1, 1 );
+            final ModelSlider u238AbsorptionSlider = new ModelSlider( "U238 absorption prob.", 0, 1, .5 );
             u238AbsorptionSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     module.setU238AbsorptionProbability( u238AbsorptionSlider.getModelValue() );
@@ -101,9 +101,21 @@ public class DevelopmentControlDialog extends JDialog {
             u238AbsorptionSlider.setPaintTicks( true );
             add( u238AbsorptionSlider, gbc );
 
-            // Control for the spacing between nuclei
+            // Slider to control rod absorption probability
+            final ModelSlider rodAbsoprtionSlider = new ModelSlider( "Rod absorption prob.",
+                                                                     0, 1, 1 );
+            rodAbsoprtionSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    module.setRodAbsorptionProbability( rodAbsoprtionSlider.getModelValue() );
+                }
+            } );
+            rodAbsoprtionSlider.setMajorTickSpacing( 0.25 );
+            rodAbsoprtionSlider.setPaintLabels( true );
+            rodAbsoprtionSlider.setPaintTicks( true );
+            add( rodAbsoprtionSlider, gbc );
 
-            final ModelSlider nucleusSpacingSlider = new ModelSlider( "<html>Spacing Between<br>Nuclei (nuc. diam.)</html>",
+            // Control for the spacing between nuclei
+            final ModelSlider nucleusSpacingSlider = new ModelSlider( "<html>Spacing between<br>nuclei (nuc. diam.)</html>",
                                                                       1, 3, 2.5 );
             nucleusSpacingSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -111,12 +123,34 @@ public class DevelopmentControlDialog extends JDialog {
                 }
             } );
             nucleusSpacingSlider.setMajorTickSpacing( 1 );
-            nucleusSpacingSlider.setPaintTicks( true );
             nucleusSpacingSlider.setPaintLabels( true );
+            nucleusSpacingSlider.setPaintTicks( true );
             add( nucleusSpacingSlider, gbc );
 
+            // Slider to control the delay for neutron expulsion on fission
+            final ModelSlider fissionDelayslider = new ModelSlider( "Neutron release delay",
+                                                                    0, 2000, 0 );
+            fissionDelayslider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    module.setFissionDelay( (long)fissionDelayslider.getModelValue() );
+                }
+            } );
+            fissionDelayslider.setMajorTickSpacing( 0.5 );
+            fissionDelayslider.setMinorTickSpacing( 0.1 );
+            fissionDelayslider.setPaintLabels( true );
+            fissionDelayslider.setPaintTicks( true );
+            add( fissionDelayslider, gbc );
+
+            // Slider to control how often neutrons are injected
+            final ModelSlider neutronInjectionSlider = new ModelSlider( "<html>Neutron injection<br>(sec/event)",
+                                                                        1, 30, 30 );
+            neutronInjectionSlider.setMajorTickSpacing( 5 );
+            neutronInjectionSlider.setPaintLabels( true );
+            neutronInjectionSlider.setPaintTicks( true );
+//            add( neutronInjectionSlider, gbc );
+
             // Check box to slow the clock
-            final JCheckBox slowMotionCB = new JCheckBox( "Slow Motion" );
+            final JCheckBox slowMotionCB = new JCheckBox( "Slow motion" );
             slowMotionCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setSlowMotion( slowMotionCB.isSelected() );
