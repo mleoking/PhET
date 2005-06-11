@@ -8,6 +8,9 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.InitialWavefunction;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 /**
  * User: Sam Reid
