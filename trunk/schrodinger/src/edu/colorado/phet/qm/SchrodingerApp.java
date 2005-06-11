@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.qm.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,22 +60,36 @@ public class SchrodingerApp {
                 double s = Math.abs( wavefunction[i][k].getImaginary() );
 //                double h = 0.7;
 //                double s = 0.5;
-                double b = 1 - wavefunction[i][k].abs();
-                Color color = new Color( Color.HSBtoRGB( (float)h, (float)s, (float)b ) );
-                double potval = potential.getPotential( i, k, 0 );
-                if( potval > 0 ) {
-                    color = new Color( 100, color.getGreen(), color.getBlue() );
-                }
+                double b = Math.abs( 1 - wavefunction[i][k].abs() );
+                b = Math.min( b, 1.0 );
+//                Color color = new Color( Color.HSBtoRGB( (float)h, (float)s, (float)b ) );
+                try {
+                    Color color = new Color( (float)b, (float)b, (float)b );
+
+                    double potval = potential.getPotential( i, k, 0 );
+                    if( potval > 0 ) {
+                        color = new Color( 100, color.getGreen(), color.getBlue() );
+                    }
+//                    if (Math.round( lastCenterX)==i){
+//                        color=new Color( 0,0,255);
+//                    }
 //                if( barrierRect.contains( i, k ) ) {
 //                    color = new Color( color.getRed(), color.getGreen(), 30 );
 //                }
-                return color;
+                    return color;
+                }
+                catch( Exception e ) {
+                    e.printStackTrace();
+                    return null;
+                }
+
             }
         };
         colorGrid.colorize( colorMap );
         ImageDebugFrame frame = new ImageDebugFrame( colorGrid.getBufferedImage() );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
+
         for( int i = 0; i <= Steps; i++ ) {
 //            System.out.println( "Running to step: " + i );
             if( i % show == 0 ) {
@@ -92,7 +105,7 @@ public class SchrodingerApp {
             cncPropagator.propagate( wavefunction );
 //            double barrierX = new PositionValue().compute( wavefunction );
 //            System.out.println( "barrierX = " + barrierX );
-//            System.out.println( "new ProbabilityValue().compute( wavefunction ) = " + new ProbabilityValue().compute( wavefunction ) );
+            System.out.println( "new ProbabilityValue().compute( wavefunction ) = " + new ProbabilityValue().compute( wavefunction ) );
 
         }
     }
