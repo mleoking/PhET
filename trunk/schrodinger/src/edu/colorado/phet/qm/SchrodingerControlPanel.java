@@ -5,6 +5,8 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.qm.model.*;
+import edu.colorado.phet.qm.view.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -150,7 +152,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         buttonGroup.add( blackBackground );
         blackBackground.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModule().setColorMap( new DefaultColorMap( getModule() ) );
+                getModule().setWavefunctionColorMap( new DefaultColorMap( getModule() ) );
             }
         } );
         colorPanel.addFullWidth( blackBackground );
@@ -159,7 +161,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton whiteBackground = new JRadioButton( "Default/White" );
         whiteBackground.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModule().setColorMap( new DefaultWhiteColorMap( getModule() ) );
+                getModule().setWavefunctionColorMap( new DefaultWhiteColorMap( getModule() ) );
             }
         } );
         buttonGroup.add( whiteBackground );
@@ -168,7 +170,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton grayMag = new JRadioButton( "Magnitude-Gray" );
         grayMag.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModule().setColorMap( new MagnitudeInGrayscale( getModule() ) );
+                getModule().setWavefunctionColorMap( new MagnitudeInGrayscale( getModule() ) );
             }
         } );
         colorPanel.addFullWidth( grayMag );
@@ -177,7 +179,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton visualTM = new JRadioButton( "Visual(tm)" );
         visualTM.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModule().setColorMap( new VisualColorMap( getModule() ) );
+                getModule().setWavefunctionColorMap( new VisualColorMap( getModule() ) );
             }
         } );
         colorPanel.addFullWidth( visualTM );
