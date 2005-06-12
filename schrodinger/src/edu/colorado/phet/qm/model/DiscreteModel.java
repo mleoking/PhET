@@ -27,6 +27,8 @@ public class DiscreteModel {
     private BoundaryCondition boundaryCondition;
     private ArrayList listeners = new ArrayList();
     private Random random = new Random();
+    private ArrayList detectors = new ArrayList();
+    private boolean detectionCausesCollapse = true;
 
     public DiscreteModel( int xmesh, int ymesh ) {
         this( xmesh, ymesh, new ConstantPotential( 0 ), 1E-5, new EmptyWave(), new ZeroBoundaryCondition() );
@@ -43,6 +45,7 @@ public class DiscreteModel {
         wavefunction = new Complex[xmesh + 1][ymesh + 1];
         initialWavefunction.initialize( wavefunction );
         cncPropagator = new CNCPropagator( deltaTime, boundaryCondition, potential );
+        addListener( new DiscreteModel.DetectorHandler() );
     }
 
     private void step() {
@@ -165,9 +168,17 @@ public class DiscreteModel {
         return copy;
     }
 
-    public void collapse() {
-        Point collapsePoint = getCollapsePoint();
+    public void collapse( Point collapsePoint ) {
+
         new GaussianWave( collapsePoint, new Vector2D.Double(), 0.1 ).initialize( getWavefunction() );
+    }
+
+    public void addDetector( Detector detector ) {
+        detectors.add( detector );
+    }
+
+    public void setDetectionCausesCollapse( boolean selected ) {
+        this.detectionCausesCollapse = selected;
     }
 
 
@@ -179,4 +190,33 @@ public class DiscreteModel {
         void potentialChanged();
     }
 
+
+    public class DetectorHandler implements Listener {
+        public void finishedTimeStep( DiscreteModel model ) {
+            for( int i = 0; i < detectors.size(); i++ ) {
+                Detector detector = (Detector)detectors.get( i );
+                detector.updateProbability( wavefunction );
+            }
+
+            if( detectionCausesCollapse ) {
+                double norm = new ProbabilityValue().compute( wavefunction );//todo use the norm (don't assume it's 1.0)
+                for( int i = 0; i < detectors.size(); i++ ) {
+                    Detector detector = (Detector)detectors.get( i );
+                    double prob = detector.getProbability();
+
+                    double rand = random.nextDouble();
+                    if( rand <= prob ) {//Point collapsePoint = getCollapsePoint();
+                        Point detectorCenter = detector.getCenter();//todo this would be more accurate to collapse to the high density region in the detector.
+                        collapse( detectorCenter );
+                    }
+                }
+            }
+        }
+
+        public void sizeChanged() {
+        }
+
+        public void potentialChanged() {
+        }
+    }
 }

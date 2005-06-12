@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.qm.model.Complex;
-import edu.colorado.phet.qm.model.Potential;
 
 import java.awt.*;
 
@@ -27,7 +26,6 @@ public class VisualColorMap implements ColorMap {
     }
 
     private Color scaleUp( Color color ) {
-//        return color;
         Color c = new Color( scaleUp( color.getRed() ), scaleUp( color.getGreen() ), scaleUp( color.getBlue() ) );
         return c;
     }
@@ -62,16 +60,4 @@ public class VisualColorMap implements ColorMap {
         return ( new Color( (float)red, (float)green, (float)blue ) );
     }
 
-
-    public Potential getPotential() {
-        return schrodingerPanel.getDiscreteModel().getPotential();
-    }
-
-//    protected double getBrightness( double x ) {
-//        double b = x * intensityScale;
-//        if( b > 1 ) {
-//            b = 1;
-//        }
-//        return b;
-//    }
 }

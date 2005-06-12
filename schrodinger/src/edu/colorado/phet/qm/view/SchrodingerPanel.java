@@ -41,6 +41,9 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
         discreteModel.addListener( this );
         wavefunctionGraphic = new PhetImageGraphic( this );
         addGraphic( wavefunctionGraphic );
+
+//        DetectorGraphic detectorGraphic = new DetectorGraphic( this, new Detector( 10, 10, 10, 10 ) );
+//        addGraphic( detectorGraphic );
     }
 
     private ColorGrid createColorGrid() {
@@ -126,5 +129,13 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
 
     public void setDisplayCollapsePoint( boolean displayCollapsePoint ) {
         this.displayCollapsePoint = displayCollapsePoint;
+    }
+
+    public ColorGrid getColorGrid() {
+        return colorGrid;
+    }
+
+    public void addDetectorGraphic( DetectorGraphic detectorGraphic ) {
+        addGraphic( detectorGraphic );
     }
 }
