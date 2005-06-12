@@ -21,7 +21,8 @@ public class DetectorGraphic extends RectangleGraphic {
     private PhetTextGraphic probDisplay;
 
     public DetectorGraphic( SchrodingerPanel component, final Detector detector ) {
-        super( component, detector, new Color( 0, 255, 0, 30 ) );
+        super( component, detector, new Color( 0, 0, 0, 0 ) );
+//        super( component, detector, null );
         this.detector = detector;
 
         probDisplay = new PhetTextGraphic( component, new Font( "Lucida Sans", Font.BOLD, 14 ), "", Color.red );
