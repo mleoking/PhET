@@ -58,7 +58,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
 
-        addControl( advancedIC );
+        addControlFullWidth( advancedIC );
 
         JButton fireParticle = new JButton( "Create Particle" );
         fireParticle.addActionListener( new ActionListener() {
@@ -80,6 +80,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel exp = createExpectationPanel();
         addControlFullWidth( exp );
 
+
         JButton collapse = new JButton( "Collapse" );
         collapse.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -87,6 +88,38 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         addControl( collapse );
+
+        VerticalLayoutPanel interactionPanel = createInteractionPanel();
+        addControlFullWidth( interactionPanel );
+    }
+
+    private VerticalLayoutPanel createInteractionPanel() {
+        VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
+        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Interaction" ) );
+        JButton newDetector = new JButton( "Add Detector" );
+        newDetector.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.addDetector();
+            }
+        } );
+        layoutPanel.add( newDetector );
+
+        final JCheckBox causeCollapse = new JCheckBox( "Causes Collapse", true );
+        causeCollapse.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                module.getDiscreteModel().setDetectionCausesCollapse( causeCollapse.isSelected() );
+            }
+        } );
+        layoutPanel.add( causeCollapse );
+
+        JButton newBarrier = new JButton( "Add Barrier" );
+        newBarrier.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.addBarrier();
+            }
+        } );
+        layoutPanel.add( newBarrier );
+        return layoutPanel;
     }
 
     private void collapse() {

@@ -8,8 +8,10 @@ import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
+import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.InitialWavefunction;
+import edu.colorado.phet.qm.view.DetectorGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 /**
@@ -84,6 +86,17 @@ public class SchrodingerModule extends Module {
     }
 
     public void collapse() {
-        discreteModel.collapse();
+        discreteModel.collapse( discreteModel.getCollapsePoint() );
+    }
+
+    public void addDetector() {
+        Detector detector = new Detector( 5, 5, 10, 10 );
+        discreteModel.addDetector( detector );
+        DetectorGraphic detectorGraphic = new DetectorGraphic( getSchrodingerPanel(), detector );
+        getSchrodingerPanel().addDetectorGraphic( detectorGraphic );
+    }
+
+    public void addBarrier() {
+//        Barrier barrier
     }
 }

@@ -65,4 +65,11 @@ public class ColorGrid {
     public Rectangle getRectangle( int i, int j ) {
         return new Rectangle( i * getBlockWidth(), j * getBlockWidth(), getBlockWidth(), getBlockHeight() );
     }
+
+    public Rectangle getViewRectangle( Rectangle modelRect ) {
+        int w = getBlockWidth();
+        int h = getBlockHeight();
+        Rectangle out = new Rectangle( modelRect.x * w, modelRect.y * h, modelRect.width * w, modelRect.height * h );
+        return out;
+    }
 }
