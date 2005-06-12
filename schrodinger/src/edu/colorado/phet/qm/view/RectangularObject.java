@@ -66,4 +66,12 @@ public class RectangularObject extends SimpleObservable {
     public Point getCenter() {
         return new Point( x + width / 2, y + height / 2 );
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

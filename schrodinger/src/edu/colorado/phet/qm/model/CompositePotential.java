@@ -28,4 +28,8 @@ public class CompositePotential implements Potential {
         }
         return sum;
     }
+
+    public void clear() {
+        p.clear();
+    }
 }

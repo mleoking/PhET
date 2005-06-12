@@ -89,13 +89,13 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         addControl( collapse );
 
-        VerticalLayoutPanel interactionPanel = createInteractionPanel();
+        VerticalLayoutPanel interactionPanel = createDetectorPanel();
         addControlFullWidth( interactionPanel );
     }
 
-    private VerticalLayoutPanel createInteractionPanel() {
+    private VerticalLayoutPanel createDetectorPanel() {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
-        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Interaction" ) );
+        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Detection" ) );
         JButton newDetector = new JButton( "Add Detector" );
         newDetector.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -112,13 +112,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         layoutPanel.add( causeCollapse );
 
-        JButton newBarrier = new JButton( "Add Barrier" );
-        newBarrier.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.addBarrier();
-            }
-        } );
-        layoutPanel.add( newBarrier );
         return layoutPanel;
     }
 
@@ -176,36 +169,49 @@ public class SchrodingerControlPanel extends ControlPanel {
         return particleLauncher;
     }
 
-    private VerticalLayoutPanel createPotentialPanel( SchrodingerModule module ) {
+    private VerticalLayoutPanel createPotentialPanel( final SchrodingerModule module ) {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Potential" ) );
 
-        JButton none = new JButton( "None" );
-        none.addActionListener( new ActionListener() {
+        JButton clear = new JButton( "Clear" );
+        clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setPotential( new ConstantPotential( 0 ) );
+                clearPotential();
             }
         } );
-        layoutPanel.add( none );
+        layoutPanel.add( clear );
 
-        JButton doubleSlit = new JButton( "Double Slit" );
+        JButton doubleSlit = new JButton( "Add Double Slit" );
         doubleSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                setPotential( new VerticalSlitSet( ) );
-                setPotential( createDoubleSlit() );
+                addPotential( createDoubleSlit() );
             }
         } );
         layoutPanel.add( doubleSlit );
 
-        JButton slopingLeft = new JButton( "Sloping" );
+        JButton slopingLeft = new JButton( "Add Slope" );
         slopingLeft.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setPotential( createSlopingPotential() );
+                addPotential( createSlopingPotential() );
             }
         } );
         layoutPanel.add( slopingLeft );
 
+        JButton newBarrier = new JButton( "Add Barrier" );
+        newBarrier.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.addPotential();
+            }
+        } );
+        layoutPanel.add( newBarrier );
+
         return layoutPanel;
+    }
+
+    private void clearPotential() {
+        module.getDiscreteModel().clearPotential();
+        getSchrodingerPanel().clearPotential();
     }
 
     private Potential createSlopingPotential() {
@@ -218,8 +224,8 @@ public class SchrodingerControlPanel extends ControlPanel {
         return doubleSlit;
     }
 
-    private void setPotential( Potential potential ) {
-        getSchrodingerPanel().getDiscreteModel().setPotential( potential );
+    private void addPotential( Potential potential ) {
+        getSchrodingerPanel().getDiscreteModel().addPotential( potential );
     }
 
     private VerticalLayoutPanel getSimulationPanel( final SchrodingerModule module ) {
@@ -232,7 +238,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             public void stateChanged( ChangeEvent e ) {
                 int val = ( (Integer)gridWidth.getValue() ).intValue();
                 module.setGridSpacing( val, val );
-                setPotential( new ConstantPotential( 0.0 ) );
+                addPotential( new ConstantPotential( 0.0 ) );
             }
         } );
         simulationPanel.addFullWidth( gridWidth );
@@ -268,7 +274,6 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         colorPanel.addFullWidth( blackBackground );
-        blackBackground.setSelected( true );
 
         JRadioButton whiteBackground = new JRadioButton( "Default/White" );
         whiteBackground.addActionListener( new ActionListener() {
@@ -293,8 +298,11 @@ public class SchrodingerControlPanel extends ControlPanel {
             public void actionPerformed( ActionEvent e ) {
                 getSchrodingerPanel().setWavefunctionColorMap( new VisualColorMap( getSchrodingerPanel() ) );
             }
+
         } );
+        visualTM.setSelected( true );
         colorPanel.addFullWidth( visualTM );
+
         buttonGroup.add( visualTM );
 
 

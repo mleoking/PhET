@@ -11,6 +11,7 @@ import edu.colorado.phet.qm.model.YValue;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -29,6 +30,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     private boolean displayXExpectation;
     private boolean displayYExpectation;
     private boolean displayCollapsePoint;
+    private ArrayList rectanglePotentialGraphics = new ArrayList();
 
     public SchrodingerPanel( SchrodingerModule module ) {
         this.module = module;
@@ -137,5 +139,18 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
 
     public void addDetectorGraphic( DetectorGraphic detectorGraphic ) {
         addGraphic( detectorGraphic );
+    }
+
+    public void addRectangularPotentialGraphic( RectangularPotentialGraphic rectangularPotentialGraphic ) {
+        rectanglePotentialGraphics.add( rectangularPotentialGraphic );
+        addGraphic( rectangularPotentialGraphic );
+    }
+
+    public void clearPotential() {
+        for( int i = 0; i < rectanglePotentialGraphics.size(); i++ ) {
+            RectangularPotentialGraphic rectangularPotentialGraphic = (RectangularPotentialGraphic)rectanglePotentialGraphics.get( i );
+            removeGraphic( rectangularPotentialGraphic );
+        }
+        rectanglePotentialGraphics.clear();
     }
 }

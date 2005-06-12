@@ -18,7 +18,8 @@ public class DiscreteModel {
     private Complex[][] wavefunction;
     private int xmesh;
     private int ymesh;
-    private Potential potential;
+//    private Potential potential;
+    private CompositePotential compositePotential;
 
     private CNCPropagator cncPropagator;
     private int timeStep;
@@ -31,20 +32,20 @@ public class DiscreteModel {
     private boolean detectionCausesCollapse = true;
 
     public DiscreteModel( int xmesh, int ymesh ) {
-        this( xmesh, ymesh, new ConstantPotential( 0 ), 1E-5, new EmptyWave(), new ZeroBoundaryCondition() );
+        this( xmesh, ymesh, 1E-5, new EmptyWave(), new ZeroBoundaryCondition() );
     }
 
-    public DiscreteModel( int xmesh, int ymesh, Potential potential, double deltaTime, InitialWavefunction initialWavefunction,
+    public DiscreteModel( int xmesh, int ymesh, double deltaTime, InitialWavefunction initialWavefunction,
                           BoundaryCondition boundaryCondition ) {
         this.xmesh = xmesh;
         this.ymesh = ymesh;
-        this.potential = potential;
+        this.compositePotential = new CompositePotential();
         this.deltaTime = deltaTime;
         this.initialWavefunction = initialWavefunction;
         this.boundaryCondition = boundaryCondition;
         wavefunction = new Complex[xmesh + 1][ymesh + 1];
         initialWavefunction.initialize( wavefunction );
-        cncPropagator = new CNCPropagator( deltaTime, boundaryCondition, potential );
+        cncPropagator = new CNCPropagator( deltaTime, boundaryCondition, compositePotential );
         addListener( new DiscreteModel.DetectorHandler() );
     }
 
@@ -79,7 +80,7 @@ public class DiscreteModel {
     }
 
     public Potential getPotential() {
-        return potential;
+        return compositePotential;
     }
 
     public void stepInTime( double dt ) {
@@ -126,10 +127,10 @@ public class DiscreteModel {
         cncPropagator.setDeltaTime( deltaTime );
     }
 
-    public void setPotential( Potential potential ) {
-        this.potential = potential;
-        cncPropagator.setPotential( potential );
-    }
+//    public void setPotential( Potential potential ) {
+//        this.potential = potential;
+//        cncPropagator.setPotential( potential );
+//    }
 
     public Point getCollapsePoint() {
         //compute a probability model for each dA
@@ -181,6 +182,13 @@ public class DiscreteModel {
         this.detectionCausesCollapse = selected;
     }
 
+    public void addPotential( Potential potential ) {
+        compositePotential.addPotential( potential );
+    }
+
+    public void clearPotential() {
+        compositePotential.clear();
+    }
 
     public static interface Listener {
         void finishedTimeStep( DiscreteModel model );

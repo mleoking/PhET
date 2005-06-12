@@ -63,9 +63,13 @@ public class RectangleGraphic extends GraphicLayerSet {
 //        probDisplay.setLocation( (int)viewRect.getX(), (int)viewRect.getY() );
     }
 
-    private ColorGrid getColorGrid() {
+    protected ColorGrid getColorGrid() {
         ColorGrid grid = schrodingerPanel.getColorGrid();
         return grid;
+    }
+
+    public PhetShapeGraphic getAreaGraphic() {
+        return areaGraphic;
     }
 
     private static interface LocationGetter {
