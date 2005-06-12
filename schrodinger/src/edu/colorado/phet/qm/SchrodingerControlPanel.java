@@ -194,7 +194,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         simulationPanel.setBorder( BorderFactory.createTitledBorder( "Simulation" ) );
 
         final JSpinner gridWidth = new JSpinner( new SpinnerNumberModel( getDiscreteModel().getXMesh(), 1, 1000, 10 ) );
-        gridWidth.setBorder( BorderFactory.createTitledBorder( "discreteness" ) );
+        gridWidth.setBorder( BorderFactory.createTitledBorder( "Resolution" ) );
         gridWidth.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int val = ( (Integer)gridWidth.getValue() ).intValue();
