@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Has an expand and collapse button.
@@ -75,6 +76,10 @@ public class AdvancedPanel extends VerticalLayoutPanel {
         add( hideButton );
         add( controls );
         validateAll();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.advancedPanelShown( this );
+        }
     }
 
     private void validateAll() {
@@ -94,5 +99,21 @@ public class AdvancedPanel extends VerticalLayoutPanel {
         remove( controls );
         add( advanced );
         validateAll();
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.advancedPanelHidden( this );
+        }
+    }
+
+    ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public interface Listener {
+        void advancedPanelHidden( AdvancedPanel advancedPanel );
+
+        void advancedPanelShown( AdvancedPanel advancedPanel );
     }
 }
