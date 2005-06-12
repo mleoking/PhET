@@ -34,13 +34,17 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
         this.module = module;
         this.discreteModel = module.getDiscreteModel();
 
-        colorGrid = new ColorGrid( 700, 700, discreteModel.getXMesh(), discreteModel.getYMesh() );
+        colorGrid = createColorGrid();
         painter = new DefaultPainter( this );
         colorGrid.colorize( painter );
 
         discreteModel.addListener( this );
         wavefunctionGraphic = new PhetImageGraphic( this );
         addGraphic( wavefunctionGraphic );
+    }
+
+    private ColorGrid createColorGrid() {
+        return new ColorGrid( 600, 600, discreteModel.getXMesh(), discreteModel.getYMesh() );
     }
 
     public void reset() {
@@ -86,7 +90,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     }
 
     public void sizeChanged() {
-        colorGrid = new ColorGrid( 600, 600, discreteModel.getXMesh(), discreteModel.getYMesh() );
+        colorGrid = createColorGrid();
     }
 
     public void potentialChanged() {
