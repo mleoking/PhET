@@ -17,7 +17,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
 
     private JButton advanced;
     private JButton hideButton;
-    public VerticalLayoutPanel controls;
+    private VerticalLayoutPanel controls;
 
     /**
      * Create an AdvancedPanel with text Advanced >> and Hide <<.
