@@ -11,32 +11,23 @@ import java.awt.*;
  */
 public class VisualColorMap implements ColorMap {
     private SchrodingerPanel schrodingerPanel;
-    public double colorScale;
-//    public double intensityScale;
-//    private Potential potential;
+    public double colorScale = 12;
 
     public VisualColorMap( SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
-//        intensityScale = 50;
-        colorScale = 20;
     }
 
-    public Paint getPaint( int i, int k ) {
+    public Color getPaint( int i, int k ) {
         Complex[][] wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
 
         Color color = VisZ( wavefunction[i][k] );
         color = scaleUp( color );
-        double potval = getPotential().getPotential( i, k, 0 );
-        if( potval > 0 ) {
-            color = new Color( 100, color.getGreen(), color.getBlue() );
-        }
-        else {
-//            System.out.println( "complex=" + wavefunction[i][k] + ", color=" + color.getRed() + ", " + color.getGreen() + ", " + color.getBlue() );
-        }
+
         return color;
     }
 
     private Color scaleUp( Color color ) {
+//        return color;
         Color c = new Color( scaleUp( color.getRed() ), scaleUp( color.getGreen() ), scaleUp( color.getBlue() ) );
         return c;
     }

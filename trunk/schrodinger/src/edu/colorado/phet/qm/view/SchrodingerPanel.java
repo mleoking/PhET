@@ -4,7 +4,13 @@ package edu.colorado.phet.qm.view;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.model.Complex;
 import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.XValue;
+import edu.colorado.phet.qm.model.YValue;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -17,23 +23,24 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     private DiscreteModel discreteModel;
     private SchrodingerModule module;
     private ColorGrid colorGrid;
-//    private ColorMap colorMap;
     private DefaultPainter painter;
     private int numIterationsBetwenScreenUpdate = 1;
-    public PhetImageGraphic wavefunctionGraphic;
+    private PhetImageGraphic wavefunctionGraphic;
+    private boolean displayXExpectation;
+    private boolean displayYExpectation;
+    private boolean displayCollapsePoint;
 
     public SchrodingerPanel( SchrodingerModule module ) {
         this.module = module;
         this.discreteModel = module.getDiscreteModel();
 
-        colorGrid = new ColorGrid( 600, 600, discreteModel.getXMesh(), discreteModel.getYMesh() );
+        colorGrid = new ColorGrid( 700, 700, discreteModel.getXMesh(), discreteModel.getYMesh() );
         painter = new DefaultPainter( this );
         colorGrid.colorize( painter );
 
         discreteModel.addListener( this );
         wavefunctionGraphic = new PhetImageGraphic( this );
         addGraphic( wavefunctionGraphic );
-
     }
 
     public void reset() {
@@ -45,8 +52,37 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     public void finishedTimeStep( DiscreteModel model ) {
         if( model.getTimeStep() % numIterationsBetwenScreenUpdate == 0 ) {
             colorGrid.colorize( painter );
+            finishDrawing();
             wavefunctionGraphic.setImage( colorGrid.getBufferedImage() );
         }
+    }
+
+    private void finishDrawing() {
+        BufferedImage image = colorGrid.getBufferedImage();
+        Graphics2D g2 = image.createGraphics();
+
+        if( displayXExpectation ) {
+            double xFractional = new XValue().compute( getWavefunction() );
+            int x = (int)( xFractional * colorGrid.getBlockWidth() * getDiscreteModel().getXMesh() );
+            g2.setColor( Color.blue );
+            g2.fillRect( (int)x, 0, 2, image.getHeight() );
+        }
+        if( displayYExpectation ) {
+            double yFractional = new YValue().compute( getDiscreteModel().getWavefunction() );
+            int y = (int)( yFractional * colorGrid.getBlockHeight() * getDiscreteModel().getYMesh() );
+            g2.setColor( Color.blue );
+            g2.fillRect( 0, (int)y, image.getWidth(), 2 );
+        }
+        if( displayCollapsePoint ) {
+            Point collapsePoint = getDiscreteModel().getCollapsePoint();
+            Rectangle rect = colorGrid.getRectangle( collapsePoint.x, collapsePoint.y );
+            g2.setColor( Color.green );
+            g2.fillRect( rect.x, rect.y, rect.width, rect.height );
+        }
+    }
+
+    private Complex[][] getWavefunction() {
+        return getDiscreteModel().getWavefunction();
     }
 
     public void sizeChanged() {
@@ -65,5 +101,26 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     public void setWavefunctionColorMap( ColorMap painter ) {
         this.painter.setWavefunctionColorMap( painter );
         //todo repaint
+    }
+
+
+    public boolean isDisplayXExpectation() {
+        return displayXExpectation;
+    }
+
+    public void setDisplayXExpectation( boolean displayXExpectation ) {
+        this.displayXExpectation = displayXExpectation;
+    }
+
+    public boolean isDisplayYExpectation() {
+        return displayYExpectation;
+    }
+
+    public void setDisplayYExpectation( boolean displayYExpectation ) {
+        this.displayYExpectation = displayYExpectation;
+    }
+
+    public void setDisplayCollapsePoint( boolean displayCollapsePoint ) {
+        this.displayCollapsePoint = displayCollapsePoint;
     }
 }

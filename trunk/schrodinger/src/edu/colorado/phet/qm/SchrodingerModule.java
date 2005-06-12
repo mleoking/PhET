@@ -82,4 +82,8 @@ public class SchrodingerModule extends Module {
         } );
 //        discreteModel.setGridSpacing(nx,ny);
     }
+
+    public void collapse() {
+        discreteModel.collapse();
+    }
 }

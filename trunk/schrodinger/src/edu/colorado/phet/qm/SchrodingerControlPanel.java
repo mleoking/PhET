@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
@@ -39,17 +40,25 @@ public class SchrodingerControlPanel extends ControlPanel {
                 module.reset();
             }
         } );
-//        addControl( reset );
 
-        VerticalLayoutPanel particleLauncher = new VerticalLayoutPanel();
-        particleLauncher.setBorder( BorderFactory.createTitledBorder( "Particle Launcher" ) );
+        JPanel particleLauncher = createParticleLauncherPanel();
+        AdvancedPanel advancedIC = new AdvancedPanel( "Show>>", "Hide<<" );
+        advancedIC.addControlFullWidth( particleLauncher );
+        advancedIC.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
+        advancedIC.addListener( new AdvancedPanel.Listener() {
 
-        xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.9 );
-        ySlider = new ModelSlider( "Y0", "1/L", 0, 1, 0.5 );
-        pxSlider = new ModelSlider( "Momentum-x0", "", -1, 1, -.2 );
-        pySlider = new ModelSlider( "Momentum-y0", "", -1, 1, 0 );
-        aSlider = new ModelSlider( "Size0", "", 0.5, 3, 1 );
-//        addControlFullWidth( positionSlider );
+            public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
+                JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( SchrodingerControlPanel.this );
+                parent.invalidate();
+                parent.validate();
+                parent.repaint();
+            }
+
+            public void advancedPanelShown( AdvancedPanel advancedPanel ) {
+            }
+        } );
+
+        addControl( advancedIC );
 
         JButton fireParticle = new JButton( "Create Particle" );
         fireParticle.addActionListener( new ActionListener() {
@@ -57,14 +66,7 @@ public class SchrodingerControlPanel extends ControlPanel {
                 fireParticle();
             }
         } );
-
-        particleLauncher.add( xSlider );
-        particleLauncher.add( ySlider );
-        particleLauncher.add( pxSlider );
-        particleLauncher.add( pySlider );
-        particleLauncher.add( aSlider );
-        particleLauncher.add( fireParticle );
-        addControlFullWidth( particleLauncher );
+        addControl( fireParticle );
 
         VerticalLayoutPanel colorPanel = createColorPanel( module );
         addControlFullWidth( colorPanel );
@@ -74,6 +76,71 @@ public class SchrodingerControlPanel extends ControlPanel {
 
         VerticalLayoutPanel potentialPanel = createPotentialPanel( module );
         addControlFullWidth( potentialPanel );
+
+        VerticalLayoutPanel exp = createExpectationPanel();
+        addControlFullWidth( exp );
+
+        JButton collapse = new JButton( "Collapse" );
+        collapse.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                collapse();
+            }
+        } );
+        addControl( collapse );
+    }
+
+    private void collapse() {
+        module.collapse();
+    }
+
+    private VerticalLayoutPanel createExpectationPanel() {
+        VerticalLayoutPanel lay = new VerticalLayoutPanel();
+        lay.setBorder( BorderFactory.createTitledBorder( "Observables" ) );
+        final JCheckBox x = new JCheckBox( "<X>" );
+        x.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getSchrodingerPanel().setDisplayXExpectation( x.isSelected() );
+            }
+        } );
+        lay.add( x );
+
+        final JCheckBox y = new JCheckBox( "<Y>" );
+        y.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getSchrodingerPanel().setDisplayYExpectation( y.isSelected() );
+            }
+        } );
+        lay.add( y );
+
+        final JCheckBox c = new JCheckBox( "collapse-to" );
+        c.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getSchrodingerPanel().setDisplayCollapsePoint( c.isSelected() );
+            }
+        } );
+        lay.add( c );
+
+        return lay;
+    }
+
+    private JPanel createParticleLauncherPanel() {
+        VerticalLayoutPanel particleLauncher = new VerticalLayoutPanel();
+//        particleLauncher.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
+
+        xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.8 );
+        ySlider = new ModelSlider( "Y0", "1/L", 0, 1, 0.5 );
+        pxSlider = new ModelSlider( "Momentum-x0", "", -1, 1, -.5 );
+        pySlider = new ModelSlider( "Momentum-y0", "", -1, 1, 0 );
+        aSlider = new ModelSlider( "Size0", "", 0.5, 3, 1 );
+//        addControlFullWidth( positionSlider );
+
+        particleLauncher.add( xSlider );
+        particleLauncher.add( ySlider );
+        particleLauncher.add( pxSlider );
+        particleLauncher.add( pySlider );
+        particleLauncher.add( aSlider );
+
+        return particleLauncher;
     }
 
     private VerticalLayoutPanel createPotentialPanel( SchrodingerModule module ) {
@@ -97,7 +164,19 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         layoutPanel.add( doubleSlit );
 
+        JButton slopingLeft = new JButton( "Sloping" );
+        slopingLeft.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setPotential( createSlopingPotential() );
+            }
+        } );
+        layoutPanel.add( slopingLeft );
+
         return layoutPanel;
+    }
+
+    private Potential createSlopingPotential() {
+        return new SimpleGradientPotential( 1000 );
     }
 
     private Potential createDoubleSlit() {
@@ -107,7 +186,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     private void setPotential( Potential potential ) {
-        getModule().getDiscreteModel().setPotential( potential );
+        getSchrodingerPanel().getDiscreteModel().setPotential( potential );
     }
 
     private VerticalLayoutPanel getSimulationPanel( final SchrodingerModule module ) {
@@ -152,7 +231,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         buttonGroup.add( blackBackground );
         blackBackground.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModule().setWavefunctionColorMap( new DefaultColorMap( getModule() ) );
+                getSchrodingerPanel().setWavefunctionColorMap( new DefaultColorMap( getSchrodingerPanel() ) );
             }
         } );
         colorPanel.addFullWidth( blackBackground );
@@ -161,7 +240,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton whiteBackground = new JRadioButton( "Default/White" );
         whiteBackground.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModule().setWavefunctionColorMap( new DefaultWhiteColorMap( getModule() ) );
+                getSchrodingerPanel().setWavefunctionColorMap( new DefaultWhiteColorMap( getSchrodingerPanel() ) );
             }
         } );
         buttonGroup.add( whiteBackground );
@@ -170,7 +249,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton grayMag = new JRadioButton( "Magnitude-Gray" );
         grayMag.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModule().setWavefunctionColorMap( new MagnitudeInGrayscale( getModule() ) );
+                getSchrodingerPanel().setWavefunctionColorMap( new MagnitudeInGrayscale( getSchrodingerPanel() ) );
             }
         } );
         colorPanel.addFullWidth( grayMag );
@@ -179,7 +258,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton visualTM = new JRadioButton( "Visual(tm)" );
         visualTM.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getModule().setWavefunctionColorMap( new VisualColorMap( getModule() ) );
+                getSchrodingerPanel().setWavefunctionColorMap( new VisualColorMap( getSchrodingerPanel() ) );
             }
         } );
         colorPanel.addFullWidth( visualTM );
@@ -189,7 +268,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return colorPanel;
     }
 
-    private SchrodingerPanel getModule() {
+    private SchrodingerPanel getSchrodingerPanel() {
         return module.getSchrodingerPanel();
     }
 
