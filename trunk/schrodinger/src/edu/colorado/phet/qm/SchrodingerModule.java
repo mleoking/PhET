@@ -11,7 +11,9 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.InitialWavefunction;
+import edu.colorado.phet.qm.model.RectangularPotential;
 import edu.colorado.phet.qm.view.DetectorGraphic;
+import edu.colorado.phet.qm.view.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 /**
@@ -96,7 +98,11 @@ public class SchrodingerModule extends Module {
         getSchrodingerPanel().addDetectorGraphic( detectorGraphic );
     }
 
-    public void addBarrier() {
-//        Barrier barrier
+    public void addPotential() {
+        RectangularPotential rectangularPotential = new RectangularPotential( 5, 20, 10, 10 );
+        rectangularPotential.setPotential( 10000 );
+        discreteModel.addPotential( rectangularPotential );//todo should be a composite.
+        RectangularPotentialGraphic rectangularPotentialGraphic = new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
+        getSchrodingerPanel().addRectangularPotentialGraphic( rectangularPotentialGraphic );
     }
 }
