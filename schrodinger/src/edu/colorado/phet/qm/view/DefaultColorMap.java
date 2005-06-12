@@ -20,11 +20,11 @@ public class DefaultColorMap implements ColorMap {
 
     public DefaultColorMap( SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
-        intensityScale = 50;
+        intensityScale = 20;
         colorScale = 20;
     }
 
-    public Paint getPaint( int i, int k ) {
+    public Color getPaint( int i, int k ) {
         Complex[][] wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
 
         double h = Math.abs( wavefunction[i][k].getReal() ) * colorScale;
@@ -37,10 +37,10 @@ public class DefaultColorMap implements ColorMap {
             s = 1;
         }
         Color color = new Color( Color.HSBtoRGB( (float)h, (float)s, (float)b ) );
-        double potval = getPotential().getPotential( i, k, 0 );
-        if( potval > 0 ) {
-            color = new Color( 100, color.getGreen(), color.getBlue() );
-        }
+//        double potval = getPotential().getPotential( i, k, 0 );
+//        if( potval > 0 ) {
+//            color = new Color( 100, color.getGreen(), color.getBlue() );
+//        }
         return color;
     }
 

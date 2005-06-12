@@ -29,15 +29,17 @@ public class DefaultPainter implements ColorMap {
         this.wavefunctionColorMap = wavefunctionColorMap;
     }
 
-    public Paint getPaint( int i, int k ) {
-        Paint color = wavefunctionColorMap.getPaint( i, k );
+    public Color getPaint( int i, int k ) {
+        Color color = wavefunctionColorMap.getPaint( i, k );
         double potval = getPotential().getPotential( i, k, 0 );
         if( potval > 0 ) {
-            return new Color( 100, 0, 0 );
+            double r = ( Math.abs( potval ) / 50000.0 );
+//            System.out.println( "r = " + r );
+            r = Math.min( r, 1.0 );
+            color = new Color( (int)( r * 255 ), color.getGreen(), color.getBlue() );
         }
-        else {
-            return color;
-        }
+
+        return color;
     }
 
     private Potential getPotential() {

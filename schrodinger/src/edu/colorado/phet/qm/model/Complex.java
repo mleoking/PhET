@@ -90,4 +90,8 @@ public class Complex {
         real *= scale;
         imag *= scale;
     }
+
+    public Complex copy() {
+        return new Complex( real, imag );
+    }
 }

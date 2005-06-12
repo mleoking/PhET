@@ -14,23 +14,23 @@ import java.awt.*;
  */
 public class MagnitudeInGrayscale implements ColorMap {
     private SchrodingerPanel schrodingerPanel;
-    public double intensityScale = 10;
+    public double intensityScale = 12;
 
     public MagnitudeInGrayscale( SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
     }
 
-    public Paint getPaint( int i, int k ) {
+    public Color getPaint( int i, int k ) {
         Complex[][] wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
         double abs = wavefunction[i][k].abs() * intensityScale;
         if( abs > 1 ) {
             abs = 1;
         }
         Color color = new Color( (float)abs, (float)abs, (float)abs );
-        double potval = getPotential().getPotential( i, k, 0 );
-        if( potval > 0 ) {
-            color = new Color( 100, color.getGreen(), color.getBlue() );
-        }
+//        double potval = getPotential().getPotential( i, k, 0 );
+//        if( potval > 0 ) {
+//            color = new Color( 100, color.getGreen(), color.getBlue() );
+//        }
         return color;
     }
 

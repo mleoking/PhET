@@ -9,7 +9,7 @@ package edu.colorado.phet.qm.model;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class PositionValue {
+public class XValue {
     public double compute( Complex[][] w ) {
         int XMESH = w.length - 1;
         int YMESH = w[0].length - 1;
@@ -17,11 +17,10 @@ public class PositionValue {
         for( int i = 1; i < XMESH; i++ ) {
             for( int j = 1; j < YMESH; j++ ) {
                 Complex psiStar = w[i][j].complexConjugate();
-                Complex observable = new Complex( ( (double)i / XMESH ), 0 );
+                Complex observable = new Complex( ( (double)i ) / XMESH, 0 );
                 Complex psi = w[i][j];
                 Complex term = psiStar.times( observable ).times( psi );
                 sum = sum.plus( term );
-//                double term=w[i][j].complexConjugate()
             }
         }
         return sum.abs();
