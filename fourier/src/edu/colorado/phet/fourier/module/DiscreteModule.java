@@ -63,13 +63,13 @@ public class DiscreteModule extends FourierModule {
     // Fourier Components
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
     private static final int NUMBER_OF_HARMONICS = 7;
-    private static final int WAVE_TYPE = FourierConstants.WAVE_TYPE_SINE;
   
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeriesModel;
+    private AmplitudesGraphic _amplitudesGraphic;
     private HarmonicsGraphic _harmonicsGraphic;
     private SumGraphic _sumGraphic;
     private DiscreteControlPanel _controlPanel;
@@ -108,9 +108,9 @@ public class DiscreteModule extends FourierModule {
         setApparatusPanel( apparatusPanel );
         
         // Amplitudes view
-        AmplitudesGraphic amplitudesGraphic = new AmplitudesGraphic( apparatusPanel, _fourierSeriesModel );
-        amplitudesGraphic.setLocation( AMPLITUDES_LOCATION );
-        apparatusPanel.addGraphic( amplitudesGraphic, AMPLITUDES_LAYER );
+        _amplitudesGraphic = new AmplitudesGraphic( apparatusPanel, _fourierSeriesModel );
+        _amplitudesGraphic.setLocation( AMPLITUDES_LOCATION );
+        apparatusPanel.addGraphic( _amplitudesGraphic, AMPLITUDES_LAYER );
         
         // Components view
         _harmonicsGraphic = new HarmonicsGraphic( apparatusPanel, _fourierSeriesModel );
@@ -122,17 +122,17 @@ public class DiscreteModule extends FourierModule {
         _sumGraphic.setLocation( SUM_LOCATION );
         apparatusPanel.addGraphic( _sumGraphic, SUM_LAYER );
         
+        //----------------------------------------------------------------------------
+        // Control
+        //----------------------------------------------------------------------------
+ 
         // Link horizontal zoom controls
         _harmonicsGraphic.getHorizontalZoomControl().addZoomListener( _sumGraphic );
         _sumGraphic.getHorizontalZoomControl().addZoomListener( _harmonicsGraphic );
         
         // Harmonic hightlighting
-        amplitudesGraphic.addHarmonicFocusListener( _harmonicsGraphic );
+        _amplitudesGraphic.addHarmonicFocusListener( _harmonicsGraphic );
         
-        //----------------------------------------------------------------------------
-        // Control
-        //----------------------------------------------------------------------------
-
         // Control Panel
         _controlPanel = new DiscreteControlPanel( this, _fourierSeriesModel, _harmonicsGraphic, _sumGraphic );
         _controlPanel.addVerticalSpace( 20 );
@@ -168,9 +168,9 @@ public class DiscreteModule extends FourierModule {
             ( (Harmonic) _fourierSeriesModel.getHarmonic( i ) ).setAmplitude( 0 );
         }
         
-        _harmonicsGraphic.setWaveType( WAVE_TYPE );
-        
-        _sumGraphic.setWaveType( WAVE_TYPE );
+        _amplitudesGraphic.reset();
+        _harmonicsGraphic.reset();
+        _sumGraphic.reset();
         
         _controlPanel.reset();
     }
