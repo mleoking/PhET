@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.model;
+package edu.colorado.phet.fourier.charts;
 
 import java.awt.geom.Point2D;
 import java.lang.reflect.Array;
@@ -17,6 +17,7 @@ import java.lang.reflect.Array;
 import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.FourierUtils;
 
 

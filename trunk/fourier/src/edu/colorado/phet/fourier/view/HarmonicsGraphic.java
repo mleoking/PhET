@@ -24,6 +24,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.charts.HarmonicDataSet;
+import edu.colorado.phet.fourier.charts.HarmonicDataSetGraphic;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
@@ -31,7 +33,6 @@ import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.model.HarmonicDataSet;
 import edu.colorado.phet.fourier.util.FourierUtils;
 
 
@@ -395,7 +396,9 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
                 _dataSets.add( dataSet );
 
                 Color harmonicColor = FourierUtils.calculateHarmonicColor( i );
-                DataSetGraphic dataSetGraphic = new LinePlot( getComponent(), _chartGraphic, dataSet, WAVE_STROKE, harmonicColor );
+                HarmonicDataSetGraphic dataSetGraphic = new HarmonicDataSetGraphic( getComponent(), _chartGraphic, dataSet );
+                dataSetGraphic.setStroke( WAVE_STROKE );
+                dataSetGraphic.setBorderColor( harmonicColor );
                 _chartGraphic.addDataSetGraphic( dataSetGraphic );
             }
 
@@ -423,30 +426,40 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
     // HarmonicFocusListener implementation
     //----------------------------------------------------------------------------
 
-    //XXX contains evil casts
     /**
      * When a harmonic gains focus, grays out all harmonics except for the one with focus.
      */
     public void focusGained( HarmonicFocusEvent event ) {
         DataSetGraphic[] dataSetGraphics = _chartGraphic.getDataSetGraphics();
         for ( int i = 0; i < dataSetGraphics.length; i++ ) {
-            HarmonicDataSet dataSet = (HarmonicDataSet) dataSetGraphics[i].getDataSet();
-            if ( dataSet.getHarmonic() != event.getHarmonic() ) {
-                    ( (LinePlot) dataSetGraphics[i] ).setBorderColor( WAVE_DIMMED_COLOR );
+            if ( dataSetGraphics[i] instanceof HarmonicDataSetGraphic ) {
+                HarmonicDataSetGraphic harmonicGraphic = (HarmonicDataSetGraphic) dataSetGraphics[i];
+                if ( harmonicGraphic.getHarmonic() != event.getHarmonic() ) {
+                    harmonicGraphic.setBorderColor( WAVE_DIMMED_COLOR );
+                }
+            }
+            else {
+                System.err.println( "WARNING: HarmonicsGraphic.focusGained - unexpected DataSetGraphic subclass in chart" );
             }
         }
     }
     
-    // XXX contains evil casts
     /**
      * When a harmonic loses focus, sets all harmonics to their assigned color.
      */
     public void focusLost( HarmonicFocusEvent event ) {
         DataSetGraphic[] dataSetGraphics = _chartGraphic.getDataSetGraphics();
         for ( int i = 0; i < dataSetGraphics.length; i++ ) {
-            HarmonicDataSet dataSet = (HarmonicDataSet) dataSetGraphics[i].getDataSet();
-            Color harmonicColor = FourierUtils.calculateHarmonicColor( dataSet.getHarmonic() );
-            ( (LinePlot) dataSetGraphics[i] ).setBorderColor( harmonicColor );
+            if ( dataSetGraphics[i] instanceof HarmonicDataSetGraphic ) {
+                HarmonicDataSetGraphic harmonicGraphic = (HarmonicDataSetGraphic) dataSetGraphics[i];
+                if ( harmonicGraphic.getHarmonic() != event.getHarmonic() ) {
+                    Color harmonicColor = FourierUtils.calculateHarmonicColor( harmonicGraphic.getHarmonic() );
+                    harmonicGraphic.setBorderColor( harmonicColor );
+                }
+            }
+            else {
+                System.err.println( "WARNING: HarmonicsGraphic.focusLost - unexpected DataSetGraphic subclass in chart" );
+            }
         }
     }
     
