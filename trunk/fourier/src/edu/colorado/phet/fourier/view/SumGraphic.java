@@ -330,17 +330,13 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
         
         // Misc initialization
         {
-            _xZoomLevel = 0;
-            _autoScaleEnabled = false;
-            
             _points = new Point2D[ NUMBER_OF_DATA_POINTS + 1 ];
             for ( int i = 0; i < _points.length; i++ ) {
                 _points[ i ] = new Point2D.Double();
             }
         }
         
-        updateZoomButtons();
-        update();
+        reset();
     }
     
     /**
@@ -354,6 +350,28 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
         _verticalZoomControl.removeAllZoomListeners();
     }
 
+    /**
+     * Resets to the initial state.
+     */
+    public void reset() {
+
+        // Chart
+        {
+            _xZoomLevel = 0;
+            _chartGraphic.setRange( CHART_RANGE );
+            _autoScaleEnabled = false;
+            _autoScaleCheckBox.setSelected( _autoScaleEnabled );
+            updateTicksAndGridlines();
+            updateZoomButtons();
+        }
+        
+        // Wave type
+        _waveType = FourierConstants.WAVE_TYPE_SINE;
+        
+        // Synchronize with model
+        update();
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -379,20 +397,17 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
         return _waveType;
     }
     
-    public void setAutoScaleEnabled( boolean autoRescaleEnabled ) {
+    
+    public ZoomControl getHorizontalZoomControl() {
+        return _horizontalZoomControl;
+    }
+    
+    private void setAutoScaleEnabled( boolean autoRescaleEnabled ) {
         if ( autoRescaleEnabled != _autoScaleEnabled ) {
             _autoScaleEnabled = autoRescaleEnabled;
             updateZoomButtons();
             update();
         }
-    }
-    
-    public boolean isAutoScaleEnabled() {
-        return _autoScaleEnabled;
-    }
-    
-    public ZoomControl getHorizontalZoomControl() {
-        return _horizontalZoomControl;
     }
     
     //----------------------------------------------------------------------------
@@ -571,10 +586,10 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
         
         // Adjust the scale.
         if ( zoomType == ZoomEvent.VERTICAL_ZOOM_IN ) {
-            yRange += Y_ZOOM_STEP;
+            yRange -= Y_ZOOM_STEP;
         }
         else {
-            yRange -= Y_ZOOM_STEP;
+            yRange += Y_ZOOM_STEP;
         }
 
         // Constrain the scale's range.

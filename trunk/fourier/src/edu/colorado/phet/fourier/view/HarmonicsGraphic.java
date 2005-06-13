@@ -23,6 +23,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
@@ -298,12 +299,10 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
 
         // Misc initialization
         {
-            _xZoomLevel = 0;
             _dataSets = new ArrayList();
-            _previousNumberOfHarmonics = -1; // force update
         }
 
-        update();
+        reset();
     }
 
     /**
@@ -316,6 +315,27 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
         _horizontalZoomControl.removeAllZoomListeners();
     }
 
+    /**
+     * Resets to the initial state.
+     */
+    public void reset() {
+
+        // Chart
+        {
+            _xZoomLevel = 0;
+            _chartGraphic.setRange( CHART_RANGE );
+            updateTicksAndGridlines();
+            updateZoomButtons();
+        }
+        
+        // Wave type
+        _waveType = FourierConstants.WAVE_TYPE_SINE;
+        
+        // Synchronize with model
+        _previousNumberOfHarmonics = -1; // force update
+        update();
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -409,7 +429,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
      */
     public void focusGained( HarmonicFocusEvent event ) {
         DataSetGraphic[] dataSetGraphics = _chartGraphic.getDataSetGraphics();
-        for ( int i = 0; i < dataSetGraphics.length; i++ ) { 
+        for ( int i = 0; i < dataSetGraphics.length; i++ ) {
             HarmonicDataSet dataSet = (HarmonicDataSet) dataSetGraphics[i].getDataSet();
             if ( dataSet.getHarmonic() != event.getHarmonic() ) {
                     ( (LinePlot) dataSetGraphics[i] ).setBorderColor( WAVE_DIMMED_COLOR );

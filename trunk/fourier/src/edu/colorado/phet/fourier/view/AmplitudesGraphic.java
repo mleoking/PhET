@@ -223,12 +223,11 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
         // Misc initialization
         {
             _sliders = new ArrayList();
-            _previousNumberOfHarmonics = -1; // force update
             _listenerList = new EventListenerList();
             _harmonicFocusListener = new ThisHarmonicFocusListener();
         }
         
-        update();
+        reset();
     }
     
     /**
@@ -238,6 +237,14 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     public void finalize() {
         _fourierSeriesModel.removeObserver( this );
         _fourierSeriesModel = null;
+    }
+    
+    /**
+     * Resets to the initial state.
+     */
+    public void reset() {
+        _previousNumberOfHarmonics = -1; // force update
+        update();
     }
 
     //----------------------------------------------------------------------------
