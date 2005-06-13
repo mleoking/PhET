@@ -39,6 +39,10 @@ PHETCOMMON:
 - bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
 
 DONE:
+v0r2...
+(6/13) - remove evil casts from focus handlers in Harmonics graph
+(6/13) - make all graphs reset to initial zoom levels when Reset button is pressed
+(6/13) - fix vertical zoom in Sum graph
 v0r1...
 (6/10) - i18n of all mathematical symbols
 (6/10) - stubs for all control handlers in "Discrete" module
