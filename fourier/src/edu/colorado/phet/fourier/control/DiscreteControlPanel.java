@@ -181,7 +181,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 _showWavelengthChoices = new ArrayList();
                 String symbol = SimStrings.get( "symbol.wavelength" );
                 for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
-                    String choice = symbol + ( i + 1 );
+                    String choice = "<html>" + symbol + "<sub>" + ( i + 1 ) + "</sub></html>";
                     _showWavelengthChoices.add( choice );
                 }
 
@@ -203,7 +203,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 _showPeriodChoices = new ArrayList();
                 String symbol = SimStrings.get( "symbol.period" );
                 for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
-                    String choice = symbol + ( i + 1 );
+                    String choice = "<html>" + symbol + "<sub>" + ( i + 1 ) + "</sub></html>";
                     _showPeriodChoices.add( choice );
                 }
 
