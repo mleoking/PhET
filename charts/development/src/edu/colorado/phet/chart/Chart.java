@@ -324,6 +324,13 @@ public class Chart extends GraphicLayerSet {
         return horizonalGridlines;
     }
 
+    /**
+     * Sets the chart's range.
+     * The chart copies the provided Range object, so that any subsequency
+     * changes to that object do not affect the chart.
+     * 
+     * @param range
+     */
     public void setRange( Range2D range ) {
         this.range.setRange( range );
         transform.setModelBounds( range.getBounds() );
@@ -331,6 +338,15 @@ public class Chart extends GraphicLayerSet {
         autorepaint();
     }
 
+    /**
+     * Gets a copy of the chart's range.
+     * 
+     * @return the range
+     */
+    public Range2D getRange() {
+        return new Range2D( range );
+    }
+    
     public Range2D getDataRange() {
         if( numDataSetGraphics() == 0 ) {
             return null;
@@ -449,9 +465,4 @@ public class Chart extends GraphicLayerSet {
     public int transformX( double gridLineX ) {
         return transform( new Point2D.Double( gridLineX, 0 ) ).x;
     }
-
-    public Range2D getRange() {
-        return new Range2D( range );
-    }
-
 }
