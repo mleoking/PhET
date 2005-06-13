@@ -19,8 +19,6 @@ import java.util.ArrayList;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.DataSetGraphic;
-import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -33,7 +31,6 @@ import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.model.HarmonicDataSet;
 import edu.colorado.phet.fourier.util.FourierUtils;
 
 
