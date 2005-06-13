@@ -44,6 +44,13 @@ public class Range2D {
         this.maxY = maxY;
     }
     
+    public void setRange( Range2D range ) {
+        this.minX = range.getMinX();
+        this.minY = range.getMinY();
+        this.maxX = range.getMaxX();
+        this.maxY = range.getMaxY();
+    }
+    
     public void setMinX( double minX ) {
         this.minX = minX;
     }
