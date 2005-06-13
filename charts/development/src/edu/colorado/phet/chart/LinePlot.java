@@ -84,6 +84,11 @@ public class LinePlot extends DataSetGraphic {
         addAllPoints();
     }
 
+    public void setStroke( Stroke stroke ) {
+        phetShapeGraphic.setStroke( stroke );
+        autorepaint();
+    }
+    
     public void setBorderColor( Color color ) {
         phetShapeGraphic.setBorderColor( color );
         autorepaint();
