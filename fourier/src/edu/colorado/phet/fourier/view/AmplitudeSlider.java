@@ -137,7 +137,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             _labelGraphic.centerRegistrationPoint();
             _labelGraphic.setLocation( 0, 0 );
             
-            PhetTextGraphic aGraphic = new PhetTextGraphic( component, LABEL_FONT, "A", LABEL_COLOR );
+            String symbolString = SimStrings.get( "symbol.amplitude" );
+            PhetTextGraphic aGraphic = new PhetTextGraphic( component, LABEL_FONT, symbolString, LABEL_COLOR );
             aGraphic.setJustification( PhetTextGraphic.SOUTH_EAST );
             aGraphic.setLocation( 0, 0 );
             _labelGraphic.addGraphic( aGraphic );
