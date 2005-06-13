@@ -559,7 +559,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
      * @param actionID indicates the type of zoom
      */
     private void handleVerticalZoom( int zoomType ) {
-        System.out.println( "vertical zoom" );//XXX
+
         // Get the chart's vertical range.
         Range2D range = _chartGraphic.getRange();
         double yRange = range.getMaxY();
