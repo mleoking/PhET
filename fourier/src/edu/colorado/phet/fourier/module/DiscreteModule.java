@@ -21,8 +21,8 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -144,6 +144,8 @@ public class DiscreteModule extends FourierModule {
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
+        
+        addHelpItem( new HelpItem( apparatusPanel, "<Help goes here>", 200, 150 ) );//XXX
         
         // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _fourierSeriesModel );
