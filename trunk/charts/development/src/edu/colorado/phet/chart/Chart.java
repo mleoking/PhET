@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class Chart extends GraphicLayerSet {
     private Component component;
-    private Range2D range;
+    private Range2D range = new Range2D( 0, 0, 1, 1 );
 
     private ArrayList dataSetGraphics = new ArrayList();
     private Axis xAxis;
@@ -74,7 +74,7 @@ public class Chart extends GraphicLayerSet {
 //        System.out.println( "vertMaj= " + vertMajorSpacing );
         this.chartSize = chartSize;
         this.component = component;
-        this.range = range;
+        this.range.setRange( range );
 
         this.transform = new ModelViewTransform2D( range.getBounds(), new Rectangle( chartSize ) );
 
@@ -325,7 +325,7 @@ public class Chart extends GraphicLayerSet {
     }
 
     public void setRange( Range2D range ) {
-        this.range = range;
+        this.range.setRange( range );
         transform.setModelBounds( range.getBounds() );
         fireTransformChanged();
         autorepaint();
@@ -451,7 +451,7 @@ public class Chart extends GraphicLayerSet {
     }
 
     public Range2D getRange() {
-        return range;
+        return new Range2D( range );
     }
 
 }
