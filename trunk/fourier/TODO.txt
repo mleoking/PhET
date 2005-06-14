@@ -3,10 +3,9 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- fix SubscriptedSymbol graphic
 
 HIGH PRIORITY:
-- screen turds from wavelength & period measurement tools (PhetTextGraphic bounds problem?)
 - change length of wavelength & period measurement tools based on chart range
 - investigate Jex for rendering equations
 - highlight component when mouse moves over it in Harmonics graph
@@ -36,15 +35,16 @@ CHARTS:
 - flatten static graphics elements
 
 PHETCOMMON:
-- bug: JTextField wrapped by PhetJComponent doesn't work on Windows
-- bug: when focus moves to Control Panel, PhetJComponet in apparatus panel still appears to have focus (eg, blinking cursor)
-- bug: PhetJComponents don't work unless ApparatusPanel has a mouse listener that requests focus
+- bug: PhetTextGraphic leaves screen turds when its text is exclusively Unicode
+- bug: PhetJComponent uses INT_TYPE_RGB, so alpha is ignored on Mac, can't set transparent backgrounds
+- bug: PhetJComponent startup is excessively slow
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
-- bug: JTextField wrapped by a PhetJComponent grows and shrinks as you type text
-- bug: must call repaint on a PhetGraphic in order to display its wrapped JComponent properly
+- bug: PhetJComponent tab traversal doesn't work
+- bug: PhetJComponent uses deprecated reshape method
 
 DONE:
 v0r2...
+(6/14) - turn off min/max range labeling on graphs (Sam M's request)
 (6/14) - change graph labels based on "Show function of" setting
 (6/14) - change visibility of equations based on "Math Mode" checkbox
 (6/13) - added wavelength and period measurement tools (length is incorrect)
