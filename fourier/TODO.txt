@@ -3,10 +3,9 @@
 ===============================================================================
 
 IN PROGRESS:
-- fix SubscriptedSymbol graphic
+- convert SubscriptedSymbol to HTMLGraphic subclass
 
 HIGH PRIORITY:
-- move L constant to FourierConstants, replace 1.0 in WaveformMeasurementTool
 - something is hammering the processor when we should be idle
 - investigate Jex for rendering equations
 - persistence
@@ -45,6 +44,7 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/14) - move L constant to FourierConstants, replace 1.0 in WaveformMeasurementTool
 (6/14) - javadoc what I've done so far
 (6/14) - highlight harmonic when its wavelength/period tool has focus
 (6/14) - wavelength & period tools listen for range changes in the charts, resize themselves
