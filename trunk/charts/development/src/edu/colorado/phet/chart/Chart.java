@@ -188,6 +188,10 @@ public class Chart extends GraphicLayerSet {
         listeners.add( listener );
     }
 
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+    
     public static class TickMarkSet extends CompositePhetGraphic {
         private GridTicks majorTicks;
         private GridTicks minorTicks;
