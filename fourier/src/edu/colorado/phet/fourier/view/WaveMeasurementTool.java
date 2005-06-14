@@ -24,6 +24,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.event.FourierDragHandler;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
@@ -156,7 +157,7 @@ public class WaveMeasurementTool extends CompositePhetGraphic implements Apparat
         assert ( END_HEIGHT > LINE_HEIGHT );
 
         // The harmonic's cycle length, in model coordinates.
-        double cycleLength = 1.0 / ( _harmonic.getOrder() + 1 );
+        double cycleLength = FourierConstants.L / ( _harmonic.getOrder() + 1 );
         
         // Convert the cycle length to view coordinates.
         Point2D p1 = _chart.transform( 0, 0 );
