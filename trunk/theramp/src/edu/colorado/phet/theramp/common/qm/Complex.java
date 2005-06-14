@@ -68,4 +68,22 @@ public class Complex {
     public boolean isZero() {
         return real == 0 && imag == 0;
     }
+
+    public boolean equals( Object obj ) {
+        if( obj instanceof Complex ) {
+            Complex c = (Complex)obj;
+            return this.real == c.real && this.imag == c.imag;
+        }
+        return false;
+    }
+
+    public void setValue( Complex c ) {
+        this.real = c.real;
+        this.imag = c.imag;
+    }
+
+    public Complex complexConjugate() {
+//        return new Complex( real, imag );
+        return new Complex( real, -imag );
+    }
 }

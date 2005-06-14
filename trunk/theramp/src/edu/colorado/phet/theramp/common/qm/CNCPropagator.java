@@ -11,7 +11,6 @@ package edu.colorado.phet.theramp.common.qm;
  */
 
 public class CNCPropagator {
-    private double K = 10 * Math.PI;
     private double simulationTime;
 
     private double deltaTime;
@@ -77,14 +76,14 @@ public class CNCPropagator {
 //            setValue( w, 0, j );
 //            setValue( w, XMESH, j );
 ////            fixCorners( w );
-//            fixEdges( w );
+            fixEdges( w );
             origFixA( w, j );
             for( int i = 0; i <= N - 1; i++ ) {
                 w[i + 1][j] = ( alpha[i].times( w[i][j] ) ).plus( beta[i] );
             }
         }
 //        fixCorners( w );
-//        fixEdges( w );
+        fixEdges( w );
         for( int i = 1; i < XMESH; i++ ) {
             int N = YMESH;
             alpha[N - 1].zero();
@@ -100,27 +99,28 @@ public class CNCPropagator {
 //            setValue( w, i, 0 );
 //            setValue( w, i, YMESH );
 ////            fixCorners( w );
-//            fixEdges( w );
+            fixEdges( w );
             origFixB( w, i );
             for( int j = 0; j <= N - 1; j++ ) {
                 w[i][j + 1] = ( alpha[j].times( w[i][j] ) ).plus( beta[j] );
             }
         }
-//        fixEdges( w );
+        fixEdges( w );
 //        fixCorners( w );
     }
 
     private void origFixB( Complex[][] w, int i ) {
-        int XMESH = w.length - 1;
-        w[i][0] = new Complex( Math.cos( K * i / XMESH - K * K * simulationTime ), Math.sin( K * i / XMESH - K * K * simulationTime ) );
+        setValue( w, i, 0 );
     }
 
     private void origFixA( Complex[][] w, int j ) {
-        w[0][j] = new Complex( Math.cos( K * K * simulationTime ), -Math.sin( K * K * simulationTime ) );
+//        w[0][j] = new Complex( Math.cos( k * k * simulationTime ), Math.sin( -k * k * simulationTime ) );
+        setValue( w, 0, j );
     }
 
     private void fixEdges( Complex[][] w ) {
 //        int border = 10;
+//        int border = 0;
         int border = 1;
         int XMESH = w.length - 1;
         int YMESH = w[0].length - 1;
@@ -153,7 +153,7 @@ public class CNCPropagator {
     }
 
     private void setValue( Complex[][] w, int x, int y ) {
-        boundaryCondition.setValue( w, x, y, timeStep );
+        boundaryCondition.setValue( w, x, y, timeStep * deltaTime );
     }
 
 }

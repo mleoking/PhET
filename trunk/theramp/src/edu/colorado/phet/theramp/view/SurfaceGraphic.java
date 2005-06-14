@@ -138,10 +138,18 @@ public class SurfaceGraphic extends GraphicLayerSet {
         return angleGraphic;
     }
 
-    static class ImageDebugFrame extends JFrame {
+    public static class ImageDebugFrame extends JFrame {
+        public JLabel label;
+
         public ImageDebugFrame( Image im ) {
-            setContentPane( new JLabel( new ImageIcon( im ) ) );
+            label = new JLabel( new ImageIcon( im ) );
+            setContentPane( label );
+            setImage( im );
             pack();
+        }
+
+        public void setImage( Image image ) {
+            label.setIcon( new ImageIcon( image ) );
         }
     }
 

@@ -17,13 +17,14 @@ public class PlaneWave implements BoundaryCondition, InitialWavefunction {
         this.XMESH = XMESH;
     }
 
-    public void setValue( Complex[][] w, int i, int j, int t ) {
+    public void setValue( Complex[][] w, int i, int j, double simulationTime ) {
         int XMESH = w.length - 1;
         int YMESH = w[0].length - 1;
-        w[i][j] = new Complex( Math.cos( k * i / XMESH - k * k * t ), Math.sin( k * i / XMESH - k * k * t ) );
+        w[i][j] = new Complex( Math.cos( k * i / XMESH - k * k * simulationTime ), Math.sin( k * i / XMESH - k * k * simulationTime ) );
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {
+        //w[i][0] = new Complex( Math.cos( K * i / XMESH - K * K * simulationTime ), Math.sin( K * i / XMESH - K * K * simulationTime ) );
         return new Complex( Math.cos( k * i / XMESH - k * k * simulationTime ), Math.sin( k * i / XMESH - k * k * simulationTime ) );
     }
 

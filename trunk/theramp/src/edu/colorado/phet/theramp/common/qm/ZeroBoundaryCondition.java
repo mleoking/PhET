@@ -9,7 +9,7 @@ package edu.colorado.phet.theramp.common.qm;
  */
 
 public class ZeroBoundaryCondition implements BoundaryCondition {
-    public void setValue( Complex[][] w, int i, int j, int t ) {
+    public void setValue( Complex[][] w, int i, int j, double simulationTime ) {
         w[i][j].zero();
     }
 

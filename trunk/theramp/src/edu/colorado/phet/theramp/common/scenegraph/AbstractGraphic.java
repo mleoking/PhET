@@ -120,6 +120,7 @@ public abstract class AbstractGraphic {
 
     public void setColor( Color color ) {
         setPaint( color );
+        setRegionDirty();
     }
 
     public void setStroke( Stroke stroke ) {

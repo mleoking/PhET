@@ -9,7 +9,7 @@ package edu.colorado.phet.theramp.common.qm;
  */
 
 public interface BoundaryCondition {
-    void setValue( Complex[][] w, int i, int j, int t );
+    void setValue( Complex[][] w, int i, int j, double simulationTime );
 
     Complex getValue( int xmesh, int j, double simulationTime );
 }

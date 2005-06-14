@@ -4,8 +4,12 @@ package edu.colorado.phet.theramp.common.scenegraph.tests;
 import edu.colorado.phet.theramp.common.scenegraph.AbstractGraphic;
 import edu.colorado.phet.theramp.common.scenegraph.GraphicListNode;
 import edu.colorado.phet.theramp.common.scenegraph.OutlineGraphic;
+import edu.colorado.phet.theramp.common.scenegraph.SceneGraphMouseEvent;
 
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -27,6 +31,33 @@ public class ViewportGraphic extends GraphicListNode {
         postGraphic = new OutlineGraphic( new Rectangle( clip ), new BasicStroke(), Color.black );
         addGraphic( clipper );
         addGraphic( postGraphic );
+        addFocusListener( new FocusAdapter() {
+            public void focusGained( FocusEvent e ) {
+                postGraphic.setColor( Color.yellow );
+            }
+
+            public void focusLost( FocusEvent e ) {
+                postGraphic.setColor( Color.black );
+            }
+        } );
+    }
+
+    public AbstractGraphic getHandler( SceneGraphMouseEvent event ) {
+
+        AbstractGraphic child = super.getHandler( event );
+        if( child != null ) {
+            return child;
+        }
+        else {
+            if( containsLocal( event ) ) {
+                return this;
+            }
+        }
+        return null;
+    }
+
+    public Rectangle2D getLocalBounds() {
+        return new Rectangle( clip );
     }
 
     public boolean containsMousePointLocal( double x, double y ) {
@@ -40,6 +71,12 @@ public class ViewportGraphic extends GraphicListNode {
             this.graphic = graphic;
             addGraphic( graphic );
             setClip( clip );
+        }
+
+        public void paint( Graphics2D graphics2D ) {
+            Shape orig = graphics2D.getClip();
+            super.paint( graphics2D );
+            graphics2D.setClip( orig );
         }
     }
 
