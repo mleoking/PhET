@@ -302,10 +302,20 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     // Event handling
     //----------------------------------------------------------------------------
     
+    /**
+     * Adds a HarmonicFocusListener.
+     * 
+     * @param listener
+     */
     public void addHarmonicFocusListener( HarmonicFocusListener listener ) {
         _listenerList.add( HarmonicFocusListener.class, listener );
     }
   
+    /**
+     * Removes a HarmonicFocusListener.
+     * 
+     * @param listener
+     */
     public void removeHarmonicFocusListener( HarmonicFocusListener listener ) {
         _listenerList.remove( HarmonicFocusListener.class, listener );
     }
@@ -315,6 +325,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
      */
     private class ThisHarmonicFocusListener implements HarmonicFocusListener {
 
+        /* Invoked when an amplitude slider gains focus. */
         public void focusGained( HarmonicFocusEvent event ) {
             Object[] listeners = _listenerList.getListenerList();
             for ( int i = 0; i < listeners.length; i += 2 ) {
@@ -324,6 +335,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
             }
         }
 
+        /* Invoked when an amplitude slider loses focus. */
         public void focusLost( HarmonicFocusEvent event ) {
             Object[] listeners = _listenerList.getListenerList();
             for ( int i = 0; i < listeners.length; i += 2 ) {

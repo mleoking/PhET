@@ -21,6 +21,13 @@ package edu.colorado.phet.fourier;
  */
 public class FourierConstants {
 
+    /* Not intended for instantiation. */
+    private FourierConstants() {}
+    
+    //----------------------------------------------------------------------------
+    // Constants
+    //----------------------------------------------------------------------------
+    
     // Domain choices
     public static final int DOMAIN_SPACE = 0;
     public static final int DOMAIN_TIME = 1;
@@ -47,8 +54,9 @@ public class FourierConstants {
     public static final int MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY = 6;
     public static final int MATH_FORM_WAVELENGTH_AND_PERIOD = 7;
     
-    /* Not intended for instantiation. */
-    private FourierConstants() {}
+    //----------------------------------------------------------------------------
+    // Validation methods
+    //----------------------------------------------------------------------------
     
     public static boolean isValidDomain( int domain ) {
         boolean isValid = false;

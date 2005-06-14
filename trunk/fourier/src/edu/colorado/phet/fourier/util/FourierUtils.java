@@ -74,6 +74,12 @@ public class FourierUtils {
       return HARMONIC_COLORS[ n ];
     }
     
+    /**
+     * Calculates the color that corresponds to a specified harmonic.
+     * 
+     * @param Harmonic the harmonic
+     * @throws IllegalArgumentException if n is out of range
+     */
     public static Color calculateHarmonicColor( Harmonic harmonic ) {
         return calculateHarmonicColor( harmonic.getOrder() );
     }

@@ -400,14 +400,29 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
         return _waveType;
     }
 
+    /**
+     * Gets the horizontal zoom control.
+     * 
+     * @return the horizontal zoom control
+     */
     public ZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
     }
     
+    /**
+     * Enables things that are related to "math mode".
+     * 
+     * @param enabled true or false
+     */
     public void setMathEnabled( boolean enabled ) {
         _mathGraphic.setVisible( enabled );
     }
     
+    /**
+     * Sets the domain.
+     * 
+     * @param domain one of the FourierConstants.DOMAIN_* constants
+     */
     public void setDomain( int domain ) {
         assert( FourierConstants.isValidDomain( domain ) );
         _domain = domain;
@@ -415,6 +430,11 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
         updateMath();
     }
     
+    /**
+     * Gets the chart associated with this graphic.
+     * 
+     * @return the chart
+     */
     public Chart getChart() {
         return _chartGraphic;
     }
@@ -461,6 +481,11 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
     // ZoomListener implementation
     //----------------------------------------------------------------------------
 
+    /**
+     * Invokes when a zoom of the chart has been performed.
+     * 
+     * @param event
+     */
     public void zoomPerformed( ZoomEvent event ) {
         int zoomType = event.getZoomType();
         if ( zoomType == ZoomEvent.HORIZONTAL_ZOOM_IN || zoomType == ZoomEvent.HORIZONTAL_ZOOM_OUT ) {

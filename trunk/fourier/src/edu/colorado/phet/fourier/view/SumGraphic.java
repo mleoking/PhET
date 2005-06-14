@@ -429,28 +429,47 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
         return _waveType;
     }
     
-    
+    /**
+     * Gets the horizontal zoom control.
+     * 
+     * @return the horizontal zoom control
+     */
     public ZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
     }
     
+    /**
+     * Enables things that are related to "math mode".
+     * 
+     * @param enabled true or false
+     */
+    public void setMathEnabled( boolean enabled ) {
+        _mathGraphic.setVisible( enabled );
+    }
+    
+    /**
+     * Sets the domain.
+     * 
+     * @param domain one of the FourierConstants.DOMAIN_* constants
+     */
+    public void setDomain( int domain ) {
+        assert( FourierConstants.isValidDomain( domain ) );
+        _domain = domain;
+        updateLabelsAndLines();
+        updateMath();
+    }
+    
+    /**
+     * Enables or disables auto scaling of the Y axis.
+     * 
+     * @param autoRescaleEnabled true or false
+     */
     private void setAutoScaleEnabled( boolean autoRescaleEnabled ) {
         if ( autoRescaleEnabled != _autoScaleEnabled ) {
             _autoScaleEnabled = autoRescaleEnabled;
             updateZoomButtons();
             update();
         }
-    }
-    
-    public void setMathEnabled( boolean enabled ) {
-        _mathGraphic.setVisible( enabled );
-    }
-    
-    public void setDomain( int domain ) {
-        assert( FourierConstants.isValidDomain( domain ) );
-        _domain = domain;
-        updateLabelsAndLines();
-        updateMath();
     }
     
     //----------------------------------------------------------------------------

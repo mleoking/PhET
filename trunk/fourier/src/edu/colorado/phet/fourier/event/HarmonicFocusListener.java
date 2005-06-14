@@ -15,13 +15,25 @@ import java.util.EventListener;
 
 
 /**
- * HarmonicHighlightListener
+ * HarmonicHighlightListener is the listener interface for receiving
+ * focus events related to Harmonics.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public interface HarmonicFocusListener extends EventListener {
 
+    /**
+     * Invoked when a Harmonic gains focus.
+     * 
+     * @param event
+     */
     public void focusGained( HarmonicFocusEvent event );
+    
+    /**
+     * Invoked when a Harmonic loses focus.
+     * 
+     * @param event
+     */
     public void focusLost( HarmonicFocusEvent event );
 }

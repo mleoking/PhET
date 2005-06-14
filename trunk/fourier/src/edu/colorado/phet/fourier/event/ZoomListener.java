@@ -15,12 +15,17 @@ import java.util.EventListener;
 
 
 /**
- * ZoomListener
+ * ZoomListener is the listener interface for zoom events.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public interface ZoomListener extends EventListener {
 
+    /**
+     * Invokes when a zoom occurs.
+     * 
+     * @param event
+     */
     public void zoomPerformed( ZoomEvent event );
 }

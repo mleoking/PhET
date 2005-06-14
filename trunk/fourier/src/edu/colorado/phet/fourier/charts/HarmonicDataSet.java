@@ -108,6 +108,11 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
         return _waveType;
     }
 
+    /**
+     * Gets the harmonic associated with this data set.
+     * 
+     * @return Harmonic
+     */
     public Harmonic getHarmonic() {
         return _harmonic;
     }

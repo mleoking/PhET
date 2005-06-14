@@ -24,7 +24,7 @@ import edu.colorado.phet.fourier.util.Vector2D;
 
 
 /**
- * WiggleMeGraphic is the graphic that display a "Wiggle Me".
+ * WiggleMeGraphic is the graphic that displays a "Wiggle Me".
  * A wiggle me is provides help in situations where the user may not
  * know how to get started.  There is typically a piece of text,
  * along with one or more arrows that point to objects in the 
