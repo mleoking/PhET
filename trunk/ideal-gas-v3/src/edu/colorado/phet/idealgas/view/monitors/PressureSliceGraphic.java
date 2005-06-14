@@ -18,8 +18,8 @@ import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.PressureSlice;
 import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.PressureSensingBox;
 
@@ -153,7 +153,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
 
             g2.setFont( font );
             FontMetrics fontMetrics = g2.getFontMetrics();
-            int readoutWidth = 95;
+            int readoutWidth = 117;
             int borderThickness = 8;
             int numReadoutLines = displayTemperature ? 3 : 2;
             int readoutHeight = fontMetrics.getHeight() * numReadoutLines + fontMetrics.getMaxDescent();
@@ -219,7 +219,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
 
             // y location must be converted to units compatible with the graphic ruler
             double h = ( boxLowerEdge - y ) / IdealGasConfig.PIXELS_PER_NANOMETER;
-            String heightStr = "height = " + heightFormatter.format( h );
+            String heightStr = "height = " + heightFormatter.format( h ) + "nm";
 //            String heightStr = "height = " + heightFormatter.format( ( ( ( boxLowerEdge - y ) - 3.3 ) / 70.857 ) );
             g2.setColor( Color.black );
             strLocY += fontMetrics.getHeight();

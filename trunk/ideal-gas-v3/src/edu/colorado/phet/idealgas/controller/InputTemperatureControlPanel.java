@@ -56,12 +56,25 @@ public class InputTemperatureControlPanel extends JPanel {
         tempSpinner.setEnabled( false );
         final JCheckBox tempLbl = new JCheckBox( SimStrings.get( "AdvancedControlPanel.Particle_Temperature" ), false );
         tempLbl.addActionListener( new ActionListener() {
+            Pump.PumpingEnergyStrategy orgEnergyStrategy = module.getPumpingEnergyStrategy();
+            Pump.PumpingEnergyStrategy energyStrategy = null;
+
             public void actionPerformed( ActionEvent e ) {
                 tempSpinner.setEnabled( tempLbl.isSelected() );
                 if( !tempLbl.isSelected() ) {
-                    for( int i = 0; i < pumps.length; i++ ) {
-                        pumps[i].setPumpingEnergyStrategy( new Pump.ConstantEnergyStrategy( module.getIdealGasModel() ) );
-                    }
+                    energyStrategy = orgEnergyStrategy;
+//                        energyStrategy = new Pump.ConstantEnergyStrategy( module.getIdealGasModel() );
+//                    for( int i = 0; i < pumps.length; i++ ) {
+//                        pumps[i].setPumpingEnergyStrategy( new Pump.ConstantEnergyStrategy( module.getIdealGasModel() ) );
+//                    }
+                }
+                else {
+                    orgEnergyStrategy = module.getPumpingEnergyStrategy();
+                    double temp = ( (Double)tempSpinner.getValue() ).doubleValue() * IdealGasConfig.TEMPERATURE_SCALE_FACTOR * hackConst;
+                    energyStrategy = new Pump.FixedEnergyStrategy( temp );
+                }
+                for( int i = 0; i < pumps.length; i++ ) {
+                    pumps[i].setPumpingEnergyStrategy( energyStrategy );
                 }
             }
         } );
