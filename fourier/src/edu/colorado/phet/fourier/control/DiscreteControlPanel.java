@@ -443,51 +443,39 @@ public class DiscreteControlPanel extends FourierControlPanel {
         public void actionPerformed( ActionEvent event ) {
 
             if ( event.getSource() == _domainComboBox.getComboBox() ) {
-                System.out.println( "_domainComboBox " + _domainComboBox.getSelectedItem() ); //XXX
                 handleDomain();
             }
             else if ( event.getSource() == _presetsComboBox.getComboBox() ) {
-                System.out.println( "preset " + _presetsComboBox.getSelectedItem() ); //XXX
                 handlePreset();
             }
             else if ( event.getSource() == _showInfiniteCheckBox ) {
-                System.out.println( "_showInfiniteCheckBox " + _showInfiniteCheckBox.isSelected() );//XXX
                 handleShowInfinite();
             }
             else if ( event.getSource() == _showWavelengthCheckBox ) {
-                System.out.println( "_showWavelengthCheckBox " + _showWavelengthCheckBox.isSelected() );//XXX
                 handleShowWavelength();
             }
             else if ( event.getSource() == _showWavelengthComboBox ) {
-                System.out.println( "_showWavelengthComboBox " + _showWavelengthComboBox.getSelectedItem() );//XXX
                 handleShowWavelength();
             }
             else if ( event.getSource() == _showPeriodCheckBox ) {
-                System.out.println( "_showPeriodCheckBox " + _showPeriodCheckBox.isSelected() );//XXX
                 handleShowPeriod();
             }
             else if ( event.getSource() == _showPeriodComboBox ) {
-                System.out.println( "_showPeriodComboBox " + _showPeriodComboBox.getSelectedItem() );//XXX
                 handleShowPeriod();
             }
             else if ( event.getSource() == _waveTypeComboBox.getComboBox() ) {
-                System.out.println( "_waveTypeComboBox " + _waveTypeComboBox.getSelectedItem() ); //XXX
                 handleWaveType();
             }
             else if ( event.getSource() == _playSoundCheckBox ) {
-                System.out.println( "_playSoundCheckBox " + _playSoundCheckBox.isSelected() );//XXX
                 handlePlaySound();
             }
             else if ( event.getSource() == _showMathCheckBox ) {
-                System.out.println( "_showMathCheckBox " + _showMathCheckBox.isSelected() ); //XXX
                 handleShowMath();
             }
             else if ( event.getSource() == _mathFormComboBox.getComboBox() ) {
-                System.out.println( "_mathFormComboBox " + _mathFormComboBox.getSelectedItem() ); //XXX
                 handleMathForm();
             }
             else if ( event.getSource() == _expandSumCheckBox ) {
-                System.out.println( "_expandSumCheckBox " + _expandSumCheckBox.isSelected() );//XXX
                 handleExpandSum();
             }
             else {
