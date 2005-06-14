@@ -42,7 +42,7 @@ public class WaveformMeasurementTool extends CompositePhetGraphic implements App
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Font LABEL_FONT = new Font( "Lucida Sans", Font.PLAIN, 16 );
     private static final int LABEL_Y_OFFSET = -13;
-    private static final float END_WIDTH = 2;
+    private static final float END_WIDTH = 1;
     private static final float END_HEIGHT = 10;
     private static final float LINE_HEIGHT = 4; // must be < END_HEIGHT !
     
