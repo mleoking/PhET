@@ -502,8 +502,9 @@ public class DiscreteControlPanel extends FourierControlPanel {
     // Event handlers
     //----------------------------------------------------------------------------
     
-    private void handleDomain() {
-        switch ( _domainComboBox.getSelectedKey() ) {
+    private void handleDomain() { 
+        int key = _domainComboBox.getSelectedKey();
+        switch ( key ) {
         case FourierConstants.DOMAIN_SPACE:
             _mathFormComboBox.setChoices( _spaceMathFormChoices );
             _showWavelengthCheckBox.setEnabled( true );
@@ -512,6 +513,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
             _showPeriodCheckBox.setEnabled( false );
             _showPeriodComboBox.setEnabled( false );
             _periodTool.setVisible( false );
+            _harmonicsGraphic.setDomain( key );
+            _sumGraphic.setDomain( key );
             break;
         case FourierConstants.DOMAIN_TIME:
         case FourierConstants.DOMAIN_SPACE_AND_TIME:
@@ -522,6 +525,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
             _showPeriodCheckBox.setEnabled( true );
             _showPeriodComboBox.setEnabled( _showPeriodCheckBox.isSelected() );
             _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
+            _harmonicsGraphic.setDomain( key );
+            _sumGraphic.setDomain( key );
             break;
         default:
             assert( 1 == 0 ); // programming error

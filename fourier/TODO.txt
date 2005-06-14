@@ -45,6 +45,7 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/14) - change graph labels based on "Show function of" setting
 (6/14) - change visibility of equations based on "Math Mode" checkbox
 (6/13) - added wavelength and period measurement tools (length is incorrect)
 (6/13) - created SubscriptedSymbol graphic

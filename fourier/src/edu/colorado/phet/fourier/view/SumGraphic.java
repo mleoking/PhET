@@ -93,6 +93,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
     
     // X axis
     private static final double L = 1.0; // arbitrary value for the symbol L (length of the string)
+    private static final double T = L;  // do not change!
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
@@ -136,7 +137,9 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
     private ZoomControl _horizontalZoomControl, _verticalZoomControl;
     private JCheckBox _autoScaleCheckBox;
     private int _xZoomLevel;
+    private int _domain;
     private LabelTable _spaceLabels1, _spaceLabels2;
+    private LabelTable _timeLabels1, _timeLabels2;
     private boolean _autoScaleEnabled;
     private Point2D[] _points;
     
@@ -180,6 +183,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
 
             // Symbolic labels for the X axis
             {
+                // Space domain labels
                 _spaceLabels1 = new LabelTable();
                 _spaceLabels1.put( -1.00 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
                 _spaceLabels1.put( -0.75 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3L/4", MAJOR_TICK_COLOR ) );
@@ -201,6 +205,29 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
                 _spaceLabels2.put(  1.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L", MAJOR_TICK_COLOR ) );
                 _spaceLabels2.put(  1.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3L/2", MAJOR_TICK_COLOR ) );
                 _spaceLabels2.put(  2.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2L", MAJOR_TICK_COLOR ) );
+                
+                // Time domain labels
+                _timeLabels1 = new LabelTable();
+                _timeLabels1.put( -1.00 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( -0.75 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3T/4", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( -0.50 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( -0.25 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/4", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put(     0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( +0.25 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/4", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( +0.50 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( +0.75 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3T/4", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( +1.00 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T", MAJOR_TICK_COLOR ) );
+
+                _timeLabels2 = new LabelTable();
+                _timeLabels2.put( -2.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-2T", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( -1.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( -1.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( -0.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put(    0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( +0.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( +1.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( +1.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( +2.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2T", MAJOR_TICK_COLOR ) );
             }
             
             // X axis
@@ -361,7 +388,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
             _chartGraphic.setRange( CHART_RANGE );
             _autoScaleEnabled = false;
             _autoScaleCheckBox.setSelected( _autoScaleEnabled );
-            updateTicksAndGridlines();
+            updateLabelsAndLines();
             updateZoomButtons();
         }
         
@@ -385,10 +412,11 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
      * @param waveType FourierConstants.WAVE_TYPE_SINE or FourierConstants.WAVE_TYPE_COSINE
      */
     public void setWaveType( int waveType ) {
-       if ( waveType != _waveType ) {
-           _waveType = waveType;
-           update();
-       }
+        assert ( FourierConstants.isValidWaveType( waveType ) );
+        if ( waveType != _waveType ) {
+            _waveType = waveType;
+            update();
+        }
     }
     
     /**
@@ -415,6 +443,13 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
     
     public void setMathEnabled( boolean enabled ) {
         _mathGraphic.setVisible( enabled );
+    }
+    
+    public void setDomain( int domain ) {
+        assert( FourierConstants.isValidDomain( domain ) );
+        _domain = domain;
+        updateLabelsAndLines();
+        updateMath();
     }
     
     //----------------------------------------------------------------------------
@@ -488,7 +523,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
                 range.setMinY( -maxSum );
                 range.setMaxY( +maxSum );
                 _chartGraphic.setRange( range );
-                updateTicksAndGridlines();
+                updateLabelsAndLines();
                 updateZoomButtons();
             }
         }
@@ -571,7 +606,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
         range.setMinX( -xRange );
         _chartGraphic.setRange( range );
 
-        updateTicksAndGridlines();
+        updateLabelsAndLines();
         updateZoomButtons();
     }
     
@@ -612,19 +647,18 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
         range.setMinY( -yRange );
         _chartGraphic.setRange( range );
         
-        updateTicksAndGridlines();
+        updateLabelsAndLines();
         updateZoomButtons();
     }
     
     /*
-     * Adjusts ticks and gridlines to match the chart range.
+     * Adjusts labels, ticks and gridlines to match the chart range.
      */
-    private void updateTicksAndGridlines() {
-        
-        Range2D range = _chartGraphic.getRange();
-        
-        // X axis ticks and gridlines
-        {
+    private void updateLabelsAndLines() {
+
+        // X axis
+        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+            _xAxisTitleGraphic.setText( _xAxisTitleSpace );
             if ( _xZoomLevel > -3 ) {
                 _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
             }
@@ -632,9 +666,19 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
                 _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels2 );
             }
         }
+        else { /* DOMAIN_TIME or DOMAIN_SPACE_AND_TIME */
+            _xAxisTitleGraphic.setText( _xAxisTitleTime );
+            if ( _xZoomLevel > -3 ) {
+                _chartGraphic.getHorizontalTicks().setMajorLabels( _timeLabels1 );
+            }
+            else {
+                _chartGraphic.getHorizontalTicks().setMajorLabels( _timeLabels2 );
+            }   
+        }
         
-        // Y axis ticks and gridlines
+        // Y axis
         {
+            Range2D range = _chartGraphic.getRange();
             double tickSpacing;
             if ( range.getMaxY() < 2 ) {
                 tickSpacing = 0.5;
@@ -651,7 +695,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
     }
     
     /*
-     * Enables and disabled zoom buttons based on the current
+     * Enables and disables zoom buttons based on the current
      * zoom levels and range of the chart.
      */
     private void updateZoomButtons() {
@@ -689,5 +733,9 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
             _verticalZoomControl.setZoomOutEnabled( true );
             _verticalZoomControl.setZoomInEnabled( true );
         }
+    }
+    
+    private void updateMath() {
+        //XXX implement
     }
 }
