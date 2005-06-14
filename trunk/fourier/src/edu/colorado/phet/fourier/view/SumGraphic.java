@@ -93,8 +93,7 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
     
     // X axis
-    private static final double L = 1.0; // arbitrary value for the symbol L (length of the string)
-    private static final double T = L;  // do not change!
+    private static final double L = FourierConstants.L; // do not change!
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
@@ -182,55 +181,6 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
             
             _chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
 
-            // Symbolic labels for the X axis
-            {
-                // Space domain labels
-                _spaceLabels1 = new LabelTable();
-                _spaceLabels1.put( -1.00 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put( -0.75 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3L/4", MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put( -0.50 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/2", MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put( -0.25 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/4", MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(     0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(  0.25 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/4", MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(  0.50 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/2", MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(  0.75 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3L/4", MAJOR_TICK_COLOR ) );
-                _spaceLabels1.put(  1.00 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L", MAJOR_TICK_COLOR ) );
-                
-                _spaceLabels2 = new LabelTable();
-                _spaceLabels2.put( -2.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-2L", MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put( -1.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3L/2", MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put( -1.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put( -0.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/2", MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(    0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(  0.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/2", MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(  1.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L", MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(  1.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3L/2", MAJOR_TICK_COLOR ) );
-                _spaceLabels2.put(  2.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2L", MAJOR_TICK_COLOR ) );
-                
-                // Time domain labels
-                _timeLabels1 = new LabelTable();
-                _timeLabels1.put( -1.00 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T", MAJOR_TICK_COLOR ) );
-                _timeLabels1.put( -0.75 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3T/4", MAJOR_TICK_COLOR ) );
-                _timeLabels1.put( -0.50 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/2", MAJOR_TICK_COLOR ) );
-                _timeLabels1.put( -0.25 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/4", MAJOR_TICK_COLOR ) );
-                _timeLabels1.put(     0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
-                _timeLabels1.put( +0.25 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/4", MAJOR_TICK_COLOR ) );
-                _timeLabels1.put( +0.50 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/2", MAJOR_TICK_COLOR ) );
-                _timeLabels1.put( +0.75 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3T/4", MAJOR_TICK_COLOR ) );
-                _timeLabels1.put( +1.00 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T", MAJOR_TICK_COLOR ) );
-
-                _timeLabels2 = new LabelTable();
-                _timeLabels2.put( -2.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-2T", MAJOR_TICK_COLOR ) );
-                _timeLabels2.put( -1.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3T/2", MAJOR_TICK_COLOR ) );
-                _timeLabels2.put( -1.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
-                _timeLabels2.put( -0.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/2", MAJOR_TICK_COLOR ) );
-                _timeLabels2.put(    0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
-                _timeLabels2.put( +0.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/2", MAJOR_TICK_COLOR ) );
-                _timeLabels2.put( +1.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T", MAJOR_TICK_COLOR ) );
-                _timeLabels2.put( +1.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3T/2", MAJOR_TICK_COLOR ) );
-                _timeLabels2.put( +2.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2T", MAJOR_TICK_COLOR ) );
-            }
-            
             // X axis
             {
                 _chartGraphic.getXAxis().setStroke( AXIS_STROKE );
@@ -401,6 +351,92 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
         
         // Synchronize with model
         update();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Chart Labels
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Lazy initialization of the X axis "space" labels.
+     */
+    private LabelTable getSpaceLabels1() {
+        if ( _spaceLabels1 == null ) {
+            Component component = getComponent();
+            _spaceLabels1 = new LabelTable();
+            _spaceLabels1.put( -1.00 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
+            _spaceLabels1.put( -0.75 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3L/4", MAJOR_TICK_COLOR ) );
+            _spaceLabels1.put( -0.50 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/2", MAJOR_TICK_COLOR ) );
+            _spaceLabels1.put( -0.25 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/4", MAJOR_TICK_COLOR ) );
+            _spaceLabels1.put(     0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
+            _spaceLabels1.put( +0.25 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/4", MAJOR_TICK_COLOR ) );
+            _spaceLabels1.put( +0.50 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/2", MAJOR_TICK_COLOR ) );
+            _spaceLabels1.put( +0.75 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3L/4", MAJOR_TICK_COLOR ) );
+            _spaceLabels1.put( +1.00 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L", MAJOR_TICK_COLOR ) );
+        }
+        return _spaceLabels1;
+    }
+    
+    /*
+     * Lazy initialization of the X axis "space" labels.
+     */
+    private LabelTable getSpaceLabels2() {
+        if ( _spaceLabels2 == null ) {
+            _spaceLabels2 = new LabelTable();
+            Component component = getComponent();
+            _spaceLabels2.put( -2.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-2L", MAJOR_TICK_COLOR ) );
+            _spaceLabels2.put( -1.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3L/2", MAJOR_TICK_COLOR ) );
+            _spaceLabels2.put( -1.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
+            _spaceLabels2.put( -0.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/2", MAJOR_TICK_COLOR ) );
+            _spaceLabels2.put(    0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
+            _spaceLabels2.put( +0.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/2", MAJOR_TICK_COLOR ) );
+            _spaceLabels2.put( +1.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L", MAJOR_TICK_COLOR ) );
+            _spaceLabels2.put( +1.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3L/2", MAJOR_TICK_COLOR ) );
+            _spaceLabels2.put( +2.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2L", MAJOR_TICK_COLOR ) );
+        }
+        return _spaceLabels2;
+    }
+    
+    /*
+     * Lazy initialization of the X axis "time" labels.
+     */
+    private LabelTable getTimeLabels1() {
+        if ( _timeLabels1 == null ) {
+            double T = L; // use the same quantity for wavelength and period
+            Component component = getComponent();
+            _timeLabels1 = new LabelTable();
+            _timeLabels1.put( -1.00 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T", MAJOR_TICK_COLOR ) );
+            _timeLabels1.put( -0.75 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3T/4", MAJOR_TICK_COLOR ) );
+            _timeLabels1.put( -0.50 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/2", MAJOR_TICK_COLOR ) );
+            _timeLabels1.put( -0.25 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/4", MAJOR_TICK_COLOR ) );
+            _timeLabels1.put(     0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
+            _timeLabels1.put( +0.25 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/4", MAJOR_TICK_COLOR ) );
+            _timeLabels1.put( +0.50 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/2", MAJOR_TICK_COLOR ) );
+            _timeLabels1.put( +0.75 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3T/4", MAJOR_TICK_COLOR ) );
+            _timeLabels1.put( +1.00 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T", MAJOR_TICK_COLOR ) );
+        }
+        return _timeLabels1;
+    }
+    
+    /*
+     * Lazy initialization of the X axis "time" labels.
+     */
+    private LabelTable getTimeLabels2() {   
+        if ( _timeLabels2 == null ) {
+            double T = L; // use the same quantity for wavelength and period
+            Component component = getComponent();
+            _timeLabels2 = new LabelTable();
+            _timeLabels2.put( -2.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-2T", MAJOR_TICK_COLOR ) );
+            _timeLabels2.put( -1.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3T/2", MAJOR_TICK_COLOR ) );
+            _timeLabels2.put( -1.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
+            _timeLabels2.put( -0.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/2", MAJOR_TICK_COLOR ) );
+            _timeLabels2.put(    0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
+            _timeLabels2.put( +0.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/2", MAJOR_TICK_COLOR ) );
+            _timeLabels2.put( +1.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T", MAJOR_TICK_COLOR ) );
+            _timeLabels2.put( +1.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3T/2", MAJOR_TICK_COLOR ) );
+            _timeLabels2.put( +2.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2T", MAJOR_TICK_COLOR ) );
+        }
+        return _timeLabels2;
     }
     
     //----------------------------------------------------------------------------
@@ -680,19 +716,19 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
         if ( _domain == FourierConstants.DOMAIN_SPACE ) {
             _xAxisTitleGraphic.setText( _xAxisTitleSpace );
             if ( _xZoomLevel > -3 ) {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
+                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels1() );
             }
             else {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels2 );
+                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels2() );
             }
         }
         else { /* DOMAIN_TIME or DOMAIN_SPACE_AND_TIME */
             _xAxisTitleGraphic.setText( _xAxisTitleTime );
             if ( _xZoomLevel > -3 ) {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( _timeLabels1 );
+                _chartGraphic.getHorizontalTicks().setMajorLabels( getTimeLabels1() );
             }
             else {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( _timeLabels2 );
+                _chartGraphic.getHorizontalTicks().setMajorLabels( getTimeLabels2() );
             }   
         }
         

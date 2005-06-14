@@ -28,6 +28,12 @@ public class FourierConstants {
     // Constants
     //----------------------------------------------------------------------------
     
+    public static final double L = 1.0; // arbitrary value for the symbol L (length of the fundamental harmonic)
+    
+    //----------------------------------------------------------------------------
+    // Enumerations
+    //----------------------------------------------------------------------------
+    
     // Domain choices
     public static final int DOMAIN_SPACE = 0;
     public static final int DOMAIN_TIME = 1;
