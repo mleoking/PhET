@@ -93,7 +93,8 @@ public class WaveformMeasurementTool extends CompositePhetGraphic implements App
         _labelGraphic.setLocation( 0, LABEL_Y_OFFSET );
     }
     
-    public void setWidth( int width ) {     
+    public void setWidth( int width ) {    
+        assert( END_HEIGHT > LINE_HEIGHT );
         _path.reset();
         _path.moveTo( 0, 0 );
         _path.lineTo( END_WIDTH, 0 );
