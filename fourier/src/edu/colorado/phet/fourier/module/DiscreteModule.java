@@ -130,12 +130,16 @@ public class DiscreteModule extends FourierModule {
         apparatusPanel.addGraphic( _sumGraphic, SUM_LAYER );
         
         // Wavelength Tool
-        _wavelengthTool = new WaveformMeasurementTool( apparatusPanel );
+        String wavelengthSymbol = SimStrings.get( "symbol.wavelength" );
+        _wavelengthTool = new WaveformMeasurementTool( apparatusPanel, 
+                wavelengthSymbol, _fourierSeriesModel.getHarmonic(0), _harmonicsGraphic.getChart() );
         apparatusPanel.addGraphic( _wavelengthTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _wavelengthTool );
         
         // Period Tool
-        _periodTool = new WaveformMeasurementTool( apparatusPanel );
+        String periodSymbol = SimStrings.get( "symbol.period" );
+        _periodTool = new WaveformMeasurementTool( apparatusPanel, 
+                periodSymbol, _fourierSeriesModel.getHarmonic(0), _harmonicsGraphic.getChart() );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodTool );
         

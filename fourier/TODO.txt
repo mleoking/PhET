@@ -6,10 +6,12 @@ IN PROGRESS:
 - fix SubscriptedSymbol graphic
 
 HIGH PRIORITY:
+
 - change length of wavelength & period measurement tools based on chart range
 - investigate Jex for rendering equations
 - highlight component when mouse moves over it in Harmonics graph
 - persistence
+- smooth out waveforms
 
 MEDIUM PRIORITY:
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
@@ -44,6 +46,8 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/14) - wavelength & period tools listen for range changes in the charts, resize themselves
+(6/14) - wavelength & period tools both available in "space & time" mode
 (6/14) - turn off min/max range labeling on graphs (Sam M's request)
 (6/14) - change graph labels based on "Show function of" setting
 (6/14) - change visibility of equations based on "Math Mode" checkbox

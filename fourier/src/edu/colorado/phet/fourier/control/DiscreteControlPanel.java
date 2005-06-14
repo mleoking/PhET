@@ -17,7 +17,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -27,6 +30,7 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.util.FourierUtils;
@@ -74,7 +78,6 @@ public class DiscreteControlPanel extends FourierControlPanel {
     private JCheckBox _showMathCheckBox;
     private ControlPanelComboBox _mathFormComboBox;
     private JCheckBox _expandSumCheckBox;
-    private String _wavelengthSymbol, _periodSymbol;
     
     // Choices
     private ArrayList _domainChoices;
@@ -189,9 +192,9 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 
                 // Choices
                 _showWavelengthChoices = new ArrayList();
-                _wavelengthSymbol = SimStrings.get( "symbol.wavelength" );
+                String wavelengthSymbol = SimStrings.get( "symbol.wavelength" );
                 for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
-                    String choice = "<html>" + _wavelengthSymbol + "<sub>" + ( i + 1 ) + "</sub></html>";
+                    String choice = "<html>" + wavelengthSymbol + "<sub>" + ( i + 1 ) + "</sub></html>";
                     _showWavelengthChoices.add( choice );
                 }
 
@@ -211,9 +214,9 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 
                 // Choices
                 _showPeriodChoices = new ArrayList();
-                _periodSymbol = SimStrings.get( "symbol.period" );
+                String periodSymbol = SimStrings.get( "symbol.period" );
                 for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
-                    String choice = "<html>" + _periodSymbol + "<sub>" + ( i + 1 ) + "</sub></html>";
+                    String choice = "<html>" + periodSymbol + "<sub>" + ( i + 1 ) + "</sub></html>";
                     _showPeriodChoices.add( choice );
                 }
 
@@ -517,11 +520,21 @@ public class DiscreteControlPanel extends FourierControlPanel {
             _sumGraphic.setDomain( key );
             break;
         case FourierConstants.DOMAIN_TIME:
-        case FourierConstants.DOMAIN_SPACE_AND_TIME:
             _mathFormComboBox.setChoices( _timeMathFormChoices );
             _showWavelengthCheckBox.setEnabled( false );
             _showWavelengthComboBox.setEnabled( false );
             _wavelengthTool.setVisible( false );
+            _showPeriodCheckBox.setEnabled( true );
+            _showPeriodComboBox.setEnabled( _showPeriodCheckBox.isSelected() );
+            _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
+            _harmonicsGraphic.setDomain( key );
+            _sumGraphic.setDomain( key );
+            break;
+        case FourierConstants.DOMAIN_SPACE_AND_TIME:
+            _mathFormComboBox.setChoices( _spaceAndTimeMathFormChoices );
+            _showWavelengthCheckBox.setEnabled( true );
+            _showWavelengthComboBox.setEnabled( _showWavelengthCheckBox.isSelected() );
+            _wavelengthTool.setVisible( _showWavelengthCheckBox.isSelected() );
             _showPeriodCheckBox.setEnabled( true );
             _showPeriodComboBox.setEnabled( _showPeriodCheckBox.isSelected() );
             _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
@@ -546,8 +559,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
         _wavelengthTool.setVisible( _showWavelengthCheckBox.isSelected() );
         int harmonicOrder = _showWavelengthComboBox.getSelectedIndex();
         if ( harmonicOrder >= 0 ) {
-            _wavelengthTool.setLabel( _wavelengthSymbol, harmonicOrder + 1 );
-            _wavelengthTool.setColor( FourierUtils.calculateHarmonicColor( harmonicOrder ) );
+            Harmonic harmonic = _fourierSeriesModel.getHarmonic( harmonicOrder );
+            _wavelengthTool.setHarmonic( harmonic );
         }
     }
     
@@ -556,8 +569,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
         _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
         int harmonicOrder = _showPeriodComboBox.getSelectedIndex();
         if ( harmonicOrder >= 0 ) {
-            _periodTool.setLabel( _periodSymbol, harmonicOrder + 1 );
-            _periodTool.setColor( FourierUtils.calculateHarmonicColor( harmonicOrder ) );
+            Harmonic harmonic = _fourierSeriesModel.getHarmonic( harmonicOrder );
+            _periodTool.setHarmonic( harmonic );
         }
     }
     
