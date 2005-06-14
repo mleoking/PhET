@@ -415,6 +415,10 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
         updateMath();
     }
     
+    public Chart getChart() {
+        return _chartGraphic;
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
