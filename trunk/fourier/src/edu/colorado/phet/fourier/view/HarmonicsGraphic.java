@@ -91,7 +91,8 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
     
     // X Axis parameters
-    private static final double L = 1.0;
+    private static final double L = 1.0; // arbitrary value for the symbol L (length of the string)
+    private static final double T = L;  // do not change!
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
@@ -131,7 +132,9 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
     private int _waveType;
     private ZoomControl _horizontalZoomControl;
     private int _xZoomLevel;
+    private int _domain;
     private LabelTable _spaceLabels1, _spaceLabels2;
+    private LabelTable _timeLabels1, _timeLabels2;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -179,6 +182,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
 
             // Symbolic labels for the X axis
             {
+                // Space domain labels
                 _spaceLabels1 = new LabelTable();
                 _spaceLabels1.put( -1.00 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
                 _spaceLabels1.put( -0.75 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3L/4", MAJOR_TICK_COLOR ) );
@@ -200,6 +204,29 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
                 _spaceLabels2.put( +1.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L", MAJOR_TICK_COLOR ) );
                 _spaceLabels2.put( +1.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3L/2", MAJOR_TICK_COLOR ) );
                 _spaceLabels2.put( +2.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2L", MAJOR_TICK_COLOR ) );
+                
+                // Time domain labels
+                _timeLabels1 = new LabelTable();
+                _timeLabels1.put( -1.00 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( -0.75 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3T/4", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( -0.50 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( -0.25 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/4", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put(     0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( +0.25 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/4", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( +0.50 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( +0.75 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3T/4", MAJOR_TICK_COLOR ) );
+                _timeLabels1.put( +1.00 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T", MAJOR_TICK_COLOR ) );
+
+                _timeLabels2 = new LabelTable();
+                _timeLabels2.put( -2.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-2T", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( -1.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( -1.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( -0.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put(    0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( +0.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( +1.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( +1.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3T/2", MAJOR_TICK_COLOR ) );
+                _timeLabels2.put( +2.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2T", MAJOR_TICK_COLOR ) );
             }
 
             // X axis
@@ -324,9 +351,12 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
         {
             _xZoomLevel = 0;
             _chartGraphic.setRange( CHART_RANGE );
-            updateTicksAndGridlines();
+            updateLabelsAndLines();
             updateZoomButtons();
         }
+        
+        // Domain
+        _domain = FourierConstants.DOMAIN_SPACE;
         
         // Wave type
         _waveType = FourierConstants.WAVE_TYPE_SINE;
@@ -349,6 +379,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
      * @param waveType FourierConstants.WAVE_TYPE_SINE or FourierConstants.WAVE_TYPE_COSINE
      */
     public void setWaveType( int waveType ) {
+        assert( FourierConstants.isValidWaveType( waveType ) );
         if ( waveType != _waveType ) {
             _waveType = waveType;
             for ( int i = 0; i < _dataSets.size(); i++ ) {
@@ -374,6 +405,13 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
     
     public void setMathEnabled( boolean enabled ) {
         _mathGraphic.setVisible( enabled );
+    }
+    
+    public void setDomain( int domain ) {
+        assert( FourierConstants.isValidDomain( domain ) );
+        _domain = domain;
+        updateLabelsAndLines();
+        updateMath();
     }
     
     //----------------------------------------------------------------------------
@@ -507,19 +545,18 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
         range.setMinX( -xRange );
         _chartGraphic.setRange( range );
 
-        updateTicksAndGridlines();
+        updateLabelsAndLines();
         updateZoomButtons();
     }
     
     /*
-     * Adjusts ticks and gridlines to match the chart range.
+     * Adjusts labels, ticks and gridlines to match the chart range.
      */
-    private void updateTicksAndGridlines() {
+    private void updateLabelsAndLines() {
         
-        Range2D range = _chartGraphic.getRange();
-        
-        // X axis ticks and gridlines
-        {
+        // X axis
+        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
+            _xAxisTitleGraphic.setText( _xAxisTitleSpace );
             if ( _xZoomLevel > -3 ) {
                 _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
             }
@@ -527,10 +564,19 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
                 _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels2 );
             }
         }
+        else { /* DOMAIN_TIME or DOMAIN_SPACE_AND_TIME */
+            _xAxisTitleGraphic.setText( _xAxisTitleTime );
+            if ( _xZoomLevel > -3 ) {
+                _chartGraphic.getHorizontalTicks().setMajorLabels( _timeLabels1 );
+            }
+            else {
+                _chartGraphic.getHorizontalTicks().setMajorLabels( _timeLabels2 );
+            }   
+        }
     }
     
     /*
-     * Enables and disabled zoom buttons based on the current
+     * Enables and disables zoom buttons based on the current
      * zoom levels and range of the chart.
      */
     private void updateZoomButtons() {
@@ -550,5 +596,9 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
             _horizontalZoomControl.setZoomOutEnabled( true );
             _horizontalZoomControl.setZoomInEnabled( true );
         }
+    }
+    
+    private void updateMath() {
+        //XXX implement
     }
 }
