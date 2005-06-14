@@ -403,10 +403,10 @@ public class DiscreteControlPanel extends FourierControlPanel {
             Object item = null;
             switch ( _harmonicsGraphic.getWaveType() ) {
             case FourierConstants.WAVE_TYPE_SINE:
-                item = SimStrings.get( "waveType.sines" );//XXX SimString in non-init code
+                item = SimStrings.get( "waveType.sines" );//XXX SimStrings in non-init code
                 break;
             case FourierConstants.WAVE_TYPE_COSINE:
-                item = SimStrings.get( "waveType.cosines" );//XXX SimString in non-init code
+                item = SimStrings.get( "waveType.cosines" );//XXX SimStrings in non-init code
                 break;
             default:
             }
@@ -459,7 +459,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 handleShowWavelength();
             }
             else if ( event.getSource() == _showWavelengthComboBox ) {
-                System.out.println( "showWavelengthTextfield " + _showWavelengthComboBox.getSelectedItem() );//XXX
+                System.out.println( "_showWavelengthComboBox " + _showWavelengthComboBox.getSelectedItem() );//XXX
                 handleShowWavelength();
             }
             else if ( event.getSource() == _showPeriodCheckBox ) {
@@ -467,7 +467,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
                 handleShowPeriod();
             }
             else if ( event.getSource() == _showPeriodComboBox ) {
-                System.out.println( "_showPeriodTextField " + _showPeriodComboBox.getSelectedItem() );//XXX
+                System.out.println( "_showPeriodComboBox " + _showPeriodComboBox.getSelectedItem() );//XXX
                 handleShowPeriod();
             }
             else if ( event.getSource() == _waveTypeComboBox.getComboBox() ) {
@@ -624,6 +624,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
     private void handleShowMath() {
         _mathFormComboBox.setEnabled( _showMathCheckBox.isSelected() );
         _expandSumCheckBox.setEnabled( _showMathCheckBox.isSelected() );
+        _harmonicsGraphic.setMathEnabled( _showMathCheckBox.isSelected() );
+        _sumGraphic.setMathEnabled( _showMathCheckBox.isSelected() );
     }
     
     private void handleMathForm() {

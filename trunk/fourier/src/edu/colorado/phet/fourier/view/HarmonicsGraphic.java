@@ -113,9 +113,9 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
     private static final int NUMBER_OF_DATA_POINTS = 1000;
     private static final int MAX_FUNDAMENTAL_CYCLES = 4;
     
-    // Equation parameters
-    private static final Font EQUATION_FONT = new Font( "Lucida Sans", Font.ITALIC, 18 );
-    private static final Color EQUATION_COLOR = Color.BLACK;
+    // Math parameters
+    private static final Font MATH_FONT = new Font( "Lucida Sans", Font.ITALIC, 18 );
+    private static final Color MATH_COLOR = Color.BLACK;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -123,7 +123,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
 
     private FourierSeries _fourierSeriesModel;
     private Chart _chartGraphic;
-    private PhetTextGraphic _equationGraphic;
+    private PhetTextGraphic _mathGraphic;
     private PhetTextGraphic _xAxisTitleGraphic;
     private String _xAxisTitleTime, _xAxisTitleSpace;
     private ArrayList _dataSets; // array of HarmonicDataSet
@@ -276,13 +276,12 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
             }
         }
 
-        
-        // Equation
+        // Math
         {
-            _equationGraphic = new PhetTextGraphic( component, EQUATION_FONT, "Equation goes here", EQUATION_COLOR );
-            addGraphic( _equationGraphic, EQUATIONS_LAYER );
-            _equationGraphic.centerRegistrationPoint();
-            _equationGraphic.setLocation( CHART_SIZE.width / 2, -CHART_SIZE.height / 2 );
+            _mathGraphic = new PhetTextGraphic( component, MATH_FONT, "Equation goes here", MATH_COLOR );
+            addGraphic( _mathGraphic, EQUATIONS_LAYER );
+            _mathGraphic.centerRegistrationPoint();
+            _mathGraphic.setLocation( CHART_SIZE.width / 2, -CHART_SIZE.height / 2 );
         }
         
         // Zoom controls
@@ -332,6 +331,9 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
         // Wave type
         _waveType = FourierConstants.WAVE_TYPE_SINE;
         
+        // Math Mode
+        _mathGraphic.setVisible( false );
+        
         // Synchronize with model
         _previousNumberOfHarmonics = -1; // force update
         update();
@@ -368,6 +370,10 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
 
     public ZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
+    }
+    
+    public void setMathEnabled( boolean enabled ) {
+        _mathGraphic.setVisible( enabled );
     }
     
     //----------------------------------------------------------------------------
