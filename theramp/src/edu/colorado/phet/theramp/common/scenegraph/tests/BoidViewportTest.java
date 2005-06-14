@@ -8,11 +8,14 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.theramp.common.scenegraph.GraphicListNode;
 import edu.colorado.phet.theramp.common.scenegraph.Rotator;
 import edu.colorado.phet.theramp.common.scenegraph.SceneGraphPanel;
+import edu.colorado.phet.theramp.common.scenegraph.Translator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -31,10 +34,14 @@ public class BoidViewportTest extends SceneGraphPanel {
         clip = new Dimension( 400, 400 );
 
         GraphicListNode root = new GraphicListNode();
-        root.setComposite( true );
-        root.addMouseListener( new Rotator() );
+//        root.setComposite( true );
+
+
 
         viewportGraphic = new ViewportGraphic( boidTest.getGraphic(), clip );
+        viewportGraphic.setLocation( 100, 100 );
+        viewportGraphic.addMouseListener( new Rotator() );
+        viewportGraphic.addMouseListener( new Translator() );
 //        viewportGraphic.addMouseListener( new Rotator() );
         root.addGraphic( viewportGraphic );
         addGraphic( root );
@@ -47,6 +54,22 @@ public class BoidViewportTest extends SceneGraphPanel {
     }
 
     public static void main( String[] args ) {
+
+
+        ArrayList list = new ArrayList();
+        Point2D[] points = new Point2D[10];
+        for( int i = 0; i < points.length; i++ ) {
+            points[i] = new Point2D.Double();
+        }
+        list.addAll( Arrays.asList( points ) );
+        list.add( new Point( 4, 5 ) );
+//        Point2D[] pArray = (Point2D[])list.toArray( new Point2D.Double[0] );
+        Point2D[] pArray = (Point2D[])list.toArray( new Point2D[0] );
+        System.out.println( "pArray = " + pArray );
+
+        if( true ) {
+            return;
+        }
         AbstractClock clock = new SwingTimerClock( 1, 30 );
 
         final BoidViewportTest boidTest = new BoidViewportTest();
@@ -72,5 +95,6 @@ public class BoidViewportTest extends SceneGraphPanel {
         viewBoid( boidTest.boidAt( 0 ) );
         repaint();
     }
+
 
 }

@@ -50,6 +50,7 @@ public class SceneGraphPanel extends JPanel {
                 rootGraphic.setTransform( AffineTransform.getScaleInstance( min, min ) );
             }
         } );
+        setRequestFocusOnMousePress( true );
     }
 
     public void addDirtyRegion( Shape dirty ) {
