@@ -78,7 +78,7 @@ public class DiscreteModule extends FourierModule {
     private AmplitudesGraphic _amplitudesGraphic;
     private HarmonicsGraphic _harmonicsGraphic;
     private SumGraphic _sumGraphic;
-    private WaveformMeasurementTool _wavelengthTool, _periodTool;
+    private WaveMeasurementTool _wavelengthTool, _periodTool;
     private DiscreteControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
@@ -131,14 +131,14 @@ public class DiscreteModule extends FourierModule {
         
         // Wavelength Tool
         String wavelengthSymbol = SimStrings.get( "symbol.wavelength" );
-        _wavelengthTool = new WaveformMeasurementTool( apparatusPanel, 
+        _wavelengthTool = new WaveMeasurementTool( apparatusPanel, 
                 wavelengthSymbol, _fourierSeriesModel.getHarmonic(0), _harmonicsGraphic.getChart() );
         apparatusPanel.addGraphic( _wavelengthTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _wavelengthTool );
         
         // Period Tool
         String periodSymbol = SimStrings.get( "symbol.period" );
-        _periodTool = new WaveformMeasurementTool( apparatusPanel, 
+        _periodTool = new WaveMeasurementTool( apparatusPanel, 
                 periodSymbol, _fourierSeriesModel.getHarmonic(0), _harmonicsGraphic.getChart() );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodTool );

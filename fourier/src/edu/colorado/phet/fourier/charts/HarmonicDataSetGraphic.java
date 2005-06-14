@@ -19,13 +19,18 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * HarmonicDataSetGraphic
+ * HarmonicDataSetGraphic is the graphical representation, provided
+ * to a Chart, of a HarmonicDataSet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class HarmonicDataSetGraphic extends LinePlot {
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     /**
      * Sole constructor.
      * 
@@ -36,6 +41,10 @@ public class HarmonicDataSetGraphic extends LinePlot {
     public HarmonicDataSetGraphic( Component component, Chart chart, HarmonicDataSet dataSet ) {
         super( component, chart, dataSet );
     }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
     
     /**
      * Gets the data set associated with this graphic.

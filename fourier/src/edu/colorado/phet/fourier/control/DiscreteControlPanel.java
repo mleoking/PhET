@@ -36,7 +36,7 @@ import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.util.FourierUtils;
 import edu.colorado.phet.fourier.view.HarmonicsGraphic;
 import edu.colorado.phet.fourier.view.SumGraphic;
-import edu.colorado.phet.fourier.view.WaveformMeasurementTool;
+import edu.colorado.phet.fourier.view.WaveMeasurementTool;
 
 
 /**
@@ -61,7 +61,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
     private FourierSeries _fourierSeriesModel;
     private HarmonicsGraphic _harmonicsGraphic;
     private SumGraphic _sumGraphic;
-    private WaveformMeasurementTool _wavelengthTool, _periodTool;
+    private WaveMeasurementTool _wavelengthTool, _periodTool;
 
     // UI components
     private ControlPanelComboBox _domainComboBox;
@@ -103,8 +103,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
             FourierSeries fourierSeriesModel, 
             HarmonicsGraphic harmonicsGraphic, 
             SumGraphic sumGraphic,
-            WaveformMeasurementTool wavelengthTool,
-            WaveformMeasurementTool periodTool ) {
+            WaveMeasurementTool wavelengthTool,
+            WaveMeasurementTool periodTool ) {
         
         super( module );
         

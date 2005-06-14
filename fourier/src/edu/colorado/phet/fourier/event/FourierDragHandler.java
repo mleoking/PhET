@@ -21,7 +21,8 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 
 /**
- * FourierMouseHandler
+ * FourierDragHandler supports unconstrained dragging of a PhetGraphic
+ * within the apparatus panel boundaries.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

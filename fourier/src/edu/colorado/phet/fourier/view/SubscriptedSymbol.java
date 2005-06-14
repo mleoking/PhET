@@ -21,17 +21,33 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 
 
 /**
- * SubscriptedSymbol
+ * SubscriptedSymbol is the graphical representation of a symbol with a subscript.
+ * All such symbols are encapsulated here, so that we can easily change the 
+ * implementation for the entire application.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class SubscriptedSymbol extends CompositePhetGraphic {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private PhetTextGraphic _symbolGraphic, _subscriptGraphic;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+
     /**
+     * Sole constructor.
      * 
+     * @param component
+     * @param symbol
+     * @param subscript
+     * @param font
+     * @param color
      */
     public SubscriptedSymbol( Component component, String symbol, String subscript, Font font, Color color ) {
         super( component );
@@ -45,6 +61,16 @@ public class SubscriptedSymbol extends CompositePhetGraphic {
         setLabel( symbol, subscript );
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the label.
+     * 
+     * @param symbol
+     * @param subscript
+     */
     public void setLabel( String symbol, String subscript ) {
         _symbolGraphic.setText( symbol );
         _symbolGraphic.setJustification( PhetTextGraphic.SOUTH_EAST );
@@ -55,11 +81,21 @@ public class SubscriptedSymbol extends CompositePhetGraphic {
         _subscriptGraphic.setLocation( 0, 0 );
     }
     
+    /**
+     * Sets the font.
+     * 
+     * @param font
+     */
     public void setFont( Font font ) {
         _symbolGraphic.setFont( font );
         _subscriptGraphic.setFont( font );
     }
     
+    /**
+     * Sets the color.
+     * 
+     * @param color
+     */
     public void setColor( Color color ) {
         _symbolGraphic.setColor( color );
         _subscriptGraphic.setColor( color );

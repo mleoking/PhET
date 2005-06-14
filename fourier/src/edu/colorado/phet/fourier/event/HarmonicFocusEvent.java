@@ -17,7 +17,7 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * HarmonicHighlightEvent
+ * HarmonicFocusEvent indicates that a Harmonic has gained or lost focus.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -27,6 +27,13 @@ public class HarmonicFocusEvent extends EventObject {
     private Harmonic _harmonic;
     private boolean _hasFocus;
     
+    /**
+     * Sole constructor
+     * 
+     * @param source
+     * @param harmonic
+     * @param hasFocus
+     */
     public HarmonicFocusEvent( Object source, Harmonic harmonic, boolean hasFocus ) {
         super( source );
         assert( harmonic != null );
@@ -34,10 +41,20 @@ public class HarmonicFocusEvent extends EventObject {
         _hasFocus = hasFocus;
     }
     
+    /**
+     * Gets the Harmonic that has gained or lost focus.
+     * 
+     * @return Harmonic
+     */
     public Harmonic getHarmonic() {
         return _harmonic;
     }
     
+    /**
+     * Indicates whether the Harmonic has focus.
+     * 
+     * @return true or false
+     */
     public boolean hasFocus() {
         return _hasFocus;
     }
