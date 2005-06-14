@@ -6,18 +6,21 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.common.application.PhetApplication;
-import edu.colorado.phet.nuclearphysics.model.*;
+import edu.colorado.phet.nuclearphysics.model.Containment;
+import edu.colorado.phet.nuclearphysics.model.FissionProducts;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
 
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 
-public class MultipleNucleusFissionModule extends ChainReactionModule implements Containment.ResizeListener{
+public class MultipleNucleusFissionModule extends ChainReactionModule implements Containment.ResizeListener {
 
     private Containment containment;
     private ContainmentGraphic containmentGraphic;
@@ -162,7 +165,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
         // If the conatinment vessel is being used, make it dissovle
         if( containment != null ) {
             containment.dissolve();
-        }        
+        }
     }
 
     private void addContainment() {
@@ -180,15 +183,14 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
     public void setContainmentEnabled( boolean selected ) {
         if( selected ) {
             addContainment();
+            // This call will cause any nuclei that are outside the containment
+            // to be removed
+            containementResized( containment );
         }
         else {
             removeContainment();
         }
         computeNeutronLaunchParams();
-        
-        // This call will cause any nuclei that are outside the containment
-        // to be removed
-        containementResized( containment );
     }
 
     protected Point2D.Double findLocationForNewNucleus() {

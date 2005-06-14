@@ -96,7 +96,7 @@ public class ControlledChainReactionControlPanel extends JPanel {
 
         // A check box to bring up the debug panel
         // create the dialog with the developers' controls
-        final JCheckBox debugPanelCB = new JCheckBox( "Show debug controls" );
+        final JCheckBox debugPanelCB = new JCheckBox( SimStrings.get( "AdvancedControls.ShowControls" ) );
         debugPanelCB.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 module.setDevelopmentControlDialog( debugPanelCB.isSelected() );

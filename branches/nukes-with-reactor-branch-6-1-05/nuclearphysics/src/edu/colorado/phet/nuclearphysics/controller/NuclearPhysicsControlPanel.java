@@ -26,7 +26,7 @@ public class NuclearPhysicsControlPanel extends PhetControlPanel {
     private int rowIdx = 0;
     private JPanel mainPanel;
 
-    public NuclearPhysicsControlPanel( NuclearPhysicsModule module ) {
+    public NuclearPhysicsControlPanel( final NuclearPhysicsModule module ) {
         super( module );
         this.module = module;
         JPanel panel = new JPanel();
@@ -35,6 +35,31 @@ public class NuclearPhysicsControlPanel extends PhetControlPanel {
         mainPanel = new JPanel( new GridBagLayout() );
         panel.add( mainPanel, BorderLayout.CENTER );
         super.setControlPane( panel );
+
+        // Add a check box to run the simulation in slow motion
+//        final JCheckBox slowMoCB = new JCheckBox( "Slow motion" );
+//        slowMoCB.addChangeListener( new ChangeListener() {
+//            private double orgDt;
+//            public void stateChanged( ChangeEvent e ) {
+//                if( slowMoCB.isSelected()) {
+//                    orgDt = module.getClock().getDt();
+//                    module.getClock().setDt( orgDt / 5 );
+//                }
+//                else {
+//                    module.getClock().setDt( orgDt );
+//                }
+//            }
+//        } );
+//        try {
+//            GraphicsUtil.addGridBagComponent( mainPanel, slowMoCB,
+//                                              0, rowIdx++,
+//                                              1, 1,
+//                                              GridBagConstraints.NONE,
+//                                              GridBagConstraints.CENTER );
+//        }
+//        catch( AWTException e ) {
+//            e.printStackTrace();
+//        }
     }
 
     protected NuclearPhysicsModule getModule() {

@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ModelSlider;
 
 import javax.swing.*;
@@ -59,7 +60,7 @@ public class DevelopmentControlDialog extends JDialog {
                     module.setNumControlRods( ( (Integer)controlRodSpinner.getValue() ).intValue() );
                 }
             } );
-            jp.add( new JLabel( "<html>Number of<br>control rods</html" ), jpGbc );
+            jp.add( new JLabel( SimStrings.get( "AdvancedControls.NumRods" ) ), jpGbc );
             jpGbc.gridx = 1;
             jp.add( controlRodSpinner, jpGbc );
 
@@ -72,13 +73,13 @@ public class DevelopmentControlDialog extends JDialog {
             } );
             jpGbc.gridy = 1;
             jpGbc.gridx = 0;
-            jp.add( new JLabel( "<html>Number of<br>neutrons to fire</html>" ), jpGbc );
+            jp.add( new JLabel( SimStrings.get( "AdvancedControls.NumNeutrons" ) ), jpGbc );
             jpGbc.gridx = 1;
             jp.add( numNeutronsSpinner, jpGbc );
             add( jp, gbc );
 
             // Slider for U235 absorption probability
-            final ModelSlider u235absorptionSlider = new ModelSlider( "U235 absorption prob.", 0, 1, 1 );
+            final ModelSlider u235absorptionSlider = new ModelSlider( SimStrings.get( "AdvancedControls.U235prob" ), 0, 1, 1 );
             u235absorptionSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     module.setU235AbsorptionProbability( u235absorptionSlider.getModelValue() );
@@ -90,7 +91,7 @@ public class DevelopmentControlDialog extends JDialog {
             add( u235absorptionSlider, gbc );
 
             // Slider for U238 absorption probability
-            final ModelSlider u238AbsorptionSlider = new ModelSlider( "U238 absorption prob.", 0, 1, .5 );
+            final ModelSlider u238AbsorptionSlider = new ModelSlider( SimStrings.get( "AdvancedControls.U238prob" ), 0, 1, .5 );
             u238AbsorptionSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     module.setU238AbsorptionProbability( u238AbsorptionSlider.getModelValue() );
@@ -115,7 +116,7 @@ public class DevelopmentControlDialog extends JDialog {
             add( rodAbsoprtionSlider, gbc );
 
             // Control for the spacing between nuclei
-            final ModelSlider nucleusSpacingSlider = new ModelSlider( "<html>Spacing between<br>nuclei (nuc. diam.)</html>",
+            final ModelSlider nucleusSpacingSlider = new ModelSlider( SimStrings.get( "AdvancedControls.NucSpacing" ),
                                                                       1, 3, 2.5 );
             nucleusSpacingSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -142,7 +143,7 @@ public class DevelopmentControlDialog extends JDialog {
             add( fissionDelayslider, gbc );
 
             // Slider to control how often neutrons are injected
-            final ModelSlider neutronInjectionSlider = new ModelSlider( "<html>Neutron injection<br>(sec/event)",
+            final ModelSlider neutronInjectionSlider = new ModelSlider( SimStrings.get( "AdvancedControls.NeutronInjection" ),
                                                                         1, 30, 30 );
             neutronInjectionSlider.setMajorTickSpacing( 5 );
             neutronInjectionSlider.setPaintLabels( true );
@@ -150,7 +151,7 @@ public class DevelopmentControlDialog extends JDialog {
 //            add( neutronInjectionSlider, gbc );
 
             // Check box to slow the clock
-            final JCheckBox slowMotionCB = new JCheckBox( "Slow motion" );
+            final JCheckBox slowMotionCB = new JCheckBox( SimStrings.get( "AdvancedControls.SlowMotion" ) );
             slowMotionCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     module.setSlowMotion( slowMotionCB.isSelected() );

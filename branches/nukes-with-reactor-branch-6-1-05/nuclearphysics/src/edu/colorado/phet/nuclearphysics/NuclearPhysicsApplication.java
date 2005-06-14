@@ -11,12 +11,11 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.util.FrameSetup;
-import edu.colorado.phet.common.view.util.GraphicsUtil;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
-import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -25,7 +24,6 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 
 public class NuclearPhysicsApplication extends PhetApplication {
 
@@ -59,15 +57,15 @@ public class NuclearPhysicsApplication extends PhetApplication {
         Module multipleNucleusFissionModule = new MultipleNucleusFissionModule( clock );
         Module controlledReactionModule = new ControlledFissionModule( clock );
         Module[] modules = new Module[]{
-//            alphaModule,
-//            singleNucleusFissionModule,
+            alphaModule,
+            singleNucleusFissionModule,
             multipleNucleusFissionModule,
             controlledReactionModule
         };
         appDesc.setModules( modules );
-        appDesc.setInitialModule( controlledReactionModule );
+//        appDesc.setInitialModule( controlledReactionModule );
 //        appDesc.setInitialModule( singleNucleusFissionModule );
-//                appDesc.setInitialModule( alphaModule );
+        appDesc.setInitialModule( alphaModule );
         appDesc.setClock( clock );
         //        app.startApplication( multipleNucleusFissionModule );
         //        app.startApplication( singleNucleusFissionModule );
@@ -88,7 +86,23 @@ public class NuclearPhysicsApplication extends PhetApplication {
         static Color backgroundColor = new Color( 60, 80, 60 );
         static Color buttonBackgroundColor = new Color( 100, 120, 60 );
         static Color controlTextColor = new Color( 230, 230, 230 );
+
+        static {
+            if( System.getProperty( "java.vm.version" ).startsWith( "1.5" ) ) {
+                controlTextColor = new Color( 200, 200, 200 );
+            }
+        }
+
         static Font font = new Font( "SansSerif", Font.BOLD, 16 );
+
+        // Set the font smaller if the screen is has less resolution
+        static {
+            // Get the size of the default screen
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            if( dim.getHeight() < 800 ) {
+                font = new Font( "SansSerif", Font.BOLD, 14 );
+            }
+        }
 
         public NuclearAppLookAndFeel() {
             super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
