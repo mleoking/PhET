@@ -153,6 +153,8 @@ public class DiscreteModule extends FourierModule {
         
         // Harmonic hightlighting
         _amplitudesGraphic.addHarmonicFocusListener( _harmonicsGraphic );
+        _wavelengthTool.addHarmonicFocusListener( _harmonicsGraphic );
+        _periodTool.addHarmonicFocusListener( _harmonicsGraphic );
         
         // Control Panel
         _controlPanel = new DiscreteControlPanel( this, 

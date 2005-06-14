@@ -12,15 +12,21 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+
+import javax.swing.event.EventListenerList;
+import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.fourier.event.FourierMouseHandler;
+import edu.colorado.phet.fourier.event.FourierDragHandler;
+import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
+import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.FourierUtils;
 
@@ -59,8 +65,9 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener {
     private SubscriptedSymbol _labelGraphic;
     private PhetShapeGraphic _pathGraphic;
     private GeneralPath _path;
-    private FourierMouseHandler _mouseHandler;
+    private FourierDragHandler _dragHandler;
     private Harmonic _harmonic;
+    private EventListenerList _listenerList;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -91,9 +98,11 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener {
         addGraphic( _pathGraphic, LINE_LAYER );
         
         // Interactivity
-        _mouseHandler = new FourierMouseHandler( this );
+        _dragHandler = new FourierDragHandler( this );
         setCursorHand();
-        addMouseInputListener( _mouseHandler );
+        addMouseInputListener( _dragHandler );
+        addMouseInputListener( new MouseFocusListener() );
+        _listenerList = new EventListenerList();
         
         updateWidth();
     }
@@ -154,7 +163,7 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener {
      * Informs the mouse handler of changes to the apparatus panel size.
      */
     public void canvasSizeChanged( ChangeEvent event ) {
-        _mouseHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
+        _dragHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
     }
 
     //----------------------------------------------------------------------------
@@ -165,4 +174,48 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener {
         updateWidth();
     }
     
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
+    public void addHarmonicFocusListener( HarmonicFocusListener listener ) {
+        _listenerList.add( HarmonicFocusListener.class, listener );
+    }
+  
+    public void removeHarmonicFocusListener( HarmonicFocusListener listener ) {
+        _listenerList.remove( HarmonicFocusListener.class, listener );
+    }
+    
+    private void fireHarmonicFocusEvent( boolean hasFocus ) {
+        HarmonicFocusEvent event = new HarmonicFocusEvent( this, _harmonic, hasFocus );
+        Object[] listeners = _listenerList.getListenerList();
+        for ( int i = 0; i < listeners.length; i+=2 ) {
+            if ( listeners[i] == HarmonicFocusListener.class ) {
+                HarmonicFocusListener listener = (HarmonicFocusListener) listeners[ i + 1 ];
+                if ( hasFocus ) {
+                    listener.focusGained( event );
+                }
+                else {
+                    listener.focusLost( event );
+                }
+            }
+        }
+    }
+
+    private class MouseFocusListener extends MouseInputAdapter {
+        
+        public MouseFocusListener() {
+            super();
+        }
+        
+        /* Harmonic gains focus when the mouse enters the track. */
+        public void mouseEntered( MouseEvent event ) {
+            fireHarmonicFocusEvent( true );
+        }
+        
+        /* Harmonic loses focus when the mouse exits the track. */
+        public void mouseExited( MouseEvent event ) {
+            fireHarmonicFocusEvent( false );
+        }
+    }
 }

@@ -26,7 +26,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FourierMouseHandler extends MouseInputAdapter {
+public class FourierDragHandler extends MouseInputAdapter {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -41,7 +41,7 @@ public class FourierMouseHandler extends MouseInputAdapter {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public FourierMouseHandler( PhetGraphic graphic ) {
+    public FourierDragHandler( PhetGraphic graphic ) {
         super();
         assert( graphic != null );
         _graphic = graphic; 
