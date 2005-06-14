@@ -70,6 +70,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
     // Range labels
+    private static final boolean RANGE_LABELS_VISIBLE = false;
     private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
     
     // X axis
@@ -183,7 +184,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
                 _chartGraphic.getYAxis().setMinorTickLabelsVisible( false );
 
                 // Range labels
-                _chartGraphic.getVerticalTicks().setRangeLabelsVisible( true );
+                _chartGraphic.getVerticalTicks().setRangeLabelsVisible( RANGE_LABELS_VISIBLE );
                 _chartGraphic.getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
                 
                 // Major ticks and labels to the left of the chart
