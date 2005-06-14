@@ -13,13 +13,16 @@ package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
+import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.fourier.event.FourierMouseHandler;
+import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
@@ -28,7 +31,8 @@ import edu.colorado.phet.fourier.event.FourierMouseHandler;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WaveformMeasurementTool extends CompositePhetGraphic implements ApparatusPanel2.ChangeListener {
+public class WaveformMeasurementTool extends CompositePhetGraphic
+implements ApparatusPanel2.ChangeListener, Chart.Listener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -41,7 +45,7 @@ public class WaveformMeasurementTool extends CompositePhetGraphic implements App
     private static final Color PATH_BORDER_COLOR = Color.BLACK;
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Font LABEL_FONT = new Font( "Lucida Sans", Font.PLAIN, 16 );
-    private static final int LABEL_Y_OFFSET = -13;
+    private static final int LABEL_Y_OFFSET = -15;
     private static final float END_WIDTH = 1;
     private static final float END_HEIGHT = 10;
     private static final float LINE_HEIGHT = 4; // must be < END_HEIGHT !
@@ -50,20 +54,30 @@ public class WaveformMeasurementTool extends CompositePhetGraphic implements App
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Chart _chart;
+    private String _symbol;
     private SubscriptedSymbol _labelGraphic;
     private PhetShapeGraphic _pathGraphic;
     private GeneralPath _path;
     private FourierMouseHandler _mouseHandler;
+    private Harmonic _harmonic;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public WaveformMeasurementTool( Component component ) {
+    public WaveformMeasurementTool( Component component, String symbol, Harmonic harmonic, Chart chart ) {
         super( component );
         
+        _harmonic = harmonic;
+        
+        _chart = chart;
+        _chart.addListener( this );
+        
         // Label
-        _labelGraphic = new SubscriptedSymbol( component, "X", "x", LABEL_FONT, LABEL_COLOR );
+        _symbol = symbol;
+        _labelGraphic = new SubscriptedSymbol( component, _symbol, "n", LABEL_FONT, LABEL_COLOR );
+        _labelGraphic.setLocation( 0, LABEL_Y_OFFSET );
         addGraphic( _labelGraphic, LABEL_LAYER );
         
         // Path
@@ -81,20 +95,38 @@ public class WaveformMeasurementTool extends CompositePhetGraphic implements App
         setCursorHand();
         addMouseInputListener( _mouseHandler );
         
-        setWidth( 100 );
+        updateWidth();
+    }
+    
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void finalize() {
+        _chart.removeListener( this );
+        _chart = null;
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    public void setLabel( String symbol, int subscript ) {
-        _labelGraphic.setLabel( symbol, String.valueOf( subscript ) );
-        _labelGraphic.setLocation( 0, LABEL_Y_OFFSET );
+ 
+    public void setHarmonic( Harmonic harmonic ) {
+        _harmonic = harmonic;
+        String subscript = String.valueOf( harmonic.getOrder() + 1 );
+        _labelGraphic.setLabel( _symbol, subscript );
+        Color color = FourierUtils.calculateHarmonicColor( harmonic );
+        _pathGraphic.setPaint( FourierUtils.calculateHarmonicColor( harmonic.getOrder() ) );
+        updateWidth();
     }
     
-    public void setWidth( int width ) {    
+    private void updateWidth() {
         assert( END_HEIGHT > LINE_HEIGHT );
+        
+        Point2D p1 = _chart.transform( 0, 0 );
+        Point2D p2 = _chart.transform( 1.0 / ( _harmonic.getOrder() + 1 ), 0 );
+        float width = (float)( p2.getX() - p1.getX() );
+        
         _path.reset();
         _path.moveTo( 0, 0 );
         _path.lineTo( END_WIDTH, 0 );
@@ -109,14 +141,11 @@ public class WaveformMeasurementTool extends CompositePhetGraphic implements App
         _path.lineTo( END_WIDTH, END_HEIGHT );
         _path.lineTo( 0, END_HEIGHT );
         _path.closePath();
+        
         _pathGraphic.setShapeDirty();
         _pathGraphic.centerRegistrationPoint();
     }
     
-    public void setColor( Color color ) {
-        _pathGraphic.setPaint( color );
-    }
-
     //----------------------------------------------------------------------------
     // ApparatusPanel2.ChangeListener implementation
     //----------------------------------------------------------------------------
@@ -127,4 +156,13 @@ public class WaveformMeasurementTool extends CompositePhetGraphic implements App
     public void canvasSizeChanged( ChangeEvent event ) {
         _mouseHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
     }
+
+    //----------------------------------------------------------------------------
+    // Chart.Listener implementation
+    //----------------------------------------------------------------------------
+    
+    public void transformChanged( Chart chart ) {
+        updateWidth();
+    }
+    
 }
