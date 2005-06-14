@@ -11,5 +11,5 @@ package edu.colorado.phet.qm.model;
 public interface BoundaryCondition {
     void setValue( Complex[][] w, int i, int j, double simulationTime );
 
-    Complex getValue( int xmesh, int j, double simulationTime );
+    Complex getValue( int i, int j, double simulationTime );
 }

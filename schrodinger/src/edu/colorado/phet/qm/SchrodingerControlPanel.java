@@ -91,6 +91,45 @@ public class SchrodingerControlPanel extends ControlPanel {
 
         VerticalLayoutPanel interactionPanel = createDetectorPanel();
         addControlFullWidth( interactionPanel );
+
+        VerticalLayoutPanel boundaryPanel = createBoundaryPanel();
+        addControlFullWidth( boundaryPanel );
+    }
+
+    private VerticalLayoutPanel createBoundaryPanel() {
+        VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
+        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
+        JButton planeWave = new JButton( "Plane Wave" );
+        planeWave.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                final PlaneWave planeWave = new PlaneWave( 10 * Math.PI, getDiscreteModel().getXMesh() );
+                final Rectangle rectangle = new Rectangle( getDiscreteModel().getXMesh() - 5, 0, 3, getDiscreteModel().getYMesh() );
+
+                getDiscreteModel().addListener( new DiscreteModel.Listener() {
+                    public void finishedTimeStep( DiscreteModel model ) {
+                        for( int i = rectangle.x; i < rectangle.x + rectangle.width; i++ ) {
+                            for( int k = rectangle.y; k < rectangle.y + rectangle.height; k++ ) {
+                                model.getWavefunction()[i][k].setValue( planeWave.getValue( i, k, model.getSimulationTime() ) );
+                            }
+                        }
+                        Wavefunction.normalize( model.getWavefunction() );
+//                        Wavefunction.scale(model.getWavefunction(), 20);
+//                        Wavefunction.scale(model.getWavefunction(), 20);
+//                        Wavefunction.normalize( model.getWavefunction() );
+                    }
+
+                    public void sizeChanged() {
+                    }
+
+                    public void potentialChanged() {
+                    }
+                } );
+//                getDiscreteModel().setBoundaryCondition( planeWave );
+//                getDiscreteModel().setBoundaryCondition( new PlaneWave() );
+            }
+        } );
+        layoutPanel.add( planeWave );
+        return layoutPanel;
     }
 
     private VerticalLayoutPanel createDetectorPanel() {

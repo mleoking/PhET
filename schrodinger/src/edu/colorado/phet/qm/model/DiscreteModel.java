@@ -18,7 +18,6 @@ public class DiscreteModel {
     private Complex[][] wavefunction;
     private int xmesh;
     private int ymesh;
-//    private Potential potential;
     private CompositePotential compositePotential;
 
     private CNCPropagator cncPropagator;
@@ -53,8 +52,6 @@ public class DiscreteModel {
         cncPropagator.propagate( wavefunction );
         timeStep++;
         finishedTimeStep();
-//        System.out.println( "new ProbabilityValue().compute( wavefunction ) = " + new ProbabilityValue().compute( wavefunction ) );
-//        System.out.println( "new PositionValue().compute( ) = " + new PositionValue().compute( wavefunction ) );
     }
 
     private void finishedTimeStep() {
@@ -127,12 +124,44 @@ public class DiscreteModel {
         cncPropagator.setDeltaTime( deltaTime );
     }
 
-//    public void setPotential( Potential potential ) {
-//        this.potential = potential;
-//        cncPropagator.setPotential( potential );
-//    }
+    public Point getCollapsePoint( Rectangle bounds ) {
+        //compute a probability model for each dA
+        Complex[][] copy = copyWavefunction();
+        int XMESH = copy.length - 1;
+        int YMESH = copy[0].length - 1;
 
-    public Point getCollapsePoint() {
+        for( int i = 1; i < XMESH; i++ ) {
+            for( int j = 1; j < YMESH; j++ ) {
+                if( !bounds.contains( i, j ) ) {
+                    copy[i][j].zero();
+                }
+            }
+        }
+
+        Wavefunction.normalize( copy );//just in case we care.
+        //todo could work without a normalize, just choose random.nextDouble between 0 and totalprob.
+//        int XMESH = copy.length - 1;
+//        int YMESH = copy[0].length - 1;
+        Complex runningSum = new Complex();
+        double rnd = random.nextDouble();
+
+        for( int i = 1; i < XMESH; i++ ) {
+            for( int j = 1; j < YMESH; j++ ) {
+                Complex psiStar = copy[i][j].complexConjugate();
+                Complex psi = copy[i][j];
+                Complex term = psiStar.times( psi );
+                double pre = runningSum.abs();
+                runningSum = runningSum.plus( term );
+                double post = runningSum.abs();
+                if( pre <= rnd && rnd <= post ) {
+                    return new Point( i, j );
+                }
+            }
+        }
+        throw new RuntimeException( "No collapse point." );
+    }
+
+    public Point getCollapsePoint() {//todo call getCollapsePoint with the internal bounds.
         //compute a probability model for each dA
         Complex[][] copy = copyWavefunction();
 
@@ -170,8 +199,8 @@ public class DiscreteModel {
     }
 
     public void collapse( Point collapsePoint ) {
-
-        new GaussianWave( collapsePoint, new Vector2D.Double(), 0.1 ).initialize( getWavefunction() );
+        double px = new PxValue().compute( wavefunction );
+        new GaussianWave( collapsePoint, new Vector2D.Double( px, 0 ), 0.1 ).initialize( getWavefunction() );
     }
 
     public void addDetector( Detector detector ) {
@@ -188,6 +217,10 @@ public class DiscreteModel {
 
     public void clearPotential() {
         compositePotential.clear();
+    }
+
+    public double getSimulationTime() {
+        return cncPropagator.getSimulationTime();
     }
 
     public static interface Listener {
@@ -211,11 +244,11 @@ public class DiscreteModel {
                 for( int i = 0; i < detectors.size(); i++ ) {
                     Detector detector = (Detector)detectors.get( i );
                     double prob = detector.getProbability();
-
                     double rand = random.nextDouble();
                     if( rand <= prob ) {//Point collapsePoint = getCollapsePoint();
-                        Point detectorCenter = detector.getCenter();//todo this would be more accurate to collapse to the high density region in the detector.
-                        collapse( detectorCenter );
+                        Point collapsePoint = getCollapsePoint( detector.getBounds() );
+                        collapse( collapsePoint );
+//                        detector.ruin();
                     }
                 }
             }
@@ -226,5 +259,13 @@ public class DiscreteModel {
 
         public void potentialChanged() {
         }
+    }
+
+    public BoundaryCondition getBoundaryCondition() {
+        return boundaryCondition;
+    }
+
+    public void setBoundaryCondition( BoundaryCondition boundaryCondition ) {
+        this.boundaryCondition = boundaryCondition;
     }
 }
