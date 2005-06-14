@@ -406,7 +406,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         // Value
         _valueTextField.setText( _valueFormatter.format( amplitude ) );
         _valueGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + VALUE_Y_OFFSET ) );
-        _valueGraphic.repaint(); // HACK: If this isn't here, then the first value displayed is out of sync.
         
         // Track size
         int trackWidth = _maxSize.width;
