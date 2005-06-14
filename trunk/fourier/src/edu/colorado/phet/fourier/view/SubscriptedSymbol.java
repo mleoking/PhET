@@ -14,6 +14,7 @@ package edu.colorado.phet.fourier.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Rectangle;
 
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
@@ -34,14 +35,14 @@ public class SubscriptedSymbol extends CompositePhetGraphic {
      */
     public SubscriptedSymbol( Component component, String symbol, String subscript, Font font, Color color ) {
         super( component );
-        
-            _symbolGraphic = new PhetTextGraphic( component, font, symbol, color );
-            addGraphic( _symbolGraphic );
-            
-            _subscriptGraphic = new PhetTextGraphic( component, font, subscript, color );
-            addGraphic( _subscriptGraphic );
-            
-            setLabel( symbol, subscript );
+
+        _symbolGraphic = new PhetTextGraphic( component, font, "", color );
+        addGraphic( _symbolGraphic );
+
+        _subscriptGraphic = new PhetTextGraphic( component, font, "", color );
+        addGraphic( _subscriptGraphic );
+
+        setLabel( symbol, subscript );
     }
     
     public void setLabel( String symbol, String subscript ) {
