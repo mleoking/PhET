@@ -4,10 +4,7 @@ package edu.colorado.phet.qm.view;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.Complex;
-import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.model.XValue;
-import edu.colorado.phet.qm.model.YValue;
+import edu.colorado.phet.qm.model.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -31,6 +28,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     private boolean displayYExpectation;
     private boolean displayCollapsePoint;
     private ArrayList rectanglePotentialGraphics = new ArrayList();
+    private boolean displayPyExpectation = true;
 
     public SchrodingerPanel( SchrodingerModule module ) {
         this.module = module;
@@ -88,6 +86,11 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
             g2.setColor( Color.green );
             g2.fillRect( rect.x, rect.y, rect.width, rect.height );
         }
+        if( displayPyExpectation ) {
+            double px = new PxValue().compute( getWavefunction() );
+            System.out.println( "px = " + px );
+        }
+
     }
 
     private Complex[][] getWavefunction() {

@@ -10,8 +10,9 @@ package edu.colorado.phet.qm.model;
  */
 
 public class PlaneWave implements BoundaryCondition, InitialWavefunction {
-    double k;
+    private double k;
     private double XMESH;
+
 
     public PlaneWave( double k, double XMESH ) {
         this.k = k;
@@ -19,14 +20,22 @@ public class PlaneWave implements BoundaryCondition, InitialWavefunction {
     }
 
     public void setValue( Complex[][] w, int i, int j, double simulationTime ) {
-        int XMESH = w.length - 1;
-        int YMESH = w[0].length - 1;
-        w[i][j] = new Complex( Math.cos( k * i / XMESH - k * k * simulationTime ), Math.sin( k * i / XMESH - k * k * simulationTime ) );
+//        int XMESH = w.length - 1;
+//        int YMESH = w[0].length - 1;
+        w[i][j] = getValueImpl( i, j, simulationTime );
+    }
+
+    private Complex getValueImpl( int i, int j, double simulationTime ) {
+        Complex complex = new Complex( Math.cos( k * i / XMESH - k * k * simulationTime ), Math.sin( k * i / XMESH - k * k * simulationTime ) );
+        complex.scale( 1 / 100.0 );
+        return complex;
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {
-        //w[i][0] = new Complex( Math.cos( K * i / XMESH - K * K * simulationTime ), Math.sin( K * i / XMESH - K * K * simulationTime ) );
-        return new Complex( Math.cos( k * i / XMESH - k * k * simulationTime ), Math.sin( k * i / XMESH - k * k * simulationTime ) );
+        return getValueImpl( i, j, simulationTime );
+////        int XMESH = w.length - 1;
+//        //w[i][0] = new Complex( Math.cos( K * i / XMESH - K * K * simulationTime ), Math.sin( K * i / XMESH - K * K * simulationTime ) );
+//        return new Complex( Math.cos( k * i / XMESH - k * k * simulationTime ), Math.sin( k * i / XMESH - k * k * simulationTime ) );
     }
 
     public void initialize( Complex[][] wavefunction ) {

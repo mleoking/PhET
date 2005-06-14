@@ -119,8 +119,9 @@ public class CNCPropagator {
     }
 
     private void fixEdges( Complex[][] w ) {
-//        int border = 10;
-//        int border = 0;
+        if( true ) {
+            return;
+        }
         int border = 1;
         int XMESH = w.length - 1;
         int YMESH = w[0].length - 1;
@@ -162,5 +163,9 @@ public class CNCPropagator {
 
     public void setPotential( Potential potential ) {
         this.potential = potential;
+    }
+
+    public double getSimulationTime() {
+        return simulationTime;
     }
 }

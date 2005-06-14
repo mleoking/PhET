@@ -34,16 +34,16 @@ public class Complex {
         return new Complex( real * s, imag * s );
     }
 
-    public Complex plus( Complex complex ) {
-        return new Complex( real + complex.real, imag + complex.imag );
+    public Complex plus( Complex c ) {
+        return new Complex( real + c.real, imag + c.imag );
     }
 
     public Complex times( Complex a ) {
         return new Complex( a.real * real - a.imag * imag, a.real * imag + a.imag * real );
     }
 
-    public Complex minus( Complex complex ) {
-        return new Complex( real - complex.real, imag - complex.imag );
+    public Complex minus( Complex c ) {
+        return new Complex( real - c.real, imag - c.imag );
     }
 
     public Complex divideBy( Complex a ) {
