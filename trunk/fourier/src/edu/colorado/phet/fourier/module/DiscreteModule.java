@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.module;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
@@ -28,8 +29,10 @@ import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.Vector2D;
+import edu.colorado.phet.fourier.view.*;
 import edu.colorado.phet.fourier.view.AmplitudesGraphic;
 import edu.colorado.phet.fourier.view.HarmonicsGraphic;
+import edu.colorado.phet.fourier.view.SubscriptedSymbol;
 import edu.colorado.phet.fourier.view.SumGraphic;
 
 
@@ -49,11 +52,14 @@ public class DiscreteModule extends FourierModule {
     private static final double AMPLITUDES_LAYER = 1;
     private static final double COMPONENTS_LAYER = 2;
     private static final double SUM_LAYER = 3;
+    private static final double TOOLS_LAYER = 4;
 
     // Locations
     private static final Point AMPLITUDES_LOCATION = new Point( 60, 125 );
     private static final Point HARMONICS_LOCATION = new Point( 60, 325 );
     private static final Point SUM_LOCATION = new Point( 60, 525 );
+    private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 560, 250 );
+    private static final Point PERIOD_TOOL_LOCATION = new Point( 560, 250 );
     private static final Point WIGGLE_ME_LOCATION = new Point( 260, 55 );
     
     // Colors
@@ -72,6 +78,7 @@ public class DiscreteModule extends FourierModule {
     private AmplitudesGraphic _amplitudesGraphic;
     private HarmonicsGraphic _harmonicsGraphic;
     private SumGraphic _sumGraphic;
+    private WaveformMeasurementTool _wavelengthTool, _periodTool;
     private DiscreteControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
@@ -122,6 +129,16 @@ public class DiscreteModule extends FourierModule {
         _sumGraphic.setLocation( SUM_LOCATION );
         apparatusPanel.addGraphic( _sumGraphic, SUM_LAYER );
         
+        // Wavelength Tool
+        _wavelengthTool = new WaveformMeasurementTool( apparatusPanel );
+        apparatusPanel.addGraphic( _wavelengthTool, TOOLS_LAYER );
+        apparatusPanel.addChangeListener( _wavelengthTool );
+        
+        // Period Tool
+        _periodTool = new WaveformMeasurementTool( apparatusPanel );
+        apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
+        apparatusPanel.addChangeListener( _periodTool );
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -134,11 +151,13 @@ public class DiscreteModule extends FourierModule {
         _amplitudesGraphic.addHarmonicFocusListener( _harmonicsGraphic );
         
         // Control Panel
-        _controlPanel = new DiscreteControlPanel( this, _fourierSeriesModel, _harmonicsGraphic, _sumGraphic );
+        _controlPanel = new DiscreteControlPanel( this, 
+                _fourierSeriesModel, _harmonicsGraphic, _sumGraphic, 
+                _wavelengthTool, _periodTool );
         _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
-         
+        
         reset();
         
         //----------------------------------------------------------------------------
@@ -173,6 +192,12 @@ public class DiscreteModule extends FourierModule {
         _amplitudesGraphic.reset();
         _harmonicsGraphic.reset();
         _sumGraphic.reset();
+        
+        _wavelengthTool.setVisible( false );
+        _wavelengthTool.setLocation( WAVELENGTH_TOOL_LOCATION );
+        
+        _periodTool.setVisible( false );
+        _periodTool.setLocation( PERIOD_TOOL_LOCATION );
         
         _controlPanel.reset();
     }

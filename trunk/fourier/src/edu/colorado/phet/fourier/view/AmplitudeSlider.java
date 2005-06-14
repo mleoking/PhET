@@ -92,7 +92,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     
     private Harmonic _harmonicModel;
     private Dimension _maxSize;
-    private CompositePhetGraphic _labelGraphic;
+    private SubscriptedSymbol _labelGraphic;
     private PhetGraphic _valueGraphic;
     private JTextField _valueTextField;
     private NumberFormat _valueFormatter;
@@ -133,21 +133,10 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
 
         // Label (An)
         {          
-            _labelGraphic = new CompositePhetGraphic( component );
-            _labelGraphic.centerRegistrationPoint();
-            _labelGraphic.setLocation( 0, 0 );
-            
-            String symbolString = SimStrings.get( "symbol.amplitude" );
-            PhetTextGraphic aGraphic = new PhetTextGraphic( component, LABEL_FONT, symbolString, LABEL_COLOR );
-            aGraphic.setJustification( PhetTextGraphic.SOUTH_EAST );
-            aGraphic.setLocation( 0, 0 );
-            _labelGraphic.addGraphic( aGraphic );
-            
+            String symbol = SimStrings.get( "symbol.amplitude" );
             String subscript = String.valueOf( _harmonicModel.getOrder() + 1 );
-            PhetTextGraphic subscriptGraphic = new PhetTextGraphic( component, LABEL_SUBSCRIPT_FONT, subscript, LABEL_COLOR );
-            subscriptGraphic.setJustification( PhetTextGraphic.WEST );
-            subscriptGraphic.setLocation( 0, 0);
-            _labelGraphic.addGraphic( subscriptGraphic );
+            _labelGraphic = new SubscriptedSymbol( component, symbol, subscript, LABEL_FONT, LABEL_COLOR );
+            _labelGraphic.setLocation( 0, 0 );
         }
         
         // Value
