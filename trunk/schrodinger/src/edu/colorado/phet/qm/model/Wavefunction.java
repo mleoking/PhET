@@ -12,7 +12,7 @@ package edu.colorado.phet.qm.model;
 public class Wavefunction {
     public static void normalize( Complex[][] wavefunction ) {
         double totalProbability = new ProbabilityValue().compute( wavefunction );
-        System.out.println( "totalProbability = " + totalProbability );
+//        System.out.println( "totalProbability = " + totalProbability );
         double scale = 1.0 / Math.sqrt( totalProbability );
         scale( wavefunction, scale );
         double postProb = new ProbabilityValue().compute( wavefunction );

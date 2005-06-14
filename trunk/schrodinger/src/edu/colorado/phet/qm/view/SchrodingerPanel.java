@@ -28,7 +28,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     private boolean displayYExpectation;
     private boolean displayCollapsePoint;
     private ArrayList rectanglePotentialGraphics = new ArrayList();
-    private boolean displayPyExpectation = true;
+    private boolean displayPyExpectation = false;
 
     public SchrodingerPanel( SchrodingerModule module ) {
         this.module = module;

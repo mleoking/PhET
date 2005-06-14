@@ -1,7 +1,7 @@
 <project name="General Ant Build Script" default="Publish Executables" basedir=".">
 
     <!--  Set ant output directories.  -->
-    <property name="ant.output" value="../ant_output-phetcommon"/>
+    <property name="ant.output" value="../ant_output-forces1d"/>
     <property name="ant.classes" location="${ant.output}/classes"/>
     <property name="ant.jars" location="${ant.output}/jars"/>
     <property name="ant.javadoc" location="${ant.output}/javadoc"/>
@@ -13,22 +13,17 @@
 
     <!--  Set up child directories, for during the build.  -->
     <property name="src" location="src"/>
-    <property name="tests-src" location="tests-src"/>
+    <property name="tests-src" location="test-src"/>
     <property name="data" location="data"/>
 
-    <!--  Build property files give project and distribution names.  -->
     <property file="build.properties"/>
-    <property file="build.time.stamp" location="${data}"/>
     <property file="local.build.properties"/>
+    <property file="build.time.stamp" location="${data}"/>
 
-    <!--  Timestamps are deployed with the application for debugging purposes.  -->
     <property name="build.number.txt" value="${data}/${distname}.build.number"/>
     <property name="timestamp.name" value="${data}/${distname}.build.time.stamp"/>
 
-    <!--  These "variables" may be overriden by calling code.  -->
-    <property name="jardest" value="${ant.jars}/${distname}.jar"/>
-    <property name="libdest" value="${ant.lib}"/>
-    <property name="explorerdir" value="${basedir}"/>
+    <property name="explorer" value="explorer"/>
 
     <description>
         Build File.
@@ -44,11 +39,26 @@
             <format property="backup.time" pattern="d-MMMM-yyyy h-mmaa" locale="en" timezone="MST"></format>
         </tstamp>
         <property name="location" value="${backup}/${distname}_src_${backup.time}"/>
-        <mkdir dir="${location}"/>
-        <copy todir="${location}">
+
+        <mkdir dir="${location}/theramp/src"/>
+        <copy todir="${location}/theramp/src">
             <fileset dir="${src}"/>
-            <fileset dir="${tests-src}"/>
         </copy>
+
+        <mkdir dir="${location}/charts/src"/>
+        <copy todir="${location}/charts/src">
+            <fileset dir="charts/development/src"/>
+        </copy>
+
+        <mkdir dir="${location}/phetcommon/src"/>
+        <copy todir="${location}/phetcommon/src">
+            <fileset dir="phetcommon/src"/>
+        </copy>
+
+        <exec dir="${backup}" executable="${explorer}">
+            <arg line="${backup}"/>
+        </exec>
+
     </target>
 
     <target name="Backup All" depends="init">
@@ -70,12 +80,10 @@
         <delete dir="${ant.lib}"/>
     </target>
 
-    <target name="Compile" depends="init, Clean"
+    <target name="Compile" depends="init, Build Dependencies, Clean"
         description="compile the source ">
-        <delete dir="${ant.classes}"/>
         <mkdir dir="${ant.classes}"/>
-        <!--     To compile, put all the dependency jars where you need them.  Then you can build.   -->
-        <javac srcdir="${src}" classpath="lib/smoothmetal.jar" destdir="${ant.classes}"/>
+        <javac srcdir="${src}" classpath="${ant.lib}/phetcommon.jar" destdir="${ant.classes}"/>
         <!--    Uncomment the following line to add test classes to the output jar.    -->
         <!--        <javac srcdir="${tests-src}" destdir="${classes}"/>-->
     </target>
@@ -95,7 +103,7 @@
         <mkdir dir="${ant.jars}"/>
         <antcall target="Generate Build Info"/>
         <property file="${build.number.txt}"/>
-        <jar destfile="${jardest}">
+        <jar destfile="${ant.jars}/${distname}.jar">
             <fileset dir="${ant.classes}"/>
             <fileset dir="${data}"/>
             <manifest>
@@ -114,7 +122,6 @@
         </javadoc>
     </target>
 
-
     <target name="Publish Executables" depends="Generate Jar"
         description="generate executables, jar files, lib files, a batchfile">
         <mkdir dir="${releases}"/>
@@ -126,28 +133,27 @@
         </copy>
         <copy todir="${destdir}">
             <fileset dir="." casesensitive="yes">
-                <include name="${distname}.jnlp"></include>
+                <include name="*.jnlp"/>
             </fileset>
         </copy>
-        <antcall target="Open Explorer" inheritall="true">
-            <param name="explorerdir" value="${destdir}"/>
-        </antcall>
-    </target>
-
-
-    <!--  Only runs if the client has defined an explorer property with the executable name of a filesystem browser.
-     This is commonly done in the local.build.properties.-->
-    <target name="Open Explorer" if="explorer">
-        <exec dir="${explorerdir}" executable="${explorer}">
-            <arg line="${explorerdir}"/>
+        <mkdir dir="${destdir}/lib"/>
+        <copy todir="${destdir}/lib">
+            <fileset dir="${ant.lib}"/>
+        </copy>
+        <exec dir="${destdir}" executable="${explorer}">
+            <arg line="${destdir}"/>
         </exec>
     </target>
 
-    <!--    <target name="Copy Lib" depends="Clean">-->
-    <!--        <mkdir dir="${libdest}"/>-->
-    <!--        <copy todir="${libdest}">-->
-    <!--            <fileset file="lib/smoothmetal.jar"></fileset>-->
-    <!--        </copy>-->
-    <!--    </target>-->
+    <target name="Build Dependencies" depends="init, Clean">
+        <property file="${build.number.txt}"/>
+        <mkdir dir="${ant.lib}"/>
+        <ant antfile="${phetcommon.build.file}" target="Generate Jar" inheritall="false">
+            <property name="jardest" value="${ant.lib}/phetcommon.jar"/>
+        </ant>
+        <!--        <ant antfile="${phetcommon.build.file}" target="Copy Lib" inheritall="false">-->
+        <!--            <property name="libdest" value="${ant.lib}"/>-->
+        <!--        </ant>-->
+    </target>
 
 </project>
