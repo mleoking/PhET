@@ -58,8 +58,8 @@ public class DiscreteModule extends FourierModule {
     private static final Point AMPLITUDES_LOCATION = new Point( 60, 125 );
     private static final Point HARMONICS_LOCATION = new Point( 60, 325 );
     private static final Point SUM_LOCATION = new Point( 60, 525 );
-    private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 560, 250 );
-    private static final Point PERIOD_TOOL_LOCATION = new Point( 560, 250 );
+    private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 350, 250 );
+    private static final Point PERIOD_TOOL_LOCATION = new Point( 350, 280 );
     private static final Point WIGGLE_ME_LOCATION = new Point( 260, 55 );
     
     // Colors
