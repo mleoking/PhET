@@ -67,22 +67,6 @@ public abstract class FourierModule extends Module {
     public abstract void reset();
     
     //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Adds a mouse listener to the apparatus panel so that it received keyboard focus.
-     */
-    public void setApparatusPanel( final ApparatusPanel apparatusPanel ) {
-        super.setApparatusPanel( apparatusPanel );
-        apparatusPanel.addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                apparatusPanel.requestFocus();
-            }
-        } );
-    }
-    
-    //----------------------------------------------------------------------------
     // Debugging
     //----------------------------------------------------------------------------
     
