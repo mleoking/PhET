@@ -6,6 +6,8 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- screen turds from wavelength & period measurement tools (PhetTextGraphic bounds problem?)
+- change length of wavelength & period measurement tools based on chart range
 - investigate Jex for rendering equations
 - highlight component when mouse moves over it in Harmonics graph
 - persistence
@@ -16,6 +18,9 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - make graph titles prettier
+
+NEW FEATURES:
+- highlight harmonic when its wavelength/period tool has focus
 
 OPTIMIZATIONS:
 
@@ -40,6 +45,8 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/13) - added wavelength and period measurement tools (length is incorrect)
+(6/13) - created SubscriptedSymbol graphic
 (6/13) - remove evil casts from focus handlers in Harmonics graph
 (6/13) - make all graphs reset to initial zoom levels when Reset button is pressed
 (6/13) - fix vertical zoom in Sum graph
