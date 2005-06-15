@@ -6,10 +6,12 @@ IN PROGRESS:
 - convert SubscriptedSymbol to HTMLGraphic subclass
 
 HIGH PRIORITY:
+- add spacing around parts of zoom control
 - something is hammering the processor when we should be idle
 - investigate Jex for rendering equations
 - persistence
 - smooth out waveforms
+- interface for changing harmonic colors
 
 MEDIUM PRIORITY:
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
@@ -44,6 +46,8 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/15) - increase width of focus harmonic
+(6/15) - don't give focus to harmonics with zero amplitude
 (6/14) - move L constant to FourierConstants, replace 1.0 in WaveformMeasurementTool
 (6/14) - javadoc what I've done so far
 (6/14) - highlight harmonic when its wavelength/period tool has focus
