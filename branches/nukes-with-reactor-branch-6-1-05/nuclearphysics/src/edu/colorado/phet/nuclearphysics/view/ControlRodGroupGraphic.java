@@ -50,7 +50,7 @@ public class ControlRodGroupGraphic extends DefaultInteractiveGraphic {
         rep = new Rep( component, controlRods );
         this.rodLength = controlRods[0].getLength();
         setBoundedGraphic( rep );
-        addCursorHandBehavior();
+        addCursorBehavior( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
         addTranslationBehavior( new Translator() );
         orientation = controlRods[0].getOrientation();
     }
