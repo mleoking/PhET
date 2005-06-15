@@ -4,7 +4,11 @@ package edu.colorado.phet.qm.view;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.*;
+import edu.colorado.phet.qm.model.Complex;
+import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.operators.PxValue;
+import edu.colorado.phet.qm.model.operators.XValue;
+import edu.colorado.phet.qm.model.operators.YValue;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -104,6 +108,9 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     public void potentialChanged() {
 //        colorMap.setPotential(discreteModel.getPotential());
         System.out.println( "potential changed" );
+    }
+
+    public void beforeTimeStep( DiscreteModel discreteModel ) {
     }
 
     public DiscreteModel getDiscreteModel() {

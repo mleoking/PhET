@@ -1,8 +1,10 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.view;
+package edu.colorado.phet.qm.view.colormaps;
 
 import edu.colorado.phet.qm.model.Complex;
 import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.view.ColorMap;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import java.awt.*;
 

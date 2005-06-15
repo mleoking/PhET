@@ -11,7 +11,7 @@ import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.InitialWavefunction;
-import edu.colorado.phet.qm.model.RectangularPotential;
+import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.DetectorGraphic;
 import edu.colorado.phet.qm.view.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;

@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.view.colormaps.VisualColorMap;
 
 import java.awt.*;
 

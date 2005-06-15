@@ -2,6 +2,9 @@
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.qm.model.operators.ProbabilityValue;
+import edu.colorado.phet.qm.model.operators.PxValue;
+import edu.colorado.phet.qm.model.potentials.CompositePotential;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -49,9 +52,17 @@ public class DiscreteModel {
     }
 
     private void step() {
+        beforeTimeStep();
         cncPropagator.propagate( wavefunction );
         timeStep++;
         finishedTimeStep();
+    }
+
+    private void beforeTimeStep() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.beforeTimeStep( this );
+        }
     }
 
     private void finishedTimeStep() {
@@ -66,6 +77,18 @@ public class DiscreteModel {
     }
 
     public void reset() {
+        for( int i = 0; i < wavefunction.length; i++ ) {
+            Complex[] complexes = wavefunction[i];
+            for( int j = 0; j < complexes.length; j++ ) {
+                Complex complex = complexes[j];
+                if( complex == null ) {
+                    wavefunction[i][j] = new Complex();
+                }
+                else {
+                    complex.zero();
+                }
+            }
+        }
     }
 
     public int getXMesh() {
@@ -223,12 +246,18 @@ public class DiscreteModel {
         return cncPropagator.getSimulationTime();
     }
 
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
     public static interface Listener {
         void finishedTimeStep( DiscreteModel model );
 
         void sizeChanged();
 
         void potentialChanged();
+
+        void beforeTimeStep( DiscreteModel discreteModel );
     }
 
 
@@ -258,6 +287,9 @@ public class DiscreteModel {
         }
 
         public void potentialChanged() {
+        }
+
+        public void beforeTimeStep( DiscreteModel discreteModel ) {
         }
     }
 

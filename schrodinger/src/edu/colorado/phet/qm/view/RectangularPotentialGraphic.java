@@ -5,7 +5,7 @@ import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SwingUtils;
-import edu.colorado.phet.qm.model.RectangularPotential;
+import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
