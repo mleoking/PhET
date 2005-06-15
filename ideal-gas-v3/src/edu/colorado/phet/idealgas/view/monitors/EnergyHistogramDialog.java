@@ -69,10 +69,10 @@ public class EnergyHistogramDialog extends JDialog {
         } );
 
         // Create the histograms
-        energyHistogram = new Histogram( 200, 150, 0, 100E3, 20, initialEnergyClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
-        speedHistogram = new Histogram( 200, 150, 0, maxSpeed, 20, initialSpeedClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
-        heavySpeedHistogram = new Histogram( 200, 150, 0, maxSpeed, 20, initialSpeedClippingLevel * averagingRatio, new Color( 20, 0, 200 ) );
-        lightSpeedHistogram = new Histogram( 200, 150, 0, maxSpeed, 20, initialSpeedClippingLevel * averagingRatio, new Color( 200, 0, 20 ) );
+        energyHistogram = new Histogram( 200, 150, 0, 100E3 * 1.01, 20, initialEnergyClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
+        speedHistogram = new Histogram( 200, 150, 0, maxSpeed * 1.01, 20, initialSpeedClippingLevel * averagingRatio, new Color( 0, 0, 0 ) );
+        heavySpeedHistogram = new Histogram( 200, 150, 0, maxSpeed * 1.01, 20, initialSpeedClippingLevel * averagingRatio, new Color( 20, 0, 200 ) );
+        lightSpeedHistogram = new Histogram( 200, 150, 0, maxSpeed * 1.01, 20, initialSpeedClippingLevel * averagingRatio, new Color( 200, 0, 20 ) );
 
         // Add a button for hiding/displaying the individual species
         detailsBtn = new JButton();
