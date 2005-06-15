@@ -29,7 +29,7 @@ public class Wavefunction {
         double diff = 1.0 - postProb;
         if( !( Math.abs( diff ) < 0.0001 ) ) {
             System.out.println( "Error in probability normalization." );
-            throw new RuntimeException( "Error in probability normalization." );
+//            throw new RuntimeException( "Error in probability normalization." );
         }
     }
 
