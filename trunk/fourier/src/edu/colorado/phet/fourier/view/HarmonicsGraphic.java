@@ -109,7 +109,9 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
     private static final Dimension CHART_SIZE = new Dimension( 580, 130 );
 
     // Wave parameters
-    private static final Stroke WAVE_STROKE = new BasicStroke( 1f );
+    private static final Stroke WAVE_NORMAL_STROKE = new BasicStroke( 1f );
+    private static final Stroke WAVE_FOCUS_STROKE = new BasicStroke( 2f );
+    private static final Stroke WAVE_DIMMED_STROKE = new BasicStroke( 0.5f );
     private static final Color WAVE_DIMMED_COLOR = Color.GRAY;
     private static final int NUMBER_OF_DATA_POINTS = 1000;
     private static final int MAX_FUNDAMENTAL_CYCLES = 4;
@@ -502,7 +504,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
 
                 Color harmonicColor = FourierUtils.calculateHarmonicColor( i );
                 HarmonicDataSetGraphic dataSetGraphic = new HarmonicDataSetGraphic( getComponent(), _chartGraphic, dataSet );
-                dataSetGraphic.setStroke( WAVE_STROKE );
+                dataSetGraphic.setStroke( WAVE_NORMAL_STROKE );
                 dataSetGraphic.setBorderColor( harmonicColor );
                 _chartGraphic.addDataSetGraphic( dataSetGraphic );
             }
@@ -546,6 +548,12 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
                 HarmonicDataSetGraphic harmonicGraphic = (HarmonicDataSetGraphic) dataSetGraphics[i];
                 if ( harmonicGraphic.getHarmonic() != event.getHarmonic() ) {
                     harmonicGraphic.setBorderColor( WAVE_DIMMED_COLOR );
+                    harmonicGraphic.setStroke( WAVE_DIMMED_STROKE );
+                }
+                else {
+                    Color harmonicColor = FourierUtils.calculateHarmonicColor( harmonicGraphic.getHarmonic() );
+                    harmonicGraphic.setBorderColor( harmonicColor );
+                    harmonicGraphic.setStroke( WAVE_FOCUS_STROKE );
                 }
             }
             else {
@@ -562,10 +570,9 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
         for ( int i = 0; i < dataSetGraphics.length; i++ ) {
             if ( dataSetGraphics[i] instanceof HarmonicDataSetGraphic ) {
                 HarmonicDataSetGraphic harmonicGraphic = (HarmonicDataSetGraphic) dataSetGraphics[i];
-                if ( harmonicGraphic.getHarmonic() != event.getHarmonic() ) {
-                    Color harmonicColor = FourierUtils.calculateHarmonicColor( harmonicGraphic.getHarmonic() );
-                    harmonicGraphic.setBorderColor( harmonicColor );
-                }
+                Color harmonicColor = FourierUtils.calculateHarmonicColor( harmonicGraphic.getHarmonic() );
+                harmonicGraphic.setBorderColor( harmonicColor );
+                harmonicGraphic.setStroke( WAVE_NORMAL_STROKE );
             }
             else {
                 System.err.println( "WARNING: HarmonicsGraphic.focusLost - unexpected DataSetGraphic subclass in chart" );
