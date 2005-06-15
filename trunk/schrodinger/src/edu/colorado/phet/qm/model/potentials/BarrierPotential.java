@@ -1,5 +1,7 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm.model;
+package edu.colorado.phet.qm.model.potentials;
+
+import edu.colorado.phet.qm.model.Potential;
 
 import java.awt.*;
 

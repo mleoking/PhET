@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.model.operators.ProbabilityValue;
+
 
 /**
  * User: Sam Reid
@@ -10,6 +12,12 @@ package edu.colorado.phet.qm.model;
  */
 
 public class Wavefunction {
+    public static void setNorm( Complex[][] wavefunction, double newScale ) {
+        double totalProbability = new ProbabilityValue().compute( wavefunction );
+        double scale = 1.0 / Math.sqrt( totalProbability );
+        scale( wavefunction, scale * newScale );
+    }
+
     public static void normalize( Complex[][] wavefunction ) {
         double totalProbability = new ProbabilityValue().compute( wavefunction );
 //        System.out.println( "totalProbability = " + totalProbability );
@@ -33,5 +41,9 @@ public class Wavefunction {
                 complex.scale( scale );
             }
         }
+    }
+
+    public static boolean containsLocation( Complex[][] wavefunction, int i, int k ) {
+        return i >= 0 && i < wavefunction.length && k >= 0 && k < wavefunction[0].length;
     }
 }

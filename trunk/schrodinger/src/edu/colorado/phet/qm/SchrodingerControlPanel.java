@@ -7,7 +7,12 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.*;
-import edu.colorado.phet.qm.view.*;
+import edu.colorado.phet.qm.model.potentials.ConstantPotential;
+import edu.colorado.phet.qm.model.potentials.DoubleSlit;
+import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
+import edu.colorado.phet.qm.view.ColorMap;
+import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.colormaps.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -40,7 +45,7 @@ public class SchrodingerControlPanel extends ControlPanel {
                 module.reset();
             }
         } );
-
+        addControl( reset );
         JPanel particleLauncher = createParticleLauncherPanel();
         AdvancedPanel advancedIC = new AdvancedPanel( "Show>>", "Hide<<" );
         advancedIC.addControlFullWidth( particleLauncher );
@@ -71,7 +76,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel colorPanel = createVisualizationPanel();
         addControlFullWidth( colorPanel );
 
-        VerticalLayoutPanel simulationPanel = getSimulationPanel( module );
+        VerticalLayoutPanel simulationPanel = createSimulationPanel( module );
         addControlFullWidth( simulationPanel );
 
         VerticalLayoutPanel potentialPanel = createPotentialPanel( module );
@@ -99,36 +104,28 @@ public class SchrodingerControlPanel extends ControlPanel {
     private VerticalLayoutPanel createBoundaryPanel() {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
-        JButton planeWave = new JButton( "Plane Wave" );
-        planeWave.addActionListener( new ActionListener() {
+        final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
+
+//        final PlaneWave planeWave = new PlaneWave( 10 * Math.PI, getDiscreteModel().getXMesh() );
+        final PlaneWave planeWave = new PlaneWave( 40 * Math.PI, getDiscreteModel().getXMesh() );
+        planeWave.setScale( 0.1 );
+        int insetY = 0;
+        int width = 3;
+        final Rectangle rectangle = new Rectangle( getDiscreteModel().getXMesh() - width, insetY, width, getDiscreteModel().getYMesh() - insetY * 2 );
+        final WaveSource waveSource = new WaveSource( rectangle, planeWave );
+        waveSource.setNorm( 5.0 );
+
+        planeWaveCheckbox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                final PlaneWave planeWave = new PlaneWave( 10 * Math.PI, getDiscreteModel().getXMesh() );
-                final Rectangle rectangle = new Rectangle( getDiscreteModel().getXMesh() - 5, 0, 3, getDiscreteModel().getYMesh() );
-
-                getDiscreteModel().addListener( new DiscreteModel.Listener() {
-                    public void finishedTimeStep( DiscreteModel model ) {
-                        for( int i = rectangle.x; i < rectangle.x + rectangle.width; i++ ) {
-                            for( int k = rectangle.y; k < rectangle.y + rectangle.height; k++ ) {
-                                model.getWavefunction()[i][k].setValue( planeWave.getValue( i, k, model.getSimulationTime() ) );
-                            }
-                        }
-                        Wavefunction.normalize( model.getWavefunction() );
-//                        Wavefunction.scale(model.getWavefunction(), 20);
-//                        Wavefunction.scale(model.getWavefunction(), 20);
-//                        Wavefunction.normalize( model.getWavefunction() );
-                    }
-
-                    public void sizeChanged() {
-                    }
-
-                    public void potentialChanged() {
-                    }
-                } );
-//                getDiscreteModel().setBoundaryCondition( planeWave );
-//                getDiscreteModel().setBoundaryCondition( new PlaneWave() );
+                if( planeWaveCheckbox.isSelected() ) {
+                    getDiscreteModel().addListener( waveSource );
+                }
+                else {
+                    getDiscreteModel().removeListener( waveSource );
+                }
             }
         } );
-        layoutPanel.add( planeWave );
+        layoutPanel.add( planeWaveCheckbox );
         return layoutPanel;
     }
 
@@ -267,7 +264,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         getSchrodingerPanel().getDiscreteModel().addPotential( potential );
     }
 
-    private VerticalLayoutPanel getSimulationPanel( final SchrodingerModule module ) {
+    private VerticalLayoutPanel createSimulationPanel( final SchrodingerModule module ) {
         VerticalLayoutPanel simulationPanel = new VerticalLayoutPanel();
         simulationPanel.setBorder( BorderFactory.createTitledBorder( "Simulation" ) );
 
