@@ -13,16 +13,16 @@ import edu.colorado.phet.qm.view.RectangularObject;
 public class Detector extends RectangularObject {
 
     private double probability;
-//    private boolean ruined = false;
+    private boolean enabled = true;
 
     public Detector( int x, int y, int width, int height ) {
         super( x, y, width, height );
     }
 
     public void updateProbability( Complex[][] wavefunction ) {//todo assumes normalized.
-//        if( ruined ) {
-//            return;
-//        }
+        if( !enabled ) {
+            return;
+        }
         double runningSum = 0.0;
         for( int i = super.getX(); i < getX() + getWidth(); i++ ) {
             for( int j = super.getY(); j < getY() + getHeight(); j++ ) {
@@ -38,14 +38,25 @@ public class Detector extends RectangularObject {
         notifyObservers();//todo probabilty change event.
     }
 
-
     public double getProbability() {
         return probability;
     }
 
+    public void setEnabled( boolean enabled ) {
+        if( this.enabled != enabled ) {
+            this.enabled = enabled;
+            if( !this.enabled ) {
+                probability = 0.0;
+            }
+            notifyObservers();
+        }
+    }
 
-    public void ruin() {
-//        this.ruined = true;
-        probability = 0.0;
+    public void reset() {
+        setEnabled( true );
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 }
