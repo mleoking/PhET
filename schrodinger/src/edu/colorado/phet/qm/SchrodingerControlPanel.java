@@ -68,7 +68,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         addControl( fireParticle );
 
-        VerticalLayoutPanel colorPanel = createColorPanel( module );
+        VerticalLayoutPanel colorPanel = createVisualizationPanel();
         addControlFullWidth( colorPanel );
 
         VerticalLayoutPanel simulationPanel = getSimulationPanel( module );
@@ -301,51 +301,42 @@ public class SchrodingerControlPanel extends ControlPanel {
         return simulationPanel;
     }
 
-    private VerticalLayoutPanel createColorPanel( final SchrodingerModule module ) {
+    private VerticalLayoutPanel createVisualizationPanel() {
         VerticalLayoutPanel colorPanel = new VerticalLayoutPanel();
-        colorPanel.setBorder( BorderFactory.createTitledBorder( "Colorize" ) );
+        colorPanel.setBorder( BorderFactory.createTitledBorder( "Color Scheme" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
-        JRadioButton blackBackground = new JRadioButton( "Default/Black" );
-        buttonGroup.add( blackBackground );
-        blackBackground.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setWavefunctionColorMap( new DefaultColorMap( getSchrodingerPanel() ) );
-            }
-        } );
-        colorPanel.addFullWidth( blackBackground );
 
-        JRadioButton whiteBackground = new JRadioButton( "Default/White" );
-        whiteBackground.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setWavefunctionColorMap( new DefaultWhiteColorMap( getSchrodingerPanel() ) );
-            }
-        } );
-        buttonGroup.add( whiteBackground );
-        colorPanel.addFullWidth( whiteBackground );
 
-        JRadioButton grayMag = new JRadioButton( "Magnitude-Gray" );
-        grayMag.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setWavefunctionColorMap( new MagnitudeInGrayscale( getSchrodingerPanel() ) );
-            }
-        } );
-        colorPanel.addFullWidth( grayMag );
-        buttonGroup.add( grayMag );
-
-        JRadioButton visualTM = new JRadioButton( "Visual(tm)" );
-        visualTM.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setWavefunctionColorMap( new VisualColorMap( getSchrodingerPanel() ) );
-            }
-
-        } );
-        visualTM.setSelected( true );
+        JRadioButton visualTM = createVisualizationButton( "Rainbow", new VisualColorMap( getSchrodingerPanel() ), true, buttonGroup );
         colorPanel.addFullWidth( visualTM );
 
-        buttonGroup.add( visualTM );
+        JRadioButton grayMag = createVisualizationButton( "Magnitude-Gray", new MagnitudeInGrayscale( getSchrodingerPanel() ), false, buttonGroup );
+        colorPanel.addFullWidth( grayMag );
 
+        JRadioButton realGray = createVisualizationButton( "Real-Gray", new RealGrayColorMap( getSchrodingerPanel() ), false, buttonGroup );
+        colorPanel.addFullWidth( realGray );
 
+        JRadioButton complexGray = createVisualizationButton( "Imaginary-Gray", new ImaginaryGrayColorMap( getSchrodingerPanel() ), false, buttonGroup );
+        colorPanel.addFullWidth( complexGray );
+
+        JRadioButton blackBackground = createVisualizationButton( "HSB on Black", new DefaultColorMap( getSchrodingerPanel() ), false, buttonGroup );
+        colorPanel.addFullWidth( blackBackground );
+
+        JRadioButton whiteBackground = createVisualizationButton( "HSB on White", new DefaultWhiteColorMap( getSchrodingerPanel() ), false, buttonGroup );
+        colorPanel.addFullWidth( whiteBackground );
         return colorPanel;
+    }
+
+    private JRadioButton createVisualizationButton( String s, final ColorMap colorMap, boolean b, ButtonGroup buttonGroup ) {
+        JRadioButton radioButton = new JRadioButton( s );
+        radioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getSchrodingerPanel().setWavefunctionColorMap( colorMap );
+            }
+        } );
+        buttonGroup.add( radioButton );
+        radioButton.setSelected( b );
+        return radioButton;
     }
 
     private SchrodingerPanel getSchrodingerPanel() {
