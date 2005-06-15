@@ -186,7 +186,9 @@ public class DiscreteModel {
                 }
             }
         }
+//        new RuntimeException( "No collapse point." ).printStackTrace();
         throw new RuntimeException( "No collapse point." );
+//        return new Point( 0, 0 );
     }
 
     public Point getCollapsePoint() {//todo call getCollapsePoint with the internal bounds.
@@ -283,18 +285,20 @@ public class DiscreteModel {
 
             if( detectionCausesCollapse ) {
                 double norm = new ProbabilityValue().compute( wavefunction );//todo use the norm (don't assume it's 1.0)
+                if( norm >= 0.2 ) {
 //                System.out.println( "detectorNorm=" + norm);
-                for( int i = 0; i < detectors.size(); i++ ) {
-                    Detector detector = (Detector)detectors.get( i );
-                    double prob = detector.getProbability();
-                    double rand = random.nextDouble() * norm;//todo is this right?
-                    if( rand <= prob ) {
-                        Point collapsePoint = getCollapsePoint( detector.getBounds() );
-                        collapse( collapsePoint );
-                        if( oneShotDetectors ) {
-                            detector.setEnabled( false );
+                    for( int i = 0; i < detectors.size(); i++ ) {
+                        Detector detector = (Detector)detectors.get( i );
+                        double prob = detector.getProbability();
+                        double rand = random.nextDouble() * norm;//todo is this right?
+                        if( rand <= prob ) {
+                            Point collapsePoint = getCollapsePoint( detector.getBounds() );
+                            collapse( collapsePoint );
+                            if( oneShotDetectors ) {
+                                detector.setEnabled( false );
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }

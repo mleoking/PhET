@@ -45,6 +45,12 @@ public class DetectorGraphic extends RectangleGraphic {
         String formatted = format.format( probPercent );
         probDisplay.setText( formatted + " %" );
         probDisplay.setLocation( (int)viewRect.getX(), (int)viewRect.getY() );
+        if( detector.isEnabled() ) {
+            probDisplay.setColor( Color.red );
+        }
+        else {
+            probDisplay.setColor( Color.gray );
+        }
     }
 
 }
