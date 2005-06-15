@@ -390,16 +390,18 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * @param hasFocus true or false
      */
     private void fireHarmonicFocusEvent( boolean hasFocus ) {
-        HarmonicFocusEvent event = new HarmonicFocusEvent( this, _harmonicModel, hasFocus );
-        Object[] listeners = _listenerList.getListenerList();
-        for ( int i = 0; i < listeners.length; i+=2 ) {
-            if ( listeners[i] == HarmonicFocusListener.class ) {
-                HarmonicFocusListener listener = (HarmonicFocusListener) listeners[ i + 1 ];
-                if ( hasFocus ) {
-                    listener.focusGained( event );
-                }
-                else {
-                    listener.focusLost( event );
+        if ( _harmonicModel.getAmplitude() != 0 ) {
+            HarmonicFocusEvent event = new HarmonicFocusEvent( this, _harmonicModel, hasFocus );
+            Object[] listeners = _listenerList.getListenerList();
+            for ( int i = 0; i < listeners.length; i += 2 ) {
+                if ( listeners[i] == HarmonicFocusListener.class ) {
+                    HarmonicFocusListener listener = (HarmonicFocusListener) listeners[i + 1];
+                    if ( hasFocus ) {
+                        listener.focusGained( event );
+                    }
+                    else {
+                        listener.focusLost( event );
+                    }
                 }
             }
         }
