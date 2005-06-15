@@ -32,6 +32,7 @@ public class DiscreteModel {
     private Random random = new Random();
     private ArrayList detectors = new ArrayList();
     private boolean detectionCausesCollapse = true;
+    private boolean oneShotDetectors = true;
 
     public DiscreteModel( int xmesh, int ymesh ) {
         this( xmesh, ymesh, 1E-5, new EmptyWave(), new ZeroBoundaryCondition() );
@@ -88,6 +89,10 @@ public class DiscreteModel {
                     complex.zero();
                 }
             }
+        }
+        for( int i = 0; i < detectors.size(); i++ ) {
+            Detector detector = (Detector)detectors.get( i );
+            detector.reset();
         }
     }
 
@@ -250,6 +255,14 @@ public class DiscreteModel {
         listeners.remove( listener );
     }
 
+    public void setOneShotDetectors( boolean oneShotDetectors ) {
+        this.oneShotDetectors = oneShotDetectors;
+    }
+
+    public boolean isOneShotDetectors() {
+        return oneShotDetectors;
+    }
+
     public static interface Listener {
         void finishedTimeStep( DiscreteModel model );
 
@@ -270,14 +283,18 @@ public class DiscreteModel {
 
             if( detectionCausesCollapse ) {
                 double norm = new ProbabilityValue().compute( wavefunction );//todo use the norm (don't assume it's 1.0)
+//                System.out.println( "detectorNorm=" + norm);
                 for( int i = 0; i < detectors.size(); i++ ) {
                     Detector detector = (Detector)detectors.get( i );
                     double prob = detector.getProbability();
-                    double rand = random.nextDouble();
-                    if( rand <= prob ) {//Point collapsePoint = getCollapsePoint();
+                    double rand = random.nextDouble() * norm;//todo is this right?
+                    if( rand <= prob ) {
                         Point collapsePoint = getCollapsePoint( detector.getBounds() );
                         collapse( collapsePoint );
-//                        detector.ruin();
+                        if( oneShotDetectors ) {
+                            detector.setEnabled( false );
+                        }
+                        break;
                     }
                 }
             }

@@ -105,8 +105,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
         final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
-
-//        final PlaneWave planeWave = new PlaneWave( 10 * Math.PI, getDiscreteModel().getXMesh() );
         final PlaneWave planeWave = new PlaneWave( 40 * Math.PI, getDiscreteModel().getXMesh() );
         planeWave.setScale( 0.1 );
         int insetY = 0;
@@ -148,6 +146,15 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         layoutPanel.add( causeCollapse );
 
+        final JCheckBox oneShot = new JCheckBox( "One-Shot" );
+        oneShot.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.getDiscreteModel().setOneShotDetectors( oneShot.isSelected() );
+            }
+        } );
+        oneShot.setSelected( getDiscreteModel().isOneShotDetectors() );
+        layoutPanel.add( oneShot );
+
         return layoutPanel;
     }
 
@@ -187,14 +194,12 @@ public class SchrodingerControlPanel extends ControlPanel {
 
     private JPanel createParticleLauncherPanel() {
         VerticalLayoutPanel particleLauncher = new VerticalLayoutPanel();
-//        particleLauncher.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
 
         xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.8 );
         ySlider = new ModelSlider( "Y0", "1/L", 0, 1, 0.5 );
         pxSlider = new ModelSlider( "Momentum-x0", "", -1, 1, -.5 );
         pySlider = new ModelSlider( "Momentum-y0", "", -1, 1, 0 );
         aSlider = new ModelSlider( "Size0", "", 0.5, 3, 1 );
-//        addControlFullWidth( positionSlider );
 
         particleLauncher.add( xSlider );
         particleLauncher.add( ySlider );
