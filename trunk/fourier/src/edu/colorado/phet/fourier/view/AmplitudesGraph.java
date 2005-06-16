@@ -101,7 +101,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FourierSeries _fourierSeriesModel;
+    private FourierSeries _fourierSeries;
     private Chart _chartGraphic;
     private GraphicLayerSet _slidersGraphic;
     private ArrayList _sliders; // array of AmplitudeSlider
@@ -117,17 +117,17 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
      * Sole constructor.
      * 
      * @param component the parent Component
-     * @param fourierSeriesModel the model that this graphic controls
+     * @param fourierSeries the model that this graphic controls
      */
-    public AmplitudesGraph( Component component, FourierSeries fourierSeriesModel ) {
+    public AmplitudesGraph( Component component, FourierSeries fourierSeries ) {
         super( component );
         
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         // Model
-        _fourierSeriesModel = fourierSeriesModel;
-        _fourierSeriesModel.addObserver( this );
+        _fourierSeries = fourierSeries;
+        _fourierSeries.addObserver( this );
         
         // Background
         PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
@@ -233,8 +233,8 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _fourierSeriesModel.removeObserver( this );
-        _fourierSeriesModel = null;
+        _fourierSeries.removeObserver( this );
+        _fourierSeries = null;
     }
     
     /**
@@ -254,7 +254,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
      */
     public void update() {
 
-        int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
+        int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
         
         if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
             
@@ -267,7 +267,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
             for ( int i = 0; i < numberOfHarmonics; i++ ) {
 
                 // Get the ith harmonic.
-                Harmonic harmonic = _fourierSeriesModel.getHarmonic( i );
+                Harmonic harmonic = _fourierSeries.getHarmonic( i );
 
                 AmplitudeSlider slider = null;
                 if ( i < _sliders.size() ) {

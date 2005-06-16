@@ -126,7 +126,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FourierSeries _fourierSeriesModel;
+    private FourierSeries _fourierSeries;
     private Chart _chartGraphic;
     private PhetTextGraphic _mathGraphic;
     private PhetTextGraphic _xAxisTitleGraphic;
@@ -147,15 +147,15 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     // Constructors & finalizers
     //----------------------------------------------------------------------------
     
-    public SumGraph( Component component, FourierSeries fourierSeriesModel ) {
+    public SumGraph( Component component, FourierSeries fourierSeries ) {
         super( component );
         
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         // Model
-        _fourierSeriesModel = fourierSeriesModel;
-        _fourierSeriesModel.addObserver( this );
+        _fourierSeries = fourierSeries;
+        _fourierSeries.addObserver( this );
         
         // Background
         PhetShapeGraphic backgroundGraphic = new PhetShapeGraphic( component );
@@ -321,8 +321,8 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _fourierSeriesModel.removeObserver( this );
-        _fourierSeriesModel = null;
+        _fourierSeries.removeObserver( this );
+        _fourierSeries = null;
         _horizontalZoomControl.removeAllZoomListeners();
         _verticalZoomControl.removeAllZoomListeners();
     }
@@ -519,7 +519,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         _sumDataSet.clear();
         _presetDataSet.clear();
 
-        final int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
+        final int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
         double maxSum = FourierConfig.MAX_HARMONIC_AMPLITUDE;
         final double deltaX = ( MAX_FUNDAMENTAL_CYCLES * L ) / NUMBER_OF_DATA_POINTS;
         final double startX = -2 * L;
@@ -527,7 +527,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         for ( int harmonicIndex = 0; harmonicIndex < numberOfHarmonics; harmonicIndex++ ) {
 
-            Harmonic harmonic = (Harmonic) _fourierSeriesModel.getHarmonic( harmonicIndex );
+            Harmonic harmonic = (Harmonic) _fourierSeries.getHarmonic( harmonicIndex );
             final double amplitude = harmonic.getAmplitude();
             final int numberOfCycles = MAX_FUNDAMENTAL_CYCLES * ( harmonic.getOrder() + 1 );
             final double pointsPerCycle = NUMBER_OF_DATA_POINTS / (double) numberOfCycles;

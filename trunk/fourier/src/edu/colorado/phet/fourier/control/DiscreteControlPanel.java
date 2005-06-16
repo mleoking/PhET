@@ -58,9 +58,9 @@ public class DiscreteControlPanel extends FourierControlPanel {
     //----------------------------------------------------------------------------
 
     // Things to be controlled.
-    private FourierSeries _fourierSeriesModel;
-    private HarmonicsGraph _harmonicsGraphic;
-    private SumGraph _sumGraphic;
+    private FourierSeries _fourierSeries;
+    private HarmonicsGraph _harmonicsGraph;
+    private SumGraph _sumGraph;
     private WaveMeasurementTool _wavelengthTool, _periodTool;
 
     // UI components
@@ -96,28 +96,28 @@ public class DiscreteControlPanel extends FourierControlPanel {
     /**
      * Sole constructor.
      * 
-     * @param fourierSeriesModel
+     * @param fourierSeries
      */
     public DiscreteControlPanel( 
             FourierModule module, 
-            FourierSeries fourierSeriesModel, 
-            HarmonicsGraph harmonicsGraphic, 
-            SumGraph sumGraphic,
+            FourierSeries fourierSeries, 
+            HarmonicsGraph harmonicsGraph, 
+            SumGraph sumGraph,
             WaveMeasurementTool wavelengthTool,
             WaveMeasurementTool periodTool ) {
         
         super( module );
         
-        assert ( fourierSeriesModel != null );
-        assert( harmonicsGraphic != null );
-        assert( sumGraphic != null );
+        assert ( fourierSeries != null );
+        assert( harmonicsGraph != null );
+        assert( sumGraph != null );
         assert( wavelengthTool != null );
         assert( periodTool != null );
         
         // Things we'll be controlling.
-        _fourierSeriesModel = fourierSeriesModel;
-        _harmonicsGraphic = harmonicsGraphic;
-        _sumGraphic = sumGraphic;
+        _fourierSeries = fourierSeries;
+        _harmonicsGraph = harmonicsGraph;
+        _sumGraph = sumGraph;
         _wavelengthTool = wavelengthTool;
         _periodTool = periodTool;
 
@@ -387,7 +387,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
         _showWavelengthCheckBox.setSelected( false );
         _showWavelengthCheckBox.setEnabled( true );
         _showWavelengthComboBox.setEnabled( _showWavelengthCheckBox.isSelected() );
-        for ( int i = 0; i < _fourierSeriesModel.getNumberOfHarmonics(); i++ ) {
+        for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
             _showWavelengthComboBox.addItem( _showWavelengthChoices.get( i ) );
         }
         _wavelengthTool.setVisible( _showWavelengthCheckBox.isSelected() );
@@ -396,7 +396,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
         _showPeriodCheckBox.setSelected( false );
         _showPeriodCheckBox.setEnabled( false );
         _showPeriodComboBox.setEnabled( _showPeriodCheckBox.isSelected() );
-        for ( int i = 0; i < _fourierSeriesModel.getNumberOfHarmonics(); i++ ) {
+        for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
             _showPeriodComboBox.addItem( _showPeriodChoices.get( i ) );
         }
         _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
@@ -404,7 +404,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
         // Wave Type
         {
             Object item = null;
-            switch ( _harmonicsGraphic.getWaveType() ) {
+            switch ( _harmonicsGraph.getWaveType() ) {
             case FourierConstants.WAVE_TYPE_SINE:
                 item = SimStrings.get( "waveType.sines" );//XXX SimStrings in non-init code
                 break;
@@ -418,10 +418,10 @@ public class DiscreteControlPanel extends FourierControlPanel {
         }
         
         // Number of harmonics
-        _numberOfHarmonicsSlider.setValue( _fourierSeriesModel.getNumberOfHarmonics() );
+        _numberOfHarmonicsSlider.setValue( _fourierSeries.getNumberOfHarmonics() );
         
         // Sound
-        _fundamentalFrequencySlider.setValue( (int) _fourierSeriesModel.getFundamentalFrequency() );
+        _fundamentalFrequencySlider.setValue( (int) _fourierSeries.getFundamentalFrequency() );
         _playSoundCheckBox.setSelected( false );
         
         // Math Mode
@@ -516,8 +516,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
             _showPeriodCheckBox.setEnabled( false );
             _showPeriodComboBox.setEnabled( false );
             _periodTool.setVisible( false );
-            _harmonicsGraphic.setDomain( key );
-            _sumGraphic.setDomain( key );
+            _harmonicsGraph.setDomain( key );
+            _sumGraph.setDomain( key );
             break;
         case FourierConstants.DOMAIN_TIME:
             _mathFormComboBox.setChoices( _timeMathFormChoices );
@@ -527,8 +527,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
             _showPeriodCheckBox.setEnabled( true );
             _showPeriodComboBox.setEnabled( _showPeriodCheckBox.isSelected() );
             _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
-            _harmonicsGraphic.setDomain( key );
-            _sumGraphic.setDomain( key );
+            _harmonicsGraph.setDomain( key );
+            _sumGraph.setDomain( key );
             break;
         case FourierConstants.DOMAIN_SPACE_AND_TIME:
             _mathFormComboBox.setChoices( _spaceAndTimeMathFormChoices );
@@ -538,8 +538,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
             _showPeriodCheckBox.setEnabled( true );
             _showPeriodComboBox.setEnabled( _showPeriodCheckBox.isSelected() );
             _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
-            _harmonicsGraphic.setDomain( key );
-            _sumGraphic.setDomain( key );
+            _harmonicsGraph.setDomain( key );
+            _sumGraph.setDomain( key );
             break;
         default:
             assert( 1 == 0 ); // programming error
@@ -559,7 +559,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
         _wavelengthTool.setVisible( _showWavelengthCheckBox.isSelected() );
         int harmonicOrder = _showWavelengthComboBox.getSelectedIndex();
         if ( harmonicOrder >= 0 ) {
-            Harmonic harmonic = _fourierSeriesModel.getHarmonic( harmonicOrder );
+            Harmonic harmonic = _fourierSeries.getHarmonic( harmonicOrder );
             _wavelengthTool.setHarmonic( harmonic );
         }
     }
@@ -569,15 +569,15 @@ public class DiscreteControlPanel extends FourierControlPanel {
         _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
         int harmonicOrder = _showPeriodComboBox.getSelectedIndex();
         if ( harmonicOrder >= 0 ) {
-            Harmonic harmonic = _fourierSeriesModel.getHarmonic( harmonicOrder );
+            Harmonic harmonic = _fourierSeries.getHarmonic( harmonicOrder );
             _periodTool.setHarmonic( harmonic );
         }
     }
     
     private void handleWaveType() {
         int waveType = _waveTypeComboBox.getSelectedKey();
-        _harmonicsGraphic.setWaveType( waveType );
-        _sumGraphic.setWaveType( waveType );
+        _harmonicsGraph.setWaveType( waveType );
+        _sumGraph.setWaveType( waveType );
     }
     
     private void handleNumberOfHarmonics() {
@@ -585,7 +585,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
         int numberOfHarmonics = _numberOfHarmonicsSlider.getValue();
         
         // Update the Fourier series.
-        _fourierSeriesModel.setNumberOfHarmonics( numberOfHarmonics );
+        _fourierSeries.setNumberOfHarmonics( numberOfHarmonics );
         
         // Update the "Show Wavelength" control.
         int selectedWavelengthIndex = _showWavelengthComboBox.getSelectedIndex();
@@ -620,7 +620,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
     
     private void handleFundamentalFrequency() {
         int fundamentalFrequency = _fundamentalFrequencySlider.getValue();
-        _fourierSeriesModel.setFundamentalFrequency( fundamentalFrequency );
+        _fourierSeries.setFundamentalFrequency( fundamentalFrequency );
     }
     
     private void handlePlaySound() {
@@ -630,8 +630,8 @@ public class DiscreteControlPanel extends FourierControlPanel {
     private void handleShowMath() {
         _mathFormComboBox.setEnabled( _showMathCheckBox.isSelected() );
         _expandSumCheckBox.setEnabled( _showMathCheckBox.isSelected() );
-        _harmonicsGraphic.setMathEnabled( _showMathCheckBox.isSelected() );
-        _sumGraphic.setMathEnabled( _showMathCheckBox.isSelected() );
+        _harmonicsGraph.setMathEnabled( _showMathCheckBox.isSelected() );
+        _sumGraph.setMathEnabled( _showMathCheckBox.isSelected() );
     }
     
     private void handleMathForm() {
