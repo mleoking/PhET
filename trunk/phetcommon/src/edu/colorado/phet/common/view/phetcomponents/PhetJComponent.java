@@ -1,11 +1,5 @@
 package edu.colorado.phet.common.view.phetcomponents;
 
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -13,6 +7,13 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Hashtable;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
 
 /**
  * User: Sam Reid
@@ -363,8 +364,13 @@ public class PhetJComponent extends PhetGraphic {
             }
             else {//reuse the old buffered image.
                 Graphics2D g2 = image.createGraphics();
+                
+                // Clear the background with the component's color (which may contain alpha).
+                Composite saveComposite = g2.getComposite();
+                g2.setComposite( AlphaComposite.Clear );
                 g2.setColor( component.getBackground() );
                 g2.fill( new Rectangle( 0, 0, image.getWidth(), image.getHeight() ) );
+                g2.setComposite( saveComposite );
             }
         }
 
