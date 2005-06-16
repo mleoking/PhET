@@ -21,15 +21,11 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.view.ApparatusPanel2;
-import edu.colorado.phet.common.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.event.FourierDragHandler;
-import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
-import edu.colorado.phet.fourier.event.HarmonicFocusListener;
+import edu.colorado.phet.fourier.event.*;
 import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
@@ -43,7 +39,8 @@ import edu.colorado.phet.fourier.util.FourierUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class WaveMeasurementTool extends CompositePhetGraphic implements ApparatusPanel2.ChangeListener, Chart.Listener {
+public class WaveMeasurementTool extends CompositePhetGraphic
+implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -117,6 +114,9 @@ public class WaveMeasurementTool extends CompositePhetGraphic implements Apparat
         addMouseInputListener( new MouseFocusListener() );
         _listenerList = new EventListenerList();
 
+        // Interested in color changes.
+        HarmonicColors.getInstance().addHarmonicColorChangeListener( this );
+        
         updateSize();
     }
 
@@ -127,6 +127,7 @@ public class WaveMeasurementTool extends CompositePhetGraphic implements Apparat
     public void finalize() {
         _chart.removeListener( this );
         _chart = null;
+        HarmonicColors.getInstance().removeHarmonicColorChangeListener( this );
     }
 
     //----------------------------------------------------------------------------
@@ -144,8 +145,8 @@ public class WaveMeasurementTool extends CompositePhetGraphic implements Apparat
         _harmonic = harmonic;
         String subscript = String.valueOf( harmonic.getOrder() + 1 );
         _labelGraphic.setLabel( _symbol, subscript );
-        Color color = FourierUtils.getHarmonicColor( harmonic );
-        _pathGraphic.setPaint( FourierUtils.getHarmonicColor( harmonic.getOrder() ) );
+        Color color = HarmonicColors.getInstance().getColor( harmonic );
+        _pathGraphic.setPaint( color );
         updateSize();
     }
 
@@ -194,7 +195,7 @@ public class WaveMeasurementTool extends CompositePhetGraphic implements Apparat
      * 
      * @param event
      */
-    public void canvasSizeChanged( ChangeEvent event ) {
+    public void canvasSizeChanged( ApparatusPanel2.ChangeEvent event ) {
         _dragHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );
     }
 
@@ -255,6 +256,20 @@ public class WaveMeasurementTool extends CompositePhetGraphic implements Apparat
         }
     }
 
+    //----------------------------------------------------------------------------
+    // HarmonicColorChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the tool color when its corresponding harmonic color changes.
+     */
+    public void harmonicColorChanged( HarmonicColorChangeEvent e ) {
+        if ( e.getOrder() == _harmonic.getOrder() ) {
+            Color color = HarmonicColors.getInstance().getColor( _harmonic );
+            _pathGraphic.setPaint( color );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------

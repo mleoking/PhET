@@ -27,23 +27,7 @@ public class FourierUtils {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    // Colors for harmonics
-    public static Color[] _harmonicColors =
-    {
-            new Color( 1f, 0f, 0f ),
-            new Color( 1f, 0.5f, 0f ),
-            new Color( 1f, 1f, 0f ),
-            new Color( 0f, 1f, 0f ),
-            new Color( 0f, 0.790002f, 0.340007f ),
-            new Color( 0.392193f, 0.584307f, 0.929395f ),
-            new Color( 0f, 0f, 1f ),
-            new Color( 0f, 0f, 0.501999f ),
-            new Color( 0.569994f, 0.129994f, 0.61999f ),
-            new Color( 0.729408f, 0.333293f, 0.827494f ),
-            new Color( 1f, 0.411802f, 0.705893f )
-    };
-    
+
     // Cache of sine values
     private static double[] _sineValues;
     
@@ -60,38 +44,6 @@ public class FourierUtils {
     //----------------------------------------------------------------------------
     // Utilities
     //----------------------------------------------------------------------------
-    
-    public static int getNumberOfHarmonicColors() {
-        return _harmonicColors.length;
-    }
-    
-    public static void setHarmonicColor( int n, Color color ) {
-        //XXX synchronization necessary?
-        _harmonicColors[ n ] = color;
-    }
-    
-    /**
-     * Gets the color that corresponds to a specified harmonic.
-     * 
-     * @param n the harmonic number, starting from zero
-     * @throws IllegalArgumentException if n is out of range
-     */
-    public static Color getHarmonicColor( int n ) {
-      if ( n < 0 || n >= _harmonicColors.length ) {
-          throw new IllegalArgumentException( "n is out of range: " + n );
-      }
-      return _harmonicColors[ n ];
-    }
-    
-    /**
-     * Gets the color that corresponds to a specified harmonic.
-     * 
-     * @param Harmonic the harmonic
-     * @throws IllegalArgumentException if n is out of range
-     */
-    public static Color getHarmonicColor( Harmonic harmonic ) {
-        return getHarmonicColor( harmonic.getOrder() );
-    }
     
     /**
      * Approximates the sine of an angle.

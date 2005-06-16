@@ -31,7 +31,6 @@ import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
@@ -284,10 +283,6 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
 
                 // Slider size.
                 slider.setMaxSize( barWidth, CHART_SIZE.height );
-                
-                // Slider color.
-                Color trackColor = FourierUtils.getHarmonicColor( i );
-                slider.setTrackColor( trackColor );
 
                 // Slider location.
                 int x = ( ( i + 1 ) * SLIDER_SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
