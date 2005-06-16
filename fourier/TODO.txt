@@ -10,14 +10,15 @@ HIGH PRIORITY:
 - investigate Jex for rendering equations
 - persistence
 - smooth out waveforms
-- waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 
 MEDIUM PRIORITY:
+- make HarmonicDataSetGraphic listen for color changes, instead of HarmonicGraph
 - remove sound controls from Discrete control panel
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 - OK to override finalize?
 
 LOW PRIORITY:
+- waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - make graph titles prettier
 
 NEW FEATURES:
