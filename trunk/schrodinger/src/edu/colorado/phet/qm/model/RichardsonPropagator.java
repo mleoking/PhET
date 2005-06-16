@@ -24,7 +24,8 @@ public class RichardsonPropagator implements Propagator {
     private Complex beta;
     private Complex[][] betaeven;
     private Complex[][] betaodd;
-    public double dt;
+//    public double dt;
+    public Complex[][] copy;
 
     public RichardsonPropagator( double TAU, BoundaryCondition boundaryCondition, Potential potential ) {
         this.deltaTime = TAU;
@@ -33,21 +34,29 @@ public class RichardsonPropagator implements Propagator {
         simulationTime = 0.0;
         timeStep = 0;
         hbar = 1;
-        mass = 0.0020;
+        mass = 1;//0.0020;
 
-        double dx = 1.0;
-        dt = 0.8 * mass * dx * dx / hbar;
-        epsilon = hbar * dt / ( mass * dx * dx );
+        deltaTime = 0.8 * mass / hbar;
+
+        update();
+    }
+
+    private void update() {
+        epsilon = toEpsilon( deltaTime );
 
 //        alpha = new Complex( ( 1 + Math.cos( epsilon ) ) / 2.0, -Math.sin( epsilon ) / 2.0 );
 //        beta = new Complex( ( 1 - Math.cos( epsilon ) ) / 2.0, Math.sin( epsilon ) / 2.0 );
 
         alpha = new Complex( 0.5 + 0.5 * Math.cos( epsilon / 2 ), -0.5 * Math.sin( epsilon / 2 ) );
         beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
-        System.out.println( "dt = " + dt );
+        System.out.println( "deltaTime= " + deltaTime );
         System.out.println( "epsilon = " + epsilon );
         System.out.println( "alpha = " + alpha );
         System.out.println( "beta = " + beta );
+    }
+
+    private double toEpsilon( double dt ) {
+        return hbar * dt / ( mass );
     }
 
     public void propagate( Complex[][] w ) {
@@ -76,21 +85,20 @@ public class RichardsonPropagator implements Propagator {
     }
 
     private void prop2D( Complex[][] w ) {
-
-
+        copy = Wavefunction.copy( w );
         stepIt( w, 0, -1 );
-        stepIt( w, 1, 0 );
         stepIt( w, 0, 1 );
+        stepIt( w, 1, 0 );
         stepIt( w, -1, 0 );
         applyPotential( w );
         stepIt( w, -1, 0 );
-        stepIt( w, 0, 1 );
         stepIt( w, 1, 0 );
+        stepIt( w, 0, 1 );
         stepIt( w, 0, -1 );
     }
 
     private void stepIt( Complex[][] w, int dx, int dy ) {
-        Complex[][] copy = Wavefunction.copy( w );
+        Wavefunction.copy( w, copy );
         for( int i = 1; i < w.length - 1; i++ ) {
             for( int j = 1; j < w[0].length - 1; j++ ) {
                 Complex alphaTerm = alpha.times( copy[i][j] );
@@ -105,16 +113,15 @@ public class RichardsonPropagator implements Propagator {
         for( int i = 1; i < w.length - 1; i++ ) {
             for( int j = 1; j < w[0].length - 1; j++ ) {
                 double pot = potential.getPotential( i, j, timeStep );
-                Complex val = new Complex( Math.cos( pot * dt / hbar ), -Math.sin( pot * dt / hbar ) );
-//                System.out.println( "val = " + val );
+                Complex val = new Complex( Math.cos( pot * deltaTime / hbar ), -Math.sin( pot * deltaTime / hbar ) );
                 w[i][j] = w[i][j].times( val );
-//                w[i][j]=w[i][j].times( val );
             }
         }
     }
 
     public void setDeltaTime( double deltaTime ) {
         this.deltaTime = deltaTime;
+        update();
     }
 
     public double getSimulationTime() {
