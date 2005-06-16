@@ -355,11 +355,11 @@ public class PhetJComponent extends PhetGraphic {
         component.reshape( 0, 0, dim.width, dim.height );//dimension is set by parent's layout manager.
 
         if( image == null ) {
-            image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_RGB );
+            image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_ARGB );
         }
         else {
             if( image.getWidth() != dim.width || image.getHeight() != dim.height ) {
-                image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_RGB );
+                image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_ARGB );
             }
             else {//reuse the old buffered image.
                 Graphics2D g2 = image.createGraphics();
