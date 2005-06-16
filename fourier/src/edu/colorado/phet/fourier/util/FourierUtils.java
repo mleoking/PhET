@@ -11,9 +11,6 @@
 
 package edu.colorado.phet.fourier.util;
 
-import java.awt.Color;
-
-import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
