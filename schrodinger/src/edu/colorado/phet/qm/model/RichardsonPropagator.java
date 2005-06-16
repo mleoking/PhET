@@ -45,9 +45,11 @@ public class RichardsonPropagator implements Propagator {
     private void update() {
         epsilon = toEpsilon( deltaTime );
 
+        //from the paper
 //        alpha = new Complex( ( 1 + Math.cos( epsilon ) ) / 2.0, -Math.sin( epsilon ) / 2.0 );
 //        beta = new Complex( ( 1 - Math.cos( epsilon ) ) / 2.0, Math.sin( epsilon ) / 2.0 );
 
+        //from his 1-d simulation
         alpha = new Complex( 0.5 + 0.5 * Math.cos( epsilon / 2 ), -0.5 * Math.sin( epsilon / 2 ) );
         beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
 
@@ -91,6 +93,21 @@ public class RichardsonPropagator implements Propagator {
 
     private void prop2D( Complex[][] w ) {
         copy = Wavefunction.copy( w );
+
+        stepIt( w, 0, -1 );
+        stepIt( w, 0, 1 );
+        stepIt( w, 1, 0 );
+        stepIt( w, -1, 0 );
+        applyPotential( w );
+        stepIt( w, -1, 0 );
+        stepIt( w, 1, 0 );
+        stepIt( w, 0, -1 );
+        stepIt( w, 0, 1 );
+    }
+
+    private void prop2DORIG( Complex[][] w ) {
+        copy = Wavefunction.copy( w );
+
         stepIt( w, 0, -1 );
         stepIt( w, 0, 1 );
         stepIt( w, 1, 0 );
@@ -110,16 +127,41 @@ public class RichardsonPropagator implements Propagator {
         Wavefunction.copy( w, copy );
         for( int i = 1; i < w.length - 1; i++ ) {
             for( int j = 1; j < w[0].length - 1; j++ ) {
-                aTemp.setToProduct( alpha, copy[i][j] );
-//                Complex alphaTerm = alpha.times( copy[i][j] );
-                bTemp.setToProduct( betaeven[i][j], copy[i + dx][j + dy] );
-//                Complex evenTerm = betaeven[i][j].times( copy[i + dx][j + dy] );
-                cTemp.setToProduct( betaodd[i][j], copy[i - dx][j - dy] );
-//                Complex oddTerm = betaodd[i][j].times( copy[i - dx][j - dy] );
-                w[i][j].setToSum( aTemp, bTemp, cTemp );
-//                w[i][j].setValue( alphaTerm.plus( evenTerm ).plus( oddTerm ) );
+                stepIt( w, i, j, dx, dy );
             }
         }
+        for( int i = 0; i < w.length; i++ ) {
+            stepItConstrained( w, i, 0, dx, dy );
+            stepItConstrained( w, i, w[0].length - 1, dx, dy );
+        }
+        for( int j = 1; j < w[0].length; j++ ) {
+            stepItConstrained( w, 0, j, dx, dy );
+            stepItConstrained( w, w.length - 1, j, dx, dy );
+        }
+//        stepItConstrained(w,0,0,dx,dy );
+//        stepItConstrained(w,w.length,0,dx,dy );
+//        stepItConstrained(w,0,0,dx,dy );
+//        stepItConstrained(w,0,0,dx,dy );
+    }
+
+    private void stepItConstrained( Complex[][] w, int i, int j, int dx, int dy ) {
+        int nxPlus = ( i + dx + w.length ) % w.length;
+        int nyPlus = ( j + dy + w[0].length ) % w[0].length;
+
+        int nxMinus = ( i - dx + w.length ) % w.length;
+        int nyMinus = ( j - dy + w[0].length ) % w[0].length;
+
+        aTemp.setToProduct( alpha, copy[i][j] );
+        bTemp.setToProduct( betaeven[i][j], copy[nxPlus][nyPlus] );
+        cTemp.setToProduct( betaodd[i][j], copy[nxMinus][nyMinus] );
+        w[i][j].setToSum( aTemp, bTemp, cTemp );
+    }
+
+    private void stepIt( Complex[][] w, int i, int j, int dx, int dy ) {
+        aTemp.setToProduct( alpha, copy[i][j] );
+        bTemp.setToProduct( betaeven[i][j], copy[i + dx][j + dy] );
+        cTemp.setToProduct( betaodd[i][j], copy[i - dx][j - dy] );
+        w[i][j].setToSum( aTemp, bTemp, cTemp );
     }
 
     private void applyPotential( Complex[][] w ) {
