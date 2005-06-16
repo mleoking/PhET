@@ -23,7 +23,7 @@ public class DiscreteModel {
     private int ymesh;
     private CompositePotential compositePotential;
 
-    private CNCPropagator cncPropagator;
+    private Propagator propagator;
     private int timeStep;
     private double deltaTime;
     private InitialWavefunction initialWavefunction;
@@ -48,13 +48,14 @@ public class DiscreteModel {
         this.boundaryCondition = boundaryCondition;
         wavefunction = new Complex[xmesh + 1][ymesh + 1];
         initialWavefunction.initialize( wavefunction );
-        cncPropagator = new CNCPropagator( deltaTime, boundaryCondition, compositePotential );
+//        propagator = new CNCPropagator( deltaTime, boundaryCondition, compositePotential );
+        propagator = new RichardsonPropagator( deltaTime, boundaryCondition, compositePotential );
         addListener( new DiscreteModel.DetectorHandler() );
     }
 
     private void step() {
         beforeTimeStep();
-        cncPropagator.propagate( wavefunction );
+        propagator.propagate( wavefunction );
         timeStep++;
         finishedTimeStep();
     }
@@ -149,7 +150,7 @@ public class DiscreteModel {
 
     public void setDeltaTime( double t ) {
         this.deltaTime = t;
-        cncPropagator.setDeltaTime( deltaTime );
+        propagator.setDeltaTime( deltaTime );
     }
 
     public Point getCollapsePoint( Rectangle bounds ) {
@@ -250,7 +251,7 @@ public class DiscreteModel {
     }
 
     public double getSimulationTime() {
-        return cncPropagator.getSimulationTime();
+        return propagator.getSimulationTime();
     }
 
     public void removeListener( Listener listener ) {

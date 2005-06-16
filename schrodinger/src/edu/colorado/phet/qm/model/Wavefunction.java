@@ -3,6 +3,8 @@ package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.operators.ProbabilityValue;
 
+import java.util.Arrays;
+
 
 /**
  * User: Sam Reid
@@ -45,5 +47,19 @@ public class Wavefunction {
 
     public static boolean containsLocation( Complex[][] wavefunction, int i, int k ) {
         return i >= 0 && i < wavefunction.length && k >= 0 && k < wavefunction[0].length;
+    }
+
+    public static String toString( Complex[] complexes ) {
+        return Arrays.asList( complexes ).toString();
+    }
+
+    public static Complex[][] copy( Complex[][] w ) {
+        Complex[][] copy = new Complex[w.length][w[0].length];
+        for( int i = 0; i < copy.length; i++ ) {
+            for( int j = 0; j < copy[i].length; j++ ) {
+                copy[i][j] = new Complex( w[i][j] );
+            }
+        }
+        return copy;
     }
 }

@@ -21,6 +21,10 @@ public class Complex {
         this( 0, 0 );
     }
 
+    public Complex( Complex complex ) {
+        this( complex.real, complex.imag );
+    }
+
     public void zero() {
         real = 0.0;
         imag = 0.0;
@@ -93,5 +97,15 @@ public class Complex {
 
     public Complex copy() {
         return new Complex( real, imag );
+    }
+
+    public void setToSum( Complex a, Complex b ) {
+        real = a.real + b.real;
+        imag = a.imag + b.imag;
+    }
+
+    public void setToProduct( Complex a, Complex b ) {
+        real = a.real * b.real - a.imag * b.imag;
+        imag = a.real * b.imag + a.imag * b.real;
     }
 }

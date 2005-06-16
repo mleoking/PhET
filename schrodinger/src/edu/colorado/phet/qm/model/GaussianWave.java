@@ -27,6 +27,7 @@ public class GaussianWave implements InitialWavefunction {
     public void initialize( Complex[][] wavefunction ) {
         initGaussian( wavefunction );
         Wavefunction.normalize( wavefunction );
+        System.out.println( "GaussianWave.initialize" );
     }
 
     private void initGaussian( Complex[][] w ) {
