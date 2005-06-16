@@ -278,12 +278,11 @@ public class SumGraphic extends GraphicLayerSet implements SimpleObserver, ZoomL
         // Auto Scale control
         {
             _autoScaleCheckBox = new JCheckBox( SimStrings.get( "SumGraphic.autoScale" ) );
-            _autoScaleCheckBox.setOpaque( false );
-            PhetGraphic graphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
-            addGraphic( graphic, CONTROLS_LAYER );
-            graphic.setLocation( _verticalZoomControl.getX(), 
+            _autoScaleCheckBox.setBackground( new Color( 255, 255, 255, 0 ) );
+            PhetGraphic autoScaleGraphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
+            addGraphic( autoScaleGraphic, CONTROLS_LAYER );
+            autoScaleGraphic.setLocation( _verticalZoomControl.getX(), 
                     _verticalZoomControl.getY() + _verticalZoomControl.getHeight() + 5 );
-            graphic.scale( 0.8 );
         }
         
         // Sum data set
