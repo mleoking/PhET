@@ -56,7 +56,7 @@ public class WaveMeasurementTool extends CompositePhetGraphic implements Apparat
     private static final Color PATH_BORDER_COLOR = Color.BLACK;
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Font LABEL_FONT = new Font( "Lucida Sans", Font.PLAIN, 16 );
-    private static final int LABEL_Y_OFFSET = -15;
+    private static final int LABEL_Y_OFFSET = -16;
     private static final float END_WIDTH = 1;
     private static final float END_HEIGHT = 10;
     private static final float LINE_HEIGHT = 4; // must be < END_HEIGHT !
