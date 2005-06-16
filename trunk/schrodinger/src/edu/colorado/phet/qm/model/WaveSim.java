@@ -13,10 +13,10 @@ public class WaveSim extends JApplet implements Runnable {
     int wx, wy, yoff, xpts[], ypts[], nx;
     double x0, xmin, xmax, dx, ymin, ymax, dy, xscale, yscale, tmin, t, dt;
     double hbar, mass, epsilon, width, vx, vwidth, energy, energyScale;
-    McComplex psi[];
-    McComplex potentialTerm[];
-    McComplex alpha;
-    McComplex beta;
+    Complex psi[];
+    Complex potentialTerm[];
+    Complex alpha;
+    Complex beta;
     Thread kicker = null;
     Button Restart = new Button( "Restart" );
     Button Pause = new Button( "Pause" );
@@ -35,8 +35,8 @@ public class WaveSim extends JApplet implements Runnable {
         wy -= yoff;
         xpts = new int[nx];
         ypts = new int[nx];
-        psi = new McComplex[nx];
-        potentialTerm = new McComplex[nx];
+        psi = new Complex[nx];
+        potentialTerm = new Complex[nx];
         energyScale = 1;
         initPhysics();
         Panel p = new Panel();
@@ -77,8 +77,8 @@ public class WaveSim extends JApplet implements Runnable {
         vx = 0.25;
         dt = 0.8 * mass * dx * dx / hbar;
         epsilon = hbar * dt / ( mass * dx * dx );
-        alpha = new McComplex( 0.5 + 0.5 * Math.cos( epsilon / 2 ), -0.5 * Math.sin( epsilon / 2 ) );
-        beta = new McComplex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
+        alpha = new Complex( 0.5 + 0.5 * Math.cos( epsilon / 2 ), -0.5 * Math.sin( epsilon / 2 ) );
+        beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
         energy = 0.5 * mass * vx * vx;
 
         initLatticeValues();
@@ -90,7 +90,7 @@ public class WaveSim extends JApplet implements Runnable {
         for( int x = 0; x < nx; x++ ) {
             double xval = toXVal( x );
             double r = v( xval ) * dt / hbar;
-            potentialTerm[x] = new McComplex( Math.cos( r ), -Math.sin( r ) );
+            potentialTerm[x] = new Complex( Math.cos( r ), -Math.sin( r ) );
         }
     }
 
@@ -98,8 +98,8 @@ public class WaveSim extends JApplet implements Runnable {
         for( int x = 0; x < nx; x++ ) {
             double xval = toXVal( x );
             double r = Math.exp( -( ( xval - x0 ) / width ) * ( ( xval - x0 ) / width ) );
-            psi[x] = new McComplex( r * Math.cos( mass * vx * xval / hbar ),
-                                    r * Math.sin( mass * vx * xval / hbar ) );
+            psi[x] = new Complex( r * Math.cos( mass * vx * xval / hbar ),
+                                  r * Math.sin( mass * vx * xval / hbar ) );
         }
     }
 
@@ -147,7 +147,7 @@ public class WaveSim extends JApplet implements Runnable {
 
         for( int x = 0; x < nx; x++ ) {
             ypts[x] = yoff + (int)( wy - 1 -
-                                    yscale * ( psi[x].real - ymin ) );
+                                    yscale * ( psi[x].getReal() - ymin ) );
         }
         for( int x = 0; x < nx - 1; x++ ) {
             g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
@@ -157,7 +157,7 @@ public class WaveSim extends JApplet implements Runnable {
 
         for( int x = 0; x < nx; x++ ) {
             ypts[x] = yoff + (int)( wy - 1 -
-                                    yscale * ( psi[x].imaginary - ymin ) );
+                                    yscale * ( psi[x].getImaginary() - ymin ) );
         }
         for( int x = 0; x < nx - 1; x++ ) {
             g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
@@ -167,7 +167,7 @@ public class WaveSim extends JApplet implements Runnable {
 
         for( int x = 0; x < nx; x++ ) {
             ypts[x] = yoff + (int)( wy - 1 -
-                                    yscale * ( psi[x].real * psi[x].real + psi[x].imaginary * psi[x].imaginary - ymin ) );
+                                    yscale * ( psi[x].getReal() * psi[x].getReal() + psi[x].getImaginary() * psi[x].getImaginary() - ymin ) );
         }
         for( int x = 0; x < nx - 1; x++ ) {
             g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
@@ -270,12 +270,9 @@ public class WaveSim extends JApplet implements Runnable {
         return true;
     }
 
-    public void step( McComplex[] psi, McComplex[] potentialTerm ) {
+    public void step( Complex[] psi, Complex[] potentialTerm ) {
         int nx = psi.length;
-        McComplex temp0 = new McComplex( 0, 0 );
-        McComplex temp1 = new McComplex( 0, 0 );
-        McComplex myAlpha = new McComplex( 0, 0 );
-        McComplex nextBeta = new McComplex( 0, 0 );
+
         /*
          * The time stepping algorithm used here is described in:
          *
@@ -283,30 +280,31 @@ public class WaveSim extends JApplet implements Runnable {
          * Visualizing quantum scattering on the CM-2 supercomputer,
          * Computer Physics Communications 63 (1991) pp 84-94
          */
-
         for( int i = 0; i < nx - 1; i += 2 ) {//update evens
-            updatePsi( psi, i, i + 1, temp0, temp1, myAlpha, nextBeta );
+            updatePsi( psi, i, i + 1 );
         }
         for( int i = 1; i < nx - 1; i += 2 ) {//update odds
-            updatePsi( psi, i, i + 1, temp0, temp1, myAlpha, nextBeta );
+            updatePsi( psi, i, i + 1 );
         }
-        updatePsi( psi, nx - 1, 0, temp0, temp1, myAlpha, nextBeta );//boundary
+        updatePsi( psi, nx - 1, 0 );//boundary
         for( int i = 0; i < nx; i++ ) {//then the potential term.
-            temp0.setValue( psi[i] );
-            psi[i].setToProduct( temp0, potentialTerm[i] );
+            psi[i] = psi[i].times( potentialTerm[i] );//.setToProduct( temp0, potentialTerm[i] );
         }
-        updatePsi( psi, nx - 1, 0, temp0, temp1, myAlpha, nextBeta );//boundary
+        updatePsi( psi, nx - 1, 0 );//boundary
         for( int i = 1; i < nx - 1; i += 2 ) {//odds
-            updatePsi( psi, i, i + 1, temp0, temp1, myAlpha, nextBeta );
+            updatePsi( psi, i, i + 1 );
         }
         for( int i = 0; i < nx - 1; i += 2 ) {//evens
-            updatePsi( psi, i, i + 1, temp0, temp1, myAlpha, nextBeta );
+            updatePsi( psi, i, i + 1 );
         }
     }
 
-    private void updatePsi( McComplex[] psi, int i, int j, McComplex temp0, McComplex temp1, McComplex myAlpha, McComplex nextBeta ) {
-        temp0.setValue( psi[i] );
-        temp1.setValue( psi[j] );
+    private void updatePsi( Complex[] psi, int i, int j ) {
+        Complex temp0 = new Complex( psi[i] );
+        Complex temp1 = new Complex( psi[j] );
+
+        Complex myAlpha = new Complex();
+        Complex nextBeta = new Complex();
 
         myAlpha.setToProduct( alpha, temp0 );
         nextBeta.setToProduct( beta, temp1 );
@@ -320,7 +318,7 @@ public class WaveSim extends JApplet implements Runnable {
     public double getNorm() {
         double sum = 0.0;
         for( int x = 0; x < nx; x++ ) {
-            sum += psi[x].real * psi[x].real + psi[x].imaginary * psi[x].imaginary;
+            sum += psi[x].getReal() * psi[x].getReal() + psi[x].getImaginary() * psi[x].getImaginary();
         }
         return sum;
     }
