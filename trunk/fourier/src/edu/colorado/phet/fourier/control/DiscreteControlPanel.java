@@ -256,10 +256,10 @@ public class DiscreteControlPanel extends FourierControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( wavePropertiesPanel );
             wavePropertiesPanel.setLayout( layout );
             int row = 0;
+            layout.addFilledComponent( _numberOfHarmonicsSlider, row++, 0, GridBagConstraints.HORIZONTAL );
+            layout.addComponent( _waveTypeComboBox, row++, 0 );
             layout.addComponent( showWavelengthPanel, row++, 0 );
             layout.addComponent( showPeriodPanel, row++, 0 );
-            layout.addComponent( _waveTypeComboBox, row++, 0 );
-            layout.addFilledComponent( _numberOfHarmonicsSlider, row++, 0, GridBagConstraints.HORIZONTAL );
         }
 
         // Sound panel
@@ -348,7 +348,7 @@ public class DiscreteControlPanel extends FourierControlPanel {
         // Layout
         addFullWidth( functionsPanel );
         addFullWidth( wavePropertiesPanel );
-        addFullWidth( soundPanel );
+//        addFullWidth( soundPanel );
         addFullWidth( mathModePanel );
 
         // Wire up event handling.
