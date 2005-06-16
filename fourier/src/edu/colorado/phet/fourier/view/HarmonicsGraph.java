@@ -502,7 +502,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
                 HarmonicDataSet dataSet = new HarmonicDataSet( harmonic, NUMBER_OF_DATA_POINTS, L, MAX_FUNDAMENTAL_CYCLES );
                 _dataSets.add( dataSet );
 
-                Color harmonicColor = FourierUtils.calculateHarmonicColor( i );
+                Color harmonicColor = FourierUtils.getHarmonicColor( i );
                 HarmonicDataSetGraphic dataSetGraphic = new HarmonicDataSetGraphic( getComponent(), _chartGraphic, dataSet );
                 dataSetGraphic.setStroke( WAVE_NORMAL_STROKE );
                 dataSetGraphic.setBorderColor( harmonicColor );
@@ -551,7 +551,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
                     harmonicGraphic.setStroke( WAVE_DIMMED_STROKE );
                 }
                 else {
-                    Color harmonicColor = FourierUtils.calculateHarmonicColor( harmonicGraphic.getHarmonic() );
+                    Color harmonicColor = FourierUtils.getHarmonicColor( harmonicGraphic.getHarmonic() );
                     harmonicGraphic.setBorderColor( harmonicColor );
                     harmonicGraphic.setStroke( WAVE_FOCUS_STROKE );
                 }
@@ -570,7 +570,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
         for ( int i = 0; i < dataSetGraphics.length; i++ ) {
             if ( dataSetGraphics[i] instanceof HarmonicDataSetGraphic ) {
                 HarmonicDataSetGraphic harmonicGraphic = (HarmonicDataSetGraphic) dataSetGraphics[i];
-                Color harmonicColor = FourierUtils.calculateHarmonicColor( harmonicGraphic.getHarmonic() );
+                Color harmonicColor = FourierUtils.getHarmonicColor( harmonicGraphic.getHarmonic() );
                 harmonicGraphic.setBorderColor( harmonicColor );
                 harmonicGraphic.setStroke( WAVE_NORMAL_STROKE );
             }

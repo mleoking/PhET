@@ -144,8 +144,8 @@ public class WaveMeasurementTool extends CompositePhetGraphic implements Apparat
         _harmonic = harmonic;
         String subscript = String.valueOf( harmonic.getOrder() + 1 );
         _labelGraphic.setLabel( _symbol, subscript );
-        Color color = FourierUtils.calculateHarmonicColor( harmonic );
-        _pathGraphic.setPaint( FourierUtils.calculateHarmonicColor( harmonic.getOrder() ) );
+        Color color = FourierUtils.getHarmonicColor( harmonic );
+        _pathGraphic.setPaint( FourierUtils.getHarmonicColor( harmonic.getOrder() ) );
         updateSize();
     }
 

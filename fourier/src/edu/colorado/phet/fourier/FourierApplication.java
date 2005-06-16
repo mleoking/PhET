@@ -23,6 +23,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.control.OptionsMenu;
 import edu.colorado.phet.fourier.module.ContinuousModule;
 import edu.colorado.phet.fourier.module.DiscreteModule;
 import edu.colorado.phet.fourier.module.DiscreteToContinousModule;
@@ -91,6 +92,10 @@ public class FourierApplication extends PhetApplication {
             frame.addFileMenuItem( loadItem );
             frame.addFileMenuSeparator();
         }
+        
+        // Options menu
+        OptionsMenu optionsMenu = new OptionsMenu( this );
+        getPhetFrame().addMenu( optionsMenu );
         
         // Developer menu
         if ( ENABLE_DEVELOPER_MENU ) {
