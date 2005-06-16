@@ -29,7 +29,7 @@ public class FourierUtils {
     //----------------------------------------------------------------------------
     
     // Colors for harmonics
-    private static final Color[] HARMONIC_COLORS =
+    public static Color[] _harmonicColors =
     {
             new Color( 1f, 0f, 0f ),
             new Color( 1f, 0.5f, 0f ),
@@ -61,27 +61,36 @@ public class FourierUtils {
     // Utilities
     //----------------------------------------------------------------------------
     
+    public static int getNumberOfHarmonicColors() {
+        return _harmonicColors.length;
+    }
+    
+    public static void setHarmonicColor( int n, Color color ) {
+        //XXX synchronization necessary?
+        _harmonicColors[ n ] = color;
+    }
+    
     /**
-     * Calculates the color that corresponds to a specified harmonic.
+     * Gets the color that corresponds to a specified harmonic.
      * 
      * @param n the harmonic number, starting from zero
      * @throws IllegalArgumentException if n is out of range
      */
-    public static Color calculateHarmonicColor( int n ) {
-      if ( n < 0 || n >= HARMONIC_COLORS.length ) {
+    public static Color getHarmonicColor( int n ) {
+      if ( n < 0 || n >= _harmonicColors.length ) {
           throw new IllegalArgumentException( "n is out of range: " + n );
       }
-      return HARMONIC_COLORS[ n ];
+      return _harmonicColors[ n ];
     }
     
     /**
-     * Calculates the color that corresponds to a specified harmonic.
+     * Gets the color that corresponds to a specified harmonic.
      * 
      * @param Harmonic the harmonic
      * @throws IllegalArgumentException if n is out of range
      */
-    public static Color calculateHarmonicColor( Harmonic harmonic ) {
-        return calculateHarmonicColor( harmonic.getOrder() );
+    public static Color getHarmonicColor( Harmonic harmonic ) {
+        return getHarmonicColor( harmonic.getOrder() );
     }
     
     /**

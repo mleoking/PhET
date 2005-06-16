@@ -39,11 +39,11 @@ CHARTS:
 
 PHETCOMMON:
 - bug: PhetTextGraphic leaves screen turds when its text is exclusively Unicode
-- bug: PhetJComponent uses INT_TYPE_RGB, so alpha is ignored on Mac, can't set transparent backgrounds
 - bug: PhetJComponent startup is excessively slow
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
 - bug: PhetJComponent tab traversal doesn't work
 - bug: PhetJComponent uses deprecated reshape method
+- all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
 v0r2...
