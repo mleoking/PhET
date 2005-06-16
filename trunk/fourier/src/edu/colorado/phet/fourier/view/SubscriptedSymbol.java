@@ -40,9 +40,9 @@ public class SubscriptedSymbol extends CompositePhetGraphic {
     
     public SubscriptedSymbol( Component component, String symbol, String subscript, Font font, Color color ) {
         super( component );
-        _graphic = new HTMLGraphicSubscriptedSymbol( component, symbol, subscript, font, color );
-//        _graphic = new PhetJComponentSubscriptedSymbol( component, symbol, subscript, font, color );
-//        _graphic = new PhetTextGraphicSubscriptedSymbol( component, symbol, subscript, font, color );
+        _graphic = new SS_HTMLGraphic( component, symbol, subscript, font, color );
+//        _graphic = new SS_PhetJComponent( component, symbol, subscript, font, color );
+//        _graphic = new SS_PhetTextGraphic( component, symbol, subscript, font, color );
         addGraphic( (PhetGraphic) _graphic );
     }
     
@@ -68,14 +68,19 @@ public class SubscriptedSymbol extends CompositePhetGraphic {
         public void setFont( Font font );
     }
     
-    //----------------------------------------------------------------------------
-    // HTMLGraphic implementation
-    //----------------------------------------------------------------------------
+    /*
+     * Implementation based on HTMLGraphic.
+     * 
+     * Pros: simplest, looks fairly good
+     * Cons: HTMLGraphic implementation is sketchy and requires a BufferedImage,
+     *       HTMLGraphic should be absorbed by PhetTextGraphic
+     */
     
-    private static class HTMLGraphicSubscriptedSymbol extends HTMLGraphic implements ISubscriptedSymbol {
+    private static class SS_HTMLGraphic extends HTMLGraphic implements ISubscriptedSymbol {
 
-        public HTMLGraphicSubscriptedSymbol( Component component, String symbol, String subscript, Font font, Color color ) {
+        public SS_HTMLGraphic( Component component, String symbol, String subscript, Font font, Color color ) {
             super( component, font, "", color );
+            setRenderingHints( new RenderingHints( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
             setLabel( symbol, subscript );
         }
 
@@ -88,19 +93,18 @@ public class SubscriptedSymbol extends CompositePhetGraphic {
         // setFont and setColor are provided by HTMLGraphic
     }
     
-    //----------------------------------------------------------------------------
-    // PhetJComponent implementation
-    //
-    // Pros: uses standard JLabel interface for HTML
-    // Cons: looks the worst, especially when scaled
-    //----------------------------------------------------------------------------
-    
-    private static class PhetJComponentSubscriptedSymbol extends CompositePhetGraphic implements ISubscriptedSymbol {
+    /*
+     * Implementation based on PhetJComponent.
+     *
+     * Pros: uses standard JLabel interface for HTML
+     * Cons: looks the worst, especially when scaled
+     */
+    private static class SS_PhetJComponent extends CompositePhetGraphic implements ISubscriptedSymbol {
 
         private PhetGraphic _labelGraphic;
         private JLabel _label;
         
-        public PhetJComponentSubscriptedSymbol( Component component, String symbol, String subscript, Font font, Color color ) {
+        public SS_PhetJComponent( Component component, String symbol, String subscript, Font font, Color color ) {
             super( component );
 
             setRenderingHints( new RenderingHints( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
@@ -130,18 +134,17 @@ public class SubscriptedSymbol extends CompositePhetGraphic {
         }
     }
     
-    //----------------------------------------------------------------------------
-    // PhetTextGraphic implementation
-    // 
-    // Pros: looks the best, even when scaled
-    // Cons: Unicode string causes screen turds on Macintosh
-    //----------------------------------------------------------------------------
-    
-    public class PhetTextGraphicSubscriptedSymbol extends CompositePhetGraphic implements ISubscriptedSymbol {
+    /*
+     * Implementation based on PhetTextGraphic.
+     *
+     * Pros: looks the best, even when scaled
+     * Cons: Unicode string causes screen turds on Macintosh, requires 2 PhetTextGraphics
+    */
+    public class SS_PhetTextGraphic extends CompositePhetGraphic implements ISubscriptedSymbol {
         
         private PhetTextGraphic _symbolGraphic, _subscriptGraphic;
 
-        public PhetTextGraphicSubscriptedSymbol( Component component, String symbol, String subscript, Font font, Color color ) {
+        public SS_PhetTextGraphic( Component component, String symbol, String subscript, Font font, Color color ) {
             super( component );
 
             _symbolGraphic = new PhetTextGraphic( component, font, "", color );
