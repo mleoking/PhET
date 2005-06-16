@@ -92,6 +92,10 @@ public class AdvancedPanel extends VerticalLayoutPanel {
                 getParent().getParent().validate();
             }
         }
+        JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( this );
+        parent.invalidate();
+        parent.validate();
+        parent.repaint();
     }
 
     private void hideAdvanced() {
