@@ -30,10 +30,10 @@ import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.Vector2D;
 import edu.colorado.phet.fourier.view.*;
-import edu.colorado.phet.fourier.view.AmplitudesGraphic;
-import edu.colorado.phet.fourier.view.HarmonicsGraphic;
+import edu.colorado.phet.fourier.view.AmplitudesGraph;
+import edu.colorado.phet.fourier.view.HarmonicsGraph;
 import edu.colorado.phet.fourier.view.SubscriptedSymbol;
-import edu.colorado.phet.fourier.view.SumGraphic;
+import edu.colorado.phet.fourier.view.SumGraph;
 
 
 /**
@@ -74,10 +74,10 @@ public class DiscreteModule extends FourierModule {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private FourierSeries _fourierSeriesModel;
-    private AmplitudesGraphic _amplitudesGraphic;
-    private HarmonicsGraphic _harmonicsGraphic;
-    private SumGraphic _sumGraphic;
+    private FourierSeries _fourierSeries;
+    private AmplitudesGraph _amplitudesGraph;
+    private HarmonicsGraph _harmonicsGraph;
+    private SumGraph _sumGraph;
     private WaveMeasurementTool _wavelengthTool, _periodTool;
     private DiscreteControlPanel _controlPanel;
     
@@ -103,7 +103,7 @@ public class DiscreteModule extends FourierModule {
         this.setModel( model );
         
         // Fourier Series
-        _fourierSeriesModel = new FourierSeries();
+        _fourierSeries = new FourierSeries();
         
         //----------------------------------------------------------------------------
         // View
@@ -115,31 +115,31 @@ public class DiscreteModule extends FourierModule {
         setApparatusPanel( apparatusPanel );
         
         // Amplitudes view
-        _amplitudesGraphic = new AmplitudesGraphic( apparatusPanel, _fourierSeriesModel );
-        _amplitudesGraphic.setLocation( AMPLITUDES_LOCATION );
-        apparatusPanel.addGraphic( _amplitudesGraphic, AMPLITUDES_LAYER );
+        _amplitudesGraph = new AmplitudesGraph( apparatusPanel, _fourierSeries );
+        _amplitudesGraph.setLocation( AMPLITUDES_LOCATION );
+        apparatusPanel.addGraphic( _amplitudesGraph, AMPLITUDES_LAYER );
         
         // Components view
-        _harmonicsGraphic = new HarmonicsGraphic( apparatusPanel, _fourierSeriesModel );
-        _harmonicsGraphic.setLocation( HARMONICS_LOCATION );
-        apparatusPanel.addGraphic( _harmonicsGraphic, COMPONENTS_LAYER );
+        _harmonicsGraph = new HarmonicsGraph( apparatusPanel, _fourierSeries );
+        _harmonicsGraph.setLocation( HARMONICS_LOCATION );
+        apparatusPanel.addGraphic( _harmonicsGraph, COMPONENTS_LAYER );
         
         // Sum view
-        _sumGraphic = new SumGraphic( apparatusPanel, _fourierSeriesModel );
-        _sumGraphic.setLocation( SUM_LOCATION );
-        apparatusPanel.addGraphic( _sumGraphic, SUM_LAYER );
+        _sumGraph = new SumGraph( apparatusPanel, _fourierSeries );
+        _sumGraph.setLocation( SUM_LOCATION );
+        apparatusPanel.addGraphic( _sumGraph, SUM_LAYER );
         
         // Wavelength Tool
         String wavelengthSymbol = SimStrings.get( "symbol.wavelength" );
         _wavelengthTool = new WaveMeasurementTool( apparatusPanel, 
-                wavelengthSymbol, _fourierSeriesModel.getHarmonic(0), _harmonicsGraphic.getChart() );
+                wavelengthSymbol, _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
         apparatusPanel.addGraphic( _wavelengthTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _wavelengthTool );
         
         // Period Tool
         String periodSymbol = SimStrings.get( "symbol.period" );
         _periodTool = new WaveMeasurementTool( apparatusPanel, 
-                periodSymbol, _fourierSeriesModel.getHarmonic(0), _harmonicsGraphic.getChart() );
+                periodSymbol, _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodTool );
         
@@ -148,17 +148,17 @@ public class DiscreteModule extends FourierModule {
         //----------------------------------------------------------------------------
  
         // Link horizontal zoom controls
-        _harmonicsGraphic.getHorizontalZoomControl().addZoomListener( _sumGraphic );
-        _sumGraphic.getHorizontalZoomControl().addZoomListener( _harmonicsGraphic );
+        _harmonicsGraph.getHorizontalZoomControl().addZoomListener( _sumGraph );
+        _sumGraph.getHorizontalZoomControl().addZoomListener( _harmonicsGraph );
         
         // Harmonic hightlighting
-        _amplitudesGraphic.addHarmonicFocusListener( _harmonicsGraphic );
-        _wavelengthTool.addHarmonicFocusListener( _harmonicsGraphic );
-        _periodTool.addHarmonicFocusListener( _harmonicsGraphic );
+        _amplitudesGraph.addHarmonicFocusListener( _harmonicsGraph );
+        _wavelengthTool.addHarmonicFocusListener( _harmonicsGraph );
+        _periodTool.addHarmonicFocusListener( _harmonicsGraph );
         
         // Control Panel
         _controlPanel = new DiscreteControlPanel( this, 
-                _fourierSeriesModel, _harmonicsGraphic, _sumGraphic, 
+                _fourierSeries, _harmonicsGraph, _sumGraph, 
                 _wavelengthTool, _periodTool );
         _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
@@ -173,7 +173,7 @@ public class DiscreteModule extends FourierModule {
         addHelpItem( new HelpItem( apparatusPanel, "<Help goes here>", 200, 150 ) );//XXX
         
         // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _fourierSeriesModel );
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _fourierSeries );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
         wiggleMe.setEnabled( false ); //XXX remove this line to enable the wiggle me
@@ -188,16 +188,16 @@ public class DiscreteModule extends FourierModule {
      */
     public void reset() {
         
-        _fourierSeriesModel.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
-        _fourierSeriesModel.setNumberOfHarmonics( NUMBER_OF_HARMONICS );
-        _fourierSeriesModel.getHarmonic( 0 ).setAmplitude( 1.0 );
-        for ( int i = 1; i < _fourierSeriesModel.getNumberOfHarmonics(); i++ ) {
-            ( (Harmonic) _fourierSeriesModel.getHarmonic( i ) ).setAmplitude( 0 );
+        _fourierSeries.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
+        _fourierSeries.setNumberOfHarmonics( NUMBER_OF_HARMONICS );
+        _fourierSeries.getHarmonic( 0 ).setAmplitude( 1.0 );
+        for ( int i = 1; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
+            ( (Harmonic) _fourierSeries.getHarmonic( i ) ).setAmplitude( 0 );
         }
         
-        _amplitudesGraphic.reset();
-        _harmonicsGraphic.reset();
-        _sumGraphic.reset();
+        _amplitudesGraph.reset();
+        _harmonicsGraph.reset();
+        _sumGraph.reset();
         
         _wavelengthTool.setVisible( false );
         _wavelengthTool.setLocation( WAVELENGTH_TOOL_LOCATION );

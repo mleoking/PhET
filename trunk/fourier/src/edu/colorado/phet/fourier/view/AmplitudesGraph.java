@@ -35,12 +35,12 @@ import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
- * AmplitudesGraphic2
+ * AmplitudesGraph
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver {
+public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -119,7 +119,7 @@ public class AmplitudesGraphic extends GraphicLayerSet implements SimpleObserver
      * @param component the parent Component
      * @param fourierSeriesModel the model that this graphic controls
      */
-    public AmplitudesGraphic( Component component, FourierSeries fourierSeriesModel ) {
+    public AmplitudesGraph( Component component, FourierSeries fourierSeriesModel ) {
         super( component );
         
         // Enable antialiasing

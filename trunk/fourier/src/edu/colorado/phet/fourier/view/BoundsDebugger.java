@@ -7,13 +7,13 @@ import java.util.Hashtable;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 /**
- * DebuggerGraphic displays the bounds and locations of a set of PhetGraphics.
+ * BoundsDebugger displays the bounds and locations of a set of PhetGraphics.
  * It is intended for use in debugging phetcommon and client applications.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DebuggerGraphic extends PhetGraphic {
+public class BoundsDebugger extends PhetGraphic {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -46,7 +46,7 @@ public class DebuggerGraphic extends PhetGraphic {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DebuggerGraphic( Component component ) {
+    public BoundsDebugger( Component component ) {
         super( component );
         assert( component != null );
         _boundsEnabled = true;

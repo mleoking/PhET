@@ -23,17 +23,17 @@ import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
 
 /**
- * ControlPanelComboBox
+ * FourierComboBox
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ControlPanelComboBox extends JPanel {
+public class FourierComboBox extends JPanel {
 
     private JLabel _label;
     private JComboBox _comboBox;
 
-    public ControlPanelComboBox( String label, ArrayList choices ) {
+    public FourierComboBox( String label, ArrayList choices ) {
 
         assert ( label != null );
         assert ( choices != null );
