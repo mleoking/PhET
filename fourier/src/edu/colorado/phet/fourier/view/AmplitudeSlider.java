@@ -90,7 +90,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Harmonic _harmonicModel;
+    private Harmonic _harmonic;
     private Dimension _maxSize;
     private SubscriptedSymbol _labelGraphic;
     private PhetGraphic _valueGraphic;
@@ -114,15 +114,15 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * Sole constructor.
      * 
      * @param component the parent Component
-     * @param harmonicModel the model that this slider controls
+     * @param harmonic the model that this slider controls
      */
-    public AmplitudeSlider( Component component, Harmonic harmonicModel ) {
+    public AmplitudeSlider( Component component, Harmonic harmonic ) {
         super( component );
 
         // Model
-        assert ( harmonicModel != null );
-        _harmonicModel = harmonicModel;
-        _harmonicModel.addObserver( this );
+        assert ( harmonic != null );
+        _harmonic = harmonic;
+        _harmonic.addObserver( this );
 
         // Misc initialization
         {
@@ -134,7 +134,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         // Label (An)
         {          
             String symbol = SimStrings.get( "symbol.amplitude" );
-            String subscript = String.valueOf( _harmonicModel.getOrder() + 1 );
+            String subscript = String.valueOf( _harmonic.getOrder() + 1 );
             _labelGraphic = new SubscriptedSymbol( component, symbol, subscript, LABEL_FONT, LABEL_COLOR );
             _labelGraphic.setLocation( 0, 0 );
         }
@@ -224,8 +224,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _harmonicModel.removeObserver( this );
-        _harmonicModel = null;
+        _harmonic.removeObserver( this );
+        _harmonic = null;
     }
 
     //----------------------------------------------------------------------------
@@ -239,12 +239,12 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      */
     public void setModel( Harmonic harmonicModel ) {
         assert( harmonicModel != null );
-        if ( harmonicModel != _harmonicModel ) {
-            if ( _harmonicModel != null ) {
-                _harmonicModel.removeObserver( this );
+        if ( harmonicModel != _harmonic ) {
+            if ( _harmonic != null ) {
+                _harmonic.removeObserver( this );
             }
-            _harmonicModel = harmonicModel;
-            _harmonicModel.addObserver( this );
+            _harmonic = harmonicModel;
+            _harmonic.addObserver( this );
             update();
         }
     }
@@ -255,7 +255,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * @return the model
      */
     public Harmonic getModel() {
-        return _harmonicModel;
+        return _harmonic;
     }
     
     /**
@@ -346,7 +346,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
             update();
         }
         else {
-            _harmonicModel.setAmplitude( amplitude );
+            _harmonic.setAmplitude( amplitude );
             success = true;
         }
         return success;
@@ -390,8 +390,8 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      * @param hasFocus true or false
      */
     private void fireHarmonicFocusEvent( boolean hasFocus ) {
-        if ( _harmonicModel.getAmplitude() != 0 ) {
-            HarmonicFocusEvent event = new HarmonicFocusEvent( this, _harmonicModel, hasFocus );
+        if ( _harmonic.getAmplitude() != 0 ) {
+            HarmonicFocusEvent event = new HarmonicFocusEvent( this, _harmonic, hasFocus );
             Object[] listeners = _listenerList.getListenerList();
             for ( int i = 0; i < listeners.length; i += 2 ) {
                 if ( listeners[i] == HarmonicFocusListener.class ) {
@@ -416,7 +416,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      */
     public void update() {
         
-        double amplitude = _harmonicModel.getAmplitude();
+        double amplitude = _harmonic.getAmplitude();
         
         // Label location
         _labelGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + LABEL_Y_OFFSET ) );
@@ -542,7 +542,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         localY = -localY; // +Y is up
         double amplitude = MAX_AMPLITUDE * ( localY / ( _maxSize.height / 2.0 ) );
         amplitude = MathUtil.clamp( -MAX_AMPLITUDE, amplitude, +MAX_AMPLITUDE );
-        _harmonicModel.setAmplitude( amplitude );
+        _harmonic.setAmplitude( amplitude );
     }
     
     /*
@@ -578,18 +578,18 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         /* Changes the amplitude value using the up/down arrow keys. */
         public void keyPressed( KeyEvent event ) {
             if ( event.getKeyCode() == KeyEvent.VK_UP ) {
-                double amplitude = _harmonicModel.getAmplitude() + VALUE_STEP;
+                double amplitude = _harmonic.getAmplitude() + VALUE_STEP;
                 if ( amplitude > MAX_AMPLITUDE ) {
                     amplitude = MAX_AMPLITUDE;
                 }
-                _harmonicModel.setAmplitude( amplitude );
+                _harmonic.setAmplitude( amplitude );
             }
             else if ( event.getKeyCode() == KeyEvent.VK_DOWN ) {
-                double amplitude = _harmonicModel.getAmplitude() - VALUE_STEP;
+                double amplitude = _harmonic.getAmplitude() - VALUE_STEP;
                 if ( amplitude < -MAX_AMPLITUDE ) {
                    amplitude = -MAX_AMPLITUDE; 
                 }
-                _harmonicModel.setAmplitude( amplitude );
+                _harmonic.setAmplitude( amplitude );
             }
         }
     }

@@ -124,7 +124,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private FourierSeries _fourierSeriesModel;
+    private FourierSeries _fourierSeries;
     private Chart _chartGraphic;
     private PhetTextGraphic _mathGraphic;
     private PhetTextGraphic _xAxisTitleGraphic;
@@ -145,10 +145,10 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
     /**
      * Sole constructor.
      *
-     * @param component          the parent Component
-     * @param fourierSeriesModel the Fourier series that this view displays
+     * @param component the parent Component
+     * @param fourierSeries the Fourier series that this view displays
      */
-    public HarmonicsGraph( Component component, FourierSeries fourierSeriesModel ) {
+    public HarmonicsGraph( Component component, FourierSeries fourierSeries ) {
         super( component );
 
         // Enable antialiasing
@@ -164,8 +164,8 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
         backgroundGraphic.setLocation( -100, -115 );
         
         // Model
-        _fourierSeriesModel = fourierSeriesModel;
-        _fourierSeriesModel.addObserver( this );
+        _fourierSeries = fourierSeries;
+        _fourierSeries.addObserver( this );
         
         // Title
         String title = SimStrings.get( "HarmonicsGraphic.title" );
@@ -290,8 +290,8 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
      * Call this method prior to releasing all references to an object of this type.
      */
     public void finalize() {
-        _fourierSeriesModel.removeObserver( this );
-        _fourierSeriesModel = null;
+        _fourierSeries.removeObserver( this );
+        _fourierSeries = null;
         _horizontalZoomControl.removeAllZoomListeners();
     }
 
@@ -486,7 +486,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
      */
     public void update() {
 
-        int numberOfHarmonics = _fourierSeriesModel.getNumberOfHarmonics();
+        int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
 
         // If the number of harmonics has changed...
         if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
@@ -496,8 +496,8 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener {
             _chartGraphic.removeAllDataSetGraphics();
 
             // Create new data sets & graphics for each harmonic.
-            for ( int i = 0; i < _fourierSeriesModel.getNumberOfHarmonics(); i++ ) {
-                Harmonic harmonic = _fourierSeriesModel.getHarmonic( i );
+            for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
+                Harmonic harmonic = _fourierSeries.getHarmonic( i );
 
                 HarmonicDataSet dataSet = new HarmonicDataSet( harmonic, NUMBER_OF_DATA_POINTS, L, MAX_FUNDAMENTAL_CYCLES );
                 _dataSets.add( dataSet );
