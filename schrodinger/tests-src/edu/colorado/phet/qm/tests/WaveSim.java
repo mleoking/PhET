@@ -129,7 +129,7 @@ public class WaveSim extends JApplet implements Runnable {
 
         for( int x = 0; x < nx; x++ ) {
             ypts[x] = yoff + (int)( wy - 1 -
-                                    yscale * ( psi[x].re - ymin ) );
+                                    yscale * ( psi[x].real - ymin ) );
         }
         for( int x = 0; x < nx - 1; x++ ) {
             g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
@@ -139,7 +139,7 @@ public class WaveSim extends JApplet implements Runnable {
 
         for( int x = 0; x < nx; x++ ) {
             ypts[x] = yoff + (int)( wy - 1 -
-                                    yscale * ( psi[x].im - ymin ) );
+                                    yscale * ( psi[x].imaginary - ymin ) );
         }
         for( int x = 0; x < nx - 1; x++ ) {
             g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
@@ -149,7 +149,7 @@ public class WaveSim extends JApplet implements Runnable {
 
         for( int x = 0; x < nx; x++ ) {
             ypts[x] = yoff + (int)( wy - 1 -
-                                    yscale * ( psi[x].re * psi[x].re + psi[x].im * psi[x].im - ymin ) );
+                                    yscale * ( psi[x].real * psi[x].real + psi[x].imaginary * psi[x].imaginary - ymin ) );
         }
         for( int x = 0; x < nx - 1; x++ ) {
             g.drawLine( xpts[x], ypts[x], xpts[x + 1], ypts[x + 1] );
@@ -255,10 +255,10 @@ public class WaveSim extends JApplet implements Runnable {
     }
 
     public void step() {
-        McComplex x = new McComplex( 0, 0 );
-        McComplex y = new McComplex( 0, 0 );
-        McComplex w = new McComplex( 0, 0 );
-        McComplex z = new McComplex( 0, 0 );
+        McComplex siteVal = new McComplex( 0, 0 );
+        McComplex nextSiteVal = new McComplex( 0, 0 );
+        McComplex siteAlpha = new McComplex( 0, 0 );
+        McComplex nextBeta = new McComplex( 0, 0 );
 
         /*
          * The time stepping algorithm used here is described in:
@@ -269,103 +269,79 @@ public class WaveSim extends JApplet implements Runnable {
          */
 
         for( int i = 0; i < nx - 1; i += 2 ) {
-            x.set( psi[i] );
-            y.set( psi[i + 1] );
-            w.mult( alpha, x );
-            z.mult( beta, y );
-            psi[i + 0].add( w, z );
-            w.mult( alpha, y );
-            z.mult( beta, x );
-            psi[i + 1].add( w, z );
+            siteVal.setValue( psi[i] );
+            nextSiteVal.setValue( psi[i + 1] );
+            siteAlpha.createProduct( alpha, siteVal );
+            nextBeta.createProduct( beta, nextSiteVal );
+            psi[i + 0].createSum( siteAlpha, nextBeta );
+            siteAlpha.createProduct( alpha, nextSiteVal );
+            nextBeta.createProduct( beta, siteVal );
+            psi[i + 1].createSum( siteAlpha, nextBeta );
         }
 
         for( int i = 1; i < nx - 1; i += 2 ) {
-            x.set( psi[i] );
-            y.set( psi[i + 1] );
-            w.mult( alpha, x );
-            z.mult( beta, y );
-            psi[i + 0].add( w, z );
-            w.mult( alpha, y );
-            z.mult( beta, x );
-            psi[i + 1].add( w, z );
+            siteVal.setValue( psi[i] );
+            nextSiteVal.setValue( psi[i + 1] );
+            siteAlpha.createProduct( alpha, siteVal );
+            nextBeta.createProduct( beta, nextSiteVal );
+            psi[i + 0].createSum( siteAlpha, nextBeta );
+            siteAlpha.createProduct( alpha, nextSiteVal );
+            nextBeta.createProduct( beta, siteVal );
+            psi[i + 1].createSum( siteAlpha, nextBeta );
         }
 
-        x.set( psi[nx - 1] );
-        y.set( psi[0] );
-        w.mult( alpha, x );
-        z.mult( beta, y );
-        psi[nx - 1].add( w, z );
-        w.mult( alpha, y );
-        z.mult( beta, x );
-        psi[0].add( w, z );
+        siteVal.setValue( psi[nx - 1] );
+        nextSiteVal.setValue( psi[0] );
+        siteAlpha.createProduct( alpha, siteVal );
+        nextBeta.createProduct( beta, nextSiteVal );
+        psi[nx - 1].createSum( siteAlpha, nextBeta );
+        siteAlpha.createProduct( alpha, nextSiteVal );
+        nextBeta.createProduct( beta, siteVal );
+        psi[0].createSum( siteAlpha, nextBeta );
 
         for( int i = 0; i < nx; i++ ) {
-            x.set( psi[i] );
-            psi[i].mult( x, EtoV[i] );
+            siteVal.setValue( psi[i] );
+            psi[i].createProduct( siteVal, EtoV[i] );
         }
 
-        x.set( psi[nx - 1] );
-        y.set( psi[0] );
-        w.mult( alpha, x );
-        z.mult( beta, y );
-        psi[nx - 1].add( w, z );
-        w.mult( alpha, y );
-        z.mult( beta, x );
-        psi[0].add( w, z );
+        siteVal.setValue( psi[nx - 1] );
+        nextSiteVal.setValue( psi[0] );
+        siteAlpha.createProduct( alpha, siteVal );
+        nextBeta.createProduct( beta, nextSiteVal );
+        psi[nx - 1].createSum( siteAlpha, nextBeta );
+        siteAlpha.createProduct( alpha, nextSiteVal );
+        nextBeta.createProduct( beta, siteVal );
+        psi[0].createSum( siteAlpha, nextBeta );
 
         for( int i = 1; i < nx - 1; i += 2 ) {
-            x.set( psi[i] );
-            y.set( psi[i + 1] );
-            w.mult( alpha, x );
-            z.mult( beta, y );
-            psi[i + 0].add( w, z );
-            w.mult( alpha, y );
-            z.mult( beta, x );
-            psi[i + 1].add( w, z );
+            siteVal.setValue( psi[i] );
+            nextSiteVal.setValue( psi[i + 1] );
+            siteAlpha.createProduct( alpha, siteVal );
+            nextBeta.createProduct( beta, nextSiteVal );
+            psi[i + 0].createSum( siteAlpha, nextBeta );
+            siteAlpha.createProduct( alpha, nextSiteVal );
+            nextBeta.createProduct( beta, siteVal );
+            psi[i + 1].createSum( siteAlpha, nextBeta );
         }
 
         for( int i = 0; i < nx - 1; i += 2 ) {
-            x.set( psi[i] );
-            y.set( psi[i + 1] );
-            w.mult( alpha, x );
-            z.mult( beta, y );
-            psi[i + 0].add( w, z );
-            w.mult( alpha, y );
-            z.mult( beta, x );
-            psi[i + 1].add( w, z );
+            siteVal.setValue( psi[i] );
+            nextSiteVal.setValue( psi[i + 1] );
+            siteAlpha.createProduct( alpha, siteVal );
+            nextBeta.createProduct( beta, nextSiteVal );
+            psi[i + 0].createSum( siteAlpha, nextBeta );
+            siteAlpha.createProduct( alpha, nextSiteVal );
+            nextBeta.createProduct( beta, siteVal );
+            psi[i + 1].createSum( siteAlpha, nextBeta );
         }
     }
 
     public double Norm() {
         double sum = 0.0;
         for( int x = 0; x < nx; x++ ) {
-            sum += psi[x].re * psi[x].re + psi[x].im * psi[x].im;
+            sum += psi[x].real * psi[x].real + psi[x].imaginary * psi[x].imaginary;
         }
         return sum;
-    }
-}
-
-class McComplex {
-    double re, im;
-
-    McComplex( double x, double y ) {
-        re = x;
-        im = y;
-    }
-
-    public void add( McComplex a, McComplex b ) {
-        re = a.re + b.re;
-        im = a.im + b.im;
-    }
-
-    public void mult( McComplex a, McComplex b ) {
-        re = a.re * b.re - a.im * b.im;
-        im = a.re * b.im + a.im * b.re;
-    }
-
-    public void set( McComplex a ) {
-        re = a.re;
-        im = a.im;
     }
 
     public static void main( String[] args ) {
@@ -380,3 +356,4 @@ class McComplex {
     }
 
 }
+
