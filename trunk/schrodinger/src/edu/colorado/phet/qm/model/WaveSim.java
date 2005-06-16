@@ -1,4 +1,4 @@
-package edu.colorado.phet.qm.tests;
+package edu.colorado.phet.qm.model;
 
 /*
  * Integrating the Schrodinger Wave Equation
@@ -176,7 +176,7 @@ public class WaveSim extends JApplet implements Runnable {
 
     public void run() {
         while( kicker != null ) {
-            step();
+            step( psi, potentialTerm );
             t += dt;
             repaint();
             try {
@@ -270,12 +270,12 @@ public class WaveSim extends JApplet implements Runnable {
         return true;
     }
 
-    public void step() {
-        McComplex myVal = new McComplex( 0, 0 );
-        McComplex nextVal = new McComplex( 0, 0 );
+    public void step( McComplex[] psi, McComplex[] potentialTerm ) {
+        int nx = psi.length;
+        McComplex temp0 = new McComplex( 0, 0 );
+        McComplex temp1 = new McComplex( 0, 0 );
         McComplex myAlpha = new McComplex( 0, 0 );
         McComplex nextBeta = new McComplex( 0, 0 );
-
         /*
          * The time stepping algorithm used here is described in:
          *
@@ -284,87 +284,40 @@ public class WaveSim extends JApplet implements Runnable {
          * Computer Physics Communications 63 (1991) pp 84-94
          */
 
-        for( int i = 0; i < nx - 1; i += 2 ) {
-            myVal.setValue( psi[i] );
-            nextVal.setValue( psi[i + 1] );
-
-            myAlpha.setToProduct( alpha, myVal );
-            nextBeta.setToProduct( beta, nextVal );
-            psi[i + 0].setToSum( myAlpha, nextBeta );
-
-            myAlpha.setToProduct( alpha, nextVal );
-            nextBeta.setToProduct( beta, myVal );
-            psi[i + 1].setToSum( myAlpha, nextBeta );
+        for( int i = 0; i < nx - 1; i += 2 ) {//update evens
+            updatePsi( psi, i, i + 1, temp0, temp1, myAlpha, nextBeta );
         }
-
-        for( int i = 1; i < nx - 1; i += 2 ) {
-            myVal.setValue( psi[i] );
-            nextVal.setValue( psi[i + 1] );
-
-            myAlpha.setToProduct( alpha, myVal );
-            nextBeta.setToProduct( beta, nextVal );
-            psi[i + 0].setToSum( myAlpha, nextBeta );
-
-            myAlpha.setToProduct( alpha, nextVal );
-            nextBeta.setToProduct( beta, myVal );
-            psi[i + 1].setToSum( myAlpha, nextBeta );
+        for( int i = 1; i < nx - 1; i += 2 ) {//update odds
+            updatePsi( psi, i, i + 1, temp0, temp1, myAlpha, nextBeta );
         }
-
-        myVal.setValue( psi[nx - 1] );
-        nextVal.setValue( psi[0] );
-
-        myAlpha.setToProduct( alpha, myVal );
-        nextBeta.setToProduct( beta, nextVal );
-        psi[nx - 1].setToSum( myAlpha, nextBeta );
-
-        myAlpha.setToProduct( alpha, nextVal );
-        nextBeta.setToProduct( beta, myVal );
-        psi[0].setToSum( myAlpha, nextBeta );
-
-        for( int i = 0; i < nx; i++ ) {
-            myVal.setValue( psi[i] );
-            psi[i].setToProduct( myVal, potentialTerm[i] );
+        updatePsi( psi, nx - 1, 0, temp0, temp1, myAlpha, nextBeta );//boundary
+        for( int i = 0; i < nx; i++ ) {//then the potential term.
+            temp0.setValue( psi[i] );
+            psi[i].setToProduct( temp0, potentialTerm[i] );
         }
-
-        myVal.setValue( psi[nx - 1] );
-        nextVal.setValue( psi[0] );
-
-        myAlpha.setToProduct( alpha, myVal );
-        nextBeta.setToProduct( beta, nextVal );
-        psi[nx - 1].setToSum( myAlpha, nextBeta );
-
-        myAlpha.setToProduct( alpha, nextVal );
-        nextBeta.setToProduct( beta, myVal );
-        psi[0].setToSum( myAlpha, nextBeta );
-
-        for( int i = 1; i < nx - 1; i += 2 ) {
-            myVal.setValue( psi[i] );
-            nextVal.setValue( psi[i + 1] );
-
-            myAlpha.setToProduct( alpha, myVal );
-            nextBeta.setToProduct( beta, nextVal );
-            psi[i + 0].setToSum( myAlpha, nextBeta );
-
-            myAlpha.setToProduct( alpha, nextVal );
-            nextBeta.setToProduct( beta, myVal );
-            psi[i + 1].setToSum( myAlpha, nextBeta );
+        updatePsi( psi, nx - 1, 0, temp0, temp1, myAlpha, nextBeta );//boundary
+        for( int i = 1; i < nx - 1; i += 2 ) {//odds
+            updatePsi( psi, i, i + 1, temp0, temp1, myAlpha, nextBeta );
         }
-
-        for( int i = 0; i < nx - 1; i += 2 ) {
-            myVal.setValue( psi[i] );
-            nextVal.setValue( psi[i + 1] );
-
-            myAlpha.setToProduct( alpha, myVal );
-            nextBeta.setToProduct( beta, nextVal );
-            psi[i + 0].setToSum( myAlpha, nextBeta );
-
-            myAlpha.setToProduct( alpha, nextVal );
-            nextBeta.setToProduct( beta, myVal );
-            psi[i + 1].setToSum( myAlpha, nextBeta );
+        for( int i = 0; i < nx - 1; i += 2 ) {//evens
+            updatePsi( psi, i, i + 1, temp0, temp1, myAlpha, nextBeta );
         }
     }
 
-    public double Norm() {
+    private void updatePsi( McComplex[] psi, int i, int j, McComplex temp0, McComplex temp1, McComplex myAlpha, McComplex nextBeta ) {
+        temp0.setValue( psi[i] );
+        temp1.setValue( psi[j] );
+
+        myAlpha.setToProduct( alpha, temp0 );
+        nextBeta.setToProduct( beta, temp1 );
+        psi[i].setToSum( myAlpha, nextBeta );
+
+        myAlpha.setToProduct( alpha, temp1 );
+        nextBeta.setToProduct( beta, temp0 );
+        psi[j].setToSum( myAlpha, nextBeta );
+    }
+
+    public double getNorm() {
         double sum = 0.0;
         for( int x = 0; x < nx; x++ ) {
             sum += psi[x].real * psi[x].real + psi[x].imaginary * psi[x].imaginary;

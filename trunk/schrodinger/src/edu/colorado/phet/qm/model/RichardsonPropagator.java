@@ -26,6 +26,7 @@ public class RichardsonPropagator implements Propagator {
     private Complex beta;
     private Complex[][] betaeven;
     private Complex[][] betaodd;
+    public double dt;
 
     public RichardsonPropagator( double TAU, BoundaryCondition boundaryCondition, Potential potential ) {
         this.deltaTime = TAU;
@@ -37,11 +38,15 @@ public class RichardsonPropagator implements Propagator {
         mass = 50;
 
         double dx = 1.0;
-        double dt = 0.8 * mass * dx * dx / hbar;
+        dt = 0.8 * mass * dx * dx / hbar;
         epsilon = hbar * dt / ( mass * dx * dx );
 
         alpha = new Complex( ( 1 + Math.cos( epsilon ) ) / 2.0, -Math.sin( epsilon ) / 2.0 );
         beta = new Complex( ( 1 - Math.cos( epsilon ) ) / 2.0, Math.sin( epsilon ) / 2.0 );
+        System.out.println( "dt = " + dt );
+        System.out.println( "epsilon = " + epsilon );
+        System.out.println( "alpha = " + alpha );
+        System.out.println( "beta = " + beta );
     }
 
     public void propagate( Complex[][] w ) {
@@ -66,98 +71,39 @@ public class RichardsonPropagator implements Propagator {
         norm = new ProbabilityValue().compute( w );
         System.out.println( "post: norm = " + norm );
         simulationTime += deltaTime;
+        timeStep++;
     }
 
     private void prop2D( Complex[][] w ) {
         applyPotential( w );
-//
-
-        stepX0( w, 1, 0 );
-        stepX0( w, -1, 0 );
-        stepX0( w, 0, 1 );
-        stepX0( w, 0, -1 );
-
-//        copy = Wavefunction.copy( w );
-//        for( int i = 1; i < w.length - 1; i++ ) {
-//            for( int j = 1; j < w[0].length - 1; j++ ) {
-//                Complex alphaTerm = alpha.times( copy[i][j] );
-//                Complex evenTerm = betaeven[i][j].times( copy[i + 1][j] );
-//                Complex oddTerm = betaodd[i][j].times( copy[i - 1][j] );
-//                w[i][j].setValue( alphaTerm.plus( evenTerm ).plus( oddTerm ) );
-//            }
-//        }
-//
-//        copy = Wavefunction.copy( w );
-//        for( int i = 1; i < w.length - 1; i++ ) {
-//            for( int j = 1; j < w[0].length - 1; j++ ) {
-//                Complex alphaTerm = alpha.times( copy[i][j] );
-//                Complex evenTerm = betaeven[i][j].times( copy[i][j - 1] );
-//                Complex oddTerm = betaodd[i][j].times( copy[i][j + 1] );
-//                w[i][j].setValue( alphaTerm.plus( evenTerm ).plus( oddTerm ) );
-//            }
-//        }
-//
-//        copy = Wavefunction.copy( w );
-//        for( int i = 1; i < w.length - 1; i++ ) {
-//            for( int j = 1; j < w[0].length - 1; j++ ) {
-//                Complex alphaTerm = alpha.times( copy[i][j] );
-//                Complex evenTerm = betaeven[i][j].times( copy[i][j + 1] );
-//                Complex oddTerm = betaodd[i][j].times( copy[i][j - 1] );
-//                w[i][j].setValue( alphaTerm.plus( evenTerm ).plus( oddTerm ) );
-//            }
-//        }
+        stepIt( w, 1, 0 );
+        stepIt( w, -1, 0 );
+        stepIt( w, 0, 1 );
+        stepIt( w, 0, -1 );
     }
 
-    private void stepX0( Complex[][] w, int dv ) {
+    private void stepIt( Complex[][] w, int dx, int dy ) {
         Complex[][] copy = Wavefunction.copy( w );
         for( int i = 1; i < w.length - 1; i++ ) {
             for( int j = 1; j < w[0].length - 1; j++ ) {
                 Complex alphaTerm = alpha.times( copy[i][j] );
-                Complex evenTerm = betaeven[i][j].times( copy[i - dv][j] );
-                Complex oddTerm = betaodd[i][j].times( copy[i + dv][j] );
+                Complex evenTerm = betaeven[i][j].times( copy[i - dx][j - dy] );
+                Complex oddTerm = betaodd[i][j].times( copy[i + dx][j + dy] );
                 w[i][j].setValue( alphaTerm.plus( evenTerm ).plus( oddTerm ) );
             }
         }
     }
 
-//    private void stepX0( Complex[][] w, int dv ) {
-//        Complex[][] copy = Wavefunction.copy( w );
-//        for( int i = 1; i < w.length - 1; i++ ) {
-//            for( int j = 1; j < w[0].length - 1; j++ ) {
-//                Complex alphaTerm = alpha.times( copy[i][j] );
-//                Complex evenTerm = betaeven[i][j].times( copy[i - dv][j] );
-//                Complex oddTerm = betaodd[i][j].times( copy[i + dv][j] );
-//                w[i][j].setValue( alphaTerm.plus( evenTerm ).plus( oddTerm ) );
-//            }
-//        }
-//    }
-
-//
-//    private void stepY0( Complex[][] w, int dv ) {
-//        Complex[][] copy = Wavefunction.copy( w );
-//        for( int i = 1; i < w.length - 1; i++ ) {
-//            for( int j = 1; j < w[0].length - 1; j++ ) {
-//                Complex alphaTerm = alpha.times( copy[i][j] );
-//                Complex evenTerm = betaeven[i][j].times( copy[i][j - dv] );
-//                Complex oddTerm = betaodd[i][j].times( copy[i][j + dv] );
-//                w[i][j].setValue( alphaTerm.plus( evenTerm ).plus( oddTerm ) );
-//            }
-//        }
-//    }
-
-//    private void stepX1( Complex[][] w ) {
-//        Complex[][] copy = Wavefunction.copy( w );
-//        for( int i = 1; i < w.length - 1; i++ ) {
-//            for( int j = 1; j < w[0].length - 1; j++ ) {
-//                Complex alphaTerm = alpha.times( copy[i][j] );
-//                Complex evenTerm = betaeven[i][j].times( copy[i - 1][j] );
-//                Complex oddTerm = betaodd[i][j].times( copy[i + 1][j] );
-//                w[i][j].setValue( alphaTerm.plus( evenTerm ).plus( oddTerm ) );
-//            }
-//        }
-//    }
-
     private void applyPotential( Complex[][] w ) {
+        for( int i = 1; i < w.length - 1; i++ ) {
+            for( int j = 1; j < w[0].length - 1; j++ ) {
+                double pot = potential.getPotential( i, j, timeStep );
+                Complex val = new Complex( Math.cos( pot * dt / hbar ), -Math.sin( pot * dt / hbar ) );
+//                System.out.println( "val = " + val );
+                w[i][j] = w[i][j].times( val );
+//                w[i][j]=w[i][j].times( val );
+            }
+        }
     }
 
     public void setDeltaTime( double deltaTime ) {

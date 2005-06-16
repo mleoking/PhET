@@ -10,7 +10,7 @@ package edu.colorado.phet.qm.model;
  * *****************************************************
  */
 
-public class CNCPropagator {
+public class CNCPropagator implements Propagator {
     private double simulationTime;
 
     private double deltaTime;

@@ -12,8 +12,7 @@ package edu.colorado.phet.qm.model;
 public class EmptyWave implements InitialWavefunction {
     public void initialize( Complex[][] wavefunction ) {
         for( int i = 0; i < wavefunction.length; i++ ) {
-            Complex[] complexes = wavefunction[i];
-            for( int j = 0; j < complexes.length; j++ ) {
+            for( int j = 0; j < wavefunction[i].length; j++ ) {
                 wavefunction[i][j] = new Complex();
             }
         }
