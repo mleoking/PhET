@@ -22,14 +22,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.math.MathUtil;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
+import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.Harmonic;
@@ -48,7 +51,8 @@ import edu.colorado.phet.fourier.model.Harmonic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
+public class AmplitudeSlider extends GraphicLayerSet
+    implements SimpleObserver, HarmonicColorChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -216,6 +220,9 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
+        // Interested in changes to harmonic colors.
+        HarmonicColors.getInstance().addHarmonicColorChangeListener( this );
+        
         update();
     }
     
@@ -226,6 +233,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     public void finalize() {
         _harmonic.removeObserver( this );
         _harmonic = null;
+        HarmonicColors.getInstance().removeHarmonicColorChangeListener( this );
     }
 
     //----------------------------------------------------------------------------
@@ -296,28 +304,6 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
      */
     public Dimension getMaxSize() {
         return new Dimension( _maxSize );
-    }
-    
-    /**
-     * Sets the color of the slider track.
-     * 
-     * @param trackColor the track color
-     */
-    public void setTrackColor( Color trackColor ) {
-        if ( ! trackColor.equals( _trackColor ) ) {
-            _trackColor = trackColor;
-            _trackGraphic.setPaint( _trackColor );
-            repaint();
-        }
-    }
-    
-    /**
-     * Gets the color of the slider track.
-     * 
-     * @return the track color
-     */
-    public Color getTrackColor() {
-        return _trackColor;
     }
     
     //----------------------------------------------------------------------------
@@ -408,6 +394,19 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     }
 
     //----------------------------------------------------------------------------
+    // HarmonicColorChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Update when the color associated with this slider's harmonic changes.
+     */
+    public void harmonicColorChanged( HarmonicColorChangeEvent e ) {
+        if ( e.getOrder() == _harmonic.getOrder()   ) {
+            update();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
@@ -417,6 +416,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     public void update() {
         
         double amplitude = _harmonic.getAmplitude();
+        Color harmonicColor = HarmonicColors.getInstance().getColor( _harmonic );
         
         // Label location
         _labelGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + LABEL_Y_OFFSET ) );
@@ -432,6 +432,7 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
         int trackY = ( amplitude > 0 ) ? -trackHeight : 0;
         _trackRectangle.setBounds( trackX, trackY, trackWidth, trackHeight );
         _trackGraphic.setShapeDirty();
+        _trackGraphic.setPaint( harmonicColor );
         
         // Knob location
         int knobX = _knobGraphic.getX();

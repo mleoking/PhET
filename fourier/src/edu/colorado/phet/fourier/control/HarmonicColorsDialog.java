@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.text.MessageFormat;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -24,6 +25,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.util.FourierUtils;
+import edu.colorado.phet.fourier.view.HarmonicColors;
 
 
 /**
@@ -32,9 +34,13 @@ import edu.colorado.phet.fourier.util.FourierUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicColorsDialog extends JDialog implements ActionListener, ColorChooserFactory.Listener {
+public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory.Listener {
 
-    private static final int COLOR_BAR_WIDTH = 100;
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final int COLOR_BAR_WIDTH = 200;
     private static final int COLOR_BAR_HEIGHT = 20;
     private static final Stroke COLOR_BAR_STROKE = new BasicStroke( 1f );
     private static final Color COLOR_BAR_BORDER_COLOR = Color.BLACK;
@@ -47,7 +53,6 @@ public class HarmonicColorsDialog extends JDialog implements ActionListener, Col
     private JButton _okButton, _cancelButton;
     private Color[] _restoreColors;
     private JLabel[] _colorBars;
-    private JButton[] _editButtons;
     private int _editIndex;
     
     /**
@@ -99,10 +104,9 @@ public class HarmonicColorsDialog extends JDialog implements ActionListener, Col
         inputPanel.setLayout( inputPanelLayout );
         int row = 0;
         
-        int numberOfHarmonics = FourierUtils.getNumberOfHarmonicColors();
+        int numberOfHarmonics = HarmonicColors.getInstance().getNumberOfColors();
         _restoreColors = new Color[ numberOfHarmonics ];
         _colorBars = new JLabel[ numberOfHarmonics ];
-        _editButtons = new JButton[ numberOfHarmonics ];
         
         for ( int i = 0; i < numberOfHarmonics; i++ ) {
             
@@ -110,7 +114,7 @@ public class HarmonicColorsDialog extends JDialog implements ActionListener, Col
             
             JLabel numberLabel = new JLabel( String.valueOf( i+1 ) );
             
-            Color harmonicColor = FourierUtils.getHarmonicColor( i );
+            Color harmonicColor = HarmonicColors.getInstance().getColor( i );
             _restoreColors[i] = harmonicColor;
             
             JLabel colorBar = new JLabel();
@@ -126,16 +130,11 @@ public class HarmonicColorsDialog extends JDialog implements ActionListener, Col
                 }
             });
             
-            JButton editButton = new JButton( editString );
-            _editButtons[i] = editButton;
-            editButton.addActionListener( this );
-            
             EasyGridBagLayout layout = new EasyGridBagLayout( colorBarPanel );
             colorBarPanel.setLayout( layout );
             int column = 0;
             layout.addAnchoredComponent( numberLabel, 0, column++, GridBagConstraints.EAST );
             layout.addAnchoredComponent( colorBar, 0, column++, GridBagConstraints.WEST );
-            layout.addAnchoredComponent( editButton, 0, column++, GridBagConstraints.WEST );
             
             inputPanelLayout.addAnchoredComponent( colorBarPanel, row++, 0, GridBagConstraints.EAST );
         }
@@ -151,10 +150,19 @@ public class HarmonicColorsDialog extends JDialog implements ActionListener, Col
     private JPanel createActionsPanel() {
 
         _okButton = new JButton( SimStrings.get( "HarmonicColorsDialog.ok" ) );
-        _okButton.addActionListener( this );
+        _okButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dispose();
+            }
+        });
 
         _cancelButton = new JButton( SimStrings.get( "HarmonicColorsDialog.cancel" ) );
-        _cancelButton.addActionListener( this );
+        _cancelButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                restoreColors();
+                dispose();
+            }
+        });
 
         JPanel innerPanel = new JPanel( new GridLayout( 1, 2, 10, 0 ) );
         innerPanel.add( _okButton );
@@ -166,28 +174,18 @@ public class HarmonicColorsDialog extends JDialog implements ActionListener, Col
         return actionPanel;
     }
 
-    public void actionPerformed( ActionEvent e ) {
-        if ( e.getSource() == _okButton ) {
-            dispose();
-        }
-        else if ( e.getSource() == _cancelButton ) {
-            restoreColors();
-            dispose();
-        }
-        else { /* Edit button */
-            for ( int i = 0; i < _editButtons.length; i++ ) {
-                if ( e.getSource() == _editButtons[i] ) {
-                    editColor( i );
-                }
-            }
-        }
-    }
-
-    private void editColor( int index ) {
-        _editIndex = index;
-        String title = "Harmonic {0} Color"; ///XXX SimString and MessageFormat
+    /**
+     * Edits the color of one harmonic.
+     * 
+     * @param order
+     */
+    private void editColor( int order ) {
+        _editIndex = order;
+        Object[] args = { new Integer( order + 1 ) };
+        String format = SimStrings.get( "HarmonicColors.colorChooser.title" );
+        String title = MessageFormat.format( format, args );
         Component parent = _app.getPhetFrame();
-        Color initialColor = FourierUtils.getHarmonicColor( index );
+        Color initialColor = HarmonicColors.getInstance().getColor( order );
         JDialog dialog = ColorChooserFactory.createDialog( title, parent, initialColor, this );
         dialog.show();
     }
@@ -196,13 +194,20 @@ public class HarmonicColorsDialog extends JDialog implements ActionListener, Col
      * Sets all of the harmonic colors.
      */
     private void restoreColors() {
-        int numberOfHarmonics = FourierUtils.getNumberOfHarmonicColors();
+        int numberOfHarmonics = HarmonicColors.getInstance().getNumberOfColors();
         for ( int i = 0; i < numberOfHarmonics; i++ ) {
-            FourierUtils.setHarmonicColor( i, _restoreColors[i] );
-            //XXX tell the app to update all modules
+            if ( ! HarmonicColors.getInstance().getColor( i ).equals( _restoreColors[i] ) ) {
+                HarmonicColors.getInstance().setColor( i, _restoreColors[i] );
+            }
         }
     }
     
+    /**
+     * Sets the color of a color bar.
+     * 
+     * @param colorBar
+     * @param color
+     */
     private void setColor( JLabel colorBar, Color color ) {
         Rectangle r = new Rectangle( 0, 0, COLOR_BAR_WIDTH, COLOR_BAR_HEIGHT );
         BufferedImage image = new BufferedImage( r.width, r.height, BufferedImage.TYPE_INT_RGB );
@@ -244,9 +249,7 @@ public class HarmonicColorsDialog extends JDialog implements ActionListener, Col
      * 
      */
     private void handleColorChange( Color color ) {
-        setColor( _colorBars[_editIndex], color );
-        FourierUtils.setHarmonicColor( _editIndex, color );
-        //XXX tell the app to update all modules
-        _app.getPhetFrame().repaint();
+        setColor( _colorBars[ _editIndex ], color );
+        HarmonicColors.getInstance().setColor( _editIndex, color );
     }
 }
