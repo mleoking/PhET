@@ -13,7 +13,10 @@ public class WaveSim extends JApplet implements Runnable {
     int wx, wy, yoff, xpts[], ypts[], nx;
     double x0, xmin, xmax, dx, ymin, ymax, dy, xscale, yscale, tmin, t, dt;
     double hbar, mass, epsilon, width, vx, vwidth, energy, energyScale;
-    McComplex psi[], EtoV[], alpha, beta;
+    McComplex psi[];
+    McComplex potentialTerm[];
+    McComplex alpha;
+    McComplex beta;
     Thread kicker = null;
     Button Restart = new Button( "Restart" );
     Button Pause = new Button( "Pause" );
@@ -33,7 +36,7 @@ public class WaveSim extends JApplet implements Runnable {
         xpts = new int[nx];
         ypts = new int[nx];
         psi = new McComplex[nx];
-        EtoV = new McComplex[nx];
+        potentialTerm = new McComplex[nx];
         energyScale = 1;
         initPhysics();
         Panel p = new Panel();
@@ -74,28 +77,46 @@ public class WaveSim extends JApplet implements Runnable {
         vx = 0.25;
         dt = 0.8 * mass * dx * dx / hbar;
         epsilon = hbar * dt / ( mass * dx * dx );
-        alpha = new McComplex( 0.5 * ( 1.0 + Math.cos( epsilon / 2 ) )
-                               , -0.5 * Math.sin( epsilon / 2 ) );
-        beta = new McComplex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 )
-                              , 0.5 * Math.sin( epsilon / 2 ) );
+        alpha = new McComplex( 0.5 + 0.5 * Math.cos( epsilon / 2 ), -0.5 * Math.sin( epsilon / 2 ) );
+        beta = new McComplex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
         energy = 0.5 * mass * vx * vx;
 
+        initLatticeValues();
+        initWavefunction();
+        initPotential();
+    }
+
+    private void initPotential() {
         for( int x = 0; x < nx; x++ ) {
-            double r, xval;
-            xval = xmin + dx * x;
-            xpts[x] = (int)( xscale * ( xval - xmin ) );
-            r = Math.exp( -( ( xval - x0 ) / width ) * ( ( xval - x0 ) / width ) );
-            psi[x] = new McComplex( r * Math.cos( mass * vx * xval / hbar ),
-                                    r * Math.sin( mass * vx * xval / hbar ) );
-            r = v( xval ) * dt / hbar;
-            EtoV[x] = new McComplex( Math.cos( r ), -Math.sin( r ) );
+            double xval = toXVal( x );
+            double r = v( xval ) * dt / hbar;
+            potentialTerm[x] = new McComplex( Math.cos( r ), -Math.sin( r ) );
         }
     }
 
+    private void initWavefunction() {
+        for( int x = 0; x < nx; x++ ) {
+            double xval = toXVal( x );
+            double r = Math.exp( -( ( xval - x0 ) / width ) * ( ( xval - x0 ) / width ) );
+            psi[x] = new McComplex( r * Math.cos( mass * vx * xval / hbar ),
+                                    r * Math.sin( mass * vx * xval / hbar ) );
+        }
+    }
+
+    private void initLatticeValues() {
+        for( int x = 0; x < nx; x++ ) {
+            double xval = toXVal( x );
+            xpts[x] = (int)( xscale * ( xval - xmin ) );
+        }
+    }
+
+    private double toXVal( int x ) {
+        double xval = xmin + dx * x;
+        return xval;
+    }
 
     double v( double x ) {
-        return
-                ( Math.abs( x ) < vwidth ) ? ( energy * energyScale ) : 0;
+        return ( Math.abs( x ) < vwidth ) ? ( energy * energyScale ) : 0;
     }
 
 
@@ -111,9 +132,6 @@ public class WaveSim extends JApplet implements Runnable {
 
         int ix, iy;
         int jx, jy;
-
-        //g.setColor(Color.black);
-        //g.drawRect(0,yoff,wx-1,wy-1);
 
         g.setColor( Color.red );
         ix = (int)( xscale * 0.5 * ( xmax - xmin - 2 * vwidth ) );
@@ -158,8 +176,6 @@ public class WaveSim extends JApplet implements Runnable {
 
     public void run() {
         while( kicker != null ) {
-//            step();
-//            step();
             step();
             t += dt;
             repaint();
@@ -255,9 +271,9 @@ public class WaveSim extends JApplet implements Runnable {
     }
 
     public void step() {
-        McComplex siteVal = new McComplex( 0, 0 );
-        McComplex nextSiteVal = new McComplex( 0, 0 );
-        McComplex siteAlpha = new McComplex( 0, 0 );
+        McComplex myVal = new McComplex( 0, 0 );
+        McComplex nextVal = new McComplex( 0, 0 );
+        McComplex myAlpha = new McComplex( 0, 0 );
         McComplex nextBeta = new McComplex( 0, 0 );
 
         /*
@@ -269,70 +285,82 @@ public class WaveSim extends JApplet implements Runnable {
          */
 
         for( int i = 0; i < nx - 1; i += 2 ) {
-            siteVal.setValue( psi[i] );
-            nextSiteVal.setValue( psi[i + 1] );
-            siteAlpha.createProduct( alpha, siteVal );
-            nextBeta.createProduct( beta, nextSiteVal );
-            psi[i + 0].createSum( siteAlpha, nextBeta );
-            siteAlpha.createProduct( alpha, nextSiteVal );
-            nextBeta.createProduct( beta, siteVal );
-            psi[i + 1].createSum( siteAlpha, nextBeta );
+            myVal.setValue( psi[i] );
+            nextVal.setValue( psi[i + 1] );
+
+            myAlpha.setToProduct( alpha, myVal );
+            nextBeta.setToProduct( beta, nextVal );
+            psi[i + 0].setToSum( myAlpha, nextBeta );
+
+            myAlpha.setToProduct( alpha, nextVal );
+            nextBeta.setToProduct( beta, myVal );
+            psi[i + 1].setToSum( myAlpha, nextBeta );
         }
 
         for( int i = 1; i < nx - 1; i += 2 ) {
-            siteVal.setValue( psi[i] );
-            nextSiteVal.setValue( psi[i + 1] );
-            siteAlpha.createProduct( alpha, siteVal );
-            nextBeta.createProduct( beta, nextSiteVal );
-            psi[i + 0].createSum( siteAlpha, nextBeta );
-            siteAlpha.createProduct( alpha, nextSiteVal );
-            nextBeta.createProduct( beta, siteVal );
-            psi[i + 1].createSum( siteAlpha, nextBeta );
+            myVal.setValue( psi[i] );
+            nextVal.setValue( psi[i + 1] );
+
+            myAlpha.setToProduct( alpha, myVal );
+            nextBeta.setToProduct( beta, nextVal );
+            psi[i + 0].setToSum( myAlpha, nextBeta );
+
+            myAlpha.setToProduct( alpha, nextVal );
+            nextBeta.setToProduct( beta, myVal );
+            psi[i + 1].setToSum( myAlpha, nextBeta );
         }
 
-        siteVal.setValue( psi[nx - 1] );
-        nextSiteVal.setValue( psi[0] );
-        siteAlpha.createProduct( alpha, siteVal );
-        nextBeta.createProduct( beta, nextSiteVal );
-        psi[nx - 1].createSum( siteAlpha, nextBeta );
-        siteAlpha.createProduct( alpha, nextSiteVal );
-        nextBeta.createProduct( beta, siteVal );
-        psi[0].createSum( siteAlpha, nextBeta );
+        myVal.setValue( psi[nx - 1] );
+        nextVal.setValue( psi[0] );
+
+        myAlpha.setToProduct( alpha, myVal );
+        nextBeta.setToProduct( beta, nextVal );
+        psi[nx - 1].setToSum( myAlpha, nextBeta );
+
+        myAlpha.setToProduct( alpha, nextVal );
+        nextBeta.setToProduct( beta, myVal );
+        psi[0].setToSum( myAlpha, nextBeta );
 
         for( int i = 0; i < nx; i++ ) {
-            siteVal.setValue( psi[i] );
-            psi[i].createProduct( siteVal, EtoV[i] );
+            myVal.setValue( psi[i] );
+            psi[i].setToProduct( myVal, potentialTerm[i] );
         }
 
-        siteVal.setValue( psi[nx - 1] );
-        nextSiteVal.setValue( psi[0] );
-        siteAlpha.createProduct( alpha, siteVal );
-        nextBeta.createProduct( beta, nextSiteVal );
-        psi[nx - 1].createSum( siteAlpha, nextBeta );
-        siteAlpha.createProduct( alpha, nextSiteVal );
-        nextBeta.createProduct( beta, siteVal );
-        psi[0].createSum( siteAlpha, nextBeta );
+        myVal.setValue( psi[nx - 1] );
+        nextVal.setValue( psi[0] );
+
+        myAlpha.setToProduct( alpha, myVal );
+        nextBeta.setToProduct( beta, nextVal );
+        psi[nx - 1].setToSum( myAlpha, nextBeta );
+
+        myAlpha.setToProduct( alpha, nextVal );
+        nextBeta.setToProduct( beta, myVal );
+        psi[0].setToSum( myAlpha, nextBeta );
 
         for( int i = 1; i < nx - 1; i += 2 ) {
-            siteVal.setValue( psi[i] );
-            nextSiteVal.setValue( psi[i + 1] );
-            siteAlpha.createProduct( alpha, siteVal );
-            nextBeta.createProduct( beta, nextSiteVal );
-            psi[i + 0].createSum( siteAlpha, nextBeta );
-            siteAlpha.createProduct( alpha, nextSiteVal );
-            nextBeta.createProduct( beta, siteVal );
-            psi[i + 1].createSum( siteAlpha, nextBeta );
+            myVal.setValue( psi[i] );
+            nextVal.setValue( psi[i + 1] );
+
+            myAlpha.setToProduct( alpha, myVal );
+            nextBeta.setToProduct( beta, nextVal );
+            psi[i + 0].setToSum( myAlpha, nextBeta );
+
+            myAlpha.setToProduct( alpha, nextVal );
+            nextBeta.setToProduct( beta, myVal );
+            psi[i + 1].setToSum( myAlpha, nextBeta );
         }
 
         for( int i = 0; i < nx - 1; i += 2 ) {
-            siteVal.setValue( psi[i] );
-            nextSiteVal.setValue( psi[i + 1] );
-            siteAlpha.createProduct( alpha, siteVal );
-            nextBeta.createProduct( beta, nextSiteVal );
-            psi[i + 0].createSum( siteAlpha, nextBeta );
-            siteAlpha.createProduct( alpha, nextSiteVal );
-            nextBeta.createProduct( beta, siteVal );
-            psi[i + 1].createSum( siteAlpha, nextBeta );
+            myVal.setValue( psi[i] );
+            nextVal.setValue( psi[i + 1] );
+
+            myAlpha.setToProduct( alpha, myVal );
+            nextBeta.setToProduct( beta, nextVal );
+            psi[i + 0].setToSum( myAlpha, nextBeta );
+
+            myAlpha.setToProduct( alpha, nextVal );
+            nextBeta.setToProduct( beta, myVal );
+            psi[i + 1].setToSum( myAlpha, nextBeta );
         }
     }
 
@@ -353,6 +381,8 @@ public class WaveSim extends JApplet implements Runnable {
         f.pack();
         f.show();
         a.init();
+        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        f.setSize( 600, 600 );
     }
 
 }
