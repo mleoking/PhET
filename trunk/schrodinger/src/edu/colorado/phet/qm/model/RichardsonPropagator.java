@@ -24,7 +24,7 @@ public class RichardsonPropagator implements Propagator {
     private Complex beta;
     private Complex[][] betaeven;
     private Complex[][] betaodd;
-//    public double dt;
+
     public Complex[][] copy;
 
     public RichardsonPropagator( double TAU, BoundaryCondition boundaryCondition, Potential potential ) {
@@ -37,7 +37,8 @@ public class RichardsonPropagator implements Propagator {
         mass = 1;//0.0020;
 
         deltaTime = 0.8 * mass / hbar;
-
+        betaeven = new Complex[0][0];
+        betaodd = new Complex[0][0];
         update();
     }
 
@@ -49,22 +50,9 @@ public class RichardsonPropagator implements Propagator {
 
         alpha = new Complex( 0.5 + 0.5 * Math.cos( epsilon / 2 ), -0.5 * Math.sin( epsilon / 2 ) );
         beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
-        System.out.println( "deltaTime= " + deltaTime );
-        System.out.println( "epsilon = " + epsilon );
-        System.out.println( "alpha = " + alpha );
-        System.out.println( "beta = " + beta );
-    }
 
-    private double toEpsilon( double dt ) {
-        return hbar * dt / ( mass );
-    }
-
-    public void propagate( Complex[][] w ) {
-        int nx = w.length;
-//        double norm = new ProbabilityValue().compute( w );
-//        System.out.println( "pre: norm = " + norm );
-        betaeven = new Complex[nx][nx];
-        betaodd = new Complex[nx][nx];
+//        betaeven = new Complex[nx][nx];
+//        betaodd = new Complex[nx][nx];
         for( int i = 0; i < betaeven.length; i++ ) {
             for( int j = 0; j < betaeven[i].length; j++ ) {
                 betaeven[i][j] = new Complex();
@@ -77,9 +65,26 @@ public class RichardsonPropagator implements Propagator {
                 }
             }
         }
+        System.out.println( "deltaTime= " + deltaTime );
+        System.out.println( "epsilon = " + epsilon );
+        System.out.println( "alpha = " + alpha );
+        System.out.println( "beta = " + beta );
+    }
+
+    private double toEpsilon( double dt ) {
+        return hbar * dt / ( mass );
+    }
+
+    public void propagate( Complex[][] w ) {
+        int nx = w.length;
+        if( betaeven.length != w.length ) {
+            betaeven = new Complex[nx][nx];
+            betaodd = new Complex[nx][nx];
+
+            update();
+        }
+
         prop2D( w );
-//        norm = new ProbabilityValue().compute( w );
-//        System.out.println( "post: norm = " + norm );
         simulationTime += deltaTime;
         timeStep++;
     }
@@ -97,14 +102,22 @@ public class RichardsonPropagator implements Propagator {
         stepIt( w, 0, -1 );
     }
 
+    Complex aTemp = new Complex();
+    Complex bTemp = new Complex();
+    Complex cTemp = new Complex();
+
     private void stepIt( Complex[][] w, int dx, int dy ) {
         Wavefunction.copy( w, copy );
         for( int i = 1; i < w.length - 1; i++ ) {
             for( int j = 1; j < w[0].length - 1; j++ ) {
-                Complex alphaTerm = alpha.times( copy[i][j] );
-                Complex evenTerm = betaeven[i][j].times( copy[i + dx][j + dy] );
-                Complex oddTerm = betaodd[i][j].times( copy[i - dx][j - dy] );
-                w[i][j].setValue( alphaTerm.plus( evenTerm ).plus( oddTerm ) );
+                aTemp.setToProduct( alpha, copy[i][j] );
+//                Complex alphaTerm = alpha.times( copy[i][j] );
+                bTemp.setToProduct( betaeven[i][j], copy[i + dx][j + dy] );
+//                Complex evenTerm = betaeven[i][j].times( copy[i + dx][j + dy] );
+                cTemp.setToProduct( betaodd[i][j], copy[i - dx][j - dy] );
+//                Complex oddTerm = betaodd[i][j].times( copy[i - dx][j - dy] );
+                w[i][j].setToSum( aTemp, bTemp, cTemp );
+//                w[i][j].setValue( alphaTerm.plus( evenTerm ).plus( oddTerm ) );
             }
         }
     }

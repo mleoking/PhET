@@ -108,4 +108,9 @@ public class Complex {
         real = a.real * b.real - a.imag * b.imag;
         imag = a.real * b.imag + a.imag * b.real;
     }
+
+    public void setToSum( Complex aTemp, Complex bTemp, Complex cTemp ) {
+        real = aTemp.real + bTemp.real + cTemp.real;
+        imag = aTemp.imag + bTemp.imag + cTemp.imag;
+    }
 }
