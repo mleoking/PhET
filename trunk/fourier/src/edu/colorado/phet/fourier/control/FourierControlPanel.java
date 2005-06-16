@@ -94,6 +94,6 @@ public class FourierControlPanel extends ControlPanel {
                 _module.reset();
             }
         } );
-        add( resetButton );
+        addControl( resetButton );
     }
 }
