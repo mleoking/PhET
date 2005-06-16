@@ -26,14 +26,14 @@ import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
 
 /**
- * ControlPanelSlider combines a JSlider and JLabel into one panel that 
+ * FourierSlider combines a JSlider and JLabel into one panel that 
  * can be treated like a JSlider.  As the slider value is changed, the label 
  * automatically updates to reflect the new value.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ControlPanelSlider extends JPanel implements ChangeListener {
+public class FourierSlider extends JPanel implements ChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,7 +53,7 @@ public class ControlPanelSlider extends JPanel implements ChangeListener {
      * 
      * @param format format of the label used to display the value
      */
-    public ControlPanelSlider( String format ) {
+    public FourierSlider( String format ) {
         super();
         
         assert( format != null );

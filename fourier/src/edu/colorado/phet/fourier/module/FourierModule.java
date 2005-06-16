@@ -19,7 +19,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.fourier.view.DebuggerGraphic;
+import edu.colorado.phet.fourier.view.BoundsDebugger;
 
 
 /**
@@ -41,7 +41,7 @@ public abstract class FourierModule extends Module {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DebuggerGraphic _debuggerGraphic;
+    private BoundsDebugger _debuggerGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -78,7 +78,7 @@ public abstract class FourierModule extends Module {
     protected void drawBounds( PhetGraphic graphic ) {
         ApparatusPanel apparatusPanel = getApparatusPanel();
         if ( _debuggerGraphic == null ) {
-            _debuggerGraphic = new DebuggerGraphic( apparatusPanel );
+            _debuggerGraphic = new BoundsDebugger( apparatusPanel );
             _debuggerGraphic.setLocationColor( Color.GREEN );
             _debuggerGraphic.setBoundsColor( Color.YELLOW );
         }

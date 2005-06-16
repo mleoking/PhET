@@ -11,8 +11,10 @@ HIGH PRIORITY:
 - persistence
 - smooth out waveforms
 - interface for changing harmonic colors
+- waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 
 MEDIUM PRIORITY:
+- remove sound controls from Discrete control panel
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 - OK to override finalize?
 
@@ -45,6 +47,10 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/16) - rename several classes in view and control packages
+(6/16) - hide sound controls
+(6/16) - add transparency to auto scale button
+(6/16) - add transparency support to PhetJComponent
 (6/15) - add spacing around parts of zoom control
 (6/15) - increase width of focus harmonic
 (6/15) - don't give focus to harmonics with zero amplitude
