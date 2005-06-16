@@ -229,9 +229,9 @@ public class DiscreteModel {
         return copy;
     }
 
-    public void collapse( Point collapsePoint ) {
+    public void collapse( Point collapsePoint, int collapseLatticeDX ) {
         double px = new PxValue().compute( wavefunction );
-        new GaussianWave( collapsePoint, new Vector2D.Double( px, 0 ), 0.1 ).initialize( getWavefunction() );
+        new GaussianWave( collapsePoint, new Vector2D.Double( px, 0 ), collapseLatticeDX ).initialize( getWavefunction() );
     }
 
     public void addDetector( Detector detector ) {
@@ -294,7 +294,8 @@ public class DiscreteModel {
                         double rand = random.nextDouble() * norm;//todo is this right?
                         if( rand <= prob ) {
                             Point collapsePoint = getCollapsePoint( detector.getBounds() );
-                            collapse( collapsePoint );
+//                            int latticeDX=detector.getAverageDiameter();
+                            collapse( collapsePoint, (int)( 0.07 * getXMesh() ) );
                             if( oneShotDetectors ) {
                                 detector.setEnabled( false );
                             }

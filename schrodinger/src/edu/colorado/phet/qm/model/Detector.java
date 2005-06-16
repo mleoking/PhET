@@ -59,4 +59,8 @@ public class Detector extends RectangularObject {
     public boolean isEnabled() {
         return enabled;
     }
+
+    public int getAverageDiameter() {
+        return ( getWidth() + getHeight() ) / 2;
+    }
 }

@@ -88,7 +88,7 @@ public class SchrodingerModule extends Module {
     }
 
     public void collapse() {
-        discreteModel.collapse( discreteModel.getCollapsePoint() );
+        discreteModel.collapse( discreteModel.getCollapsePoint(), (int)( 0.1 * getDiscreteModel().getXMesh() ) );
     }
 
     public void addDetector() {

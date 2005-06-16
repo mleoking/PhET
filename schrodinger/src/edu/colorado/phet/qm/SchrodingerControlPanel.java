@@ -34,7 +34,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     private ModelSlider ySlider;
     private ModelSlider pxSlider;
     private ModelSlider pySlider;
-    private ModelSlider aSlider;
+    private ModelSlider dxSlider;
 
     public SchrodingerControlPanel( final SchrodingerModule module ) {
         super( module );
@@ -199,13 +199,13 @@ public class SchrodingerControlPanel extends ControlPanel {
         ySlider = new ModelSlider( "Y0", "1/L", 0, 1, 0.5 );
         pxSlider = new ModelSlider( "Momentum-x0", "", -1, 1, -.5 );
         pySlider = new ModelSlider( "Momentum-y0", "", -1, 1, 0 );
-        aSlider = new ModelSlider( "Size0", "", 0.5, 3, 1 );
+        dxSlider = new ModelSlider( "Size0", "", 0, 0.25, 0.1 );
 
         particleLauncher.add( xSlider );
         particleLauncher.add( ySlider );
         particleLauncher.add( pxSlider );
         particleLauncher.add( pySlider );
-        particleLauncher.add( aSlider );
+        particleLauncher.add( dxSlider );
 
         return particleLauncher;
     }
@@ -286,16 +286,12 @@ public class SchrodingerControlPanel extends ControlPanel {
 
         final double origDT = getDiscreteModel().getDeltaTime();
         System.out.println( "origDT = " + origDT );
-        final JSpinner timeStep = new JSpinner( new SpinnerNumberModel( 4, 2.5, 4.5, 0.1 ) );
-        timeStep.setBorder( BorderFactory.createTitledBorder( "DT^-1" ) );
+        final JSpinner timeStep = new JSpinner( new SpinnerNumberModel( 0.8, 0, 2, 0.1 ) );
+        timeStep.setBorder( BorderFactory.createTitledBorder( "DT" ) );
 
         timeStep.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double x = ( (Number)timeStep.getValue() ).doubleValue();
-                double exp = -1 - x;
-                double t = Math.pow( 10, exp );
-                System.out.println( "t = " + t );
-
+                double t = ( (Number)timeStep.getValue() ).doubleValue();
                 getDiscreteModel().setDeltaTime( t );
             }
         } );
@@ -353,17 +349,20 @@ public class SchrodingerControlPanel extends ControlPanel {
         double y = getStartY();
         double px = getStartPx();
         double py = getStartPy();
-        double a = getStartA();
+        double dxLattice = getStartDxLattice();
         InitialWavefunction initialWavefunction = new GaussianWave( new Point( (int)x, (int)y ),
-                                                                    new Vector2D.Double( px, py ), a );
+                                                                    new Vector2D.Double( px, py ), dxLattice );
         module.fireParticle( initialWavefunction );
     }
 
-    private double getStartA() {
-        double val = aSlider.getValue();
-        double f = Math.pow( 10, -val );
-        System.out.println( "val = " + val + ", f=" + f );
-        return f;
+    private double getStartDxLattice() {
+        double dxLattice = dxSlider.getValue() * getDiscreteModel().getXMesh();
+        System.out.println( "dxLattice = " + dxLattice );
+        return dxLattice;
+//        soutv
+//        double f = Math.pow( 10, -dxLattice );
+//        System.out.println( "dxLattice = " + dxLattice + ", f=" + f );
+//        return f;
     }
 
     private double getStartPy() {

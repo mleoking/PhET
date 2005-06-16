@@ -62,4 +62,12 @@ public class Wavefunction {
         }
         return copy;
     }
+
+    public static void copy( Complex[][] src, Complex[][] dst ) {
+        for( int i = 0; i < src.length; i++ ) {
+            for( int j = 0; j < src[i].length; j++ ) {
+                dst[i][j].setValue( src[i][j] );
+            }
+        }
+    }
 }

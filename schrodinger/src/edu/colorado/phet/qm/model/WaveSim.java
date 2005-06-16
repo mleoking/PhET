@@ -299,9 +299,9 @@ public class WaveSim extends JApplet implements Runnable {
         }
     }
 
-    private void updatePsi( Complex[] psi, int i, int j ) {
+    private void updatePsi( Complex[] psi, int i, int neighborIndex ) {
         Complex temp0 = new Complex( psi[i] );
-        Complex temp1 = new Complex( psi[j] );
+        Complex temp1 = new Complex( psi[neighborIndex] );
 
         Complex myAlpha = new Complex();
         Complex nextBeta = new Complex();
@@ -312,7 +312,7 @@ public class WaveSim extends JApplet implements Runnable {
 
         myAlpha.setToProduct( alpha, temp1 );
         nextBeta.setToProduct( beta, temp0 );
-        psi[j].setToSum( myAlpha, nextBeta );
+        psi[neighborIndex].setToSum( myAlpha, nextBeta );
     }
 
     public double getNorm() {
