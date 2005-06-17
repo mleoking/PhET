@@ -146,7 +146,15 @@ public class DiscreteModule extends FourierModule {
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
- 
+        
+        // Control Panel
+        _controlPanel = new DiscreteControlPanel( this, 
+                _fourierSeries, _harmonicsGraph, _sumGraph, 
+                _wavelengthTool, _periodTool );
+        _controlPanel.addVerticalSpace( 20 );
+        _controlPanel.addResetButton();
+        setControlPanel( _controlPanel );
+        
         // Link horizontal zoom controls
         _harmonicsGraph.getHorizontalZoomControl().addZoomListener( _sumGraph );
         _sumGraph.getHorizontalZoomControl().addZoomListener( _harmonicsGraph );
@@ -156,13 +164,8 @@ public class DiscreteModule extends FourierModule {
         _wavelengthTool.addHarmonicFocusListener( _harmonicsGraph );
         _periodTool.addHarmonicFocusListener( _harmonicsGraph );
         
-        // Control Panel
-        _controlPanel = new DiscreteControlPanel( this, 
-                _fourierSeries, _harmonicsGraph, _sumGraph, 
-                _wavelengthTool, _periodTool );
-        _controlPanel.addVerticalSpace( 20 );
-        _controlPanel.addResetButton();
-        setControlPanel( _controlPanel );
+        // Slider movement by the user
+        _amplitudesGraph.addChangeListener( _controlPanel );
         
         reset();
         

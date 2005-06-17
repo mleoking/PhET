@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.util.SimpleObservable;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
@@ -35,9 +36,12 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
     
-    public double _fundamentalFrequency; // Hz
-    public ArrayList _harmonics; // array of Harmonic
-    public ArrayList _availableHarmonics; // array of Harmonic
+    private double _fundamentalFrequency; // Hz
+    private ArrayList _harmonics; // array of Harmonic
+    private ArrayList _availableHarmonics; // array of Harmonic
+    private int _preset;
+    private int _waveType;
+    private boolean _isAdjusting;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,6 +54,9 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         _fundamentalFrequency = DEFAULT_FUNDAMENTAL_FREQUENCY;
         _harmonics = new ArrayList();
         _availableHarmonics = new ArrayList();
+        _preset = FourierConstants.PRESET_SINE_COSINE;
+        _waveType = FourierConstants.WAVE_TYPE_SINE;
+        _isAdjusting = false;
         setNumberOfHarmonics( 1 );
     }
   
@@ -97,6 +104,9 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         
         int currentNumber = _harmonics.size();
         if ( numberOfHarmonics != currentNumber ) {
+            
+            _isAdjusting = true;
+            
             if ( numberOfHarmonics < currentNumber ) {
                 // Remove components.
                 int numberToRemove = currentNumber - numberOfHarmonics;
@@ -128,7 +138,9 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
                     _harmonics.add( harmonic );
                 }
             }
+            updateAmplitudes();
             notifyObservers();
+            _isAdjusting = false;
         }
     }
     
@@ -153,11 +165,94 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         return (Harmonic) _harmonics.get( order );
     }
     
+    public void setPreset( int preset ) {
+        assert( FourierConstants.isValidPreset( preset ) );
+        if ( preset != _preset ) {
+            _preset = preset;
+            _isAdjusting = true;
+            updateAmplitudes();
+            notifyObservers();
+            _isAdjusting = false;
+        }
+    }
+    
+    public int getPreset() {
+        return _preset;
+    }
+    
+    public void setWaveType( int waveType ) {
+        assert( FourierConstants.isValidWaveType( waveType ) );
+        if ( waveType != _waveType ) {
+            _waveType = waveType;
+            _isAdjusting = true;
+            updateAmplitudes();
+            notifyObservers();
+            _isAdjusting = false;
+        }
+    }
+    
+    public int getWaveType() {
+        return _waveType;
+    }
+ 
+    private void updateAmplitudes() {
+        
+        double[] amplitudes = null;
+        int numberOfHarmonics = getNumberOfHarmonics();
+        
+        switch( _preset ) {
+        case FourierConstants.PRESET_SINE_COSINE:
+            amplitudes = FourierConstants.SINE_COSINE_AMPLITUDES;
+            break;
+        case FourierConstants.PRESET_SQUARE:
+            if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                amplitudes = FourierConstants.SINE_SQUARE_AMPLITUDES;
+            }
+            else {
+                amplitudes = FourierConstants.COSINE_SQUARE_AMPLITUDES;
+            }
+            break;
+        case FourierConstants.PRESET_SAWTOOTH:
+            if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                amplitudes = FourierConstants.SINE_SAWTOOTH_AMPLITUDES;
+            }
+            else {
+                throw new IllegalStateException( "you can't make a sawtooth wave out of cosines because it is asymmetric" );
+            }
+            break;
+        case FourierConstants.PRESET_TRIANGLE:
+            if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                amplitudes = FourierConstants.SINE_TRIANGLE_AMPLITUDES;
+            }
+            else {
+                amplitudes = FourierConstants.COSINE_TRIANGLE_AMPLITUDES;
+            }
+            break;
+        case FourierConstants.PRESET_WAVE_PACKET:
+            amplitudes = FourierConstants.WAVE_PACKET_AMPLITUDES[ getNumberOfHarmonics() - 1 ];
+            break;
+        case FourierConstants.PRESET_CUSTOM:
+            //Do nothing.
+            break;
+        default:
+            throw new IllegalStateException( "you forgot to implement a preset" );
+        }
+        
+        if ( amplitudes != null ) {
+            assert( numberOfHarmonics <= amplitudes.length );
+            for ( int i = 0; i < numberOfHarmonics; i++ ) {
+                ((Harmonic) _harmonics.get( i )).setAmplitude( amplitudes[i] );
+            }
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
     
     public void update() {
-        notifyObservers();
+        if ( ! _isAdjusting ) {
+            notifyObservers();
+        }
     }
 }

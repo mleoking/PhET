@@ -133,7 +133,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private String _xAxisTitleTime, _xAxisTitleSpace;
     private DataSet _sumDataSet;
     private DataSet _presetDataSet;
-    private int _waveType;
     private ZoomControl _horizontalZoomControl, _verticalZoomControl;
     private JCheckBox _autoScaleCheckBox;
     private int _xZoomLevel;
@@ -342,9 +341,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             updateZoomButtons();
         }
         
-        // Wave type
-        _waveType = FourierConstants.WAVE_TYPE_SINE;
-        
         // Math Mode
         _mathGraphic.setVisible( false );
         
@@ -443,28 +439,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the wave type, sine or cosine.
-     * 
-     * @param waveType FourierConstants.WAVE_TYPE_SINE or FourierConstants.WAVE_TYPE_COSINE
-     */
-    public void setWaveType( int waveType ) {
-        assert ( FourierConstants.isValidWaveType( waveType ) );
-        if ( waveType != _waveType ) {
-            _waveType = waveType;
-            update();
-        }
-    }
-    
-    /**
-     * Gets the wave type.
-     * 
-     * @return FourierConstants.WAVE_TYPE_SINE or FourierConstants.WAVE_TYPE_COSINE
-     */
-    public int getWaveType() {
-        return _waveType;
-    }
-    
-    /**
      * Gets the horizontal zoom control.
      * 
      * @return the horizontal zoom control
@@ -520,6 +494,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         _presetDataSet.clear();
 
         final int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
+        final int waveType = _fourierSeries.getWaveType();
         double maxSum = FourierConfig.MAX_HARMONIC_AMPLITUDE;
         final double deltaX = ( MAX_FUNDAMENTAL_CYCLES * L ) / NUMBER_OF_DATA_POINTS;
         final double startX = -2 * L;
@@ -546,7 +521,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
                 if ( amplitude != 0 ) {
                     final double angle = startAngle + ( pointIndex * deltaAngle );
                     double radians;
-                    if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                    if ( waveType == FourierConstants.WAVE_TYPE_SINE ) {
                         radians = FourierUtils.sin( angle );
                     }
                     else {

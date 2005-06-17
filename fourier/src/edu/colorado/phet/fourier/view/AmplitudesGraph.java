@@ -16,6 +16,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.chart.Chart;
@@ -104,9 +106,8 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     private Chart _chartGraphic;
     private GraphicLayerSet _slidersGraphic;
     private ArrayList _sliders; // array of AmplitudeSlider
-    private int _previousNumberOfHarmonics;
     private EventListenerList _listenerList;
-    private HarmonicFocusListener _harmonicFocusListener;
+    private EventPropagator _eventPropagator;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -221,7 +222,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         {
             _sliders = new ArrayList();
             _listenerList = new EventListenerList();
-            _harmonicFocusListener = new ThisHarmonicFocusListener();
+            _eventPropagator = new EventPropagator();
         }
         
         reset();
@@ -240,7 +241,6 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
      * Resets to the initial state.
      */
     public void reset() {
-        _previousNumberOfHarmonics = 0; // force update
         update();
     }
 
@@ -254,42 +254,38 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     public void update() {
 
         int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
-        
-        if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
-            
-            _slidersGraphic.clear();
-            
-            int totalSpace = ( FourierConfig.MAX_HARMONICS + 1 ) * SLIDER_SPACING;
-            int barWidth = ( CHART_SIZE.width - totalSpace ) / FourierConfig.MAX_HARMONICS;
-            double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
 
-            for ( int i = 0; i < numberOfHarmonics; i++ ) {
+        _slidersGraphic.clear();
 
-                // Get the ith harmonic.
-                Harmonic harmonic = _fourierSeries.getHarmonic( i );
+        int totalSpace = ( FourierConfig.MAX_HARMONICS + 1 ) * SLIDER_SPACING;
+        int barWidth = ( CHART_SIZE.width - totalSpace ) / FourierConfig.MAX_HARMONICS;
+        double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
 
-                AmplitudeSlider slider = null;
-                if ( i < _sliders.size() ) {
-                    // Reuse an existing slider.
-                    slider = (AmplitudeSlider) _sliders.get( i );
-                    slider.setHarmonic( harmonic );
-                }
-                else {
-                    // Allocate a new slider.
-                    slider = new AmplitudeSlider( getComponent(), harmonic );
-                    slider.addHarmonicFocusListener( _harmonicFocusListener );
-                }
-                _slidersGraphic.addGraphic( slider );
+        for ( int i = 0; i < numberOfHarmonics; i++ ) {
 
-                // Slider size.
-                slider.setMaxSize( barWidth, CHART_SIZE.height );
+            // Get the ith harmonic.
+            Harmonic harmonic = _fourierSeries.getHarmonic( i );
 
-                // Slider location.
-                int x = ( ( i + 1 ) * SLIDER_SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
-                slider.setLocation( x, 0 );
+            AmplitudeSlider slider = null;
+            if ( i < _sliders.size() ) {
+                // Reuse an existing slider.
+                slider = (AmplitudeSlider) _sliders.get( i );
+                slider.setHarmonic( harmonic );
             }
+            else {
+                // Allocate a new slider.
+                slider = new AmplitudeSlider( getComponent(), harmonic );
+                slider.addHarmonicFocusListener( _eventPropagator );
+                slider.addChangeListener( _eventPropagator );
+            }
+            _slidersGraphic.addGraphic( slider );
 
-            _previousNumberOfHarmonics = numberOfHarmonics;
+            // Slider size.
+            slider.setMaxSize( barWidth, CHART_SIZE.height );
+
+            // Slider location.
+            int x = ( ( i + 1 ) * SLIDER_SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
+            slider.setLocation( x, 0 );
         }
     }
     
@@ -315,11 +311,39 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         _listenerList.remove( HarmonicFocusListener.class, listener );
     }
     
-    /*
-     * Propogates HarmonicFocusEvents from AmplitudeSliders to listeners.
+    /**
+     * Adds a ChangeListener.
+     * 
+     * @param listener
      */
-    private class ThisHarmonicFocusListener implements HarmonicFocusListener {
+    public void addChangeListener( ChangeListener listener ) {
+        _listenerList.add( ChangeListener.class, listener );
+    }
+  
+    /**
+     * Removes a ChangeListener.
+     * 
+     * @param listener
+     */
+    public void removeChangeListenerListener( ChangeListener listener ) {
+        _listenerList.remove( ChangeListener.class, listener );
+    }
+    
+    /*
+     * Propogates events from AmplitudeSliders to listeners.
+     */
+    private class EventPropagator implements ChangeListener, HarmonicFocusListener {
 
+        /* Invoked when an amplitude slider is moved. */
+        public void stateChanged( ChangeEvent event ) {
+            Object[] listeners = _listenerList.getListenerList();
+            for ( int i = 0; i < listeners.length; i += 2 ) {
+                if ( listeners[i] == ChangeListener.class ) {
+                    ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
+                }
+            }
+        }
+        
         /* Invoked when an amplitude slider gains focus. */
         public void focusGained( HarmonicFocusEvent event ) {
             Object[] listeners = _listenerList.getListenerList();

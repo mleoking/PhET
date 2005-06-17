@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- performance problem, too much notification and needless computation
 - something is hammering the processor when we should be idle
 - investigate Jex for rendering equations
 - persistence
@@ -37,6 +38,7 @@ CHARTS:
 - flatten static graphics elements
 
 PHETCOMMON:
+- bug: Help button and Help menuitem are not linked
 - bug: PhetTextGraphic leaves screen turds when its text is exclusively Unicode
 - bug: PhetJComponent startup is excessively slow
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
@@ -46,6 +48,7 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/17) - add preset waveforms
 (6/17) - make HarmonicDataSetGraphic listen for color changes, instead of HarmonicGraph
 (6/16) - interface for changing harmonic colors (Options>Harmonic Colors...)
 (6/16) - add the various implementations of SubscriptedSymbol as inner classes
