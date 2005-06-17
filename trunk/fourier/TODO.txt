@@ -12,7 +12,6 @@ HIGH PRIORITY:
 - smooth out waveforms
 
 MEDIUM PRIORITY:
-- make HarmonicDataSetGraphic listen for color changes, instead of HarmonicGraph
 - remove sound controls from Discrete control panel
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 - OK to override finalize?
@@ -47,6 +46,7 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/17) - make HarmonicDataSetGraphic listen for color changes, instead of HarmonicGraph
 (6/16) - interface for changing harmonic colors (Options>Harmonic Colors...)
 (6/16) - add the various implementations of SubscriptedSymbol as inner classes
 (6/16) - convert SubscriptedSymbol to HTMLGraphic subclass

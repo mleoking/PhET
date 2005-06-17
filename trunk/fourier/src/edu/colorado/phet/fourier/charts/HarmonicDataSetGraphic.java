@@ -11,11 +11,15 @@
 
 package edu.colorado.phet.fourier.charts;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.LinePlot;
+import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
+import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.view.HarmonicColors;
 
 
 /**
@@ -25,7 +29,7 @@ import edu.colorado.phet.fourier.model.Harmonic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicDataSetGraphic extends LinePlot {
+public class HarmonicDataSetGraphic extends LinePlot implements HarmonicColorChangeListener {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,6 +44,17 @@ public class HarmonicDataSetGraphic extends LinePlot {
      */
     public HarmonicDataSetGraphic( Component component, Chart chart, HarmonicDataSet dataSet ) {
         super( component, chart, dataSet );
+        
+        // Interested in changes to harmonic colors.
+        HarmonicColors.getInstance().addHarmonicColorChangeListener( this );
+    }
+    
+    /**
+     * Finalizes an instance of this type.
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void finalize() {
+        HarmonicColors.getInstance().removeHarmonicColorChangeListener( this );
     }
     
     //----------------------------------------------------------------------------
@@ -62,5 +77,19 @@ public class HarmonicDataSetGraphic extends LinePlot {
      */
     public Harmonic getHarmonic() {
         return getHarmonicDataSet().getHarmonic();
+    }
+    
+    //----------------------------------------------------------------------------
+    // HarmonicColorChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Change the graphic's color when its associated harmonic color changes.
+     */
+    public void harmonicColorChanged( HarmonicColorChangeEvent e ) {
+        if ( getHarmonic().getOrder() == e.getOrder() ) {
+            Color harmonicColor = HarmonicColors.getInstance().getColor( getHarmonic() );
+            setBorderColor( harmonicColor );
+        }
     }
 }
