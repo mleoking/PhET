@@ -13,7 +13,6 @@ package edu.colorado.phet.fourier.module;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
@@ -24,16 +23,16 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.Vector2D;
-import edu.colorado.phet.fourier.view.*;
 import edu.colorado.phet.fourier.view.AmplitudesGraph;
 import edu.colorado.phet.fourier.view.HarmonicsGraph;
-import edu.colorado.phet.fourier.view.SubscriptedSymbol;
 import edu.colorado.phet.fourier.view.SumGraph;
+import edu.colorado.phet.fourier.view.WaveMeasurementTool;
 
 
 /**
@@ -103,7 +102,7 @@ public class DiscreteModule extends FourierModule {
         this.setModel( model );
         
         // Fourier Series
-        _fourierSeries = new FourierSeries();
+        _fourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
         
         //----------------------------------------------------------------------------
         // View
@@ -191,12 +190,10 @@ public class DiscreteModule extends FourierModule {
      */
     public void reset() {
         
-        _fourierSeries.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
         _fourierSeries.setNumberOfHarmonics( NUMBER_OF_HARMONICS );
-        _fourierSeries.getHarmonic( 0 ).setAmplitude( 1.0 );
-        for ( int i = 1; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
-            ( (Harmonic) _fourierSeries.getHarmonic( i ) ).setAmplitude( 0 );
-        }
+        _fourierSeries.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
+        _fourierSeries.setPreset( FourierConstants.PRESET_SINE_COSINE );
+        _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         
         _amplitudesGraph.reset();
         _harmonicsGraph.reset();

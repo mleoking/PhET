@@ -30,6 +30,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final int DEFAULT_NUMBER_OF_HARMONICS = 1;
     private static final double DEFAULT_FUNDAMENTAL_FREQUENCY = 440; // Hz  (A above middle C)
     
     //----------------------------------------------------------------------------
@@ -41,23 +42,33 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     private ArrayList _availableHarmonics; // array of Harmonic
     private int _preset;
     private int _waveType;
-    private boolean _isAdjusting;
+    private boolean _adjusting;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     /**
-     * Sole constructor.
+     * Zero-argument constructor.
      */
     public FourierSeries() {
-        _fundamentalFrequency = DEFAULT_FUNDAMENTAL_FREQUENCY;
+        this( DEFAULT_NUMBER_OF_HARMONICS, DEFAULT_FUNDAMENTAL_FREQUENCY );
+    }
+    
+    /**
+     * Constructor
+     * 
+     * @param numberOfHarmonics
+     * @param fundamentalFrequency
+     */
+    public FourierSeries( int numberOfHarmonics, double fundamentalFrequency ) {
+        _fundamentalFrequency = fundamentalFrequency;
         _harmonics = new ArrayList();
         _availableHarmonics = new ArrayList();
         _preset = FourierConstants.PRESET_SINE_COSINE;
         _waveType = FourierConstants.WAVE_TYPE_SINE;
-        _isAdjusting = false;
-        setNumberOfHarmonics( 1 );
+        _adjusting = false;
+        setNumberOfHarmonics( numberOfHarmonics );
     }
   
     /**
@@ -108,7 +119,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         int currentNumber = _harmonics.size();
         if ( numberOfHarmonics != currentNumber ) {
             
-            _isAdjusting = true;
+            _adjusting = true;
             
             if ( numberOfHarmonics < currentNumber ) {
                 // Remove components.
@@ -142,7 +153,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
             }
             updateAmplitudes();
             notifyObservers();
-            _isAdjusting = false;
+            _adjusting = false;
         }
     }
     
@@ -171,10 +182,10 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         assert( FourierConstants.isValidPreset( preset ) );
         if ( preset != _preset ) {
             _preset = preset;
-            _isAdjusting = true;
+            _adjusting = true;
             updateAmplitudes();
             notifyObservers();
-            _isAdjusting = false;
+            _adjusting = false;
         }
     }
     
@@ -186,17 +197,17 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         assert( FourierConstants.isValidWaveType( waveType ) );
         if ( waveType != _waveType ) {
             _waveType = waveType;
-            _isAdjusting = true;
+            _adjusting = true;
             updateAmplitudes();
             notifyObservers();
-            _isAdjusting = false;
+            _adjusting = false;
         }
     }
     
     public int getWaveType() {
         return _waveType;
     }
- 
+    
     private void updateAmplitudes() {
         
         double[] amplitudes = null;
@@ -253,7 +264,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     public void update() {
-        if ( ! _isAdjusting ) {
+        if ( ! _adjusting ) {
             notifyObservers();
         }
     }
