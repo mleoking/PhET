@@ -3,10 +3,9 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- performance problem, too much notification and needless computation
 
 HIGH PRIORITY:
-- performance problem, too much notification and needless computation
 - something is hammering the processor when we should be idle
 - investigate Jex for rendering equations
 - persistence
@@ -42,7 +41,6 @@ PHETCOMMON:
 - bug: PhetJComponent startup is excessively slow
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
 - bug: PhetJComponent tab traversal doesn't work
-- bug: PhetJComponent uses deprecated reshape method
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
