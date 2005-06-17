@@ -59,7 +59,7 @@ public class PhetJComponent extends PhetGraphic {
 
         Dimension dim = jComponent.getPreferredSize();
         if( topLevel ) {
-            jComponent.reshape( jComponent.getX(), jComponent.getY(), dim.width, dim.height );
+            jComponent.setBounds( jComponent.getX(), jComponent.getY(), dim.width, dim.height );
         }
         else {
             Container container = jComponent.getParent();
@@ -167,7 +167,7 @@ public class PhetJComponent extends PhetGraphic {
                         mouseListener.mouseClicked( newEvent );
                     }
 
-                }, toLocalFrame( e.getPoint() ) );
+                } );
             }
 
             // implements java.awt.event.MouseMotionListener
@@ -177,7 +177,7 @@ public class PhetJComponent extends PhetGraphic {
                     public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
                         mouseMotionListener.mouseDragged( newEvent );
                     }
-                }, toLocalFrame( e.getPoint() ) );
+                } );
             }
 
             // implements java.awt.event.MouseListener
@@ -188,7 +188,7 @@ public class PhetJComponent extends PhetGraphic {
                         mouseListener.mouseEntered( newEvent );
                     }
 
-                }, toLocalFrame( e.getPoint() ) );
+                } );
             }
 
             // implements java.awt.event.MouseListener
@@ -199,7 +199,7 @@ public class PhetJComponent extends PhetGraphic {
                         mouseListener.mouseExited( newEvent );
                     }
 
-                }, toLocalFrame( e.getPoint() ) );
+                } );
             }
 
             // implements java.awt.event.MouseMotionListener
@@ -209,7 +209,7 @@ public class PhetJComponent extends PhetGraphic {
                     public void invoke( MouseMotionListener mouseMotionListener, MouseEvent newEvent ) {
                         mouseMotionListener.mouseMoved( newEvent );
                     }
-                }, toLocalFrame( e.getPoint() ) );
+                } );
             }
 
             // implements java.awt.event.MouseListener
@@ -220,7 +220,7 @@ public class PhetJComponent extends PhetGraphic {
                         mouseListener.mousePressed( newEvent );
                     }
 
-                }, toLocalFrame( e.getPoint() ) );
+                } );
             }
 
             // implements java.awt.event.MouseListener
@@ -231,7 +231,7 @@ public class PhetJComponent extends PhetGraphic {
                         mouseListener.mouseReleased( newEvent );
                     }
 
-                }, toLocalFrame( e.getPoint() ) );
+                } );
             }
         };
         addMouseInputListener( mouseListener );
@@ -300,7 +300,7 @@ public class PhetJComponent extends PhetGraphic {
     /**
      * This is the nonrecursive form, let's keep it around just in case.
      */
-    private boolean applyEvent( JComponent component, MouseEvent e, MouseMethod mouseMethod, Point dummy ) {
+    private boolean applyEvent( JComponent component, MouseEvent e, MouseMethod mouseMethod ) {
         MouseListener[] ml = component.getMouseListeners();
 
         //need an intelligent conversion of mouse point.
@@ -362,7 +362,7 @@ public class PhetJComponent extends PhetGraphic {
         if( dim.width == 0 || dim.height == 0 ) {
             return;
         }
-        component.reshape( 0, 0, dim.width, dim.height );//dimension is set by parent's layout manager.
+        component.setBounds( 0, 0, dim.width, dim.height );//dimension is set by parent's layout manager.
 
         if( image == null ) {
             image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_ARGB );
