@@ -704,96 +704,32 @@ public class MovingManModule extends Module {
         SwingTimerClock clock = new SwingTimerClock( 1, 30, false );
 //        clock.set
 //        clock.setDelay( 30 );
-        final MovingManModule m = new MovingManModule( clock );
         FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
-
         ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ),
                                                       SimStrings.get( "MovingManApplication.description" ),
-                                                      SimStrings.get( "MovingManApplication.version" ), setup, m, clock );
+                                                      SimStrings.get( "MovingManApplication.version" ), setup );
         desc.setName( "movingman" );
-        PhetApplication tpa = new PhetApplication( desc, args );
+        PhetApplication tpa = new PhetApplication( args, desc.getWindowTitle(), desc.getDescription(), desc.getVersion(), clock, false, setup );
+        PhetFrame frame = tpa.getPhetFrame();
+        final MovingManModule m = new MovingManModule( clock );
 
-        final PhetFrame frame = tpa.getPhetFrame();
+        tpa.setModules( new Module[]{m} );
+
+
+//        final PhetFrame frame = tpa.getPhetFrame();
         m.setFrame( frame );
         if( m.getControlPanel() != null ) {
-//            tpa.getApplicationView().getBasicPhetPanel().add( m.getControlPanel(), BorderLayout.WEST );
         }
         if( addJEP ) {
             addMiscMenu( m );
         }
-//        RepaintDebugGraphic rdp = new RepaintDebugGraphic( m, m.getApparatusPanel(), clock );
-//        m.backgroundGraphic.addGraphic( rdp, -100 );
-//        m.backgroundGraphic.addGraphic( rdp, 100 );
 
         tpa.startApplication();
-        /*fixComponent( frame.getContentPane() );
-
-        frame.invalidate();
-        frame.validate();
-        frame.repaint();
-        m.repaintBackground();*/
         m.getTimeModel().getRecordMode().initialize();
-        /*m.getApparatusPanel().repaint();
-
-        final Runnable dofix = new Runnable() {
-            public void run() {
-                fixComponent( frame.getContentPane() );
-                fixComponent( frame );
-                m.repaintBackground();
-            }
-        };
-        frame.addWindowFocusListener( new WindowFocusListener() {
-            public void windowGainedFocus( WindowEvent e ) {
-                new Thread( dofix ).start();
-            }
-
-            public void windowLostFocus( WindowEvent e ) {
-            }
-        } );
-        frame.addWindowStateListener( new WindowAdapter() {
-            public void windowOpened( WindowEvent e ) {
-                new Thread( dofix ).start();
-            }
-
-            public void windowActivated( WindowEvent e ) {
-                new Thread( dofix ).start();
-            }
-
-            public void windowGainedFocus( WindowEvent e ) {
-                new Thread( dofix ).start();
-            }
-        } );
-        frame.addWindowListener( new WindowListener() {
-            public void windowActivated( WindowEvent e ) {
-                new Thread( dofix ).start();
-            }
-
-            public void windowClosed( WindowEvent e ) {
-            }
-
-            public void windowClosing( WindowEvent e ) {
-            }
-
-            public void windowDeactivated( WindowEvent e ) {
-            }
-
-            public void windowDeiconified( WindowEvent e ) {
-                new Thread( dofix ).start();
-            }
-
-            public void windowIconified( WindowEvent e ) {
-            }
-
-            public void windowOpened( WindowEvent e ) {
-                new Thread( dofix ).start();
-            }
-        } );
-        dofix.run();*/
 
         m.setInited( true );
         m.relayout();
         m.setSmoothingSmooth();
-//        RepaintDebugGraphic.enable( m.getApparatusPanel(), clock );
     }
 
     public void initialize() {
