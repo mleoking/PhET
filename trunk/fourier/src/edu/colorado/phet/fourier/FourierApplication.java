@@ -24,10 +24,7 @@ import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.OptionsMenu;
-import edu.colorado.phet.fourier.module.ContinuousModule;
-import edu.colorado.phet.fourier.module.DiscreteModule;
-import edu.colorado.phet.fourier.module.DiscreteToContinousModule;
-import edu.colorado.phet.fourier.module.WavePulseShaperModule;
+import edu.colorado.phet.fourier.module.*;
 
 
 /**
@@ -157,7 +154,15 @@ public class FourierApplication extends PhetApplication {
             DiscreteToContinousModule discreteToContinuousModule = new DiscreteToContinousModule( clock );
             ContinuousModule continuousModule = new ContinuousModule( clock );
             WavePulseShaperModule wavePulseShapeModule = new WavePulseShaperModule( clock );
-            app.setModules( new Module[] { discreteModule, discreteToContinuousModule, continuousModule, wavePulseShapeModule } );
+            SoundModule soundModule = new SoundModule( clock );
+            
+            app.setModules( new Module[] { 
+                    discreteModule, 
+                    discreteToContinuousModule, 
+                    continuousModule, 
+                    wavePulseShapeModule,
+                    soundModule
+                    } );
             app.setInitialModule( discreteModule );
         }
         

@@ -18,7 +18,6 @@ MEDIUM PRIORITY:
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 
 LOW PRIORITY:
-- add "Sound & Music" module
 - waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - make graph titles prettier
 
@@ -48,6 +47,7 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/17) - add empty "Sound & Music" module 
 (6/17) - fixed performance problems introduced when I added preset waveforms
 (6/17) - change finalize methods to cleanup, shouldn't override finalize
 (6/17) - add preset waveforms
