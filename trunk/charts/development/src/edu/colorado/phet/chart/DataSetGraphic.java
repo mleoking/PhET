@@ -17,17 +17,28 @@ public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.
     public DataSetGraphic( Component component, Chart chart, DataSet dataSet ) {
         super( component );
         this.chart = chart;
-        this.dataSet = dataSet;
-        dataSet.addObserver( this );
+        setDataSet( dataSet );
     }
 
+    public void setDataSet( DataSet dataSet ) {
+        if( dataSet != this.dataSet ) {
+            if( this.dataSet != null ) {
+                this.dataSet.removeObserver( this );
+            }
+            this.dataSet = dataSet;
+            this.dataSet.addObserver( this );
+        }
+    }
+    
     public DataSet getDataSet() {
         return dataSet;
     }
 
     protected void addAllPoints() {
         DataSet dataSet = getDataSet();
-        pointsAdded( dataSet.getPoints() );
+        if( dataSet != null ) {
+            pointsAdded( dataSet.getPoints() );
+        }
     }
 
     protected Chart getChart() {
