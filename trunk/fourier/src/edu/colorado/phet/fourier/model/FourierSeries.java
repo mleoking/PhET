@@ -132,13 +132,12 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
                         harmonic = (Harmonic) _availableHarmonics.get( numberAvailable - 1 );
                         _availableHarmonics.remove( numberAvailable - 1 );
                         harmonic.setOrder( currentNumber + i );
-                        harmonic.addObserver( this );
                     }
                     else {
                         harmonic = new Harmonic( currentNumber + i );
-                        harmonic.addObserver( this );
                     }
                     _harmonics.add( harmonic );
+                    harmonic.addObserver( this );
                 }
             }
             updateAmplitudes();
