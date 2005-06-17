@@ -60,7 +60,10 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
         setNumberOfHarmonics( 1 );
     }
   
-    public void finalize() {
+    /**
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void cleanup() {
         for ( int i = 0; i < _harmonics.size(); i++ ) {
             ( (Harmonic) _harmonics.get( i ) ).removeAllObservers();
         }

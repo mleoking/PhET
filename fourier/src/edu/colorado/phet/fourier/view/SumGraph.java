@@ -316,10 +316,9 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _fourierSeries.removeObserver( this );
         _fourierSeries = null;
         _horizontalZoomControl.removeAllZoomListeners();

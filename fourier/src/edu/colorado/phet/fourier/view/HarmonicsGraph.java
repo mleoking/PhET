@@ -285,10 +285,9 @@ public class HarmonicsGraph extends GraphicLayerSet
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _fourierSeries.removeObserver( this );
         _fourierSeries = null;
         _horizontalZoomControl.removeAllZoomListeners();
