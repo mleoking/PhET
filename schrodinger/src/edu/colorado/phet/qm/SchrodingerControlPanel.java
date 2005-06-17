@@ -112,8 +112,12 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton richardson = createPropagatorButton( buttonGroup, "Richardson", new RichardsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
         layoutPanel.add( richardson );
 
-        JRadioButton crank = createPropagatorButton( buttonGroup, "Crank-Nicholson?", new CNCPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
+        JRadioButton modified = createPropagatorButton( buttonGroup, "Modified Richardson", new ModifiedRichardsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
+        layoutPanel.add( modified );
+
+        JRadioButton crank = createPropagatorButton( buttonGroup, "Crank-Nicholson?", new CrankNicholsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
         layoutPanel.add( crank );
+
 
         return layoutPanel;
     }
@@ -122,6 +126,9 @@ public class SchrodingerControlPanel extends ControlPanel {
 
         JRadioButton radioButton = new JRadioButton( s );
         buttonGroup.add( radioButton );
+        if( getDiscreteModel().getPropagator().getClass().equals( propagator.getClass() ) ) {
+            radioButton.setSelected( true );
+        }
         radioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getDiscreteModel().setPropagator( propagator );
@@ -332,7 +339,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel colorPanel = new VerticalLayoutPanel();
         colorPanel.setBorder( BorderFactory.createTitledBorder( "Color Scheme" ) );
         ButtonGroup buttonGroup = new ButtonGroup();
-
 
         JRadioButton visualTM = createVisualizationButton( "Rainbow", new VisualColorMap( getSchrodingerPanel() ), true, buttonGroup );
         colorPanel.addFullWidth( visualTM );

@@ -19,7 +19,7 @@ public class RichardsonPropagator implements Propagator {
     private BoundaryCondition boundaryCondition;
     private Potential potential;
 
-    double hbar, mass, epsilon;
+    private double hbar, mass, epsilon;
     private Complex alpha;
     private Complex beta;
     private Complex[][] betaeven;
@@ -45,16 +45,9 @@ public class RichardsonPropagator implements Propagator {
     private void update() {
         epsilon = toEpsilon( deltaTime );
 
-        //from the paper
-//        alpha = new Complex( ( 1 + Math.cos( epsilon ) ) / 2.0, -Math.sin( epsilon ) / 2.0 );
-//        beta = new Complex( ( 1 - Math.cos( epsilon ) ) / 2.0, Math.sin( epsilon ) / 2.0 );
+        alpha = createAlpha();
+        beta = createBeta();
 
-        //from his 1-d simulation
-        alpha = new Complex( 0.5 + 0.5 * Math.cos( epsilon / 2 ), -0.5 * Math.sin( epsilon / 2 ) );
-        beta = new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
-
-//        betaeven = new Complex[nx][nx];
-//        betaodd = new Complex[nx][nx];
         for( int i = 0; i < betaeven.length; i++ ) {
             for( int j = 0; j < betaeven[i].length; j++ ) {
                 betaeven[i][j] = new Complex();
@@ -71,6 +64,14 @@ public class RichardsonPropagator implements Propagator {
 //        System.out.println( "epsilon = " + epsilon );
 //        System.out.println( "alpha = " + alpha );
 //        System.out.println( "beta = " + beta );
+    }
+
+    protected Complex createAlpha() {
+        return new Complex( ( 1 + Math.cos( epsilon ) ) / 2.0, -Math.sin( epsilon ) / 2.0 );//from the paper
+    }
+
+    protected Complex createBeta() {
+        return new Complex( ( 1 - Math.cos( epsilon ) ) / 2.0, Math.sin( epsilon ) / 2.0 );
     }
 
     private double toEpsilon( double dt ) {
@@ -91,39 +92,20 @@ public class RichardsonPropagator implements Propagator {
         timeStep++;
     }
 
-    private void prop2D( Complex[][] w ) {
-        copy = Wavefunction.copy( w );
-
-        stepIt( w, 0, -1 );
-        stepIt( w, 0, 1 );
-        stepIt( w, 1, 0 );
-        stepIt( w, -1, 0 );
+    protected void prop2D( Complex[][] w ) {
+        copy = Wavefunction.newInstance( w.length, w[0].length );
         applyPotential( w );
-        stepIt( w, -1, 0 );
-        stepIt( w, 1, 0 );
-        stepIt( w, 0, -1 );
-        stepIt( w, 0, 1 );
-    }
-
-    private void prop2DORIG( Complex[][] w ) {
-        copy = Wavefunction.copy( w );
-
         stepIt( w, 0, -1 );
         stepIt( w, 0, 1 );
         stepIt( w, 1, 0 );
         stepIt( w, -1, 0 );
-        applyPotential( w );
-        stepIt( w, -1, 0 );
-        stepIt( w, 1, 0 );
-        stepIt( w, 0, 1 );
-        stepIt( w, 0, -1 );
     }
 
     Complex aTemp = new Complex();
     Complex bTemp = new Complex();
     Complex cTemp = new Complex();
 
-    private void stepIt( Complex[][] w, int dx, int dy ) {
+    protected void stepIt( Complex[][] w, int dx, int dy ) {
         Wavefunction.copy( w, copy );
         for( int i = 1; i < w.length - 1; i++ ) {
             for( int j = 1; j < w[0].length - 1; j++ ) {
@@ -138,10 +120,6 @@ public class RichardsonPropagator implements Propagator {
             stepItConstrained( w, 0, j, dx, dy );
             stepItConstrained( w, w.length - 1, j, dx, dy );
         }
-//        stepItConstrained(w,0,0,dx,dy );
-//        stepItConstrained(w,w.length,0,dx,dy );
-//        stepItConstrained(w,0,0,dx,dy );
-//        stepItConstrained(w,0,0,dx,dy );
     }
 
     private void stepItConstrained( Complex[][] w, int i, int j, int dx, int dy ) {
@@ -164,7 +142,7 @@ public class RichardsonPropagator implements Propagator {
         w[i][j].setToSum( aTemp, bTemp, cTemp );
     }
 
-    private void applyPotential( Complex[][] w ) {
+    protected void applyPotential( Complex[][] w ) {
         for( int i = 1; i < w.length - 1; i++ ) {
             for( int j = 1; j < w[0].length - 1; j++ ) {
                 double pot = potential.getPotential( i, j, timeStep );
@@ -181,5 +159,9 @@ public class RichardsonPropagator implements Propagator {
 
     public double getSimulationTime() {
         return simulationTime;
+    }
+
+    public double getEpsilon() {
+        return epsilon;
     }
 }

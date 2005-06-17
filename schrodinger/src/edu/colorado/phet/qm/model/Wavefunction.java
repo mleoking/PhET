@@ -53,6 +53,16 @@ public class Wavefunction {
         return Arrays.asList( complexes ).toString();
     }
 
+    public static Complex[][] newInstance( int w, int h ) {
+        Complex[][] copy = new Complex[w][h];
+        for( int i = 0; i < copy.length; i++ ) {
+            for( int j = 0; j < copy[i].length; j++ ) {
+                copy[i][j] = new Complex();
+            }
+        }
+        return copy;
+    }
+
     public static Complex[][] copy( Complex[][] w ) {
         Complex[][] copy = new Complex[w.length][w[0].length];
         for( int i = 0; i < copy.length; i++ ) {
