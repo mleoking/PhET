@@ -48,8 +48,7 @@ public class DiscreteModel {
         this.boundaryCondition = boundaryCondition;
         wavefunction = new Complex[xmesh + 1][ymesh + 1];
         initialWavefunction.initialize( wavefunction );
-//        propagator = new CNCPropagator( deltaTime, boundaryCondition, compositePotential );
-        propagator = new RichardsonPropagator( deltaTime, boundaryCondition, compositePotential );
+        propagator = new ModifiedRichardsonPropagator( deltaTime, boundaryCondition, compositePotential );
         addListener( new DiscreteModel.DetectorHandler() );
     }
 
@@ -268,6 +267,10 @@ public class DiscreteModel {
 
     public void setPropagator( Propagator propagator ) {
         this.propagator = propagator;
+    }
+
+    public Propagator getPropagator() {
+        return propagator;
     }
 
     public static interface Listener {

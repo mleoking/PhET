@@ -1,16 +1,11 @@
 package edu.colorado.phet.qm.model;
 
 
-/*********************************************************/
 /* Two-dimensional Time dependent Schrodinger Equation.  */
 /* Use Crank-Nicholson/Cayley algorithm...               */
 /* Stable, Norm Conserving.     Li Ju. May.3,1995        */
 
-/**
- * *****************************************************
- */
-
-public class CNCPropagator implements Propagator {
+public class CrankNicholsonPropagator implements Propagator {
     private double simulationTime;
 
     private double deltaTime;
@@ -21,7 +16,7 @@ public class CNCPropagator implements Propagator {
     private BoundaryCondition boundaryCondition;
     private Potential potential;
 
-    public CNCPropagator( double TAU, BoundaryCondition boundaryCondition, Potential potential ) {
+    public CrankNicholsonPropagator( double TAU, BoundaryCondition boundaryCondition, Potential potential ) {
         this.deltaTime = TAU;
         this.boundaryCondition = boundaryCondition;
         this.potential = potential;
@@ -103,7 +98,6 @@ public class CNCPropagator implements Propagator {
     }
 
     private void origFixA( Complex[][] w, int j ) {
-//        w[0][j] = new Complex( Math.cos( k * k * simulationTime ), Math.sin( -k * k * simulationTime ) );
         setValue( w, 0, j );
     }
 
