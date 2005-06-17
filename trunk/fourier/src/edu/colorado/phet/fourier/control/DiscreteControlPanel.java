@@ -17,10 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -33,7 +30,7 @@ import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
-import edu.colorado.phet.fourier.util.FourierUtils;
+import edu.colorado.phet.fourier.view.AmplitudeSlider;
 import edu.colorado.phet.fourier.view.HarmonicsGraph;
 import edu.colorado.phet.fourier.view.SumGraph;
 import edu.colorado.phet.fourier.view.WaveMeasurementTool;
@@ -45,7 +42,7 @@ import edu.colorado.phet.fourier.view.WaveMeasurementTool;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DiscreteControlPanel extends FourierControlPanel {
+public class DiscreteControlPanel extends FourierControlPanel implements ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -376,10 +373,12 @@ public class DiscreteControlPanel extends FourierControlPanel {
     public void reset() {
         
         // Domain
-        _domainComboBox.setSelectedItem( SimStrings.get( "domain.space" ) );
+        _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
         
         // Preset
-        _presetsComboBox.setSelectedItem( SimStrings.get( "preset.sinecosine" ) );
+        int preset = FourierConstants.PRESET_SINE_COSINE;
+        _presetsComboBox.setSelectedKey( preset );
+        _fourierSeries.setPreset( preset );
         
         // Show Infinite Number of Harmonics
         _showInfiniteCheckBox.setSelected( false );
@@ -403,20 +402,9 @@ public class DiscreteControlPanel extends FourierControlPanel {
         _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
         
         // Wave Type
-        {
-            Object item = null;
-            switch ( _harmonicsGraph.getWaveType() ) {
-            case FourierConstants.WAVE_TYPE_SINE:
-                item = SimStrings.get( "waveType.sines" );//XXX SimStrings in non-init code
-                break;
-            case FourierConstants.WAVE_TYPE_COSINE:
-                item = SimStrings.get( "waveType.cosines" );//XXX SimStrings in non-init code
-                break;
-            default:
-            }
-            assert ( item != null );
-            _waveTypeComboBox.setSelectedItem( item );
-        }
+        int waveType = FourierConstants.WAVE_TYPE_SINE;
+        _fourierSeries.setWaveType( waveType );
+        _waveTypeComboBox.setSelectedKey( waveType );
         
         // Number of harmonics
         _numberOfHarmonicsSlider.setValue( _fourierSeries.getNumberOfHarmonics() );
@@ -548,7 +536,13 @@ public class DiscreteControlPanel extends FourierControlPanel {
     }
     
     private void handlePreset() {
-        
+        int waveType = _waveTypeComboBox.getSelectedKey();
+        int preset = _presetsComboBox.getSelectedKey();
+        if ( waveType == FourierConstants.WAVE_TYPE_COSINE && preset == FourierConstants.PRESET_SAWTOOTH ) {
+            showSawtoothCosinesErrorDialog();
+            _waveTypeComboBox.setSelectedKey( FourierConstants.WAVE_TYPE_SINE );
+        }
+        _fourierSeries.setPreset( preset );
     }
     
     private void handleShowInfinite() {
@@ -577,8 +571,15 @@ public class DiscreteControlPanel extends FourierControlPanel {
     
     private void handleWaveType() {
         int waveType = _waveTypeComboBox.getSelectedKey();
-        _harmonicsGraph.setWaveType( waveType );
-        _sumGraph.setWaveType( waveType );
+        int preset = _presetsComboBox.getSelectedKey();
+        if ( waveType == FourierConstants.WAVE_TYPE_COSINE && preset == FourierConstants.PRESET_SAWTOOTH ) {
+            showSawtoothCosinesErrorDialog();
+            _waveTypeComboBox.setSelectedKey( FourierConstants.WAVE_TYPE_SINE );
+            _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+        }
+        else {
+            _fourierSeries.setWaveType( waveType );
+        }
     }
     
     private void handleNumberOfHarmonics() {
@@ -641,5 +642,30 @@ public class DiscreteControlPanel extends FourierControlPanel {
     
     private void handleExpandSum() {
         
+    }
+    
+    /*
+     * Displays a modal error dialog if the user attempts to select
+     * sawtooth preset and cosines wave type.  
+     * You can't make a sawtooth wave out of cosines because it is asymmetric.
+     */
+    private void showSawtoothCosinesErrorDialog() {
+        String message = SimStrings.get( "SawtoothCosinesErrorDialog.message" );
+        JOptionPane op = new JOptionPane( message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
+        op.createDialog( this, null ).show();
+    }
+    
+    //----------------------------------------------------------------------------
+    // ChangeListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Changes the preset selection to "Custom" when an amplitude slider
+     * is physically moved.
+     */
+    public void stateChanged( ChangeEvent event ) {
+        if ( event.getSource() instanceof AmplitudeSlider ) {
+            _presetsComboBox.setSelectedKey( FourierConstants.PRESET_CUSTOM );
+        }
     }
 }

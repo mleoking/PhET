@@ -91,6 +91,19 @@ public class FourierComboBox extends JPanel {
         return _comboBox.getSelectedItem();
     }
     
+    public void setSelectedKey( int key ) {
+        int numberOfItems = _comboBox.getItemCount();
+        for ( int i = 0; i < numberOfItems; i++ ) {
+            Object item = _comboBox.getItemAt( i );
+            if ( item instanceof Choice ) {
+                if ( key == ((Choice)item).getKey() ) {
+                    setSelectedItem( item );
+                    break;
+                }
+            }
+        }
+    }
+    
     public int getSelectedKey() {
         int key = -1;
         Object item = _comboBox.getSelectedItem();

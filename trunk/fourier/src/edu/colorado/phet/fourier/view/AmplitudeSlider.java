@@ -20,6 +20,8 @@ import java.text.NumberFormat;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
@@ -246,15 +248,13 @@ public class AmplitudeSlider extends GraphicLayerSet
      * @param harmonic
      */
     public void setHarmonic( Harmonic harmonic ) {
-        assert( harmonic != null );
-        if ( harmonic != _harmonic ) {
-            if ( _harmonic != null ) {
-                _harmonic.removeObserver( this );
-            }
-            _harmonic = harmonic;
-            _harmonic.addObserver( this );
-            update();
+        assert ( harmonic != null );
+        if ( _harmonic != null ) {
+            _harmonic.removeObserver( this );
         }
+        _harmonic = harmonic;
+        _harmonic.addObserver( this );
+        update();
     }
     
     /**
@@ -282,19 +282,17 @@ public class AmplitudeSlider extends GraphicLayerSet
      * @param height the height
      */
     public void setMaxSize( int width, int height ) {
-        if ( width != _maxSize.width || height != _maxSize.height ) {
-            _maxSize.setSize( width, height );
-            
-            _clickZoneRectangle.setRect( 0, 0, _maxSize.width, _maxSize.height );
-            _clickZoneGraphic.setShapeDirty();
-            _clickZoneGraphic.centerRegistrationPoint();
-            
-            _knobRectangle.setRect( 1, 1, _maxSize.width, 2 ); //XXX why is 1,1 necessary?
-            _knobGraphic.setShapeDirty();
-            _knobGraphic.centerRegistrationPoint();
-            
-            update();
-        }      
+        _maxSize.setSize( width, height );
+
+        _clickZoneRectangle.setRect( 0, 0, _maxSize.width, _maxSize.height );
+        _clickZoneGraphic.setShapeDirty();
+        _clickZoneGraphic.centerRegistrationPoint();
+
+        _knobRectangle.setRect( 1, 1, _maxSize.width, 2 ); //XXX why is 1,1 necessary?
+        _knobGraphic.setShapeDirty();
+        _knobGraphic.centerRegistrationPoint();
+
+        update();
     }
     
     /**
@@ -393,6 +391,38 @@ public class AmplitudeSlider extends GraphicLayerSet
         }
     }
 
+    /**
+     * Adds a ChangeListener.
+     * 
+     * @param listener
+     */
+    public void addChangeListener( ChangeListener listener ) {
+        _listenerList.add( ChangeListener.class, listener );
+    }
+  
+    /**
+     * Removes a ChangeListener.
+     * 
+     * @param listener
+     */
+    public void removeChangeListenerListener( ChangeListener listener ) {
+        _listenerList.remove( ChangeListener.class, listener );
+    }
+    
+    /*
+     * Fires an event indicating that the slider has been moved by the user.
+     */
+    private void fireChangeEvent() {
+        ChangeEvent event = new ChangeEvent( this );
+        Object[] listeners = _listenerList.getListenerList();
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ChangeListener.class ) {
+                ChangeListener listener = (ChangeListener) listeners[i + 1];
+                listener.stateChanged( event );
+            }
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // HarmonicColorChangeListener implementation
     //----------------------------------------------------------------------------
@@ -544,6 +574,8 @@ public class AmplitudeSlider extends GraphicLayerSet
         double amplitude = MAX_AMPLITUDE * ( localY / ( _maxSize.height / 2.0 ) );
         amplitude = MathUtil.clamp( -MAX_AMPLITUDE, amplitude, +MAX_AMPLITUDE );
         _harmonic.setAmplitude( amplitude );
+        
+        fireChangeEvent();
     }
     
     /*
