@@ -35,6 +35,7 @@ import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.util.FourierLog;
 import edu.colorado.phet.fourier.util.FourierUtils;
 
 
@@ -489,6 +490,8 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      */
     public void update() {
 
+        FourierLog.trace( "SumGraph.update" );
+        
         _sumDataSet.clear();
         _presetDataSet.clear();
 

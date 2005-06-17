@@ -3,7 +3,6 @@
 ===============================================================================
 
 IN PROGRESS:
-- performance problem, too much notification and needless computation
 
 HIGH PRIORITY:
 - something is hammering the processor when we should be idle
@@ -12,12 +11,14 @@ HIGH PRIORITY:
 - smooth out waveforms
 
 MEDIUM PRIORITY:
+- apparatus panel repaint problem when switching from "space" to "time" domains
 - display a clock or light for period tool in "space & time" domain
 - open a dialog for "Expand Sum"
 - remove sound controls from Discrete control panel
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 
 LOW PRIORITY:
+- add "Sound & Music" module
 - waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - make graph titles prettier
 
@@ -47,6 +48,7 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/17) - fixed performance problems introduced when I added preset waveforms
 (6/17) - change finalize methods to cleanup, shouldn't override finalize
 (6/17) - add preset waveforms
 (6/17) - make HarmonicDataSetGraphic listen for color changes, instead of HarmonicGraph

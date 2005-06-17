@@ -376,9 +376,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
         
         // Preset
-        int preset = FourierConstants.PRESET_SINE_COSINE;
+        int preset = _fourierSeries.getPreset();
         _presetsComboBox.setSelectedKey( preset );
-        _fourierSeries.setPreset( preset );
         
         // Show Infinite Number of Harmonics
         _showInfiniteCheckBox.setSelected( false );
@@ -402,8 +401,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
         
         // Wave Type
-        int waveType = FourierConstants.WAVE_TYPE_SINE;
-        _fourierSeries.setWaveType( waveType );
+        int waveType = _fourierSeries.getWaveType();
         _waveTypeComboBox.setSelectedKey( waveType );
         
         // Number of harmonics
@@ -541,6 +539,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         if ( waveType == FourierConstants.WAVE_TYPE_COSINE && preset == FourierConstants.PRESET_SAWTOOTH ) {
             showSawtoothCosinesErrorDialog();
             _waveTypeComboBox.setSelectedKey( FourierConstants.WAVE_TYPE_SINE );
+            _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+            _harmonicsGraph.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         }
         _fourierSeries.setPreset( preset );
     }
@@ -576,9 +576,11 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             showSawtoothCosinesErrorDialog();
             _waveTypeComboBox.setSelectedKey( FourierConstants.WAVE_TYPE_SINE );
             _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
+            _harmonicsGraph.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         }
         else {
             _fourierSeries.setWaveType( waveType );
+            _harmonicsGraph.setWaveType( waveType );
         }
     }
     

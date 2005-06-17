@@ -33,6 +33,7 @@ import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.*;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.util.FourierLog;
 
 
 /**
@@ -135,6 +136,7 @@ public class HarmonicsGraph extends GraphicLayerSet
     private int _domain;
     private LabelTable _spaceLabels1, _spaceLabels2;
     private LabelTable _timeLabels1, _timeLabels2;
+    private int _previousNumberOfHarmonics;
 
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -313,6 +315,7 @@ public class HarmonicsGraph extends GraphicLayerSet
         _mathGraphic.setVisible( false );
         
         // Synchronize with model
+        _previousNumberOfHarmonics = 0; // force an update
         update();
     }
     
@@ -445,6 +448,18 @@ public class HarmonicsGraph extends GraphicLayerSet
         return _chartGraphic;
     }
     
+    /**
+     * Sets the wave type for each data sets.
+     * 
+     * @param waveType
+     */
+    public void setWaveType( int waveType ) {
+        assert( FourierConstants.isValidWaveType( waveType ) );
+        for ( int i = 0; i < _dataSets.size(); i++ ) {
+            ((HarmonicDataSet) _dataSets.get( i )).setWaveType( waveType );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -453,43 +468,50 @@ public class HarmonicsGraph extends GraphicLayerSet
      * Updates the view to match the model.
      */
     public void update() {
-
-        // Clear the chart.
-        _chartGraphic.removeAllDataSetGraphics();
-
-        int waveType = _fourierSeries.getWaveType();
         
-        // Re-populate the chart.
-        for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
-            Harmonic harmonic = _fourierSeries.getHarmonic( i );
+        int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
+        
+        if ( numberOfHarmonics != _previousNumberOfHarmonics ) {
+            
+            FourierLog.trace( "HarmonicsGraph.update" );
 
-            HarmonicDataSet dataSet = null;
-            HarmonicDataSetGraphic dataSetGraphic = null;
+            // Clear the chart.
+            _chartGraphic.removeAllDataSetGraphics();
 
-            if ( i < _dataSetGraphics.size() ) {
-                // Reuse existing data sets & graphics.
-                dataSet = (HarmonicDataSet) _dataSets.get( i );
-                dataSet.setHarmonic( harmonic );
+            // Re-populate the chart.
+            for ( int i = 0; i < numberOfHarmonics; i++ ) {
+                Harmonic harmonic = _fourierSeries.getHarmonic( i );
 
-                dataSetGraphic = (HarmonicDataSetGraphic) _dataSetGraphics.get( i );
-                dataSetGraphic.setDataSet( dataSet );
+                HarmonicDataSet dataSet = null;
+                HarmonicDataSetGraphic dataSetGraphic = null;
+
+                if ( i < _dataSetGraphics.size() ) {
+                    // Reuse existing data sets & graphics.
+                    dataSet = (HarmonicDataSet) _dataSets.get( i );
+                    dataSet.setHarmonic( harmonic );
+
+                    dataSetGraphic = (HarmonicDataSetGraphic) _dataSetGraphics.get( i );
+                    dataSetGraphic.setDataSet( dataSet );
+                }
+                else {
+                    // Allocate new data sets & graphics.
+                    dataSet = new HarmonicDataSet( harmonic, NUMBER_OF_DATA_POINTS, L, MAX_FUNDAMENTAL_CYCLES );
+                    _dataSets.add( dataSet );
+                    dataSet.setWaveType( _fourierSeries.getWaveType() );
+
+                    dataSetGraphic = new HarmonicDataSetGraphic( getComponent(), _chartGraphic, dataSet );
+                    _dataSetGraphics.add( dataSetGraphic );
+                }
+                assert ( _dataSets.size() == _dataSetGraphics.size() ); // programming error
+
+                dataSetGraphic.setStroke( WAVE_NORMAL_STROKE );
+                Color harmonicColor = HarmonicColors.getInstance().getColor( i );
+                dataSetGraphic.setBorderColor( harmonicColor );
+
+                _chartGraphic.addDataSetGraphic( dataSetGraphic );
             }
-            else {
-                // Allocate new data sets & graphics.
-                dataSet = new HarmonicDataSet( harmonic, NUMBER_OF_DATA_POINTS, L, MAX_FUNDAMENTAL_CYCLES );
-                _dataSets.add( dataSet );
-
-                dataSetGraphic = new HarmonicDataSetGraphic( getComponent(), _chartGraphic, dataSet );
-                _dataSetGraphics.add( dataSetGraphic );
-            }
-            assert ( _dataSets.size() == _dataSetGraphics.size() ); // programming error
-
-            dataSet.setWaveType( waveType );
-            dataSetGraphic.setStroke( WAVE_NORMAL_STROKE );
-            Color harmonicColor = HarmonicColors.getInstance().getColor( i );
-            dataSetGraphic.setBorderColor( harmonicColor );
-
-            _chartGraphic.addDataSetGraphic( dataSetGraphic );
+            
+            _previousNumberOfHarmonics = numberOfHarmonics;
         }
     }
 

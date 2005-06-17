@@ -33,6 +33,7 @@ import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.util.FourierLog;
 
 
 /**
@@ -108,6 +109,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     private ArrayList _sliders; // array of AmplitudeSlider
     private EventListenerList _listenerList;
     private EventPropagator _eventPropagator;
+    private int _previousNumberOfHarmonics;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -240,6 +242,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
      * Resets to the initial state.
      */
     public void reset() {
+        _previousNumberOfHarmonics = 0; // force an update
         update();
     }
 
@@ -254,37 +257,44 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
 
         int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
 
-        _slidersGraphic.clear();
+        if ( numberOfHarmonics != _previousNumberOfHarmonics ) {
+            
+            FourierLog.trace( "AmplitudesGraph.update" );
+            
+            _slidersGraphic.clear();
 
-        int totalSpace = ( FourierConfig.MAX_HARMONICS + 1 ) * SLIDER_SPACING;
-        int barWidth = ( CHART_SIZE.width - totalSpace ) / FourierConfig.MAX_HARMONICS;
-        double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
+            int totalSpace = ( FourierConfig.MAX_HARMONICS + 1 ) * SLIDER_SPACING;
+            int barWidth = ( CHART_SIZE.width - totalSpace ) / FourierConfig.MAX_HARMONICS;
+            double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / ( numberOfHarmonics - 1 );
 
-        for ( int i = 0; i < numberOfHarmonics; i++ ) {
+            for ( int i = 0; i < numberOfHarmonics; i++ ) {
 
-            // Get the ith harmonic.
-            Harmonic harmonic = _fourierSeries.getHarmonic( i );
+                // Get the ith harmonic.
+                Harmonic harmonic = _fourierSeries.getHarmonic( i );
 
-            AmplitudeSlider slider = null;
-            if ( i < _sliders.size() ) {
-                // Reuse an existing slider.
-                slider = (AmplitudeSlider) _sliders.get( i );
-                slider.setHarmonic( harmonic );
+                AmplitudeSlider slider = null;
+                if ( i < _sliders.size() ) {
+                    // Reuse an existing slider.
+                    slider = (AmplitudeSlider) _sliders.get( i );
+                    slider.setHarmonic( harmonic );
+                }
+                else {
+                    // Allocate a new slider.
+                    slider = new AmplitudeSlider( getComponent(), harmonic );
+                    slider.addHarmonicFocusListener( _eventPropagator );
+                    slider.addChangeListener( _eventPropagator );
+                }
+                _slidersGraphic.addGraphic( slider );
+
+                // Slider size.
+                slider.setMaxSize( barWidth, CHART_SIZE.height );
+
+                // Slider location.
+                int x = ( ( i + 1 ) * SLIDER_SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
+                slider.setLocation( x, 0 );
+                
+                _previousNumberOfHarmonics = numberOfHarmonics;
             }
-            else {
-                // Allocate a new slider.
-                slider = new AmplitudeSlider( getComponent(), harmonic );
-                slider.addHarmonicFocusListener( _eventPropagator );
-                slider.addChangeListener( _eventPropagator );
-            }
-            _slidersGraphic.addGraphic( slider );
-
-            // Slider size.
-            slider.setMaxSize( barWidth, CHART_SIZE.height );
-
-            // Slider location.
-            int x = ( ( i + 1 ) * SLIDER_SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
-            slider.setLocation( x, 0 );
         }
     }
     
