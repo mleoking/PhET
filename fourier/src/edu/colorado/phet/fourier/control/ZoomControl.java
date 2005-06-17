@@ -90,14 +90,22 @@ public class ZoomControl extends GraphicLayerSet {
         addGraphic( _outButtonDisabled );
         
         // Interactivity
-        background.setIgnoreMouse( true );
-        _inButtonDisabled.setIgnoreMouse( true );
-        _outButtonDisabled.setIgnoreMouse( true );
-        EventListener listener = new EventListener();
-        _inButton.addMouseInputListener( listener );
-        _inButtonPressed.addMouseInputListener( listener );
-        _outButton.addMouseInputListener( listener );
-        _outButtonPressed.addMouseInputListener( listener );
+        {
+            background.setIgnoreMouse( true );
+            _inButtonDisabled.setIgnoreMouse( true );
+            _outButtonDisabled.setIgnoreMouse( true );
+            
+            _inButton.setCursorHand();
+            _inButtonPressed.setCursorHand();
+            _outButton.setCursorHand();
+            _outButtonPressed.setCursorHand();
+            
+            EventListener listener = new EventListener();
+            _inButton.addMouseInputListener( listener );
+            _inButtonPressed.addMouseInputListener( listener );
+            _outButton.addMouseInputListener( listener );
+            _outButtonPressed.addMouseInputListener( listener );
+        }
         
         // Initial visibility
         _inButtonPressed.setVisible( false );

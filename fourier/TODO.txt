@@ -47,6 +47,7 @@ PHETCOMMON:
 
 DONE:
 v0r2...
+(6/17) - add hand cursor to zoom control buttons
 (6/17) - remove horizontal minor gridlines from Harmonics graph
 (6/17) - add empty "Sound & Music" module 
 (6/17) - fixed performance problems introduced when I added preset waveforms
