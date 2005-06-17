@@ -48,9 +48,9 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
     /**
      * Sole constructor.
      *
-     * @param harmonic                  the Harmonic that this data set represents
-     * @param numberOfPoints            the number of data points used to approximate the harmonic
-     * @param fundamentalCycle          the width of a one cycle of the fundamental harmonic
+     * @param harmonic the Harmonic that this data set represents
+     * @param numberOfPoints the number of data points used to approximate the harmonic
+     * @param fundamentalCycle the width of a one cycle of the fundamental harmonic
      * @param numberOfFundamentalCycles the number of fundamental cycles
      */
     public HarmonicDataSet( Harmonic harmonic, int numberOfPoints, double fundamentalCycle, int numberOfFundamentalCycles ) {
@@ -87,6 +87,93 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
     //----------------------------------------------------------------------------
 
     /**
+     * Sets the harmonic associated with this data set.
+     * 
+     * @param harmonic
+     */
+    public void setHarmonic( Harmonic harmonic ) {
+        if ( harmonic != _harmonic ) {
+            if ( _harmonic != null ) {
+                _harmonic.removeObserver( this );
+            }
+            _harmonic = harmonic;
+            update();
+        }
+    }
+    
+    /**
+     * Gets the harmonic associated with this data set.
+     * 
+     * @return Harmonic
+     */
+    public Harmonic getHarmonic() {
+        return _harmonic;
+    }
+    
+    /**
+     * Sets the fundamental cycle period, in model coordinates.
+     * 
+     * @param fundamentalCycle
+     */
+    public void setFundamentalCycle( double fundamentalCycle ) {
+        if ( fundamentalCycle != _fundamentalCycle ) {
+            _fundamentalCycle = fundamentalCycle;
+            update();
+        }
+    }
+        
+    /**
+     * Gets the fundamental cycle period.
+     * 
+     * @return the fundamental cycle period
+     */
+    public double getFundamentalCycle() {
+        return _fundamentalCycle;
+    }
+    
+    /**
+     * Sets the number of fundamental cycles.
+     * 
+     * @param numberOfFundamentalCycles
+     */
+    public void setNumberOfFundamentalCycles( int numberOfFundamentalCycles ) {
+        if ( numberOfFundamentalCycles != _numberOfFundamentalCycles ) {
+            _numberOfFundamentalCycles = numberOfFundamentalCycles;
+            update();
+        }
+    }
+    
+    /**
+     * Gets the number of fundamental cycles.
+     * 
+     * @return the number of fundamental cycles
+     */
+    public int getNumberOfFundamentalCycles() {
+        return _numberOfFundamentalCycles;
+    }
+
+    /**
+     * Sets the number of points in the data set.
+     * 
+     * @param numberOfPoints
+     */
+    public void setNumberOfPoints( int numberOfPoints ) {
+        if ( numberOfPoints != _numberOfPoints ) {
+            _numberOfPoints = numberOfPoints;
+            update();
+        }
+    }
+    
+    /**
+     * Gets the number of points in the data set.
+     * 
+     * @return the number of points
+     */
+    public int getNumberOfPoints() {
+        return _numberOfPoints;
+    }
+
+    /**
      * Sets the wave type (sine or cosine).
      *
      * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
@@ -108,15 +195,6 @@ public class HarmonicDataSet extends DataSet implements SimpleObserver {
         return _waveType;
     }
 
-    /**
-     * Gets the harmonic associated with this data set.
-     * 
-     * @return Harmonic
-     */
-    public Harmonic getHarmonic() {
-        return _harmonic;
-    }
-    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
