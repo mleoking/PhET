@@ -129,7 +129,15 @@ public class DataSet {
     public void addObserver( Observer observer ) {
         observers.add( observer );
     }
+    
+    public void removeObserver( Observer observer ) {
+        observers.remove( observer );
+    }
 
+    public void removeAllObserver() {
+        observers.clear();
+    }
+    
     public String toString() {
         return dataPoints.toString();
     }

@@ -15,11 +15,18 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 public class LinePlot extends DataSetGraphic {
+    private static final Stroke DEFAULT_STROKE = new BasicStroke( 1f );
+    private static final Color DEFAULT_COLOR = Color.BLACK;
+    
     private GeneralPath generalPath;
     private PhetShapeGraphic phetShapeGraphic;
 
+    public LinePlot( Component component, Chart chart ) {
+        this( component, chart, null );
+    }
+    
     public LinePlot( Component component, Chart chart, DataSet dataSet ) {
-        this( component, chart, dataSet, new BasicStroke( 1 ), Color.black );
+        this( component, chart, dataSet, DEFAULT_STROKE, DEFAULT_COLOR );
     }
 
     public LinePlot( Component component, final Chart chart, DataSet dataSet, Stroke stroke, Paint paint ) {
