@@ -42,7 +42,7 @@ import edu.colorado.phet.fourier.model.Harmonic;
  * @version $Revision$
  */
 public class HarmonicsGraph extends GraphicLayerSet 
-implements SimpleObserver, ZoomListener, HarmonicFocusListener, HarmonicColorChangeListener {
+    implements SimpleObserver, ZoomListener, HarmonicFocusListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -282,9 +282,6 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener, HarmonicColorCha
             _dataSets = new ArrayList();
             _dataSetGraphics = new ArrayList();
         }
-
-        // Interested in changes to harmonic colors.
-        HarmonicColors.getInstance().addHarmonicColorChangeListener( this );
         
         reset();
     }
@@ -297,7 +294,6 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener, HarmonicColorCha
         _fourierSeries.removeObserver( this );
         _fourierSeries = null;
         _horizontalZoomControl.removeAllZoomListeners();
-        HarmonicColors.getInstance().removeHarmonicColorChangeListener( this );
     }
 
     /**
@@ -553,24 +549,6 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener, HarmonicColorCha
         }
         else {
             throw new IllegalArgumentException( "unexpected event: " + event );
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // HarmonicColorChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * When a harmonic's color changes, updates the corresponding data set graphic.
-     */
-    public void harmonicColorChanged( HarmonicColorChangeEvent e ) {
-        for ( int i = 0; i < _dataSetGraphics.size(); i++ ) {
-            HarmonicDataSetGraphic harmonicGraphic = (HarmonicDataSetGraphic) _dataSetGraphics.get( i );
-            if ( harmonicGraphic.getHarmonic().getOrder() == e.getOrder() ) {
-                Color harmonicColor = HarmonicColors.getInstance().getColor( harmonicGraphic.getHarmonic() );
-                harmonicGraphic.setBorderColor( harmonicColor );
-                break;
-            }
         }
     }
     
