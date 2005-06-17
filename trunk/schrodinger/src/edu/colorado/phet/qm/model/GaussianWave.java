@@ -14,15 +14,12 @@ import java.awt.*;
  */
 
 public class GaussianWave implements InitialWavefunction {
-
-    private Point center;
-    private Vector2D momentum;
-    private double dxLattice;
+    private GaussianWave1D xWave;
+    private GaussianWave1D yWave;
 
     public GaussianWave( Point center, Vector2D momentum, double dxLattice ) {
-        this.center = center;
-        this.momentum = momentum;
-        this.dxLattice = dxLattice;
+        this.xWave = new GaussianWave1D( momentum.getX(), center.x, dxLattice );
+        this.yWave = new GaussianWave1D( momentum.getY(), center.y, dxLattice );
     }
 
     public void initialize( Complex[][] wavefunction ) {
@@ -33,6 +30,8 @@ public class GaussianWave implements InitialWavefunction {
     }
 
     private void initGaussian( Complex[][] w ) {
+        System.out.println( "GaussianWave.initGaussian" );
+
         for( int i = 0; i < w.length; i++ ) {
             for( int j = 0; j < w[0].length; j++ ) {
                 w[i][j] = new Complex();
@@ -42,27 +41,10 @@ public class GaussianWave implements InitialWavefunction {
     }
 
     private void init( Complex[][] w, Complex complex, int i, int j ) {
-        double space = getSpaceTerm( i, j );
-        Complex mom = getMomentumTerm( i, j );
-        double norm = getNormalizeTerm( 2 );
-
-        Complex c = mom.times( space ).times( norm );
-        complex.setValue( c );
+        Complex x = xWave.getValue( i );
+        Complex y = yWave.getValue( j );
+        complex.setToProduct( x, y );
     }
 
-    private Complex getMomentumTerm( int i, int j ) {
-        double dot = momentum.dot( new Vector2D.Double( center, new Point( i, j ) ) );
-        Complex c = new Complex( Math.cos( dot ), Math.sin( dot ) );
-        return c;
-    }
-
-    private double getSpaceTerm( int i, int j ) {
-        Vector2D v2 = new Vector2D.Double( center, new Point( i, j ) );
-        return Math.exp( -v2.getMagnitudeSq() / 2 / ( dxLattice * dxLattice ) );
-    }
-
-    private double getNormalizeTerm( int dim ) {
-        return Math.pow( Math.PI * 2 * dxLattice * dxLattice, -dim / 2 );
-    }
 
 }

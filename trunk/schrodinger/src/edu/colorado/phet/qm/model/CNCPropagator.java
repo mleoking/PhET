@@ -33,9 +33,6 @@ public class CNCPropagator implements Propagator {
         return potential.getPotential( i, j, timeStep );
     }
 
-/*
-** Cayley propagator.
-*/
     public void propagate( Complex[][] w ) {
         simulationTime += deltaTime;
         timeStep++;
@@ -73,16 +70,12 @@ public class CNCPropagator implements Propagator {
                 alpha[i - 1] = gamma[i].times( XAP );
                 beta[i - 1] = gamma[i].times( ( XAP.times( beta[i] ) ).minus( bi ) );
             }
-//            setValue( w, 0, j );
-//            setValue( w, XMESH, j );
-////            fixCorners( w );
             fixEdges( w );
             origFixA( w, j );
             for( int i = 0; i <= N - 1; i++ ) {
                 w[i + 1][j] = ( alpha[i].times( w[i][j] ) ).plus( beta[i] );
             }
         }
-//        fixCorners( w );
         fixEdges( w );
         for( int i = 1; i < XMESH; i++ ) {
             int N = YMESH;
@@ -96,9 +89,6 @@ public class CNCPropagator implements Propagator {
                 alpha[j - 1] = gamma[j].times( YAP );
                 beta[j - 1] = gamma[j].times( ( ( YAP.times( beta[j] ) ).minus( bj ) ) );
             }
-//            setValue( w, i, 0 );
-//            setValue( w, i, YMESH );
-////            fixCorners( w );
             fixEdges( w );
             origFixB( w, i );
             for( int j = 0; j <= N - 1; j++ ) {
@@ -106,7 +96,6 @@ public class CNCPropagator implements Propagator {
             }
         }
         fixEdges( w );
-//        fixCorners( w );
     }
 
     private void origFixB( Complex[][] w, int i ) {
@@ -142,15 +131,6 @@ public class CNCPropagator implements Propagator {
                 setValue( w, XMESH - 1 - b, j );
             }
         }
-    }
-
-    private void fixCorners( Complex[][] w ) {
-        int XMESH = w.length - 1;
-        int YMESH = w[0].length - 1;
-        setValue( w, 0, 0 );
-        setValue( w, 0, YMESH );
-        setValue( w, XMESH, 0 );
-        setValue( w, XMESH, YMESH );
     }
 
     private void setValue( Complex[][] w, int x, int y ) {

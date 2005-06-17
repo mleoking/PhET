@@ -266,6 +266,10 @@ public class DiscreteModel {
         return oneShotDetectors;
     }
 
+    public void setPropagator( Propagator propagator ) {
+        this.propagator = propagator;
+    }
+
     public static interface Listener {
         void finishedTimeStep( DiscreteModel model );
 

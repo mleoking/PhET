@@ -99,6 +99,35 @@ public class SchrodingerControlPanel extends ControlPanel {
 
         VerticalLayoutPanel boundaryPanel = createBoundaryPanel();
         addControlFullWidth( boundaryPanel );
+
+        VerticalLayoutPanel propagatorPanel = createPropagatorPanel();
+        addControlFullWidth( propagatorPanel );
+    }
+
+    private VerticalLayoutPanel createPropagatorPanel() {
+        VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
+        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Propagator" ) );
+        ButtonGroup buttonGroup = new ButtonGroup();
+
+        JRadioButton richardson = createPropagatorButton( buttonGroup, "Richardson", new RichardsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
+        layoutPanel.add( richardson );
+
+        JRadioButton crank = createPropagatorButton( buttonGroup, "Crank-Nicholson?", new CNCPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
+        layoutPanel.add( crank );
+
+        return layoutPanel;
+    }
+
+    private JRadioButton createPropagatorButton( ButtonGroup buttonGroup, String s, final Propagator propagator ) {
+
+        JRadioButton radioButton = new JRadioButton( s );
+        buttonGroup.add( radioButton );
+        radioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                getDiscreteModel().setPropagator( propagator );
+            }
+        } );
+        return radioButton;
     }
 
     private VerticalLayoutPanel createBoundaryPanel() {
@@ -195,9 +224,9 @@ public class SchrodingerControlPanel extends ControlPanel {
     private JPanel createParticleLauncherPanel() {
         VerticalLayoutPanel particleLauncher = new VerticalLayoutPanel();
 
-        xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.8 );
+        xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.7 );
         ySlider = new ModelSlider( "Y0", "1/L", 0, 1, 0.5 );
-        pxSlider = new ModelSlider( "Momentum-x0", "", -1, 1, -.5 );
+        pxSlider = new ModelSlider( "Momentum-x0", "", -10, 10, -.5 );
         pySlider = new ModelSlider( "Momentum-y0", "", -1, 1, 0 );
         dxSlider = new ModelSlider( "Size0", "", 0, 0.25, 0.1 );
 
@@ -359,18 +388,14 @@ public class SchrodingerControlPanel extends ControlPanel {
         double dxLattice = dxSlider.getValue() * getDiscreteModel().getXMesh();
         System.out.println( "dxLattice = " + dxLattice );
         return dxLattice;
-//        soutv
-//        double f = Math.pow( 10, -dxLattice );
-//        System.out.println( "dxLattice = " + dxLattice + ", f=" + f );
-//        return f;
     }
 
     private double getStartPy() {
-        return pySlider.getValue() * 2;
+        return pySlider.getValue();
     }
 
     private double getStartPx() {
-        return pxSlider.getValue() * 2;
+        return pxSlider.getValue();
     }
 
     private double getStartY() {
