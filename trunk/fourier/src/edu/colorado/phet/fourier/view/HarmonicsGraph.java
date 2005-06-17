@@ -102,7 +102,6 @@ public class HarmonicsGraph extends GraphicLayerSet
     // Y Axis parameters
     private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
-    private static final double Y_MINOR_TICK_SPACING = 0.1;
 
     // Chart parameters
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
@@ -247,12 +246,6 @@ public class HarmonicsGraph extends GraphicLayerSet
                 _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
                 _chartGraphic.getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
                 _chartGraphic.getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
-
-                // Horizontal gridlines for minor ticks
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesVisible( true );
-                _chartGraphic.getHorizonalGridlines().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
             }
         }
 
