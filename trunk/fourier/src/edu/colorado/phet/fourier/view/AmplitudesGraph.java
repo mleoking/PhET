@@ -240,7 +240,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
      * Resets to the initial state.
      */
     public void reset() {
-        _previousNumberOfHarmonics = -1; // force update
+        _previousNumberOfHarmonics = 0; // force update
         update();
     }
 
@@ -272,7 +272,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
                 if ( i < _sliders.size() ) {
                     // Reuse an existing slider.
                     slider = (AmplitudeSlider) _sliders.get( i );
-                    slider.setModel( harmonic );
+                    slider.setHarmonic( harmonic );
                 }
                 else {
                     // Allocate a new slider.
