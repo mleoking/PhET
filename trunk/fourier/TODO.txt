@@ -12,6 +12,8 @@ HIGH PRIORITY:
 - smooth out waveforms
 
 MEDIUM PRIORITY:
+- display a clock or light for period tool in "space & time" domain
+- open a dialog for "Expand Sum"
 - remove sound controls from Discrete control panel
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 
