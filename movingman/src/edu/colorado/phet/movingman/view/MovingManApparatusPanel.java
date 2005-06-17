@@ -17,6 +17,7 @@ import edu.colorado.phet.movingman.MovingManModule;
 import edu.colorado.phet.movingman.common.LinearTransform1d;
 import edu.colorado.phet.movingman.common.WiggleMe;
 import edu.colorado.phet.movingman.model.TimeListenerAdapter;
+import edu.colorado.phet.movingman.plots.MMPlotSuite;
 import edu.colorado.phet.movingman.plots.PlotSet;
 
 import javax.swing.event.MouseInputAdapter;
@@ -361,4 +362,18 @@ public class MovingManApparatusPanel
         movingManLayout.relayout();
     }
 
+    public void requestEditInTextBox( GoPauseClearPanel goPauseClearPanel ) {
+        MMPlotSuite plotSuite = plotSet.getPlotSuiteFor( goPauseClearPanel );
+
+        MMPlotSuite[] others = plotSet.getOtherPlots( plotSuite );
+        for( int i = 0; i < others.length; i++ ) {
+            MMPlotSuite other = others[i];
+            other.getTextBox().deselectAll();
+        }
+        plotSuite.getTextBox().selectAll();
+        plotSuite.getTextBoxGraphic().repaint();
+        plotSuite.getTextBox().getTextField().requestFocus();
+        plotSuite.getTextBoxGraphic().repaint();
+//        plotSuite.getTextBox().requestFocus();
+    }
 }

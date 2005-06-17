@@ -6,10 +6,7 @@ import edu.colorado.phet.movingman.model.TimeListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 public class TextBox extends JPanel {
     static Font font = MMFontManager.getFontSet().getTextBoxFont();
@@ -29,6 +26,11 @@ public class TextBox extends JPanel {
                 if( isEnabled() ) {
                     textField.selectAll();
                 }
+            }
+        } );
+        textField.addFocusListener( new FocusAdapter() {
+            public void focusLost( FocusEvent e ) {
+                textField.select( 0, 0 );
             }
         } );
         textField.addKeyListener( new KeyListener() {
@@ -87,9 +89,6 @@ public class TextBox extends JPanel {
 
     public void setTextFieldEditable( boolean editable ) {
         textField.setEditable( editable );
-        textField.selectAll();
-        textField.requestFocus();
-        textField.firePropertyChange( "test", 0, 1 );
     }
 
     public void clearChangedByUser() {
@@ -119,5 +118,17 @@ public class TextBox extends JPanel {
 //        if( valueString.length() > textField.getColumns() ) {
 //            valueString = valueString.subSequence( 0, textField.getColumns() ) + "";
 //        }
+    }
+
+    public void selectAll() {
+        textField.selectAll();
+    }
+
+    public void deselectAll() {
+        textField.select( 0, 0 );
+    }
+
+    public JTextField getTextField() {
+        return textField;
     }
 }

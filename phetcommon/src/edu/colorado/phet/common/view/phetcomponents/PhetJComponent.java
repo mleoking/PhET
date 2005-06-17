@@ -1,5 +1,11 @@
 package edu.colorado.phet.common.view.phetcomponents;
 
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -7,13 +13,6 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Hashtable;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphics2D;
 
 /**
  * User: Sam Reid
@@ -264,7 +263,17 @@ public class PhetJComponent extends PhetGraphic {
             }
         };
         addKeyListener( keyHandler );
+        component.addFocusListener( new FocusAdapter() {
+            public void focusGained( FocusEvent e ) {
+                System.out.println( "PhetJComponent.focusGained=" + component );
+                repaint();
+            }
 
+            public void focusLost( FocusEvent e ) {
+                System.out.println( "PhetJComponent.focusLost, copmonent=" + component );
+                repaint();
+            }
+        } );
         repaintManagerPhet.put( this );
     }
 
