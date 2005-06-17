@@ -323,7 +323,7 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener, HarmonicColorCha
         _mathGraphic.setVisible( false );
         
         // Synchronize with model
-        _previousNumberOfHarmonics = -1; // force update
+        _previousNumberOfHarmonics = 0; // force update
         update();
     }
     
@@ -496,23 +496,38 @@ implements SimpleObserver, ZoomListener, HarmonicFocusListener, HarmonicColorCha
         // If the number of harmonics has changed...
         if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
 
-            // Dump the old data sets & graphics.
+            // Clear the chart.
             _chartGraphic.removeAllDataSetGraphics();
-            _dataSetGraphics.clear();
-            _dataSets.clear();
             
-            // Create new data sets & graphics for each harmonic.
+            // Re-populate the chart.
             for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
                 Harmonic harmonic = _fourierSeries.getHarmonic( i );
 
-                HarmonicDataSet dataSet = new HarmonicDataSet( harmonic, NUMBER_OF_DATA_POINTS, L, MAX_FUNDAMENTAL_CYCLES );
-                _dataSets.add( dataSet );
+                HarmonicDataSet dataSet = null;
+                HarmonicDataSetGraphic dataSetGraphic = null;
+                
+                if ( i < _dataSetGraphics.size() ) {
+                    // Reuse existing data sets & graphics.
+                    dataSet = (HarmonicDataSet) _dataSets.get( i );
+                    dataSet.setHarmonic( harmonic );
+                    
+                    dataSetGraphic = (HarmonicDataSetGraphic) _dataSetGraphics.get( i );
+                    dataSetGraphic.setDataSet( dataSet );
+                }
+                else {
+                    // Allocate new data sets & graphics.
+                    dataSet = new HarmonicDataSet( harmonic, NUMBER_OF_DATA_POINTS, L, MAX_FUNDAMENTAL_CYCLES );
+                    _dataSets.add( dataSet );
 
-                Color harmonicColor = HarmonicColors.getInstance().getColor( i );
-                HarmonicDataSetGraphic dataSetGraphic = new HarmonicDataSetGraphic( getComponent(), _chartGraphic, dataSet );
-                _dataSetGraphics.add( dataSetGraphic );
+                    dataSetGraphic = new HarmonicDataSetGraphic( getComponent(), _chartGraphic, dataSet );
+                    _dataSetGraphics.add( dataSetGraphic );
+                }
+                assert( _dataSets.size() == _dataSetGraphics.size() ); // programming error
+                
                 dataSetGraphic.setStroke( WAVE_NORMAL_STROKE );
+                Color harmonicColor = HarmonicColors.getInstance().getColor( i );
                 dataSetGraphic.setBorderColor( harmonicColor );
+                
                 _chartGraphic.addDataSetGraphic( dataSetGraphic );
             }
 
