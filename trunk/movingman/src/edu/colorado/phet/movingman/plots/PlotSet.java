@@ -10,6 +10,7 @@ import edu.colorado.phet.movingman.model.Man;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceSeries;
+import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 
 import java.awt.*;
@@ -145,6 +146,33 @@ public class PlotSet {
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
+    }
+
+    public MMPlotSuite getPlotSuiteFor( GoPauseClearPanel goPauseClearPanel ) {
+        if( positionSuite.getGoPauseClearPanel() == goPauseClearPanel ) {
+            return positionSuite;
+        }
+        else if( velSuite.getGoPauseClearPanel() == goPauseClearPanel ) {
+            return velSuite;
+        }
+        else if( accSuite.getGoPauseClearPanel() == goPauseClearPanel ) {
+            return accSuite;
+        }
+        return null;
+    }
+
+    public MMPlotSuite[] getOtherPlots( MMPlotSuite ignore ) {
+        ArrayList list = new ArrayList();
+        if( ignore != positionSuite ) {
+            list.add( positionSuite );
+        }
+        if( ignore != velSuite ) {
+            list.add( velSuite );
+        }
+        if( ignore != accSuite ) {
+            list.add( accSuite );
+        }
+        return (MMPlotSuite[])list.toArray( new MMPlotSuite[0] );
     }
 
     public static interface Listener {

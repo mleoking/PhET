@@ -212,6 +212,10 @@ public class MMPlotSuite extends GraphicLayerSet implements MovingManLayout.Layo
         valueChanged( 0.0 );
     }
 
+    public GoPauseClearPanel getGoPauseClearPanel() {
+        return goPauseClearPanel;
+    }
+
     public static interface Listener {
         void plotVisibilityChanged();
 

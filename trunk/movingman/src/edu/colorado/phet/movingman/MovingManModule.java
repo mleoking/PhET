@@ -12,6 +12,7 @@ import edu.colorado.phet.common.view.ContentPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.help.HelpPanel;
+import edu.colorado.phet.common.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -23,6 +24,7 @@ import edu.colorado.phet.movingman.model.*;
 import edu.colorado.phet.movingman.plotdevice.PlotDevice;
 import edu.colorado.phet.movingman.plotdevice.PlotDeviceListenerAdapter;
 import edu.colorado.phet.movingman.plots.PlotSet;
+import edu.colorado.phet.movingman.view.GoPauseClearPanel;
 import edu.colorado.phet.movingman.view.ManGraphic;
 import edu.colorado.phet.movingman.view.MovingManApparatusPanel;
 import edu.colorado.phet.movingman.view.WalkWayGraphic;
@@ -459,6 +461,10 @@ public class MovingManModule extends Module {
         return movingManModel.getTimeModel().isAtEndOfTime();
     }
 
+    public void requestEditInTextBox( GoPauseClearPanel goPauseClearPanel ) {
+        movingManApparatusPanel.requestEditInTextBox( goPauseClearPanel );
+    }
+
     public static interface Listener {
         public void reset();
 
@@ -730,6 +736,8 @@ public class MovingManModule extends Module {
         m.setInited( true );
         m.relayout();
         m.setSmoothingSmooth();
+//        RepaintDebugGraphic repaintDebugGraphic=new RepaintDebugGraphic( m.getApparatusPanel(), clock);
+        RepaintDebugGraphic.enable( m.getApparatusPanel(), clock );
     }
 
     public void initialize() {

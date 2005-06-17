@@ -36,6 +36,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         final ActionListener pauseHandler = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setPaused( true );
+                module.requestEditInTextBox( GoPauseClearPanel.this );
             }
         };
         goPauseButton = new ControlButton( SimStrings.get( "MMPlot.PauseButton" ) );//longer text
