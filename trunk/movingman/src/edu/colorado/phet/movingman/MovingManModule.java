@@ -221,6 +221,10 @@ public class MovingManModule extends Module {
         setPaused( true );
     }
 
+    public boolean hasMegaHelp() {
+        return true;
+    }
+
     public void repaintBackground() {
         getMovingManApparatusPanel().repaintBackground();
     }
