@@ -41,10 +41,11 @@ public class FourierConstants {
     
     // Preset choices
     public static final int PRESET_SINE_COSINE = 0;
-    public static final int PRESET_SAWTOOTH = 1;
-    public static final int PRESET_TRIANGLE = 2;
-    public static final int PRESET_WAVE_PACKET = 3;
-    public static final int PRESET_CUSTOM = 4;
+    public static final int PRESET_SQUARE = 1;
+    public static final int PRESET_SAWTOOTH = 2;
+    public static final int PRESET_TRIANGLE = 3;
+    public static final int PRESET_WAVE_PACKET = 4;
+    public static final int PRESET_CUSTOM = 5;
     
     // Wave Type choices
     public static final int WAVE_TYPE_SINE = 0;
@@ -82,6 +83,7 @@ public class FourierConstants {
         boolean isValid = false;
         switch ( preset ) {
             case PRESET_SINE_COSINE:
+            case PRESET_SQUARE:
             case PRESET_SAWTOOTH:
             case PRESET_TRIANGLE:
             case PRESET_WAVE_PACKET:
