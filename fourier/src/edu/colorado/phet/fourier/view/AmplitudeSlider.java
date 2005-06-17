@@ -313,7 +313,7 @@ public class AmplitudeSlider extends GraphicLayerSet
      * @return true if the value is valid, false otherwise
      */
     private boolean processUserInput() {
-        boolean success = false;
+        boolean success = true;
         String stringValue = _valueTextField.getText();
         double amplitude = 0.0;
         try {
@@ -321,16 +321,18 @@ public class AmplitudeSlider extends GraphicLayerSet
             amplitude = doubleValue.doubleValue();
         }
         catch ( NumberFormatException nfe ) {
+            success = false;
             showUserInputErrorDialog();
             update();
         }
         if ( Math.abs( amplitude ) > MAX_AMPLITUDE ) {
+            success = false;
             showUserInputErrorDialog();
             update();
         }
-        else {
+        else if ( amplitude != _harmonic.getAmplitude() ) {
             _harmonic.setAmplitude( amplitude );
-            success = true;
+            fireChangeEvent();
         }
         return success;
     }
@@ -611,17 +613,17 @@ public class AmplitudeSlider extends GraphicLayerSet
         public void keyPressed( KeyEvent event ) {
             if ( event.getKeyCode() == KeyEvent.VK_UP ) {
                 double amplitude = _harmonic.getAmplitude() + VALUE_STEP;
-                if ( amplitude > MAX_AMPLITUDE ) {
-                    amplitude = MAX_AMPLITUDE;
+                if ( amplitude <= MAX_AMPLITUDE ) {
+                    _harmonic.setAmplitude( amplitude );
+                    fireChangeEvent();
                 }
-                _harmonic.setAmplitude( amplitude );
             }
             else if ( event.getKeyCode() == KeyEvent.VK_DOWN ) {
                 double amplitude = _harmonic.getAmplitude() - VALUE_STEP;
-                if ( amplitude < -MAX_AMPLITUDE ) {
-                   amplitude = -MAX_AMPLITUDE; 
+                if ( amplitude >= -MAX_AMPLITUDE ) {
+                    _harmonic.setAmplitude( amplitude );
+                    fireChangeEvent(); 
                 }
-                _harmonic.setAmplitude( amplitude );
             }
         }
     }
