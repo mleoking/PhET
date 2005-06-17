@@ -241,28 +241,28 @@ public class AmplitudeSlider extends GraphicLayerSet
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the model that this slider controls.
+     * Sets the harmonic that this slider controls.
      * 
-     * @param harmonicModel
+     * @param harmonic
      */
-    public void setModel( Harmonic harmonicModel ) {
-        assert( harmonicModel != null );
-        if ( harmonicModel != _harmonic ) {
+    public void setHarmonic( Harmonic harmonic ) {
+        assert( harmonic != null );
+        if ( harmonic != _harmonic ) {
             if ( _harmonic != null ) {
                 _harmonic.removeObserver( this );
             }
-            _harmonic = harmonicModel;
+            _harmonic = harmonic;
             _harmonic.addObserver( this );
             update();
         }
     }
     
     /**
-     * Gets the model that this slider controls.
+     * Gets the harmonic that this slider controls.
      * 
      * @return the model
      */
-    public Harmonic getModel() {
+    public Harmonic getHarmonic() {
         return _harmonic;
     }
     
@@ -370,7 +370,7 @@ public class AmplitudeSlider extends GraphicLayerSet
     }
     
     /*
-     * Fires an event indicating that the Harmonics associated with this slider
+     * Fires an event indicating that the Harmonic associated with this slider
      * has gained or lost focus.
      * 
      * @param hasFocus true or false
@@ -401,7 +401,7 @@ public class AmplitudeSlider extends GraphicLayerSet
      * Update when the color associated with this slider's harmonic changes.
      */
     public void harmonicColorChanged( HarmonicColorChangeEvent e ) {
-        if ( e.getOrder() == _harmonic.getOrder()   ) {
+        if ( e.getOrder() == _harmonic.getOrder()  ) {
             update();
         }
     }
