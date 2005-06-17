@@ -121,10 +121,9 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
     }
 
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         _chart.removeListener( this );
         _chart = null;
         HarmonicColors.getInstance().removeHarmonicColorChangeListener( this );

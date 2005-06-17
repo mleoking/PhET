@@ -50,10 +50,9 @@ public class HarmonicDataSetGraphic extends LinePlot implements HarmonicColorCha
     }
     
     /**
-     * Finalizes an instance of this type.
      * Call this method prior to releasing all references to an object of this type.
      */
-    public void finalize() {
+    public void cleanup() {
         HarmonicColors.getInstance().removeHarmonicColorChangeListener( this );
     }
     
