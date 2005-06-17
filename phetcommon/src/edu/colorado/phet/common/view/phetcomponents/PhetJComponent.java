@@ -265,12 +265,12 @@ public class PhetJComponent extends PhetGraphic {
         addKeyListener( keyHandler );
         component.addFocusListener( new FocusAdapter() {
             public void focusGained( FocusEvent e ) {
-                System.out.println( "PhetJComponent.focusGained=" + component );
+//                System.out.println( "PhetJComponent.focusGained=" + component );
                 repaint();
             }
 
             public void focusLost( FocusEvent e ) {
-                System.out.println( "PhetJComponent.focusLost, copmonent=" + component );
+//                System.out.println( "PhetJComponent.focusLost, copmonent=" + component );
                 repaint();
             }
         } );
