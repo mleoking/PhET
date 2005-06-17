@@ -34,6 +34,8 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     private ArrayList rectanglePotentialGraphics = new ArrayList();
     private boolean displayPyExpectation = false;
 
+    private int colorGridWidth = 600;
+
     public SchrodingerPanel( SchrodingerModule module ) {
         this.module = module;
         this.discreteModel = module.getDiscreteModel();
@@ -46,12 +48,10 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
         wavefunctionGraphic = new PhetImageGraphic( this );
         addGraphic( wavefunctionGraphic );
 
-//        DetectorGraphic detectorGraphic = new DetectorGraphic( this, new Detector( 10, 10, 10, 10 ) );
-//        addGraphic( detectorGraphic );
     }
 
     private ColorGrid createColorGrid() {
-        return new ColorGrid( 600, 600, discreteModel.getXMesh(), discreteModel.getYMesh() );
+        return new ColorGrid( colorGridWidth, colorGridWidth, discreteModel.getXMesh(), discreteModel.getYMesh() );
     }
 
     public void reset() {

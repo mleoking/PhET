@@ -67,10 +67,10 @@ public class RichardsonPropagator implements Propagator {
                 }
             }
         }
-        System.out.println( "deltaTime= " + deltaTime );
-        System.out.println( "epsilon = " + epsilon );
-        System.out.println( "alpha = " + alpha );
-        System.out.println( "beta = " + beta );
+//        System.out.println( "deltaTime= " + deltaTime );
+//        System.out.println( "epsilon = " + epsilon );
+//        System.out.println( "alpha = " + alpha );
+//        System.out.println( "beta = " + beta );
     }
 
     private double toEpsilon( double dt ) {

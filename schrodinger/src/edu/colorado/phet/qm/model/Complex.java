@@ -113,4 +113,8 @@ public class Complex {
         real = aTemp.real + bTemp.real + cTemp.real;
         imag = aTemp.imag + bTemp.imag + cTemp.imag;
     }
+
+    public static Complex eulerize( double theta ) {
+        return new Complex( Math.cos( theta ), Math.sin( theta ) );
+    }
 }
