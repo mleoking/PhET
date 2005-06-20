@@ -3,6 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
+- figure out how to do the summation symbol for the Sum equation
 
 HIGH PRIORITY:
 - amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel
