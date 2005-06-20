@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d;
 
+import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
@@ -29,6 +30,7 @@ public class SimpleControlPanel extends IForceControl {
         super( simpleForceModule );
         this.simpleForceModule = simpleForceModule;
 
+        AdvancedPanel advancedPanel = new AdvancedPanel( "More Controls", "Hide" );
         JButton moreControls = new JButton( "More Controls!" );
         moreControls.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -44,15 +46,18 @@ public class SimpleControlPanel extends IForceControl {
         } );
 
         fbdSuite = new FreeBodyDiagramSuite( simpleForceModule );
-        fbdSuite.addTo( this );
+        fbdSuite.setControlPanel( this );
+        addControl( fbdSuite.getCheckBox() );
+        addControl( fbdSuite.getFBDPanel() );
+
         if( Toolkit.getDefaultToolkit().getScreenSize().width < 1200 ) {
             super.removeTitle();
         }
 
 
-        add( frictionCheckBox );
+        addControl( frictionCheckBox );
         barriers = new BarrierCheckBox( simpleForceModule );
-        add( barriers );
+        addControl( barriers );
         super.setHelpPanelEnabled( true );
         simpleForceModule.getForceModel().getPlotDeviceModel().addListener( new PlotDeviceModel.ListenerAdapter() {
             public void recordingStarted() {
@@ -72,7 +77,7 @@ public class SimpleControlPanel extends IForceControl {
             }
         } );
         ObjectSelectionPanel osp = new ObjectSelectionPanel( simpleForceModule.getImageElements(), this );
-        add( osp );
+        addControl( osp );
     }
 
     private void setChangesEnabled( boolean enabled ) {
@@ -94,5 +99,9 @@ public class SimpleControlPanel extends IForceControl {
 
     public void handleUserInput() {
         fbdSuite.handleUserInput();
+    }
+
+    public FreeBodyDiagramSuite getFreeBodyDiagramSuite() {
+        return fbdSuite;
     }
 }

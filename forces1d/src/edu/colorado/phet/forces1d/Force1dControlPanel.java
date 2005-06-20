@@ -50,10 +50,11 @@ public class Force1dControlPanel extends IForceControl {
         } );
         addControl( lessControls );
 
-        freeBodyDiagramSuite.addTo( this );
+        freeBodyDiagramSuite.setControlPanel( this );
 
+        addControl( freeBodyDiagramSuite.getCheckBox() );
+        addControl( freeBodyDiagramSuite.getFBDPanel() );
 
-//        comboBox = new JComboBox( module.getImageElements() );
         comboBox = new ObjectComboBox( module, module.getImageElements(), this );
         addControl( comboBox );
 
@@ -107,10 +108,7 @@ public class Force1dControlPanel extends IForceControl {
         controls.add( staticFriction );
         controls.add( kineticFriction );
 
-//        controls.setBorder( Force1DUtil.createTitledBorder( "Controls" ) );
-
         barriers = new BarrierCheckBox( module );
-
         model.getBlock().addListener( new Block.Listener() {
             public void positionChanged() {
             }
@@ -137,8 +135,6 @@ public class Force1dControlPanel extends IForceControl {
             }
         } );
         module.setObject( module.imageElementAt( 0 ) );
-//        setup( module.imageElementAt( 0 ) );
-
         super.setHelpPanelEnabled( true );
         if( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
 
@@ -176,10 +172,8 @@ public class Force1dControlPanel extends IForceControl {
         smallPanel.add( barriers );
         smallPanel.add( restore );
 
-        add( smallPanel );
-
-//        add( barriers );
-        add( controls );
+        addControlFullWidth( smallPanel );
+        addControlFullWidth( controls );
 
         Hashtable labelTable = new Hashtable();
 
@@ -188,15 +182,11 @@ public class Force1dControlPanel extends IForceControl {
         labelTable.put( new Double( 22.9 ), toJLabel( "Jupiter" ) );
         gravity.setModelLabels( labelTable );
         gravity.setPaintTicks( false );
-//        gravity.setModelTicks( labelTable );
     }
 
     static final Stroke stroke = new BasicStroke( 1 );
 
     public static JLabel toJLabel( String name ) {
-//        JLabel label = new JLabel( name );
-
-//        label.setOpaque( true );
         JLabel horizLabel = new JLabel( name ) {
             protected void paintComponent( Graphics g ) {
 
@@ -213,10 +203,6 @@ public class Force1dControlPanel extends IForceControl {
         horizLabel.setFont( new Font( "Lucida Sans", 0, 10 ) );
         Dimension pre = horizLabel.getPreferredSize();
         horizLabel.setPreferredSize( new Dimension( pre.width, pre.height + 5 ) );
-//        JPanel panel=new JPanel();
-//        panel.setLayout( new BoxLayout( panel, BoxLayout.Y_AXIS ) );
-//        panel.add(horizLabel);
-//        panel.add(label);
         return horizLabel;
     }
 
@@ -237,10 +223,6 @@ public class Force1dControlPanel extends IForceControl {
         kineticFriction.setEnabled( enabled );
         barriers.setEnabled( enabled );
     }
-//
-//    private void setup( Force1dObject force1dObject ) {
-//        module.setObject( force1dObject );
-//    }
 
     private ModelSlider createControl( double value, double min, double max, String name, String units, final SpinnerHandler handler ) {
         final ModelSlider modelSlider = new ModelSlider( name, units, min, max, value );
@@ -260,10 +242,6 @@ public class Force1dControlPanel extends IForceControl {
         return modelSlider;
     }
 
-//    public void mainLoop() {
-//        freeBodyDiagramSuite.updateGraphics();
-//    }
-
     public void reset() {
         freeBodyDiagramSuite.reset();
     }
@@ -274,6 +252,11 @@ public class Force1dControlPanel extends IForceControl {
 
     public void updateGraphics() {
         freeBodyDiagramSuite.updateGraphics();
+    }
+
+    public FreeBodyDiagramSuite getFreeBodyDiagramSuite() {
+        return freeBodyDiagramSuite;
+
     }
 
     interface SpinnerHandler {

@@ -174,26 +174,10 @@ public class Force1DModule extends Module {
         options.add( item );
 
         phetApplication.getPhetFrame().addMenu( options );
-//        PersistenceUtil.addMenuItems( phetApplication );
         phetApplication.startApplication();
 
         new FrameSetup.MaxExtent().initialize( phetApplication.getPhetFrame() );
-//        simpleModule.setPhetFrame( phetApplication.getPhetFrame() );
         module.setPhetFrame( phetApplication.getPhetFrame() );
-
-//        phetApplication.getModuleManager().addModuleObserver( new ModuleObserver() {
-//
-//            public void moduleAdded( ModuleEvent event ) {
-//            }
-//
-//            public void activeModuleChanged( ModuleEvent event ) {
-//                module.getForcePanel().setReferenceSize();
-//            }
-//
-//            public void moduleRemoved( ModuleEvent event ) {
-//            }
-//        } );
-
     }
 
     private void setPhetFrame( PhetFrame phetFrame ) {
@@ -230,7 +214,6 @@ public class Force1DModule extends Module {
 
     private static void setup( Force1DModule module ) {
         final Force1DPanel p = module.getForcePanel();
-//        p.setRenderingSize( 3000,3000);
         p.setReferenceSize();
         p.forceLayout( p.getWidth(), p.getHeight() );
 
@@ -362,6 +345,8 @@ public class Force1DModule extends Module {
             frame.invalidate();
             frame.doLayout();
         }
+        fullControlPanel.getFreeBodyDiagramSuite().controlsChanged();
+        simpleControlPanel.getFreeBodyDiagramSuite().controlsChanged();
     }
 
     public void setAdvancedControlPanel() {

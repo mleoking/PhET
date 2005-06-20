@@ -389,18 +389,18 @@ public class Force1DPanel extends ApparatusPanel2 {
         return lookAndFeel;
     }
 //
-    public void repaint( int x, int y, int width, int height ) {
-        super.repaint( x, y, width, height );
-    }
+//    public void repaint( int x, int y, int width, int height ) {
+//        super.repaint( x, y, width, height );
+//    }
 
-    private void printStack( int max ) {
-        StackTraceElement[] str = new Exception( "Repaint" ).getStackTrace();
-        for( int i = 0; i < str.length && i < max; i++ ) {
-            StackTraceElement stackTraceElement = str[i];
-            System.out.println( "" + i + ": " + stackTraceElement );
-        }
-        System.out.println( "..." );
-    }
+//    private void printStack( int max ) {
+//        StackTraceElement[] str = new Exception( "Repaint" ).getStackTrace();
+//        for( int i = 0; i < str.length && i < max; i++ ) {
+//            StackTraceElement stackTraceElement = str[i];
+//            System.out.println( "" + i + ": " + stackTraceElement );
+//        }
+//        System.out.println( "..." );
+//    }
 
     private boolean didLayout = false;//TODO fix this.
 
@@ -513,8 +513,6 @@ public class Force1DPanel extends ApparatusPanel2 {
     public void updateGraphics() {
         arrowSetGraphic.updateGraphics();
         blockGraphic.update();
-
-//        paint();
     }
 
     public void reset() {
