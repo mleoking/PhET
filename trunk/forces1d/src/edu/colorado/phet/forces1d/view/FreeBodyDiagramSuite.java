@@ -32,6 +32,8 @@ public class FreeBodyDiagramSuite {
     private ControlPanel controlPanel;
     private int dialogInsetX;
     private int dialogInsetY;
+    public PhetGraphic buttonPanelGraphic;
+    public ApparatusPanel2 fbdApparatusPanel;
 
     public FreeBodyDiagramSuite( final Force1DModule module ) {
         this.module = module;
@@ -50,8 +52,8 @@ public class FreeBodyDiagramSuite {
         try {
             final JPanel buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER, 1, 1 ) );
 
-            final ApparatusPanel2 fbdPanel = this.fbdPanel.getFBDPanel();
-            fbdPanel.setLayout( null );
+            fbdApparatusPanel = this.fbdPanel.getFBDPanel();
+            fbdApparatusPanel.setLayout( null );
             BufferedImage tearImage = ImageLoader.loadBufferedImage( "images/tear-20.png" );
             BufferedImage xImage = ImageLoader.loadBufferedImage( "images/x-20.png" );
 
@@ -74,29 +76,39 @@ public class FreeBodyDiagramSuite {
 
             closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    fbdPanel.setVisible( false );
+                    fbdApparatusPanel.setVisible( false );
                     checkBox.setVisible( true );
                     checkBox.setSelected( false );
                 }
             } );
-
-//            fbdPanel.add( buttonPanel );
-            final PhetGraphic buttonPanelGraphic = PhetJComponent.newInstance( fbdPanel, buttonPanel );
-            fbdPanel.addGraphic( buttonPanelGraphic, Double.POSITIVE_INFINITY );
+            buttonPanelGraphic = PhetJComponent.newInstance( fbdApparatusPanel, buttonPanel );
+            fbdApparatusPanel.addGraphic( buttonPanelGraphic, Double.POSITIVE_INFINITY );
             Dimension panelDim = buttonPanel.getPreferredSize();
-            buttonPanel.reshape( 0, 0, panelDim.width, panelDim.height );
-            reshapeTopRight( fbdPanel, buttonPanelGraphic, 3, 3 );
-            fbdPanel.addComponentListener( new ComponentAdapter() {
+            buttonPanel.setBounds( 0, 0, panelDim.width, panelDim.height );
+            updateButtons();
+            fbdApparatusPanel.addComponentListener( new ComponentAdapter() {
                 public void componentResized( ComponentEvent e ) {
-                    reshapeTopRight( fbdPanel, buttonPanelGraphic, 3, 3 );
+                    updateButtons();
                 }
+
+                public void componentShown( ComponentEvent e ) {
+                    updateButtons();
+                }
+
             } );
+
+//            PhetShapeGraphic phetShapeGraphic = new PhetShapeGraphic( getFBDPanel(), new Rectangle( 15, 15 ), Color.blue );
+//            fbdApparatusPanel.addGraphic( phetShapeGraphic, Double.POSITIVE_INFINITY );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
         checkBox.setVisible( false );
 
+    }
+
+    private void updateButtons() {
+        reshapeTopRight( fbdApparatusPanel, buttonPanelGraphic, 3, 3 );
     }
 
     private void setWindowed() {
@@ -115,6 +127,7 @@ public class FreeBodyDiagramSuite {
         controlPanel.invalidate();
         controlPanel.doLayout();
         controlPanel.validate();
+        updateButtons();
     }
 
     private void createDialog() {
@@ -142,43 +155,26 @@ public class FreeBodyDiagramSuite {
 
     private void closeDialog() {
         fbdPanel.getFBDPanel().setLocation( 0, 0 );
-        controlPanel.add( fbdPanel.getFBDPanel() );
+        controlPanel.addControl( fbdPanel.getFBDPanel() );
         dialog.setVisible( false );
+        updateButtons();
     }
 
     public Component getCheckBox() {
         return checkBox;
     }
 
-//    public void updateGraphics() {
-//        fbdPanel.getFBDPanel().handleUserInput();
-//        fbdPanel.updateGraphics();
-//    }
-
-    public void addTo( ControlPanel controlPanel ) {
+    public void setControlPanel( ControlPanel controlPanel ) {
         this.controlPanel = controlPanel;
-        controlPanel.addControl( checkBox );
-        controlPanel.addControl( fbdPanel.getFBDPanel() );
     }
-
 
     public void reshapeTopRight( JComponent container, PhetGraphic movable, int dx, int dy ) {
         int w = container.getWidth();
-        int h = container.getHeight();
         Dimension d = movable.getSize();
         int x = w - d.width - dx;
         int y = 0 + dy;
         movable.setLocation( x, y );//, d.width, d.height );
     }
-
-//    public void reshapeTopRight( JComponent container, JComponent movable, int dx, int dy ) {
-//        int w = container.getWidth();
-//        int h = container.getHeight();
-//        Dimension d = movable.getPreferredSize();
-//        int x = w - d.width - dx;
-//        int y = 0 + dy;
-//        movable.reshape( x, y, d.width, d.height );
-//    }
 
     public void reset() {
         fbdPanel.reset();
@@ -190,5 +186,13 @@ public class FreeBodyDiagramSuite {
 
     public void updateGraphics() {
         fbdPanel.updateGraphics();
+    }
+
+    public Component getFBDPanel() {
+        return fbdPanel.getFBDPanel();
+    }
+
+    public void controlsChanged() {
+        updateButtons();
     }
 }

@@ -32,7 +32,11 @@ public class FreeBodyDiagramPanel {
 
     public FreeBodyDiagramPanel( final Force1DModule module ) {
         this.module = module;
-        fbdPanel = new ApparatusPanel2( module.getClock() );
+        fbdPanel = new ApparatusPanel2( module.getClock() ) {
+            protected void paintComponent( Graphics graphics ) {
+                super.paintComponent( graphics );
+            }
+        };
         fbdPanel.setLayout( new BoxLayout( fbdPanel, BoxLayout.Y_AXIS ) );
         fbdPanel.addGraphicsSetup( new BasicGraphicsSetup() );
         int fbdWidth = 180;
