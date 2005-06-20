@@ -82,7 +82,12 @@ public class PhetImageGraphic extends PhetGraphic {
         if( isVisible() && image != null ) {
             super.saveGraphicsState( g2 );
             super.updateGraphicsState( g2 );
-            g2.drawRenderedImage( image, getNetTransform() );
+            try {
+                g2.drawRenderedImage( image, getNetTransform() );
+            }
+            catch( RuntimeException paintException ) {
+                paintException.printStackTrace();
+            }
             super.restoreGraphicsState();
         }
     }
