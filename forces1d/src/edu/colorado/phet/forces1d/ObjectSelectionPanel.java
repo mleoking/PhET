@@ -1,7 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.model.Force1dObject;
@@ -67,6 +66,6 @@ public class ObjectSelectionPanel extends JPanel {
             add( jRadioButton );
 
         }
-        setBorder( PhetLookAndFeel.createSmoothBorder( "Choose Object" ) );
+        setBorder( Force1DUtil.createSmoothBorder( "Choose Object" ) );
     }
 }

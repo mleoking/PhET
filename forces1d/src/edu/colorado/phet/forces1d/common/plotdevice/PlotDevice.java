@@ -11,7 +11,6 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetcomponents.PhetJTextComponent;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
@@ -62,7 +61,7 @@ public class PlotDevice extends GraphicLayerSet {
     private BufferedPhetGraphic bufferedPhetGraphic;
     private boolean controllable;
     private Point buttonLoc = new Point();
-    private PhetJTextComponent textFieldGraphic;
+    private PhetGraphic textFieldGraphic;
     private ApparatusPanel apparatusPanel;
 
     public PlotDevice( final ParameterSet parameters, BufferedPhetGraphic bufferedPhetGraphic )
@@ -134,7 +133,7 @@ public class PlotDevice extends GraphicLayerSet {
         textBox = new TextBox( plotDeviceModel, 9, parameters.labelStr, this );
         textBox.setHorizontalAlignment( JTextField.RIGHT );
 
-        textFieldGraphic = new PhetJTextComponent( panel, textBox.textField, true );
+        textFieldGraphic = PhetJComponent.newInstance( panel, textBox.textField );
 
         this.apparatusPanel = parameters.panel;
         plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
@@ -247,7 +246,7 @@ public class PlotDevice extends GraphicLayerSet {
         horizontalCursor.setVisible( false );
     }
 
-    public PhetJTextComponent getTextFieldGraphic() {
+    public PhetGraphic getTextFieldGraphic() {
         return textFieldGraphic;
     }
 
