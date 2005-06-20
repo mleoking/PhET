@@ -54,7 +54,7 @@ public class HarmonicsGraph extends GraphicLayerSet
     private static final double TITLE_LAYER = 2;
     private static final double CHART_LAYER = 3;
     private static final double CONTROLS_LAYER = 4;
-    private static final double EQUATIONS_LAYER = 5;
+    private static final double MATH_LAYER = 5;
 
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 200 );
@@ -114,10 +114,6 @@ public class HarmonicsGraph extends GraphicLayerSet
     private static final Color WAVE_DIMMED_COLOR = Color.GRAY;
     private static final int NUMBER_OF_DATA_POINTS = 1000;
     private static final int MAX_FUNDAMENTAL_CYCLES = 4;
-    
-    // Math parameters
-    private static final Font MATH_FONT = new Font( "Lucida Sans", Font.ITALIC, 18 );
-    private static final Color MATH_COLOR = Color.BLACK;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -125,7 +121,7 @@ public class HarmonicsGraph extends GraphicLayerSet
 
     private FourierSeries _fourierSeries;
     private Chart _chartGraphic;
-    private PhetTextGraphic _mathGraphic;
+    private HarmonicsEquation _mathGraphic;
     private PhetTextGraphic _xAxisTitleGraphic;
     private String _xAxisTitleTime, _xAxisTitleSpace;
     private ArrayList _dataSets; // array of HarmonicDataSet
@@ -133,6 +129,7 @@ public class HarmonicsGraph extends GraphicLayerSet
     private ZoomControl _horizontalZoomControl;
     private int _xZoomLevel;
     private int _domain;
+    private int _mathForm;
     private LabelTable _spaceLabels1, _spaceLabels2;
     private LabelTable _timeLabels1, _timeLabels2;
     private int _previousNumberOfHarmonics;
@@ -251,17 +248,16 @@ public class HarmonicsGraph extends GraphicLayerSet
 
         // Math
         {
-            _mathGraphic = new PhetTextGraphic( component, MATH_FONT, "Equation goes here", MATH_COLOR );
-            addGraphic( _mathGraphic, EQUATIONS_LAYER );
-            _mathGraphic.centerRegistrationPoint();
-            _mathGraphic.setLocation( CHART_SIZE.width / 2, -CHART_SIZE.height / 2 );
+            _mathGraphic = new HarmonicsEquation( component );
+            addGraphic( _mathGraphic, MATH_LAYER );
+            _mathGraphic.setLocation( CHART_SIZE.width / 2, -( CHART_SIZE.height / 2  ) - 3 ); // above center of chart
         }
         
         // Zoom controls
         {
             _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
-            _horizontalZoomControl.setLocation( CHART_SIZE.width + 20, -50 );
+            _horizontalZoomControl.setLocation( CHART_SIZE.width + 20, -50 );  // to the right of the chart
         }
 
         // Interactivity
@@ -293,6 +289,9 @@ public class HarmonicsGraph extends GraphicLayerSet
      */
     public void reset() {
 
+        // Domain
+        _domain = FourierConstants.DOMAIN_SPACE;
+        
         // Chart
         {
             _xZoomLevel = 0;
@@ -301,11 +300,10 @@ public class HarmonicsGraph extends GraphicLayerSet
             updateZoomButtons();
         }
         
-        // Domain
-        _domain = FourierConstants.DOMAIN_SPACE;
-        
         // Math Mode
+        _mathForm = FourierConstants.MATH_FORM_WAVE_NUMBER;
         _mathGraphic.setVisible( false );
+        updateMath();
         
         // Synchronize with model
         _previousNumberOfHarmonics = 0; // force an update
@@ -421,18 +419,6 @@ public class HarmonicsGraph extends GraphicLayerSet
     }
     
     /**
-     * Sets the domain.
-     * 
-     * @param domain one of the FourierConstants.DOMAIN_* constants
-     */
-    public void setDomain( int domain ) {
-        assert( FourierConstants.isValidDomain( domain ) );
-        _domain = domain;
-        updateLabelsAndLines();
-        updateMath();
-    }
-    
-    /**
      * Gets the chart associated with this graphic.
      * 
      * @return the chart
@@ -450,6 +436,25 @@ public class HarmonicsGraph extends GraphicLayerSet
         assert( FourierConstants.isValidWaveType( waveType ) );
         for ( int i = 0; i < _dataSets.size(); i++ ) {
             ((HarmonicDataSet) _dataSets.get( i )).setWaveType( waveType );
+        }
+    }
+    
+    /**
+     * Sets the domain and math form.
+     * Together, these values determines how the chart is 
+     * labeled, and the format of the equation shown above the chart.
+     * 
+     * @param domain
+     * @param mathForm
+     */
+    public void setDomainAndMathForm( int domain, int mathForm ) {
+        assert( FourierConstants.isValidDomain( domain ) );
+        assert( FourierConstants.isValidMathForm( mathForm ) );
+        _domain = domain;
+        _mathForm = mathForm;
+        updateLabelsAndLines();
+        if ( _mathForm != FourierConstants.NO_SELECTION ) {
+            updateMath();
         }
     }
     
@@ -653,6 +658,7 @@ public class HarmonicsGraph extends GraphicLayerSet
     }
     
     private void updateMath() {
-        //XXX implement
+        _mathGraphic.setForm( _domain, _mathForm );
+        _mathGraphic.setRegistrationPoint( _mathGraphic.getWidth() / 2, _mathGraphic.getHeight() ); // bottom center
     }
 }

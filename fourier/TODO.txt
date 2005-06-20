@@ -7,7 +7,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel
 - something is hammering the processor when we should be idle
-- investigate Jex for rendering equations
 - persistence
 - smooth out waveforms
 
@@ -47,6 +46,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/19) - Harmonics graph equations implemented using HTMLGraphic
 (6/19) - set default range of Sum graph to +-4/PI (SamM request)
 v0r2...
 (6/17) - add hand cursor to zoom control buttons
@@ -155,6 +155,7 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
+(6/20) - investigate Jex for rendering equations (no doc, uses OpenOffice for rendering, install Windows only)
 (6/14) - highlight component when mouse moves over it in Harmonics graph (dropped this feature)
 (5/20) - use multi-line choices in Math Form menu (doesn't work on Mac)
 

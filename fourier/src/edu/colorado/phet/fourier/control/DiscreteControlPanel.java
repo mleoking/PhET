@@ -349,6 +349,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
 //        addFullWidth( soundPanel );
         addFullWidth( mathModePanel );
 
+        // Set the state of the controls.
+        reset();
+        
         // Wire up event handling.
         EventListener listener = new EventListener();
         _domainComboBox.addActionListener( listener );
@@ -365,9 +368,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _showMathCheckBox.addActionListener( listener );
         _mathFormComboBox.addActionListener( listener );
         _expandSumCheckBox.addActionListener( listener );
-
-        // Set the state of the controls.
-        reset();
     }
 
     public void reset() {
@@ -414,6 +414,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         // Math Mode
         _showMathCheckBox.setSelected( false );
         _mathFormComboBox.setChoices( _spaceMathFormChoices );
+        _mathFormComboBox.setSelectedKey( FourierConstants.MATH_FORM_WAVE_NUMBER );
         _mathFormComboBox.setEnabled( false );
         _expandSumCheckBox.setEnabled( false );
     }
@@ -503,7 +504,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showPeriodCheckBox.setEnabled( false );
             _showPeriodComboBox.setEnabled( false );
             _periodTool.setVisible( false );
-            _harmonicsGraph.setDomain( key );
+            _harmonicsGraph.setDomainAndMathForm( key, _mathFormComboBox.getSelectedKey() );
             _sumGraph.setDomain( key );
             break;
         case FourierConstants.DOMAIN_TIME:
@@ -514,7 +515,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showPeriodCheckBox.setEnabled( true );
             _showPeriodComboBox.setEnabled( _showPeriodCheckBox.isSelected() );
             _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
-            _harmonicsGraph.setDomain( key );
+            _harmonicsGraph.setDomainAndMathForm( key, _mathFormComboBox.getSelectedKey() );
             _sumGraph.setDomain( key );
             break;
         case FourierConstants.DOMAIN_SPACE_AND_TIME:
@@ -525,7 +526,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showPeriodCheckBox.setEnabled( true );
             _showPeriodComboBox.setEnabled( _showPeriodCheckBox.isSelected() );
             _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
-            _harmonicsGraph.setDomain( key );
+            _harmonicsGraph.setDomainAndMathForm( key, _mathFormComboBox.getSelectedKey() );
             _sumGraph.setDomain( key );
             break;
         default:
@@ -639,7 +640,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     }
     
     private void handleMathForm() {
-        
+        int domain = _domainComboBox.getSelectedKey();
+        int mathForm = _mathFormComboBox.getSelectedKey();
+        _harmonicsGraph.setDomainAndMathForm( domain, mathForm );
     }
     
     private void handleExpandSum() {
