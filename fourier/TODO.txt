@@ -5,6 +5,7 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
+- amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel
 - something is hammering the processor when we should be idle
 - investigate Jex for rendering equations
 - persistence
