@@ -20,7 +20,7 @@ import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.help.HelpManager;
-import edu.colorado.phet.common.view.help.HelpPanel;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 
@@ -46,7 +46,6 @@ public class Module implements ClockTickListener {
     HelpManager helpManager;
 
     /**
-     *
      * @param name
      * @param clock
      */
@@ -58,8 +57,8 @@ public class Module implements ClockTickListener {
     }
 
     /**
-     * @deprecated
      * @param name
+     * @deprecated
      */
     protected Module( String name ) {
         this( name, null );
@@ -244,10 +243,12 @@ public class Module implements ClockTickListener {
     /**
      * Any module that wants to do some graphics updating that isn't handled through
      * model element/observer mechanisms can overide this method
+     *
      * @param event
      */
     public void updateGraphics( ClockTickEvent event ) {
         // noop
+        PhetJComponent.getRepaintManager().updateGraphics();
     }
 
     //----------------------------------------------------------------

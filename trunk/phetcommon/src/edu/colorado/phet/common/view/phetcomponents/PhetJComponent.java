@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -39,6 +40,10 @@ public class PhetJComponent extends PhetGraphic {
     private MouseInputAdapter mouseListener;
     private KeyListener keyHandler;
     private static PhetJComponentRepaintManager repaintManagerPhet = new PhetJComponentRepaintManager();
+
+    public static PhetJComponentRepaintManager getRepaintManager() {
+        return repaintManagerPhet;
+    }
 
     public static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent ) {
         return newInstance( apparatusPanel, jComponent, true );
@@ -362,7 +367,12 @@ public class PhetJComponent extends PhetGraphic {
         if( dim.width == 0 || dim.height == 0 ) {
             return;
         }
-        component.setBounds( 0, 0, dim.width, dim.height );//dimension is set by parent's layout manager.
+        Rectangle bounds = component.getBounds();
+//        System.out.println( "component = " + component );
+//        System.out.println( "bounds = " + bounds );
+        if( !bounds.equals( new Rectangle( dim ) ) ) {
+            component.setBounds( 0, 0, dim.width, dim.height );//dimension is set by parent's layout manager.
+        }
 
         if( image == null ) {
             image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_ARGB );
@@ -441,13 +451,19 @@ public class PhetJComponent extends PhetGraphic {
 
     public static class PhetJComponentRepaintManager extends RepaintManager {
         private Hashtable table = new Hashtable();//key=JComponent, value=PhetJComponent.
+        private static ArrayList dirty = new ArrayList();
 
         public synchronized void addDirtyRegion( JComponent c, int x, int y, int w, int h ) {
             super.addDirtyRegion( c, x, y, w, h );
             if( table.containsKey( c ) ) {
                 PhetJComponent phetJComponent = (PhetJComponent)table.get( c );
                 if( c.getComponentCount() == 0 && new Exception().getStackTrace().length < 75 ) {
-                    phetJComponent.repaint(); // queue up repaint request
+                    if( !dirty.contains( c ) ) {
+                        dirty.add( phetJComponent );
+                        if( dirty.size() > 1000 ) {
+                            new RuntimeException( "Too many dirty components: " + dirty.size() ).printStackTrace();
+                        }
+                    }
                 }
             }
         }
@@ -456,5 +472,12 @@ public class PhetJComponent extends PhetGraphic {
             table.put( phetJComponent.component, phetJComponent );
         }
 
+        public void updateGraphics() {
+            for( int i = 0; i < dirty.size(); i++ ) {//todo coalesce the paint messages.  Can some code from RepaintManager be reused?
+                PhetJComponent phetJComponent = (PhetJComponent)dirty.get( i );
+                phetJComponent.repaint();
+            }
+            dirty.clear();
+        }
     }
 }
