@@ -69,8 +69,8 @@ public class AmplitudeSlider extends GraphicLayerSet
 
     // Label parameters
     private static final Color LABEL_COLOR = Color.BLACK;
-    private static final Font LABEL_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
-    private static final Font LABEL_SUBSCRIPT_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font LABEL_SUBSCRIPT_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 12 );
     private static final int LABEL_Y_OFFSET = 45; // above the maximum height of the slider track
     
     // Value parameters
@@ -78,7 +78,7 @@ public class AmplitudeSlider extends GraphicLayerSet
     private static final double VALUE_STEP = 0.01;
     private static final String VALUE_FORMAT = "0.00";
     private static final int VALUE_COLUMNS = 3;
-    private static final Font VALUE_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private static final Font VALUE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 12 );
     private static final int VALUE_Y_OFFSET = 27; // above the maximum height of the slider track
 
     // Knob parameters

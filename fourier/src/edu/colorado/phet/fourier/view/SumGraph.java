@@ -65,14 +65,14 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final int TITLE_X_OFFSET = -15; // from origin
     
     // Axis parameter
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
-    private static final Font AXIS_TITLE_FONT = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private static final Font AXIS_TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
     // Range labels
@@ -81,7 +81,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     
     // Tick Mark parameter
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font MAJOR_TICK_FONT = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private static final Font MAJOR_TICK_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 12 );
     private static final Color MAJOR_TICK_COLOR = Color.BLACK;
     private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
     private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
@@ -120,7 +120,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private static final Color SUM_COLOR = Color.BLACK; 
     
     // Math parameters
-    private static final Font MATH_FONT = new Font( "Lucida Sans", Font.ITALIC, 18 );
+    private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.ITALIC, 18 );
     private static final Color MATH_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------

@@ -16,6 +16,7 @@ import java.awt.Component;
 import java.awt.Font;
 
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 
 
@@ -31,7 +32,7 @@ public class HarmonicsEquation extends HTMLGraphic {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.ITALIC, 20 );
+    private static final Font DEFAULT_FONT = new Font( FourierConfig.FONT_NAME, Font.ITALIC, 20 );
     private static final Color DEFAULT_COLOR = Color.BLACK;
     
     // Math forms for "space" domain
