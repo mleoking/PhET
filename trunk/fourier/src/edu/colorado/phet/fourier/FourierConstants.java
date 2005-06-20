@@ -101,6 +101,8 @@ public class FourierConstants {
     // Enumerations
     //----------------------------------------------------------------------------
     
+    public static final int NO_SELECTION = -1;
+    
     // Domain choices
     public static final int DOMAIN_SPACE = 0;
     public static final int DOMAIN_TIME = 1;
