@@ -46,6 +46,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/19) - dialog that shows expanded form of sum
 (6/19) - move LucidaSans to FourierConfig, so we can change the font name in one place if needed
 (6/19) - Harmonics graph equations implemented using HTMLGraphic
 (6/19) - set default range of Sum graph to +-4/PI (SamM request)
