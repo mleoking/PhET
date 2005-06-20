@@ -513,6 +513,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     public void updateGraphics() {
         arrowSetGraphic.updateGraphics();
         blockGraphic.update();
+
 //        paint();
     }
 

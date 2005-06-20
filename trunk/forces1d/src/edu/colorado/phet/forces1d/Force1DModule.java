@@ -1,9 +1,7 @@
 /** Sam Reid*/
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.application.ApplicationModel;
 import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.application.ModuleObserver;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -52,6 +50,7 @@ public class Force1DModule extends Module {
 
     public Force1DModule( AbstractClock clock, String name, PhetLookAndFeel phetLookAndFeel ) throws IOException {
         super( name, clock );
+        System.out.println( "Force1DModule.Force1DModule-a" );
         this.phetLookAndFeel = phetLookAndFeel;
 //        this.clock = clock;
 
@@ -64,8 +63,9 @@ public class Force1DModule extends Module {
             new Force1dObject( "images/crate.gif", "Crate", 0.8, 300, 0.2, 0.2 ),
             new Force1dObject( "images/ollie.gif", "Sleepy Dog", 0.5, 25, 0.1, 0.1 ),
         };
-
+        System.out.println( "Force1DModule.Force1DModule" );
         forcePanel = new Force1DPanel( this );
+        System.out.println( "Force1DModule.Force1DModule2" );
         forcePanel.addRepaintDebugGraphic( clock );
         setApparatusPanel( forcePanel );
 
@@ -83,7 +83,8 @@ public class Force1DModule extends Module {
         getForceModel().addCollisionListener( crashAudioPlayer );
     }
 
-    protected void updateGraphics() {
+    public void updateGraphics( ClockTickEvent event ) {
+        super.updateGraphics( event );
         forcePanel.updateGraphics();
     }
 
@@ -129,16 +130,20 @@ public class Force1DModule extends Module {
         lookAndFeel.apply();
 
         AbstractClock clock = new SwingTimerClock( 1, 30 );
-        final Force1DModule module = new Force1DModule( clock, lookAndFeel );
-        module.getApparatusPanel().getGraphic().setVisible( false );
+        System.out.println( "Force1DModule.main" );
+
         FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
+
+//        ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
+//                                                       frameSetup, m, clock );
+//        model.setName( "force1d" );
+        final PhetApplication phetApplication = new PhetApplication( args, "Forces 1D", "Force1d applet", "1.0Beta", clock, false, frameSetup );
+
+        final Force1DModule module = new Force1DModule( clock, lookAndFeel );
+        System.out.println( "Force1DModule.main2" );
+        module.getApparatusPanel().getGraphic().setVisible( false );
         Module[] m = new Module[]{module};
-
-        ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
-                                                       frameSetup, m, clock );
-        model.setName( "force1d" );
-        final PhetApplication phetApplication = new PhetApplication( model, args );
-
+        phetApplication.setModules( m );
         phetApplication.getPhetFrame().addWindowStateListener( new WindowStateListener() {
             public void windowStateChanged( WindowEvent e ) {
                 int oldState = e.getOldState();
@@ -176,18 +181,18 @@ public class Force1DModule extends Module {
 //        simpleModule.setPhetFrame( phetApplication.getPhetFrame() );
         module.setPhetFrame( phetApplication.getPhetFrame() );
 
-        phetApplication.getModuleManager().addModuleObserver( new ModuleObserver() {
-            public void moduleAdded( Module m ) {
-            }
-
-            public void activeModuleChanged( Module m ) {
-                module.getForcePanel().setReferenceSize();
-            }
-
-            public void moduleRemoved( Module m ) {
-
-            }
-        } );
+//        phetApplication.getModuleManager().addModuleObserver( new ModuleObserver() {
+//
+//            public void moduleAdded( ModuleEvent event ) {
+//            }
+//
+//            public void activeModuleChanged( ModuleEvent event ) {
+//                module.getForcePanel().setReferenceSize();
+//            }
+//
+//            public void moduleRemoved( ModuleEvent event ) {
+//            }
+//        } );
 
     }
 
@@ -305,7 +310,7 @@ public class Force1DModule extends Module {
         debug( "updateControlPanelTime = " + updateControlPanelTime );
 
         QuickTimer updateGraphicsTime = new QuickTimer();
-        updateGraphics();
+        updateGraphics( event );
         debug( "updateGraphicsTime = " + updateGraphicsTime );
 
         QuickTimer paintTime = new QuickTimer();
