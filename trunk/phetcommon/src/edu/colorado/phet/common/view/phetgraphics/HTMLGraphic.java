@@ -10,11 +10,19 @@ import java.awt.image.BufferedImage;
  * Class for rendering HTML Text.
  */
 public class HTMLGraphic extends CompositePhetGraphic {
+    
+    private static final Color DEFAULT_COLOR = Color.BLACK;
+    private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    
     private String html;
     private Font font;
     private Color color;
     private PhetImageGraphic imageGraphic;
 
+    public HTMLGraphic( Component component ) {
+        this( component, DEFAULT_FONT, "", DEFAULT_COLOR );
+    }
+    
     public HTMLGraphic( Component component, Font font, String html, Color color ) {
         super( component );
         this.html = html;
@@ -26,12 +34,20 @@ public class HTMLGraphic extends CompositePhetGraphic {
     }
 
     public void setHTML( String html ) {
-        setHtml( html );
+        this.html = html;
+        update();
+    }
+    
+    public String getHTML() {
+        return html;
     }
     
     public void setHtml( String html ) {
-        this.html = html;
-        update();
+        setHTML( html );
+    }
+    
+    public String getHtml() {
+        return getHTML();
     }
 
     public void setFont( Font font ) {
