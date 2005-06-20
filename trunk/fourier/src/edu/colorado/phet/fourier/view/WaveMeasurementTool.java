@@ -23,6 +23,7 @@ import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.event.*;
 import edu.colorado.phet.fourier.model.Harmonic;
@@ -52,7 +53,7 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
     private static final Stroke PATH_STROKE = new BasicStroke( 1f );
     private static final Color PATH_BORDER_COLOR = Color.BLACK;
     private static final Color LABEL_COLOR = Color.BLACK;
-    private static final Font LABEL_FONT = new Font( "Lucida Sans", Font.PLAIN, 16 );
+    private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
     private static final int LABEL_Y_OFFSET = -16;
     private static final float END_WIDTH = 1;
     private static final float END_HEIGHT = 10;

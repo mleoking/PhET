@@ -63,6 +63,12 @@ public class FourierConfig {
     public static final String ZOOM_OUT_BUTTON_DISABLED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonDisabled.png";
     
     //----------------------------------------------------------------------------
+    // Fonts
+    //----------------------------------------------------------------------------
+    
+    public static final String FONT_NAME = "Lucida Sans";
+    
+    //----------------------------------------------------------------------------
     // Harmonics
     //----------------------------------------------------------------------------
     

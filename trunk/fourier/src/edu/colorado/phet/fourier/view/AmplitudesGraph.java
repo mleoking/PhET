@@ -61,14 +61,14 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( "Lucida Sans", Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final int TITLE_X_OFFSET = -20; // from origin
     
     // Axis parameters
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
-    private static final Font AXIS_TITLE_FONT = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private static final Font AXIS_TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
     // Range labels
@@ -86,7 +86,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     private static final double Y_MINOR_TICK_SPACING = 0.1;
     private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Stroke Y_MINOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font Y_MAJOR_TICK_FONT = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private static final Font Y_MAJOR_TICK_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 12 );
     private static final Color Y_MAJOR_GRIDLINE_COLOR = Color.BLACK;
     private static final Color Y_MINOR_GRIDLINE_COLOR = new Color( 0, 0, 0, 60 );
     private static final Stroke Y_MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
