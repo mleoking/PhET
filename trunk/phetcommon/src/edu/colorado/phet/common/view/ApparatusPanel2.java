@@ -664,6 +664,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
 
         public void render( Graphics2D g2, AffineTransform graphicTx ) {
+            if( bImg == null ) {
+                componentResized();
+            }
             if( bImg != null ) {
                 Graphics2D bImgGraphics = (Graphics2D)bImg.getGraphics();
                 //TODO: we'll be painting over this region, do we really have to clear it?
