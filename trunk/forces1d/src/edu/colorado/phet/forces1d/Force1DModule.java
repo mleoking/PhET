@@ -351,6 +351,12 @@ public class Force1DModule extends Module {
             phetFrame.getBasicPhetPanel().validate();
             phetFrame.getBasicPhetPanel().doLayout();
         }
+        Window window = SwingUtilities.getWindowAncestor( controlPanel );
+        if( window instanceof JFrame ) {
+            JFrame frame = (JFrame)window;
+            frame.invalidate();
+            frame.doLayout();
+        }
     }
 
     public void setAdvancedControlPanel() {

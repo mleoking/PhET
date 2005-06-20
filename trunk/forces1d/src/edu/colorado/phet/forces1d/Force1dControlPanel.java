@@ -48,14 +48,14 @@ public class Force1dControlPanel extends IForceControl {
                 module.setSimpleControlPanel();
             }
         } );
-        add( lessControls );
+        addControl( lessControls );
 
         freeBodyDiagramSuite.addTo( this );
 
 
 //        comboBox = new JComboBox( module.getImageElements() );
         comboBox = new ObjectComboBox( module, module.getImageElements(), this );
-        add( comboBox );
+        addControl( comboBox );
 
         mass = createControl( 5, 0.1, 1000, "Mass", "kg", new SpinnerHandler() {
             public void changed( double value ) {

@@ -157,8 +157,8 @@ public class FreeBodyDiagramSuite {
 
     public void addTo( ControlPanel controlPanel ) {
         this.controlPanel = controlPanel;
-        controlPanel.add( checkBox );
-        controlPanel.add( fbdPanel.getFBDPanel() );
+        controlPanel.addControl( checkBox );
+        controlPanel.addControl( fbdPanel.getFBDPanel() );
     }
 
 
