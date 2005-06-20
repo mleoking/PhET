@@ -46,6 +46,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/19) - set default range of Sum graph to +-4/PI (SamM request)
 v0r2...
 (6/17) - add hand cursor to zoom control buttons
 (6/17) - remove horizontal minor gridlines from Harmonics graph

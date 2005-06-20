@@ -102,7 +102,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private static final double X_MINOR_TICK_SPACING = ( L / 8 );
 
     // Y axis
-    private static final double Y_RANGE_START = 3.0;
+    private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_RANGE_MIN = FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_RANGE_MAX = 12.0;
     private static final double Y_MAJOR_TICK_SPACING = 5.0;
