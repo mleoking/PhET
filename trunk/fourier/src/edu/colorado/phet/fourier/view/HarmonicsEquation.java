@@ -20,16 +20,21 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * HarmonicsEquation
+ * HarmonicsEquation is the equation shown above the "Harmonics" graph.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class HarmonicsEquation extends HTMLGraphic {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.ITALIC, 20 );
     private static final Color DEFAULT_COLOR = Color.BLACK;
     
+    // Math forms for "space" domain
     private static final String TEXT_SPACE_WAVE_NUMBER = 
         "<html><i>A<sub>n</sub> = sin( k<sub>n</sub>x )</html>";
     private static final String TEXT_SPACE_WAVELENGTH = 
@@ -37,6 +42,7 @@ public class HarmonicsEquation extends HTMLGraphic {
     private static final String TEXT_SPACE_MODE = 
         "<html><i>A<sub>n</sub> = sin( 2\u03c0nx / L )</html>";
     
+    // Math forms for "time" domain
     private static final String TEXT_TIME_ANGULAR_FREQUENCY = 
         "<html><i>A<sub>n</sub> = sin( \u03C9<sub>n</sub>t )</html>";
     private static final String TEXT_TIME_FREQUENCY = 
@@ -46,12 +52,17 @@ public class HarmonicsEquation extends HTMLGraphic {
     private static final String TEXT_TIME_MODE = 
         "<html><i>A<sub>n</sub> = sin( 2\u03c0nt / T )</html>";
     
+    // Math forms for "space & time" domain
     private static final String TEXT_SPACE_AND_TIME_WAVENUMBER_AND_ANGULAR_FREQUENCY = 
         "<html><i>A<sub>n</sub> = sin( k<sub>n</sub>x - \u03BB<sub>n</sub>t )</html>";
     private static final String TEXT_SPACE_AND_TIME_WAVELENGTH_AND_PERIOD =
         "<html><i>A<sub>n</sub> = sin( ( 2\u03C9x / \u03BB<sub>n</sub> ) - ( 2\u03c0t / T<sub>n</sub> ) )</html>";
     private static final String TEXT_SPACE_AND_TIME_MODE = 
         "<html><i>A<sub>n</sub> = sin( ( 2\u03c0nx / L ) - ( 2\u03c0nt / T ) )</html>";
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Sole constructor.
@@ -64,14 +75,26 @@ public class HarmonicsEquation extends HTMLGraphic {
         setForm( FourierConstants.DOMAIN_SPACE, FourierConstants.MATH_FORM_WAVE_NUMBER );
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the form of the equations.
+     * The form is determined by the domain and math form.
+     * 
+     * @param domain
+     * @param mathForm
+     * @throws IllegalArgumentException if the an illegal combination of values is provided
+     */
     public void setForm( int domain, int mathForm ) {
         
-        System.out.println( "HarmonicsEquation.setForm: domain=" + domain + " mathForm=" + mathForm );//XXX
         assert( FourierConstants.isValidDomain( domain ) );
         assert( FourierConstants.isValidMathForm( mathForm ) );
         
         String text = null;
         
+        // Choose the corresponding HTML string.
         switch ( domain ) {
             case FourierConstants.DOMAIN_SPACE:
                 switch ( mathForm ) {
@@ -121,13 +144,13 @@ public class HarmonicsEquation extends HTMLGraphic {
             default:
         }
         
-        if ( text == null ) {  
-            throw new IllegalArgumentException( 
-                    "illegal combination of domain (" + domain + ") " +
-                    		"and math form (" + mathForm + ")" );
+        // Set the HTML string.
+        if ( text != null ) {  
+            setHTML( text ); 
         }
         else {
-            setHTML( text );
+            throw new IllegalArgumentException( 
+                    "illegal combination of domain (" + domain + ") " + "and math form (" + mathForm + ")" );
         }
     }
 }
