@@ -14,7 +14,9 @@ package edu.colorado.phet.fourier.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.text.NumberFormat;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -42,7 +44,9 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int TERMS_PER_LINE = 4;
+    private static final int TERMS_PER_LINE = 3;
+    private static final NumberFormat VALUE_FORMATTER = new DecimalFormat( "0.##" );
+    private static boolean SHOW_TERMS_WITH_ZERO_AMPLITUDE = true;
     
     // Functions
     private static final String FUNCTION_SPACE = "F(x)";
@@ -280,15 +284,26 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
         StringBuffer buffer = new StringBuffer( "<html>" );
         buffer.append( function );
         buffer.append( " =  " );
+        int terms = 0;
         for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
-            Object[] args = { new Integer( i+1 ), new Integer( i+1 ) };
-            String term = MessageFormat.format( format, args );
-            buffer.append( term );
-            if ( i < _fourierSeries.getNumberOfHarmonics() - 1 ) {
-                buffer.append( " + " );
-            }
-            if ( (i+1) % TERMS_PER_LINE == 0 ) {
-                buffer.append( "<br>" );
+            double amplitude = _fourierSeries.getHarmonic( i ).getAmplitude();
+            if ( SHOW_TERMS_WITH_ZERO_AMPLITUDE || amplitude != 0 ) {
+                
+                if ( terms != 0 ) {
+                    buffer.append( " + " );
+                }
+                
+                buffer.append( VALUE_FORMATTER.format( amplitude ) );
+                buffer.append( " " );
+                Object[] args = { new Integer( i + 1 ), new Integer( i + 1 ) };
+                String term = MessageFormat.format( format, args );
+                buffer.append( term );
+
+                if ( ( terms + 1 ) % TERMS_PER_LINE == 0 ) {
+                    buffer.append( "<br>" );
+                }
+                
+                terms++;
             }
         }
         buffer.append( "</html>" );
