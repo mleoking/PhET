@@ -37,6 +37,10 @@ public class VerticalLayoutPanel extends JPanel {
         return null;
     }
 
+    public void setGridY( int gridy ) {
+        this.gridBagConstraints.gridy = gridy;
+    }
+
     public void setFill( int fill ) {
         gridBagConstraints.fill = fill;
     }
