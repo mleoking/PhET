@@ -154,10 +154,19 @@ public class FreeBodyDiagramSuite {
     }
 
     private void closeDialog() {
-        fbdPanel.getFBDPanel().setLocation( 0, 0 );
+        controlPanel.getControlPane().setGridY( 1 );//todo Magic number.
         controlPanel.addControl( fbdPanel.getFBDPanel() );
         dialog.setVisible( false );
         updateButtons();
+        Window w = SwingUtilities.getWindowAncestor( controlPanel );
+        if( w instanceof JFrame ) {
+            JFrame frame = (JFrame)w;
+
+            frame.invalidate();
+            frame.validate();
+            frame.repaint();
+        }
+
     }
 
     public Component getCheckBox() {
