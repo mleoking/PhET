@@ -381,7 +381,7 @@ public class ControlPanel extends JPanel {
     /**
      * Class of panel for holding simulation-specific controls
      */
-    private class ContentPanel extends VerticalLayoutPanel {
+    public class ContentPanel extends VerticalLayoutPanel {
         public ContentPanel() {
             setFill( GridBagConstraints.NONE );
         }
