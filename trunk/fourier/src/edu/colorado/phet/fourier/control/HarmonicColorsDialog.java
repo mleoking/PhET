@@ -85,7 +85,6 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
 
         this.getContentPane().add( panel );
         this.pack();
-        this.setResizable( false );
         this.setLocationRelativeTo( parent );
     }
     
