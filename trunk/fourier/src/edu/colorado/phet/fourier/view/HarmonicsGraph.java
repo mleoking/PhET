@@ -453,9 +453,6 @@ public class HarmonicsGraph extends GraphicLayerSet
         _domain = domain;
         _mathForm = mathForm;
         updateLabelsAndLines();
-        if ( _mathForm != FourierConstants.NO_SELECTION ) {
-            updateMath();
-        }
     }
     
     //----------------------------------------------------------------------------
