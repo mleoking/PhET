@@ -130,17 +130,16 @@ public class Force1DModule extends Module {
         lookAndFeel.apply();
 
         AbstractClock clock = new SwingTimerClock( 1, 30 );
-        System.out.println( "Force1DModule.main" );
-
         FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
 
 //        ApplicationModel model = new ApplicationModel( "Forces 1D", "Force1d applet", "1.0Alpha",
 //                                                       frameSetup, m, clock );
 //        model.setName( "force1d" );
-        final PhetApplication phetApplication = new PhetApplication( args, "Forces 1D", "Force1d applet", "1.0Beta", clock, false, frameSetup );
+        String version = "v1r13";
+        final PhetApplication phetApplication = new PhetApplication( args, "Forces 1D" + " - " + version,
+                                                                     "Force1d applet", version, clock, false, frameSetup );
 
         final Force1DModule module = new Force1DModule( clock, lookAndFeel );
-        System.out.println( "Force1DModule.main2" );
         module.getApparatusPanel().getGraphic().setVisible( false );
         Module[] m = new Module[]{module};
         phetApplication.setModules( m );

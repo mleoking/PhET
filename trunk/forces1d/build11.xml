@@ -150,9 +150,6 @@
             <property name="jardest" value="${ant.lib}/phetcommon.jar"/>
         </ant>
         <echo message="Using: ${phetcommon.build.file}"></echo>
-        <ant antfile="${phetcommon.build.file}" target="Copy Lib" inheritall="false">
-            <property name="libdest" value="${ant.lib}"/>
-        </ant>
         <ant antfile="${charts.build.file}" target="Generate Jar" inheritall="false">
             <property name="jardest" value="${ant.lib}/charts.jar"/>
         </ant>
