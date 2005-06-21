@@ -73,11 +73,11 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
     
     // Math forms for "space & time" domain
     private static final String FORMAT_SPACE_AND_TIME_WAVENUMBER_AND_ANGULAR_FREQUENCY = 
-        "sin( k<sub>{0}</sub>x - \u03BB<sub>{0}</sub>t )";
+        "sin( k<sub>{0}</sub>x - \u03C9<sub>{0}</sub>t )";
     private static final String FORMAT_SPACE_AND_TIME_WAVELENGTH_AND_PERIOD =
-        "sin( ( 2\u03C9x / \u03BB<sub>{0}</sub> ) - ( 2\u03c0t / T<sub>{0}</sub> ) )";
+        "sin( 2\u03c0( x/\u03BB<sub>{0}</sub> - t/T<sub>{0}</sub> ) )";
     private static final String FORMAT_SPACE_AND_TIME_MODE = 
-        "sin( ( 2\u03c0{0}x / L ) - ( 2\u03c0{0}t / T ) )";
+        "sin( 2\u03c0{0}( x/L - t/T ) )";
     
     //----------------------------------------------------------------------------
     // Instance data
