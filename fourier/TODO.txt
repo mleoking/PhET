@@ -6,8 +6,6 @@ IN PROGRESS:
 - figure out how to do the summation symbol for the Sum equation
 
 HIGH PRIORITY:
-- "Show wavelength" -> "Wavelength Tool"
-- "Show period" -> "Period Tool"
 - set initial locations of tools to about right of Harmonics graph
 - smooth out waveforms
 - implement "show infinite..."
@@ -50,6 +48,8 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/21) - use ItemListener for comboboxes so we don't get false selections
+(6/21) - "Show wavelength" -> "Wavelength Tool", "Show period" -> "Period Tool"
 (6/21) - lighter gridlines in Harmonics and Sum graphs
 (6/21) - fix typos in math mode equations
 (6/21) - make Harmonics and Sum graph background color the same

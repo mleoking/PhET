@@ -12,7 +12,7 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.GridBagConstraints;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
@@ -75,12 +75,12 @@ public class FourierComboBox extends JPanel {
         }
     }
     
-    public void addActionListener( ActionListener listener ) {
-        _comboBox.addActionListener( listener );
+    public void addItemListener( ItemListener listener ) {
+        _comboBox.addItemListener( listener );
     }
  
-    public void removeActionListener( ActionListener listener ) {
-        _comboBox.removeActionListener( listener );
+    public void removeitemListener( ItemListener listener ) {
+        _comboBox.removeItemListener( listener );
     }
     
     public void setSelectedItem( Object item ) {
@@ -89,6 +89,14 @@ public class FourierComboBox extends JPanel {
     
     public Object getSelectedItem() {
         return _comboBox.getSelectedItem();
+    }
+    
+    public void setSelectedIndex( int index ) {
+        _comboBox.setSelectedIndex( index );
+    }
+    
+    public int getSelectedIndex() {
+        return _comboBox.getSelectedIndex();
     }
     
     public void setSelectedKey( int key ) {
