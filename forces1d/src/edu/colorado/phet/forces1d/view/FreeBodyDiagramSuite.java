@@ -60,6 +60,9 @@ public class FreeBodyDiagramSuite {
             JButton tearButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( buttonPanel, tearImage, 14 ) ) );
             JButton closeButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( buttonPanel, xImage, 14 ) ) );
 
+            tearButton.setMargin( new Insets( 2, 2, 2, 2 ) );
+            closeButton.setMargin( new Insets( 2, 2, 2, 2 ) );//todo will look bad on mac
+
             buttonPanel.add( tearButton );
             buttonPanel.add( closeButton );
 

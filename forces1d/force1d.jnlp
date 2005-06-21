@@ -17,7 +17,7 @@ information.
 <jnlp
     spec="1.0+"
     codebase="http://www.colorado.edu/physics/phet/dev/"
-    href="force1d/v1r6/force1d.jnlp">
+    href="force1d/v1r13/force1d.jnlp">
     <information>
         <title>Forces in 1D</title>
         <vendor>PhET(tm)</vendor>
@@ -33,10 +33,11 @@ information.
 
     <resources>
         <j2se version="1.4+"/>
-        <jar href="force1d/v1r6/force1d.jar"/>
-        <jar href="shared/org/sourceforge/smoothmetal/v2/smoothmetal.jar"/>
-        <jar href="force1d/v1r6/lib/charts.jar"/>
-        <jar href="force1d/v1r6/lib/phetcommon.jar"/>
+        <jar href="force1d/v1r13/force1d.jar"/>
+        <jar href="force1d/v1r13/lib/charts.jar"/>
+        <jar href="force1d/v1r13/lib/phetcommon.jar"/>
     </resources>
-    <application-desc main-class="edu.colorado.phet.forces1d.Force1DModule"/>
+    <application-desc main-class="edu.colorado.phet.forces1d.Force1DModule">
+        <argument>-d</argument>
+    </application-desc>
 </jnlp>
