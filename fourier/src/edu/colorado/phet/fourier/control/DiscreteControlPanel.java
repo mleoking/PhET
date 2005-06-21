@@ -399,7 +399,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _presetsComboBox.setSelectedKey( preset );
         
         // Show Infinite Number of Harmonics
+        _showInfiniteCheckBox.setEnabled( false );
+        _showInfiniteCheckBox.setForeground( Color.GRAY );
         _showInfiniteCheckBox.setSelected( false );
+        _sumGraph.setPresetEnabled( _showInfiniteCheckBox.isSelected() );
         
         // Show Wavelength
         _showWavelengthCheckBox.setSelected( false );
@@ -438,8 +441,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _showMathCheckBox.setSelected( false );
         _mathFormComboBox.setChoices( _spaceMathFormChoices );
         _mathFormComboBox.setSelectedIndex( 0 );
-        _mathFormComboBox.setEnabled( false );
-        _expandSumCheckBox.setEnabled( false );
+        _mathFormComboBox.setEnabled( _showMathCheckBox.isSelected() );
+        _expandSumCheckBox.setEnabled( _showMathCheckBox.isSelected() );
     }
     
     //----------------------------------------------------------------------------
@@ -589,11 +592,18 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
             _harmonicsGraph.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         }
+        boolean showInfiniteEnabled = 
+            ( preset == FourierConstants.PRESET_SAWTOOTH ||
+                    preset == FourierConstants.PRESET_SQUARE ||
+                    preset == FourierConstants.PRESET_TRIANGLE );
+        _showInfiniteCheckBox.setEnabled( showInfiniteEnabled );
+        _showInfiniteCheckBox.setForeground( showInfiniteEnabled ? Color.BLACK : Color.GRAY );
         _fourierSeries.setPreset( preset );
     }
     
     private void handleShowInfinite() {
-        
+        boolean enabled = _showInfiniteCheckBox.isSelected();
+        _sumGraph.setPresetEnabled( enabled );
     }
     
     private void handleShowWavelength() {

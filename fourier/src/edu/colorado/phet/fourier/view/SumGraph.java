@@ -117,11 +117,93 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private static final Stroke WAVE_STROKE = new BasicStroke( 1f );
     private static final int NUMBER_OF_DATA_POINTS = 1000;
     private static final int MAX_FUNDAMENTAL_CYCLES = 4;
-    private static final Color SUM_COLOR = Color.BLACK; 
+    private static final Color SUM_COLOR = Color.BLACK;
+    private static final Color PRESET_COLOR = Color.RED;
     
     // Math parameters
     private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 18 );
     private static final Color MATH_COLOR = Color.BLACK;
+
+    // Preset data points
+    private static final Point2D[] SINE_SQUARE_POINTS = {
+            new Point2D.Double( -2/L, -1 ),
+            new Point2D.Double( -2/L, 1 ),
+            new Point2D.Double( -3*L/2, 1 ),
+            new Point2D.Double( -3*L/2, -1 ),
+            new Point2D.Double( -L, -1 ),
+            new Point2D.Double( -L, 1 ),
+            new Point2D.Double( -L/2, 1 ),
+            new Point2D.Double( -L/2, -1 ),
+            new Point2D.Double( 0, -1 ),
+            new Point2D.Double( 0, 1 ),
+            new Point2D.Double( L/2, 1 ),
+            new Point2D.Double( L/2, -1 ),
+            new Point2D.Double( L, -1 ),
+            new Point2D.Double( L, 1 ),
+            new Point2D.Double( 3*L/2, 1 ),
+            new Point2D.Double( 3*L/2, -1 ),
+            new Point2D.Double( 2*L, -1 ),
+            new Point2D.Double( 2*L, 1 )
+    };
+    
+    private static final Point2D[] COSINE_SQUARE_POINTS = {
+            new Point2D.Double( -9*L/4, 1 ),
+            new Point2D.Double( -7*L/4, 1 ),
+            new Point2D.Double( -7*L/4, -1 ),
+            new Point2D.Double( -5*L/4, -1 ),
+            new Point2D.Double( -5*L/4, 1 ),
+            new Point2D.Double( -3*L/4, 1 ),
+            new Point2D.Double( -3*L/4, -1 ),
+            new Point2D.Double( -L/4, -1 ),
+            new Point2D.Double( -L/4, 1 ),
+            new Point2D.Double( L/4, 1 ),
+            new Point2D.Double( L/4, -1 ),
+            new Point2D.Double( 3*L/4, -1 ),
+            new Point2D.Double( 3*L/4, 1 ),
+            new Point2D.Double( 5*L/4, 1 ),
+            new Point2D.Double( 5*L/4, -1 ),
+            new Point2D.Double( 7*L/4, -1 ),
+            new Point2D.Double( 7*L/4, 1 ),
+            new Point2D.Double( 9*L/4, 1 )
+    };
+    
+    private static final Point2D[] SINE_TRIANGLE_POINTS = {
+            new Point2D.Double( -9*L/4, -1 ),
+            new Point2D.Double( -7*L/4, 1 ),
+            new Point2D.Double( -5*L/4, -1 ),
+            new Point2D.Double( -3*L/4, 1 ),
+            new Point2D.Double( -L/4, -1 ),
+            new Point2D.Double( L/4, 1 ),
+            new Point2D.Double( 3*L/4, -1 ),
+            new Point2D.Double( 5*L/4, 1 ),
+            new Point2D.Double( 7*L/4, -1 ),
+            new Point2D.Double( 9*L/4, 1 )
+    };
+    
+    private static final Point2D[] COSINE_TRIANGLE_POINTS = {
+            new Point2D.Double( -2*L, 1 ),
+            new Point2D.Double( -3*L/2, -1 ),
+            new Point2D.Double( -L, 1 ),
+            new Point2D.Double( -L/2, -1 ),
+            new Point2D.Double( 0, 1 ),
+            new Point2D.Double( L/2, -1 ),
+            new Point2D.Double( L, 1 ),
+            new Point2D.Double( 3*L/2, -1 ),
+            new Point2D.Double( 2L, 1 )
+    };
+    
+    private static final Point2D[] SINE_SAWTOOTH_POINTS = {
+            new Point2D.Double( -5*L/2, -1 ),
+            new Point2D.Double( -3*L/2, 1 ),
+            new Point2D.Double( -3*L/2, -1 ),
+            new Point2D.Double( -L/2, 1 ),
+            new Point2D.Double( -L/2, -1 ),
+            new Point2D.Double( L/2, 1 ),
+            new Point2D.Double( L/2, -1 ),
+            new Point2D.Double( 3*L/2, 1 ),
+            new Point2D.Double( 3*L/2, -1 ),
+            new Point2D.Double( 5*L/2, 1 )
+    };
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -142,6 +224,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private LabelTable _timeLabels1, _timeLabels2;
     private boolean _autoScaleEnabled;
     private Point2D[] _points;
+    private boolean _presetEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -292,7 +375,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         // Preset data set
         _presetDataSet = new DataSet();
-        DataSetGraphic presetDataSetGraphic = new LinePlot( getComponent(), _chartGraphic, _presetDataSet, WAVE_STROKE, SUM_COLOR );
+        DataSetGraphic presetDataSetGraphic = new LinePlot( getComponent(), _chartGraphic, _presetDataSet, WAVE_STROKE, PRESET_COLOR );
         _chartGraphic.addDataSetGraphic( presetDataSetGraphic );
         
         // Interactivity
@@ -307,6 +390,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         // Misc initialization
         {
+            _presetEnabled = false;
             _points = new Point2D[ NUMBER_OF_DATA_POINTS + 1 ];
             for ( int i = 0; i < _points.length; i++ ) {
                 _points[ i ] = new Point2D.Double();
@@ -481,6 +565,13 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         }
     }
     
+    public void setPresetEnabled( boolean enabled ) {
+        if ( enabled != _presetEnabled ) {
+            _presetEnabled = enabled;
+            update();
+        }
+    }
+
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -493,7 +584,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         FourierLog.trace( "SumGraph.update" );
         
         _sumDataSet.clear();
-        _presetDataSet.clear();
 
         final int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
         final int waveType = _fourierSeries.getWaveType();
@@ -557,6 +647,34 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
                 _chartGraphic.setRange( range );
                 updateLabelsAndLines();
                 updateZoomButtons();
+            }
+        }
+        
+        // Preset data set
+        _presetDataSet.clear();
+        if ( _presetEnabled ) {
+            int preset = _fourierSeries.getPreset();
+            if ( preset == FourierConstants.PRESET_SQUARE ) {
+                if ( waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                    _presetDataSet.addAllPoints( SINE_SQUARE_POINTS );
+                }
+                else {
+                    _presetDataSet.addAllPoints( COSINE_SQUARE_POINTS );
+                }
+            }
+            else if ( preset == FourierConstants.PRESET_TRIANGLE ) {
+                if ( waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                    _presetDataSet.addAllPoints( SINE_TRIANGLE_POINTS );
+                }
+                else {
+                    _presetDataSet.addAllPoints( COSINE_TRIANGLE_POINTS );
+                }
+            }
+            else if ( preset == FourierConstants.PRESET_SAWTOOTH ) {
+                if ( waveType == FourierConstants.WAVE_TYPE_SINE ) {
+                    _presetDataSet.addAllPoints( SINE_SAWTOOTH_POINTS );
+                }
+                // There is no cosine form of sawtooth.
             }
         }
 
