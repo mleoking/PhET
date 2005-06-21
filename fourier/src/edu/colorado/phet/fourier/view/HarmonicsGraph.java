@@ -614,16 +614,7 @@ public class HarmonicsGraph extends GraphicLayerSet
     private void updateLabelsAndLines() {
         
         // X axis
-        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _xAxisTitleGraphic.setText( _xAxisTitleSpace );
-            if ( _xZoomLevel > -3 ) {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels1() );
-            }
-            else {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels2() );
-            }
-        }
-        else { /* DOMAIN_TIME or DOMAIN_SPACE_AND_TIME */
+        if ( _domain == FourierConstants.DOMAIN_TIME ) {
             _xAxisTitleGraphic.setText( _xAxisTitleTime );
             if ( _xZoomLevel > -3 ) {
                 _chartGraphic.getHorizontalTicks().setMajorLabels( getTimeLabels1() );
@@ -631,6 +622,15 @@ public class HarmonicsGraph extends GraphicLayerSet
             else {
                 _chartGraphic.getHorizontalTicks().setMajorLabels( getTimeLabels2() );
             }   
+        }
+        else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
+            _xAxisTitleGraphic.setText( _xAxisTitleSpace );
+            if ( _xZoomLevel > -3 ) {
+                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels1() );
+            }
+            else {
+                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels2() );
+            }
         }
     }
     

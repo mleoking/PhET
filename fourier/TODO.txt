@@ -6,19 +6,19 @@ IN PROGRESS:
 - figure out how to do the summation symbol for the Sum equation
 
 HIGH PRIORITY:
-- amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel
-- something is hammering the processor when we should be idle
-- persistence
 - smooth out waveforms
+- implement "show infinite..."
+- animate waveforms in space-&-time domain
+- persistence
 
 MEDIUM PRIORITY:
-- apparatus panel repaint problem when switching from "space" to "time" domains
-- display a clock or light for period tool in "space & time" domain
-- open a dialog for "Expand Sum"
+- amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel
+- something is hammering the processor when we should be idle
+- control panel resize & apparatus panel repaint problems when switching domains
 - remove sound controls from Discrete control panel
-- refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 
 LOW PRIORITY:
+- refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 - waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - make graph titles prettier
 
@@ -47,11 +47,15 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
-(6/19) - add coefficients that are missing from expanded sum
-(6/19) - sync with phetcommon
-(6/19) - dialog that shows expanded form of sum
-(6/19) - move LucidaSans to FourierConfig, so we can change the font name in one place if needed
-(6/19) - Harmonics graph equations implemented using HTMLGraphic
+(6/21) - make Harmonics and Sum graph background color the same
+(6/21) - fix wavelength and period comboboxes so that duplicate choices are not added
+(6/21) - add period display (pie) in "space & time"
+(6/21) - fix X-axis labels in "space & time", should be in terms of L
+(6/20) - add coefficients that are missing from expanded sum
+(6/20) - sync with phetcommon
+(6/20) - dialog that shows expanded form of sum
+(6/20) - move LucidaSans to FourierConfig, so we can change the font name in one place if needed
+(6/20) - Harmonics graph equations implemented using HTMLGraphic
 (6/19) - set default range of Sum graph to +-4/PI (SamM request)
 v0r2...
 (6/17) - add hand cursor to zoom control buttons
