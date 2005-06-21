@@ -453,6 +453,7 @@ public class HarmonicsGraph extends GraphicLayerSet
         _domain = domain;
         _mathForm = mathForm;
         updateLabelsAndLines();
+        updateMath();
     }
     
     //----------------------------------------------------------------------------

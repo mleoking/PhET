@@ -193,6 +193,7 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
         assert( FourierConstants.isValidMathForm( mathForm ) );
         _domain = domain;
         _mathForm = mathForm;
+        update();
     }
     
     /**
