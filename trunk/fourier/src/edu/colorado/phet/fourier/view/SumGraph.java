@@ -60,7 +60,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
 
     // Background parameters
     private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 200 );
-    private static final Color BACKGROUND_COLOR = new Color( 195, 195, 195 );
+    private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
@@ -689,16 +689,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private void updateLabelsAndLines() {
 
         // X axis
-        if ( _domain == FourierConstants.DOMAIN_SPACE ) {
-            _xAxisTitleGraphic.setText( _xAxisTitleSpace );
-            if ( _xZoomLevel > -3 ) {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels1() );
-            }
-            else {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels2() );
-            }
-        }
-        else { /* DOMAIN_TIME or DOMAIN_SPACE_AND_TIME */
+        if ( _domain == FourierConstants.DOMAIN_TIME ) {
             _xAxisTitleGraphic.setText( _xAxisTitleTime );
             if ( _xZoomLevel > -3 ) {
                 _chartGraphic.getHorizontalTicks().setMajorLabels( getTimeLabels1() );
@@ -706,6 +697,15 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             else {
                 _chartGraphic.getHorizontalTicks().setMajorLabels( getTimeLabels2() );
             }   
+        }
+        else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
+            _xAxisTitleGraphic.setText( _xAxisTitleSpace );
+            if ( _xZoomLevel > -3 ) {
+                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels1() );
+            }
+            else {
+                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels2() );
+            }
         }
         
         // Y axis

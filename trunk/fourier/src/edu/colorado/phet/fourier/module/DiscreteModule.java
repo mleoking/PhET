@@ -27,12 +27,8 @@ import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.Vector2D;
-import edu.colorado.phet.fourier.view.AmplitudesGraph;
-import edu.colorado.phet.fourier.view.HarmonicsGraph;
-import edu.colorado.phet.fourier.view.SumGraph;
-import edu.colorado.phet.fourier.view.WaveMeasurementTool;
+import edu.colorado.phet.fourier.view.*;
 
 
 /**
@@ -59,7 +55,8 @@ public class DiscreteModule extends FourierModule {
     private static final Point SUM_LOCATION = new Point( 60, 525 );
     private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 350, 250 );
     private static final Point PERIOD_TOOL_LOCATION = new Point( 350, 280 );
-    private static final Point WIGGLE_ME_LOCATION = new Point( 260, 55 );
+    private static final Point PERIOD_DISPLAY_LOCATION = new Point( 670, 235 );
+    private static final Point WIGGLE_ME_LOCATION = new Point( 280, 60 );
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.WHITE;
@@ -78,6 +75,7 @@ public class DiscreteModule extends FourierModule {
     private HarmonicsGraph _harmonicsGraph;
     private SumGraph _sumGraph;
     private WaveMeasurementTool _wavelengthTool, _periodTool;
+    private PeriodDisplay _periodDisplay;
     private DiscreteControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
@@ -142,6 +140,12 @@ public class DiscreteModule extends FourierModule {
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodTool );
         
+        // Period Display
+        _periodDisplay = new PeriodDisplay( apparatusPanel, periodSymbol, _fourierSeries.getHarmonic(0) );
+        apparatusPanel.addGraphic( _periodDisplay, TOOLS_LAYER );
+        apparatusPanel.addChangeListener( _periodDisplay );
+        model.addModelElement( _periodDisplay );//XXX not really part of the model, just need clock
+        
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -149,7 +153,7 @@ public class DiscreteModule extends FourierModule {
         // Control Panel
         _controlPanel = new DiscreteControlPanel( this, 
                 _fourierSeries, _harmonicsGraph, _sumGraph, 
-                _wavelengthTool, _periodTool );
+                _wavelengthTool, _periodTool, _periodDisplay );
         _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );
@@ -162,6 +166,7 @@ public class DiscreteModule extends FourierModule {
         _amplitudesGraph.addHarmonicFocusListener( _harmonicsGraph );
         _wavelengthTool.addHarmonicFocusListener( _harmonicsGraph );
         _periodTool.addHarmonicFocusListener( _harmonicsGraph );
+        _periodDisplay.addHarmonicFocusListener( _harmonicsGraph );
         
         // Slider movement by the user
         _amplitudesGraph.addChangeListener( _controlPanel );
@@ -204,6 +209,9 @@ public class DiscreteModule extends FourierModule {
         
         _periodTool.setVisible( false );
         _periodTool.setLocation( PERIOD_TOOL_LOCATION );
+        
+        _periodDisplay.setVisible( false );
+        _periodDisplay.setLocation( PERIOD_DISPLAY_LOCATION );
         
         _controlPanel.reset();
     }
