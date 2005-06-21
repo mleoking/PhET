@@ -89,9 +89,9 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     
     // Gridline parameters
     private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
-    private static final Color MINOR_GRIDLINE_COLOR = new Color( 0, 0, 0, 100 );
-    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
+    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
+    private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
+    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     
     // X axis
     private static final double L = FourierConstants.L; // do not change!
