@@ -6,6 +6,10 @@ IN PROGRESS:
 - figure out how to do the summation symbol for the Sum equation
 
 HIGH PRIORITY:
+- lighter gridlines in Harmonics and Sum graphs
+- "Show wavelength" -> "Wavelength Tool"
+- "Show period" -> "Period Tool"
+- set initial locations of tools to about right of Harmonics graph
 - smooth out waveforms
 - implement "show infinite..."
 - animate waveforms in space-&-time domain
@@ -47,6 +51,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/21) - fix typos in math mode equations
 (6/21) - make Harmonics and Sum graph background color the same
 (6/21) - fix wavelength and period comboboxes so that duplicate choices are not added
 (6/21) - add period display (pie) in "space & time"
