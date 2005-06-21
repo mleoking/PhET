@@ -112,6 +112,7 @@ public class ChartCursor extends CompositePhetGraphic {
         int height = chart.getChartBounds().height;
         shape.setBounds( x, y, width, height );
         shapeGraphic.setShape( shape );
+        shapeGraphic.setShapeDirty();
         setBoundsDirty();
         autorepaint();
     }
