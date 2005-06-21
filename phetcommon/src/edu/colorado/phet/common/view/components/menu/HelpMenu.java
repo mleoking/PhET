@@ -91,8 +91,10 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //----------------------------------------------------------------------
         // "About" menu item
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
+
+        String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
         about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
-        String message = title + "\n" + description + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + version + "\n";
+        String message = title + "\n" + description + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + version + "\n\n" + javaVersion + "\n";
         final String msg = message;
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
