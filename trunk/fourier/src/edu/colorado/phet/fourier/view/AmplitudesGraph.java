@@ -87,10 +87,14 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Stroke Y_MINOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Font Y_MAJOR_TICK_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 12 );
-    private static final Color Y_MAJOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Color Y_MINOR_GRIDLINE_COLOR = new Color( 0, 0, 0, 60 );
-    private static final Stroke Y_MAJOR_GRIDLINE_STROKE = new BasicStroke( 1f );
-    private static final Stroke Y_MINOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
+    
+    // Gridlines
+    private static final boolean MAJOR_GRIDLINES_ENABLED = true;
+    private static final boolean MINOR_GRIDLINES_ENABLED = false;
+    private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
+    private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
+    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
+    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     
     // Chart parameters
     private static final Range2D CHART_RANGE = new Range2D( X_MIN, Y_MIN, X_MAX, Y_MAX );
@@ -197,16 +201,16 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
                 _chartGraphic.getVerticalTicks().setMajorTickFont( Y_MAJOR_TICK_FONT );
 
                 // Major gridlines
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesVisible( true );
+                _chartGraphic.getHorizonalGridlines().setMajorGridlinesVisible( MAJOR_GRIDLINES_ENABLED );
                 _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesColor( Y_MAJOR_GRIDLINE_COLOR );
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesStroke( Y_MAJOR_GRIDLINE_STROKE );
+                _chartGraphic.getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
+                _chartGraphic.getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
 
                 // Minor gridlines
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesVisible( true );
+                _chartGraphic.getHorizonalGridlines().setMinorGridlinesVisible( MINOR_GRIDLINES_ENABLED );
                 _chartGraphic.getHorizonalGridlines().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( Y_MINOR_GRIDLINE_COLOR );
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( Y_MINOR_GRIDLINE_STROKE );
+                _chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
+                _chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
             }
         }
         
