@@ -120,7 +120,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private static final Color SUM_COLOR = Color.BLACK; 
     
     // Math parameters
-    private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.ITALIC, 18 );
+    private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 18 );
     private static final Color MATH_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
