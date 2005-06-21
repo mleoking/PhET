@@ -6,8 +6,9 @@ IN PROGRESS:
 - figure out how to do the summation symbol for the Sum equation
 
 HIGH PRIORITY:
+- adjust amplitude of infinite waveforms to match slider settings
+- color for infinite waveforms?
 - smooth out waveforms
-- implement "show infinite..."
 - animate waveforms in space-&-time domain
 - persistence
 
