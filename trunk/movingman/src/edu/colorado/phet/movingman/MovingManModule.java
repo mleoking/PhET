@@ -711,9 +711,10 @@ public class MovingManModule extends Module {
 //        clock.set
 //        clock.setDelay( 30 );
         FrameSetup setup = new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 800 ) );
-        ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ),
+        String revision = "v1r13";
+        ApplicationModel desc = new ApplicationModel( SimStrings.get( "MovingManApplication.title" ) + " - " + revision,
                                                       SimStrings.get( "MovingManApplication.description" ),
-                                                      SimStrings.get( "MovingManApplication.version" ), setup );
+                                                      revision, setup );
         desc.setName( "movingman" );
         PhetApplication tpa = new PhetApplication( args, desc.getWindowTitle(), desc.getDescription(), desc.getVersion(), clock, false, setup );
         PhetFrame frame = tpa.getPhetFrame();
