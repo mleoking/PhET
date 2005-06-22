@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-    <jar path="/Volumes/files/phet-workspace/build/fourier.jar"/>
-    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/build/fourier.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
-    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/build/MANIFEST.MF">
+    <jar path="/Volumes/files/phet-workspace/jars/fourier.jar"/>
+    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/cmalley/fourier.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/MANIFEST.MF">
         <sealing sealJar="false">
             <packagesToSeal/>
             <packagesToUnSeal/>
