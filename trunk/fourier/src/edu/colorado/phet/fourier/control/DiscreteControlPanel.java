@@ -399,8 +399,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _presetsComboBox.setSelectedKey( preset );
         
         // Show Infinite Number of Harmonics
-        _showInfiniteCheckBox.setEnabled( false );
-        _showInfiniteCheckBox.setForeground( Color.GRAY );
+        _showInfiniteCheckBox.setEnabled( true );
+        _showInfiniteCheckBox.setForeground( Color.BLACK );
         _showInfiniteCheckBox.setSelected( false );
         _sumGraph.setPresetEnabled( _showInfiniteCheckBox.isSelected() );
         
@@ -593,9 +593,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _harmonicsGraph.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         }
         boolean showInfiniteEnabled = 
-            ( preset == FourierConstants.PRESET_SAWTOOTH ||
-                    preset == FourierConstants.PRESET_SQUARE ||
-                    preset == FourierConstants.PRESET_TRIANGLE );
+            ( preset != FourierConstants.PRESET_WAVE_PACKET && preset != FourierConstants.PRESET_CUSTOM );
         _showInfiniteCheckBox.setEnabled( showInfiniteEnabled );
         _showInfiniteCheckBox.setForeground( showInfiniteEnabled ? Color.BLACK : Color.GRAY );
         _fourierSeries.setPreset( preset );

@@ -656,7 +656,10 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         _presetDataSet.clear();
         if ( _presetEnabled ) {
             int preset = _fourierSeries.getPreset();
-            if ( preset == FourierConstants.PRESET_SQUARE ) {
+            if ( preset == FourierConstants.PRESET_SINE_COSINE ) {
+               _presetDataSet.addAllPoints( _sumDataSet.getPoints() ); 
+            }
+            else if ( preset == FourierConstants.PRESET_SQUARE ) {
                 if ( waveType == FourierConstants.WAVE_TYPE_SINE ) {
                     _presetDataSet.addAllPoints( SINE_SQUARE_POINTS );
                 }
