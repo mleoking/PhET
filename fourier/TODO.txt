@@ -44,6 +44,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/21) - fix PhetGraphics2D to properly restore stroke and paint
 (6/21) - send SamR a test case for broken tab traversal in PhetJComponents
 (6/21) - "Save for Web" all images
 (6/21) - amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel (test Sam's fix)
