@@ -40,6 +40,11 @@ public class PhetJComponent extends PhetGraphic {
     private MouseInputAdapter mouseListener;
     private KeyListener keyHandler;
     private static PhetJComponentRepaintManager repaintManagerPhet = new PhetJComponentRepaintManager();
+    private static PhetJComponentManager manager = new PhetJComponentManager();
+
+    static {
+        getManager().addListener( new PJCFocusManager() );
+    }
 
     public static PhetJComponentRepaintManager getRepaintManager() {
         return repaintManagerPhet;
@@ -280,6 +285,11 @@ public class PhetJComponent extends PhetGraphic {
             }
         } );
         repaintManagerPhet.put( this );
+        manager.phetJComponentCreated( this );
+    }
+
+    public static PhetJComponentManager getManager() {
+        return manager;
     }
 
     private static interface KeyMethod {
