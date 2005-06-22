@@ -114,11 +114,12 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private static final Dimension CHART_SIZE = new Dimension( 580, 130 );
     
     // Wave parameters
-    private static final Stroke WAVE_STROKE = new BasicStroke( 1f );
     private static final int NUMBER_OF_DATA_POINTS = 1000;
     private static final int MAX_FUNDAMENTAL_CYCLES = 4;
+    private static final Stroke SUM_STROKE = new BasicStroke( 1f );
     private static final Color SUM_COLOR = Color.BLACK;
-    private static final Color PRESET_COLOR = Color.RED;
+    private static final Stroke PRESET_STROKE = new BasicStroke( 4f );
+    private static final Color PRESET_COLOR = Color.LIGHT_GRAY;
     
     // Math parameters
     private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 18 );
@@ -368,15 +369,16 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
                     _verticalZoomControl.getY() + _verticalZoomControl.getHeight() + 5 );
         }
         
-        // Sum data set
-        _sumDataSet = new DataSet();
-        DataSetGraphic sumDataSetGraphic = new LinePlot( getComponent(), _chartGraphic, _sumDataSet, WAVE_STROKE, SUM_COLOR );
-        _chartGraphic.addDataSetGraphic( sumDataSetGraphic );
         
         // Preset data set
         _presetDataSet = new DataSet();
-        DataSetGraphic presetDataSetGraphic = new LinePlot( getComponent(), _chartGraphic, _presetDataSet, WAVE_STROKE, PRESET_COLOR );
+        DataSetGraphic presetDataSetGraphic = new LinePlot( getComponent(), _chartGraphic, _presetDataSet, PRESET_STROKE, PRESET_COLOR );
         _chartGraphic.addDataSetGraphic( presetDataSetGraphic );
+        
+        // Sum data set
+        _sumDataSet = new DataSet();
+        DataSetGraphic sumDataSetGraphic = new LinePlot( getComponent(), _chartGraphic, _sumDataSet, SUM_STROKE, SUM_COLOR );
+        _chartGraphic.addDataSetGraphic( sumDataSetGraphic );
         
         // Interactivity
         {

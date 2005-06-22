@@ -48,6 +48,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/21) - use light gray for infinite waveform in Sum graph, put it behind sum waveform
 (6/21) - add basic support for "Show infinite..."
 (6/21) - fix X-axis labels in 2nd zoom level
 (6/21) - set initial locations of tools
