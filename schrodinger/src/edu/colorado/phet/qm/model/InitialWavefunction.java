@@ -10,5 +10,5 @@ package edu.colorado.phet.qm.model;
  */
 
 public interface InitialWavefunction {
-    void initialize( Complex[][] wavefunction );
+    void initialize( Wavefunction wavefunction );
 }

@@ -7,7 +7,7 @@ package edu.colorado.phet.qm.model;
  * Copyright (c) Jun 15, 2005 by Sam Reid
  */
 public interface Propagator {
-    public void propagate( Complex[][] w );
+    public void propagate( Wavefunction w );
 
     void setDeltaTime( double deltaTime );
 

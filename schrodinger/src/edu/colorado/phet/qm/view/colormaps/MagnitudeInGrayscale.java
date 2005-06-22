@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.colormaps;
 
-import edu.colorado.phet.qm.model.Complex;
 import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -24,8 +24,8 @@ public class MagnitudeInGrayscale implements ColorMap {
     }
 
     public Color getPaint( int i, int k ) {
-        Complex[][] wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
-        double abs = wavefunction[i][k].abs() * intensityScale;
+        Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
+        double abs = wavefunction.valueAt( i, k ).abs() * intensityScale;
         if( abs > 1 ) {
             abs = 1;
         }

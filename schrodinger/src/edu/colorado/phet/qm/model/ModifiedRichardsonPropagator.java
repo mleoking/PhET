@@ -26,8 +26,8 @@ public class ModifiedRichardsonPropagator extends RichardsonPropagator {
         return new Complex( ( Math.sin( epsilon / 4 ) ) * Math.sin( epsilon / 4 ), 0.5 * Math.sin( epsilon / 2 ) );
     }
 
-    protected void prop2D( Complex[][] w ) {
-        copy = Wavefunction.newInstance( w.length, w[0].length );
+    protected void prop2D( Wavefunction w ) {
+        copy = new Wavefunction( w.getWidth(), w.getHeight() );
         stepIt( w, 0, -1 );
         stepIt( w, 0, 1 );
         stepIt( w, 1, 0 );

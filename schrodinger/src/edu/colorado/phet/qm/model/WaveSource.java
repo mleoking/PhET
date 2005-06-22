@@ -40,13 +40,14 @@ public class WaveSource implements DiscreteModel.Listener {
     public void beforeTimeStep( DiscreteModel model ) {
         for( int i = region.x; i < region.x + region.width; i++ ) {
             for( int k = region.y; k < region.y + region.height; k++ ) {
-                if( Wavefunction.containsLocation( model.getWavefunction(), i, k ) ) {
+                if( model.getWavefunction().containsLocation( i, k ) ) {
                     Complex value = boundaryCondition.getValue( i, k, model.getSimulationTime() );
 //                    System.out.println( "i="+i+", k="+k+", t="+model.getSimulationTime()+", , value = " + value );
-                    model.getWavefunction()[i][k].setValue( value );
+                    model.getWavefunction().setValue( i, k, value );
                 }
             }
         }
-        Wavefunction.setNorm( model.getWavefunction(), norm );
+        model.getWavefunction().setNorm( norm );
+//        Wavefunction.setNorm( model.getWavefunction(), norm );
     }
 }

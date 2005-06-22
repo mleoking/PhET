@@ -29,8 +29,8 @@ public class PlaneWave implements BoundaryCondition, InitialWavefunction {
         this.scale = scale;
     }
 
-    public void setValue( Complex[][] w, int i, int j, double simulationTime ) {
-        w[i][j] = getValueImpl( i, j, simulationTime );
+    public void setValue( Wavefunction w, int i, int j, double simulationTime ) {
+        w.setValue( i, j, getValueImpl( i, j, simulationTime ) );
     }
 
     private Complex getValueImpl( int i, int j, double simulationTime ) {
@@ -43,10 +43,9 @@ public class PlaneWave implements BoundaryCondition, InitialWavefunction {
         return getValueImpl( i, j, simulationTime );
     }
 
-    public void initialize( Complex[][] wavefunction ) {
-        for( int i = 0; i < wavefunction.length; i++ ) {
-            Complex[] complexes = wavefunction[i];
-            for( int j = 0; j < complexes.length; j++ ) {
+    public void initialize( Wavefunction wavefunction ) {
+        for( int i = 0; i < wavefunction.getWidth(); i++ ) {
+            for( int j = 0; j < wavefunction.getHeight(); j++ ) {
                 setValue( wavefunction, i, j, 0 );
             }
         }

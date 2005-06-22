@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.colormaps;
 
-import edu.colorado.phet.qm.model.Complex;
 import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -27,11 +27,11 @@ public class DefaultColorMap implements ColorMap {
     }
 
     public Color getPaint( int i, int k ) {
-        Complex[][] wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
+        Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
 
-        double h = Math.abs( wavefunction[i][k].getReal() ) * colorScale;
-        double s = Math.abs( wavefunction[i][k].getImaginary() ) * colorScale;
-        double b = getBrightness( wavefunction[i][k].abs() );
+        double h = Math.abs( wavefunction.valueAt( i, k ).getReal() ) * colorScale;
+        double s = Math.abs( wavefunction.valueAt( i, k ).getImaginary() ) * colorScale;
+        double b = getBrightness( wavefunction.valueAt( i, k ).abs() );
         if( h > 1 ) {
             h = 1;
         }

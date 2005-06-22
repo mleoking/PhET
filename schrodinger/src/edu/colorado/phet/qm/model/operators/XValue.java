@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.model.operators;
 
 import edu.colorado.phet.qm.model.Complex;
+import edu.colorado.phet.qm.model.Wavefunction;
 
 
 /**
@@ -12,15 +13,13 @@ import edu.colorado.phet.qm.model.Complex;
  */
 
 public class XValue {
-    public double compute( Complex[][] w ) {
-        int XMESH = w.length - 1;
-        int YMESH = w[0].length - 1;
+    public double compute( Wavefunction w ) {
         Complex sum = new Complex();
-        for( int i = 1; i < XMESH; i++ ) {
-            for( int j = 1; j < YMESH; j++ ) {
-                Complex psiStar = w[i][j].complexConjugate();
-                Complex observable = new Complex( ( (double)i ) / XMESH, 0 );
-                Complex psi = w[i][j];
+        for( int i = 0; i < w.getWidth(); i++ ) {
+            for( int j = 0; j < w.getHeight(); j++ ) {
+                Complex psiStar = w.valueAt( i, j ).complexConjugate();
+                Complex observable = new Complex( ( (double)i ) / w.getWidth(), 0 );
+                Complex psi = w.valueAt( i, j );
                 Complex term = psiStar.times( observable ).times( psi );
                 sum = sum.plus( term );
             }

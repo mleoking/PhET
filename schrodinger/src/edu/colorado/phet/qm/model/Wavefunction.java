@@ -1,8 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
-import edu.colorado.phet.qm.model.operators.ProbabilityValue;
-
+import java.awt.*;
 import java.util.Arrays;
 
 
@@ -14,28 +13,25 @@ import java.util.Arrays;
  */
 
 public class Wavefunction {
-    public static void setNorm( Complex[][] wavefunction, double newScale ) {
-        double totalProbability = new ProbabilityValue().compute( wavefunction );
-        double scale = 1.0 / Math.sqrt( totalProbability );
-        scale( wavefunction, scale * newScale );
+
+    private Complex[][] wavefunction;
+
+    public Wavefunction( int width, int height ) {
+        wavefunction = new Complex[width][height];
+        clear();
     }
 
-    public static void normalize( Complex[][] wavefunction ) {
-        double totalProbability = new ProbabilityValue().compute( wavefunction );
-//        System.out.println( "totalProbability = " + totalProbability );
-        double scale = 1.0 / Math.sqrt( totalProbability );
-        scale( wavefunction, scale );
-        double postProb = new ProbabilityValue().compute( wavefunction );
-//        System.out.println( "postProb = " + postProb );
-
-        double diff = 1.0 - postProb;
-        if( !( Math.abs( diff ) < 0.0001 ) ) {
-            System.out.println( "Error in probability normalization." );
-//            throw new RuntimeException( "Error in probability normalization." );
-        }
+    public Wavefunction( Complex[][] values ) {
+        this.wavefunction = values;
     }
 
-    public static void scale( Complex[][] wavefunction, double scale ) {
+    public void setNorm( double newScale ) {
+        double totalProbability = getMagnitude();
+        double scale = 1.0 / Math.sqrt( totalProbability );
+        scale( scale * newScale );
+    }
+
+    public void scale( double scale ) {
 
         for( int i = 0; i < wavefunction.length; i++ ) {
             for( int j = 0; j < wavefunction[i].length; j++ ) {
@@ -45,9 +41,13 @@ public class Wavefunction {
         }
     }
 
-    public static boolean containsLocation( Complex[][] wavefunction, int i, int k ) {
-        return i >= 0 && i < wavefunction.length && k >= 0 && k < wavefunction[0].length;
+    public boolean containsLocation( int i, int k ) {
+        return getBounds().contains( i, k );
     }
+
+//    public static boolean containsLocation( Complex[][] wavefunction, int i, int k ) {
+//        return i >= 0 && i < wavefunction.length && k >= 0 && k < wavefunction[0].length;
+//    }
 
     public static String toString( Complex[] complexes ) {
         return Arrays.asList( complexes ).toString();
@@ -73,11 +73,94 @@ public class Wavefunction {
         return copy;
     }
 
-    public static void copy( Complex[][] src, Complex[][] dst ) {
-        for( int i = 0; i < src.length; i++ ) {
-            for( int j = 0; j < src[i].length; j++ ) {
-                dst[i][j].setValue( src[i][j] );
+    public void copyTo( Wavefunction copy ) {
+        for( int i = 0; i < getWidth(); i++ ) {
+            for( int j = 0; j < getHeight(); j++ ) {
+                copy.valueAt( i, j ).setValue( valueAt( i, j ) );
             }
         }
+    }
+
+//    public static void copy( Complex[][] src, Complex[][] dst ) {
+//        for( int i = 0; i < src.length; i++ ) {
+//            for( int j = 0; j < src[i].length; j++ ) {
+//                dst[i][j].setValue( src[i][j] );
+//            }
+//        }
+//    }
+
+    public int getWidth() {
+        return wavefunction.length;
+    }
+
+    public int getHeight() {
+        return wavefunction[0].length;
+    }
+
+    public void setValue( int i, int j, Complex complex ) {
+        wavefunction[i][j] = complex;
+    }
+
+    public Complex valueAt( int i, int j ) {
+        return wavefunction[i][j];
+    }
+
+    public void normalize() {
+        double totalProbability = getMagnitude();
+//        System.out.println( "totalProbability = " + totalProbability );
+        double scale = 1.0 / Math.sqrt( totalProbability );
+        scale( scale );
+        double postProb = getMagnitude();
+//        System.out.println( "postProb = " + postProb );
+
+        double diff = 1.0 - postProb;
+        if( !( Math.abs( diff ) < 0.0001 ) ) {
+            System.out.println( "Error in probability normalization." );
+//            throw new RuntimeException( "Error in probability normalization." );
+        }
+    }
+
+    public double getMagnitude() {
+        Complex runningSum = new Complex();
+        for( int i = 0; i < getWidth(); i++ ) {
+            for( int j = 0; j < getHeight(); j++ ) {
+                Complex psiStar = wavefunction[i][j].complexConjugate();
+                Complex psi = wavefunction[i][j];
+                Complex term = psiStar.times( psi );
+                runningSum = runningSum.plus( term );
+            }
+        }
+        return runningSum.abs();
+    }
+
+    public void clear() {
+        for( int i = 0; i < getWidth(); i++ ) {
+            for( int j = 0; j < getHeight(); j++ ) {
+                if( valueAt( i, j ) == null ) {
+                    setValue( i, j, new Complex() );
+                }
+                else {
+                    valueAt( i, j ).zero();
+                }
+            }
+        }
+    }
+
+    public void setSize( int width, int height ) {
+        wavefunction = new Complex[width][height];
+    }
+
+    public Wavefunction copy() {
+        Complex[][] copy = new Complex[getWidth()][getHeight()];
+        for( int i = 0; i < copy.length; i++ ) {
+            for( int j = 0; j < copy[0].length; j++ ) {
+                copy[i][j] = valueAt( i, j ).copy();
+            }
+        }
+        return new Wavefunction( copy );
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle( getWidth(), getHeight() );
     }
 }
