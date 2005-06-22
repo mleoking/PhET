@@ -69,8 +69,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private JComboBox _showPeriodComboBox;
     private FourierComboBox _waveTypeComboBox;
     private FourierSlider _numberOfHarmonicsSlider;
-    private FourierSlider _fundamentalFrequencySlider;
-    private JCheckBox _playSoundCheckBox;
     private JCheckBox _showMathCheckBox;
     private FourierComboBox _mathFormComboBox;
     private JCheckBox _expandSumCheckBox;
@@ -262,38 +260,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             layout.addComponent( showWavelengthPanel, row++, 0 );
             layout.addComponent( showPeriodPanel, row++, 0 );
         }
-
-        // Sound panel
-        JPanel soundPanel = new JPanel();
-        {
-            //  Title
-            Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, TITLED_BORDER_WIDTH );
-            String title = SimStrings.get( "DiscreteControlPanel.title.sound" );
-            TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
-            soundPanel.setBorder( titleBorder );
-            
-            // Fundamental frequency
-            {
-                String format = SimStrings.get( "DiscreteControlPanel.fundamentalFrequency" );
-                _fundamentalFrequencySlider = new FourierSlider( format );
-                _fundamentalFrequencySlider.setMaximum( 1200 );
-                _fundamentalFrequencySlider.setMinimum( 200 );
-                _fundamentalFrequencySlider.setValue( 440 );
-                _fundamentalFrequencySlider.setMajorTickSpacing( 250 );
-                _fundamentalFrequencySlider.setMinorTickSpacing( 50 );
-                _fundamentalFrequencySlider.setSnapToTicks( false );
-            }
-
-            // Play Sound
-            _playSoundCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.playSound" ) );
-            
-            // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( soundPanel );
-            soundPanel.setLayout( layout );
-            int row = 0;
-            layout.addComponent( _fundamentalFrequencySlider, row++, 0 );
-            layout.addComponent( _playSoundCheckBox, row++, 0 );
-        }
         
         // Math Mode panel
         JPanel mathModePanel = new JPanel();
@@ -349,7 +315,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         // Layout
         addFullWidth( functionsPanel );
         addFullWidth( wavePropertiesPanel );
-//        addFullWidth( soundPanel );
         addFullWidth( mathModePanel );
 
         // Dialogs
@@ -368,13 +333,11 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showInfiniteCheckBox.addActionListener( listener );
             _showWavelengthCheckBox.addActionListener( listener );
             _showPeriodCheckBox.addActionListener( listener );
-            _playSoundCheckBox.addActionListener( listener );
             _showMathCheckBox.addActionListener( listener );
             _expandSumCheckBox.addActionListener( listener );
             _expandSumDialog.getCloseButton().addActionListener( listener );
             // ChangeListeners
             _numberOfHarmonicsSlider.addChangeListener( listener );
-            _fundamentalFrequencySlider.addChangeListener( listener );
             // ItemListeners
             _domainComboBox.addItemListener( listener );
             _presetsComboBox.addItemListener( listener );
@@ -433,10 +396,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         // Number of harmonics
         _numberOfHarmonicsSlider.setValue( _fourierSeries.getNumberOfHarmonics() );
         
-        // Sound
-        _fundamentalFrequencySlider.setValue( (int) _fourierSeries.getFundamentalFrequency() );
-        _playSoundCheckBox.setSelected( false );
-        
         // Math Mode
         _showMathCheckBox.setSelected( false );
         _mathFormComboBox.setChoices( _spaceMathFormChoices );
@@ -474,9 +433,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             else if ( event.getSource() == _showPeriodCheckBox ) {
                 handleShowPeriod();
             }
-            else if ( event.getSource() == _playSoundCheckBox ) {
-                handlePlaySound();
-            }
             else if ( event.getSource() == _showMathCheckBox ) {
                 handleShowMath();
             }
@@ -496,9 +452,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 if ( !_numberOfHarmonicsSlider.getSlider().getValueIsAdjusting() ) {
                     handleNumberOfHarmonics();
                 }
-            }
-            else if ( event.getSource() == _fundamentalFrequencySlider ) {
-                handleFundamentalFrequency();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -695,16 +648,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showPeriodComboBox.setSelectedIndex( selectedPeriodIndex );
         }
     }
-    
-    private void handleFundamentalFrequency() {
-        int fundamentalFrequency = _fundamentalFrequencySlider.getValue();
-        _fourierSeries.setFundamentalFrequency( fundamentalFrequency );
-    }
-    
-    private void handlePlaySound() {
-        
-    }
-    
+
     private void handleShowMath() {
         _mathFormComboBox.setEnabled( _showMathCheckBox.isSelected() );
         _expandSumCheckBox.setEnabled( _showMathCheckBox.isSelected() );

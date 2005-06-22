@@ -14,7 +14,6 @@ MEDIUM PRIORITY:
 - amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel
 - something is hammering the processor when we should be idle
 - control panel resize & apparatus panel repaint problems when switching domains
-- remove sound controls from Discrete control panel
 
 LOW PRIORITY:
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
@@ -46,6 +45,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/21) - remove sound controls from Discrete control panel
 (6/21) - add infinite waveform for "sine/cosine" preset choice
 (6/21) - use light gray for infinite waveform in Sum graph, put it behind sum waveform
 (6/21) - add basic support for "Show infinite..."
