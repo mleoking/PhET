@@ -11,7 +11,6 @@ HIGH PRIORITY:
 - persistence
 
 MEDIUM PRIORITY:
-- amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel
 - something is hammering the processor when we should be idle
 - control panel resize & apparatus panel repaint problems when switching domains
 
@@ -44,6 +43,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/21) - amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel (test Sam's fix)
 (6/21) - link Help button and Help menu item in phetcommon
 (6/21) - remove sound controls from Discrete control panel
 (6/21) - add infinite waveform for "sine/cosine" preset choice
