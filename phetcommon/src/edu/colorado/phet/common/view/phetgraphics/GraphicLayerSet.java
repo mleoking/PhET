@@ -464,6 +464,7 @@ public class GraphicLayerSet extends PhetGraphic {
      * the PhetGraphic subsystem.
      */
     public class SwingAdapter implements MouseInputListener {
+        private boolean pressed = false;
 
         public void mouseClicked( MouseEvent e ) {
             //Make sure we're over the active guy.
@@ -472,6 +473,7 @@ public class GraphicLayerSet extends PhetGraphic {
                 activeUnit.fireMouseClicked( e );
             }
             setKeyFocus( activeUnit );
+            pressed = false;
         }
 
 
@@ -481,6 +483,7 @@ public class GraphicLayerSet extends PhetGraphic {
                 activeUnit.fireMousePressed( e );
             }
             setKeyFocus( activeUnit );
+            pressed = true;
         }
 
         /**
@@ -499,6 +502,7 @@ public class GraphicLayerSet extends PhetGraphic {
                 activeUnit.fireMouseReleased( e );
                 handleEntranceAndExit( e );
             }
+            pressed = false;
         }
 
         /**
@@ -509,6 +513,9 @@ public class GraphicLayerSet extends PhetGraphic {
          * @param e
          */
         public void mouseEntered( MouseEvent e ) {
+            if( !pressed && activeUnit == null ) {
+                handleEntranceAndExit( e );
+            }
         }
 
         /**
@@ -519,12 +526,18 @@ public class GraphicLayerSet extends PhetGraphic {
          * @param e
          */
         public void mouseExited( MouseEvent e ) {
+            if( !pressed && activeUnit != null ) {
+                activeUnit.fireMouseExited( e );
+                activeUnit = null;
+//                handleEntranceAndExit( e );
+            }
         }
 
         public void mouseDragged( MouseEvent e ) {
             if( activeUnit != null ) {
                 activeUnit.fireMouseDragged( e );
             }
+            pressed = true;
         }
 
         public void mouseMoved( MouseEvent e ) {
@@ -533,6 +546,7 @@ public class GraphicLayerSet extends PhetGraphic {
             if( activeUnit != null ) {
                 activeUnit.fireMouseMoved( e );
             }
+            pressed = false;
         }
     }
 
