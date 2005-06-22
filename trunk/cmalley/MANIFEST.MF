@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+
+CVS-Tag: fourier-v0r2-2005-06-22
