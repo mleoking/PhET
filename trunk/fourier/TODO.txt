@@ -22,6 +22,7 @@ NEW FEATURES:
 
 
 OPTIMIZATIONS:
+- rewrite ZoomControl to use static shapes instead of images
 
 CLEANUP:
 - organize imports
@@ -43,6 +44,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/21) - send SamR a test case for broken tab traversal in PhetJComponents
 (6/21) - "Save for Web" all images
 (6/21) - amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel (test Sam's fix)
 (6/21) - link Help button and Help menu item in phetcommon
