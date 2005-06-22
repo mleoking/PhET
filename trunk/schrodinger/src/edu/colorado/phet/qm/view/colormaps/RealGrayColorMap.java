@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view.colormaps;
 
-import edu.colorado.phet.qm.model.Complex;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -19,8 +19,8 @@ public class RealGrayColorMap implements ColorMap {
     }
 
     public Color getPaint( int i, int k ) {
-        Complex[][] wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
-        double re = wavefunction[i][k].getReal();
+        Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
+        double re = wavefunction.valueAt( i, k ).getReal();
         re = Math.abs( re );
         if( re > 1 ) {
             System.out.println( "re = " + re );

@@ -28,12 +28,12 @@ public class CrankNicholsonPropagator implements Propagator {
         return potential.getPotential( i, j, timeStep );
     }
 
-    public void propagate( Complex[][] w ) {
+    public void propagate( Wavefunction w ) {
         simulationTime += deltaTime;
         timeStep++;
 
-        int XMESH = w.length - 1;
-        int YMESH = w[0].length - 1;
+        int XMESH = w.getWidth() - 1;
+        int YMESH = w.getHeight() - 1;
         Complex[] alpha = new Complex[XMESH + YMESH];
         Complex[] beta = new Complex[XMESH + YMESH];
         Complex[] gamma = new Complex[XMESH + YMESH];
@@ -60,7 +60,8 @@ public class CrankNicholsonPropagator implements Propagator {
             beta[N - 1] = boundaryCondition.getValue( XMESH, j, simulationTime );
             for( int i = N - 1; i >= 1; i-- ) {
                 XA0 = XA00.plus( XA0V.times( getPotential( i, j ) / 2.0 ) );
-                bi = ( ( TWO.minus( XA0 ) ).times( w[i][j] ) ).minus( ( XAP.times( w[i - 1][j].plus( w[i + 1][j] ) ) ) );
+//                bi = ( ( TWO.minus( XA0 ) ).times( w[i][j] ) ).minus( ( XAP.times( w[i - 1][j].plus( w[i + 1][j] ) ) ) );
+                bi = ( ( TWO.minus( XA0 ) ).times( w.valueAt( i, j ) ) ).minus( ( XAP.times( w.valueAt( i - 1, j ).plus( w.valueAt( i + 1, j ) ) ) ) );
                 gamma[i] = MINUS_ONE.divideBy( ( XA0.plus( XAP.times( alpha[i] ) ) ) );
                 alpha[i - 1] = gamma[i].times( XAP );
                 beta[i - 1] = gamma[i].times( ( XAP.times( beta[i] ) ).minus( bi ) );
@@ -68,7 +69,7 @@ public class CrankNicholsonPropagator implements Propagator {
             fixEdges( w );
             origFixA( w, j );
             for( int i = 0; i <= N - 1; i++ ) {
-                w[i + 1][j] = ( alpha[i].times( w[i][j] ) ).plus( beta[i] );
+                w.setValue( i + 1, j, ( alpha[i].times( w.valueAt( i, j ) ) ).plus( beta[i] ) );
             }
         }
         fixEdges( w );
@@ -79,7 +80,8 @@ public class CrankNicholsonPropagator implements Propagator {
 
             for( int j = N - 1; j >= 1; j-- ) {
                 YA0 = YA00.plus( YA0V.times( getPotential( i, j ) / 2.0 ) );
-                bj = ( ( TWO.minus( YA0 ) ).times( w[i][j] ) ).minus( ( YAP.times( w[i][j - 1].plus( w[i][j + 1] ) ) ) );
+//                bj = ( ( TWO.minus( YA0 ) ).times( w[i][j] ) ).minus( ( YAP.times( w[i][j - 1].plus( w[i][j + 1] ) ) ) );
+                bj = ( ( TWO.minus( YA0 ) ).times( w.valueAt( i, j ) ) ).minus( ( YAP.times( w.valueAt( i, j - 1 ).plus( w.valueAt( i, j + 1 ) ) ) ) );
                 gamma[j] = MINUS_ONE.divideBy( YA0.plus( YAP.times( alpha[j] ) ) );
                 alpha[j - 1] = gamma[j].times( YAP );
                 beta[j - 1] = gamma[j].times( ( ( YAP.times( beta[j] ) ).minus( bj ) ) );
@@ -87,27 +89,27 @@ public class CrankNicholsonPropagator implements Propagator {
             fixEdges( w );
             origFixB( w, i );
             for( int j = 0; j <= N - 1; j++ ) {
-                w[i][j + 1] = ( alpha[j].times( w[i][j] ) ).plus( beta[j] );
+                w.setValue( i, j + 1, ( alpha[j].times( w.valueAt( i, j ) ) ).plus( beta[j] ) );
             }
         }
         fixEdges( w );
     }
 
-    private void origFixB( Complex[][] w, int i ) {
+    private void origFixB( Wavefunction w, int i ) {
         setValue( w, i, 0 );
     }
 
-    private void origFixA( Complex[][] w, int j ) {
+    private void origFixA( Wavefunction w, int j ) {
         setValue( w, 0, j );
     }
 
-    private void fixEdges( Complex[][] w ) {
+    private void fixEdges( Wavefunction w ) {
         if( true ) {
             return;
         }
         int border = 1;
-        int XMESH = w.length - 1;
-        int YMESH = w[0].length - 1;
+        int XMESH = w.getWidth() - 1;
+        int YMESH = w.getHeight() - 1;
         for( int i = 0; i <= XMESH; i++ ) {
             setValue( w, i, 0 );
             setValue( w, i, YMESH );
@@ -127,7 +129,7 @@ public class CrankNicholsonPropagator implements Propagator {
         }
     }
 
-    private void setValue( Complex[][] w, int x, int y ) {
+    private void setValue( Wavefunction w, int x, int y ) {
         boundaryCondition.setValue( w, x, y, timeStep * deltaTime );
     }
 

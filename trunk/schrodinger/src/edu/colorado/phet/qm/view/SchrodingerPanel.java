@@ -4,8 +4,8 @@ package edu.colorado.phet.qm.view;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.Complex;
 import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.PxValue;
 import edu.colorado.phet.qm.model.operators.XValue;
 import edu.colorado.phet.qm.model.operators.YValue;
@@ -97,7 +97,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
 
     }
 
-    private Complex[][] getWavefunction() {
+    private Wavefunction getWavefunction() {
         return getDiscreteModel().getWavefunction();
     }
 

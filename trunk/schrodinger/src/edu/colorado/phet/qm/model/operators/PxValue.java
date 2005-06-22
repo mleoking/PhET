@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.model.operators;
 
 import edu.colorado.phet.qm.model.Complex;
+import edu.colorado.phet.qm.model.Wavefunction;
 
 
 /**
@@ -12,27 +13,27 @@ import edu.colorado.phet.qm.model.Complex;
  */
 
 public class PxValue {
-    public double compute( Complex[][] w ) {
-        int XMESH = w.length - 1;
-        int YMESH = w[0].length - 1;
+    public double compute( Wavefunction w ) {
         Complex sum = new Complex();
-        for( int i = 1; i < XMESH; i++ ) {
-            for( int j = 1; j < YMESH; j++ ) {
-                Complex psiStar = w[i][j].complexConjugate();
+        for( int i = 0; i < w.getWidth(); i++ ) {
+            for( int j = 0; j < w.getHeight(); j++ ) {
+                Complex psiStar = w.valueAt( i, j ).complexConjugate();
                 Complex opPsi = getOpPsi( w, i, j );
                 Complex term = psiStar.times( opPsi ).times( new Complex( 0, -1 ) );
                 sum = sum.plus( term );
             }
         }
-//        System.out.println( "sum = " + sum );
         if( Math.abs( sum.getImaginary() ) > 10E-8 ) {
             new RuntimeException( "imaginary part was substantial: c=" + sum ).printStackTrace();
         }
         return sum.getReal();
     }
 
-    private Complex getOpPsi( Complex[][] w, int i, int j ) {
-        Complex num = w[i + 1][j].minus( w[i - 1][j] );//.plus( w[i][j].times( -2 ) );
+    private Complex getOpPsi( Wavefunction w, int i, int j ) {
+        Complex left = w.valueAt( i + 1, j );
+        Complex right = w.valueAt( i - 1, j );
+
+        Complex num = left.minus( right );//.plus( w[i][j].times( -2 ) );
         num.scale( 1 / 2.0 );
         return num;
     }

@@ -25,7 +25,7 @@ public class RichardsonPropagator implements Propagator {
     private Complex[][] betaeven;
     private Complex[][] betaodd;
 
-    public Complex[][] copy;
+    public Wavefunction copy;
 
     public RichardsonPropagator( double TAU, BoundaryCondition boundaryCondition, Potential potential ) {
         this.deltaTime = TAU;
@@ -78,9 +78,9 @@ public class RichardsonPropagator implements Propagator {
         return hbar * dt / ( mass );
     }
 
-    public void propagate( Complex[][] w ) {
-        int nx = w.length;
-        if( betaeven.length != w.length ) {
+    public void propagate( Wavefunction w ) {
+        int nx = w.getWidth();
+        if( betaeven.length != w.getWidth() ) {
             betaeven = new Complex[nx][nx];
             betaodd = new Complex[nx][nx];
 
@@ -92,8 +92,8 @@ public class RichardsonPropagator implements Propagator {
         timeStep++;
     }
 
-    protected void prop2D( Complex[][] w ) {
-        copy = Wavefunction.newInstance( w.length, w[0].length );
+    protected void prop2D( Wavefunction w ) {
+        copy = new Wavefunction( w.getWidth(), w.getHeight() );
         applyPotential( w );
         stepIt( w, 0, -1 );
         stepIt( w, 0, 1 );
@@ -105,49 +105,53 @@ public class RichardsonPropagator implements Propagator {
     Complex bTemp = new Complex();
     Complex cTemp = new Complex();
 
-    protected void stepIt( Complex[][] w, int dx, int dy ) {
-        Wavefunction.copy( w, copy );
-        for( int i = 1; i < w.length - 1; i++ ) {
-            for( int j = 1; j < w[0].length - 1; j++ ) {
+    protected void stepIt( Wavefunction w, int dx, int dy ) {
+        w.copyTo( copy );
+        for( int i = 1; i < w.getWidth() - 1; i++ ) {
+            for( int j = 1; j < w.getHeight() - 1; j++ ) {
                 stepIt( w, i, j, dx, dy );
             }
         }
-        for( int i = 0; i < w.length; i++ ) {
+        for( int i = 0; i < w.getWidth(); i++ ) {
             stepItConstrained( w, i, 0, dx, dy );
-            stepItConstrained( w, i, w[0].length - 1, dx, dy );
+            stepItConstrained( w, i, w.getHeight() - 1, dx, dy );
         }
-        for( int j = 1; j < w[0].length; j++ ) {
+        for( int j = 1; j < w.getHeight(); j++ ) {
             stepItConstrained( w, 0, j, dx, dy );
-            stepItConstrained( w, w.length - 1, j, dx, dy );
+            stepItConstrained( w, w.getWidth() - 1, j, dx, dy );
         }
     }
 
-    private void stepItConstrained( Complex[][] w, int i, int j, int dx, int dy ) {
-        int nxPlus = ( i + dx + w.length ) % w.length;
-        int nyPlus = ( j + dy + w[0].length ) % w[0].length;
+    private void stepItConstrained( Wavefunction w, int i, int j, int dx, int dy ) {
+        int nxPlus = ( i + dx + w.getWidth() ) % w.getWidth();
+        int nyPlus = ( j + dy + w.getHeight() ) % w.getHeight();
 
-        int nxMinus = ( i - dx + w.length ) % w.length;
-        int nyMinus = ( j - dy + w[0].length ) % w[0].length;
+        int nxMinus = ( i - dx + w.getWidth() ) % w.getWidth();
+        int nyMinus = ( j - dy + w.getHeight() ) % w.getHeight();
 
-        aTemp.setToProduct( alpha, copy[i][j] );
-        bTemp.setToProduct( betaeven[i][j], copy[nxPlus][nyPlus] );
-        cTemp.setToProduct( betaodd[i][j], copy[nxMinus][nyMinus] );
-        w[i][j].setToSum( aTemp, bTemp, cTemp );
+        aTemp.setToProduct( alpha, copy.valueAt( i, j ) );
+        bTemp.setToProduct( betaeven[i][j], copy.valueAt( nxPlus, nyPlus ) );
+        cTemp.setToProduct( betaodd[i][j], copy.valueAt( nxMinus, nyMinus ) );
+        w.valueAt( i, j ).setToSum( aTemp, bTemp, cTemp );
     }
 
-    private void stepIt( Complex[][] w, int i, int j, int dx, int dy ) {
-        aTemp.setToProduct( alpha, copy[i][j] );
-        bTemp.setToProduct( betaeven[i][j], copy[i + dx][j + dy] );
-        cTemp.setToProduct( betaodd[i][j], copy[i - dx][j - dy] );
-        w[i][j].setToSum( aTemp, bTemp, cTemp );
+    private void stepIt( Wavefunction w, int i, int j, int dx, int dy ) {
+        aTemp.setToProduct( alpha, copy.valueAt( i, j ) );
+        bTemp.setToProduct( betaeven[i][j], copy.valueAt( i + dx, j + dy ) );
+        cTemp.setToProduct( betaodd[i][j], copy.valueAt( i - dx, j - dy ) );
+//
+//        bTemp.setToProduct( betaeven[i][j], copy[i + dx][j + dy] );
+//        cTemp.setToProduct( betaodd[i][j], copy[i - dx][j - dy] );
+        w.valueAt( i, j ).setToSum( aTemp, bTemp, cTemp );
     }
 
-    protected void applyPotential( Complex[][] w ) {
-        for( int i = 1; i < w.length - 1; i++ ) {
-            for( int j = 1; j < w[0].length - 1; j++ ) {
+    protected void applyPotential( Wavefunction w ) {
+        for( int i = 1; i < w.getWidth() - 1; i++ ) {
+            for( int j = 1; j < w.getHeight() - 1; j++ ) {
                 double pot = potential.getPotential( i, j, timeStep );
                 Complex val = new Complex( Math.cos( pot * deltaTime / hbar ), -Math.sin( pot * deltaTime / hbar ) );
-                w[i][j] = w[i][j].times( val );
+                w.setValue( i, j, w.valueAt( i, j ).times( val ) );
+//                w[i][j] = w[i][j].times( val );
             }
         }
     }

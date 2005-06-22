@@ -19,16 +19,16 @@ public class Detector extends RectangularObject {
         super( x, y, width, height );
     }
 
-    public void updateProbability( Complex[][] wavefunction ) {//todo assumes normalized.
+    public void updateProbability( Wavefunction wavefunction ) {//todo assumes normalized.
         if( !enabled ) {
             return;
         }
         double runningSum = 0.0;
         for( int i = super.getX(); i < getX() + getWidth(); i++ ) {
             for( int j = super.getY(); j < getY() + getHeight(); j++ ) {
-                if( i >= 0 && j >= 0 && i < wavefunction.length && j < wavefunction[0].length ) {
-                    Complex psiStar = wavefunction[i][j].complexConjugate();
-                    Complex psi = wavefunction[i][j];
+                if( i >= 0 && j >= 0 && i < wavefunction.getWidth() && j < wavefunction.getHeight() ) {
+                    Complex psiStar = wavefunction.valueAt( i, j ).complexConjugate();
+                    Complex psi = wavefunction.valueAt( i, j );
                     Complex term = psiStar.times( psi );
                     runningSum += term.abs();
                 }

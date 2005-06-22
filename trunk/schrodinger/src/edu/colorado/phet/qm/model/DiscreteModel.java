@@ -2,7 +2,6 @@
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.qm.model.operators.ProbabilityValue;
 import edu.colorado.phet.qm.model.operators.PxValue;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
 
@@ -18,7 +17,8 @@ import java.util.Random;
  */
 
 public class DiscreteModel {
-    private Complex[][] wavefunction;
+    private Wavefunction wavefunction;
+//    private Complex[][] wavefunction;
     private int xmesh;
     private int ymesh;
     private CompositePotential compositePotential;
@@ -46,7 +46,7 @@ public class DiscreteModel {
         this.deltaTime = deltaTime;
         this.initialWavefunction = initialWavefunction;
         this.boundaryCondition = boundaryCondition;
-        wavefunction = new Complex[xmesh + 1][ymesh + 1];
+        wavefunction = new Wavefunction( xmesh + 1, ymesh + 1 );//Complex[xmesh + 1][ymesh + 1];
         initialWavefunction.initialize( wavefunction );
         propagator = new ModifiedRichardsonPropagator( deltaTime, boundaryCondition, compositePotential );
         addListener( new DiscreteModel.DetectorHandler() );
@@ -78,18 +78,7 @@ public class DiscreteModel {
     }
 
     public void reset() {
-        for( int i = 0; i < wavefunction.length; i++ ) {
-            Complex[] complexes = wavefunction[i];
-            for( int j = 0; j < complexes.length; j++ ) {
-                Complex complex = complexes[j];
-                if( complex == null ) {
-                    wavefunction[i][j] = new Complex();
-                }
-                else {
-                    complex.zero();
-                }
-            }
-        }
+        wavefunction.clear();
         for( int i = 0; i < detectors.size(); i++ ) {
             Detector detector = (Detector)detectors.get( i );
             detector.reset();
@@ -114,7 +103,7 @@ public class DiscreteModel {
 //        System.out.println( "/DiscreteModel.stepInTime" );
     }
 
-    public Complex[][] getWavefunction() {
+    public Wavefunction getWavefunction() {
         return wavefunction;
     }
 
@@ -130,7 +119,7 @@ public class DiscreteModel {
         if( ny != xmesh || ny != ymesh ) {
             xmesh = nx;
             ymesh = ny;
-            wavefunction = new Complex[xmesh + 1][ymesh + 1];
+            wavefunction.setSize( xmesh + 1, ymesh + 1 );
             initialWavefunction.initialize( wavefunction );
             notifySizeChanged();
         }
@@ -154,29 +143,25 @@ public class DiscreteModel {
 
     public Point getCollapsePoint( Rectangle bounds ) {
         //compute a probability model for each dA
-        Complex[][] copy = copyWavefunction();
-        int XMESH = copy.length - 1;
-        int YMESH = copy[0].length - 1;
 
-        for( int i = 1; i < XMESH; i++ ) {
-            for( int j = 1; j < YMESH; j++ ) {
+        Wavefunction copy = copyWavefunction();
+        for( int i = 0; i < copy.getWidth(); i++ ) {
+            for( int j = 0; j < copy.getHeight(); j++ ) {
                 if( !bounds.contains( i, j ) ) {
-                    copy[i][j].zero();
+                    copy.valueAt( i, j ).zero();
                 }
             }
         }
 
-        Wavefunction.normalize( copy );//just in case we care.
+        copy.normalize();//in case we care
         //todo could work without a normalize, just choose random.nextDouble between 0 and totalprob.
-//        int XMESH = copy.length - 1;
-//        int YMESH = copy[0].length - 1;
         Complex runningSum = new Complex();
         double rnd = random.nextDouble();
 
-        for( int i = 1; i < XMESH; i++ ) {
-            for( int j = 1; j < YMESH; j++ ) {
-                Complex psiStar = copy[i][j].complexConjugate();
-                Complex psi = copy[i][j];
+        for( int i = 0; i < copy.getWidth(); i++ ) {
+            for( int j = 0; j < copy.getHeight(); j++ ) {
+                Complex psiStar = copy.valueAt( i, j ).complexConjugate();
+                Complex psi = copy.valueAt( i, j );
                 Complex term = psiStar.times( psi );
                 double pre = runningSum.abs();
                 runningSum = runningSum.plus( term );
@@ -192,45 +177,40 @@ public class DiscreteModel {
     }
 
     public Point getCollapsePoint() {//todo call getCollapsePoint with the internal bounds.
-        //compute a probability model for each dA
-        Complex[][] copy = copyWavefunction();
-
-        Wavefunction.normalize( copy );//just in case we care.
-        //todo could work without a normalize, just choose random.nextDouble between 0 and totalprob.
-        int XMESH = copy.length - 1;
-        int YMESH = copy[0].length - 1;
-        Complex runningSum = new Complex();
-        double rnd = random.nextDouble();
-
-        for( int i = 1; i < XMESH; i++ ) {
-            for( int j = 1; j < YMESH; j++ ) {
-                Complex psiStar = copy[i][j].complexConjugate();
-                Complex psi = copy[i][j];
-                Complex term = psiStar.times( psi );
-                double pre = runningSum.abs();
-                runningSum = runningSum.plus( term );
-                double post = runningSum.abs();
-                if( pre <= rnd && rnd <= post ) {
-                    return new Point( i, j );
-                }
-            }
-        }
-        throw new RuntimeException( "No collapse point." );
+        return getCollapsePoint( wavefunction.getBounds() );
+//        //compute a probability model for each dA
+//        Wavefunction copy = copyWavefunction();
+//        copy.normalize();
+//
+//        //todo could work without a normalize, just choose random.nextDouble between 0 and totalprob.
+//        int XMESH = copy.length - 1;
+//        int YMESH = copy[0].length - 1;
+//        Complex runningSum = new Complex();
+//        double rnd = random.nextDouble();
+//
+//        for( int i = 1; i < XMESH; i++ ) {
+//            for( int j = 1; j < YMESH; j++ ) {
+//                Complex psiStar = copy[i][j].complexConjugate();
+//                Complex psi = copy[i][j];
+//                Complex term = psiStar.times( psi );
+//                double pre = runningSum.abs();
+//                runningSum = runningSum.plus( term );
+//                double post = runningSum.abs();
+//                if( pre <= rnd && rnd <= post ) {
+//                    return new Point( i, j );
+//                }
+//            }
+//        }
+//        throw new RuntimeException( "No collapse point." );
     }
 
-    private Complex[][] copyWavefunction() {
-        Complex[][] copy = new Complex[getWavefunction().length][getWavefunction()[0].length];
-        for( int i = 0; i < copy.length; i++ ) {
-            for( int j = 0; j < copy[0].length; j++ ) {
-                copy[i][j] = wavefunction[i][j].copy();
-            }
-        }
-        return copy;
+    private Wavefunction copyWavefunction() {
+        return wavefunction.copy();
     }
 
     public void collapse( Point collapsePoint, int collapseLatticeDX ) {
         double px = new PxValue().compute( wavefunction );
-        new GaussianWave( collapsePoint, new Vector2D.Double( px, 0 ), collapseLatticeDX ).initialize( getWavefunction() );
+        new GaussianWave( collapsePoint, new Vector2D.Double( px, 0 ), collapseLatticeDX ).initialize( wavefunction );
     }
 
     public void addDetector( Detector detector ) {
@@ -292,7 +272,8 @@ public class DiscreteModel {
             }
 
             if( detectionCausesCollapse ) {
-                double norm = new ProbabilityValue().compute( wavefunction );//todo use the norm (don't assume it's 1.0)
+                double norm = wavefunction.getMagnitude();
+//                double norm = new ProbabilityValue().compute( wavefunction );//todo use the norm (don't assume it's 1.0)
                 if( norm >= 0.2 ) {
 //                System.out.println( "detectorNorm=" + norm);
                     for( int i = 0; i < detectors.size(); i++ ) {

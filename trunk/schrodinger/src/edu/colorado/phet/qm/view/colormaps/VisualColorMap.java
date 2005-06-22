@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.view.colormaps;
 
 import edu.colorado.phet.qm.model.Complex;
+import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -12,46 +13,36 @@ import java.awt.*;
  */
 public class VisualColorMap implements ColorMap {
     private SchrodingerPanel schrodingerPanel;
-    public double colorScale = 12;
+    private double brightness = 30;
 
     public VisualColorMap( SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
     }
 
     public Color getPaint( int i, int k ) {
-        Complex[][] wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
-
-        Color color = VisZ( wavefunction[i][k] );
-        color = scaleUp( color );
-
+        Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
+        Color color = toColor( wavefunction.valueAt( i, k ) );
         return color;
     }
 
-    private Color scaleUp( Color color ) {
-        Color c = new Color( scaleUp( color.getRed() ), scaleUp( color.getGreen() ), scaleUp( color.getBlue() ) );
-        return c;
-    }
-
-    private float scaleUp( int color ) {
-        float f = color / 255.0f;
-        f *= colorScale;
+    private float scaleFloat( float f ) {
+        f *= brightness;
         if( f > 1.0f ) {
             f = 1.0f;
         }
         return f;
     }
 
-    private Color VisZ( Complex z ) {
-        double x, y, red, green, blue, a, b, d, r;
-        x = z.getReal();
-        y = z.getImaginary();
-        r = Math.sqrt( x * x + y * y );
-        a = 0.40824829046386301636 * x;
-        b = 0.70710678118654752440 * y;
-        d = 1.0 / ( 1. + r * r );
-        red = 0.5 + 0.81649658092772603273 * x * d;
-        green = 0.5 - d * ( a - b );
-        blue = 0.5 - d * ( a + b );
+    private Color toColor( Complex z ) {
+        double x = z.getReal();
+        double y = z.getImaginary();
+        double r = Math.sqrt( x * x + y * y );
+        double a = 0.40824829046386301636 * x;
+        double b = 0.70710678118654752440 * y;
+        double d = 1.0 / ( 1. + r * r );
+        double red = 0.5 + 0.81649658092772603273 * x * d;
+        double green = 0.5 - d * ( a - b );
+        double blue = 0.5 - d * ( a + b );
         d = 0.5 - r * d;
         if( r < 1 ) {
             d = -d;
@@ -59,7 +50,12 @@ public class VisualColorMap implements ColorMap {
         red += d;
         green += d;
         blue += d;
-        return ( new Color( (float)red, (float)green, (float)blue ) );
+
+        float rVal = scaleFloat( (float)red );
+        float gVal = scaleFloat( (float)green );
+        float blueVal = scaleFloat( (float)blue );
+
+        return new Color( rVal, gVal, blueVal );
     }
 
 }
