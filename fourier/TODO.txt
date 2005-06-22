@@ -36,7 +36,7 @@ CHARTS:
 - flatten static graphics elements
 
 PHETCOMMON:
-- bug: rendering hints should be extended, not replaced, by PhetGraphic
+- bug: rendering hints should be appended, not replaced, by PhetGraphic
 - bug: PhetTextGraphic leaves screen turds when its text is exclusively Unicode
 - bug: PhetJComponent startup is excessively slow
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
