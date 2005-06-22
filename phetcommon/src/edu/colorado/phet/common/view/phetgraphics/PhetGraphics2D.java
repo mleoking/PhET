@@ -90,11 +90,17 @@ public class PhetGraphics2D extends Graphics2D {
             if( orgColor != null ) {
                 wrappedGraphics.setColor( orgColor );
             }
-            if( orgTransform != null ) {
-                wrappedGraphics.setTransform( orgTransform );
+            if( orgPaint != null ) {
+                wrappedGraphics.setPaint( orgPaint );
             }
             if( orgComposite != null ) {
                 wrappedGraphics.setComposite( orgComposite );
+            }
+            if( orgStroke != null ) {
+                wrappedGraphics.setStroke( orgStroke );
+            }
+            if( orgTransform != null ) {
+                wrappedGraphics.setTransform( orgTransform );
             }
         }
     }
