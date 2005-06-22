@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+    <jar path="/Volumes/files/phet-workspace/build/phetcommon-branch.jar"/>
+    <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/build/phetcommon-branch.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
+    <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/build/MANIFEST.MF">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
+        <javaElement handleIdentifier="=phetcommon-branch"/>
+    </selectedElements>
+</jardesc>
