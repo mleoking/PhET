@@ -41,7 +41,6 @@ public class SchrodingerModule extends Module {
                 discreteModel.stepInTime( dt );
             }
         } );
-//        discreteModel.addListener( new ScreenUpdate( discreteModel ) );
         schrodingerPanel = new SchrodingerPanel( this );
         setApparatusPanel( schrodingerPanel );
 
@@ -78,17 +77,10 @@ public class SchrodingerModule extends Module {
     public void setGridSpacing( final int nx, final int ny ) {
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-//                System.out.println( "SchrodingerModule.stepInTime" );
                 discreteModel.setGridSpacing( nx, ny );
                 getModel().removeModelElement( this );
-//                System.out.println( "/SchrodingerModule.stepInTime" );
             }
         } );
-//        discreteModel.setGridSpacing(nx,ny);
-    }
-
-    public void collapse() {
-        discreteModel.collapse( discreteModel.getCollapsePoint(), (int)( 0.1 * getDiscreteModel().getXMesh() ) );
     }
 
     public void addDetector() {

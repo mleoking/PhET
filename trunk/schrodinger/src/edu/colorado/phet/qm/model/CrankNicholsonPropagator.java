@@ -80,7 +80,6 @@ public class CrankNicholsonPropagator implements Propagator {
 
             for( int j = N - 1; j >= 1; j-- ) {
                 YA0 = YA00.plus( YA0V.times( getPotential( i, j ) / 2.0 ) );
-//                bj = ( ( TWO.minus( YA0 ) ).times( w[i][j] ) ).minus( ( YAP.times( w[i][j - 1].plus( w[i][j + 1] ) ) ) );
                 bj = ( ( TWO.minus( YA0 ) ).times( w.valueAt( i, j ) ) ).minus( ( YAP.times( w.valueAt( i, j - 1 ).plus( w.valueAt( i, j + 1 ) ) ) ) );
                 gamma[j] = MINUS_ONE.divideBy( YA0.plus( YAP.times( alpha[j] ) ) );
                 alpha[j - 1] = gamma[j].times( YAP );

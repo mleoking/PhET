@@ -15,8 +15,8 @@ import edu.colorado.phet.qm.model.Wavefunction;
 public class PxValue {
     public double compute( Wavefunction w ) {
         Complex sum = new Complex();
-        for( int i = 0; i < w.getWidth(); i++ ) {
-            for( int j = 0; j < w.getHeight(); j++ ) {
+        for( int i = 1; i < w.getWidth() - 1; i++ ) {
+            for( int j = 1; j < w.getHeight() - 1; j++ ) {
                 Complex psiStar = w.valueAt( i, j ).complexConjugate();
                 Complex opPsi = getOpPsi( w, i, j );
                 Complex term = psiStar.times( opPsi ).times( new Complex( 0, -1 ) );

@@ -16,9 +16,8 @@ import java.awt.*;
  */
 public class DefaultColorMap implements ColorMap {
     private SchrodingerPanel schrodingerPanel;
-    public double colorScale;
-    public double intensityScale;
-//    private Potential potential;
+    private double colorScale;
+    private double intensityScale;
 
     public DefaultColorMap( SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
@@ -39,10 +38,6 @@ public class DefaultColorMap implements ColorMap {
             s = 1;
         }
         Color color = new Color( Color.HSBtoRGB( (float)h, (float)s, (float)b ) );
-//        double potval = getPotential().getPotential( i, k, 0 );
-//        if( potval > 0 ) {
-//            color = new Color( 100, color.getGreen(), color.getBlue() );
-//        }
         return color;
     }
 
