@@ -298,4 +298,8 @@ public class PhetFrame extends JFrame {
         }
         return null;
     }
+    
+    public HelpMenu getHelpMenu() {
+        return helpMenu;
+    }
 }
