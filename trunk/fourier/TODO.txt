@@ -18,7 +18,6 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 - waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
-- make graph titles prettier
 
 NEW FEATURES:
 
@@ -172,6 +171,7 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
+(6/21) - make graph titles prettier (no one asked for this)
 (6/20) - investigate Jex for rendering equations (no doc, uses OpenOffice for rendering, install Windows only)
 (6/14) - highlight component when mouse moves over it in Harmonics graph (dropped this feature)
 (5/20) - use multi-line choices in Math Form menu (doesn't work on Mac)
