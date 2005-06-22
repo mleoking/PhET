@@ -191,6 +191,11 @@ public class Module implements ClockTickListener {
      */
     public void setHelpEnabled( boolean h ) {
         helpManager.setHelpEnabled( apparatusPanel, h );
+        if ( controlPanel instanceof ControlPanel ) {
+            // If our control panel is a Phet control panel, then change the 
+            // state of its Help button.
+            ((ControlPanel)controlPanel).setHelpEnabled( h );
+        }
     }
 
     /**

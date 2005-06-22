@@ -388,4 +388,14 @@ public class ControlPanel extends JPanel {
 
     }
 
+    /**
+     * Sets the state of the Help button in the control panel.
+     * This is used to keep the menubar's Help menu item
+     * in sync with the control panel's Help button.
+     * 
+     * @param enabled
+     */
+    public void setHelpEnabled( boolean enabled ) {
+        helpPanel.setHelpEnabled( enabled );
+    }
 }

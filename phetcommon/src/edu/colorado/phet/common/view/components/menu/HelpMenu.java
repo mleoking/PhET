@@ -104,6 +104,16 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         add( about );
     }
 
+    /**
+     * Sets the state of the Help menu item.
+     * This is used to keep the menubar's Help menu item
+     * in sync with the control panel's Help button.
+     * 
+     * @param selected
+     */
+    public void setHelpSelected( boolean selected ) {
+        onscreenHelp.setSelected( selected );
+    }
 
     /**
      * Reads the versioning information for this application.
