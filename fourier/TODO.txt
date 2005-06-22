@@ -36,7 +36,6 @@ CHARTS:
 - flatten static graphics elements
 
 PHETCOMMON:
-- bug: Help button and Help menuitem are not linked
 - bug: PhetTextGraphic leaves screen turds when its text is exclusively Unicode
 - bug: PhetJComponent startup is excessively slow
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
@@ -44,6 +43,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/21) - link Help button and Help menu item in phetcommon
 (6/21) - remove sound controls from Discrete control panel
 (6/21) - add infinite waveform for "sine/cosine" preset choice
 (6/21) - use light gray for infinite waveform in Sum graph, put it behind sum waveform
