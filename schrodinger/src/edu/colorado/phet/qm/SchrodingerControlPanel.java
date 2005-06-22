@@ -86,13 +86,13 @@ public class SchrodingerControlPanel extends ControlPanel {
         addControlFullWidth( exp );
 
 
-        JButton collapse = new JButton( "Collapse" );
-        collapse.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                collapse();
-            }
-        } );
-        addControl( collapse );
+//        JButton collapse = new JButton( "Collapse" );
+//        collapse.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                collapse();
+//            }
+//        } );
+//        addControl( collapse );
 
         VerticalLayoutPanel interactionPanel = createDetectorPanel();
         addControlFullWidth( interactionPanel );
@@ -141,11 +141,11 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
         final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
-        final PlaneWave planeWave = new PlaneWave( 40 * Math.PI, getDiscreteModel().getXMesh() );
+        final PlaneWave planeWave = new PlaneWave( 40 * Math.PI, getDiscreteModel().getGridWidth() );
         planeWave.setScale( 0.1 );
         int insetY = 0;
         int width = 3;
-        final Rectangle rectangle = new Rectangle( getDiscreteModel().getXMesh() - width, insetY, width, getDiscreteModel().getYMesh() - insetY * 2 );
+        final Rectangle rectangle = new Rectangle( getDiscreteModel().getGridWidth() - width, insetY, width, getDiscreteModel().getGridHeight() - insetY * 2 );
         final WaveSource waveSource = new WaveSource( rectangle, planeWave );
         waveSource.setNorm( 5.0 );
 
@@ -192,10 +192,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         layoutPanel.add( oneShot );
 
         return layoutPanel;
-    }
-
-    private void collapse() {
-        module.collapse();
     }
 
     private VerticalLayoutPanel createExpectationPanel() {
@@ -261,7 +257,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         JButton doubleSlit = new JButton( "Add Double Slit" );
         doubleSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                setPotential( new VerticalSlitSet( ) );
                 addPotential( createDoubleSlit() );
             }
         } );
@@ -296,8 +291,8 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     private Potential createDoubleSlit() {
-        Potential doubleSlit = new DoubleSlit().createDoubleSlit( getDiscreteModel().getXMesh(), getDiscreteModel().getYMesh(),
-                                                                  (int)( getDiscreteModel().getXMesh() * 0.45 ), 5, 5, 10, 20000 );
+        Potential doubleSlit = new DoubleSlit().createDoubleSlit( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight(),
+                                                                  (int)( getDiscreteModel().getGridWidth() * 0.45 ), 5, 5, 10, 20000 );
         return doubleSlit;
     }
 
@@ -309,7 +304,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel simulationPanel = new VerticalLayoutPanel();
         simulationPanel.setBorder( BorderFactory.createTitledBorder( "Simulation" ) );
 
-        final JSpinner gridWidth = new JSpinner( new SpinnerNumberModel( getDiscreteModel().getXMesh(), 1, 1000, 10 ) );
+        final JSpinner gridWidth = new JSpinner( new SpinnerNumberModel( getDiscreteModel().getGridWidth(), 1, 1000, 10 ) );
         gridWidth.setBorder( BorderFactory.createTitledBorder( "Resolution" ) );
         gridWidth.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -391,7 +386,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     private double getStartDxLattice() {
-        double dxLattice = dxSlider.getValue() * getDiscreteModel().getXMesh();
+        double dxLattice = dxSlider.getValue() * getDiscreteModel().getGridWidth();
         System.out.println( "dxLattice = " + dxLattice );
         return dxLattice;
     }
@@ -405,11 +400,11 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     private double getStartY() {
-        return ySlider.getValue() * getDiscreteModel().getYMesh();
+        return ySlider.getValue() * getDiscreteModel().getGridHeight();
     }
 
     private double getStartX() {
-        return xSlider.getValue() * getDiscreteModel().getXMesh();
+        return xSlider.getValue() * getDiscreteModel().getGridWidth();
     }
 
     private DiscreteModel getDiscreteModel() {

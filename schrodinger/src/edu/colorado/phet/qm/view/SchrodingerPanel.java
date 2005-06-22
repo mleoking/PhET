@@ -51,7 +51,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     }
 
     private ColorGrid createColorGrid() {
-        return new ColorGrid( colorGridWidth, colorGridWidth, discreteModel.getXMesh(), discreteModel.getYMesh() );
+        return new ColorGrid( colorGridWidth, colorGridWidth, discreteModel.getGridWidth(), discreteModel.getGridHeight() );
     }
 
     public void reset() {
@@ -74,13 +74,13 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
 
         if( displayXExpectation ) {
             double xFractional = new XValue().compute( getWavefunction() );
-            int x = (int)( xFractional * colorGrid.getBlockWidth() * getDiscreteModel().getXMesh() );
+            int x = (int)( xFractional * colorGrid.getBlockWidth() * getDiscreteModel().getGridWidth() );
             g2.setColor( Color.blue );
             g2.fillRect( (int)x, 0, 2, image.getHeight() );
         }
         if( displayYExpectation ) {
             double yFractional = new YValue().compute( getDiscreteModel().getWavefunction() );
-            int y = (int)( yFractional * colorGrid.getBlockHeight() * getDiscreteModel().getYMesh() );
+            int y = (int)( yFractional * colorGrid.getBlockHeight() * getDiscreteModel().getGridHeight() );
             g2.setColor( Color.blue );
             g2.fillRect( 0, (int)y, image.getWidth(), 2 );
         }
@@ -88,7 +88,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
             Point collapsePoint = getDiscreteModel().getCollapsePoint();
             Rectangle rect = colorGrid.getRectangle( collapsePoint.x, collapsePoint.y );
             g2.setColor( Color.green );
-            g2.fillRect( rect.x, rect.y, rect.width, rect.height );
+            g2.fillOval( rect.x, rect.y, rect.width, rect.height );
         }
         if( displayPyExpectation ) {
             double px = new PxValue().compute( getWavefunction() );
