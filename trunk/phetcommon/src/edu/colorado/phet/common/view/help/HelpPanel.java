@@ -10,14 +10,19 @@
  */
 package edu.colorado.phet.common.view.help;
 
-import edu.colorado.phet.common.application.Module;
-import edu.colorado.phet.common.view.util.FractionSpring;
-import edu.colorado.phet.common.view.util.SimStrings;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
+import edu.colorado.phet.common.application.Module;
+import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 /**
  * HelpPanel
@@ -55,6 +60,8 @@ public class HelpPanel extends JPanel {
                     setOneButtonMode();
                 }
                 module.setHelpEnabled( miniHelpShowing );
+                // Synchronize the Help menu item.
+                PhetApplication.instance().getPhetFrame().getHelpMenu().setHelpSelected( miniHelpShowing );
             }
         } );
         megaHelpBtn.addActionListener( new ActionListener() {
@@ -157,4 +164,13 @@ public class HelpPanel extends JPanel {
 */
     }
 
+    public void setHelpEnabled( boolean enabled ) {
+        miniHelpShowing = enabled;
+        if ( enabled ) {
+            miniHelpBtn.setText( hideHelpStr );
+        }
+        else {
+            miniHelpBtn.setText( showHelpStr );
+        }
+    }
 }
