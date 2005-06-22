@@ -30,17 +30,19 @@ public class TestPhetJComponentTabTraversal {
 
     public TestPhetJComponentTabTraversal( String[] args ) throws IOException {
 
+        // Create the app.
         String title = "TestPhetJComponentTabTraversal";
         AbstractClock clock = new SwingTimerClock( 1, 40 );
         boolean useClockControlPanel = false;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 400, 300 );
-        
         PhetApplication app = new PhetApplication( args,
                 title, "", "", clock, useClockControlPanel, frameSetup );
         
+        // Add modules.
         Module module = new TestModule( clock );
         app.setModules( new Module[] { module } );
         
+        // Start the app.
         app.startApplication();
     }
 
@@ -60,11 +62,12 @@ public class TestPhetJComponentTabTraversal {
             Font font = new Font( "Lucida Sans", Font.PLAIN, 14 );
             
             // Instructions
-            String html = "<html>Click in a text field.<br>Then use Tab or Shift-Tab to move between text field.</html>";
+            String html = "<html>Click in a text field.<br>Then use Tab or Shift-Tab to move between text fields.</html>";
             HTMLGraphic instructions = new HTMLGraphic( apparatusPanel, font, html, Color.BLACK );
             instructions.setLocation( 15, 15 );
             apparatusPanel.addGraphic( instructions );
             
+            // JTextFields, wrapped by PhetJComponent.
             for ( int i = 0; i < 5; i++ ) {
                 JTextField textField = new JTextField();
                 textField.setFont( font );
