@@ -49,7 +49,7 @@ public class PeriodDisplay extends CompositePhetGraphic
     private static final double SYMBOL_LAYER = 3;
     
     private static final Color SYMBOL_COLOR = Color.BLACK;
-    private static final Font SYMBOL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
+    private static final Font SYMBOL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
     private static final int SYMBOL_X_OFFSET = 30;
     private static final int SYMBOL_Y_OFFSET = 0;
     
