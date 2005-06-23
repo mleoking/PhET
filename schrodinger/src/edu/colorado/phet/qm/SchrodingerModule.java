@@ -26,6 +26,8 @@ import edu.colorado.phet.qm.view.SchrodingerPanel;
 public class SchrodingerModule extends Module {
     public SchrodingerPanel schrodingerPanel;
     public DiscreteModel discreteModel;
+    public IntensityDisplay intensityDisplay;
+
 
     /**
      * @param clock
@@ -46,6 +48,13 @@ public class SchrodingerModule extends Module {
 
         SchrodingerControlPanel schrodingerControlPanel = new SchrodingerControlPanel( this );
         setControlPanel( schrodingerControlPanel );
+
+        intensityDisplay = new IntensityDisplay( this, 50 );
+        startIntensityDisplay();
+    }
+
+    private void startIntensityDisplay() {
+        getDiscreteModel().getVerticalEta().addListener( intensityDisplay );
     }
 
     public SchrodingerPanel getSchrodingerPanel() {
@@ -59,7 +68,7 @@ public class SchrodingerModule extends Module {
     public static void main( String[] args ) {
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         PhetApplication phetApplication = new PhetApplication( args, "Schrodinger Equation", "Schrodinger Equation", "v0r0", clock, true, new FrameSetup.CenteredWithSize( 900, 900 ) );
-        SchrodingerModule module = new SchrodingerModule( clock );
+        final SchrodingerModule module = new SchrodingerModule( clock );
         phetApplication.setModules( new Module[]{module} );
         phetApplication.startApplication();
     }
@@ -67,6 +76,7 @@ public class SchrodingerModule extends Module {
     public void reset() {
         discreteModel.reset();
         schrodingerPanel.reset();
+        intensityDisplay.reset();
     }
 
     public void fireParticle( InitialWavefunction initialWavefunction ) {

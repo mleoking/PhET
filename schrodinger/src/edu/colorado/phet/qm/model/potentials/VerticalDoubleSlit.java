@@ -10,7 +10,7 @@ import java.awt.*;
  * Copyright (c) Jun 11, 2005 by Sam Reid
  */
 
-public class DoubleSlit {
+public class VerticalDoubleSlit {
     public CompositePotential createDoubleSlit( int gridWidth, int gridHeight,
                                                 int x, int width, int slitHeight, int slitSeparation, double potential ) {
         CompositePotential compositePotential = new CompositePotential();

@@ -72,4 +72,8 @@ public class ColorGrid {
         Rectangle out = new Rectangle( modelRect.x * w, modelRect.y * h, modelRect.width * w, modelRect.height * h );
         return out;
     }
+
+    public int getWidth() {
+        return image.getWidth();
+    }
 }

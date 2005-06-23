@@ -39,7 +39,11 @@ public class DefaultPainter implements ColorMap {
             r = Math.min( r, 1.0 );
             color = new Color( (int)( r * 255 ), color.getGreen(), color.getBlue() );
         }
-
+//        Damping damping = schrodingerPanel.getDiscreteModel().getDamping();
+//        double val = damping.getDamping( schrodingerPanel.getDiscreteModel().getWavefunction(), i, k );
+//        if( val > 0 ) {
+//            color = new Color( 255, 255, 255 );
+//        }
         return color;
     }
 
