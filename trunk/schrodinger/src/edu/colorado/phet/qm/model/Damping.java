@@ -10,9 +10,10 @@ package edu.colorado.phet.qm.model;
 
 public class Damping implements DiscreteModel.Listener {
 
-    private double[] damp = new double[]{0.98, 0.95, 0.8, 0.5, 0.2, 0.001};
-//    private int dw = 10;
-//    private int dh = 4;
+//    private double[] damp = new double[]{0.99, 0.98, 0.95, 0.92, 0.85, 0.8,0.5,0.1};
+//    private double[] damp = new double[]{0.999, 0.99, 0.98, 0.97, 0.95, 0.9, 0.5, 0.1};
+    private double[] damp = new double[]{0.999, 0.999, 0.995, 0.99, 0.95, 0.92, 0.9, 0.85, 0.5, 0.1};
+//    private double[] damp = new double[]{0.99, 0.5};//, 0.96, 0.9, 0.8, 0.7, 0.6, 0.5,0.3,0.1};
 
     public void finishedTimeStep( DiscreteModel model ) {
         damp( model.getWavefunction() );
@@ -21,37 +22,48 @@ public class Damping implements DiscreteModel.Listener {
     private void damp( Wavefunction wavefunction ) {
         leftWall( wavefunction );
         rightWall( wavefunction );
+        topWall( wavefunction );
+        bottomWall( wavefunction );
+    }
+
+    private void bottomWall( Wavefunction wavefunction ) {
+        for( int depth = 0; depth < damp.length; depth++ ) {
+            double scale = getScaleFactor( depth );
+            int j = wavefunction.getHeight() - damp.length + depth;
+            for( int i = 0; i < wavefunction.getWidth(); i++ ) {
+                wavefunction.valueAt( i, j ).scale( scale );
+            }
+        }
+    }
+
+    private void topWall( Wavefunction wavefunction ) {
+        for( int depth = 0; depth < damp.length; depth++ ) {
+            double scale = getScaleFactor( depth );
+            int j = damp.length - depth - 1;
+            for( int i = 0; i < wavefunction.getWidth(); i++ ) {
+                wavefunction.valueAt( i, j ).scale( scale );
+            }
+        }
     }
 
     private void rightWall( Wavefunction wavefunction ) {
         for( int depth = 0; depth < damp.length; depth++ ) {
             double scale = getScaleFactor( depth );
-            int i = wavefunction.getWidth() - 1 - depth;
+            int i = wavefunction.getWidth() - damp.length + depth;
             for( int j = 0; j < wavefunction.getHeight(); j++ ) {
                 wavefunction.valueAt( i, j ).scale( scale );
             }
         }
-//        int depth = 1;
-//        for( int i = wavefunction.getWidth() - 1 - damp.length; i < wavefunction.getWidth(); i++ ) {
-////            double penetrationDepthFraction = depth / dw;
-//            double scale = getScaleFactor( depth );
-//            for( int j = 0; j < wavefunction.getHeight(); j++ ) {
-//                wavefunction.valueAt( i, j ).scale( scale );
-//            }
-//            depth++;
-//        }
     }
 
+
     private void leftWall( Wavefunction wavefunction ) {
-        int depth = 1;
-        for( int i = damp.length - 1; i >= 0; i-- ) {
-//            double penetrationDepthFraction = depth / dw;
+        for( int depth = 0; depth < damp.length; depth++ ) {
             double scale = getScaleFactor( depth );
-            System.out.println( "depth = " + depth + ", scale=" + scale );
+            int i = damp.length - depth - 1;
             for( int j = 0; j < wavefunction.getHeight(); j++ ) {
                 wavefunction.valueAt( i, j ).scale( scale );
             }
-            depth++;
         }
     }
 

@@ -287,11 +287,12 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     private Potential createSlopingPotential() {
-        return new SimpleGradientPotential( 1000 );
+        return new SimpleGradientPotential( 0.01 );
     }
 
     private Potential createDoubleSlit() {
-        Potential doubleSlit = new DoubleSlit().createDoubleSlit( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight(),
+        Potential doubleSlit = new DoubleSlit().createDoubleSlit( getDiscreteModel().getGridWidth(),
+                                                                  getDiscreteModel().getGridHeight(),
                                                                   (int)( getDiscreteModel().getGridWidth() * 0.45 ), 5, 5, 10, 20000 );
         return doubleSlit;
     }

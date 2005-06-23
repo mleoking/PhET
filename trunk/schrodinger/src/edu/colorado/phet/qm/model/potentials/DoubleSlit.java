@@ -11,15 +11,16 @@ import java.awt.*;
  */
 
 public class DoubleSlit {
-    public CompositePotential createDoubleSlit( int XMESH, int YMESH, int x, int width, int slitHeight, int slitSeparation, double val ) {
+    public CompositePotential createDoubleSlit( int gridWidth, int gridHeight,
+                                                int x, int width, int slitHeight, int slitSeparation, double potential ) {
         CompositePotential compositePotential = new CompositePotential();
-        int barHeight = ( YMESH - 2 * slitHeight - slitSeparation ) / 2;
+        int barHeight = ( gridHeight - 2 * slitHeight - slitSeparation ) / 2;
         Rectangle top = new Rectangle( x, 0, width, barHeight );
         Rectangle mid = new Rectangle( x, barHeight + slitHeight, width, slitSeparation );
         Rectangle bot = new Rectangle( x, barHeight + slitHeight * 2 + slitSeparation, width, barHeight );
-        compositePotential.addPotential( new BarrierPotential( top, val ) );
-        compositePotential.addPotential( new BarrierPotential( mid, val ) );
-        compositePotential.addPotential( new BarrierPotential( bot, val ) );
+        compositePotential.addPotential( new BarrierPotential( top, potential ) );
+        compositePotential.addPotential( new BarrierPotential( mid, potential ) );
+        compositePotential.addPotential( new BarrierPotential( bot, potential ) );
         return compositePotential;
     }
 }

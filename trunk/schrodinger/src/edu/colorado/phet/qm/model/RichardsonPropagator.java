@@ -43,11 +43,11 @@ public class RichardsonPropagator implements Propagator {
     }
 
     private void update() {
+
         epsilon = toEpsilon( deltaTime );
 
         alpha = createAlpha();
         beta = createBeta();
-
         for( int i = 0; i < betaeven.length; i++ ) {
             for( int j = 0; j < betaeven[i].length; j++ ) {
                 betaeven[i][j] = new Complex();
@@ -139,9 +139,6 @@ public class RichardsonPropagator implements Propagator {
         aTemp.setToProduct( alpha, copy.valueAt( i, j ) );
         bTemp.setToProduct( betaeven[i][j], copy.valueAt( i + dx, j + dy ) );
         cTemp.setToProduct( betaodd[i][j], copy.valueAt( i - dx, j - dy ) );
-//
-//        bTemp.setToProduct( betaeven[i][j], copy[i + dx][j + dy] );
-//        cTemp.setToProduct( betaodd[i][j], copy[i - dx][j - dy] );
         w.valueAt( i, j ).setToSum( aTemp, bTemp, cTemp );
     }
 
@@ -151,7 +148,6 @@ public class RichardsonPropagator implements Propagator {
                 double pot = potential.getPotential( i, j, timeStep );
                 Complex val = new Complex( Math.cos( pot * deltaTime / hbar ), -Math.sin( pot * deltaTime / hbar ) );
                 w.setValue( i, j, w.valueAt( i, j ).times( val ) );
-//                w[i][j] = w[i][j].times( val );
             }
         }
     }

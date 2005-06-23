@@ -58,7 +58,7 @@ public class SchrodingerModule extends Module {
 
     public static void main( String[] args ) {
         AbstractClock clock = new SwingTimerClock( 1, 30 );
-        PhetApplication phetApplication = new PhetApplication( args, "Schrodinger Equation", "Schrodinger Equation", "v0r0", clock, true, new FrameSetup.CenteredWithSize( 800, 800 ) );
+        PhetApplication phetApplication = new PhetApplication( args, "Schrodinger Equation", "Schrodinger Equation", "v0r0", clock, true, new FrameSetup.CenteredWithSize( 900, 900 ) );
         SchrodingerModule module = new SchrodingerModule( clock );
         phetApplication.setModules( new Module[]{module} );
         phetApplication.startApplication();
