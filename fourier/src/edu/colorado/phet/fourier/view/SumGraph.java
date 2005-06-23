@@ -346,7 +346,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _mathGraphic = new SumEquation( component );
             addGraphic( _mathGraphic, MATH_LAYER );
             _mathGraphic.centerRegistrationPoint();
-            _mathGraphic.setLocation( CHART_SIZE.width / 2, -(CHART_SIZE.height / 2) - 15 );
+            _mathGraphic.setLocation( CHART_SIZE.width / 2, -(CHART_SIZE.height / 2) - 20 );
         }
         
         // Zoom controls
@@ -370,7 +370,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             autoScaleGraphic.setLocation( _verticalZoomControl.getX(), 
                     _verticalZoomControl.getY() + _verticalZoomControl.getHeight() + 5 );
         }
-        
         
         // Preset data set
         _presetDataSet = new DataSet();
