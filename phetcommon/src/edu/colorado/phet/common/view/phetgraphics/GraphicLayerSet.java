@@ -260,7 +260,8 @@ public class GraphicLayerSet extends PhetGraphic {
     public void addGraphic( PhetGraphic graphic, double layer ) {
         this.graphicMap.put( new Double( layer ), graphic );
         graphic.setParent( this );
-        setBoundsDirty();
+        super.setBoundsDirty();
+        graphic.setBoundsDirty();
         graphic.autorepaint();//Automatically repaint the added graphic.
     }
 
