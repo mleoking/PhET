@@ -29,6 +29,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -164,7 +165,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
                 _chartGraphic.getXAxis().setStroke( AXIS_STROKE );
                 _chartGraphic.getXAxis().setColor( AXIS_COLOR );
 
-                String xTitle = SimStrings.get( "symbol.mode" );
+                String xTitle = "" + MathStrings.C_MODE;
                 PhetTextGraphic xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, xTitle, AXIS_TITLE_COLOR );
                 _chartGraphic.setXAxisTitle( xAxisTitleGraphic );
                 

@@ -11,9 +11,10 @@
 
 package edu.colorado.phet.fourier.control;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridLayout;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -27,8 +28,8 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
 
 /**
@@ -47,37 +48,6 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
     private static final int TERMS_PER_LINE = 3;
     private static final NumberFormat VALUE_FORMATTER = new DecimalFormat( "0.##" );
     private static boolean SHOW_TERMS_WITH_ZERO_AMPLITUDE = true;
-    
-    // Functions
-    private static final String FUNCTION_SPACE = "F(x)";
-    private static final String FUNCTION_TIME = "F(t)";
-    private static final String FUNCTION_SPACE_AND_TIME = "F(x,t)";
-    
-    // Math forms for "space" domain
-    private static final String FORMAT_SPACE_WAVE_NUMBER = 
-        "sin( k<sub>{0}</sub>x )";
-    private static final String FORMAT_SPACE_WAVELENGTH = 
-        "sin( 2\u03c0x / \u03BB<sub>{0}</sub> )";
-    private static final String FORMAT_SPACE_MODE = 
-        "sin( 2\u03c0{0}x / L )";
-    
-    // Math forms for "time" domain
-    private static final String FORMAT_TIME_ANGULAR_FREQUENCY = 
-        "sin( \u03C9<sub>{0}</sub>t )";
-    private static final String FORMAT_TIME_FREQUENCY = 
-        "sin( 2\u03c0f<sub>{0}</sub>t )";
-    private static final String FORMAT_TIME_PERIOD = 
-        "sin( 2\u03c0t / T<sub>{0}</sub> )";
-    private static final String FORMAT_TIME_MODE = 
-        "sin( 2\u03c0{0}t / T )";
-    
-    // Math forms for "space & time" domain
-    private static final String FORMAT_SPACE_AND_TIME_WAVENUMBER_AND_ANGULAR_FREQUENCY = 
-        "sin( k<sub>{0}</sub>x - \u03C9<sub>{0}</sub>t )";
-    private static final String FORMAT_SPACE_AND_TIME_WAVELENGTH_AND_PERIOD =
-        "sin( 2\u03c0( x/\u03BB<sub>{0}</sub> - t/T<sub>{0}</sub> ) )";
-    private static final String FORMAT_SPACE_AND_TIME_MODE = 
-        "sin( 2\u03c0{0}( x/L - t/T ) )";
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -216,67 +186,10 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
      */
     public void update() {
 
-        String function = null; // function on the left side of the equation
-        String format = null;  // format of one term in the expansion
-        
-        // Choose the corresponding HTML string.
-        switch ( _domain ) {
-            case FourierConstants.DOMAIN_SPACE:
-                function = FUNCTION_SPACE;
-                switch ( _mathForm ) {
-                    case FourierConstants.MATH_FORM_WAVE_NUMBER:
-                        format = FORMAT_SPACE_WAVE_NUMBER;
-                        break;
-                    case FourierConstants.MATH_FORM_WAVELENGTH:
-                        format = FORMAT_SPACE_WAVELENGTH;
-                         break;
-                    case FourierConstants.MATH_FORM_MODE:
-                        format = FORMAT_SPACE_MODE;
-                        break;
-                    default:
-                }
-                break;
-            case FourierConstants.DOMAIN_TIME:
-                function = FUNCTION_TIME;
-                switch ( _mathForm ) {
-                    case FourierConstants.MATH_FORM_ANGULAR_FREQUENCY:
-                        format = FORMAT_TIME_ANGULAR_FREQUENCY;
-                        break;
-                    case FourierConstants.MATH_FORM_FREQUENCY:
-                        format = FORMAT_TIME_FREQUENCY;
-                        break;
-                    case FourierConstants.MATH_FORM_PERIOD:
-                        format = FORMAT_TIME_PERIOD;
-                        break;
-                    case FourierConstants.MATH_FORM_MODE:
-                        format = FORMAT_TIME_MODE;
-                        break;
-                    default:
-                }
-                break;
-            case FourierConstants.DOMAIN_SPACE_AND_TIME:
-                function = FUNCTION_SPACE_AND_TIME;
-                switch ( _mathForm ) {
-                    case FourierConstants.MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY:
-                        format = FORMAT_SPACE_AND_TIME_WAVENUMBER_AND_ANGULAR_FREQUENCY;
-                        break;
-                    case FourierConstants.MATH_FORM_WAVELENGTH_AND_PERIOD:
-                        format = FORMAT_SPACE_AND_TIME_WAVELENGTH_AND_PERIOD;
-                        break;
-                    case FourierConstants.MATH_FORM_MODE:
-                        format = FORMAT_SPACE_AND_TIME_MODE;
-                        break;
-                    default:
-                }
-                break;
-            default:
-        }
-        
-        // Invalid combination?
-        if ( format == null ) {  
-            throw new IllegalArgumentException( 
-                    "illegal combination of domain (" + _domain + ") " + "and math form (" + _mathForm + ")" );
-        }
+        // function on the left side of the equation
+        String function = MathStrings.getFunction( _domain ); 
+        // format of one term in the expansion
+        String termFormat = MathStrings.getTerm( _domain, _mathForm );
         
         // Build the equation, in HTML format.
         StringBuffer buffer = new StringBuffer( "<html>" );
@@ -291,10 +204,9 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
                     buffer.append( " + " );
                 }
                 
-                buffer.append( VALUE_FORMATTER.format( amplitude ) );
-                buffer.append( " " );
-                Object[] args = { new Integer( i + 1 ), new Integer( i + 1 ) };
-                String term = MessageFormat.format( format, args );
+                String amplitudeString = VALUE_FORMATTER.format( amplitude );
+                Object[] args = { amplitudeString, new Integer( i + 1 ) };
+                String term = MessageFormat.format( termFormat, args );
                 buffer.append( term );
 
                 if ( ( terms + 1 ) % TERMS_PER_LINE == 0 ) {

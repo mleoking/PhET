@@ -14,10 +14,12 @@ package edu.colorado.phet.fourier.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
@@ -86,72 +88,17 @@ public class HarmonicsEquation extends HTMLGraphic {
      * 
      * @param domain
      * @param mathForm
-     * @throws IllegalArgumentException if the an illegal combination of values is provided
      */
     public void setForm( int domain, int mathForm ) {
         
         assert( FourierConstants.isValidDomain( domain ) );
         assert( FourierConstants.isValidMathForm( mathForm ) );
         
-        String text = null;
-        
-        // Choose the corresponding HTML string.
-        switch ( domain ) {
-            case FourierConstants.DOMAIN_SPACE:
-                switch ( mathForm ) {
-                    case FourierConstants.MATH_FORM_WAVE_NUMBER:
-                        text = TEXT_SPACE_WAVE_NUMBER;
-                        break;
-                    case FourierConstants.MATH_FORM_WAVELENGTH:
-                        text = TEXT_SPACE_WAVELENGTH;
-                         break;
-                    case FourierConstants.MATH_FORM_MODE:
-                        text = TEXT_SPACE_MODE;
-                        break;
-                    default:
-                }
-                break;
-            case FourierConstants.DOMAIN_TIME:
-                switch ( mathForm ) {
-                    case FourierConstants.MATH_FORM_ANGULAR_FREQUENCY:
-                        text = TEXT_TIME_ANGULAR_FREQUENCY;
-                        break;
-                    case FourierConstants.MATH_FORM_FREQUENCY:
-                        text = TEXT_TIME_FREQUENCY;
-                        break;
-                    case FourierConstants.MATH_FORM_PERIOD:
-                        text = TEXT_TIME_PERIOD;
-                        break;
-                    case FourierConstants.MATH_FORM_MODE:
-                        text = TEXT_TIME_MODE;
-                        break;
-                    default:
-                }
-                break;
-            case FourierConstants.DOMAIN_SPACE_AND_TIME:
-                switch ( mathForm ) {
-                    case FourierConstants.MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY:
-                        text = TEXT_SPACE_AND_TIME_WAVENUMBER_AND_ANGULAR_FREQUENCY;
-                        break;
-                    case FourierConstants.MATH_FORM_WAVELENGTH_AND_PERIOD:
-                        text = TEXT_SPACE_AND_TIME_WAVELENGTH_AND_PERIOD;
-                        break;
-                    case FourierConstants.MATH_FORM_MODE:
-                        text = TEXT_SPACE_AND_TIME_MODE;
-                        break;
-                    default:
-                }
-                break;
-            default:
-        }
-        
-        // Set the HTML string.
-        if ( text != null ) {  
-            setHTML( text ); 
-        }
-        else {
-            throw new IllegalArgumentException( 
-                    "illegal combination of domain (" + domain + ") " + "and math form (" + mathForm + ")" );
-        }
+        String termFormat = MathStrings.getTerm( domain, mathForm );
+        String coefficientString = MathStrings.getCoefficient();
+        Object[] args = { coefficientString, "n" };
+        String termString = MessageFormat.format( termFormat, args );
+
+        setHTML( "<html>" + termString + "</html>");
     }
 }

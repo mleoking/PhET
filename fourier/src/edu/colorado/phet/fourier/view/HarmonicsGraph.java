@@ -27,6 +27,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.HarmonicDataSet;
 import edu.colorado.phet.fourier.charts.HarmonicDataSetGraphic;
 import edu.colorado.phet.fourier.control.ZoomControl;
@@ -184,8 +185,8 @@ public class HarmonicsGraph extends GraphicLayerSet
                 _chartGraphic.getXAxis().setColor( AXIS_COLOR );
                 
                 // Title
-                _xAxisTitleTime = SimStrings.get( "symbol.time" );
-                _xAxisTitleSpace = SimStrings.get( "symbol.space" );
+                _xAxisTitleTime = "" + MathStrings.C_TIME;
+                _xAxisTitleSpace = "" + MathStrings.C_SPACE;
                 _xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, _xAxisTitleSpace, AXIS_TITLE_COLOR );
                 _chartGraphic.setXAxisTitle( _xAxisTitleGraphic );
 

@@ -31,7 +31,7 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 /**
  * WaveMeasurementTool is a graphical tool used to visually measure the 
- * wavelength or period of a wave.  It is interested in a specific 
+ * some aspect of a wave.  It is interested in a specific 
  * Harmonic, and adjusts its size to match the width of one cycle
  * of that harmonic.  It also adjusts its size to match the range of 
  * an associated chart.  Registered listeners receive a HarmonicFocusEvent
