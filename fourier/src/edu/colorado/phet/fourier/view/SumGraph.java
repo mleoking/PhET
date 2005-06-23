@@ -227,6 +227,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private boolean _autoScaleEnabled;
     private Point2D[] _points;
     private boolean _presetEnabled;
+    private int _previousNumberOfHarmonics;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -434,6 +435,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         updateMath();
         
         // Synchronize with model
+        _previousNumberOfHarmonics = 0; // force an update
         update();
     }
     
@@ -690,7 +692,14 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
                 // There is no cosine form of sawtooth.
             }
         }
+        
+        // Sum equation
+        if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
+            updateMath();
+        }
 
+        _previousNumberOfHarmonics = numberOfHarmonics;
+        
         repaint();
     }     
     
