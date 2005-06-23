@@ -38,8 +38,7 @@ public class DetectorGraphic extends RectangleGraphic {
 
     private void update() {
         Rectangle modelRect = detector.getBounds();
-        ColorGrid grid = super.getColorGrid();
-        Rectangle viewRect = grid.getViewRectangle( modelRect );
+        Rectangle viewRect = super.getViewRectangle( modelRect );
 
         double probPercent = detector.getProbability() * 100;
         String formatted = format.format( probPercent );

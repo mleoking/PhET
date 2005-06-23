@@ -17,12 +17,13 @@ import java.util.Random;
 
 public class DetectorSet {
     private ArrayList detectors = new ArrayList();
-    private Random random = new Random();
-    private DiscreteModel discreteModel;
+    private static final Random random = new Random();
+//    private DiscreteModel discreteModel;
     private DiscreteModel.Listener listener;
+    private Wavefunction wavefunction;
 
-    public DetectorSet( DiscreteModel discreteModel ) {
-        this.discreteModel = discreteModel;
+    public DetectorSet( Wavefunction wavefunction ) {
+        this.wavefunction = wavefunction;
         listener = new DetectorSet.MyListener();
     }
 
@@ -40,13 +41,13 @@ public class DetectorSet {
     public void updateDetectorProbabilities() {
         for( int i = 0; i < detectors.size(); i++ ) {
             Detector detector = (Detector)detectors.get( i );
-            detector.updateProbability( discreteModel.getWavefunction() );
+            detector.updateProbability( getWavefunction() );
         }
     }
 
     public void handleCollapse() {
-        Wavefunction wavefunction = discreteModel.getWavefunction();
-        double norm = wavefunction.getMagnitude();
+        Wavefunction wavefunction = getWavefunction();
+        double norm = 1.0;//todo is this correct?
         if( norm >= 0.2 ) {//ensure there's a particle.
 //                System.out.println( "detectorNorm=" + norm);
             for( int i = 0; i < detectors.size(); i++ ) {
@@ -58,7 +59,7 @@ public class DetectorSet {
 
     public Point getCollapsePoint( Rectangle bounds ) {
         //compute a probability model for each dA
-        Wavefunction copy = discreteModel.getWavefunction().copy();
+        Wavefunction copy = getWavefunction().copy();
         for( int i = 0; i < copy.getWidth(); i++ ) {
             for( int j = 0; j < copy.getHeight(); j++ ) {
                 if( !bounds.contains( i, j ) ) {
@@ -67,8 +68,7 @@ public class DetectorSet {
             }
         }
 
-        copy.normalize();//in case we care
-        //todo could work without a normalize, just choose random.nextDouble between 0 and totalprob.
+//        copy.normalize();//in case we care
         Complex runningSum = new Complex();
         double rnd = random.nextDouble();
 
@@ -96,11 +96,11 @@ public class DetectorSet {
 
     public void collapse( Point collapsePoint, int collapseLatticeDX ) {
         double px = new PxValue().compute( getWavefunction() );
-        new GaussianWave( collapsePoint, new Vector2D.Double( px, 0 ), collapseLatticeDX ).initialize( discreteModel.getWavefunction() );
+        new GaussianWave( collapsePoint, new Vector2D.Double( px, 0 ), collapseLatticeDX ).initialize( getWavefunction() );
     }
 
     private Wavefunction getWavefunction() {
-        return discreteModel.getWavefunction();
+        return wavefunction;
     }
 
     public DiscreteModel.Listener getListener() {
@@ -114,22 +114,13 @@ public class DetectorSet {
         }
     }
 
-    public class MyListener implements DiscreteModel.Listener {
+    public class MyListener extends DiscreteModel.Adapter {
         public void finishedTimeStep( DiscreteModel model ) {
             notifyTimeStepped();
             updateDetectorProbabilities();
             if( model.isDetectionCausesCollapse() ) {
                 handleCollapse();
             }
-        }
-
-        public void sizeChanged() {
-        }
-
-        public void potentialChanged() {
-        }
-
-        public void beforeTimeStep( DiscreteModel discreteModel ) {
         }
     }
 }

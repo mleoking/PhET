@@ -8,11 +8,12 @@ package edu.colorado.phet.qm.model;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class Damping implements DiscreteModel.Listener {
+public class Damping extends DiscreteModel.Adapter {
 
 //    private double[] damp = new double[]{0.99, 0.98, 0.95, 0.92, 0.85, 0.8,0.5,0.1};
 //    private double[] damp = new double[]{0.999, 0.99, 0.98, 0.97, 0.95, 0.9, 0.5, 0.1};
-    private double[] damp = new double[]{0.999, 0.999, 0.995, 0.99, 0.95, 0.92, 0.9, 0.85, 0.5, 0.1};
+    private double[] damp = new double[]{0.999, 0.995, 0.99, 0.975, 0.95, 0.925, 0.9, 0.85, 0.7, 0.3};
+//    private double[] damp = new double[]{0.999, 0.99, 0.95, 0.9, 0.85, 0.8, 0.7,0.6,0.5};
 //    private double[] damp = new double[]{0.99, 0.5};//, 0.96, 0.9, 0.8, 0.7, 0.6, 0.5,0.3,0.1};
 
     public void finishedTimeStep( DiscreteModel model ) {
@@ -76,12 +77,14 @@ public class Damping implements DiscreteModel.Listener {
 //        return scale;
     }
 
-    public void sizeChanged() {
+    public double getDamping( Wavefunction wavefunction, int i, int k ) {
+        if( i < damp.length || k < damp.length || i > wavefunction.getWidth() - damp.length || k > wavefunction.getHeight() - damp.length ) {
+            return 1.0;
+        }
+        return 0.0;
     }
 
-    public void potentialChanged() {
-    }
-
-    public void beforeTimeStep( DiscreteModel discreteModel ) {
+    public int getDepth() {
+        return damp.length;
     }
 }

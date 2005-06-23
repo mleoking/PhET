@@ -163,4 +163,14 @@ public class Wavefunction {
     public Rectangle getBounds() {
         return new Rectangle( getWidth(), getHeight() );
     }
+
+    public Wavefunction copyRegion( int x, int y, int width, int height ) {
+        Wavefunction sub = new Wavefunction( width, height );
+        for( int i = x; i < x + width; i++ ) {
+            for( int j = y; j < y + height; j++ ) {
+                sub.wavefunction[i - x][j - y] = new Complex( valueAt( i, j ) );
+            }
+        }
+        return sub;
+    }
 }

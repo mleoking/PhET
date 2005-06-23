@@ -99,9 +99,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
 
     private void update() {
         Rectangle modelRect = potential.getBounds();
-        ColorGrid grid = super.getColorGrid();
-        Rectangle viewRect = grid.getViewRectangle( modelRect );
-
+        Rectangle viewRect = super.getViewRectangle( modelRect );
         double probPercent = potential.getPotential();
         String formatted = format.format( probPercent );
         potDisplay.setText( formatted + " pJ" );

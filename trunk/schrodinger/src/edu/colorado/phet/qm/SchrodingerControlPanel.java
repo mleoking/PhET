@@ -8,7 +8,7 @@ import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.potentials.ConstantPotential;
-import edu.colorado.phet.qm.model.potentials.DoubleSlit;
+import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
@@ -84,15 +84,6 @@ public class SchrodingerControlPanel extends ControlPanel {
 
         VerticalLayoutPanel exp = createExpectationPanel();
         addControlFullWidth( exp );
-
-
-//        JButton collapse = new JButton( "Collapse" );
-//        collapse.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                collapse();
-//            }
-//        } );
-//        addControl( collapse );
 
         VerticalLayoutPanel interactionPanel = createDetectorPanel();
         addControlFullWidth( interactionPanel );
@@ -227,11 +218,11 @@ public class SchrodingerControlPanel extends ControlPanel {
     private JPanel createParticleLauncherPanel() {
         VerticalLayoutPanel particleLauncher = new VerticalLayoutPanel();
 
-        xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.7 );
-        ySlider = new ModelSlider( "Y0", "1/L", 0, 1, 0.5 );
-        pxSlider = new ModelSlider( "Momentum-x0", "", -10, 10, -.5 );
-        pySlider = new ModelSlider( "Momentum-y0", "", -1, 1, 0 );
-        dxSlider = new ModelSlider( "Size0", "", 0, 0.25, 0.1 );
+        xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.5 );
+        ySlider = new ModelSlider( "Y0", "1/L", 0, 1, 0.75 );
+        pxSlider = new ModelSlider( "Momentum-x0", "", -1.5, 1.5, 0 );
+        pySlider = new ModelSlider( "Momentum-y0", "", -1.5, 1.5, -0.8 );
+        dxSlider = new ModelSlider( "Size0", "", 0, 0.25, 0.04 );
 
         particleLauncher.add( xSlider );
         particleLauncher.add( ySlider );
@@ -291,9 +282,9 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     private Potential createDoubleSlit() {
-        Potential doubleSlit = new DoubleSlit().createDoubleSlit( getDiscreteModel().getGridWidth(),
-                                                                  getDiscreteModel().getGridHeight(),
-                                                                  (int)( getDiscreteModel().getGridWidth() * 0.45 ), 5, 5, 10, 20000 );
+        Potential doubleSlit = new HorizontalDoubleSlit().createDoubleSlit( getDiscreteModel().getGridWidth(),
+                                                                            getDiscreteModel().getGridHeight(),
+                                                                            (int)( getDiscreteModel().getGridWidth() * 0.4 ), 10, 10, 10, 20000000 );
         return doubleSlit;
     }
 

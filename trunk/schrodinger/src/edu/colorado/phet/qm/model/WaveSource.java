@@ -10,7 +10,7 @@ import java.awt.*;
  * Copyright (c) Jun 15, 2005 by Sam Reid
  */
 
-public class WaveSource implements DiscreteModel.Listener {
+public class WaveSource extends DiscreteModel.Adapter {
     private Rectangle region;
     private BoundaryCondition boundaryCondition;
     private double norm = 1.0;
@@ -26,15 +26,6 @@ public class WaveSource implements DiscreteModel.Listener {
 
     public void setNorm( double norm ) {
         this.norm = norm;
-    }
-
-    public void finishedTimeStep( DiscreteModel model ) {
-    }
-
-    public void sizeChanged() {
-    }
-
-    public void potentialChanged() {
     }
 
     public void beforeTimeStep( DiscreteModel model ) {

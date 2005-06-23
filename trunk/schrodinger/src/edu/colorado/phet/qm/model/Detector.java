@@ -29,7 +29,7 @@ public class Detector extends RectangularObject {
         numTimeStepsBetweenDetect = ( width + height ) / 2;
     }
 
-    public void updateProbability( Wavefunction wavefunction ) {//todo assumes normalized.
+    public void updateProbability( Wavefunction wavefunction ) {
         if( !enabled ) {
             return;
         }

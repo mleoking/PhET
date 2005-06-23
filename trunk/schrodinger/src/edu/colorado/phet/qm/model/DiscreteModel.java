@@ -28,6 +28,8 @@ public class DiscreteModel {
     private DetectorSet detectorSet;
     private boolean detectionCausesCollapse = true;
     private boolean oneShotDetectors = true;
+    public Damping damping;
+    private VerticalETA verticalEta;
 
     public DiscreteModel( int width, int height ) {
         this( width, height, 1E-5, new EmptyWave(), new ZeroBoundaryCondition() );
@@ -40,11 +42,21 @@ public class DiscreteModel {
         this.initialWavefunction = initialWavefunction;
         this.boundaryCondition = boundaryCondition;
         wavefunction = new Wavefunction( width, height );
-        detectorSet = new DetectorSet( this );
+        detectorSet = new DetectorSet( wavefunction );
         initialWavefunction.initialize( wavefunction );
         propagator = new ModifiedRichardsonPropagator( deltaTime, boundaryCondition, compositePotential );
         addListener( detectorSet.getListener() );
-        addListener( new Damping() );
+
+        damping = new Damping();
+        addListener( damping );
+
+        verticalEta = new VerticalETA();
+        verticalEta.addListener( new DistributionCapture( this ) );
+        addListener( verticalEta );
+    }
+
+    public VerticalETA getVerticalEta() {
+        return verticalEta;
     }
 
     private void step() {
@@ -105,6 +117,10 @@ public class DiscreteModel {
 
     public void fireParticle( InitialWavefunction initialWavefunction ) {
         initialWavefunction.initialize( wavefunction );
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.particleFired( this );
+        }
     }
 
     public void setGridSpacing( int nx, int ny ) {
@@ -175,6 +191,10 @@ public class DiscreteModel {
         return detectorSet.getCollapsePoint();
     }
 
+    public Damping getDamping() {
+        return damping;
+    }
+
     public static interface Listener {
         void finishedTimeStep( DiscreteModel model );
 
@@ -183,6 +203,26 @@ public class DiscreteModel {
         void potentialChanged();
 
         void beforeTimeStep( DiscreteModel discreteModel );
+
+        void particleFired( DiscreteModel discreteModel );
+    }
+
+    public static class Adapter implements Listener {
+
+        public void finishedTimeStep( DiscreteModel model ) {
+        }
+
+        public void sizeChanged() {
+        }
+
+        public void potentialChanged() {
+        }
+
+        public void beforeTimeStep( DiscreteModel discreteModel ) {
+        }
+
+        public void particleFired( DiscreteModel discreteModel ) {
+        }
     }
 
     public BoundaryCondition getBoundaryCondition() {

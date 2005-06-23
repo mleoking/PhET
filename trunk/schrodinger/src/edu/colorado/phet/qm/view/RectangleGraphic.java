@@ -52,8 +52,9 @@ public class RectangleGraphic extends GraphicLayerSet {
 
     private void update() {
         Rectangle modelRect = rectangularObject.getBounds();
-        ColorGrid grid = getColorGrid();
-        Rectangle viewRect = grid.getViewRectangle( modelRect );
+//        ColorGrid grid = getColorGrid();
+//        Rectangle viewRect = grid.getViewRectangle( modelRect );
+        Rectangle viewRect = getViewRectangle( modelRect );
         areaGraphic.setShape( viewRect );
         grabbablePart.setLocation( (int)viewRect.getMaxX() - grabbablePart.getWidth() / 2, (int)viewRect.getMaxY() - grabbablePart.getHeight() / 2 );
 
@@ -70,6 +71,11 @@ public class RectangleGraphic extends GraphicLayerSet {
 
     public PhetShapeGraphic getAreaGraphic() {
         return areaGraphic;
+    }
+
+    public Rectangle getViewRectangle( Rectangle modelRect ) {
+        Rectangle gridRect = getColorGrid().getViewRectangle( modelRect );
+        return schrodingerPanel.getWavefunctionGraphic().getNetTransform().createTransformedShape( gridRect ).getBounds();
     }
 
     private static interface LocationGetter {

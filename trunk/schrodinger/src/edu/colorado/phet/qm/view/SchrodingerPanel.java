@@ -47,7 +47,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
         discreteModel.addListener( this );
         wavefunctionGraphic = new PhetImageGraphic( this );
         addGraphic( wavefunctionGraphic );
-
+        wavefunctionGraphic.setLocation( 0, 50 );
     }
 
     private ColorGrid createColorGrid() {
@@ -113,6 +113,9 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     public void beforeTimeStep( DiscreteModel discreteModel ) {
     }
 
+    public void particleFired( DiscreteModel discreteModel ) {
+    }
+
     public DiscreteModel getDiscreteModel() {
         return discreteModel;
     }
@@ -163,4 +166,9 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
         }
         rectanglePotentialGraphics.clear();
     }
+
+    public PhetImageGraphic getWavefunctionGraphic() {
+        return wavefunctionGraphic;
+    }
+
 }
