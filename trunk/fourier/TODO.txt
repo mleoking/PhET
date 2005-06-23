@@ -44,6 +44,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/23) - move preset constants and accessor methods into FourierConstants
 (6/23) - moved math symbols out of Fourier.properties and into MathStrings
 (6/23) - consolidated all equation strings in MathStrings class
 (6/23) - change format of summation symbol in Sum equation

@@ -210,47 +210,10 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
     
     private void updateAmplitudes() {
         
-        double[] amplitudes = null;
         int numberOfHarmonics = getNumberOfHarmonics();
         
-        switch( _preset ) {
-        case FourierConstants.PRESET_SINE_COSINE:
-            amplitudes = FourierConstants.SINE_COSINE_AMPLITUDES;
-            break;
-        case FourierConstants.PRESET_SQUARE:
-            if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
-                amplitudes = FourierConstants.SINE_SQUARE_AMPLITUDES;
-            }
-            else {
-                amplitudes = FourierConstants.COSINE_SQUARE_AMPLITUDES;
-            }
-            break;
-        case FourierConstants.PRESET_SAWTOOTH:
-            if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
-                amplitudes = FourierConstants.SINE_SAWTOOTH_AMPLITUDES;
-            }
-            else {
-                throw new IllegalStateException( "you can't make a sawtooth wave out of cosines because it is asymmetric" );
-            }
-            break;
-        case FourierConstants.PRESET_TRIANGLE:
-            if ( _waveType == FourierConstants.WAVE_TYPE_SINE ) {
-                amplitudes = FourierConstants.SINE_TRIANGLE_AMPLITUDES;
-            }
-            else {
-                amplitudes = FourierConstants.COSINE_TRIANGLE_AMPLITUDES;
-            }
-            break;
-        case FourierConstants.PRESET_WAVE_PACKET:
-            amplitudes = FourierConstants.WAVE_PACKET_AMPLITUDES[ getNumberOfHarmonics() - 1 ];
-            break;
-        case FourierConstants.PRESET_CUSTOM:
-            //Do nothing.
-            break;
-        default:
-            throw new IllegalStateException( "you forgot to implement a preset" );
-        }
-        
+        double[] amplitudes = FourierConstants.getPresetAmplitudes( _preset, _waveType,  numberOfHarmonics );
+
         if ( amplitudes != null ) {
             assert( numberOfHarmonics <= amplitudes.length );
             for ( int i = 0; i < numberOfHarmonics; i++ ) {
