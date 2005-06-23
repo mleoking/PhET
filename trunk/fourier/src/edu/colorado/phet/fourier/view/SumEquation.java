@@ -25,6 +25,11 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 /**
  * SumEquation is the equation that appears about the Sum graph.
+ * <p>
+ * NOTE!  The locations for children of this composite graphic
+ * were arrived at via trial-&-error.  If you change fonts, you
+ * will undoubtedly have to re-tweak the graphics locations.
+ * You have been warned...
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -77,10 +82,10 @@ public class SumEquation extends CompositePhetGraphic {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private HTMLGraphic _lhsGraphic;
-    private HTMLGraphic _rhsGraphic;
+    private HTMLGraphic _lhsGraphic; //lefthand side (lhs) of the equation
+    private HTMLGraphic _rhsGraphic; // righthand side (rhs) of the equation
     private CompositePhetGraphic _summationGraphic;
-    private PhetTextGraphic _summationSuperscriptGraphic;
+    private PhetTextGraphic _upperRangeGraphic;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -95,7 +100,11 @@ public class SumEquation extends CompositePhetGraphic {
         _rhsGraphic = new HTMLGraphic( component, RHS_FONT, "", EQUATION_COLOR );
         addGraphic( _rhsGraphic );
         
-        // Summation is a composite graphic.
+        /*
+         * Put the summation symbol and its range subscripts in a composite graphic,
+         * so that we can position it as one unit between the lefthand- and righthand-
+         * sides of the equation.
+         */
         {
             _summationGraphic = new CompositePhetGraphic( component );
             addGraphic( _summationGraphic );
@@ -108,20 +117,20 @@ public class SumEquation extends CompositePhetGraphic {
 
             // Range subscript
             {
-                PhetTextGraphic summationSubscriptGraphic = new PhetTextGraphic( component, SUMMATION_RANGE_FONT, "n = 1", EQUATION_COLOR );
+                PhetTextGraphic lowerRangeGraphic = new PhetTextGraphic( component, SUMMATION_RANGE_FONT, "n = 1", EQUATION_COLOR );
                 int x = summationSymbolGraphic.getX() + summationSymbolGraphic.getWidth() + 3;
                 int y = summationSymbolGraphic.getY() + summationSymbolGraphic.getHeight() - 8;
-                summationSubscriptGraphic.setLocation( x, y );
-                _summationGraphic.addGraphic( summationSubscriptGraphic );
+                lowerRangeGraphic.setLocation( x, y );
+                _summationGraphic.addGraphic( lowerRangeGraphic );
             }
 
             // Range superscript
             {
-                _summationSuperscriptGraphic = new PhetTextGraphic( component, SUMMATION_RANGE_FONT, "", EQUATION_COLOR );
+                _upperRangeGraphic = new PhetTextGraphic( component, SUMMATION_RANGE_FONT, "", EQUATION_COLOR );
                 int x = summationSymbolGraphic.getX() + summationSymbolGraphic.getWidth() + 3;
                 int y = summationSymbolGraphic.getY() + 8;
-                _summationSuperscriptGraphic.setLocation( x, y );
-                _summationGraphic.addGraphic( _summationSuperscriptGraphic );
+                _upperRangeGraphic.setLocation( x, y );
+                _summationGraphic.addGraphic( _upperRangeGraphic );
             }
         }
         
@@ -193,25 +202,34 @@ public class SumEquation extends CompositePhetGraphic {
             default:
         }
         
-        {
-            _lhsGraphic.setHTML( "<html>" + lhsString + "</html>" );
-            int x = 0;
-            int y = 0;
-            _lhsGraphic.setLocation( x, y );
-        }
+        // Set the text.
+        _lhsGraphic.setHTML( "<html>" + lhsString + "</html>" );
+        _rhsGraphic.setHTML( rhsString );
+        _upperRangeGraphic.setText( String.valueOf( numberOfHarmonics ) );
         
+        /*
+         * Adjust locations so that things are aligned properly.
+         * Values were arrived at via trial-&-error and are dependent
+         * on the Font used.
+         */
         {
-            _summationSuperscriptGraphic.setText( String.valueOf( numberOfHarmonics ) );
-            int x = _lhsGraphic.getX() + _lhsGraphic.getWidth() + 5;
-            int y = -10;
-            _summationGraphic.setLocation( x, y );
-        }
-        
-        {
-            _rhsGraphic.setHTML( rhsString );
-            int x = _summationGraphic.getX() + _summationGraphic.getWidth() + 5;
-            int y = 0;
-            _rhsGraphic.setLocation( x, y );
+            {
+                int x = 0;
+                int y = 0;
+                _lhsGraphic.setLocation( x, y );
+            }
+
+            {
+                int x = _lhsGraphic.getX() + _lhsGraphic.getWidth() + 5;
+                int y = -10;
+                _summationGraphic.setLocation( x, y );
+            }
+
+            {
+                int x = _summationGraphic.getX() + _summationGraphic.getWidth() + 5;
+                int y = 0;
+                _rhsGraphic.setLocation( x, y );
+            }
         }
     }
 }
