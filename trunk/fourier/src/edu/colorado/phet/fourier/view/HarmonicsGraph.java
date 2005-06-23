@@ -250,7 +250,7 @@ public class HarmonicsGraph extends GraphicLayerSet
         {
             _mathGraphic = new HarmonicsEquation( component );
             addGraphic( _mathGraphic, MATH_LAYER );
-            _mathGraphic.setLocation( CHART_SIZE.width / 2, -( CHART_SIZE.height / 2  ) - 3 ); // above center of chart
+            _mathGraphic.setLocation( CHART_SIZE.width / 2, -( CHART_SIZE.height / 2  ) - 6 ); // above center of chart
         }
         
         // Zoom controls
