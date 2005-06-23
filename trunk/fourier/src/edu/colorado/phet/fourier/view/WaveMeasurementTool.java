@@ -47,14 +47,17 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final double LINE_LAYER = 1;
-    private static final double LABEL_LAYER = 2;
+    private static final double BAR_LAYER = 1;
+    private static final double SYMBOL_LAYER = 2;
 
-    private static final Stroke PATH_STROKE = new BasicStroke( 1f );
-    private static final Color PATH_BORDER_COLOR = Color.BLACK;
-    private static final Color LABEL_COLOR = Color.BLACK;
-    private static final Font LABEL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 16 );
-    private static final int LABEL_Y_OFFSET = -16;
+    // The symbol
+    private static final Color SYMBOL_COLOR = Color.BLACK;
+    private static final Font SYMBOL_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
+    private static final int SYMBOL_Y_OFFSET = -16;
+    
+    // The horizontal bar
+    private static final Stroke BAR_STROKE = new BasicStroke( 1f );
+    private static final Color BAR_BORDER_COLOR = Color.BLACK;
     private static final float END_WIDTH = 1;
     private static final float END_HEIGHT = 10;
     private static final float LINE_HEIGHT = 4; // must be < END_HEIGHT !
@@ -65,9 +68,9 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
 
     private Chart _chart;
     private String _symbol;
-    private SubscriptedSymbol _labelGraphic;
-    private PhetShapeGraphic _pathGraphic;
-    private GeneralPath _path;
+    private SubscriptedSymbol _symbolGraphic;
+    private PhetShapeGraphic _barGraphic;
+    private GeneralPath _barPath;
     private FourierDragHandler _dragHandler;
     private Harmonic _harmonic;
     private EventListenerList _listenerList;
@@ -94,19 +97,19 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
 
         // Label
         _symbol = symbol;
-        _labelGraphic = new SubscriptedSymbol( component, _symbol, "n", LABEL_FONT, LABEL_COLOR );
-        _labelGraphic.setLocation( 0, LABEL_Y_OFFSET );
-        addGraphic( _labelGraphic, LABEL_LAYER );
+        _symbolGraphic = new SubscriptedSymbol( component, _symbol, "n", SYMBOL_FONT, SYMBOL_COLOR );
+        _symbolGraphic.setLocation( 0, SYMBOL_Y_OFFSET );
+        addGraphic( _symbolGraphic, SYMBOL_LAYER );
 
         // Path
-        _path = new GeneralPath();
-        _pathGraphic = new PhetShapeGraphic( component );
-        _pathGraphic.setShape( _path );
-        _pathGraphic.setStroke( PATH_STROKE );
-        _pathGraphic.setBorderColor( PATH_BORDER_COLOR );
-        _pathGraphic.centerRegistrationPoint();
-        _pathGraphic.setLocation( 0, 0 );
-        addGraphic( _pathGraphic, LINE_LAYER );
+        _barPath = new GeneralPath();
+        _barGraphic = new PhetShapeGraphic( component );
+        _barGraphic.setShape( _barPath );
+        _barGraphic.setStroke( BAR_STROKE );
+        _barGraphic.setBorderColor( BAR_BORDER_COLOR );
+        _barGraphic.centerRegistrationPoint();
+        _barGraphic.setLocation( 0, 0 );
+        addGraphic( _barGraphic, BAR_LAYER );
 
         // Interactivity
         _dragHandler = new FourierDragHandler( this );
@@ -144,14 +147,14 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
     public void setHarmonic( Harmonic harmonic ) {
         _harmonic = harmonic;
         String subscript = String.valueOf( harmonic.getOrder() + 1 );
-        _labelGraphic.setLabel( _symbol, subscript );
+        _symbolGraphic.setLabel( _symbol, subscript );
         Color color = HarmonicColors.getInstance().getColor( harmonic );
-        _pathGraphic.setPaint( color );
+        _barGraphic.setPaint( color );
         updateSize();
     }
 
     /*
-     * Updates the size of the tool to correspond to the harmonic's order
+     * Updates the size of the bar to correspond to the harmonic's order
      * and the chart's range.
      */
     private void updateSize() {
@@ -166,31 +169,31 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
         float width = (float) ( p2.getX() - p1.getX() );
 
         // Adjust the path to the cycle length.
-        _path.reset();
-        _path.moveTo( 0, 0 );
-        _path.lineTo( END_WIDTH, 0 );
-        _path.lineTo( END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
-        _path.lineTo( width - END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
-        _path.lineTo( width - END_WIDTH, 0 );
-        _path.lineTo( width, 0 );
-        _path.lineTo( width, END_HEIGHT );
-        _path.lineTo( width - END_WIDTH, END_HEIGHT );
-        _path.lineTo( width - END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
-        _path.lineTo( END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
-        _path.lineTo( END_WIDTH, END_HEIGHT );
-        _path.lineTo( 0, END_HEIGHT );
-        _path.closePath();
+        _barPath.reset();
+        _barPath.moveTo( 0, 0 );
+        _barPath.lineTo( END_WIDTH, 0 );
+        _barPath.lineTo( END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
+        _barPath.lineTo( width - END_WIDTH, END_HEIGHT / 2f - LINE_HEIGHT / 2f );
+        _barPath.lineTo( width - END_WIDTH, 0 );
+        _barPath.lineTo( width, 0 );
+        _barPath.lineTo( width, END_HEIGHT );
+        _barPath.lineTo( width - END_WIDTH, END_HEIGHT );
+        _barPath.lineTo( width - END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
+        _barPath.lineTo( END_WIDTH, END_HEIGHT / 2f + LINE_HEIGHT / 2f );
+        _barPath.lineTo( END_WIDTH, END_HEIGHT );
+        _barPath.lineTo( 0, END_HEIGHT );
+        _barPath.closePath();
 
         // Refresh the graphics
-        _pathGraphic.setShapeDirty();
-        _pathGraphic.centerRegistrationPoint();
+        _barGraphic.setShapeDirty();
+        _barGraphic.centerRegistrationPoint();
     }
 
     //----------------------------------------------------------------------------
     // ApparatusPanel2.ChangeListener implementation
     //----------------------------------------------------------------------------
 
-    /*
+    /**
      * Informs the mouse handler of changes to the apparatus panel size.
      * 
      * @param event
@@ -261,12 +264,12 @@ implements ApparatusPanel2.ChangeListener, Chart.Listener, HarmonicColorChangeLi
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the tool color when its corresponding harmonic color changes.
+     * Updates the bar color when the corresponding harmonic color changes.
      */
     public void harmonicColorChanged( HarmonicColorChangeEvent e ) {
         if ( e.getOrder() == _harmonic.getOrder() ) {
             Color color = HarmonicColors.getInstance().getColor( _harmonic );
-            _pathGraphic.setPaint( color );
+            _barGraphic.setPaint( color );
         }
     }
     
