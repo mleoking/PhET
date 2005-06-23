@@ -212,7 +212,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     
     private FourierSeries _fourierSeries;
     private Chart _chartGraphic;
-    private PhetTextGraphic _mathGraphic;
+    private SumEquation _mathGraphic;
     private PhetTextGraphic _xAxisTitleGraphic;
     private String _xAxisTitleTime, _xAxisTitleSpace;
     private DataSet _sumDataSet;
@@ -221,6 +221,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private JCheckBox _autoScaleCheckBox;
     private int _xZoomLevel;
     private int _domain;
+    private int _mathForm;
     private LabelTable _spaceLabels1, _spaceLabels2;
     private LabelTable _timeLabels1, _timeLabels2;
     private boolean _autoScaleEnabled;
@@ -341,10 +342,10 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         // Math
         {
-            _mathGraphic = new PhetTextGraphic( component, MATH_FONT, "Equation goes here", MATH_COLOR );
+            _mathGraphic = new SumEquation( component );
             addGraphic( _mathGraphic, MATH_LAYER );
             _mathGraphic.centerRegistrationPoint();
-            _mathGraphic.setLocation( CHART_SIZE.width / 2, -CHART_SIZE.height / 2 );
+            _mathGraphic.setLocation( CHART_SIZE.width / 2, -(CHART_SIZE.height / 2) - 15 );
         }
         
         // Zoom controls
@@ -428,7 +429,9 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         }
         
         // Math Mode
+        _mathForm = FourierConstants.MATH_FORM_WAVE_NUMBER;
         _mathGraphic.setVisible( false );
+        updateMath();
         
         // Synchronize with model
         update();
@@ -543,13 +546,18 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     }
     
     /**
-     * Sets the domain.
+     * Sets the domain and math form.
+     * Together, these values determines how the chart is 
+     * labeled, and the format of the equation shown above the chart.
      * 
-     * @param domain one of the FourierConstants.DOMAIN_* constants
+     * @param domain
+     * @param mathForm
      */
-    public void setDomain( int domain ) {
+    public void setDomainAndMathForm( int domain, int mathForm ) {
         assert( FourierConstants.isValidDomain( domain ) );
+        assert( FourierConstants.isValidMathForm( mathForm ) );
         _domain = domain;
+        _mathForm = mathForm;
         updateLabelsAndLines();
         updateMath();
     }
@@ -891,6 +899,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     }
     
     private void updateMath() {
-        //XXX implement
+        _mathGraphic.setForm( _domain, _mathForm, _fourierSeries.getNumberOfHarmonics() );
     }
 }
