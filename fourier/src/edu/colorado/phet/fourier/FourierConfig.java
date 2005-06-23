@@ -29,7 +29,7 @@ public class FourierConfig {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String APP_VERSION = "0.0 (fourier-sandbox-2005-06-21)";
+    public static final String APP_VERSION = "0.0 (fourier-sandbox-2005-06-22)";
     public static final int APP_FRAME_WIDTH = 1024;
     public static final int APP_FRAME_HEIGHT = 768;
     
