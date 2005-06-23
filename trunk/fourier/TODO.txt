@@ -3,9 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- figure out how to do the summation symbol for the Sum equation
+- create SineWave subclass of DataSetGraphic that changes what it draws to match the chart range
 
 HIGH PRIORITY:
+- encapsualte duplicate Strings and HTML for equations in one place
 - smooth out waveforms
 - animate waveforms in space-&-time domain
 - persistence
@@ -44,6 +45,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/22) - implement Sum graph equation with summation symbol
 (6/22) - fix PhetGraphics2D to properly restore stroke and paint
 (6/22) - send SamR a test case for broken tab traversal in PhetJComponents
 (6/22) - "Save for Web" all images

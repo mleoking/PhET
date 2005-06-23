@@ -531,7 +531,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
         
         int mathForm = _mathFormComboBox.getSelectedKey(); // get this after setting stuff above
-        _sumGraph.setDomain( domain );
+        _sumGraph.setDomainAndMathForm( domain, mathForm );
         _harmonicsGraph.setDomainAndMathForm( domain, mathForm );
         _expandSumDialog.setDomainAndMathForm( domain, mathForm );
     }
@@ -660,6 +660,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         int domain = _domainComboBox.getSelectedKey();
         int mathForm = _mathFormComboBox.getSelectedKey();
         _harmonicsGraph.setDomainAndMathForm( domain, mathForm );
+        _sumGraph.setDomainAndMathForm( domain, mathForm );
         _expandSumDialog.setDomainAndMathForm( domain, mathForm );
     }
     
