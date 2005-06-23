@@ -75,15 +75,15 @@ public class SumEquation extends CompositePhetGraphic {
     private static final Color EQUATION_COLOR = Color.BLACK;
     private static final Font LHS_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Font RHS_FONT = LHS_FONT;
-    private static final Font SUMMATION_SYMBOL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 40 );
+    private static final Font SUMMATION_SYMBOL_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 30 );
     private static final Font SUMMATION_RANGE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 12 );
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private HTMLGraphic _lhsGraphic; //lefthand side (lhs) of the equation
-    private HTMLGraphic _rhsGraphic; // righthand side (rhs) of the equation
+    private HTMLGraphic _lhsGraphic; // everything on the left-hand side (lhs) of the summation
+    private HTMLGraphic _rhsGraphic; // everything on the right-hand side (rhs) of the summation
     private CompositePhetGraphic _summationGraphic;
     private PhetTextGraphic _upperRangeGraphic;
     
@@ -115,20 +115,20 @@ public class SumEquation extends CompositePhetGraphic {
             summationSymbolGraphic.setLocation( 0, 0 );
             _summationGraphic.addGraphic( summationSymbolGraphic );
 
-            // Range subscript
+            // Lower range
             {
                 PhetTextGraphic lowerRangeGraphic = new PhetTextGraphic( component, SUMMATION_RANGE_FONT, "n = 1", EQUATION_COLOR );
-                int x = summationSymbolGraphic.getX() + summationSymbolGraphic.getWidth() + 3;
-                int y = summationSymbolGraphic.getY() + summationSymbolGraphic.getHeight() - 8;
+                int x = summationSymbolGraphic.getX();
+                int y = summationSymbolGraphic.getY() + summationSymbolGraphic.getHeight();
                 lowerRangeGraphic.setLocation( x, y );
                 _summationGraphic.addGraphic( lowerRangeGraphic );
             }
 
-            // Range superscript
+            // Upper range
             {
                 _upperRangeGraphic = new PhetTextGraphic( component, SUMMATION_RANGE_FONT, "", EQUATION_COLOR );
-                int x = summationSymbolGraphic.getX() + summationSymbolGraphic.getWidth() + 3;
-                int y = summationSymbolGraphic.getY() + 8;
+                int x = summationSymbolGraphic.getX() + summationSymbolGraphic.getWidth() + 2;
+                int y = summationSymbolGraphic.getY() + 5;
                 _upperRangeGraphic.setLocation( x, y );
                 _summationGraphic.addGraphic( _upperRangeGraphic );
             }
@@ -213,23 +213,20 @@ public class SumEquation extends CompositePhetGraphic {
          * on the Font used.
          */
         {
-            {
-                int x = 0;
-                int y = 0;
-                _lhsGraphic.setLocation( x, y );
-            }
+            // LHS
+            int x = 0;
+            int y = 0;
+            _lhsGraphic.setLocation( x, y );
 
-            {
-                int x = _lhsGraphic.getX() + _lhsGraphic.getWidth() + 5;
-                int y = -10;
-                _summationGraphic.setLocation( x, y );
-            }
+            // Summation
+            x = _lhsGraphic.getX() + _lhsGraphic.getWidth() + 5;
+            y = -5;
+            _summationGraphic.setLocation( x, y );
 
-            {
-                int x = _summationGraphic.getX() + _summationGraphic.getWidth();
-                int y = 0;
-                _rhsGraphic.setLocation( x, y );
-            }
+            // RHS
+            x = _summationGraphic.getX() + _summationGraphic.getWidth() + 6;
+            y = 0;
+            _rhsGraphic.setLocation( x, y );
         }
     }
 }
