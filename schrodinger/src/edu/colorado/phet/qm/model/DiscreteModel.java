@@ -44,6 +44,7 @@ public class DiscreteModel {
         initialWavefunction.initialize( wavefunction );
         propagator = new ModifiedRichardsonPropagator( deltaTime, boundaryCondition, compositePotential );
         addListener( detectorSet.getListener() );
+        addListener( new Damping() );
     }
 
     private void step() {
