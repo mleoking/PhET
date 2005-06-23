@@ -45,6 +45,9 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/23) - change format of summation symbol in Sum equation
+(6/23) - bugfix: update Sum equation when # harmonics changes
+(6/23) - bugfix: add An to Sum equations
 (6/22) - implement Sum graph equation with summation symbol
 (6/22) - fix PhetGraphics2D to properly restore stroke and paint
 (6/22) - send SamR a test case for broken tab traversal in PhetJComponents
