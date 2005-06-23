@@ -27,6 +27,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.module.FourierModule;
@@ -56,7 +57,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private FourierSeries _fourierSeries;
     private HarmonicsGraph _harmonicsGraph;
     private SumGraph _sumGraph;
-    private WaveMeasurementTool _wavelengthTool, _periodTool;
+    private WavelengthTool _wavelengthTool;
+    private PeriodTool _periodTool;
     private PeriodDisplay _periodDisplay;
 
     // UI components
@@ -98,8 +100,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             FourierSeries fourierSeries, 
             HarmonicsGraph harmonicsGraph, 
             SumGraph sumGraph,
-            WaveMeasurementTool wavelengthTool,
-            WaveMeasurementTool periodTool,
+            WavelengthTool wavelengthTool,
+            PeriodTool periodTool,
             PeriodDisplay periodDisplay ) {
         
         super( module );
@@ -191,7 +193,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 
                 // Choices
                 _showWavelengthChoices = new ArrayList();
-                String wavelengthSymbol = SimStrings.get( "symbol.wavelength" );
+                String wavelengthSymbol = "" + MathStrings.C_WAVELENGTH;
                 for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
                     String choice = "<html>" + wavelengthSymbol + "<sub>" + ( i + 1 ) + "</sub></html>";
                     _showWavelengthChoices.add( choice );
@@ -213,7 +215,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 
                 // Choices
                 _showPeriodChoices = new ArrayList();
-                String periodSymbol = SimStrings.get( "symbol.period" );
+                String periodSymbol = "" + MathStrings.C_PERIOD;
                 for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
                     String choice = "<html>" + periodSymbol + "<sub>" + ( i + 1 ) + "</sub></html>";
                     _showPeriodChoices.add( choice );

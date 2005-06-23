@@ -25,6 +25,7 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.event.*;
 import edu.colorado.phet.fourier.model.Harmonic;
 
@@ -60,12 +61,13 @@ public class PeriodDisplay extends CompositePhetGraphic
     private static final int PIE_START_ANGLE = 90; // degrees
     private static final int MAX_PIE_STEP = 60; // degrees
     
+    private static final String PERIOD_SYMBOL = "" + MathStrings.C_PERIOD;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private Harmonic _harmonic;
-    private String _symbolString;
     private SubscriptedSymbol _symbolGraphic;
     private PhetShapeGraphic _pieGraphic;
     private Arc2D _pieArc;
@@ -84,15 +86,14 @@ public class PeriodDisplay extends CompositePhetGraphic
      * @param symbol
      * @param harmonic
      */
-    public PeriodDisplay( Component component, String symbol, Harmonic harmonic ) {
+    public PeriodDisplay( Component component, Harmonic harmonic ) {
         super( component );
         
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         
         // Symbol
-        _symbolString = symbol;
-        _symbolGraphic = new SubscriptedSymbol( component, _symbolString, "n", SYMBOL_FONT, SYMBOL_COLOR );
+        _symbolGraphic = new SubscriptedSymbol( component, PERIOD_SYMBOL, "n", SYMBOL_FONT, SYMBOL_COLOR );
         _symbolGraphic.setLocation( SYMBOL_X_OFFSET, SYMBOL_Y_OFFSET );
         addGraphic( _symbolGraphic, SYMBOL_LAYER );
         
@@ -159,7 +160,7 @@ public class PeriodDisplay extends CompositePhetGraphic
      */
     private void updateSubscript() {
         String subscript = String.valueOf( _harmonic.getOrder() + 1 );
-        _symbolGraphic.setLabel( _symbolString, subscript );
+        _symbolGraphic.setLabel( PERIOD_SYMBOL, subscript );
     }
     
     /*

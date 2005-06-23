@@ -33,6 +33,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
@@ -138,8 +139,8 @@ public class AmplitudeSlider extends GraphicLayerSet
         }
 
         // Label (An)
-        {          
-            String symbol = SimStrings.get( "symbol.amplitude" );
+        {
+            String symbol = "" + MathStrings.C_AMPLITUDE;
             String subscript = String.valueOf( _harmonic.getOrder() + 1 );
             _labelGraphic = new SubscriptedSymbol( component, symbol, subscript, LABEL_FONT, LABEL_COLOR );
             _labelGraphic.setLocation( 0, 0 );

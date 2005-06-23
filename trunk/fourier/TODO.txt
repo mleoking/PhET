@@ -6,7 +6,6 @@ IN PROGRESS:
 - create SineWave subclass of DataSetGraphic that changes what it draws to match the chart range
 
 HIGH PRIORITY:
-- encapsualte duplicate Strings and HTML for equations in one place
 - smooth out waveforms
 - animate waveforms in space-&-time domain
 - persistence
@@ -45,6 +44,8 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/23) - moved math symbols out of Fourier.properties and into MathStrings
+(6/23) - consolidated all equation strings in MathStrings class
 (6/23) - change format of summation symbol in Sum equation
 (6/23) - bugfix: update Sum equation when # harmonics changes
 (6/23) - bugfix: add An to Sum equations

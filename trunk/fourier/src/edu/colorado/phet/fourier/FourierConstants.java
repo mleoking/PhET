@@ -34,7 +34,7 @@ public class FourierConstants {
     // Wave coefficients, precomputed for 11 harmonics
     //----------------------------------------------------------------------------
     
-    public static final double PI = Math.PI;
+    private static final double PI = Math.PI; // to make the coefficents below more readable
     
     /*
      * Sine/Cosine Wave
