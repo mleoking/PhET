@@ -41,6 +41,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     public RulerGraphic rulerGraphic;
 
     public SchrodingerPanel( SchrodingerModule module ) {
+        setLayout( null );
         this.module = module;
         this.discreteModel = module.getDiscreteModel();
 
@@ -62,9 +63,15 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
         rulerGraphic = new RulerGraphic( this );
         addGraphic( rulerGraphic, Double.POSITIVE_INFINITY );
         rulerGraphic.setLocation( 20, 20 );
+        rulerGraphic.setVisible( false );
 
         intensityDisplay = new IntensityDisplay( getSchrodingerModule(), this, 50 );
         setIntensityDisplayRecordsParticles();
+    }
+
+    protected void paintComponent( Graphics graphics ) {
+        super.paintComponent( graphics );
+        paintChildren( graphics );
     }
 
     public void setRulerVisible( boolean rulerVisible ) {
@@ -203,5 +210,9 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
 
     public IntensityDisplay getIntensityDisplay() {
         return intensityDisplay;
+    }
+
+    public RulerGraphic getRulerGraphic() {
+        return rulerGraphic;
     }
 }

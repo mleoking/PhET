@@ -36,7 +36,7 @@ public class Detector extends RectangularObject {
         double runningSum = 0.0;
         for( int i = super.getX(); i < getX() + getWidth(); i++ ) {
             for( int j = super.getY(); j < getY() + getHeight(); j++ ) {
-                if( i >= 0 && j >= 0 && i < wavefunction.getWidth() && j < wavefunction.getHeight() ) {
+                if( wavefunction.containsLocation( i, j ) ) {
                     Complex psiStar = wavefunction.valueAt( i, j ).complexConjugate();
                     Complex psi = wavefunction.valueAt( i, j );
                     Complex term = psiStar.times( psi );
@@ -132,8 +132,9 @@ public class Detector extends RectangularObject {
 
     private void expelWavefunction( Wavefunction wavefunction ) {
         //force the wavefunction out.
+        double mag = wavefunction.getMagnitude();
         zero( wavefunction );
-        wavefunction.normalize();
+        wavefunction.setMagnitude( mag );
     }
 
     private void grabWavefunction( Wavefunction wavefunction ) {
