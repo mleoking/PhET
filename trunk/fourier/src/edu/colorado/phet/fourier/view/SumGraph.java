@@ -512,7 +512,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      */
     public void update() {
 
-        FourierLog.trace( "SumGraph.update" );
+        //FourierLog.trace( "SumGraph.update" );
         
         _sumDataSet.clear();
 

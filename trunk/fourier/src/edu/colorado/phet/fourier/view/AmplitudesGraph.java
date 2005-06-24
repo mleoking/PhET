@@ -264,7 +264,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
 
         if ( numberOfHarmonics != _previousNumberOfHarmonics ) {
             
-            FourierLog.trace( "AmplitudesGraph.update" );
+            //FourierLog.trace( "AmplitudesGraph.update" );
             
             _slidersGraphic.clear();
 
