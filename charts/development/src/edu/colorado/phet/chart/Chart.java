@@ -407,6 +407,17 @@ public class Chart extends GraphicLayerSet {
     public Point transform( double x, double y ) {
         return transform( new Point2D.Double( x, y ) );
     }
+    
+    public Point2D transformDouble( Point2D point ) {
+        if( point == null ) {
+            throw new RuntimeException( "Null point" );
+        }
+        return transform.modelToViewDouble( point );
+    }
+
+    public Point2D transformDouble( double x, double y ) {
+        return transformDouble( new Point2D.Double( x, y ) );
+    }
 
     public Axis getXAxis() {
         return xAxis;
