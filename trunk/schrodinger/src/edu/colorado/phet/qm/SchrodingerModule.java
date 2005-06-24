@@ -7,6 +7,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -15,6 +16,8 @@ import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.DetectorGraphic;
 import edu.colorado.phet.qm.view.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -62,11 +65,13 @@ public class SchrodingerModule extends Module {
     }
 
     public static void main( String[] args ) {
+        PhetLookAndFeel.setLookAndFeel();
         AbstractClock clock = new SwingTimerClock( 1, 30 );
         PhetApplication phetApplication = new PhetApplication( args, "Schrodinger Equation", "Schrodinger Equation", "v0r0", clock, true, new FrameSetup.CenteredWithSize( 900, 900 ) );
         final SchrodingerModule module = new SchrodingerModule( clock );
         phetApplication.setModules( new Module[]{module} );
         phetApplication.startApplication();
+        module.getSchrodingerPanel().add( new JLabel( "HEllo" ) );
     }
 
     public void reset() {

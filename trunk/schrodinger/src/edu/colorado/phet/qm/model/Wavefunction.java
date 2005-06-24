@@ -25,16 +25,20 @@ public class Wavefunction {
         this.wavefunction = values;
     }
 
-    public void setNorm( double newScale ) {
+    public void setMagnitude( double newScale ) {
         double totalProbability = getMagnitude();
         double scale = 1.0 / Math.sqrt( totalProbability );
-        scale( scale * newScale );
+        scale( scale * Math.sqrt( newScale ) );
+
+        double m = getMagnitude();//todo remove this after we're sure its working
+        if( Math.abs( m - newScale ) > 10E-6 ) {
+            throw new RuntimeException( "Normalization failed: requested=" + newScale + ", received=" + m );
+        }
     }
 
     public void scale( double scale ) {
-
-        for( int i = 0; i < wavefunction.length; i++ ) {
-            for( int j = 0; j < wavefunction[i].length; j++ ) {
+        for( int i = 0; i < getWidth(); i++ ) {
+            for( int j = 0; j < getHeight(); j++ ) {
                 Complex complex = wavefunction[i][j];
                 complex.scale( scale );
             }

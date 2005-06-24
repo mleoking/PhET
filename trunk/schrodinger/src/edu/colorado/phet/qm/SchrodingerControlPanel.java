@@ -7,6 +7,8 @@ import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
@@ -79,7 +81,7 @@ public class SchrodingerControlPanel extends ControlPanel {
                 fireParticle();
             }
         } );
-        addControl( fireParticle );
+//        addControl( fireParticle );
 
         try {
             HorizontalLayoutPanel hoPan = new HorizontalLayoutPanel();
@@ -88,7 +90,14 @@ public class SchrodingerControlPanel extends ControlPanel {
             ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler-thumb.jpg" ) );
             hoPan.add( ruler );
             hoPan.add( new JLabel( icon ) );
+            getSchrodingerPanel().getRulerGraphic().addPhetGraphicListener( new PhetGraphicListener() {
+                public void phetGraphicChanged( PhetGraphic phetGraphic ) {
+                }
 
+                public void phetGraphicVisibilityChanged( PhetGraphic phetGraphic ) {
+                    ruler.setSelected( getSchrodingerPanel().getRulerGraphic().isVisible() );
+                }
+            } );
 
             ruler.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -185,8 +194,13 @@ public class SchrodingerControlPanel extends ControlPanel {
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
         final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
 //        final PlaneWave planeWave = new PlaneWave( 40 * Math.PI, getDiscreteModel().getGridWidth() );
-        final PlaneWave planeWave = new PlaneWave( 1 / 10.0 * Math.PI, getDiscreteModel().getGridWidth() );
-        planeWave.setScale( 0.05 );
+//        double k=1/10.0*Math.PI;
+//        double k=3/10.0*Math.PI;
+        double scale = 1.0;
+        double k = 1.0 / 10.0 * Math.PI * scale;
+        final PlaneWave planeWave = new PlaneWave( k, getDiscreteModel().getGridWidth() );
+
+        planeWave.setScale( 0.015 );
 //        int insetY = 0;
 //        int width = 3;
 //        final Rectangle rectangle = new Rectangle( getDiscreteModel().getGridWidth() - width-getDiscreteModel().getDamping().getDepth(), insetY, width, getDiscreteModel().getGridHeight() - insetY * 2 );
@@ -284,6 +298,15 @@ public class SchrodingerControlPanel extends ControlPanel {
         pxSlider = new ModelSlider( "Momentum-x0", "", -1.5, 1.5, 0 );
         pySlider = new ModelSlider( "Momentum-y0", "", -1.5, 1.5, -0.8 );
         dxSlider = new ModelSlider( "Size0", "", 0, 0.25, 0.04 );
+
+//        wavelengthYSlider=new ModelSlider("Wavelength(y-dir)","",
+
+        pxSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                double lambda = 2 * Math.PI / pxSlider.getValue();
+                System.out.println( "lambda = " + lambda );
+            }
+        } );
 
         particleLauncher.add( xSlider );
         particleLauncher.add( ySlider );

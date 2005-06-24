@@ -48,13 +48,13 @@ public class DetectorSet {
     public void handleCollapse() {
         Wavefunction wavefunction = getWavefunction();
         double norm = 1.0;//todo is this correct?
-        if( norm >= 0.2 ) {//ensure there's a particle.
+//        if( norm >= 0.2 ) {//ensure there's a particle.
 //                System.out.println( "detectorNorm=" + norm);
-            for( int i = 0; i < detectors.size(); i++ ) {
-                Detector detector = (Detector)detectors.get( i );
-                detector.fire( wavefunction, norm );
-            }
+        for( int i = 0; i < detectors.size(); i++ ) {
+            Detector detector = (Detector)detectors.get( i );
+            detector.fire( wavefunction, norm );
         }
+//        }
     }
 
     public Point getCollapsePoint( Rectangle bounds ) {
@@ -86,7 +86,8 @@ public class DetectorSet {
             }
         }
 //        new RuntimeException( "No collapse point." ).printStackTrace();
-        throw new RuntimeException( "No collapse point." );
+        new RuntimeException( "No collapse point." ).printStackTrace();
+        return new Point( 0, 0 );
 //        return new Point( 0, 0 );
     }
 

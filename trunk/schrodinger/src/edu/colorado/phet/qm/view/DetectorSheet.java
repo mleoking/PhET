@@ -36,13 +36,14 @@ public class DetectorSheet extends GraphicLayerSet {
         graphic = new PhetImageGraphic( getComponent(), bufferedImage );
         addGraphic( graphic );
 
-        phetShapeGraphic = new PhetShapeGraphic( c, new Rectangle( width, height ), Color.white, new BasicStroke( 1 ), Color.black );
+        phetShapeGraphic = new PhetShapeGraphic( c, new Rectangle( width, height ), Color.white, new BasicStroke( 3 ), Color.black );
         phetShapeGraphic.paint( bufferedImage.createGraphics() );
 
         RenderingHints renderingHints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         setRenderingHints( renderingHints );
 
         clearButton = new JButton( "<html>Clear<br>Screen</html>" );
+        clearButton.setMargin( new Insets( 2, 2, 2, 2 ) );
         clearButton.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
