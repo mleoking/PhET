@@ -2,14 +2,20 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.model.DiscreteModel;
+import edu.colorado.phet.qm.model.GaussianWave;
+import edu.colorado.phet.qm.model.InitialWavefunction;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 /**
@@ -20,16 +26,18 @@ import java.awt.event.*;
  */
 
 public class GunGraphic extends GraphicLayerSet {
+    private SchrodingerPanel schrodingerPanel;
+
     public JButton fireOne;
     public JCheckBox alwaysOn;
     public JSlider intensitySlider;
     private int time = 0;
     private int lastFireTime = 0;
-    private SchrodingerPanel schrodingerPanel;
-    public PhetImageGraphic phetImageGraphic;
-    public JComboBox comboBox;
-    private GunItem lastObject;
-    public GunItem[] items;
+
+    private PhetImageGraphic phetImageGraphic;
+    private JComboBox comboBox;
+    private GunItem currentObject;
+    private GunItem[] items;
 
     public GunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -40,7 +48,8 @@ public class GunGraphic extends GraphicLayerSet {
         fireOne = new JButton( "Fire Once" );
         fireOne.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.getSchrodingerModule().getSchrodingerControlPanel().fireParticle();
+                fireParticle();
+//                schrodingerPanel.getSchrodingerModule().getSchrodingerControlPanel().fireParticle();
             }
         } );
         fireOne.addMouseListener( new MouseAdapter() {
@@ -95,12 +104,22 @@ public class GunGraphic extends GraphicLayerSet {
         setupObject( items[0] );
     }
 
+    public void fireParticle() {
+        //add the specified wavefunction everywhere, then renormalize..?
+        //clear the old wavefunction.
+        currentObject.fireParticle();
+    }
+
+    private DiscreteModel getDiscreteModel() {
+        return schrodingerPanel.getDiscreteModel();
+    }
+
     public void setLocation( int x, int y ) {
         super.setLocation( x, y );
         comboBox.setBounds( x - comboBox.getPreferredSize().width - 2, y,
                             comboBox.getPreferredSize().width, comboBox.getPreferredSize().height );
         System.out.println( "comboBox.getLocation() = " + comboBox.getLocation() );
-        setupObject( lastObject );
+        setupObject( currentObject );
     }
 
     public void setVisible( boolean visible ) {
@@ -124,11 +143,46 @@ public class GunGraphic extends GraphicLayerSet {
             return gunGraphic;
         }
 
+        public abstract double getStartPy();
+
+        public void fireParticle() {
+            double x = getDiscreteModel().getGridWidth() * 0.5;
+            double y = getDiscreteModel().getGridHeight() * 0.8;
+            double px = 0;
+            double py = getStartPy();
+            double dxLattice = getStartDxLattice();
+            InitialWavefunction initialWavefunction = new GaussianWave( new Point( (int)x, (int)y ),
+                                                                        new Vector2D.Double( px, py ), dxLattice );
+            edit( initialWavefunction );
+            getSchrodingerModule().fireParticle( initialWavefunction );
+        }
+
+        protected void edit( InitialWavefunction initialWavefunction ) {
+        }
+
+        private SchrodingerModule getSchrodingerModule() {
+            return gunGraphic.getSchrodingerModule();
+        }
+
+        private DiscreteModel getDiscreteModel() {
+            return getSchrodingerModule().getDiscreteModel();
+        }
+
+        protected double getStartDxLattice() {
+            double dxLattice = 0.04 * getDiscreteModel().getGridWidth();
+            return dxLattice;
+        }
+
+    }
+
+    private SchrodingerModule getSchrodingerModule() {
+        return schrodingerPanel.getSchrodingerModule();
     }
 
     static class Electron extends GunItem {
         public PhetGraphic graphic;
         public JSlider velocity;
+        private double electronMass = 1.0;
 
         public Electron( GunGraphic gunGraphic, String label, String imageLocation ) {
             super( gunGraphic, label, imageLocation );
@@ -145,6 +199,11 @@ public class GunGraphic extends GraphicLayerSet {
         public void teardown( GunGraphic gunGraphic ) {
             gunGraphic.removeGraphic( graphic );
         }
+
+        public double getStartPy() {
+            double velocityValue = new Function.LinearFunction( 0, 1000, 0, 1.5 ).evaluate( velocity.getValue() );
+            return -velocityValue * electronMass;
+        }
     }
 
     private JComboBox getComboBox() {
@@ -154,10 +213,11 @@ public class GunGraphic extends GraphicLayerSet {
     static class Photon extends GunItem {
         private JSlider wavelength;
         private PhetGraphic graphic;
+        private double hbar = 1.0;
 
         public Photon( GunGraphic gunGraphic, String label, String imageLocation ) {
             super( gunGraphic, label, imageLocation );
-            wavelength = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
+            wavelength = new JSlider( JSlider.HORIZONTAL, 8, 500, 500 / 2 );
             wavelength.setBorder( BorderFactory.createTitledBorder( "Wavelength" ) );
             graphic = PhetJComponent.newInstance( gunGraphic.getComponent(), wavelength );
         }
@@ -169,6 +229,13 @@ public class GunGraphic extends GraphicLayerSet {
 
         public void teardown( GunGraphic gunGraphic ) {
             gunGraphic.removeGraphic( graphic );
+        }
+
+        public double getStartPy() {
+            double wavelengthValue = new Function.LinearFunction( 0, 1000, 0, 100 ).evaluate( wavelength.getValue() );
+            double momentum = -hbar * 2 * Math.PI / wavelengthValue;
+            System.out.println( "wavelengthValue = " + wavelengthValue + ", momentum=" + momentum );
+            return momentum;
         }
     }
 
@@ -201,6 +268,12 @@ public class GunGraphic extends GraphicLayerSet {
             gunGraphic.removeGraphic( massGraphic );
             gunGraphic.removeGraphic( velocityGraphic );
         }
+
+        public double getStartPy() {
+            double velocityValue = new Function.LinearFunction( 0, 1000, 0, 1.5 ).evaluate( velocity.getValue() );
+            double massValue = new Function.LinearFunction( 0, 1000, 0, 1 ).evaluate( mass.getValue() );
+            return -velocityValue * massValue;
+        }
     }
 
     private JComboBox createParticleTypeSelectorComboBox() {
@@ -218,11 +291,11 @@ public class GunGraphic extends GraphicLayerSet {
     }
 
     private void setupObject( GunItem item ) {
-        if( lastObject != null ) {
-            lastObject.teardown( this );
+        if( currentObject != null ) {
+            currentObject.teardown( this );
         }
         item.setup( this );
-        lastObject = item;
+        currentObject = item;
     }
 
     private void fire() {

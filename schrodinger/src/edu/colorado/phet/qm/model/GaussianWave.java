@@ -24,9 +24,10 @@ public class GaussianWave implements InitialWavefunction {
     public void initialize( Wavefunction wavefunction ) {
         initGaussian( wavefunction );
 //        System.out.println( "new ProbabilityValue().compute( wavefunction ) = " + new ProbabilityValue().compute( wavefunction ) );
-        System.out.println( "wavefunction.getMagnitude() = " + wavefunction.getMagnitude() );
+        System.out.println( "pre-norm gaussian: wavefunction.getMagnitude() = " + wavefunction.getMagnitude() );
         wavefunction.normalize();
         System.out.println( "GaussianWave.initialize" );
+        System.out.println( "post-norm gaussian: wavefunction.getMagnitude() = " + wavefunction.getMagnitude() );
     }
 
     private void initGaussian( Wavefunction wavefunction ) {
