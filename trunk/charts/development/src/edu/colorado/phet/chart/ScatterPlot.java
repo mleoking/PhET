@@ -41,7 +41,7 @@ public class ScatterPlot extends DataSetGraphic {
     }
 
     public void pointAdded( Point2D point ) {
-        Point viewLoc = getChart().transform( point );
+        Point2D viewLoc = getChart().transformDouble( point );
         points.addGraphic( scatterPaintFactory.createScatterPoint( viewLoc.getX(), viewLoc.getY() ) );
     }
 

@@ -57,10 +57,10 @@ public class LinePlot extends DataSetGraphic {
         if( point == null ) {
             throw new RuntimeException( "Null point" );
         }
-        Point viewLocation = getChart().transform( point );
+        Point2D viewLocation = getChart().transformDouble( point );
         if( generalPath == null ) {
             generalPath = new GeneralPath();
-            generalPath.moveTo( viewLocation.x, viewLocation.y );
+            generalPath.moveTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
             phetShapeGraphic.setShape( generalPath );
         }
         else {
