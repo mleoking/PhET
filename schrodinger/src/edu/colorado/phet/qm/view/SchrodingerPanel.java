@@ -95,10 +95,14 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
 
     public void finishedTimeStep( DiscreteModel model ) {
         if( model.getTimeStep() % numIterationsBetwenScreenUpdate == 0 ) {
-            colorGrid.colorize( painter );
-            finishDrawing();
-            wavefunctionGraphic.setImage( colorGrid.getBufferedImage() );
+            repaintAll();
         }
+    }
+
+    public void repaintAll() {
+        colorGrid.colorize( painter );
+        finishDrawing();
+        wavefunctionGraphic.setImage( colorGrid.getBufferedImage() );
     }
 
     private void finishDrawing() {

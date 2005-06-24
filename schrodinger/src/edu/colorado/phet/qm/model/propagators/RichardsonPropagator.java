@@ -44,7 +44,7 @@ public class RichardsonPropagator implements Propagator {
         update();
     }
 
-    private void update() {
+    public void update() {
 
         epsilon = toEpsilon( deltaTime );
 
@@ -144,7 +144,7 @@ public class RichardsonPropagator implements Propagator {
         w.valueAt( i, j ).setToSum( aTemp, bTemp, cTemp );
     }
 
-    protected void applyPotential( Wavefunction w ) {
+    protected void applyPotential( Wavefunction w ) {//todo ignore damping region
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
                 double pot = potential.getPotential( i, j, timeStep );

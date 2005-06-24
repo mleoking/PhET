@@ -43,9 +43,14 @@ public class IntensityDisplay implements VerticalETA.Listener {
     }
 
     public void arrived() {
-        sub = getDiscreteModel().getWavefunction().copyRegion( 0, getDiscreteModel().getDamping().getDepth(), getDiscreteModel().getWavefunction().getWidth(), h );
-        sub.normalize();
+        setRegionOfInterestSub( getDiscreteModel().getWavefunction() );
         detectOne();
+    }
+
+    public void setRegionOfInterestSub( Wavefunction in ) {
+        Wavefunction x = in.copyRegion( 0, getDiscreteModel().getDamping().getDepth(), in.getWidth(), h );
+        x.normalize();
+        this.sub = x;
     }
 
     public void detectOne() {

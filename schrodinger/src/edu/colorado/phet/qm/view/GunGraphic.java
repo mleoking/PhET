@@ -8,15 +8,15 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.qm.SchrodingerModule;
-import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.model.GaussianWave;
-import edu.colorado.phet.qm.model.InitialWavefunction;
+import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -62,7 +62,7 @@ public class GunGraphic extends GraphicLayerSet {
                 phetImageGraphic.clearTransform();
             }
         } );
-        alwaysOn = new JCheckBox( "Always On" );
+        alwaysOn = new JCheckBox( "High Intensity" );
         alwaysOn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setAlwaysOn( alwaysOn.isSelected() );
@@ -145,7 +145,7 @@ public class GunGraphic extends GraphicLayerSet {
 
         public abstract double getStartPy();
 
-        public void fireParticle() {
+        public InitialWavefunction getInitialWavefunction() {
             double x = getDiscreteModel().getGridWidth() * 0.5;
             double y = getDiscreteModel().getGridHeight() * 0.8;
             double px = 0;
@@ -154,7 +154,11 @@ public class GunGraphic extends GraphicLayerSet {
             InitialWavefunction initialWavefunction = new GaussianWave( new Point( (int)x, (int)y ),
                                                                         new Vector2D.Double( px, py ), dxLattice );
             edit( initialWavefunction );
-            getSchrodingerModule().fireParticle( initialWavefunction );
+            return initialWavefunction;
+        }
+
+        public void fireParticle() {
+            getSchrodingerModule().fireParticle( getInitialWavefunction() );
         }
 
         protected void edit( InitialWavefunction initialWavefunction ) {
@@ -328,6 +332,73 @@ public class GunGraphic extends GraphicLayerSet {
     private void setAlwaysOn( boolean on ) {
         fireOne.setEnabled( !on );
         intensitySlider.setEnabled( on );
+        if( !on ) {
+            getDiscreteModel().setPaused( false );
+        }
+        if( on ) {
+            getDiscreteModel().getWavefunction().clear();
+            getDiscreteModel().setPaused( true );
+            getSchrodingerModule().getSchrodingerPanel().repaintAll();
+            //simulate wavefunction, including handling detectors/slits.
+            final Wavefunction copy = getDiscreteModel().getWavefunction().copy();
+            currentObject.getInitialWavefunction().initialize( copy );
+
+            double etaTime = new VerticalETA().getETA( copy );
+            //todo error check on etaTime
+            if( etaTime < 0 || etaTime > 500 ) {
+                System.out.println( "BAD etaTime = " + etaTime );
+                etaTime = 500;
+            }
+
+            //show a message: 'warming up for high intensity beam.'
+            System.out.println( "Warming up for rapid fire." );
+
+            final PhetShadowTextGraphic msg = new PhetShadowTextGraphic( getComponent(),
+                                                                         new Font( "Lucida Sans", Font.BOLD, 20 ),
+                                                                         "Warming up for rapid fire.", Color.green, 1, 1, Color.white );
+            getSchrodingerModule().getSchrodingerPanel().addGraphic( msg, Double.POSITIVE_INFINITY );
+            msg.setLocation( 50, 100 );
+
+            final PhetShadowTextGraphic readout = new PhetShadowTextGraphic( getComponent(), new Font( "Lucida Sans", Font.BOLD, 16 ),
+                                                                             "", Color.red, 1, 1, Color.blue );
+            getSchrodingerModule().getSchrodingerPanel().addGraphic( readout );
+            readout.setLocation( msg.getX(), msg.getY() + msg.getHeight() + 2 );
+
+            JButton cancel = new JButton( "Cancel" );
+            final PhetGraphic cancelGraphic = PhetJComponent.newInstance( getComponent(), cancel );
+            getSchrodingerModule().getSchrodingerPanel().addGraphic( cancelGraphic, Double.POSITIVE_INFINITY );
+
+            cancelGraphic.setLocation( msg.getX(), readout.getY() + readout.getHeight() + 2 + cancelGraphic.getHeight() );
+
+            final double etaTime1 = etaTime;
+            Thread t = new Thread( new Runnable() {
+                public void run() {
+
+                    for( int i = 0; i < etaTime1; i++ ) {
+                        getDiscreteModel().getPropagator().propagate( copy );
+                        if( i % 3 == 0 ) {
+                            System.out.println( i + "/" + etaTime1 );
+                            double percent = i / etaTime1 * 100;
+                            String pct = new DecimalFormat( "0.00" ).format( percent );
+                            readout.setText( pct + " %" );
+                            try {
+                                Thread.sleep( 60 );
+                            }
+                            catch( InterruptedException e ) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    cancelGraphic.setVisible( false );
+                    readout.setVisible( false );
+                    msg.setVisible( false );
+                    getSchrodingerModule().getSchrodingerPanel().getIntensityDisplay().setRegionOfInterestSub( copy );
+                }
+            } );
+            t.start();
+
+
+        }
     }
 
     public int getGunWidth() {

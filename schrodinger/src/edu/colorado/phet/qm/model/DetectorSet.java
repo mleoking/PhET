@@ -18,7 +18,6 @@ import java.util.Random;
 public class DetectorSet {
     private ArrayList detectors = new ArrayList();
     private static final Random random = new Random();
-//    private DiscreteModel discreteModel;
     private DiscreteModel.Listener listener;
     private Wavefunction wavefunction;
 
