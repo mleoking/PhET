@@ -47,7 +47,7 @@ public class VerticalETA extends DiscreteModel.Adapter {
         System.out.println( "py = " + py );
         eta = d / py;
         System.out.println( "eta=" + eta );
-        eta += eta / 10;//add ten percent
+        eta += eta / 8;//add some
         time = 0;
     }
 }

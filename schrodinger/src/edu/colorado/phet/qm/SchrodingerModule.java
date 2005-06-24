@@ -24,10 +24,10 @@ import edu.colorado.phet.qm.view.SchrodingerPanel;
  */
 
 public class SchrodingerModule extends Module {
-    public SchrodingerPanel schrodingerPanel;
-    public DiscreteModel discreteModel;
-    public IntensityDisplay intensityDisplay;
+    private SchrodingerPanel schrodingerPanel;
+    private DiscreteModel discreteModel;
 
+    private SchrodingerControlPanel schrodingerControlPanel;
 
     /**
      * @param clock
@@ -46,16 +46,12 @@ public class SchrodingerModule extends Module {
         schrodingerPanel = new SchrodingerPanel( this );
         setApparatusPanel( schrodingerPanel );
 
-        SchrodingerControlPanel schrodingerControlPanel = new SchrodingerControlPanel( this );
+        schrodingerControlPanel = new SchrodingerControlPanel( this );
         setControlPanel( schrodingerControlPanel );
 
-        intensityDisplay = new IntensityDisplay( this, 50 );
-        startIntensityDisplay();
+
     }
 
-    private void startIntensityDisplay() {
-        getDiscreteModel().getVerticalEta().addListener( intensityDisplay );
-    }
 
     public SchrodingerPanel getSchrodingerPanel() {
         return schrodingerPanel;
@@ -76,7 +72,7 @@ public class SchrodingerModule extends Module {
     public void reset() {
         discreteModel.reset();
         schrodingerPanel.reset();
-        intensityDisplay.reset();
+
     }
 
     public void fireParticle( InitialWavefunction initialWavefunction ) {
@@ -106,5 +102,19 @@ public class SchrodingerModule extends Module {
         discreteModel.addPotential( rectangularPotential );//todo should be a composite.
         RectangularPotentialGraphic rectangularPotentialGraphic = new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
         getSchrodingerPanel().addRectangularPotentialGraphic( rectangularPotentialGraphic );
+    }
+
+    public void setGunActive( boolean selected ) {
+        if( selected ) {
+
+        }
+    }
+
+    public SchrodingerControlPanel getSchrodingerControlPanel() {
+        return schrodingerControlPanel;
+    }
+
+    public IntensityDisplay getIntensityDisplay() {
+        return getSchrodingerPanel().getIntensityDisplay();
     }
 }

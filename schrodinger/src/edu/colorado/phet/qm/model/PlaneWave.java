@@ -11,15 +11,14 @@ package edu.colorado.phet.qm.model;
 
 public class PlaneWave implements BoundaryCondition, InitialWavefunction {
     private double k;
-    private double XMESH;
+    private double gridHeight;
 
     private double scale = 1.0;
 
-    public PlaneWave( double k, double XMESH ) {
+    public PlaneWave( double k, double gridHeight ) {
         this.k = k;
-        this.XMESH = XMESH;
+        this.gridHeight = gridHeight;
     }
-
 
     public double getScale() {
         return scale;
@@ -33,8 +32,8 @@ public class PlaneWave implements BoundaryCondition, InitialWavefunction {
         w.setValue( i, j, getValueImpl( i, j, simulationTime ) );
     }
 
-    private Complex getValueImpl( int i, int j, double simulationTime ) {
-        Complex complex = new Complex( Math.cos( k * i / XMESH - k * k * simulationTime ), Math.sin( k * i / XMESH - k * k * simulationTime ) );
+    private Complex getValueImpl( int i, int j, double t ) {
+        Complex complex = new Complex( Math.cos( k * j / gridHeight - k * k * t ), Math.sin( k * j / gridHeight - k * k * t ) );
         complex.scale( scale );
         return complex;
     }

@@ -17,7 +17,6 @@ public class BarrierPotential implements Potential {
     private double value;
 
     public BarrierPotential( Rectangle rectangle, double value ) {
-
         this.rectangle = rectangle;
         this.value = value;
     }

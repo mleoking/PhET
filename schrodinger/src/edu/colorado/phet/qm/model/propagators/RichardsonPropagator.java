@@ -1,4 +1,6 @@
-package edu.colorado.phet.qm.model;
+package edu.colorado.phet.qm.model.propagators;
+
+import edu.colorado.phet.qm.model.*;
 
 
 /*********************************************************/

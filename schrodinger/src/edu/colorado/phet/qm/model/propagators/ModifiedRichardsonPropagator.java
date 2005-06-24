@@ -1,4 +1,9 @@
-package edu.colorado.phet.qm.model;
+package edu.colorado.phet.qm.model.propagators;
+
+import edu.colorado.phet.qm.model.BoundaryCondition;
+import edu.colorado.phet.qm.model.Complex;
+import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.model.Wavefunction;
 
 
 /*********************************************************/

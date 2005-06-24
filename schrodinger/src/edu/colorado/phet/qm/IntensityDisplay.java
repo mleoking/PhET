@@ -21,16 +21,20 @@ import java.util.Random;
 
 public class IntensityDisplay implements VerticalETA.Listener {
     private SchrodingerModule schrodingerModule;
+    private SchrodingerPanel schrodingerPanel;
     private int detectorHeight;
     private Random random;
     public DetectorSheet graphic;
+    public int h = 3;
+    public Wavefunction sub;
 
-    public IntensityDisplay( SchrodingerModule schrodingerModule, int detectorHeight ) {
+    public IntensityDisplay( SchrodingerModule schrodingerModule, SchrodingerPanel schrodingerPanel, int detectorHeight ) {
         this.schrodingerModule = schrodingerModule;
+        this.schrodingerPanel = schrodingerPanel;
         this.detectorHeight = detectorHeight;
         this.random = new Random();
 
-        graphic = new DetectorSheet( getSchrodingerPanel(), getWidth(), detectorHeight );
+        graphic = new DetectorSheet( schrodingerPanel, getWidth(), detectorHeight );
         getSchrodingerPanel().addGraphic( graphic );
     }
 
@@ -39,25 +43,27 @@ public class IntensityDisplay implements VerticalETA.Listener {
     }
 
     public void arrived() {
-        int h = 3;
-        Wavefunction sub = getDiscreteModel().getWavefunction().copyRegion( 0, getDiscreteModel().getDamping().getDepth(), getDiscreteModel().getWavefunction().getWidth(), h );
+        sub = getDiscreteModel().getWavefunction().copyRegion( 0, getDiscreteModel().getDamping().getDepth(), getDiscreteModel().getWavefunction().getWidth(), h );
         sub.normalize();
+        detectOne();
+    }
 
+    public void detectOne() {
         Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(), 0, getWidth() );
+        Point pt = getCollapsePoint( sub );
 
-        for( int i = 0; i < 300; i++ ) {
-            Point pt = getCollapsePoint( sub );
+        double screenGridWidth = schrodingerModule.getSchrodingerPanel().getColorGrid().getBlockWidth();
+        double randOffset = 2 * ( random.nextDouble() - 0.5 ) * screenGridWidth;
 
-            int displayVal = (int)linearFunction.evaluate( pt.x );
-            double scale = detectorHeight / 8;
-            double offset = detectorHeight / 2;
-            int y = (int)( random.nextGaussian() * scale + offset );
-            graphic.addDetectionEvent( displayVal, y );
-        }
+        int displayVal = (int)( linearFunction.evaluate( pt.x ) + randOffset );
+        double scale = detectorHeight / 8;
+        double offset = detectorHeight / 2;
+        int y = (int)( random.nextGaussian() * scale + offset );
+        graphic.addDetectionEvent( displayVal, y );
     }
 
     private SchrodingerPanel getSchrodingerPanel() {
-        return schrodingerModule.getSchrodingerPanel();
+        return schrodingerPanel;
     }
 
     private DiscreteModel getDiscreteModel() {

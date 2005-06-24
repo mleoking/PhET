@@ -30,8 +30,8 @@ public class DefaultPainter implements ColorMap {
         this.wavefunctionColorMap = wavefunctionColorMap;
     }
 
-    public Color getPaint( int i, int k ) {
-        Color color = wavefunctionColorMap.getPaint( i, k );
+    public Color getColor( int i, int k ) {
+        Color color = wavefunctionColorMap.getColor( i, k );
         double potval = getPotential().getPotential( i, k, 0 );
         if( potval > 0 ) {
             double r = ( Math.abs( potval ) / 50000.0 );

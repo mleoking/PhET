@@ -13,10 +13,7 @@ import java.util.ArrayList;
  */
 
 public class CompositePotential implements Potential {
-    ArrayList p = new ArrayList();
-
-    public CompositePotential() {
-    }
+    private ArrayList p = new ArrayList();
 
     public void addPotential( Potential potential ) {
         p.add( potential );

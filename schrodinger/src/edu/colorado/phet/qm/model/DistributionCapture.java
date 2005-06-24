@@ -9,7 +9,7 @@ package edu.colorado.phet.qm.model;
  */
 
 public class DistributionCapture implements VerticalETA.Listener {
-    DiscreteModel discreteModel;
+    private DiscreteModel discreteModel;
 
     public DistributionCapture( DiscreteModel discreteModel ) {
         this.discreteModel = discreteModel;

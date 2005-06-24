@@ -18,7 +18,7 @@ public class ImaginaryGrayColorMap implements ColorMap {
         this.schrodingerPanel = schrodingerPanel;
     }
 
-    public Color getPaint( int i, int k ) {
+    public Color getColor( int i, int k ) {
         Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
         double re = wavefunction.valueAt( i, k ).getImaginary();
         re = Math.abs( re );
