@@ -122,6 +122,7 @@ public class DiscreteModule extends FourierModule {
         _harmonicsGraph = new HarmonicsGraph( apparatusPanel, _fourierSeries );
         _harmonicsGraph.setLocation( HARMONICS_LOCATION );
         apparatusPanel.addGraphic( _harmonicsGraph, COMPONENTS_LAYER );
+        model.addModelElement( _harmonicsGraph );//XXX not really part of the model, just need clock
         
         // Sum view
         _sumGraph = new SumGraph( apparatusPanel, _fourierSeries );
