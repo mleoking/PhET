@@ -11,6 +11,7 @@ HIGH PRIORITY:
 - persistence
 
 MEDIUM PRIORITY:
+- add SinePlot.setPointsPerPixel
 - something is hammering the processor when we should be idle
 - control panel resize & apparatus panel repaint problems when switching domains
 
@@ -47,6 +48,9 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/24) - migrate SinePlot to charts package
+(6/24) - change charts package to use double precision model-to-view transforms
+(6/24) - add double precision model-to-view methods to ModelViewTransform2D
 (6/24) - create SinePlot subclass of LinePlot that changes its data set to match the chart range
 (6/23) - move preset constants and accessor methods into FourierConstants
 (6/23) - moved math symbols out of Fourier.properties and into MathStrings
