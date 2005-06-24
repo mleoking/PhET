@@ -15,7 +15,8 @@ import java.awt.Color;
 import java.awt.Component;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.LinePlot;
+import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
 import edu.colorado.phet.fourier.model.Harmonic;
@@ -29,21 +30,38 @@ import edu.colorado.phet.fourier.view.HarmonicColors;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicDataSetGraphic extends LinePlot implements HarmonicColorChangeListener {
+public class HarmonicDataSetGraphic extends SinePlot implements SimpleObserver, HarmonicColorChangeListener {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final int DEFAULT_WAVE_TYPE = FourierConstants.WAVE_TYPE_SINE;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private Harmonic _harmonic;
+    private int _waveType;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     /**
-     * Sole constructor.
+     * Constructor.
      * 
      * @param component
      * @param chart
-     * @param dataSet
      */
-    public HarmonicDataSetGraphic( Component component, Chart chart, HarmonicDataSet dataSet ) {
-        super( component, chart, dataSet );
+    public HarmonicDataSetGraphic( Component component, Chart chart ) {
+        super( component, chart );
+        
+        _harmonic = null;
+        _waveType = -1; // force an update
+        setWaveType( DEFAULT_WAVE_TYPE );
+        setShowZeroAmplitudeEnabled( false );
         
         // Interested in changes to harmonic colors.
         HarmonicColors.getInstance().addHarmonicColorChangeListener( this );
@@ -53,29 +71,65 @@ public class HarmonicDataSetGraphic extends LinePlot implements HarmonicColorCha
      * Call this method prior to releasing all references to an object of this type.
      */
     public void cleanup() {
+        _harmonic.removeObserver( this );
+        _harmonic = null;
         HarmonicColors.getInstance().removeHarmonicColorChangeListener( this );
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the data set associated with this graphic.
-     * 
-     * @return HarmonicDataSet
-     */
-    public HarmonicDataSet getHarmonicDataSet() {
-        return (HarmonicDataSet) getDataSet();
-    }
 
     /**
-     * Gets the harmonic associated with this graphic's data set.
+     * Sets the harmonic associated with this graphic.
+     * 
+     * @param harmonic
+     */
+    public void setHarmonic( Harmonic harmonic ) {
+        assert( harmonic != null );
+        if ( harmonic != _harmonic ) {
+            if ( _harmonic != null ) {
+                _harmonic.removeObserver( this );
+            }
+            _harmonic = harmonic;
+            _harmonic.addObserver( this );
+            update();
+        }
+    }
+    
+    /**
+     * Gets the harmonic associated with this graphic.
      * 
      * @return Harmonic
      */
     public Harmonic getHarmonic() {
-        return getHarmonicDataSet().getHarmonic();
+        return _harmonic;
+    }
+    
+    /**
+     * Sets the wave type;
+     * 
+     * @param waveType
+     */
+    public void setWaveType( int waveType ) {
+        assert( FourierConstants.isValidWaveType( waveType ) );
+        if ( waveType != _waveType ) {
+            _waveType = waveType;
+            super.setCosineEnabled( _waveType == FourierConstants.WAVE_TYPE_COSINE );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Updates the view to match the harmonic model.
+     */
+    public void update() {
+        if ( isVisible() && _harmonic != null ) {
+            setAmplitude( _harmonic.getAmplitude() );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -86,8 +140,8 @@ public class HarmonicDataSetGraphic extends LinePlot implements HarmonicColorCha
      * Change the graphic's color when its associated harmonic color changes.
      */
     public void harmonicColorChanged( HarmonicColorChangeEvent e ) {
-        if ( getHarmonic().getOrder() == e.getOrder() ) {
-            Color harmonicColor = HarmonicColors.getInstance().getColor( getHarmonic() );
+        if ( _harmonic != null && _harmonic.getOrder() == e.getOrder() ) {
+            Color harmonicColor = HarmonicColors.getInstance().getColor( _harmonic );
             setBorderColor( harmonicColor );
         }
     }
