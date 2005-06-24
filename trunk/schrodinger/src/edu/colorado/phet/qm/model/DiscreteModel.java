@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
+import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class DiscreteModel {
         addListener( damping );
 
         verticalEta = new VerticalETA();
-        verticalEta.addListener( new DistributionCapture( this ) );
+//        verticalEta.addListener( new DistributionCapture( this ) );
         addListener( verticalEta );
     }
 

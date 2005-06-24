@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model.potentials;
 
+import edu.colorado.phet.qm.model.Potential;
+
 import java.awt.*;
 
 /**
@@ -11,8 +13,8 @@ import java.awt.*;
  */
 
 public class HorizontalDoubleSlit {
-    public CompositePotential createDoubleSlit( int gridWidth, int gridHeight,
-                                                int y, int height, int slitSize, int slitSeparation, double potential ) {
+    public Potential createDoubleSlit( int gridWidth, int gridHeight,
+                                       int y, int height, int slitSize, int slitSeparation, double potential ) {
         CompositePotential compositePotential = new CompositePotential();
         int barWidth = ( gridWidth - 2 * slitSize - slitSeparation ) / 2;
 
@@ -23,6 +25,6 @@ public class HorizontalDoubleSlit {
         compositePotential.addPotential( new BarrierPotential( leftBar, potential ) );
         compositePotential.addPotential( new BarrierPotential( midBar, potential ) );
         compositePotential.addPotential( new BarrierPotential( rightBar, potential ) );
-        return compositePotential;
+        return new PrecomputedPotential( compositePotential, gridWidth, gridHeight );
     }
 }

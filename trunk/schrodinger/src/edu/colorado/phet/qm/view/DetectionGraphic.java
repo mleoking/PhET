@@ -24,9 +24,11 @@ public class DetectionGraphic extends GraphicLayerSet {
         this.detectorSheet = detectorSheet;
         this.x = x;
         this.y = y;
-        int width = 6;
-        int height = 6;
-        PhetShapeGraphic pt = new PhetShapeGraphic( getComponent(), new Ellipse2D.Double( -width / 2, -height / 2, width, height ), Color.blue, new BasicStroke( 1 ), Color.black );
+        int width = 2;
+        int height = width;
+//        PhetShapeGraphic pt = new PhetShapeGraphic( getComponent(), new Ellipse2D.Double( -width / 2, -height / 2, width, height ), new Color( 150,150,255), new BasicStroke( 1 ), Color.black );
+        PhetShapeGraphic pt = new PhetShapeGraphic( getComponent(), new Ellipse2D.Double( -width / 2, -height / 2, width, height ), new Color( 150, 150, 255 ) );
+//        , new BasicStroke( 1 ), Color.black );
         addGraphic( pt );
         setLocation( x, y );
     }

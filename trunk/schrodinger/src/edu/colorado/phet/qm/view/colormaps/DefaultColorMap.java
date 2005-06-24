@@ -25,7 +25,7 @@ public class DefaultColorMap implements ColorMap {
         colorScale = 20;
     }
 
-    public Color getPaint( int i, int k ) {
+    public Color getColor( int i, int k ) {
         Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
 
         double h = Math.abs( wavefunction.valueAt( i, k ).getReal() ) * colorScale;

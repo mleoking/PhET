@@ -81,7 +81,9 @@ public class Detector extends RectangularObject {
     public void zero( Wavefunction wavefunction ) {
         for( int i = getX(); i < getMaxX(); i++ ) {
             for( int j = getY(); j < getMaxY(); j++ ) {
-                wavefunction.valueAt( i, j ).zero();
+                if( wavefunction.containsLocation( i, j ) ) {
+                    wavefunction.valueAt( i, j ).zero();
+                }
             }
         }
     }
@@ -90,7 +92,9 @@ public class Detector extends RectangularObject {
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {
             for( int j = 0; j < wavefunction.getHeight(); j++ ) {
                 if( !contains( i, j ) ) {
-                    wavefunction.valueAt( i, j ).zero();
+                    if( wavefunction.containsLocation( i, j ) ) {
+                        wavefunction.valueAt( i, j ).zero();
+                    }
                 }
             }
         }

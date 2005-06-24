@@ -68,7 +68,7 @@ public class DetectorSet {
             }
         }
 
-//        copy.normalize();//in case we care
+        copy.normalize();//in case we care
         Complex runningSum = new Complex();
         double rnd = random.nextDouble();
 

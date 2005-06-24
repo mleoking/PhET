@@ -3,12 +3,14 @@ package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.qm.IntensityDisplay;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.PxValue;
 import edu.colorado.phet.qm.model.operators.XValue;
 import edu.colorado.phet.qm.model.operators.YValue;
+import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -33,8 +35,10 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     private boolean displayCollapsePoint;
     private ArrayList rectanglePotentialGraphics = new ArrayList();
     private boolean displayPyExpectation = false;
-
+    private GunGraphic gunGraphic;
     private int colorGridWidth = 600;
+    private IntensityDisplay intensityDisplay;
+    public RulerGraphic rulerGraphic;
 
     public SchrodingerPanel( SchrodingerModule module ) {
         this.module = module;
@@ -48,6 +52,27 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
         wavefunctionGraphic = new PhetImageGraphic( this );
         addGraphic( wavefunctionGraphic );
         wavefunctionGraphic.setLocation( 0, 50 );
+        wavefunctionGraphic.setImage( colorGrid.getBufferedImage() );
+
+        gunGraphic = new GunGraphic( this );
+        addGraphic( gunGraphic );
+        gunGraphic.setLocation( wavefunctionGraphic.getX() + wavefunctionGraphic.getWidth() / 2 - gunGraphic.getGunWidth() / 2,
+                                wavefunctionGraphic.getY() + wavefunctionGraphic.getHeight() );
+
+        rulerGraphic = new RulerGraphic( this );
+        addGraphic( rulerGraphic, Double.POSITIVE_INFINITY );
+        rulerGraphic.setLocation( 20, 20 );
+
+        intensityDisplay = new IntensityDisplay( getSchrodingerModule(), this, 50 );
+        setIntensityDisplayRecordsParticles();
+    }
+
+    public void setRulerVisible( boolean rulerVisible ) {
+        rulerGraphic.setVisible( rulerVisible );
+    }
+
+    private void setIntensityDisplayRecordsParticles() {
+        getDiscreteModel().getVerticalEta().addListener( intensityDisplay );
     }
 
     private ColorGrid createColorGrid() {
@@ -55,6 +80,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     }
 
     public void reset() {
+        intensityDisplay.reset();
     }
 
     public void updateGraphics() {
@@ -171,4 +197,11 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
         return wavefunctionGraphic;
     }
 
+    public SchrodingerModule getSchrodingerModule() {
+        return module;
+    }
+
+    public IntensityDisplay getIntensityDisplay() {
+        return intensityDisplay;
+    }
 }

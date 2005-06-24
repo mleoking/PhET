@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model.potentials;
 
+import edu.colorado.phet.qm.model.Potential;
+
 import java.awt.*;
 
 /**
@@ -11,8 +13,8 @@ import java.awt.*;
  */
 
 public class VerticalDoubleSlit {
-    public CompositePotential createDoubleSlit( int gridWidth, int gridHeight,
-                                                int x, int width, int slitHeight, int slitSeparation, double potential ) {
+    public Potential createDoubleSlit( int gridWidth, int gridHeight,
+                                       int x, int width, int slitHeight, int slitSeparation, double potential ) {
         CompositePotential compositePotential = new CompositePotential();
         int barHeight = ( gridHeight - 2 * slitHeight - slitSeparation ) / 2;
         Rectangle top = new Rectangle( x, 0, width, barHeight );

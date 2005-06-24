@@ -4,15 +4,22 @@ package edu.colorado.phet.qm;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.model.*;
-import edu.colorado.phet.qm.model.potentials.ConstantPotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
+import edu.colorado.phet.qm.model.propagators.CrankNicholsonPropagator;
+import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
+import edu.colorado.phet.qm.model.propagators.RichardsonPropagator;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
-import edu.colorado.phet.qm.view.colormaps.*;
+import edu.colorado.phet.qm.view.colormaps.ImaginaryGrayColorMap;
+import edu.colorado.phet.qm.view.colormaps.MagnitudeInGrayscale;
+import edu.colorado.phet.qm.view.colormaps.RealGrayColorMap;
+import edu.colorado.phet.qm.view.colormaps.VisualColorMap;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -20,6 +27,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -73,11 +81,34 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         addControl( fireParticle );
 
+        try {
+            HorizontalLayoutPanel hoPan = new HorizontalLayoutPanel();
+
+            final JCheckBox ruler = new JCheckBox( "Ruler" );
+            ImageIcon icon = new ImageIcon( ImageLoader.loadBufferedImage( "images/ruler-thumb.jpg" ) );
+            hoPan.add( ruler );
+            hoPan.add( new JLabel( icon ) );
+
+
+            ruler.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    getSchrodingerPanel().setRulerVisible( ruler.isSelected() );
+                }
+            } );
+            addControl( hoPan );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
         VerticalLayoutPanel colorPanel = createVisualizationPanel();
         addControlFullWidth( colorPanel );
 
         VerticalLayoutPanel simulationPanel = createSimulationPanel( module );
-        addControlFullWidth( simulationPanel );
+        AdvancedPanel advSim = new AdvancedPanel( "Simulation >>", "Hide <<" );
+        advSim.addControlFullWidth( simulationPanel );
+        addControlFullWidth( advSim );
+//        addControlFullWidth( simulationPanel );
 
         VerticalLayoutPanel potentialPanel = createPotentialPanel( module );
         addControlFullWidth( potentialPanel );
@@ -92,7 +123,28 @@ public class SchrodingerControlPanel extends ControlPanel {
         addControlFullWidth( boundaryPanel );
 
         VerticalLayoutPanel propagatorPanel = createPropagatorPanel();
-        addControlFullWidth( propagatorPanel );
+//        addControlFullWidth( propagatorPanel );
+
+        VerticalLayoutPanel intensityPanel = createIntensityPanel();
+        addControlFullWidth( intensityPanel );
+
+
+    }
+
+    private VerticalLayoutPanel createIntensityPanel() {
+
+        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
+        final JCheckBox gun = new JCheckBox( "Gun" );
+        gun.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setGunActive( gun.isSelected() );
+            }
+        } );
+        return verticalLayoutPanel;
+    }
+
+    private void setGunActive( boolean selected ) {
+        module.setGunActive( selected );
     }
 
     private VerticalLayoutPanel createPropagatorPanel() {
@@ -132,13 +184,18 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
         final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
-        final PlaneWave planeWave = new PlaneWave( 40 * Math.PI, getDiscreteModel().getGridWidth() );
-        planeWave.setScale( 0.1 );
-        int insetY = 0;
-        int width = 3;
-        final Rectangle rectangle = new Rectangle( getDiscreteModel().getGridWidth() - width, insetY, width, getDiscreteModel().getGridHeight() - insetY * 2 );
+//        final PlaneWave planeWave = new PlaneWave( 40 * Math.PI, getDiscreteModel().getGridWidth() );
+        final PlaneWave planeWave = new PlaneWave( 1 / 10.0 * Math.PI, getDiscreteModel().getGridWidth() );
+        planeWave.setScale( 0.05 );
+//        int insetY = 0;
+//        int width = 3;
+//        final Rectangle rectangle = new Rectangle( getDiscreteModel().getGridWidth() - width-getDiscreteModel().getDamping().getDepth(), insetY, width, getDiscreteModel().getGridHeight() - insetY * 2 );
+        int damping = getDiscreteModel().getDamping().getDepth();
+        int tubSize = 5;
+        final Rectangle rectangle = new Rectangle( damping, getWavefunction().getHeight() - damping - tubSize,
+                                                   getWavefunction().getWidth() - 2 * damping, tubSize );
         final WaveSource waveSource = new WaveSource( rectangle, planeWave );
-        waveSource.setNorm( 5.0 );
+//        waveSource.setNorm( 2.0 );
 
         planeWaveCheckbox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -152,6 +209,10 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         layoutPanel.add( planeWaveCheckbox );
         return layoutPanel;
+    }
+
+    private Wavefunction getWavefunction() {
+        return getDiscreteModel().getWavefunction();
     }
 
     private VerticalLayoutPanel createDetectorPanel() {
@@ -284,7 +345,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     private Potential createDoubleSlit() {
         Potential doubleSlit = new HorizontalDoubleSlit().createDoubleSlit( getDiscreteModel().getGridWidth(),
                                                                             getDiscreteModel().getGridHeight(),
-                                                                            (int)( getDiscreteModel().getGridWidth() * 0.4 ), 10, 10, 10, 20000000 );
+                                                                            (int)( getDiscreteModel().getGridWidth() * 0.4 ), 10, 5, 10, 20000000 );
         return doubleSlit;
     }
 
@@ -302,7 +363,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             public void stateChanged( ChangeEvent e ) {
                 int val = ( (Integer)gridWidth.getValue() ).intValue();
                 module.setGridSpacing( val, val );
-                addPotential( new ConstantPotential( 0.0 ) );
+//                addPotential( new ConstantPotential( 0.0 ) );
             }
         } );
         simulationPanel.addFullWidth( gridWidth );
@@ -339,11 +400,11 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton complexGray = createVisualizationButton( "Imaginary-Gray", new ImaginaryGrayColorMap( getSchrodingerPanel() ), false, buttonGroup );
         colorPanel.addFullWidth( complexGray );
 
-        JRadioButton blackBackground = createVisualizationButton( "HSB on Black", new DefaultColorMap( getSchrodingerPanel() ), false, buttonGroup );
-        colorPanel.addFullWidth( blackBackground );
-
-        JRadioButton whiteBackground = createVisualizationButton( "HSB on White", new DefaultWhiteColorMap( getSchrodingerPanel() ), false, buttonGroup );
-        colorPanel.addFullWidth( whiteBackground );
+//        JRadioButton blackBackground = createVisualizationButton( "HSB on Black", new DefaultColorMap( getSchrodingerPanel() ), false, buttonGroup );
+//        colorPanel.addFullWidth( blackBackground );
+//
+//        JRadioButton whiteBackground = createVisualizationButton( "HSB on White", new DefaultWhiteColorMap( getSchrodingerPanel() ), false, buttonGroup );
+//        colorPanel.addFullWidth( whiteBackground );
         return colorPanel;
     }
 
@@ -363,7 +424,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return module.getSchrodingerPanel();
     }
 
-    private void fireParticle() {
+    public void fireParticle() {
         //add the specified wavefunction everywhere, then renormalize..?
         //clear the old wavefunction.
 

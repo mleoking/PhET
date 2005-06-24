@@ -13,20 +13,20 @@ import java.awt.*;
 public class WaveSource extends DiscreteModel.Adapter {
     private Rectangle region;
     private BoundaryCondition boundaryCondition;
-    private double norm = 1.0;
+//    private double norm = 1.0;
 
     public WaveSource( Rectangle region, BoundaryCondition boundaryCondition ) {
         this.region = region;
         this.boundaryCondition = boundaryCondition;
     }
 
-    public double getNorm() {
-        return norm;
-    }
-
-    public void setNorm( double norm ) {
-        this.norm = norm;
-    }
+//    public double getNorm() {
+//        return norm;
+//    }
+//
+//    public void setNorm( double norm ) {
+//        this.norm = norm;
+//    }
 
     public void beforeTimeStep( DiscreteModel model ) {
         for( int i = region.x; i < region.x + region.width; i++ ) {
@@ -38,7 +38,7 @@ public class WaveSource extends DiscreteModel.Adapter {
                 }
             }
         }
-        model.getWavefunction().setNorm( norm );
+//        model.getWavefunction().setNorm( norm );
 //        Wavefunction.setNorm( model.getWavefunction(), norm );
     }
 }
