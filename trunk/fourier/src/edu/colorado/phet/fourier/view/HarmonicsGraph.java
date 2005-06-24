@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -34,8 +35,6 @@ import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.util.FourierLog;
 
 
 /**
@@ -45,7 +44,7 @@ import edu.colorado.phet.fourier.util.FourierLog;
  * @version $Revision$
  */
 public class HarmonicsGraph extends GraphicLayerSet 
-    implements SimpleObserver, ZoomListener, HarmonicFocusListener {
+    implements SimpleObserver, ZoomListener, HarmonicFocusListener, ModelElement {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -454,6 +453,10 @@ public class HarmonicsGraph extends GraphicLayerSet
         _mathForm = mathForm;
         updateLabelsAndLines();
         updateMath();
+        for ( int i = 0; i < _dataSetGraphics.size(); i++ ) {
+            HarmonicDataSetGraphic dataSetGraphic = (HarmonicDataSetGraphic) _dataSetGraphics.get( i );
+            dataSetGraphic.setStartX( 0 );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -656,5 +659,25 @@ public class HarmonicsGraph extends GraphicLayerSet
     private void updateMath() {
         _mathGraphic.setForm( _domain, _mathForm );
         _mathGraphic.setRegistrationPoint( _mathGraphic.getWidth() / 2, _mathGraphic.getHeight() ); // bottom center
+    }
+    
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Increments the size of the pie.
+     * 
+     * @param dt
+     */
+    public void stepInTime( double dt ) {
+        if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME && FourierConfig.ANIMATION_ENABLED ) {
+            double step = L/20; //XXX config constant
+            for ( int i = 0; i < _dataSetGraphics.size(); i++ ) {
+                HarmonicDataSetGraphic dataSetGraphic = (HarmonicDataSetGraphic) _dataSetGraphics.get( i );
+                double startX = dataSetGraphic.getStartX();
+                dataSetGraphic.setStartX( startX + (dt * step) );
+            }
+        }
     }
 }

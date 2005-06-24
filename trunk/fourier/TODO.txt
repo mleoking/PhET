@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- tune pixels-per-point based on the harmonic's order
 
 HIGH PRIORITY:
 - smooth out waveforms
@@ -11,7 +11,6 @@ HIGH PRIORITY:
 - persistence
 
 MEDIUM PRIORITY:
-- add SinePlot.setPointsPerPixel
 - something is hammering the processor when we should be idle
 - control panel resize & apparatus panel repaint problems when switching domains
 
@@ -48,6 +47,9 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/24) - add rough waveform animation to Harmonic graph
+(6/24) - add SinePlot.setPixelsPerPoint
+(6/24) - reuse points in SinePlot when the number of points hasn't changed
 (6/24) - migrate SinePlot to charts package
 (6/24) - change charts package to use double precision model-to-view transforms
 (6/24) - add double precision model-to-view methods to ModelViewTransform2D
