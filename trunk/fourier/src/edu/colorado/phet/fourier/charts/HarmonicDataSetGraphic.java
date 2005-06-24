@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Component;
 
 import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.chart.SinePlot;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
