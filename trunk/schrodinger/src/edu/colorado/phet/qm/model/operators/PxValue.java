@@ -23,7 +23,7 @@ public class PxValue {
                 sum = sum.plus( term );
             }
         }
-        if( Math.abs( sum.getImaginary() ) > 10E-8 ) {
+        if( Math.abs( sum.getImaginary() ) > 10E-3 ) {
             new RuntimeException( "imaginary part was substantial: c=" + sum ).printStackTrace();
         }
         return sum.getReal();

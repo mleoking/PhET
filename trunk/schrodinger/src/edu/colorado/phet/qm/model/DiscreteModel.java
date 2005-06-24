@@ -31,6 +31,7 @@ public class DiscreteModel {
     private boolean oneShotDetectors = true;
     public Damping damping;
     private VerticalETA verticalEta;
+    private boolean paused = false;
 
     public DiscreteModel( int width, int height ) {
         this( width, height, 1E-5, new EmptyWave(), new ZeroBoundaryCondition() );
@@ -103,8 +104,11 @@ public class DiscreteModel {
     }
 
     public void stepInTime( double dt ) {
+        if( !paused )
 //        System.out.println( "DiscreteModel.stepInTime" );
-        step();
+        {
+            step();
+        }
 //        System.out.println( "/DiscreteModel.stepInTime" );
     }
 
@@ -194,6 +198,10 @@ public class DiscreteModel {
 
     public Damping getDamping() {
         return damping;
+    }
+
+    public void setPaused( boolean b ) {
+        paused = b;
     }
 
     public static interface Listener {

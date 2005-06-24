@@ -41,13 +41,18 @@ public class VerticalETA extends DiscreteModel.Adapter {
     }
 
     public void particleFired( DiscreteModel discreteModel ) {
-        double py = new PyValue().compute( discreteModel.getWavefunction() );
-        double y0 = new YValue().compute( discreteModel.getWavefunction() ) * discreteModel.getWavefunction().getWidth();
+        this.eta = getETA( discreteModel.getWavefunction() );
+        time = 0;
+    }
+
+    public double getETA( Wavefunction wavefunction ) {
+        double py = new PyValue().compute( wavefunction );
+        double y0 = new YValue().compute( wavefunction ) * wavefunction.getWidth();
         double d = 0 - y0;
         System.out.println( "py = " + py );
-        eta = d / py;
+        double eta = d / py;
         System.out.println( "eta=" + eta );
         eta += eta / 8;//add some
-        time = 0;
+        return eta;
     }
 }
