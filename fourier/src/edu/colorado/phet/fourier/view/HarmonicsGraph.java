@@ -17,7 +17,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.DataSetGraphic;
 import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
@@ -28,10 +27,12 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
-import edu.colorado.phet.fourier.charts.HarmonicDataSet;
 import edu.colorado.phet.fourier.charts.HarmonicDataSetGraphic;
 import edu.colorado.phet.fourier.control.ZoomControl;
-import edu.colorado.phet.fourier.event.*;
+import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
+import edu.colorado.phet.fourier.event.HarmonicFocusListener;
+import edu.colorado.phet.fourier.event.ZoomEvent;
+import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.util.FourierLog;
@@ -125,7 +126,6 @@ public class HarmonicsGraph extends GraphicLayerSet
     private HarmonicsEquation _mathGraphic;
     private PhetTextGraphic _xAxisTitleGraphic;
     private String _xAxisTitleTime, _xAxisTitleSpace;
-    private ArrayList _dataSets; // array of HarmonicDataSet
     private ArrayList _dataSetGraphics; // array of HarmonicDataSetGraphic
     private ZoomControl _horizontalZoomControl;
     private int _xZoomLevel;
@@ -269,7 +269,6 @@ public class HarmonicsGraph extends GraphicLayerSet
 
         // Misc initialization
         {
-            _dataSets = new ArrayList();
             _dataSetGraphics = new ArrayList();
         }
         
@@ -435,8 +434,8 @@ public class HarmonicsGraph extends GraphicLayerSet
      */
     public void setWaveType( int waveType ) {
         assert( FourierConstants.isValidWaveType( waveType ) );
-        for ( int i = 0; i < _dataSets.size(); i++ ) {
-            ((HarmonicDataSet) _dataSets.get( i )).setWaveType( waveType );
+        for ( int i = 0; i < _dataSetGraphics.size(); i++ ) {
+            ((HarmonicDataSetGraphic) _dataSetGraphics.get( i )).setWaveType( waveType );
         }
     }
     
@@ -470,43 +469,41 @@ public class HarmonicsGraph extends GraphicLayerSet
         
         if ( numberOfHarmonics != _previousNumberOfHarmonics ) {
             
-            FourierLog.trace( "HarmonicsGraph.update" );
+            //FourierLog.trace( "HarmonicsGraph.update" );
 
             // Clear the chart.
             _chartGraphic.removeAllDataSetGraphics();
 
             // Re-populate the chart.
             for ( int i = 0; i < numberOfHarmonics; i++ ) {
-                Harmonic harmonic = _fourierSeries.getHarmonic( i );
 
-                HarmonicDataSet dataSet = null;
                 HarmonicDataSetGraphic dataSetGraphic = null;
-
                 if ( i < _dataSetGraphics.size() ) {
-                    // Reuse existing data sets & graphics.
-                    dataSet = (HarmonicDataSet) _dataSets.get( i );
-                    dataSet.setHarmonic( harmonic );
-
                     dataSetGraphic = (HarmonicDataSetGraphic) _dataSetGraphics.get( i );
-                    dataSetGraphic.setDataSet( dataSet );
                 }
                 else {
-                    // Allocate new data sets & graphics.
-                    dataSet = new HarmonicDataSet( harmonic, NUMBER_OF_DATA_POINTS, L, MAX_FUNDAMENTAL_CYCLES );
-                    _dataSets.add( dataSet );
-                    dataSet.setWaveType( _fourierSeries.getWaveType() );
-
-                    dataSetGraphic = new HarmonicDataSetGraphic( getComponent(), _chartGraphic, dataSet );
+                    // Allocate new data sets graphic.
+                    dataSetGraphic = new HarmonicDataSetGraphic( getComponent(), _chartGraphic );
                     _dataSetGraphics.add( dataSetGraphic );
                 }
-                assert ( _dataSets.size() == _dataSetGraphics.size() ); // programming error
-
+                
+                dataSetGraphic.setHarmonic( _fourierSeries.getHarmonic( i ) );
+                dataSetGraphic.setPeriod( L / ( i + 1 ) );
                 dataSetGraphic.setStroke( WAVE_NORMAL_STROKE );
-                Color harmonicColor = HarmonicColors.getInstance().getColor( i );
-                dataSetGraphic.setBorderColor( harmonicColor );
+                dataSetGraphic.setBorderColor( HarmonicColors.getInstance().getColor( i ) );
 
                 _chartGraphic.addDataSetGraphic( dataSetGraphic );
             }
+            
+            // XXX test
+//            {
+//                SinePlot sinePlot = new SinePlot( getComponent(), _chartGraphic );
+//                sinePlot.setPeriod( L );
+//                sinePlot.setAmplitude( 1 );
+//                sinePlot.setStroke( new BasicStroke( 1f ) );
+//                sinePlot.setBorderColor( Color.GREEN );
+//                _chartGraphic.addDataSetGraphic( sinePlot );
+//            }
             
             _previousNumberOfHarmonics = numberOfHarmonics;
         }

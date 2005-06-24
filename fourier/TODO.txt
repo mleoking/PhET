@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- create SineWave subclass of DataSetGraphic that changes what it draws to match the chart range
+
 
 HIGH PRIORITY:
 - smooth out waveforms
@@ -17,12 +17,15 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 - waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
+- smaller font for equation subscripts
 
 NEW FEATURES:
 
 
 OPTIMIZATIONS:
 - rewrite ZoomControl to use static shapes instead of images
+- flatten static elements
+- setIgnoreMouse
 
 CLEANUP:
 - organize imports
@@ -44,6 +47,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/24) - create SinePlot subclass of LinePlot that changes its data set to match the chart range
 (6/23) - move preset constants and accessor methods into FourierConstants
 (6/23) - moved math symbols out of Fourier.properties and into MathStrings
 (6/23) - consolidated all equation strings in MathStrings class
