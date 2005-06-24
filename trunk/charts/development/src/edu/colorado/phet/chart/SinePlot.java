@@ -48,6 +48,8 @@ public class SinePlot extends LinePlot {
     private double _startX;
     private boolean _cosineEnabled;
     private boolean _showZeroAmplitude;
+    private double _pixelsPerPoint;
+    private Point2D[] _points;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,6 +72,8 @@ public class SinePlot extends LinePlot {
         _startX = 0;
         _cosineEnabled = false;
         _showZeroAmplitude = true;
+        _pixelsPerPoint = 1.0;
+        _points = null;
 
         setDataSet( new DataSet() );
         
@@ -190,6 +194,28 @@ public class SinePlot extends LinePlot {
         return _showZeroAmplitude;
     }
     
+    /**
+     * Sets the number of pixels per data point.
+     * 
+     * @param pixelsPerPoint
+     */
+    public void setPixelsPerPoint( double pixelsPerPoint ) {
+        assert( pixelsPerPoint >= 1 );
+        if ( pixelsPerPoint != _pixelsPerPoint ) {
+            _pixelsPerPoint = pixelsPerPoint;
+            updateDataSet();
+        }
+    }
+    
+    /**
+     * Gets the number of pixels per data point.
+     * 
+     * @return the number of pixels per data point
+     */
+    public double getPixelsPerPoint() {
+        return _pixelsPerPoint;
+    }
+    
     //----------------------------------------------------------------------------
     // LinePlot overrides
     //----------------------------------------------------------------------------
@@ -239,15 +265,16 @@ public class SinePlot extends LinePlot {
                 // Number of pixels between the min and max X range.
                 double minPixel = modelToViewX( range.getMinX() );
                 double maxPixel = modelToViewX( range.getMaxX() );
-                int numberOfPixels = (int) ( maxPixel - minPixel + 1 );
+                double numberOfPixels = maxPixel - minPixel + 1;
+                int numberOfPoints = (int) ( numberOfPixels / _pixelsPerPoint );
 
                 // Change in X per pixel.
                 double extent = Math.abs( range.getMaxX() - range.getMinX() );
-                double deltaX = extent / numberOfPixels;
+                double deltaX = extent / numberOfPoints;
 
                 // Change in angle per pixel.
                 double cycles = extent / _period;
-                double deltaAngle = cycles * ( 2 * Math.PI ) / numberOfPixels;
+                double deltaAngle = cycles * ( 2 * Math.PI ) / numberOfPoints;
 
                 // Pixels between the beginning of the cycle and the range min.
                 double startPixel = modelToViewX( _startX );
@@ -258,9 +285,13 @@ public class SinePlot extends LinePlot {
                     startAngle = -startAngle;
                 }
 
-                // Create a point for each pixel.
-                Point2D[] points = new Point2D[numberOfPixels];
-                for ( int i = 0; i < numberOfPixels; i++ ) {
+                // Reuse the points if the count hasn't changed.
+                if ( _points == null || numberOfPoints != _points.length ) {
+                    _points = new Point2D.Double[numberOfPoints];
+                }
+                
+                // Create a point for each pixel.          
+                for ( int i = 0; i < numberOfPoints; i++ ) {
                     double x = range.getMinX() + ( i * deltaX );
                     double angle = startAngle + ( i * deltaAngle );
                     double y = 0;
@@ -270,11 +301,16 @@ public class SinePlot extends LinePlot {
                     else {
                         y = _amplitude * Math.sin( angle );
                     }
-                    points[i] = new Point2D.Double( x, y );
+                    if ( _points[i] == null ) {
+                        _points[i] = new Point2D.Double( x, y );
+                    }
+                    else {
+                        _points[i].setLocation( x, y );
+                    }
                 }
 
                 // Update the data set.
-                dataSet.addAllPoints( points );
+                dataSet.addAllPoints( _points );
             }
         }
     }
