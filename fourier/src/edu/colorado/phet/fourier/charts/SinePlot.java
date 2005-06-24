@@ -283,6 +283,13 @@ public class SinePlot extends LinePlot {
         }
     }
     
+    /*
+     * Encapsulates the algorithm used to convert from
+     * model coordinates to view coordinates.
+     * 
+     * @param x the x model coordinate to be converted
+     * @return the corresponding view x coordinate
+     */
     private double modelToViewX( double x ) {
         return getChart().transform( x, 0 ).getX();
     }
