@@ -3,11 +3,12 @@
 ===============================================================================
 
 IN PROGRESS:
-- tune pixels-per-point based on the harmonic's order
+
 
 HIGH PRIORITY:
-- smooth out waveforms
-- animate waveforms in space-&-time domain
+- tune pixels-per-point based on the harmonic's order
+- set animation speed in FourierConfig
+- add rough animation to Sum graph
 - persistence
 
 MEDIUM PRIORITY:
