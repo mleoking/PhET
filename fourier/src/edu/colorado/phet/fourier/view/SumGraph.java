@@ -306,6 +306,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         // Interactivity
         {
+            backgroundGraphic.setIgnoreMouse( true );
             titleGraphic.setIgnoreMouse( true );
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
