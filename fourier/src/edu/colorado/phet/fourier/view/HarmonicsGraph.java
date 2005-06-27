@@ -115,7 +115,8 @@ public class HarmonicsGraph extends GraphicLayerSet
     private static final Color WAVE_DIMMED_COLOR = Color.GRAY;
     private static final int NUMBER_OF_DATA_POINTS = 1000;
     private static final int MAX_FUNDAMENTAL_CYCLES = 4;
-
+    private static final double[] PIXELS_PER_POINT = { 6, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -484,22 +485,23 @@ public class HarmonicsGraph extends GraphicLayerSet
             // Re-populate the chart.
             for ( int i = 0; i < numberOfHarmonics; i++ ) {
 
-                HarmonicPlot dataSetGraphic = null;
+                HarmonicPlot harmonicPlot = null;
                 if ( i < _harmonicPlots.size() ) {
-                    dataSetGraphic = (HarmonicPlot) _harmonicPlots.get( i );
+                    harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
                 }
                 else {
                     // Allocate new data sets graphic.
-                    dataSetGraphic = new HarmonicPlot( getComponent(), _chartGraphic );
-                    _harmonicPlots.add( dataSetGraphic );
+                    harmonicPlot = new HarmonicPlot( getComponent(), _chartGraphic );
+                    _harmonicPlots.add( harmonicPlot );
                 }
                 
-                dataSetGraphic.setHarmonic( _fourierSeries.getHarmonic( i ) );
-                dataSetGraphic.setPeriod( L / ( i + 1 ) );
-                dataSetGraphic.setStroke( WAVE_NORMAL_STROKE );
-                dataSetGraphic.setBorderColor( HarmonicColors.getInstance().getColor( i ) );
+                harmonicPlot.setHarmonic( _fourierSeries.getHarmonic( i ) );
+                harmonicPlot.setPeriod( L / ( i + 1 ) );
+                harmonicPlot.setPixelsPerPoint( PIXELS_PER_POINT[i] );
+                harmonicPlot.setStroke( WAVE_NORMAL_STROKE );
+                harmonicPlot.setBorderColor( HarmonicColors.getInstance().getColor( i ) );
 
-                _chartGraphic.addDataSetGraphic( dataSetGraphic );
+                _chartGraphic.addDataSetGraphic( harmonicPlot );
             }
             
             _previousNumberOfHarmonics = numberOfHarmonics;
