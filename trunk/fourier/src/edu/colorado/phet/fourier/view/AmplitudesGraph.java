@@ -221,6 +221,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         
         // Interactivity
         {
+            backgroundGraphic.setIgnoreMouse( true );
             titleGraphic.setIgnoreMouse( true );
             _chartGraphic.setIgnoreMouse( true );
         }

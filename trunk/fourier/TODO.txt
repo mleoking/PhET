@@ -6,9 +6,9 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- tune pixels-per-point based on the harmonic's order
-- set animation speed in FourierConfig
-- add rough animation to Sum graph
+- Sum graph is broken in cosines mode, Y values are flipped for negative X
+- animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
+- sync PeriodDisplay
 - persistence
 
 MEDIUM PRIORITY:
@@ -48,6 +48,9 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/27) - fix FourierUtils.sin and cos
+(6/27) - setIgnoreMouse where possible
+(6/27) - use SinePlot.setPixelsPerPoint to optimize HarmonicsGraph somewhat
 (6/27) - reset all graphs whenever domain, preset or wave type changes
 (6/27) - add animation to Sum graph, sync sum and preset
 (6/27) - move sum charting code into FourierSumPlot

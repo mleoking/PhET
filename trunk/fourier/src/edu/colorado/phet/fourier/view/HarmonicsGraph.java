@@ -265,7 +265,10 @@ public class HarmonicsGraph extends GraphicLayerSet
 
         // Interactivity
         {
+            backgroundGraphic.setIgnoreMouse( true );
             titleGraphic.setIgnoreMouse( true );
+            _chartGraphic.setIgnoreMouse( true );
+            _mathGraphic.setIgnoreMouse( true );
             _horizontalZoomControl.addZoomListener( this );
         }
 
