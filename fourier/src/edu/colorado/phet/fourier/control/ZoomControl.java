@@ -21,6 +21,7 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
+import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 
@@ -62,16 +63,16 @@ public class ZoomControl extends GraphicLayerSet {
         
         PhetImageGraphic background;
         if ( orientation == HORIZONTAL ) {
-            background = new PhetImageGraphic( component, FourierConfig.ZOOM_BACKGROUND_HORIZONTAL_IMAGE );
+            background = new PhetImageGraphic( component, FourierConstants.ZOOM_BACKGROUND_HORIZONTAL_IMAGE );
         }
         else {
-            background = new PhetImageGraphic( component, FourierConfig.ZOOM_BACKGROUND_VERTICAL_IMAGE );
+            background = new PhetImageGraphic( component, FourierConstants.ZOOM_BACKGROUND_VERTICAL_IMAGE );
         }
         addGraphic( background );
 
-        _inButton = new PhetImageGraphic( component, FourierConfig.ZOOM_IN_BUTTON_IMAGE );
-        _inButtonPressed = new PhetImageGraphic( component, FourierConfig.ZOOM_IN_BUTTON_PRESSED_IMAGE );
-        _inButtonDisabled = new PhetImageGraphic( component, FourierConfig.ZOOM_IN_BUTTON_DISABLED_IMAGE );
+        _inButton = new PhetImageGraphic( component, FourierConstants.ZOOM_IN_BUTTON_IMAGE );
+        _inButtonPressed = new PhetImageGraphic( component, FourierConstants.ZOOM_IN_BUTTON_PRESSED_IMAGE );
+        _inButtonDisabled = new PhetImageGraphic( component, FourierConstants.ZOOM_IN_BUTTON_DISABLED_IMAGE );
         _inButton.setLocation( IN_LOCATION );
         _inButtonPressed.setLocation( IN_LOCATION );
         _inButtonDisabled.setLocation( IN_LOCATION );
@@ -79,9 +80,9 @@ public class ZoomControl extends GraphicLayerSet {
         addGraphic( _inButtonPressed );
         addGraphic( _inButtonDisabled );
         
-        _outButton = new PhetImageGraphic( component, FourierConfig.ZOOM_OUT_BUTTON_IMAGE );
-        _outButtonPressed = new PhetImageGraphic( component, FourierConfig.ZOOM_OUT_BUTTON_PRESSED_IMAGE );
-        _outButtonDisabled = new PhetImageGraphic( component, FourierConfig.ZOOM_OUT_BUTTON_DISABLED_IMAGE );
+        _outButton = new PhetImageGraphic( component, FourierConstants.ZOOM_OUT_BUTTON_IMAGE );
+        _outButtonPressed = new PhetImageGraphic( component, FourierConstants.ZOOM_OUT_BUTTON_PRESSED_IMAGE );
+        _outButtonDisabled = new PhetImageGraphic( component, FourierConstants.ZOOM_OUT_BUTTON_DISABLED_IMAGE );
         _outButton.setLocation( OUT_LOCATION );
         _outButtonPressed.setLocation( OUT_LOCATION );
         _outButtonDisabled.setLocation( OUT_LOCATION );

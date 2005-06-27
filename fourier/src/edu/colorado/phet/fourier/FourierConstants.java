@@ -30,7 +30,22 @@ public class FourierConstants {
     // Constants
     //----------------------------------------------------------------------------
     
-    public static final double L = 1.0; // arbitrary value for the symbol L (length of the fundamental harmonic)
+    /** Arbitrary value for the length (L) of the fundamental harmonic */
+    public static final double L = 1.0;
+    
+    //----------------------------------------------------------------------------
+    // Images
+    //----------------------------------------------------------------------------
+
+    private static final String IMAGES_DIRECTORY = "images/";
+    public static final String ZOOM_BACKGROUND_HORIZONTAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundHorizontal.png";
+    public static final String ZOOM_BACKGROUND_VERTICAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundVertical.png";
+    public static final String ZOOM_IN_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomInButton.png";
+    public static final String ZOOM_IN_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomInButtonPressed.png";
+    public static final String ZOOM_IN_BUTTON_DISABLED_IMAGE = IMAGES_DIRECTORY + "zoomInButtonDisabled.png";
+    public static final String ZOOM_OUT_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomOutButton.png";
+    public static final String ZOOM_OUT_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonPressed.png";
+    public static final String ZOOM_OUT_BUTTON_DISABLED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonDisabled.png";
     
     //----------------------------------------------------------------------------
     // Amplitude coefficients, precomputed for 11 harmonics
@@ -311,10 +326,12 @@ public class FourierConstants {
     public static final int MATH_FORM_WAVE_NUMBER_AND_ANGULAR_FREQUENCY = 6;
     public static final int MATH_FORM_WAVELENGTH_AND_PERIOD = 7;
     
-    //----------------------------------------------------------------------------
-    // Validation methods
-    //----------------------------------------------------------------------------
-    
+    /**
+     * Validator for the "domain" enumaration.
+     * 
+     * @param domain
+     * @return true or false
+     */
     public static boolean isValidDomain( int domain ) {
         boolean isValid = false;
         switch ( domain ) {
@@ -329,6 +346,12 @@ public class FourierConstants {
         return isValid;
     }
     
+    /**
+     * Validator for the "preset" enumeration.
+     * 
+     * @param preset
+     * @return true or false
+     */
     public static boolean isValidPreset( int preset ) {
         boolean isValid = false;
         switch ( preset ) {
@@ -346,6 +369,12 @@ public class FourierConstants {
         return isValid;
     }
     
+    /**
+     * Validator for the "wave type" enumeration.
+     * 
+     * @param waveType
+     * @return true or false
+     */
     public static boolean isValidWaveType( int waveType ) {
         boolean isValid = false;
         switch ( waveType ) {
@@ -359,6 +388,12 @@ public class FourierConstants {
         return isValid;
     }
     
+    /**
+     * Validator for the "math form" enumeration.
+     * 
+     * @param mathForm
+     * @return true or false
+     */
     public static boolean isValidMathForm( int mathForm ) {
         boolean isValid = false;
         switch ( mathForm ) {
