@@ -61,13 +61,13 @@ public class SoundPanel extends JPanel {
         
         //  Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, TITLED_BORDER_WIDTH );
-        String title = SimStrings.get( "DiscreteControlPanel.title.sound" );
+        String title = SimStrings.get( "SoundPanel.title" );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
         setBorder( titleBorder );
 
         // Fundamental frequency
         {
-            String format = SimStrings.get( "DiscreteControlPanel.fundamentalFrequency" );
+            String format = SimStrings.get( "SoundPanel.fundamentalFrequency" );
             _fundamentalFrequencySlider = new FourierSlider( format );
             _fundamentalFrequencySlider.setMaximum( 1200 );
             _fundamentalFrequencySlider.setMinimum( 200 );
@@ -78,7 +78,7 @@ public class SoundPanel extends JPanel {
         }
 
         // Play Sound
-        _playSoundCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.playSound" ) );
+        _playSoundCheckBox = new JCheckBox( SimStrings.get( "SoundPanel.playSound" ) );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
