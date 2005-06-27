@@ -21,6 +21,9 @@ package edu.colorado.phet.fourier;
  */
 public class FourierConfig {
 
+    /* This class is not intended for instantiation. */
+    private FourierConfig() {}
+    
     //----------------------------------------------------------------------------
     // Debugging switches
     //----------------------------------------------------------------------------
@@ -51,23 +54,9 @@ public class FourierConfig {
     public static final boolean CLOCK_ENABLE_CONTROLS = true;
     
     //----------------------------------------------------------------------------
-    // Images
-    //----------------------------------------------------------------------------
-
-    private static final String IMAGES_DIRECTORY = "images/";
-    public static final String ZOOM_BACKGROUND_HORIZONTAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundHorizontal.png";
-    public static final String ZOOM_BACKGROUND_VERTICAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundVertical.png";
-    public static final String ZOOM_IN_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomInButton.png";
-    public static final String ZOOM_IN_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomInButtonPressed.png";
-    public static final String ZOOM_IN_BUTTON_DISABLED_IMAGE = IMAGES_DIRECTORY + "zoomInButtonDisabled.png";
-    public static final String ZOOM_OUT_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomOutButton.png";
-    public static final String ZOOM_OUT_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonPressed.png";
-    public static final String ZOOM_OUT_BUTTON_DISABLED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonDisabled.png";
-    
-    //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
-    
+
     public static final String FONT_NAME = "Lucida Sans";
     
     //----------------------------------------------------------------------------
@@ -79,11 +68,9 @@ public class FourierConfig {
     public static final double MAX_HARMONIC_AMPLITUDE = ( 4 / Math.PI );
     
     //----------------------------------------------------------------------------
-    // Constructors
+    // Animation
     //----------------------------------------------------------------------------
 
-    /**
-     * This class is not intended for instantiation.
-     */
-    private FourierConfig() {}
+//    public static final double 
+
 }
