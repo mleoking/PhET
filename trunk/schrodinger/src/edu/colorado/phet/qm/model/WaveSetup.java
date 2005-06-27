@@ -9,6 +9,6 @@ package edu.colorado.phet.qm.model;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public interface InitialWavefunction {
+public interface WaveSetup {
     void initialize( Wavefunction wavefunction );
 }

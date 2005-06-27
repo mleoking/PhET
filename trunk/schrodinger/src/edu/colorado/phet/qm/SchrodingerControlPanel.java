@@ -132,7 +132,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         addControlFullWidth( boundaryPanel );
 
         VerticalLayoutPanel propagatorPanel = createPropagatorPanel();
-//        addControlFullWidth( propagatorPanel );
+        addControlFullWidth( propagatorPanel );
 
         VerticalLayoutPanel intensityPanel = createIntensityPanel();
         addControlFullWidth( intensityPanel );
@@ -192,24 +192,25 @@ public class SchrodingerControlPanel extends ControlPanel {
     private VerticalLayoutPanel createBoundaryPanel() {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
+
+        layoutPanel.add( createPlaneWaveBox() );
+        layoutPanel.add( createCylinderWaveBox() );
+
+        return layoutPanel;
+    }
+
+    private JCheckBox createPlaneWaveBox() {
         final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
-//        final PlaneWave planeWave = new PlaneWave( 40 * Math.PI, getDiscreteModel().getGridWidth() );
-//        double k=1/10.0*Math.PI;
-//        double k=3/10.0*Math.PI;
         double scale = 1.0;
         double k = 1.0 / 10.0 * Math.PI * scale;
-        final PlaneWave planeWave = new PlaneWave( k, getDiscreteModel().getGridWidth() );
+        final PlaneWaveSetup planeWave = new PlaneWaveSetup( k, getDiscreteModel().getGridWidth() );
 
         planeWave.setScale( 0.015 );
-//        int insetY = 0;
-//        int width = 3;
-//        final Rectangle rectangle = new Rectangle( getDiscreteModel().getGridWidth() - width-getDiscreteModel().getDamping().getDepth(), insetY, width, getDiscreteModel().getGridHeight() - insetY * 2 );
         int damping = getDiscreteModel().getDamping().getDepth();
         int tubSize = 5;
         final Rectangle rectangle = new Rectangle( damping, getWavefunction().getHeight() - damping - tubSize,
                                                    getWavefunction().getWidth() - 2 * damping, tubSize );
         final WaveSource waveSource = new WaveSource( rectangle, planeWave );
-//        waveSource.setNorm( 2.0 );
 
         planeWaveCheckbox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -221,9 +222,46 @@ public class SchrodingerControlPanel extends ControlPanel {
                 }
             }
         } );
-        layoutPanel.add( planeWaveCheckbox );
-        return layoutPanel;
+        return planeWaveCheckbox;
     }
+
+    private JCheckBox createCylinderWaveBox() {
+        final JCheckBox cylinderBox = new JCheckBox( "Cylinder Wave" );
+        double scale = 1.0;
+        double k = 1.0 / 10.0 * Math.PI * scale;
+        k *= 2;
+        final PlaneWaveSetup planeWave = new PlaneWaveSetup( k, getDiscreteModel().getGridWidth() );
+        planeWave.setScale( 0.055 );
+        Rectangle bounds = createRectRegion();
+
+        final CylinderSource waveSource = new CylinderSource( bounds, planeWave );
+
+        cylinderBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if( cylinderBox.isSelected() ) {
+                    Rectangle rectangle = createRectRegion();
+                    waveSource.setRegion( rectangle );
+                    getDiscreteModel().addListener( waveSource );
+                }
+                else {
+                    getDiscreteModel().removeListener( waveSource );
+                }
+            }
+        } );
+        return cylinderBox;
+    }
+
+    private Rectangle createRectRegion() {
+        int damping = getDiscreteModel().getDamping().getDepth();
+//        int tubSize = 5;
+        int cylinderRadius = 8;
+        Point center = new Point( getWavefunction().getHeight() / 2, getWavefunction().getHeight() - damping - cylinderRadius );
+        Point corner = new Point( center.x + cylinderRadius, center.y + cylinderRadius );
+        Rectangle rectangle = new Rectangle();
+        rectangle.setFrameFromCenter( center, corner );
+        return rectangle;
+    }
+
 
     private Wavefunction getWavefunction() {
         return getDiscreteModel().getWavefunction();
@@ -329,13 +367,21 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         layoutPanel.add( clear );
 
-        JButton doubleSlit = new JButton( "Add Double Slit" );
+        final HorizontalDoubleSlit doubleSlitPotential = createDoubleSlit();
+        final JCheckBox doubleSlit = new JCheckBox( "Double Slit", false );
         doubleSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                addPotential( createDoubleSlit() );
+                if( doubleSlit.isSelected() ) {
+                    addPotential( doubleSlitPotential );
+                }
+                else {
+                    removePotential( doubleSlitPotential );
+                }
             }
         } );
         layoutPanel.add( doubleSlit );
+        VerticalLayoutPanel configureDoubleSlit = new ConfigureHorizontalSlitPanel( doubleSlitPotential );
+        layoutPanel.add( configureDoubleSlit );
 
         JButton slopingLeft = new JButton( "Add Slope" );
         slopingLeft.addActionListener( new ActionListener() {
@@ -356,6 +402,10 @@ public class SchrodingerControlPanel extends ControlPanel {
         return layoutPanel;
     }
 
+    private void removePotential( Potential potential ) {
+        getSchrodingerPanel().getDiscreteModel().removePotential( potential );
+    }
+
     private void clearPotential() {
         module.getDiscreteModel().clearPotential();
         getSchrodingerPanel().clearPotential();
@@ -365,10 +415,12 @@ public class SchrodingerControlPanel extends ControlPanel {
         return new SimpleGradientPotential( 0.01 );
     }
 
-    private Potential createDoubleSlit() {
-        Potential doubleSlit = new HorizontalDoubleSlit().createDoubleSlit( getDiscreteModel().getGridWidth(),
-                                                                            getDiscreteModel().getGridHeight(),
-                                                                            (int)( getDiscreteModel().getGridWidth() * 0.4 ), 10, 5, 10, 20000000 );
+    private HorizontalDoubleSlit createDoubleSlit() {
+
+        double potentialValue = 200E12;
+        HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getDiscreteModel().getGridWidth(),
+                                                                    getDiscreteModel().getGridHeight(),
+                                                                    (int)( getDiscreteModel().getGridWidth() * 0.4 ), 10, 5, 10, potentialValue );
         return doubleSlit;
     }
 
@@ -456,9 +508,9 @@ public class SchrodingerControlPanel extends ControlPanel {
         double px = getStartPx();
         double py = getStartPy();
         double dxLattice = getStartDxLattice();
-        InitialWavefunction initialWavefunction = new GaussianWave( new Point( (int)x, (int)y ),
-                                                                    new Vector2D.Double( px, py ), dxLattice );
-        module.fireParticle( initialWavefunction );
+        WaveSetup waveSetup = new GaussianWaveSetup( new Point( (int)x, (int)y ),
+                                                     new Vector2D.Double( px, py ), dxLattice );
+        module.fireParticle( waveSetup );
     }
 
     private double getStartDxLattice() {

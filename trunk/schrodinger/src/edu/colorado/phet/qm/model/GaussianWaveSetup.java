@@ -12,11 +12,11 @@ import java.awt.*;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class GaussianWave implements InitialWavefunction {
+public class GaussianWaveSetup implements WaveSetup {
     private GaussianWave1D xWave;
     private GaussianWave1D yWave;
 
-    public GaussianWave( Point center, Vector2D momentum, double dxLattice ) {
+    public GaussianWaveSetup( Point center, Vector2D momentum, double dxLattice ) {
         this.xWave = new GaussianWave1D( momentum.getX(), center.x, dxLattice );
         this.yWave = new GaussianWave1D( momentum.getY(), center.y, dxLattice );
     }

@@ -18,7 +18,7 @@ public class RichardsonPropagator implements Propagator {
     private double deltaTime;
     private int timeStep;
 
-    private BoundaryCondition boundaryCondition;
+    private Wave wave;
     private Potential potential;
 
     private double hbar, mass, epsilon;
@@ -29,9 +29,9 @@ public class RichardsonPropagator implements Propagator {
 
     public Wavefunction copy;
 
-    public RichardsonPropagator( double TAU, BoundaryCondition boundaryCondition, Potential potential ) {
+    public RichardsonPropagator( double TAU, Wave wave, Potential potential ) {
         this.deltaTime = TAU;
-        this.boundaryCondition = boundaryCondition;
+        this.wave = wave;
         this.potential = potential;
         simulationTime = 0.0;
         timeStep = 0;

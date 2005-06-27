@@ -11,7 +11,7 @@ import edu.colorado.phet.common.view.PhetLookAndFeel;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
-import edu.colorado.phet.qm.model.InitialWavefunction;
+import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.DetectorGraphic;
 import edu.colorado.phet.qm.view.RectangularPotentialGraphic;
@@ -80,8 +80,8 @@ public class SchrodingerModule extends Module {
 
     }
 
-    public void fireParticle( InitialWavefunction initialWavefunction ) {
-        discreteModel.fireParticle( initialWavefunction );
+    public void fireParticle( WaveSetup waveSetup ) {
+        discreteModel.fireParticle( waveSetup );
         schrodingerPanel.updateGraphics();
     }
 

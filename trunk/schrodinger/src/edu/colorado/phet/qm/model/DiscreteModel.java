@@ -23,8 +23,8 @@ public class DiscreteModel {
     private Propagator propagator;
     private int timeStep;
     private double deltaTime;
-    private InitialWavefunction initialWavefunction;
-    private BoundaryCondition boundaryCondition;
+    private WaveSetup waveSetup;
+    private Wave wave;
     private ArrayList listeners = new ArrayList();
     private DetectorSet detectorSet;
     private boolean detectionCausesCollapse = true;
@@ -34,19 +34,19 @@ public class DiscreteModel {
     private boolean paused = false;
 
     public DiscreteModel( int width, int height ) {
-        this( width, height, 1E-5, new EmptyWave(), new ZeroBoundaryCondition() );
+        this( width, height, 1E-5, new EmptyWaveSetup(), new ZeroWave() );
     }
 
-    public DiscreteModel( int width, int height, double deltaTime, InitialWavefunction initialWavefunction,
-                          BoundaryCondition boundaryCondition ) {
+    public DiscreteModel( int width, int height, double deltaTime, WaveSetup waveSetup,
+                          Wave wave ) {
         this.compositePotential = new CompositePotential();
         this.deltaTime = deltaTime;
-        this.initialWavefunction = initialWavefunction;
-        this.boundaryCondition = boundaryCondition;
+        this.waveSetup = waveSetup;
+        this.wave = wave;
         wavefunction = new Wavefunction( width, height );
         detectorSet = new DetectorSet( wavefunction );
-        initialWavefunction.initialize( wavefunction );
-        propagator = new ModifiedRichardsonPropagator( deltaTime, boundaryCondition, compositePotential );
+        waveSetup.initialize( wavefunction );
+        propagator = new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential );
         addListener( detectorSet.getListener() );
 
         damping = new Damping();
@@ -120,8 +120,8 @@ public class DiscreteModel {
         return timeStep;
     }
 
-    public void fireParticle( InitialWavefunction initialWavefunction ) {
-        initialWavefunction.initialize( wavefunction );
+    public void fireParticle( WaveSetup waveSetup ) {
+        waveSetup.initialize( wavefunction );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.particleFired( this );
@@ -131,7 +131,7 @@ public class DiscreteModel {
     public void setGridSpacing( int nx, int ny ) {
         if( nx != getGridWidth() || ny != getGridHeight() ) {
             wavefunction.setSize( nx, ny );
-            initialWavefunction.initialize( wavefunction );
+            waveSetup.initialize( wavefunction );
             notifySizeChanged();
         }
     }
@@ -204,6 +204,10 @@ public class DiscreteModel {
         paused = b;
     }
 
+    public void removePotential( Potential potential ) {
+        this.compositePotential.removePotential( potential );
+    }
+
     public static interface Listener {
         void finishedTimeStep( DiscreteModel model );
 
@@ -234,12 +238,12 @@ public class DiscreteModel {
         }
     }
 
-    public BoundaryCondition getBoundaryCondition() {
-        return boundaryCondition;
+    public Wave getBoundaryCondition() {
+        return wave;
     }
 
-    public void setBoundaryCondition( BoundaryCondition boundaryCondition ) {
-        this.boundaryCondition = boundaryCondition;
+    public void setBoundaryCondition( Wave wave ) {
+        this.wave = wave;
     }
 
     public boolean isDetectionCausesCollapse() {

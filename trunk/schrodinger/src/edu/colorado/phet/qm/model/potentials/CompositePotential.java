@@ -31,4 +31,8 @@ public class CompositePotential implements Potential {
     public void clear() {
         p.clear();
     }
+
+    public void removePotential( Potential potential ) {
+        p.remove( potential );
+    }
 }

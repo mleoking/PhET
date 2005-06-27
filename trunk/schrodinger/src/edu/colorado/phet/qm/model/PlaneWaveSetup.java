@@ -9,13 +9,13 @@ package edu.colorado.phet.qm.model;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class PlaneWave implements BoundaryCondition, InitialWavefunction {
+public class PlaneWaveSetup implements Wave, WaveSetup {
     private double k;
     private double gridHeight;
 
     private double scale = 1.0;
 
-    public PlaneWave( double k, double gridHeight ) {
+    public PlaneWaveSetup( double k, double gridHeight ) {
         this.k = k;
         this.gridHeight = gridHeight;
     }
@@ -28,9 +28,9 @@ public class PlaneWave implements BoundaryCondition, InitialWavefunction {
         this.scale = scale;
     }
 
-    public void setValue( Wavefunction w, int i, int j, double simulationTime ) {
-        w.setValue( i, j, getValueImpl( i, j, simulationTime ) );
-    }
+//    public void setValue( Wavefunction w, int i, int j, double simulationTime ) {
+//        w.setValue( i, j, getValueImpl( i, j, simulationTime ) );
+//    }
 
     private Complex getValueImpl( int i, int j, double t ) {
         Complex complex = new Complex( Math.cos( k * j / gridHeight - k * k * t ), Math.sin( k * j / gridHeight - k * k * t ) );
@@ -45,7 +45,8 @@ public class PlaneWave implements BoundaryCondition, InitialWavefunction {
     public void initialize( Wavefunction wavefunction ) {
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {
             for( int j = 0; j < wavefunction.getHeight(); j++ ) {
-                setValue( wavefunction, i, j, 0 );
+                Complex value = getValueImpl( i, j, 0 );
+                wavefunction.setValue( i, j, value );
             }
         }
     }

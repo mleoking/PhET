@@ -9,7 +9,7 @@ package edu.colorado.phet.qm.model;
  * Copyright (c) Jun 11, 2005 by Sam Reid
  */
 
-public class EmptyWave implements InitialWavefunction {
+public class EmptyWaveSetup implements WaveSetup {
     public void initialize( Wavefunction wavefunction ) {
         wavefunction.clear();
     }

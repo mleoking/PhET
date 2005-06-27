@@ -96,7 +96,7 @@ public class DetectorSet {
 
     public void collapse( Point collapsePoint, int collapseLatticeDX ) {
         double px = new PxValue().compute( getWavefunction() );
-        new GaussianWave( collapsePoint, new Vector2D.Double( px, 0 ), collapseLatticeDX ).initialize( getWavefunction() );
+        new GaussianWaveSetup( collapsePoint, new Vector2D.Double( px, 0 ), collapseLatticeDX ).initialize( getWavefunction() );
     }
 
     private Wavefunction getWavefunction() {

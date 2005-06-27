@@ -8,8 +8,6 @@ package edu.colorado.phet.qm.model;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public interface BoundaryCondition {
-    void setValue( Wavefunction w, int i, int j, double simulationTime );
-
+public interface Wave {
     Complex getValue( int i, int j, double simulationTime );
 }

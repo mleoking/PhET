@@ -9,10 +9,10 @@ package edu.colorado.phet.qm.model;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class ZeroBoundaryCondition implements BoundaryCondition {
-    public void setValue( Wavefunction w, int i, int j, double simulationTime ) {
-        w.valueAt( i, j ).zero();
-    }
+public class ZeroWave implements Wave {
+//    public void setValue( Wavefunction w, int i, int j, double simulationTime ) {
+//        w.valueAt( i, j ).zero();
+//    }
 
     public Complex getValue( int xmesh, int j, double simulationTime ) {
         return new Complex();

@@ -14,6 +14,8 @@ import edu.colorado.phet.qm.model.Wavefunction;
 
 public class XValue {
     public double compute( Wavefunction w ) {
+        w = w.copy();
+        w.normalize();
         Complex sum = new Complex();
         for( int i = 0; i < w.getWidth(); i++ ) {
             for( int j = 0; j < w.getHeight(); j++ ) {
