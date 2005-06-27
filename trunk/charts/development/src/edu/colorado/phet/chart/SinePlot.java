@@ -282,18 +282,18 @@ public class SinePlot extends LinePlot {
                 final double startPixel = modelToViewX( _startX );
 
                 // Starting angle at the range min.
-                double startAngle = Math.abs( startPixel - minPixel ) * deltaAngle;
+                double startAngle = Math.abs( ( startPixel - minPixel ) / _pixelsPerPoint ) * deltaAngle;
                 if ( startPixel > minPixel ) {
                     startAngle = -startAngle;
                 }
 
                 // Reuse the points if the count hasn't changed.
-                if ( _points == null || numberOfPoints != _points.length ) {
-                    _points = new Point2D.Double[numberOfPoints];
+                if ( _points == null || numberOfPoints + 1 != _points.length ) {
+                    _points = new Point2D.Double[ numberOfPoints + 1];
                 }
                 
                 // Create points.          
-                for ( int i = 0; i < numberOfPoints; i++ ) {
+                for ( int i = 0; i <= numberOfPoints; i++ ) {
                     final double x = range.getMinX() + ( i * deltaX );
                     final double angle = startAngle + ( i * deltaAngle );
                     double y = 0;
