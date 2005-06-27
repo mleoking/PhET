@@ -21,6 +21,7 @@ import java.text.NumberFormat;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.chart.*;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -31,13 +32,11 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
+import edu.colorado.phet.fourier.charts.FourierSumPlot;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.util.FourierLog;
-import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
@@ -46,7 +45,7 @@ import edu.colorado.phet.fourier.util.FourierUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomListener {
+public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomListener, ModelElement {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -135,8 +134,8 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private SumEquation _mathGraphic;
     private PhetTextGraphic _xAxisTitleGraphic;
     private String _xAxisTitleTime, _xAxisTitleSpace;
-    private DataSet _sumDataSet;
-    private DataSet _presetDataSet;
+    private FourierSumPlot _sumPlot;
+    private LinePlot _presetPlot;
     private ZoomControl _horizontalZoomControl, _verticalZoomControl;
     private JCheckBox _autoScaleCheckBox;
     private int _xZoomLevel;
@@ -146,8 +145,9 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private LabelTable _timeLabels1, _timeLabels2;
     private boolean _autoScaleEnabled;
     private Point2D[] _points;
-    private boolean _presetEnabled;
     private int _previousNumberOfHarmonics;
+    private int _previousPreset;
+    private int _previousWaveType;
     
     //----------------------------------------------------------------------------
     // Constructors & finalizers
@@ -291,29 +291,32 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
                     _verticalZoomControl.getY() + _verticalZoomControl.getHeight() + 5 );
         }
         
-        // Preset data set
-        _presetDataSet = new DataSet();
-        DataSetGraphic presetDataSetGraphic = new LinePlot( getComponent(), _chartGraphic, _presetDataSet, PRESET_STROKE, PRESET_COLOR );
-        _chartGraphic.addDataSetGraphic( presetDataSetGraphic );
+        // Preset plot
+        _presetPlot = new LinePlot( getComponent(), _chartGraphic, new DataSet(), PRESET_STROKE, PRESET_COLOR );
+        _chartGraphic.addDataSetGraphic( _presetPlot );
         
-        // Sum data set
-        _sumDataSet = new DataSet();
-        DataSetGraphic sumDataSetGraphic = new LinePlot( getComponent(), _chartGraphic, _sumDataSet, SUM_STROKE, SUM_COLOR );
-        _chartGraphic.addDataSetGraphic( sumDataSetGraphic );
+        // Sum plot
+        _sumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _fourierSeries );
+        _sumPlot.setPeriod( L );
+        _sumPlot.setStroke( SUM_STROKE );
+        _sumPlot.setBorderColor( SUM_COLOR );
+        _chartGraphic.addDataSetGraphic( _sumPlot );
         
         // Interactivity
         {
             titleGraphic.setIgnoreMouse( true );
+            _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
+            
             _horizontalZoomControl.addZoomListener( this );
             _verticalZoomControl.addZoomListener( this );
+            
             EventListener listener = new EventListener();
             _autoScaleCheckBox.addActionListener( listener );
         }
         
         // Misc initialization
         {
-            _presetEnabled = false;
             _points = new Point2D[ NUMBER_OF_DATA_POINTS + 1 ];
             for ( int i = 0; i < _points.length; i++ ) {
                 _points[ i ] = new Point2D.Double();
@@ -346,7 +349,10 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _autoScaleCheckBox.setSelected( _autoScaleEnabled );
             updateLabelsAndLines();
             updateZoomButtons();
+            _presetPlot.setVisible( false );
         }
+        
+        _domain = FourierConstants.DOMAIN_SPACE;
         
         // Math Mode
         _mathForm = FourierConstants.MATH_FORM_WAVE_NUMBER;
@@ -355,6 +361,8 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         // Synchronize with model
         _previousNumberOfHarmonics = 0; // force an update
+        _previousPreset = -1;
+        _previousWaveType = -1;
         update();
     }
     
@@ -481,6 +489,8 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         _mathForm = mathForm;
         updateLabelsAndLines();
         updateMath();
+        _previousPreset = -1;
+        update();
     }
     
     /**
@@ -497,10 +507,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     }
     
     public void setPresetEnabled( boolean enabled ) {
-        if ( enabled != _presetEnabled ) {
-            _presetEnabled = enabled;
-            update();
-        }
+            _presetPlot.setVisible( enabled );
     }
 
     //----------------------------------------------------------------------------
@@ -514,98 +521,56 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
 
         //FourierLog.trace( "SumGraph.update" );
         
-        _sumDataSet.clear();
-
-        final int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
-        final int waveType = _fourierSeries.getWaveType();
-        double maxSum = FourierConfig.MAX_HARMONIC_AMPLITUDE;
-        final double deltaX = ( MAX_FUNDAMENTAL_CYCLES * L ) / NUMBER_OF_DATA_POINTS;
-        final double startX = -2 * L;
-        final double startAngle = 0.0;
+        _sumPlot.updateDataSet();
         
-        for ( int harmonicIndex = 0; harmonicIndex < numberOfHarmonics; harmonicIndex++ ) {
-
-            Harmonic harmonic = (Harmonic) _fourierSeries.getHarmonic( harmonicIndex );
-            final double amplitude = harmonic.getAmplitude();
-            final int numberOfCycles = MAX_FUNDAMENTAL_CYCLES * ( harmonic.getOrder() + 1 );
-            final double pointsPerCycle = NUMBER_OF_DATA_POINTS / (double) numberOfCycles;
-            final double deltaAngle = ( 2.0 * Math.PI ) / pointsPerCycle;
-
-            for ( int pointIndex = 0; pointIndex < _points.length; pointIndex++ ) {
-
-                // Clear the points the first time through.
-                if ( harmonicIndex == 0 ) {
-                    final double x = startX + ( pointIndex * deltaX );
-                    final double y = 0;
-                    _points[pointIndex].setLocation( x, y );
-                }
-
-                // Add the Y contribution for harmonics with non-zero amplitude.
-                if ( amplitude != 0 ) {
-                    final double angle = startAngle + ( pointIndex * deltaAngle );
-                    double radians;
-                    if ( waveType == FourierConstants.WAVE_TYPE_SINE ) {
-                        radians = FourierUtils.sin( angle );
-                    }
-                    else {
-                        radians = FourierUtils.cos( angle );
-                    }
-
-                    final double x = startX + ( pointIndex * deltaX );
-                    final double y = _points[pointIndex].getY() + ( amplitude * radians );
-                    _points[pointIndex].setLocation( x, y );
-                }
-
-                // Determine the max Y value the last time through.
-                if ( harmonicIndex == numberOfHarmonics - 1 ) {
-                    final double absoluteY = Math.abs( _points[pointIndex].getY() );
-                    if ( absoluteY > maxSum ) {
-                        maxSum = absoluteY;
-                    }
-                }
-            }
-        }
-        
-        // Add the points the the data set.
-        _sumDataSet.addAllPoints( _points );
-
         // If auto scaling is enabled, adjust the vertical scale to fit the curve.
         if ( _autoScaleEnabled ) {
             Range2D range = _chartGraphic.getRange();
-            if ( maxSum != range.getMaxY() ) {
-                range.setMinY( -maxSum );
-                range.setMaxY( +maxSum );
+            double maxAmplitude = _sumPlot.getMaxAmplitude();
+            if ( maxAmplitude != range.getMaxY() ) {
+                range.setMinY( -maxAmplitude );
+                range.setMaxY( +maxAmplitude );
                 _chartGraphic.setRange( range );
                 updateLabelsAndLines();
                 updateZoomButtons();
             }
         }
-        
-        // Preset data set
-        _presetDataSet.clear();
-        if ( _presetEnabled ) {
-            int preset = _fourierSeries.getPreset();
-            
+
+        // If the preset has changed, update the preset waveform.
+        int preset = _fourierSeries.getPreset();
+        int waveType = _fourierSeries.getWaveType();
+        if ( _previousPreset != preset || _previousWaveType != waveType ) {
+
+            _sumPlot.setStartX( 0 );
+            _presetPlot.getDataSet().clear();
+
             Point2D[] points = null;
             if ( preset == FourierConstants.PRESET_SINE_COSINE ) {
-                points = _sumDataSet.getPoints(); 
+                points = _sumPlot.getDataSet().getPoints();
             }
             else {
                 points = FourierConstants.getPresetPoints( preset, waveType );
             }
-            
+
             if ( points != null ) {
-                _presetDataSet.addAllPoints( points );
+                Point2D[] copyPoints = new Point2D[points.length];
+                for ( int i = 0; i < points.length; i++ ) {
+                    copyPoints[i] = new Point2D.Double( points[i].getX(), points[i].getY() );
+                }
+                _presetPlot.getDataSet().addAllPoints( copyPoints );
             }
-        }
-        
-        // Sum equation
-        if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
-            updateMath();
+
+            _previousPreset = preset;
+            _previousWaveType = waveType;
         }
 
-        _previousNumberOfHarmonics = numberOfHarmonics;
-        
+        // If the number of harmonics has changed, update the equation.
+        int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
+        if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
+            updateMath();
+            _previousNumberOfHarmonics = numberOfHarmonics;
+        }
+
         repaint();
     }     
     
@@ -815,5 +780,34 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     
     private void updateMath() {
         _mathGraphic.setForm( _domain, _mathForm, _fourierSeries.getNumberOfHarmonics() );
+    }
+    
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Moves the waveform in space by shifting its start location.
+     * 
+     * @param dt
+     */
+    public void stepInTime( double dt ) {
+        if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME && FourierConfig.ANIMATION_ENABLED ) {
+            
+            double dx = dt * L / FourierConfig.ANIMATION_STEPS_PER_CYCLE;
+            
+            // Shift the start location of the sum waveform.
+            _sumPlot.setStartX( _sumPlot.getStartX() + dx );
+            
+            // Shift the preset.
+            Point2D[] points = _presetPlot.getDataSet().getPoints();
+            if ( points != null ) {
+                _presetPlot.getDataSet().clear();
+                for ( int i = 0; i < points.length; i++ ) {
+                    points[i].setLocation( points[i].getX() + dx, points[i].getY() );
+                }
+                _presetPlot.getDataSet().addAllPoints( points );
+            }
+        }
     }
 }

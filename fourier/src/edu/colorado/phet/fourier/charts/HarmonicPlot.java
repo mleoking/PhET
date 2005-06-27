@@ -25,13 +25,13 @@ import edu.colorado.phet.fourier.view.HarmonicColors;
 
 
 /**
- * HarmonicDataSetGraphic is the graphical representation, provided
- * to a Chart, of a HarmonicDataSet.
+ * HarmonicPlot encapsulates the graphics and data set that allow a Chart
+ * to draw a harmonic's waveform.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HarmonicDataSetGraphic extends SinePlot implements SimpleObserver, HarmonicColorChangeListener {
+public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicColorChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -56,7 +56,7 @@ public class HarmonicDataSetGraphic extends SinePlot implements SimpleObserver, 
      * @param component
      * @param chart
      */
-    public HarmonicDataSetGraphic( Component component, Chart chart ) {
+    public HarmonicPlot( Component component, Chart chart ) {
         super( component, chart );
         
         _harmonic = null;

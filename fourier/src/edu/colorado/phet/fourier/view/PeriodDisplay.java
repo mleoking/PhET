@@ -291,7 +291,7 @@ public class PeriodDisplay extends CompositePhetGraphic
     public void stepInTime( double dt ) {
         if ( isVisible() ) {
             int order = _harmonic.getOrder();
-            double deltaAngle = dt * MAX_PIE_STEP * ( order + 1 ) / FourierConfig.MAX_HARMONICS;
+            double deltaAngle = dt *  ( 360.0 / FourierConfig.ANIMATION_STEPS_PER_CYCLE ) * ( order + 1 );
             _pieAngle += deltaAngle;
             _pieAngle %= 360;
             updatePie();

@@ -128,6 +128,7 @@ public class DiscreteModule extends FourierModule {
         _sumGraph = new SumGraph( apparatusPanel, _fourierSeries );
         _sumGraph.setLocation( SUM_LOCATION );
         apparatusPanel.addGraphic( _sumGraph, SUM_LAYER );
+        model.addModelElement( _sumGraph );//XXX not really part of the model, just need clock
         
         // Wavelength Tool
         _wavelengthTool = new WavelengthTool( apparatusPanel, _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );

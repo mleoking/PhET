@@ -52,14 +52,25 @@ public class FourierUtils {
      * @return the sine
      */
     public static double sin( double radians ) {
+        
+        // Allocate the lookup table when needed.
         if ( _sineValues == null ) {
             _sineValues = new double[360];
             for ( int i = 0; i < 360; i++ ) {
                 _sineValues[i] = Math.sin( Math.toRadians( i ) );
             }
         }
-        int index = (int) ( Math.round( Math.toDegrees( radians) ) % 360 );
-        return _sineValues[ index ];
+        
+        // Look up the value.
+        int index = (int) ( Math.round( Math.toDegrees( Math.abs( radians) ) ) % 360 );
+        double value = _sineValues[ index ];
+        
+        // Use the correct sign.
+        if ( radians < 0 ) {
+            value = -value;
+        }
+        
+        return value;
     }
     
     /**
@@ -72,13 +83,24 @@ public class FourierUtils {
      * @return the sine
      */
     public static double cos( double radians ) {
+        
+        // Allocate the lookup table when needed.
         if ( _cosineValues == null ) {
             _cosineValues = new double[360];
             for ( int i = 0; i < 360; i++ ) {
                 _cosineValues[i] = Math.cos( Math.toRadians( i ) );
             }
         }
-        int index = (int) ( Math.round( Math.toDegrees( radians) ) % 360 );
-        return _cosineValues[ index ];
+        
+        // Look up the value.
+        int index = (int) ( Math.round( Math.toDegrees( Math.abs( radians) ) ) % 360 );
+        double value = _cosineValues[ index ];
+        
+        // Use the correct sign.
+        if ( radians < 0 ) {
+            value = -value;
+        }
+        
+        return value;
     }
 }

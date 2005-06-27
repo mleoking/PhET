@@ -71,6 +71,6 @@ public class FourierConfig {
     // Animation
     //----------------------------------------------------------------------------
 
-//    public static final double 
+    public static final double ANIMATION_STEPS_PER_CYCLE = 50;
 
 }
