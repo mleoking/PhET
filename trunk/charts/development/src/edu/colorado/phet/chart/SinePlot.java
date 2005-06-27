@@ -76,6 +76,8 @@ public class SinePlot extends LinePlot {
         _points = null;
 
         setDataSet( new DataSet() );
+        setBorderColor( DEFAULT_COLOR );
+        setStroke( DEFAULT_STROKE );
         
         updateDataSet();
     }
@@ -263,21 +265,21 @@ public class SinePlot extends LinePlot {
             }
             else {
                 // Number of pixels between the min and max X range.
-                double minPixel = modelToViewX( range.getMinX() );
-                double maxPixel = modelToViewX( range.getMaxX() );
-                double numberOfPixels = maxPixel - minPixel + 1;
-                int numberOfPoints = (int) ( numberOfPixels / _pixelsPerPoint );
+                final double minPixel = modelToViewX( range.getMinX() );
+                final double maxPixel = modelToViewX( range.getMaxX() );
+                final double numberOfPixels = maxPixel - minPixel + 1;
+                final int numberOfPoints = (int) ( numberOfPixels / _pixelsPerPoint );
 
                 // Change in X per pixel.
-                double extent = Math.abs( range.getMaxX() - range.getMinX() );
-                double deltaX = extent / numberOfPoints;
+                final double extent = Math.abs( range.getMaxX() - range.getMinX() );
+                final double deltaX = extent / numberOfPoints;
 
                 // Change in angle per pixel.
-                double cycles = extent / _period;
-                double deltaAngle = cycles * ( 2 * Math.PI ) / numberOfPoints;
+                final double numberOfCycles = extent / _period;
+                final double deltaAngle = numberOfCycles * ( 2 * Math.PI ) / numberOfPoints;
 
                 // Pixels between the beginning of the cycle and the range min.
-                double startPixel = modelToViewX( _startX );
+                final double startPixel = modelToViewX( _startX );
 
                 // Starting angle at the range min.
                 double startAngle = Math.abs( startPixel - minPixel ) * deltaAngle;
@@ -290,10 +292,10 @@ public class SinePlot extends LinePlot {
                     _points = new Point2D.Double[numberOfPoints];
                 }
                 
-                // Create a point for each pixel.          
+                // Create points.          
                 for ( int i = 0; i < numberOfPoints; i++ ) {
-                    double x = range.getMinX() + ( i * deltaX );
-                    double angle = startAngle + ( i * deltaAngle );
+                    final double x = range.getMinX() + ( i * deltaX );
+                    final double angle = startAngle + ( i * deltaAngle );
                     double y = 0;
                     if ( _cosineEnabled ) {
                         y = _amplitude * Math.cos( angle );
