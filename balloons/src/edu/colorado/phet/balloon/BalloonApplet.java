@@ -40,8 +40,8 @@ public class BalloonApplet extends JApplet implements IHelp {
     static Color minusColor = new Color( 0, 0, 255 );
     static Color oval = new Color( 255, 255, 255, 80 );
 
-    static PlusPainter plussy = new PlusPainter( 14, 4, red, oval );
-    static MinusPainter minnie = new MinusPainter( 14, 4, minusColor, oval );
+    static PlusPainter plusPainter = new PlusPainter( 14, 4, red, oval );
+    static MinusPainter minusPainter = new MinusPainter( 14, 4, minusColor, oval );
     private PainterPanel painterPanel;
     public LayeredPainter layeredPainter;
     private boolean miniHelpShowing = false;
@@ -52,31 +52,31 @@ public class BalloonApplet extends JApplet implements IHelp {
 
     public static void paintCharge( BufferedImage bi ) {
         Graphics2D g2 = (Graphics2D)bi.getGraphics();
-        plussy.paintAt( 40, 60, g2 );
-        plussy.paintAt( 90, 50, g2 );
-        plussy.paintAt( 98, 80, g2 );
-        plussy.paintAt( 90, 150, g2 );
-        minnie.paintAt( 80, 110, g2 );
-        plussy.paintAt( 30, 75, g2 );
-        minnie.paintAt( 78, 120, g2 );
-        minnie.paintAt( 50, 98, g2 );
-        minnie.paintAt( 40, 40, g2 );
-        minnie.paintAt( 30, 170, g2 );
+        plusPainter.paintAt( 40, 60, g2 );
+        plusPainter.paintAt( 90, 50, g2 );
+        plusPainter.paintAt( 98, 80, g2 );
+        plusPainter.paintAt( 90, 150, g2 );
+        minusPainter.paintAt( 80, 110, g2 );
+        plusPainter.paintAt( 30, 75, g2 );
+        minusPainter.paintAt( 78, 120, g2 );
+        minusPainter.paintAt( 50, 98, g2 );
+        minusPainter.paintAt( 40, 40, g2 );
+        minusPainter.paintAt( 30, 170, g2 );
 
-        plussy.paintAt( 40, 90, g2 );
-        minnie.paintAt( 55, 80, g2 );
-        plussy.paintAt( 30, 175, g2 );
-        plussy.paintAt( 94, 180, g2 );
+        plusPainter.paintAt( 40, 90, g2 );
+        minusPainter.paintAt( 55, 80, g2 );
+        plusPainter.paintAt( 30, 175, g2 );
+        plusPainter.paintAt( 94, 180, g2 );
 
-        minnie.paintAt( 45, 40, g2 );
-        plussy.paintAt( 50, 30, g2 );
-        minnie.paintAt( 72, 62, g2 );
-        minnie.paintAt( 50, 95, g2 );
-        plussy.paintAt( 50, 130, g2 );
-        minnie.paintAt( 54, 110, g2 );
-        plussy.paintAt( 90, 150, g2 );
-        minnie.paintAt( 50, 175, g2 );
-        minnie.paintAt( 84, 167, g2 );
+        minusPainter.paintAt( 45, 40, g2 );
+        plusPainter.paintAt( 50, 30, g2 );
+        minusPainter.paintAt( 72, 62, g2 );
+        minusPainter.paintAt( 50, 95, g2 );
+        plusPainter.paintAt( 50, 130, g2 );
+        minusPainter.paintAt( 54, 110, g2 );
+        plusPainter.paintAt( 90, 150, g2 );
+        minusPainter.paintAt( 50, 175, g2 );
+        minusPainter.paintAt( 84, 167, g2 );
     }
 
     public void init() {
@@ -88,8 +88,8 @@ public class BalloonApplet extends JApplet implements IHelp {
             SimStrings.setStrings( BalloonsConfig.localizedStringsPath );
         }
 
-        plussy.setPaint( PlusPainter.NONE );
-        minnie.setPaint( MinusPainter.NONE );
+        plusPainter.setPaint( PlusPainter.NONE );
+        minusPainter.setPaint( MinusPainter.NONE );
 
         width = PANEL_WIDTH;
         height = PANEL_HEIGHT;
@@ -140,8 +140,9 @@ public class BalloonApplet extends JApplet implements IHelp {
         double thresholdSpeed = .38;
         ThresholdFilter cm = new ThresholdFilter( 5, 5, thresholdSpeed );//3.2);
 
-        int moveToBalloonSpeed = 9;
-        MoveToBalloon mtb = new MoveToBalloon( moveToBalloonSpeed, layeredPainter, CHARGE_LEVEL, minnie );
+//        int moveToBalloonSpeed = 9;
+        int moveToBalloonSpeed = 15;
+        MoveToBalloon mtb = new MoveToBalloon( moveToBalloonSpeed, layeredPainter, CHARGE_LEVEL, minusPainter );
         ChargeMover chargeMover = new ChargeMover( mtb, layeredPainter );
         reset.setChargeMover( chargeMover );
         cm.addBalloonDragListener( chargeMover );
@@ -163,11 +164,11 @@ public class BalloonApplet extends JApplet implements IHelp {
 
         JCheckBox chargedBalloonBtn = new JCheckBox( SimStrings.get( "BalloonApplet.IgnoreInitialBalloonCharge" ), true );
         JRadioButton showAllCharges = new JRadioButton( SimStrings.get( "BalloonApplet.ShowAllCharges" ) );
-        showAllCharges.addActionListener( new ShowAll( plussy, minnie ) );
+        showAllCharges.addActionListener( new ShowAll( plusPainter, minusPainter ) );
         JRadioButton showNoCharges = new JRadioButton( SimStrings.get( "BalloonApplet.ShowNoCharges" ) );
-        showNoCharges.addActionListener( new ShowNone( plussy, minnie ) );
+        showNoCharges.addActionListener( new ShowNone( plusPainter, minusPainter ) );
         JRadioButton showDiff = new JRadioButton( SimStrings.get( "BalloonApplet.ShowChargeDifferences" ) );
-        showDiff.addActionListener( new ShowDiff( plussy, minnie ) );
+        showDiff.addActionListener( new ShowDiff( plusPainter, minusPainter ) );
 
         ButtonGroup bg = new ButtonGroup();
         bg.add( showAllCharges );
@@ -222,7 +223,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         Rectangle wallChargeBounds = new Rectangle( PANEL_WIDTH - wallWidth + wallInset, 0, wallWidth - wallInset * 2, PANEL_HEIGHT );
         Painter wallBack = new FilledRectanglePainter( wallBounds.x, wallBounds.y, wallBounds.width, wallBounds.height, Color.yellow );
         Random r = new Random();
-        Wall w = new Wall( showWall, 50, wallChargeBounds, wallBack, plussy, minnie, r, blueBalloon, yellowBalloon );
+        Wall w = new Wall( showWall, 50, wallChargeBounds, wallBack, plusPainter, minusPainter, r, blueBalloon, yellowBalloon );
         layeredPainter.addPainter( w, 10 );
 
         int numSweaterCharges = 100;
@@ -230,7 +231,7 @@ public class BalloonApplet extends JApplet implements IHelp {
         int maxX = sweaterImage.getWidth() - 50;
         int minY = 50;
         int maxY = sweaterImage.getHeight() - 50;
-        System2D sys = new System2D();
+        final System2D sys = new System2D();
         Sweater wool = new Sweater( numSweaterCharges, new DoublePoint( sweaterImage.getWidth() / 2, sweaterImage.getHeight() / 2 ) );
 
         resetBtn.addActionListener( reset );
@@ -259,10 +260,10 @@ public class BalloonApplet extends JApplet implements IHelp {
             sys.addParticle( minus );
             chargeMover.addParticle( minus );
 
-            Painter plusPaint = new ParticlePainterAdapter( plussy, plus );
+            Painter plusPaint = new ParticlePainterAdapter( plusPainter, plus );
             plus.setDefaultPainter( plusPaint );
             layeredPainter.addPainter( plusPaint, CHARGE_LEVEL );
-            Painter minusPaint = new ParticlePainterAdapter( minnie, minus );
+            Painter minusPaint = new ParticlePainterAdapter( minusPainter, minus );
             minus.setDefaultPainter( minusPaint );
             layeredPainter.addPainter( minusPaint, CHARGE_LEVEL );
             plus.setPainter( plusPaint, CHARGE_LEVEL );
@@ -281,26 +282,25 @@ public class BalloonApplet extends JApplet implements IHelp {
         sys.addLaw( new BalloonForces( blueBalloon, yellowBalloon, wool, bounds, wallBounds.x, w ) );
         sys.addLaw( w );
         sys.addLaw( ( new Repaint( painterPanel ) ) );
-        double dt = 1.2;
+        final double dt = 1.2;
         int waitTime = 30;
         setContentPane( panel );
         final SystemRunner sr = new SystemRunner( sys, dt, waitTime );
-        Thread t = new Thread( sr );
-
-        t.start();
+//        Thread t = new Thread( sr );
+        Timer timer = new Timer( waitTime, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                sys.iterate( dt );
+            }
+        } );
+        timer.start();
+//        t.start();
         validate();
         painterPanel.addMouseMotionListener( new MouseMotionAdapter() {
             public void mouseDragged( MouseEvent e ) {
+                sys.iterate( dt );
                 painterPanel.repaint();
-//                painterPanel.paintImmediately( 0,0,painterPanel.getWidth(), painterPanel.getHeight() );
             }
         } );
-//        Timer timer=new Timer( waitTime, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                sr.iterate();
-//            }
-//        } );
-//        timer.start();
         balloonHelp = new BalloonHelpPainter( this );
     }
 
