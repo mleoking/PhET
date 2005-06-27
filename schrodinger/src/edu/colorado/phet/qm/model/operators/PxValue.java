@@ -14,6 +14,7 @@ import edu.colorado.phet.qm.model.Wavefunction;
 
 public class PxValue {
     public double compute( Wavefunction w ) {
+//        double mag = w.getMagnitude();
         Complex sum = new Complex();
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
@@ -33,8 +34,7 @@ public class PxValue {
         Complex left = w.valueAt( i + 1, j );
         Complex right = w.valueAt( i - 1, j );
 
-        Complex num = left.minus( right );//.plus( w[i][j].times( -2 ) );
-        num.scale( 1 / 2.0 );
-        return num;
+        Complex diff = left.minus( right ).times( 0.5 );
+        return diff;
     }
 }

@@ -15,12 +15,12 @@ public class CrankNicholsonPropagator implements Propagator {
 
     private static final Complex TWO = new Complex( 2, 0 );
     private static final Complex MINUS_ONE = new Complex( -1, 0 );
-    private BoundaryCondition boundaryCondition;
+    private Wave wave;
     private Potential potential;
 
-    public CrankNicholsonPropagator( double TAU, BoundaryCondition boundaryCondition, Potential potential ) {
+    public CrankNicholsonPropagator( double TAU, Wave wave, Potential potential ) {
         this.deltaTime = TAU;
-        this.boundaryCondition = boundaryCondition;
+        this.wave = wave;
         this.potential = potential;
         simulationTime = 0.0;
         timeStep = 0;
@@ -59,7 +59,7 @@ public class CrankNicholsonPropagator implements Propagator {
         for( int j = 1; j < YMESH; j++ ) {
             int N = XMESH;
             alpha[N - 1].zero();
-            beta[N - 1] = boundaryCondition.getValue( XMESH, j, simulationTime );
+            beta[N - 1] = wave.getValue( XMESH, j, simulationTime );
             for( int i = N - 1; i >= 1; i-- ) {
                 XA0 = XA00.plus( XA0V.times( getPotential( i, j ) / 2.0 ) );
 //                bi = ( ( TWO.minus( XA0 ) ).times( w[i][j] ) ).minus( ( XAP.times( w[i - 1][j].plus( w[i + 1][j] ) ) ) );
@@ -78,7 +78,7 @@ public class CrankNicholsonPropagator implements Propagator {
         for( int i = 1; i < XMESH; i++ ) {
             int N = YMESH;
             alpha[N - 1].zero();
-            beta[N - 1] = boundaryCondition.getValue( i, YMESH, simulationTime );
+            beta[N - 1] = wave.getValue( i, YMESH, simulationTime );
 
             for( int j = N - 1; j >= 1; j-- ) {
                 YA0 = YA00.plus( YA0V.times( getPotential( i, j ) / 2.0 ) );
@@ -131,7 +131,8 @@ public class CrankNicholsonPropagator implements Propagator {
     }
 
     private void setValue( Wavefunction w, int x, int y ) {
-        boundaryCondition.setValue( w, x, y, timeStep * deltaTime );
+        Complex val = wave.getValue( x, y, timeStep * deltaTime );
+        w.setValue( x, y, val );
     }
 
     public void setDeltaTime( double deltaTime ) {

@@ -1,8 +1,8 @@
 package edu.colorado.phet.qm.model.propagators;
 
-import edu.colorado.phet.qm.model.BoundaryCondition;
 import edu.colorado.phet.qm.model.Complex;
 import edu.colorado.phet.qm.model.Potential;
+import edu.colorado.phet.qm.model.Wave;
 import edu.colorado.phet.qm.model.Wavefunction;
 
 
@@ -17,8 +17,8 @@ import edu.colorado.phet.qm.model.Wavefunction;
 
 public class ModifiedRichardsonPropagator extends RichardsonPropagator {
 
-    public ModifiedRichardsonPropagator( double TAU, BoundaryCondition boundaryCondition, Potential potential ) {
-        super( TAU, boundaryCondition, potential );
+    public ModifiedRichardsonPropagator( double TAU, Wave wave, Potential potential ) {
+        super( TAU, wave, potential );
     }
 
     protected Complex createAlpha() {

@@ -145,23 +145,23 @@ public class GunGraphic extends GraphicLayerSet {
 
         public abstract double getStartPy();
 
-        public InitialWavefunction getInitialWavefunction() {
+        public WaveSetup getInitialWavefunction() {
             double x = getDiscreteModel().getGridWidth() * 0.5;
             double y = getDiscreteModel().getGridHeight() * 0.8;
             double px = 0;
             double py = getStartPy();
             double dxLattice = getStartDxLattice();
-            InitialWavefunction initialWavefunction = new GaussianWave( new Point( (int)x, (int)y ),
-                                                                        new Vector2D.Double( px, py ), dxLattice );
-            edit( initialWavefunction );
-            return initialWavefunction;
+            WaveSetup waveSetup = new GaussianWaveSetup( new Point( (int)x, (int)y ),
+                                                         new Vector2D.Double( px, py ), dxLattice );
+            edit( waveSetup );
+            return waveSetup;
         }
 
         public void fireParticle() {
             getSchrodingerModule().fireParticle( getInitialWavefunction() );
         }
 
-        protected void edit( InitialWavefunction initialWavefunction ) {
+        protected void edit( WaveSetup waveSetup ) {
         }
 
         private SchrodingerModule getSchrodingerModule() {
@@ -305,7 +305,7 @@ public class GunGraphic extends GraphicLayerSet {
     private void fire() {
         lastFireTime = time;
         if( intensitySlider.getValue() == intensitySlider.getMaximum() ) {
-            for( int i = 0; i < 10; i++ ) {
+            for( int i = 0; i < 1000; i++ ) {
                 schrodingerPanel.getSchrodingerModule().getIntensityDisplay().detectOne();
             }
         }
@@ -396,8 +396,6 @@ public class GunGraphic extends GraphicLayerSet {
                 }
             } );
             t.start();
-
-
         }
     }
 
