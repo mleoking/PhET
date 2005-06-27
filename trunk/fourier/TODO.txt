@@ -48,6 +48,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+v0r3...
 (6/27) - fix FourierUtils.sin and cos
 (6/27) - setIgnoreMouse where possible
 (6/27) - use SinePlot.setPixelsPerPoint to optimize HarmonicsGraph somewhat
