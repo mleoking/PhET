@@ -192,8 +192,8 @@ public class FourierSumPlot extends LinePlot {
         double startPixel = modelToViewX( _startX );
         
         // Reuse the points if the count hasn't changed.
-        if ( _points == null || numberOfPoints != _points.length ) {
-            _points = new Point2D.Double[numberOfPoints];
+        if ( _points == null || numberOfPoints + 1 != _points.length ) {
+            _points = new Point2D.Double[ numberOfPoints + 1 ];
         }
         
         // For each harmonic in the series...          
@@ -207,7 +207,7 @@ public class FourierSumPlot extends LinePlot {
             final double deltaAngle = numberOfCycles * ( 2 * Math.PI ) / numberOfPoints;
 
             // Starting angle at the range min.
-            double startAngle = Math.abs( startPixel - minPixel ) * deltaAngle;
+            double startAngle = Math.abs( ( startPixel - minPixel ) / _pixelsPerPoint ) * deltaAngle;
             if ( startPixel > minPixel ) {
                 startAngle = -startAngle;
             }
