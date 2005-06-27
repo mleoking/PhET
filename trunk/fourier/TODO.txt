@@ -48,6 +48,10 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/27) - reset all graphs whenever domain, preset or wave type changes
+(6/27) - add animation to Sum graph, sync sum and preset
+(6/27) - move sum charting code into FourierSumPlot
+(6/27) - rename HarmonicDataSetGraphic to HarmonicPlot
 (6/24) - add rough waveform animation to Harmonic graph
 (6/24) - add SinePlot.setPixelsPerPoint
 (6/24) - reuse points in SinePlot when the number of points hasn't changed
