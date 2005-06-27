@@ -96,11 +96,6 @@ public class FourierUtils {
         int index = (int) ( Math.round( Math.toDegrees( Math.abs( radians) ) ) % 360 );
         double value = _cosineValues[ index ];
         
-        // Use the correct sign.
-        if ( radians < 0 ) {
-            value = -value;
-        }
-        
         return value;
     }
 }
