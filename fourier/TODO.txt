@@ -6,9 +6,9 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- Sum graph is broken in cosines mode, Y values are flipped for negative X
 - animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
-- sync PeriodDisplay
+- Harmonics and Sum sometime lose sync (when switching presets or adjusting amplitudes)
+- PeriodDisplay has not been sync'ed, doesn't reset to 0 when domain/preset/waveType is changed
 - persistence
 
 MEDIUM PRIORITY:
