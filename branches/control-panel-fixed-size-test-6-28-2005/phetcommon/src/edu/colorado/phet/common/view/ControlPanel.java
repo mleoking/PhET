@@ -46,6 +46,7 @@ public class ControlPanel extends JPanel {
     private JPanel northPanel;
     private int paddingDY = 5;
     private JScrollPane horizontalScrollPane;
+    private JScrollPane bothScrollPane;
 
     public ContentPanel getControlPane() {
         return controlPane;
@@ -68,6 +69,8 @@ public class ControlPanel extends JPanel {
         horizontalScrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
         horizontalScrollPane.setBorder( createBorder() );
 
+        bothScrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+        bothScrollPane.setBorder( createBorder() );
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
@@ -212,32 +215,61 @@ public class ControlPanel extends JPanel {
 
             remove( verticalScrollPane );
             remove( horizontalScrollPane );
+            remove( bothScrollPane );
+
             remove( controlPane );
             verticalScrollPane.setViewportView( null );
             horizontalScrollPane.setViewportView( null );
+            bothScrollPane.setViewportView( null );
 
             if( getAvailableHeight() <= 0 ) {
                 //no room for controls, sorry.
             }
-            else if( requiresVerticalScrollbars() ) {
+            else if( requiresVerticalScrollbars() && requiresHorizontalScrollbars() ) {
                 //not enough room for all controls, so use vertical scrolling.
-                controlPane.setLocation( 0, 0 );
-                verticalScrollPane.setViewportView( controlPane );
-                addToPanel( verticalScrollPane );
-
-                verticalScrollPane.setLocation( 0, getControlTop() );
-                verticalScrollPane.setSize( new Dimension( controlPane.getPreferredSize().width + getScrollBarWidth(), getAvailableHeight() ) );
-
-                verticalScrollPane.revalidate();
+                useScrollPane( bothScrollPane, getAvailableWidth(), getAvailableHeight() + getScrollBarHeight() );
+            }
+            else if( requiresVerticalScrollbars() ) {
+                useScrollPane( verticalScrollPane, controlPane.getPreferredSize().width + getScrollBarWidth(), getAvailableHeight() );
+            }
+            else if( requiresHorizontalScrollbars() ) {
+                useScrollPane( horizontalScrollPane, getAvailableWidth(), getAvailableHeight() + getScrollBarHeight() );
             }
             else {
-                //controls will fit without scrollpane.
+                //controls will fit without any scrollpane.
                 addToPanel( controlPane );
                 controlPane.setBounds( 0, getControlTop(), controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
             }
             if( isMacOSX() ) {
                 fixAll( controlPane );
             }
+        }
+
+        private int getScrollBarHeight() {
+            return horizontalScrollPane.getHorizontalScrollBar().getPreferredSize().height;
+        }
+
+
+        private void useScrollPane( JScrollPane scrollPane, int width, int height ) {
+            controlPane.setLocation( 0, 0 );
+            scrollPane.setViewportView( controlPane );
+            addToPanel( scrollPane );
+
+            scrollPane.setLocation( 0, getControlTop() );
+            scrollPane.setSize( new Dimension( width, height ) );
+
+            scrollPane.revalidate();
+            System.out.println( "ControlPanel$Layout.useScrollPane: width=" + width + ", height=" + height );
+        }
+
+        private boolean requiresHorizontalScrollbars() {
+            return controlPane.getPreferredSize().width > getAvailableWidth();
+//            return true;
+        }
+
+        private int getAvailableWidth() {
+//            return Integer.MAX_VALUE;
+            return 240;
         }
 
         private boolean requiresVerticalScrollbars() {
