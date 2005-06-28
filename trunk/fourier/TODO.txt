@@ -25,6 +25,7 @@ NEW FEATURES:
 
 
 OPTIMIZATIONS:
+- make disabled zoom buttons part of the zoom control background image
 - rewrite ZoomControl to use static shapes instead of images
 - flatten static elements
 - setIgnoreMouse
