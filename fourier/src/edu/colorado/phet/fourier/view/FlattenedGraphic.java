@@ -131,14 +131,12 @@ public class FlattenedGraphic extends PhetImageGraphic {
     public void flatten() {
 
         // Determine the offset required to get all graphics drawn into the buffer.
-        Rectangle graphicsLayerSetBounds = _graphicLayerSet.getBounds();
-        Rectangle thisBounds = getBounds();
-        int width = _graphicLayerSet.getWidth();
-        int height = _graphicLayerSet.getHeight();
-        double xOffset = thisBounds.x - graphicsLayerSetBounds.x;
-        double yOffset = thisBounds.y - graphicsLayerSetBounds.y;
+        double xOffset = getBounds().x - _graphicLayerSet.getBounds().x;
+        double yOffset = getBounds().y - _graphicLayerSet.getBounds().y;
 
         // Draw into the buffer.
+        int width = _graphicLayerSet.getWidth();
+        int height = _graphicLayerSet.getHeight();
         BufferedImage bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = bufferedImage.createGraphics();
         _graphicLayerSet.translate( xOffset, yOffset );
