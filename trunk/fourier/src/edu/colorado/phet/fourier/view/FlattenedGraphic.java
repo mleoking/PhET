@@ -130,7 +130,7 @@ public class FlattenedGraphic extends PhetImageGraphic {
      */
     public void flatten() {
 
-        // Determine the offset required to get all graphics drawn into the buffer.
+        // Determine the translation required to get all graphics drawn into the buffer.
         double xOffset = getBounds().x - _graphicLayerSet.getBounds().x;
         double yOffset = getBounds().y - _graphicLayerSet.getBounds().y;
 
