@@ -480,4 +480,12 @@ public class Chart extends GraphicLayerSet {
     public int transformX( double gridLineX ) {
         return transform( new Point2D.Double( gridLineX, 0 ) ).x;
     }
+  
+    public double transformXDouble( double gridLineX ) {
+        return transformDouble( new Point2D.Double( gridLineX, 0 ) ).getX();
+    }
+    
+    public double transformYDouble( double gridLineY ) {
+        return transformDouble( new Point2D.Double( 0, gridLineY ) ).getY();
+    }
 }
