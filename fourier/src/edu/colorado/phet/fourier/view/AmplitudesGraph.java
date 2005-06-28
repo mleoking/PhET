@@ -23,6 +23,7 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
+import edu.colorado.phet.common.view.phetgraphics.PhetFlattenedGraphic;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
@@ -208,7 +209,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         }
         
         // Flatten all of the static graphics.
-        FlattenedGraphic flattenedGraphic = new FlattenedGraphic( component );
+        PhetFlattenedGraphic flattenedGraphic = new PhetFlattenedGraphic( component );
         addGraphic( flattenedGraphic, FLATTENED_LAYER );
         flattenedGraphic.addGraphic( backgroundGraphic );
         flattenedGraphic.addGraphic( titleGraphic );

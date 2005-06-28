@@ -51,6 +51,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/28) - move FlattenedGraphic to PhetFlattenedGraphic in phetcommon
 (6/28) - flatten all static graphics in AmplitudeGraph
 (6/28) - create FlattenedGraphic for flattening graphics
 (6/28) - fix GraphicLayerSet and CompositePhetGraphic mouse handling to use getIgnoreMouse correctly
