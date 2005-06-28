@@ -76,8 +76,6 @@ public class LinePlot extends DataSetGraphic {
 
     private void repaintAll() {
         phetShapeGraphic.setShapeDirty();
-        setBoundsDirty();
-        autorepaint();
     }
 
     public void cleared() {
