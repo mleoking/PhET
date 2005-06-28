@@ -48,6 +48,9 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/28) - fix GraphicLayerSet and CompositePhetGraphic mouse handling to use getIgnoreMouse correctly
+(6/28) - reuse GeneralPath in LinePlot, instead of repeated reallocation
+(6/28) - remove redundant redraws from LinePlot
 v0r3...
 (6/27) - fix FourierUtils.sin and cos
 (6/27) - setIgnoreMouse where possible
