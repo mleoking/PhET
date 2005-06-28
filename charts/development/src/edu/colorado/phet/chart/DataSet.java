@@ -81,11 +81,19 @@ public class DataSet {
         }
     }
 
+    /**
+     * Observer is the interface implemented by clients who 
+     * want to be notified about changes to the data set.
+     */
     public interface Observer {
+        
+        /** Called when the associated data set is cleared. */
+        void cleared();
+        
+        /** Called when a single point is added to the data set. */
         void pointAdded( Point2D point );
 
-        void cleared();
-
+        /** Called when a set of points is added to the data set. */
         void pointsAdded( Point2D[] points );
     }
 
