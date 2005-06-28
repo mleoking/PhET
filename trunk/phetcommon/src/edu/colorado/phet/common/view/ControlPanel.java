@@ -41,10 +41,11 @@ public class ControlPanel extends JPanel {
     private ControlPanel.ContentPanel controlPane = new ContentPanel();
     private ImageIcon imageIcon;
     private JLabel titleLabel;
-    private JScrollPane scrollPane;
+    private JScrollPane verticalScrollPane;
     private HelpPanel helpPanel;
     private JPanel northPanel;
     private int paddingDY = 5;
+    private JScrollPane horizontalScrollPane;
 
     public ContentPanel getControlPane() {
         return controlPane;
@@ -61,9 +62,12 @@ public class ControlPanel extends JPanel {
         addToPanel( northPanel );
 
         // The panel where the simulation-specific controls go
-        scrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                      JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-        scrollPane.setBorder( new EtchedBorder( new Color( 220, 200, 255 ), Color.gray ) );
+        verticalScrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        verticalScrollPane.setBorder( createBorder() );
+
+        horizontalScrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+        horizontalScrollPane.setBorder( createBorder() );
+
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
@@ -90,6 +94,10 @@ public class ControlPanel extends JPanel {
             }
         } );
         relayoutControlPanel();
+    }
+
+    private EtchedBorder createBorder() {
+        return new EtchedBorder( new Color( 220, 200, 255 ), Color.gray );
     }
 
     /**
@@ -201,38 +209,51 @@ public class ControlPanel extends JPanel {
         public void layoutContainer( Container parent ) {
             northPanel.setBounds( getPositionToCenter( northPanel ), 0, northPanel.getPreferredSize().width, northPanel.getPreferredSize().height );
             helpPanel.setBounds( getPositionToCenter( helpPanel ), getHeight() - helpPanel.getPreferredSize().height, helpPanel.getPreferredSize().width, helpPanel.getPreferredSize().height );
-            int controlTop = getLogoBottom() + paddingDY;
-            int controlBottom = getHelpTop() - paddingDY;
-            int remainingHeight = controlBottom - controlTop;
 
-            remove( scrollPane );
+            remove( verticalScrollPane );
+            remove( horizontalScrollPane );
             remove( controlPane );
-            scrollPane.setViewportView( null );
+            verticalScrollPane.setViewportView( null );
+            horizontalScrollPane.setViewportView( null );
 
-            if( remainingHeight <= 0 ) {
+            if( getAvailableHeight() <= 0 ) {
                 //no room for controls, sorry.
             }
-            else if( controlPane.getPreferredSize().height > remainingHeight ) {
+            else if( requiresVerticalScrollbars() ) {
                 //not enough room for all controls, so use vertical scrolling.
                 controlPane.setLocation( 0, 0 );
-                scrollPane.setViewportView( controlPane );
-                addToPanel( scrollPane );
+                verticalScrollPane.setViewportView( controlPane );
+                addToPanel( verticalScrollPane );
 
-                scrollPane.setLocation( 0, controlTop );
-                scrollPane.setSize( new Dimension( controlPane.getPreferredSize().width + getScrollBarWidth(), remainingHeight ) );
+                verticalScrollPane.setLocation( 0, getControlTop() );
+                verticalScrollPane.setSize( new Dimension( controlPane.getPreferredSize().width + getScrollBarWidth(), getAvailableHeight() ) );
 
-                scrollPane.revalidate();
+                verticalScrollPane.revalidate();
             }
             else {
                 //controls will fit without scrollpane.
                 addToPanel( controlPane );
-                controlPane.setBounds( 0, controlTop, controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
-//                reshapeAll(controlPane);
+                controlPane.setBounds( 0, getControlTop(), controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
             }
             if( isMacOSX() ) {
                 fixAll( controlPane );
             }
-//            controlPane.repaint();
+        }
+
+        private boolean requiresVerticalScrollbars() {
+            return controlPane.getPreferredSize().height > getAvailableHeight();
+        }
+
+        private int getAvailableHeight() {
+            int controlTop = getControlTop();
+            int controlBottom = getControlBottom();
+            int remainingHeight = controlBottom - controlTop;
+            return remainingHeight;
+        }
+
+        private int getControlTop() {
+            int controlTop = getLogoBottom() + paddingDY;
+            return controlTop;
         }
 
         private boolean isMacOSX() {
@@ -258,7 +279,6 @@ public class ControlPanel extends JPanel {
                     fixAll( c.getComponent( i ) );
                 }
             }
-
         }
 
         /**
@@ -337,15 +357,12 @@ public class ControlPanel extends JPanel {
             int width = 0;
             if( northPanel.isVisible() ) {
                 width = Math.max( width, northPanel.getPreferredSize().width );
-//                width = Math.max( width, northPanel.getWidth() );
             }
             if( controlPane.isVisible() ) {
                 width = Math.max( width, controlPane.getPreferredSize().width );
-//                width = Math.max( width, controlPane.getWidth() );
             }
             if( helpPanel.isVisible() ) {
                 width = Math.max( width, helpPanel.getPreferredSize().width );
-//                width = Math.max( width, helpPanel.getWidth() );
             }
             if( getLayoutRequiresScrollPane() ) {
                 width += getScrollBarWidth();
@@ -354,7 +371,7 @@ public class ControlPanel extends JPanel {
         }
 
         private int getScrollBarWidth() {
-            return scrollPane.getVerticalScrollBar().getPreferredSize().width;
+            return verticalScrollPane.getVerticalScrollBar().getPreferredSize().width;
         }
 
         /**
@@ -363,15 +380,12 @@ public class ControlPanel extends JPanel {
          * @return
          */
         private boolean getLayoutRequiresScrollPane() {
-            int controlTop = getLogoBottom() + paddingDY;
+            return getAvailableHeight() < controlPane.getPreferredSize().height;
+        }
+
+        private int getControlBottom() {
             int controlBottom = getHelpTop() - paddingDY;
-            int remainingHeight = controlBottom - controlTop;
-            if( remainingHeight < controlPane.getPreferredSize().height ) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return controlBottom;
         }
     }
 
