@@ -1,9 +1,6 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
-import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.qm.model.operators.PxValue;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -94,10 +91,10 @@ public class DetectorSet {
         return getCollapsePoint( getWavefunction().getBounds() );
     }
 
-    public void collapse( Point collapsePoint, int collapseLatticeDX ) {
-        double px = new PxValue().compute( getWavefunction() );
-        new GaussianWaveSetup( collapsePoint, new Vector2D.Double( px, 0 ), collapseLatticeDX ).initialize( getWavefunction() );
-    }
+//    public void collapse( Point collapsePoint, int collapseLatticeDX ) {
+//        double px = new PxValue().compute( getWavefunction() );
+//        new GaussianWave( collapsePoint, new Vector2D.Double( px, 0 ), collapseLatticeDX ).initialize( getWavefunction() );
+//    }
 
     private Wavefunction getWavefunction() {
         return wavefunction;

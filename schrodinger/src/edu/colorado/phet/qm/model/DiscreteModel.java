@@ -23,7 +23,7 @@ public class DiscreteModel {
     private Propagator propagator;
     private int timeStep;
     private double deltaTime;
-    private WaveSetup waveSetup;
+//    private WaveSetup waveSetup;
     private Wave wave;
     private ArrayList listeners = new ArrayList();
     private DetectorSet detectorSet;
@@ -32,20 +32,20 @@ public class DiscreteModel {
     public Damping damping;
     private VerticalETA verticalEta;
     private boolean paused = false;
+    public WaveSetup initter;
 
     public DiscreteModel( int width, int height ) {
-        this( width, height, 1E-5, new EmptyWaveSetup(), new ZeroWave() );
+        this( width, height, 1E-5, new ZeroWave() );
     }
 
-    public DiscreteModel( int width, int height, double deltaTime, WaveSetup waveSetup,
-                          Wave wave ) {
+    public DiscreteModel( int width, int height, double deltaTime, Wave wave ) {
         this.compositePotential = new CompositePotential();
         this.deltaTime = deltaTime;
-        this.waveSetup = waveSetup;
         this.wave = wave;
         wavefunction = new Wavefunction( width, height );
         detectorSet = new DetectorSet( wavefunction );
-        waveSetup.initialize( wavefunction );
+        initter = new WaveSetup( wave );
+        initter.initialize( wavefunction );
         propagator = new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential );
         addListener( detectorSet.getListener() );
 
@@ -131,7 +131,7 @@ public class DiscreteModel {
     public void setGridSpacing( int nx, int ny ) {
         if( nx != getGridWidth() || ny != getGridHeight() ) {
             wavefunction.setSize( nx, ny );
-            waveSetup.initialize( wavefunction );
+            initter.initialize( wavefunction );
             notifySizeChanged();
         }
     }
