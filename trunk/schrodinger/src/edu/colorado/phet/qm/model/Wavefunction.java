@@ -177,4 +177,17 @@ public class Wavefunction {
         }
         return sub;
     }
+
+    public void add( Wavefunction w ) {
+        if( w.getWidth() == getWidth() && w.getHeight() == getHeight() ) {
+            for( int i = 0; i < getWidth(); i++ ) {
+                for( int k = 0; k < getHeight(); k++ ) {
+                    valueAt( i, k ).add( w.valueAt( i, k ) );
+                }
+            }
+        }
+        else {
+            throw new RuntimeException( "illegal arg dim" );
+        }
+    }
 }

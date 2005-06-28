@@ -38,7 +38,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
     private GunGraphic gunGraphic;
     private int colorGridWidth = 600;
     private IntensityDisplay intensityDisplay;
-    public RulerGraphic rulerGraphic;
+    private RulerGraphic rulerGraphic;
 
     public SchrodingerPanel( SchrodingerModule module ) {
         setLayout( null );
@@ -218,5 +218,9 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
 
     public RulerGraphic getRulerGraphic() {
         return rulerGraphic;
+    }
+
+    public GunGraphic getGunGraphic() {
+        return gunGraphic;
     }
 }

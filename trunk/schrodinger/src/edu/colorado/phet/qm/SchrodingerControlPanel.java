@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.math.Vector2D;
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
@@ -16,6 +17,7 @@ import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
 import edu.colorado.phet.qm.model.propagators.CrankNicholsonPropagator;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
 import edu.colorado.phet.qm.model.propagators.RichardsonPropagator;
+import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.ImaginaryGrayColorMap;
@@ -45,6 +47,8 @@ public class SchrodingerControlPanel extends ControlPanel {
     private ModelSlider pxSlider;
     private ModelSlider pySlider;
     private ModelSlider dxSlider;
+    public ModelElement particleFirer;
+    public CylinderWaveControl cylinderWaveBox;
 
     public SchrodingerControlPanel( final SchrodingerModule module ) {
         super( module );
@@ -137,6 +141,10 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel intensityPanel = createIntensityPanel();
         addControlFullWidth( intensityPanel );
 
+        ModelElement ap = new AddParticle( module, getWaveSetup() );
+
+        particleFirer = new IntegralModelElement( ap, 32 );
+
 
     }
 
@@ -149,10 +157,19 @@ public class SchrodingerControlPanel extends ControlPanel {
                 setGunActive( gun.isSelected() );
             }
         } );
+        verticalLayoutPanel.add( gun );
         return verticalLayoutPanel;
     }
 
+
     private void setGunActive( boolean selected ) {
+
+        if( selected ) {
+            module.getModel().addModelElement( particleFirer );
+        }
+        else {
+            module.getModel().removeModelElement( particleFirer );
+        }
         module.setGunActive( selected );
     }
 
@@ -194,7 +211,8 @@ public class SchrodingerControlPanel extends ControlPanel {
         layoutPanel.setBorder( BorderFactory.createTitledBorder( "Boundary Condition" ) );
 
         layoutPanel.add( createPlaneWaveBox() );
-        layoutPanel.add( createCylinderWaveBox() );
+        cylinderWaveBox = createCylinderWaveBox();
+        layoutPanel.add( cylinderWaveBox );
 
         return layoutPanel;
     }
@@ -203,9 +221,9 @@ public class SchrodingerControlPanel extends ControlPanel {
         final JCheckBox planeWaveCheckbox = new JCheckBox( "Plane Wave" );
         double scale = 1.0;
         double k = 1.0 / 10.0 * Math.PI * scale;
-        final PlaneWaveSetup planeWave = new PlaneWaveSetup( k, getDiscreteModel().getGridWidth() );
+        final PlaneWave planeWave = new PlaneWave( k, getDiscreteModel().getGridWidth() );
 
-        planeWave.setScale( 0.015 );
+        planeWave.setMagnitude( 0.015 );
         int damping = getDiscreteModel().getDamping().getDepth();
         int tubSize = 5;
         final Rectangle rectangle = new Rectangle( damping, getWavefunction().getHeight() - damping - tubSize,
@@ -225,43 +243,9 @@ public class SchrodingerControlPanel extends ControlPanel {
         return planeWaveCheckbox;
     }
 
-    private JCheckBox createCylinderWaveBox() {
-        final JCheckBox cylinderBox = new JCheckBox( "Cylinder Wave" );
-        double scale = 1.0;
-        double k = 1.0 / 10.0 * Math.PI * scale;
-        k *= 2;
-        final PlaneWaveSetup planeWave = new PlaneWaveSetup( k, getDiscreteModel().getGridWidth() );
-        planeWave.setScale( 0.055 );
-        Rectangle bounds = createRectRegion();
-
-        final CylinderSource waveSource = new CylinderSource( bounds, planeWave );
-
-        cylinderBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( cylinderBox.isSelected() ) {
-                    Rectangle rectangle = createRectRegion();
-                    waveSource.setRegion( rectangle );
-                    getDiscreteModel().addListener( waveSource );
-                }
-                else {
-                    getDiscreteModel().removeListener( waveSource );
-                }
-            }
-        } );
-        return cylinderBox;
+    private CylinderWaveControl createCylinderWaveBox() {
+        return new CylinderWaveControl( module, getDiscreteModel() );
     }
-
-    private Rectangle createRectRegion() {
-        int damping = getDiscreteModel().getDamping().getDepth();
-//        int tubSize = 5;
-        int cylinderRadius = 8;
-        Point center = new Point( getWavefunction().getHeight() / 2, getWavefunction().getHeight() - damping - cylinderRadius );
-        Point corner = new Point( center.x + cylinderRadius, center.y + cylinderRadius );
-        Rectangle rectangle = new Rectangle();
-        rectangle.setFrameFromCenter( center, corner );
-        return rectangle;
-    }
-
 
     private Wavefunction getWavefunction() {
         return getDiscreteModel().getWavefunction();
@@ -503,14 +487,19 @@ public class SchrodingerControlPanel extends ControlPanel {
         //add the specified wavefunction everywhere, then renormalize..?
         //clear the old wavefunction.
 
+        WaveSetup waveSetup = getWaveSetup();
+        module.fireParticle( waveSetup );
+    }
+
+    private WaveSetup getWaveSetup() {
         double x = getStartX();
         double y = getStartY();
         double px = getStartPx();
         double py = getStartPy();
         double dxLattice = getStartDxLattice();
-        WaveSetup waveSetup = new GaussianWaveSetup( new Point( (int)x, (int)y ),
-                                                     new Vector2D.Double( px, py ), dxLattice );
-        module.fireParticle( waveSetup );
+        WaveSetup waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
+                                                new Vector2D.Double( px, py ), dxLattice );
+        return waveSetup;
     }
 
     private double getStartDxLattice() {

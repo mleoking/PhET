@@ -117,4 +117,9 @@ public class Complex {
     public static Complex eulerize( double theta ) {
         return new Complex( Math.cos( theta ), Math.sin( theta ) );
     }
+
+    public void add( Complex val ) {
+        this.real += val.real;
+        this.imag += val.imag;
+    }
 }

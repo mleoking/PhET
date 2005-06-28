@@ -37,4 +37,9 @@ public class CylinderSource extends DiscreteModel.Adapter {
         ellipse = new Ellipse2D.Double( region.getX(), region.getY(), region.getWidth(), region.getHeight() );
 //        GaussianWave1D xwave = new GaussianWave1D();
     }
+
+
+    public void setWave( Wave wave ) {
+        this.wave = wave;
+    }
 }

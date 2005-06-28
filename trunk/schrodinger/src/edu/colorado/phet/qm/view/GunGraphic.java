@@ -14,9 +14,12 @@ import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -127,8 +130,20 @@ public class GunGraphic extends GraphicLayerSet {
         comboBox.setVisible( visible );
     }
 
+    public static interface MomentumChangeListener {
+        void momentumChanged( double val );
+    }
+
+    public void addMomentumChangeListener( MomentumChangeListener momentumChangeListener ) {
+        for( int i = 0; i < items.length; i++ ) {
+            items[i].addMomentumChangeListerner( momentumChangeListener );
+
+        }
+    }
+
     static abstract class GunItem extends ImageComboBox.Item {
         private GunGraphic gunGraphic;
+        private ArrayList momentumChangeListeners = new ArrayList();
 
         public GunItem( GunGraphic gunGraphic, String label, String imageLocation ) {
             super( label, imageLocation );
@@ -151,8 +166,8 @@ public class GunGraphic extends GraphicLayerSet {
             double px = 0;
             double py = getStartPy();
             double dxLattice = getStartDxLattice();
-            WaveSetup waveSetup = new GaussianWaveSetup( new Point( (int)x, (int)y ),
-                                                         new Vector2D.Double( px, py ), dxLattice );
+            WaveSetup waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
+                                                    new Vector2D.Double( px, py ), dxLattice );
             edit( waveSetup );
             return waveSetup;
         }
@@ -177,6 +192,20 @@ public class GunGraphic extends GraphicLayerSet {
             return dxLattice;
         }
 
+        public void addMomentumChangeListerner( MomentumChangeListener momentumChangeListener ) {
+            momentumChangeListeners.add( momentumChangeListener );
+            hookupListener( momentumChangeListener );
+        }
+
+        protected abstract void hookupListener( MomentumChangeListener momentumChangeListener );
+
+        protected void notifyMomentumChanged() {
+            double momentum = getStartPy();
+            for( int i = 0; i < momentumChangeListeners.size(); i++ ) {
+                MomentumChangeListener momentumChangeListener = (MomentumChangeListener)momentumChangeListeners.get( i );
+                momentumChangeListener.momentumChanged( momentum );
+            }
+        }
     }
 
     private SchrodingerModule getSchrodingerModule() {
@@ -200,6 +229,7 @@ public class GunGraphic extends GraphicLayerSet {
             graphic.setLocation( -graphic.getWidth() - 2, gunGraphic.getComboBox().getHeight() + 2 );
         }
 
+
         public void teardown( GunGraphic gunGraphic ) {
             gunGraphic.removeGraphic( graphic );
         }
@@ -207,6 +237,14 @@ public class GunGraphic extends GraphicLayerSet {
         public double getStartPy() {
             double velocityValue = new Function.LinearFunction( 0, 1000, 0, 1.5 ).evaluate( velocity.getValue() );
             return -velocityValue * electronMass;
+        }
+
+        protected void hookupListener( MomentumChangeListener momentumChangeListener ) {
+            velocity.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    notifyMomentumChanged();
+                }
+            } );
         }
     }
 
@@ -240,6 +278,14 @@ public class GunGraphic extends GraphicLayerSet {
             double momentum = -hbar * 2 * Math.PI / wavelengthValue;
             System.out.println( "wavelengthValue = " + wavelengthValue + ", momentum=" + momentum );
             return momentum;
+        }
+
+        protected void hookupListener( MomentumChangeListener momentumChangeListener ) {
+            wavelength.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    notifyMomentumChanged();
+                }
+            } );
         }
     }
 
@@ -277,6 +323,19 @@ public class GunGraphic extends GraphicLayerSet {
             double velocityValue = new Function.LinearFunction( 0, 1000, 0, 1.5 ).evaluate( velocity.getValue() );
             double massValue = new Function.LinearFunction( 0, 1000, 0, 1 ).evaluate( mass.getValue() );
             return -velocityValue * massValue;
+        }
+
+        protected void hookupListener( MomentumChangeListener momentumChangeListener ) {
+            mass.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    notifyMomentumChanged();
+                }
+            } );
+            velocity.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    notifyMomentumChanged();
+                }
+            } );
         }
     }
 
