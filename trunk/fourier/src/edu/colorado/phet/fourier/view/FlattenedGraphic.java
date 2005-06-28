@@ -134,7 +134,7 @@ public class FlattenedGraphic extends PhetImageGraphic {
         double xOffset = getBounds().x - _graphicLayerSet.getBounds().x;
         double yOffset = getBounds().y - _graphicLayerSet.getBounds().y;
 
-        // Draw into the buffer.
+        // Draw into the buffer, preserving alpha.
         int width = _graphicLayerSet.getWidth();
         int height = _graphicLayerSet.getHeight();
         BufferedImage bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
