@@ -208,13 +208,13 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         }
         
         // Flatten all of the static graphics.
-        FlatGraphic flatGraphic = new FlatGraphic( component );
-        addGraphic( flatGraphic, FLATTENED_LAYER );
-        flatGraphic.addGraphic( backgroundGraphic );
-        flatGraphic.addGraphic( titleGraphic );
-        flatGraphic.addGraphic( chartGraphic );
-        flatGraphic.flatten();
-        flatGraphic.setLocation( 0, 0 );
+        FlattenedGraphic flattenedGraphic = new FlattenedGraphic( component );
+        addGraphic( flattenedGraphic, FLATTENED_LAYER );
+        flattenedGraphic.addGraphic( backgroundGraphic );
+        flattenedGraphic.addGraphic( titleGraphic );
+        flattenedGraphic.addGraphic( chartGraphic );
+        flattenedGraphic.flatten();
+        flattenedGraphic.setLocation( 0, 0 );
         
         // Amplitude sliders
         _slidersGraphic = new GraphicLayerSet( component );
@@ -222,7 +222,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         
         // Interactivity
         {
-            flatGraphic.setIgnoreMouse( true );
+            flattenedGraphic.setIgnoreMouse( true );
         }
         
         // Misc initialization

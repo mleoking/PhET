@@ -29,7 +29,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FlatGraphic extends PhetImageGraphic {
+public class FlattenedGraphic extends PhetImageGraphic {
 
     /* Handles the layering and rendering */
     private GraphicLayerSet _graphicLayerSet;
@@ -42,7 +42,7 @@ public class FlatGraphic extends PhetImageGraphic {
      * 
      * @param component
      */
-    public FlatGraphic( Component component ) {
+    public FlattenedGraphic( Component component ) {
         super( component );
         _graphicLayerSet = new GraphicLayerSet( component );
         _autoFlattenEnabled = false;
