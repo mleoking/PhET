@@ -139,7 +139,7 @@ public class FlattenedGraphic extends PhetImageGraphic {
         int height = _graphicLayerSet.getHeight();
         BufferedImage bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = bufferedImage.createGraphics();
-        _graphicLayerSet.translate( xOffset, yOffset );
+        g2.translate( xOffset, yOffset );
         _graphicLayerSet.paint( g2 );
 
         // Set the image.
