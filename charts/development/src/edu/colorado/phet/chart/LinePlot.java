@@ -97,7 +97,7 @@ public class LinePlot extends DataSetGraphic {
     //----------------------------------------------------------------------------
     
     /**
-     * Called when the associated Chart changes.
+     * Called when the associated Chart's size or range changes.
      * The plot is reset by re-adding all points. 
      */
     public void transformChanged() {
@@ -112,6 +112,7 @@ public class LinePlot extends DataSetGraphic {
     
     /**
      * Called when the associated data set is cleared.
+     * Clients should not call this method directly.
      * Effectively causes the plot to erase itself.
      */
     public void cleared() {
@@ -122,6 +123,7 @@ public class LinePlot extends DataSetGraphic {
     
     /**
      * Called when a single point is added to the associated data set.
+     * Clients should not call this method directly.
      * The plot is redrawn after the point is added.
      * If you need to add a set of point, it is more efficient to call pointsAdded.
      * 
@@ -134,6 +136,7 @@ public class LinePlot extends DataSetGraphic {
     
     /**
      * Called when a set of points is added to the associateds data set.
+     * Clients should not call this method directly.
      * The plot is redrawn after all the points have been added.
      * If you need points to appear individually as they are added,
      * then you need to call pointAdded.
