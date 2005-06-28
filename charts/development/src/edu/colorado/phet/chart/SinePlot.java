@@ -293,7 +293,7 @@ public class SinePlot extends LinePlot {
                 }
                 
                 // Create points.          
-                for ( int i = 0; i <= numberOfPoints; i++ ) {
+                for ( int i = 0; i < _points.length; i++ ) {
                     final double x = range.getMinX() + ( i * deltaX );
                     final double angle = startAngle + ( i * deltaAngle );
                     double y = 0;
