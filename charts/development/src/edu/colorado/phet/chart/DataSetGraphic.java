@@ -45,5 +45,8 @@ public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.
         return chart;
     }
 
+    /**
+     * Called when the associated Chart's size or range changes.
+     */
     public abstract void transformChanged();
 }
