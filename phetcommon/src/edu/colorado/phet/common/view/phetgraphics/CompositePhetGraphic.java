@@ -35,7 +35,7 @@ public class CompositePhetGraphic extends GraphicLayerSet {
      * @return The PhetGraphic responsible for handling the event.
      */
     protected PhetGraphic getHandler( Point p ) {
-        if( contains( p.x, p.y ) ) {
+        if( getIgnoreMouse() == false && contains( p.x, p.y ) ) {
             return this;
         }
         else {
