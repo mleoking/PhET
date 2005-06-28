@@ -50,11 +50,16 @@ public class FlatGraphic extends PhetImageGraphic {
     
     /**
      * Sets automatic flattening.
-     * If enabled, the graphic is automatically flattened whenever 
-     * a child is added or removed.  By default, automatic flattening
-     * is disabled.  For performance reasons, you may wish to leave it disabled.
-     * This will allow you to add/remove a set of children without incurring
-     * the rendering expense associated with flattening.
+     * By default, automatic flattening is disabled.
+     * <p> 
+     * When enabled, the graphic is automatically flattened whenever 
+     * a child is added or removed.  For performance reasons, you may
+     * wish to leave it disabled.  This will allow you to add/remove 
+     * a set of children without incurring the rendering expense 
+     * associated with flattening.
+     * <p>
+     * When the state changes from disabled to enabled, the
+     * graphic is flattened.
      * 
      * @param autoFlattenEnabled true or false
      */
