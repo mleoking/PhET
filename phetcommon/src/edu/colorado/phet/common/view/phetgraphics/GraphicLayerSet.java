@@ -368,9 +368,14 @@ public class GraphicLayerSet extends PhetGraphic {
      */
     protected PhetGraphic getHandler( Point p ) {
 
+        // If the GraphicLayerSet is ignoring the mouse, then don't check any children.
+        if ( getIgnoreMouse() == true ) {
+            return null;
+        }
+        
         PhetGraphic[] graphics = getGraphics();
         PhetGraphic result = null;
-        
+             
         // For each graphic, working from foreground to background layer...
         for( int i = graphics.length - 1; result == null && i >= 0; i-- ) {
             PhetGraphic g = graphics[i];
