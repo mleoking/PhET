@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- "show infinte" goes away after a few cycles in space-&-time mode
 - animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
 - Harmonics and Sum sometime lose sync (when switching presets or adjusting amplitudes)
 - PeriodDisplay has not been sync'ed, doesn't reset to 0 when domain/preset/waveType is changed
@@ -40,6 +41,7 @@ CHARTS:
 - flatten static graphics elements
 
 PHETCOMMON:
+- feature: add flattening support to GraphicLayerSet
 - bug: rendering hints should be appended, not replaced, by PhetGraphic
 - bug: PhetTextGraphic leaves screen turds when its text is exclusively Unicode
 - bug: PhetJComponent startup is excessively slow
@@ -48,6 +50,8 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/28) - flatten all static graphics in AmplitudeGraph
+(6/28) - create FlatGraphic for flattening graphics
 (6/28) - fix GraphicLayerSet and CompositePhetGraphic mouse handling to use getIgnoreMouse correctly
 (6/28) - reuse GeneralPath in LinePlot, instead of repeated reallocation
 (6/28) - remove redundant redraws from LinePlot

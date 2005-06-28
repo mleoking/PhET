@@ -34,7 +34,6 @@ import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.util.FourierLog;
 
 
 /**
@@ -50,9 +49,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     // Layers
-    private static final double BACKGROUND_LAYER = 1;
-    private static final double TITLE_LAYER = 2;
-    private static final double CHART_LAYER = 3;
+    private static final double FLATTENED_LAYER = 1;
     private static final double SLIDERS_LAYER = 4;
     
     // Background parameters
@@ -109,7 +106,6 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
-    private Chart _chartGraphic;
     private GraphicLayerSet _slidersGraphic;
     private ArrayList _sliders; // array of AmplitudeSlider
     private EventListenerList _listenerList;
@@ -142,7 +138,6 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         backgroundGraphic.setPaint( BACKGROUND_COLOR );
         backgroundGraphic.setStroke( BACKGROUND_STROKE );
         backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
-        addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         backgroundGraphic.setLocation( -100, -125 );
         
         // Title
@@ -151,69 +146,75 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
         titleGraphic.setLocation( TITLE_X_OFFSET, 0 );
-        addGraphic( titleGraphic, TITLE_LAYER );
         
         // Chart
+        Chart chartGraphic = new Chart( component, CHART_RANGE, CHART_SIZE ); 
         {
-            _chartGraphic = new Chart( component, CHART_RANGE, CHART_SIZE );
-            addGraphic( _chartGraphic, CHART_LAYER );
+            chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
             
-            _chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
-
             // X axis
             {
-                _chartGraphic.getXAxis().setStroke( AXIS_STROKE );
-                _chartGraphic.getXAxis().setColor( AXIS_COLOR );
+                chartGraphic.getXAxis().setStroke( AXIS_STROKE );
+                chartGraphic.getXAxis().setColor( AXIS_COLOR );
 
                 String xTitle = "" + MathStrings.C_MODE;
                 PhetTextGraphic xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, xTitle, AXIS_TITLE_COLOR );
-                _chartGraphic.setXAxisTitle( xAxisTitleGraphic );
+                chartGraphic.setXAxisTitle( xAxisTitleGraphic );
                 
                 // No ticks, labels or gridlines
-                _chartGraphic.getHorizontalTicks().setVisible( false );
-                _chartGraphic.getXAxis().setMajorTicksVisible( false );
-                _chartGraphic.getXAxis().setMinorTicksVisible( false );
-                _chartGraphic.getXAxis().setMajorTickLabelsVisible( false );
-                _chartGraphic.getXAxis().setMinorTickLabelsVisible( false );
-                _chartGraphic.getVerticalGridlines().setMinorGridlinesVisible( false );
-                _chartGraphic.getVerticalGridlines().setMajorGridlinesVisible( false );
+                chartGraphic.getHorizontalTicks().setVisible( false );
+                chartGraphic.getXAxis().setMajorTicksVisible( false );
+                chartGraphic.getXAxis().setMinorTicksVisible( false );
+                chartGraphic.getXAxis().setMajorTickLabelsVisible( false );
+                chartGraphic.getXAxis().setMinorTickLabelsVisible( false );
+                chartGraphic.getVerticalGridlines().setMinorGridlinesVisible( false );
+                chartGraphic.getVerticalGridlines().setMajorGridlinesVisible( false );
             }
             
             // Y axis
             {
-                _chartGraphic.getYAxis().setStroke( AXIS_STROKE );
-                _chartGraphic.getYAxis().setColor( AXIS_COLOR );
+                chartGraphic.getYAxis().setStroke( AXIS_STROKE );
+                chartGraphic.getYAxis().setColor( AXIS_COLOR );
                 
                 // No ticks or labels on the axis
-                _chartGraphic.getYAxis().setMajorTicksVisible( false );
-                _chartGraphic.getYAxis().setMajorTickLabelsVisible( false );
-                _chartGraphic.getYAxis().setMinorTicksVisible( false );
-                _chartGraphic.getYAxis().setMinorTickLabelsVisible( false );
+                chartGraphic.getYAxis().setMajorTicksVisible( false );
+                chartGraphic.getYAxis().setMajorTickLabelsVisible( false );
+                chartGraphic.getYAxis().setMinorTicksVisible( false );
+                chartGraphic.getYAxis().setMinorTickLabelsVisible( false );
 
                 // Range labels
-                _chartGraphic.getVerticalTicks().setRangeLabelsVisible( RANGE_LABELS_VISIBLE );
-                _chartGraphic.getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
+                chartGraphic.getVerticalTicks().setRangeLabelsVisible( RANGE_LABELS_VISIBLE );
+                chartGraphic.getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
                 
                 // Major ticks and labels to the left of the chart
-                _chartGraphic.getVerticalTicks().setMajorTicksVisible( true );
-                _chartGraphic.getVerticalTicks().setMajorTickLabelsVisible( true );
-                _chartGraphic.getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-                _chartGraphic.getVerticalTicks().setMajorTickStroke( Y_MAJOR_TICK_STROKE );
-                _chartGraphic.getVerticalTicks().setMajorTickFont( Y_MAJOR_TICK_FONT );
+                chartGraphic.getVerticalTicks().setMajorTicksVisible( true );
+                chartGraphic.getVerticalTicks().setMajorTickLabelsVisible( true );
+                chartGraphic.getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
+                chartGraphic.getVerticalTicks().setMajorTickStroke( Y_MAJOR_TICK_STROKE );
+                chartGraphic.getVerticalTicks().setMajorTickFont( Y_MAJOR_TICK_FONT );
 
                 // Major gridlines
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesVisible( MAJOR_GRIDLINES_ENABLED );
-                _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
+                chartGraphic.getHorizonalGridlines().setMajorGridlinesVisible( MAJOR_GRIDLINES_ENABLED );
+                chartGraphic.getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
+                chartGraphic.getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
+                chartGraphic.getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
 
                 // Minor gridlines
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesVisible( MINOR_GRIDLINES_ENABLED );
-                _chartGraphic.getHorizonalGridlines().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
+                chartGraphic.getHorizonalGridlines().setMinorGridlinesVisible( MINOR_GRIDLINES_ENABLED );
+                chartGraphic.getHorizonalGridlines().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
+                chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
+                chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
             }
         }
+        
+        // Flatten all of the static graphics.
+        FlatGraphic flatGraphic = new FlatGraphic( component );
+        addGraphic( flatGraphic, FLATTENED_LAYER );
+        flatGraphic.addGraphic( backgroundGraphic );
+        flatGraphic.addGraphic( titleGraphic );
+        flatGraphic.addGraphic( chartGraphic );
+        flatGraphic.flatten();
+        flatGraphic.setLocation( 0, 0 );
         
         // Amplitude sliders
         _slidersGraphic = new GraphicLayerSet( component );
@@ -221,9 +222,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         
         // Interactivity
         {
-            backgroundGraphic.setIgnoreMouse( true );
-            titleGraphic.setIgnoreMouse( true );
-            _chartGraphic.setIgnoreMouse( true );
+            flatGraphic.setIgnoreMouse( true );
         }
         
         // Misc initialization
