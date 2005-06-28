@@ -37,9 +37,6 @@ import java.util.Arrays;
  * @version $Revision$
  */
 public class ControlPanel extends JPanel {
-    private static final int CONTROLS_OFF = 0;
-    private static final int CONTROLS_ON = 1;
-    private static final int CONTROLS_SCROLL = 2;
 
     private ControlPanel.ContentPanel controlPane = new ContentPanel();
     private ImageIcon imageIcon;
@@ -202,8 +199,8 @@ public class ControlPanel extends JPanel {
          * @param parent
          */
         public void layoutContainer( Container parent ) {
-            northPanel.reshape( getPositionToCenter( northPanel ), 0, northPanel.getPreferredSize().width, northPanel.getPreferredSize().height );
-            helpPanel.reshape( getPositionToCenter( helpPanel ), getHeight() - helpPanel.getPreferredSize().height, helpPanel.getPreferredSize().width, helpPanel.getPreferredSize().height );
+            northPanel.setBounds( getPositionToCenter( northPanel ), 0, northPanel.getPreferredSize().width, northPanel.getPreferredSize().height );
+            helpPanel.setBounds( getPositionToCenter( helpPanel ), getHeight() - helpPanel.getPreferredSize().height, helpPanel.getPreferredSize().width, helpPanel.getPreferredSize().height );
             int controlTop = getLogoBottom() + paddingDY;
             int controlBottom = getHelpTop() - paddingDY;
             int remainingHeight = controlBottom - controlTop;
@@ -229,7 +226,7 @@ public class ControlPanel extends JPanel {
             else {
                 //controls will fit without scrollpane.
                 addToPanel( controlPane );
-                controlPane.reshape( 0, controlTop, controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
+                controlPane.setBounds( 0, controlTop, controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
 //                reshapeAll(controlPane);
             }
             if( isMacOSX() ) {
@@ -392,7 +389,7 @@ public class ControlPanel extends JPanel {
      * Sets the state of the Help button in the control panel.
      * This is used to keep the menubar's Help menu item
      * in sync with the control panel's Help button.
-     * 
+     *
      * @param enabled
      */
     public void setHelpEnabled( boolean enabled ) {
