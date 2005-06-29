@@ -17,8 +17,6 @@ import edu.colorado.phet.qm.view.DetectorGraphic;
 import edu.colorado.phet.qm.view.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
-import javax.swing.*;
-
 /**
  * User: Sam Reid
  * Date: Jun 10, 2005
@@ -51,10 +49,7 @@ public class SchrodingerModule extends Module {
 
         schrodingerControlPanel = new SchrodingerControlPanel( this );
         setControlPanel( schrodingerControlPanel );
-
-
     }
-
 
     public SchrodingerPanel getSchrodingerPanel() {
         return schrodingerPanel;
@@ -71,7 +66,9 @@ public class SchrodingerModule extends Module {
         final SchrodingerModule module = new SchrodingerModule( clock );
         phetApplication.setModules( new Module[]{module} );
         phetApplication.startApplication();
-        module.getSchrodingerPanel().add( new JLabel( "HEllo" ) );
+//        module.getSchrodingerPanel().add( new JLabel( "HEllo" ) );
+
+//        module.getSchrodingerControlPanel().setMaxAllowedWidth( module.getSchrodingerControlPanel().getDefaultContentPaneWidth()+10 );
     }
 
     public void reset() {
