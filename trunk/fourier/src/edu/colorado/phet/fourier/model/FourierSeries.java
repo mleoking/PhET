@@ -19,7 +19,7 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * FourierSeries
+ * FourierSeries is the model of a Fourier series.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
