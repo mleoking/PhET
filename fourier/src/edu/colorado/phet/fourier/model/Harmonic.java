@@ -26,7 +26,7 @@ public class Harmonic extends SimpleObservable {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private int _order; //XXX rename this
+    private int _order; // fundamental harmonic has order zero
     private double _amplitude;
     
     //----------------------------------------------------------------------------
@@ -49,17 +49,34 @@ public class Harmonic extends SimpleObservable {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the order of the harmonic.
+     * The fundamental harmonic has an order of zero.
+     * 
+     * @param order
+     */
     public void setOrder( int order ) {
+        assert( order >= 0 );
         if ( order != _order ) {
             _order = order;
             notifyObservers();
         }
     }
     
+    /**
+     * Gets the order of the harmonic.
+     * 
+     * @return the order
+     */
     public int getOrder() {
         return _order;
     }
     
+    /**
+     * Sets the harmonic's amplitude.
+     * 
+     * @param amplitude
+     */
     public void setAmplitude( double amplitude ) {
         if ( amplitude != _amplitude ) {
             _amplitude = amplitude;
@@ -67,27 +84,12 @@ public class Harmonic extends SimpleObservable {
         }
     }
     
+    /**
+     * Gets the harmonic's amplitude.
+     * 
+     * @return
+     */
     public double getAmplitude() {
         return _amplitude;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Fundamental is the fundamental harmonic.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    public class Fundamental extends Harmonic {  
-        public Fundamental() {
-            super( 0 );
-        }
-        
-        public void setOrder( int order ) {
-            //XXX throw exception
-        }
     }
 }
