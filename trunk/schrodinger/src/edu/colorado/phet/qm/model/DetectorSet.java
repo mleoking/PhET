@@ -17,6 +17,7 @@ public class DetectorSet {
     private static final Random random = new Random();
     private DiscreteModel.Listener listener;
     private Wavefunction wavefunction;
+    private boolean autodetect = false;
 
     public DetectorSet( Wavefunction wavefunction ) {
         this.wavefunction = wavefunction;
@@ -42,15 +43,23 @@ public class DetectorSet {
     }
 
     public void handleCollapse() {
-        Wavefunction wavefunction = getWavefunction();
         double norm = 1.0;//todo is this correct?
-//        if( norm >= 0.2 ) {//ensure there's a particle.
-//                System.out.println( "detectorNorm=" + norm);
         for( int i = 0; i < detectors.size(); i++ ) {
             Detector detector = (Detector)detectors.get( i );
-            detector.fire( wavefunction, norm );
+            if( detector.readyToFire() ) {
+                detector.fire( getWavefunction(), norm );
+            }
         }
-//        }
+    }
+
+    public void fireAllEnabledDetectors() {
+        double norm = 1.0;
+        for( int i = 0; i < detectors.size(); i++ ) {
+            Detector detector = (Detector)detectors.get( i );
+            if( detector.isEnabled() ) {
+                detector.fire( getWavefunction(), norm );
+            }
+        }
     }
 
     public Point getCollapsePoint( Rectangle bounds ) {
@@ -91,11 +100,6 @@ public class DetectorSet {
         return getCollapsePoint( getWavefunction().getBounds() );
     }
 
-//    public void collapse( Point collapsePoint, int collapseLatticeDX ) {
-//        double px = new PxValue().compute( getWavefunction() );
-//        new GaussianWave( collapsePoint, new Vector2D.Double( px, 0 ), collapseLatticeDX ).initialize( getWavefunction() );
-//    }
-
     private Wavefunction getWavefunction() {
         return wavefunction;
     }
@@ -111,11 +115,22 @@ public class DetectorSet {
         }
     }
 
+    public void setAutoDetect( boolean selected ) {
+        this.autodetect = selected;
+    }
+
+    public void enableAll() {
+        for( int i = 0; i < detectors.size(); i++ ) {
+            Detector detector = (Detector)detectors.get( i );
+            detector.setEnabled( true );
+        }
+    }
+
     public class MyListener extends DiscreteModel.Adapter {
         public void finishedTimeStep( DiscreteModel model ) {
             notifyTimeStepped();
             updateDetectorProbabilities();
-            if( model.isDetectionCausesCollapse() ) {
+            if( autodetect && model.isDetectionCausesCollapse() ) {
                 handleCollapse();
             }
         }

@@ -27,7 +27,6 @@ import edu.colorado.phet.qm.view.SchrodingerPanel;
 public class SchrodingerModule extends Module {
     private SchrodingerPanel schrodingerPanel;
     private DiscreteModel discreteModel;
-
     private SchrodingerControlPanel schrodingerControlPanel;
 
     /**
@@ -69,6 +68,26 @@ public class SchrodingerModule extends Module {
 //        module.getSchrodingerPanel().add( new JLabel( "HEllo" ) );
 
 //        module.getSchrodingerControlPanel().setMaxAllowedWidth( module.getSchrodingerControlPanel().getDefaultContentPaneWidth()+10 );
+
+//        final ArrayList history=new ArrayList( );
+//        module.getDiscreteModel().addListener( new DiscreteModel.Listener() {
+//            public void finishedTimeStep( DiscreteModel model ) {
+//                history.add(model.getWavefunction().copy());
+//                System.out.println( "history.size="+history.size() );
+//            }
+//
+//            public void sizeChanged() {
+//            }
+//
+//            public void potentialChanged() {
+//            }
+//
+//            public void beforeTimeStep( DiscreteModel discreteModel ) {
+//            }
+//
+//            public void particleFired( DiscreteModel discreteModel ) {
+//            }
+//        } );
     }
 
     public void reset() {

@@ -112,22 +112,24 @@ public class Detector extends RectangularObject {
         timeSinceLast++;
     }
 
+
     public void fire( Wavefunction wavefunction, double norm ) {
-        if( !enabled ) {
-            return;
+//        if( !enabled ) {
+//            return;
+//        }
+//        if( timeToFire() ) {
+//
+//        }
+        double prob = getProbability();
+        double rand = random.nextDouble() * norm;//todo is this right?
+        if( rand <= prob ) {
+            grabWavefunction( wavefunction );
+            setEnabled( false );
         }
-        if( timeToFire() ) {
-            double prob = getProbability();
-            double rand = random.nextDouble() * norm;//todo is this right?
-            if( rand <= prob ) {
-                grabWavefunction( wavefunction );
-                setEnabled( false );
-            }
-            else {
-                expelWavefunction( wavefunction );
-            }
-            timeSinceLast = 0;
+        else {
+            expelWavefunction( wavefunction );
         }
+        timeSinceLast = 0;
     }
 
     private void expelWavefunction( Wavefunction wavefunction ) {
@@ -144,5 +146,9 @@ public class Detector extends RectangularObject {
 
     public boolean contains( int x, int y ) {
         return getBounds().contains( x, y );
+    }
+
+    public boolean readyToFire() {
+        return enabled && timeToFire();
     }
 }

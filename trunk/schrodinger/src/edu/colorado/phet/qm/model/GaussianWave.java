@@ -15,6 +15,7 @@ import java.awt.geom.Point2D;
 public class GaussianWave extends WaveSetup implements Wave {
     private GaussianWave1D xWave;
     private GaussianWave1D yWave;
+    private double globalPhase;
 
     public GaussianWave( Point2D center, Vector2D momentum, double dxLattice ) {
         this( center, momentum, dxLattice, dxLattice );
@@ -35,6 +36,16 @@ public class GaussianWave extends WaveSetup implements Wave {
         Complex x = xWave.getValue( i );
         Complex y = yWave.getValue( j );
         Complex product = x.times( y );
+        product = product.times( Complex.exponentiateImaginary( globalPhase ) );//rotate through global phase offset
         return product;
     }
+
+    public void setPhase( double globalPhase ) {
+        this.globalPhase = globalPhase;
+    }
+
+//    public void setPhase( double phaseX, double phaseY ) {
+//        xWave.setPhase(phaseX);
+//        yWave.setPhase(phaseY);
+//    }
 }

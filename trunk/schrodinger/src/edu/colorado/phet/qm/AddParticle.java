@@ -25,7 +25,6 @@ public class AddParticle implements ModelElement {
     public void stepInTime( double dt ) {
         Wavefunction newParticle = new Wavefunction( module.getDiscreteModel().getWavefunction().getWidth(), module.getDiscreteModel().getWavefunction().getHeight() );
         waveSetup.initialize( newParticle );
-
         module.getDiscreteModel().getWavefunction().add( newParticle );
     }
 }
