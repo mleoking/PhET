@@ -24,7 +24,7 @@ import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
 /**
  * FourierComboBox is the standard combo box for the Fourier simulation.
- * It consists of a JComboBox and a JLabel, and constains methods 
+ * It consists of a JComboBox and a JLabel, and contains methods 
  * that make it easier to set & get choices.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
