@@ -25,7 +25,7 @@ import edu.colorado.phet.fourier.module.FourierModule;
 
 
 /**
- * FaradayControlPanel is the control panel for all Faraday modules.
+ * FourierControlPanel is the control panel for all Fourier modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
