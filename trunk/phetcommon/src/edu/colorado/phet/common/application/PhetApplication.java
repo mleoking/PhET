@@ -165,7 +165,7 @@ public class PhetApplication {
         for( int i = 0; args != null && i < args.length; i++ ) {
             String arg = args[i];
             if( arg.equals( DEBUG_MENU_ARG ) ) {
-                phetFrame.addMenu( new DebugMenu( this ) );
+                phetFrame.addDebugMenu();
             }
         }
     }
