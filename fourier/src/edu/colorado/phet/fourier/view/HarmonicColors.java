@@ -101,6 +101,7 @@ public class HarmonicColors {
      * @param color
      */
     public void setColor( int order, Color color ) {
+        assert( isManaged( order ) );
         _harmonicColors[ order ] = color;
         fireChangeEvent( order, color );
     }
@@ -109,12 +110,9 @@ public class HarmonicColors {
      * Gets the color that corresponds to a specified harmonic.
      * 
      * @param order the harmonic order, starting from zero
-     * @throws IllegalArgumentException if n is out of range
      */
     public Color getColor( int order ) {
-      if ( order < 0 || order >= _harmonicColors.length ) {
-          throw new IllegalArgumentException( "order is out of range: " + order );
-      }
+      assert( isManaged( order ) );
       return _harmonicColors[ order ];
     }
     
@@ -122,10 +120,20 @@ public class HarmonicColors {
      * Gets the color that corresponds to a specified harmonic.
      * 
      * @param Harmonic the harmonic
-     * @throws IllegalArgumentException if n is out of range
      */
     public Color getColor( Harmonic harmonic ) {
         return getColor( harmonic.getOrder() );
+    }
+    
+    /*
+     * Determines whether the color for a specified harmonic order is 
+     * managed by this class.
+     * 
+     * @param order
+     * @return true or false
+     */
+    private boolean isManaged( int order ) {
+        return ( order >= 0 && order < _harmonicColors.length );
     }
     
     //----------------------------------------------------------------------------
