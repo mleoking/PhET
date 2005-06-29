@@ -457,7 +457,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         // If the preset has changed, update the preset waveform.
         int preset = _fourierSeries.getPreset();
         int waveType = _fourierSeries.getWaveType();
-        if ( _previousPreset != preset || _previousWaveType != waveType ) {
+        if ( preset != _previousPreset || waveType != _previousWaveType ) {
 
             _sumPlot.setStartX( 0 );
             _presetPlot.getDataSet().clear();
