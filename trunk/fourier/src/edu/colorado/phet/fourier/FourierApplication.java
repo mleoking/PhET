@@ -20,6 +20,7 @@ import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.model.clock.SwingTimerClock;
+import edu.colorado.phet.common.util.DebugMenu;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -38,8 +39,6 @@ public class FourierApplication extends PhetApplication {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    private static final boolean ENABLE_DEVELOPER_MENU = true;
     
     private static final boolean TEST_ONE_MODULE = false;
     
@@ -94,14 +93,10 @@ public class FourierApplication extends PhetApplication {
         OptionsMenu optionsMenu = new OptionsMenu( this );
         getPhetFrame().addMenu( optionsMenu );
         
-        // Developer menu
-        if ( ENABLE_DEVELOPER_MENU ) {
-
-            JMenu developerMenu = new JMenu( "Developer" );
-            developerMenu.setMnemonic( 'v' );
-            frame.addMenu( developerMenu );
-            
-            //XXX Add menu items for Developer menu
+        // Debug menu extensions
+        DebugMenu debugMenu = frame.getDebugMenu();
+        if ( debugMenu != null ) {
+            //XXX Add debug menu items here.
         }
     }
     
