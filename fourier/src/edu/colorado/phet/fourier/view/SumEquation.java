@@ -61,6 +61,11 @@ public class SumEquation extends CompositePhetGraphic {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sole constructor.
+     * 
+     * @param component
+     */
     public SumEquation( Component component ) {
         super( component );
         
@@ -111,6 +116,13 @@ public class SumEquation extends CompositePhetGraphic {
     // Accessors
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the form of the equation.
+     * 
+     * @param domain
+     * @param mathForm
+     * @param numberOfHarmonics
+     */
     public void setForm( int domain, int mathForm, int numberOfHarmonics ) {
         
         assert( FourierConstants.isValidDomain( domain ) );
