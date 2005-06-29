@@ -177,7 +177,7 @@ public class DiscreteModule extends FourierModule {
         // Help
         //----------------------------------------------------------------------------
         
-        addHelpItem( new HelpItem( apparatusPanel, "<Help goes here>", 200, 150 ) );//XXX
+        addHelpItem( new HelpItem( apparatusPanel, "<Help goes here>", 200, 150 ) );//XXX to test help
         
         // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _fourierSeries );
