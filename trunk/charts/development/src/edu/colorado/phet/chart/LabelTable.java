@@ -17,6 +17,8 @@ import java.util.Set;
 public class LabelTable {
     private Hashtable hashtable = new Hashtable();
 
+    public LabelTable() {}
+    
     public void put( double value, PhetGraphic label ) {
         hashtable.put( new Double( value ), label );
     }
