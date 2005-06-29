@@ -68,6 +68,7 @@ public class HarmonicsEquation extends HTMLGraphic {
         assert( FourierConstants.isValidDomain( domain ) );
         assert( FourierConstants.isValidMathForm( mathForm ) );
         
+        // Example: An sin( kn x )
         String termFormat = MathStrings.getTerm( domain, mathForm );
         String coefficientString = MathStrings.getCoefficient();
         Object[] args = { coefficientString, "n" };
