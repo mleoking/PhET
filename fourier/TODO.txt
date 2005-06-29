@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- test Reset
 - when PeriodDislay.setHarmonic is called, it's angle is reset, it should be sync'ed to the harmonic's cycle
 - "show infinte" goes away after a few cycles in space-&-time mode
 - FourierSumPlot should be an observer of its FourierSeries
