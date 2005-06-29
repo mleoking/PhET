@@ -419,19 +419,23 @@ public class HarmonicsGraph extends GraphicLayerSet
                 harmonicPlot.setPixelsPerPoint( PIXELS_PER_POINT[i] );
                 harmonicPlot.setStroke( WAVE_NORMAL_STROKE );
                 harmonicPlot.setBorderColor( HarmonicColors.getInstance().getColor( i ) );
+                harmonicPlot.setStartX( 0 );
 
                 _chartGraphic.addDataSetGraphic( harmonicPlot );
             }
             
             _previousNumberOfHarmonics = numberOfHarmonics;
         }
-        
-        int preset = _fourierSeries.getPreset();
-        int waveType = _fourierSeries.getWaveType();
-        if ( _previousPreset != preset || _previousWaveType != waveType ) {
-            for ( int i = 0; i < _harmonicPlots.size(); i++ ) {
-                HarmonicPlot harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
-                harmonicPlot.setStartX( 0 );
+        else {
+            // When the preset or wave type changes, reset the cycle of the waves.
+            int preset = _fourierSeries.getPreset();
+            int waveType = _fourierSeries.getWaveType();
+            if ( preset != _previousPreset || waveType != _previousWaveType ) {
+                for ( int i = 0; i < _harmonicPlots.size(); i++ ) {
+                    ( (HarmonicPlot) _harmonicPlots.get( i ) ).setStartX( 0 );
+                }
+                _previousPreset = preset;
+                _previousWaveType = waveType;
             }
         }
     }
