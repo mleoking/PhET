@@ -26,7 +26,7 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.util.FourierUtils;
+import edu.colorado.phet.fourier.util.TrigCache;
 
 
 /**
@@ -240,10 +240,10 @@ public class FourierSumPlot extends LinePlot {
                     final double angle = startAngle + ( pointIndex * deltaAngle );
                     double radians;
                     if ( waveType == FourierConstants.WAVE_TYPE_SINE ) {
-                        radians = FourierUtils.sin( angle );
+                        radians = TrigCache.sin( angle );
                     }
                     else {
-                        radians = FourierUtils.cos( angle );
+                        radians = TrigCache.cos( angle );
                     }
 
                     final double x = _points[ pointIndex ].getX();

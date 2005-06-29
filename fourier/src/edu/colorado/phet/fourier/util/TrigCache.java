@@ -14,12 +14,17 @@ package edu.colorado.phet.fourier.util;
 
 
 /**
- * FourierUtils is a collection of static utility methods.
+ * TrigCache is a cache of trigonometric values.
+ * It sacrifices precision for speed.
+ * <p>
+ * The first time that a trig function (sine, cosine) is called, a cache is 
+ * built.  The cache contains values for the function at 1-degree intervals.
+ * The value returned for a function is the closest value in the cache.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FourierUtils {
+public class TrigCache {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -36,36 +41,35 @@ public class FourierUtils {
     //----------------------------------------------------------------------------
     
     /** Not intended for instantiation */
-    private FourierUtils() {}
+    private TrigCache() {}
     
     //----------------------------------------------------------------------------
-    // Utilities
+    // Cache access
     //----------------------------------------------------------------------------
     
     /**
-     * Approximates the sine of an angle.
-     * Values are cached at 1-degree intervals.
-     * The angle is converted to the closest integer degree in the range 0-355,
-     * which is used to look up the value in the cache.
+     * Gets the approximate sine of some angle.
      * 
      * @param radians the angle, in radians
      * @return the sine
      */
     public static double sin( double radians ) {
         
-        // Allocate the lookup table when needed.
+        // Allocate the lookup table on the first request.
         if ( _sineValues == null ) {
-            _sineValues = new double[360];
-            for ( int i = 0; i < 360; i++ ) {
+            _sineValues = new double[ 360 ];
+            for ( int i = 0; i < _sineValues.length; i++ ) {
                 _sineValues[i] = Math.sin( Math.toRadians( i ) );
             }
         }
         
-        // Look up the value.
+        // Find the closest integer to the requested angle.
         int index = (int) ( Math.round( Math.toDegrees( Math.abs( radians) ) ) % 360 );
+        
+        // Look up the value.
         double value = _sineValues[ index ];
         
-        // Use the correct sign.
+        // Correct the value's sign.
         if ( radians < 0 ) {
             value = -value;
         }
@@ -74,17 +78,14 @@ public class FourierUtils {
     }
     
     /**
-     * Approximates the cosine of an angle.
-     * Values are cached at 1-degree intervals.
-     * The angle is converted to the closest integer degree in the range 0-355,
-     * which is used to look up the value in the cache.
+     * Gets the approximate cosine of some angle.
      * 
      * @param radians the angle, in radians
      * @return the sine
      */
     public static double cos( double radians ) {
         
-        // Allocate the lookup table when needed.
+        // Allocate the lookup table on the first request.
         if ( _cosineValues == null ) {
             _cosineValues = new double[360];
             for ( int i = 0; i < 360; i++ ) {
@@ -92,8 +93,10 @@ public class FourierUtils {
             }
         }
         
-        // Look up the value.
+        // Find the closest integer to the requested angle.
         int index = (int) ( Math.round( Math.toDegrees( Math.abs( radians) ) ) % 360 );
+        
+        // Look up the value.
         double value = _cosineValues[ index ];
         
         return value;
