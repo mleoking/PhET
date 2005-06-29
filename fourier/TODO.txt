@@ -60,12 +60,12 @@ DONE:
 (6/28) - define StringLabelTable to make creation of chart labels more readable
 (6/28) - lots of javadoc and cleanup
 (6/28) - refactor FourierUtils into TrigCache
-(6/28) - provide access to the DebugMenu so that it can be extended
+(6/28) - phetcommon: provide access to the DebugMenu so that it can be extended
 (6/28) - set apparatus panel bkg color to match Harmonics & Sum graphs
-(6/28) - move FlattenedGraphic to PhetFlattenedGraphic in phetcommon
+(6/28) - phetcommon: move FlattenedGraphic to PhetFlattenedGraphic in phetcommon
 (6/28) - flatten all static graphics in AmplitudeGraph
 (6/28) - create FlattenedGraphic for flattening graphics
-(6/28) - fix GraphicLayerSet and CompositePhetGraphic mouse handling to use getIgnoreMouse correctly
+(6/28) - phetcommon: fix GraphicLayerSet and CompositePhetGraphic mouse handling to use getIgnoreMouse correctly
 (6/28) - reuse GeneralPath in LinePlot, instead of repeated reallocation
 (6/28) - remove redundant redraws from LinePlot
 v0r3...
@@ -79,9 +79,9 @@ v0r3...
 (6/24) - add rough waveform animation to Harmonic graph
 (6/24) - add SinePlot.setPixelsPerPoint
 (6/24) - reuse points in SinePlot when the number of points hasn't changed
-(6/24) - migrate SinePlot to charts package
-(6/24) - change charts package to use double precision model-to-view transforms
-(6/24) - add double precision model-to-view methods to ModelViewTransform2D
+(6/24) - charts: migrate SinePlot to charts package
+(6/24) - charts: change charts package to use double precision model-to-view transforms
+(6/24) - phetcommon: add double precision model-to-view methods to ModelViewTransform2D
 (6/24) - create SinePlot subclass of LinePlot that changes its data set to match the chart range
 (6/23) - move preset constants and accessor methods into FourierConstants
 (6/23) - moved math symbols out of Fourier.properties and into MathStrings
@@ -94,7 +94,7 @@ v0r3...
 (6/22) - send SamR a test case for broken tab traversal in PhetJComponents
 (6/22) - "Save for Web" all images
 (6/22) - amplitude sliders don't get mouse exit if you quickly move the mouse to the control panel (test Sam's fix)
-(6/22) - link Help button and Help menu item in phetcommon
+(6/22) - phetcommon: link Help button and Help menu item in phetcommon
 (6/21) - remove sound controls from Discrete control panel
 (6/21) - add infinite waveform for "sine/cosine" preset choice
 (6/21) - use light gray for infinite waveform in Sum graph, put it behind sum waveform
@@ -129,7 +129,7 @@ v0r2...
 (6/16) - rename several classes in view and control packages
 (6/16) - hide sound controls
 (6/16) - add transparency to auto scale button
-(6/16) - add transparency support to PhetJComponent
+(6/16) - phetcommon: add transparency support to PhetJComponent
 (6/15) - add spacing around parts of zoom control
 (6/15) - increase width of focus harmonic
 (6/15) - don't give focus to harmonics with zero amplitude
@@ -168,8 +168,8 @@ v0r1...
 (6/8) - fully select amplitude value when text field gains focus
 sandbox-2005-06-08...
 (6/8) - redo Amplitude slider: no arrows, small rectangle knob, click above/below/on to jump to a value
-(6/8) - work with Sam to reduce the overhead of adding a collection of points to charts
-(6/8) - work with Sam to fix repaint problems in charts
+(6/8) - charts: work with Sam to reduce the overhead of adding a collection of points to charts
+(6/8) - charts: work with Sam to fix repaint problems in charts
 (6/7) - add charts package to fourier CVS module dependencies
 (6/7) - replace arrows with a small rectangle on AmplitudeSlider
 (6/7) - move sin/cos caching functions to FourierUtils
