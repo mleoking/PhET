@@ -29,7 +29,8 @@ import edu.colorado.phet.fourier.view.HarmonicColors;
 
 
 /**
- * HarmonicColorsDialog
+ * HarmonicColorsDialog is the dialog for changing the colors 
+ * used to draw harmonic waveforms.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

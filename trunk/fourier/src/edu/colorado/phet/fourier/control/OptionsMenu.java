@@ -22,7 +22,7 @@ import edu.colorado.phet.fourier.FourierApplication;
 
 
 /**
- * OptionsMenu implements the Options menu that appears in the Fourier menubar.
+ * OptionsMenu implements the Options menu that appears in the menubar.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
