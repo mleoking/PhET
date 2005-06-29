@@ -28,7 +28,7 @@ import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
 
 /**
- * SoundPanel
+ * SoundPanel is a panel that contains sound controls.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$

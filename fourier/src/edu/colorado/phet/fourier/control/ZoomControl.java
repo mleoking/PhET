@@ -27,7 +27,7 @@ import edu.colorado.phet.fourier.event.ZoomListener;
 
 
 /**
- * ZoomControl
+ * ZoomControl is a control for horizontal or vertical zooming.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
