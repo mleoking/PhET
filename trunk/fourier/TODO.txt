@@ -7,6 +7,7 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - "show infinte" goes away after a few cycles in space-&-time mode
+- FourierSumPlot should be an observer of its FourierSeries
 - animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
 - Harmonics and Sum sometime lose sync (when switching presets or adjusting amplitudes)
 - PeriodDisplay has not been sync'ed, doesn't reset to 0 when domain/preset/waveType is changed
@@ -17,6 +18,7 @@ MEDIUM PRIORITY:
 - control panel resize & apparatus panel repaint problems when switching domains
 
 LOW PRIORITY:
+- break up DiscreteControlPanel into subpanels that can be reused in other modules
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 - waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - smaller font for equation subscripts
