@@ -62,6 +62,7 @@ public class FourierSeries extends SimpleObservable implements SimpleObserver {
      * @param fundamentalFrequency
      */
     public FourierSeries( int numberOfHarmonics, double fundamentalFrequency ) {
+        super();
         _fundamentalFrequency = fundamentalFrequency;
         _harmonics = new ArrayList();
         _availableHarmonics = new ArrayList();
