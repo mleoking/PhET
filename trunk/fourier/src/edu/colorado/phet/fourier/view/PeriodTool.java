@@ -19,14 +19,15 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * PeriodTool
+ * PeriodTool is the tool used to measure the period of a harmonic 
+ * in the time domain.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class PeriodTool extends WaveMeasurementTool {
 
-    private static final String SYMBOL = "" + MathStrings.C_PERIOD;
+    private static final String SYMBOL = String.valueOf( MathStrings.C_PERIOD );
     
     public PeriodTool( Component component, Harmonic harmonic, Chart chart ) {
         super( component, SYMBOL, harmonic, chart );

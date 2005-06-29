@@ -19,14 +19,15 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * WavelengthTool
+ * WavelengthTool is the tool used to measure the length of a harmonic
+ * in the space domain.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class WavelengthTool extends WaveMeasurementTool {
 
-    private static final String SYMBOL = "" + MathStrings.C_WAVELENGTH;
+    private static final String SYMBOL = String.valueOf( MathStrings.C_WAVELENGTH );
     
     public WavelengthTool( Component component, Harmonic harmonic, Chart chart ) {
         super( component, SYMBOL, harmonic, chart );
