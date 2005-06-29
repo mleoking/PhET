@@ -23,7 +23,7 @@ import java.util.EventListener;
 public interface ZoomListener extends EventListener {
 
     /**
-     * Invokes when a zoom occurs.
+     * Invoked when a zoom occurs.
      * 
      * @param event
      */

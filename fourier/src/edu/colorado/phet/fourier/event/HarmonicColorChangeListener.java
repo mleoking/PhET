@@ -15,12 +15,18 @@ import java.util.EventListener;
 
 
 /**
- * HarmonicColorChangeListener
+ * HarmonicColorChangeListener is the listener interface for receiving
+ * events related to the changing of harmonic colors.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public interface HarmonicColorChangeListener extends EventListener {
 
+    /**
+     * Invoked when a harmonic's color is changed.
+     * 
+     * @param event
+     */
     public void harmonicColorChanged( HarmonicColorChangeEvent event );
 }
