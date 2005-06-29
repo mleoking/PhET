@@ -32,7 +32,11 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 /**
  * PeriodDisplay is used to display the period time of a harmonic 
- * in "space & time" domain.
+ * in "space & time" domain.  The period is shown using a pie chart
+ * that gradually fills in a clockwise direction.  The harmonic 
+ * begins a cycle when the pie is empty, and complete a cycle when
+ * the pie is full.  The color of the pie matches the color of 
+ * the harmonic.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -125,6 +129,9 @@ public class PeriodDisplay extends CompositePhetGraphic
         setHarmonic( harmonic );
     }
     
+    /**
+     * Call this method prior to releasing all references to an object of this type.
+     */
     public void cleanup() {
         _harmonic.removeObserver( this );
         HarmonicColors.getInstance().removeHarmonicColorChangeListener( this );
@@ -197,7 +204,7 @@ public class PeriodDisplay extends CompositePhetGraphic
     // ApparatusPanel2.ChangeListener implementation
     //----------------------------------------------------------------------------
 
-    /*
+    /**
      * Informs the mouse handler of changes to the apparatus panel size.
      * 
      * @param event
@@ -254,7 +261,7 @@ public class PeriodDisplay extends CompositePhetGraphic
     // HarmonicColorChangeListener implementation
     //----------------------------------------------------------------------------
     
-    /*
+    /**
      * Updates the tool color when its corresponding harmonic color changes.
      */
     public void harmonicColorChanged( HarmonicColorChangeEvent e ) {
