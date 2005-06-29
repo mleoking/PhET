@@ -85,6 +85,13 @@ public class FourierSumPlot extends LinePlot {
         updateDataSet();
     }
     
+    /**
+     * Call this before releasing all references to this object.
+     */
+    public void cleanup() {
+        //XXX
+    }
+    
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
