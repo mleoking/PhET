@@ -29,6 +29,7 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
+import edu.colorado.phet.fourier.charts.StringLabelTable;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
@@ -38,7 +39,7 @@ import edu.colorado.phet.fourier.model.FourierSeries;
 
 
 /**
- * HarmonicsGraph
+ * HarmonicsGraph graphs a collection of harmonic waveforms.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -131,8 +132,8 @@ public class HarmonicsGraph extends GraphicLayerSet
     private int _xZoomLevel;
     private int _domain;
     private int _mathForm;
-    private LabelTable _spaceLabels1, _spaceLabels2;
-    private LabelTable _timeLabels1, _timeLabels2;
+    private StringLabelTable _spaceLabels1, _spaceLabels2;
+    private StringLabelTable _timeLabels1, _timeLabels2;
     private int _previousNumberOfHarmonics;
     private int _previousPreset;
     private int _previousWaveType;
@@ -149,7 +150,11 @@ public class HarmonicsGraph extends GraphicLayerSet
      */
     public HarmonicsGraph( Component component, FourierSeries fourierSeries ) {
         super( component );
-
+        
+        // Model
+        _fourierSeries = fourierSeries;
+        _fourierSeries.addObserver( this );
+        
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
@@ -161,10 +166,6 @@ public class HarmonicsGraph extends GraphicLayerSet
         backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
         addGraphic( backgroundGraphic, BACKGROUND_LAYER );
         backgroundGraphic.setLocation( -100, -115 );
-        
-        // Model
-        _fourierSeries = fourierSeries;
-        _fourierSeries.addObserver( this );
         
         // Title
         String title = SimStrings.get( "HarmonicsGraphic.title" );
@@ -318,92 +319,6 @@ public class HarmonicsGraph extends GraphicLayerSet
     }
     
     //----------------------------------------------------------------------------
-    // Chart Labels
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Lazy initialization of the X axis "space" labels.
-     */
-    private LabelTable getSpaceLabels1() {
-        if ( _spaceLabels1 == null ) {
-            Component component = getComponent();
-            _spaceLabels1 = new LabelTable();
-            _spaceLabels1.put( -1.00 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
-            _spaceLabels1.put( -0.75 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3L/4", MAJOR_TICK_COLOR ) );
-            _spaceLabels1.put( -0.50 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/2", MAJOR_TICK_COLOR ) );
-            _spaceLabels1.put( -0.25 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/4", MAJOR_TICK_COLOR ) );
-            _spaceLabels1.put(     0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
-            _spaceLabels1.put( +0.25 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/4", MAJOR_TICK_COLOR ) );
-            _spaceLabels1.put( +0.50 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/2", MAJOR_TICK_COLOR ) );
-            _spaceLabels1.put( +0.75 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3L/4", MAJOR_TICK_COLOR ) );
-            _spaceLabels1.put( +1.00 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L", MAJOR_TICK_COLOR ) );
-        }
-        return _spaceLabels1;
-    }
-    
-    /*
-     * Lazy initialization of the X axis "space" labels.
-     */
-    private LabelTable getSpaceLabels2() {
-        if ( _spaceLabels2 == null ) {
-            _spaceLabels2 = new LabelTable();
-            Component component = getComponent();
-            _spaceLabels2.put( -2.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-2L", MAJOR_TICK_COLOR ) );
-            _spaceLabels2.put( -1.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3L/2", MAJOR_TICK_COLOR ) );
-            _spaceLabels2.put( -1.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L", MAJOR_TICK_COLOR ) );
-            _spaceLabels2.put( -0.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-L/2", MAJOR_TICK_COLOR ) );
-            _spaceLabels2.put(    0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
-            _spaceLabels2.put( +0.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L/2", MAJOR_TICK_COLOR ) );
-            _spaceLabels2.put( +1.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "L", MAJOR_TICK_COLOR ) );
-            _spaceLabels2.put( +1.5 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3L/2", MAJOR_TICK_COLOR ) );
-            _spaceLabels2.put( +2.0 * L, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2L", MAJOR_TICK_COLOR ) );
-        }
-        return _spaceLabels2;
-    }
-    
-    /*
-     * Lazy initialization of the X axis "time" labels.
-     */
-    private LabelTable getTimeLabels1() {
-        if ( _timeLabels1 == null ) {
-            double T = L; // use the same quantity for wavelength and period
-            Component component = getComponent();
-            _timeLabels1 = new LabelTable();
-            _timeLabels1.put( -1.00 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T", MAJOR_TICK_COLOR ) );
-            _timeLabels1.put( -0.75 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3T/4", MAJOR_TICK_COLOR ) );
-            _timeLabels1.put( -0.50 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/2", MAJOR_TICK_COLOR ) );
-            _timeLabels1.put( -0.25 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/4", MAJOR_TICK_COLOR ) );
-            _timeLabels1.put(     0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
-            _timeLabels1.put( +0.25 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/4", MAJOR_TICK_COLOR ) );
-            _timeLabels1.put( +0.50 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/2", MAJOR_TICK_COLOR ) );
-            _timeLabels1.put( +0.75 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3T/4", MAJOR_TICK_COLOR ) );
-            _timeLabels1.put( +1.00 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T", MAJOR_TICK_COLOR ) );
-        }
-        return _timeLabels1;
-    }
-    
-    /*
-     * Lazy initialization of the X axis "time" labels.
-     */
-    private LabelTable getTimeLabels2() {   
-        if ( _timeLabels2 == null ) {
-            double T = L; // use the same quantity for wavelength and period
-            Component component = getComponent();
-            _timeLabels2 = new LabelTable();
-            _timeLabels2.put( -2.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-2T", MAJOR_TICK_COLOR ) );
-            _timeLabels2.put( -1.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-3T/2", MAJOR_TICK_COLOR ) );
-            _timeLabels2.put( -1.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T", MAJOR_TICK_COLOR ) );
-            _timeLabels2.put( -0.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "-T/2", MAJOR_TICK_COLOR ) );
-            _timeLabels2.put(    0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "0", MAJOR_TICK_COLOR ) );
-            _timeLabels2.put( +0.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T/2", MAJOR_TICK_COLOR ) );
-            _timeLabels2.put( +1.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "T", MAJOR_TICK_COLOR ) );
-            _timeLabels2.put( +1.5 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "3T/2", MAJOR_TICK_COLOR ) );
-            _timeLabels2.put( +2.0 * T, new PhetTextGraphic( component, MAJOR_TICK_FONT, "2T", MAJOR_TICK_COLOR ) );
-        }
-        return _timeLabels2;
-    }
-    
-    //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
 
@@ -490,10 +405,11 @@ public class HarmonicsGraph extends GraphicLayerSet
 
                 HarmonicPlot harmonicPlot = null;
                 if ( i < _harmonicPlots.size() ) {
+                    // Reuse
                     harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
                 }
                 else {
-                    // Allocate new data sets graphic.
+                    // Allocate new
                     harmonicPlot = new HarmonicPlot( getComponent(), _chartGraphic );
                     _harmonicPlots.add( harmonicPlot );
                 }
@@ -664,9 +580,94 @@ public class HarmonicsGraph extends GraphicLayerSet
         }
     }
     
+    /*
+     * Updates the math equation that appears above the graph.
+     */
     private void updateMath() {
         _mathGraphic.setForm( _domain, _mathForm );
         _mathGraphic.setRegistrationPoint( _mathGraphic.getWidth() / 2, _mathGraphic.getHeight() ); // bottom center
+    }
+    
+    //----------------------------------------------------------------------------
+    // Chart Labels
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Lazy initialization of the X axis "space" labels.
+     */
+    private StringLabelTable getSpaceLabels1() {
+        if ( _spaceLabels1 == null ) {
+            _spaceLabels1 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+            _spaceLabels1.put( -1.00 * L, "-L" );
+            _spaceLabels1.put( -0.75 * L, "-3L/4" );
+            _spaceLabels1.put( -0.50 * L, "-L/2" );
+            _spaceLabels1.put( -0.25 * L, "-L/4" );
+            _spaceLabels1.put(     0 * L, "0" );
+            _spaceLabels1.put( +0.25 * L, "L/4" );
+            _spaceLabels1.put( +0.50 * L, "L/2" );
+            _spaceLabels1.put( +0.75 * L, "3L/4" );
+            _spaceLabels1.put( +1.00 * L, "L" );
+        }
+        return _spaceLabels1;
+    }
+    
+    /*
+     * Lazy initialization of the X axis "space" labels.
+     */
+    private StringLabelTable getSpaceLabels2() {
+        if ( _spaceLabels2 == null ) {
+            _spaceLabels2 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+            _spaceLabels2.put( -2.0 * L, "-2L" );
+            _spaceLabels2.put( -1.5 * L, "-3L/2" );
+            _spaceLabels2.put( -1.0 * L, "-L" );
+            _spaceLabels2.put( -0.5 * L, "-L/2" );
+            _spaceLabels2.put(    0 * L, "0" );
+            _spaceLabels2.put( +0.5 * L, "L/2" );
+            _spaceLabels2.put( +1.0 * L, "L" );
+            _spaceLabels2.put( +1.5 * L, "3L/2" );
+            _spaceLabels2.put( +2.0 * L, "2L" );
+        }
+        return _spaceLabels2;
+    }
+    
+    /*
+     * Lazy initialization of the X axis "time" labels.
+     */
+    private StringLabelTable getTimeLabels1() {
+        if ( _timeLabels1 == null ) {
+            double T = L; // use the same quantity for wavelength and period
+            _timeLabels1 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+            _timeLabels1.put( -1.00 * T, "-T" );
+            _timeLabels1.put( -0.75 * T, "-3T/4" );
+            _timeLabels1.put( -0.50 * T, "-T/2" );
+            _timeLabels1.put( -0.25 * T, "-T/4" );
+            _timeLabels1.put(     0 * T, "0" );
+            _timeLabels1.put( +0.25 * T, "T/4" );
+            _timeLabels1.put( +0.50 * T, "T/2" );
+            _timeLabels1.put( +0.75 * T, "3T/4" );
+            _timeLabels1.put( +1.00 * T, "T" );
+        }
+        return _timeLabels1;
+    }
+    
+    /*
+     * Lazy initialization of the X axis "time" labels.
+     */
+    private StringLabelTable getTimeLabels2() {   
+        if ( _timeLabels2 == null ) {
+            double T = L; // use the same quantity for wavelength and period
+            _timeLabels2 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+            _timeLabels2.put( -2.0 * T, "-2T" );
+            _timeLabels2.put( -1.5 * T, "-3T/2" );
+            _timeLabels2.put( -1.0 * T, "-T" );
+            _timeLabels2.put( -0.5 * T, "-T/2" );
+            _timeLabels2.put(    0 * T, "0" );
+            _timeLabels2.put( +0.5 * T, "T/2" );
+            _timeLabels2.put( +1.0 * T, "T" );
+            _timeLabels2.put( +1.5 * T, "3T/2" );
+            _timeLabels2.put( +2.0 * T, "2T" );
+        }
+        return _timeLabels2;
     }
     
     //----------------------------------------------------------------------------

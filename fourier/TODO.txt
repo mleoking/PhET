@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- when PeriodDislay.setHarmonic is called, it's angle is reset, it should be sync'ed to the harmonic's cycle
 - "show infinte" goes away after a few cycles in space-&-time mode
 - FourierSumPlot should be an observer of its FourierSeries
 - animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
@@ -14,10 +15,12 @@ HIGH PRIORITY:
 - persistence
 
 MEDIUM PRIORITY:
+- PeriodDisplay is an observer of its harmonic, should it be?
 - something is hammering the processor when we should be idle
 - control panel resize & apparatus panel repaint problems when switching domains
 
 LOW PRIORITY:
+- get rid of Vector2D if it continues to be used only by WiggleMeGraphic
 - break up DiscreteControlPanel into subpanels that can be reused in other modules
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 - waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
@@ -53,6 +56,8 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/28) - define StringLabelTable to make creation of chart labels more readable
+(6/28) - lots of javadoc and cleanup
 (6/28) - refactor FourierUtils into TrigCache
 (6/28) - provide access to the DebugMenu so that it can be extended
 (6/28) - set apparatus panel bkg color to match Harmonics & Sum graphs
