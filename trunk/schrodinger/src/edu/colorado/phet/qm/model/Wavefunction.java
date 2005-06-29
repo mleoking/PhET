@@ -190,4 +190,9 @@ public class Wavefunction {
             throw new RuntimeException( "illegal arg dim" );
         }
     }
+
+    public void setWavefunction( Wavefunction wavefunction ) {
+        clear();
+        add( wavefunction );
+    }
 }

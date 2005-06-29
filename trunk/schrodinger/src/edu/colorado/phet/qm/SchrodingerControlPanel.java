@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
+import edu.colorado.phet.common.math.ModelViewTransform1D;
 import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.AdvancedPanel;
@@ -12,11 +13,10 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.model.*;
+import edu.colorado.phet.qm.model.operators.YValue;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
-import edu.colorado.phet.qm.model.propagators.CrankNicholsonPropagator;
-import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
-import edu.colorado.phet.qm.model.propagators.RichardsonPropagator;
+import edu.colorado.phet.qm.model.propagators.*;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
@@ -31,6 +31,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 
 /**
@@ -49,6 +50,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     private ModelSlider dxSlider;
     public ModelElement particleFirer;
     public CylinderWaveControl cylinderWaveBox;
+    private FiniteDifferencePropagator2ndOrder classicalPropagator2ndOrder;
 
     public SchrodingerControlPanel( final SchrodingerModule module ) {
         super( module );
@@ -60,9 +62,9 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         addControl( reset );
-        JPanel particleLauncher = createParticleLauncherPanel();
+        JPanel initialConditionPanel = createInitialConditionPanel();
         AdvancedPanel advancedIC = new AdvancedPanel( "Show>>", "Hide<<" );
-        advancedIC.addControlFullWidth( particleLauncher );
+        advancedIC.addControlFullWidth( initialConditionPanel );
         advancedIC.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
         advancedIC.addListener( new AdvancedPanel.Listener() {
 
@@ -77,7 +79,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
 
-        addControlFullWidth( advancedIC );
+//        addControlFullWidth( advancedIC );
 
         JButton fireParticle = new JButton( "Create Particle" );
         fireParticle.addActionListener( new ActionListener() {
@@ -145,7 +147,21 @@ public class SchrodingerControlPanel extends ControlPanel {
 
         particleFirer = new IntegralModelElement( ap, 32 );
 
-
+//        JButton printWaveform = new JButton( "Print Waveform" );
+//        printWaveform.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//
+//            }
+//        } );
+        final JSlider speed = new JSlider( JSlider.HORIZONTAL, 0, 1000, (int)( 1000 * 0.1 ) );
+        speed.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                double x = new ModelViewTransform1D( 0, 0.5, speed.getMinimum(), speed.getMaximum() ).viewToModel( speed.getValue() );
+                System.out.println( "x = " + x );
+                classicalPropagator2ndOrder.setSpeed( x );
+            }
+        } );
+        addControlFullWidth( speed );
     }
 
     private VerticalLayoutPanel createIntensityPanel() {
@@ -187,8 +203,47 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton crank = createPropagatorButton( buttonGroup, "Crank-Nicholson?", new CrankNicholsonPropagator( getDiscreteModel().getDeltaTime(), getDiscreteModel().getBoundaryCondition(), getDiscreteModel().getPotential() ) );
         layoutPanel.add( crank );
 
+        JRadioButton light = createPropagatorButton( buttonGroup, "Avg", new AveragePropagator() );
+        layoutPanel.add( light );
 
+        classicalPropagator2ndOrder = new FiniteDifferencePropagator2ndOrder( getDiscreteModel().getPotential() );
+        JRadioButton lap = createPropagatorButton( buttonGroup, "finite difference", classicalPropagator2ndOrder );
+        layoutPanel.add( lap );
+        lap.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                initClassicalWave( classicalPropagator2ndOrder );
+            }
+        } );
         return layoutPanel;
+    }
+
+    private void initClassicalWave( FiniteDifferencePropagator2ndOrder propagator2ndOrder ) {
+        double x = getStartX();
+        double y0 = getStartY();
+        double px = getStartPx();
+        double py = getStartPy();
+        double dxLattice = getStartDxLattice();
+
+
+        Wavefunction t0 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
+        Wavefunction t1 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
+        new GaussianWave( new Point2D.Double( x, y0 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t0 );
+
+        double time = 1.0;
+        double y1 = y0 + propagator2ndOrder.getSpeed() * time;
+
+        new GaussianWave( new Point2D.Double( x, y1 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t1 );
+
+        Wavefunction t2 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
+        double y2 = y1 + propagator2ndOrder.getSpeed() * time;
+        new GaussianWave( new Point2D.Double( x, y2 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t2 );
+        getDiscreteModel().getWavefunction().setWavefunction( t2 );
+
+        System.out.println( "y0=" + y0 + ", y1 = " + y1 + ", y2=" + y2 );
+        System.out.println( "new YValue().compute( t0) = " + new YValue().compute( t0 ) * getDiscreteModel().getGridHeight() );
+        System.out.println( "new YValue().compute( t1) = " + new YValue().compute( t1 ) * getDiscreteModel().getGridHeight() );
+        System.out.println( "new YValue().compute( t2) = " + new YValue().compute( t2 ) * getDiscreteModel().getGridHeight() );
+        propagator2ndOrder.initialize( t1, t0 );
     }
 
     private JRadioButton createPropagatorButton( ButtonGroup buttonGroup, String s, final Propagator propagator ) {
@@ -312,7 +367,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return lay;
     }
 
-    private JPanel createParticleLauncherPanel() {
+    private JPanel createInitialConditionPanel() {
         VerticalLayoutPanel particleLauncher = new VerticalLayoutPanel();
 
         xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.5 );

@@ -20,7 +20,7 @@ public class Damping extends DiscreteModel.Adapter {
         damp( model.getWavefunction() );
     }
 
-    private void damp( Wavefunction wavefunction ) {
+    public void damp( Wavefunction wavefunction ) {
         leftWall( wavefunction );
         rightWall( wavefunction );
         topWall( wavefunction );

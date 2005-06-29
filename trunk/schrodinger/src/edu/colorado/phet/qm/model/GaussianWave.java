@@ -3,7 +3,7 @@ package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.common.math.Vector2D;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -16,9 +16,13 @@ public class GaussianWave extends WaveSetup implements Wave {
     private GaussianWave1D xWave;
     private GaussianWave1D yWave;
 
-    public GaussianWave( Point center, Vector2D momentum, double dxLattice ) {
-        this.xWave = new GaussianWave1D( momentum.getX(), center.x, dxLattice );
-        this.yWave = new GaussianWave1D( momentum.getY(), center.y, dxLattice );
+    public GaussianWave( Point2D center, Vector2D momentum, double dxLattice ) {
+        this( center, momentum, dxLattice, dxLattice );
+    }
+
+    public GaussianWave( Point2D center, Vector2D momentum, double dxLattice, double dyLattice ) {
+        this.xWave = new GaussianWave1D( momentum.getX(), center.getX(), dxLattice );
+        this.yWave = new GaussianWave1D( momentum.getY(), center.getY(), dyLattice );
         super.setWave( this );
     }
 
