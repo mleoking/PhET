@@ -30,7 +30,8 @@ import edu.colorado.phet.fourier.util.FourierUtils;
 
 
 /**
- * FourierSumPlot
+ * FourierSumPlot encapsulates the graphics and data set that allow a Chart
+ * to draw a Fourier serie's summation waveform.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -273,7 +274,7 @@ public class FourierSumPlot extends LinePlot {
     //----------------------------------------------------------------------------
     
     /**
-     * Updates the data set and redraws whenever the chart's range changes.
+     * Updates whenever the chart's size or range changes.
      */
     public void transformChanged() {
         updateDataSet(); // update the data set
