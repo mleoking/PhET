@@ -15,7 +15,8 @@ import java.text.MessageFormat;
 
 
 /**
- * MathStrings
+ * MathStrings contains characters, strings and utility functions
+ * related to the drawing of mathematical equations.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
