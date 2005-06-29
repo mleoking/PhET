@@ -21,18 +21,37 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * HarmonicColors
+ * HarmonicColors is a singleton that manages the set
+ * of harmonic colors.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class HarmonicColors {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    /* Singleton instance */
     private static HarmonicColors _instance;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private Color[] _harmonicColors;
     private EventListenerList _listenerList;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the singleton instance of this class.
+     * 
+     * @return singleton
+     */
     public static HarmonicColors getInstance() {
         if ( _instance == null ) {
             _instance = new HarmonicColors();
@@ -40,9 +59,8 @@ public class HarmonicColors {
         return _instance;
     }
     
-    /**
+    /*
      * Singleton, accessed via getInstance.
-     *
      */
     private HarmonicColors() {
         // Colors for harmonics
@@ -63,26 +81,41 @@ public class HarmonicColors {
         _listenerList = new EventListenerList();
     }
     
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the number of colors that are managed.
+     * 
+     * @return number of colors
+     */
     public int getNumberOfColors() {
         return _harmonicColors.length;
     }
     
-    public void setColor( int index, Color color ) {
-        _harmonicColors[ index ] = color;
-        fireChangeEvent( index, color );
+    /**
+     * Sets the color for a specific order harmonic.
+     * 
+     * @param order the order of the harmonic
+     * @param color
+     */
+    public void setColor( int order, Color color ) {
+        _harmonicColors[ order ] = color;
+        fireChangeEvent( order, color );
     }
     
     /**
      * Gets the color that corresponds to a specified harmonic.
      * 
-     * @param n the harmonic number, starting from zero
+     * @param order the harmonic order, starting from zero
      * @throws IllegalArgumentException if n is out of range
      */
-    public Color getColor( int n ) {
-      if ( n < 0 || n >= _harmonicColors.length ) {
-          throw new IllegalArgumentException( "n is out of range: " + n );
+    public Color getColor( int order ) {
+      if ( order < 0 || order >= _harmonicColors.length ) {
+          throw new IllegalArgumentException( "order is out of range: " + order );
       }
-      return _harmonicColors[ n ];
+      return _harmonicColors[ order ];
     }
     
     /**
@@ -95,16 +128,36 @@ public class HarmonicColors {
         return getColor( harmonic.getOrder() );
     }
     
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Adds a listener.
+     * 
+     * @param listener
+     */
     public void addHarmonicColorChangeListener( HarmonicColorChangeListener listener ) {
         _listenerList.add( HarmonicColorChangeListener.class, listener );
     }
   
+    /**
+     * Removed a listener.
+     * 
+     * @param listener
+     */
     public void removeHarmonicColorChangeListener( HarmonicColorChangeListener listener ) {
         _listenerList.remove( HarmonicColorChangeListener.class, listener );
     }
     
-    private void fireChangeEvent( int harmonicNumber, Color color ) {
-        HarmonicColorChangeEvent event = new HarmonicColorChangeEvent( this, harmonicNumber, color );
+    /*
+     * Fires a HarmonicColorChangeEvent to all listeners.
+     * 
+     * @param order
+     * @param color
+     */
+    private void fireChangeEvent( int order, Color color ) {
+        HarmonicColorChangeEvent event = new HarmonicColorChangeEvent( this, order, color );
         Object[] listeners = _listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
             if ( listeners[i] == HarmonicColorChangeListener.class ) {
