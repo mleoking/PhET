@@ -51,6 +51,8 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(6/28) - provide access to the DebugMenu so that it can be extended
+(6/28) - set apparatus panel bkg color to match Harmonics & Sum graphs
 (6/28) - move FlattenedGraphic to PhetFlattenedGraphic in phetcommon
 (6/28) - flatten all static graphics in AmplitudeGraph
 (6/28) - create FlattenedGraphic for flattening graphics
