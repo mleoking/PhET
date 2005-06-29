@@ -21,8 +21,8 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * HarmonicColors is a singleton that manages the set
- * of harmonic colors.
+ * HarmonicColors is manages the set of harmonic colors.
+ * It is based on the "singleton with static factory" pattern.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -34,7 +34,7 @@ public class HarmonicColors {
     //----------------------------------------------------------------------------
     
     /* Singleton instance */
-    private static HarmonicColors _instance;
+    private static final HarmonicColors INSTANCE = new HarmonicColors();
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,10 +53,7 @@ public class HarmonicColors {
      * @return singleton
      */
     public static HarmonicColors getInstance() {
-        if ( _instance == null ) {
-            _instance = new HarmonicColors();
-        }
-        return _instance;
+        return INSTANCE;
     }
     
     /*
