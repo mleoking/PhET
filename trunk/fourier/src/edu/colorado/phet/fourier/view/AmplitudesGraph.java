@@ -23,8 +23,8 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
-import edu.colorado.phet.common.view.phetgraphics.PhetFlattenedGraphic;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetFlattenedGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -38,7 +38,8 @@ import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
- * AmplitudesGraph
+ * AmplitudesGraph is the control interface for setting the amplitudes
+ * of the harmonics in a Fourier series.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -158,7 +159,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
                 chartGraphic.getXAxis().setStroke( AXIS_STROKE );
                 chartGraphic.getXAxis().setColor( AXIS_COLOR );
 
-                String xTitle = "" + MathStrings.C_MODE;
+                String xTitle = String.valueOf( MathStrings.C_MODE );
                 PhetTextGraphic xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, xTitle, AXIS_TITLE_COLOR );
                 chartGraphic.setXAxisTitle( xAxisTitleGraphic );
                 
@@ -217,7 +218,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         flattenedGraphic.flatten();
         flattenedGraphic.setLocation( 0, 0 );
         
-        // Amplitude sliders
+        // Container for amplitude sliders -- sliders to be added in update.
         _slidersGraphic = new GraphicLayerSet( component );
         addGraphic( _slidersGraphic, SLIDERS_LAYER );
         
@@ -287,8 +288,8 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
                 else {
                     // Allocate a new slider.
                     slider = new AmplitudeSlider( getComponent(), harmonic );
-                    slider.addHarmonicFocusListener( _eventPropagator );
-                    slider.addChangeListener( _eventPropagator );
+                    slider.addHarmonicFocusListener( _eventPropagator ); // notify when the slider gets focus
+                    slider.addChangeListener( _eventPropagator ); // notify when the slider value is changed
                 }
                 _slidersGraphic.addGraphic( slider );
 
