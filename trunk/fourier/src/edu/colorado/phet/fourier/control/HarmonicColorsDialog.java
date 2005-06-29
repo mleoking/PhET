@@ -24,7 +24,6 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
-import edu.colorado.phet.fourier.util.FourierUtils;
 import edu.colorado.phet.fourier.view.HarmonicColors;
 
 
