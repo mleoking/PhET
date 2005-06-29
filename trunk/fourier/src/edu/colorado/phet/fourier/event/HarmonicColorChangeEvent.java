@@ -16,26 +16,47 @@ import java.util.EventObject;
 
 
 /**
- * HarmonicColorChangeEvent
+ * HarmonicColorChangeEvent indicates that the color associated
+ * with a harmonic has changed.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class HarmonicColorChangeEvent extends EventObject {
     
-    private int _harmonicNumber;
+    private int _order;
     private Color _color;
     
-    public HarmonicColorChangeEvent( Object source, int harmonicNumber, Color color ) {
+    /**
+     * Sole constructor.
+     * 
+     * @param source
+     * @param order the order of the harmonic that has been changed
+     * @param color
+     */
+    public HarmonicColorChangeEvent( Object source, int order, Color color ) {
         super( source );
-        _harmonicNumber = harmonicNumber;
+        assert( order >= 0 );
+        assert( color != null );
+        _order = order;
         _color = color;
     }
     
+    /**
+     * Gets the order of the harmonic that has been changed.
+     * The fundamental harmonic has order zero.
+     * 
+     * @return the order
+     */
     public int getOrder() {
-        return _harmonicNumber;
+        return _order;
     }
     
+    /**
+     * Gets the new color for the harmonic.
+     * 
+     * @return Color
+     */
     public Color getColor() {
         return _color;
     }
