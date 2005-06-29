@@ -8,7 +8,6 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
@@ -18,7 +17,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +30,7 @@ public class GunGraphic extends GraphicLayerSet {
     private SchrodingerPanel schrodingerPanel;
 
     public JButton fireOne;
-    public JCheckBox alwaysOn;
+    public JCheckBox alwaysOnCheckBox;
     public JSlider intensitySlider;
     private int time = 0;
     private int lastFireTime = 0;
@@ -41,6 +39,8 @@ public class GunGraphic extends GraphicLayerSet {
     private JComboBox comboBox;
     private GunItem currentObject;
     private GunItem[] items;
+    private boolean alwaysOn;
+//    private WaveSetup lastWave;
 
     public GunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -65,10 +65,10 @@ public class GunGraphic extends GraphicLayerSet {
                 phetImageGraphic.clearTransform();
             }
         } );
-        alwaysOn = new JCheckBox( "High Intensity" );
-        alwaysOn.addActionListener( new ActionListener() {
+        alwaysOnCheckBox = new JCheckBox( "High Intensity" );
+        alwaysOnCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setAlwaysOn( alwaysOn.isSelected() );
+                setAlwaysOn( alwaysOnCheckBox.isSelected() );
             }
         } );
 
@@ -77,7 +77,7 @@ public class GunGraphic extends GraphicLayerSet {
         PhetGraphic intensityGraphic = PhetJComponent.newInstance( schrodingerPanel, intensitySlider );
 
         PhetGraphic fireJC = PhetJComponent.newInstance( schrodingerPanel, fireOne );
-        PhetGraphic onJC = PhetJComponent.newInstance( schrodingerPanel, alwaysOn );
+        PhetGraphic onJC = PhetJComponent.newInstance( schrodingerPanel, alwaysOnCheckBox );
         addGraphic( fireJC );
         addGraphic( onJC );
         addGraphic( intensityGraphic );
@@ -90,7 +90,7 @@ public class GunGraphic extends GraphicLayerSet {
             public void stepInTime( double dt ) {
                 time++;
                 if( isTimeToFire() ) {
-                    fire();
+                    autofire();
                 }
             }
         } );
@@ -110,7 +110,9 @@ public class GunGraphic extends GraphicLayerSet {
     public void fireParticle() {
         //add the specified wavefunction everywhere, then renormalize..?
         //clear the old wavefunction.
+
         currentObject.fireParticle();
+//        lastWave = currentObject.getInitialWavefunction( getDiscreteModel().getWavefunction() );
     }
 
     private DiscreteModel getDiscreteModel() {
@@ -160,23 +162,46 @@ public class GunGraphic extends GraphicLayerSet {
 
         public abstract double getStartPy();
 
-        public WaveSetup getInitialWavefunction() {
+        public WaveSetup getInitialWavefunction( Wavefunction currentWave ) {
             double x = getDiscreteModel().getGridWidth() * 0.5;
             double y = getDiscreteModel().getGridHeight() * 0.8;
             double px = 0;
             double py = getStartPy();
+            System.out.println( "py = " + py );
+
             double dxLattice = getStartDxLattice();
-            WaveSetup waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
-                                                    new Vector2D.Double( px, py ), dxLattice );
-            edit( waveSetup );
+            System.out.println( "dxLattice = " + dxLattice );
+            GaussianWave waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
+                                                       new Vector2D.Double( px, py ), dxLattice );
+
+            Complex centerValue = currentWave.valueAt( (int)x, (int)y );
+            double desiredPhase = centerValue.getComplexPhase();
+
+            System.out.println( "original Center= " + centerValue + ", desired phase=" + desiredPhase );
+
+            Wavefunction copy = currentWave.createEmptyWavefunction();
+            waveSetup.initialize( copy );
+
+            Complex centerValueCopy = copy.valueAt( (int)x, (int)y );
+            System.out.println( "unedited: =" + centerValueCopy + ", unedited phase=" + centerValueCopy.getComplexPhase() );
+
+            double uneditedPhase = centerValueCopy.getComplexPhase();
+            double deltaPhase = desiredPhase - uneditedPhase;
+
+            System.out.println( "deltaPhase = " + deltaPhase );
+            waveSetup.setPhase( deltaPhase );
+
+            Wavefunction test = currentWave.createEmptyWavefunction();
+            waveSetup.initialize( test );
+            Complex testValue = test.valueAt( (int)x, (int)y );
+            System.out.println( "created testValue = " + testValue + ", created phase=" + testValue.getComplexPhase() );
+
             return waveSetup;
         }
 
         public void fireParticle() {
-            getSchrodingerModule().fireParticle( getInitialWavefunction() );
-        }
-
-        protected void edit( WaveSetup waveSetup ) {
+            WaveSetup initialWavefunction = getInitialWavefunction( getDiscreteModel().getWavefunction() );
+            getSchrodingerModule().fireParticle( initialWavefunction );
         }
 
         private SchrodingerModule getSchrodingerModule() {
@@ -206,6 +231,7 @@ public class GunGraphic extends GraphicLayerSet {
                 momentumChangeListener.momentumChanged( momentum );
             }
         }
+
     }
 
     private SchrodingerModule getSchrodingerModule() {
@@ -361,20 +387,22 @@ public class GunGraphic extends GraphicLayerSet {
         currentObject = item;
     }
 
-    private void fire() {
+    private void autofire() {
         lastFireTime = time;
-        if( intensitySlider.getValue() == intensitySlider.getMaximum() ) {
-            for( int i = 0; i < 1000; i++ ) {
-                schrodingerPanel.getSchrodingerModule().getIntensityDisplay().detectOne();
-            }
-        }
-        else {
-            schrodingerPanel.getSchrodingerModule().getIntensityDisplay().detectOne();
-        }
+        System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
+        fireParticle();
+//        if( intensitySlider.getValue() == intensitySlider.getMaximum() ) {
+//            for( int i = 0; i < 1000; i++ ) {
+//                schrodingerPanel.getSchrodingerModule().getIntensityDisplay().detectOne();
+//            }
+//        }
+//        else {
+//            schrodingerPanel.getSchrodingerModule().getIntensityDisplay().detectOne();
+//        }
     }
 
     private boolean isTimeToFire() {
-        if( alwaysOn.isSelected() && intensitySlider.getValue() != 0 ) {
+        if( alwaysOnCheckBox.isSelected() && intensitySlider.getValue() != 0 ) {
             int numStepsBetweenFire = getNumStepsBetweenFire();
             return time >= numStepsBetweenFire + lastFireTime;
         }
@@ -388,74 +416,26 @@ public class GunGraphic extends GraphicLayerSet {
         return (int)linearFunction.evaluate( frac );
     }
 
+//    static class Firer extends DiscreteModel.Adapter {
+//
+//        public void finishedTimeStep( DiscreteModel model ) {
+//            System.out.println( "adding particle." );
+//        }
+//
+//    }
+
+//    Firer firer = new Firer();
+
     private void setAlwaysOn( boolean on ) {
         fireOne.setEnabled( !on );
         intensitySlider.setEnabled( on );
-        if( !on ) {
-            getDiscreteModel().setPaused( false );
-        }
-        if( on ) {
-            getDiscreteModel().getWavefunction().clear();
-            getDiscreteModel().setPaused( true );
-            getSchrodingerModule().getSchrodingerPanel().repaintAll();
-            //simulate wavefunction, including handling detectors/slits.
-            final Wavefunction copy = getDiscreteModel().getWavefunction().copy();
-            currentObject.getInitialWavefunction().initialize( copy );
-
-            double etaTime = new VerticalETA().getETA( copy );
-            //todo error check on etaTime
-            if( etaTime < 0 || etaTime > 500 ) {
-                System.out.println( "BAD etaTime = " + etaTime );
-                etaTime = 500;
-            }
-
-            //show a message: 'warming up for high intensity beam.'
-            System.out.println( "Warming up for rapid fire." );
-
-            final PhetShadowTextGraphic msg = new PhetShadowTextGraphic( getComponent(),
-                                                                         new Font( "Lucida Sans", Font.BOLD, 20 ),
-                                                                         "Warming up for rapid fire.", Color.green, 1, 1, Color.white );
-            getSchrodingerModule().getSchrodingerPanel().addGraphic( msg, Double.POSITIVE_INFINITY );
-            msg.setLocation( 50, 100 );
-
-            final PhetShadowTextGraphic readout = new PhetShadowTextGraphic( getComponent(), new Font( "Lucida Sans", Font.BOLD, 16 ),
-                                                                             "", Color.red, 1, 1, Color.blue );
-            getSchrodingerModule().getSchrodingerPanel().addGraphic( readout );
-            readout.setLocation( msg.getX(), msg.getY() + msg.getHeight() + 2 );
-
-            JButton cancel = new JButton( "Cancel" );
-            final PhetGraphic cancelGraphic = PhetJComponent.newInstance( getComponent(), cancel );
-            getSchrodingerModule().getSchrodingerPanel().addGraphic( cancelGraphic, Double.POSITIVE_INFINITY );
-
-            cancelGraphic.setLocation( msg.getX(), readout.getY() + readout.getHeight() + 2 + cancelGraphic.getHeight() );
-
-            final double etaTime1 = etaTime;
-            Thread t = new Thread( new Runnable() {
-                public void run() {
-
-                    for( int i = 0; i < etaTime1; i++ ) {
-                        getDiscreteModel().getPropagator().propagate( copy );
-                        if( i % 3 == 0 ) {
-                            System.out.println( i + "/" + etaTime1 );
-                            double percent = i / etaTime1 * 100;
-                            String pct = new DecimalFormat( "0.00" ).format( percent );
-                            readout.setText( pct + " %" );
-                            try {
-                                Thread.sleep( 60 );
-                            }
-                            catch( InterruptedException e ) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    cancelGraphic.setVisible( false );
-                    readout.setVisible( false );
-                    msg.setVisible( false );
-                    getSchrodingerModule().getSchrodingerPanel().getIntensityDisplay().setRegionOfInterestSub( copy );
-                }
-            } );
-            t.start();
-        }
+        this.alwaysOn = on;
+//        if( !on ) {
+//            getDiscreteModel().removeListener( firer );
+//        }
+//        if( on ) {
+//            getDiscreteModel().addListener( firer );
+//        }
     }
 
     public int getGunWidth() {

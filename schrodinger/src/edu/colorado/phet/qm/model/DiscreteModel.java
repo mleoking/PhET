@@ -16,23 +16,20 @@ import java.util.ArrayList;
 
 public class DiscreteModel {
     private Wavefunction wavefunction;
-//    private int xmesh;
-//    private int ymesh;
     private CompositePotential compositePotential;
 
     private Propagator propagator;
     private int timeStep;
     private double deltaTime;
-//    private WaveSetup waveSetup;
     private Wave wave;
     private ArrayList listeners = new ArrayList();
     private DetectorSet detectorSet;
     private boolean detectionCausesCollapse = true;
     private boolean oneShotDetectors = true;
-    public Damping damping;
+    private Damping damping;
     private VerticalETA verticalEta;
     private boolean paused = false;
-    public WaveSetup initter;
+    private WaveSetup initter;
 
     public DiscreteModel( int width, int height ) {
         this( width, height, 1E-5, new ZeroWave() );
@@ -121,7 +118,9 @@ public class DiscreteModel {
     }
 
     public void fireParticle( WaveSetup waveSetup ) {
-        waveSetup.initialize( wavefunction );
+        Wavefunction particle = new Wavefunction( getGridWidth(), getGridHeight() );
+        waveSetup.initialize( particle );
+        wavefunction.add( particle );
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.particleFired( this );
@@ -206,6 +205,18 @@ public class DiscreteModel {
 
     public void removePotential( Potential potential ) {
         this.compositePotential.removePotential( potential );
+    }
+
+    public void setAutoDetect( boolean selected ) {
+        detectorSet.setAutoDetect( selected );
+    }
+
+    public void detect() {
+        detectorSet.fireAllEnabledDetectors();
+    }
+
+    public void enableAllDetectors() {
+        detectorSet.enableAll();
     }
 
     public static interface Listener {

@@ -43,13 +43,13 @@ import java.io.IOException;
 
 public class SchrodingerControlPanel extends ControlPanel {
     private SchrodingerModule module;
-    public ModelSlider xSlider;
+    private ModelSlider xSlider;
     private ModelSlider ySlider;
     private ModelSlider pxSlider;
     private ModelSlider pySlider;
     private ModelSlider dxSlider;
-    public ModelElement particleFirer;
-    public CylinderWaveControl cylinderWaveBox;
+    private ModelElement particleFirer;
+    private CylinderWaveControl cylinderWaveBox;
     private FiniteDifferencePropagator2ndOrder classicalPropagator2ndOrder;
 
     public SchrodingerControlPanel( final SchrodingerModule module ) {
@@ -81,7 +81,7 @@ public class SchrodingerControlPanel extends ControlPanel {
 
 //        addControlFullWidth( advancedIC );
 
-        JButton fireParticle = new JButton( "Create Particle" );
+        JButton fireParticle = new JButton( "Fire Particle" );
         fireParticle.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 fireParticle();
@@ -134,6 +134,19 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel interactionPanel = createDetectorPanel();
         addControlFullWidth( interactionPanel );
 
+        JButton addParticle = new JButton( "Add Particle" );
+        addParticle.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                Wavefunction newParticle = new Wavefunction( module.getDiscreteModel().getWavefunction().getWidth(), module.getDiscreteModel().getWavefunction().getHeight() );
+                Wave wave = new GaussianWave( new Point2D.Double( getDiscreteModel().getGridWidth() / 2,
+                                                                  getDiscreteModel().getGridHeight() * 0.8 ),
+                                              new Vector2D.Double( 0, -0.25 ), 4 );
+                new WaveSetup( wave ).initialize( newParticle );
+                module.getDiscreteModel().getWavefunction().add( newParticle );
+            }
+        } );
+        addControl( addParticle );
+
         VerticalLayoutPanel boundaryPanel = createBoundaryPanel();
         addControlFullWidth( boundaryPanel );
 
@@ -179,7 +192,6 @@ public class SchrodingerControlPanel extends ControlPanel {
 
 
     private void setGunActive( boolean selected ) {
-
         if( selected ) {
             module.getModel().addModelElement( particleFirer );
         }
@@ -219,7 +231,7 @@ public class SchrodingerControlPanel extends ControlPanel {
 
     private void initClassicalWave( FiniteDifferencePropagator2ndOrder propagator2ndOrder ) {
         double x = getStartX();
-        double y0 = getStartY();
+        double y0 = 0.5 * getDiscreteModel().getGridHeight();
         double px = getStartPx();
         double py = getStartPy();
         double dxLattice = getStartDxLattice();
@@ -243,7 +255,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         System.out.println( "new YValue().compute( t0) = " + new YValue().compute( t0 ) * getDiscreteModel().getGridHeight() );
         System.out.println( "new YValue().compute( t1) = " + new YValue().compute( t1 ) * getDiscreteModel().getGridHeight() );
         System.out.println( "new YValue().compute( t2) = " + new YValue().compute( t2 ) * getDiscreteModel().getGridHeight() );
-        propagator2ndOrder.initialize( t1, t0 );
+        propagator2ndOrder.initialize( t2, t1 );
     }
 
     private JRadioButton createPropagatorButton( ButtonGroup buttonGroup, String s, final Propagator propagator ) {
@@ -307,34 +319,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     private VerticalLayoutPanel createDetectorPanel() {
-        VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
-        layoutPanel.setBorder( BorderFactory.createTitledBorder( "Detection" ) );
-        JButton newDetector = new JButton( "Add Detector" );
-        newDetector.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.addDetector();
-            }
-        } );
-        layoutPanel.add( newDetector );
-
-        final JCheckBox causeCollapse = new JCheckBox( "Causes Collapse", true );
-        causeCollapse.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                module.getDiscreteModel().setDetectionCausesCollapse( causeCollapse.isSelected() );
-            }
-        } );
-        layoutPanel.add( causeCollapse );
-
-        final JCheckBox oneShot = new JCheckBox( "One-Shot" );
-        oneShot.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                module.getDiscreteModel().setOneShotDetectors( oneShot.isSelected() );
-            }
-        } );
-        oneShot.setSelected( getDiscreteModel().isOneShotDetectors() );
-        layoutPanel.add( oneShot );
-
-        return layoutPanel;
+        return new DetectorPanel( module );
     }
 
     private VerticalLayoutPanel createExpectationPanel() {
@@ -539,9 +524,6 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     public void fireParticle() {
-        //add the specified wavefunction everywhere, then renormalize..?
-        //clear the old wavefunction.
-
         WaveSetup waveSetup = getWaveSetup();
         module.fireParticle( waveSetup );
     }

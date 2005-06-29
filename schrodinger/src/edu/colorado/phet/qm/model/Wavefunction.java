@@ -195,4 +195,8 @@ public class Wavefunction {
         clear();
         add( wavefunction );
     }
+
+    public Wavefunction createEmptyWavefunction() {
+        return new Wavefunction( getWidth(), getHeight() );
+    }
 }

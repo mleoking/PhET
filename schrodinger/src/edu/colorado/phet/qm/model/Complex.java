@@ -114,12 +114,16 @@ public class Complex {
         imag = aTemp.imag + bTemp.imag + cTemp.imag;
     }
 
-    public static Complex eulerize( double theta ) {
+    public static Complex exponentiateImaginary( double theta ) {
         return new Complex( Math.cos( theta ), Math.sin( theta ) );
     }
 
     public void add( Complex val ) {
         this.real += val.real;
         this.imag += val.imag;
+    }
+
+    public double getComplexPhase() {
+        return Math.atan2( imag, real );
     }
 }

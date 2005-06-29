@@ -15,7 +15,7 @@ import edu.colorado.phet.qm.model.*;
 public class FiniteDifferencePropagator2ndOrder implements Propagator {
     private Wavefunction last2;
     private Wavefunction last;
-    private double speed = 0.1;
+    private double speed = 0.4;
     private Potential potential;
     private Damping damping = new Damping();
 
@@ -44,20 +44,48 @@ public class FiniteDifferencePropagator2ndOrder implements Propagator {
         }
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
-                Complex sum = valueAt( i + 1, j ).plus( valueAt( i - 1, j ) ).plus( valueAt( i, j + 1 ) ).plus( valueAt( i, j - 1 ) );
-                sum = sum.minus( valueAt( i, j ).times( 4 ) );
-                sum = sum.times( speed );
-                sum = sum.minus( last2.valueAt( i, j ) );
-                sum = sum.plus( valueAt( i, j ).times( 2 ) );
-                w.setValue( i, j, sum );
+
+                Complex num = new Complex();
+                num = num.plus( last( i + 1, j ) );
+                num = num.plus( last( i - 1, j ) );
+                num = num.plus( last( i, j + 1 ) );
+                num = num.plus( last( i, j - 1 ) );
+                num = num.times( 0.5 );
+                num = num.minus( last2.valueAt( i, j ) );
+                w.setValue( i, j, num );
+
+//                Complex val=new Complex( );
+//                val=val.plus( last.valueAt( i,j).times( 2));
+//                val=val.minus( last2.valueAt( i,j));
+//                Complex num=new Complex( );
+//                num=num.plus( last( i+1,j));
+//                num=num.plus( last( i-1,j));
+//                num=num.plus( last( i,j+1));
+//                num=num.plus( last( i,j-1));
+//
+//                num=num.minus( last(i,j).times( 4));
+//                Complex neigh=num.times( 0.25);
+//
+//
+//                val=val.plus( neigh );
+//                w.setValue( i,j,val );
+
+
+//                Complex sum = last( i + 1, j ).plus( last( i - 1, j ) ).plus( last( i, j + 1 ) ).plus( last( i, j - 1 ) );
+//
+//                sum = sum.minus( last( i, j ).times( 4 ) );
+//                sum = sum.times( speed );
+//                sum = sum.minus( last2.valueAt( i, j ) );
+//                sum = sum.plus( last( i, j ).times( 2 ) );
+//                w.setValue( i, j, sum );
             }
         }
         last2 = last;
         last = w.copy();
-        damping.damp( last );
+//        damping.damp( last );
     }
 
-    private Complex valueAt( int i, int j ) {
+    private Complex last( int i, int j ) {
         if( potential.getPotential( i, j, 0 ) == 0 ) {
             return last.valueAt( i, j );
         }
