@@ -60,7 +60,7 @@ public class DiscreteModule extends FourierModule {
     private static final Point WIGGLE_ME_LOCATION = new Point( 280, 60 );
     
     // Colors
-    private static final Color APPARATUS_BACKGROUND = Color.WHITE;
+    private static final Color APPARATUS_PANEL_BACKGROUND = new Color( 215, 215, 215 );;
     private static final Color WIGGLE_ME_COLOR = Color.RED;
     
     // Fourier Components
@@ -110,7 +110,7 @@ public class DiscreteModule extends FourierModule {
 
         // Apparatus Panel
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
-        apparatusPanel.setBackground( APPARATUS_BACKGROUND );
+        apparatusPanel.setBackground( APPARATUS_PANEL_BACKGROUND );
         setApparatusPanel( apparatusPanel );
         
         // Amplitudes view
