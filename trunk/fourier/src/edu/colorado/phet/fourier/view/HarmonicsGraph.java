@@ -357,7 +357,8 @@ public class HarmonicsGraph extends GraphicLayerSet
     public void setWaveType( int waveType ) {
         assert( FourierConstants.isValidWaveType( waveType ) );
         for ( int i = 0; i < _harmonicPlots.size(); i++ ) {
-            ((HarmonicPlot) _harmonicPlots.get( i )).setWaveType( waveType );
+            HarmonicPlot harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
+            harmonicPlot.setWaveType( waveType );
         }
     }
     
@@ -432,7 +433,9 @@ public class HarmonicsGraph extends GraphicLayerSet
             int waveType = _fourierSeries.getWaveType();
             if ( preset != _previousPreset || waveType != _previousWaveType ) {
                 for ( int i = 0; i < _harmonicPlots.size(); i++ ) {
-                    ( (HarmonicPlot) _harmonicPlots.get( i ) ).setStartX( 0 );
+                    HarmonicPlot harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
+                    harmonicPlot.setStartX( 0 );
+                    harmonicPlot.setWaveType( waveType );
                 }
                 _previousPreset = preset;
                 _previousWaveType = waveType;
