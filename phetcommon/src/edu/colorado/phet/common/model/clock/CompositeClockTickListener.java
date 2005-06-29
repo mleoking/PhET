@@ -43,4 +43,8 @@ public class CompositeClockTickListener implements ClockTickListener {
     public void removeClockTickListener( ClockTickListener cl ) {
         list.remove( cl );
     }
+
+    public boolean containsClockTickListener( ClockTickListener tickListener ) {
+        return list.contains( tickListener );
+    }
 }

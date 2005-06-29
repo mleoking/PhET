@@ -34,8 +34,10 @@ public abstract class AbstractClock {
     private double dt;
     private EventChannel clockStateEventChannel = new EventChannel( ClockStateListener.class );
     private ClockStateListener clockStateListenerProxy = (ClockStateListener)clockStateEventChannel.getListenerProxy();
-    private EventChannel tickEventChannel = new EventChannel( ClockTickListener.class );
-    private ClockTickListener tickListenerProxy = (ClockTickListener)tickEventChannel.getListenerProxy();
+    private CompositeClockTickListener tickHandler = new CompositeClockTickListener();
+
+//    private EventChannel tickEventChannel = new EventChannel( ClockTickListener.class );
+//    private ClockTickListener tickListenerProxy = (ClockTickListener)tickEventChannel.getListenerProxy();
 
     /**
      * Constructor that allows tick to be specified either in milliseconds between ticks,
@@ -162,7 +164,7 @@ public abstract class AbstractClock {
     protected void clockTicked( double dt ) {
         runningTime += dt;
         ClockTickEvent event = new ClockTickEvent( this, dt );
-        tickListenerProxy.clockTicked( event );
+        tickHandler.clockTicked( event );
     }
 
     public String toString() {
@@ -192,11 +194,11 @@ public abstract class AbstractClock {
     }
 
     public void removeClockTickListener( ClockTickListener listener ) {
-        tickEventChannel.removeListener( listener );
+        tickHandler.removeClockTickListener( listener );
     }
 
     public void addClockTickListener( ClockTickListener tickListener ) {
-        tickEventChannel.addListener( tickListener );
+        tickHandler.addClockTickListener( tickListener );
     }
 
     public void addClockStateListener( ClockStateListener csl ) {
@@ -208,7 +210,8 @@ public abstract class AbstractClock {
     }
 
     public boolean containsClockTickListener( ClockTickListener tickListener ) {
-        return tickEventChannel.containsListener( tickListener );
+        return tickHandler.containsClockTickListener( tickListener );
+//        return tickEventChannel.containsListener( tickListener );
     }
 
     public void setStaticTickConverter() {
