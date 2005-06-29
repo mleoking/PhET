@@ -6,6 +6,7 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- HarmonicsGraph is confused between its own waveType property and FourierSeries waveType property (uses both)
 - FourierSeries model should not have a preset and waveType properties
 - test Reset
 - when PeriodDislay.setHarmonic is called, it's angle is reset, it should be sync'ed to the harmonic's cycle
