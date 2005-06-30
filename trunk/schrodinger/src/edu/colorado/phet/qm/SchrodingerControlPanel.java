@@ -304,7 +304,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         final JCheckBox x = new JCheckBox( "<X>" );
         x.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setDisplayXExpectation( x.isSelected() );
+                getSchrodingerPanel().getWavefunctionGraphic().setDisplayXExpectation( x.isSelected() );
             }
         } );
         lay.add( x );
@@ -312,7 +312,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         final JCheckBox y = new JCheckBox( "<Y>" );
         y.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setDisplayYExpectation( y.isSelected() );
+                getSchrodingerPanel().getWavefunctionGraphic().setDisplayYExpectation( y.isSelected() );
             }
         } );
         lay.add( y );
@@ -320,7 +320,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         final JCheckBox c = new JCheckBox( "collapse-to" );
         c.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setDisplayCollapsePoint( c.isSelected() );
+                getSchrodingerPanel().getWavefunctionGraphic().setDisplayCollapsePoint( c.isSelected() );
             }
         } );
         lay.add( c );
@@ -464,7 +464,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton radioButton = new JRadioButton( s );
         radioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().setWavefunctionColorMap( colorMap );
+                getSchrodingerPanel().getWavefunctionGraphic().setWavefunctionColorMap( colorMap );
             }
         } );
         buttonGroup.add( radioButton );

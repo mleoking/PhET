@@ -63,7 +63,7 @@ public class IntensityDisplay {
         Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(), 0, getWidth() );
         Point pt = getCollapsePoint( sub );
 
-        double screenGridWidth = schrodingerModule.getSchrodingerPanel().getColorGrid().getBlockWidth();
+        double screenGridWidth = schrodingerModule.getSchrodingerPanel().getWavefunctionGraphic().getBlockWidth();
         double randOffsetY = 2 * ( random.nextDouble() - 0.5 ) * screenGridWidth;
 
         int displayVal = (int)( linearFunction.evaluate( pt.x ) + randOffsetY );
@@ -88,7 +88,7 @@ public class IntensityDisplay {
     }
 
     public int getWidth() {
-        return getSchrodingerPanel().getColorGrid().getWidth();
+        return getSchrodingerPanel().getWavefunctionGraphic().getWavefunctionWidth();
     }
 
     public Wavefunction getDetectionRegion() {

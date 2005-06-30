@@ -330,7 +330,7 @@ public class GunGraphic extends GraphicLayerSet {
         public double getStartPy() {
             double wavelengthValue = new Function.LinearFunction( 0, 1000, 0, 100 ).evaluate( wavelength.getValue() );
             double momentum = -hbar * 2 * Math.PI / wavelengthValue;
-            System.out.println( "wavelengthValue = " + wavelengthValue + ", momentum=" + momentum );
+//            System.out.println( "wavelengthValue = " + wavelengthValue + ", momentum=" + momentum );
             return momentum;
         }
 
