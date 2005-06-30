@@ -66,7 +66,7 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
         rulerGraphic.setVisible( false );
 
         intensityDisplay = new IntensityDisplay( getSchrodingerModule(), this, 50 );
-        setIntensityDisplayRecordsParticles();
+//        setIntensityDisplayRecordsParticles();
     }
 
     protected void paintComponent( Graphics graphics ) {
@@ -78,9 +78,9 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
         rulerGraphic.setVisible( rulerVisible );
     }
 
-    private void setIntensityDisplayRecordsParticles() {
-        getDiscreteModel().getVerticalEta().addListener( intensityDisplay );
-    }
+//    private void setIntensityDisplayRecordsParticles() {
+//        getDiscreteModel().getVerticalEta().addListener( intensityDisplay );
+//    }
 
     private ColorGrid createColorGrid() {
         return new ColorGrid( colorGridWidth, colorGridWidth, discreteModel.getGridWidth(), discreteModel.getGridHeight() );
@@ -222,5 +222,10 @@ public class SchrodingerPanel extends ApparatusPanel implements DiscreteModel.Li
 
     public GunGraphic getGunGraphic() {
         return gunGraphic;
+    }
+
+    public void removeDetector( DetectorGraphic detectorGraphic ) {
+        removeGraphic( detectorGraphic );
+        getDiscreteModel().removeDetector( detectorGraphic.getDetector() );
     }
 }

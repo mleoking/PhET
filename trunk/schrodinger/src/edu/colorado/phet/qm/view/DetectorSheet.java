@@ -23,20 +23,22 @@ import java.awt.image.BufferedImage;
 public class DetectorSheet extends GraphicLayerSet {
     private int width;
     private int height;
-    public PhetShapeGraphic phetShapeGraphic;
-    public BufferedImage bufferedImage;
-    public PhetImageGraphic graphic;
-    public PhetGraphic clearButtonJC;
-    public JButton clearButton;
+    private PhetShapeGraphic phetShapeGraphic;
+    private BufferedImage bufferedImage;
+    private PhetImageGraphic graphic;
+    private PhetGraphic clearButtonJC;
+    private JButton clearButton;
+    private SchrodingerPanel schrodingerPanel;
 
-    public DetectorSheet( Component c, int width, int height ) {
-        super( c );
+    public DetectorSheet( SchrodingerPanel schrodingerPanel, int width, int height ) {
+        super( schrodingerPanel );
 
+        this.schrodingerPanel = schrodingerPanel;
         bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         graphic = new PhetImageGraphic( getComponent(), bufferedImage );
         addGraphic( graphic );
 
-        phetShapeGraphic = new PhetShapeGraphic( c, new Rectangle( width, height ), Color.white, new BasicStroke( 3 ), Color.black );
+        phetShapeGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.white, new BasicStroke( 3 ), Color.black );
         phetShapeGraphic.paint( bufferedImage.createGraphics() );
 
         RenderingHints renderingHints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -50,13 +52,15 @@ public class DetectorSheet extends GraphicLayerSet {
                 reset();
             }
         } );
-        clearButtonJC = PhetJComponent.newInstance( c, clearButton );
+        clearButtonJC = PhetJComponent.newInstance( schrodingerPanel, clearButton );
         addGraphic( clearButtonJC );
         clearButtonJC.setVisible( false );
         clearButtonJC.setLocation( 5, 5 );
         this.width = width;
         this.height = height;
+
     }
+
 
     public void addDetectionEvent( int x, int y ) {
         clearButtonJC.setVisible( true );

@@ -20,7 +20,8 @@ public class ConfigureHorizontalSlitPanel extends AdvancedPanel {
     private HorizontalDoubleSlit slit;
 
     public ConfigureHorizontalSlitPanel( HorizontalDoubleSlit doubleSlitPotential ) {
-        setBorder( BorderFactory.createTitledBorder( "Configure Slits" ) );
+//        setBorder( BorderFactory.createTitledBorder( "Configure Slits" ) );
+        super( "Configure Slits>>", "Hide Slit Config<<" );
         this.slit = doubleSlitPotential;
         double pow = doubleSlitPotential.getPotential();
 

@@ -27,7 +27,7 @@ public class DiscreteModel {
     private boolean detectionCausesCollapse = true;
     private boolean oneShotDetectors = true;
     private Damping damping;
-    private VerticalETA verticalEta;
+//    private VerticalETA verticalEta;
     private boolean paused = false;
     private WaveSetup initter;
 
@@ -48,14 +48,6 @@ public class DiscreteModel {
 
         damping = new Damping();
         addListener( damping );
-
-        verticalEta = new VerticalETA();
-//        verticalEta.addListener( new DistributionCapture( this ) );
-        addListener( verticalEta );
-    }
-
-    public VerticalETA getVerticalEta() {
-        return verticalEta;
     }
 
     private void step() {
@@ -217,6 +209,10 @@ public class DiscreteModel {
 
     public void enableAllDetectors() {
         detectorSet.enableAll();
+    }
+
+    public void removeDetector( Detector detector ) {
+        detectorSet.removeDetector( detector );
     }
 
     public static interface Listener {

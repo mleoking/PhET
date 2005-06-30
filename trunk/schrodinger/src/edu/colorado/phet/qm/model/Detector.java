@@ -114,12 +114,6 @@ public class Detector extends RectangularObject {
 
 
     public void fire( Wavefunction wavefunction, double norm ) {
-//        if( !enabled ) {
-//            return;
-//        }
-//        if( timeToFire() ) {
-//
-//        }
         double prob = getProbability();
         double rand = random.nextDouble() * norm;//todo is this right?
         if( rand <= prob ) {

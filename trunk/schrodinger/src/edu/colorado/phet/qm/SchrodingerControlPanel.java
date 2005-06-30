@@ -2,18 +2,15 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.math.ModelViewTransform1D;
-import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.AdvancedPanel;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
-import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.model.*;
-import edu.colorado.phet.qm.model.operators.YValue;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
 import edu.colorado.phet.qm.model.propagators.*;
@@ -31,7 +28,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.io.IOException;
 
 /**
@@ -43,14 +39,10 @@ import java.io.IOException;
 
 public class SchrodingerControlPanel extends ControlPanel {
     private SchrodingerModule module;
-    private ModelSlider xSlider;
-    private ModelSlider ySlider;
-    private ModelSlider pxSlider;
-    private ModelSlider pySlider;
-    private ModelSlider dxSlider;
     private ModelElement particleFirer;
     private CylinderWaveControl cylinderWaveBox;
     private FiniteDifferencePropagator2ndOrder classicalPropagator2ndOrder;
+    private InitialConditionPanel initialConditionPanel;
 
     public SchrodingerControlPanel( final SchrodingerModule module ) {
         super( module );
@@ -62,7 +54,7 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
         addControl( reset );
-        JPanel initialConditionPanel = createInitialConditionPanel();
+        initialConditionPanel = createInitialConditionPanel();
         AdvancedPanel advancedIC = new AdvancedPanel( "Show>>", "Hide<<" );
         advancedIC.addControlFullWidth( initialConditionPanel );
         advancedIC.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
@@ -116,6 +108,9 @@ public class SchrodingerControlPanel extends ControlPanel {
             e.printStackTrace();
         }
 
+        VerticalLayoutPanel intensityScreen = new IntensityScreenPanel( this );
+        addControlFullWidth( intensityScreen );
+
         VerticalLayoutPanel colorPanel = createVisualizationPanel();
         addControlFullWidth( colorPanel );
 
@@ -134,18 +129,18 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel interactionPanel = createDetectorPanel();
         addControlFullWidth( interactionPanel );
 
-        JButton addParticle = new JButton( "Add Particle" );
-        addParticle.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                Wavefunction newParticle = new Wavefunction( module.getDiscreteModel().getWavefunction().getWidth(), module.getDiscreteModel().getWavefunction().getHeight() );
-                Wave wave = new GaussianWave( new Point2D.Double( getDiscreteModel().getGridWidth() / 2,
-                                                                  getDiscreteModel().getGridHeight() * 0.8 ),
-                                              new Vector2D.Double( 0, -0.25 ), 4 );
-                new WaveSetup( wave ).initialize( newParticle );
-                module.getDiscreteModel().getWavefunction().add( newParticle );
-            }
-        } );
-        addControl( addParticle );
+//        JButton addParticle = new JButton( "Add Particle" );
+//        addParticle.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                Wavefunction newParticle = new Wavefunction( module.getDiscreteModel().getWavefunction().getWidth(), module.getDiscreteModel().getWavefunction().getHeight() );
+//                Wave wave = new GaussianWave( new Point2D.Double( getDiscreteModel().getGridWidth() / 2,
+//                                                                  getDiscreteModel().getGridHeight() * 0.8 ),
+//                                              new Vector2D.Double( 0, -0.25 ), 4 );
+//                new WaveSetup( wave ).initialize( newParticle );
+//                module.getDiscreteModel().getWavefunction().add( newParticle );
+//            }
+//        } );
+//        addControl( addParticle );
 
         VerticalLayoutPanel boundaryPanel = createBoundaryPanel();
         addControlFullWidth( boundaryPanel );
@@ -153,8 +148,8 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel propagatorPanel = createPropagatorPanel();
         addControlFullWidth( propagatorPanel );
 
-        VerticalLayoutPanel intensityPanel = createIntensityPanel();
-        addControlFullWidth( intensityPanel );
+//        VerticalLayoutPanel intensityPanel = createIntensityPanel();
+//        addControlFullWidth( intensityPanel );
 
         ModelElement ap = new AddParticle( module, getWaveSetup() );
 
@@ -166,7 +161,9 @@ public class SchrodingerControlPanel extends ControlPanel {
 //
 //            }
 //        } );
+
         final JSlider speed = new JSlider( JSlider.HORIZONTAL, 0, 1000, (int)( 1000 * 0.1 ) );
+        speed.setBorder( BorderFactory.createTitledBorder( "Classical Wave speed" ) );
         speed.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double x = new ModelViewTransform1D( 0, 0.5, speed.getMinimum(), speed.getMaximum() ).viewToModel( speed.getValue() );
@@ -177,29 +174,33 @@ public class SchrodingerControlPanel extends ControlPanel {
         addControlFullWidth( speed );
     }
 
-    private VerticalLayoutPanel createIntensityPanel() {
-
-        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
-        final JCheckBox gun = new JCheckBox( "Gun" );
-        gun.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setGunActive( gun.isSelected() );
-            }
-        } );
-        verticalLayoutPanel.add( gun );
-        return verticalLayoutPanel;
+    private WaveSetup getWaveSetup() {
+        return initialConditionPanel.getWaveSetup();
     }
 
-
-    private void setGunActive( boolean selected ) {
-        if( selected ) {
-            module.getModel().addModelElement( particleFirer );
-        }
-        else {
-            module.getModel().removeModelElement( particleFirer );
-        }
-        module.setGunActive( selected );
-    }
+//    private VerticalLayoutPanel createIntensityPanel() {
+//
+//        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
+//        final JCheckBox gun = new JCheckBox( "Gun" );
+//        gun.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                setGunActive( gun.isSelected() );
+//            }
+//        } );
+//        verticalLayoutPanel.add( gun );
+//        return verticalLayoutPanel;
+//    }
+//
+//
+//    private void setGunActive( boolean selected ) {
+//        if( selected ) {
+//            module.getModel().addModelElement( particleFirer );
+//        }
+//        else {
+//            module.getModel().removeModelElement( particleFirer );
+//        }
+//        module.setGunActive( selected );
+//    }
 
     private VerticalLayoutPanel createPropagatorPanel() {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();
@@ -230,32 +231,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     }
 
     private void initClassicalWave( FiniteDifferencePropagator2ndOrder propagator2ndOrder ) {
-        double x = getStartX();
-        double y0 = 0.5 * getDiscreteModel().getGridHeight();
-        double px = getStartPx();
-        double py = getStartPy();
-        double dxLattice = getStartDxLattice();
-
-
-        Wavefunction t0 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
-        Wavefunction t1 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
-        new GaussianWave( new Point2D.Double( x, y0 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t0 );
-
-        double time = 1.0;
-        double y1 = y0 + propagator2ndOrder.getSpeed() * time;
-
-        new GaussianWave( new Point2D.Double( x, y1 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t1 );
-
-        Wavefunction t2 = new Wavefunction( getDiscreteModel().getGridWidth(), getDiscreteModel().getGridHeight() );
-        double y2 = y1 + propagator2ndOrder.getSpeed() * time;
-        new GaussianWave( new Point2D.Double( x, y2 ), new Vector2D.Double( px, py ), dxLattice ).initialize( t2 );
-        getDiscreteModel().getWavefunction().setWavefunction( t2 );
-
-        System.out.println( "y0=" + y0 + ", y1 = " + y1 + ", y2=" + y2 );
-        System.out.println( "new YValue().compute( t0) = " + new YValue().compute( t0 ) * getDiscreteModel().getGridHeight() );
-        System.out.println( "new YValue().compute( t1) = " + new YValue().compute( t1 ) * getDiscreteModel().getGridHeight() );
-        System.out.println( "new YValue().compute( t2) = " + new YValue().compute( t2 ) * getDiscreteModel().getGridHeight() );
-        propagator2ndOrder.initialize( t2, t1 );
+        initialConditionPanel.initClassicalWave( propagator2ndOrder );
     }
 
     private JRadioButton createPropagatorButton( ButtonGroup buttonGroup, String s, final Propagator propagator ) {
@@ -352,31 +328,8 @@ public class SchrodingerControlPanel extends ControlPanel {
         return lay;
     }
 
-    private JPanel createInitialConditionPanel() {
-        VerticalLayoutPanel particleLauncher = new VerticalLayoutPanel();
-
-        xSlider = new ModelSlider( "X0", "1/L", 0, 1, 0.5 );
-        ySlider = new ModelSlider( "Y0", "1/L", 0, 1, 0.75 );
-        pxSlider = new ModelSlider( "Momentum-x0", "", -1.5, 1.5, 0 );
-        pySlider = new ModelSlider( "Momentum-y0", "", -1.5, 1.5, -0.8 );
-        dxSlider = new ModelSlider( "Size0", "", 0, 0.25, 0.04 );
-
-//        wavelengthYSlider=new ModelSlider("Wavelength(y-dir)","",
-
-        pxSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                double lambda = 2 * Math.PI / pxSlider.getValue();
-                System.out.println( "lambda = " + lambda );
-            }
-        } );
-
-        particleLauncher.add( xSlider );
-        particleLauncher.add( ySlider );
-        particleLauncher.add( pxSlider );
-        particleLauncher.add( pySlider );
-        particleLauncher.add( dxSlider );
-
-        return particleLauncher;
+    private InitialConditionPanel createInitialConditionPanel() {
+        return new InitialConditionPanel( this );
     }
 
     private VerticalLayoutPanel createPotentialPanel( final SchrodingerModule module ) {
@@ -528,40 +481,11 @@ public class SchrodingerControlPanel extends ControlPanel {
         module.fireParticle( waveSetup );
     }
 
-    private WaveSetup getWaveSetup() {
-        double x = getStartX();
-        double y = getStartY();
-        double px = getStartPx();
-        double py = getStartPy();
-        double dxLattice = getStartDxLattice();
-        WaveSetup waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
-                                                new Vector2D.Double( px, py ), dxLattice );
-        return waveSetup;
-    }
-
-    private double getStartDxLattice() {
-        double dxLattice = dxSlider.getValue() * getDiscreteModel().getGridWidth();
-        System.out.println( "dxLattice = " + dxLattice );
-        return dxLattice;
-    }
-
-    private double getStartPy() {
-        return pySlider.getValue();
-    }
-
-    private double getStartPx() {
-        return pxSlider.getValue();
-    }
-
-    private double getStartY() {
-        return ySlider.getValue() * getDiscreteModel().getGridHeight();
-    }
-
-    private double getStartX() {
-        return xSlider.getValue() * getDiscreteModel().getGridWidth();
-    }
-
-    private DiscreteModel getDiscreteModel() {
+    public DiscreteModel getDiscreteModel() {
         return module.getDiscreteModel();
+    }
+
+    public SchrodingerModule getModule() {
+        return module;
     }
 }

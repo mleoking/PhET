@@ -16,7 +16,7 @@ import java.awt.*;
  */
 public class MagnitudeInGrayscale implements ColorMap {
     private SchrodingerPanel schrodingerPanel;
-    public double intensityScale = 15;
+    private double intensityScale = 20;
 
     public MagnitudeInGrayscale( SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;

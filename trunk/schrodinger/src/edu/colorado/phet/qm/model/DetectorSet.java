@@ -42,22 +42,40 @@ public class DetectorSet {
         }
     }
 
-    public void handleCollapse() {
-        double norm = 1.0;//todo is this correct?
-        for( int i = 0; i < detectors.size(); i++ ) {
-            Detector detector = (Detector)detectors.get( i );
-            if( detector.readyToFire() ) {
-                detector.fire( getWavefunction(), norm );
+    public void fireAllEnabledDetectors() {
+        fireAllEnabledDetectors( new FireEnabled() );
+    }
+
+    private static interface FireStrategy {
+
+        void fire( Detector detector, Wavefunction wavefunction, double norm );
+    }
+
+    private static class FireEnabled implements FireStrategy {
+
+        public void fire( Detector detector, Wavefunction wavefunction, double norm ) {
+
+            detector.fire( wavefunction, norm );
+        }
+    }
+
+    private static class FireWhenReady implements FireStrategy {
+
+        public void fire( Detector detector, Wavefunction wavefunction, double norm ) {
+            if( detector.timeToFire() ) {
+                detector.fire( wavefunction, norm );
             }
         }
     }
 
-    public void fireAllEnabledDetectors() {
+    public void fireAllEnabledDetectors( FireStrategy fireStrategy ) {
         double norm = 1.0;
-        for( int i = 0; i < detectors.size(); i++ ) {
-            Detector detector = (Detector)detectors.get( i );
-            if( detector.isEnabled() ) {
-                detector.fire( getWavefunction(), norm );
+        if( wavefunction.getMagnitude() > 0 ) {
+            for( int i = 0; i < detectors.size(); i++ ) {
+                Detector detector = (Detector)detectors.get( i );
+                if( detector.isEnabled() ) {
+                    fireStrategy.fire( detector, getWavefunction(), norm );
+                }
             }
         }
     }
@@ -126,12 +144,16 @@ public class DetectorSet {
         }
     }
 
+    public void removeDetector( Detector detector ) {
+        detectors.remove( detector );
+    }
+
     public class MyListener extends DiscreteModel.Adapter {
         public void finishedTimeStep( DiscreteModel model ) {
             notifyTimeStepped();
             updateDetectorProbabilities();
             if( autodetect && model.isDetectionCausesCollapse() ) {
-                handleCollapse();
+                fireAllEnabledDetectors( new FireWhenReady() );
             }
         }
     }

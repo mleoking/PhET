@@ -40,7 +40,6 @@ public class GunGraphic extends GraphicLayerSet {
     private GunItem currentObject;
     private GunItem[] items;
     private boolean alwaysOn;
-//    private WaveSetup lastWave;
 
     public GunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -48,7 +47,7 @@ public class GunGraphic extends GraphicLayerSet {
         phetImageGraphic = new PhetImageGraphic( getComponent(), "images/laser.gif" );
         addGraphic( phetImageGraphic );
 
-        fireOne = new JButton( "Fire Once" );
+        fireOne = new JButton( "Fire!" );
         fireOne.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 fireParticle();
@@ -65,7 +64,7 @@ public class GunGraphic extends GraphicLayerSet {
                 phetImageGraphic.clearTransform();
             }
         } );
-        alwaysOnCheckBox = new JCheckBox( "High Intensity" );
+        alwaysOnCheckBox = new JCheckBox( "Rapid Fire" );
         alwaysOnCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setAlwaysOn( alwaysOnCheckBox.isSelected() );
@@ -73,8 +72,11 @@ public class GunGraphic extends GraphicLayerSet {
         } );
 
         intensitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 0 );
-        intensitySlider.setBorder( BorderFactory.createTitledBorder( "Intensity" ) );
+        intensitySlider.setBorder( BorderFactory.createTitledBorder( "Rate" ) );
         PhetGraphic intensityGraphic = PhetJComponent.newInstance( schrodingerPanel, intensitySlider );
+
+//        SquareButton3D fireJC=new SquareButton3D( schrodingerPanel, new Font( "Lucida Sans",Font.BOLD, 12),"Fire!" );
+
 
         PhetGraphic fireJC = PhetJComponent.newInstance( schrodingerPanel, fireOne );
         PhetGraphic onJC = PhetJComponent.newInstance( schrodingerPanel, alwaysOnCheckBox );
@@ -139,7 +141,6 @@ public class GunGraphic extends GraphicLayerSet {
     public void addMomentumChangeListener( MomentumChangeListener momentumChangeListener ) {
         for( int i = 0; i < items.length; i++ ) {
             items[i].addMomentumChangeListerner( momentumChangeListener );
-
         }
     }
 
@@ -167,14 +168,41 @@ public class GunGraphic extends GraphicLayerSet {
             double y = getDiscreteModel().getGridHeight() * 0.8;
             double px = 0;
             double py = getStartPy();
+
+            Point phaseLockPoint = new Point( (int)x, (int)( y + 5 ) );
+
+            double dxLattice = getStartDxLattice();
+            GaussianWave waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
+                                                       new Vector2D.Double( px, py ), dxLattice );
+
+            double desiredPhase = currentWave.valueAt( phaseLockPoint.x, phaseLockPoint.y ).getComplexPhase();
+
+            Wavefunction copy = currentWave.createEmptyWavefunction();
+            waveSetup.initialize( copy );
+
+            double uneditedPhase = copy.valueAt( phaseLockPoint.x, phaseLockPoint.y ).getComplexPhase();
+            double deltaPhase = desiredPhase - uneditedPhase;
+
+            waveSetup.setPhase( deltaPhase );
+
+            return waveSetup;
+        }
+
+        private WaveSetup getInitialWavefunctionVerifyCorrect( Wavefunction currentWave ) {
+            double x = getDiscreteModel().getGridWidth() * 0.5;
+            double y = getDiscreteModel().getGridHeight() * 0.8;
+            double px = 0;
+            double py = getStartPy();
             System.out.println( "py = " + py );
+
+            Point phaseLockPoint = new Point( (int)x, (int)( y + 5 ) );
 
             double dxLattice = getStartDxLattice();
             System.out.println( "dxLattice = " + dxLattice );
             GaussianWave waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
                                                        new Vector2D.Double( px, py ), dxLattice );
 
-            Complex centerValue = currentWave.valueAt( (int)x, (int)y );
+            Complex centerValue = currentWave.valueAt( phaseLockPoint.x, phaseLockPoint.y );
             double desiredPhase = centerValue.getComplexPhase();
 
             System.out.println( "original Center= " + centerValue + ", desired phase=" + desiredPhase );
@@ -182,7 +210,7 @@ public class GunGraphic extends GraphicLayerSet {
             Wavefunction copy = currentWave.createEmptyWavefunction();
             waveSetup.initialize( copy );
 
-            Complex centerValueCopy = copy.valueAt( (int)x, (int)y );
+            Complex centerValueCopy = copy.valueAt( phaseLockPoint.x, phaseLockPoint.y );
             System.out.println( "unedited: =" + centerValueCopy + ", unedited phase=" + centerValueCopy.getComplexPhase() );
 
             double uneditedPhase = centerValueCopy.getComplexPhase();
@@ -193,7 +221,7 @@ public class GunGraphic extends GraphicLayerSet {
 
             Wavefunction test = currentWave.createEmptyWavefunction();
             waveSetup.initialize( test );
-            Complex testValue = test.valueAt( (int)x, (int)y );
+            Complex testValue = test.valueAt( phaseLockPoint.x, phaseLockPoint.y );
             System.out.println( "created testValue = " + testValue + ", created phase=" + testValue.getComplexPhase() );
 
             return waveSetup;
@@ -389,16 +417,8 @@ public class GunGraphic extends GraphicLayerSet {
 
     private void autofire() {
         lastFireTime = time;
-        System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
+//        System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
         fireParticle();
-//        if( intensitySlider.getValue() == intensitySlider.getMaximum() ) {
-//            for( int i = 0; i < 1000; i++ ) {
-//                schrodingerPanel.getSchrodingerModule().getIntensityDisplay().detectOne();
-//            }
-//        }
-//        else {
-//            schrodingerPanel.getSchrodingerModule().getIntensityDisplay().detectOne();
-//        }
     }
 
     private boolean isTimeToFire() {
@@ -416,26 +436,10 @@ public class GunGraphic extends GraphicLayerSet {
         return (int)linearFunction.evaluate( frac );
     }
 
-//    static class Firer extends DiscreteModel.Adapter {
-//
-//        public void finishedTimeStep( DiscreteModel model ) {
-//            System.out.println( "adding particle." );
-//        }
-//
-//    }
-
-//    Firer firer = new Firer();
-
     private void setAlwaysOn( boolean on ) {
         fireOne.setEnabled( !on );
         intensitySlider.setEnabled( on );
         this.alwaysOn = on;
-//        if( !on ) {
-//            getDiscreteModel().removeListener( firer );
-//        }
-//        if( on ) {
-//            getDiscreteModel().addListener( firer );
-//        }
     }
 
     public int getGunWidth() {
