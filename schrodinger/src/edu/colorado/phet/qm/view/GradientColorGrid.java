@@ -19,7 +19,7 @@ public class GradientColorGrid extends ColorGrid {
      * Very expensive
      */
     public void colorize( ColorMap colorMap ) {
-        Graphics2D g2 = image.createGraphics();
+        Graphics2D g2 = super.getBufferedImage().createGraphics();
         int blockWidth = getBlockWidth();
         int blockHeight = getBlockHeight();
         for( int i = 0; i < super.getNx() - 1; i++ ) {

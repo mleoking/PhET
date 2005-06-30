@@ -27,17 +27,18 @@ public class VerticalETA extends DiscreteModel.Adapter {
     }
 
     public void finishedTimeStep( DiscreteModel model ) {
-        time++;
-        if( time == Math.floor( eta ) ) {
-            System.out.println( "The time has come!" );
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
-                listener.arrived();
-            }
-        }
-        else {
-//            System.out.println( "time = " + time );
-        }
+        //todo delete this disabled class.
+//        time++;
+//        if( time == Math.floor( eta ) ) {
+//            System.out.println( "The time has come!" );
+//            for( int i = 0; i < listeners.size(); i++ ) {
+//                Listener listener = (Listener)listeners.get( i );
+//                listener.arrived();
+//            }
+//        }
+//        else {
+////            System.out.println( "time = " + time );
+//        }
     }
 
     public void particleFired( DiscreteModel discreteModel ) {

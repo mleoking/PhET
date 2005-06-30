@@ -5,8 +5,6 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.DiscreteModel;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,13 +30,13 @@ public class DetectorPanel extends VerticalLayoutPanel {
         } );
         add( newDetector );
 
-        final JCheckBox causeCollapse = new JCheckBox( "Causes Collapse", true );
-        causeCollapse.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                getDiscreteModel().setDetectionCausesCollapse( causeCollapse.isSelected() );
-            }
-        } );
-        add( causeCollapse );
+//        final JCheckBox causeCollapse = new JCheckBox( "Causes Collapse", true );
+//        causeCollapse.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                getDiscreteModel().setDetectionCausesCollapse( causeCollapse.isSelected() );
+//            }
+//        } );
+//        add( causeCollapse );
 
         final JCheckBox oneShot = new JCheckBox( "One-Shot" );
         oneShot.addActionListener( new ActionListener() {

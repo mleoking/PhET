@@ -9,6 +9,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.qm.SchrodingerLookAndFeel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,20 +59,13 @@ public class RulerGraphic extends GraphicLayerSet {
     }
 
     private JButton createCloseButton() {
-        JButton rotate = null;
-        try {
-            rotate = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "images/x-14.jpg" ) ) );
-            rotate.setMargin( new Insets( 1, 1, 1, 1 ) );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        rotate.addActionListener( new ActionListener() {
+        JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
+        closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 close();
             }
         } );
-        return rotate;
+        return closeButton;
     }
 
     private void close() {

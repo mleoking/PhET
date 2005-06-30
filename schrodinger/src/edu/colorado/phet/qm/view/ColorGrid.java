@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  */
 
 public class ColorGrid {
-    BufferedImage image;
+    private BufferedImage image;
     private int nx;
     private int ny;
     private int width;
