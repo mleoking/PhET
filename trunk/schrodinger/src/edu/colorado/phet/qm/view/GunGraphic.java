@@ -35,7 +35,7 @@ public class GunGraphic extends GraphicLayerSet {
     private int time = 0;
     private int lastFireTime = 0;
 
-    private PhetImageGraphic phetImageGraphic;
+    private PhetImageGraphic gunImageGraphic;
     private JComboBox comboBox;
     private GunItem currentObject;
     private GunItem[] items;
@@ -44,8 +44,8 @@ public class GunGraphic extends GraphicLayerSet {
     public GunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
         this.schrodingerPanel = schrodingerPanel;
-        phetImageGraphic = new PhetImageGraphic( getComponent(), "images/laser.gif" );
-        addGraphic( phetImageGraphic );
+        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/laser.gif" );
+        addGraphic( gunImageGraphic );
 
         fireOne = new JButton( "Fire!" );
         fireOne.addActionListener( new ActionListener() {
@@ -56,12 +56,12 @@ public class GunGraphic extends GraphicLayerSet {
         } );
         fireOne.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                phetImageGraphic.clearTransform();
-                phetImageGraphic.translate( 0, 10 );
+                gunImageGraphic.clearTransform();
+                gunImageGraphic.translate( 0, 10 );
             }
 
             public void mouseReleased( MouseEvent e ) {
-                phetImageGraphic.clearTransform();
+                gunImageGraphic.clearTransform();
             }
         } );
         alwaysOnCheckBox = new JCheckBox( "Rapid Fire" );
@@ -83,9 +83,9 @@ public class GunGraphic extends GraphicLayerSet {
         addGraphic( fireJC );
         addGraphic( onJC );
         addGraphic( intensityGraphic );
-        onJC.setLocation( phetImageGraphic.getWidth() + 2, fireJC.getHeight() + 2 );
-        fireJC.setLocation( phetImageGraphic.getWidth() + 2, 0 );
-        intensityGraphic.setLocation( phetImageGraphic.getWidth() + 2, onJC.getY() + onJC.getHeight() + 4 );
+        onJC.setLocation( gunImageGraphic.getWidth() + 2, fireJC.getHeight() + 2 );
+        fireJC.setLocation( gunImageGraphic.getWidth() + 2, 0 );
+        intensityGraphic.setLocation( gunImageGraphic.getWidth() + 2, onJC.getY() + onJC.getHeight() + 4 );
         intensitySlider.setEnabled( false );
 
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
@@ -443,6 +443,6 @@ public class GunGraphic extends GraphicLayerSet {
     }
 
     public int getGunWidth() {
-        return phetImageGraphic.getWidth();
+        return gunImageGraphic.getWidth();
     }
 }

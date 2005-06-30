@@ -61,33 +61,12 @@ public class SchrodingerModule extends Module {
     public static void main( String[] args ) {
         PhetLookAndFeel.setLookAndFeel();
         AbstractClock clock = new SwingTimerClock( 1, 30 );
-        PhetApplication phetApplication = new PhetApplication( args, "Schrodinger Equation", "Schrodinger Equation", "v0r0", clock, true, new FrameSetup.CenteredWithSize( 900, 900 ) );
+        PhetApplication phetApplication = new PhetApplication( args, "Schrodinger Equation",
+                                                               "Schrodinger Equation", "v0r0", clock,
+                                                               true, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithSize( 800, 600 ) ) );
         final SchrodingerModule module = new SchrodingerModule( clock );
         phetApplication.setModules( new Module[]{module} );
         phetApplication.startApplication();
-//        module.getSchrodingerPanel().add( new JLabel( "HEllo" ) );
-
-//        module.getSchrodingerControlPanel().setMaxAllowedWidth( module.getSchrodingerControlPanel().getDefaultContentPaneWidth()+10 );
-
-//        final ArrayList history=new ArrayList( );
-//        module.getDiscreteModel().addListener( new DiscreteModel.Listener() {
-//            public void finishedTimeStep( DiscreteModel model ) {
-//                history.add(model.getWavefunction().copy());
-//                System.out.println( "history.size="+history.size() );
-//            }
-//
-//            public void sizeChanged() {
-//            }
-//
-//            public void potentialChanged() {
-//            }
-//
-//            public void beforeTimeStep( DiscreteModel discreteModel ) {
-//            }
-//
-//            public void particleFired( DiscreteModel discreteModel ) {
-//            }
-//        } );
     }
 
     public void reset() {

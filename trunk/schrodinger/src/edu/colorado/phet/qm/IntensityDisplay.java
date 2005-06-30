@@ -37,7 +37,7 @@ public class IntensityDisplay {
 
         graphic = new DetectorSheet( schrodingerPanel, getWidth(), detectorHeight );
         getSchrodingerPanel().addGraphic( graphic );
-
+        graphic.setLocation( schrodingerPanel.getWavefunctionGraphic().getX(), 0 );
         getDiscreteModel().addListener( new DiscreteModel.Adapter() {
             public void finishedTimeStep( DiscreteModel model ) {
                 tryDetecting();

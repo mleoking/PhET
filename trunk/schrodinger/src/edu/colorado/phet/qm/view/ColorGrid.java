@@ -21,9 +21,19 @@ public class ColorGrid {
     public ColorGrid( int width, int height, int nx, int ny ) {
         this.nx = nx;
         this.ny = ny;
-        image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         this.width = width;
         this.height = height;
+        createImage();
+    }
+
+    private void createImage() {
+        image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
+    }
+
+    public void setSize( int width, int height ) {
+        this.width = width;
+        this.height = height;
+        createImage();
     }
 
     public void colorize( ColorMap colorMap ) {
@@ -60,7 +70,6 @@ public class ColorGrid {
     public BufferedImage getBufferedImage() {
         return image;
     }
-
 
     public Rectangle getRectangle( int i, int j ) {
         return new Rectangle( i * getBlockWidth(), j * getBlockWidth(), getBlockWidth(), getBlockHeight() );
