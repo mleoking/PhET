@@ -28,7 +28,7 @@ public class WavefunctionGraphic extends GraphicLayerSet {
     private boolean displayCollapsePoint;
 
     private ColorGrid colorGrid;
-    private int colorGridWidth = 600;
+    private int colorGridWidth = 400;
     private SchrodingerPanel schrodingerPanel;
     private DefaultPainter painter;
     private PhetImageGraphic imageGraphic;
@@ -53,6 +53,24 @@ public class WavefunctionGraphic extends GraphicLayerSet {
                 }
             }
         } );
+//        schrodingerPanel.addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                updateSize();
+//            }
+//
+//            public void componentShown( ComponentEvent e ) {
+//                updateSize();
+//            }
+//        } );
+    }
+
+    private void updateSize() {
+        Dimension availableSize = new Dimension( schrodingerPanel.getWidth(), schrodingerPanel.getHeight() );
+        //use the top half or more.
+        int min = Math.min( availableSize.width, availableSize.height );
+        if( min > 0 ) {
+            colorGrid.setSize( min, min );
+        }
     }
 
     public void setWavefunctionColorMap( ColorMap painter ) {
@@ -103,6 +121,8 @@ public class WavefunctionGraphic extends GraphicLayerSet {
         colorGrid.colorize( painter );
         finishDrawing();
         imageGraphic.setImage( colorGrid.getBufferedImage() );
+        imageGraphic.setBoundsDirty();
+        imageGraphic.autorepaint();
     }
 
     private void finishDrawing() {

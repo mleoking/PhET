@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view;
 
-import edu.colorado.phet.common.view.ApparatusPanel;
+import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.qm.IntensityDisplay;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -17,7 +17,9 @@ import java.util.ArrayList;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SchrodingerPanel extends ApparatusPanel {
+public class SchrodingerPanel
+//        extends ApparatusPanel
+        extends ApparatusPanel2 {
     private DiscreteModel discreteModel;
     private SchrodingerModule module;
     private WavefunctionGraphic wavefunctionGraphic;
@@ -27,25 +29,31 @@ public class SchrodingerPanel extends ApparatusPanel {
     private RulerGraphic rulerGraphic;
 
     public SchrodingerPanel( SchrodingerModule module ) {
+        super( module.getClock() );
         setLayout( null );
         this.module = module;
         this.discreteModel = module.getDiscreteModel();
 
         wavefunctionGraphic = new WavefunctionGraphic( this );
         addGraphic( wavefunctionGraphic );
-        wavefunctionGraphic.setLocation( 0, 50 );
+        wavefunctionGraphic.setLocation( 100, 50 );
 
         gunGraphic = new GunGraphic( this );
         addGraphic( gunGraphic );
         gunGraphic.setLocation( wavefunctionGraphic.getX() + wavefunctionGraphic.getWidth() / 2 - gunGraphic.getGunWidth() / 2,
-                                wavefunctionGraphic.getY() + wavefunctionGraphic.getHeight() );
+                                wavefunctionGraphic.getY() + wavefunctionGraphic.getHeight() - getGunGraphicOffsetY() );
 
         rulerGraphic = new RulerGraphic( this );
         addGraphic( rulerGraphic, Double.POSITIVE_INFINITY );
         rulerGraphic.setLocation( 20, 20 );
         rulerGraphic.setVisible( false );
 
-        intensityDisplay = new IntensityDisplay( getSchrodingerModule(), this, 50 );
+        intensityDisplay = new IntensityDisplay( getSchrodingerModule(), this, 60 );
+
+    }
+
+    private int getGunGraphicOffsetY() {
+        return 50;
     }
 
     protected void paintComponent( Graphics graphics ) {
