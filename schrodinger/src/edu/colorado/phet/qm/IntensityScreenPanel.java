@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
+import edu.colorado.phet.common.view.components.HorizontalLayoutPanel;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 
 import javax.swing.*;
@@ -19,25 +20,30 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
         setBorder( BorderFactory.createTitledBorder( "Intensity Screen" ) );
 
         final IntensityDisplay intensityDisplay = schrodingerControlPanel.getModule().getIntensityDisplay();
+        JPanel inflationPanel = new HorizontalLayoutPanel();
         final JSpinner probabilityInflation = new JSpinner( new SpinnerNumberModel( 1.0, 0.1, 1000, 0.1 ) );
-        probabilityInflation.setBorder( BorderFactory.createTitledBorder( "Probability Inflation" ) );
+//        probabilityInflation.setBorder( BorderFactory.createTitledBorder( "Probability Inflation" ) );
         probabilityInflation.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double val = ( (Number)probabilityInflation.getValue() ).doubleValue();
                 intensityDisplay.setProbabilityScaleFudgeFactor( val );
             }
         } );
-        super.addFullWidth( probabilityInflation );
+        inflationPanel.add( new JLabel( "Probability Inflation" ) );
+        inflationPanel.add( probabilityInflation );
+        super.addFullWidth( inflationPanel );
 
-
+        JPanel pan = new HorizontalLayoutPanel();
+        pan.add( new JLabel( "Waveform Decrement" ) );
         final JSpinner waveformDec = new JSpinner( new SpinnerNumberModel( 1.0, 0, 1.0, 0.1 ) );
-        waveformDec.setBorder( BorderFactory.createTitledBorder( "Waveform Decrement" ) );
+//        waveformDec.setBorder( BorderFactory.createTitledBorder( "Waveform Decrement" ) );
         waveformDec.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double val = ( (Number)waveformDec.getValue() ).doubleValue();
                 intensityDisplay.setNormDecrement( val );
             }
         } );
-        super.addFullWidth( waveformDec );
+        pan.add( waveformDec );
+        super.addFullWidth( pan );
     }
 }

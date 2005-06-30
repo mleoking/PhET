@@ -27,7 +27,6 @@ public class DiscreteModel {
     private boolean detectionCausesCollapse = true;
     private boolean oneShotDetectors = true;
     private Damping damping;
-//    private VerticalETA verticalEta;
     private boolean paused = false;
     private WaveSetup initter;
 
@@ -93,12 +92,9 @@ public class DiscreteModel {
     }
 
     public void stepInTime( double dt ) {
-        if( !paused )
-//        System.out.println( "DiscreteModel.stepInTime" );
-        {
+        if( !paused ) {
             step();
         }
-//        System.out.println( "/DiscreteModel.stepInTime" );
     }
 
     public Wavefunction getWavefunction() {

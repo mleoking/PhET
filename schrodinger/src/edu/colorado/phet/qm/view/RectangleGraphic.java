@@ -65,7 +65,7 @@ public class RectangleGraphic extends GraphicLayerSet {
     }
 
     protected ColorGrid getColorGrid() {
-        ColorGrid grid = schrodingerPanel.getColorGrid();
+        ColorGrid grid = schrodingerPanel.getWavefunctionGraphic().getColorGrid();
         return grid;
     }
 
