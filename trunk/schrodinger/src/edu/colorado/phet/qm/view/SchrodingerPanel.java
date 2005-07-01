@@ -49,7 +49,12 @@ public class SchrodingerPanel
         rulerGraphic.setVisible( false );
 
         intensityDisplay = new IntensityDisplay( getSchrodingerModule(), this, 60 );
-
+//        super.setReferenceSize( 2000,2000);
+//        addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                setReferenceSize(600,600);
+//            }
+//        } );
     }
 
     private int getGunGraphicOffsetY() {
