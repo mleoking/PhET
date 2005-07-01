@@ -17,6 +17,8 @@ import edu.colorado.phet.qm.view.DetectorGraphic;
 import edu.colorado.phet.qm.view.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
+import java.awt.image.IndexColorModel;
+
 /**
  * User: Sam Reid
  * Date: Jun 10, 2005
@@ -67,6 +69,11 @@ public class SchrodingerModule extends Module {
         final SchrodingerModule module = new SchrodingerModule( clock );
         phetApplication.setModules( new Module[]{module} );
         phetApplication.startApplication();
+
+        IndexColorModel icm = new IndexColorModel( 8, 10, new byte[]{2, 3, 4}, 0, true );
+        System.out.println( "icm = " + icm );
+        System.out.println( "icm.createCompatibleSampleModel( 100,100); = " + icm.createCompatibleSampleModel( 100, 100 ) );
+
     }
 
     public void reset() {
