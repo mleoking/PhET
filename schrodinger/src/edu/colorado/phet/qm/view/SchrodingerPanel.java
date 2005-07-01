@@ -8,6 +8,8 @@ import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
 /**
@@ -17,9 +19,7 @@ import java.util.ArrayList;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class SchrodingerPanel
-//        extends ApparatusPanel
-        extends ApparatusPanel2 {
+public class SchrodingerPanel extends ApparatusPanel2 {
     private DiscreteModel discreteModel;
     private SchrodingerModule module;
     private WavefunctionGraphic wavefunctionGraphic;
@@ -49,12 +49,12 @@ public class SchrodingerPanel
         rulerGraphic.setVisible( false );
 
         intensityDisplay = new IntensityDisplay( getSchrodingerModule(), this, 60 );
-//        super.setReferenceSize( 2000,2000);
-//        addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                setReferenceSize(600,600);
-//            }
-//        } );
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                setReferenceSize( 600, 600 );
+                gunGraphic.componentResized( e );
+            }
+        } );
     }
 
     private int getGunGraphicOffsetY() {

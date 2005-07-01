@@ -123,7 +123,9 @@ public class GunGraphic extends GraphicLayerSet {
 
     public void setLocation( int x, int y ) {
         super.setLocation( x, y );
-        comboBox.setBounds( x - comboBox.getPreferredSize().width - 2, y,
+        double scaleX = schrodingerPanel.getGraphicTx().getScaleX();
+        double scaleY = schrodingerPanel.getGraphicTx().getScaleY();
+        comboBox.setBounds( (int)( ( x - comboBox.getPreferredSize().width - 2 ) * scaleX ), (int)( y * scaleY ),
                             comboBox.getPreferredSize().width, comboBox.getPreferredSize().height );
         System.out.println( "comboBox.getLocation() = " + comboBox.getLocation() );
         setupObject( currentObject );
@@ -132,6 +134,10 @@ public class GunGraphic extends GraphicLayerSet {
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         comboBox.setVisible( visible );
+    }
+
+    public void componentResized( ComponentEvent e ) {
+        this.setLocation( getLocation() );//to fix combobox
     }
 
     public static interface MomentumChangeListener {
