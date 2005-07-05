@@ -117,13 +117,13 @@ public class TransformManager {
     public void setReferenceSize( int width, int height ) {
         referenceSizeSet = true;
         referenceBounds = new Rectangle( width, height );
-
-        double asX = ( (double)width ) / component.getWidth();
-        double asY = ( (double)height ) / component.getHeight();
-        double aspectRatio = Math.min( 1.0 / asX, 1.0 / asY );
-        setScale( aspectRatio );
-        component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
-
+        if( component.getWidth() > 0 && component.getHeight() > 0 ) {
+            double asX = ( (double)width ) / component.getWidth();
+            double asY = ( (double)height ) / component.getHeight();
+            double aspectRatio = Math.min( 1.0 / asX, 1.0 / asY );
+            setScale( aspectRatio );
+            component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
+        }
 //        System.out.println( "referenceBounds = " + referenceBounds );
     }
 
