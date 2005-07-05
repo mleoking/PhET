@@ -29,4 +29,7 @@ public class AveragePropagator implements Propagator {
     public double getSimulationTime() {
         return 0;
     }
+
+    public void reset() {
+    }
 }

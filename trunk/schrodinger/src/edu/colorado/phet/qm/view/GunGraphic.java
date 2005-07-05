@@ -10,6 +10,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.*;
+import edu.colorado.phet.qm.model.propagators.FiniteDifferencePropagator2ndOrder;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 
 import javax.swing.*;
@@ -151,7 +152,7 @@ public class GunGraphic extends GraphicLayerSet {
     }
 
     static abstract class GunItem extends ImageComboBox.Item {
-        private GunGraphic gunGraphic;
+        protected GunGraphic gunGraphic;
         private ArrayList momentumChangeListeners = new ArrayList();
 
         public GunItem( GunGraphic gunGraphic, String label, String imageLocation ) {
@@ -171,7 +172,7 @@ public class GunGraphic extends GraphicLayerSet {
 
         public WaveSetup getInitialWavefunction( Wavefunction currentWave ) {
             double x = getDiscreteModel().getGridWidth() * 0.5;
-            double y = getDiscreteModel().getGridHeight() * 0.8;
+            double y = getStartY();
             double px = 0;
             double py = getStartPy();
 
@@ -194,9 +195,14 @@ public class GunGraphic extends GraphicLayerSet {
             return waveSetup;
         }
 
+        protected double getStartY() {
+            double y = getDiscreteModel().getGridHeight() * 0.8;
+            return y;
+        }
+
         private WaveSetup getInitialWavefunctionVerifyCorrect( Wavefunction currentWave ) {
             double x = getDiscreteModel().getGridWidth() * 0.5;
-            double y = getDiscreteModel().getGridHeight() * 0.8;
+            double y = getStartY();
             double px = 0;
             double py = getStartPy();
             System.out.println( "py = " + py );
@@ -242,7 +248,7 @@ public class GunGraphic extends GraphicLayerSet {
             return gunGraphic.getSchrodingerModule();
         }
 
-        private DiscreteModel getDiscreteModel() {
+        protected DiscreteModel getDiscreteModel() {
             return getSchrodingerModule().getDiscreteModel();
         }
 
@@ -285,6 +291,8 @@ public class GunGraphic extends GraphicLayerSet {
         }
 
         public void setup( GunGraphic gunGraphic ) {
+            gunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorModifiedRichardson();
+
             gunGraphic.addGraphic( graphic );
             graphic.setLocation( -graphic.getWidth() - 2, gunGraphic.getComboBox().getHeight() + 2 );
         }
@@ -312,25 +320,47 @@ public class GunGraphic extends GraphicLayerSet {
         return comboBox;
     }
 
+    static Potential getPotential( GunGraphic gunGraphic ) {
+        return gunGraphic.schrodingerPanel.getDiscreteModel().getPotential();
+    }
+
     static class Photon extends GunItem {
         private JSlider wavelength;
-        private PhetGraphic graphic;
+        private PhetGraphic wavelengthSliderGraphic;
         private double hbar = 1.0;
 
         public Photon( GunGraphic gunGraphic, String label, String imageLocation ) {
             super( gunGraphic, label, imageLocation );
             wavelength = new JSlider( JSlider.HORIZONTAL, 8, 500, 500 / 2 );
             wavelength.setBorder( BorderFactory.createTitledBorder( "Wavelength" ) );
-            graphic = PhetJComponent.newInstance( gunGraphic.getComponent(), wavelength );
+            wavelengthSliderGraphic = PhetJComponent.newInstance( gunGraphic.getComponent(), wavelength );
         }
 
         public void setup( GunGraphic gunGraphic ) {
-            gunGraphic.addGraphic( graphic );
-            graphic.setLocation( -graphic.getWidth() - 2, gunGraphic.getComboBox().getHeight() + 2 );
+            gunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorClassical();
+            gunGraphic.addGraphic( wavelengthSliderGraphic );
+            wavelengthSliderGraphic.setLocation( -wavelengthSliderGraphic.getWidth() - 2, gunGraphic.getComboBox().getPreferredSize().height + 2 );
         }
 
         public void teardown( GunGraphic gunGraphic ) {
-            gunGraphic.removeGraphic( graphic );
+            gunGraphic.removeGraphic( wavelengthSliderGraphic );
+        }
+
+        public void fireParticle() {
+            Propagator propagator = gunGraphic.getDiscreteModel().getPropagator();
+            if( propagator instanceof FiniteDifferencePropagator2ndOrder ) {
+                FiniteDifferencePropagator2ndOrder prop = (FiniteDifferencePropagator2ndOrder)propagator;
+                WaveSetup setup = getInitialWavefunction( gunGraphic.getDiscreteModel().getWavefunction() );
+                Wavefunction init = gunGraphic.getDiscreteModel().getWavefunction().createEmptyWavefunction();
+                setup.initialize( init );
+                prop.addInitialization( init, init );
+            }
+            super.fireParticle();
+
+        }
+
+        protected double getStartY() {
+            return getDiscreteModel().getGridHeight() * 0.9;
         }
 
         public double getStartPy() {
@@ -367,6 +397,8 @@ public class GunGraphic extends GraphicLayerSet {
         }
 
         public void setup( GunGraphic gunGraphic ) {
+            gunGraphic.getSchrodingerModule().getDiscreteModel().setPropagatorModifiedRichardson();
+
             gunGraphic.addGraphic( massGraphic );
             massGraphic.setLocation( -massGraphic.getWidth() - 2, gunGraphic.getComboBox().getHeight() + 2 );
 
@@ -414,11 +446,14 @@ public class GunGraphic extends GraphicLayerSet {
     }
 
     private void setupObject( GunItem item ) {
-        if( currentObject != null ) {
-            currentObject.teardown( this );
+        if( item != currentObject ) {
+            getDiscreteModel().getWavefunction().clear();
+            if( currentObject != null ) {
+                currentObject.teardown( this );
+            }
+            item.setup( this );
+            currentObject = item;
         }
-        item.setup( this );
-        currentObject = item;
     }
 
     private void autofire() {

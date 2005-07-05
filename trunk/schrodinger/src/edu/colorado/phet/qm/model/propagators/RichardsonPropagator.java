@@ -163,6 +163,9 @@ public class RichardsonPropagator implements Propagator {
         return simulationTime;
     }
 
+    public void reset() {
+    }
+
     public double getEpsilon() {
         return epsilon;
     }
