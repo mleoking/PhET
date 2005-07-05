@@ -432,7 +432,13 @@ public class PhetJComponent extends PhetGraphic {
             }
             if( component != null && image != null ) {
                 g2.transform( getNetTransform() );
+                Object origHint = g2.getRenderingHint( RenderingHints.KEY_INTERPOLATION );
+                g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
                 g2.drawRenderedImage( image, new AffineTransform() );
+                if( origHint == null ) {
+                    origHint = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+                }
+                g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, origHint );
             }
             super.restoreGraphicsState();
         }
