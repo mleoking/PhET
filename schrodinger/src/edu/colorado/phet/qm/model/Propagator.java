@@ -13,4 +13,5 @@ public interface Propagator {
 
     double getSimulationTime();
 
+    void reset();
 }

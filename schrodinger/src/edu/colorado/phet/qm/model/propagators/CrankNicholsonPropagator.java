@@ -146,4 +146,7 @@ public class CrankNicholsonPropagator implements Propagator {
     public double getSimulationTime() {
         return simulationTime;
     }
+
+    public void reset() {
+    }
 }

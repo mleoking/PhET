@@ -146,7 +146,9 @@ public class SchrodingerControlPanel extends ControlPanel {
         addControlFullWidth( boundaryPanel );
 
         VerticalLayoutPanel propagatorPanel = createPropagatorPanel();
-        addControlFullWidth( propagatorPanel );
+        AdvancedPanel advancedPropagatorPanel = new AdvancedPanel( "Propagators>>", "Hide Propagators<<" );
+        advancedPropagatorPanel.addControlFullWidth( propagatorPanel );
+        addControlFullWidth( advancedPropagatorPanel );
 
 //        VerticalLayoutPanel intensityPanel = createIntensityPanel();
 //        addControlFullWidth( intensityPanel );
@@ -171,7 +173,7 @@ public class SchrodingerControlPanel extends ControlPanel {
                 classicalPropagator2ndOrder.setSpeed( x );
             }
         } );
-        addControlFullWidth( speed );
+//        addControlFullWidth( speed );
     }
 
     private WaveSetup getWaveSetup() {

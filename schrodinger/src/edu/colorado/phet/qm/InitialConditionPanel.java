@@ -122,7 +122,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         System.out.println( "new YValue().compute( t0) = " + new YValue().compute( t0 ) * getDiscreteModel().getGridHeight() );
         System.out.println( "new YValue().compute( t1) = " + new YValue().compute( t1 ) * getDiscreteModel().getGridHeight() );
         System.out.println( "new YValue().compute( t2) = " + new YValue().compute( t2 ) * getDiscreteModel().getGridHeight() );
-        propagator2ndOrder.initialize( t2, t1 );
+        propagator2ndOrder.initialize( t2, t2 );
 
     }
 }

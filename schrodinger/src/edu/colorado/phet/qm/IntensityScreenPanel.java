@@ -21,7 +21,7 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
 
         final IntensityDisplay intensityDisplay = schrodingerControlPanel.getModule().getIntensityDisplay();
         JPanel inflationPanel = new HorizontalLayoutPanel();
-        final JSpinner probabilityInflation = new JSpinner( new SpinnerNumberModel( 1.0, 0.1, 1000, 0.1 ) );
+        final JSpinner probabilityInflation = new JSpinner( new SpinnerNumberModel( 1.0, 0.0, 1000, 0.1 ) );
 //        probabilityInflation.setBorder( BorderFactory.createTitledBorder( "Probability Inflation" ) );
         probabilityInflation.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

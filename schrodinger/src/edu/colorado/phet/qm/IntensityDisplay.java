@@ -78,12 +78,10 @@ public class IntensityDisplay {
     private void updateWavefunctionAfterDetection() {
         double magnitude = getDiscreteModel().getWavefunction().getMagnitude();
         if( magnitude <= 1.0 ) {
-            getDiscreteModel().getWavefunction().clear();
+            getDiscreteModel().clearWavefunction();
         }
         else {
-            double newMagnitude = magnitude - normDecrement;
-            double scale = newMagnitude / magnitude;
-            getDiscreteModel().getWavefunction().scale( scale );
+            getDiscreteModel().reduceWavefunctionNorm( magnitude, normDecrement );
         }
     }
 
