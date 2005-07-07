@@ -29,6 +29,7 @@ public class DetectorSheet extends GraphicLayerSet {
     private PhetGraphic clearButtonJC;
     private JButton clearButton;
     private SchrodingerPanel schrodingerPanel;
+    private int opacity = 255;
 
     public DetectorSheet( SchrodingerPanel schrodingerPanel, int width, int height ) {
         super( schrodingerPanel );
@@ -58,26 +59,30 @@ public class DetectorSheet extends GraphicLayerSet {
         clearButtonJC.setLocation( 5, 5 );
         this.width = width;
         this.height = height;
-
     }
-
 
     public void addDetectionEvent( int x, int y ) {
         clearButtonJC.setVisible( true );
-
-//        addGraphic( new DetectionGraphic( this, x, y ) );
         Graphics2D g2 = bufferedImage.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        new DetectionGraphic( this, x, y ).paint( g2 );
+        new DetectionGraphic( this, x, y, opacity ).paint( g2 );
         repaint();
     }
 
     public void reset() {
-//        clear();
         bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         phetShapeGraphic.paint( bufferedImage.createGraphics() );
         graphic.setImage( bufferedImage );
         clearButtonJC.setVisible( false );
-//        addGraphic( graphic );
     }
+
+    public int getOpacity() {
+        return opacity;
+    }
+
+    public void setOpacity( int opacity ) {
+        this.opacity = opacity;
+    }
+
+
 }

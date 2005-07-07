@@ -23,11 +23,13 @@ public class IntensityDisplay {
     private SchrodingerPanel schrodingerPanel;
     private int detectorHeight;
     private Random random;
-    private DetectorSheet graphic;
-    private int h = 6;
+    private DetectorSheet detectorSheet;
+//    private int h = 6;
+    private int h = 2;
     private int y = 2;
     private double probabilityScaleFudgeFactor = 1.0;
     private double normDecrement = 1.0;
+    private int multiplier = 1;
 
     public IntensityDisplay( SchrodingerModule schrodingerModule, SchrodingerPanel schrodingerPanel, int detectorHeight ) {
         this.schrodingerModule = schrodingerModule;
@@ -35,9 +37,9 @@ public class IntensityDisplay {
         this.detectorHeight = detectorHeight;
         this.random = new Random();
 
-        graphic = new DetectorSheet( schrodingerPanel, getWidth(), detectorHeight );
-        getSchrodingerPanel().addGraphic( graphic );
-        graphic.setLocation( schrodingerPanel.getWavefunctionGraphic().getX(), 0 );
+        detectorSheet = new DetectorSheet( schrodingerPanel, getWidth(), detectorHeight );
+        getSchrodingerPanel().addGraphic( detectorSheet );
+        detectorSheet.setLocation( schrodingerPanel.getWavefunctionGraphic().getX(), 0 );
         getDiscreteModel().addListener( new DiscreteModel.Adapter() {
             public void finishedTimeStep( DiscreteModel model ) {
                 tryDetecting();
@@ -54,7 +56,10 @@ public class IntensityDisplay {
         double rand = random.nextDouble();
         if( rand <= probability ) {
 //            System.out.println( "Detection Occurred!" );
-            detectOne( sub );
+            for( int i = 0; i < multiplier; i++ ) {
+                detectOne( sub );
+            }
+            updateWavefunctionAfterDetection();
         }
 //        System.out.println( "tryDetecting = " + tryDetecting );
     }
@@ -66,23 +71,27 @@ public class IntensityDisplay {
         double screenGridWidth = schrodingerModule.getSchrodingerPanel().getWavefunctionGraphic().getBlockWidth();
         double randOffsetY = 2 * ( random.nextDouble() - 0.5 ) * screenGridWidth;
 
-        int displayVal = (int)( linearFunction.evaluate( pt.x ) + randOffsetY );
+        int x = (int)( linearFunction.evaluate( pt.x ) + randOffsetY );
+        int y = getY();
+        detectorSheet.addDetectionEvent( x, y );
+
+
+    }
+
+    private int getY() {
+        int y = (int)( random.nextDouble() * detectorHeight );
+        return y;
+    }
+
+    private int getYGaussian() {
         double scale = detectorHeight / 8;
         double offset = detectorHeight / 2;
         int y = (int)( random.nextGaussian() * scale + offset );
-        graphic.addDetectionEvent( displayVal, y );
-
-        updateWavefunctionAfterDetection();
+        return y;
     }
 
     private void updateWavefunctionAfterDetection() {
-        double magnitude = getDiscreteModel().getWavefunction().getMagnitude();
-        if( magnitude <= 1.0 ) {
-            getDiscreteModel().clearWavefunction();
-        }
-        else {
-            getDiscreteModel().reduceWavefunctionNorm( magnitude, normDecrement );
-        }
+        getDiscreteModel().reduceWavefunctionNorm( normDecrement );
     }
 
     public int getWidth() {
@@ -115,7 +124,7 @@ public class IntensityDisplay {
     }
 
     public void reset() {
-        graphic.reset();
+        detectorSheet.reset();
     }
 
     public double getProbabilityScaleFudgeFactor() {
@@ -132,5 +141,25 @@ public class IntensityDisplay {
 
     public void setNormDecrement( double normDecrement ) {
         this.normDecrement = normDecrement;
+    }
+
+    public int getMultiplier() {
+        return multiplier;
+    }
+
+    public void setMultiplier( int multiplier ) {
+        this.multiplier = multiplier;
+    }
+
+    public DetectorSheet getDetectorSheet() {
+        return detectorSheet;
+    }
+
+    public int getOpacity() {
+        return detectorSheet.getOpacity();
+    }
+
+    public void setOpacity( int opacity ) {
+        detectorSheet.setOpacity( opacity );
     }
 }

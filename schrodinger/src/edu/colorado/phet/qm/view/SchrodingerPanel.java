@@ -38,10 +38,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         addGraphic( wavefunctionGraphic );
         wavefunctionGraphic.setLocation( 100, 50 );
 
-        gunGraphic = new GunGraphic( this );
-        addGraphic( gunGraphic );
-        gunGraphic.setLocation( wavefunctionGraphic.getX() + wavefunctionGraphic.getWidth() / 2 - gunGraphic.getGunWidth() / 2,
-                                wavefunctionGraphic.getY() + wavefunctionGraphic.getHeight() - getGunGraphicOffsetY() );
+//        addDefaultGun();
 
         rulerGraphic = new RulerGraphic( this );
         addGraphic( rulerGraphic, Double.POSITIVE_INFINITY );
@@ -55,6 +52,16 @@ public class SchrodingerPanel extends ApparatusPanel2 {
                 gunGraphic.componentResized( e );
             }
         } );
+    }
+
+    protected void setGunGraphic( GunGraphic gunGraphic ) {
+        if( gunGraphic != null ) {
+            removeGraphic( gunGraphic );
+        }
+        this.gunGraphic = gunGraphic;
+        addGraphic( gunGraphic );
+        gunGraphic.setLocation( wavefunctionGraphic.getX() + wavefunctionGraphic.getWidth() / 2 - gunGraphic.getGunWidth() / 2,
+                                wavefunctionGraphic.getY() + wavefunctionGraphic.getHeight() - getGunGraphicOffsetY() );
     }
 
     private int getGunGraphicOffsetY() {
