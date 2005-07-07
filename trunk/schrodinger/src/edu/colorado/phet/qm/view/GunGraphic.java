@@ -3,7 +3,6 @@ package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.Vector2D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -17,7 +16,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 /**
@@ -29,75 +30,16 @@ import java.util.ArrayList;
 
 public class GunGraphic extends GraphicLayerSet {
     private SchrodingerPanel schrodingerPanel;
-
-    public JButton fireOne;
-    public JCheckBox alwaysOnCheckBox;
-    public JSlider intensitySlider;
-    private int time = 0;
-    private int lastFireTime = 0;
-
     private PhetImageGraphic gunImageGraphic;
     private JComboBox comboBox;
     private GunItem currentObject;
     private GunItem[] items;
-    private boolean alwaysOn;
 
     public GunGraphic( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
         this.schrodingerPanel = schrodingerPanel;
         gunImageGraphic = new PhetImageGraphic( getComponent(), "images/laser.gif" );
         addGraphic( gunImageGraphic );
-
-        fireOne = new JButton( "Fire!" );
-        fireOne.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                fireParticle();
-//                schrodingerPanel.getSchrodingerModule().getSchrodingerControlPanel().fireParticle();
-            }
-        } );
-        fireOne.addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                gunImageGraphic.clearTransform();
-                gunImageGraphic.translate( 0, 10 );
-            }
-
-            public void mouseReleased( MouseEvent e ) {
-                gunImageGraphic.clearTransform();
-            }
-        } );
-        alwaysOnCheckBox = new JCheckBox( "Rapid Fire" );
-        alwaysOnCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setAlwaysOn( alwaysOnCheckBox.isSelected() );
-            }
-        } );
-
-        intensitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 0 );
-        intensitySlider.setBorder( BorderFactory.createTitledBorder( "Rate" ) );
-        PhetGraphic intensityGraphic = PhetJComponent.newInstance( schrodingerPanel, intensitySlider );
-
-//        SquareButton3D fireJC=new SquareButton3D( schrodingerPanel, new Font( "Lucida Sans",Font.BOLD, 12),"Fire!" );
-
-
-        PhetGraphic fireJC = PhetJComponent.newInstance( schrodingerPanel, fireOne );
-        PhetGraphic onJC = PhetJComponent.newInstance( schrodingerPanel, alwaysOnCheckBox );
-        addGraphic( fireJC );
-        addGraphic( onJC );
-        addGraphic( intensityGraphic );
-        onJC.setLocation( gunImageGraphic.getWidth() + 2, fireJC.getHeight() + 2 );
-        fireJC.setLocation( gunImageGraphic.getWidth() + 2, 0 );
-        intensityGraphic.setLocation( gunImageGraphic.getWidth() + 2, onJC.getY() + onJC.getHeight() + 4 );
-        intensitySlider.setEnabled( false );
-
-        schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                time++;
-                if( isTimeToFire() ) {
-                    autofire();
-                }
-            }
-        } );
-
         items = new GunItem[]{
             new Photon( this, "Photons", "images/photon-thumb.jpg" ),
             new Electron( this, "Electrons", "images/electron-thumb.jpg" ),
@@ -139,6 +81,10 @@ public class GunGraphic extends GraphicLayerSet {
 
     public void componentResized( ComponentEvent e ) {
         this.setLocation( getLocation() );//to fix combobox
+    }
+
+    public PhetImageGraphic getGunImageGraphic() {
+        return gunImageGraphic;
     }
 
     public static interface MomentumChangeListener {
@@ -353,6 +299,13 @@ public class GunGraphic extends GraphicLayerSet {
                 WaveSetup setup = getInitialWavefunction( gunGraphic.getDiscreteModel().getWavefunction() );
                 Wavefunction init = gunGraphic.getDiscreteModel().getWavefunction().createEmptyWavefunction();
                 setup.initialize( init );
+//                new RandomizePhase().randomizePhase( init );
+//                int numAvg = 5;
+//                for( int i = 0; i < numAvg; i++ ) {
+//                    new AveragePropagator().propagate( init );
+//                }
+//
+//                init.setMagnitude( 1.0 );
                 prop.addInitialization( init, init );
             }
             super.fireParticle();
@@ -364,7 +317,7 @@ public class GunGraphic extends GraphicLayerSet {
         }
 
         public double getStartPy() {
-            double wavelengthValue = new Function.LinearFunction( 0, 1000, 0, 100 ).evaluate( wavelength.getValue() );
+            double wavelengthValue = new Function.LinearFunction( 0, wavelength.getMaximum(), 5, 20 ).evaluate( wavelength.getValue() );
             double momentum = -hbar * 2 * Math.PI / wavelengthValue;
 //            System.out.println( "wavelengthValue = " + wavelengthValue + ", momentum=" + momentum );
             return momentum;
@@ -454,33 +407,6 @@ public class GunGraphic extends GraphicLayerSet {
             item.setup( this );
             currentObject = item;
         }
-    }
-
-    private void autofire() {
-        lastFireTime = time;
-//        System.out.println( "System.currentTimeMillis() = " + System.currentTimeMillis() );
-        fireParticle();
-    }
-
-    private boolean isTimeToFire() {
-        if( alwaysOnCheckBox.isSelected() && intensitySlider.getValue() != 0 ) {
-            int numStepsBetweenFire = getNumStepsBetweenFire();
-            return time >= numStepsBetweenFire + lastFireTime;
-        }
-        return false;
-    }
-
-    private int getNumStepsBetweenFire() {
-
-        double frac = intensitySlider.getValue() / ( (double)intensitySlider.getMaximum() );
-        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 1, 20, 1 );
-        return (int)linearFunction.evaluate( frac );
-    }
-
-    private void setAlwaysOn( boolean on ) {
-        fireOne.setEnabled( !on );
-        intensitySlider.setEnabled( on );
-        this.alwaysOn = on;
     }
 
     public int getGunWidth() {

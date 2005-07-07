@@ -226,13 +226,17 @@ public class DiscreteModel {
         propagator.reset();
     }
 
-    public void reduceWavefunctionNorm( double magnitude, double normDecrement ) {
-        double newMagnitude = magnitude - normDecrement;
-        double scale = newMagnitude / magnitude;
-        wavefunction.scale( scale );
-        if( propagator instanceof FiniteDifferencePropagator2ndOrder ) {
-            FiniteDifferencePropagator2ndOrder finiteDifferencePropagator2ndOrder = (FiniteDifferencePropagator2ndOrder)propagator;
-            finiteDifferencePropagator2ndOrder.scale( scale );
+    public void reduceWavefunctionNorm( double normDecrement ) {
+
+        if( normDecrement != 0.0 ) {
+            double magnitude = getWavefunction().getMagnitude();
+            double newMagnitude = magnitude - normDecrement;
+            double scale = newMagnitude <= 0.0 ? 0.0 : newMagnitude / magnitude;
+            wavefunction.scale( scale );
+            if( propagator instanceof FiniteDifferencePropagator2ndOrder ) {
+                FiniteDifferencePropagator2ndOrder finiteDifferencePropagator2ndOrder = (FiniteDifferencePropagator2ndOrder)propagator;
+                finiteDifferencePropagator2ndOrder.scale( scale );
+            }
         }
     }
 

@@ -29,11 +29,15 @@ public class SchrodingerModule extends Module {
     private DiscreteModel discreteModel;
     private SchrodingerControlPanel schrodingerControlPanel;
 
+    public SchrodingerModule( AbstractClock clock ) {
+        this( "Schrodinger Waves", clock );
+    }
+
     /**
      * @param clock
      */
-    public SchrodingerModule( AbstractClock clock ) {
-        super( "Schrodinger Module", clock );
+    public SchrodingerModule( String name, AbstractClock clock ) {
+        super( name, clock );
 
         setModel( new BaseModel() );
 
@@ -43,11 +47,23 @@ public class SchrodingerModule extends Module {
                 discreteModel.stepInTime( dt );
             }
         } );
-        schrodingerPanel = new SchrodingerPanel( this );
-        setApparatusPanel( schrodingerPanel );
 
-        schrodingerControlPanel = new SchrodingerControlPanel( this );
-        setControlPanel( schrodingerControlPanel );
+//        setupDefaultPanels();
+
+        //        int numAdditionalDiscreteModels = 0;
+//        for( int i = 0; i < numAdditionalDiscreteModels; i++ ) {
+//            final DiscreteModel additionalModel = new DiscreteModel( 100, 100 );
+//            addModelElement( new ModelElement() {
+//                public void stepInTime( double dt ) {
+//                    additionalModel.stepInTime( dt );
+//                }
+//            } );
+//        }
+    }
+
+    protected void setupDefaultPanels() {
+        setSchrodingerPanel( new SchrodingerPanel( this ) );
+        setSchrodingerControlPanel( new SchrodingerControlPanel( this ) );
     }
 
     public SchrodingerPanel getSchrodingerPanel() {
@@ -117,5 +133,15 @@ public class SchrodingerModule extends Module {
 
     public IntensityDisplay getIntensityDisplay() {
         return getSchrodingerPanel().getIntensityDisplay();
+    }
+
+    protected void setSchrodingerPanel( SchrodingerPanel schrodingerPanel ) {
+        setApparatusPanel( schrodingerPanel );
+        this.schrodingerPanel = schrodingerPanel;
+    }
+
+    protected void setSchrodingerControlPanel( SchrodingerControlPanel schrodingerControlPanel ) {
+        setControlPanel( schrodingerControlPanel );
+        this.schrodingerControlPanel = schrodingerControlPanel;
     }
 }
