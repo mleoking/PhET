@@ -121,6 +121,15 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _periodTool = periodTool;
         _periodDisplay = periodDisplay;
         
+        // Filler, to set the control panel's width.
+        JPanel fillerPanel = new JPanel();
+        {
+            String widthString = SimStrings.get( "DiscreteControlPanel.width" );
+            int width = Integer.parseInt( widthString );
+            fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
+            fillerPanel.add( Box.createHorizontalStrut( width ) );
+        }
+        
         // Functions panel
         JPanel functionsPanel = new JPanel();
         {
@@ -315,6 +324,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
         
         // Layout
+        addFullWidth( fillerPanel );
         addFullWidth( functionsPanel );
         addFullWidth( wavePropertiesPanel );
         addFullWidth( mathModePanel );

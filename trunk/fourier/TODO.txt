@@ -57,6 +57,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/8) - set the control panel minimum width in the SimStrings file
 (7/8) - remove HarmonicsGraph.setWaveType, should be getting wave type from FourierSeries
 (6/28) - define StringLabelTable to make creation of chart labels more readable
 (6/28) - lots of javadoc and cleanup
