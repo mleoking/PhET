@@ -21,6 +21,8 @@ public class HorizontalDoubleSlit implements Potential {
     private int slitSeparation;
     private double potential;
     private Potential potentialDelegate;
+    private Rectangle leftSlit;
+    private Rectangle rightSlit;
 
     public HorizontalDoubleSlit( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
         this.gridWidth = gridWidth;
@@ -34,7 +36,8 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     private void update() {
-        this.potentialDelegate = createDoubleSlit( gridWidth, gridHeight, y, height, slitSize, slitSeparation, potential );
+        createDoubleSlit( gridWidth, gridHeight, y, height, slitSize, slitSeparation, potential );
+
     }
 
     public void setGridWidth( int gridWidth ) {
@@ -77,8 +80,8 @@ public class HorizontalDoubleSlit implements Potential {
         update();
     }
 
-    private Potential createDoubleSlit( int gridWidth, int gridHeight,
-                                        int y, int height, int slitSize, int slitSeparation, double potential ) {
+    private void createDoubleSlit( int gridWidth, int gridHeight,
+                                   int y, int height, int slitSize, int slitSeparation, double potential ) {
         CompositePotential compositePotential = new CompositePotential();
         int barWidth = ( gridWidth - 2 * slitSize - slitSeparation ) / 2;
 
@@ -89,7 +92,10 @@ public class HorizontalDoubleSlit implements Potential {
         compositePotential.addPotential( new BarrierPotential( leftBar, potential ) );
         compositePotential.addPotential( new BarrierPotential( midBar, potential ) );
         compositePotential.addPotential( new BarrierPotential( rightBar, potential ) );
-        return new PrecomputedPotential( compositePotential, gridWidth, gridHeight );
+        this.potentialDelegate = new PrecomputedPotential( compositePotential, gridWidth, gridHeight );
+
+        this.leftSlit = new Rectangle( (int)leftBar.getMaxX(), y, slitSize, height );
+        this.rightSlit = new Rectangle( (int)midBar.getMaxX(), y, slitSize, height );
     }
 
     public double getPotential( int x, int y, int timestep ) {
@@ -124,4 +130,7 @@ public class HorizontalDoubleSlit implements Potential {
         return potential;
     }
 
+    public Rectangle[] getSlitAreas() {
+        return new Rectangle[]{new Rectangle( leftSlit ), new Rectangle( rightSlit )};
+    }
 }

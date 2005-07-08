@@ -27,6 +27,7 @@ public class SingleParticleGun extends GunGraphic {
         fireOne = new JButton( "Fire!" );
         fireOne.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                clearWavefunction();
                 fireParticle();
             }
         } );
@@ -44,6 +45,10 @@ public class SingleParticleGun extends GunGraphic {
         addGraphic( fireJC );
         fireJC.setLocation( getGunImageGraphic().getWidth() + 2, 0 );
 
+    }
+
+    private void clearWavefunction() {
+        getDiscreteModel().clearWavefunction();
     }
 
 }

@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.view.RectangularObject;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -144,5 +145,10 @@ public class Detector extends RectangularObject {
 
     public boolean readyToFire() {
         return enabled && timeToFire();
+    }
+
+    public void setRect( Rectangle rectangle ) {
+        setDimension( rectangle.width, rectangle.height );
+        setLocation( rectangle.x, rectangle.y );
     }
 }

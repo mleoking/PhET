@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
+import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.propagators.FiniteDifferencePropagator2ndOrder;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
 
@@ -15,7 +17,7 @@ import java.util.ArrayList;
  * Copyright (c) Jun 10, 2005 by Sam Reid
  */
 
-public class DiscreteModel {
+public class DiscreteModel implements ModelElement {
     private Wavefunction wavefunction;
     private CompositePotential compositePotential;
 
@@ -31,8 +33,19 @@ public class DiscreteModel {
     private boolean paused = false;
     private WaveSetup initter;
 
+    private HorizontalDoubleSlit doubleSlitPotential;
+
+    private HorizontalDoubleSlit createDoubleSlit() {
+        double potentialValue = 200E22;
+        HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
+                                                                    getGridHeight(),
+                                                                    (int)( getGridWidth() * 0.4 ), 10, 5, 10, potentialValue );
+        return doubleSlit;
+    }
+
+
     public DiscreteModel( int width, int height ) {
-        this( width, height, 1E-5, new ZeroWave() );
+        this( width, height, createInitDT(), createInitWave() );
     }
 
     public DiscreteModel( int width, int height, double deltaTime, Wave wave ) {
@@ -48,6 +61,16 @@ public class DiscreteModel {
 
         damping = new Damping();
         addListener( damping );
+
+        doubleSlitPotential = createDoubleSlit();
+    }
+
+    protected static ZeroWave createInitWave() {
+        return new ZeroWave();
+    }
+
+    protected static double createInitDT() {
+        return 1E-5;
     }
 
     public void setPropagatorModifiedRichardson() {
@@ -58,21 +81,26 @@ public class DiscreteModel {
         propagator = new FiniteDifferencePropagator2ndOrder( compositePotential );
     }
 
-    private void step() {
+    protected void step() {
         beforeTimeStep();
-        propagator.propagate( wavefunction );
-        timeStep++;
+        getPropagator().propagate( getWavefunction() );
+        incrementTimeStep();
         finishedTimeStep();
     }
 
-    private void beforeTimeStep() {
+    protected void beforeTimeStep() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.beforeTimeStep( this );
         }
     }
 
-    private void finishedTimeStep() {
+
+    protected void incrementTimeStep() {
+        timeStep++;
+    }
+
+    protected void finishedTimeStep() {
         for( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener)listeners.get( i );
             listener.finishedTimeStep( this );
@@ -238,6 +266,24 @@ public class DiscreteModel {
                 finiteDifferencePropagator2ndOrder.scale( scale );
             }
         }
+    }
+
+    public HorizontalDoubleSlit getDoubleSlitPotential() {
+        return doubleSlitPotential;
+    }
+
+    public void setDoubleSlitEnabled( boolean enabled ) {
+        removePotential( doubleSlitPotential );
+        if( enabled ) {
+            addPotential( doubleSlitPotential );
+        }
+        else {
+            removePotential( doubleSlitPotential );
+        }
+    }
+
+    public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
+        return getWavefunction().copyRegion( 0, detectionY, width, h );
     }
 
     public static interface Listener {

@@ -1,7 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view;
 
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -9,7 +11,10 @@ import edu.colorado.phet.qm.model.operators.PxValue;
 import edu.colorado.phet.qm.model.operators.XValue;
 import edu.colorado.phet.qm.model.operators.YValue;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 /**
@@ -35,7 +40,7 @@ public class WavefunctionGraphic extends GraphicLayerSet {
 
     private boolean displayPyExpectation = false;
 
-    public WavefunctionGraphic( SchrodingerPanel schrodingerPanel ) {
+    public WavefunctionGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
 
         colorGrid = createColorGrid();
@@ -53,24 +58,18 @@ public class WavefunctionGraphic extends GraphicLayerSet {
                 }
             }
         } );
-//        schrodingerPanel.addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                updateSize();
-//            }
-//
-//            public void componentShown( ComponentEvent e ) {
-//                updateSize();
-//            }
-//        } );
-    }
 
-    private void updateSize() {
-        Dimension availableSize = new Dimension( schrodingerPanel.getWidth(), schrodingerPanel.getHeight() );
-        //use the top half or more.
-        int min = Math.min( availableSize.width, availableSize.height );
-        if( min > 0 ) {
-            colorGrid.setSize( min, min );
-        }
+        JButton clear = new JButton( "<html>Clear<br>Wave</html>" );
+        clear.setMargin( new Insets( 2, 2, 2, 2 ) );
+        PhetGraphic clearButton = PhetJComponent.newInstance( schrodingerPanel, clear );
+        addGraphic( clearButton );
+        clear.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
+        clear.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                schrodingerPanel.getDiscreteModel().clearWavefunction();
+            }
+        } );
+        clearButton.setLocation( -clearButton.getWidth() - 2, clearButton.getHeight() );
     }
 
     public void setWavefunctionColorMap( ColorMap painter ) {

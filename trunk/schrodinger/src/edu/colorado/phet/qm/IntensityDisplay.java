@@ -48,20 +48,15 @@ public class IntensityDisplay {
     }
 
     private void tryDetecting() {
-//        QuickTimer tryDetecting=new QuickTimer();
         Wavefunction sub = getDetectionRegion();
-
         double probability = sub.getMagnitude() * probabilityScaleFudgeFactor;
-//        System.out.println( "probability = " + probability );
         double rand = random.nextDouble();
         if( rand <= probability ) {
-//            System.out.println( "Detection Occurred!" );
             for( int i = 0; i < multiplier; i++ ) {
                 detectOne( sub );
             }
             updateWavefunctionAfterDetection();
         }
-//        System.out.println( "tryDetecting = " + tryDetecting );
     }
 
     private void detectOne( Wavefunction sub ) {
@@ -99,10 +94,8 @@ public class IntensityDisplay {
     }
 
     public Wavefunction getDetectionRegion() {
-        return getDiscreteModel().getWavefunction().copyRegion( 0,
-                                                                getDetectionY(),
-                                                                getDiscreteModel().getWavefunction().getWidth(),
-                                                                h );
+        return getDiscreteModel().getDetectionRegion( 0, getDetectionY(),
+                                                      getDiscreteModel().getWavefunction().getWidth(), h );
     }
 
     private int getDetectionY() {

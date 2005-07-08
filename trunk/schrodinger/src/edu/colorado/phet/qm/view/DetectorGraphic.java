@@ -26,13 +26,15 @@ public class DetectorGraphic extends RectangleGraphic {
     private DecimalFormat format = new DecimalFormat( "0.00" );
     private PhetTextGraphic probDisplay;
     private PhetGraphic closeGraphic;
+    private Color darkGreen;
 
     public DetectorGraphic( final SchrodingerPanel schrodingerPanel, final Detector detector ) {
         super( schrodingerPanel, detector, new Color( 0, 0, 0, 0 ) );
 //        super( schrodingerPanel, detector, null );
         this.detector = detector;
 
-        probDisplay = new PhetTextGraphic( schrodingerPanel, new Font( "Lucida Sans", Font.BOLD, 14 ), "", Color.red );
+        darkGreen = new Color( 50, 230, 75 );
+        probDisplay = new PhetTextGraphic( schrodingerPanel, new Font( "Lucida Sans", Font.BOLD, 14 ), "", darkGreen );
         probDisplay.setIgnoreMouse( true );
         addGraphic( probDisplay );
         detector.addObserver( new SimpleObserver() {
@@ -44,7 +46,7 @@ public class DetectorGraphic extends RectangleGraphic {
         JButton closeButton = SchrodingerLookAndFeel.createCloseButton();
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                schrodingerPanel.removeDetector( DetectorGraphic.this );
+                schrodingerPanel.removeDetectorGraphic( DetectorGraphic.this );
             }
         } );
         closeGraphic = PhetJComponent.newInstance( schrodingerPanel, closeButton );
@@ -63,7 +65,7 @@ public class DetectorGraphic extends RectangleGraphic {
         probDisplay.setText( formatted + " %" );
         probDisplay.setLocation( (int)viewRect.getX(), (int)viewRect.getY() );
         if( detector.isEnabled() ) {
-            probDisplay.setColor( Color.red );
+            probDisplay.setColor( darkGreen );
         }
         else {
             probDisplay.setColor( Color.gray );

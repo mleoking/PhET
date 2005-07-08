@@ -19,5 +19,9 @@ public class IntensityPanel extends SchrodingerPanel {
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 10 );
         getIntensityDisplay().setOpacity( 6 );
         getIntensityDisplay().setNormDecrement( 0.0 );
+
+        getWavefunctionGraphic().setWavefunctionColorMap( new SplitColorMap( intensityModule.getSplitModel() ) );
     }
+
+
 }
