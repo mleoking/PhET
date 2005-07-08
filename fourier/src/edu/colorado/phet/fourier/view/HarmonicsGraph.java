@@ -107,7 +107,7 @@ public class HarmonicsGraph extends GraphicLayerSet
 
     // Chart parameters
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
-    private static final Dimension CHART_SIZE = new Dimension( 580, 130 );
+    private static final Dimension CHART_SIZE = new Dimension( 550, 130 );
 
     // Wave parameters
     private static final Stroke WAVE_NORMAL_STROKE = new BasicStroke( 1f );
