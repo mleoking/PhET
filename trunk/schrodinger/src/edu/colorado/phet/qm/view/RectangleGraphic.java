@@ -50,6 +50,10 @@ public class RectangleGraphic extends GraphicLayerSet {
         update();
     }
 
+    public void setResizeComponentVisible( boolean visible ) {
+        this.grabbablePart.setVisible( visible );
+    }
+
     private void update() {
         Rectangle modelRect = rectangularObject.getBounds();
 //        ColorGrid grid = getColorGrid();

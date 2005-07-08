@@ -24,28 +24,18 @@ public class SplitColorMap implements ColorMap {
 
     public Color getColor( int i, int k ) {
         Rectangle[] areas = splitModel.getDoubleSlitPotential().getSlitAreas();
+        double abs = 0;
         if( !contains( areas, i, k ) ) {
             Wavefunction wavefunction = splitModel.getWavefunction();
-            double abs = getValue( wavefunction, i, k );
-            abs += getValue( splitModel.getLeftWavefunction(), i, k ) * 2;
-            abs += getValue( splitModel.getRightWavefunction(), i, k ) * 2;
-            if( abs > 1 ) {
-                abs = 1;
-            }
-            Color color = new Color( (float)abs, (float)abs, (float)abs );
-            return color;
+            abs = getValue( wavefunction, i, k );
         }
-        else {
-//            Wavefunction wavefunction = splitModel.getWavefunction();
-            double abs = 0;
-            abs += getValue( splitModel.getLeftWavefunction(), i, k ) * 2;
-            abs += getValue( splitModel.getRightWavefunction(), i, k ) * 2;
-            if( abs > 1 ) {
-                abs = 1;
-            }
-            Color color = new Color( (float)abs, (float)abs, (float)abs );
-            return color;
+        abs += getValue( splitModel.getLeftWavefunction(), i, k );
+        abs += getValue( splitModel.getRightWavefunction(), i, k );
+        if( abs > 1 ) {
+            abs = 1;
         }
+        Color color = new Color( (float)abs, (float)abs, (float)abs );
+        return color;
     }
 
     private boolean contains( Rectangle[] areas, int i, int k ) {

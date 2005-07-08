@@ -36,7 +36,7 @@ public class DiscreteModel implements ModelElement {
     private HorizontalDoubleSlit doubleSlitPotential;
 
     private HorizontalDoubleSlit createDoubleSlit() {
-        double potentialValue = 200E22;
+        double potentialValue = Double.MAX_VALUE / 1000;
         HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
                                                                     getGridHeight(),
                                                                     (int)( getGridWidth() * 0.4 ), 10, 5, 10, potentialValue );
@@ -326,5 +326,9 @@ public class DiscreteModel implements ModelElement {
 
     public boolean isDetectionCausesCollapse() {
         return detectionCausesCollapse;
+    }
+
+    public boolean containsDetector( Detector detector ) {
+        return detectorSet.containsDetector( detector );
     }
 }

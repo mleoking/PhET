@@ -34,7 +34,6 @@ public class SlitControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( rightSlit );
-
     }
 
     public IntensityPanel getIntensityPanel() {
