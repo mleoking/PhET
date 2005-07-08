@@ -31,7 +31,7 @@ import edu.colorado.phet.fourier.util.TrigCache;
 
 /**
  * FourierSumPlot encapsulates the graphics and data set that allow a Chart
- * to draw a Fourier serie's summation waveform.
+ * to draw the sum of a discrete Fourier series.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
