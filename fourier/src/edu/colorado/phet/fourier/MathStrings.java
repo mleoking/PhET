@@ -32,6 +32,7 @@ public class MathStrings {
     
     public static char C_AMPLITUDE         = 'A';
     public static char C_ANGULAR_FREQUENCY = '\u03C9'; // omega
+    public static char C_DELTA             = '\u0394';
     public static char C_FREQUENCY         = 'f';
     public static char C_INTEGRAL          = '\u222b';
     public static char C_LENGTH            = 'L';
