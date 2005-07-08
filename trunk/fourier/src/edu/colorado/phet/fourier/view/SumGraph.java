@@ -112,7 +112,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     
     // Chart parameters
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
-    private static final Dimension CHART_SIZE = new Dimension( 580, 130 );
+    private static final Dimension CHART_SIZE = new Dimension( 550, 130 );
     
     // Wave parameters
     private static final int NUMBER_OF_DATA_POINTS = 1000;
