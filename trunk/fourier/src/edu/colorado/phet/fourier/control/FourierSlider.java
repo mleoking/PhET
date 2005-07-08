@@ -73,6 +73,8 @@ public class FourierSlider extends JPanel implements ChangeListener {
         setLayout( layout );
         layout.addAnchoredComponent( _value, 0, 0, GridBagConstraints.WEST );
         layout.addAnchoredComponent( _slider, 1, 0, GridBagConstraints.WEST );
+        
+        update();
     }
     
     //----------------------------------------------------------------------------
@@ -86,9 +88,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      */
     public void setValue( int value ) {
         _slider.setValue( value );
-        Object[] args = { new Integer( value ) };
-        String text = MessageFormat.format( _format, args );
-        _value.setText( text );
+        update();
     }
     
     /**
@@ -107,6 +107,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      */
     public void setMaximum( int maximum ) {
         _slider.setMaximum( maximum );
+        update();
     }
     
     /**
@@ -116,6 +117,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      */
     public void setMinimum( int minimum ) {
         _slider.setMinimum( minimum );
+        update();
     }
 
     /**
@@ -127,6 +129,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
         _slider.setMajorTickSpacing( spacing );
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
+        update();
     }
     
     /**
@@ -138,6 +141,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
         _slider.setMinorTickSpacing( spacing );
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
+        update();
     }
     
     /**
@@ -148,6 +152,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      */
     public void setSnapToTicks( boolean snap ) {
         _slider.setSnapToTicks( snap );
+        update();
     }
   
     /**
@@ -157,6 +162,13 @@ public class FourierSlider extends JPanel implements ChangeListener {
      */
     public JSlider getSlider() {
         return _slider;
+    }
+    
+    private void update() {
+        int value = _slider.getValue();
+        Object[] args = { new Integer( value ) };
+        String text = MessageFormat.format( _format, args );
+        _value.setText( text );
     }
     
     //----------------------------------------------------------------------------
@@ -169,10 +181,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      * @param e the event
      */
     public void stateChanged( ChangeEvent e ) {
-        int value = _slider.getValue();
-        Object[] args = { new Integer( value ) };
-        String text = MessageFormat.format( _format, args );
-        _value.setText( text );
+        update();
         fireChangeEvent( new ChangeEvent( this ) );
     }
  
