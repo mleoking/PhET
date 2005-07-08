@@ -454,11 +454,16 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             }
         }
 
-        // If the preset has changed, update the preset waveform.
+        // Reset the sum waveform, and update the preset waveform.
+        int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
         int preset = _fourierSeries.getPreset();
         int waveType = _fourierSeries.getWaveType();
-        if ( preset != _previousPreset || waveType != _previousWaveType ) {
+        if ( numberOfHarmonics != _previousNumberOfHarmonics || preset != _previousPreset || waveType != _previousWaveType ) {
 
+            if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
+                updateMath();
+            }
+            
             _sumPlot.setStartX( 0 );
             _presetPlot.getDataSet().clear();
 
@@ -478,15 +483,9 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
                 _presetPlot.getDataSet().addAllPoints( copyPoints );
             }
 
+            _previousNumberOfHarmonics = numberOfHarmonics;
             _previousPreset = preset;
             _previousWaveType = waveType;
-        }
-
-        // If the number of harmonics has changed, update the equation.
-        int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
-        if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
-            updateMath();
-            _previousNumberOfHarmonics = numberOfHarmonics;
         }
 
         repaint();
