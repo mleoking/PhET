@@ -60,7 +60,7 @@ public class GunGraphic extends GraphicLayerSet {
 //        lastWave = currentObject.getInitialWavefunction( getDiscreteModel().getWavefunction() );
     }
 
-    private DiscreteModel getDiscreteModel() {
+    DiscreteModel getDiscreteModel() {
         return schrodingerPanel.getDiscreteModel();
     }
 
@@ -185,6 +185,10 @@ public class GunGraphic extends GraphicLayerSet {
             return waveSetup;
         }
 
+        protected void clearWavefunction() {
+            getDiscreteModel().clearWavefunction();
+        }
+
         public void fireParticle() {
             WaveSetup initialWavefunction = getInitialWavefunction( getDiscreteModel().getWavefunction() );
             getSchrodingerModule().fireParticle( initialWavefunction );
@@ -199,7 +203,8 @@ public class GunGraphic extends GraphicLayerSet {
         }
 
         protected double getStartDxLattice() {
-            double dxLattice = 0.04 * getDiscreteModel().getGridWidth();
+//            double dxLattice = 0.04 * getDiscreteModel().getGridWidth();
+            double dxLattice = 0.06 * getDiscreteModel().getGridWidth();
             return dxLattice;
         }
 
@@ -293,6 +298,7 @@ public class GunGraphic extends GraphicLayerSet {
         }
 
         public void fireParticle() {
+
             Propagator propagator = gunGraphic.getDiscreteModel().getPropagator();
             if( propagator instanceof FiniteDifferencePropagator2ndOrder ) {
                 FiniteDifferencePropagator2ndOrder prop = (FiniteDifferencePropagator2ndOrder)propagator;
@@ -400,7 +406,7 @@ public class GunGraphic extends GraphicLayerSet {
 
     private void setupObject( GunItem item ) {
         if( item != currentObject ) {
-            getDiscreteModel().getWavefunction().clear();
+            getDiscreteModel().clearWavefunction();
             if( currentObject != null ) {
                 currentObject.teardown( this );
             }

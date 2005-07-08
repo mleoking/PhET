@@ -11,5 +11,7 @@ package edu.colorado.phet.qm;
 public class IntensityControlPanel extends SchrodingerControlPanel {
     public IntensityControlPanel( IntensityModule intensityModule ) {
         super( intensityModule );
+        SlitControlPanel slitControlPanel = new SlitControlPanel( intensityModule );
+        addControl( slitControlPanel );
     }
 }

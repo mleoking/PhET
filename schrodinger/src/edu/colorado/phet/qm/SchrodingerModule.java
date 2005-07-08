@@ -13,7 +13,6 @@ import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
-import edu.colorado.phet.qm.view.DetectorGraphic;
 import edu.colorado.phet.qm.view.RectangularPotentialGraphic;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -38,15 +37,8 @@ public class SchrodingerModule extends Module {
      */
     public SchrodingerModule( String name, AbstractClock clock ) {
         super( name, clock );
-
         setModel( new BaseModel() );
 
-        discreteModel = new DiscreteModel( 100, 100 );
-        addModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                discreteModel.stepInTime( dt );
-            }
-        } );
 
 //        setupDefaultPanels();
 
@@ -59,6 +51,14 @@ public class SchrodingerModule extends Module {
 //                }
 //            } );
 //        }
+    }
+
+    protected void setDiscreteModel( DiscreteModel model ) {
+        if( discreteModel != null ) {
+            getModel().removeModelElement( discreteModel );
+        }
+        discreteModel = model;
+        addModelElement( discreteModel );
     }
 
     protected void setupDefaultPanels() {
@@ -109,8 +109,7 @@ public class SchrodingerModule extends Module {
     public void addDetector() {
         Detector detector = new Detector( 5, 5, 10, 10 );
         discreteModel.addDetector( detector );
-        DetectorGraphic detectorGraphic = new DetectorGraphic( getSchrodingerPanel(), detector );
-        getSchrodingerPanel().addDetectorGraphic( detectorGraphic );
+        schrodingerPanel.addDetectorGraphic( detector );
     }
 
     public void addPotential() {

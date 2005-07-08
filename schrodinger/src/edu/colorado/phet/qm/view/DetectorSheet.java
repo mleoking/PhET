@@ -56,7 +56,7 @@ public class DetectorSheet extends GraphicLayerSet {
         clearButtonJC = PhetJComponent.newInstance( schrodingerPanel, clearButton );
         addGraphic( clearButtonJC );
         clearButtonJC.setVisible( false );
-        clearButtonJC.setLocation( 5, 5 );
+        clearButtonJC.setLocation( -5 - clearButtonJC.getWidth(), 5 );
         this.width = width;
         this.height = height;
     }

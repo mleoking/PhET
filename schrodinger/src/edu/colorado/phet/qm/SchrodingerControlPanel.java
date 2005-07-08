@@ -11,7 +11,6 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.model.*;
-import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
 import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
 import edu.colorado.phet.qm.model.propagators.*;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
@@ -126,8 +125,8 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel exp = createExpectationPanel();
         addControlFullWidth( exp );
 
-        VerticalLayoutPanel interactionPanel = createDetectorPanel();
-        addControlFullWidth( interactionPanel );
+//        VerticalLayoutPanel detectorPanel = createDetectorPanel();
+//        addControlFullWidth( detectorPanel );
 
 //        JButton addParticle = new JButton( "Add Particle" );
 //        addParticle.addActionListener( new ActionListener() {
@@ -346,20 +345,19 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         layoutPanel.add( clear );
 
-        final HorizontalDoubleSlit doubleSlitPotential = createDoubleSlit();
         final JCheckBox doubleSlit = new JCheckBox( "Double Slit", false );
         doubleSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( doubleSlit.isSelected() ) {
-                    addPotential( doubleSlitPotential );
+                    getDiscreteModel().setDoubleSlitEnabled( true );
                 }
                 else {
-                    removePotential( doubleSlitPotential );
+                    getDiscreteModel().setDoubleSlitEnabled( false );
                 }
             }
         } );
         layoutPanel.add( doubleSlit );
-        VerticalLayoutPanel configureDoubleSlit = new ConfigureHorizontalSlitPanel( doubleSlitPotential );
+        VerticalLayoutPanel configureDoubleSlit = new ConfigureHorizontalSlitPanel( getDiscreteModel().getDoubleSlitPotential() );
         layoutPanel.add( configureDoubleSlit );
 
         JButton slopingLeft = new JButton( "Add Slope" );
@@ -392,15 +390,6 @@ public class SchrodingerControlPanel extends ControlPanel {
 
     private Potential createSlopingPotential() {
         return new SimpleGradientPotential( 0.01 );
-    }
-
-    private HorizontalDoubleSlit createDoubleSlit() {
-
-        double potentialValue = 200E12;
-        HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getDiscreteModel().getGridWidth(),
-                                                                    getDiscreteModel().getGridHeight(),
-                                                                    (int)( getDiscreteModel().getGridWidth() * 0.4 ), 10, 5, 10, potentialValue );
-        return doubleSlit;
     }
 
     private void addPotential( Potential potential ) {

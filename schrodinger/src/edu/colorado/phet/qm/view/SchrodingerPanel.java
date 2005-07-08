@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.view;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.qm.IntensityDisplay;
 import edu.colorado.phet.qm.SchrodingerModule;
+import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 
@@ -28,6 +29,8 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     private IntensityDisplay intensityDisplay;
     private RulerGraphic rulerGraphic;
 
+    private ArrayList detectorGraphics = new ArrayList();
+
     public SchrodingerPanel( SchrodingerModule module ) {
         super( module.getClock() );
         setLayout( null );
@@ -37,8 +40,6 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         wavefunctionGraphic = new WavefunctionGraphic( this );
         addGraphic( wavefunctionGraphic );
         wavefunctionGraphic.setLocation( 100, 50 );
-
-//        addDefaultGun();
 
         rulerGraphic = new RulerGraphic( this );
         addGraphic( rulerGraphic, Double.POSITIVE_INFINITY );
@@ -89,6 +90,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     }
 
     public void addDetectorGraphic( DetectorGraphic detectorGraphic ) {
+        detectorGraphics.add( detectorGraphic );
         addGraphic( detectorGraphic );
     }
 
@@ -125,8 +127,29 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         return gunGraphic;
     }
 
-    public void removeDetector( DetectorGraphic detectorGraphic ) {
+    public void removeDetectorGraphic( DetectorGraphic detectorGraphic ) {
         removeGraphic( detectorGraphic );
         getDiscreteModel().removeDetector( detectorGraphic.getDetector() );
+        detectorGraphics.remove( detectorGraphic );
+    }
+
+    public void addDetectorGraphic( Detector detector ) {
+        DetectorGraphic detectorGraphic = new DetectorGraphic( this, detector );
+        addDetectorGraphic( detectorGraphic );
+    }
+
+    public DetectorGraphic getDetectorGraphic( Detector detector ) {
+        for( int i = 0; i < detectorGraphics.size(); i++ ) {
+            DetectorGraphic detectorGraphic = (DetectorGraphic)detectorGraphics.get( i );
+            if( detectorGraphic.getDetector() == detector ) {
+                return detectorGraphic;
+            }
+        }
+        return null;
+    }
+
+    public void removeDetectorGraphic( Detector detector ) {
+        DetectorGraphic detectorGraphic = getDetectorGraphic( detector );
+        removeDetectorGraphic( detectorGraphic );
     }
 }
