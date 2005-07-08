@@ -407,7 +407,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         _mathForm = mathForm;
         updateLabelsAndLines();
         updateMath();
-        _previousPreset = -1;
+        _previousPreset = -1; // force update
         update();
     }
     
@@ -425,7 +425,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     }
     
     public void setPresetEnabled( boolean enabled ) {
-            _presetPlot.setVisible( enabled );
+        _presetPlot.setVisible( enabled );
     }
 
     //----------------------------------------------------------------------------
