@@ -18,6 +18,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.control.ContinuousControlPanel;
 import edu.colorado.phet.fourier.control.FourierControlPanel;
 
 
@@ -41,6 +42,12 @@ public class ContinuousModule extends FourierModule {
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.WHITE;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private FourierControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -77,12 +84,11 @@ public class ContinuousModule extends FourierModule {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        {
-            FourierControlPanel controlPanel = new FourierControlPanel( this );
-            setControlPanel( controlPanel );
-            
-            controlPanel.addResetButton(); 
-        }
+        _controlPanel = new ContinuousControlPanel( this );
+        _controlPanel.addResetButton();
+        setControlPanel( _controlPanel );
+
+        reset();
         
         //----------------------------------------------------------------------------
         // Help
@@ -97,6 +103,6 @@ public class ContinuousModule extends FourierModule {
      * Resets everything to the initial state.
      */
     public void reset() {
-        //TODO
+        _controlPanel.reset();
     }
 }

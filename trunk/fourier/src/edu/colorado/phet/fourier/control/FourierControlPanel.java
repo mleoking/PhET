@@ -30,7 +30,7 @@ import edu.colorado.phet.fourier.module.FourierModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FourierControlPanel extends ControlPanel {
+public abstract class FourierControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -58,6 +58,12 @@ public class FourierControlPanel extends ControlPanel {
         super( module );
         _module = module;
     }
+    
+    //----------------------------------------------------------------------------
+    // reset
+    //----------------------------------------------------------------------------
+    
+    public abstract void reset();
     
     //----------------------------------------------------------------------------
     // Add things to the control panel

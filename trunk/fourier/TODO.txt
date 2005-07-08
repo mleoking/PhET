@@ -6,15 +6,15 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- test Reset
-- when PeriodDislay.setHarmonic is called, it's angle is reset, it should be sync'ed to the harmonic's cycle
 - "show infinte" goes away after a few cycles in space-&-time mode
-- FourierSumPlot should be an observer of its FourierSeries
 - animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
-- PeriodDisplay has not been sync'ed, doesn't reset to 0 when mode/domain/preset/waveType is changed
+- PeriodDisplay has not been sync'ed, doesn't reset to 0 when domain/preset/waveType is changed
+- when PeriodDislay.setHarmonic is called, it's angle is reset, it should be sync'ed to the harmonic's cycle
 - persistence
 
 MEDIUM PRIORITY:
+- test Reset
+- FourierSumPlot should be an observer of its FourierSeries
 - PeriodDisplay is an observer of its harmonic, should it be?
 - something is hammering the processor when we should be idle
 

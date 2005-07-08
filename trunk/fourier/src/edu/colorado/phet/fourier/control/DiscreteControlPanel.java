@@ -364,6 +364,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _expandSumDialog.cleanup();
     }
     
+    //----------------------------------------------------------------------------
+    // FourierControlPanel implementation
+    //----------------------------------------------------------------------------
+    
     public void reset() {
         
         // Domain

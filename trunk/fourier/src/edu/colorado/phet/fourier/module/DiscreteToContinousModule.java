@@ -18,7 +18,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.control.FourierControlPanel;
+import edu.colorado.phet.fourier.control.DiscreteToContinuousControlPanel;
 
 
 /**
@@ -41,6 +41,12 @@ public class DiscreteToContinousModule extends FourierModule {
     
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.WHITE;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private DiscreteToContinuousControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -71,18 +77,18 @@ public class DiscreteToContinousModule extends FourierModule {
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         setApparatusPanel( apparatusPanel );
-        
+
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
 
         // Control Panel
-        {
-            FourierControlPanel controlPanel = new FourierControlPanel( this );
-            setControlPanel( controlPanel );
-            
-            controlPanel.addResetButton(); 
-        }
+        _controlPanel = new DiscreteToContinuousControlPanel( this );
+        _controlPanel.addVerticalSpace( 20 );
+        _controlPanel.addResetButton();
+        setControlPanel( _controlPanel );
+
+        reset();
         
         //----------------------------------------------------------------------------
         // Help
@@ -97,6 +103,6 @@ public class DiscreteToContinousModule extends FourierModule {
      * Resets everything to the initial state.
      */
     public void reset() {
-        //TODO
+        _controlPanel.reset();
     }
 }
