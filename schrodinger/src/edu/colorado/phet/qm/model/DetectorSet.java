@@ -46,6 +46,10 @@ public class DetectorSet {
         fireAllEnabledDetectors( new FireEnabled() );
     }
 
+    public boolean containsDetector( Detector detector ) {
+        return detectors.contains( detector );
+    }
+
     private static interface FireStrategy {
 
         void fire( Detector detector, Wavefunction wavefunction, double norm );

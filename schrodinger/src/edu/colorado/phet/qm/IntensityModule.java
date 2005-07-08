@@ -4,6 +4,7 @@ package edu.colorado.phet.qm;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.SplitModel;
+import edu.colorado.phet.qm.view.DetectorGraphic;
 
 /**
  * User: Sam Reid
@@ -25,6 +26,7 @@ public class IntensityModule extends SchrodingerModule {
         setSchrodingerPanel( intensityPanel );
         schrodingerControlPanel = new IntensityControlPanel( this );
         setSchrodingerControlPanel( schrodingerControlPanel );
+        synchronizeModel();
     }
 
     public SplitModel getSplitModel() {
@@ -33,6 +35,14 @@ public class IntensityModule extends SchrodingerModule {
 
     public IntensityPanel getIntensityPanel() {
         return intensityPanel;
+    }
+
+    public boolean isRightDetectorEnabled() {
+        return splitModel.containsDetector( splitModel.getRightDetector() );
+    }
+
+    public boolean isLeftDetectorEnabled() {
+        return splitModel.containsDetector( splitModel.getLeftDetector() );
     }
 
     public void setRightDetectorEnabled( boolean selected ) {
@@ -44,13 +54,29 @@ public class IntensityModule extends SchrodingerModule {
     }
 
     private void setDetectorEnabled( Detector detector, boolean selected ) {
+        boolean splitMode = shouldBeSplitMode();
         if( selected ) {
             splitModel.addDetector( detector );
-            intensityPanel.addDetectorGraphic( detector );
+            DetectorGraphic detectorGraphic = new RestrictedDetectorGraphic( intensityPanel, detector );
+            intensityPanel.addDetectorGraphic( detectorGraphic );
         }
         else {
             splitModel.removeDetector( detector );
             intensityPanel.removeDetectorGraphic( detector );
         }
+        boolean newSplitMode = shouldBeSplitMode();
+        if( newSplitMode != splitMode ) {
+            synchronizeModel();
+        }
+    }
+
+    private boolean shouldBeSplitMode() {
+        return isLeftDetectorEnabled() || isRightDetectorEnabled();
+    }
+
+    private void synchronizeModel() {
+        boolean splitMode = shouldBeSplitMode();
+        splitModel.setSplitModel( splitMode );
+        intensityPanel.setSplitMode( splitMode );
     }
 }

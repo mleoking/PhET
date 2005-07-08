@@ -29,8 +29,8 @@ public class DetectorGraphic extends RectangleGraphic {
     private Color darkGreen;
 
     public DetectorGraphic( final SchrodingerPanel schrodingerPanel, final Detector detector ) {
-        super( schrodingerPanel, detector, new Color( 0, 0, 0, 0 ) );
-//        super( schrodingerPanel, detector, null );
+//        super( schrodingerPanel, detector, new Color( 0, 0, 0, 0 ) );
+        super( schrodingerPanel, detector, new Color( 200, 180, 150, 65 ) );
         this.detector = detector;
 
         darkGreen = new Color( 50, 230, 75 );
@@ -53,6 +53,14 @@ public class DetectorGraphic extends RectangleGraphic {
         addGraphic( closeGraphic );
 
         update();
+    }
+
+    public void setCloseButtonVisible( boolean visible ) {
+        closeGraphic.setVisible( visible );
+    }
+
+    public void setPercentDisplayVisible( boolean visible ) {
+        probDisplay.setVisible( visible );
     }
 
     private void update() {

@@ -118,7 +118,7 @@ public class RichardsonPropagator implements Propagator {
             stepItConstrained( w, i, 0, dx, dy );
             stepItConstrained( w, i, w.getHeight() - 1, dx, dy );
         }
-        for( int j = 1; j < w.getHeight(); j++ ) {
+        for( int j = 1; j < w.getHeight(); j++ ) {//todo should this start at 0?
             stepItConstrained( w, 0, j, dx, dy );
             stepItConstrained( w, w.getWidth() - 1, j, dx, dy );
         }
