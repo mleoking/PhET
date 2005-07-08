@@ -545,7 +545,6 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             showSawtoothCosinesErrorDialog();
             _waveTypeComboBox.setSelectedKey( FourierConstants.WAVE_TYPE_SINE );
             _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
-            _harmonicsGraph.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         }
         boolean showInfiniteEnabled = 
             ( preset != FourierConstants.PRESET_WAVE_PACKET && preset != FourierConstants.PRESET_CUSTOM );
@@ -597,11 +596,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             showSawtoothCosinesErrorDialog();
             _waveTypeComboBox.setSelectedKey( FourierConstants.WAVE_TYPE_SINE );
             _fourierSeries.setWaveType( FourierConstants.WAVE_TYPE_SINE );
-            _harmonicsGraph.setWaveType( FourierConstants.WAVE_TYPE_SINE );
         }
         else {
             _fourierSeries.setWaveType( waveType );
-            _harmonicsGraph.setWaveType( waveType );
         }
     }
     

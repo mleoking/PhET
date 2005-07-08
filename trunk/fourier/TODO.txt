@@ -6,8 +6,6 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- HarmonicsGraph is confused between its own waveType property and FourierSeries waveType property (uses both)
-- FourierSeries model should not have a preset and waveType properties
 - test Reset
 - when PeriodDislay.setHarmonic is called, it's angle is reset, it should be sync'ed to the harmonic's cycle
 - "show infinte" goes away after a few cycles in space-&-time mode
@@ -59,6 +57,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/8) - remove HarmonicsGraph.setWaveType, should be getting wave type from FourierSeries
 (6/28) - define StringLabelTable to make creation of chart labels more readable
 (6/28) - lots of javadoc and cleanup
 (6/28) - refactor FourierUtils into TrigCache
@@ -224,6 +223,7 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
+(7/8) - FourierSeries model should not have a preset and waveType properties (this is OK)
 (6/21) - make graph titles prettier (no one asked for this)
 (6/20) - investigate Jex for rendering equations (no doc, uses OpenOffice for rendering, install Windows only)
 (6/14) - highlight component when mouse moves over it in Harmonics graph (dropped this feature)
