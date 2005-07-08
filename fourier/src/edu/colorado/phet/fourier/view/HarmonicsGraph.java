@@ -350,19 +350,6 @@ public class HarmonicsGraph extends GraphicLayerSet
     }
     
     /**
-     * Sets the wave type for each data sets.
-     * 
-     * @param waveType
-     */
-    public void setWaveType( int waveType ) {
-        assert( FourierConstants.isValidWaveType( waveType ) );
-        for ( int i = 0; i < _harmonicPlots.size(); i++ ) {
-            HarmonicPlot harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
-            harmonicPlot.setWaveType( waveType );
-        }
-    }
-    
-    /**
      * Sets the domain and math form.
      * Together, these values determines how the chart is 
      * labeled, and the format of the equation shown above the chart.
