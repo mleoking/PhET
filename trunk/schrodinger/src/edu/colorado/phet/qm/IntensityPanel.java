@@ -2,9 +2,9 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.qm.view.ColorMap;
-import edu.colorado.phet.qm.view.RapidFireGun;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.colormaps.MagnitudeInGrayscale;
+import edu.colorado.phet.qm.view.gun.HighIntensityGun;
 
 /**
  * User: Sam Reid
@@ -19,7 +19,7 @@ public class IntensityPanel extends SchrodingerPanel {
     public IntensityPanel( IntensityModule intensityModule ) {
         super( intensityModule );
         this.intensityModule = intensityModule;
-        setGunGraphic( new RapidFireGun( this ) );
+        setGunGraphic( new HighIntensityGun( this ) );
         getIntensityDisplay().setMultiplier( 100 );
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 10 );
         getIntensityDisplay().setOpacity( 6 );
