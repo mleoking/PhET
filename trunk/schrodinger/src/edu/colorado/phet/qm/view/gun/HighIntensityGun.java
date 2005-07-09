@@ -13,6 +13,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * User: Sam Reid
@@ -24,16 +26,13 @@ import java.awt.event.ActionListener;
 public class HighIntensityGun extends AbstractGun {
     private JCheckBox alwaysOnCheckBox;
     private JSlider intensitySlider;
-    private int lastFireTime = 0;
-    private int time = 0;
     private boolean on = false;
-    private int numStepsBetweenFire = 4;
-    private HighIntensityBeam highIntensityBeam;
-    private HighIntensityBeam[] highIntensityBeams;
+    private HighIntensityBeam[] beams;
+    private HighIntensityBeam currentBeam;
 
     public HighIntensityGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
-        alwaysOnCheckBox = new JCheckBox( "On" );
+        alwaysOnCheckBox = new JCheckBox( "On", true );
         alwaysOnCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setOn( alwaysOnCheckBox.isSelected() );
@@ -56,80 +55,64 @@ public class HighIntensityGun extends AbstractGun {
         onJC.setLocation( getGunImageGraphic().getWidth() + 2, 0 );
 
         intensityGraphic.setLocation( getGunImageGraphic().getWidth() + 2, onJC.getY() + onJC.getHeight() + 4 );
-        intensitySlider.setEnabled( false );
-
         schrodingerPanel.getSchrodingerModule().getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-                time++;
-                if( isTimeToFire() ) {
-                    autofire();
-                }
+                stepBeam();
             }
         } );
-        highIntensityBeams = new HighIntensityBeam[]{
-            new PhotonBeam( this )
-        };
+        setupObject( beams[0] );
+    }
+
+    private void stepBeam() {
+        currentBeam.stepBeam();
     }
 
     protected JComboBox initComboBox() {
-        final ImageComboBox.Item[] gunItems = new GunParticle[]{
-            new Photon( this, "Photons", "images/photon-thumb.jpg" ),
-            new Electron( this, "Electrons", "images/electron-thumb.jpg" ),
-            new Atom( this, "Atoms", "images/atom-thumb.jpg" )};
-        final ImageComboBox imageComboBox = new ImageComboBox( gunItems );
-        imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
-//        imageComboBox.addItemListener( new ItemListener() {
-//            public void itemStateChanged( ItemEvent e ) {
-//                int index = imageComboBox.getSelectedIndex();
-//                setupObject( gunItems[index] );
-//            }
-//        } );
+        Photon photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
+        Electron e = new Electron( this, "Electrons", "images/electron-thumb.jpg" );
+        Atom atom = new Atom( this, "Atoms", "images/atom-thumb.jpg" );
 
+        beams = new HighIntensityBeam[]{
+            new PhotonBeam( this, photon ),
+            new ParticleBeam( e ),
+            new ParticleBeam( atom )};
+        final ImageComboBox imageComboBox = new ImageComboBox( beams );
+        imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
+        imageComboBox.addItemListener( new ItemListener() {
+            public void itemStateChanged( ItemEvent e ) {
+                int index = imageComboBox.getSelectedIndex();
+                setupObject( beams[index] );
+            }
+        } );
         return imageComboBox;
+    }
+
+    private void setupObject( HighIntensityBeam beam ) {
+        if( beam != currentBeam ) {
+            getDiscreteModel().clearWavefunction();
+            if( currentBeam != null ) {
+                currentBeam.deactivate( this );
+            }
+            beam.activate( this );
+            currentBeam = beam;
+            currentBeam.setHighIntensityModeOn( alwaysOnCheckBox.isSelected() );
+        }
     }
 
     private void updateIntensity() {
         double intensity = new Function.LinearFunction( 0, 1000, 0, 1 ).evaluate( intensitySlider.getValue() );
-        for( int i = 0; i < highIntensityBeams.length; i++ ) {
-            highIntensityBeams[i].setIntensity( intensity );
+        for( int i = 0; i < beams.length; i++ ) {
+            beams[i].setIntensity( intensity );
         }
-    }
-
-    private boolean isTimeToFire() {
-//        if( alwaysOnCheckBox.isSelected() && intensitySlider.getValue() != 0 ) {
-        if( alwaysOnCheckBox.isSelected() ) {
-            int numStepsBetweenFire = getNumStepsBetweenFire();
-            return time >= numStepsBetweenFire + lastFireTime;
-        }
-        return false;
-    }
-
-    private int getNumStepsBetweenFire() {
-        return numStepsBetweenFire;
-//        double frac = intensitySlider.getValue() / ( (double)intensitySlider.getMaximum() );
-//        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 1, 20, 1 );
-//        return (int)linearFunction.evaluate( frac );
     }
 
     private void setOn( boolean on ) {
-        intensitySlider.setEnabled( on );
         this.on = on;
-//        super.getCurrentObject().setHighIntensityModeOn( on );
+        currentBeam.setHighIntensityModeOn( on );
     }
 
     public boolean isOn() {
         return on;
     }
 
-    private void autofire() {
-        lastFireTime = time;
-//        getCurrentObject().autofire();
-    }
-
-//    protected void setupObject( GunItem item ) {
-//        super.setupObject( item );
-//        if( item != null && alwaysOnCheckBox != null ) {
-//            item.setHighIntensityModeOn( alwaysOnCheckBox.isSelected() );
-//        }
-//    }
 }

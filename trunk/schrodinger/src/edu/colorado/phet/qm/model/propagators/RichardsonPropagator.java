@@ -169,7 +169,19 @@ public class RichardsonPropagator implements Propagator {
     public void setBoundaryCondition( int i, int k, Complex value ) {
     }
 
+    public Propagator copy() {
+        return new RichardsonPropagator( deltaTime, wave, potential );
+    }
+
     public double getEpsilon() {
         return epsilon;
+    }
+
+    public Wave getWave() {
+        return wave;
+    }
+
+    public Potential getPotential() {
+        return potential;
     }
 }

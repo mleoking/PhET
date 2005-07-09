@@ -31,7 +31,7 @@ public class Electron extends GunParticle {
         abstractGun.getSchrodingerModule().getDiscreteModel().setPropagatorModifiedRichardson();
 
         abstractGun.addGraphic( graphic );
-        graphic.setLocation( -graphic.getWidth() - 2, abstractGun.initComboBox().getHeight() + 2 );
+        graphic.setLocation( -graphic.getWidth() - 2, abstractGun.getComboBox().getHeight() + 2 );
     }
 
 

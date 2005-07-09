@@ -1,9 +1,6 @@
 package edu.colorado.phet.qm.model.propagators;
 
-import edu.colorado.phet.qm.model.Complex;
-import edu.colorado.phet.qm.model.Potential;
-import edu.colorado.phet.qm.model.Wave;
-import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.model.*;
 
 
 /*********************************************************/
@@ -66,4 +63,7 @@ public class ModifiedRichardsonPropagator extends RichardsonPropagator {
 //            w.setValue( i, j, last2.valueAt( i + di, j ) );
 //        }
 //    }
+    public Propagator copy() {
+        return new ModifiedRichardsonPropagator( getEpsilon(), super.getWave(), super.getPotential() );
+    }
 }

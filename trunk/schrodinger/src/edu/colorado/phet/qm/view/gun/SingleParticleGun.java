@@ -17,11 +17,9 @@ import java.awt.event.*;
  */
 
 public class SingleParticleGun extends AbstractGun {
-
     private JButton fireOne;
     private GunParticle currentObject;
     private GunParticle[] gunItems;
-
 
     public SingleParticleGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
@@ -102,6 +100,7 @@ public class SingleParticleGun extends AbstractGun {
             }
         } );
 
+//        setupObject( gunItems[0] );
         return imageComboBox;
     }
 

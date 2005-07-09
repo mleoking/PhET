@@ -16,4 +16,6 @@ public interface Propagator {
     void reset();
 
     void setBoundaryCondition( int i, int k, Complex value );
+
+    Propagator copy();
 }

@@ -35,4 +35,8 @@ public class AveragePropagator implements Propagator {
 
     public void setBoundaryCondition( int i, int k, Complex value ) {
     }
+
+    public Propagator copy() {
+        return new AveragePropagator();
+    }
 }
