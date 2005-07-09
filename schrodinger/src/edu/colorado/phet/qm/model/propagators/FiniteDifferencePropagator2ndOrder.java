@@ -151,6 +151,10 @@ public class FiniteDifferencePropagator2ndOrder implements Propagator {
         }
     }
 
+    public Propagator copy() {
+        return new FiniteDifferencePropagator2ndOrder( potential );
+    }
+
     public void scale( double scale ) {
         if( last2 != null ) {
             last2.scale( scale );
@@ -158,5 +162,13 @@ public class FiniteDifferencePropagator2ndOrder implements Propagator {
         if( last != null ) {
             last.scale( scale );
         }
+    }
+
+    public Wavefunction getLast() {
+        return last;
+    }
+
+    public Wavefunction getLast2() {
+        return last2;
     }
 }

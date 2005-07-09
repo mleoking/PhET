@@ -74,11 +74,11 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void setPropagatorModifiedRichardson() {
-        propagator = new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential );
+        setPropagator( new ModifiedRichardsonPropagator( deltaTime, wave, compositePotential ) );
     }
 
     public void setPropagatorClassical() {
-        propagator = new FiniteDifferencePropagator2ndOrder( compositePotential );
+        setPropagator( new FiniteDifferencePropagator2ndOrder( compositePotential ) );
     }
 
     protected void step() {

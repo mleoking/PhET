@@ -13,14 +13,12 @@ public class PhotonBeam extends HighIntensityBeam {
     private CylinderWave cylinderWave;
     private AbstractGun abstractGun;
 
-    public PhotonBeam( AbstractGun abstractGun ) {
-        this.abstractGun = abstractGun;
+    public PhotonBeam( HighIntensityGun highIntensityGun, Photon photon ) {
+        super( photon );
+        this.abstractGun = highIntensityGun;
         cylinderWave = new CylinderWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel(), abstractGun );
-//        wavelength.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                cylinderWave.setMomentum( getStartPy() );
-//            }
-//        } );
+        super.setIntensityScale( 1.0 );
+        cylinderWave.setIntensity( super.getTotalIntensity() );
     }
 
     private AbstractGun getGunGraphic() {
@@ -39,6 +37,15 @@ public class PhotonBeam extends HighIntensityBeam {
 
     public void setIntensity( double intensity ) {
         super.setIntensity( intensity );
-        cylinderWave.setIntensity( intensity );
+        if( cylinderWave != null ) {
+            cylinderWave.setIntensity( intensity );
+        }
+    }
+
+//    public void deactivate( HighIntensityGun highIntensityGun ) {
+//        cylinderWave.setOff();
+//    }
+
+    public void stepBeam() {
     }
 }

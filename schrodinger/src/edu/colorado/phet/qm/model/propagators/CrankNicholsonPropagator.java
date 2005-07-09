@@ -152,4 +152,8 @@ public class CrankNicholsonPropagator implements Propagator {
 
     public void setBoundaryCondition( int i, int k, Complex value ) {
     }
+
+    public Propagator copy() {
+        return new CrankNicholsonPropagator( deltaTime, wave, potential );
+    }
 }

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public abstract class GunParticle extends ImageComboBox.Item {
     private AbstractGun gun;
     private ArrayList momentumChangeListeners = new ArrayList();
+    private double intensityScale = 1.0;
 
     public GunParticle( AbstractGun gun, String label, String imageLocation ) {
         super( label, imageLocation );
@@ -55,9 +56,13 @@ public abstract class GunParticle extends ImageComboBox.Item {
         double deltaPhase = desiredPhase - uneditedPhase;
 
         waveSetup.setPhase( deltaPhase );
-//            waveSetup.setScale( getTotalIntensityScale() );
+        waveSetup.setScale( getIntensityScale() );
 
         return waveSetup;
+    }
+
+    private double getIntensityScale() {
+        return intensityScale;
     }
 
     protected double getStartY() {
@@ -145,5 +150,9 @@ public abstract class GunParticle extends ImageComboBox.Item {
 
     public void autofire() {
         fireParticle();
+    }
+
+    public void setIntensityScale( double intensityScale ) {
+        this.intensityScale = intensityScale;
     }
 }

@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
+import edu.colorado.phet.qm.model.propagators.FiniteDifferencePropagator2ndOrder;
 
 import java.awt.*;
 
@@ -23,6 +24,9 @@ public class SplitModel extends DiscreteModel {
     private Mode mode = new NormalMode();
     private HorizontalDoubleSlit.Listener listener;
 
+    private Propagator leftPropagator;
+    private Propagator rightPropagator;
+
     public SplitModel( int width, int height ) {
         this( width, height, createInitDT(), createInitWave() );
     }
@@ -34,7 +38,6 @@ public class SplitModel extends DiscreteModel {
 
         leftDetector = new Detector( 0, 0, 0, 0 );
         rightDetector = new Detector( 0, 0, 0, 0 );
-
 
         listener = new HorizontalDoubleSlit.Listener() {
             public void slitChanged() {
@@ -53,6 +56,12 @@ public class SplitModel extends DiscreteModel {
 
     public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
         return mode.getDetectionRegion( height, detectionY, width, h );
+    }
+
+    public void setPropagator( Propagator propagator ) {
+        super.setPropagator( propagator );
+        this.leftPropagator = propagator.copy();
+        this.rightPropagator = propagator.copy();
     }
 
     private Wavefunction sumMagnitudes( Wavefunction leftRegion, Wavefunction rightRegion ) {
@@ -90,13 +99,32 @@ public class SplitModel extends DiscreteModel {
         super.clearWavefunction();
         rightWavefunction.clear();
         leftWavefunction.clear();
+        if( rightPropagator != null ) {
+            rightPropagator.reset();
+            leftPropagator.reset();
+        }
     }
 
-    private void clearSouthWave() {
+    private void clearEntrantWaveNorthArea() {
         int topYClear = (int)getDoubleSlitPotential().getSlitAreas()[0].getMinY();
-        for( int i = 0; i < getWavefunction().getWidth(); i++ ) {
+        Wavefunction toClear = getWavefunction();
+        clearNorthArea( toClear, topYClear );
+
+        if( leftPropagator instanceof FiniteDifferencePropagator2ndOrder ) {
+            FiniteDifferencePropagator2ndOrder leftProp = (FiniteDifferencePropagator2ndOrder)leftPropagator;
+            if( leftProp.getLast() != null ) {
+                clearNorthArea( leftProp.getLast(), topYClear );
+            }
+            if( leftProp.getLast2() != null ) {
+                clearNorthArea( leftProp.getLast2(), topYClear );
+            }
+        }
+    }
+
+    private void clearNorthArea( Wavefunction toClear, int topYClear ) {
+        for( int i = 0; i < toClear.getWidth(); i++ ) {
             for( int j = 0; j < topYClear; j++ ) {
-                getWavefunction().setValue( i, j, new Complex() );
+                toClear.setValue( i, j, new Complex() );
             }
         }
     }
@@ -105,6 +133,16 @@ public class SplitModel extends DiscreteModel {
         Rectangle[] slits = getDoubleSlitPotential().getSlitAreas();
         copy( slits[0], leftWavefunction );
         copy( slits[1], rightWavefunction );
+
+        if( leftPropagator instanceof FiniteDifferencePropagator2ndOrder ) {
+            FiniteDifferencePropagator2ndOrder leftProp = (FiniteDifferencePropagator2ndOrder)leftPropagator;
+            if( leftProp.getLast() != null ) {
+                copy( slits[0], leftProp.getLast() );
+            }
+            if( leftProp.getLast2() != null ) {
+                copy( slits[0], leftProp.getLast2() );
+            }
+        }
     }
 
     private void copy( Rectangle slit, Wavefunction dest ) {
@@ -209,10 +247,10 @@ public class SplitModel extends DiscreteModel {
             getPropagator().propagate( getWavefunction() );
             //copy slit regions to left & right sides
             copyDetectorAreasToWaves();
-            clearSouthWave();
+            clearEntrantWaveNorthArea();
             clearLRWavesSouthPart();
-            getPropagator().propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
-            getPropagator().propagate( leftWavefunction );
+            rightPropagator.propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
+            leftPropagator.propagate( leftWavefunction );
 
             getDamping().damp( rightWavefunction );
             getDamping().damp( leftWavefunction );
