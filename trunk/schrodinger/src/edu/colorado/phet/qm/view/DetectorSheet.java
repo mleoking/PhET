@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
@@ -25,19 +26,22 @@ public class DetectorSheet extends GraphicLayerSet {
     private int height;
     private PhetShapeGraphic phetShapeGraphic;
     private BufferedImage bufferedImage;
-    private PhetImageGraphic graphic;
+    private PhetImageGraphic screenGraphic;
     private PhetGraphic clearButtonJC;
     private JButton clearButton;
     private SchrodingerPanel schrodingerPanel;
     private int opacity = 255;
+    private Font buttonFont = new Font( "Lucida Sans", Font.BOLD, 10 );
+    private Insets buttonInsets = new Insets( 2, 2, 2, 2 );
+    private PhetGraphic saveGraphic;
 
-    public DetectorSheet( SchrodingerPanel schrodingerPanel, int width, int height ) {
+    public DetectorSheet( final SchrodingerPanel schrodingerPanel, int width, int height ) {
         super( schrodingerPanel );
 
         this.schrodingerPanel = schrodingerPanel;
         bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
-        graphic = new PhetImageGraphic( getComponent(), bufferedImage );
-        addGraphic( graphic );
+        screenGraphic = new PhetImageGraphic( getComponent(), bufferedImage );
+        addGraphic( screenGraphic );
 
         phetShapeGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.white, new BasicStroke( 3 ), Color.black );
         phetShapeGraphic.paint( bufferedImage.createGraphics() );
@@ -46,8 +50,10 @@ public class DetectorSheet extends GraphicLayerSet {
         setRenderingHints( renderingHints );
 
         clearButton = new JButton( "<html>Clear<br>Screen</html>" );
-        clearButton.setMargin( new Insets( 2, 2, 2, 2 ) );
-        clearButton.setFont( new Font( "Lucida Sans", Font.BOLD, 10 ) );
+
+        clearButton.setMargin( buttonInsets );
+
+        clearButton.setFont( buttonFont );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 reset();
@@ -59,10 +65,33 @@ public class DetectorSheet extends GraphicLayerSet {
         clearButtonJC.setLocation( -5 - clearButtonJC.getWidth(), 5 );
         this.width = width;
         this.height = height;
+
+        JButton saveScreenJButton = new JButton( "<html>Save<br>Screen</html>" );
+        saveScreenJButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                BufferedImage image = copyScreen();
+                SavedScreenGraphic savedScreenGraphic = new SavedScreenGraphic( schrodingerPanel, image );
+                schrodingerPanel.addGraphic( savedScreenGraphic );
+            }
+        } );
+        saveScreenJButton.setMargin( buttonInsets );
+        saveScreenJButton.setFont( buttonFont );
+        PhetGraphic saveGraphic = PhetJComponent.newInstance( schrodingerPanel, saveScreenJButton );
+        addGraphic( saveGraphic );
+        saveGraphic.setLocation( screenGraphic.getWidth(), screenGraphic.getY() );
+        this.saveGraphic = saveGraphic;
+        this.saveGraphic.setVisible( false );
+    }
+
+    private BufferedImage copyScreen() {
+        BufferedImage image = new BufferedImage( bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType() );
+        image.createGraphics().drawRenderedImage( bufferedImage, new AffineTransform() );
+        return image;
     }
 
     public void addDetectionEvent( int x, int y ) {
         clearButtonJC.setVisible( true );
+        saveGraphic.setVisible( true );
         Graphics2D g2 = bufferedImage.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         new DetectionGraphic( this, x, y, opacity ).paint( g2 );
@@ -72,7 +101,7 @@ public class DetectorSheet extends GraphicLayerSet {
     public void reset() {
         bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         phetShapeGraphic.paint( bufferedImage.createGraphics() );
-        graphic.setImage( bufferedImage );
+        screenGraphic.setImage( bufferedImage );
         clearButtonJC.setVisible( false );
     }
 

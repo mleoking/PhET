@@ -14,6 +14,7 @@ public class PlaneWave implements Wave {
     private double gridHeight;
 
     private double scale = 1.0;
+    private double phase = 0.0;
 
     public PlaneWave( double k, double gridHeight ) {
         this.k = k;
@@ -29,9 +30,12 @@ public class PlaneWave implements Wave {
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {
-        Complex complex = new Complex( Math.cos( k * j / gridHeight - k * k * simulationTime ), Math.sin( k * j / gridHeight - k * k * simulationTime ) );
+        Complex complex = new Complex( Math.cos( k * j / gridHeight - k * k * simulationTime + phase ), Math.sin( k * j / gridHeight - k * k * simulationTime + phase ) );
         complex.scale( scale );
         return complex;
     }
 
+    public void setPhase( double phase ) {
+        this.phase = phase;
+    }
 }

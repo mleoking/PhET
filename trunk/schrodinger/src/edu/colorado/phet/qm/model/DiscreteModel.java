@@ -286,6 +286,11 @@ public class DiscreteModel implements ModelElement {
         return getWavefunction().copyRegion( 0, detectionY, width, h );
     }
 
+    public void setBoundaryCondition( int i, int k, Complex value ) {
+        getWavefunction().setValue( i, k, value );
+        propagator.setBoundaryCondition( i, k, value );
+    }
+
     public static interface Listener {
         void finishedTimeStep( DiscreteModel model );
 

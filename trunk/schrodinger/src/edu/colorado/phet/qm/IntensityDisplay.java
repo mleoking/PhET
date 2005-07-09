@@ -24,7 +24,6 @@ public class IntensityDisplay {
     private int detectorHeight;
     private Random random;
     private DetectorSheet detectorSheet;
-//    private int h = 6;
     private int h = 2;
     private int y = 2;
     private double probabilityScaleFudgeFactor = 1.0;
@@ -69,8 +68,6 @@ public class IntensityDisplay {
         int x = (int)( linearFunction.evaluate( pt.x ) + randOffsetY );
         int y = getY();
         detectorSheet.addDetectionEvent( x, y );
-
-
     }
 
     private int getY() {

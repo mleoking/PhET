@@ -108,7 +108,9 @@ public class SchrodingerControlPanel extends ControlPanel {
         }
 
         VerticalLayoutPanel intensityScreen = new IntensityScreenPanel( this );
-        addControlFullWidth( intensityScreen );
+        AdvancedPanel advancedIntensityScreen = new AdvancedPanel( "Screen Params>>", "Screen Params<<" );
+        advancedIntensityScreen.addControl( intensityScreen );
+        addControlFullWidth( advancedIntensityScreen );
 
         VerticalLayoutPanel colorPanel = createVisualizationPanel();
         addControlFullWidth( colorPanel );

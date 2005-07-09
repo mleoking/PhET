@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
+
 import java.awt.*;
 
 
@@ -19,77 +21,10 @@ public class SplitModel extends DiscreteModel {
     private Detector leftDetector;
     private Detector rightDetector;
     private Mode mode = new NormalMode();
+    private HorizontalDoubleSlit.Listener listener;
 
     public SplitModel( int width, int height ) {
         this( width, height, createInitDT(), createInitWave() );
-    }
-
-    static interface Mode {
-
-        Wavefunction getDetectionRegion( int height, int detectionY, int width, int h );
-
-        void step();
-    }
-
-    class NormalMode implements Mode {
-
-        public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
-            return SplitModel.this.superGetDetectionRegion( height, detectionY, width, h );
-        }
-
-        public void step() {
-            SplitModel.this.superStep();
-        }
-    }
-
-    private void superStep() {
-        super.step();
-    }
-
-    private Wavefunction superGetDetectionRegion( int height, int detectionY, int width, int h ) {
-        return super.getDetectionRegion( height, detectionY, width, h );
-    }
-
-
-    class SplitMode implements Mode {
-
-        public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
-
-            Wavefunction leftRegion = leftWavefunction.copyRegion( 0, detectionY, width, h );
-            Wavefunction rightRegion = rightWavefunction.copyRegion( 0, detectionY, width, h );
-            Wavefunction sumMagnitudes = sumMagnitudes( leftRegion, rightRegion );
-            return sumMagnitudes;
-        }
-
-        public void step() {
-
-            beforeTimeStep();
-            getPropagator().propagate( getWavefunction() );
-            //copy slit regions to left & right sides
-            copyDetectorAreasToWaves();
-            clearSouthWave();
-            clearLRWavesSouthPart();
-            getPropagator().propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
-            getPropagator().propagate( leftWavefunction );
-
-            getDamping().damp( rightWavefunction );
-            getDamping().damp( leftWavefunction );
-
-            incrementTimeStep();
-            finishedTimeStep();
-        }
-
-
-    }
-
-    private void clearLRWavesSouthPart() {
-        int topYClear = (int)getDoubleSlitPotential().getSlitAreas()[0].getMaxY();
-        for( int i = 0; i < leftWavefunction.getWidth(); i++ ) {
-            for( int j = topYClear; j < leftWavefunction.getHeight(); j++ ) {
-                leftWavefunction.setValue( i, j, new Complex() );
-                rightWavefunction.setValue( i, j, new Complex() );
-            }
-        }
     }
 
     public SplitModel( int width, int height, double deltaTime, Wave wave ) {
@@ -100,6 +35,13 @@ public class SplitModel extends DiscreteModel {
         leftDetector = new Detector( 0, 0, 0, 0 );
         rightDetector = new Detector( 0, 0, 0, 0 );
 
+
+        listener = new HorizontalDoubleSlit.Listener() {
+            public void slitChanged() {
+                synchronizeDetectors();
+            }
+        };
+        getDoubleSlitPotential().addListener( listener );
         synchronizeDetectors();
     }
 
@@ -221,6 +163,73 @@ public class SplitModel extends DiscreteModel {
             for( int j = 0; j < yMax; j++ ) {
                 double sum = sumMagnitudes( leftWavefunction.valueAt( i, j ), rightWavefunction.valueAt( i, j ) );
                 getWavefunction().setValue( i, j, new Complex( sum, 0 ) );
+            }
+        }
+    }
+
+    static interface Mode {
+
+        Wavefunction getDetectionRegion( int height, int detectionY, int width, int h );
+
+        void step();
+    }
+
+    class NormalMode implements Mode {
+
+        public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
+            return SplitModel.this.superGetDetectionRegion( height, detectionY, width, h );
+        }
+
+        public void step() {
+            SplitModel.this.superStep();
+        }
+    }
+
+    private void superStep() {
+        super.step();
+    }
+
+    private Wavefunction superGetDetectionRegion( int height, int detectionY, int width, int h ) {
+        return super.getDetectionRegion( height, detectionY, width, h );
+    }
+
+    class SplitMode implements Mode {
+
+        public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
+
+            Wavefunction leftRegion = leftWavefunction.copyRegion( 0, detectionY, width, h );
+            Wavefunction rightRegion = rightWavefunction.copyRegion( 0, detectionY, width, h );
+            Wavefunction sumMagnitudes = sumMagnitudes( leftRegion, rightRegion );
+            return sumMagnitudes;
+        }
+
+        public void step() {
+
+            beforeTimeStep();
+            getPropagator().propagate( getWavefunction() );
+            //copy slit regions to left & right sides
+            copyDetectorAreasToWaves();
+            clearSouthWave();
+            clearLRWavesSouthPart();
+            getPropagator().propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
+            getPropagator().propagate( leftWavefunction );
+
+            getDamping().damp( rightWavefunction );
+            getDamping().damp( leftWavefunction );
+
+            incrementTimeStep();
+            finishedTimeStep();
+        }
+
+
+    }
+
+    private void clearLRWavesSouthPart() {
+        int topYClear = (int)getDoubleSlitPotential().getSlitAreas()[0].getMaxY();
+        for( int i = 0; i < leftWavefunction.getWidth(); i++ ) {
+            for( int j = topYClear; j < leftWavefunction.getHeight(); j++ ) {
+                leftWavefunction.setValue( i, j, new Complex() );
+                rightWavefunction.setValue( i, j, new Complex() );
             }
         }
     }
