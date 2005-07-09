@@ -14,4 +14,6 @@ public interface Propagator {
     double getSimulationTime();
 
     void reset();
+
+    void setBoundaryCondition( int i, int k, Complex value );
 }

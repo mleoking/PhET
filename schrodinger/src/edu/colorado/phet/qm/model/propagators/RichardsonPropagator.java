@@ -166,6 +166,9 @@ public class RichardsonPropagator implements Propagator {
     public void reset() {
     }
 
+    public void setBoundaryCondition( int i, int k, Complex value ) {
+    }
+
     public double getEpsilon() {
         return epsilon;
     }

@@ -4,6 +4,7 @@ package edu.colorado.phet.qm.model.potentials;
 import edu.colorado.phet.qm.model.Potential;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -24,6 +25,12 @@ public class HorizontalDoubleSlit implements Potential {
     private Rectangle leftSlit;
     private Rectangle rightSlit;
 
+    public static interface Listener {
+        public void slitChanged();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
     public HorizontalDoubleSlit( int gridWidth, int gridHeight, int y, int height, int slitSize, int slitSeparation, double potential ) {
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
@@ -35,9 +42,20 @@ public class HorizontalDoubleSlit implements Potential {
         update();
     }
 
+    public void addListener( Listener listener ) {
+        this.listeners.add( listener );
+    }
+
     private void update() {
         createDoubleSlit( gridWidth, gridHeight, y, height, slitSize, slitSeparation, potential );
+        notifyListeners();
+    }
 
+    private void notifyListeners() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.slitChanged();
+        }
     }
 
     public void setGridWidth( int gridWidth ) {

@@ -24,9 +24,9 @@ public class CylinderSource extends DiscreteModel.Adapter {
     public void beforeTimeStep( DiscreteModel model ) {
         for( int i = region.x; i < region.x + region.width; i++ ) {
             for( int k = region.y; k < region.y + region.height; k++ ) {
-                if( model.getWavefunction().containsLocation( i, k ) && ellipse.contains( i, k ) ) {
+                if( ellipse.contains( i, k ) && model.getWavefunction().containsLocation( i, k ) ) {
                     Complex value = wave.getValue( i, k, model.getSimulationTime() );
-                    model.getWavefunction().setValue( i, k, value );
+                    model.setBoundaryCondition( i, k, value );
                 }
             }
         }
@@ -35,7 +35,6 @@ public class CylinderSource extends DiscreteModel.Adapter {
     public void setRegion( Rectangle rectangle ) {
         this.region = rectangle;
         ellipse = new Ellipse2D.Double( region.getX(), region.getY(), region.getWidth(), region.getHeight() );
-//        GaussianWave1D xwave = new GaussianWave1D();
     }
 
 

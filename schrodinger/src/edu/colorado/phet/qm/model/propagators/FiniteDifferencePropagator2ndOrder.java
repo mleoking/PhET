@@ -142,6 +142,15 @@ public class FiniteDifferencePropagator2ndOrder implements Propagator {
         last = null;
     }
 
+    public void setBoundaryCondition( int i, int k, Complex value ) {
+        if( last != null ) {
+            last.setValue( i, k, value );
+        }
+        if( last2 != null ) {
+            last2.setValue( i, k, value );
+        }
+    }
+
     public void scale( double scale ) {
         if( last2 != null ) {
             last2.scale( scale );
