@@ -39,7 +39,7 @@ import java.io.IOException;
 public class SchrodingerControlPanel extends ControlPanel {
     private SchrodingerModule module;
     private ModelElement particleFirer;
-    private CylinderWaveControl cylinderWaveBox;
+    private CylinderWaveCheckBox cylinderWaveBox;
     private FiniteDifferencePropagator2ndOrder classicalPropagator2ndOrder;
     private InitialConditionPanel initialConditionPanel;
 
@@ -289,8 +289,8 @@ public class SchrodingerControlPanel extends ControlPanel {
         return planeWaveCheckbox;
     }
 
-    private CylinderWaveControl createCylinderWaveBox() {
-        return new CylinderWaveControl( module, getDiscreteModel() );
+    private CylinderWaveCheckBox createCylinderWaveBox() {
+        return new CylinderWaveCheckBox( module, getDiscreteModel() );
     }
 
     private Wavefunction getWavefunction() {

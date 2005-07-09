@@ -16,6 +16,7 @@ public class GaussianWave extends WaveSetup implements Wave {
     private GaussianWave1D xWave;
     private GaussianWave1D yWave;
     private double globalPhase;
+    private double scale = 1.0;
 
     public GaussianWave( Point2D center, Vector2D momentum, double dxLattice ) {
         this( center, momentum, dxLattice, dxLattice );
@@ -30,6 +31,7 @@ public class GaussianWave extends WaveSetup implements Wave {
     public void initialize( Wavefunction wavefunction, double time ) {
         super.initialize( wavefunction, time );
         wavefunction.normalize();
+        wavefunction.scale( scale );
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {
@@ -48,4 +50,7 @@ public class GaussianWave extends WaveSetup implements Wave {
 //        xWave.setPhase(phaseX);
 //        yWave.setPhase(phaseY);
 //    }
+    public void setScale( double scale ) {
+        this.scale = scale;
+    }
 }

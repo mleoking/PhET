@@ -7,6 +7,7 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
+import edu.colorado.phet.qm.view.gun.AbstractGun;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -25,7 +26,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     private SchrodingerModule module;
     private WavefunctionGraphic wavefunctionGraphic;
     private ArrayList rectanglePotentialGraphics = new ArrayList();
-    private GunGraphic gunGraphic;
+    private AbstractGun abstractGun;
     private IntensityDisplay intensityDisplay;
     private RulerGraphic rulerGraphic;
 
@@ -50,19 +51,19 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 setReferenceSize( 600, 600 );
-                gunGraphic.componentResized( e );
+                abstractGun.componentResized( e );
             }
         } );
     }
 
-    protected void setGunGraphic( GunGraphic gunGraphic ) {
-        if( gunGraphic != null ) {
-            removeGraphic( gunGraphic );
+    protected void setGunGraphic( AbstractGun abstractGun ) {
+        if( abstractGun != null ) {
+            removeGraphic( abstractGun );
         }
-        this.gunGraphic = gunGraphic;
-        addGraphic( gunGraphic );
-        gunGraphic.setLocation( wavefunctionGraphic.getX() + wavefunctionGraphic.getWidth() / 2 - gunGraphic.getGunWidth() / 2,
-                                wavefunctionGraphic.getY() + wavefunctionGraphic.getHeight() - getGunGraphicOffsetY() );
+        this.abstractGun = abstractGun;
+        addGraphic( abstractGun );
+        abstractGun.setLocation( wavefunctionGraphic.getX() + wavefunctionGraphic.getWidth() / 2 - abstractGun.getGunWidth() / 2,
+                                 wavefunctionGraphic.getY() + wavefunctionGraphic.getHeight() - getGunGraphicOffsetY() );
     }
 
     private int getGunGraphicOffsetY() {
@@ -123,8 +124,8 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         return rulerGraphic;
     }
 
-    public GunGraphic getGunGraphic() {
-        return gunGraphic;
+    public AbstractGun getGunGraphic() {
+        return abstractGun;
     }
 
     public void removeDetectorGraphic( DetectorGraphic detectorGraphic ) {

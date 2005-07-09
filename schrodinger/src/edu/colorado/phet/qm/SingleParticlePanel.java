@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.qm.view.SchrodingerPanel;
-import edu.colorado.phet.qm.view.SingleParticleGun;
+import edu.colorado.phet.qm.view.gun.SingleParticleGun;
 
 /**
  * User: Sam Reid

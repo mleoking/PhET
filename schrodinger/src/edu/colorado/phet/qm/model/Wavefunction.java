@@ -53,10 +53,12 @@ public class Wavefunction {
     }
 
     public void scale( double scale ) {
-        for( int i = 0; i < getWidth(); i++ ) {
-            for( int j = 0; j < getHeight(); j++ ) {
-                Complex complex = wavefunction[i][j];
-                complex.scale( scale );
+        if( scale != 1.0 ) {
+            for( int i = 0; i < getWidth(); i++ ) {
+                for( int j = 0; j < getHeight(); j++ ) {
+                    Complex complex = wavefunction[i][j];
+                    complex.scale( scale );
+                }
             }
         }
     }
