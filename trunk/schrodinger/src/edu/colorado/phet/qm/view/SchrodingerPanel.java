@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.qm.IntensityDisplay;
 import edu.colorado.phet.qm.SchrodingerModule;
@@ -29,7 +30,6 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     private AbstractGun abstractGun;
     private IntensityDisplay intensityDisplay;
     private RulerGraphic rulerGraphic;
-
     private ArrayList detectorGraphics = new ArrayList();
 
     public SchrodingerPanel( SchrodingerModule module ) {
@@ -48,12 +48,24 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         rulerGraphic.setVisible( false );
 
         intensityDisplay = new IntensityDisplay( getSchrodingerModule(), this, 60 );
+        addGraphic( intensityDisplay );
+
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 setReferenceSize( 600, 600 );
                 abstractGun.componentResized( e );
             }
         } );
+
+        getSchrodingerModule().getModel().addModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                updateScreen();
+            }
+        } );
+    }
+
+    protected void updateScreen() {
+        intensityDisplay.tryDetecting();
     }
 
     protected void setGunGraphic( AbstractGun abstractGun ) {

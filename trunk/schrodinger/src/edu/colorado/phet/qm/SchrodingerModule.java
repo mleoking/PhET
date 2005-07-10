@@ -114,16 +114,10 @@ public class SchrodingerModule extends Module {
 
     public void addPotential() {
         RectangularPotential rectangularPotential = new RectangularPotential( 5, 20, 10, 10 );
-        rectangularPotential.setPotential( 10000 );
+        rectangularPotential.setPotential( 1000000.0 );
         discreteModel.addPotential( rectangularPotential );//todo should be a composite.
         RectangularPotentialGraphic rectangularPotentialGraphic = new RectangularPotentialGraphic( getSchrodingerPanel(), rectangularPotential );
         getSchrodingerPanel().addRectangularPotentialGraphic( rectangularPotentialGraphic );
-    }
-
-    public void setGunActive( boolean selected ) {
-        if( selected ) {
-
-        }
     }
 
     public SchrodingerControlPanel getSchrodingerControlPanel() {

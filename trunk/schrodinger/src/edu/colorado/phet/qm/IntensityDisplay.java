@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.math.Function;
+import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.qm.model.DetectorSet;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -18,7 +19,7 @@ import java.util.Random;
  * Copyright (c) Jun 23, 2005 by Sam Reid
  */
 
-public class IntensityDisplay {
+public class IntensityDisplay extends GraphicLayerSet {
     private SchrodingerModule schrodingerModule;
     private SchrodingerPanel schrodingerPanel;
     private int detectorHeight;
@@ -35,18 +36,12 @@ public class IntensityDisplay {
         this.schrodingerPanel = schrodingerPanel;
         this.detectorHeight = detectorHeight;
         this.random = new Random();
-
         detectorSheet = new DetectorSheet( schrodingerPanel, getWidth(), detectorHeight );
-        getSchrodingerPanel().addGraphic( detectorSheet );
+        addGraphic( detectorSheet );
         detectorSheet.setLocation( schrodingerPanel.getWavefunctionGraphic().getX(), 0 );
-        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
-            public void finishedTimeStep( DiscreteModel model ) {
-                tryDetecting();
-            }
-        } );
     }
 
-    private void tryDetecting() {
+    public void tryDetecting() {
         Wavefunction sub = getDetectionRegion();
         double probability = sub.getMagnitude() * probabilityScaleFudgeFactor;
         double rand = random.nextDouble();
@@ -59,18 +54,23 @@ public class IntensityDisplay {
     }
 
     private void detectOne( Wavefunction sub ) {
-        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(), 0, getWidth() );
+        Function.LinearFunction linearFunction = getModelToViewTransform1d();
         Point pt = getCollapsePoint( sub );
 
         double screenGridWidth = schrodingerModule.getSchrodingerPanel().getWavefunctionGraphic().getBlockWidth();
         double randOffsetY = 2 * ( random.nextDouble() - 0.5 ) * screenGridWidth;
 
         int x = (int)( linearFunction.evaluate( pt.x ) + randOffsetY );
-        int y = getY();
+        int y = getDetectY();
         detectorSheet.addDetectionEvent( x, y );
     }
 
-    private int getY() {
+    public Function.LinearFunction getModelToViewTransform1d() {
+        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(), 0, getWidth() );
+        return linearFunction;
+    }
+
+    private int getDetectY() {
         int y = (int)( random.nextDouble() * detectorHeight );
         return y;
     }
@@ -99,7 +99,7 @@ public class IntensityDisplay {
         return y;
     }
 
-    private SchrodingerPanel getSchrodingerPanel() {
+    public SchrodingerPanel getSchrodingerPanel() {
         return schrodingerPanel;
     }
 
@@ -151,5 +151,13 @@ public class IntensityDisplay {
 
     public void setOpacity( int opacity ) {
         detectorSheet.setOpacity( opacity );
+    }
+
+    public int getDetectorHeight() {
+        return detectorHeight;
+    }
+
+    public void clearScreen() {
+        detectorSheet.clearScreen();
     }
 }

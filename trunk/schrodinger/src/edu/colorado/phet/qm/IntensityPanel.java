@@ -3,6 +3,7 @@ package edu.colorado.phet.qm;
 
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
+import edu.colorado.phet.qm.view.SmoothIntensityDisplay;
 import edu.colorado.phet.qm.view.colormaps.MagnitudeInGrayscale;
 import edu.colorado.phet.qm.view.gun.HighIntensityGun;
 
@@ -15,6 +16,8 @@ import edu.colorado.phet.qm.view.gun.HighIntensityGun;
 
 public class IntensityPanel extends SchrodingerPanel {
     private IntensityModule intensityModule;
+    private SmoothIntensityDisplay smoothIntensityDisplay;
+    private boolean smoothScreen = true;
 
     public IntensityPanel( IntensityModule intensityModule ) {
         super( intensityModule );
@@ -26,6 +29,8 @@ public class IntensityPanel extends SchrodingerPanel {
         getIntensityDisplay().setNormDecrement( 0.0 );
 
         setSplitGraphics();
+        smoothIntensityDisplay = new SmoothIntensityDisplay( getIntensityDisplay() );
+        setSmoothScreen( true );
     }
 
     public void setSplitMode( boolean splitMode ) {
@@ -35,7 +40,23 @@ public class IntensityPanel extends SchrodingerPanel {
         else {
             setNormalGraphics();
         }
+    }
 
+    public void setSmoothScreen( boolean smoothScreen ) {
+        this.smoothScreen = smoothScreen;
+        getIntensityDisplay().clearScreen();
+        if( smoothScreen ) {
+            getIntensityDisplay().getDetectorSheet().setSaveButtonVisible( true );
+        }
+    }
+
+    protected void updateScreen() {
+        if( smoothScreen ) {
+            smoothIntensityDisplay.updateValues();
+        }
+        else {
+            getIntensityDisplay().tryDetecting();
+        }
     }
 
     public void setSplitGraphics() {
@@ -50,5 +71,11 @@ public class IntensityPanel extends SchrodingerPanel {
         setColorMap( new MagnitudeInGrayscale( this ) );
     }
 
+    public boolean isSmoothScreen() {
+        return smoothScreen;
+    }
 
+    public SmoothIntensityDisplay getSmoothIntensityDisplay() {
+        return smoothIntensityDisplay;
+    }
 }
