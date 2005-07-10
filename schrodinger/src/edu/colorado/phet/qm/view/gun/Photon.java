@@ -7,7 +7,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.qm.model.Propagator;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.model.propagators.FiniteDifferencePropagator2ndOrder;
+import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -44,8 +44,8 @@ public class Photon extends GunParticle {
     public void fireParticle() {
 
         Propagator propagator = getGunGraphic().getDiscreteModel().getPropagator();
-        if( propagator instanceof FiniteDifferencePropagator2ndOrder ) {
-            FiniteDifferencePropagator2ndOrder prop = (FiniteDifferencePropagator2ndOrder)propagator;
+        if( propagator instanceof ClassicalWavePropagator ) {
+            ClassicalWavePropagator prop = (ClassicalWavePropagator)propagator;
             WaveSetup setup = getInitialWavefunction( getGunGraphic().getDiscreteModel().getWavefunction() );
             Wavefunction init = getGunGraphic().getDiscreteModel().getWavefunction().createEmptyWavefunction();
             setup.initialize( init );
