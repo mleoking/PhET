@@ -15,14 +15,13 @@ import edu.colorado.phet.qm.model.Wavefunction;
  * See: http://www.mtnmath.com/whatth/node47.html
  */
 
-public class FiniteDifferencePropagator2ndOrder implements Propagator {
+public class ClassicalWavePropagator implements Propagator {
     private Wavefunction last2;
     private Wavefunction last;
     private double speed = 0.4;
     private Potential potential;
-//    private Damping damping = new Damping();
 
-    public FiniteDifferencePropagator2ndOrder( Potential potential ) {
+    public ClassicalWavePropagator( Potential potential ) {
         this.potential = potential;
     }
 
@@ -152,7 +151,7 @@ public class FiniteDifferencePropagator2ndOrder implements Propagator {
     }
 
     public Propagator copy() {
-        return new FiniteDifferencePropagator2ndOrder( potential );
+        return new ClassicalWavePropagator( potential );
     }
 
     public void scale( double scale ) {

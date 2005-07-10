@@ -4,7 +4,7 @@ package edu.colorado.phet.qm.model;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.qm.model.potentials.CompositePotential;
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
-import edu.colorado.phet.qm.model.propagators.FiniteDifferencePropagator2ndOrder;
+import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.model.propagators.ModifiedRichardsonPropagator;
 
 import java.awt.*;
@@ -78,7 +78,7 @@ public class DiscreteModel implements ModelElement {
     }
 
     public void setPropagatorClassical() {
-        setPropagator( new FiniteDifferencePropagator2ndOrder( compositePotential ) );
+        setPropagator( new ClassicalWavePropagator( compositePotential ) );
     }
 
     protected void step() {
@@ -261,9 +261,9 @@ public class DiscreteModel implements ModelElement {
             double newMagnitude = magnitude - normDecrement;
             double scale = newMagnitude <= 0.0 ? 0.0 : newMagnitude / magnitude;
             wavefunction.scale( scale );
-            if( propagator instanceof FiniteDifferencePropagator2ndOrder ) {
-                FiniteDifferencePropagator2ndOrder finiteDifferencePropagator2ndOrder = (FiniteDifferencePropagator2ndOrder)propagator;
-                finiteDifferencePropagator2ndOrder.scale( scale );
+            if( propagator instanceof ClassicalWavePropagator ) {
+                ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)propagator;
+                classicalWavePropagator.scale( scale );
             }
         }
     }

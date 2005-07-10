@@ -25,10 +25,10 @@ public class SplitColorMap implements ColorMap {
     public Color getColor( int i, int k ) {
         Rectangle[] areas = splitModel.getDoubleSlitPotential().getSlitAreas();
         double abs = 0;
-//        if( !contains( areas, i, k ) ) {
-//            Wavefunction wavefunction = splitModel.getWavefunction();
-//            abs = getValue( wavefunction, i, k );
-//        }
+        if( !contains( areas, i, k ) ) {
+            Wavefunction wavefunction = splitModel.getWavefunction();
+            abs = getValue( wavefunction, i, k );
+        }
         abs += getValue( splitModel.getLeftWavefunction(), i, k );
         abs += getValue( splitModel.getRightWavefunction(), i, k );
         if( abs > 1 ) {

@@ -9,7 +9,7 @@ import edu.colorado.phet.qm.model.GaussianWave;
 import edu.colorado.phet.qm.model.WaveSetup;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.YValue;
-import edu.colorado.phet.qm.model.propagators.FiniteDifferencePropagator2ndOrder;
+import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -96,7 +96,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         return waveSetup;
     }
 
-    public void initClassicalWave( FiniteDifferencePropagator2ndOrder propagator2ndOrder ) {
+    public void initClassicalWave( ClassicalWavePropagator propagator2ndOrder ) {
 //        WaveSetup wave=initialConditionPanel.getWaveSetup();
         double x = getStartX();
         double y0 = 0.5 * getDiscreteModel().getGridHeight();

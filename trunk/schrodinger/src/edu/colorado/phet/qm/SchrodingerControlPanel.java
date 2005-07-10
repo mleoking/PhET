@@ -40,7 +40,7 @@ public class SchrodingerControlPanel extends ControlPanel {
     private SchrodingerModule module;
     private ModelElement particleFirer;
     private CylinderWaveCheckBox cylinderWaveBox;
-    private FiniteDifferencePropagator2ndOrder classicalPropagator2ndOrder;
+    private ClassicalWavePropagator classicalPropagator2ndOrder;
     private InitialConditionPanel initialConditionPanel;
 
     public SchrodingerControlPanel( final SchrodingerModule module ) {
@@ -222,7 +222,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         JRadioButton light = createPropagatorButton( buttonGroup, "Avg", new AveragePropagator() );
         layoutPanel.add( light );
 
-        classicalPropagator2ndOrder = new FiniteDifferencePropagator2ndOrder( getDiscreteModel().getPotential() );
+        classicalPropagator2ndOrder = new ClassicalWavePropagator( getDiscreteModel().getPotential() );
         JRadioButton lap = createPropagatorButton( buttonGroup, "finite difference", classicalPropagator2ndOrder );
         layoutPanel.add( lap );
         lap.addActionListener( new ActionListener() {
@@ -233,7 +233,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return layoutPanel;
     }
 
-    private void initClassicalWave( FiniteDifferencePropagator2ndOrder propagator2ndOrder ) {
+    private void initClassicalWave( ClassicalWavePropagator propagator2ndOrder ) {
         initialConditionPanel.initClassicalWave( propagator2ndOrder );
     }
 

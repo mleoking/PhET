@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.model;
 
 import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
-import edu.colorado.phet.qm.model.propagators.FiniteDifferencePropagator2ndOrder;
+import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 
 import java.awt.*;
 
@@ -27,12 +27,15 @@ public class SplitModel extends DiscreteModel {
     private Propagator leftPropagator;
     private Propagator rightPropagator;
 
+    private WaveSplitStrategy waveSplitStrategy;
+
     public SplitModel( int width, int height ) {
         this( width, height, createInitDT(), createInitWave() );
     }
 
     public SplitModel( int width, int height, double deltaTime, Wave wave ) {
         super( width, height, deltaTime, wave );
+        waveSplitStrategy = new WaveSplitStrategy( this );
         rightWavefunction = new Wavefunction( getGridWidth(), getGridHeight() );
         leftWavefunction = new Wavefunction( getGridWidth(), getGridHeight() );
 
@@ -41,14 +44,14 @@ public class SplitModel extends DiscreteModel {
 
         listener = new HorizontalDoubleSlit.Listener() {
             public void slitChanged() {
-                synchronizeDetectors();
+                synchronizeDetectorRegions();
             }
         };
         getDoubleSlitPotential().addListener( listener );
-        synchronizeDetectors();
+        synchronizeDetectorRegions();
     }
 
-    private void synchronizeDetectors() {
+    private void synchronizeDetectorRegions() {
         Rectangle[] areas = getDoubleSlitPotential().getSlitAreas();
         leftDetector.setRect( areas[0] );
         rightDetector.setRect( areas[1] );
@@ -62,27 +65,6 @@ public class SplitModel extends DiscreteModel {
         super.setPropagator( propagator );
         this.leftPropagator = propagator.copy();
         this.rightPropagator = propagator.copy();
-    }
-
-    private Wavefunction sumMagnitudes( Wavefunction leftRegion, Wavefunction rightRegion ) {
-        Wavefunction sum = leftRegion.createEmptyWavefunction();
-        for( int i = 0; i < sum.getWidth(); i++ ) {
-            for( int j = 0; j < sum.getHeight(); j++ ) {
-
-                Complex left = leftRegion.valueAt( i, j );
-                Complex right = rightRegion.valueAt( i, j );
-                double both = sumMagnitudes( left, right );
-                sum.setValue( i, j, new Complex( both, 0 ) );
-            }
-        }
-        return sum;
-    }
-
-    private double sumMagnitudes( Complex left, Complex right ) {
-        double lhs = left.abs();
-        double rhs = right.abs();
-        double both = lhs + rhs;
-        return both;
     }
 
     protected void step() {
@@ -105,58 +87,6 @@ public class SplitModel extends DiscreteModel {
         }
     }
 
-    private void clearEntrantWaveNorthArea() {
-        int topYClear = (int)getDoubleSlitPotential().getSlitAreas()[0].getMinY();
-        Wavefunction toClear = getWavefunction();
-        clearNorthArea( toClear, topYClear );
-
-        if( leftPropagator instanceof FiniteDifferencePropagator2ndOrder ) {
-            FiniteDifferencePropagator2ndOrder leftProp = (FiniteDifferencePropagator2ndOrder)leftPropagator;
-            if( leftProp.getLast() != null ) {
-                clearNorthArea( leftProp.getLast(), topYClear );
-            }
-            if( leftProp.getLast2() != null ) {
-                clearNorthArea( leftProp.getLast2(), topYClear );
-            }
-        }
-    }
-
-    private void clearNorthArea( Wavefunction toClear, int topYClear ) {
-        for( int i = 0; i < toClear.getWidth(); i++ ) {
-            for( int j = 0; j < topYClear; j++ ) {
-                toClear.setValue( i, j, new Complex() );
-            }
-        }
-    }
-
-    private void copyDetectorAreasToWaves() {
-        Rectangle[] slits = getDoubleSlitPotential().getSlitAreas();
-        copy( slits[0], leftWavefunction );
-        copy( slits[1], rightWavefunction );
-
-        if( leftPropagator instanceof FiniteDifferencePropagator2ndOrder ) {
-            FiniteDifferencePropagator2ndOrder leftProp = (FiniteDifferencePropagator2ndOrder)leftPropagator;
-            if( leftProp.getLast() != null ) {
-                copy( slits[0], leftProp.getLast() );
-            }
-            if( leftProp.getLast2() != null ) {
-                copy( slits[0], leftProp.getLast2() );
-            }
-        }
-    }
-
-    private void copy( Rectangle slit, Wavefunction dest ) {
-        //todo a smaller south wavefunction will need to include y-offsets.
-        for( int i = slit.x; i < slit.x + slit.width; i++ ) {
-            for( int j = slit.y; j < slit.y + slit.height; j++ ) {
-                if( getWavefunction().containsLocation( i, j ) ) {
-                    Complex value = getWavefunction().valueAt( i, j );
-                    dest.setValue( i, j, value );
-                }
-            }
-        }
-    }
-
     public Wavefunction getRightWavefunction() {
         return rightWavefunction;
     }
@@ -176,37 +106,22 @@ public class SplitModel extends DiscreteModel {
     public void setSplitModel( boolean split ) {
         this.mode = split ? (Mode)new SplitMode() : new NormalMode();
         if( split ) {//copy wavefunction state for continuity.
-            copyNorthRegionToSplits();
+            getWaveSplitStrategy().copyNorthRegionToSplits();
         }
         else {
-            copySplitsToNorthRegion();
+            getWaveSplitStrategy().copySplitsToNorthRegion();
         }
     }
 
-    private void copyNorthRegionToSplits() {
-        int yMax = getDoubleSlitPotential().getY();
-        for( int i = 0; i < leftWavefunction.getWidth(); i++ ) {//todo assumes all same size waves
-            for( int j = 0; j < yMax; j++ ) {
-                Complex v = getWavefunction().valueAt( i, j );
-                v.scale( 0.5 );
-                leftWavefunction.setValue( i, j, v );
-                rightWavefunction.setValue( i, j, v );
-            }
-        }
+    public Propagator getLeftPropagator() {
+        return leftPropagator;
     }
 
-    private void copySplitsToNorthRegion() {
-        int yMax = getDoubleSlitPotential().getY();
-        for( int i = 0; i < leftWavefunction.getWidth(); i++ ) {
-            for( int j = 0; j < yMax; j++ ) {
-                double sum = sumMagnitudes( leftWavefunction.valueAt( i, j ), rightWavefunction.valueAt( i, j ) );
-                getWavefunction().setValue( i, j, new Complex( sum, 0 ) );
-            }
-        }
+    public Propagator getRightPropagator() {
+        return rightPropagator;
     }
 
     static interface Mode {
-
         Wavefunction getDetectionRegion( int height, int detectionY, int width, int h );
 
         void step();
@@ -231,6 +146,15 @@ public class SplitModel extends DiscreteModel {
         return super.getDetectionRegion( height, detectionY, width, h );
     }
 
+    private WaveSplitStrategy getWaveSplitStrategy() {
+        if( getPropagator() instanceof ClassicalWavePropagator ) {
+            return new ClassicalWaveSplitStrategy( this );
+        }
+        else {
+            return new WaveSplitStrategy( this );
+        }
+    }
+
     class SplitMode implements Mode {
 
         public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
@@ -246,9 +170,9 @@ public class SplitModel extends DiscreteModel {
             beforeTimeStep();
             getPropagator().propagate( getWavefunction() );
             //copy slit regions to left & right sides
-            copyDetectorAreasToWaves();
-            clearEntrantWaveNorthArea();
-            clearLRWavesSouthPart();
+            getWaveSplitStrategy().copyDetectorAreasToWaves();
+            getWaveSplitStrategy().clearEntrantWaveNorthArea();
+            getWaveSplitStrategy().clearLRWavesSouthPart();
             rightPropagator.propagate( rightWavefunction );   //todo won't work for light, needs its own propagator.
             leftPropagator.propagate( leftWavefunction );
 
@@ -262,13 +186,24 @@ public class SplitModel extends DiscreteModel {
 
     }
 
-    private void clearLRWavesSouthPart() {
-        int topYClear = (int)getDoubleSlitPotential().getSlitAreas()[0].getMaxY();
-        for( int i = 0; i < leftWavefunction.getWidth(); i++ ) {
-            for( int j = topYClear; j < leftWavefunction.getHeight(); j++ ) {
-                leftWavefunction.setValue( i, j, new Complex() );
-                rightWavefunction.setValue( i, j, new Complex() );
+    public static Wavefunction sumMagnitudes( Wavefunction leftRegion, Wavefunction rightRegion ) {
+        Wavefunction sum = leftRegion.createEmptyWavefunction();
+        for( int i = 0; i < sum.getWidth(); i++ ) {
+            for( int j = 0; j < sum.getHeight(); j++ ) {
+
+                Complex left = leftRegion.valueAt( i, j );
+                Complex right = rightRegion.valueAt( i, j );
+                double both = sumMagnitudes( left, right );
+                sum.setValue( i, j, new Complex( both, 0 ) );
             }
         }
+        return sum;
+    }
+
+    public static double sumMagnitudes( Complex left, Complex right ) {
+        double lhs = left.abs();
+        double rhs = right.abs();
+        double both = lhs + rhs;
+        return both;
     }
 }
