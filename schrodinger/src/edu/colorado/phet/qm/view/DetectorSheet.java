@@ -85,17 +85,27 @@ public class DetectorSheet extends GraphicLayerSet {
 
     private BufferedImage copyScreen() {
         BufferedImage image = new BufferedImage( bufferedImage.getWidth(), bufferedImage.getHeight(), bufferedImage.getType() );
-        image.createGraphics().drawRenderedImage( bufferedImage, new AffineTransform() );
+        Graphics2D g2 = image.createGraphics();
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g2.drawRenderedImage( bufferedImage, new AffineTransform() );
         return image;
     }
 
     public void addDetectionEvent( int x, int y ) {
         clearButtonJC.setVisible( true );
-        saveGraphic.setVisible( true );
+        setSaveButtonVisible( true );
         Graphics2D g2 = bufferedImage.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         new DetectionGraphic( this, x, y, opacity ).paint( g2 );
         repaint();
+    }
+
+//    public void showSaveButton() {
+//        saveGraphic.setVisible( true );
+//    }
+
+    public BufferedImage getBufferedImage() {
+        return bufferedImage;
     }
 
     public void reset() {
@@ -114,4 +124,11 @@ public class DetectorSheet extends GraphicLayerSet {
     }
 
 
+    public void clearScreen() {
+        reset();
+    }
+
+    public void setSaveButtonVisible( boolean b ) {
+        saveGraphic.setVisible( b );
+    }
 }

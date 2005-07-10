@@ -57,7 +57,6 @@ public class IntensityScreenPanel extends VerticalLayoutPanel {
         p3.add( mult );
         super.addFullWidth( p3 );
 
-
         JPanel p4 = new HorizontalLayoutPanel();
         p4.add( new JLabel( "Opacity" ) );
         final JSpinner transparency = new JSpinner( new SpinnerNumberModel( intensityDisplay.getOpacity(), 0, 255, 1 ) );
