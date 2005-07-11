@@ -56,6 +56,11 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/11) - call setMinumumWidth in all control panels, using value from SimStrings file
+(7/11) - add setMinimumWidth to FourierControlPanel
+(7/11) - misc updates to DiscreteToContinuousControlPanel
+(7/11) - phetcommon: works with SamR to fix control panel layout problem with JSliders on Mac
+(7/11) - collect "Discrete To Continuous" requirements from SamM
 (7/8) - create empty control panel subclass for each module
 (7/8) - make FourierControlPanel abstract
 (7/8) - reset Sum when number of harmonics changes, so it stays sync'ed with Harmonics graph
