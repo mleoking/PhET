@@ -34,15 +34,7 @@ public class DiscreteModel implements ModelElement {
     private WaveSetup initter;
 
     private HorizontalDoubleSlit doubleSlitPotential;
-
-    private HorizontalDoubleSlit createDoubleSlit() {
-        double potentialValue = Double.MAX_VALUE / 1000;
-        HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
-                                                                    getGridHeight(),
-                                                                    (int)( getGridWidth() * 0.4 ), 10, 5, 10, potentialValue );
-        return doubleSlit;
-    }
-
+    private MeasurementScale measurementScale;
 
     public DiscreteModel( int width, int height ) {
         this( width, height, createInitDT(), createInitWave() );
@@ -63,6 +55,11 @@ public class DiscreteModel implements ModelElement {
         addListener( damping );
 
         doubleSlitPotential = createDoubleSlit();
+        measurementScale = new MeasurementScale( getGridWidth(), 1.0 );
+    }
+
+    public MeasurementScale getMeasurementScale() {
+        return measurementScale;
     }
 
     protected static ZeroWave createInitWave() {
@@ -86,6 +83,14 @@ public class DiscreteModel implements ModelElement {
         getPropagator().propagate( getWavefunction() );
         incrementTimeStep();
         finishedTimeStep();
+    }
+
+    private HorizontalDoubleSlit createDoubleSlit() {
+        double potentialValue = Double.MAX_VALUE / 1000;
+        HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
+                                                                    getGridHeight(),
+                                                                    (int)( getGridWidth() * 0.4 ), 10, 5, 10, potentialValue );
+        return doubleSlit;
     }
 
     protected void beforeTimeStep() {
