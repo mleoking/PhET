@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.fourier.control;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.module.FourierModule;
 
 
@@ -33,7 +34,11 @@ public class ContinuousControlPanel extends FourierControlPanel {
      */
     public ContinuousControlPanel( FourierModule module ) {
         super( module );
-        // TODO Auto-generated constructor stub
+       
+        // Set the control panel's minimum width.
+        String widthString = SimStrings.get( "ContinuousControlPanel.width" );
+        int width = Integer.parseInt( widthString );
+        setMinumumWidth( width );
     }
 
     //----------------------------------------------------------------------------

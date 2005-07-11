@@ -3,10 +3,11 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- FourierSliders don't draw correctly in DiscreteToContinuousControlPanel
+- set up control panel for "Discrete to Continous" module
 
 HIGH PRIORITY:
-- "show infinte" goes away after a few cycles in space-&-time mode
+- "show infinite" goes away after a few cycles in space-&-time mode
 - animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
 - PeriodDisplay has not been sync'ed, doesn't reset to 0 when domain/preset/waveType is changed
 - when PeriodDislay.setHarmonic is called, it's angle is reset, it should be sync'ed to the harmonic's cycle
@@ -51,12 +52,14 @@ PHETCOMMON:
 - bug: PhetTextGraphic leaves screen turds when its text is exclusively Unicode
 - bug: PhetJComponent startup is excessively slow
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
-- bug: PhetJComponent tab traversal doesn't work
+- bug: PhetJComponent tab traversal doesn't work if component is invisible or has been removed
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/8) - create empty control panel subclass for each module
+(7/8) - make FourierControlPanel abstract
 (7/8) - reset Sum when number of harmonics changes, so it stays sync'ed with Harmonics graph
-(7/8) - descrease width of Sum and Harmonics graphs so that "Auto scale" label fits in apparatus panel on Mac
+(7/8) - decrease width of Sum and Harmonics graphs so that "Auto scale" label fits in apparatus panel on Mac
 (7/8) - set the control panel minimum width in the SimStrings file
 (7/8) - remove HarmonicsGraph.setWaveType, should be getting wave type from FourierSeries
 (6/28) - define StringLabelTable to make creation of chart labels more readable
