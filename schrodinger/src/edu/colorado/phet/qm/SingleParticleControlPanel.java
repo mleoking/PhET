@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.qm.model.Detector;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,6 +23,34 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
 
         VerticalLayoutPanel exp = createExpectationPanel();
         addControlFullWidth( exp );
+
+        JButton createDetectorArray = new JButton( "Create Detector Array" );
+        createDetectorArray.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                createDetectorArray();
+            }
+        } );
+        addControl( createDetectorArray );
+    }
+
+    private void createDetectorArray() {
+        createDetectorArray( 20 );
+    }
+
+    private void createDetectorArray( int width ) {
+        int height = width;
+        int nx = getDiscreteModel().getGridWidth() / width;
+        int ny = getDiscreteModel().getGridHeight() / height;
+
+        for( int i = 0; i < nx; i++ ) {
+            for( int j = 0; j < ny; j++ ) {
+                int x = i * width;
+                int y = j * height;
+                Detector detector = new Detector( getDiscreteModel(), x, y, width, height );
+                getSchrodingerPanel().getSchrodingerModule().addDetector( detector );
+            }
+
+        }
     }
 
 
