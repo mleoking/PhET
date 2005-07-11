@@ -19,6 +19,10 @@ public class Wavefunction {
 
     private ArrayList listeners = new ArrayList();
 
+    public Wavefunction( Wavefunction wavefunction ) {
+        this( wavefunction.wavefunction );
+    }
+
     public static interface Listener {
         void cleared();
 
@@ -95,21 +99,14 @@ public class Wavefunction {
         return copy;
     }
 
-    public void copyTo( Wavefunction copy ) {
+    public void copyTo( Wavefunction dest ) {
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
-                copy.valueAt( i, j ).setValue( valueAt( i, j ) );
+                dest.valueAt( i, j ).setValue( valueAt( i, j ) );
+//                dest.setValue( i, j, new Complex( valueAt( i, j ) ) );
             }
         }
     }
-
-//    public static void copy( Complex[][] src, Complex[][] dst ) {
-//        for( int i = 0; i < src.length; i++ ) {
-//            for( int j = 0; j < src[i].length; j++ ) {
-//                dst[i][j].setValue( src[i][j] );
-//            }
-//        }
-//    }
 
     public int getWidth() {
         return wavefunction.length;
@@ -119,8 +116,12 @@ public class Wavefunction {
         return wavefunction[0].length;
     }
 
+    public void setValue( int i, int j, double re, double im ) {
+        wavefunction[i][j].setValue( re, im );
+    }
+
     public void setValue( int i, int j, Complex complex ) {
-        wavefunction[i][j] = complex;
+        wavefunction[i][j].setValue( complex );
     }
 
     public Complex valueAt( int i, int j ) {
@@ -159,7 +160,7 @@ public class Wavefunction {
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
                 if( valueAt( i, j ) == null ) {
-                    setValue( i, j, new Complex() );
+                    wavefunction[i][j] = new Complex();
                 }
                 else {
                     valueAt( i, j ).zero();
@@ -175,8 +176,8 @@ public class Wavefunction {
 
     public Wavefunction copy() {
         Complex[][] copy = new Complex[getWidth()][getHeight()];
-        for( int i = 0; i < copy.length; i++ ) {
-            for( int j = 0; j < copy[0].length; j++ ) {
+        for( int i = 0; i < getWidth(); i++ ) {
+            for( int j = 0; j < getHeight(); j++ ) {
                 copy[i][j] = valueAt( i, j ).copy();
             }
         }

@@ -18,7 +18,7 @@ public class RealGrayColorMap implements ColorMap {
         this.schrodingerPanel = schrodingerPanel;
     }
 
-    public Color getColor( int i, int k ) {
+    public Paint getPaint( int i, int k ) {
         Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
         double re = wavefunction.valueAt( i, k ).getReal();
         re = Math.abs( re );

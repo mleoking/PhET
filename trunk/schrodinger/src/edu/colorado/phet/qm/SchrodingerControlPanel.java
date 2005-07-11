@@ -58,7 +58,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         advancedIC.addControlFullWidth( initialConditionPanel );
         advancedIC.setBorder( BorderFactory.createTitledBorder( "Initial Conditions" ) );
         advancedIC.addListener( new AdvancedPanel.Listener() {
-
             public void advancedPanelHidden( AdvancedPanel advancedPanel ) {
                 JFrame parent = (JFrame)SwingUtilities.getWindowAncestor( SchrodingerControlPanel.this );
                 parent.invalidate();
@@ -70,16 +69,12 @@ public class SchrodingerControlPanel extends ControlPanel {
             }
         } );
 
-//        addControlFullWidth( advancedIC );
-
         JButton fireParticle = new JButton( "Fire Particle" );
         fireParticle.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 fireParticle();
             }
         } );
-//        addControl( fireParticle );
-
         try {
             HorizontalLayoutPanel hoPan = new HorizontalLayoutPanel();
 
@@ -151,19 +146,9 @@ public class SchrodingerControlPanel extends ControlPanel {
         advancedPropagatorPanel.addControlFullWidth( propagatorPanel );
         addControlFullWidth( advancedPropagatorPanel );
 
-//        VerticalLayoutPanel intensityPanel = createIntensityPanel();
-//        addControlFullWidth( intensityPanel );
-
         ModelElement ap = new AddParticle( module, getWaveSetup() );
 
         particleFirer = new IntegralModelElement( ap, 32 );
-
-//        JButton printWaveform = new JButton( "Print Waveform" );
-//        printWaveform.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//
-//            }
-//        } );
 
         final JSlider speed = new JSlider( JSlider.HORIZONTAL, 0, 1000, (int)( 1000 * 0.1 ) );
         speed.setBorder( BorderFactory.createTitledBorder( "Classical Wave speed" ) );
@@ -174,36 +159,11 @@ public class SchrodingerControlPanel extends ControlPanel {
                 classicalPropagator2ndOrder.setSpeed( x );
             }
         } );
-//        addControlFullWidth( speed );
     }
 
     private WaveSetup getWaveSetup() {
         return initialConditionPanel.getWaveSetup();
     }
-
-//    private VerticalLayoutPanel createIntensityPanel() {
-//
-//        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
-//        final JCheckBox gun = new JCheckBox( "Gun" );
-//        gun.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                setGunActive( gun.isSelected() );
-//            }
-//        } );
-//        verticalLayoutPanel.add( gun );
-//        return verticalLayoutPanel;
-//    }
-//
-//
-//    private void setGunActive( boolean selected ) {
-//        if( selected ) {
-//            module.getModel().addModelElement( particleFirer );
-//        }
-//        else {
-//            module.getModel().removeModelElement( particleFirer );
-//        }
-//        module.setGunActive( selected );
-//    }
 
     private VerticalLayoutPanel createPropagatorPanel() {
         VerticalLayoutPanel layoutPanel = new VerticalLayoutPanel();

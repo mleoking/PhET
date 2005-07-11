@@ -27,7 +27,7 @@ public class SplitModel extends DiscreteModel {
     private Propagator leftPropagator;
     private Propagator rightPropagator;
 
-    private WaveSplitStrategy waveSplitStrategy;
+//    private WaveSplitStrategy waveSplitStrategy;
 
     public SplitModel( int width, int height ) {
         this( width, height, createInitDT(), createInitWave() );
@@ -35,7 +35,7 @@ public class SplitModel extends DiscreteModel {
 
     public SplitModel( int width, int height, double deltaTime, Wave wave ) {
         super( width, height, deltaTime, wave );
-        waveSplitStrategy = new WaveSplitStrategy( this );
+//        waveSplitStrategy = new WaveSplitStrategy( this );
         rightWavefunction = new Wavefunction( getGridWidth(), getGridHeight() );
         leftWavefunction = new Wavefunction( getGridWidth(), getGridHeight() );
 
@@ -128,7 +128,6 @@ public class SplitModel extends DiscreteModel {
     }
 
     class NormalMode implements Mode {
-
         public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
             return SplitModel.this.superGetDetectionRegion( height, detectionY, width, h );
         }

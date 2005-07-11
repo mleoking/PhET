@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -19,16 +19,16 @@ public class IntensityControlPanel extends SchrodingerControlPanel {
         addControl( slitControlPanel );
 
         final JCheckBox smoothCCD = new JCheckBox( "Smooth Screen Display", intensityModule.getIntensityPanel().isSmoothScreen() );
-        smoothCCD.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+        smoothCCD.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 intensityModule.getIntensityPanel().setSmoothScreen( smoothCCD.isSelected() );
             }
         } );
         addControl( smoothCCD );
 
         final JCheckBox fading = new JCheckBox( "Fade", intensityModule.getIntensityPanel().getSmoothIntensityDisplay().isFadeEnabled() );
-        fading.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+        fading.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 intensityModule.getIntensityPanel().getSmoothIntensityDisplay().setFadeEnabled( fading.isSelected() );
             }
         } );
