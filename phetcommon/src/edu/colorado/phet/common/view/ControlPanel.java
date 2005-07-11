@@ -196,8 +196,8 @@ public class ControlPanel extends JPanel {
     /**
      * Layout manager for the panel
      */
-    private class Layout implements LayoutManager {
-
+    public class Layout implements LayoutManager {
+        
         public void removeLayoutComponent( Component comp ) {
         }
 
@@ -268,7 +268,7 @@ public class ControlPanel extends JPanel {
          *
          * @param component
          */
-        private void fixAll( Component component ) {
+        public void fixAll( Component component ) {
             Dimension d = component.getPreferredSize();
 
             component.setBounds( component.getX(), component.getY(), d.width, d.height );
@@ -278,6 +278,28 @@ public class ControlPanel extends JPanel {
                 for( int i = 0; i < c.getComponentCount(); i++ ) {
                     fixAll( c.getComponent( i ) );
                 }
+            }
+            
+            /*
+             * On Macintosh, JSliders do not appear when they are inside a JPanel.
+             * When JSlider is painted in internal frame, its preferred width and height
+             * sometimes has not calculated yet. The track rectangle has negative width that's
+             * why track is never painted.
+             * <br>
+             * An alternative fix was to call JSlider.updateUI.  This adversely
+             * affected slider responsiveness.
+             * <br>
+             * See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4220108
+             */
+            if( component instanceof JSlider ) {
+                JSlider slider = (JSlider) component;
+                Dimension dim = slider.getSize();
+                dim.height +=1;
+                slider.setSize(dim);
+                slider.repaint();
+                dim.height -=1;
+                slider.setSize(dim);
+                slider.repaint();
             }
         }
 
