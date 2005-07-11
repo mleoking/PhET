@@ -267,17 +267,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         layoutPanel.add( clear );
 
-        final JCheckBox doubleSlit = new JCheckBox( "Double Slit", false );
-        doubleSlit.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( doubleSlit.isSelected() ) {
-                    getDiscreteModel().setDoubleSlitEnabled( true );
-                }
-                else {
-                    getDiscreteModel().setDoubleSlitEnabled( false );
-                }
-            }
-        } );
+        final JCheckBox doubleSlit = new DoubleSlitCheckBox( getDiscreteModel() );
         layoutPanel.add( doubleSlit );
         VerticalLayoutPanel configureDoubleSlit = new ConfigureHorizontalSlitPanel( getDiscreteModel().getDoubleSlitPotential() );
         layoutPanel.add( configureDoubleSlit );

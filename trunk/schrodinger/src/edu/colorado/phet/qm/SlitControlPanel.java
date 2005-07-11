@@ -16,10 +16,12 @@ import java.awt.event.ActionListener;
 
 public class SlitControlPanel extends VerticalLayoutPanel {
     private IntensityModule intensityModule;
+    private JCheckBox leftSlit;
+    private JCheckBox rightSlit;
 
     public SlitControlPanel( final IntensityModule intensityModule ) {
         this.intensityModule = intensityModule;
-        final JCheckBox leftSlit = new JCheckBox( "Detector on Left Slit" );
+        leftSlit = new JCheckBox( "Detector on Left Slit" );
         leftSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityModule.setLeftDetectorEnabled( leftSlit.isSelected() );
@@ -27,16 +29,28 @@ public class SlitControlPanel extends VerticalLayoutPanel {
         } );
         add( leftSlit );
 
-        final JCheckBox rightSlit = new JCheckBox( "Detector on right Slit" );
+        rightSlit = new JCheckBox( "Detector on right Slit" );
         rightSlit.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 intensityModule.setRightDetectorEnabled( rightSlit.isSelected() );
             }
         } );
         add( rightSlit );
+
+        intensityModule.addListener( new IntensityModule.Adapter() {
+            public void detectorsChanged() {
+                leftSlit.setSelected( intensityModule.isLeftDetectorEnabled() );
+                rightSlit.setSelected( intensityModule.isRightDetectorEnabled() );
+            }
+        } );
     }
 
     public IntensityPanel getIntensityPanel() {
         return intensityModule.getIntensityPanel();
+    }
+
+    public void synchronizeModelState() {
+        intensityModule.setRightDetectorEnabled( rightSlit.isSelected() );
+        intensityModule.setLeftDetectorEnabled( leftSlit.isSelected() );
     }
 }

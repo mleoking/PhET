@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.SmoothIntensityDisplay;
@@ -18,6 +20,8 @@ public class IntensityPanel extends SchrodingerPanel {
     private IntensityModule intensityModule;
     private SmoothIntensityDisplay smoothIntensityDisplay;
     private boolean smoothScreen = false;
+    private PhetGraphic slitControlGraphic;
+    private SlitControlPanel slitControlPanel;
 
     public IntensityPanel( IntensityModule intensityModule ) {
         super( intensityModule );
@@ -31,6 +35,16 @@ public class IntensityPanel extends SchrodingerPanel {
         setSplitGraphics();
         smoothIntensityDisplay = new SmoothIntensityDisplay( getIntensityDisplay() );
         setSmoothScreen( true );
+
+        PhetGraphic ds = getDoubleSlitCheckBoxGraphic();
+        slitControlPanel = new SlitControlPanel( intensityModule );
+        slitControlGraphic = PhetJComponent.newInstance( this, slitControlPanel );
+        addGraphic( slitControlGraphic );
+        slitControlGraphic.setLocation( ds.getX(), ds.getY() + ds.getHeight() + 5 );
+    }
+
+    public SlitControlPanel getSlitControlPanel() {
+        return slitControlPanel;
     }
 
     public void setSplitMode( boolean splitMode ) {

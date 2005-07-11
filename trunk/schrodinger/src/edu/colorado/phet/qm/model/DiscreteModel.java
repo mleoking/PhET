@@ -35,6 +35,7 @@ public class DiscreteModel implements ModelElement {
 
     private HorizontalDoubleSlit doubleSlitPotential;
     private MeasurementScale measurementScale;
+    private boolean doubleSlitEnabled;
 
     public DiscreteModel( int width, int height ) {
         this( width, height, createInitDT(), createInitWave() );
@@ -285,6 +286,15 @@ public class DiscreteModel implements ModelElement {
         else {
             removePotential( doubleSlitPotential );
         }
+        this.doubleSlitEnabled = enabled;
+        notifySlitStateChanged();
+    }
+
+    private void notifySlitStateChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.doubleSlitVisibilityChanged();
+        }
     }
 
     public Wavefunction getDetectionRegion( int height, int detectionY, int width, int h ) {
@@ -306,6 +316,8 @@ public class DiscreteModel implements ModelElement {
         void beforeTimeStep( DiscreteModel discreteModel );
 
         void particleFired( DiscreteModel discreteModel );
+
+        void doubleSlitVisibilityChanged();
     }
 
     public static class Adapter implements Listener {
@@ -324,6 +336,9 @@ public class DiscreteModel implements ModelElement {
 
         public void particleFired( DiscreteModel discreteModel ) {
         }
+
+        public void doubleSlitVisibilityChanged() {
+        }
     }
 
     public Wave getBoundaryCondition() {
@@ -340,5 +355,9 @@ public class DiscreteModel implements ModelElement {
 
     public boolean containsDetector( Detector detector ) {
         return detectorSet.containsDetector( detector );
+    }
+
+    public boolean isDoubleSlitEnabled() {
+        return doubleSlitEnabled;
     }
 }

@@ -3,6 +3,9 @@ package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.ApparatusPanel2;
+import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.qm.DoubleSlitCheckBox;
 import edu.colorado.phet.qm.IntensityDisplay;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
@@ -31,6 +34,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     private IntensityDisplay intensityDisplay;
     private RulerGraphic rulerGraphic;
     private ArrayList detectorGraphics = new ArrayList();
+    private PhetGraphic doubleSlitCheckBoxGraphic;
 
     public SchrodingerPanel( SchrodingerModule module ) {
         super( module.getClock() );
@@ -62,6 +66,15 @@ public class SchrodingerPanel extends ApparatusPanel2 {
                 updateScreen();
             }
         } );
+
+        DoubleSlitCheckBox doubleSlitCheckBox = new DoubleSlitCheckBox( getDiscreteModel() );
+        doubleSlitCheckBoxGraphic = PhetJComponent.newInstance( this, doubleSlitCheckBox );
+        addGraphic( doubleSlitCheckBoxGraphic );
+        doubleSlitCheckBoxGraphic.setLocation( getWavefunctionGraphic().getX() + getWavefunctionGraphic().getWidth(), getWavefunctionGraphic().getY() + getWavefunctionGraphic().getHeight() / 2 );
+    }
+
+    protected PhetGraphic getDoubleSlitCheckBoxGraphic() {
+        return doubleSlitCheckBoxGraphic;
     }
 
     protected void updateScreen() {
