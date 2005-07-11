@@ -60,7 +60,7 @@ public class ClassicalWavePropagator implements Propagator {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
 
                 if( potential.getPotential( i, j, 0 ) != 0 ) {
-                    w.valueAt( i, j ).setValue( 0, 0 );
+                    w.setValue( i, j, 0, 0 );
                 }
                 else {
                     neigh.setValue( 0, 0 );
@@ -79,8 +79,9 @@ public class ClassicalWavePropagator implements Propagator {
 //                    Complex val = new Complex( last.valueAt( i, j ).getReal() * 2 - last2.valueAt( i, j ).getReal() + neigh.getReal(),
 //                                               last.valueAt( i, j ).getImaginary() * 2 - last2.valueAt( i, j ).getImaginary() + neigh.getImaginary() );
 //                    //                    w.setValue( i, j, val );
-                    w.valueAt( i, j ).setValue( last.valueAt( i, j ).getReal() * 2 - last2.valueAt( i, j ).getReal() + neigh.getReal(),
-                                                last.valueAt( i, j ).getImaginary() * 2 - last2.valueAt( i, j ).getImaginary() + neigh.getImaginary() );
+                    w.setValue( i, j,
+                                last.valueAt( i, j ).getReal() * 2 - last2.valueAt( i, j ).getReal() + neigh.getReal(),
+                                last.valueAt( i, j ).getImaginary() * 2 - last2.valueAt( i, j ).getImaginary() + neigh.getImaginary() );
 
                 }
             }
@@ -97,13 +98,13 @@ public class ClassicalWavePropagator implements Propagator {
 
     private void dampHorizontal( Wavefunction w, int j, int dj ) {
         for( int i = 0; i < w.getWidth(); i++ ) {
-            w.valueAt( i, j ).setValue( last2.valueAt( i, j + dj ) );
+            w.setValue( i, j, last2.valueAt( i, j + dj ) );
         }
     }
 
     private void dampVertical( Wavefunction w, int i, int di ) {
         for( int j = 0; j < w.getHeight(); j++ ) {
-            w.valueAt( i, j ).setValue( last2.valueAt( i + di, j ) );
+            w.setValue( i, j, last2.valueAt( i + di, j ) );
         }
     }
 

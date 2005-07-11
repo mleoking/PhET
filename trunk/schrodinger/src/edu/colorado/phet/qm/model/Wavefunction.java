@@ -102,7 +102,7 @@ public class Wavefunction {
     public void copyTo( Wavefunction dest ) {
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {
-                dest.valueAt( i, j ).setValue( valueAt( i, j ) );
+                dest.setValue( i, j, valueAt( i, j ) );
 //                dest.setValue( i, j, new Complex( valueAt( i, j ) ) );
             }
         }
