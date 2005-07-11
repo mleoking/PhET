@@ -72,6 +72,10 @@ public class WavefunctionGraphic extends GraphicLayerSet {
         clearButton.setLocation( -clearButton.getWidth() - 2, clearButton.getHeight() );
     }
 
+    public int getWaveformWidth() {
+        return imageGraphic.getWidth();
+    }
+
     public void setWavefunctionColorMap( ColorMap painter ) {
         this.painter.setWavefunctionColorMap( painter );
         //todo repaint
@@ -159,5 +163,9 @@ public class WavefunctionGraphic extends GraphicLayerSet {
 
     public int getWavefunctionWidth() {
         return colorGrid.getWidth();
+    }
+
+    public int getWaveformX() {
+        return imageGraphic.getX();
     }
 }

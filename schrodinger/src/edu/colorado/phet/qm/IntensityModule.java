@@ -3,8 +3,11 @@ package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.qm.model.Detector;
+import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.SplitModel;
 import edu.colorado.phet.qm.view.DetectorGraphic;
+
+import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -17,6 +20,7 @@ public class IntensityModule extends SchrodingerModule {
     private SplitModel splitModel;
     private IntensityPanel intensityPanel;
     private IntensityControlPanel schrodingerControlPanel;
+    private ArrayList listeners = new ArrayList();
 
     public IntensityModule( AbstractClock clock ) {
         super( "High Intensity", clock );
@@ -27,6 +31,18 @@ public class IntensityModule extends SchrodingerModule {
         schrodingerControlPanel = new IntensityControlPanel( this );
         setSchrodingerControlPanel( schrodingerControlPanel );
         synchronizeModel();
+
+        getDiscreteModel().addListener( new DiscreteModel.Adapter() {
+            public void doubleSlitVisibilityChanged() {
+                if( !getDiscreteModel().isDoubleSlitEnabled() ) {
+                    setRightDetectorEnabled( false );
+                    setLeftDetectorEnabled( false );
+                }
+                else {
+                    getIntensityPanel().getSlitControlPanel().synchronizeModelState();
+                }
+            }
+        } );
     }
 
     public SplitModel getSplitModel() {
@@ -46,11 +62,46 @@ public class IntensityModule extends SchrodingerModule {
     }
 
     public void setRightDetectorEnabled( boolean selected ) {
-        setDetectorEnabled( splitModel.getRightDetector(), selected );
+        if( !getDiscreteModel().isDoubleSlitEnabled() && selected ) {
+            return;
+        }
+        if( isRightDetectorEnabled() != selected ) {
+            setDetectorEnabled( splitModel.getRightDetector(), selected );
+            notifyDetectorsChanged();
+        }
     }
 
     public void setLeftDetectorEnabled( boolean selected ) {
-        setDetectorEnabled( splitModel.getLeftDetector(), selected );
+        if( !getDiscreteModel().isDoubleSlitEnabled() && selected ) {
+            return;
+        }
+        if( isLeftDetectorEnabled() != selected ) {
+            setDetectorEnabled( splitModel.getLeftDetector(), selected );
+            notifyDetectorsChanged();
+        }
+    }
+
+    public static interface Listener {
+
+        void detectorsChanged();
+    }
+
+    public static class Adapter implements Listener {
+
+        public void detectorsChanged() {
+        }
+    }
+
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    private void notifyDetectorsChanged() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.detectorsChanged();
+        }
     }
 
     private void setDetectorEnabled( Detector detector, boolean selected ) {
