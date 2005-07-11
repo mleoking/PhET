@@ -197,6 +197,11 @@ public class FullPhetJComponentTest {
         } );
         ap.addGraphic( phetJComponentDraggable );
 
+        
+        JSpinner spinner = new JSpinner();
+        PhetGraphic spinnerGraphic = PhetJComponent.newInstance( ap, spinner );
+        spinnerGraphic.setLocation( 50, 100 );
+        ap.addGraphic( spinnerGraphic );
 
         JTextArea textArea = new JTextArea( "This land is your land\nThis land is my land.", 2, 15 );
         textArea.setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ), "Text Area!" ) );
