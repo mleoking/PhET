@@ -20,9 +20,10 @@ public abstract class GunParticle extends ImageComboBox.Item {
     private ArrayList momentumChangeListeners = new ArrayList();
     private double intensityScale = 1.0;
 
-    public GunParticle( AbstractGun gun, String label, String imageLocation ) {
+    public GunParticle( final AbstractGun gun, String label, String imageLocation ) {
         super( label, imageLocation );
         this.gun = gun;
+
     }
 
     public abstract void setup( AbstractGun abstractGun );

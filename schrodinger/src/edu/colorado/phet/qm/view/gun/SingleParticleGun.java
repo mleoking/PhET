@@ -23,10 +23,6 @@ public class SingleParticleGun extends AbstractGun {
 
     public SingleParticleGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
-
-//        super.setComboBox( createParticleTypeSelectorComboBox() );
-//        schrodingerPanel.add( comboBox );
-
         fireOne = new JButton( "Fire!" );
         fireOne.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -55,13 +51,8 @@ public class SingleParticleGun extends AbstractGun {
         getDiscreteModel().clearWavefunction();
     }
 
-
     public void fireParticle() {
-        //add the specified wavefunction everywhere, then renormalize..?
-        //clear the old wavefunction.
-
         currentObject.fireParticle();
-//        lastWave = currentObject.getInitialWavefunction( getDiscreteModel().getWavefunction() );
     }
 
     public GunParticle getCurrentObject() {
@@ -91,6 +82,18 @@ public class SingleParticleGun extends AbstractGun {
             new Photon( this, "Photons", "images/photon-thumb.jpg" ),
             new Electron( this, "Electrons", "images/electron-thumb.jpg" ),
             new Atom( this, "Atoms", "images/atom-thumb.jpg" )};
+
+//        for( int i = 0; i < gunItems.length; i++ ) {
+//            GunParticle gunItem = gunItems[i];
+//            gunItem.addMomentumChangeListerner( new MomentumChangeListener() {
+//                public void momentumChanged( double val ) {
+//                    double lambda = Math.abs( 2 * Math.PI / val );
+//                    double meters = getDiscreteModel().getMeasurementScale().modelLengthToMeters( lambda );
+//                    System.out.println( "Wavelength: meters = " + meters );
+//                }
+//            } );
+//        }
+
         final ImageComboBox imageComboBox = new ImageComboBox( gunItems );
         imageComboBox.setBorder( BorderFactory.createTitledBorder( "Gun Type" ) );
         imageComboBox.addItemListener( new ItemListener() {

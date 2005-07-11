@@ -119,12 +119,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         VerticalLayoutPanel potentialPanel = createPotentialPanel( module );
         addControlFullWidth( potentialPanel );
 
-        VerticalLayoutPanel exp = createExpectationPanel();
-        addControlFullWidth( exp );
-
-//        VerticalLayoutPanel detectorPanel = createDetectorPanel();
-//        addControlFullWidth( detectorPanel );
-
 //        JButton addParticle = new JButton( "Add Particle" );
 //        addParticle.addActionListener( new ActionListener() {
 //            public void actionPerformed( ActionEvent e ) {
@@ -138,8 +132,8 @@ public class SchrodingerControlPanel extends ControlPanel {
 //        } );
 //        addControl( addParticle );
 
-        VerticalLayoutPanel boundaryPanel = createBoundaryPanel();
-        addControlFullWidth( boundaryPanel );
+//        VerticalLayoutPanel boundaryPanel = createBoundaryPanel();
+//        addControlFullWidth( boundaryPanel );
 
         VerticalLayoutPanel propagatorPanel = createPropagatorPanel();
         AdvancedPanel advancedPropagatorPanel = new AdvancedPanel( "Propagators>>", "Hide Propagators<<" );
@@ -255,40 +249,6 @@ public class SchrodingerControlPanel extends ControlPanel {
 
     private Wavefunction getWavefunction() {
         return getDiscreteModel().getWavefunction();
-    }
-
-    private VerticalLayoutPanel createDetectorPanel() {
-        return new DetectorPanel( module );
-    }
-
-    private VerticalLayoutPanel createExpectationPanel() {
-        VerticalLayoutPanel lay = new VerticalLayoutPanel();
-        lay.setBorder( BorderFactory.createTitledBorder( "Observables" ) );
-        final JCheckBox x = new JCheckBox( "<X>" );
-        x.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().getWavefunctionGraphic().setDisplayXExpectation( x.isSelected() );
-            }
-        } );
-        lay.add( x );
-
-        final JCheckBox y = new JCheckBox( "<Y>" );
-        y.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().getWavefunctionGraphic().setDisplayYExpectation( y.isSelected() );
-            }
-        } );
-        lay.add( y );
-
-        final JCheckBox c = new JCheckBox( "collapse-to" );
-        c.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().getWavefunctionGraphic().setDisplayCollapsePoint( c.isSelected() );
-            }
-        } );
-        lay.add( c );
-
-        return lay;
     }
 
     private InitialConditionPanel createInitialConditionPanel() {
@@ -425,7 +385,7 @@ public class SchrodingerControlPanel extends ControlPanel {
         return radioButton;
     }
 
-    private SchrodingerPanel getSchrodingerPanel() {
+    SchrodingerPanel getSchrodingerPanel() {
         return module.getSchrodingerPanel();
     }
 
