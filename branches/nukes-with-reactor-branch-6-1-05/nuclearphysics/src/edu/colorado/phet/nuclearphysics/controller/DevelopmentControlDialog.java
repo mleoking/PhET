@@ -10,10 +10,12 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ModelSlider;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -158,6 +160,36 @@ public class DevelopmentControlDialog extends JDialog {
                 }
             } );
             add( slowMotionCB, gbc );
+
+            // A control that injects neutrons at regular intervals
+            JPanel neutronInjectorPanel = new JPanel( new GridLayout( 2, 1 ) );
+            neutronInjectorPanel.setBorder( new TitledBorder( "Fire Neutrons Periodically" ) );
+            final ModelSlider nipSlider = new ModelSlider( "Period (ms)", 0, 100, 50 );
+            nipSlider.setMajorTickSpacing( 20 );
+            nipSlider.setPaintLabels( true );
+            nipSlider.setPaintTicks( true );
+            nipSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    module.fireNeutronsPeriodic( nipSlider.getModelValue() );
+                }
+            } );
+
+            final JCheckBox nipCB = new JCheckBox( "Enabled" );
+            nipCB.addActionListener( new ActionListener() {
+                ModelElement launcher;
+
+                public void actionPerformed( ActionEvent e ) {
+                    if( nipCB.isSelected() ) {
+                        module.fireNeutronsPeriodic( nipSlider.getModelValue() );
+                    }
+                    else {
+                        module.fireNeutronsPeriodic( Double.POSITIVE_INFINITY );
+                    }
+                }
+            } );
+            neutronInjectorPanel.add( nipCB );
+            neutronInjectorPanel.add( nipSlider );
+            add( neutronInjectorPanel, gbc );
         }
     }
 }

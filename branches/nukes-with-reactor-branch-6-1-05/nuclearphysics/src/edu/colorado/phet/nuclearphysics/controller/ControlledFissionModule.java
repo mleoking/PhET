@@ -78,6 +78,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private long fissionDelay;
     private double rodAbsorptionProbability;
     private DevelopmentControlDialog developmentControlDialog;
+    private PeriodicNeutronLauncher periodicNeutronLauncher;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -352,7 +353,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     }
 
     //----------------------------------------------------------------
-    // Extensions of superclass behavior
+    // Extensions and overrides of superclass behavior
     //----------------------------------------------------------------
 
     /**
@@ -367,7 +368,9 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     /**
      * Prevents the fission products from flying apart by setting their positions and setting their
-     * velocities to 0 before calling the parent class behavior
+     * velocities to 0 before calling the parent class behavior.
+     * <p/>
+     * This overrides the parent class behavior.
      *
      * @param products
      */
@@ -385,9 +388,7 @@ public class ControlledFissionModule extends ChainReactionModule {
         products.getDaughter2().setVelocity( 0, 0 );
 
         // Delay for a fixed time before we actually release the neutron
-        getModel().addModelElement( new NeutronLauncher( getModel(), products ) );
-
-//        super.fission( products );
+        getModel().addModelElement( new FissionNeutronLauncher( getModel(), products ) );
     }
 
     //----------------------------------------------------------------
@@ -503,13 +504,27 @@ public class ControlledFissionModule extends ChainReactionModule {
         developmentControlDialog.setVisible( true );
     }
 
+    public void fireNeutronsPeriodic( double period ) {
+        if( periodicNeutronLauncher != null ) {
+            getModel().removeModelElement( periodicNeutronLauncher );
+        }
+        periodicNeutronLauncher = new ControlledFissionModule.PeriodicNeutronLauncher( period );
+        getModel().addModelElement( periodicNeutronLauncher );
+    }
 
-    private class NeutronLauncher implements ModelElement {
+    //----------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------
+
+    /**
+     * Provides for delayed release of neutrons from a fission event
+     */
+    private class FissionNeutronLauncher implements ModelElement {
         private long startTime = System.currentTimeMillis();
         private BaseModel model;
         private FissionProducts fissionProducts;
 
-        public NeutronLauncher( BaseModel model, FissionProducts fissionProducts ) {
+        public FissionNeutronLauncher( BaseModel model, FissionProducts fissionProducts ) {
             this.model = model;
             this.fissionProducts = fissionProducts;
         }
@@ -518,6 +533,27 @@ public class ControlledFissionModule extends ChainReactionModule {
             if( System.currentTimeMillis() - startTime > fissionDelay ) {
                 model.removeModelElement( this );
                 ControlledFissionModule.super.fission( fissionProducts );
+            }
+        }
+    }
+
+    /**
+     * A model element that periodically fires neutrons into the vessel
+     */
+    private class PeriodicNeutronLauncher implements ModelElement {
+        private double period;
+        private double startTime;
+
+        public PeriodicNeutronLauncher( double period ) {
+            this.period = period;
+            startTime = getClock().getRunningTime();
+        }
+
+        public void stepInTime( double v ) {
+            double dt = getClock().getRunningTime() - startTime;
+            if( dt > period ) {
+                startTime = getClock().getRunningTime();
+                fireNeutron();
             }
         }
     }
