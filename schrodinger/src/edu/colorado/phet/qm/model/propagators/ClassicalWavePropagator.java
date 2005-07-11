@@ -50,6 +50,7 @@ public class ClassicalWavePropagator implements Propagator {
     }
 
     public void propagate( Wavefunction w ) {
+        Complex neigh = new Complex();
         if( last == null ) {
             last = w.copy();
             last2 = w.copy();
@@ -58,43 +59,30 @@ public class ClassicalWavePropagator implements Propagator {
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
 
-//                Complex num = new Complex();
-//                num = num.plus( last( i + 1, j ) );
-//                num = num.plus( last( i - 1, j ) );
-//                num = num.plus( last( i, j + 1 ) );
-//                num = num.plus( last( i, j - 1 ) );
-//                num = num.times( 0.5 );
-//                num = num.minus( last2.valueAt( i, j ) );
-//                w.setValue( i, j, num );
-
                 if( potential.getPotential( i, j, 0 ) != 0 ) {
-                    w.setValue( i, j, new Complex() );
+                    w.valueAt( i, j ).setValue( 0, 0 );
                 }
                 else {
-                    Complex val = new Complex();
-                    val = val.plus( last.valueAt( i, j ).times( 2 ) );
-                    val = val.minus( last2.valueAt( i, j ) );
-                    Complex num = new Complex();
-                    num = num.plus( last( i + 1, j ) );
-                    num = num.plus( last( i - 1, j ) );
-                    num = num.plus( last( i, j + 1 ) );
-                    num = num.plus( last( i, j - 1 ) );
+                    neigh.setValue( 0, 0 );
+                    neigh.add( last( i + 1, j ) );
+                    neigh.add( last( i - 1, j ) );
+                    neigh.add( last( i, j + 1 ) );
+                    neigh.add( last( i, j - 1 ) );
 
-                    num = num.minus( last( i, j ).times( 4 ) );
-                    Complex neigh = num.times( 0.25 );
+//                    neigh.add( last( i, j ).times( -4 ) );
+                    Complex lastVal = last( i, j );
+                    neigh.add( lastVal.getReal() * -4, lastVal.getImaginary() * -4 );
+//                    neigh.setValue( )
+                    neigh.scale( 0.25 );
+//                    Complex neigh = neigh;
 
+//                    Complex val = new Complex( last.valueAt( i, j ).getReal() * 2 - last2.valueAt( i, j ).getReal() + neigh.getReal(),
+//                                               last.valueAt( i, j ).getImaginary() * 2 - last2.valueAt( i, j ).getImaginary() + neigh.getImaginary() );
+//                    //                    w.setValue( i, j, val );
+                    w.valueAt( i, j ).setValue( last.valueAt( i, j ).getReal() * 2 - last2.valueAt( i, j ).getReal() + neigh.getReal(),
+                                                last.valueAt( i, j ).getImaginary() * 2 - last2.valueAt( i, j ).getImaginary() + neigh.getImaginary() );
 
-                    val = val.plus( neigh );
-                    w.setValue( i, j, val );
                 }
-
-//                Complex sum = last( i + 1, j ).plus( last( i - 1, j ) ).plus( last( i, j + 1 ) ).plus( last( i, j - 1 ) );
-//
-//                sum = sum.minus( last( i, j ).times( 4 ) );
-//                sum = sum.times( speed );
-//                sum = sum.minus( last2.valueAt( i, j ) );
-//                sum = sum.plus( last( i, j ).times( 2 ) );
-//                w.setValue( i, j, sum );
             }
         }
 
@@ -103,29 +91,30 @@ public class ClassicalWavePropagator implements Propagator {
         dampVertical( w, 0, +1 );
         dampVertical( w, w.getWidth() - 1, -1 );
 
-        last2 = last;
-        last = w.copy();
-//        damping.damp( last );
+        last.copyTo( last2 );
+        w.copyTo( last );
     }
 
     private void dampHorizontal( Wavefunction w, int j, int dj ) {
         for( int i = 0; i < w.getWidth(); i++ ) {
-            w.setValue( i, j, last2.valueAt( i, j + dj ) );
+            w.valueAt( i, j ).setValue( last2.valueAt( i, j + dj ) );
         }
     }
 
     private void dampVertical( Wavefunction w, int i, int di ) {
         for( int j = 0; j < w.getHeight(); j++ ) {
-            w.setValue( i, j, last2.valueAt( i + di, j ) );
+            w.valueAt( i, j ).setValue( last2.valueAt( i + di, j ) );
         }
     }
+
+    private Complex ZERO = new Complex();
 
     private Complex last( int i, int j ) {
         if( potential.getPotential( i, j, 0 ) == 0 ) {
             return last.valueAt( i, j );
         }
         else {
-            return new Complex();
+            return ZERO;
         }
     }
 

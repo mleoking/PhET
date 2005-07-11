@@ -17,7 +17,7 @@ import edu.colorado.phet.qm.view.gun.HighIntensityGun;
 public class IntensityPanel extends SchrodingerPanel {
     private IntensityModule intensityModule;
     private SmoothIntensityDisplay smoothIntensityDisplay;
-    private boolean smoothScreen = true;
+    private boolean smoothScreen = false;
 
     public IntensityPanel( IntensityModule intensityModule ) {
         super( intensityModule );
@@ -43,10 +43,12 @@ public class IntensityPanel extends SchrodingerPanel {
     }
 
     public void setSmoothScreen( boolean smoothScreen ) {
-        this.smoothScreen = smoothScreen;
-        getIntensityDisplay().clearScreen();
-        if( smoothScreen ) {
-            getIntensityDisplay().getDetectorSheet().setSaveButtonVisible( true );
+        if( smoothScreen != this.smoothScreen ) {
+            this.smoothScreen = smoothScreen;
+            getIntensityDisplay().clearScreen();
+            if( smoothScreen ) {
+                getIntensityDisplay().getDetectorSheet().setSaveButtonVisible( true );
+            }
         }
     }
 

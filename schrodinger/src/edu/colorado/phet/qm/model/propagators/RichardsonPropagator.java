@@ -27,7 +27,7 @@ public class RichardsonPropagator implements Propagator {
     private Complex[][] betaeven;
     private Complex[][] betaodd;
 
-    public Wavefunction copy;
+    protected Wavefunction copy;
 
     public RichardsonPropagator( double TAU, Wave wave, Potential potential ) {
         this.deltaTime = TAU;
@@ -138,18 +138,32 @@ public class RichardsonPropagator implements Propagator {
     }
 
     private void stepIt( Wavefunction w, int i, int j, int dx, int dy ) {
-        aTemp.setToProduct( alpha, copy.valueAt( i, j ) );
-        bTemp.setToProduct( betaeven[i][j], copy.valueAt( i + dx, j + dy ) );
-        cTemp.setToProduct( betaodd[i][j], copy.valueAt( i - dx, j - dy ) );
-        w.valueAt( i, j ).setToSum( aTemp, bTemp, cTemp );
+        boolean even = ( i + j ) % 2 == 0;
+        if( even ) {
+            aTemp.setToProduct( alpha, copy.valueAt( i, j ) );
+            bTemp.setToProduct( betaeven[i][j], copy.valueAt( i + dx, j + dy ) );
+//            cTemp.setToProduct( betaodd[i][j], copy.valueAt( i - dx, j - dy ) );
+            w.valueAt( i, j ).setToSum( aTemp, bTemp );
+        }
+        else {
+            aTemp.setToProduct( alpha, copy.valueAt( i, j ) );
+//            bTemp.setToProduct( betaeven[i][j], copy.valueAt( i + dx, j + dy ) );
+            cTemp.setToProduct( betaodd[i][j], copy.valueAt( i - dx, j - dy ) );
+            w.valueAt( i, j ).setToSum( aTemp, cTemp );
+        }
+
     }
+
+    Complex potTemp = new Complex();
+    Complex waveTemp = new Complex();
 
     protected void applyPotential( Wavefunction w ) {//todo ignore damping region
         for( int i = 1; i < w.getWidth() - 1; i++ ) {
             for( int j = 1; j < w.getHeight() - 1; j++ ) {
                 double pot = potential.getPotential( i, j, timeStep );
-                Complex val = new Complex( Math.cos( pot * deltaTime / hbar ), -Math.sin( pot * deltaTime / hbar ) );
-                w.setValue( i, j, w.valueAt( i, j ).times( val ) );
+                potTemp.setValue( Math.cos( pot * deltaTime / hbar ), -Math.sin( pot * deltaTime / hbar ) );
+                waveTemp.setValue( w.valueAt( i, j ) );
+                w.valueAt( i, j ).setToProduct( waveTemp, potTemp );
             }
         }
     }

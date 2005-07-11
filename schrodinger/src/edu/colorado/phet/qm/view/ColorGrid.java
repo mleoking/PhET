@@ -50,7 +50,7 @@ public class ColorGrid {
         int blockHeight = getBlockHeight();
         for( int i = 0; i < nx; i++ ) {
             for( int k = 0; k < ny; k++ ) {
-                Paint p = colorMap.getColor( i, k );
+                Paint p = colorMap.getPaint( i, k );
                 g2.setPaint( p );
                 g2.fillRect( i * blockWidth, k * blockHeight, blockWidth, blockHeight );
             }

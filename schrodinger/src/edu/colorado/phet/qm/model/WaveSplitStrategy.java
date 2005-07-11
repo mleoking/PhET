@@ -35,7 +35,7 @@ public class WaveSplitStrategy {
             for( int j = slit.y; j < slit.y + slit.height; j++ ) {
                 if( source.containsLocation( i, j ) ) {
                     Complex value = source.valueAt( i, j );
-                    dest.setValue( i, j, value );
+                    dest.valueAt( i, j ).setValue( value );
                 }
             }
         }

@@ -14,12 +14,13 @@ import java.awt.*;
 public class VisualColorMap implements ColorMap {
     private SchrodingerPanel schrodingerPanel;
     private double brightness = 30;
+    private Color tempColorObject = new Color( 0, 0, 0 );
 
     public VisualColorMap( SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
     }
 
-    public Color getColor( int i, int k ) {
+    public Paint getPaint( int i, int k ) {
         Wavefunction wavefunction = schrodingerPanel.getDiscreteModel().getWavefunction();
         Color color = toColor( wavefunction.valueAt( i, k ) );
         return color;
@@ -55,6 +56,10 @@ public class VisualColorMap implements ColorMap {
         float gVal = scaleFloat( (float)green );
         float blueVal = scaleFloat( (float)blue );
 
+//        if (rVal==0.0f&&gVal==0.0f&&blueVal==0.0f){
+//            return Color.black;
+//        }
+//        tempColorObject.
         return new Color( rVal, gVal, blueVal );
     }
 

@@ -13,8 +13,6 @@ import edu.colorado.phet.qm.model.*;
  */
 
 public class ModifiedRichardsonPropagator extends RichardsonPropagator {
-//    private Wavefunction last2;
-//    private Wavefunction last;
 
     public ModifiedRichardsonPropagator( double TAU, Wave wave, Potential potential ) {
         super( TAU, wave, potential );
@@ -31,7 +29,9 @@ public class ModifiedRichardsonPropagator extends RichardsonPropagator {
     }
 
     protected void prop2D( Wavefunction w ) {
-        copy = new Wavefunction( w.getWidth(), w.getHeight() );
+        if( copy == null ) {
+            copy = new Wavefunction( w.getWidth(), w.getHeight() );
+        }
         stepIt( w, 0, -1 );
         stepIt( w, 0, 1 );
         stepIt( w, 1, 0 );
@@ -41,28 +41,8 @@ public class ModifiedRichardsonPropagator extends RichardsonPropagator {
         stepIt( w, 1, 0 );
         stepIt( w, 0, -1 );
         stepIt( w, 0, 1 );
-//
-//        if (last2!=null){
-//        dampHorizontal( w, 0, +1 );
-//        dampHorizontal( w, w.getHeight() - 1, -1 );
-//        dampVertical( w, 0, +1 );
-//        dampVertical( w, w.getWidth() - 1, -1 );
-//        }
-//
-//        last2 = last;
-//        last = w.copy();
     }
-//        private void dampHorizontal( Wavefunction w, int j, int dj ) {
-//        for( int i = 0; i < w.getWidth(); i++ ) {
-//            w.setValue( i, j, last2.valueAt( i, j + dj ) );
-//        }
-//    }
-//
-//    private void dampVertical( Wavefunction w, int i, int di ) {
-//        for( int j = 0; j < w.getHeight(); j++ ) {
-//            w.setValue( i, j, last2.valueAt( i + di, j ) );
-//        }
-//    }
+
     public Propagator copy() {
         return new ModifiedRichardsonPropagator( getEpsilon(), super.getWave(), super.getPotential() );
     }

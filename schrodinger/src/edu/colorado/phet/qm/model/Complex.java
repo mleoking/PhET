@@ -81,9 +81,13 @@ public class Complex {
         return false;
     }
 
+    public void setValue( double real, double imag ) {
+        this.real = real;
+        this.imag = imag;
+    }
+
     public void setValue( Complex c ) {
-        this.real = c.real;
-        this.imag = c.imag;
+        setValue( c.real, c.imag );
     }
 
     public Complex complexConjugate() {
@@ -119,11 +123,15 @@ public class Complex {
     }
 
     public void add( Complex val ) {
-        this.real += val.real;
-        this.imag += val.imag;
+        add( val.real, val.imag );
     }
 
     public double getComplexPhase() {
         return Math.atan2( imag, real );
+    }
+
+    public void add( double real, double imag ) {
+        this.real += real;
+        this.imag += imag;
     }
 }

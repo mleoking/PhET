@@ -24,8 +24,8 @@ public class GradientColorGrid extends ColorGrid {
         int blockHeight = getBlockHeight();
         for( int i = 0; i < super.getNx() - 1; i++ ) {
             for( int k = 0; k < super.getNy(); k++ ) {
-                Color p = colorMap.getColor( i, k );
-                Color p2 = colorMap.getColor( i + 1, k );
+                Color p = (Color)colorMap.getPaint( i, k );
+                Color p2 = (Color)colorMap.getPaint( i + 1, k );
                 GradientPaint gradientPaint = new GradientPaint( i * blockWidth, k * blockHeight, p, ( i + 1 ) * blockWidth, ( k ) * blockHeight, p2, false );
                 g2.setPaint( gradientPaint );
                 g2.fillRect( i * blockWidth, k * blockHeight, blockWidth, blockHeight );
