@@ -102,4 +102,16 @@ public abstract class FourierControlPanel extends ControlPanel {
         } );
         addControl( resetButton );
     }
+    
+    /**
+     * Sets the minumum width of the control panel.
+     * 
+     * @param minimumWidth
+     */
+    public void setMinumumWidth( int minimumWidth ) {
+        JPanel fillerPanel = new JPanel();
+        fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
+        fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
+        addFullWidth( fillerPanel );
+    }
 }
