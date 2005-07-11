@@ -49,6 +49,7 @@ public class Photon extends GunParticle {
             WaveSetup setup = getInitialWavefunction( getGunGraphic().getDiscreteModel().getWavefunction() );
             Wavefunction init = getGunGraphic().getDiscreteModel().getWavefunction().createEmptyWavefunction();
             setup.initialize( init );
+            init.scale( 2.0 );//since we lose half out the bottom.
 //                new RandomizePhase().randomizePhase( init );
 //                int numAvg = 5;
 //                for( int i = 0; i < numAvg; i++ ) {

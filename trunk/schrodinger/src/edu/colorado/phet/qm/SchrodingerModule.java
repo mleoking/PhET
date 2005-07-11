@@ -107,7 +107,11 @@ public class SchrodingerModule extends Module {
     }
 
     public void addDetector() {
-        Detector detector = new Detector( 5, 5, 10, 10 );
+        Detector detector = new Detector( getDiscreteModel(), 5, 5, 10, 10 );
+        addDetector( detector );
+    }
+
+    public void addDetector( Detector detector ) {
         discreteModel.addDetector( detector );
         schrodingerPanel.addDetectorGraphic( detector );
     }

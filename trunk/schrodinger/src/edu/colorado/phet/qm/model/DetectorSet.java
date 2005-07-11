@@ -72,7 +72,7 @@ public class DetectorSet {
         }
     }
 
-    public void fireAllEnabledDetectors( FireStrategy fireStrategy ) {
+    private void fireAllEnabledDetectors( FireStrategy fireStrategy ) {
         double norm = 1.0;
         if( wavefunction.getMagnitude() > 0 ) {
             for( int i = 0; i < detectors.size(); i++ ) {

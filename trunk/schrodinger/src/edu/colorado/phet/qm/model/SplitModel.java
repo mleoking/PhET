@@ -39,8 +39,8 @@ public class SplitModel extends DiscreteModel {
         rightWavefunction = new Wavefunction( getGridWidth(), getGridHeight() );
         leftWavefunction = new Wavefunction( getGridWidth(), getGridHeight() );
 
-        leftDetector = new Detector( 0, 0, 0, 0 );
-        rightDetector = new Detector( 0, 0, 0, 0 );
+        leftDetector = new Detector( this, 0, 0, 0, 0 );
+        rightDetector = new Detector( this, 0, 0, 0, 0 );
 
         listener = new HorizontalDoubleSlit.Listener() {
             public void slitChanged() {

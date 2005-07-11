@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.model;
 
+import edu.colorado.phet.qm.model.propagators.ClassicalWavePropagator;
 import edu.colorado.phet.qm.view.RectangularObject;
 
 import java.awt.*;
@@ -20,9 +21,11 @@ public class Detector extends RectangularObject {
     private int numTimeStepsBetweenDetect = 10;
     private int timeSinceLast = 0;
     private static final Random random = new Random();
+    private DiscreteModel discreteModel;
 
-    public Detector( int x, int y, int width, int height ) {
+    public Detector( DiscreteModel discreteModel, int x, int y, int width, int height ) {
         super( x, y, width, height );
+        this.discreteModel = discreteModel;
     }
 
     public void setDimension( int width, int height ) {
@@ -79,7 +82,7 @@ public class Detector extends RectangularObject {
         return ( getWidth() + getHeight() ) / 2;
     }
 
-    public void zero( Wavefunction wavefunction ) {
+    private void zero( Wavefunction wavefunction ) {
         for( int i = getX(); i < getMaxX(); i++ ) {
             for( int j = getY(); j < getMaxY(); j++ ) {
                 if( wavefunction.containsLocation( i, j ) ) {
@@ -88,6 +91,19 @@ public class Detector extends RectangularObject {
             }
         }
     }
+
+//    private void zeroClassical() {
+//
+//        if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
+//            for( int i = getX(); i < getMaxX(); i++ ) {
+//                for( int j = getY(); j < getMaxY(); j++ ) {
+//                    if( wavefunction.containsLocation( i, j ) ) {
+//                        wavefunction.valueAt( i, j ).zero();
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     public void zeroElsewhere( Wavefunction wavefunction ) {
         for( int i = 0; i < wavefunction.getWidth(); i++ ) {
@@ -131,12 +147,31 @@ public class Detector extends RectangularObject {
         //force the wavefunction out.
         double mag = wavefunction.getMagnitude();
         zero( wavefunction );
+        if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
+            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)discreteModel.getPropagator();
+            if( classicalWavePropagator.getLast2() != null ) {
+                zero( classicalWavePropagator.getLast() );
+                zero( classicalWavePropagator.getLast2() );
+            }
+        }
+
         wavefunction.setMagnitude( mag );
     }
 
     private void grabWavefunction( Wavefunction wavefunction ) {
         zeroElsewhere( wavefunction );
         wavefunction.normalize();
+
+
+        if( discreteModel.getPropagator() instanceof ClassicalWavePropagator ) {
+            ClassicalWavePropagator classicalWavePropagator = (ClassicalWavePropagator)discreteModel.getPropagator();
+            if( classicalWavePropagator.getLast2() != null ) {
+                zeroElsewhere( classicalWavePropagator.getLast() );
+                zeroElsewhere( classicalWavePropagator.getLast2() );
+                classicalWavePropagator.getLast().normalize();
+                classicalWavePropagator.getLast2().normalize();
+            }
+        }
     }
 
     public boolean contains( int x, int y ) {
