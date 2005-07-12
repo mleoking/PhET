@@ -1,6 +1,7 @@
 package edu.colorado.phet.forces1d.common.plotdevice;
 
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.common.phetcomponents.PhetButton;
 
 import java.awt.*;
@@ -20,9 +21,9 @@ public class GoPauseClear extends GraphicLayerSet {
 
     public GoPauseClear( Component component ) {
         super( component );
-        PhetButton go = new PhetButton( component, "Go!" );
-        PhetButton pause = new PhetButton( component, "Pause" );
-        PhetButton clear = new PhetButton( component, "Clear" );
+        PhetButton go = new PhetButton( component, SimStrings.get( "GoPauseClear.go" ) );
+        PhetButton pause = new PhetButton( component, SimStrings.get( "GoPauseClear.pause" ) );
+        PhetButton clear = new PhetButton( component, SimStrings.get( "GoPauseClear.clear" ) );
         go.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 for( int i = 0; i < listeners.size(); i++ ) {

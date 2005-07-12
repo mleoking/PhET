@@ -14,6 +14,7 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.RectangleUtils;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
@@ -104,7 +105,7 @@ public class PlotDevice extends GraphicLayerSet {
             }
         } );
 
-        ChartButton showButton = new ChartButton( "Graph " + title );
+        ChartButton showButton = new ChartButton( SimStrings.get( "PlotDevice.graph" ) + " " + title );
         showButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setVisible( true );
@@ -189,7 +190,7 @@ public class PlotDevice extends GraphicLayerSet {
                 horizontalCursor.setX( 0 );
             }
         } );
-        timeLabel = new PhetTextGraphic( panel, PlotDeviceFontManager.getFontSet().getTimeLabelFont(), "Time", Color.red, 0, 0 );
+        timeLabel = new PhetTextGraphic( panel, PlotDeviceFontManager.getFontSet().getTimeLabelFont(), SimStrings.get( "PlotDevice.time" ), Color.red, 0, 0 );
         addGraphic( chartComponent.getChart() );
         addGraphic( timeLabel );
         respectControllable();
@@ -747,7 +748,7 @@ public class PlotDevice extends GraphicLayerSet {
             chart.setVerticalTitle( verticalTitle, color, verticalTitleFont, 60 );
             chart.getVerticalTicks().setMajorOffset( new JSlider().getWidth() - 5, 0 );
 
-            closeButton.setToolTipText( "Close Graph" );
+            closeButton.setToolTipText( SimStrings.get( "PlotDevice.closeGraph" ) );
             closeButtonGraphic = PhetJComponent.newInstance( panel, closeButton );
 //            panel.add( closeButton );
             panel.addGraphic( closeButtonGraphic, Double.POSITIVE_INFINITY );
@@ -758,8 +759,8 @@ public class PlotDevice extends GraphicLayerSet {
             ActionListener smoothNeg = new Decrement( holdDownZoom, maxZoomRange );
             ActionListener incPos = new Increment( singleClickZoom );
             ActionListener incNeg = new Decrement( singleClickZoom, maxZoomRange );
-            MagButton magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos, "Zoom In" );
-            MagButton magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, "Zoom Out" );
+            MagButton magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos, SimStrings.get( "PlotDevice.zoomIn" ) );
+            MagButton magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, SimStrings.get( "PlotDevice.zoomOut" ) );
             magPlusGraphic = PhetJComponent.newInstance( panel, magPlus );
             magMinusGraphic = PhetJComponent.newInstance( panel, magMinus );
 
@@ -969,7 +970,7 @@ public class PlotDevice extends GraphicLayerSet {
         public TypingTextField( int columns, final PlotDevice plotDevice, PlotDeviceModel module ) {
             super( columns );
             Font borderFont = new Font( "Lucida Sans", 0, 12 );
-            setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), "Applied Force", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderFont, plotDevice.color ) );
+            setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "PlotDevice.appliedForce" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderFont, plotDevice.color ) );
             this.plotDevice = plotDevice;
             this.addMouseListener( new MouseAdapter() {
                 public void mousePressed( MouseEvent e ) {

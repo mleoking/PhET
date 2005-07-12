@@ -4,6 +4,7 @@ package edu.colorado.phet.forces1d.common.plotdevice;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
 
 import javax.swing.*;
@@ -50,13 +51,13 @@ public class FloatingControl extends VerticalLayoutPanel {
     }
 
     public FloatingControl( final PlotDeviceModel plotDeviceModel, final ApparatusPanel apparatusPanel ) {
-        pauseButton = new ControlButton( "Pause" );
+        pauseButton = new ControlButton( SimStrings.get( "FloatingControl.pause" ) );
         pauseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 plotDeviceModel.setPaused( true );
             }
         } );
-        recordButton = new ControlButton( "Go" );
+        recordButton = new ControlButton( SimStrings.get( "FloatingControl.go" ) );
         recordButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 plotDeviceModel.setRecordMode();
@@ -64,12 +65,12 @@ public class FloatingControl extends VerticalLayoutPanel {
             }
         } );
 
-        resetButton = new ControlButton( "Clear" );
+        resetButton = new ControlButton( SimStrings.get( "FloatingControl.clear" ) );
         resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean paused = plotDeviceModel.isPaused();
                 plotDeviceModel.setPaused( true );
-                int option = JOptionPane.showConfirmDialog( apparatusPanel, "Are you sure you want to clear the graphs?", "Confirm Reset", JOptionPane.YES_NO_CANCEL_OPTION );
+                int option = JOptionPane.showConfirmDialog( apparatusPanel, SimStrings.get( "FloatingControl.sureToClear" ), SimStrings.get( "FloatingControl.confirmReset" ), JOptionPane.YES_NO_CANCEL_OPTION );
                 if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
                     plotDeviceModel.reset();
                 }

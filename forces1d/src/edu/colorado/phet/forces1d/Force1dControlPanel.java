@@ -4,6 +4,7 @@ package edu.colorado.phet.forces1d;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.util.GraphicsState;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -42,7 +43,7 @@ public class Force1dControlPanel extends IForceControl {
         model = module.getForceModel();
         freeBodyDiagramSuite = new FreeBodyDiagramSuite( module );
 
-        JButton lessControls = new JButton( "Less Controls." );
+        JButton lessControls = new JButton( SimStrings.get( "Force1dControlPanel.lessControls" ) );
         lessControls.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setSimpleControlPanel();
@@ -58,12 +59,12 @@ public class Force1dControlPanel extends IForceControl {
         comboBox = new ObjectComboBox( module, module.getImageElements(), this );
         addControl( comboBox );
 
-        mass = createControl( 5, 0.1, 1000, "Mass", "kg", new SpinnerHandler() {
+        mass = createControl( 5, 0.1, 1000, SimStrings.get( "Force1dControlPanel.mass" ), SimStrings.get( "Force1dControlPanel.kg" ), new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setMass( value );
             }
         } );
-        gravity = createControl( 9.8, 0, MAX_GRAV, "Gravity", "N/kg", new SpinnerHandler() {
+        gravity = createControl( 9.8, 0, MAX_GRAV, SimStrings.get( "Force1dControlPanel.gravity" ), SimStrings.get( "Force1dControlPanel.gravityUnits" ), new SpinnerHandler() {
             public void changed( double value ) {
                 model.setGravity( value );
             }
@@ -80,12 +81,12 @@ public class Force1dControlPanel extends IForceControl {
             }
         } );
 
-        staticFriction = createControl( 0.10, 0, MAX_KINETIC_FRICTION, "Static Friction", "", new SpinnerHandler() {
+        staticFriction = createControl( 0.10, 0, MAX_KINETIC_FRICTION, SimStrings.get( "Force1dControlPanel.staticFriction" ), "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setStaticFriction( value );
             }
         } );
-        kineticFriction = createControl( 0.05, 0, MAX_KINETIC_FRICTION, "Kinetic Friction", "", new SpinnerHandler() {
+        kineticFriction = createControl( 0.05, 0, MAX_KINETIC_FRICTION, SimStrings.get( "Force1dControlPanel.kineticFriction" ), "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setKineticFriction( value );
             }
@@ -160,7 +161,7 @@ public class Force1dControlPanel extends IForceControl {
                 enableChanges();
             }
         } );
-        JButton restore = new JButton( "Restore Defaults" );
+        JButton restore = new JButton( SimStrings.get( "Force1dControlPanel.restoreDefaults" ) );
         restore.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.restoreDefaults();
@@ -177,9 +178,9 @@ public class Force1dControlPanel extends IForceControl {
 
         Hashtable labelTable = new Hashtable();
 
-        labelTable.put( new Double( 1.67 ), toJLabel( "Moon" ) );
-        labelTable.put( new Double( 9.8 ), toJLabel( "Earth" ) );
-        labelTable.put( new Double( 22.9 ), toJLabel( "Jupiter" ) );
+        labelTable.put( new Double( 1.67 ), toJLabel( SimStrings.get( "Force1dControlPanel.moon" ) ) );
+        labelTable.put( new Double( 9.8 ), toJLabel( SimStrings.get( "Force1dControlPanel.earth" ) ) );
+        labelTable.put( new Double( 22.9 ), toJLabel( SimStrings.get( "Force1dControlPanel.jupiter" ) ) );
         gravity.setModelLabels( labelTable );
         gravity.setPaintTicks( false );
     }

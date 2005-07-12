@@ -5,6 +5,7 @@ import edu.colorado.phet.common.math.Vector2D;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.BasicGraphicsSetup;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
@@ -60,7 +61,7 @@ public class FreeBodyDiagramPanel {
                 return 0;
             }
         };
-        fbdWiggleMe = new WiggleMe( fbdPanel, module.getClock(), "Click to set Force", target );
+        fbdWiggleMe = new WiggleMe( fbdPanel, module.getClock(), SimStrings.get( "FreeBodyDiagramPanel.clickHelp" ), target );
         fbdWiggleMe.setArrowColor( new Color( 0, 30, 240, 128 ) );
         fbdWiggleMe.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
         fbdWiggleMe.setArrow( 0, 40 );
