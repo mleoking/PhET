@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d;
 
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.model.BoundaryCondition;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ import javax.swing.event.ChangeListener;
 
 public class BarrierCheckBox extends JCheckBox {
     public BarrierCheckBox( final Force1DModule module ) {
-        super( "Barriers", true );
+        super( SimStrings.get( "BarrierCheckBox.barriers" ), true );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 if( !isSelected() ) {

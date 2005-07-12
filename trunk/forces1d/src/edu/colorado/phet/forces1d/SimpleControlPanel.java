@@ -1,7 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.view.AdvancedPanel;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
@@ -30,15 +30,15 @@ public class SimpleControlPanel extends IForceControl {
         super( simpleForceModule );
         this.simpleForceModule = simpleForceModule;
 
-        AdvancedPanel advancedPanel = new AdvancedPanel( "More Controls", "Hide" );
-        JButton moreControls = new JButton( "More Controls!" );
+//        AdvancedPanel advancedPanel = new AdvancedPanel( "More Controls", "Hide" );
+        JButton moreControls = new JButton( SimStrings.get( "SimpleControlPanel.moreControls" ) );
         moreControls.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 simpleForceModule.setAdvancedControlPanel();
             }
         } );
         add( moreControls );
-        frictionCheckBox = new JCheckBox( "Friction", true );
+        frictionCheckBox = new JCheckBox( SimStrings.get( "SimpleControlPanel.friction" ), true );
         frictionCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 simpleForceModule.setFrictionEnabled( frictionCheckBox.isSelected() );

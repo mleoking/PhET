@@ -1,6 +1,7 @@
 package edu.colorado.phet.forces1d.common.plotdevice;
 
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,7 +41,8 @@ public class DefaultPlaybackPanel extends JPanel {
         }
 
 
-        playback = new JButton( "Playback", playIcon );
+//        playback = new JButton( "Playback", playIcon );
+        playback = new JButton( SimStrings.get( "DefaultPlaybackPanel.playback" ), playIcon );
         playback.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 plotDeviceModel.setPlaybackMode();
@@ -49,14 +51,14 @@ public class DefaultPlaybackPanel extends JPanel {
         } );
 
 
-        pause = new JButton( "Pause", pauseIcon );
+        pause = new JButton( SimStrings.get( "DefaultPlaybackPanel.pause" ), pauseIcon );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 plotDeviceModel.setPaused( true );
             }
         } );
 
-        rewind = new JButton( "Rewind", rewIcon );
+        rewind = new JButton( SimStrings.get( "DefaultPlaybackPanel.rewind" ), rewIcon );
         rewind.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 plotDeviceModel.setPaused( true );

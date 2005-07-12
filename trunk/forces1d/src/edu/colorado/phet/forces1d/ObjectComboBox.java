@@ -3,6 +3,7 @@ package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 
 import javax.swing.*;
@@ -28,7 +29,7 @@ public class ObjectComboBox extends JComboBox {
         setRenderer( new ComboBoxRenderer() );
         this.controlPanel = controlPanel;
         if( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
-            setBorder( Force1DUtil.createSmoothBorder( "Choose Object" ) );
+            setBorder( Force1DUtil.createSmoothBorder( SimStrings.get( "ObjectComboBox.chooseObject" ) ) );
         }
         addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
@@ -51,7 +52,7 @@ public class ObjectComboBox extends JComboBox {
 //                icon.setDescription( imageElements[i].getName() );
 //                icon.setDescription( imageElements[i].getName() );
 //                icon.setDescription( imageElements[i].getName()+" ("+imageElements[i].getMass()+" kg)");
-                icon.setDescription( imageElements[i].getName() + " (" + imageElements[i].getMass() + " kg)" );
+                icon.setDescription( imageElements[i].getName() + " (" + imageElements[i].getMass() + " " + SimStrings.get( "ObjectComboBox.kg" ) + ")" );
 
                 lab[i] = icon;
 //                lab[i] = new JLabel( imageElements[i].getName(), icon, JLabel.CENTER );

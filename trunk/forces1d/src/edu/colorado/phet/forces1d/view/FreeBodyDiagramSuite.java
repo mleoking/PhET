@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DModule;
 
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class FreeBodyDiagramSuite {
     public FreeBodyDiagramSuite( final Force1DModule module ) {
         this.module = module;
         fbdPanel = new FreeBodyDiagramPanel( module );
-        checkBox = new JCheckBox( "Free Body Diagram", true );
+        checkBox = new JCheckBox( SimStrings.get( "FreeBodyDiagramSuite.freeBodyDiagram" ), true );
         checkBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 boolean showFBD = checkBox.isSelected();
@@ -134,7 +135,7 @@ public class FreeBodyDiagramSuite {
     }
 
     private void createDialog() {
-        dialog = new JDialog( module.getPhetFrame(), "Free Body Diagram" );
+        dialog = new JDialog( module.getPhetFrame(), SimStrings.get( "FreeBodyDiagramSuite.freeBodyDiagram" ) );
         dialog.setResizable( false );
         dialogContentPane = new JPanel( null );
 

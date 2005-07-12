@@ -6,6 +6,7 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.model.Block;
 
 import java.awt.*;
@@ -43,7 +44,7 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
                     Block block = blockGraphic.getBlock();
                     double x = block.getPosition();
                     String locStr = decimalFormat.format( x );
-                    textGraphic.setText( locStr + " meters" );
+                    textGraphic.setText( locStr + " " + SimStrings.get( "OffscreenPointerGraphic.meters" ) );
                     int yRel = textGraphic.getHeight() + 10;
 
                     Point2D.Double source = new Point2D.Double( textGraphic.getWidth() / 2, yRel );

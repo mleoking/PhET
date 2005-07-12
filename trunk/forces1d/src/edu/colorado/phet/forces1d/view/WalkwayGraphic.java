@@ -7,6 +7,7 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.ImageLoader;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.model.BoundaryCondition;
 
@@ -148,7 +149,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
                 double modelx = minValue + i * modelDX;
                 String str = format.format( modelx );
                 if( str.equals( "0" ) ) {
-                    str = "0 meters";
+                    str = SimStrings.get( "WalkwayGraphic.zeroMeters" );
                 }
                 TickGraphic tickGraphic = new TickGraphic( component, modelx, transform, str );
                 graphicList.add( tickGraphic );

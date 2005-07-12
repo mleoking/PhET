@@ -11,6 +11,7 @@ import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.*;
+import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DModule;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.common.*;
@@ -91,12 +92,12 @@ public class Force1DPanel extends ApparatusPanel2 {
 
         double appliedForceRange = 1000;
         Force1DLookAndFeel laf = module.getForce1DLookAndFeel();
-        PlotDevice.ParameterSet forceParams = new PlotDevice.ParameterSet( this, "Applied Force", model.getPlotDeviceModel(),
+        PlotDevice.ParameterSet forceParams = new PlotDevice.ParameterSet( this, SimStrings.get( "Force1DPanel.appliedForce" ), model.getPlotDeviceModel(),
                                                                            forcePlotDeviceView, model.getAppliedForceDataSeries().getSmoothedDataSeries(),
 //                                                                           laf.getAppliedForceColor(), new BasicStroke( 0 ),
                                                                            Color.black, new BasicStroke( 10 ),
                                                                            new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMaxTime(), appliedForceRange * 2 ),
-                                                                           0, "N", "Applied Force", true, "Force (N)" );
+                                                                           0, SimStrings.get( "Force1DPanel.newtonsAbbrev" ), SimStrings.get( "Force1DPanel.appliedForce" ), true, SimStrings.get( "Force1DPanel.forceWithUnits" ) );
 
         forceParams.setZoomRates( 300, 100, 5000 );
 
@@ -111,7 +112,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         } );
         forcePlotDevice.removeDefaultDataSeries();
         forcePlotDevice.setAdorned( true );
-        forcePlotDevice.setLabelText( "<html>Applied<br>Force</html>" );
+        forcePlotDevice.setLabelText( SimStrings.get( "Force1DPanel.appliedForceHTML" ) );
         float frictionForceStrokeWidth = 3;
         float appliedForceStrokeWidth = 3;
         float totalForceStrokeWidth = 3;
@@ -122,30 +123,32 @@ public class Force1DPanel extends ApparatusPanel2 {
         Color tn = Force1DUtil.transparify( laf.getNetForceColor(), alpha );
         int cap = BasicStroke.CAP_BUTT;
         int join = BasicStroke.JOIN_ROUND;
-        forcePlotDevice.addDataSeries( model.getFrictionForceSeries(), tf, "Friction Force", new BasicStroke( frictionForceStrokeWidth, cap, join ) );
-        forcePlotDevice.addDataSeries( model.getAppliedForceSeries().getSmoothedDataSeries(), ta, "Applied Force", new BasicStroke( appliedForceStrokeWidth, cap, join ) );
-        forcePlotDevice.addDataSeries( model.getNetForceSeries(), tn, "Total Force", new BasicStroke( totalForceStrokeWidth, cap, join ) );
+        forcePlotDevice.addDataSeries( model.getFrictionForceSeries(), tf, SimStrings.get( "ArrowSetGraphic.frictionForce" ), new BasicStroke( frictionForceStrokeWidth, cap, join ) );
+        forcePlotDevice.addDataSeries( model.getAppliedForceSeries().getSmoothedDataSeries(), ta, SimStrings.get( "ArrowSetGraphic.appliedForce" ), new BasicStroke( appliedForceStrokeWidth, cap, join ) );
+        forcePlotDevice.addDataSeries( model.getNetForceSeries(), tn, SimStrings.get( "ArrowSetGraphic.totalForce" ), new BasicStroke( totalForceStrokeWidth, cap, join ) );
 
         backgroundGraphic.addGraphic( forcePlotDevice );
         addGraphic( forcePlotDevice.getVerticalChartSlider() );
         double accelRange = 10;
-        PlotDevice.ParameterSet accelParams = new PlotDevice.ParameterSet( this, "Acceleration", model.getPlotDeviceModel(), forcePlotDeviceView, model.getAccelerationDataSeries(),
+        PlotDevice.ParameterSet accelParams = new PlotDevice.ParameterSet( this, SimStrings.get( "Force1DPanel.acceleration" ), model.getPlotDeviceModel(), forcePlotDeviceView, model.getAccelerationDataSeries(),
                                                                            laf.getAccelerationColor(), new BasicStroke( strokeWidth ),
-                                                                           new Rectangle2D.Double( 0, -accelRange, model.getPlotDeviceModel().getMaxTime(), accelRange * 2 ), 0, "<html>m/s<sup>2</html>", "Acceleration", false, "<html>Acceleration (m/s<sup><small>2</small></sup>)</html>" );
+                                                                           new Rectangle2D.Double( 0, -accelRange, model.getPlotDeviceModel().getMaxTime(), accelRange * 2 ), 0, SimStrings.get( "Force1DPanel.accelerationUnitsHTML" ), SimStrings.get( "Force1DPanel.acceleration" ), false, SimStrings.get( "Force1DPanel.accelerationAndUnitsHTML" ) );
 
         accelPlotDevice = new PlotDevice( accelParams, backgroundGraphic );
         backgroundGraphic.addGraphic( accelPlotDevice );
         double velRange = 10;
-        PlotDevice.ParameterSet velParams = new PlotDevice.ParameterSet( this, "Velocity", model.getPlotDeviceModel(), forcePlotDeviceView, model.getVelocityDataSeries().getSmoothedDataSeries(),
+        PlotDevice.ParameterSet velParams = new PlotDevice.ParameterSet( this, SimStrings.get( "Force1DPanel.velocity" ), model.getPlotDeviceModel(), forcePlotDeviceView, model.getVelocityDataSeries().getSmoothedDataSeries(),
                                                                          laf.getVelocityColor(), new BasicStroke( strokeWidth ),
-                                                                         new Rectangle2D.Double( 0, -velRange, model.getPlotDeviceModel().getMaxTime(), velRange * 2 ), 0, "m/s", "Velocity", false, "Vecocity (m/s)" );
+                                                                         new Rectangle2D.Double( 0, -velRange, model.getPlotDeviceModel().getMaxTime(), velRange * 2 ), 0, SimStrings.get( "Force1DPanel.velocityUnits" ),
+                                                                         SimStrings.get( "Force1DPanel.velocity" ), false, SimStrings.get( "Force1DPanel.velocityAndUnits" ) );
         velPlotDevice = new PlotDevice( velParams, backgroundGraphic );
         backgroundGraphic.addGraphic( velPlotDevice );
 
         double posRange = 10;
-        PlotDevice.ParameterSet posParams = new PlotDevice.ParameterSet( this, "Position", model.getPlotDeviceModel(), forcePlotDeviceView, model.getPositionDataSeries().getSmoothedDataSeries(),
+        PlotDevice.ParameterSet posParams = new PlotDevice.ParameterSet( this, SimStrings.get( "Force1DPanel.position" ), model.getPlotDeviceModel(), forcePlotDeviceView, model.getPositionDataSeries().getSmoothedDataSeries(),
                                                                          laf.getPositionColor(), new BasicStroke( strokeWidth ),
-                                                                         new Rectangle2D.Double( 0, -posRange, model.getPlotDeviceModel().getMaxTime(), posRange * 2 ), 0, "m", "Position", false, "Position (m/s)" );
+                                                                         new Rectangle2D.Double( 0, -posRange, model.getPlotDeviceModel().getMaxTime(), posRange * 2 ), 0, SimStrings.get( "Force1DPanel.positionUnits" ),
+                                                                         SimStrings.get( "Force1DPanel.position" ), false, SimStrings.get( "Force1DPanel.positionAndUnits" ) );
         posPlotDevice = new PlotDevice( posParams, backgroundGraphic );
         backgroundGraphic.addGraphic( posPlotDevice );
         forcePlotDevice.addListener( new PlotDevice.Listener() {
@@ -168,7 +171,7 @@ public class Force1DPanel extends ApparatusPanel2 {
             }
         } );
         Font checkBoxFont = new Font( "Lucida Sans", Font.PLAIN, 13 );
-        String stf = "<html>Show F<sub>Total</html>";
+        String stf = SimStrings.get( "Force1DPanel.showFTotalHTML" );
 //        final JCheckBox showNetForce = new JCheckBox( "Show Total Force", true );
         final JCheckBox showNetForce = new JCheckBox( stf, true );
 
@@ -180,7 +183,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         showNetForce.setFont( checkBoxFont );
 
 
-        String text = "<html>Show F<sub>Friction</html>";
+        String text = SimStrings.get( "Force1DPanel.showFrictionHTML" );
 //        String text = "Show Friction Force";
         final JCheckBox showFrictionForce = new JCheckBox( text, true );
         showFrictionForce.addActionListener( new ActionListener() {
@@ -190,7 +193,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         } );
         showFrictionForce.setFont( checkBoxFont );
 
-        final JCheckBox showAppliedForce = new JCheckBox( "<html>Show F<sub>Applied</sub></html", true );
+        final JCheckBox showAppliedForce = new JCheckBox( SimStrings.get( "Force1DPanel.showAppliedHTML" ), true );
         showAppliedForce.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setShowForceSeries( 1, showAppliedForce.isSelected() );
@@ -250,7 +253,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         addGraphic( offscreenPointerGraphic, 1000 );
         offscreenPointerGraphic.setLocation( 400, 50 );
 
-        PhetButton phetButton = new PhetButton( this, "Reset" );
+        PhetButton phetButton = new PhetButton( this, SimStrings.get( "Force1DPanel.reset" ) );
         phetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.out.println( "Resetted." );
@@ -268,7 +271,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         };
         blockGraphic.addMouseInputListener( listener );
 
-        wiggleMe = new WiggleMe( this, module.getClock(), "Apply a Force", blockGraphic );
+        wiggleMe = new WiggleMe( this, module.getClock(), SimStrings.get( "Force1DPanel.applyForce" ), blockGraphic );
         wiggleMe.setOscillationAxis( new Vector2D.Double( 1, 0 ) );
         addGraphic( wiggleMe, 10000 );
         model.addListener( new Force1DModel.Listener() {
@@ -285,7 +288,7 @@ public class Force1DPanel extends ApparatusPanel2 {
             }
         } );
 
-        sliderWiggleMe = new WiggleMe( this, module.getClock(), "<html>Apply a Force<br>By dragging the Slider!</html>",
+        sliderWiggleMe = new WiggleMe( this, module.getClock(), SimStrings.get( "Force1DPanel.wiggleMeText" ),
 //                                       new WiggleMe.SwingComponentTarget( this.forcePlotDevice.getVerticalChartSlider().getSlider() ) );
                                        new WiggleMe.Target() {
                                            public Point getLocation() {
@@ -335,22 +338,22 @@ public class Force1DPanel extends ApparatusPanel2 {
             }
         } );
 
-        HelpItem2 sliderHelp = new HelpItem2( this, "<html>Use the slider<br>to set Applied Force</html>" );
+        HelpItem2 sliderHelp = new HelpItem2( this, SimStrings.get( "Force1DPanel.sliderHelp" ) );
 //        sliderHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getVerticalChartSlider().getSlider(), this ), 30 );
         sliderHelp.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( forcePlotDevice.getVerticalChartSlider().getSliderGraphic() ), 30 );
 
-        HelpItem2 goButtonHelp = new HelpItem2( this, "<html>Press the Go button to record</html>" );
+        HelpItem2 goButtonHelp = new HelpItem2( this, SimStrings.get( "Force1DPanel.goRecordHelp" ) );
         PhetGraphic goButtonGraphic = getGoButtonGraphic();
 
         goButtonHelp.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( goButtonGraphic ), 30 );
 
-        HelpItem2 dragHelpItem = new HelpItem2( this, "<html>Apply a force to the object</html>" );
+        HelpItem2 dragHelpItem = new HelpItem2( this, SimStrings.get( "Force1DPanel.applyForceHelp" ) );
         dragHelpItem.pointUpAt( blockGraphic, 15 );
 
-        HelpItem2 zoomHelpButton = new HelpItem2( this, "<html>Zoom in<br>and out.</html>" );
+        HelpItem2 zoomHelpButton = new HelpItem2( this, SimStrings.get( "Force1DPanel.zoomHelp" ) );
         zoomHelpButton.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( forcePlotDevice.getChartComponent().getMagPlusGraphic() ), 30 );
 
-        HelpItem2 typeInButton = new HelpItem2( this, "<html>You can type in force values<br>While it's paused.</html>" );
+        HelpItem2 typeInButton = new HelpItem2( this, SimStrings.get( "Force1DPanel.typeHelp" ) );
 //        typeInButton.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getTextBox() ), 20 );
         typeInButton.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( forcePlotDevice.getTextFieldGraphic() ), 20 );
 
@@ -360,7 +363,7 @@ public class Force1DPanel extends ApparatusPanel2 {
         module.getHelpManager().addGraphic( zoomHelpButton );
         module.getHelpManager().addGraphic( typeInButton );
 
-        soloGoButtonHelp = new HelpItem2( this, "<html>Press the Go button to record</html>" );
+        soloGoButtonHelp = new HelpItem2( this, SimStrings.get( "Force1DPanel.pressGoHelp" ) );
 //        soloGoButtonHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( floatingControl.getGoButton(), this ), 30 );
         soloGoButtonHelp.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( goButtonGraphic ), 30 );
         addGraphic( soloGoButtonHelp, Double.POSITIVE_INFINITY );
