@@ -4,6 +4,7 @@ package edu.colorado.phet.tests.piccolo.pswing;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.tests.piccolo.TestPiccolo2;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.P3DRect;
@@ -120,6 +121,7 @@ public class TestPSwing {
         pCanvas.getLayer().addChild( pChooser );
         pChooser.translate( 100, 300 );
 
+
         JPanel myPanel = new JPanel();
         myPanel.setBorder( BorderFactory.createTitledBorder( "Titled Border" ) );
         myPanel.add( new JCheckBox( "CheckBox" ) );
@@ -128,11 +130,24 @@ public class TestPSwing {
         panelSwing.translate( 400, 50 );
 
 
+
+//        testCheckBox();
+
+        // A Slider
+        JSlider slider2 = new JSlider();
+        PSwing pSlider2 = new PSwing( pCanvas, slider2 );
+        pSlider2.translate( 200, 200 );
+        PNode root = new PNode();
+        root.addChild( pSlider2 );
+        root.scale( 1.5 );
+        root.rotate( Math.PI / 4 );
+        root.translate( 300, 200 );
+        pCanvas.getLayer().addChild( root );
+
+
         // Revalidate and repaint
         pCanvas.revalidate();
         pCanvas.repaint();
-
-//        testCheckBox();
     }
 
     private static void testCheckBox() {
