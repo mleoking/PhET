@@ -6,11 +6,12 @@ import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.tests.piccolo.TestPiccolo2;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.nodes.P3DRect;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +27,7 @@ public class TestPSwing {
     public static void main( String[] args ) {
 
 //        PDebug.debugPrintFrameRate = true;
-        PDebug.debugRegionManagement = true;
+//        PDebug.debugRegionManagement = true;
 //        PDebug.debugFullBounds = true;
 
 //        RepaintManager.setCurrentManager( new ZBasicRepaintManager() );
@@ -80,6 +81,11 @@ public class TestPSwing {
                 System.out.println( "TestZSwing.JCheckBox.actionPerformed" );
             }
         } );
+        jcb.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                System.out.println( "TestPSwing.JChekbox.stateChanged@" + System.currentTimeMillis() );
+            }
+        } );
         PSwing pCheckBox = new PSwing( pCanvas, jcb );
         pCanvas.getLayer().addChild( pCheckBox );
         pCheckBox.translate( 100, 0 );
@@ -114,10 +120,30 @@ public class TestPSwing {
         pCanvas.getLayer().addChild( pChooser );
         pChooser.translate( 100, 300 );
 
+        JPanel myPanel = new JPanel();
+        myPanel.setBorder( BorderFactory.createTitledBorder( "Titled Border" ) );
+        myPanel.add( new JCheckBox( "CheckBox" ) );
+        PSwing panelSwing = new PSwing( pCanvas, myPanel );
+        pCanvas.getLayer().addChild( panelSwing );
+        panelSwing.translate( 400, 50 );
+
+
         // Revalidate and repaint
         pCanvas.revalidate();
         pCanvas.repaint();
 
+//        testCheckBox();
+    }
+
+    private static void testCheckBox() {
+        JFrame frame = new JFrame( "Test Check Box" );
+        JPanel myPanel = new JPanel();
+        myPanel.setBorder( BorderFactory.createTitledBorder( "Titled Border" ) );
+        myPanel.add( new JCheckBox( "CheckBox" ) );
+        frame.setContentPane( myPanel );
+
+        frame.setSize( 400, 400 );
+        frame.show();
     }
 
 }
