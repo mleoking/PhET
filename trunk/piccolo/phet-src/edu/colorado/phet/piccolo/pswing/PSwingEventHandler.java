@@ -220,6 +220,7 @@ public class PSwingEventHandler implements PInputEventListener {
     // and mouseExited are independent of the buttons
     // Also, notice the notes on mouseEntered and mouseExited
     void dispatchEvent( PSwingMouseEvent e1, PInputEvent aEvent ) {
+        System.out.println( "PSwingEventHandler.dispatchEvent: event=" + e1 );
         PNode grabNode = null;
         Component comp = null;
         Point2D pt = null;
@@ -315,10 +316,12 @@ public class PSwingEventHandler implements PInputEventListener {
 
                     PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
 //                    System.out.println( "focusComponentLeft.getClass() = " + focusComponentLeft.getClass() );
-                    focusComponentLeft.dispatchEvent( e2 );
+                    dispatchEvent( focusComponentLeft, e2 );
+//                    focusComponentLeft.dispatchEvent( e2 );
                 }
                 else {
-                    focusComponentLeft.dispatchEvent( e1 );
+                    dispatchEvent( focusComponentLeft, e1 );
+//                    focusComponentLeft.dispatchEvent( e1 );
                 }
 
                 focusPSwingLeft.repaint();
@@ -422,8 +425,8 @@ public class PSwingEventHandler implements PInputEventListener {
                                                 e1.isPopupTrigger() );
 
             PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
-
-            comp.dispatchEvent( e2 );
+            dispatchEvent( comp, e2 );
+//            comp.dispatchEvent( e2 );
 
             e1.consume();
         }
@@ -447,7 +450,8 @@ public class PSwingEventHandler implements PInputEventListener {
 
                 PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
 
-                prevComponent.dispatchEvent( e2 );
+                dispatchEvent( prevComponent, e2 );
+//                prevComponent.dispatchEvent( e2 );
                 prevComponent = null;
 
                 if( e1.getID() == MouseEvent.MOUSE_EXITED ) {
@@ -469,7 +473,8 @@ public class PSwingEventHandler implements PInputEventListener {
 
                 PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
 
-                prevComponent.dispatchEvent( e2 );
+                dispatchEvent( prevComponent, e2 );
+//                prevComponent.dispatchEvent( e2 );
                 e_temp = new MouseEvent( comp,
                                          MouseEvent.MOUSE_ENTERED,
                                          e1.getWhen(),
@@ -497,8 +502,8 @@ public class PSwingEventHandler implements PInputEventListener {
                                                     e1.isPopupTrigger() );
 
                 PSwingMouseEvent e2 = PSwingMouseEvent.createMouseEvent( e_temp.getID(), e_temp, aEvent );
-
-                comp.dispatchEvent( e2 );
+                dispatchEvent( comp, e2 );
+//                comp.dispatchEvent( e2 );
             }
         }
 
@@ -527,6 +532,21 @@ public class PSwingEventHandler implements PInputEventListener {
         }
     }
 
+    private void dispatchEvent( Component target, PSwingMouseEvent event ) {
+        System.out.println( "PSwingEventHandler.dispatchEvent: " );
+        String note = "PSwingEventHandler.dispatchEvent: ";
+        if( event.getID() == MouseEvent.MOUSE_PRESSED ) {
+            System.out.println( note + "mouse press" );
+        }
+        if( event.getID() == MouseEvent.MOUSE_RELEASED ) {
+            System.out.println( note + "mouse release" );
+        }
+        System.out.println( "target class=" + target.getClass() + ", event=" + event + ", target=" + target );
+        target.dispatchEvent( event );
+        System.out.println( "</finished dispatch>" );
+        System.out.println( "" );
+    }
+
     private void cameraToLocal( PCamera topCamera, Point2D pt, PNode node ) {
         AffineTransform inverse = null;
         try {
@@ -553,6 +573,13 @@ public class PSwingEventHandler implements PInputEventListener {
     private boolean recursing = false;
 
     public void processEvent( PInputEvent aEvent, int type ) {
+        String note = "PSwingEventHandler.processEvent: ";
+        if( aEvent.getSourceSwingEvent().getID() == MouseEvent.MOUSE_PRESSED ) {
+            System.out.println( note + "MOUSE PRESSED" );
+        }
+        if( aEvent.getSourceSwingEvent().getID() == MouseEvent.MOUSE_RELEASED ) {
+            System.out.println( note + "MOUSE RELEASED" );
+        }
         if( aEvent.isMouseEvent() ) {
             InputEvent sourceSwingEvent = aEvent.getSourceSwingEvent();
             PSwingMouseEvent pSwingMouseEvent = PSwingMouseEvent.createMouseEvent( sourceSwingEvent.getID(), (MouseEvent)sourceSwingEvent, aEvent );
