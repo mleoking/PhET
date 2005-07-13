@@ -36,7 +36,7 @@ import edu.colorado.phet.common.view.util.VisibleColor;
 public class TestSinePlotPerformance {
     
     private static final int MAX_WAVES = 200;
-    private static final Range2D CHART_RANGE = new Range2D( -1, -1, 1, 1 ); // xMin, yMin, xMax, yMax
+    private static final Range2D CHART_RANGE = new Range2D( -0.5, -1, 0.5, 1 ); // xMin, yMin, xMax, yMax
     private static final Dimension CHART_SIZE = new Dimension( 650, 160 );
     private static final Point CHART_LOCATION  = new Point( 50, 200 );
 
