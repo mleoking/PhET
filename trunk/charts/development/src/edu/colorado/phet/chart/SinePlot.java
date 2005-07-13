@@ -237,7 +237,7 @@ public class SinePlot extends LinePlot {
     /**
      * Updates the data set to match the current property setting
      * and the chart range.  One point is plotted for each X-axis
-     * pixel the is displayed.
+     * pixel that is displayed.
      */
     protected void updateDataSet() {
         
