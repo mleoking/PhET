@@ -120,7 +120,7 @@ public class TestSinePlotPerformance {
             super( "Test Module", clock );
             
             _zoomLevel = 0;
-            _colorEnabled = true;
+            _colorEnabled = false;
             
             _phetFrame = PhetApplication.instance().getPhetFrame();
             _saveCursor = _phetFrame.getCursor();
@@ -268,14 +268,14 @@ public class TestSinePlotPerformance {
                     controlPanel.addControl( panel );
                     panel.setBorder( new EtchedBorder() );
                     
-                    _colorButton = new JRadioButton( "Color" );   
-                    panel.add( _colorButton );
                     _grayscaleButton = new JRadioButton( "Grayscale" );
                     panel.add( _grayscaleButton );
+                    _colorButton = new JRadioButton( "Color" );   
+                    panel.add( _colorButton );
                     
                     ButtonGroup buttonGroup = new ButtonGroup();
-                    buttonGroup.add( _colorButton );
                     buttonGroup.add( _grayscaleButton );
+                    buttonGroup.add( _colorButton );
                 }
                 
                 // Zoom controls
@@ -302,7 +302,7 @@ public class TestSinePlotPerformance {
             
             // Set the initial state
             _slider.setValue( 1 );
-            _colorButton.setSelected( true );
+            _grayscaleButton.setSelected( true );
         }
         
         /**
