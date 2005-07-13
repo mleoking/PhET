@@ -231,9 +231,8 @@ public class PSwingEventHandler implements PInputEventListener {
 
 //        if( currentNode instanceof ZVisualLeaf || currentNode instanceof ZVisualGroup ) {
         if( true ) {
-            PNode vc = null;
+            PNode vc = e1.getCurrentNode();
             PNode visualNode = currentNode;
-            vc = getVC( visualNode, e1 );
 
             if( vc instanceof PSwing ) {
 
@@ -549,29 +548,6 @@ public class PSwingEventHandler implements PInputEventListener {
 //            }
         }
         return;
-    }
-
-    private PNode getVC( PNode visualNode, PSwingMouseEvent e1 ) {
-        return e1.getCurrentNode();
-//
-//
-//        if( visualNode instanceof ZVisualLeaf ) {
-//            if( e1.getPath().getObject() instanceof ZVisualComponent ) {
-//                if( ( (ZVisualLeaf)visualNode ).indexOf( (ZVisualComponent)e1.getPath().getObject() ) != -1 ) {
-//                    return (ZVisualComponent)e1.getPath().getObject();
-//                }
-//            }
-//        }
-//        else {
-//            if( e1.getPath().getObject() == ( (ZVisualGroup)visualNode ).getFrontVisualComponent() ) {
-//                return ( (ZVisualGroup)visualNode ).getFrontVisualComponent();
-//            }
-//            else if( e1.getPath().getObject() == ( (ZVisualGroup)visualNode ).getBackVisualComponent() ) {
-//                return ( (ZVisualGroup)visualNode ).getBackVisualComponent();
-//            }
-//        }
-//        return null;
-
     }
 
     private boolean recursing = false;
