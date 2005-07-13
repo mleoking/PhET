@@ -296,10 +296,6 @@ public class PInputEvent {
 		return inputEvent;
 	}
 
-    public int getID(){
-        return inputEvent.getID();
-    }
-
 	//****************************************************************
 	// Classification - Methods to distinguish between mouse and key
 	// events.
