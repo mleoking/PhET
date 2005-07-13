@@ -20,6 +20,8 @@ import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -44,6 +46,17 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
         super( clock );
         init( module, box );
         setUseOffscreenBuffer( true );
+
+        // This listener is added so that any entries on the control panel will be finalized
+        // if the user clicks on the apparatus panel. For example, typing into a spinner that
+        // sets the temperature of new molecules will not cause a change event on the spinner in
+        // and of itself, but if the user clicks on the pump handle, the focus change will cause
+        // the spinner to produce an event.
+        this.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                BaseIdealGasApparatusPanel.this.requestFocus();
+            }
+        } );
     }
 
     /**
