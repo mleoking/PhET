@@ -369,7 +369,7 @@ public class Chart extends GraphicLayerSet {
         return range;
     }
 
-    private int numDataSetGraphics() {
+    public int numDataSetGraphics() {
         return dataSetGraphics.size();
     }
 
