@@ -6,11 +6,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -43,6 +41,7 @@ public class TestSinePlotPerformance {
     // Wave parameters
     private static final double L = 1.0;  // length of fundamental cycle
     private static final int MAX_WAVES = 200;
+    private static final double PIXELS_PER_POINT = 2;
     
     // Chart parameters
     private static final Range2D CHART_RANGE = new Range2D( -0.5, -1, 0.5, 1 ); // xMin, yMin, xMax, yMax
@@ -90,7 +89,7 @@ public class TestSinePlotPerformance {
 
     public TestSinePlotPerformance( String[] args ) throws IOException {
 
-        String title = "TestControlPanel";
+        String title = "Test SinePlot Performance";
         AbstractClock clock = new SwingTimerClock( 1, 40 );
         boolean useClockControlPanel = false;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
@@ -114,11 +113,14 @@ public class TestSinePlotPerformance {
         private int _zoomLevel;
         private Cursor _saveCursor;
         private PhetFrame _phetFrame;
+        private JRadioButton _colorButton, _grayscaleButton;
+        private boolean _colorEnabled;
         
         public TestModule( AbstractClock clock ) {
             super( "Test Module", clock );
             
             _zoomLevel = 0;
+            _colorEnabled = true;
             
             _phetFrame = PhetApplication.instance().getPhetFrame();
             _saveCursor = _phetFrame.getCursor();
@@ -221,12 +223,13 @@ public class TestSinePlotPerformance {
                     _chart.getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
                 }
                 
-                // Pre-populate the sine waves.
+                // Pre-populate the sine waves at harmonic intervals.
                 _sinePlots = new SinePlot[ MAX_WAVES ];
                 for ( int i = 0; i < _sinePlots.length; i++ ) {
                     SinePlot sinePlot = new SinePlot( apparatusPanel, _chart );
                     sinePlot.setAmplitude( 1 );
                     sinePlot.setPeriod( L / (i+1) );
+                    sinePlot.setPixelsPerPoint( PIXELS_PER_POINT );
                     sinePlot.setBorderColor( new Color( 255-i, 255-i, 255-i, 120 ) );
                     _sinePlots[i] = sinePlot;
                 }
@@ -236,20 +239,20 @@ public class TestSinePlotPerformance {
             {
                 ControlPanel controlPanel = new ControlPanel( this );
                 setControlPanel( controlPanel );
-                
+
                 // Labeled slider
                 {
                     JPanel panel = new JPanel();
-                    controlPanel.addControlFullWidth( panel );
+                    controlPanel.addControl( panel );
                     
                     panel.setBorder( new EtchedBorder() );
                     panel.setLayout( new BorderLayout() );
 
-                    // Label that shows the current number of harmonics
+                    // Label that shows the current number of waves
                     _label = new JLabel();
                     panel.add( _label, BorderLayout.NORTH );
 
-                    // Slider for changing the number of harmonics
+                    // Slider for changing the number of waves
                     _slider = new JSlider();
                     panel.add( _slider, BorderLayout.CENTER );
                     _slider.setMinimum( 0 );
@@ -257,63 +260,136 @@ public class TestSinePlotPerformance {
                     _slider.setMajorTickSpacing( 50 );
                     _slider.setPaintTicks( true );
                     _slider.setPaintLabels( true );
-                    _slider.addChangeListener( new ChangeListener() {
-                        public void stateChanged( ChangeEvent event ) {
-                            handleSliderChanged();
-                        }
-                    } );
+                }        
+                
+                // Color controls
+                {
+                    JPanel panel = new JPanel();
+                    controlPanel.addControl( panel );
+                    panel.setBorder( new EtchedBorder() );
+                    
+                    _colorButton = new JRadioButton( "Color" );   
+                    panel.add( _colorButton );
+                    _grayscaleButton = new JRadioButton( "Grayscale" );
+                    panel.add( _grayscaleButton );
+                    
+                    ButtonGroup buttonGroup = new ButtonGroup();
+                    buttonGroup.add( _colorButton );
+                    buttonGroup.add( _grayscaleButton );
                 }
                 
-                // Zoom in button
+                // Zoom controls
                 {
-                    _zoomInButton = new JButton( "Zoom In" );
-                    controlPanel.addControl( _zoomInButton );
-                    _zoomInButton.addActionListener( new ActionListener() {
-                       public void actionPerformed( ActionEvent event ) {
-                           handleZoom( event );
-                       }
-                    } );
+                    JPanel panel = new JPanel();
+                    controlPanel.addControl( panel );
+                    
+                    panel.setBorder( new TitledBorder( "Zoom" ) );
+                    
+                    _zoomInButton = new JButton( "+" );
+                    panel.add( _zoomInButton );
+                    _zoomOutButton = new JButton( "-" );
+                    panel.add( _zoomOutButton );
                 }
                 
-                // Zoom out button
-                {
-                    _zoomOutButton = new JButton( "Zoom Out" );
-                    controlPanel.addControl( _zoomOutButton );
-                    _zoomOutButton.addActionListener( new ActionListener() {
-                       public void actionPerformed( ActionEvent event ) {
-                           handleZoom( event );
-                       }
-                    } );
-                }
+                // Wire up event handling
+                EventListener listener = new EventListener();
+                _slider.addChangeListener( listener );
+                _zoomInButton.addActionListener( listener );
+                _zoomOutButton.addActionListener( listener );
+                _colorButton.addActionListener( listener );
+                _grayscaleButton.addActionListener( listener );
             }
             
             // Set the initial state
             _slider.setValue( 1 );
+            _colorButton.setSelected( true );
         }
         
         /**
-         * Handles the zoom buttons.
+         * Dispatches events to the appropriate handler method.
+         */
+        private class EventListener implements ActionListener, ChangeListener {
+
+            public EventListener() {}
+
+            public void actionPerformed( ActionEvent event ) {
+                Object source = event.getSource();
+                if ( source == _zoomInButton ) {
+                    handleZoomIn();
+                }
+                else if ( source == _zoomOutButton ) {
+                    handleZoomOut();
+                }
+                else if ( source == _colorButton ) {
+                    handleColor();
+                }
+                else if ( source == _grayscaleButton ) {
+                    handleGrayscale();
+                }
+            }
+
+            public void stateChanged( ChangeEvent event ) {
+                if ( event.getSource() == _slider ) {
+                    int numberOfHarmonics = _slider.getValue();
+                    // Update the label as the slider is dragged.
+                    Object[] args = { new Integer( numberOfHarmonics ) };
+                    String s = MessageFormat.format( "Number of sine waves: {0}", args );
+                    _label.setText( s );
+                    // Update the chart when the slider is released.
+                    if ( !_slider.getValueIsAdjusting() ) {
+                        updateChart();
+                    }
+                }
+            }
+        }
+        
+        /**
+         * Updates the chart to reflect the current state as set by the control panel.
+         */
+        private void updateChart() {
+            // Clear the chart
+            _chart.removeAllDataSetGraphics();
+
+            int numberOfHarmonics = _slider.getValue();
+            if ( numberOfHarmonics > 0 ) {
+                // Populate the chart.
+                double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / numberOfHarmonics;
+                int deltaGrayscale = 225 / numberOfHarmonics;
+                // Work backwards, so that the fundamental is in the foreground.
+                for ( int i = numberOfHarmonics - 1; i >= 0; i-- ) {
+                    // Set the wave's color
+                    Color color = null;
+                    if ( _colorEnabled ) {
+                        double wavelength = VisibleColor.MIN_WAVELENGTH + ( i * deltaWavelength );
+                        color = VisibleColor.wavelengthToColor( wavelength );
+                    }
+                    else {
+                        int c = i * deltaGrayscale;
+                        color = new Color( c, c, c );
+                    }
+                    _sinePlots[i].setBorderColor( color );
+                    // Add the wave to the chart
+                    _chart.addDataSetGraphic( _sinePlots[i] );
+                }
+            }
+        }
+        
+        /**
+         * Handles zoom in.
          * 
          * @param event
          */
-        private void handleZoom( ActionEvent event ) {
+        private void handleZoomIn() {
             setWaitCursorEnabled( true );
             
             // Adjust the chart range
             Range2D range = _chart.getRange();
-            if ( event.getSource() == _zoomInButton ) {
-               _zoomLevel++;
-               range.setMinX( range.getMinX() / ZOOM_FACTOR );
-               range.setMaxX( range.getMaxX() / ZOOM_FACTOR );
-            }
-            else if ( event.getSource() == _zoomOutButton ) {
-               _zoomLevel--;
-               range.setMinX( range.getMinX() * ZOOM_FACTOR );
-               range.setMaxX( range.getMaxX() * ZOOM_FACTOR );
-            }
+            range.setMinX( range.getMinX() / ZOOM_FACTOR );
+            range.setMaxX( range.getMaxX() / ZOOM_FACTOR );
             _chart.setRange( range );
             
             // Enable zoom buttons
+            _zoomLevel++;
             _zoomInButton.setEnabled( _zoomLevel < MAX_ZOOM_LEVEL );
             _zoomOutButton.setEnabled( _zoomLevel > MIN_ZOOM_LEVEL );
             
@@ -321,35 +397,47 @@ public class TestSinePlotPerformance {
         }
         
         /**
-         * Handles changes to the "Number of sine waves" slider.
+         * Handles zoom out.
+         * 
+         * @param event
          */
-        private void handleSliderChanged() {
-            int numberOfHarmonics = _slider.getValue();
-            
-            // Update the label
-            Object[] args = { new Integer( numberOfHarmonics ) };
-            String s = MessageFormat.format( "Number of sine waves: {0}", args );
-            _label.setText( s );
-            
-            // Update the chart when the slider is released.
-            if ( ! _slider.getValueIsAdjusting() ) {
-                // Clear the chart
-                _chart.removeAllDataSetGraphics();
-                if ( numberOfHarmonics > 0 ) {
-                    setWaitCursorEnabled( true );
-                    // Populate the chart.
-                    double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / numberOfHarmonics;
-                    for ( int i = 0; i < numberOfHarmonics; i++ ) {
-                        // Set the wave's color
-                        double wavelength = VisibleColor.MIN_WAVELENGTH + ( i * deltaWavelength );
-                        Color color = VisibleColor.wavelengthToColor( wavelength );
-                        _sinePlots[i].setBorderColor( color );
-                        // Add the wave to the chart
-                        _chart.addDataSetGraphic( _sinePlots[i] );
-                    }
-                    setWaitCursorEnabled( false );
-                }
-            }
+        private void handleZoomOut() {
+            setWaitCursorEnabled( true );
+
+            // Adjust the chart range
+            Range2D range = _chart.getRange();
+            range.setMinX( range.getMinX() * ZOOM_FACTOR );
+            range.setMaxX( range.getMaxX() * ZOOM_FACTOR );
+            _chart.setRange( range );
+
+            // Enable zoom buttons
+            _zoomLevel--;
+            _zoomInButton.setEnabled( _zoomLevel < MAX_ZOOM_LEVEL );
+            _zoomOutButton.setEnabled( _zoomLevel > MIN_ZOOM_LEVEL );
+
+            setWaitCursorEnabled( false );
+        }
+        
+        /**
+         * Handles the color radio button.
+         * @param event
+         */
+        private void handleColor() {
+            setWaitCursorEnabled( true );
+            _colorEnabled = true;
+            updateChart();
+            setWaitCursorEnabled( false );
+        }
+        
+        /**
+         * Handles the grayscale radio button.
+         * @param event
+         */
+        private void handleGrayscale() {
+            setWaitCursorEnabled( true );
+            _colorEnabled = false;
+            updateChart();
+            setWaitCursorEnabled( false );
         }
         
         /**
