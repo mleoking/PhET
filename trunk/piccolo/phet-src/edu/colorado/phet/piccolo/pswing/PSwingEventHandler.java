@@ -220,7 +220,7 @@ public class PSwingEventHandler implements PInputEventListener {
     // and mouseExited are independent of the buttons
     // Also, notice the notes on mouseEntered and mouseExited
     void dispatchEvent( PSwingMouseEvent e1, PInputEvent aEvent ) {
-        System.out.println( "PSwingEventHandler.dispatchEvent: event=" + e1 );
+//        System.out.println( "PSwingEventHandler.dispatchEvent: event=" + e1 );
         PNode grabNode = null;
         Component comp = null;
         Point2D pt = null;
@@ -532,19 +532,25 @@ public class PSwingEventHandler implements PInputEventListener {
         }
     }
 
-    private void dispatchEvent( Component target, PSwingMouseEvent event ) {
-        System.out.println( "PSwingEventHandler.dispatchEvent: " );
-        String note = "PSwingEventHandler.dispatchEvent: ";
-        if( event.getID() == MouseEvent.MOUSE_PRESSED ) {
-            System.out.println( note + "mouse press" );
-        }
-        if( event.getID() == MouseEvent.MOUSE_RELEASED ) {
-            System.out.println( note + "mouse release" );
-        }
-        System.out.println( "target class=" + target.getClass() + ", event=" + event + ", target=" + target );
-        target.dispatchEvent( event );
-        System.out.println( "</finished dispatch>" );
-        System.out.println( "" );
+    private void dispatchEvent( final Component target, final PSwingMouseEvent event ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+
+//                System.out.println( "PSwingEventHandler.dispatchEvent: " );
+//                String note = "PSwingEventHandler.dispatchEvent: ";
+//                if( event.getID() == MouseEvent.MOUSE_PRESSED ) {
+//                    System.out.println( note + "mouse press" );
+//                }
+//                if( event.getID() == MouseEvent.MOUSE_RELEASED ) {
+//                    System.out.println( note + "mouse release" );
+//                }
+//                System.out.println( "target class=" + target.getClass() + ", event=" + event + ", target=" + target );
+                target.dispatchEvent( event );
+//                System.out.println( "</finished dispatch>" );
+//                System.out.println( "" );
+
+            }
+        } );
     }
 
     private void cameraToLocal( PCamera topCamera, Point2D pt, PNode node ) {
@@ -573,13 +579,13 @@ public class PSwingEventHandler implements PInputEventListener {
     private boolean recursing = false;
 
     public void processEvent( PInputEvent aEvent, int type ) {
-        String note = "PSwingEventHandler.processEvent: ";
-        if( aEvent.getSourceSwingEvent().getID() == MouseEvent.MOUSE_PRESSED ) {
-            System.out.println( note + "MOUSE PRESSED" );
-        }
-        if( aEvent.getSourceSwingEvent().getID() == MouseEvent.MOUSE_RELEASED ) {
-            System.out.println( note + "MOUSE RELEASED" );
-        }
+//        String note = "PSwingEventHandler.processEvent: ";
+//        if( aEvent.getSourceSwingEvent().getID() == MouseEvent.MOUSE_PRESSED ) {
+//            System.out.println( note + "MOUSE PRESSED" );
+//        }
+//        if( aEvent.getSourceSwingEvent().getID() == MouseEvent.MOUSE_RELEASED ) {
+//            System.out.println( note + "MOUSE RELEASED" );
+//        }
         if( aEvent.isMouseEvent() ) {
             InputEvent sourceSwingEvent = aEvent.getSourceSwingEvent();
             PSwingMouseEvent pSwingMouseEvent = PSwingMouseEvent.createMouseEvent( sourceSwingEvent.getID(), (MouseEvent)sourceSwingEvent, aEvent );
