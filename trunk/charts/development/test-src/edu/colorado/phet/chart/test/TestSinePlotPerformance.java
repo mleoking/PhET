@@ -1,9 +1,12 @@
 package edu.colorado.phet.chart.test;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.MessageFormat;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -14,6 +17,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.SinePlot;
+import edu.colorado.phet.chart.StringLabelTable;
 import edu.colorado.phet.common.application.Module;
 import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
@@ -22,6 +26,7 @@ import edu.colorado.phet.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.ControlPanel;
 import edu.colorado.phet.common.view.PhetFrame;
+import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.FrameSetup;
 import edu.colorado.phet.common.view.util.VisibleColor;
 
@@ -34,12 +39,51 @@ import edu.colorado.phet.common.view.util.VisibleColor;
  * @version $Revision$
  */
 public class TestSinePlotPerformance {
-    
+     
+    // Wave parameters
+    private static final double L = 1.0;  // length of fundamental cycle
     private static final int MAX_WAVES = 200;
+    
+    // Chart parameters
     private static final Range2D CHART_RANGE = new Range2D( -0.5, -1, 0.5, 1 ); // xMin, yMin, xMax, yMax
     private static final Dimension CHART_SIZE = new Dimension( 650, 160 );
     private static final Point CHART_LOCATION  = new Point( 50, 200 );
+    private static final String CHART_FONT_NAME = "Lucida Sans";
+    
+    // Axis parameter
+    private static final Color AXIS_COLOR = Color.BLACK;
+    private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
+    private static final Font AXIS_TITLE_FONT = new Font( CHART_FONT_NAME, Font.BOLD, 16 );
+    private static final Color AXIS_TITLE_COLOR = Color.BLACK;
+    
+    // Tick Mark parameter
+    private static final double X_MAJOR_TICK_SPACING = ( L / 4 );
+    private static final double X_MINOR_TICK_SPACING = ( L / 8 );
+    private static final double Y_MAJOR_TICK_SPACING = 0.5;
+    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
+    private static final Font MAJOR_TICK_FONT = new Font( CHART_FONT_NAME, Font.BOLD, 12 );
+    private static final Color MAJOR_TICK_COLOR = Color.BLACK;
+    private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
+    private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
+    private static final Color MINOR_TICK_COLOR = MAJOR_TICK_COLOR;
+    
+    // Gridline parameters
+    private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
+    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
+    private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
+    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
 
+    // Zoom parameters
+    private static final double ZOOM_FACTOR = Math.sqrt( 2 );
+    private static final int MIN_ZOOM_LEVEL = -2;
+    private static final int MAX_ZOOM_LEVEL = +3;
+    
+    /**
+     * main
+     * 
+     * @param args
+     * @throws IOException
+     */
     public static void main( String args[] ) throws IOException {
         TestSinePlotPerformance test = new TestSinePlotPerformance( args );
     }
@@ -66,9 +110,18 @@ public class TestSinePlotPerformance {
         private SinePlot[] _sinePlots;
         private JLabel _label;
         private JSlider _slider;
+        private JButton _zoomInButton, _zoomOutButton;
+        private int _zoomLevel;
+        private Cursor _saveCursor;
+        private PhetFrame _phetFrame;
         
         public TestModule( AbstractClock clock ) {
             super( "Test Module", clock );
+            
+            _zoomLevel = 0;
+            
+            _phetFrame = PhetApplication.instance().getPhetFrame();
+            _saveCursor = _phetFrame.getCursor();
             
             // Model
             BaseModel model = new BaseModel();
@@ -85,12 +138,95 @@ public class TestSinePlotPerformance {
                 _chart.setLocation( CHART_LOCATION );
                 apparatusPanel.addGraphic( _chart );
                 
+                // Enable antialiasing
+                _chart.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
+
+                // X axis
+                {
+                    _chart.getXAxis().setStroke( AXIS_STROKE );
+                    _chart.getXAxis().setColor( AXIS_COLOR );
+                    
+                    // Title
+                    _chart.setXAxisTitle( new PhetTextGraphic( apparatusPanel, AXIS_TITLE_FONT, "x", AXIS_TITLE_COLOR ) );
+
+                    // No ticks or labels on the axis
+                    _chart.getXAxis().setMajorTicksVisible( false );
+                    _chart.getXAxis().setMajorTickLabelsVisible( false );
+                    _chart.getXAxis().setMinorTicksVisible( false );
+                    _chart.getXAxis().setMinorTickLabelsVisible( false );
+
+                    // Major ticks with labels below the chart
+                    _chart.getHorizontalTicks().setMajorTicksVisible( true );
+                    _chart.getHorizontalTicks().setMajorTickLabelsVisible( true );
+                    _chart.getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
+                    _chart.getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
+                    _chart.getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
+                    
+                    // Symbolic labels at L/8 intervals
+                    StringLabelTable labelTable = new StringLabelTable( apparatusPanel, MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+                    labelTable.put( -L, "-L" );
+                    labelTable.put( -7*L/8, "-7L/8" );
+                    labelTable.put( -3*L/4, "-3L/4" );
+                    labelTable.put( -5*L/8, "-5L/8" );
+                    labelTable.put( -L/2, "-L/2" );
+                    labelTable.put( -3*L/8, "-3L/8" );
+                    labelTable.put( -L/4, "-L/4" );
+                    labelTable.put( -L/8, "-L/8" );
+                    labelTable.put( 0, "0" );
+                    labelTable.put( L/8, "L/8" );
+                    labelTable.put( L/4, "L/4" );
+                    labelTable.put( 3*L/8, "3L/8" );
+                    labelTable.put( L/2, "L/2" );
+                    labelTable.put( 5*L/8, "5L/8" );
+                    labelTable.put( 3*L/4, "3L/4" );
+                    labelTable.put( 7*L/8, "7L/8" );
+                    labelTable.put( L, "L" );
+                    _chart.getHorizontalTicks().setMajorLabels( labelTable );
+
+                    // Vertical gridlines for major ticks.
+                    _chart.getVerticalGridlines().setMajorGridlinesVisible( true );
+                    _chart.getVerticalGridlines().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
+                    _chart.getVerticalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
+                    _chart.getVerticalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
+                    
+                    // Vertical gridlines for minor ticks.
+                    _chart.getVerticalGridlines().setMinorGridlinesVisible( true );
+                    _chart.getVerticalGridlines().setMinorTickSpacing( X_MINOR_TICK_SPACING );
+                    _chart.getVerticalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
+                    _chart.getVerticalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
+                }
+
+                // Y axis
+                {
+                    _chart.getYAxis().setStroke( AXIS_STROKE );
+                    _chart.getYAxis().setColor( AXIS_COLOR );
+
+                    // No ticks or labels on the axis
+                    _chart.getYAxis().setMajorTicksVisible( false );
+                    _chart.getYAxis().setMajorTickLabelsVisible( false );
+                    _chart.getYAxis().setMinorTicksVisible( false );
+                    _chart.getYAxis().setMinorTickLabelsVisible( false );
+                    
+                    // Major ticks with labels to the left of the chart
+                    _chart.getVerticalTicks().setMajorTicksVisible( true );
+                    _chart.getVerticalTicks().setMajorTickLabelsVisible( true );
+                    _chart.getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
+                    _chart.getVerticalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
+                    _chart.getVerticalTicks().setMajorTickFont( MAJOR_TICK_FONT );
+
+                    // Horizontal gridlines for major ticks
+                    _chart.getHorizonalGridlines().setMajorGridlinesVisible( true );
+                    _chart.getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
+                    _chart.getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
+                    _chart.getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
+                }
+                
                 // Pre-populate the sine waves.
                 _sinePlots = new SinePlot[ MAX_WAVES ];
                 for ( int i = 0; i < _sinePlots.length; i++ ) {
                     SinePlot sinePlot = new SinePlot( apparatusPanel, _chart );
                     sinePlot.setAmplitude( 1 );
-                    sinePlot.setPeriod( 1.0 / (i+1) );
+                    sinePlot.setPeriod( L / (i+1) );
                     sinePlot.setBorderColor( new Color( 255-i, 255-i, 255-i, 120 ) );
                     _sinePlots[i] = sinePlot;
                 }
@@ -122,16 +258,66 @@ public class TestSinePlotPerformance {
                     _slider.setPaintTicks( true );
                     _slider.setPaintLabels( true );
                     _slider.addChangeListener( new ChangeListener() {
-
                         public void stateChanged( ChangeEvent event ) {
                             handleSliderChanged();
                         }
+                    } );
+                }
+                
+                // Zoom in button
+                {
+                    _zoomInButton = new JButton( "Zoom In" );
+                    controlPanel.addControl( _zoomInButton );
+                    _zoomInButton.addActionListener( new ActionListener() {
+                       public void actionPerformed( ActionEvent event ) {
+                           handleZoom( event );
+                       }
+                    } );
+                }
+                
+                // Zoom out button
+                {
+                    _zoomOutButton = new JButton( "Zoom Out" );
+                    controlPanel.addControl( _zoomOutButton );
+                    _zoomOutButton.addActionListener( new ActionListener() {
+                       public void actionPerformed( ActionEvent event ) {
+                           handleZoom( event );
+                       }
                     } );
                 }
             }
             
             // Set the initial state
             _slider.setValue( 1 );
+        }
+        
+        /**
+         * Handles the zoom buttons.
+         * 
+         * @param event
+         */
+        private void handleZoom( ActionEvent event ) {
+            setWaitCursorEnabled( true );
+            
+            // Adjust the chart range
+            Range2D range = _chart.getRange();
+            if ( event.getSource() == _zoomInButton ) {
+               _zoomLevel++;
+               range.setMinX( range.getMinX() / ZOOM_FACTOR );
+               range.setMaxX( range.getMaxX() / ZOOM_FACTOR );
+            }
+            else if ( event.getSource() == _zoomOutButton ) {
+               _zoomLevel--;
+               range.setMinX( range.getMinX() * ZOOM_FACTOR );
+               range.setMaxX( range.getMaxX() * ZOOM_FACTOR );
+            }
+            _chart.setRange( range );
+            
+            // Enable zoom buttons
+            _zoomInButton.setEnabled( _zoomLevel < MAX_ZOOM_LEVEL );
+            _zoomOutButton.setEnabled( _zoomLevel > MIN_ZOOM_LEVEL );
+            
+            setWaitCursorEnabled( false );
         }
         
         /**
@@ -150,6 +336,7 @@ public class TestSinePlotPerformance {
                 // Clear the chart
                 _chart.removeAllDataSetGraphics();
                 if ( numberOfHarmonics > 0 ) {
+                    setWaitCursorEnabled( true );
                     // Populate the chart.
                     double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / numberOfHarmonics;
                     for ( int i = 0; i < numberOfHarmonics; i++ ) {
@@ -160,7 +347,22 @@ public class TestSinePlotPerformance {
                         // Add the wave to the chart
                         _chart.addDataSetGraphic( _sinePlots[i] );
                     }
+                    setWaitCursorEnabled( false );
                 }
+            }
+        }
+        
+        /**
+         * Turns the wait cursor on and off.
+         * 
+         * @param enabled
+         */
+        private void setWaitCursorEnabled( boolean enabled ) {
+            if ( enabled ) {
+                _phetFrame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+            }
+            else {
+                _phetFrame.setCursor( _saveCursor );
             }
         }
     }
