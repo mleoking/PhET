@@ -360,7 +360,7 @@ public class TestSinePlotPerformance {
                     // Set the wave's color
                     Color color = null;
                     if ( _colorEnabled ) {
-                        double wavelength = VisibleColor.MIN_WAVELENGTH + ( i * deltaWavelength );
+                        double wavelength = VisibleColor.MAX_WAVELENGTH - ( i * deltaWavelength );
                         color = VisibleColor.wavelengthToColor( wavelength );
                     }
                     else {
