@@ -95,5 +95,6 @@ public class InputTemperatureControlPanel extends JPanel {
                 }
             }
         } );
+
     }
 }
