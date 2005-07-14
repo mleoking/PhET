@@ -1,13 +1,12 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm;
+package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DetectorSet;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.view.DetectorSheet;
-import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import java.awt.*;
 import java.util.Random;
