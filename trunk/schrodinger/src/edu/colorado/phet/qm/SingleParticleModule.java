@@ -15,6 +15,7 @@ public class SingleParticleModule extends SchrodingerModule {
     public SingleParticleModule( AbstractClock clock ) {
         super( "Single Particles", clock );
         setDiscreteModel( new DiscreteModel( 100, 100 ) );
+//        setDiscreteModel( new DiscreteModel( 40,40) );
         setSchrodingerPanel( new SingleParticlePanel( this ) );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
     }

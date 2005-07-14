@@ -42,7 +42,8 @@ public abstract class GunParticle extends ImageComboBox.Item {
         double px = 0;
         double py = getStartPy();
 
-        Point phaseLockPoint = new Point( (int)x, (int)( y + 5 ) );
+//        Point phaseLockPoint = new Point( (int)x, (int)( y + 5 ) );
+        Point phaseLockPoint = new Point( (int)x, (int)( y - 5 ) );
 
         double dxLattice = getStartDxLattice();
         GaussianWave waveSetup = new GaussianWave( new Point( (int)x, (int)y ),
@@ -68,6 +69,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
 
     protected double getStartY() {
         double y = getDiscreteModel().getGridHeight() * 0.8;
+//        double y = getDiscreteModel().getGridHeight() * 0.7;
         return y;
     }
 
@@ -78,7 +80,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
         double py = getStartPy();
         System.out.println( "py = " + py );
 
-        Point phaseLockPoint = new Point( (int)x, (int)( y + 5 ) );
+        Point phaseLockPoint = new Point( (int)x, (int)( y - 5 ) );
 
         double dxLattice = getStartDxLattice();
         System.out.println( "dxLattice = " + dxLattice );
