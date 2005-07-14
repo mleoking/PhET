@@ -194,7 +194,11 @@ public class D2CControlPanel extends FourierControlPanel {
                 _xWidthSlider.setMaximum( MAX_X_WIDTH );
                 
                 Hashtable labelTable = new Hashtable();
-                labelTable.put( new Integer( 0 ), new JLabel( MathStrings.C_PI + "/5" ) );
+                labelTable.put( new Integer( 0 ), new JLabel( "1/5" + MathStrings.C_PI ) );
+                labelTable.put( new Integer( 20 ), new JLabel( ".2" ) );
+                labelTable.put( new Integer( 40 ), new JLabel( ".4" ) );
+                labelTable.put( new Integer( 60 ), new JLabel( ".6" ) );
+                labelTable.put( new Integer( 80 ), new JLabel( ".8" ) );
                 labelTable.put( new Integer( 100 ), new JLabel( "1" ) );
                 _xWidthSlider.setLabelTable( labelTable );
                 _xWidthSlider.setMajorTickSpacing( 20 );
