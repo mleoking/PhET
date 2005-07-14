@@ -29,6 +29,8 @@ import java.awt.event.ActionListener;
  * @version $Revision$
  */
 public class InputTemperatureControlPanel extends JPanel {
+    private static double maxTemperature = 10000;
+
     private GridBagConstraints gbc;
     private IdealGasModule module;
 
@@ -52,7 +54,7 @@ public class InputTemperatureControlPanel extends JPanel {
         // todo: figure out where the 2.5 comes from, and don't use a hard-coded constant here!!!!!
         final double hackConst = 2.5;
         final JSpinner tempSpinner = new JSpinner( new SpinnerNumberModel( IdealGasModel.DEFAULT_ENERGY / IdealGasConfig.TEMPERATURE_SCALE_FACTOR / hackConst,
-                                                                           50, 1000, 1 ) );
+                                                                           50, maxTemperature, 1 ) );
         tempSpinner.setEnabled( false );
         final JCheckBox tempLbl = new JCheckBox( SimStrings.get( "AdvancedControlPanel.Particle_Temperature" ), false );
         tempLbl.addActionListener( new ActionListener() {
@@ -63,10 +65,6 @@ public class InputTemperatureControlPanel extends JPanel {
                 tempSpinner.setEnabled( tempLbl.isSelected() );
                 if( !tempLbl.isSelected() ) {
                     energyStrategy = orgEnergyStrategy;
-//                        energyStrategy = new Pump.ConstantEnergyStrategy( module.getIdealGasModel() );
-//                    for( int i = 0; i < pumps.length; i++ ) {
-//                        pumps[i].setPumpingEnergyStrategy( new Pump.ConstantEnergyStrategy( module.getIdealGasModel() ) );
-//                    }
                 }
                 else {
                     orgEnergyStrategy = module.getPumpingEnergyStrategy();
