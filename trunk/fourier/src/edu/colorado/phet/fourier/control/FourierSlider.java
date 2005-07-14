@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.control;
 
 import java.awt.GridBagConstraints;
 import java.text.MessageFormat;
+import java.util.Dictionary;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -152,6 +153,17 @@ public class FourierSlider extends JPanel implements ChangeListener {
      */
     public void setSnapToTicks( boolean snap ) {
         _slider.setSnapToTicks( snap );
+        update();
+    }
+    
+    /**
+     * Adds a label table to the slider.
+     * 
+     * @param labelTable
+     */
+    public void setLabelTable( Dictionary labelTable ) {
+        _slider.setLabelTable( labelTable );
+        _slider.setPaintLabels( true );
         update();
     }
   
