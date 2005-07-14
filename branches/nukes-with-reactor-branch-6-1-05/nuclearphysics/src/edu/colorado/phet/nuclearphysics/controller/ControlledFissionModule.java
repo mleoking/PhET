@@ -14,6 +14,7 @@ import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
@@ -78,7 +79,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private long fissionDelay;
     private double rodAbsorptionProbability;
     private DevelopmentControlDialog developmentControlDialog;
-    private PeriodicNeutronLauncher periodicNeutronLauncher;
+    private PeriodicNeutronGun periodicNeutronGun;
 
     // TODO: clean up when refactoring is done
     public void setContainmentEnabled( boolean b ) {
@@ -353,7 +354,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     }
 
     //----------------------------------------------------------------
-    // Extensions and overrides of superclass behavior
+    // Extensions of superclass behavior
     //----------------------------------------------------------------
 
     /**
@@ -368,9 +369,7 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     /**
      * Prevents the fission products from flying apart by setting their positions and setting their
-     * velocities to 0 before calling the parent class behavior.
-     * <p/>
-     * This overrides the parent class behavior.
+     * velocities to 0 before calling the parent class behavior
      *
      * @param products
      */
@@ -388,7 +387,9 @@ public class ControlledFissionModule extends ChainReactionModule {
         products.getDaughter2().setVelocity( 0, 0 );
 
         // Delay for a fixed time before we actually release the neutron
-        getModel().addModelElement( new FissionNeutronLauncher( getModel(), products ) );
+        getModel().addModelElement( new NeutronLauncher( getModel(), products ) );
+
+//        super.fission( products );
     }
 
     //----------------------------------------------------------------
@@ -504,27 +505,32 @@ public class ControlledFissionModule extends ChainReactionModule {
         developmentControlDialog.setVisible( true );
     }
 
-    public void fireNeutronsPeriodic( double period ) {
-        if( periodicNeutronLauncher != null ) {
-            getModel().removeModelElement( periodicNeutronLauncher );
+    public void setPeriodicNeutronsPeriod( double period ) {
+        if( periodicNeutronGun == null ) {
+            periodicNeutronGun = new PeriodicNeutronGun( getClock(), period );
         }
-        periodicNeutronLauncher = new ControlledFissionModule.PeriodicNeutronLauncher( period );
-        getModel().addModelElement( periodicNeutronLauncher );
+        else {
+            periodicNeutronGun.setPeriod( period );
+        }
     }
+
+    public void enablePeriodicNeutrons( boolean enabled ) {
+        if( periodicNeutronGun != null ) {
+            periodicNeutronGun.setEnabled( enabled );
+        }
+    }
+
 
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
 
-    /**
-     * Provides for delayed release of neutrons from a fission event
-     */
-    private class FissionNeutronLauncher implements ModelElement {
+    private class NeutronLauncher implements ModelElement {
         private long startTime = System.currentTimeMillis();
         private BaseModel model;
         private FissionProducts fissionProducts;
 
-        public FissionNeutronLauncher( BaseModel model, FissionProducts fissionProducts ) {
+        public NeutronLauncher( BaseModel model, FissionProducts fissionProducts ) {
             this.model = model;
             this.fissionProducts = fissionProducts;
         }
@@ -537,23 +543,31 @@ public class ControlledFissionModule extends ChainReactionModule {
         }
     }
 
-    /**
-     * A model element that periodically fires neutrons into the vessel
-     */
-    private class PeriodicNeutronLauncher implements ModelElement {
+    private class PeriodicNeutronGun implements ClockTickListener {
+        private double lastTimeFired;
         private double period;
-        private double startTime;
+        private boolean enabled;
 
-        public PeriodicNeutronLauncher( double period ) {
+        public PeriodicNeutronGun( AbstractClock clock, double period ) {
             this.period = period;
-            startTime = getClock().getRunningTime();
+            clock.addClockTickListener( this );
+            lastTimeFired = clock.getRunningTime();
         }
 
-        public void stepInTime( double v ) {
-            double dt = getClock().getRunningTime() - startTime;
-            if( dt > period ) {
-                startTime = getClock().getRunningTime();
-                fireNeutron();
+        public void setPeriod( double period ) {
+            this.period = period;
+        }
+
+        public void setEnabled( boolean enabled ) {
+            this.enabled = enabled;
+        }
+
+        public void clockTicked( AbstractClock clock, double v ) {
+            if( clock.getRunningTime() - lastTimeFired > period ) {
+                lastTimeFired = clock.getRunningTime();
+                if( enabled ) {
+                    fireNeutron();
+                }
             }
         }
     }

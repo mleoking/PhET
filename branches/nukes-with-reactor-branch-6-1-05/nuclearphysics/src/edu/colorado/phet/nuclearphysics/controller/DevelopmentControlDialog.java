@@ -10,7 +10,6 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.ModelSlider;
 
@@ -161,35 +160,30 @@ public class DevelopmentControlDialog extends JDialog {
             } );
             add( slowMotionCB, gbc );
 
-            // A control that injects neutrons at regular intervals
-            JPanel neutronInjectorPanel = new JPanel( new GridLayout( 2, 1 ) );
-            neutronInjectorPanel.setBorder( new TitledBorder( "Fire Neutrons Periodically" ) );
-            final ModelSlider nipSlider = new ModelSlider( "Period (ms)", 0, 100, 50 );
-            nipSlider.setMajorTickSpacing( 20 );
-            nipSlider.setPaintLabels( true );
-            nipSlider.setPaintTicks( true );
-            nipSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    module.fireNeutronsPeriodic( nipSlider.getModelValue() );
-                }
-            } );
+            // Controls for the periodic firing of neutrons into the cavity
+            JPanel pngPane = new JPanel( new GridLayout( 2, 1 ) );
+            pngPane.setBorder( new TitledBorder( "Periodically fire neutrons" ) );
+            final JCheckBox pngCB = new JCheckBox( "Enabled" );
+            final ModelSlider pngSlider = new ModelSlider( "Period (ms)", 0, 500, 500 );
+            pngSlider.setMajorTickSpacing( 100 );
+            pngSlider.setPaintTicks( true );
+            pngSlider.setPaintLabels( true );
+            pngPane.add( pngCB );
+            pngPane.add( pngSlider );
+            add( pngPane, gbc );
 
-            final JCheckBox nipCB = new JCheckBox( "Enabled" );
-            nipCB.addActionListener( new ActionListener() {
-                ModelElement launcher;
-
+            pngCB.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if( nipCB.isSelected() ) {
-                        module.fireNeutronsPeriodic( nipSlider.getModelValue() );
-                    }
-                    else {
-                        module.fireNeutronsPeriodic( Double.POSITIVE_INFINITY );
-                    }
+                    module.enablePeriodicNeutrons( pngCB.isSelected() );
                 }
             } );
-            neutronInjectorPanel.add( nipCB );
-            neutronInjectorPanel.add( nipSlider );
-            add( neutronInjectorPanel, gbc );
+
+            pngSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    module.setPeriodicNeutronsPeriod( pngSlider.getModelValue() );
+                }
+            } );
+            module.setPeriodicNeutronsPeriod( pngSlider.getModelValue() );
         }
     }
 }
