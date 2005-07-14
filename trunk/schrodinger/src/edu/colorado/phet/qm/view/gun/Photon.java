@@ -42,25 +42,15 @@ public class Photon extends GunParticle {
     }
 
     public void fireParticle() {
-
         Propagator propagator = getGunGraphic().getDiscreteModel().getPropagator();
         if( propagator instanceof ClassicalWavePropagator ) {
             ClassicalWavePropagator prop = (ClassicalWavePropagator)propagator;
             WaveSetup setup = getInitialWavefunction( getGunGraphic().getDiscreteModel().getWavefunction() );
             Wavefunction init = getGunGraphic().getDiscreteModel().getWavefunction().createEmptyWavefunction();
             setup.initialize( init );
-            init.scale( 2.0 );//since we lose half out the bottom.
-//                new RandomizePhase().randomizePhase( init );
-//                int numAvg = 5;
-//                for( int i = 0; i < numAvg; i++ ) {
-//                    new AveragePropagator().propagate( init );
-//                }
-//
-//                init.setMagnitude( 1.0 );
             prop.addInitialization( init, init );
         }
         super.fireParticle();
-
     }
 
     protected double getStartY() {
@@ -81,7 +71,6 @@ public class Photon extends GunParticle {
             }
         } );
     }
-
 
     public void autofire() {
         //no-op for cylindersource

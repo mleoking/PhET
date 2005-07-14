@@ -19,7 +19,7 @@ public class CylinderWaveCheckBox extends JCheckBox {
 
     public CylinderWaveCheckBox( SchrodingerModule module, DiscreteModel discreteModel ) {
         super( "Cylinder wave" );
-        cylinderWave = new CylinderWave( module, discreteModel, module.getSchrodingerPanel().getGunGraphic() );
+        cylinderWave = new CylinderWave( module, discreteModel );
 
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

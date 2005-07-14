@@ -78,8 +78,13 @@ public class SingleParticleGun extends AbstractGun {
     }
 
     protected JComboBox initComboBox() {
+        Photon photon = new Photon( this, "Photons", "images/photon-thumb.jpg" );
+        PhotonBeam photonBeam = new PhotonBeam( this, photon );
+        PhotonBeamParticle photonBeamParticle = new PhotonBeamParticle( this, "Photons", photonBeam );
+
         gunItems = new GunParticle[]{
-            new Photon( this, "Photons", "images/photon-thumb.jpg" ),
+//            new Photon( this, "Photons", "images/photon-thumb.jpg" ),
+            photonBeamParticle,
             new Electron( this, "Electrons", "images/electron-thumb.jpg" ),
             new Atom( this, "Atoms", "images/atom-thumb.jpg" )};
 

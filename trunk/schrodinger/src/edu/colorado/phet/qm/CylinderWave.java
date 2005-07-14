@@ -3,7 +3,6 @@ package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.qm.model.*;
-import edu.colorado.phet.qm.view.gun.AbstractGun;
 
 import java.awt.*;
 
@@ -23,19 +22,19 @@ public class CylinderWave {
     private double waveMagnitude = 0.075;
     private double phase = 0.0;
     private double intensity = 0.0;//todo initial value
-//    private double intensityScale = 2.0;
-//    private double intensityScale = 1.0;
     private double intensityScale = 0.75;
+    private int waveSourceHeight = 2;
+    private ModelElement phaseUpdate;
 
-    public CylinderWave( SchrodingerModule module, DiscreteModel discreteModel, AbstractGun abstractGun ) {
+    public CylinderWave( SchrodingerModule module, DiscreteModel discreteModel ) {
         this.module = module;
         this.discreteModel = discreteModel;
         this.waveSource = new CylinderSource( createRectRegionForCylinder(), createPlaneWave( phase ) );
-        module.getModel().addModelElement( new ModelElement() {
+        phaseUpdate = new ModelElement() {
             public void stepInTime( double dt ) {
                 updatePhase();
             }
-        } );
+        };
     }
 
     public void setMomentum( double momentum ) {
@@ -48,13 +47,14 @@ public class CylinderWave {
 
     public void setOff() {
         getDiscreteModel().removeListener( waveSource );
+        module.getModel().removeModelElement( phaseUpdate );
     }
 
     public void setOn() {
         waveSource.setRegion( createRectRegionForCylinder() );
         getDiscreteModel().addListener( waveSource );
+        module.getModel().addModelElement( phaseUpdate );
     }
-
 
     private void updatePhase() {
         phase += dPhase;
@@ -68,25 +68,12 @@ public class CylinderWave {
     private Wave createPlaneWave( double phase ) {
         final PlaneWave planeWave = new PlaneWave( momentum, getDiscreteModel().getGridWidth() );
         planeWave.setPhase( phase );
-
         planeWave.setMagnitude( waveMagnitude );
         return new FlatDampedWave( planeWave, intensity * intensityScale );
     }
 
     private Rectangle createRectRegionForCylinder() {
-//        int damping = getDiscreteModel().getDamping().getDepth();
-//
-//        int cylinderRadius = 50;
-////        int cylinderRadius = 100;
-////        int cylinderRadius = 10;
-//        int depthToShow = damping + 5;
-//        Point center = new Point( getWavefunction().getWidth() / 2, getWavefunction().getHeight() + cylinderRadius - depthToShow );
-//        Point corner = new Point( center.x + cylinderRadius, center.y + cylinderRadius );
-//        Rectangle rectangle = new Rectangle();
-//        rectangle.setFrameFromCenter( center, corner );
-
-        int h = 2;
-        Rectangle rectangle = new Rectangle( 0, getWavefunction().getHeight() - h, getWavefunction().getWidth(), h );
+        Rectangle rectangle = new Rectangle( 0, getWavefunction().getHeight() - waveSourceHeight, getWavefunction().getWidth(), waveSourceHeight );
         return rectangle;
     }
 
