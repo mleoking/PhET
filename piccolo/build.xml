@@ -66,395 +66,395 @@ Then try building.
 
 <project name="Piccolo" default="usage" basedir=".">
 
-  <!-- =================================================================== -->
-  <!-- Initialization target                                               -->
-  <!-- =================================================================== -->
-  <target name="init">
-    <tstamp/>
-    <property name="Name" value="Piccolo"/>
-    <property name="name" value="piccolo"/>
-    <property name="version" value="1.2 (in progress in CVS)"/>
-    <property name="year" value="2004"/>
+    <!-- =================================================================== -->
+    <!-- Initialization target                                               -->
+    <!-- =================================================================== -->
+    <target name="init">
+        <tstamp/>
+        <property name="Name" value="Piccolo"/>
+        <property name="name" value="piccolo"/>
+        <property name="version" value="1.2 (in progress in CVS)"/>
+        <property name="year" value="2004"/>
 
-    <echo message="----------- ${Name} ${version} [${year}] ------------"/>
+        <echo message="----------- ${Name} ${version} [${year}] ------------"/>
 
-    <property name="build.compiler" value="modern"/>
-    <property name="debug" value="off"/>
-    <property name="optimize" value="on"/>
-    <property name="deprecation" value="on"/>
-    <property name="packages" value="edu.*"/>
+        <property name="build.compiler" value="modern"/>
+        <property name="debug" value="off"/>
+        <property name="optimize" value="on"/>
+        <property name="deprecation" value="on"/>
+        <property name="packages" value="edu.*"/>
 
-    <!-- Define the source directories -->
-    <property name="root.dir" value="./"/>
-    <property name="doc.dir" value="${root.dir}/doc"/>
-    <property name="lib.dir" value="${root.dir}/lib"/>
-    <property name="src.dir" value="${root.dir}/src"/>
-    <property name="extras.dir" value="${root.dir}/extras"/>
-    <property name="examples.dir" value="${root.dir}/examples"/>
-    <property name="tests.dir" value="${root.dir}/tests"/>
+        <!-- Define the source directories -->
+        <property name="root.dir" value="./"/>
+        <property name="doc.dir" value="${root.dir}/doc"/>
+        <property name="lib.dir" value="${root.dir}/lib"/>
+        <property name="src.dir" value="${root.dir}/src"/>
+        <property name="extras.dir" value="${root.dir}/extras"/>
+        <property name="examples.dir" value="${root.dir}/examples"/>
+        <property name="tests.dir" value="${root.dir}/tests"/>
 
-    <!-- Define the source build directories -->
-    <property name="doc.apidocs" value="${doc.dir}/api"/>	   	
-    <property name="build.dir" value="${root.dir}/build"/>
-    <property name="build.lib" value="${root.dir}/build/lib"/>
-    <property name="build.piccolo.src" value="${root.dir}/build/piccolo/src"/>
-    <property name="build.piccolo.dest" value="${root.dir}/build/piccolo/classes"/>
-    <property name="build.extras.src" value="${root.dir}/build/extras/src"/>
-    <property name="build.extras.dest" value="${root.dir}/build/extras/classes"/>
-    <property name="build.examples.src" value="${root.dir}/build/examples/src"/>
-    <property name="build.examples.dest" value="${root.dir}/build/examples/classes"/>
-    <property name="build.tests.src" value="${root.dir}/build/tests/src"/>
-    <property name="build.tests.dest" value="${root.dir}/build/tests/classes"/>
-    
-    <!-- Define the distribution directories -->
-    <property name="dist.root" value="${root.dir}/dist"/>
-    <property name="sourcedist.dir" value="${dist.root}/${name}-${version}/${name}-${version}"/>
-    <property name="compiledist.dir" value="${dist.root}/${name}-${version}-compiled/${name}-${version}"/>    
-  </target>
+        <!-- Define the source build directories -->
+        <property name="doc.apidocs" value="${doc.dir}/api"/>
+        <property name="build.dir" value="${root.dir}/build"/>
+        <property name="build.lib" value="${root.dir}/build/lib"/>
+        <property name="build.piccolo.src" value="${root.dir}/build/piccolo/src"/>
+        <property name="build.piccolo.dest" value="${root.dir}/build/piccolo/classes"/>
+        <property name="build.extras.src" value="${root.dir}/build/extras/src"/>
+        <property name="build.extras.dest" value="${root.dir}/build/extras/classes"/>
+        <property name="build.examples.src" value="${root.dir}/build/examples/src"/>
+        <property name="build.examples.dest" value="${root.dir}/build/examples/classes"/>
+        <property name="build.tests.src" value="${root.dir}/build/tests/src"/>
+        <property name="build.tests.dest" value="${root.dir}/build/tests/classes"/>
 
-  <!-- =================================================================== -->
-  <!-- Help on usage                                                       -->
-  <!-- =================================================================== -->
-  <target name="usage">
-    <echo message=""/>
-    <echo message=""/>
-    <echo message="Piccolo Build file"/>
-    <echo message="-------------------------------------------------------------"/>
-    <echo message=""/>
-    <echo message=" available targets are:"/>
-    <echo message=""/>
-    <echo message="   all        --> builds all the jars in ./build"/>
-    <echo message="   piccolo    --> builds the piccolo.jar file in ./build"/>
-    <echo message="   extras     --> builds the piccolox.jar file in ./build"/>
-    <echo message="   examples   --> builds the examples.jar file in ./build"/>
-    <echo message="   tests      --> builds the tests.jar file in ./build"/>
-    <echo message="   runtests   --> Runs the test cases in ./build/tests.jar"/>
-    <echo message="   runptests  --> Runs the performance tests in ./build/tests.jar"/>
-    <echo message="   compiledist--> creates the compiled distribution in ./dist"/>
-    <echo message="   sourcedist --> creates the source distribution in ./dist"/>    
-    <echo message="   api        --> generates the piccolo API documentation in ./doc/api"/>
-    <echo message="   clean      --> restores distribution to original state"/>
-    <echo message="   usage      --> (default) displays build menu"/>
-    <echo message=""/>
-    <echo message=" See the comments inside the build.xml file for more details."/>
-    <echo message="-------------------------------------------------------------"/>
-    <echo message=""/>
-    <echo message=""/>
-  </target>
+        <!-- Define the distribution directories -->
+        <property name="dist.root" value="${root.dir}/dist"/>
+        <property name="sourcedist.dir" value="${dist.root}/${name}-${version}/${name}-${version}"/>
+        <property name="compiledist.dir" value="${dist.root}/${name}-${version}-compiled/${name}-${version}"/>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Prepares the build directory                                        -->
-  <!-- =================================================================== -->
-  <target name="prepare" depends="init">
-    <mkdir dir="${build.dir}"/>
-    <mkdir dir="${build.lib}"/>
+    <!-- =================================================================== -->
+    <!-- Help on usage                                                       -->
+    <!-- =================================================================== -->
+    <target name="usage">
+        <echo message=""/>
+        <echo message=""/>
+        <echo message="Piccolo Build file"/>
+        <echo message="-------------------------------------------------------------"/>
+        <echo message=""/>
+        <echo message=" available targets are:"/>
+        <echo message=""/>
+        <echo message="   all        --> builds all the jars in ./build"/>
+        <echo message="   piccolo    --> builds the piccolo.jar file in ./build"/>
+        <echo message="   extras     --> builds the piccolox.jar file in ./build"/>
+        <echo message="   examples   --> builds the examples.jar file in ./build"/>
+        <echo message="   tests      --> builds the tests.jar file in ./build"/>
+        <echo message="   runtests   --> Runs the test cases in ./build/tests.jar"/>
+        <echo message="   runptests  --> Runs the performance tests in ./build/tests.jar"/>
+        <echo message="   compiledist--> creates the compiled distribution in ./dist"/>
+        <echo message="   sourcedist --> creates the source distribution in ./dist"/>
+        <echo message="   api        --> generates the piccolo API documentation in ./doc/api"/>
+        <echo message="   clean      --> restores distribution to original state"/>
+        <echo message="   usage      --> (default) displays build menu"/>
+        <echo message=""/>
+        <echo message=" See the comments inside the build.xml file for more details."/>
+        <echo message="-------------------------------------------------------------"/>
+        <echo message=""/>
+        <echo message=""/>
+    </target>
 
-    <copy todir="${build.lib}">
-      <fileset dir="${lib.dir}"/>
-    </copy>
+    <!-- =================================================================== -->
+    <!-- Prepares the build directory                                        -->
+    <!-- =================================================================== -->
+    <target name="prepare" depends="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${build.lib}"/>
 
-  </target>
+        <copy todir="${build.lib}">
+            <fileset dir="${lib.dir}"/>
+        </copy>
 
-  <!-- =================================================================== -->
-  <!-- Prepares the piccolo source code                                    -->
-  <!-- =================================================================== -->
-  <target name="prepare-piccolo" depends="prepare">
-    <mkdir dir="${build.piccolo.src}"/>
-    <mkdir dir="${build.piccolo.dest}"/>
-   
-    <copy todir="${build.piccolo.src}">
-      <fileset dir="${src.dir}"/>
-    </copy>
-         
-  </target>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Prepares the extras code                                            -->
-  <!-- =================================================================== -->
-  <target name="prepare-extras" depends="prepare">
-    <mkdir dir="${build.extras.src}"/>
-    <mkdir dir="${build.extras.dest}"/>
+    <!-- =================================================================== -->
+    <!-- Prepares the piccolo source code                                    -->
+    <!-- =================================================================== -->
+    <target name="prepare-piccolo" depends="prepare">
+        <mkdir dir="${build.piccolo.src}"/>
+        <mkdir dir="${build.piccolo.dest}"/>
 
-    <copy todir="${build.extras.src}">
-      <fileset dir="${extras.dir}"/>
-    </copy>
-    
-  </target>
+        <copy todir="${build.piccolo.src}">
+            <fileset dir="${src.dir}"/>
+        </copy>
 
-  <!-- =================================================================== -->
-  <!-- Prepares the examples code                                          -->
-  <!-- =================================================================== -->
-  <target name="prepare-examples" depends="prepare">
-    <mkdir dir="${build.examples.src}"/>
-    <mkdir dir="${build.examples.dest}"/>
+    </target>
 
-    <copy todir="${build.examples.src}">
-      <fileset dir="${examples.dir}"/>
-    </copy>
-        
-  </target>
+    <!-- =================================================================== -->
+    <!-- Prepares the extras code                                            -->
+    <!-- =================================================================== -->
+    <target name="prepare-extras" depends="prepare">
+        <mkdir dir="${build.extras.src}"/>
+        <mkdir dir="${build.extras.dest}"/>
 
-  <!-- =================================================================== -->
-  <!-- Prepares the test code                                              -->
-  <!-- =================================================================== -->
-  <target name="prepare-tests" depends="prepare">
-    <mkdir dir="${build.tests.src}"/>
-    <mkdir dir="${build.tests.dest}"/>
+        <copy todir="${build.extras.src}">
+            <fileset dir="${extras.dir}"/>
+        </copy>
 
-    <copy todir="${build.tests.src}">
-      <fileset dir="${tests.dir}"/>
-    </copy>
-    
-  </target>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Compiles the piccolo source code                                    -->
-  <!-- =================================================================== -->
-  <target name="compile-piccolo" depends="prepare-piccolo">
-    <!-- copy resource files -->
-    <copy todir="${build.piccolo.dest}">
-      <fileset dir="${build.piccolo.src}" excludes="**/*.java"/>
-    </copy>
+    <!-- =================================================================== -->
+    <!-- Prepares the examples code                                          -->
+    <!-- =================================================================== -->
+    <target name="prepare-examples" depends="prepare">
+        <mkdir dir="${build.examples.src}"/>
+        <mkdir dir="${build.examples.dest}"/>
 
-    <javac srcdir="${build.piccolo.src}"
-           destdir="${build.piccolo.dest}"
-           debug="${debug}"
-           deprecation="${deprecation}"
-           optimize="${optimize}"/>
-  </target>
+        <copy todir="${build.examples.src}">
+            <fileset dir="${examples.dir}"/>
+        </copy>
 
-  <!-- =================================================================== -->
-  <!-- Compiles the extras directory                                       -->
-  <!-- =================================================================== -->
-  <target name="compile-extras" depends="prepare-extras, piccolo">
-    <!-- copy resource files -->
-    <copy todir="${build.extras.dest}">
-      <fileset dir="${build.extras.src}" excludes="**/*.java"/>
-    </copy>
+    </target>
 
-    <javac srcdir="${build.extras.src}"
-           destdir="${build.extras.dest}"
-		   classpath="${build.dir}/${name}.jar;${lib.dir}/swt.jar"
-           debug="${debug}"
-           deprecation="${deprecation}"
-           optimize="${optimize}"/>
-  </target>
+    <!-- =================================================================== -->
+    <!-- Prepares the test code                                              -->
+    <!-- =================================================================== -->
+    <target name="prepare-tests" depends="prepare">
+        <mkdir dir="${build.tests.src}"/>
+        <mkdir dir="${build.tests.dest}"/>
 
-  <!-- =================================================================== -->
-  <!-- Compiles the examples directory                                     -->
-  <!-- =================================================================== -->
-  <target name="compile-examples" depends="prepare-examples, extras">
-    <!-- copy resource files -->
-    <copy todir="${build.examples.dest}">
-      <fileset dir="${build.examples.src}" excludes="**/*.java"/>
-    </copy>
+        <copy todir="${build.tests.src}">
+            <fileset dir="${tests.dir}"/>
+        </copy>
 
-    <javac srcdir="${build.examples.src}"
-           destdir="${build.examples.dest}"
-		   classpath="${build.dir}/${name}x.jar;${build.dir}/${name}.jar;${lib.dir}/swt.jar"
-           debug="${debug}"
-           deprecation="${deprecation}"
-           optimize="${optimize}"/>
-  </target>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Compiles the tests directory                                        -->
-  <!-- =================================================================== -->
-  <target name="compile-tests" depends="prepare-tests, piccolo, extras">
-    <!-- copy resource files -->
-    <copy todir="${build.tests.dest}">
-      <fileset dir="${build.tests.src}" excludes="**/*.java"/>
-    </copy>
+    <!-- =================================================================== -->
+    <!-- Compiles the piccolo source code                                    -->
+    <!-- =================================================================== -->
+    <target name="compile-piccolo" depends="prepare-piccolo">
+        <!-- copy resource files -->
+        <copy todir="${build.piccolo.dest}">
+            <fileset dir="${build.piccolo.src}" excludes="**/*.java"/>
+        </copy>
 
-    <javac srcdir="${build.tests.src}"
-           destdir="${build.tests.dest}"
-		   classpath="${build.dir}/${name}.jar;${build.dir}/${name}x.jar"
-           debug="${debug}"
-           deprecation="${deprecation}"
-           optimize="${optimize}"/>
-  </target>
+        <javac srcdir="${build.piccolo.src}"
+            destdir="${build.piccolo.dest}"
+            debug="${debug}"
+            deprecation="${deprecation}"
+            optimize="${optimize}"/>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Creates the piccolo.jar in ./build                                  -->
-  <!-- =================================================================== -->
-  <target name="piccolo" depends="compile-piccolo">
-    <jar jarfile="${build.dir}/${name}.jar"
-         basedir="${build.piccolo.dest}"
-         includes="**"/>
-  </target>
+    <!-- =================================================================== -->
+    <!-- Compiles the extras directory                                       -->
+    <!-- =================================================================== -->
+    <target name="compile-extras" depends="prepare-extras, piccolo">
+        <!-- copy resource files -->
+        <copy todir="${build.extras.dest}">
+            <fileset dir="${build.extras.src}" excludes="**/*.java"/>
+        </copy>
 
-  <!-- =================================================================== -->
-  <!-- Creates the piccolox.jar in ./build                                 -->
-  <!-- =================================================================== -->
-  <target name="extras" depends="compile-extras">
-    <jar jarfile="${build.dir}/${name}x.jar"
-         basedir="${build.extras.dest}"
-         manifest="${build.extras.src}/extras.manifest"
-         includes="**"/>
-  </target>
+        <javac srcdir="${build.extras.src}"
+            destdir="${build.extras.dest}"
+            classpath="${build.dir}/${name}.jar;${lib.dir}/swt.jar"
+            debug="${debug}"
+            deprecation="${deprecation}"
+            optimize="${optimize}"/>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Creates the examples.jar in ./build                                 -->
-  <!-- =================================================================== -->
-  <target name="examples" depends="compile-examples">
-    <jar jarfile="${build.dir}/examples.jar"
-         basedir="${build.examples.dest}"
-         manifest="${build.examples.src}/examples.manifest"
-         includes="**"/>
-  </target>
+    <!-- =================================================================== -->
+    <!-- Compiles the examples directory                                     -->
+    <!-- =================================================================== -->
+    <target name="compile-examples" depends="prepare-examples, extras">
+        <!-- copy resource files -->
+        <copy todir="${build.examples.dest}">
+            <fileset dir="${build.examples.src}" excludes="**/*.java"/>
+        </copy>
 
-  <!-- =================================================================== -->
-  <!-- Creates the tests.jar in ./build                                    -->
-  <!-- =================================================================== -->
-  <target name="tests" depends="compile-tests">
-    <jar jarfile="${build.dir}/tests.jar"
-         basedir="${build.tests.dest}"
-         manifest="${build.tests.src}/tests.manifest"
-         includes="**"/>
-  </target>
+        <javac srcdir="${build.examples.src};phet-src;phet-test-src"
+            destdir="${build.examples.dest}"
+            classpath="${build.dir}/${name}x.jar;${build.dir}/${name}.jar;${lib.dir}/swt.jar"
+            debug="${debug}"
+            deprecation="${deprecation}"
+            optimize="${optimize}"/>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Run the test cases                                                  -->
-  <!-- =================================================================== -->
-  <target name="runtests" depends="tests">
-    <java fork="yes" classname="junit.textui.TestRunner" taskname="junit" failonerror="true">
-      <arg value="RunAllUnitTests"/>
-      <classpath>
-        <pathelement location="${build.dir}/${name}.jar" />
-        <pathelement location="${build.dir}/${name}x.jar" />
-        <pathelement location="${build.dir}/tests.jar" />
-        <pathelement path="" />
-        <pathelement path="${java.class.path}" />
-      </classpath>
-    </java>
-  </target>
+    <!-- =================================================================== -->
+    <!-- Compiles the tests directory                                        -->
+    <!-- =================================================================== -->
+    <target name="compile-tests" depends="prepare-tests, piccolo, extras">
+        <!-- copy resource files -->
+        <copy todir="${build.tests.dest}">
+            <fileset dir="${build.tests.src}" excludes="**/*.java"/>
+        </copy>
 
-  <!-- =================================================================== -->
-  <!-- Run the performance test cases                                      -->
-  <!-- =================================================================== -->
-  <target name="runptests" depends="tests">
-    <java fork="yes" classname="junit.textui.TestRunner" taskname="junit" failonerror="true">
-      <arg value="PerformanceTests"/>
-      <classpath>
-        <pathelement location="${build.dir}/${name}.jar" />
-        <pathelement location="${build.dir}/tests.jar" />
-        <pathelement path="" />
-        <pathelement path="${java.class.path}" />
-      </classpath>
-    </java>
-  </target>
-  
-  <!-- =================================================================== -->
-  <!-- Build all jars in ./build                                           -->
-  <!-- =================================================================== -->
-  <target name="all" depends="piccolo, extras, examples, tests, runtests"/>
+        <javac srcdir="${build.tests.src}"
+            destdir="${build.tests.dest}"
+            classpath="${build.dir}/${name}.jar;${build.dir}/${name}x.jar"
+            debug="${debug}"
+            deprecation="${deprecation}"
+            optimize="${optimize}"/>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Creates the API documentation in ./doc/api/                         -->
-  <!-- =================================================================== -->
-  <target name="api" depends="prepare-piccolo, prepare-extras">
-    <mkdir dir="${doc.apidocs}"/>
-    <javadoc packagenames="${packages}"
-             sourcepath="${build.piccolo.src};${build.extras.src}"
-             destdir="${doc.apidocs}"
-		     classpath="${build.dir}/${lib.dir}/swt.jar"
-             author="true"
-             version="true"
-             use="true"
-             splitindex="true"
-             noindex="false"
-             windowtitle="${Name} API"
-             doctitle="${Name}"
-             overview="${build.piccolo.src}/edu/umd/cs/piccolo/overview.html"
-             bottom="Copyright &#169; ${year} by University of Maryland, College Park, MD 20742, USA All rights reserved."             
-    />
-  </target>
+    <!-- =================================================================== -->
+    <!-- Creates the piccolo.jar in ./build                                  -->
+    <!-- =================================================================== -->
+    <target name="piccolo" depends="compile-piccolo">
+        <jar jarfile="${build.dir}/${name}.jar"
+            basedir="${build.piccolo.dest}"
+            includes="**"/>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Replace all sequences of 4 spaces in .java files with a tab         -->
-  <!-- =================================================================== -->
-  <target name="addTabsWithLength4" depends="init">
-    <fixcrlf 
-         srcdir="${root.dir}"
-         tab="add"
-         tablength="4"
-         includes="**/*.java"/>
-  </target>
+    <!-- =================================================================== -->
+    <!-- Creates the piccolox.jar in ./build                                 -->
+    <!-- =================================================================== -->
+    <target name="extras" depends="compile-extras">
+        <jar jarfile="${build.dir}/${name}x.jar"
+            basedir="${build.extras.dest}"
+            manifest="${build.extras.src}/extras.manifest"
+            includes="**"/>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Replace all tabs in .java files with a sequence of 4 spaces         -->
-  <!-- =================================================================== -->
-  <target name="removeTabsWithLength4" depends="init">
-    <fixcrlf 
-         srcdir="${root.dir}"
-         tab="remove"
-         tablength="4"
-         includes="**/*.java"/>
-  </target>
+    <!-- =================================================================== -->
+    <!-- Creates the examples.jar in ./build                                 -->
+    <!-- =================================================================== -->
+    <target name="examples" depends="compile-examples">
+        <jar jarfile="${build.dir}/examples.jar"
+            basedir="${build.examples.dest}"
+            manifest="${build.examples.src}/examples.manifest"
+            includes="**"/>
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Build source distribution in ./dist                                 -->
-  <!-- =================================================================== -->
-  <target name="sourcedist" depends="clean">
-    <mkdir dir="${dist.root}"/>
-    <mkdir dir="${sourcedist.dir}"/>
+    <!-- =================================================================== -->
+    <!-- Creates the tests.jar in ./build                                    -->
+    <!-- =================================================================== -->
+    <target name="tests" depends="compile-tests">
+        <jar jarfile="${build.dir}/tests.jar"
+            basedir="${build.tests.dest}"
+            manifest="${build.tests.src}/tests.manifest"
+            includes="**"/>
+    </target>
 
-    <copy todir="${sourcedist.dir}">
-      <fileset dir="${root.dir}"/>
-    </copy>
+    <!-- =================================================================== -->
+    <!-- Run the test cases                                                  -->
+    <!-- =================================================================== -->
+    <target name="runtests" depends="tests">
+        <java fork="yes" classname="junit.textui.TestRunner" taskname="junit" failonerror="true">
+            <arg value="RunAllUnitTests"/>
+            <classpath>
+                <pathelement location="${build.dir}/${name}.jar"/>
+                <pathelement location="${build.dir}/${name}x.jar"/>
+                <pathelement location="${build.dir}/tests.jar"/>
+                <pathelement path=""/>
+                <pathelement path="${java.class.path}"/>
+            </classpath>
+        </java>
+    </target>
 
-    <!-- Now delete what we dont want, probably a better way to do this -->
-    <delete dir="${sourcedist.dir}/dist"/>
+    <!-- =================================================================== -->
+    <!-- Run the performance test cases                                      -->
+    <!-- =================================================================== -->
+    <target name="runptests" depends="tests">
+        <java fork="yes" classname="junit.textui.TestRunner" taskname="junit" failonerror="true">
+            <arg value="PerformanceTests"/>
+            <classpath>
+                <pathelement location="${build.dir}/${name}.jar"/>
+                <pathelement location="${build.dir}/tests.jar"/>
+                <pathelement path=""/>
+                <pathelement path="${java.class.path}"/>
+            </classpath>
+        </java>
+    </target>
 
-    <fixcrlf srcdir="${sourcedist.dir}"
-       eol="lf" eof="remove"
-       includes="**/*.sh"
-    />
-    <zip zipfile="${dist.root}/${name}-${version}.zip"
-         basedir="${dist.root}/${name}-${version}"
-         whenempty="create"
-    />
+    <!-- =================================================================== -->
+    <!-- Build all jars in ./build                                           -->
+    <!-- =================================================================== -->
+    <target name="all" depends="piccolo, extras, examples, tests, runtests"/>
 
-  </target>
-	
+    <!-- =================================================================== -->
+    <!-- Creates the API documentation in ./doc/api/                         -->
+    <!-- =================================================================== -->
+    <target name="api" depends="prepare-piccolo, prepare-extras">
+        <mkdir dir="${doc.apidocs}"/>
+        <javadoc packagenames="${packages}"
+            sourcepath="${build.piccolo.src};${build.extras.src}"
+            destdir="${doc.apidocs}"
+            classpath="${build.dir}/${lib.dir}/swt.jar"
+            author="true"
+            version="true"
+            use="true"
+            splitindex="true"
+            noindex="false"
+            windowtitle="${Name} API"
+            doctitle="${Name}"
+            overview="${build.piccolo.src}/edu/umd/cs/piccolo/overview.html"
+            bottom="Copyright &#169; ${year} by University of Maryland, College Park, MD 20742, USA All rights reserved."
+            />
+    </target>
 
-  <!-- =================================================================== -->
-  <!-- Build compiled distribution in ./dist                               -->
-  <!-- =================================================================== -->
-  <target name="compiledist" depends="clean, all, api">
-    <mkdir dir="${dist.root}"/>
-    <mkdir dir="${compiledist.dir}"/>
+    <!-- =================================================================== -->
+    <!-- Replace all sequences of 4 spaces in .java files with a tab         -->
+    <!-- =================================================================== -->
+    <target name="addTabsWithLength4" depends="init">
+        <fixcrlf
+            srcdir="${root.dir}"
+            tab="add"
+            tablength="4"
+            includes="**/*.java"/>
+    </target>
 
-    <copy todir="${compiledist.dir}">
-      <fileset dir="${root.dir}"/>
-    </copy>
+    <!-- =================================================================== -->
+    <!-- Replace all tabs in .java files with a sequence of 4 spaces         -->
+    <!-- =================================================================== -->
+    <target name="removeTabsWithLength4" depends="init">
+        <fixcrlf
+            srcdir="${root.dir}"
+            tab="remove"
+            tablength="4"
+            includes="**/*.java"/>
+    </target>
 
-    <!-- Now delete what we dont want, probably a better way to do this -->
-    <delete dir="${compiledist.dir}/dist"/>
-    <delete dir="${compiledist.dir}/build/examples"/>
-    <delete dir="${compiledist.dir}/build/piccolo"/>
-    <delete dir="${compiledist.dir}/build/extras"/>    
-    <delete dir="${compiledist.dir}/build/tests"/>
+    <!-- =================================================================== -->
+    <!-- Build source distribution in ./dist                                 -->
+    <!-- =================================================================== -->
+    <target name="sourcedist" depends="clean">
+        <mkdir dir="${dist.root}"/>
+        <mkdir dir="${sourcedist.dir}"/>
 
-    <fixcrlf srcdir="${compiledist.dir}"
-       eol="lf" eof="remove"
-       includes="**/*.sh"
-    />
+        <copy todir="${sourcedist.dir}">
+            <fileset dir="${root.dir}"/>
+        </copy>
 
-    <zip zipfile="${dist.root}/${name}-${version}-compiled.zip"
-         basedir="${dist.root}/${name}-${version}-compiled"
-         whenempty="create"
-    />
+        <!-- Now delete what we dont want, probably a better way to do this -->
+        <delete dir="${sourcedist.dir}/dist"/>
 
-  </target>
+        <fixcrlf srcdir="${sourcedist.dir}"
+            eol="lf" eof="remove"
+            includes="**/*.sh"
+            />
+        <zip zipfile="${dist.root}/${name}-${version}.zip"
+            basedir="${dist.root}/${name}-${version}"
+            whenempty="create"
+            />
 
-  <!-- =================================================================== -->
-  <!-- Clean restors distribution to original state                        -->
-  <!-- =================================================================== -->
-  <target name="clean" depends="init">
-    <delete dir="${build.dir}"/>
-    <delete dir="${dist.root}"/>
-    <delete dir="${doc.apidocs}"/>
-  </target>
+    </target>
+
+
+    <!-- =================================================================== -->
+    <!-- Build compiled distribution in ./dist                               -->
+    <!-- =================================================================== -->
+    <target name="compiledist" depends="clean, all, api">
+        <mkdir dir="${dist.root}"/>
+        <mkdir dir="${compiledist.dir}"/>
+
+        <copy todir="${compiledist.dir}">
+            <fileset dir="${root.dir}"/>
+        </copy>
+
+        <!-- Now delete what we dont want, probably a better way to do this -->
+        <delete dir="${compiledist.dir}/dist"/>
+        <delete dir="${compiledist.dir}/build/examples"/>
+        <delete dir="${compiledist.dir}/build/piccolo"/>
+        <delete dir="${compiledist.dir}/build/extras"/>
+        <delete dir="${compiledist.dir}/build/tests"/>
+
+        <fixcrlf srcdir="${compiledist.dir}"
+            eol="lf" eof="remove"
+            includes="**/*.sh"
+            />
+
+        <zip zipfile="${dist.root}/${name}-${version}-compiled.zip"
+            basedir="${dist.root}/${name}-${version}-compiled"
+            whenempty="create"
+            />
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Clean restors distribution to original state                        -->
+    <!-- =================================================================== -->
+    <target name="clean" depends="init">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.root}"/>
+        <delete dir="${doc.apidocs}"/>
+    </target>
 </project>
 <!-- End of file -->
