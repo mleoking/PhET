@@ -23,7 +23,9 @@ public class CylinderWave {
     private double waveMagnitude = 0.075;
     private double phase = 0.0;
     private double intensity = 0.0;//todo initial value
-    private double intensityScale = 2.0;
+//    private double intensityScale = 2.0;
+//    private double intensityScale = 1.0;
+    private double intensityScale = 0.75;
 
     public CylinderWave( SchrodingerModule module, DiscreteModel discreteModel, AbstractGun abstractGun ) {
         this.module = module;
@@ -68,20 +70,23 @@ public class CylinderWave {
         planeWave.setPhase( phase );
 
         planeWave.setMagnitude( waveMagnitude );
-        return new DampedWave( planeWave, intensity * intensityScale );
+        return new FlatDampedWave( planeWave, intensity * intensityScale );
     }
 
     private Rectangle createRectRegionForCylinder() {
-        int damping = getDiscreteModel().getDamping().getDepth();
+//        int damping = getDiscreteModel().getDamping().getDepth();
+//
+//        int cylinderRadius = 50;
+////        int cylinderRadius = 100;
+////        int cylinderRadius = 10;
+//        int depthToShow = damping + 5;
+//        Point center = new Point( getWavefunction().getWidth() / 2, getWavefunction().getHeight() + cylinderRadius - depthToShow );
+//        Point corner = new Point( center.x + cylinderRadius, center.y + cylinderRadius );
+//        Rectangle rectangle = new Rectangle();
+//        rectangle.setFrameFromCenter( center, corner );
 
-        int cylinderRadius = 50;
-//        int cylinderRadius = 100;
-//        int cylinderRadius = 10;
-        int depthToShow = damping + 5;
-        Point center = new Point( getWavefunction().getWidth() / 2, getWavefunction().getHeight() + cylinderRadius - depthToShow );
-        Point corner = new Point( center.x + cylinderRadius, center.y + cylinderRadius );
-        Rectangle rectangle = new Rectangle();
-        rectangle.setFrameFromCenter( center, corner );
+        int h = 2;
+        Rectangle rectangle = new Rectangle( 0, getWavefunction().getHeight() - h, getWavefunction().getWidth(), h );
         return rectangle;
     }
 
