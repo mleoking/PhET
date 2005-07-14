@@ -118,6 +118,10 @@ public class ControlRod implements ModelElement {
         return result;
     }
 
+    public void setAbsorptionProbability( double probability ) {
+        this.absoprtionProbability = probability;
+    }
+
     public class ChangeEvent extends EventObject {
         public ChangeEvent( Object source ) {
             super( source );

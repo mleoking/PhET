@@ -26,6 +26,7 @@ import edu.colorado.phet.nuclearphysics.view.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Random;
 
 /**
  * ControlledFissionModule
@@ -77,7 +78,7 @@ public class ControlledFissionModule extends ChainReactionModule {
     private int numNeutronsFired = 1;
     private EnergyGraphDialog energyGraphDialog;
     private long fissionDelay;
-    private double rodAbsorptionProbability;
+    private double rodAbsorptionProbability = 1;
     private DevelopmentControlDialog developmentControlDialog;
     private PeriodicNeutronGun periodicNeutronGun;
 
@@ -429,6 +430,23 @@ public class ControlledFissionModule extends ChainReactionModule {
         neutronLaunchAngle = Math.atan2( vesselCenter.getY() - neutronLaunchPoint.getY(),
                                          vesselCenter.getX() - neutronLaunchPoint.getX() );
         neutronPath = new Line2D.Double( neutronLaunchPoint, new Point2D.Double( 0, 0 ) );
+
+        // Figure out which area the launch point is in, so we can fire toward the center of that area
+        int numChannels = vessel.getNumControlRodChannels();
+        int numAreas = numChannels + 1;
+        double channelWidth = vessel.getChannels()[0].getWidth();
+        double areaWidth = ( vessel.getWidth() - ( numChannels * channelWidth ) ) / numAreas;
+        double dx = neutronLaunchPoint.x - vessel.getX();
+        int areaIdx = (int)( dx / ( areaWidth + channelWidth ) );
+        double x0 = vessel.getX() + areaIdx * ( areaWidth + channelWidth );
+        double x = x0 + random.nextDouble() * areaWidth;
+        double y = vessel.getY() + random.nextDouble() * vessel.getHeight();
+        double xMid = vessel.getX() + areaWidth / 2;
+        double yMid = vessel.getY() + vessel.getHeight() / 2;
+        neutronLaunchAngle = Math.atan2( yMid - y, xMid - x );
+        neutronLaunchPoint = new Point2D.Double( x, y );
+        neutronPath = new Line2D.Double( x, y, xMid, yMid );
+
     }
 
     /**
@@ -499,6 +517,9 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     public void setRodAbsorptionProbability( double probability ) {
         rodAbsorptionProbability = probability;
+        for( int i = 0; i < controlRods.length; i++ ) {
+            controlRods[i].setAbsorptionProbability( probability );
+        }
     }
 
     public void setDevelopmentControlDialog( boolean selected ) {
@@ -543,10 +564,14 @@ public class ControlledFissionModule extends ChainReactionModule {
         }
     }
 
+    /**
+     * Automatically fires neutrons into the vessel at regular intervals
+     */
     private class PeriodicNeutronGun implements ClockTickListener {
         private double lastTimeFired;
         private double period;
         private boolean enabled;
+        private Random random = new Random();
 
         public PeriodicNeutronGun( AbstractClock clock, double period ) {
             this.period = period;
@@ -568,6 +593,24 @@ public class ControlledFissionModule extends ChainReactionModule {
                 if( enabled ) {
                     fireNeutron();
                 }
+            }
+        }
+
+        private void fireNeutrons() {
+            int numChannels = vessel.getNumControlRodChannels();
+            int numAreas = numChannels + 1;
+            double channelWidth = vessel.getChannels()[0].getWidth();
+            double areaWidth = ( vessel.getWidth() - ( numChannels * channelWidth ) ) / numAreas;
+            for( int i = 0; i < numAreas; i++ ) {
+                double x0 = vessel.getX() + i * ( areaWidth + channelWidth );
+                double x = x0 + random.nextDouble() * areaWidth;
+                double y = vessel.getY() + random.nextDouble() * vessel.getHeight();
+                double xMid = vessel.getX() + areaWidth / 2;
+                double yMid = vessel.getY() + vessel.getHeight() / 2;
+                neutronLaunchAngle = Math.atan2( yMid - y, xMid - x );
+                neutronLaunchPoint = new Point2D.Double( x, y );
+                neutronPath = new Line2D.Double( x, y, xMid, yMid );
+                ControlledFissionModule.super.fireNeutron();
             }
         }
     }

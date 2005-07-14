@@ -111,6 +111,7 @@ public class DevelopmentControlDialog extends JDialog {
                     module.setRodAbsorptionProbability( rodAbsoprtionSlider.getModelValue() );
                 }
             } );
+            module.setRodAbsorptionProbability( rodAbsoprtionSlider.getModelValue() );
             rodAbsoprtionSlider.setMajorTickSpacing( 0.25 );
             rodAbsoprtionSlider.setPaintLabels( true );
             rodAbsoprtionSlider.setPaintTicks( true );
@@ -164,8 +165,8 @@ public class DevelopmentControlDialog extends JDialog {
             JPanel pngPane = new JPanel( new GridLayout( 2, 1 ) );
             pngPane.setBorder( new TitledBorder( "Periodically fire neutrons" ) );
             final JCheckBox pngCB = new JCheckBox( "Enabled" );
-            final ModelSlider pngSlider = new ModelSlider( "Period (ms)", 0, 500, 500 );
-            pngSlider.setMajorTickSpacing( 100 );
+            final ModelSlider pngSlider = new ModelSlider( "Period (ms)", 0, 3000, 500 );
+            pngSlider.setMajorTickSpacing( 1000 );
             pngSlider.setPaintTicks( true );
             pngSlider.setPaintLabels( true );
             pngPane.add( pngCB );
