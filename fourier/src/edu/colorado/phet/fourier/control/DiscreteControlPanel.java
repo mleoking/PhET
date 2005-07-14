@@ -12,6 +12,7 @@
 package edu.colorado.phet.fourier.control;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.event.*;
@@ -24,6 +25,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.application.PhetApplication;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
@@ -613,6 +615,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     
     private void handleNumberOfHarmonics() {
         
+        setWaitCursorEnabled( true );
+        
         int numberOfHarmonics = _numberOfHarmonicsSlider.getValue();
         
         // Update the Fourier series.
@@ -655,6 +659,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         else {
             _showPeriodComboBox.setSelectedIndex( selectedPeriodIndex );
         }
+        
+        setWaitCursorEnabled( false );
     }
 
     private void handleShowMath() {

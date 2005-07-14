@@ -3,10 +3,12 @@
 ===============================================================================
 
 IN PROGRESS:
-- FourierSliders don't draw correctly in DiscreteToContinuousControlPanel
 - set up control panel for "Discrete to Continous" module
 
 HIGH PRIORITY:
+- optimize Discrete module using what I learned from TestSinePlotPerformance
+- add higher-order harmonics to Harmonics chart first, so that fundamental is in the foreground
+- restructure things so that all Harmonics and HarmonicPlots are preallocated, but only relevant ones are used
 - "show infinite" goes away after a few cycles in space-&-time mode
 - animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
 - PeriodDisplay has not been sync'ed, doesn't reset to 0 when domain/preset/waveType is changed
@@ -30,6 +32,7 @@ NEW FEATURES:
 
 
 OPTIMIZATIONS:
+- reduce startup time
 - make disabled zoom buttons part of the zoom control background image
 - rewrite ZoomControl to use static shapes instead of images
 - flatten static elements
@@ -56,6 +59,9 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/14) - add wait cursor control to control panels
+(7/13) - charts: added zoom & color/grayscale selection to TestSinePlotPerformance
+(7/12) - charts: wrote TestSinePlotPerformance to test performance of drawing large # of sine waves
 v0r4...
 (7/11) - call setMinumumWidth in all control panels, using value from SimStrings file
 (7/11) - add setMinimumWidth to FourierControlPanel

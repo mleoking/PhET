@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.fourier.control;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,7 +20,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.application.PhetApplication;
 import edu.colorado.phet.common.view.ControlPanel;
+import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.module.FourierModule;
 
@@ -44,6 +47,7 @@ public abstract class FourierControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private FourierModule _module; // module that this control panel is associated with
+    private Cursor _saveCursor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -113,5 +117,25 @@ public abstract class FourierControlPanel extends ControlPanel {
         fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
         fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
         addFullWidth( fillerPanel );
+    }
+    
+    //----------------------------------------------------------------
+    // Cursor control methods
+    //----------------------------------------------------------------
+    
+    /**
+     * Turns the wait cursor on and off.
+     * 
+     * @param enabled true or false
+     */
+    public void setWaitCursorEnabled( boolean enabled ) {
+        PhetFrame frame = PhetApplication.instance().getPhetFrame();
+        if ( enabled ) {
+            _saveCursor = frame.getCursor();
+            frame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+        }
+        else if ( _saveCursor != null ) {
+            frame.setCursor( _saveCursor );
+        }
     }
 }
