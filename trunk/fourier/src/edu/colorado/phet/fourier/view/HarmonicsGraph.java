@@ -17,7 +17,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.chart.Chart;
-import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.chart.StringLabelTable;
 import edu.colorado.phet.common.model.ModelElement;
@@ -36,6 +35,7 @@ import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.model.Harmonic;
 
 
 /**
@@ -276,6 +276,9 @@ public class HarmonicsGraph extends GraphicLayerSet
         // Misc initialization
         {
             _harmonicPlots = new ArrayList();
+            for ( int i = 0; i < FourierConfig.MAX_HARMONICS; i++ ) {
+                _harmonicPlots.add( new HarmonicPlot( component, _chartGraphic ) );
+            }
         }
         
         reset();
@@ -391,17 +394,7 @@ public class HarmonicsGraph extends GraphicLayerSet
             // Re-populate the chart such that the fundamental's graphic is in the foreground.
             for ( int i = numberOfHarmonics-1; i >= 0; i-- ) {
 
-                HarmonicPlot harmonicPlot = null;
-                if ( i < _harmonicPlots.size() ) {
-                    // Reuse
-                    harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
-                }
-                else {
-                    // Allocate new
-                    harmonicPlot = new HarmonicPlot( getComponent(), _chartGraphic );
-                    _harmonicPlots.add( harmonicPlot );
-                }
-                
+                HarmonicPlot harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
                 harmonicPlot.setHarmonic( _fourierSeries.getHarmonic( i ) );
                 harmonicPlot.setPeriod( L / ( i + 1 ) );
                 harmonicPlot.setPixelsPerPoint( PIXELS_PER_POINT[i] );
@@ -464,8 +457,11 @@ public class HarmonicsGraph extends GraphicLayerSet
                 harmonicGraphic.setStroke( WAVE_DIMMED_STROKE );
             }
             else {
-                Color harmonicColor = HarmonicColors.getInstance().getColor( harmonicGraphic.getHarmonic() );
-                harmonicGraphic.setBorderColor( harmonicColor );
+                Harmonic harmonic = harmonicGraphic.getHarmonic();
+                if ( harmonic != null ) {
+                    Color harmonicColor = HarmonicColors.getInstance().getColor( harmonic );
+                    harmonicGraphic.setBorderColor( harmonicColor );
+                }
                 harmonicGraphic.setStroke( WAVE_FOCUS_STROKE );
             }
         }
@@ -477,8 +473,11 @@ public class HarmonicsGraph extends GraphicLayerSet
     public void focusLost( HarmonicFocusEvent event ) {
         for ( int i = 0; i < _harmonicPlots.size(); i++ ) {
             HarmonicPlot harmonicGraphic = (HarmonicPlot) _harmonicPlots.get( i );
-            Color harmonicColor = HarmonicColors.getInstance().getColor( harmonicGraphic.getHarmonic() );
-            harmonicGraphic.setBorderColor( harmonicColor );
+            Harmonic harmonic = harmonicGraphic.getHarmonic();
+            if ( harmonic != null ) {
+                Color harmonicColor = HarmonicColors.getInstance().getColor( harmonic );
+                harmonicGraphic.setBorderColor( harmonicColor );
+            }
             harmonicGraphic.setStroke( WAVE_NORMAL_STROKE );
         }
     }
