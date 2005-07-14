@@ -146,7 +146,7 @@ public class FourierApplication extends PhetApplication {
         }
         else {
             DiscreteModule discreteModule = new DiscreteModule( clock );
-            DiscreteToContinousModule discreteToContinuousModule = new DiscreteToContinousModule( clock );
+            D2CModule discreteToContinuousModule = new D2CModule( clock );
             ContinuousModule continuousModule = new ContinuousModule( clock );
             WavePulseShaperModule wavePulseShapeModule = new WavePulseShaperModule( clock );
             SoundModule soundModule = new SoundModule( clock );
