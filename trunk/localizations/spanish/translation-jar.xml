@@ -1,0 +1,20 @@
+<!--
+Ant script for creating jar files of translated resource property bundle files
+
+The following properties must be specified on the command line:
+	-Dlanguage-id	The string that specifies the particular language (e.g., sp)
+	-Dinput-file	The name of the property file to go into the jar, minus the language spec
+
+Example:
+	C:\ant -buildfile translation-jar.xml -Dparam1=foo -Dlanguage-id=sp -Dinput-file=RadioWavesStrings
+-->
+
+<project name="localation-jar" default="run">
+	<target name="run">
+		<echo message="Language-id: ${language-id}"/>
+			
+		<jar destfile="${input-file}_${language-id}.jar">
+			<fileset dir="." includes="localization/${input-file}_${language-id}.properties"/>
+		</jar> 
+	</target>
+</project>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp 
+spec="1.0+" 
+codebase="http://www.colorado.edu/physics/phet/simulations"
+href="balloon/balloon_sp.jnlp">
+<information> 
+<title>Balloons!</title>
+<vendor>PhET(tm)</vendor> 
+<homepage href="http://www.colorado.edu/physics/phet/"/> 
+<description>Observe the behavior of charges in a balloon-rub experiment.</description> 
+<description kind="short">Balloon electrostatics.</description> 
+        <icon href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+        <icon kind="splash" href="../Design/Assets/images/Phet-Kavli-logo.jpg"/> 
+        <offline-allowed/>
+    </information>
+    <security>
+    </security>
+<resources>
+<j2se version="1.4+"/>
+<jar href="balloon/balloons.jar"/>
+<jar href="balloon/BalloonStrings_sp.jar"/>
+<jar href="shared/org/sourceforge/smoothmetal/v2/smoothmetal.jar"/>
+<jar href="balloon/balloon-mh.jar" download="lazy"/>
+</resources> 
+<application-desc main-class="edu.colorado.phet.balloon.BalloonApplet">
+	<argument>user.language=sp</argument>	
+</application-desc> 
+</jnlp>
