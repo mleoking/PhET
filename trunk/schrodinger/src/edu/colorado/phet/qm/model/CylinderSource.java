@@ -2,7 +2,7 @@
 package edu.colorado.phet.qm.model;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -14,7 +14,7 @@ import java.awt.geom.Ellipse2D;
 public class CylinderSource extends DiscreteModel.Adapter {
     private Rectangle region;
     private Wave wave;
-    private Ellipse2D.Double ellipse;
+    private Rectangle2D.Double ellipse;
 
     public CylinderSource( Rectangle region, Wave wave ) {
         setRegion( region );
@@ -34,7 +34,7 @@ public class CylinderSource extends DiscreteModel.Adapter {
 
     public void setRegion( Rectangle rectangle ) {
         this.region = rectangle;
-        ellipse = new Ellipse2D.Double( region.getX(), region.getY(), region.getWidth(), region.getHeight() );
+        ellipse = new Rectangle2D.Double( region.getX(), region.getY(), region.getWidth(), region.getHeight() );
     }
 
 
