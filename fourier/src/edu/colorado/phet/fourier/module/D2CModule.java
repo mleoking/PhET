@@ -18,7 +18,7 @@ import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.util.SimStrings;
-import edu.colorado.phet.fourier.control.DiscreteToContinuousControlPanel;
+import edu.colorado.phet.fourier.control.D2CControlPanel;
 
 
 /**
@@ -27,7 +27,7 @@ import edu.colorado.phet.fourier.control.DiscreteToContinuousControlPanel;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DiscreteToContinousModule extends FourierModule {
+public class D2CModule extends FourierModule {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -46,7 +46,7 @@ public class DiscreteToContinousModule extends FourierModule {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DiscreteToContinuousControlPanel _controlPanel;
+    private D2CControlPanel _controlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -57,9 +57,9 @@ public class DiscreteToContinousModule extends FourierModule {
      * 
      * @param clock the simulation clock
      */
-    public DiscreteToContinousModule( AbstractClock clock ) {
+    public D2CModule( AbstractClock clock ) {
         
-        super( SimStrings.get( "DiscreteToContinuousModule.title" ), clock );
+        super( SimStrings.get( "D2CModule.title" ), clock );
 
         //----------------------------------------------------------------------------
         // Model
@@ -83,7 +83,7 @@ public class DiscreteToContinousModule extends FourierModule {
         //----------------------------------------------------------------------------
 
         // Control Panel
-        _controlPanel = new DiscreteToContinuousControlPanel( this );
+        _controlPanel = new D2CControlPanel( this );
         _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );

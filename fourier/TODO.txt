@@ -7,7 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - optimize Discrete module using what I learned from TestSinePlotPerformance
-- restructure things so that all Harmonics and HarmonicPlots are preallocated, but only relevant ones are used
 - "show infinite" goes away after a few cycles in space-&-time mode
 - animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
 - PeriodDisplay has not been sync'ed, doesn't reset to 0 when domain/preset/waveType is changed
@@ -58,6 +57,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/14) - DiscreteToContinuous* -> D2C* throughout the source code
 (7/14) - add higher-order harmonics to Harmonics chart first, so that fundamental is in the foreground
 (7/14) - add wait cursor control to control panels
 (7/13) - charts: added zoom & color/grayscale selection to TestSinePlotPerformance
@@ -239,6 +239,7 @@ sandbox-2005-05-10...
 (3/30) - set up basic application framework
 
 REJECTED:
+(7/14) - restructure things so that all Harmonics and HarmonicPlots are preallocated, but only relevant ones are used (diminishing returns)
 (7/8) - FourierSeries model should not have a preset and waveType properties (this is OK)
 (6/21) - make graph titles prettier (no one asked for this)
 (6/20) - investigate Jex for rendering equations (no doc, uses OpenOffice for rendering, install Windows only)

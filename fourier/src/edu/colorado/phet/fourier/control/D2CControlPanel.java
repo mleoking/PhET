@@ -31,12 +31,12 @@ import edu.colorado.phet.fourier.module.FourierModule;
 
 
 /**
- * DiscreteToContinuousControlPanel
+ * D2CControlPanel
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DiscreteToContinuousControlPanel extends FourierControlPanel {
+public class D2CControlPanel extends FourierControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -72,18 +72,18 @@ public class DiscreteToContinuousControlPanel extends FourierControlPanel {
      * 
      * @param module
      */
-    public DiscreteToContinuousControlPanel( FourierModule module ) {
+    public D2CControlPanel( FourierModule module ) {
         super( module );
         
         // Set the control panel's minimum width.
-        String widthString = SimStrings.get( "DiscreteToContinuousControlPanel.width" );
+        String widthString = SimStrings.get( "D2CControlPanel.width" );
         int width = Integer.parseInt( widthString );
         setMinumumWidth( width );
 
         // Domain
         {
             // Label
-            String label = SimStrings.get( "DiscreteToContinuousControlPanel.domain" );
+            String label = SimStrings.get( "D2CControlPanel.domain" );
 
             // Choices
             _domainChoices = new ArrayList();
@@ -97,29 +97,29 @@ public class DiscreteToContinuousControlPanel extends FourierControlPanel {
         
         // Spacing
         {
-            String format = SimStrings.get( "DiscreteToContinuousControlPanel.spacing" );
+            String format = SimStrings.get( "D2CControlPanel.spacing" );
             _spacingSlider = new FourierSlider( format );
         }
         
         // Continuous checkbox
-        _continuousCheckBox = new JCheckBox( SimStrings.get( "DiscreteToContinuousControlPanel.continuous" ) );
+        _continuousCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.continuous" ) );
         
         // k-space width
         {
-            String format = SimStrings.get( "DiscreteToContinuousControlPanel.kWidth" );
+            String format = SimStrings.get( "D2CControlPanel.kWidth" );
             _kWidthSlider = new FourierSlider( format );
         }
         
         // x-space width
         {
-            String format = SimStrings.get( "DiscreteToContinuousControlPanel.xWidth" );
+            String format = SimStrings.get( "D2CControlPanel.xWidth" );
             _xWidthSlider = new FourierSlider( format ); 
         }
         
         // Wave Type
         {
             // Label
-            String label = SimStrings.get( "DiscreteToContinuousControlPanel.waveType" );
+            String label = SimStrings.get( "D2CControlPanel.waveType" );
             
             // Choices
             _waveTypeChoices = new ArrayList();
