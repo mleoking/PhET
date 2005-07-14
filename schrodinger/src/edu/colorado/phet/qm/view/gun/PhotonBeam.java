@@ -12,11 +12,13 @@ import edu.colorado.phet.qm.CylinderWave;
 public class PhotonBeam extends HighIntensityBeam {
     private CylinderWave cylinderWave;
     private AbstractGun abstractGun;
+    private Photon photon;
 
-    public PhotonBeam( HighIntensityGun highIntensityGun, Photon photon ) {
+    public PhotonBeam( AbstractGun highIntensityGun, Photon photon ) {
         super( photon );
+        this.photon = photon;
         this.abstractGun = highIntensityGun;
-        cylinderWave = new CylinderWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel(), abstractGun );
+        cylinderWave = new CylinderWave( getGunGraphic().getSchrodingerModule(), getGunGraphic().getDiscreteModel() );
         super.setIntensityScale( 1.0 );
         cylinderWave.setIntensity( super.getTotalIntensity() );
         photon.addMomentumChangeListerner( new AbstractGun.MomentumChangeListener() {
@@ -49,4 +51,9 @@ public class PhotonBeam extends HighIntensityBeam {
 
     public void stepBeam() {
     }
+
+    public Photon getPhoton() {
+        return photon;
+    }
+
 }

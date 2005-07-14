@@ -23,7 +23,6 @@ public abstract class GunParticle extends ImageComboBox.Item {
     public GunParticle( final AbstractGun gun, String label, String imageLocation ) {
         super( label, imageLocation );
         this.gun = gun;
-
     }
 
     public abstract void setup( AbstractGun abstractGun );
@@ -121,7 +120,7 @@ public abstract class GunParticle extends ImageComboBox.Item {
         getSchrodingerModule().fireParticle( initialWavefunction );
     }
 
-    private SchrodingerModule getSchrodingerModule() {
+    SchrodingerModule getSchrodingerModule() {
         return gun.getSchrodingerModule();
     }
 

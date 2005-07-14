@@ -30,6 +30,10 @@ public abstract class HighIntensityBeam extends ImageComboBox.Item {
         gunParticle.setIntensityScale( this.intensity * intensityScale );
     }
 
+    public double getIntensity() {
+        return intensity;
+    }
+
     public void deactivate( HighIntensityGun highIntensityGun ) {
         setHighIntensityModeOn( false );
         gunParticle.deactivate( highIntensityGun );
@@ -56,4 +60,5 @@ public abstract class HighIntensityBeam extends ImageComboBox.Item {
     public void setIntensityScale( double intensityScale ) {
         this.intensityScale = intensityScale;
     }
+
 }
