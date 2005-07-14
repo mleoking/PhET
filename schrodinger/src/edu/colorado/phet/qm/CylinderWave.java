@@ -75,6 +75,8 @@ public class CylinderWave {
         int damping = getDiscreteModel().getDamping().getDepth();
 
         int cylinderRadius = 50;
+//        int cylinderRadius = 100;
+//        int cylinderRadius = 10;
         int depthToShow = damping + 5;
         Point center = new Point( getWavefunction().getWidth() / 2, getWavefunction().getHeight() + cylinderRadius - depthToShow );
         Point corner = new Point( center.x + cylinderRadius, center.y + cylinderRadius );
