@@ -550,6 +550,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     }
     
     private void handlePreset() {
+        setWaitCursorEnabled( true );
         int waveType = _waveTypeComboBox.getSelectedKey();
         int preset = _presetsComboBox.getSelectedKey();
         if ( waveType == FourierConstants.WAVE_TYPE_COSINE && preset == FourierConstants.PRESET_SAWTOOTH ) {
@@ -562,6 +563,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _showInfiniteCheckBox.setEnabled( showInfiniteEnabled );
         _showInfiniteCheckBox.setForeground( showInfiniteEnabled ? Color.BLACK : Color.GRAY );
         _fourierSeries.setPreset( preset );
+        setWaitCursorEnabled( false );
     }
     
     private void handleShowInfinite() {
@@ -601,6 +603,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     }
     
     private void handleWaveType() {
+        setWaitCursorEnabled( true );
         int waveType = _waveTypeComboBox.getSelectedKey();
         int preset = _presetsComboBox.getSelectedKey();
         if ( waveType == FourierConstants.WAVE_TYPE_COSINE && preset == FourierConstants.PRESET_SAWTOOTH ) {
@@ -611,6 +614,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         else {
             _fourierSeries.setWaveType( waveType );
         }
+        setWaitCursorEnabled( false );
     }
     
     private void handleNumberOfHarmonics() {
