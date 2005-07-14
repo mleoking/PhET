@@ -57,6 +57,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/14) - remove Continuous module, per SamM's request
 (7/14) - DiscreteToContinuous* -> D2C* throughout the source code
 (7/14) - add higher-order harmonics to Harmonics chart first, so that fundamental is in the foreground
 (7/14) - add wait cursor control to control panels
