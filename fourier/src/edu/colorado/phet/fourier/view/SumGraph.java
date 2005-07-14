@@ -33,7 +33,6 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
-import edu.colorado.phet.fourier.charts.StringLabelTable;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
