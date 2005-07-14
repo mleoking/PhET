@@ -306,6 +306,10 @@ public class DiscreteModel implements ModelElement {
         propagator.setBoundaryCondition( i, k, value );
     }
 
+    public boolean containsListener( Listener listener ) {
+        return listeners.contains( listener );
+    }
+
     public static interface Listener {
         void finishedTimeStep( DiscreteModel model );
 

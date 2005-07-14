@@ -46,11 +46,21 @@ public class CylinderWave {
     }
 
     public void setOff() {
-        getDiscreteModel().removeListener( waveSource );
-        module.getModel().removeModelElement( phaseUpdate );
+        clearElements();
+    }
+
+    private void clearElements() {
+        while( getDiscreteModel().containsListener( waveSource ) ) {
+            getDiscreteModel().removeListener( waveSource );
+        }
+        while( module.getModel().containsModelElement( phaseUpdate ) ) {
+            module.getModel().removeModelElement( phaseUpdate );
+        }
+
     }
 
     public void setOn() {
+        clearElements();
         waveSource.setRegion( createRectRegionForCylinder() );
         getDiscreteModel().addListener( waveSource );
         module.getModel().addModelElement( phaseUpdate );

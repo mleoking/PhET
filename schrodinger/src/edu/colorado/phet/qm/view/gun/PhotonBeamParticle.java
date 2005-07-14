@@ -95,10 +95,13 @@ public class PhotonBeamParticle extends GunParticle {
     }
 
     public void fireParticle() {
+        removeModelElement( rampUp );
+        removeModelElement( rampDown );
+        removeModelElement( pauser );
         photonBeam.setHighIntensityModeOn( true );
         photonBeam.setIntensity( 0 );
         //wait until norm >1.0, then normalize & stop. (maybe ramp down?)
-        getSchrodingerModule().getModel().addModelElement( rampUp );
+        addModelElement( rampUp );
     }
 
     public void setup( AbstractGun abstractGun ) {
