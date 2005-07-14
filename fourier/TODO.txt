@@ -7,7 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - optimize Discrete module using what I learned from TestSinePlotPerformance
-- add higher-order harmonics to Harmonics chart first, so that fundamental is in the foreground
 - restructure things so that all Harmonics and HarmonicPlots are preallocated, but only relevant ones are used
 - "show infinite" goes away after a few cycles in space-&-time mode
 - animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
@@ -59,6 +58,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/14) - add higher-order harmonics to Harmonics chart first, so that fundamental is in the foreground
 (7/14) - add wait cursor control to control panels
 (7/13) - charts: added zoom & color/grayscale selection to TestSinePlotPerformance
 (7/12) - charts: wrote TestSinePlotPerformance to test performance of drawing large # of sine waves

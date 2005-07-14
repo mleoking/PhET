@@ -388,8 +388,8 @@ public class HarmonicsGraph extends GraphicLayerSet
             // Clear the chart.
             _chartGraphic.removeAllDataSetGraphics();
 
-            // Re-populate the chart.
-            for ( int i = 0; i < numberOfHarmonics; i++ ) {
+            // Re-populate the chart such that the fundamental's graphic is in the foreground.
+            for ( int i = numberOfHarmonics-1; i >= 0; i-- ) {
 
                 HarmonicPlot harmonicPlot = null;
                 if ( i < _harmonicPlots.size() ) {
