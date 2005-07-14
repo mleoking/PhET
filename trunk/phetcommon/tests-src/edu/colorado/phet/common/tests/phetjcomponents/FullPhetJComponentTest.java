@@ -95,7 +95,9 @@ public class FullPhetJComponentTest {
             public void clockTicked( ClockTickEvent event ) {
                 ap.handleUserInput();
 //                ap.paintImmediately( new Rectangle( 0, 0, ap.getWidth(), ap.getHeight() ) );
+                PhetJComponent.getRepaintManager().updateGraphics();
                 ap.paint();
+
             }
         } );
 
@@ -197,7 +199,7 @@ public class FullPhetJComponentTest {
         } );
         ap.addGraphic( phetJComponentDraggable );
 
-        
+
         JSpinner spinner = new JSpinner();
         PhetGraphic spinnerGraphic = PhetJComponent.newInstance( ap, spinner );
         spinnerGraphic.setLocation( 50, 100 );
