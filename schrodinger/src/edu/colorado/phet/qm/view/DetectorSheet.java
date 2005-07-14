@@ -41,6 +41,10 @@ public class DetectorSheet extends GraphicLayerSet {
         this.schrodingerPanel = schrodingerPanel;
         bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         screenGraphic = new PhetImageGraphic( getComponent(), bufferedImage );
+//        screenGraphic.shear( 0.25, 0 );
+        screenGraphic.shear( 0.45, 0 );
+        screenGraphic.translate( -13, 20 );
+
         addGraphic( screenGraphic );
 
         phetShapeGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.white, new BasicStroke( 3 ), Color.black );

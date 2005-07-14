@@ -6,6 +6,7 @@ import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.SplitModel;
 import edu.colorado.phet.qm.view.DetectorGraphic;
+import edu.colorado.phet.qm.view.RestrictedDetectorGraphic;
 
 import java.util.ArrayList;
 

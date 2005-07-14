@@ -6,7 +6,6 @@ import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.qm.DoubleSlitCheckBox;
-import edu.colorado.phet.qm.IntensityDisplay;
 import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
@@ -52,7 +51,7 @@ public class SchrodingerPanel extends ApparatusPanel2 {
         rulerGraphic.setVisible( false );
 
         intensityDisplay = new IntensityDisplay( getSchrodingerModule(), this, 60 );
-        addGraphic( intensityDisplay );
+        addGraphic( intensityDisplay, -1 );
 
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm;
+package edu.colorado.phet.qm.view;
 
+import edu.colorado.phet.qm.IntensityPanel;
 import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.view.DetectorGraphic;
 
 /**
  * User: Sam Reid
