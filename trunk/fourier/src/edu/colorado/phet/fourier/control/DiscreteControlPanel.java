@@ -177,9 +177,9 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             EasyGridBagLayout layout = new EasyGridBagLayout( functionsPanel );
             functionsPanel.setLayout( layout );
             int row = 0;
-            layout.addComponent( _domainComboBox, row++, 0 );
             layout.addComponent( _presetsComboBox, row++, 0 );
             layout.addComponent( _showInfiniteCheckBox, row++, 0 );
+            layout.addComponent( _domainComboBox, row++, 0 );
         }
         
         // Wave Properties panel
