@@ -49,8 +49,6 @@ public class D2CControlPanel extends FourierControlPanel {
     
     private static final int MIN_SPACING = 0;
     private static final int MAX_SPACING = 100;
-    private static final int MIN_K_WIDTH = 0;
-    private static final int MAX_K_WIDTH = 100;
     private static final int MIN_X_WIDTH = 0;
     private static final int MAX_X_WIDTH = 100;
     
@@ -65,7 +63,7 @@ public class D2CControlPanel extends FourierControlPanel {
     private FourierComboBox _domainComboBox;
     private FourierSlider _spacingSlider;
     private JCheckBox _continuousCheckBox;
-    private FourierSlider _kWidthSlider;
+    private KWidthSlider _kWidthSlider;
     private FourierSlider _xWidthSlider;
     private FourierComboBox _waveTypeComboBox;
     
@@ -168,22 +166,26 @@ public class D2CControlPanel extends FourierControlPanel {
             String title = SimStrings.get( "D2CControlPanel.packetWidth" );
             packetWidthPanel.setBorder( new TitledBorder( title ) );
             
+//            // k-space width
+//            {
+//                String format = SimStrings.get( "D2CControlPanel.kWidth" );
+//                _kWidthSlider = new FourierSlider( format );
+//                _kWidthSlider.setMinimum( MIN_K_WIDTH );
+//                _kWidthSlider.setMaximum( MAX_K_WIDTH );
+//                
+//                Hashtable labelTable = new Hashtable();
+//                labelTable.put( new Integer( 0 ), new JLabel( "1" ) );
+//                labelTable.put( new Integer( 20 ), new JLabel( "" + MathStrings.C_PI ) );
+//                labelTable.put( new Integer( 40 ), new JLabel( "2" + MathStrings.C_PI ) );
+//                labelTable.put( new Integer( 60 ), new JLabel( "3" + MathStrings.C_PI ) );
+//                labelTable.put( new Integer( 80 ), new JLabel( "4" + MathStrings.C_PI ) );
+//                labelTable.put( new Integer( 100 ), new JLabel( "5" + MathStrings.C_PI ) );
+//                _kWidthSlider.setLabelTable( labelTable );
+//                _kWidthSlider.setMajorTickSpacing( 20 );
+//            }
             // k-space width
             {
-                String format = SimStrings.get( "D2CControlPanel.kWidth" );
-                _kWidthSlider = new FourierSlider( format );
-                _kWidthSlider.setMinimum( MIN_K_WIDTH );
-                _kWidthSlider.setMaximum( MAX_K_WIDTH );
-                
-                Hashtable labelTable = new Hashtable();
-                labelTable.put( new Integer( 0 ), new JLabel( "1" ) );
-                labelTable.put( new Integer( 20 ), new JLabel( "" + MathStrings.C_PI ) );
-                labelTable.put( new Integer( 40 ), new JLabel( "2" + MathStrings.C_PI ) );
-                labelTable.put( new Integer( 60 ), new JLabel( "3" + MathStrings.C_PI ) );
-                labelTable.put( new Integer( 80 ), new JLabel( "4" + MathStrings.C_PI ) );
-                labelTable.put( new Integer( 100 ), new JLabel( "5" + MathStrings.C_PI ) );
-                _kWidthSlider.setLabelTable( labelTable );
-                _kWidthSlider.setMajorTickSpacing( 20 );
+                _kWidthSlider = new KWidthSlider();
             }
 
             // x-space width
@@ -212,7 +214,6 @@ public class D2CControlPanel extends FourierControlPanel {
             layout.addComponent( _xWidthSlider, row++, 0 );
         }
 
-
         // Layout
         addFullWidth( miscPanel );
         addVerticalSpace( 15 );
@@ -220,6 +221,11 @@ public class D2CControlPanel extends FourierControlPanel {
         addVerticalSpace( 15 );
         addFullWidth( packetWidthPanel );
   
+        //XXX inverted slider test
+        {
+            
+        }
+        
         // Set the state of the controls.
         reset();
         
