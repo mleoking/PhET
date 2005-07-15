@@ -30,6 +30,8 @@ import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
+import edu.colorado.phet.fourier.control.sliders.AbstractFourierSlider;
+import edu.colorado.phet.fourier.control.sliders.DefaultFourierSlider;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
 import edu.colorado.phet.fourier.module.FourierModule;
@@ -72,7 +74,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private JCheckBox _showPeriodCheckBox;
     private JComboBox _showPeriodComboBox;
     private FourierComboBox _waveTypeComboBox;
-    private FourierSlider _numberOfHarmonicsSlider;
+    private AbstractFourierSlider _numberOfHarmonicsSlider;
     private JCheckBox _showMathCheckBox;
     private FourierComboBox _mathFormComboBox;
     private JCheckBox _expandSumCheckBox;
@@ -252,12 +254,14 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             // Number of harmonics
             {
                 String format = SimStrings.get( "DiscreteControlPanel.numberOfHarmonics" );
-                _numberOfHarmonicsSlider = new FourierSlider( format );
-                _numberOfHarmonicsSlider.setMaximum( FourierConfig.MAX_HARMONICS );
-                _numberOfHarmonicsSlider.setMinimum( FourierConfig.MIN_HARMONICS );
-                _numberOfHarmonicsSlider.setMajorTickSpacing( 2 );
-                _numberOfHarmonicsSlider.setMinorTickSpacing( 1 );
-                _numberOfHarmonicsSlider.setSnapToTicks( true );
+                _numberOfHarmonicsSlider = new DefaultFourierSlider( format );
+                _numberOfHarmonicsSlider.getSlider().setMaximum( FourierConfig.MAX_HARMONICS );
+                _numberOfHarmonicsSlider.getSlider().setMinimum( FourierConfig.MIN_HARMONICS );
+                _numberOfHarmonicsSlider.getSlider().setMajorTickSpacing( 2 );
+                _numberOfHarmonicsSlider.getSlider().setMinorTickSpacing( 1 );
+                _numberOfHarmonicsSlider.getSlider().setSnapToTicks( true );
+                _numberOfHarmonicsSlider.getSlider().setPaintLabels( true );
+                _numberOfHarmonicsSlider.getSlider().setPaintTicks( true );
             }
             
             // Layout

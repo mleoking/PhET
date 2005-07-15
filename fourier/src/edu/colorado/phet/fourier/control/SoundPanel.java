@@ -23,6 +23,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.control.sliders.AbstractFourierSlider;
+import edu.colorado.phet.fourier.control.sliders.DefaultFourierSlider;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
@@ -46,7 +48,7 @@ public class SoundPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
-    private FourierSlider _fundamentalFrequencySlider;
+    private AbstractFourierSlider _fundamentalFrequencySlider;
     private JCheckBox _playSoundCheckBox;
     
     //----------------------------------------------------------------------------
@@ -68,13 +70,14 @@ public class SoundPanel extends JPanel {
         // Fundamental frequency
         {
             String format = SimStrings.get( "SoundPanel.fundamentalFrequency" );
-            _fundamentalFrequencySlider = new FourierSlider( format );
-            _fundamentalFrequencySlider.setMaximum( 1200 );
-            _fundamentalFrequencySlider.setMinimum( 200 );
-            _fundamentalFrequencySlider.setValue( 440 );
-            _fundamentalFrequencySlider.setMajorTickSpacing( 250 );
-            _fundamentalFrequencySlider.setMinorTickSpacing( 50 );
-            _fundamentalFrequencySlider.setSnapToTicks( false );
+            _fundamentalFrequencySlider = new DefaultFourierSlider( format );
+            _fundamentalFrequencySlider.getSlider().setMaximum( 1200 );
+            _fundamentalFrequencySlider.getSlider().setMinimum( 200 );
+            _fundamentalFrequencySlider.getSlider().setMajorTickSpacing( 250 );
+            _fundamentalFrequencySlider.getSlider().setMinorTickSpacing( 50 );
+            _fundamentalFrequencySlider.getSlider().setSnapToTicks( false );
+            _fundamentalFrequencySlider.getSlider().setPaintTicks( true );
+            _fundamentalFrequencySlider.getSlider().setPaintLabels( true );
         }
 
         // Play Sound

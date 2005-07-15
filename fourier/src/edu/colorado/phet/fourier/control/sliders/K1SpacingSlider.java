@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.control;
+package edu.colorado.phet.fourier.control.sliders;
 
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
@@ -27,7 +27,7 @@ import edu.colorado.phet.fourier.MathStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class K1SpacingSlider extends FourierSlider {
+public class K1SpacingSlider extends AbstractFourierSlider {
 
     private static final String VALUE_FORMAT = "0.00";
     
@@ -40,8 +40,8 @@ public class K1SpacingSlider extends FourierSlider {
         super( SimStrings.get( "K1SpacingSlider.format" ) );
         
         // WARNING: Don't change the max & min or you'll need to rewrite most of this.
-        setMinimum( 0 );
-        setMaximum( 100 );
+        getSlider().setMinimum( 0 );
+        getSlider().setMaximum( 100 );
         
         Hashtable labelTable = new Hashtable();
         labelTable.put( new Integer( 0 ), new JLabel( "0" ) );
@@ -50,9 +50,11 @@ public class K1SpacingSlider extends FourierSlider {
         labelTable.put( new Integer( 60 ), new JLabel( MathStrings.C_PI + "/2" ) );
         labelTable.put( new Integer( 80 ), new JLabel( "" + MathStrings.C_PI ) );
         labelTable.put( new Integer( 100 ), new JLabel( "2" + MathStrings.C_PI ) );
-        setLabelTable( labelTable );
+        getSlider().setLabelTable( labelTable );
+        getSlider().setPaintLabels( true );
         
-        setMajorTickSpacing( 20 );
+        getSlider().setMajorTickSpacing( 20 );
+        getSlider().setPaintTicks( true );
     }
     
     /*
