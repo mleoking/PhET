@@ -41,6 +41,25 @@ public class VesselGraphic extends CompositePhetGraphic {
 //                                                          new BasicStroke( 10 ), Color.black );
                                                           new BasicStroke( (float)wallThickness ), Color.black );
         addGraphic( boundary );
+
+//        BufferedImage vesselImage = null;
+//        try {
+//            vesselImage = ImageLoader.loadBufferedImage( "images/vesselGraphic.png ");
+//        }
+//        catch( IOException e ) {
+//            e.printStackTrace();
+//        }
+//
+//        double xScale = (vessel.getWidth() + 50) / vesselImage.getWidth();
+//        double yScale = (vessel.getHeight() + 50) / vesselImage.getHeight();
+//        AffineTransform scaleTx = AffineTransform.getScaleInstance( xScale, yScale );
+//        AffineTransformOp atxOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
+//        BufferedImage bi = atxOp.filter( vesselImage, null );
+//
+//        AffineTransform atx = AffineTransform.getTranslateInstance( vessel.getX() - 25, vessel.getY() - 25 );
+//        PhetImageGraphic pig = new PhetImageGraphic( component, bi, atx );
+//        addGraphic( pig );
+
         Rectangle2D[] channels = vessel.getChannels();
         for( int i = 0; i < channels.length; i++ ) {
             Rectangle2D channel = channels[i];

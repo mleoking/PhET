@@ -47,9 +47,10 @@ public class VesselBackgroundPanel extends PhetShapeGraphic implements Vessel.Ch
      * @param vessel
      */
     public VesselBackgroundPanel( Component component, Vessel vessel ) {
+        // The +1 is to handle round-off
         super( component, new Rectangle2D.Double( vessel.getBounds().getX(),
                                                   vessel.getBounds().getY(),
-                                                  vessel.getBounds().getWidth(),
+                                                  vessel.getBounds().getWidth() + 1,
                                                   vessel.getBounds().getHeight() ),
                DEFAULT_COLOR );
         vessel.addChangeListener( this );
