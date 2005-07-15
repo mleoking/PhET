@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view;
 
+import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
@@ -8,11 +9,14 @@ import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -34,6 +38,7 @@ public class DetectorSheet extends GraphicLayerSet {
     private Font buttonFont = new Font( "Lucida Sans", Font.BOLD, 10 );
     private Insets buttonInsets = new Insets( 2, 2, 2, 2 );
     private PhetGraphic saveGraphic;
+    private double brightness;
 
     public DetectorSheet( final SchrodingerPanel schrodingerPanel, int width, int height ) {
         super( schrodingerPanel );
@@ -85,6 +90,29 @@ public class DetectorSheet extends GraphicLayerSet {
         saveGraphic.setLocation( screenGraphic.getWidth(), screenGraphic.getY() );
         this.saveGraphic = saveGraphic;
         this.saveGraphic.setVisible( false );
+
+//        JSlider brightnessSlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 500 );
+//
+//        JLabel brightness=new JLabel( "Brightness");
+
+        final ModelSlider brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1, 0.5, new DecimalFormat( "0.0" ) );
+        PhetGraphic brightnessSliderGraphic = PhetJComponent.newInstance( schrodingerPanel, brightnessModelSlider );
+        addGraphic( brightnessSliderGraphic );
+        brightnessSliderGraphic.setLocation( saveGraphic.getX(), saveGraphic.getY() + saveGraphic.getHeight() + 10 );
+        brightnessModelSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                setBrightness( brightnessModelSlider.getValue() );
+            }
+        } );
+    }
+
+    private void setBrightness( double value ) {
+        this.brightness = value;
+        setOpacity( toOpacity( brightness ) );
+    }
+
+    private int toOpacity( double brightness ) {
+        return (int)( brightness * 125 );
     }
 
     private BufferedImage copyScreen() {
