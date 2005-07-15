@@ -64,7 +64,7 @@ public class D2CControlPanel extends FourierControlPanel {
     private FourierSlider _spacingSlider;
     private JCheckBox _continuousCheckBox;
     private KWidthSlider _kWidthSlider;
-    private FourierSlider _xWidthSlider;
+    private XWidthSlider _xWidthSlider;
     private FourierComboBox _waveTypeComboBox;
     
     // Choices
@@ -166,45 +166,11 @@ public class D2CControlPanel extends FourierControlPanel {
             String title = SimStrings.get( "D2CControlPanel.packetWidth" );
             packetWidthPanel.setBorder( new TitledBorder( title ) );
             
-//            // k-space width
-//            {
-//                String format = SimStrings.get( "D2CControlPanel.kWidth" );
-//                _kWidthSlider = new FourierSlider( format );
-//                _kWidthSlider.setMinimum( MIN_K_WIDTH );
-//                _kWidthSlider.setMaximum( MAX_K_WIDTH );
-//                
-//                Hashtable labelTable = new Hashtable();
-//                labelTable.put( new Integer( 0 ), new JLabel( "1" ) );
-//                labelTable.put( new Integer( 20 ), new JLabel( "" + MathStrings.C_PI ) );
-//                labelTable.put( new Integer( 40 ), new JLabel( "2" + MathStrings.C_PI ) );
-//                labelTable.put( new Integer( 60 ), new JLabel( "3" + MathStrings.C_PI ) );
-//                labelTable.put( new Integer( 80 ), new JLabel( "4" + MathStrings.C_PI ) );
-//                labelTable.put( new Integer( 100 ), new JLabel( "5" + MathStrings.C_PI ) );
-//                _kWidthSlider.setLabelTable( labelTable );
-//                _kWidthSlider.setMajorTickSpacing( 20 );
-//            }
             // k-space width
-            {
-                _kWidthSlider = new KWidthSlider();
-            }
+            _kWidthSlider = new KWidthSlider();
 
             // x-space width
-            {
-                String format = SimStrings.get( "D2CControlPanel.xWidth" );
-                _xWidthSlider = new FourierSlider( format );
-                _xWidthSlider.setMinimum( MIN_X_WIDTH );
-                _xWidthSlider.setMaximum( MAX_X_WIDTH );
-                
-                Hashtable labelTable = new Hashtable();
-                labelTable.put( new Integer( 0 ), new JLabel( "1/5" + MathStrings.C_PI ) );
-                labelTable.put( new Integer( 20 ), new JLabel( ".2" ) );
-                labelTable.put( new Integer( 40 ), new JLabel( ".4" ) );
-                labelTable.put( new Integer( 60 ), new JLabel( ".6" ) );
-                labelTable.put( new Integer( 80 ), new JLabel( ".8" ) );
-                labelTable.put( new Integer( 100 ), new JLabel( "1" ) );
-                _xWidthSlider.setLabelTable( labelTable );
-                _xWidthSlider.setMajorTickSpacing( 20 );
-            }
+            _xWidthSlider = new XWidthSlider();
             
             // Layout
             EasyGridBagLayout layout = new EasyGridBagLayout( packetWidthPanel );
