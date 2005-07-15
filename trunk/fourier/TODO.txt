@@ -57,6 +57,10 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/15) - wire up D2C control panel so that controls affect each other
+(7/15) - K1SpacingSlider for adjusting spacing of harmonics in wave packet
+(7/15) - XWidthSlider for adjusting x-space width of wave packet
+(7/15) - KWidthSlider for adjusting k-space width of wave packet
 (7/14) - add preliminary labels to sliders in D2C control panel
 (7/14) - preallocate all HarmonicPlots in HarmonicsGraph to simplify code
 (7/14) - remove Continuous module, per SamM's request

@@ -194,8 +194,8 @@ public class D2CControlPanel extends FourierControlPanel {
     
     public void reset() {
         _k1SpacingSlider.setValue( _k1SpacingSlider.getSlider().getMinimum() );//XXX
-        _kWidthSlider.setValue( _kWidthSlider.getSlider().getMinimum() );//XXX
-        _xWidthSlider.setValue( _xWidthSlider.getSlider().getMinimum() );//XXX
+        _kWidthSlider.setValue( 1 );
+        _xWidthSlider.setValue( 1 );
     }
     
     //----------------------------------------------------------------------------
@@ -254,20 +254,35 @@ public class D2CControlPanel extends FourierControlPanel {
     // Event handling
     //----------------------------------------------------------------------------
     
+    private int _oldK1WidthSliderValue;
+    
     private void handleContinuous() {
         System.out.println( "continuous=" + _continuousCheckBox.isSelected() );//XXX
+        if ( _continuousCheckBox.isSelected() ) {
+            _oldK1WidthSliderValue = _k1SpacingSlider.getSlider().getValue();
+            _k1SpacingSlider.setValue( 0 );
+        }
+        else {
+            _k1SpacingSlider.getSlider().setValue( _oldK1WidthSliderValue );
+        }
     }
     
     private void handleSpacing() {
         System.out.println( "spacing=" + _k1SpacingSlider.getValue() );//XXX
+        double k1Spacing = _k1SpacingSlider.getValue();
+        _continuousCheckBox.setSelected( k1Spacing == 0 );
     }
     
     private void handleKWidth() {
         System.out.println( "k width=" + _kWidthSlider.getValue() );//XXX
+        double kWidth = _kWidthSlider.getValue();
+        _xWidthSlider.setValue( 1/kWidth );
     }
     
     private void handleXWidth() {
         System.out.println( "x width=" + _xWidthSlider.getValue() );//XXX
+        double xWidth = _xWidthSlider.getValue();
+        _kWidthSlider.setValue( 1/xWidth );
     }
     
     private void handleDomain() {

@@ -136,7 +136,7 @@ public class SoundPanel extends JPanel {
     }
     
     private void handleFundamentalFrequency() {
-        int fundamentalFrequency = _fundamentalFrequencySlider.getValue();
+        int fundamentalFrequency = (int)_fundamentalFrequencySlider.getValue();
         _fourierSeries.setFundamentalFrequency( fundamentalFrequency );
     }
 }

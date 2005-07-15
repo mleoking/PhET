@@ -43,7 +43,7 @@ public class XWidthSlider extends FourierSlider {
      */
     private static final int MULTIPLIER = 1000;
     
-    private DecimalFormat _widthFormatter;
+    private DecimalFormat _xWidthFormatter;
     
     /**
      * Sole constructor.
@@ -80,16 +80,27 @@ public class XWidthSlider extends FourierSlider {
      * Updates the label when the slider is changed.
      */
     protected void updateLabel() {
-        int value = getValue();
         String format = getFormat();
-        // Careful - remember that the slider is inverted!
-        double width = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - value ) / MULTIPLIER;
-        if ( _widthFormatter == null ) {
-            _widthFormatter = new DecimalFormat( VALUE_FORMAT );
+        double _xWidth = getValue();
+        if ( _xWidthFormatter == null ) {
+            _xWidthFormatter = new DecimalFormat( VALUE_FORMAT );
         }
-        String widthString = _widthFormatter.format( width );
-        Object[] args = { widthString };
+        String xWidthString = _xWidthFormatter.format( _xWidth );
+        Object[] args = { xWidthString };
         String text = MessageFormat.format( format, args );
         getLabel().setText( text );
+    }
+    
+    public double getValue() {
+        int sliderValue = getSlider().getValue();
+        // Careful - remember that the slider is inverted!
+        double xWidth = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - sliderValue ) / MULTIPLIER;
+        return xWidth;
+    }
+    
+    public void setValue( double xWidth ) {
+        // Careful - remember that the slider is inverted!
+        int sliderValue = (int) ( ((MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - ( xWidth * MULTIPLIER ) );
+        getSlider().setValue( sliderValue );
     }
 }

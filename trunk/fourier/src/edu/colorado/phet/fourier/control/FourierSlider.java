@@ -87,8 +87,8 @@ public class FourierSlider extends JPanel implements ChangeListener {
      * 
      * @param value
      */
-    public void setValue( int value ) {
-        _slider.setValue( value );
+    public void setValue( double value ) {
+        _slider.setValue( (int)value );
         updateLabel();
     }
     
@@ -97,7 +97,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      * 
      * @return the value
      */
-    public int getValue() {
+    public double getValue() {
         return _slider.getValue();
     }
     
@@ -106,8 +106,8 @@ public class FourierSlider extends JPanel implements ChangeListener {
      * 
      * @param maximum
      */
-    public void setMaximum( int maximum ) {
-        _slider.setMaximum( maximum );
+    public void setMaximum( double maximum ) {
+        _slider.setMaximum( (int)maximum );
         updateLabel();
     }
     
@@ -116,8 +116,8 @@ public class FourierSlider extends JPanel implements ChangeListener {
      * 
      * @param minimum
      */
-    public void setMinimum( int minimum ) {
-        _slider.setMinimum( minimum );
+    public void setMinimum( double minimum ) {
+        _slider.setMinimum( (int) minimum );
         updateLabel();
     }
 
@@ -126,8 +126,8 @@ public class FourierSlider extends JPanel implements ChangeListener {
      * 
      * @param spacing
      */
-    public void setMajorTickSpacing( int spacing ) { 
-        _slider.setMajorTickSpacing( spacing );
+    public void setMajorTickSpacing( double spacing ) { 
+        _slider.setMajorTickSpacing( (int) spacing );
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
         updateLabel();
@@ -138,8 +138,8 @@ public class FourierSlider extends JPanel implements ChangeListener {
      * 
      * @param spacing
      */
-    public void setMinorTickSpacing( int spacing ) { 
-        _slider.setMinorTickSpacing( spacing );
+    public void setMinorTickSpacing( double spacing ) { 
+        _slider.setMinorTickSpacing( (int) spacing );
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
         updateLabel();
