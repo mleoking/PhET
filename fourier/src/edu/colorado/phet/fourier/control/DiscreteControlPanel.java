@@ -621,7 +621,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         
         setWaitCursorEnabled( true );
         
-        int numberOfHarmonics = _numberOfHarmonicsSlider.getValue();
+        int numberOfHarmonics = (int)_numberOfHarmonicsSlider.getValue();
         
         // Update the Fourier series.
         _fourierSeries.setNumberOfHarmonics( numberOfHarmonics );

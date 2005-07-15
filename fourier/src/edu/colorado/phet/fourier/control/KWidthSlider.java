@@ -80,10 +80,8 @@ public class KWidthSlider extends FourierSlider {
      * Updates the label when the slider is changed.
      */
     protected void updateLabel() {
-        int value = getValue();
         String format = getFormat();
-        // Careful - remember that the slider is inverted!
-        double width = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - value ) / MULTIPLIER;
+        double width = getValue();
         if ( _widthFormatter == null ) {
             _widthFormatter = new DecimalFormat( VALUE_FORMAT );
         }
@@ -91,5 +89,18 @@ public class KWidthSlider extends FourierSlider {
         Object[] args = { widthString };
         String text = MessageFormat.format( format, args );
         getLabel().setText( text );
+    }
+    
+    public double getValue() {
+        int sliderValue = getSlider().getValue();
+        // Careful - remember that the slider is inverted!
+        double kWidth = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - sliderValue ) / MULTIPLIER;
+        return kWidth;
+    }
+    
+    public void setValue( double kWidth ) {
+        // Careful - remember that the slider is inverted!
+        int sliderValue = (int) ( ((MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - ( kWidth * MULTIPLIER ) );
+        getSlider().setValue( sliderValue );
     }
 }
