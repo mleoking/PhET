@@ -210,7 +210,7 @@ public class FieldNode2 extends JApplet {
         JFrame f = new JFrame( SimStrings.get( "EFieldApplication.title" ) );
         f.setContentPane(j);
         f.addWindowListener(new ExitOnClose());
-        f.setSize(new Dimension(500, 560));
+        f.setSize(new Dimension(500, 600));
         //f.pack();
         f.setVisible(true);
     }
