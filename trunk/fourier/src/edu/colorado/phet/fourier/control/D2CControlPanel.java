@@ -28,6 +28,9 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
+import edu.colorado.phet.fourier.control.sliders.K1SpacingSlider;
+import edu.colorado.phet.fourier.control.sliders.KWidthSlider;
+import edu.colorado.phet.fourier.control.sliders.XWidthSlider;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
@@ -171,11 +174,6 @@ public class D2CControlPanel extends FourierControlPanel {
         addFullWidth( harmonicsPanel );
         addVerticalSpace( 15 );
         addFullWidth( packetWidthPanel );
-  
-        //XXX inverted slider test
-        {
-            
-        }
         
         // Set the state of the controls.
         reset();

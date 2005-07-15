@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.control;
+package edu.colorado.phet.fourier.control.sliders;
 
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
@@ -28,7 +28,7 @@ import edu.colorado.phet.fourier.MathStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class KWidthSlider extends FourierSlider {
+public class KWidthSlider extends AbstractFourierSlider {
     
     private static final String VALUE_FORMAT = "0.00";
 
@@ -51,8 +51,8 @@ public class KWidthSlider extends FourierSlider {
     public KWidthSlider() {
         super( SimStrings.get( "KWidthSlider.format" ) );
         
-        setMinimum( (int)( MIN_WIDTH * MULTIPLIER) );
-        setMaximum( (int)( MAX_WIDTH * MULTIPLIER ) );
+        getSlider().setMinimum( (int)( MIN_WIDTH * MULTIPLIER) );
+        getSlider().setMaximum( (int)( MAX_WIDTH * MULTIPLIER ) );
 
         /*
          * The distance between the lowest two ticks is (1 and PI) is 
@@ -69,10 +69,12 @@ public class KWidthSlider extends FourierSlider {
         labelTable.put( new Integer( (int)( ( MIN_WIDTH + (2 * Math.PI) ) * MULTIPLIER ) ), new JLabel( "3" + MathStrings.C_PI ) );
         labelTable.put( new Integer( (int)( ( MIN_WIDTH + (1 * Math.PI) ) * MULTIPLIER ) ), new JLabel( "4" + MathStrings.C_PI ) );
         labelTable.put( new Integer( (int)( MIN_WIDTH * MULTIPLIER ) ), new JLabel( "5" + MathStrings.C_PI ) );
-        setLabelTable( labelTable );
+        getSlider().setLabelTable( labelTable );
+        getSlider().setPaintLabels( true );
         
-        setMajorTickSpacing( (int) ( (MAX_WIDTH - MIN_WIDTH) * MULTIPLIER ) );
-        setMinorTickSpacing( (int) ( Math.PI * MULTIPLIER ) );
+        getSlider().setMajorTickSpacing( (int) ( (MAX_WIDTH - MIN_WIDTH) * MULTIPLIER ) );
+        getSlider().setMinorTickSpacing( (int) ( Math.PI * MULTIPLIER ) );
+        getSlider().setPaintTicks( true );
     }
     
     /*

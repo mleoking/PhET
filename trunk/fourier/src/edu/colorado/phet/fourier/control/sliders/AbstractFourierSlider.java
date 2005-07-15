@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.fourier.control;
+package edu.colorado.phet.fourier.control.sliders;
 
 import java.awt.GridBagConstraints;
 import java.text.MessageFormat;
@@ -27,14 +27,14 @@ import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
 
 /**
- * FourierSlider combines a JSlider and JLabel into one panel that 
+ * AbstractFourierSlider combines a JSlider and JLabel into one panel that 
  * can be treated like a JSlider.  As the slider value is changed, the label 
  * automatically updates to reflect the new value.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FourierSlider extends JPanel implements ChangeListener {
+public abstract class AbstractFourierSlider extends JPanel implements ChangeListener {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -54,7 +54,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      * 
      * @param format format of the label used to display the value
      */
-    public FourierSlider( String format ) {
+    public AbstractFourierSlider( String format ) {
         super();
         
         assert( format != null );
@@ -83,90 +83,19 @@ public class FourierSlider extends JPanel implements ChangeListener {
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the slider's value.
+     * Sets the value.
      * 
      * @param value
      */
-    public void setValue( double value ) {
-        _slider.setValue( (int)value );
-        updateLabel();
-    }
+    public abstract void setValue( double value );
     
     /**
-     * Gets the slider's value.
+     * Gets the value.
      * 
      * @return the value
      */
-    public double getValue() {
-        return _slider.getValue();
-    }
+    public abstract double getValue();
     
-    /**
-     * Sets the slider's maximum value.
-     * 
-     * @param maximum
-     */
-    public void setMaximum( double maximum ) {
-        _slider.setMaximum( (int)maximum );
-        updateLabel();
-    }
-    
-    /**
-     * Sets the sliders' minimum value.
-     * 
-     * @param minimum
-     */
-    public void setMinimum( double minimum ) {
-        _slider.setMinimum( (int) minimum );
-        updateLabel();
-    }
-
-    /**
-     * Sets the spacing between major tick marks.
-     * 
-     * @param spacing
-     */
-    public void setMajorTickSpacing( double spacing ) { 
-        _slider.setMajorTickSpacing( (int) spacing );
-        _slider.setPaintTicks( true );
-        _slider.setPaintLabels( true );
-        updateLabel();
-    }
-    
-    /**
-     * Sets the spacing between minor tick marks.
-     * 
-     * @param spacing
-     */
-    public void setMinorTickSpacing( double spacing ) { 
-        _slider.setMinorTickSpacing( (int) spacing );
-        _slider.setPaintTicks( true );
-        _slider.setPaintLabels( true );
-        updateLabel();
-    }
-    
-    /**
-     * Controls how the slider behaves when it is released.
-     * Specifying true causes the slider to "snap" to the nearest tick mark.
-     * 
-     * @param snap true or false
-     */
-    public void setSnapToTicks( boolean snap ) {
-        _slider.setSnapToTicks( snap );
-        updateLabel();
-    }
-    
-    /**
-     * Adds a label table to the slider.
-     * 
-     * @param labelTable
-     */
-    public void setLabelTable( Dictionary labelTable ) {
-        _slider.setLabelTable( labelTable );
-        _slider.setPaintLabels( true );
-        updateLabel();
-    }
-  
     /**
      * Provides access to the JSlider.
      * 
@@ -176,11 +105,13 @@ public class FourierSlider extends JPanel implements ChangeListener {
         return _slider;
     }
     
-    protected void updateLabel() {
-        int value = _slider.getValue();
-        Object[] args = { new Integer( value ) };
-        String text = MessageFormat.format( _format, args );
-        _label.setText( text );
+    /**
+     * Gets the JLabel that displays the value.
+     * 
+     * @return the JLabel
+     */
+    protected JLabel getLabel() {
+        return _label;
     }
     
     /**
@@ -192,15 +123,11 @@ public class FourierSlider extends JPanel implements ChangeListener {
     protected String getFormat() {
         return _format;
     }
-    
+
     /**
-     * Gets the JLabel that displays the value.
-     * 
-     * @return the JLabel
+     * Updates the label when the slider value changes.
      */
-    protected JLabel getLabel() {
-        return _label;
-    }
+    protected abstract void updateLabel();
     
     //----------------------------------------------------------------------------
     // Event handling
