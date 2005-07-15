@@ -41,6 +41,8 @@ public class IntensityPanel extends SchrodingerPanel {
         slitControlGraphic = PhetJComponent.newInstance( this, slitControlPanel );
         addGraphic( slitControlGraphic );
         slitControlGraphic.setLocation( ds.getX(), ds.getY() + ds.getHeight() + 5 );
+
+        getIntensityDisplay().getDetectorSheet().setFadeEnabled( true );
     }
 
     public SlitControlPanel getSlitControlPanel() {

@@ -54,11 +54,9 @@ public class PhotonBeamParticle extends GunParticle {
 
             intensity += getIncrement();
             intensity = Math.max( intensity, 0 );
-            System.out.println( "this = " + this + ", setting intensity=" + intensity );
+            System.out.println( "this = " + this + ", setting intensity=" + intensity + ", mag=" + mag );
             photonBeam.setIntensity( intensity );
 
-
-            System.out.println( "mag = " + mag );
             if( mag > 0.93 ) {
                 removeModelElement( this );
                 addModelElement( pauser );

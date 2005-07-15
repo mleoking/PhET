@@ -1,12 +1,14 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm.view;
 
+import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -39,6 +41,7 @@ public class DetectorSheet extends GraphicLayerSet {
     private Insets buttonInsets = new Insets( 2, 2, 2, 2 );
     private PhetGraphic saveGraphic;
     private double brightness;
+    private IntegralModelElement fadeElement;
 
     public DetectorSheet( final SchrodingerPanel schrodingerPanel, int width, int height ) {
         super( schrodingerPanel );
@@ -95,7 +98,8 @@ public class DetectorSheet extends GraphicLayerSet {
 //
 //        JLabel brightness=new JLabel( "Brightness");
 
-        final ModelSlider brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1, 0.5, new DecimalFormat( "0.0" ) );
+        final ModelSlider brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1, 0.5, new DecimalFormat( "0.000" ) );
+        brightnessModelSlider.setModelTicks( new double[]{0, 0.25, 0.5, 0.75, 1.0} );
         PhetGraphic brightnessSliderGraphic = PhetJComponent.newInstance( schrodingerPanel, brightnessModelSlider );
         addGraphic( brightnessSliderGraphic );
         brightnessSliderGraphic.setLocation( saveGraphic.getX(), saveGraphic.getY() + saveGraphic.getHeight() + 10 );
@@ -104,7 +108,27 @@ public class DetectorSheet extends GraphicLayerSet {
                 setBrightness( brightnessModelSlider.getValue() );
             }
         } );
+        fadeElement = new IntegralModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                new ImageFade().fade( getBufferedImage() );
+                screenGraphic.setBoundsDirty();
+                screenGraphic.repaint();
+            }
+        }, 2 );
+
     }
+
+    public void setFadeEnabled( boolean fade ) {
+        if( fade ) {
+            schrodingerPanel.getSchrodingerModule().getModel().addModelElement( fadeElement );
+        }
+        else {
+            while( schrodingerPanel.getSchrodingerModule().getModel().containsModelElement( fadeElement ) ) {
+                schrodingerPanel.getSchrodingerModule().getModel().removeModelElement( fadeElement );
+            }
+        }
+    }
+
 
     private void setBrightness( double value ) {
         this.brightness = value;
@@ -112,7 +136,7 @@ public class DetectorSheet extends GraphicLayerSet {
     }
 
     private int toOpacity( double brightness ) {
-        return (int)( brightness * 125 );
+        return (int)( brightness * 255 );
     }
 
     private BufferedImage copyScreen() {
