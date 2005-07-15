@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.tests.piccolo.pswing;
 
+import edu.colorado.phet.piccolo.pswing.PComboBox;
 import edu.colorado.phet.piccolo.pswing.PSwing;
 import edu.colorado.phet.piccolo.pswing.PSwingCanvas;
 import edu.colorado.phet.tests.piccolo.TestPiccolo2;
@@ -145,20 +146,19 @@ public class TestPSwing {
         pCanvas.getLayer().addChild( root );
 
 
+        String[] listItems = {"Summer Teeth", "Mermaid Avenue", "Being There", "A.M."};
+        PComboBox box = new PComboBox( listItems );
+        swing = new PSwing( pCanvas, box );
+//        leaf = new ZVisualLeaf( swing );
+//        transform = new ZTransformGroup();
+        swing.translate( 200, 250 );
+//        transform.addChild( leaf );
+        pCanvas.getLayer().addChild( swing );
+        box.setEnvironment( swing, pCanvas );
+
         // Revalidate and repaint
         pCanvas.revalidate();
         pCanvas.repaint();
-    }
-
-    private static void testCheckBox() {
-        JFrame frame = new JFrame( "Test Check Box" );
-        JPanel myPanel = new JPanel();
-        myPanel.setBorder( BorderFactory.createTitledBorder( "Titled Border" ) );
-        myPanel.add( new JCheckBox( "CheckBox" ) );
-        frame.setContentPane( myPanel );
-
-        frame.setSize( 400, 400 );
-        frame.show();
     }
 
 }
