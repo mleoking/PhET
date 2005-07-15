@@ -30,6 +30,8 @@ import edu.colorado.phet.fourier.MathStrings;
  */
 public class KWidthSlider extends FourierSlider {
     
+    private static final String VALUE_FORMAT = "0.00";
+
     // k-space width is from 1 to 5pi
     private static final double MIN_WIDTH = 1;
     private static final double MAX_WIDTH = 5 * Math.PI;
@@ -39,7 +41,7 @@ public class KWidthSlider extends FourierSlider {
      * This MULTIPLIER is used to convert the doubles to integers.
      * It should be a power of 10.  Larger values provide better precision.
      */
-    private static final int MULTIPLIER = 100;
+    private static final int MULTIPLIER = 1000;
     
     private DecimalFormat _widthFormatter;
     
@@ -83,7 +85,7 @@ public class KWidthSlider extends FourierSlider {
         // Careful - remember that the slider is inverted!
         double width = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - value ) / MULTIPLIER;
         if ( _widthFormatter == null ) {
-            _widthFormatter = new DecimalFormat( "0.0" );
+            _widthFormatter = new DecimalFormat( VALUE_FORMAT );
         }
         String widthString = _widthFormatter.format( width );
         Object[] args = { widthString };
