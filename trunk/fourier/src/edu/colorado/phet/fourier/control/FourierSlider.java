@@ -41,7 +41,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
     //----------------------------------------------------------------------------
     
     private JSlider _slider;  // slider that the user moves
-    private JLabel _value; // value that updates as the slider is moved
+    private JLabel _label; // value that updates as the slider is moved
     private String _format; // format that specifies how the value is displayed
     private EventListenerList _listenerList; // notification of slider changes
     
@@ -67,15 +67,15 @@ public class FourierSlider extends JPanel implements ChangeListener {
         // UI components
         _slider = new JSlider();
         _slider.addChangeListener( this );
-        _value = new JLabel();
+        _label = new JLabel();
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
-        layout.addAnchoredComponent( _value, 0, 0, GridBagConstraints.WEST );
+        layout.addAnchoredComponent( _label, 0, 0, GridBagConstraints.WEST );
         layout.addAnchoredComponent( _slider, 1, 0, GridBagConstraints.WEST );
         
-        update();
+        updateLabel();
     }
     
     //----------------------------------------------------------------------------
@@ -89,7 +89,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      */
     public void setValue( int value ) {
         _slider.setValue( value );
-        update();
+        updateLabel();
     }
     
     /**
@@ -108,7 +108,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      */
     public void setMaximum( int maximum ) {
         _slider.setMaximum( maximum );
-        update();
+        updateLabel();
     }
     
     /**
@@ -118,7 +118,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      */
     public void setMinimum( int minimum ) {
         _slider.setMinimum( minimum );
-        update();
+        updateLabel();
     }
 
     /**
@@ -130,7 +130,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
         _slider.setMajorTickSpacing( spacing );
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
-        update();
+        updateLabel();
     }
     
     /**
@@ -142,7 +142,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
         _slider.setMinorTickSpacing( spacing );
         _slider.setPaintTicks( true );
         _slider.setPaintLabels( true );
-        update();
+        updateLabel();
     }
     
     /**
@@ -153,7 +153,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      */
     public void setSnapToTicks( boolean snap ) {
         _slider.setSnapToTicks( snap );
-        update();
+        updateLabel();
     }
     
     /**
@@ -164,7 +164,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
     public void setLabelTable( Dictionary labelTable ) {
         _slider.setLabelTable( labelTable );
         _slider.setPaintLabels( true );
-        update();
+        updateLabel();
     }
   
     /**
@@ -176,11 +176,30 @@ public class FourierSlider extends JPanel implements ChangeListener {
         return _slider;
     }
     
-    private void update() {
+    protected void updateLabel() {
         int value = _slider.getValue();
         Object[] args = { new Integer( value ) };
         String text = MessageFormat.format( _format, args );
-        _value.setText( text );
+        _label.setText( text );
+    }
+    
+    /**
+     * Gets the format used to format the label.
+     * See MessageFormat.
+     * 
+     * @return the format
+     */
+    protected String getFormat() {
+        return _format;
+    }
+    
+    /**
+     * Gets the JLabel that displays the value.
+     * 
+     * @return the JLabel
+     */
+    protected JLabel getLabel() {
+        return _label;
     }
     
     //----------------------------------------------------------------------------
@@ -193,7 +212,7 @@ public class FourierSlider extends JPanel implements ChangeListener {
      * @param e the event
      */
     public void stateChanged( ChangeEvent e ) {
-        update();
+        updateLabel();
         fireChangeEvent( new ChangeEvent( this ) );
     }
  
