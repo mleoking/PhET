@@ -30,7 +30,9 @@ import edu.colorado.phet.fourier.MathStrings;
  */
 public class XWidthSlider extends FourierSlider {
 
-    // x-space width is from PI/5 to 1
+    private static final String VALUE_FORMAT = "0.00";
+    
+    // x-space width is from 1/5PI to 1
     private static final double MIN_WIDTH = 1 / ( Math.PI * 5 );
     private static final double MAX_WIDTH = 1.0;
     
@@ -83,7 +85,7 @@ public class XWidthSlider extends FourierSlider {
         // Careful - remember that the slider is inverted!
         double width = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - value ) / MULTIPLIER;
         if ( _widthFormatter == null ) {
-            _widthFormatter = new DecimalFormat( "0.00" );
+            _widthFormatter = new DecimalFormat( VALUE_FORMAT );
         }
         String widthString = _widthFormatter.format( width );
         Object[] args = { widthString };
