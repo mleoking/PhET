@@ -413,7 +413,8 @@ public class ControlledFissionModule extends ChainReactionModule {
     }
 
     /**
-     * Computes where the neutron will be fired from, and in what direction
+     * Computes where the neutron will be fired from, and in what direction. It picks a random point within
+     * one of the areas between control rods and sets a path toward the center of that area.
      */
     protected void computeNeutronLaunchParams() {
 
@@ -439,14 +440,10 @@ public class ControlledFissionModule extends ChainReactionModule {
         double dx = neutronLaunchPoint.x - vessel.getX();
         int areaIdx = (int)( dx / ( areaWidth + channelWidth ) );
         double x0 = vessel.getX() + areaIdx * ( areaWidth + channelWidth );
-        double x = x0 + random.nextDouble() * areaWidth;
-        double y = vessel.getY() + random.nextDouble() * vessel.getHeight();
-        double xMid = vessel.getX() + areaWidth / 2;
+        double xMid = x0 + areaWidth / 2;
         double yMid = vessel.getY() + vessel.getHeight() / 2;
-        neutronLaunchAngle = Math.atan2( yMid - y, xMid - x );
-        neutronLaunchPoint = new Point2D.Double( x, y );
-        neutronPath = new Line2D.Double( x, y, xMid, yMid );
-
+        neutronLaunchAngle = Math.atan2( yMid - neutronLaunchPoint.y, xMid - neutronLaunchPoint.x );
+        neutronPath = new Line2D.Double( neutronLaunchPoint.x, neutronLaunchPoint.y, xMid, yMid );
     }
 
     /**
