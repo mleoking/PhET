@@ -363,6 +363,9 @@ public class PComboBox extends JComboBox implements Serializable {
     }
 
     private Point2D getNodeLocationInFrame() {
+        if( pSwing == null || canvas == null ) {
+            throw new RuntimeException( "PComboBox.setEnvironment( swing, pCanvas );//has to be done manually at present" );
+        }
         Point2D r1c = pSwing.getBounds().getOrigin();
         pSwing.localToGlobal( r1c );
         canvas.getCamera().viewToLocal( r1c );

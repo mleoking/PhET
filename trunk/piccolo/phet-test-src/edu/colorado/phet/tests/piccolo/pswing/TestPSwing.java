@@ -154,7 +154,7 @@ public class TestPSwing {
         swing.translate( 200, 250 );
 //        transform.addChild( leaf );
         pCanvas.getLayer().addChild( swing );
-        box.setEnvironment( swing, pCanvas );
+        box.setEnvironment( swing, pCanvas );//has to be done manually at present
 
         // Revalidate and repaint
         pCanvas.revalidate();
