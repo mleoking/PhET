@@ -61,7 +61,7 @@ public class D2CControlPanel extends FourierControlPanel {
 
     // UI components
     private FourierComboBox _domainComboBox;
-    private FourierSlider _spacingSlider;
+    private K1SpacingSlider _k1SpacingSlider;
     private JCheckBox _continuousCheckBox;
     private KWidthSlider _kWidthSlider;
     private XWidthSlider _xWidthSlider;
@@ -132,22 +132,7 @@ public class D2CControlPanel extends FourierControlPanel {
             harmonicsPanel.setBorder( new TitledBorder( title ) );
             
             // Spacing
-            {
-                String format = SimStrings.get( "D2CControlPanel.spacing" );
-                _spacingSlider = new FourierSlider( format );
-                _spacingSlider.setMinimum( MIN_SPACING );
-                _spacingSlider.setMaximum( MAX_SPACING );
-                
-                Hashtable labelTable = new Hashtable();
-                labelTable.put( new Integer( 0 ), new JLabel( "0" ) );
-                labelTable.put( new Integer( 20 ), new JLabel( MathStrings.C_PI + "/8" ) );
-                labelTable.put( new Integer( 40 ), new JLabel( MathStrings.C_PI + "/4" ) );
-                labelTable.put( new Integer( 60 ), new JLabel( MathStrings.C_PI + "/2" ) );
-                labelTable.put( new Integer( 80 ), new JLabel( "" + MathStrings.C_PI ) );
-                labelTable.put( new Integer( 100 ), new JLabel( "2" + MathStrings.C_PI ) );
-                _spacingSlider.setLabelTable( labelTable );
-                _spacingSlider.setMajorTickSpacing( 20 );
-            }
+            _k1SpacingSlider = new K1SpacingSlider();
 
             // Continuous checkbox
             _continuousCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.continuous" ) );
@@ -156,7 +141,7 @@ public class D2CControlPanel extends FourierControlPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( harmonicsPanel );
             harmonicsPanel.setLayout( layout );
             int row = 0;
-            layout.addComponent( _spacingSlider, row++, 0 );
+            layout.addComponent( _k1SpacingSlider, row++, 0 );
             layout.addComponent( _continuousCheckBox, row++, 0 );
         }
         
@@ -199,7 +184,7 @@ public class D2CControlPanel extends FourierControlPanel {
         {
             EventListener listener = new EventListener();
             _domainComboBox.addItemListener( listener );
-            _spacingSlider.addChangeListener( listener );
+            _k1SpacingSlider.addChangeListener( listener );
             _continuousCheckBox.addActionListener( listener );
             _kWidthSlider.addChangeListener( listener );
             _xWidthSlider.addChangeListener( listener );
@@ -208,7 +193,7 @@ public class D2CControlPanel extends FourierControlPanel {
     }
     
     public void reset() {
-        _spacingSlider.setValue( _spacingSlider.getSlider().getMinimum() );//XXX
+        _k1SpacingSlider.setValue( _k1SpacingSlider.getSlider().getMinimum() );//XXX
         _kWidthSlider.setValue( _kWidthSlider.getSlider().getMinimum() );//XXX
         _xWidthSlider.setValue( _xWidthSlider.getSlider().getMinimum() );//XXX
     }
@@ -236,7 +221,7 @@ public class D2CControlPanel extends FourierControlPanel {
         
         public void stateChanged( ChangeEvent event ) {
 
-            if ( event.getSource() == _spacingSlider ) {
+            if ( event.getSource() == _k1SpacingSlider ) {
                 handleSpacing();
             }
             else if ( event.getSource() == _kWidthSlider ) {
@@ -274,7 +259,7 @@ public class D2CControlPanel extends FourierControlPanel {
     }
     
     private void handleSpacing() {
-        System.out.println( "spacing=" + _spacingSlider.getValue() );//XXX
+        System.out.println( "spacing=" + _k1SpacingSlider.getValue() );//XXX
     }
     
     private void handleKWidth() {
