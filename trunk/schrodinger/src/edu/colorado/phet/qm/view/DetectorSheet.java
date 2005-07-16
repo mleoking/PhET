@@ -114,7 +114,7 @@ public class DetectorSheet extends GraphicLayerSet {
                 screenGraphic.setBoundsDirty();
                 screenGraphic.repaint();
             }
-        }, 2 );
+        }, 1 );
 
     }
 

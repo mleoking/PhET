@@ -43,13 +43,14 @@ public class IntensityDisplay extends GraphicLayerSet {
     public void tryDetecting() {
         Wavefunction sub = getDetectionRegion();
         double probability = sub.getMagnitude() * probabilityScaleFudgeFactor;
+
 //        double rate = probability;
         for( int i = 0; i < multiplier; i++ ) {
             double rand = random.nextDouble();
             if( rand <= probability ) {
                 detectOne( sub );
+                updateWavefunctionAfterDetection();
             }
-            updateWavefunctionAfterDetection();
         }
     }
 
