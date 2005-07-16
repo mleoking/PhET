@@ -2,8 +2,8 @@
 package edu.colorado.phet.tests.piccolo;
 
 import edu.colorado.phet.piccolo.BoundGraphic;
+import edu.colorado.phet.piccolo.Connector;
 import edu.colorado.phet.piccolo.HTMLGraphic;
-import edu.colorado.phet.piccolo.LineConnector;
 import edu.colorado.phet.piccolo.Oscillate;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PLayer;
@@ -79,10 +79,10 @@ public class TestPiccolo2 {
         oscillate.setStartTime( System.currentTimeMillis() );
         layer.getRoot().addActivity( oscillate );
 
-        LineConnector lineConnector = new LineConnector( text2, htmlBound );
-        layer.getRoot().addActivity( lineConnector.getConnectActivity() );
-        lineConnector.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2, new float[]{10, 5}, 0 ) );
-        layer.addChild( 0, lineConnector );
+        Connector connector = new Connector( text2, htmlBound );
+        layer.getRoot().addActivity( connector.getConnectActivity() );
+        connector.setStroke( new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 2, new float[]{10, 5}, 0 ) );
+        layer.addChild( 0, connector );
 
 //        BoundGraphic boundGraphic = new BoundGraphic( htmlGraphic );
 //        layer.addChild( boundGraphic );
