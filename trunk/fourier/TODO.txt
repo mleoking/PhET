@@ -57,6 +57,10 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/15) - move all sliders to their own package
+(7/15) - DefaultFourierSlider assumes that user will see actual slider values
+(7/15) - FourierSlider -> AbstractFourierSlider
+(7/15) - remove JSlider convenience method from FourierSlider due to obfuscation
 (7/15) - wire up D2C control panel so that controls affect each other
 (7/15) - K1SpacingSlider for adjusting spacing of harmonics in wave packet
 (7/15) - XWidthSlider for adjusting x-space width of wave packet
