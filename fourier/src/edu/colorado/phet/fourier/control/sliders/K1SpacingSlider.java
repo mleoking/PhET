@@ -22,16 +22,29 @@ import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
- * K1SpacingSlider
+ * K1SpacingSlider is a slider for controlling th
+ * spacing of harmonics in a Gaussian wave packet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class K1SpacingSlider extends AbstractFourierSlider {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final String VALUE_FORMAT = "0.00";
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private DecimalFormat _spacingFormatter;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Sole constructor.
@@ -57,22 +70,30 @@ public class K1SpacingSlider extends AbstractFourierSlider {
         getSlider().setPaintTicks( true );
     }
     
-    /*
-     * Overrides FourierSlider.
-     * Updates the label when the slider is changed.
+    //----------------------------------------------------------------------------
+    // AbstractFourierSlider implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the value.
+     * 
+     * @param k1Spacing the k1 spacing
      */
-    protected void updateLabel() {
-        String format = getFormat();
-        double spacing = getValue();
-        if ( _spacingFormatter == null ) {
-            _spacingFormatter = new DecimalFormat( VALUE_FORMAT );
+    public void setValue( double k1Spacing ) {
+        if ( k1Spacing == 0 ) {
+            getSlider().setValue( 0 );
         }
-        String spacingString = _spacingFormatter.format( spacing );
-        Object[] args = { spacingString };
-        String text = MessageFormat.format( format, args );
-        getLabel().setText( text );
+        else {
+            //XXX implement this
+            throw new RuntimeException( "not implemented" );//XXX
+        }
     }
     
+    /**
+     * Gets the value.
+     * 
+     * @return the k1 spacing
+     */
     public double getValue() {
         int sliderValue = getSlider().getValue();
         double k1Spacing = 0;
@@ -87,13 +108,18 @@ public class K1SpacingSlider extends AbstractFourierSlider {
         return k1Spacing;
     }
     
-    public void setValue( double k1Spacing ) {
-        if ( k1Spacing == 0 ) {
-            getSlider().setValue( 0 );
+    /*
+     * Updates the label when the slider is changed.
+     */
+    protected void updateLabel() {
+        String format = getFormat();
+        double spacing = getValue();
+        if ( _spacingFormatter == null ) {
+            _spacingFormatter = new DecimalFormat( VALUE_FORMAT );
         }
-        else {
-            //XXX implement this
-            throw new RuntimeException( "not implemented" );//XXX
-        }
+        String spacingString = _spacingFormatter.format( spacing );
+        Object[] args = { spacingString };
+        String text = MessageFormat.format( format, args );
+        getLabel().setText( text );
     }
 }

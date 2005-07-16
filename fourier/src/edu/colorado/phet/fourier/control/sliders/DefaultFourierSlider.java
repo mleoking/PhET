@@ -16,7 +16,8 @@ import java.text.MessageFormat;
 
 
 /**
- * DefaultFourierSlider
+ * DefaultFourierSlider is a default implementation of AbstractFourierSlider.
+ * It assumes that the actual slider values are what the user wants to see.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
