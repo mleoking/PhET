@@ -30,6 +30,10 @@ import edu.colorado.phet.fourier.MathStrings;
  */
 public class KWidthSlider extends AbstractFourierSlider {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final String VALUE_FORMAT = "0.00";
 
     // k-space width is from 1 to 5pi
@@ -43,7 +47,15 @@ public class KWidthSlider extends AbstractFourierSlider {
      */
     private static final int MULTIPLIER = 1000;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private DecimalFormat _widthFormatter;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Sole constructor.
@@ -76,9 +88,35 @@ public class KWidthSlider extends AbstractFourierSlider {
         getSlider().setMinorTickSpacing( (int) ( Math.PI * MULTIPLIER ) );
         getSlider().setPaintTicks( true );
     }
+
+    //----------------------------------------------------------------------------
+    // AbstractFourierSlider implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the value.
+     * 
+     * @param kWidth the k-space width
+     */
+    public void setValue( double kWidth ) {
+        // Careful - remember that the slider is inverted!
+        int sliderValue = (int) ( ((MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - ( kWidth * MULTIPLIER ) );
+        getSlider().setValue( sliderValue );
+    }
+    
+    /**
+     * Gets the value.
+     * 
+     * @return the k-space width
+     */
+    public double getValue() {
+        int sliderValue = getSlider().getValue();
+        // Careful - remember that the slider is inverted!
+        double kWidth = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - sliderValue ) / MULTIPLIER;
+        return kWidth;
+    }
     
     /*
-     * Overrides FourierSlider.
      * Updates the label when the slider is changed.
      */
     protected void updateLabel() {
@@ -91,18 +129,5 @@ public class KWidthSlider extends AbstractFourierSlider {
         Object[] args = { widthString };
         String text = MessageFormat.format( format, args );
         getLabel().setText( text );
-    }
-    
-    public double getValue() {
-        int sliderValue = getSlider().getValue();
-        // Careful - remember that the slider is inverted!
-        double kWidth = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - sliderValue ) / MULTIPLIER;
-        return kWidth;
-    }
-    
-    public void setValue( double kWidth ) {
-        // Careful - remember that the slider is inverted!
-        int sliderValue = (int) ( ((MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - ( kWidth * MULTIPLIER ) );
-        getSlider().setValue( sliderValue );
     }
 }

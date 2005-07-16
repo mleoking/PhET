@@ -30,6 +30,10 @@ import edu.colorado.phet.fourier.MathStrings;
  */
 public class XWidthSlider extends AbstractFourierSlider {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final String VALUE_FORMAT = "0.00";
     
     // x-space width is from 1/5PI to 1
@@ -43,7 +47,15 @@ public class XWidthSlider extends AbstractFourierSlider {
      */
     private static final int MULTIPLIER = 1000;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private DecimalFormat _xWidthFormatter;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Sole constructor.
@@ -77,8 +89,34 @@ public class XWidthSlider extends AbstractFourierSlider {
         getSlider().setPaintTicks( true );
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractFourierSlider implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the value.
+     * 
+     * @param xWidth the x-space width
+     */
+    public void setValue( double xWidth ) {
+        // Careful - remember that the slider is inverted!
+        int sliderValue = (int) ( ((MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - ( xWidth * MULTIPLIER ) );
+        getSlider().setValue( sliderValue );
+    }
+    
+    /**
+     * Gets the value.
+     * 
+     * @return the x-space width
+     */
+    public double getValue() {
+        int sliderValue = getSlider().getValue();
+        // Careful - remember that the slider is inverted!
+        double xWidth = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - sliderValue ) / MULTIPLIER;
+        return xWidth;
+    }
+    
     /*
-     * Overrides FourierSlider.
      * Updates the label when the slider is changed.
      */
     protected void updateLabel() {
@@ -91,18 +129,5 @@ public class XWidthSlider extends AbstractFourierSlider {
         Object[] args = { xWidthString };
         String text = MessageFormat.format( format, args );
         getLabel().setText( text );
-    }
-    
-    public double getValue() {
-        int sliderValue = getSlider().getValue();
-        // Careful - remember that the slider is inverted!
-        double xWidth = ( ( (MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - sliderValue ) / MULTIPLIER;
-        return xWidth;
-    }
-    
-    public void setValue( double xWidth ) {
-        // Careful - remember that the slider is inverted!
-        int sliderValue = (int) ( ((MAX_WIDTH + MIN_WIDTH) * MULTIPLIER ) - ( xWidth * MULTIPLIER ) );
-        getSlider().setValue( sliderValue );
     }
 }
