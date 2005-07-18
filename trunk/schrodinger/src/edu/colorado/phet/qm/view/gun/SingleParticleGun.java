@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.qm.AutoFire;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
@@ -20,14 +21,14 @@ public class SingleParticleGun extends AbstractGun {
     private JButton fireOne;
     private GunParticle currentObject;
     private GunParticle[] gunItems;
+    private AutoFire autoFire;
 
     public SingleParticleGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
         fireOne = new JButton( "Fire!" );
         fireOne.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                clearWavefunction();
-                fireParticle();
+                clearAndFire();
             }
         } );
         fireOne.addMouseListener( new MouseAdapter() {
@@ -45,6 +46,16 @@ public class SingleParticleGun extends AbstractGun {
         fireJC.setLocation( getGunImageGraphic().getWidth() + 2, 0 );
 
         setupObject( gunItems[0] );
+        autoFire = new AutoFire( this, schrodingerPanel.getIntensityDisplay() );
+        JCheckBox jcb = new AutoFireCheckBox( autoFire );
+        PhetGraphic autoJC = PhetJComponent.newInstance( schrodingerPanel, jcb );
+        addGraphic( autoJC );
+        autoJC.setLocation( fireJC.getX(), fireJC.getY() + fireJC.getHeight() + 5 );
+    }
+
+    public void clearAndFire() {
+        clearWavefunction();
+        fireParticle();
     }
 
     private void clearWavefunction() {
