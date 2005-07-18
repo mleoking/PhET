@@ -34,7 +34,7 @@ public class KWidthSlider extends AbstractFourierSlider {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String VALUE_FORMAT = "0.00";
+    private static final String VALUE_FORMAT = "#.##";
 
     // k-space width is from 1 to 5pi
     private static final double MIN_WIDTH = 1;

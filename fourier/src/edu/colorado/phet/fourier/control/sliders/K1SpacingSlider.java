@@ -34,7 +34,8 @@ public class K1SpacingSlider extends AbstractFourierSlider {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String VALUE_FORMAT = "0.00";
+    private static final String VALUE_FORMAT = "#.##";
+    private static final double[] VALUES = { 0, Math.PI/4, Math.PI/2, Math.PI, 2 * Math.PI };
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -52,21 +53,23 @@ public class K1SpacingSlider extends AbstractFourierSlider {
     public K1SpacingSlider() {
         super( SimStrings.get( "K1SpacingSlider.format" ) );
         
-        // WARNING: Don't change the max & min or you'll need to rewrite most of this.
+        // Min/max are the indicies of the VALUES array.
         getSlider().setMinimum( 0 );
-        getSlider().setMaximum( 100 );
+        getSlider().setMaximum( 4 );
+        getSlider().setValue( 0 );
         
+        // Put a label at each tick mark.
         Hashtable labelTable = new Hashtable();
         labelTable.put( new Integer( 0 ), new JLabel( "0" ) );
-        labelTable.put( new Integer( 20 ), new JLabel( MathStrings.C_PI + "/8" ) );
-        labelTable.put( new Integer( 40 ), new JLabel( MathStrings.C_PI + "/4" ) );
-        labelTable.put( new Integer( 60 ), new JLabel( MathStrings.C_PI + "/2" ) );
-        labelTable.put( new Integer( 80 ), new JLabel( "" + MathStrings.C_PI ) );
-        labelTable.put( new Integer( 100 ), new JLabel( "2" + MathStrings.C_PI ) );
+        labelTable.put( new Integer( 1 ), new JLabel( MathStrings.C_PI + "/4" ) );
+        labelTable.put( new Integer( 2 ), new JLabel( MathStrings.C_PI + "/2" ) );
+        labelTable.put( new Integer( 3 ), new JLabel( "" + MathStrings.C_PI ) );
+        labelTable.put( new Integer( 4 ), new JLabel( "2" + MathStrings.C_PI ) );
         getSlider().setLabelTable( labelTable );
         getSlider().setPaintLabels( true );
         
-        getSlider().setMajorTickSpacing( 20 );
+        getSlider().setMajorTickSpacing( 1 );
+        getSlider().setSnapToTicks( true );
         getSlider().setPaintTicks( true );
     }
     
@@ -78,14 +81,19 @@ public class K1SpacingSlider extends AbstractFourierSlider {
      * Sets the value.
      * 
      * @param k1Spacing the k1 spacing
+     * @throws IllegalArgumentException if the value of k1Spacing is illegal
      */
     public void setValue( double k1Spacing ) {
-        if ( k1Spacing == 0 ) {
-            getSlider().setValue( 0 );
+        boolean isValid = false;
+        for ( int i = 0; i < VALUES.length; i++ ) {
+            if ( k1Spacing == VALUES[i] ) {
+                getSlider().setValue( i );
+                isValid = true;
+                break;
+            }
         }
-        else {
-            //XXX implement this
-            throw new RuntimeException( "not implemented" );//XXX
+        if ( ! isValid ) {
+            throw new IllegalArgumentException( "illegal k1 spacing value: " + k1Spacing );
         }
     }
     
@@ -96,16 +104,7 @@ public class K1SpacingSlider extends AbstractFourierSlider {
      */
     public double getValue() {
         int sliderValue = getSlider().getValue();
-        double k1Spacing = 0;
-        if ( sliderValue > 0 ) {
-            /* Serious voodoo here...
-             * spacing = 2^^(x-1) where x denotes one of the ticks (values 0-5).
-             * 20.0 is the slider's tick spacing.
-             * 4 is the max of x (5) minus 1.
-             */
-            k1Spacing = ( 2 * Math.PI * Math.pow( 2, (sliderValue/20.0)-1 ) ) / Math.pow( 2, 4 );    
-        }
-        return k1Spacing;
+        return VALUES[ sliderValue ];
     }
     
     /*

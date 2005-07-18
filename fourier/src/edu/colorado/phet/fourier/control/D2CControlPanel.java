@@ -93,6 +93,9 @@ public class D2CControlPanel extends FourierControlPanel {
 
         JPanel miscPanel = new JPanel();
         {
+            String title = SimStrings.get( "D2CControlPanel.gaussianWavePacket" );
+            miscPanel.setBorder( new TitledBorder( title ) );
+            
             // Domain
             {
                 // Label
@@ -129,10 +132,10 @@ public class D2CControlPanel extends FourierControlPanel {
             layout.addComponent( _waveTypeComboBox, row++, 0 );
         }
         
-        JPanel harmonicsPanel = new JPanel();
+        JPanel packetSpacingPanel = new JPanel();
         {
-            String title = SimStrings.get( "D2CControlPanel.harmonics" );
-            harmonicsPanel.setBorder( new TitledBorder( title ) );
+            String title = SimStrings.get( "D2CControlPanel.packetSpacing" );
+            packetSpacingPanel.setBorder( new TitledBorder( title ) );
             
             // Spacing
             _k1SpacingSlider = new K1SpacingSlider();
@@ -141,8 +144,8 @@ public class D2CControlPanel extends FourierControlPanel {
             _continuousCheckBox = new JCheckBox( SimStrings.get( "D2CControlPanel.continuous" ) );
             
             // Layout
-            EasyGridBagLayout layout = new EasyGridBagLayout( harmonicsPanel );
-            harmonicsPanel.setLayout( layout );
+            EasyGridBagLayout layout = new EasyGridBagLayout( packetSpacingPanel );
+            packetSpacingPanel.setLayout( layout );
             int row = 0;
             layout.addComponent( _k1SpacingSlider, row++, 0 );
             layout.addComponent( _continuousCheckBox, row++, 0 );
@@ -171,7 +174,7 @@ public class D2CControlPanel extends FourierControlPanel {
         // Layout
         addFullWidth( miscPanel );
         addVerticalSpace( 15 );
-        addFullWidth( harmonicsPanel );
+        addFullWidth( packetSpacingPanel );
         addVerticalSpace( 15 );
         addFullWidth( packetWidthPanel );
         
@@ -191,9 +194,9 @@ public class D2CControlPanel extends FourierControlPanel {
     }
     
     public void reset() {
-        _k1SpacingSlider.setValue( _k1SpacingSlider.getSlider().getMinimum() );//XXX
-        _kWidthSlider.setValue( 1 );
-        _xWidthSlider.setValue( 1 );
+        _k1SpacingSlider.setValue( 2 * Math.PI );
+        _kWidthSlider.setValue( 3 * Math.PI );
+        _xWidthSlider.setValue( 1 / ( 3 * Math.PI ) );
     }
     
     //----------------------------------------------------------------------------
@@ -256,19 +259,10 @@ public class D2CControlPanel extends FourierControlPanel {
     
     private void handleContinuous() {
         System.out.println( "continuous=" + _continuousCheckBox.isSelected() );//XXX
-        if ( _continuousCheckBox.isSelected() ) {
-            _oldK1WidthSliderValue = _k1SpacingSlider.getSlider().getValue();
-            _k1SpacingSlider.setValue( 0 );
-        }
-        else {
-            _k1SpacingSlider.getSlider().setValue( _oldK1WidthSliderValue );
-        }
     }
     
     private void handleSpacing() {
         System.out.println( "spacing=" + _k1SpacingSlider.getValue() );//XXX
-        double k1Spacing = _k1SpacingSlider.getValue();
-        _continuousCheckBox.setSelected( k1Spacing == 0 );
     }
     
     private void handleKWidth() {
