@@ -49,6 +49,8 @@ phetcommon phetcommon
 # Miscellaneous controls
 controls controls
 
+# Strip chart
+stripchart stripchart
 
 #
 # Simulations
