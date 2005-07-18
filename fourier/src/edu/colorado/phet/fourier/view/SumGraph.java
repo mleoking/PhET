@@ -206,8 +206,12 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _horizontalZoomControl.addZoomListener( this );
             _verticalZoomControl.addZoomListener( this );
             
-            EventListener listener = new EventListener();
-            _autoScaleCheckBox.addActionListener( listener );
+            _autoScaleCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    updateZoomButtons();
+                    update();
+                }
+            } );
         }
         
         reset();
@@ -386,28 +390,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             throw new IllegalArgumentException( "unexpected event: " + event );
         }
     }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /* 
-     * EventListener handles events related to this view.
-     */
-    private class EventListener implements ActionListener {
-        public EventListener() {}
 
-        public void actionPerformed( ActionEvent event ) {
-            if ( event.getSource() == _autoScaleCheckBox ) {
-                updateZoomButtons();
-                update();
-            }
-            else {
-                throw new IllegalArgumentException( "unexpected event: " + event );
-            }
-        }
-    }
-    
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
