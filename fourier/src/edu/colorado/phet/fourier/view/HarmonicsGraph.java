@@ -490,6 +490,12 @@ public class HarmonicsGraph extends GraphicLayerSet
     // AnimationCycleListener implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Handles animation events.
+     * Animates the harmonics by adjusting their phase (aka, start times).
+     * 
+     * @param event
+     */
     public void animate( AnimationCycleEvent event ) {
         if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
             double cyclePoint = event.getCyclePoint();

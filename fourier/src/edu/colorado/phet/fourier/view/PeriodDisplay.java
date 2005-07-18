@@ -274,6 +274,12 @@ public class PeriodDisplay extends CompositePhetGraphic
     // AnimationCycleListener implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Handles animation events.
+     * Adjusts the size of the pie angle to match the animation cycle point.
+     * 
+     * @param event
+     */
     public void animate( AnimationCycleEvent event ) {
         if ( isVisible() ) {
             double cyclePoint = event.getCyclePoint();

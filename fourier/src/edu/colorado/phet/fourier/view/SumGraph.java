@@ -575,6 +575,12 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     // AnimationCycleListener implementation
     //----------------------------------------------------------------------------
     
+    /**
+     * Handles animation events.
+     * Animates the sum waveform by adjusting its phase (aka, start times).
+     * 
+     * @param event
+     */
     public void animate( AnimationCycleEvent event ) {
         if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
             double cyclePoint = event.getCyclePoint();
