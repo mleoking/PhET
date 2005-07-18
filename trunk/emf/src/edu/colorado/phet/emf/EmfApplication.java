@@ -43,6 +43,8 @@ public class EmfApplication {
 //        logger.setLevel( Level.INFO );
 //        logger.addHandler( logHandler );
         
+
+        // Initialize simulation strings using resource bundle for the locale.
         SimStrings.init( args, Config.localizedStringsPath );
 
         // Log a few message at different severity levels
