@@ -14,7 +14,8 @@ HIGH PRIORITY:
 - persistence
 
 MEDIUM PRIORITY:
-- hide/show each graph
+- crashes after running for ~40 minutes (memory leak?)
+- hide/show each graph, possibly expand to fill screen
 - add wiggle me
 - test Reset
 - FourierSumPlot should be an observer of its FourierSeries
