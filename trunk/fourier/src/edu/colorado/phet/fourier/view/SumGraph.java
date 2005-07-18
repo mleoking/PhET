@@ -15,12 +15,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 import javax.swing.JCheckBox;
 
-import edu.colorado.phet.chart.*;
+import edu.colorado.phet.chart.DataSet;
+import edu.colorado.phet.chart.LabelTable;
+import edu.colorado.phet.chart.LinePlot;
+import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;

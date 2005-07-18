@@ -12,7 +12,6 @@
 package edu.colorado.phet.fourier.charts;
 
 import java.awt.*;
-import java.awt.Dimension;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -22,7 +21,6 @@ import edu.colorado.phet.chart.StringLabelTable;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.MathStrings;
 
 
 /**
