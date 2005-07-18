@@ -12,13 +12,11 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.chart.Chart;
+import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.chart.StringLabelTable;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -29,6 +27,7 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.HarmonicPlot;
+import edu.colorado.phet.fourier.charts.HarmonicsChart;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
@@ -68,44 +67,13 @@ public class HarmonicsGraph extends GraphicLayerSet
     private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final int TITLE_X_OFFSET = -15; // from origin
-
-    // Axis parameter
-    private static final Color AXIS_COLOR = Color.BLACK;
-    private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
-    private static final Font AXIS_TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
-    private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
-    // Range labels
-    private static final boolean RANGE_LABELS_VISIBLE = false;
-    private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
-    
-    // Tick Mark parameter
-    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font MAJOR_TICK_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 12 );
-    private static final Color MAJOR_TICK_COLOR = Color.BLACK;
-    private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
-    private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
-    private static final Color MINOR_TICK_COLOR = MAJOR_TICK_COLOR;
-    
-    // Gridline parameters
-    private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
-    private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
-    
-    // X Axis parameters
+    // Chart parameters
     private static final double L = FourierConstants.L; // do not change!
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
-    private static final double X_MAJOR_TICK_SPACING = ( L / 4 );
-    private static final double X_MINOR_TICK_SPACING = ( L / 8 );
-
-    // Y Axis parameters
     private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE;
-    private static final double Y_MAJOR_TICK_SPACING = 0.5;
-
-    // Chart parameters
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 550, 130 );
 
@@ -114,8 +82,6 @@ public class HarmonicsGraph extends GraphicLayerSet
     private static final Stroke WAVE_FOCUS_STROKE = new BasicStroke( 2f );
     private static final Stroke WAVE_DIMMED_STROKE = new BasicStroke( 0.5f );
     private static final Color WAVE_DIMMED_COLOR = Color.GRAY;
-    private static final int NUMBER_OF_DATA_POINTS = 1000;
-    private static final int MAX_FUNDAMENTAL_CYCLES = 4;
     private static final double[] PIXELS_PER_POINT = { 6, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     
     //----------------------------------------------------------------------------
@@ -123,17 +89,15 @@ public class HarmonicsGraph extends GraphicLayerSet
     //----------------------------------------------------------------------------
 
     private FourierSeries _fourierSeries;
-    private Chart _chartGraphic;
-    private HarmonicsEquation _mathGraphic;
-    private PhetTextGraphic _xAxisTitleGraphic;
-    private String _xAxisTitleTime, _xAxisTitleSpace;
-    private ArrayList _harmonicPlots; // array of HarmonicPlot
+    private HarmonicsChart _chartGraphic;
     private ZoomControl _horizontalZoomControl;
+    private HarmonicsEquation _mathGraphic;
+    private ArrayList _harmonicPlots; // array of HarmonicPlot
+    
     private int _xZoomLevel;
     private int _domain;
     private int _mathForm;
-    private StringLabelTable _spaceLabels1, _spaceLabels2;
-    private StringLabelTable _timeLabels1, _timeLabels2;
+
     private int _previousNumberOfHarmonics;
     private int _previousPreset;
     private int _previousWaveType;
@@ -177,84 +141,9 @@ public class HarmonicsGraph extends GraphicLayerSet
 
         // Chart
         {
-            _chartGraphic = new Chart( component, CHART_RANGE, CHART_SIZE );
+            _chartGraphic = new HarmonicsChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
-
             _chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
-
-            // X axis
-            {
-                _chartGraphic.getXAxis().setStroke( AXIS_STROKE );
-                _chartGraphic.getXAxis().setColor( AXIS_COLOR );
-                
-                // Title
-                _xAxisTitleTime = "" + MathStrings.C_TIME;
-                _xAxisTitleSpace = "" + MathStrings.C_SPACE;
-                _xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, _xAxisTitleSpace, AXIS_TITLE_COLOR );
-                _chartGraphic.setXAxisTitle( _xAxisTitleGraphic );
-
-                // No ticks or labels on the axis
-                _chartGraphic.getXAxis().setMajorTicksVisible( false );
-                _chartGraphic.getXAxis().setMajorTickLabelsVisible( false );
-                _chartGraphic.getXAxis().setMinorTicksVisible( false );
-                _chartGraphic.getXAxis().setMinorTickLabelsVisible( false );
-
-                // Major ticks with labels below the chart
-                _chartGraphic.getHorizontalTicks().setMajorTicksVisible( true );
-                _chartGraphic.getHorizontalTicks().setMajorTickLabelsVisible( true );
-                _chartGraphic.getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
-                _chartGraphic.getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
-                _chartGraphic.getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
-                _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
-
-                // Vertical gridlines for major ticks.
-                _chartGraphic.getVerticalGridlines().setMajorGridlinesVisible( true );
-                _chartGraphic.getVerticalGridlines().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
-                _chartGraphic.getVerticalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
-                _chartGraphic.getVerticalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
-                
-                // Vertical gridlines for minor ticks.
-                _chartGraphic.getVerticalGridlines().setMinorGridlinesVisible( true );
-                _chartGraphic.getVerticalGridlines().setMinorTickSpacing( X_MINOR_TICK_SPACING );
-                _chartGraphic.getVerticalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
-                _chartGraphic.getVerticalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
-            }
-
-            // Y axis
-            {
-                _chartGraphic.getYAxis().setStroke( AXIS_STROKE );
-                _chartGraphic.getYAxis().setColor( AXIS_COLOR );
-
-                // No ticks or labels on the axis
-                _chartGraphic.getYAxis().setMajorTicksVisible( false );
-                _chartGraphic.getYAxis().setMajorTickLabelsVisible( false );
-                _chartGraphic.getYAxis().setMinorTicksVisible( false );
-                _chartGraphic.getYAxis().setMinorTickLabelsVisible( false );
-
-                // Range labels
-                _chartGraphic.getVerticalTicks().setRangeLabelsVisible( RANGE_LABELS_VISIBLE );
-                _chartGraphic.getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
-                
-                // Major ticks with labels to the left of the chart
-                _chartGraphic.getVerticalTicks().setMajorTicksVisible( true );
-                _chartGraphic.getVerticalTicks().setMajorTickLabelsVisible( true );
-                _chartGraphic.getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-                _chartGraphic.getVerticalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
-                _chartGraphic.getVerticalTicks().setMajorTickFont( MAJOR_TICK_FONT );
-
-                // Horizontal gridlines for major ticks
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesVisible( true );
-                _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
-            }
-        }
-
-        // Math
-        {
-            _mathGraphic = new HarmonicsEquation( component );
-            addGraphic( _mathGraphic, MATH_LAYER );
-            _mathGraphic.setLocation( CHART_SIZE.width / 2, -( CHART_SIZE.height / 2  ) - 6 ); // above center of chart
         }
         
         // Zoom controls
@@ -262,6 +151,13 @@ public class HarmonicsGraph extends GraphicLayerSet
             _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
             _horizontalZoomControl.setLocation( CHART_SIZE.width + 20, -50 );  // to the right of the chart
+        }
+        
+        // Math
+        {
+            _mathGraphic = new HarmonicsEquation( component );
+            addGraphic( _mathGraphic, MATH_LAYER );
+            _mathGraphic.setLocation( CHART_SIZE.width / 2, -( CHART_SIZE.height / 2  ) - 6 ); // above center of chart
         }
 
         // Interactivity
@@ -293,6 +189,10 @@ public class HarmonicsGraph extends GraphicLayerSet
         _horizontalZoomControl.removeAllZoomListeners();
     }
 
+    //----------------------------------------------------------------------------
+    // Reset
+    //----------------------------------------------------------------------------
+    
     /**
      * Resets to the initial state.
      */
@@ -530,23 +430,27 @@ public class HarmonicsGraph extends GraphicLayerSet
     private void updateLabelsAndLines() {
         
         // X axis
-        if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _xAxisTitleGraphic.setText( _xAxisTitleTime );
-            if ( _xZoomLevel > -3 ) {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getTimeLabels1() );
+        {
+            LabelTable labelTable = null;
+            if ( _domain == FourierConstants.DOMAIN_TIME ) {
+                _chartGraphic.setXAxisTitle( MathStrings.C_TIME );
+                if ( _xZoomLevel > -3 ) {
+                    labelTable = _chartGraphic.getTimeLabels1();
+                }
+                else {
+                    labelTable = _chartGraphic.getTimeLabels2();
+                }
             }
-            else {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getTimeLabels2() );
-            }   
-        }
-        else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
-            _xAxisTitleGraphic.setText( _xAxisTitleSpace );
-            if ( _xZoomLevel > -3 ) {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels1() );
+            else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
+                _chartGraphic.setXAxisTitle( MathStrings.C_SPACE );
+                if ( _xZoomLevel > -3 ) {
+                    labelTable = _chartGraphic.getSpaceLabels1();
+                }
+                else {
+                    labelTable = _chartGraphic.getSpaceLabels2();
+                }
             }
-            else {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels2() );
-            }
+            _chartGraphic.getHorizontalTicks().setMajorLabels( labelTable );
         }
     }
     
@@ -581,87 +485,6 @@ public class HarmonicsGraph extends GraphicLayerSet
         _mathGraphic.setRegistrationPoint( _mathGraphic.getWidth() / 2, _mathGraphic.getHeight() ); // bottom center
     }
     
-    //----------------------------------------------------------------------------
-    // Chart Labels
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Lazy initialization of the X axis "space" labels.
-     */
-    private StringLabelTable getSpaceLabels1() {
-        if ( _spaceLabels1 == null ) {
-            _spaceLabels1 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _spaceLabels1.put( -1.00 * L, "-L" );
-            _spaceLabels1.put( -0.75 * L, "-3L/4" );
-            _spaceLabels1.put( -0.50 * L, "-L/2" );
-            _spaceLabels1.put( -0.25 * L, "-L/4" );
-            _spaceLabels1.put(     0 * L, "0" );
-            _spaceLabels1.put( +0.25 * L, "L/4" );
-            _spaceLabels1.put( +0.50 * L, "L/2" );
-            _spaceLabels1.put( +0.75 * L, "3L/4" );
-            _spaceLabels1.put( +1.00 * L, "L" );
-        }
-        return _spaceLabels1;
-    }
-    
-    /*
-     * Lazy initialization of the X axis "space" labels.
-     */
-    private StringLabelTable getSpaceLabels2() {
-        if ( _spaceLabels2 == null ) {
-            _spaceLabels2 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _spaceLabels2.put( -2.0 * L, "-2L" );
-            _spaceLabels2.put( -1.5 * L, "-3L/2" );
-            _spaceLabels2.put( -1.0 * L, "-L" );
-            _spaceLabels2.put( -0.5 * L, "-L/2" );
-            _spaceLabels2.put(    0 * L, "0" );
-            _spaceLabels2.put( +0.5 * L, "L/2" );
-            _spaceLabels2.put( +1.0 * L, "L" );
-            _spaceLabels2.put( +1.5 * L, "3L/2" );
-            _spaceLabels2.put( +2.0 * L, "2L" );
-        }
-        return _spaceLabels2;
-    }
-    
-    /*
-     * Lazy initialization of the X axis "time" labels.
-     */
-    private StringLabelTable getTimeLabels1() {
-        if ( _timeLabels1 == null ) {
-            double T = L; // use the same quantity for wavelength and period
-            _timeLabels1 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _timeLabels1.put( -1.00 * T, "-T" );
-            _timeLabels1.put( -0.75 * T, "-3T/4" );
-            _timeLabels1.put( -0.50 * T, "-T/2" );
-            _timeLabels1.put( -0.25 * T, "-T/4" );
-            _timeLabels1.put(     0 * T, "0" );
-            _timeLabels1.put( +0.25 * T, "T/4" );
-            _timeLabels1.put( +0.50 * T, "T/2" );
-            _timeLabels1.put( +0.75 * T, "3T/4" );
-            _timeLabels1.put( +1.00 * T, "T" );
-        }
-        return _timeLabels1;
-    }
-    
-    /*
-     * Lazy initialization of the X axis "time" labels.
-     */
-    private StringLabelTable getTimeLabels2() {   
-        if ( _timeLabels2 == null ) {
-            double T = L; // use the same quantity for wavelength and period
-            _timeLabels2 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _timeLabels2.put( -2.0 * T, "-2T" );
-            _timeLabels2.put( -1.5 * T, "-3T/2" );
-            _timeLabels2.put( -1.0 * T, "-T" );
-            _timeLabels2.put( -0.5 * T, "-T/2" );
-            _timeLabels2.put(    0 * T, "0" );
-            _timeLabels2.put( +0.5 * T, "T/2" );
-            _timeLabels2.put( +1.0 * T, "T" );
-            _timeLabels2.put( +1.5 * T, "3T/2" );
-            _timeLabels2.put( +2.0 * T, "2T" );
-        }
-        return _timeLabels2;
-    }
     
     //----------------------------------------------------------------------------
     // ModelElement implementation
