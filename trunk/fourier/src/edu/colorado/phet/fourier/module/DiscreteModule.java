@@ -57,7 +57,7 @@ public class DiscreteModule extends FourierModule {
     private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 615, 245 );
     private static final Point PERIOD_TOOL_LOCATION = WAVELENGTH_TOOL_LOCATION;
     private static final Point PERIOD_DISPLAY_LOCATION = new Point( 690, 360 );
-    private static final Point WIGGLE_ME_LOCATION = new Point( 280, 60 );
+    private static final Point WIGGLE_ME_LOCATION = new Point( 280, 80 );
     
     // Colors
     private static final Color APPARATUS_PANEL_BACKGROUND = new Color( 215, 215, 215 );;
@@ -183,7 +183,7 @@ public class DiscreteModule extends FourierModule {
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _fourierSeries );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
-        wiggleMe.setEnabled( false ); //XXX remove this line to enable the wiggle me
+        wiggleMe.setEnabled( true );
     }
     
     //----------------------------------------------------------------------------

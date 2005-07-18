@@ -14,6 +14,8 @@ HIGH PRIORITY:
 - persistence
 
 MEDIUM PRIORITY:
+- hide/show each graph
+- add wiggle me
 - test Reset
 - FourierSumPlot should be an observer of its FourierSeries
 - PeriodDisplay is an observer of its harmonic, should it be?
@@ -57,6 +59,10 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/18) - totally change K1SpacingSlider (no longer logarithmic or continuous)
+(7/18) - change format of slider values (#.##)
+(7/18) - add a titled border around domain & wave type controls
+(7/18) - decouple k1 spacing slider and continuous checkbox
 (7/15) - move all sliders to their own package
 (7/15) - DefaultFourierSlider assumes that user will see actual slider values
 (7/15) - FourierSlider -> AbstractFourierSlider
