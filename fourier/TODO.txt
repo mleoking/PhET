@@ -3,14 +3,11 @@
 ===============================================================================
 
 IN PROGRESS:
-- set up control panel for "Discrete to Continous" module
+
 
 HIGH PRIORITY:
-- optimize Discrete module using what I learned from TestSinePlotPerformance
+- "show infinite" waveform is broken in space-&-time mode
 - "show infinite" goes away after a few cycles in space-&-time mode
-- animation sync between HarmonicsGraph, SumGraph, PeriodDisplay is complicated -- move to model?
-- PeriodDisplay has not been sync'ed, doesn't reset to 0 when domain/preset/waveType is changed
-- when PeriodDislay.setHarmonic is called, it's angle is reset, it should be sync'ed to the harmonic's cycle
 - persistence
 
 MEDIUM PRIORITY:
@@ -60,6 +57,9 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/18) - synchronize animation of Harmonics, Sum and Period Tool
+(7/18) - centralize all animation synchronization in AnimationCycleController
+(7/18) - pull charts out of Harmonics and Sum views and put them in their own class files
 (7/18) - totally change K1SpacingSlider (no longer logarithmic or continuous)
 (7/18) - change format of slider values (#.##)
 (7/18) - add a titled border around domain & wave type controls
