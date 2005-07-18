@@ -23,6 +23,7 @@ import edu.colorado.phet.common.model.clock.AbstractClock;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.util.SimStrings;
+import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
@@ -54,9 +55,9 @@ public class DiscreteModule extends FourierModule {
     private static final Point AMPLITUDES_LOCATION = new Point( 60, 125 );
     private static final Point HARMONICS_LOCATION = new Point( 60, 325 );
     private static final Point SUM_LOCATION = new Point( 60, 525 );
-    private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 615, 245 );
+    private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 590, 245 );
     private static final Point PERIOD_TOOL_LOCATION = WAVELENGTH_TOOL_LOCATION;
-    private static final Point PERIOD_DISPLAY_LOCATION = new Point( 690, 360 );
+    private static final Point PERIOD_DISPLAY_LOCATION = new Point( 655, 360 );
     private static final Point WIGGLE_ME_LOCATION = new Point( 280, 80 );
     
     // Colors
@@ -79,6 +80,7 @@ public class DiscreteModule extends FourierModule {
     private PeriodTool _periodTool;
     private PeriodDisplay _periodDisplay;
     private DiscreteControlPanel _controlPanel;
+    private AnimationCycleController _animationCycleController;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -118,17 +120,15 @@ public class DiscreteModule extends FourierModule {
         _amplitudesGraph.setLocation( AMPLITUDES_LOCATION );
         apparatusPanel.addGraphic( _amplitudesGraph, AMPLITUDES_LAYER );
         
-        // Components view
+        // Harmonics view
         _harmonicsGraph = new HarmonicsGraph( apparatusPanel, _fourierSeries );
         _harmonicsGraph.setLocation( HARMONICS_LOCATION );
         apparatusPanel.addGraphic( _harmonicsGraph, COMPONENTS_LAYER );
-        model.addModelElement( _harmonicsGraph );//XXX not really part of the model, just need clock
         
         // Sum view
         _sumGraph = new SumGraph( apparatusPanel, _fourierSeries );
         _sumGraph.setLocation( SUM_LOCATION );
         apparatusPanel.addGraphic( _sumGraph, SUM_LAYER );
-        model.addModelElement( _sumGraph );//XXX not really part of the model, just need clock
         
         // Wavelength Tool
         _wavelengthTool = new WavelengthTool( apparatusPanel, _fourierSeries.getHarmonic(0), _harmonicsGraph.getChart() );
@@ -144,7 +144,13 @@ public class DiscreteModule extends FourierModule {
         _periodDisplay = new PeriodDisplay( apparatusPanel, _fourierSeries.getHarmonic(0) );
         apparatusPanel.addGraphic( _periodDisplay, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodDisplay );
-        model.addModelElement( _periodDisplay );//XXX not really part of the model, just need clock
+        
+        // Animation controller
+        _animationCycleController = new AnimationCycleController( FourierConfig.ANIMATION_STEPS_PER_CYCLE );
+        clock.addClockTickListener( _animationCycleController );
+        _animationCycleController.addAnimationCycleListener( _harmonicsGraph );
+        _animationCycleController.addAnimationCycleListener( _sumGraph );
+        _animationCycleController.addAnimationCycleListener( _periodDisplay );
         
         //----------------------------------------------------------------------------
         // Control
@@ -153,7 +159,8 @@ public class DiscreteModule extends FourierModule {
         // Control Panel
         _controlPanel = new DiscreteControlPanel( this, 
                 _fourierSeries, _harmonicsGraph, _sumGraph, 
-                _wavelengthTool, _periodTool, _periodDisplay );
+                _wavelengthTool, _periodTool, _periodDisplay,
+                _animationCycleController );
         _controlPanel.addVerticalSpace( 20 );
         _controlPanel.addResetButton();
         setControlPanel( _controlPanel );

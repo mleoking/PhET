@@ -64,6 +64,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private WavelengthTool _wavelengthTool;
     private PeriodTool _periodTool;
     private PeriodDisplay _periodDisplay;
+    private AnimationCycleController _animationCycleController;
 
     // UI components
     private FourierComboBox _domainComboBox;
@@ -106,7 +107,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             SumGraph sumGraph,
             WavelengthTool wavelengthTool,
             PeriodTool periodTool,
-            PeriodDisplay periodDisplay ) {
+            PeriodDisplay periodDisplay,
+            AnimationCycleController animationCycleController ) {
         
         super( module );
         
@@ -116,6 +118,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         assert( wavelengthTool != null );
         assert( periodTool != null );
         assert( periodDisplay != null );
+        assert( animationCycleController != null );
         
         // Things we'll be controlling.
         _fourierSeries = fourierSeries;
@@ -124,6 +127,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _wavelengthTool = wavelengthTool;
         _periodTool = periodTool;
         _periodDisplay = periodDisplay;
+        _animationCycleController = animationCycleController;
         
         // Set the control panel's minimum width.
         String widthString = SimStrings.get( "DiscreteControlPanel.width" );
@@ -373,6 +377,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         
         // Domain
         _domainComboBox.setSelectedKey( FourierConstants.DOMAIN_SPACE );
+        _animationCycleController.setEnabled( false );
         
         // Preset
         int preset = _fourierSeries.getPreset();
@@ -520,6 +525,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showPeriodComboBox.setEnabled( false );
             _periodTool.setVisible( false );
             _periodDisplay.setVisible( false );
+            _animationCycleController.setEnabled( false );
             break;
         case FourierConstants.DOMAIN_TIME:
             _mathFormComboBox.setChoices( _timeMathFormChoices );
@@ -531,6 +537,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showPeriodComboBox.setEnabled( _showPeriodCheckBox.isSelected() );
             _periodTool.setVisible( _showPeriodCheckBox.isSelected() );
             _periodDisplay.setVisible( false );
+            _animationCycleController.setEnabled( false );
             break;
         case FourierConstants.DOMAIN_SPACE_AND_TIME:
             _mathFormComboBox.setChoices( _spaceAndTimeMathFormChoices );
@@ -542,6 +549,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _showPeriodComboBox.setEnabled( _showPeriodCheckBox.isSelected() );
             _periodTool.setVisible( false );
             _periodDisplay.setVisible( _showPeriodCheckBox.isSelected() );
+            _animationCycleController.reset();
+            _animationCycleController.setEnabled( true );
             break;
         default:
             assert( 1 == 0 ); // programming error
@@ -568,6 +577,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _showInfiniteCheckBox.setForeground( showInfiniteEnabled ? Color.BLACK : Color.GRAY );
         _fourierSeries.setPreset( preset );
         setWaitCursorEnabled( false );
+        _animationCycleController.reset();
     }
     
     private void handleShowInfinite() {
@@ -619,6 +629,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _fourierSeries.setWaveType( waveType );
         }
         setWaitCursorEnabled( false );
+        _animationCycleController.reset();
     }
     
     private void handleNumberOfHarmonics() {

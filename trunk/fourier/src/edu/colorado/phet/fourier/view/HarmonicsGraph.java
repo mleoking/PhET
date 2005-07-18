@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.chart.Chart;
 import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -35,6 +34,8 @@ import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
+import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleListener;
 
 
 /**
@@ -44,7 +45,7 @@ import edu.colorado.phet.fourier.model.Harmonic;
  * @version $Revision$
  */
 public class HarmonicsGraph extends GraphicLayerSet 
-    implements SimpleObserver, ZoomListener, HarmonicFocusListener, ModelElement {
+    implements SimpleObserver, ZoomListener, HarmonicFocusListener, AnimationCycleListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -485,22 +486,17 @@ public class HarmonicsGraph extends GraphicLayerSet
         _mathGraphic.setRegistrationPoint( _mathGraphic.getWidth() / 2, _mathGraphic.getHeight() ); // bottom center
     }
     
-    
     //----------------------------------------------------------------------------
-    // ModelElement implementation
+    // AnimationCycleListener implementation
     //----------------------------------------------------------------------------
     
-    /**
-     * Moves the waveforms in space by shifting their start location.
-     * 
-     * @param dt
-     */
-    public void stepInTime( double dt ) {
-        if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME && FourierConfig.ANIMATION_ENABLED ) {
+    public void animate( AnimationCycleEvent event ) {
+        if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
+            double cyclePoint = event.getCyclePoint();
+            double startX = cyclePoint * L;
             for ( int i = 0; i < _harmonicPlots.size(); i++ ) {
                 HarmonicPlot harmonicPlot = (HarmonicPlot) _harmonicPlots.get( i );
-                double startX = harmonicPlot.getStartX();
-                harmonicPlot.setStartX( startX + ( dt * L / FourierConfig.ANIMATION_STEPS_PER_CYCLE ) );
+                harmonicPlot.setStartX( startX  );
             }
         }
     }

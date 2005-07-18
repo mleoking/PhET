@@ -22,7 +22,6 @@ import edu.colorado.phet.chart.DataSet;
 import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.LinePlot;
 import edu.colorado.phet.chart.Range2D;
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
@@ -34,11 +33,14 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
+import edu.colorado.phet.fourier.charts.HarmonicPlot;
 import edu.colorado.phet.fourier.charts.SumChart;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
+import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
+import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleListener;
 
 
 /**
@@ -47,7 +49,7 @@ import edu.colorado.phet.fourier.model.FourierSeries;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomListener, ModelElement {
+public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomListener, AnimationCycleListener {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -570,31 +572,26 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     }
     
     //----------------------------------------------------------------------------
-    // ModelElement implementation
+    // AnimationCycleListener implementation
     //----------------------------------------------------------------------------
     
-    /**
-     * Moves the waveform in space by shifting its start location.
-     * 
-     * @param dt
-     */
-    public void stepInTime( double dt ) {
-        if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME && FourierConfig.ANIMATION_ENABLED ) {
+    public void animate( AnimationCycleEvent event ) {
+        if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
+            double cyclePoint = event.getCyclePoint();
+            double startX = cyclePoint * L;
             
-            double dx = dt * L / FourierConfig.ANIMATION_STEPS_PER_CYCLE;
+            // Sum waveform.
+            _sumPlot.setStartX( startX );
             
-            // Shift the start location of the sum waveform.
-            _sumPlot.setStartX( _sumPlot.getStartX() + dx );
-            
-            // Shift the preset.
-            Point2D[] points = _presetPlot.getDataSet().getPoints();
-            if ( points != null ) {
-                _presetPlot.getDataSet().clear();
-                for ( int i = 0; i < points.length; i++ ) {
-                    points[i].setLocation( points[i].getX() + dx, points[i].getY() );
-                }
-                _presetPlot.getDataSet().addAllPoints( points );
-            }
+//            // Preset.
+//            Point2D[] points = _presetPlot.getDataSet().getPoints();
+//            if ( points != null ) {
+//                _presetPlot.getDataSet().clear();
+//                for ( int i = 0; i < points.length; i++ ) {
+//                    points[i].setLocation( points[i].getX() + dx, points[i].getY() );
+//                }
+//                _presetPlot.getDataSet().addAllPoints( points );
+//            }
         }
     }
 }

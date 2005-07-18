@@ -19,7 +19,6 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.ApparatusPanel2;
 import edu.colorado.phet.common.view.phetgraphics.CompositePhetGraphic;
@@ -28,6 +27,8 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.event.*;
 import edu.colorado.phet.fourier.model.Harmonic;
+import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
+import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleListener;
 
 
 /**
@@ -42,7 +43,7 @@ import edu.colorado.phet.fourier.model.Harmonic;
  * @version $Revision$
  */
 public class PeriodDisplay extends CompositePhetGraphic 
-  implements ApparatusPanel2.ChangeListener, SimpleObserver, HarmonicColorChangeListener, ModelElement {
+  implements ApparatusPanel2.ChangeListener, SimpleObserver, HarmonicColorChangeListener, AnimationCycleListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -77,7 +78,7 @@ public class PeriodDisplay extends CompositePhetGraphic
     private Arc2D _pieArc;
     private FourierDragHandler _dragHandler;
     private EventListenerList _listenerList;
-    private int _pieAngle; // degrees
+    private double _pieAngle; // degrees
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -156,7 +157,6 @@ public class PeriodDisplay extends CompositePhetGraphic
         _harmonic = harmonic;
         _harmonic.addObserver( this );
         
-        _pieAngle = 0;
         updateSubscript();
         updateColor();
         updatePie();
@@ -184,7 +184,7 @@ public class PeriodDisplay extends CompositePhetGraphic
     private void updatePie() {
         _pieArc.setArc( -RING_DIAMETER/2, -RING_DIAMETER/2, RING_DIAMETER, RING_DIAMETER, PIE_START_ANGLE, -(_pieAngle), Arc2D.PIE );
         _pieGraphic.setShape( _pieArc );
-        _pieGraphic.setShapeDirty(); 
+        _pieGraphic.setShapeDirty();
     }
     
     //----------------------------------------------------------------------------
@@ -271,35 +271,14 @@ public class PeriodDisplay extends CompositePhetGraphic
     }
     
     //----------------------------------------------------------------------------
-    // PhetGraphic overrides
+    // AnimationCycleListener implementation
     //----------------------------------------------------------------------------
     
-    /**
-     * Resets the pie angle to zero when we change from invisible to visible.
-     * 
-     * @param visible
-     */
-    public void setVisible( boolean visible ) {
-        if ( !isVisible() && visible ) {
-            _pieAngle = 0;
-        }
-        super.setVisible( visible );
-    }
-    
-    //----------------------------------------------------------------------------
-    // ModelElement implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Increments the size of the pie.
-     * 
-     * @param dt
-     */
-    public void stepInTime( double dt ) {
+    public void animate( AnimationCycleEvent event ) {
         if ( isVisible() ) {
+            double cyclePoint = event.getCyclePoint();
             int order = _harmonic.getOrder();
-            double deltaAngle = dt *  ( 360.0 / FourierConfig.ANIMATION_STEPS_PER_CYCLE ) * ( order + 1 );
-            _pieAngle += deltaAngle;
+            _pieAngle = cyclePoint * 360 * ( order + 1 );
             _pieAngle %= 360;
             updatePie();
         }
