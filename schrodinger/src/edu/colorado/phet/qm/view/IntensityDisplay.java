@@ -9,6 +9,7 @@ import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -29,6 +30,7 @@ public class IntensityDisplay extends GraphicLayerSet {
     private double probabilityScaleFudgeFactor = 1.0;
     private double normDecrement = 1.0;
     private int multiplier = 1;
+    private ArrayList listeners = new ArrayList();
 
     public IntensityDisplay( SchrodingerModule schrodingerModule, SchrodingerPanel schrodingerPanel, int detectorHeight ) {
         this.schrodingerModule = schrodingerModule;
@@ -43,15 +45,29 @@ public class IntensityDisplay extends GraphicLayerSet {
     public void tryDetecting() {
         Wavefunction sub = getDetectionRegion();
         double probability = sub.getMagnitude() * probabilityScaleFudgeFactor;
-
-//        double rate = probability;
         for( int i = 0; i < multiplier; i++ ) {
             double rand = random.nextDouble();
             if( rand <= probability ) {
                 detectOne( sub );
                 updateWavefunctionAfterDetection();
+                notifyDetection();
             }
         }
+    }
+
+    public static interface Listener {
+        void detectionOccurred();
+    }
+
+    private void notifyDetection() {
+        for( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener)listeners.get( i );
+            listener.detectionOccurred();
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 
     private void detectOne( Wavefunction sub ) {
@@ -64,7 +80,10 @@ public class IntensityDisplay extends GraphicLayerSet {
         int x = (int)( linearFunction.evaluate( pt.x ) + randOffsetY );
         int y = getDetectY();
         detectorSheet.addDetectionEvent( x, y );
+
+//        notifyDetection();
     }
+
 
     public Function.LinearFunction getModelToViewTransform1d() {
         Function.LinearFunction linearFunction = new Function.LinearFunction( 0, getDiscreteModel().getGridWidth(), 0, getWidth() );

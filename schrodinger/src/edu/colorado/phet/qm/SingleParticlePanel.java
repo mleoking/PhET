@@ -12,6 +12,8 @@ import edu.colorado.phet.qm.view.gun.SingleParticleGun;
  */
 
 public class SingleParticlePanel extends SchrodingerPanel {
+//    private AutoFire autoFire;
+
     public SingleParticlePanel( SchrodingerModule module ) {
         super( module );
         setGunGraphic( new SingleParticleGun( this ) );
@@ -19,5 +21,7 @@ public class SingleParticlePanel extends SchrodingerPanel {
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 5 );
         getIntensityDisplay().setOpacity( 255 );
         getIntensityDisplay().setNormDecrement( 1.0 );
+
+
     }
 }
