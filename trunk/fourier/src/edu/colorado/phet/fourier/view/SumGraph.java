@@ -33,6 +33,7 @@ import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
+import edu.colorado.phet.fourier.charts.SumChart;
 import edu.colorado.phet.fourier.control.ZoomControl;
 import edu.colorado.phet.fourier.event.ZoomEvent;
 import edu.colorado.phet.fourier.event.ZoomListener;
@@ -69,53 +70,21 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final int TITLE_X_OFFSET = -15; // from origin
     
-    // Axis parameter
-    private static final Color AXIS_COLOR = Color.BLACK;
-    private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
-    private static final Font AXIS_TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 16 );
-    private static final Color AXIS_TITLE_COLOR = Color.BLACK;
-    
-    // Range labels
-    private static final boolean RANGE_LABELS_VISIBLE = false;
-    private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
-    
-    // Tick Mark parameter
-    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font MAJOR_TICK_FONT = new Font( FourierConfig.FONT_NAME, Font.BOLD, 12 );
-    private static final Color MAJOR_TICK_COLOR = Color.BLACK;
-    private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
-    private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
-    private static final Color MINOR_TICK_COLOR = MAJOR_TICK_COLOR;
-    
-    // Gridline parameters
-    private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
-    private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
-    
-    // X axis
+    // Chart parameters
     private static final double L = FourierConstants.L; // do not change!
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
-    private static final double X_MAJOR_TICK_SPACING = ( L / 4 );
-    private static final double X_MINOR_TICK_SPACING = ( L / 8 );
-
-    // Y axis
     private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_RANGE_MIN = FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final double Y_RANGE_MAX = 12.0;
-    private static final double Y_MAJOR_TICK_SPACING = 5.0;
-    private static final double Y_MINOR_TICK_SPACING = 1.0;
-    private static final int Y_ZOOM_STEP = 2;
-    
-    // Chart parameters
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 550, 130 );
     
+    // Zoom parameters
+    private static final int Y_ZOOM_STEP = 2;
+    
     // Wave parameters
-    private static final int NUMBER_OF_DATA_POINTS = 1000;
-    private static final int MAX_FUNDAMENTAL_CYCLES = 4;
     private static final Stroke SUM_STROKE = new BasicStroke( 1f );
     private static final Color SUM_COLOR = Color.BLACK;
     private static final double SUM_PIXELS_PER_POINT = 2;
@@ -131,21 +100,17 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
-    private Chart _chartGraphic;
+    private SumChart _chartGraphic;
     private SumEquation _mathGraphic;
-    private PhetTextGraphic _xAxisTitleGraphic;
-    private String _xAxisTitleTime, _xAxisTitleSpace;
     private FourierSumPlot _sumPlot;
     private LinePlot _presetPlot;
     private ZoomControl _horizontalZoomControl, _verticalZoomControl;
     private JCheckBox _autoScaleCheckBox;
+    
     private int _xZoomLevel;
     private int _domain;
     private int _mathForm;
-    private StringLabelTable _spaceLabels1, _spaceLabels2;
-    private StringLabelTable _timeLabels1, _timeLabels2;
-    private boolean _autoScaleEnabled;
-    private Point2D[] _points;
+    
     private int _previousNumberOfHarmonics;
     private int _previousPreset;
     private int _previousWaveType;
@@ -183,91 +148,21 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         // Chart
         {
-            _chartGraphic = new Chart( component, CHART_RANGE, CHART_SIZE );
+            _chartGraphic = new SumChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
-            
             _chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
 
-            // X axis
-            {
-                _chartGraphic.getXAxis().setStroke( AXIS_STROKE );
-                _chartGraphic.getXAxis().setColor( AXIS_COLOR );
+            // Preset plot
+            _presetPlot = new LinePlot( getComponent(), _chartGraphic, new DataSet(), PRESET_STROKE, PRESET_COLOR );
+            _chartGraphic.addDataSetGraphic( _presetPlot );
 
-                // Title
-                _xAxisTitleTime = "" + MathStrings.C_TIME;
-                _xAxisTitleSpace = "" + MathStrings.C_SPACE;
-                _xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, _xAxisTitleSpace, AXIS_TITLE_COLOR );
-                _chartGraphic.setXAxisTitle( _xAxisTitleGraphic );
-                
-                // No ticks or labels on the axis
-                _chartGraphic.getXAxis().setMajorTicksVisible( false );
-                _chartGraphic.getXAxis().setMajorTickLabelsVisible( false );
-                _chartGraphic.getXAxis().setMinorTicksVisible( false );
-                _chartGraphic.getXAxis().setMinorTickLabelsVisible( false );
-                
-                // Major ticks with labels below the chart
-                _chartGraphic.getHorizontalTicks().setMajorTicksVisible( true );
-                _chartGraphic.getHorizontalTicks().setMajorTickLabelsVisible( true );
-                _chartGraphic.getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
-                _chartGraphic.getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
-                _chartGraphic.getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
-                _chartGraphic.getHorizontalTicks().setMajorLabels( _spaceLabels1 );
-
-                // Vertical gridlines for major ticks.
-                _chartGraphic.getVerticalGridlines().setMajorGridlinesVisible( true );
-                _chartGraphic.getVerticalGridlines().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
-                _chartGraphic.getVerticalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
-                _chartGraphic.getVerticalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
-                
-                // Vertical gridlines for minor ticks.
-                _chartGraphic.getVerticalGridlines().setMinorGridlinesVisible( true );
-                _chartGraphic.getVerticalGridlines().setMinorTickSpacing( X_MINOR_TICK_SPACING );
-                _chartGraphic.getVerticalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
-                _chartGraphic.getVerticalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
-            }
-            
-            // Y axis
-            {
-                _chartGraphic.getYAxis().setStroke( AXIS_STROKE );
-                _chartGraphic.getYAxis().setColor( AXIS_COLOR );
-                
-                // No ticks or labels on the axis
-                _chartGraphic.getYAxis().setMajorTicksVisible( false );
-                _chartGraphic.getYAxis().setMajorTickLabelsVisible( false );
-                _chartGraphic.getYAxis().setMinorTicksVisible( false );
-                _chartGraphic.getYAxis().setMinorTickLabelsVisible( false );
-
-                // Range labels
-                _chartGraphic.getVerticalTicks().setRangeLabelsVisible( RANGE_LABELS_VISIBLE );
-                _chartGraphic.getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
-                
-                // Major ticks with labels to the left of the chart
-                _chartGraphic.getVerticalTicks().setMajorTicksVisible( true );
-                _chartGraphic.getVerticalTicks().setMajorTickLabelsVisible( true );
-                _chartGraphic.getVerticalTicks().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-                _chartGraphic.getVerticalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
-                _chartGraphic.getVerticalTicks().setMajorTickFont( MAJOR_TICK_FONT );
-
-                // Horizontal gridlines for major ticks
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesVisible( true );
-                _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( Y_MAJOR_TICK_SPACING );
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
-                _chartGraphic.getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
-
-                // Horizontal gridlines for minor ticks
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesVisible( true );
-                _chartGraphic.getHorizonalGridlines().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesColor( MINOR_GRIDLINE_COLOR );
-                _chartGraphic.getHorizonalGridlines().setMinorGridlinesStroke( MINOR_GRIDLINE_STROKE );
-            }
-        }
-        
-        // Math
-        {
-            _mathGraphic = new SumEquation( component );
-            addGraphic( _mathGraphic, MATH_LAYER );
-            _mathGraphic.centerRegistrationPoint();
-            _mathGraphic.setLocation( CHART_SIZE.width / 2, -(CHART_SIZE.height / 2) - 20 );
+            // Sum plot
+            _sumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _fourierSeries );
+            _sumPlot.setPeriod( L );
+            _sumPlot.setPixelsPerPoint( SUM_PIXELS_PER_POINT );
+            _sumPlot.setStroke( SUM_STROKE );
+            _sumPlot.setBorderColor( SUM_COLOR );
+            _chartGraphic.addDataSetGraphic( _sumPlot );
         }
         
         // Zoom controls
@@ -290,19 +185,15 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             addGraphic( autoScaleGraphic, CONTROLS_LAYER );
             autoScaleGraphic.setLocation( _verticalZoomControl.getX(), 
                     _verticalZoomControl.getY() + _verticalZoomControl.getHeight() + 5 );
+        } 
+        
+        // Math
+        {
+            _mathGraphic = new SumEquation( component );
+            addGraphic( _mathGraphic, MATH_LAYER );
+            _mathGraphic.centerRegistrationPoint();
+            _mathGraphic.setLocation( CHART_SIZE.width / 2, -(CHART_SIZE.height / 2) - 20 );
         }
-        
-        // Preset plot
-        _presetPlot = new LinePlot( getComponent(), _chartGraphic, new DataSet(), PRESET_STROKE, PRESET_COLOR );
-        _chartGraphic.addDataSetGraphic( _presetPlot );
-        
-        // Sum plot
-        _sumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _fourierSeries );
-        _sumPlot.setPeriod( L );
-        _sumPlot.setPixelsPerPoint( SUM_PIXELS_PER_POINT );
-        _sumPlot.setStroke( SUM_STROKE );
-        _sumPlot.setBorderColor( SUM_COLOR );
-        _chartGraphic.addDataSetGraphic( _sumPlot );
         
         // Interactivity
         {
@@ -318,14 +209,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _autoScaleCheckBox.addActionListener( listener );
         }
         
-        // Misc initialization
-        {
-            _points = new Point2D[ NUMBER_OF_DATA_POINTS + 1 ];
-            for ( int i = 0; i < _points.length; i++ ) {
-                _points[ i ] = new Point2D.Double();
-            }
-        }
-        
         reset();
     }
     
@@ -339,6 +222,10 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         _verticalZoomControl.removeAllZoomListeners();
     }
 
+    //----------------------------------------------------------------------------
+    // Reset
+    //----------------------------------------------------------------------------
+    
     /**
      * Resets to the initial state.
      */
@@ -348,8 +235,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         {
             _xZoomLevel = 0;
             _chartGraphic.setRange( CHART_RANGE );
-            _autoScaleEnabled = false;
-            _autoScaleCheckBox.setSelected( _autoScaleEnabled );
+            _autoScaleCheckBox.setSelected( false );
             updateLabelsAndLines();
             updateZoomButtons();
             _presetPlot.setVisible( false );
@@ -375,6 +261,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     
     /**
      * Gets the horizontal zoom control.
+     * Uses to set up linking of zoom controls on different user interfaces.
      * 
      * @return the horizontal zoom control
      */
@@ -411,18 +298,10 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     }
     
     /**
-     * Enables or disables auto scaling of the Y axis.
+     * Turns visibility of the continuous preset waveform on/off.
      * 
-     * @param autoRescaleEnabled true or false
+     * @param enabled
      */
-    private void setAutoScaleEnabled( boolean autoRescaleEnabled ) {
-        if ( autoRescaleEnabled != _autoScaleEnabled ) {
-            _autoScaleEnabled = autoRescaleEnabled;
-            updateZoomButtons();
-            update();
-        }
-    }
-    
     public void setPresetEnabled( boolean enabled ) {
         _presetPlot.setVisible( enabled );
     }
@@ -441,7 +320,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         _sumPlot.updateDataSet();
         
         // If auto scaling is enabled, adjust the vertical scale to fit the curve.
-        if ( _autoScaleEnabled ) {
+        if ( _autoScaleCheckBox.isSelected() ) {
             Range2D range = _chartGraphic.getRange();
             double maxAmplitude = _sumPlot.getMaxAmplitude();
             if ( maxAmplitude != range.getMaxY() ) {
@@ -519,7 +398,8 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
 
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == _autoScaleCheckBox ) {
-                setAutoScaleEnabled( _autoScaleCheckBox.isSelected() );
+                updateZoomButtons();
+                update();
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + event );
@@ -616,23 +496,27 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private void updateLabelsAndLines() {
 
         // X axis
-        if ( _domain == FourierConstants.DOMAIN_TIME ) {
-            _xAxisTitleGraphic.setText( _xAxisTitleTime );
-            if ( _xZoomLevel > -3 ) {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getTimeLabels1() );
+        {
+            LabelTable labelTable = null;
+            if ( _domain == FourierConstants.DOMAIN_TIME ) {
+                _chartGraphic.setXAxisTitle( MathStrings.C_TIME );
+                if ( _xZoomLevel > -3 ) {
+                    labelTable = _chartGraphic.getTimeLabels1();
+                }
+                else {
+                    labelTable = _chartGraphic.getTimeLabels2();
+                }
             }
-            else {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getTimeLabels2() );
-            }   
-        }
-        else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
-            _xAxisTitleGraphic.setText( _xAxisTitleSpace );
-            if ( _xZoomLevel > -3 ) {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels1() );
+            else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
+                _chartGraphic.setXAxisTitle( MathStrings.C_SPACE );
+                if ( _xZoomLevel > -3 ) {
+                    labelTable = _chartGraphic.getSpaceLabels1();
+                }
+                else {
+                    labelTable = _chartGraphic.getSpaceLabels2();
+                }
             }
-            else {
-                _chartGraphic.getHorizontalTicks().setMajorLabels( getSpaceLabels2() );
-            }
+            _chartGraphic.getHorizontalTicks().setMajorLabels( labelTable );
         }
         
         // Y axis
@@ -676,7 +560,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         }
         
         // Vertical buttons
-        if ( _autoScaleEnabled ) {
+        if ( _autoScaleCheckBox.isSelected() ) {
             _verticalZoomControl.setZoomOutEnabled( false );
             _verticalZoomControl.setZoomInEnabled( false );
         }
@@ -694,90 +578,11 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         }
     }
     
+    /*
+     * Updates the math equation that appears above the chart.
+     */
     private void updateMath() {
         _mathGraphic.setForm( _domain, _mathForm, _fourierSeries.getNumberOfHarmonics() );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Chart Labels
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Lazy initialization of the X axis "space" labels.
-     */
-    private StringLabelTable getSpaceLabels1() {
-        if ( _spaceLabels1 == null ) {
-            _spaceLabels1 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _spaceLabels1.put( -1.00 * L, "-L" );
-            _spaceLabels1.put( -0.75 * L, "-3L/4" );
-            _spaceLabels1.put( -0.50 * L, "-L/2" );
-            _spaceLabels1.put( -0.25 * L, "-L/4" );
-            _spaceLabels1.put(     0 * L, "0" );
-            _spaceLabels1.put( +0.25 * L, "L/4" );
-            _spaceLabels1.put( +0.50 * L, "L/2" );
-            _spaceLabels1.put( +0.75 * L, "3L/4" );
-            _spaceLabels1.put( +1.00 * L, "L" );
-        }
-        return _spaceLabels1;
-    }
-    
-    /*
-     * Lazy initialization of the X axis "space" labels.
-     */
-    private StringLabelTable getSpaceLabels2() {
-        if ( _spaceLabels2 == null ) {
-            _spaceLabels2 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _spaceLabels2.put( -2.0 * L, "-2L" );
-            _spaceLabels2.put( -1.5 * L, "-3L/2" );
-            _spaceLabels2.put( -1.0 * L, "-L" );
-            _spaceLabels2.put( -0.5 * L, "-L/2" );
-            _spaceLabels2.put(    0 * L, "0" );
-            _spaceLabels2.put( +0.5 * L, "L/2" );
-            _spaceLabels2.put( +1.0 * L, "L" );
-            _spaceLabels2.put( +1.5 * L, "3L/2" );
-            _spaceLabels2.put( +2.0 * L, "2L" );
-        }
-        return _spaceLabels2;
-    }
-    
-    /*
-     * Lazy initialization of the X axis "time" labels.
-     */
-    private StringLabelTable getTimeLabels1() {
-        if ( _timeLabels1 == null ) {
-            double T = L; // use the same quantity for wavelength and period
-            _timeLabels1 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _timeLabels1.put( -1.00 * T, "-T" );
-            _timeLabels1.put( -0.75 * T, "-3T/4" );
-            _timeLabels1.put( -0.50 * T, "-T/2" );
-            _timeLabels1.put( -0.25 * T, "-T/4" );
-            _timeLabels1.put(     0 * T, "0" );
-            _timeLabels1.put( +0.25 * T, "T/4" );
-            _timeLabels1.put( +0.50 * T, "T/2" );
-            _timeLabels1.put( +0.75 * T, "3T/4" );
-            _timeLabels1.put( +1.00 * T, "T" );
-        }
-        return _timeLabels1;
-    }
-    
-    /*
-     * Lazy initialization of the X axis "time" labels.
-     */
-    private StringLabelTable getTimeLabels2() {   
-        if ( _timeLabels2 == null ) {
-            double T = L; // use the same quantity for wavelength and period
-            _timeLabels2 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _timeLabels2.put( -2.0 * T, "-2T" );
-            _timeLabels2.put( -1.5 * T, "-3T/2" );
-            _timeLabels2.put( -1.0 * T, "-T" );
-            _timeLabels2.put( -0.5 * T, "-T/2" );
-            _timeLabels2.put(    0 * T, "0" );
-            _timeLabels2.put( +0.5 * T, "T/2" );
-            _timeLabels2.put( +1.0 * T, "T" );
-            _timeLabels2.put( +1.5 * T, "3T/2" );
-            _timeLabels2.put( +2.0 * T, "2T" );
-        }
-        return _timeLabels2;
     }
     
     //----------------------------------------------------------------------------
