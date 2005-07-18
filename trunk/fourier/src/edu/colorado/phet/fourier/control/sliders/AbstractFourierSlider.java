@@ -66,6 +66,7 @@ public abstract class AbstractFourierSlider extends JPanel implements ChangeList
         
         // UI components
         _slider = new JSlider();
+        _slider.setValue( 0 );
         _slider.addChangeListener( this );
         _label = new JLabel();
 

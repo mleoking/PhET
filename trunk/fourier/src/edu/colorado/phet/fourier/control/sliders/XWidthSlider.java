@@ -34,7 +34,7 @@ public class XWidthSlider extends AbstractFourierSlider {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String VALUE_FORMAT = "0.00";
+    private static final String VALUE_FORMAT = "#.##";
     
     // x-space width is from 1/5PI to 1
     private static final double MIN_WIDTH = 1 / ( Math.PI * 5 );
