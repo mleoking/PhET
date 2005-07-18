@@ -1,10 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package edu.colorado.phet.qm;
 
+import edu.colorado.phet.common.view.components.ModelSlider;
 import edu.colorado.phet.common.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.qm.model.Detector;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,6 +34,16 @@ public class SingleParticleControlPanel extends SchrodingerControlPanel {
             }
         } );
         addControl( createDetectorArray );
+
+        final ModelSlider modelSlider = new ModelSlider( "Dectector prob-scale", "", 0, 100, 1 );
+        modelSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                Detector.setProbabilityScaleFudgeFactor( modelSlider.getValue() );
+            }
+        } );
+        modelSlider.setModelTicks( new double[]{0, 1, 10, 50, 100} );
+
+        addControl( modelSlider );
     }
 
     private void createDetectorArray() {

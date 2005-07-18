@@ -22,6 +22,11 @@ public class Detector extends RectangularObject {
     private int timeSinceLast = 0;
     private static final Random random = new Random();
     private DiscreteModel discreteModel;
+    private static double probabilityScaleFudgeFactor = 1.0;
+
+    public static void setProbabilityScaleFudgeFactor( double scale ) {
+        probabilityScaleFudgeFactor = scale;
+    }
 
     public Detector( DiscreteModel discreteModel, int x, int y, int width, int height ) {
         super( x, y, width, height );
@@ -49,6 +54,9 @@ public class Detector extends RectangularObject {
             }
         }
         this.probability = runningSum;
+//        if( probability > 1.0 ) {
+//            probability = 1.0;
+//        }
         notifyObservers();//todo probabilty change event.
     }
 
@@ -131,7 +139,7 @@ public class Detector extends RectangularObject {
 
 
     public void fire( Wavefunction wavefunction, double norm ) {
-        double prob = getProbability();
+        double prob = getProbability() * probabilityScaleFudgeFactor;
         double rand = random.nextDouble() * norm;//todo is this right?
         if( rand <= prob ) {
             grabWavefunction( wavefunction );
