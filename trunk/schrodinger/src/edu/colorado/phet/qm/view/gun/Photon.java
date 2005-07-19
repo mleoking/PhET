@@ -27,6 +27,7 @@ public class Photon extends GunParticle {
 //        wavelengthSliderGraphic = PhetJComponent.newInstance( abstractGun.getComponent(), wavelength );
 //        wavelengthSliderGraphic=new SpectrumSlider( abstractGun.getSchrodingerPanel() );
         wavelengthSliderGraphic = new SRRWavelengthSlider( abstractGun.getSchrodingerPanel() );
+
     }
 
     public void setup( AbstractGun abstractGun ) {

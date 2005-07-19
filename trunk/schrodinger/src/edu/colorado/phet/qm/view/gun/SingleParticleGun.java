@@ -3,12 +3,15 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.qm.AutoFire;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -22,10 +25,32 @@ public class SingleParticleGun extends AbstractGun {
     private GunParticle currentObject;
     private GunParticle[] gunItems;
     private AutoFire autoFire;
+    private ImageIcon outIcon;
+    private ImageIcon inIcon;
 
     public SingleParticleGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
-        fireOne = new JButton( "Fire!" );
+        fireOne = new JButton();
+        fireOne.setMargin( new Insets( 2, 2, 2, 2 ) );
+        try {
+            outIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/fire-50.gif" ) );
+            inIcon = new ImageIcon( ImageLoader.loadBufferedImage( "images/fire-in-50.gif" ) );
+            fireOne.setIcon( outIcon );
+            fireOne.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        fireOne.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                fireOne.setIcon( inIcon );
+            }
+
+            public void mouseReleased( MouseEvent e ) {
+                fireOne.setIcon( outIcon );
+            }
+        } );
+
         fireOne.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 clearAndFire();
@@ -42,6 +67,7 @@ public class SingleParticleGun extends AbstractGun {
             }
         } );
         PhetGraphic fireJC = PhetJComponent.newInstance( schrodingerPanel, fireOne );
+        fireJC.setCursorHand();
         addGraphic( fireJC );
         fireJC.setLocation( getGunImageGraphic().getWidth() + 2, 0 );
 

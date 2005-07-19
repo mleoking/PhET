@@ -28,8 +28,8 @@ public class PhotonColorMap implements ColorMap {
         private float g;
         private float b;
 
-        public ColorData( Photon photon ) {
-            VisibleColor c = new VisibleColor( photon.getWavelengthNM() );
+        public ColorData( double wavelength ) {
+            VisibleColor c = new VisibleColor( wavelength );
             this.r = c.getRed() / 255.0f;
             this.g = c.getGreen() / 255.0f;
             this.b = c.getBlue() / 255.0f;
@@ -44,7 +44,7 @@ public class PhotonColorMap implements ColorMap {
     public PhotonColorMap( SchrodingerPanel schrodingerPanel, final Photon photon ) {
         this.schrodingerPanel = schrodingerPanel;
         this.photon = photon;
-        this.rootColor = new ColorData( photon );
+        this.rootColor = new ColorData( photon.getWavelengthNM() );
     }
 
     public Paint getPaint( int i, int k ) {
