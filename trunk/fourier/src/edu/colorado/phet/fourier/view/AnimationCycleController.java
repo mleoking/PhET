@@ -57,11 +57,13 @@ public class AnimationCycleController implements ClockTickListener {
      */
     public static class AnimationCycleEvent extends EventObject {
         private double _cyclePoint;
+        private double _delta;
         
-        public AnimationCycleEvent( Object source, double cyclePoint ) {
+        public AnimationCycleEvent( Object source, double cyclePoint, double delta ) {
             super( source );
             assert( cyclePoint >= 0 && cyclePoint <= 1 ); // programming error
             _cyclePoint = cyclePoint;
+            _delta = delta;
         }
         
         /**
@@ -73,6 +75,15 @@ public class AnimationCycleController implements ClockTickListener {
          */
         public double getCyclePoint() {
             return _cyclePoint;
+        }
+        
+        /**
+         * Gets the change in cycle point since the last clock tick.
+         * 
+         * @return the change
+         */
+        public double getDelta() {
+            return _delta;
         }
     }
     
@@ -109,8 +120,9 @@ public class AnimationCycleController implements ClockTickListener {
      * Resets the animation to the beginning of its cycle.
      */
     public void reset() {
+        double delta = -( _cyclePoint );
         _cyclePoint = 0;
-        fireAnimationCycleEvent( _cyclePoint );
+        fireAnimationCycleEvent( _cyclePoint, delta );
     }
     
     /**
@@ -162,8 +174,8 @@ public class AnimationCycleController implements ClockTickListener {
      * 
      * @param cyclePoint
      */
-    private void fireAnimationCycleEvent( double cyclePoint ) {
-        AnimationCycleEvent event = new AnimationCycleEvent( this, cyclePoint );
+    private void fireAnimationCycleEvent( double cyclePoint, double delta ) {
+        AnimationCycleEvent event = new AnimationCycleEvent( this, cyclePoint, delta );
         Object[] listeners = _listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i+=2 ) {
             if ( listeners[i] == AnimationCycleListener.class ) {
@@ -183,9 +195,10 @@ public class AnimationCycleController implements ClockTickListener {
      */
     public void clockTicked( ClockTickEvent event ) {
         if ( _enabled ) {
-            _cyclePoint += event.getDt() / _ticksPerCycle;
-            _cyclePoint %= 1.0;
-            fireAnimationCycleEvent( _cyclePoint );
+            double newCyclePoint = ( _cyclePoint + ( event.getDt() / _ticksPerCycle ) ) % 1.0;
+            double delta = newCyclePoint - _cyclePoint;
+            _cyclePoint = newCyclePoint;
+            fireAnimationCycleEvent( _cyclePoint, delta );
         }
     }
 }

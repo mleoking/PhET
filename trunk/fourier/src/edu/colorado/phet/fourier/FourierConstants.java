@@ -171,10 +171,15 @@ public class FourierConstants {
     }
     
     //----------------------------------------------------------------------------
-    // Data points for drawing preset functions, range -2L..+2L
+    // Data points for drawing preset functions, range -3L..+2L
+    // The low end of the range is -3L to handle left-to-right animation.
     //----------------------------------------------------------------------------
     
     private static final Point2D[] SINE_SQUARE_POINTS = {
+            new Point2D.Double( -3*L, -1 ),
+            new Point2D.Double( -3*L, 1 ),
+            new Point2D.Double( -5*L/2, 1 ),
+            new Point2D.Double( -5*L/2, -1 ),
             new Point2D.Double( -2*L, -1 ),
             new Point2D.Double( -2*L, 1 ),
             new Point2D.Double( -3*L/2, 1 ),
@@ -196,6 +201,10 @@ public class FourierConstants {
     };
     
     private static final Point2D[] COSINE_SQUARE_POINTS = {
+            new Point2D.Double( -13*L/4, 1 ),
+            new Point2D.Double( -11*L/4, 1 ),
+            new Point2D.Double( -11*L/4, -1 ),
+            new Point2D.Double( -9*L/4, -1 ),
             new Point2D.Double( -9*L/4, 1 ),
             new Point2D.Double( -7*L/4, 1 ),
             new Point2D.Double( -7*L/4, -1 ),
@@ -217,6 +226,8 @@ public class FourierConstants {
     };
     
     private static final Point2D[] SINE_TRIANGLE_POINTS = {
+            new Point2D.Double( -13*L/4, -1 ),
+            new Point2D.Double( -11*L/4, 1 ),
             new Point2D.Double( -9*L/4, -1 ),
             new Point2D.Double( -7*L/4, 1 ),
             new Point2D.Double( -5*L/4, -1 ),
@@ -230,6 +241,8 @@ public class FourierConstants {
     };
     
     private static final Point2D[] COSINE_TRIANGLE_POINTS = {
+            new Point2D.Double( -3*L, 1 ),
+            new Point2D.Double( -5*L/2, -1 ),
             new Point2D.Double( -2*L, 1 ),
             new Point2D.Double( -3*L/2, -1 ),
             new Point2D.Double( -L, 1 ),
@@ -242,6 +255,8 @@ public class FourierConstants {
     };
     
     private static final Point2D[] SINE_SAWTOOTH_POINTS = {
+            new Point2D.Double( -7*L/2, -1 ),
+            new Point2D.Double( -5*L/2, 1 ),
             new Point2D.Double( -5*L/2, -1 ),
             new Point2D.Double( -3*L/2, 1 ),
             new Point2D.Double( -3*L/2, -1 ),

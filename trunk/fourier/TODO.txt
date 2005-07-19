@@ -6,9 +6,9 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
-- "show infinite" waveform is broken in space-&-time mode
-- "show infinite" goes away after a few cycles in space-&-time mode
-- persistence
+- infinite waveform animation gets out of sync when switching presets and wave type
+- infinite sine/cosine animation needs a plot with range -3L to +2L
+- add support for persistence
 
 MEDIUM PRIORITY:
 - crashes after running for ~40 minutes (memory leak?)
@@ -17,7 +17,7 @@ MEDIUM PRIORITY:
 - test Reset
 - FourierSumPlot should be an observer of its FourierSeries
 - PeriodDisplay is an observer of its harmonic, should it be?
-- something is hammering the processor when we should be idle
+- something is hammering the processor when the sim should be idle
 
 LOW PRIORITY:
 - get rid of Vector2D if it continues to be used only by WiggleMeGraphic
@@ -30,6 +30,8 @@ NEW FEATURES:
 
 
 OPTIMIZATIONS:
+- is allocation of AnimationCycleEvents inefficient?
+- SumGraph.update does a lot of Point allocation
 - reduce startup time
 - make disabled zoom buttons part of the zoom control background image
 - rewrite ZoomControl to use static shapes instead of images
@@ -57,6 +59,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/18) - add data between -3L and -2L for preset waveforms, so that animation works correctly
 (7/18) - synchronize animation of Harmonics, Sum and Period Tool
 (7/18) - centralize all animation synchronization in AnimationCycleController
 (7/18) - pull charts out of Harmonics and Sum views and put them in their own class files
