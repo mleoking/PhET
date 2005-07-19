@@ -7,7 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - hide wiggle me when user clicks anywhere
-- check animation behavior with play/pause buttons
 - check Discrete module layout on Window
 - publish v1r0 with Discrete module only
 - change sim title?
@@ -16,7 +15,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - crashes after running for ~40 minutes (memory leak?)
-- add wiggle me
 - test Reset
 - something is hammering the processor when the sim should be idle
 
@@ -66,6 +64,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/19) - change wiggle me for Discrete module
 (7/19) - bugfix: reset AnimationCycleController when number of harmonics is changed
 (7/19) - bugfix: update the preset plots in SumGraph.update, regardless of whether they are enabled
 (7/19) - bugfix: after decreasing then increasing #harmonics, new harmonics not wired into Harmonics graph

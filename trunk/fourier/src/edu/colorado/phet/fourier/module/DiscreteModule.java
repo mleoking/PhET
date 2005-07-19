@@ -58,7 +58,7 @@ public class DiscreteModule extends FourierModule {
     private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 590, 245 );
     private static final Point PERIOD_TOOL_LOCATION = WAVELENGTH_TOOL_LOCATION;
     private static final Point PERIOD_DISPLAY_LOCATION = new Point( 655, 360 );
-    private static final Point WIGGLE_ME_LOCATION = new Point( 280, 80 );
+    private static final Point WIGGLE_ME_LOCATION = new Point( 115, 165 );
     
     // Colors
     private static final Color APPARATUS_PANEL_BACKGROUND = new Color( 215, 215, 215 );;
@@ -247,9 +247,9 @@ public class DiscreteModule extends FourierModule {
             _fourierSeriesModel = fourierSeriesModel;
             
             setText( SimStrings.get( "DiscreteModule.wiggleMe" ), WIGGLE_ME_COLOR );
-            addArrow( WiggleMeGraphic.MIDDLE_LEFT, new Vector2D( -40, 30 ), WIGGLE_ME_COLOR );
-            addArrow( WiggleMeGraphic.TOP_LEFT, new Vector2D( -40, -30 ), WIGGLE_ME_COLOR );
-            setRange( 20, 10 );
+            addArrow( WiggleMeGraphic.TOP_CENTER, new Vector2D( 0, -30 ), WIGGLE_ME_COLOR );
+            setRange( 0, 10 );
+            setCycleDuration( 5 );
             setEnabled( true );
             
             // Disable the wiggle me when the mouse is pressed.
