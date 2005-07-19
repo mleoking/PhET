@@ -126,9 +126,6 @@ public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicCo
      * Updates the view to match the harmonic model.
      */
     public void update() {
-        if ( _harmonic.getOrder() == 6 ) {//XXX
-            System.out.println( "A7 updated" );//XXX
-        }//XXX
         if ( isVisible() && _harmonic != null ) {
             setAmplitude( _harmonic.getAmplitude() );
         }
