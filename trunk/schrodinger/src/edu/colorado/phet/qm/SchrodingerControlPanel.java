@@ -14,12 +14,7 @@ import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.model.potentials.SimpleGradientPotential;
 import edu.colorado.phet.qm.model.propagators.*;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
-import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
-import edu.colorado.phet.qm.view.colormaps.ImaginaryGrayColorMap;
-import edu.colorado.phet.qm.view.colormaps.MagnitudeInGrayscale;
-import edu.colorado.phet.qm.view.colormaps.RealGrayColorMap;
-import edu.colorado.phet.qm.view.colormaps.VisualColorMap;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -107,8 +102,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         advancedIntensityScreen.addControl( intensityScreen );
         addControlFullWidth( advancedIntensityScreen );
 
-        VerticalLayoutPanel colorPanel = createVisualizationPanel();
-        addControlFullWidth( colorPanel );
 
         VerticalLayoutPanel simulationPanel = createSimulationPanel( module );
         AdvancedPanel advSim = new AdvancedPanel( "Simulation >>", "Hide <<" );
@@ -336,43 +329,6 @@ public class SchrodingerControlPanel extends ControlPanel {
         } );
         simulationPanel.addFullWidth( timeStep );
         return simulationPanel;
-    }
-
-    private VerticalLayoutPanel createVisualizationPanel() {
-        VerticalLayoutPanel colorPanel = new VerticalLayoutPanel();
-        colorPanel.setBorder( BorderFactory.createTitledBorder( "Color Scheme" ) );
-        ButtonGroup buttonGroup = new ButtonGroup();
-
-        JRadioButton visualTM = createVisualizationButton( "Rainbow", new VisualColorMap( getSchrodingerPanel() ), true, buttonGroup );
-        colorPanel.addFullWidth( visualTM );
-
-        JRadioButton grayMag = createVisualizationButton( "Magnitude-Gray", new MagnitudeInGrayscale( getSchrodingerPanel() ), false, buttonGroup );
-        colorPanel.addFullWidth( grayMag );
-
-        JRadioButton realGray = createVisualizationButton( "Real-Gray", new RealGrayColorMap( getSchrodingerPanel() ), false, buttonGroup );
-        colorPanel.addFullWidth( realGray );
-
-        JRadioButton complexGray = createVisualizationButton( "Imaginary-Gray", new ImaginaryGrayColorMap( getSchrodingerPanel() ), false, buttonGroup );
-        colorPanel.addFullWidth( complexGray );
-
-//        JRadioButton blackBackground = createVisualizationButton( "HSB on Black", new DefaultColorMap( getSchrodingerPanel() ), false, buttonGroup );
-//        colorPanel.addFullWidth( blackBackground );
-//
-//        JRadioButton whiteBackground = createVisualizationButton( "HSB on White", new DefaultWhiteColorMap( getSchrodingerPanel() ), false, buttonGroup );
-//        colorPanel.addFullWidth( whiteBackground );
-        return colorPanel;
-    }
-
-    private JRadioButton createVisualizationButton( String s, final ColorMap colorMap, boolean b, ButtonGroup buttonGroup ) {
-        JRadioButton radioButton = new JRadioButton( s );
-        radioButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getSchrodingerPanel().getWavefunctionGraphic().setWavefunctionColorMap( colorMap );
-            }
-        } );
-        buttonGroup.add( radioButton );
-        radioButton.setSelected( b );
-        return radioButton;
     }
 
     SchrodingerPanel getSchrodingerPanel() {

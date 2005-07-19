@@ -6,8 +6,6 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid
@@ -40,16 +38,24 @@ public class Electron extends GunParticle {
     }
 
     public double getStartPy() {
-        double velocityValue = new Function.LinearFunction( 0, 1000, 0, 1.5 ).evaluate( velocity.getValue() );
+        double velocityValue = new Function.LinearFunction( 0, 1000, 0, 1.25 ).evaluate( velocity.getValue() );
         return -velocityValue * electronMass;
     }
 
-    protected void hookupListener( AbstractGun.MomentumChangeListener momentumChangeListener ) {
-        velocity.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                notifyMomentumChanged();
-            }
-        } );
+    protected void detachListener( ChangeHandler changeHandler ) {
+        velocity.removeChangeListener( changeHandler );
     }
+
+    protected void hookupListener( ChangeHandler changeHandler ) {
+        velocity.addChangeListener( changeHandler );
+    }
+
+//    protected void hookupListener( AbstractGun.MomentumChangeListener momentumChangeListener ) {
+//        velocity.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                notifyMomentumChanged();
+//            }
+//        } );
+//    }
 
 }

@@ -5,11 +5,14 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 import edu.colorado.phet.qm.model.operators.PxValue;
 import edu.colorado.phet.qm.model.operators.XValue;
 import edu.colorado.phet.qm.model.operators.YValue;
+import edu.colorado.phet.qm.view.colormaps.MagnitudeColorMap;
+import edu.colorado.phet.qm.view.colormaps.MagnitudeInGrayscale;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,17 +42,26 @@ public class WavefunctionGraphic extends GraphicLayerSet {
     private PhetImageGraphic imageGraphic;
 
     private boolean displayPyExpectation = false;
+    private PhetGraphic borderGraphic;
+//    private MagnitudeInGrayscale grayscaleMap;
+    private MagnitudeColorMap magnitudeColorMap;
 
     public WavefunctionGraphic( final SchrodingerPanel schrodingerPanel ) {
         this.schrodingerPanel = schrodingerPanel;
 
         colorGrid = createColorGrid();
-        painter = new DefaultPainter( schrodingerPanel );
+
+        MagnitudeInGrayscale grayscaleMap = new MagnitudeInGrayscale( schrodingerPanel );
+        magnitudeColorMap = new MagnitudeColorMap( schrodingerPanel, grayscaleMap, null, grayscaleMap );
+        painter = new DefaultPainter( schrodingerPanel, magnitudeColorMap );
         colorGrid.colorize( painter );
 
         imageGraphic = new PhetImageGraphic( schrodingerPanel );
         addGraphic( imageGraphic );
         imageGraphic.setImage( colorGrid.getBufferedImage() );
+
+        borderGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( colorGrid.getWidth(), colorGrid.getHeight() ), new BasicStroke( 2 ), Color.white );
+        addGraphic( borderGraphic );
 
         getDiscreteModel().addListener( new DiscreteModel.Adapter() {
             public void finishedTimeStep( DiscreteModel model ) {
@@ -167,5 +179,13 @@ public class WavefunctionGraphic extends GraphicLayerSet {
 
     public int getWaveformX() {
         return imageGraphic.getX();
+    }
+
+//    public MagnitudeInGrayscale getGrayscaleMap() {
+//        return grayscaleMap;
+//    }
+
+    public MagnitudeColorMap getMagnitudeMap() {
+        return magnitudeColorMap;
     }
 }

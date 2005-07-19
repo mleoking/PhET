@@ -6,8 +6,6 @@ import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid
@@ -53,16 +51,14 @@ public class Atom extends GunParticle {
         return -velocityValue * massValue;
     }
 
-    protected void hookupListener( AbstractGun.MomentumChangeListener momentumChangeListener ) {
-        mass.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                notifyMomentumChanged();
-            }
-        } );
-        velocity.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                notifyMomentumChanged();
-            }
-        } );
+    protected void detachListener( ChangeHandler changeHandler ) {
+        mass.removeChangeListener( changeHandler );
+        velocity.removeChangeListener( changeHandler );
     }
+
+    protected void hookupListener( ChangeHandler changeHandler ) {
+        mass.addChangeListener( changeHandler );
+        velocity.addChangeListener( changeHandler );
+    }
+
 }

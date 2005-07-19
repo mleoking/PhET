@@ -93,4 +93,8 @@ public class ColorGrid {
     public int getNy() {
         return ny;
     }
+
+    public int getHeight() {
+        return image.getHeight();
+    }
 }

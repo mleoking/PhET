@@ -30,7 +30,7 @@ import java.text.DecimalFormat;
 public class DetectorSheet extends GraphicLayerSet {
     private int width;
     private int height;
-    private PhetShapeGraphic phetShapeGraphic;
+    private PhetShapeGraphic backgroundGraphic;
     private BufferedImage bufferedImage;
     private PhetImageGraphic screenGraphic;
     private PhetGraphic clearButtonJC;
@@ -55,8 +55,9 @@ public class DetectorSheet extends GraphicLayerSet {
 
         addGraphic( screenGraphic );
 
-        phetShapeGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.white, new BasicStroke( 3 ), Color.black );
-        phetShapeGraphic.paint( bufferedImage.createGraphics() );
+//        backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.white, new BasicStroke( 3 ), Color.black );
+        backgroundGraphic = new PhetShapeGraphic( schrodingerPanel, new Rectangle( width, height ), Color.black, new BasicStroke( 3 ), Color.blue );
+        backgroundGraphic.paint( bufferedImage.createGraphics() );
 
         RenderingHints renderingHints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         setRenderingHints( renderingHints );
@@ -83,7 +84,10 @@ public class DetectorSheet extends GraphicLayerSet {
             public void actionPerformed( ActionEvent e ) {
                 BufferedImage image = copyScreen();
                 SavedScreenGraphic savedScreenGraphic = new SavedScreenGraphic( schrodingerPanel, image );
+
+                savedScreenGraphic.setLocation( 130, 130 );
                 schrodingerPanel.addGraphic( savedScreenGraphic );
+
             }
         } );
         saveScreenJButton.setMargin( buttonInsets );
@@ -166,7 +170,7 @@ public class DetectorSheet extends GraphicLayerSet {
 
     public void reset() {
         bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
-        phetShapeGraphic.paint( bufferedImage.createGraphics() );
+        backgroundGraphic.paint( bufferedImage.createGraphics() );
         screenGraphic.setImage( bufferedImage );
         clearButtonJC.setVisible( false );
     }

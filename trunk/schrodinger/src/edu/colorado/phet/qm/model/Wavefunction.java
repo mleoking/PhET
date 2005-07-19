@@ -144,6 +144,7 @@ public class Wavefunction {
     }
 
     public double getMagnitude() {
+//        System.out.println( "Get Magnitude @ t="+System.currentTimeMillis() );
         Complex runningSum = new Complex();
         for( int i = 0; i < getWidth(); i++ ) {
             for( int j = 0; j < getHeight(); j++ ) {

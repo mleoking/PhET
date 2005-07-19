@@ -88,9 +88,12 @@ public class DiscreteModel implements ModelElement {
 
     private HorizontalDoubleSlit createDoubleSlit() {
         double potentialValue = Double.MAX_VALUE / 1000;
+//        HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
+//                                                                    getGridHeight(),
+//                                                                    (int)( getGridWidth() * 0.4 ), 10, 5, 10, potentialValue );
         HorizontalDoubleSlit doubleSlit = new HorizontalDoubleSlit( getGridWidth(),
                                                                     getGridHeight(),
-                                                                    (int)( getGridWidth() * 0.4 ), 10, 5, 10, potentialValue );
+                                                                    (int)( getGridHeight() * 0.4 ), 3, 8, 13, potentialValue );
         return doubleSlit;
     }
 
