@@ -44,8 +44,8 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
     public static final int TOP_LEFT = 0;
     public static final int TOP_CENTER = 1;
     public static final int TOP_RIGHT = 2;
-    public static final int MIDDLE_LEFT = 3;
-    public static final int MIDDLE_RIGHT = 4;
+    public static final int LEFT_CENTER = 3;
+    public static final int RIGHT_CENTER = 4;
     public static final int BOTTOM_LEFT = 5;
     public static final int BOTTOM_CENTER = 6;
     public static final int BOTTOM_RIGHT = 7;
@@ -254,10 +254,10 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ModelElement {
         case TOP_RIGHT:
             tail.setLocation( _textGraphic.getWidth() + TEXT_MARGIN, 0 );
             break;
-        case MIDDLE_LEFT:
+        case LEFT_CENTER:
             tail.setLocation( -TEXT_MARGIN, _textGraphic.getHeight() / 2 );
             break;
-        case MIDDLE_RIGHT:
+        case RIGHT_CENTER:
             tail.setLocation( _textGraphic.getWidth() + TEXT_MARGIN, _textGraphic.getHeight() / 2  );
             break;
         case BOTTOM_LEFT:
