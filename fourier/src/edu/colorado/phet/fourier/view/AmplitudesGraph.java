@@ -93,7 +93,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     private static final boolean MINOR_GRIDLINES_ENABLED = false;
     private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
     private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
-    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.5f );
+    private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     
     // Chart parameters
@@ -212,6 +212,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         // Flatten all of the static graphics.
         PhetFlattenedGraphic flattenedGraphic = new PhetFlattenedGraphic( component );
         addGraphic( flattenedGraphic, FLATTENED_LAYER );
+        flattenedGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         flattenedGraphic.addGraphic( backgroundGraphic );
         flattenedGraphic.addGraphic( titleGraphic );
         flattenedGraphic.addGraphic( chartGraphic );
