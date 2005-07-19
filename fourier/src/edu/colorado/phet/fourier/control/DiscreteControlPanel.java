@@ -632,6 +632,8 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         
         setWaitCursorEnabled( true );
         
+        _animationCycleController.reset(); // do this first or preset animation will be out of sync!
+        
         int numberOfHarmonics = (int)_numberOfHarmonicsSlider.getValue();
         
         // Update the Fourier series.
