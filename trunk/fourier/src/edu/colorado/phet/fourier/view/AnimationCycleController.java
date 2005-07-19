@@ -61,7 +61,8 @@ public class AnimationCycleController implements ClockTickListener {
         
         public AnimationCycleEvent( Object source, double cyclePoint, double delta ) {
             super( source );
-            assert( cyclePoint >= 0 && cyclePoint <= 1 ); // programming error
+            assert( cyclePoint >= 0 && cyclePoint <= 1 );
+            assert( delta >= -1 && delta <= 1 );
             _cyclePoint = cyclePoint;
             _delta = delta;
         }
