@@ -64,6 +64,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/19) - chart in Amplitudes view refactored into AmplitudesChart
 (7/19) - change wiggle me for Discrete module
 (7/19) - bugfix: reset AnimationCycleController when number of harmonics is changed
 (7/19) - bugfix: update the preset plots in SumGraph.update, regardless of whether they are enabled
