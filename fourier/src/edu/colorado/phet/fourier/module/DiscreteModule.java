@@ -25,7 +25,6 @@ import edu.colorado.phet.common.view.help.HelpItem;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
-import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
 import edu.colorado.phet.fourier.help.WiggleMeGraphic;
 import edu.colorado.phet.fourier.model.FourierSeries;
@@ -184,10 +183,10 @@ public class DiscreteModule extends FourierModule {
         // Help
         //----------------------------------------------------------------------------
         
-        addHelpItem( new HelpItem( apparatusPanel, "<Help goes here>", 200, 150 ) );//XXX to test help
+        addHelpItem( new HelpItem( apparatusPanel, "< Help goes here >", 200, 150 ) );//XXX to test help
         
         // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _fourierSeries );
+        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
         wiggleMe.setEnabled( true );
@@ -232,20 +231,15 @@ public class DiscreteModule extends FourierModule {
      */
     private static class ThisWiggleMeGraphic extends WiggleMeGraphic {
 
-        private FourierSeries _fourierSeriesModel;
-
         /**
          * Sole constructor.
          * 
          * @param component
          * @param model
-         * @param fourierSeriesModel
          */
-        public ThisWiggleMeGraphic( final Component component, BaseModel model, FourierSeries fourierSeriesModel ) {
+        public ThisWiggleMeGraphic( final Component component, BaseModel model ) {
             super( component, model );
 
-            _fourierSeriesModel = fourierSeriesModel;
-            
             setText( SimStrings.get( "DiscreteModule.wiggleMe" ), WIGGLE_ME_COLOR );
             addArrow( WiggleMeGraphic.TOP_CENTER, new Vector2D( 0, -30 ), WIGGLE_ME_COLOR );
             setRange( 0, 10 );
@@ -260,7 +254,7 @@ public class DiscreteModule extends FourierModule {
                     // Unwire
                     component.removeMouseListener( this );
                 }
-           } );
+             } );
         }
     }
 }
