@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - add support for persistence
 
 MEDIUM PRIORITY:
+- turning off "Show math" does not close the "Expand sum" dialog
 - crashes after running for ~40 minutes (memory leak?)
 - hide/show each graph, possibly expand to fill screen
 - add wiggle me
