@@ -286,8 +286,6 @@ public class HarmonicsGraph extends GraphicLayerSet
         int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
         
         if ( numberOfHarmonics != _previousNumberOfHarmonics ) {
-            
-            //FourierLog.trace( "HarmonicsGraph.update" );
 
             // Clear the chart.
             _chartGraphic.removeAllDataSetGraphics();
