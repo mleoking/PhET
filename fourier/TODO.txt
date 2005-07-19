@@ -7,7 +7,6 @@ IN PROGRESS:
 
 HIGH PRIORITY:
 - infinite waveform animation gets out of sync when switching presets and wave type
-- infinite sine/cosine animation needs a plot with range -3L to +2L
 - add support for persistence
 
 MEDIUM PRIORITY:
@@ -47,6 +46,7 @@ CLEANUP:
 - fix all javadoc warnings and errors
 
 CHARTS:
+- Chart.addGraphic needs a layer argument
 - flatten static graphics elements
 
 PHETCOMMON:
@@ -59,6 +59,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/19) - handle infinite waveform for sine/cosine preset specially in Sum graph
 (7/18) - add data between -3L and -2L for preset waveforms, so that animation works correctly
 (7/18) - synchronize animation of Harmonics, Sum and Period Tool
 (7/18) - centralize all animation synchronization in AnimationCycleController
