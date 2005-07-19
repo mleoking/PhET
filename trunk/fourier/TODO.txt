@@ -3,12 +3,11 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- bug: unresponsive harmonics: (1) start app, (2) set #harmonics to 6, (3) set #harmonics to 7, (4) adjust A7
 
 HIGH PRIORITY:
 - check animation behavior with play/pause buttons
 - presets animation a bit out-of-sync when changing preset or wave type
-- differences in pixels-per-point cause waveforms not to line up exactly
 - check Discrete module layout on Window
 - publish v1r0 with Discrete module only
 - change sim title?
