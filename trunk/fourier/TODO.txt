@@ -23,6 +23,9 @@ LOW PRIORITY:
 - refactor superclass out of HarmonicsGraphic and SumGraphic (and AmplitudeGraphic?)
 - waveform anti-aliasing/stroke visually changes when you start to drag wavelength/period tools
 - smaller font for equation subscripts
+- Help
+- MegaHelp
+- Wiggle Mes
 
 NEW FEATURES:
 
