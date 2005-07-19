@@ -364,24 +364,30 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             // Sum
             _sumPlot.setStartX( 0 );
             
-            // Preset
+            // Sine/cosine preset
+            _sumPlot.setStartX( 0 );
+
+            // Other preset
             _presetPlot.getDataSet().clear();
-            _presetPlot.setVisible( false );
+            Point2D[] points = FourierConstants.getPresetPoints( preset, waveType );
+            if ( points != null ) {
+                Point2D[] copyPoints = new Point2D[points.length];
+                for ( int i = 0; i < points.length; i++ ) {
+                    copyPoints[i] = new Point2D.Double( points[i].getX(), points[i].getY() );
+                }
+                _presetPlot.getDataSet().addAllPoints( copyPoints );
+                _presetPlot.setVisible( true );
+            }
+
+            // Visibility of preset's infinite waveform
             _sineCosinePlot.setVisible( false );
+            _presetPlot.setVisible( false );
             if ( _presetEnabled ) {
                 if ( preset == FourierConstants.PRESET_SINE_COSINE ) {
                     _sineCosinePlot.setVisible( true );
                 }
                 else {
-                    Point2D[] points = FourierConstants.getPresetPoints( preset, waveType );
-                    if ( points != null ) {
-                        Point2D[] copyPoints = new Point2D[points.length];
-                        for ( int i = 0; i < points.length; i++ ) {
-                            copyPoints[i] = new Point2D.Double( points[i].getX(), points[i].getY() );
-                        }
-                        _presetPlot.getDataSet().addAllPoints( copyPoints );
-                        _presetPlot.setVisible( true );
-                    }
+                    _presetPlot.setVisible( true );
                 }
             }
 
