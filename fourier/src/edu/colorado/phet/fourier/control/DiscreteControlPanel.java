@@ -679,10 +679,15 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     }
 
     private void handleShowMath() {
-        _mathFormComboBox.setEnabled( _showMathCheckBox.isSelected() );
-        _expandSumCheckBox.setEnabled( _showMathCheckBox.isSelected() );
-        _harmonicsGraph.setMathEnabled( _showMathCheckBox.isSelected() );
-        _sumGraph.setMathEnabled( _showMathCheckBox.isSelected() );
+        boolean isSelected = _showMathCheckBox.isSelected();
+        _mathFormComboBox.setEnabled( isSelected );
+        _expandSumCheckBox.setEnabled( isSelected );
+        _harmonicsGraph.setMathEnabled( isSelected );
+        _sumGraph.setMathEnabled( isSelected );
+        if ( ! isSelected ) {
+            _expandSumDialog.hide();
+            _expandSumCheckBox.setSelected( false );
+        }
     }
     
     private void handleMathForm() {
