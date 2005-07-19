@@ -86,7 +86,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     // Wave parameters
     private static final Stroke SUM_STROKE = new BasicStroke( 1f );
     private static final Color SUM_COLOR = Color.BLACK;
-    private static final double SUM_PIXELS_PER_POINT = 2;
+    private static final double SUM_PIXELS_PER_POINT = 1;
     private static final Stroke PRESET_STROKE = new BasicStroke( 4f );
     private static final Color PRESET_COLOR = Color.LIGHT_GRAY;
     
