@@ -136,6 +136,7 @@ public class PhetFlattenedGraphic extends PhetImageGraphic {
         int height = _graphicLayerSet.getHeight();
         BufferedImage bufferedImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = bufferedImage.createGraphics();
+        g2.setRenderingHints( getRenderingHints() );
         g2.translate( xOffset, yOffset );
         _graphicLayerSet.paint( g2 );
 
