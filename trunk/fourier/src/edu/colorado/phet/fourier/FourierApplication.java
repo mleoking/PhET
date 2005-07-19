@@ -78,15 +78,15 @@ public class FourierApplication extends PhetApplication {
         
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( SimStrings.get( "FileMenu.save" ) );
-            saveItem.setMnemonic( SimStrings.get( "FileMenu.save.mnemonic" ).charAt(0) );
-            
-            JMenuItem loadItem = new JMenuItem( SimStrings.get( "FileMenu.load" ) );
-            loadItem.setMnemonic( SimStrings.get( "FileMenu.load.mnemonic" ).charAt(0) );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
+//            JMenuItem saveItem = new JMenuItem( SimStrings.get( "FileMenu.save" ) );
+//            saveItem.setMnemonic( SimStrings.get( "FileMenu.save.mnemonic" ).charAt(0) );
+//            
+//            JMenuItem loadItem = new JMenuItem( SimStrings.get( "FileMenu.load" ) );
+//            loadItem.setMnemonic( SimStrings.get( "FileMenu.load.mnemonic" ).charAt(0) );
+//
+//            frame.addFileMenuItem( saveItem );
+//            frame.addFileMenuItem( loadItem );
+//            frame.addFileMenuSeparator();
         }
         
         // Options menu
