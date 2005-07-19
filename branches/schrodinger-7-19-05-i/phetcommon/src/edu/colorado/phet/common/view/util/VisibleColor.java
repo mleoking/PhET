@@ -100,7 +100,7 @@ public class VisibleColor extends Color {
      * @param wavelength the wavelength
      */
     public VisibleColor( double wavelength ) {
-        this( wavelengthToColor( wavelength ) );
+        this( wavelengthToColor( wavelength ).brighter().brighter() );
     }
 
     //----------------------------------------------------------------------------
