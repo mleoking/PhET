@@ -163,7 +163,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _sineCosinePlot.setStartX( 0 );
             _chartGraphic.addDataSetGraphic( _sineCosinePlot );
             
-            // Preset plot for all other presets
+            // Plot for all other presets
             _presetPlot = new LinePlot( getComponent(), _chartGraphic, new DataSet(), PRESET_STROKE, PRESET_COLOR );
             _chartGraphic.addDataSetGraphic( _presetPlot );
             
@@ -336,8 +336,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      * Updates the view to match the model.
      */
     public void update() {
-
-        //FourierLog.trace( "SumGraph.update" );
         
         _sumPlot.updateDataSet();
         
@@ -358,7 +356,10 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
         int preset = _fourierSeries.getPreset();
         int waveType = _fourierSeries.getWaveType();
-        if ( numberOfHarmonics != _previousNumberOfHarmonics || preset != _previousPreset || waveType != _previousWaveType ) {
+        
+        if ( numberOfHarmonics != _previousNumberOfHarmonics || 
+                preset != _previousPreset || 
+                waveType != _previousWaveType ) {
 
             // Sum
             _sumPlot.setStartX( 0 );
@@ -606,18 +607,30 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     public void animate( AnimationCycleEvent event ) {
         if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
                   
-            // Sum waveform.
-            double startX = event.getCyclePoint() * L;
-            _sumPlot.setStartX( startX );
-            _sineCosinePlot.setStartX( startX );
+            /*
+             * Sum animation.
+             * To animate the sum plot, shift its phase based on 
+             * where we are in the animation cycle.
+             */
+            {
+                double startX = event.getCyclePoint() * L;
+                _sumPlot.setStartX( startX );
+                _sineCosinePlot.setStartX( startX );
+            }
             
-            // Preset.
+            /*
+             * Preset animation.
+             * To animate the sine/cosine preset, simply copy the sum plot's data points.
+             * To animate other presets, advance their data points by delta X.
+             */
             if ( _fourierSeries.getPreset() == FourierConstants.PRESET_SINE_COSINE ) {
+                // sine/cosine preset
                 Point2D[] points = _sumPlot.getDataSet().getPoints();
                 _presetPlot.getDataSet().clear();
                 _presetPlot.getDataSet().addAllPoints( points );
             }
             else {
+                // other presets
                 double deltaX = event.getDelta() * L;
                 Point2D[] points = _presetPlot.getDataSet().getPoints();
                 if ( points != null ) {

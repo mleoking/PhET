@@ -266,8 +266,6 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
 
         if ( numberOfHarmonics != _previousNumberOfHarmonics ) {
             
-            //FourierLog.trace( "AmplitudesGraph.update" );
-            
             _slidersGraphic.clear();
 
             int totalSpace = ( FourierConfig.MAX_HARMONICS + 1 ) * SLIDER_SPACING;
