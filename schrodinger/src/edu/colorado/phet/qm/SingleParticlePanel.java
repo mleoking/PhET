@@ -22,5 +22,8 @@ public class SingleParticlePanel extends SchrodingerPanel {
         getIntensityDisplay().setOpacity( 255 );
         getIntensityDisplay().setNormDecrement( 1.0 );
 
+
     }
+
+
 }

@@ -13,7 +13,7 @@ import java.awt.image.WritableRaster;
 
 public class ImageFade {
 //    private double scaleFactor = 0.95;
-    private int dVal = 1;
+    private int dVal = -1;
 
     public void fade( BufferedImage image ) {
         WritableRaster raster = image.getRaster();
@@ -29,6 +29,9 @@ public class ImageFade {
                         pixel[k] += dVal;
                         if( pixel[k] > 255 ) {
                             pixel[k] = 255;
+                        }
+                        if( pixel[k] < 0 ) {
+                            pixel[k] = 0;
                         }
                     }
                 }

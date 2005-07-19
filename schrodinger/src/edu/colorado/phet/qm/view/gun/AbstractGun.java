@@ -26,7 +26,10 @@ public abstract class AbstractGun extends GraphicLayerSet {
     public AbstractGun( final SchrodingerPanel schrodingerPanel ) {
         super( schrodingerPanel );
         this.schrodingerPanel = schrodingerPanel;
-        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/laser.gif" );
+//        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/laser.gif" );
+//        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/raygun3-scaled.gif" );
+        gunImageGraphic = new PhetImageGraphic( getComponent(), "images/raygun3-200x160-scaled-matt.gif" );
+        gunImageGraphic.setLocation( -10, 35 );
         addGraphic( gunImageGraphic );
         this.comboBox = initComboBox();
         schrodingerPanel.add( comboBox );

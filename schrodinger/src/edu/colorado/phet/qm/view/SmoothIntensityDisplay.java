@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.math.Function;
 import edu.colorado.phet.common.math.MathUtil;
+import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
 
@@ -20,10 +21,17 @@ public class SmoothIntensityDisplay {
     private IntensityDisplay intensityDisplay;
     private double[] histogram;
     private boolean fadeEnabled = true;
+    private PhetShapeGraphic backgroundGraphic;
 
     public SmoothIntensityDisplay( IntensityDisplay intensityDisplay ) {
         this.intensityDisplay = intensityDisplay;
-        histogram = new double[getDiscreteModel().getWavefunction().getWidth()];
+        histogram = new double[getWavefunction().getWidth()];
+        backgroundGraphic = new PhetShapeGraphic( intensityDisplay.getSchrodingerPanel(), new Rectangle( intensityDisplay.getDetectorSheet().getBufferedImage().getWidth(),
+                                                                                                         intensityDisplay.getDetectorSheet().getBufferedImage().getHeight() ), new BasicStroke( 3 ), Color.blue );
+    }
+
+    private Wavefunction getWavefunction() {
+        return getDiscreteModel().getWavefunction();
     }
 
     private DiscreteModel getDiscreteModel() {
@@ -56,15 +64,29 @@ public class SmoothIntensityDisplay {
             fadeHistogram();
         }
         for( int i = 0; i < histogram.length; i++ ) {
+            Color color = toColorBlackBackground( histogram[i] );
             int x = (int)modelViewTx.evaluate( i );
             int x1 = (int)modelViewTx.evaluate( i + 1 );
-            float v = (float)( histogram[i] / 10.0 );
-            v = (float)MathUtil.clamp( 0, v, 1.0 );
-            Color blue = new Color( 1 - v, 1 - v, 1.0f );
-            sheetGraphics.setColor( blue );
+            sheetGraphics.setColor( color );
             sheetGraphics.fillRect( x, 0, x1 - x, 100 );
         }
+        backgroundGraphic.paint( sheetGraphics );
         intensityDisplay.getDetectorSheet().repaint();
+    }
+
+    private Color toColorBlackBackground( double x ) {
+        float v = (float)( x / 10.0 );
+        v = (float)MathUtil.clamp( 0, v, 1.0 );
+//        Color color = new Color( 0.0f, 0, v );
+        Color color = new Color( v * 0.8f, v * 0.8f, v );
+        return color;
+    }
+
+    private Color toColorLightBackground( double x ) {
+        float v = (float)( x / 10.0 );
+        v = (float)MathUtil.clamp( 0, v, 1.0 );
+        Color color = new Color( 1 - v, 1 - v, 1.0f );
+        return color;
     }
 
     private void fadeHistogram() {

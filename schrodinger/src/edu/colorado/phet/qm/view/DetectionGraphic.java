@@ -23,7 +23,8 @@ public class DetectionGraphic extends GraphicLayerSet {
 //        PhetShapeGraphic pt = new PhetShapeGraphic( getComponent(), new Ellipse2D.Double( -width / 2, -height / 2, width, height ), new Color( 150,150,255), new BasicStroke( 1 ), Color.black );
 //        Color fill = new Color( 100, 100, 255, 200 );
 //        Color fill = new Color( 100, 100, 255, 10);
-        Color fill = new Color( 100, 100, 255, opacity );//50 per time step at transparency 4 looks good
+        Color fill = new Color( 235, 230, 255, opacity );//50 per time step at transparency 4 looks good
+//        Color fill = new Color( 100, 100, 255, opacity );//50 per time step at transparency 4 looks good
         PhetShapeGraphic pt = new PhetShapeGraphic( getComponent(), new Ellipse2D.Double( -width / 2, -height / 2, width, height ), fill );
 //        , new BasicStroke( 1 ), Color.black );
         addGraphic( pt );

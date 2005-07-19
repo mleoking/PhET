@@ -22,6 +22,7 @@ public class PhotonBeamParticle extends GunParticle {
         rampUp = new RampUp();
         rampDown = new RampDown();
         pauser = new Pauser();
+        photonBeam.getPhoton().removeMomentumChangeListener( photonBeam.getColorChangeHandler() );
     }
 
     class Pauser implements ModelElement {
@@ -93,6 +94,7 @@ public class PhotonBeamParticle extends GunParticle {
     }
 
     public void fireParticle() {
+        getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( photonBeam.getPhoton() );
         removeModelElement( rampUp );
         removeModelElement( rampDown );
         removeModelElement( pauser );
@@ -108,13 +110,18 @@ public class PhotonBeamParticle extends GunParticle {
 
     public void deactivate( AbstractGun abstractGun ) {
         photonBeam.getPhoton().deactivate( abstractGun );
+        getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( null );
     }
 
     public double getStartPy() {
         return photonBeam.getPhoton().getStartPy();
     }
 
-    protected void hookupListener( AbstractGun.MomentumChangeListener momentumChangeListener ) {
-        photonBeam.getPhoton().hookupListener( momentumChangeListener );
+    protected void detachListener( ChangeHandler changeHandler ) {
+        photonBeam.getPhoton().detachListener( changeHandler );
+    }
+
+    protected void hookupListener( ChangeHandler changeHandler ) {
+        photonBeam.getPhoton().hookupListener( changeHandler );
     }
 }

@@ -6,8 +6,10 @@ import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.qm.view.ColorMap;
 import edu.colorado.phet.qm.view.SchrodingerPanel;
 import edu.colorado.phet.qm.view.SmoothIntensityDisplay;
-import edu.colorado.phet.qm.view.colormaps.MagnitudeInGrayscale;
+import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.colormaps.SplitColorMap;
 import edu.colorado.phet.qm.view.gun.HighIntensityGun;
+import edu.colorado.phet.qm.view.gun.Photon;
 
 /**
  * User: Sam Reid
@@ -22,17 +24,20 @@ public class IntensityPanel extends SchrodingerPanel {
     private boolean smoothScreen = false;
     private PhetGraphic slitControlGraphic;
     private SlitControlPanel slitControlPanel;
+    private SplitColorMap splitColorMap;
 
     public IntensityPanel( IntensityModule intensityModule ) {
         super( intensityModule );
         this.intensityModule = intensityModule;
-        setGunGraphic( new HighIntensityGun( this ) );
+        HighIntensityGun gun = new HighIntensityGun( this );
+        setGunGraphic( gun );
         getIntensityDisplay().setMultiplier( 100 );
         getIntensityDisplay().setProbabilityScaleFudgeFactor( 10 );
         getIntensityDisplay().setOpacity( 6 );
         getIntensityDisplay().setNormDecrement( 0.0 );
 
-        setSplitGraphics();
+//        setSplitGraphics();
+        setNormalGraphics();
         smoothIntensityDisplay = new SmoothIntensityDisplay( getIntensityDisplay() );
         setSmoothScreen( true );
 
@@ -43,6 +48,8 @@ public class IntensityPanel extends SchrodingerPanel {
         slitControlGraphic.setLocation( ds.getX(), ds.getY() + ds.getHeight() + 5 );
 
         getIntensityDisplay().getDetectorSheet().setFadeEnabled( true );
+
+        splitColorMap = new SplitColorMap( this.intensityModule.getSplitModel() );
     }
 
     public SlitControlPanel getSlitControlPanel() {
@@ -78,7 +85,7 @@ public class IntensityPanel extends SchrodingerPanel {
     }
 
     public void setSplitGraphics() {
-        setColorMap( new SplitColorMap( this.intensityModule.getSplitModel() ) );
+        setColorMap( splitColorMap );
     }
 
     private void setColorMap( ColorMap colorMap ) {
@@ -86,7 +93,7 @@ public class IntensityPanel extends SchrodingerPanel {
     }
 
     public void setNormalGraphics() {
-        setColorMap( new MagnitudeInGrayscale( this ) );
+        setColorMap( getWavefunctionGraphic().getMagnitudeMap() );
     }
 
     public boolean isSmoothScreen() {
@@ -95,5 +102,16 @@ public class IntensityPanel extends SchrodingerPanel {
 
     public SmoothIntensityDisplay getSmoothIntensityDisplay() {
         return smoothIntensityDisplay;
+    }
+
+    public SplitColorMap getSplitColorMap() {
+        return splitColorMap;
+    }
+
+    public void setDisplayPhotonColor( Photon photon ) {
+        super.setDisplayPhotonColor( photon );
+        if( splitColorMap != null ) {
+            splitColorMap.setRootColor( photon == null ? null : new PhotonColorMap.ColorData( photon ) );
+        }
     }
 }

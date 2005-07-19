@@ -18,5 +18,11 @@ public class SingleParticleModule extends SchrodingerModule {
 //        setDiscreteModel( new DiscreteModel( 40,40) );
         setSchrodingerPanel( new SingleParticlePanel( this ) );
         setSchrodingerControlPanel( new SingleParticleControlPanel( this ) );
+
+//        getModel().addModelElement( new ModelElement() {
+//            public void stepInTime( double dt ) {
+//                System.out.println( "Stepped @ "+System.currentTimeMillis());
+//            }
+//        } );
     }
 }

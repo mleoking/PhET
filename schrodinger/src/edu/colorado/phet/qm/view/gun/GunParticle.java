@@ -6,6 +6,8 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.*;
 import edu.colorado.phet.qm.phetcommon.ImageComboBox;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -19,6 +21,8 @@ public abstract class GunParticle extends ImageComboBox.Item {
     private AbstractGun gun;
     private ArrayList momentumChangeListeners = new ArrayList();
     private double intensityScale = 1.0;
+    protected static final double minWavelength = 8;
+    protected static final double maxWavelength = 30;
 
     public GunParticle( final AbstractGun gun, String label, String imageLocation ) {
         super( label, imageLocation );
@@ -67,7 +71,8 @@ public abstract class GunParticle extends ImageComboBox.Item {
     }
 
     protected double getStartY() {
-        double y = getDiscreteModel().getGridHeight() * 0.8;
+//        double y = getDiscreteModel().getGridHeight() * 0.8;
+        double y = getDiscreteModel().getGridHeight() * 0.85;
 //        double y = getDiscreteModel().getGridHeight() * 0.7;
         return y;
     }
@@ -134,12 +139,66 @@ public abstract class GunParticle extends ImageComboBox.Item {
         return dxLattice;
     }
 
-    public void addMomentumChangeListerner( AbstractGun.MomentumChangeListener momentumChangeListener ) {
-        momentumChangeListeners.add( momentumChangeListener );
-        hookupListener( momentumChangeListener );
+    private ArrayList changeHandlers = new ArrayList();
+
+//    protected void detachListener( AbstractGun.MomentumChangeListener listener ) {
+//        ArrayList toRemove = new ArrayList();
+//        for( int i = 0; i < changeHandlers.size(); i++ ) {
+//            ChangeHandler changeHandler = (ChangeHandler)changeHandlers.get( i );
+//            if( changeHandler.momentumChangeListener == listener ) {
+//                toRemove.add( changeHandler );
+//            }
+//        }
+//
+//        for( int i = 0; i < toRemove.size(); i++ ) {
+//            ChangeHandler changeHandler = (ChangeHandler)toRemove.get( i );
+//            changeHandlers.remove( changeHandler );
+//            detachListener( changeHandler );
+//        }
+//    }
+
+    class ChangeHandler implements ChangeListener {
+        private AbstractGun.MomentumChangeListener momentumChangeListener;
+
+        public ChangeHandler( AbstractGun.MomentumChangeListener momentumChangeListener ) {
+            this.momentumChangeListener = momentumChangeListener;
+        }
+
+        public void stateChanged( ChangeEvent e ) {
+            notifyMomentumChanged();
+        }
     }
 
-    protected abstract void hookupListener( AbstractGun.MomentumChangeListener momentumChangeListener );
+    public void addMomentumChangeListerner( AbstractGun.MomentumChangeListener momentumChangeListener ) {
+        momentumChangeListeners.add( momentumChangeListener );
+        ChangeHandler changeHandler = new ChangeHandler( momentumChangeListener );
+        changeHandlers.add( changeHandler );
+        hookupListener( changeHandler );
+    }
+
+    public void removeMomentumChangeListener( AbstractGun.MomentumChangeListener listener ) {
+        momentumChangeListeners.remove( listener );
+
+        ArrayList toRemove = new ArrayList();
+        for( int i = 0; i < changeHandlers.size(); i++ ) {
+            ChangeHandler changeHandler = (ChangeHandler)changeHandlers.get( i );
+            if( changeHandler.momentumChangeListener == listener ) {
+                toRemove.add( changeHandler );
+            }
+        }
+
+        for( int i = 0; i < toRemove.size(); i++ ) {
+            ChangeHandler changeHandler = (ChangeHandler)toRemove.get( i );
+            changeHandlers.remove( changeHandler );
+            detachListener( changeHandler );
+        }
+
+//        detachListener( listener );
+    }
+
+    protected abstract void detachListener( ChangeHandler changeHandler );
+
+    protected abstract void hookupListener( ChangeHandler changeHandler );
 
     protected void notifyMomentumChanged() {
         double momentum = getStartPy();

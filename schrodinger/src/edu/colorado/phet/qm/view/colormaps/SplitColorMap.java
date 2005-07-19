@@ -1,5 +1,5 @@
 /* Copyright 2004, Sam Reid */
-package edu.colorado.phet.qm;
+package edu.colorado.phet.qm.view.colormaps;
 
 import edu.colorado.phet.qm.model.SplitModel;
 import edu.colorado.phet.qm.model.Wavefunction;
@@ -16,6 +16,7 @@ import java.awt.*;
 
 public class SplitColorMap implements ColorMap {
     private SplitModel splitModel;
+    private PhotonColorMap.ColorData rootColor;
     private double intensityScale = 20;
 
     public SplitColorMap( SplitModel splitModel ) {
@@ -34,8 +35,12 @@ public class SplitColorMap implements ColorMap {
         if( abs > 1 ) {
             abs = 1;
         }
-        Color color = new Color( (float)abs, (float)abs, (float)abs );
-        return color;
+        if( rootColor != null ) {
+            return rootColor.toColor( abs );
+        }
+        else {
+            return new Color( (float)abs, (float)abs, (float)abs );
+        }
     }
 
     private boolean contains( Rectangle[] areas, int i, int k ) {
@@ -58,12 +63,8 @@ public class SplitColorMap implements ColorMap {
         }
     }
 
-    protected double getBrightness( double x ) {
-        double b = x * intensityScale;
-        if( b > 1 ) {
-            b = 1;
-        }
-        return b;
+    public void setRootColor( PhotonColorMap.ColorData rootColor ) {
+        this.rootColor = rootColor;
     }
 
 }

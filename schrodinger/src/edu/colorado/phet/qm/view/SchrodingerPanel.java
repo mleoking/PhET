@@ -11,6 +11,7 @@ import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.phetcommon.RulerGraphic;
 import edu.colorado.phet.qm.view.gun.AbstractGun;
+import edu.colorado.phet.qm.view.gun.Photon;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -176,5 +177,9 @@ public class SchrodingerPanel extends ApparatusPanel2 {
     public void removeDetectorGraphic( Detector detector ) {
         DetectorGraphic detectorGraphic = getDetectorGraphic( detector );
         removeDetectorGraphic( detectorGraphic );
+    }
+
+    public void setDisplayPhotonColor( Photon photon ) {
+        getWavefunctionGraphic().getMagnitudeMap().setPhoton( photon );
     }
 }
