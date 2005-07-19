@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- bug: unresponsive harmonics: (1) start app, (2) set #harmonics to 6, (3) set #harmonics to 7, (4) adjust A7
+
 
 HIGH PRIORITY:
 - hide wiggle me when user clicks anywhere
@@ -66,8 +66,8 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
-(7/19) - reset AnimationCycleController when number of harmonics is changed
-(7/19) - update the preset plots in SumGraph.update, regardless of whether they are enabled
+(7/19) - bugfix: reset AnimationCycleController when number of harmonics is changed
+(7/19) - bugfix: update the preset plots in SumGraph.update, regardless of whether they are enabled
 (7/19) - bugfix: after decreasing then increasing #harmonics, new harmonics not wired into Harmonics graph
 (7/19) - set all pixel-per-point values to 1 so that all waveforms line up
 (7/19) - close the "Expand sum" dialog when "Math mode" is turned off
