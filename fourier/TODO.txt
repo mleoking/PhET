@@ -9,6 +9,7 @@ HIGH PRIORITY:
 - hide wiggle me when user clicks anywhere
 - check the layout of the Discrete module on Windows
 - change sim title?
+- anti-aliasing of plots appears to be turned off
 - test Reset
 - publish v1r0 with Discrete module only
 
