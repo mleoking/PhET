@@ -91,8 +91,8 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private static final Stroke SUM_STROKE = new BasicStroke( 1f );
     private static final Color SUM_COLOR = Color.BLACK;
     private static final double SUM_PIXELS_PER_POINT = 2;
-    private static final Stroke PRESET_STROKE = new BasicStroke( 4f );
-    private static final Color PRESET_COLOR = Color.LIGHT_GRAY;
+    private static final Stroke INFINITE_STROKE = new BasicStroke( 4f );
+    private static final Color INFINITE_COLOR = Color.LIGHT_GRAY;
     
     // Math parameters
     private static final Font MATH_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 18 );
@@ -106,7 +106,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private SumChart _chartGraphic;
     private SumEquation _mathGraphic;
     private FourierSumPlot _sumPlot;
-    private LinePlot _presetPlot;
+    private LinePlot _infinitePlot;
     private ZoomControl _horizontalZoomControl, _verticalZoomControl;
     private JCheckBox _autoScaleCheckBox;
     
@@ -154,11 +154,11 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _chartGraphic = new SumChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
             _chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
-
-            // Preset plot
-            _presetPlot = new LinePlot( getComponent(), _chartGraphic, new DataSet(), PRESET_STROKE, PRESET_COLOR );
-            _chartGraphic.addDataSetGraphic( _presetPlot );
-
+     
+            // Infinite plot of the preset waveform
+            _infinitePlot = new LinePlot( getComponent(), _chartGraphic, new DataSet(), INFINITE_STROKE, INFINITE_COLOR );
+            _chartGraphic.addDataSetGraphic( _infinitePlot );
+            
             // Sum plot
             _sumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _fourierSeries );
             _sumPlot.setPeriod( L );
@@ -245,7 +245,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _autoScaleCheckBox.setSelected( false );
             updateLabelsAndLines();
             updateZoomButtons();
-            _presetPlot.setVisible( false );
+            _infinitePlot.setVisible( false );
         }
         
         _domain = FourierConstants.DOMAIN_SPACE;
@@ -310,7 +310,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      * @param enabled
      */
     public void setPresetEnabled( boolean enabled ) {
-        _presetPlot.setVisible( enabled );
+        _infinitePlot.setVisible( enabled );
     }
 
     //----------------------------------------------------------------------------
@@ -350,7 +350,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             }
             
             _sumPlot.setStartX( 0 );
-            _presetPlot.getDataSet().clear();
+            _infinitePlot.getDataSet().clear();
 
             Point2D[] points = null;
             if ( preset == FourierConstants.PRESET_SINE_COSINE ) {
@@ -365,7 +365,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
                 for ( int i = 0; i < points.length; i++ ) {
                     copyPoints[i] = new Point2D.Double( points[i].getX(), points[i].getY() );
                 }
-                _presetPlot.getDataSet().addAllPoints( copyPoints );
+                _infinitePlot.getDataSet().addAllPoints( copyPoints );
             }
 
             _previousNumberOfHarmonics = numberOfHarmonics;
@@ -578,26 +578,27 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     /**
      * Handles animation events.
      * Animates the sum waveform by adjusting its phase (aka, start times).
+     * Animates the infinite waveform by moving each point by some delta.
      * 
      * @param event
      */
     public void animate( AnimationCycleEvent event ) {
         if ( isVisible() && _domain == FourierConstants.DOMAIN_SPACE_AND_TIME ) {
-            double cyclePoint = event.getCyclePoint();
-            double startX = cyclePoint * L;
-            
+                  
             // Sum waveform.
+            double startX = event.getCyclePoint() * L;
             _sumPlot.setStartX( startX );
             
-//            // Preset.
-//            Point2D[] points = _presetPlot.getDataSet().getPoints();
-//            if ( points != null ) {
-//                _presetPlot.getDataSet().clear();
-//                for ( int i = 0; i < points.length; i++ ) {
-//                    points[i].setLocation( points[i].getX() + dx, points[i].getY() );
-//                }
-//                _presetPlot.getDataSet().addAllPoints( points );
-//            }
+            // Preset.
+            double deltaX = event.getDelta() * L;
+            Point2D[] points = _infinitePlot.getDataSet().getPoints();
+            if ( points != null ) {
+                _infinitePlot.getDataSet().clear();
+                for ( int i = 0; i < points.length; i++ ) {
+                    points[i].setLocation( points[i].getX() + deltaX, points[i].getY() );
+                }
+                _infinitePlot.getDataSet().addAllPoints( points );
+            }
         }
     }
 }
