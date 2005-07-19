@@ -7,6 +7,7 @@ import edu.colorado.phet.qm.SchrodingerModule;
 import edu.colorado.phet.qm.model.DetectorSet;
 import edu.colorado.phet.qm.model.DiscreteModel;
 import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.qm.view.gun.Photon;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -55,6 +56,10 @@ public class IntensityDisplay extends GraphicLayerSet {
         }
     }
 
+    public void setDisplayPhotonColor( Photon photon ) {
+        detectorSheet.setDisplayPhotonColor( photon );
+    }
+
     public static interface Listener {
         void detectionOccurred();
     }
@@ -74,11 +79,24 @@ public class IntensityDisplay extends GraphicLayerSet {
         Function.LinearFunction linearFunction = getModelToViewTransform1d();
         Point pt = getCollapsePoint( sub );
 
-        double screenGridWidth = schrodingerModule.getSchrodingerPanel().getWavefunctionGraphic().getBlockWidth();
-        double randOffsetY = 2 * ( random.nextDouble() - 0.5 ) * screenGridWidth;
+//        double screenGridWidth = schrodingerModule.getSchrodingerPanel().getWavefunctionGraphic().getBlockWidth();
+//        double randOffsetY = 2 * ( random.nextDouble() - 0.5 ) * screenGridWidth;
+//        System.out.println( "randOffsetY = " + randOffsetY );
+        double randOffsetX = 0;
+        if( random.nextDouble() < 0.33 ) {
+            if( random.nextBoolean() ) {
+                randOffsetX = 1;
+            }
+            else {
+                randOffsetX = -1;
+            }
+        }
 
-        int x = (int)( linearFunction.evaluate( pt.x ) + randOffsetY );
+        int x = (int)( linearFunction.evaluate( pt.x ) + randOffsetX );
         int y = getDetectY();
+
+//        System.out.println( "x = " + x );
+//        System.out.println( "y = " + y );
         detectorSheet.addDetectionEvent( x, y );
 
 //        notifyDetection();

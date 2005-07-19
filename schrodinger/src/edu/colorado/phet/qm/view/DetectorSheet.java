@@ -8,7 +8,10 @@ import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.view.util.VisibleColor;
 import edu.colorado.phet.qm.phetcommon.IntegralModelElement;
+import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.qm.view.gun.Photon;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -42,6 +45,9 @@ public class DetectorSheet extends GraphicLayerSet {
     private PhetGraphic saveGraphic;
     private double brightness;
     private IntegralModelElement fadeElement;
+    private PhotonColorMap.ColorData rootColor = new PhotonColorMap.ColorData( VisibleColor.MIN_WAVELENGTH );
+    private ImageFade imageFade;
+    private boolean fadeEnabled = true;
 
     public DetectorSheet( final SchrodingerPanel schrodingerPanel, int width, int height ) {
         super( schrodingerPanel );
@@ -98,11 +104,24 @@ public class DetectorSheet extends GraphicLayerSet {
         this.saveGraphic = saveGraphic;
         this.saveGraphic.setVisible( false );
 
-//        JSlider brightnessSlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 500 );
-//
-//        JLabel brightness=new JLabel( "Brightness");
+        setBrightness( 1.0 );
 
-        final ModelSlider brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1, 0.5, new DecimalFormat( "0.000" ) );
+        imageFade = new ImageFade();
+
+        fadeElement = new IntegralModelElement( new ModelElement() {
+            public void stepInTime( double dt ) {
+                if( fadeEnabled ) {
+                    imageFade.fade( getBufferedImage() );
+                    screenGraphic.setBoundsDirty();
+                    screenGraphic.repaint();
+                }
+            }
+        }, 1 );
+
+    }
+
+    public void addBrightnessSlider() {
+        final ModelSlider brightnessModelSlider = new ModelSlider( "Screen Brightness", "", 0, 1, 0.2, new DecimalFormat( "0.000" ) );
         brightnessModelSlider.setModelTicks( new double[]{0, 0.25, 0.5, 0.75, 1.0} );
         PhetGraphic brightnessSliderGraphic = PhetJComponent.newInstance( schrodingerPanel, brightnessModelSlider );
         addGraphic( brightnessSliderGraphic );
@@ -112,15 +131,21 @@ public class DetectorSheet extends GraphicLayerSet {
                 setBrightness( brightnessModelSlider.getValue() );
             }
         } );
-        fadeElement = new IntegralModelElement( new ModelElement() {
-            public void stepInTime( double dt ) {
-                new ImageFade().fade( getBufferedImage() );
-                screenGraphic.setBoundsDirty();
-                screenGraphic.repaint();
-            }
-        }, 1 );
-
+        setBrightness( brightnessModelSlider.getValue() );
     }
+
+    public void addFadeCheckBox() {
+        final JCheckBox fadeEnabled = new JCheckBox( "Fade", true );
+        fadeEnabled.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                setFadeEnabled( fadeEnabled.isSelected() );
+            }
+        } );
+        PhetGraphic phetGraphic = PhetJComponent.newInstance( schrodingerPanel, fadeEnabled );
+        addGraphic( phetGraphic );
+        phetGraphic.setLocation( saveGraphic.getX() + saveGraphic.getWidth() + 5, saveGraphic.getY() );
+    }
+
 
     public void setFadeEnabled( boolean fade ) {
         if( fade ) {
@@ -131,6 +156,7 @@ public class DetectorSheet extends GraphicLayerSet {
                 schrodingerPanel.getSchrodingerModule().getModel().removeModelElement( fadeElement );
             }
         }
+        this.fadeEnabled = fade;
     }
 
 
@@ -156,7 +182,12 @@ public class DetectorSheet extends GraphicLayerSet {
         setSaveButtonVisible( true );
         Graphics2D g2 = bufferedImage.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        new DetectionGraphic( this, x, y, opacity ).paint( g2 );
+        if( rootColor != null ) {
+            new ColoredDetectionGraphic( this, x, y, opacity, rootColor ).paint( g2 );
+        }
+        else {
+            new DetectionGraphic( this, x, y, opacity ).paint( g2 );
+        }
         repaint();
     }
 
@@ -190,5 +221,9 @@ public class DetectorSheet extends GraphicLayerSet {
 
     public void setSaveButtonVisible( boolean b ) {
         saveGraphic.setVisible( b );
+    }
+
+    public void setDisplayPhotonColor( Photon photon ) {
+        this.rootColor = photon == null ? null : new PhotonColorMap.ColorData( photon.getWavelengthNM() );
     }
 }

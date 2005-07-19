@@ -118,6 +118,7 @@ public class SRRWavelengthSlider extends GraphicLayerSet {
 //                startX = spectrumSliderKnob.getX();
 //            }
 //        } );
+        spectrumSliderKnob.setLocation( image.getWidth() / 2, image.getHeight() );
         dragPointChanged();
     }
 

@@ -15,6 +15,14 @@ public class ImageFade {
 //    private double scaleFactor = 0.95;
     private int dVal = -1;
 
+    public ImageFade() {
+        this( -1 );
+    }
+
+    public ImageFade( int dVal ) {
+        this.dVal = dVal;
+    }
+
     public void fade( BufferedImage image ) {
         WritableRaster raster = image.getRaster();
         float[] pixel = raster.getPixel( 0, 0, (float[])null );
@@ -25,14 +33,12 @@ public class ImageFade {
 //                    float distFromUnity = 255 - pixel[k];
 //                    distFromUnity *= scaleFactor;
 //                    pixel[k] = (float)MathUtil.clamp( 0, 255 - distFromUnity, 255 );
-                    if( pixel[k] < 255 ) {
-                        pixel[k] += dVal;
-                        if( pixel[k] > 255 ) {
-                            pixel[k] = 255;
-                        }
-                        if( pixel[k] < 0 ) {
-                            pixel[k] = 0;
-                        }
+                    pixel[k] += dVal;
+                    if( pixel[k] > 255 ) {
+                        pixel[k] = 255;
+                    }
+                    if( pixel[k] < 0 ) {
+                        pixel[k] = 0;
                     }
                 }
                 raster.setPixel( i, j, pixel );
