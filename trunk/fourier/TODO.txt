@@ -3,19 +3,18 @@
 ===============================================================================
 
 IN PROGRESS:
-
+- hide/show buttons for Harmonics and Sum graphs, expand to fill space
 
 HIGH PRIORITY:
 - hide wiggle me when user clicks anywhere
-- check Discrete module layout on Window
-- publish v1r0 with Discrete module only
+- check the layout of the Discrete module on Windows
 - change sim title?
-- hide/show Harmonics and Sum graphs, expand to fill space
-- add support for persistence
+- test Reset
+- publish v1r0 with Discrete module only
 
 MEDIUM PRIORITY:
+- add support for persistence
 - crashes after running for ~40 minutes (memory leak?)
-- test Reset
 - something is hammering the processor when the sim should be idle
 
 LOW PRIORITY:
@@ -64,6 +63,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/19) - disable File>Load and File>Save until they are implemented
 (7/19) - chart in Amplitudes view refactored into AmplitudesChart
 (7/19) - change wiggle me for Discrete module
 (7/19) - bugfix: reset AnimationCycleController when number of harmonics is changed
