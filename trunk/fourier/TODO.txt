@@ -63,6 +63,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/19) - create open & close button graphics for the Harmonics and Sum graphs
 (7/19) - disable File>Load and File>Save until they are implemented
 (7/19) - chart in Amplitudes view refactored into AmplitudesChart
 (7/19) - change wiggle me for Discrete module
