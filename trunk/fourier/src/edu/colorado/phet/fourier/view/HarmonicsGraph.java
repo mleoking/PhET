@@ -83,7 +83,7 @@ public class HarmonicsGraph extends GraphicLayerSet
     private static final Stroke WAVE_FOCUS_STROKE = new BasicStroke( 2f );
     private static final Stroke WAVE_DIMMED_STROKE = new BasicStroke( 0.5f );
     private static final Color WAVE_DIMMED_COLOR = Color.GRAY;
-    private static final double[] PIXELS_PER_POINT = { 6, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    private static final double[] PIXELS_PER_POINT = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     
     //----------------------------------------------------------------------------
     // Instance data

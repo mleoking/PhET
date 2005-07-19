@@ -6,12 +6,17 @@ IN PROGRESS:
 
 
 HIGH PRIORITY:
+- check animation behavior with play/pause buttons
+- presets animation a bit out-of-sync when changing preset or wave type
+- differences in pixels-per-point cause waveforms not to line up exactly
+- check Discrete module layout on Window
+- publish v1r0 with Discrete module only
+- change sim title?
+- hide/show Harmonics and Sum graphs, expand to fill space
 - add support for persistence
 
 MEDIUM PRIORITY:
-- turning off "Show math" does not close the "Expand sum" dialog
 - crashes after running for ~40 minutes (memory leak?)
-- hide/show each graph, possibly expand to fill screen
 - add wiggle me
 - test Reset
 - FourierSumPlot should be an observer of its FourierSeries
@@ -62,6 +67,8 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/19) - set all pixel-per-point values to 1 so that all waveforms line up
+(7/19) - close the "Expand sum" dialog when "Math mode" is turned off
 v0r5...
 (7/19) - fix infinite waveform animation sync when changing presets or wave type
 (7/19) - handle infinite waveform for sine/cosine preset specially in Sum graph
