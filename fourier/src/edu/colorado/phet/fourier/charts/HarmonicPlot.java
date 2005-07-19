@@ -87,15 +87,13 @@ public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicCo
      * @param harmonic
      */
     public void setHarmonic( Harmonic harmonic ) {
-        assert( harmonic != null );
-        if ( harmonic != _harmonic ) {
-            if ( _harmonic != null ) {
-                _harmonic.removeObserver( this );
-            }
-            _harmonic = harmonic;
-            _harmonic.addObserver( this );
-            update();
+        assert ( harmonic != null );
+        if ( _harmonic != null ) {
+            _harmonic.removeObserver( this );
         }
+        _harmonic = harmonic;
+        _harmonic.addObserver( this );
+        update();
     }
     
     /**
@@ -128,6 +126,9 @@ public class HarmonicPlot extends SinePlot implements SimpleObserver, HarmonicCo
      * Updates the view to match the harmonic model.
      */
     public void update() {
+        if ( _harmonic.getOrder() == 6 ) {//XXX
+            System.out.println( "A7 updated" );//XXX
+        }//XXX
         if ( isVisible() && _harmonic != null ) {
             setAmplitude( _harmonic.getAmplitude() );
         }

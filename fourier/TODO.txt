@@ -66,6 +66,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/19) - bugfix: after decreasing then increasing #harmonics, new harmonics not wired into Harmonics graph
 (7/19) - set all pixel-per-point values to 1 so that all waveforms line up
 (7/19) - close the "Expand sum" dialog when "Math mode" is turned off
 v0r5...
