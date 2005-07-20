@@ -8,7 +8,6 @@ IN PROGRESS:
 HIGH PRIORITY:
 - hide wiggle me when user clicks anywhere
 - check the layout of the Discrete module on Windows
-- change sim title?
 - anti-aliasing of plots appears to be turned off
 - test Reset
 - publish v1r0 with Discrete module only
@@ -64,6 +63,10 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/20) - redo layout of AmplitudesGraph so that origin is at top-left corner
+(7/20) - set the sim description to ""
+(7/20) - set the sim title to "Fourier: Making Waves"
+(7/20) - migrate EasyGridBagLayout to phetcommon.view.util
 (7/19) - create open & close button graphics for the Harmonics and Sum graphs
 (7/19) - disable File>Load and File>Save until they are implemented
 (7/19) - chart in Amplitudes view refactored into AmplitudesChart
