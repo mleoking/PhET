@@ -61,6 +61,7 @@ PHETCOMMON:
 - bug: PhetJComponent doesn't work with JSpinner on Macintosh, looks wrong on Windows & Linux
 - bug: PhetJComponent tab traversal doesn't work if component is invisible or has been removed
 - all of the text graphics classes should be combined into PhetTextGraphic
+- add the ability to attach help items to phetgraphics
 
 DONE:
 (7/20) - redo layout of SumGraph so that origin is at top-left corner
