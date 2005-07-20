@@ -21,6 +21,7 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -67,7 +68,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     // Title parameters
     private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
-    private static final int TITLE_X_OFFSET = -15; // from origin
+    private static final int TITLE_X_OFFSET = -20; // from origin
     
     // Chart parameters
     private static final double L = FourierConstants.L; // do not change!
@@ -99,6 +100,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
+    private PhetImageGraphic _closeButton;
     private SumChart _chartGraphic;
     private SumEquation _mathGraphic;
     private FourierSumPlot _sumPlot;
@@ -176,6 +178,13 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _chartGraphic.addDataSetGraphic( _sumPlot );
         }
         
+        // Close button
+        {
+            _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
+            addGraphic( _closeButton, CONTROLS_LAYER );
+            _closeButton.setLocation( -50, -105 );
+        }
+        
         // Zoom controls
         {
             _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
@@ -212,6 +221,8 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             titleGraphic.setIgnoreMouse( true );
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
+            
+            _closeButton.setCursorHand();
             
             _horizontalZoomControl.addZoomListener( this );
             _verticalZoomControl.addZoomListener( this );

@@ -19,6 +19,7 @@ import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.view.util.SimStrings;
@@ -67,7 +68,7 @@ public class HarmonicsGraph extends GraphicLayerSet
     // Title parameters
     private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
-    private static final int TITLE_X_OFFSET = -15; // from origin
+    private static final int TITLE_X_OFFSET = -20; // from origin
     
     // Chart parameters
     private static final double L = FourierConstants.L; // do not change!
@@ -90,6 +91,7 @@ public class HarmonicsGraph extends GraphicLayerSet
     //----------------------------------------------------------------------------
 
     private FourierSeries _fourierSeries;
+    private PhetImageGraphic _closeButton;
     private HarmonicsChart _chartGraphic;
     private ZoomControl _horizontalZoomControl;
     private HarmonicsEquation _mathGraphic;
@@ -139,12 +141,19 @@ public class HarmonicsGraph extends GraphicLayerSet
         titleGraphic.rotate( -( Math.PI / 2 ) );
         titleGraphic.setLocation( TITLE_X_OFFSET, 0 );
         addGraphic( titleGraphic, TITLE_LAYER );
-
+        
         // Chart
         {
             _chartGraphic = new HarmonicsChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
             _chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
+        }
+        
+        // Close button
+        {
+            _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
+            addGraphic( _closeButton, CONTROLS_LAYER );
+            _closeButton.setLocation( -50, -105 );
         }
         
         // Zoom controls
@@ -168,6 +177,8 @@ public class HarmonicsGraph extends GraphicLayerSet
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
             _horizontalZoomControl.addZoomListener( this );
+            
+            _closeButton.setCursorHand();
         }
 
         // Misc initialization
