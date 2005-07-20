@@ -55,7 +55,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     private static final double SLIDERS_LAYER = 4;
     
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 210 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 195 );
     private static final Color BACKGROUND_COLOR = new Color( 195, 195, 195 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -63,7 +63,6 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     // Title parameters
     private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
-    private static final int TITLE_X_OFFSET = -20; // from origin
     
     // Chart parameters
     private static final double X_MIN = FourierConfig.MIN_HARMONICS;
@@ -81,6 +80,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
+    private AmplitudesChart _chartGraphic;
     private GraphicLayerSet _slidersGraphic;
     private ArrayList _sliders; // array of AmplitudeSlider
     private EventListenerList _listenerList;
@@ -113,18 +113,19 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         backgroundGraphic.setPaint( BACKGROUND_COLOR );
         backgroundGraphic.setStroke( BACKGROUND_STROKE );
         backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
-        backgroundGraphic.setLocation( -100, -125 );
+        backgroundGraphic.setLocation( 0, 0 );
         
         // Title
         String title = SimStrings.get( "AmplitudesGraphic.title" );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
-        titleGraphic.setLocation( TITLE_X_OFFSET, 0 );
+        titleGraphic.setLocation( 40, 115 );
         
         // Chart
-        AmplitudesChart chartGraphic = new AmplitudesChart( component, CHART_RANGE, CHART_SIZE ); 
-        chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
+        _chartGraphic = new AmplitudesChart( component, CHART_RANGE, CHART_SIZE );
+        _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
+        _chartGraphic.setLocation( 60, 50 + (CHART_SIZE.height / 2) );
         
         // Flatten all of the static graphics.
         PhetFlattenedGraphic flattenedGraphic = new PhetFlattenedGraphic( component );
@@ -132,7 +133,7 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
         flattenedGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         flattenedGraphic.addGraphic( backgroundGraphic );
         flattenedGraphic.addGraphic( titleGraphic );
-        flattenedGraphic.addGraphic( chartGraphic );
+        flattenedGraphic.addGraphic( _chartGraphic );
         flattenedGraphic.flatten();
         flattenedGraphic.setLocation( 0, 0 );
         
@@ -213,8 +214,9 @@ public class AmplitudesGraph extends GraphicLayerSet implements SimpleObserver {
                 slider.setMaxSize( barWidth, CHART_SIZE.height );
 
                 // Slider location.
-                int x = ( ( i + 1 ) * SLIDER_SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
-                slider.setLocation( x, 0 );
+                int x = _chartGraphic.getLocation().x + ( ( i + 1 ) * SLIDER_SPACING ) + ( i * barWidth ) + ( barWidth / 2 );
+                int y = _chartGraphic.getLocation().y;
+                slider.setLocation( x, y );
                 
                 _previousNumberOfHarmonics = numberOfHarmonics;
             }
