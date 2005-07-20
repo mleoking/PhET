@@ -68,7 +68,6 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     // Title parameters
     private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
-    private static final int TITLE_X_OFFSET = -20; // from origin
     
     // Chart parameters
     private static final double L = FourierConstants.L; // do not change!
@@ -139,21 +138,22 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         backgroundGraphic.setStroke( BACKGROUND_STROKE );
         backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
         addGraphic( backgroundGraphic, BACKGROUND_LAYER );
-        backgroundGraphic.setLocation( -100, -115 );
+        backgroundGraphic.setLocation( 0, 0 );
         
         // Title
         String title = SimStrings.get( "SumGraphic.title" );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
-        titleGraphic.setLocation( TITLE_X_OFFSET, 0 );
+        titleGraphic.setLocation( 40, 115 );
         addGraphic( titleGraphic, TITLE_LAYER );
         
         // Chart
         {
             _chartGraphic = new SumChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
-            _chartGraphic.setLocation( 0, -( CHART_SIZE.height / 2 ) );
+            _chartGraphic.setRegistrationPoint( 0, CHART_SIZE.height / 2 ); // at the chart's origin
+            _chartGraphic.setLocation( 60, 50 + ( CHART_SIZE.height / 2 ) );
             
             // Sine/cosine preset plot
             _sineCosinePlot = new SinePlot( getComponent(), _chartGraphic );
@@ -182,17 +182,21 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         {
             _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
             addGraphic( _closeButton, CONTROLS_LAYER );
-            _closeButton.setLocation( -50, -105 );
+            _closeButton.setLocation( 10, 10 );
         }
         
         // Zoom controls
         {
             _horizontalZoomControl = new ZoomControl( component, ZoomControl.HORIZONTAL );
             addGraphic( _horizontalZoomControl, CONTROLS_LAYER );
-            _horizontalZoomControl.setLocation( CHART_SIZE.width + 20, -50 );
+            // Location is aligned with top-right edge of chart.
+            int x = _chartGraphic.getX() + CHART_SIZE.width + 20;
+            int y = _chartGraphic.getY() - ( CHART_SIZE.height / 2 );
+            _horizontalZoomControl.setLocation( x, y );
             
             _verticalZoomControl = new ZoomControl( component, ZoomControl.VERTICAL );
             addGraphic( _verticalZoomControl, CONTROLS_LAYER );
+            // Just below the horizontal zoom control.
             _verticalZoomControl.setLocation( _horizontalZoomControl.getX(), 
                     _horizontalZoomControl.getY() + _horizontalZoomControl.getHeight() + 5 );
         }
@@ -203,6 +207,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _autoScaleCheckBox.setBackground( new Color( 255, 255, 255, 0 ) );
             PhetGraphic autoScaleGraphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
             addGraphic( autoScaleGraphic, CONTROLS_LAYER );
+            // Just below the vertical zoom control.
             autoScaleGraphic.setLocation( _verticalZoomControl.getX(), 
                     _verticalZoomControl.getY() + _verticalZoomControl.getHeight() + 5 );
         } 
@@ -212,7 +217,10 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _mathGraphic = new SumEquation( component );
             addGraphic( _mathGraphic, MATH_LAYER );
             _mathGraphic.centerRegistrationPoint();
-            _mathGraphic.setLocation( CHART_SIZE.width / 2, -(CHART_SIZE.height / 2) - 20 );
+            // Location is above the center of the chart.
+            int x = _chartGraphic.getX() + ( CHART_SIZE.width / 2 );
+            int y = 28;
+            _mathGraphic.setLocation( x, y );
         }
         
         // Interactivity
@@ -608,6 +616,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      */
     private void updateMath() {
         _mathGraphic.setForm( _domain, _mathForm, _fourierSeries.getNumberOfHarmonics() );
+        _mathGraphic.centerRegistrationPoint();
     }
     
     //----------------------------------------------------------------------------
