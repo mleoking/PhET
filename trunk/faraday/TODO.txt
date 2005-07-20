@@ -10,6 +10,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - change finalize methods to cleanup, shouldn't override finalize
+- replace fourier.util.EasyGridBagLayout with phetcommon.view.utils.EasyGridBagLayout
 
 LOW PRIORITY:
 - when a drag collision occurs, don't ignore the translate, move the object as close as possible
