@@ -22,11 +22,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.control.sliders.AbstractFourierSlider;
 import edu.colorado.phet.fourier.control.sliders.DefaultFourierSlider;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
 
 /**

@@ -19,7 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.fourier.util.EasyGridBagLayout;
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 
 
 /**

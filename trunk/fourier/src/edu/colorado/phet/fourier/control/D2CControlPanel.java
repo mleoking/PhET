@@ -25,6 +25,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
@@ -32,7 +33,6 @@ import edu.colorado.phet.fourier.control.sliders.K1SpacingSlider;
 import edu.colorado.phet.fourier.control.sliders.KWidthSlider;
 import edu.colorado.phet.fourier.control.sliders.XWidthSlider;
 import edu.colorado.phet.fourier.module.FourierModule;
-import edu.colorado.phet.fourier.util.EasyGridBagLayout;
 
 
 
