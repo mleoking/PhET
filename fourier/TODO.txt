@@ -63,6 +63,7 @@ PHETCOMMON:
 - all of the text graphics classes should be combined into PhetTextGraphic
 
 DONE:
+(7/20) - redo layout of harmonicsGraph so that origin is at top-left corner
 (7/20) - redo layout of AmplitudesGraph so that origin is at top-left corner
 (7/20) - set the sim description to ""
 (7/20) - set the sim title to "Fourier: Making Waves"
