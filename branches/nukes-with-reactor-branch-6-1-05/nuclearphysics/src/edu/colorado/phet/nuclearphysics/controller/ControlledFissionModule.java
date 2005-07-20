@@ -18,7 +18,6 @@ import edu.colorado.phet.common.model.clock.ClockTickListener;
 import edu.colorado.phet.common.view.ApparatusPanel;
 import edu.colorado.phet.common.view.PhetFrame;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
@@ -41,7 +40,6 @@ public class ControlledFissionModule extends ChainReactionModule {
     //----------------------------------------------------------------
 
     public static final int VERTICAL = 1, HORIZONTAL = 2;
-//    public static double SCALE = 1;
     public static double SCALE = 0.2;
 
     private static final double VESSEL_LAYER = 100;
@@ -68,10 +66,8 @@ public class ControlledFissionModule extends ChainReactionModule {
 
     private double vesselWidth;
     private double vesselHeight;
-//    private int numChannels = 2;
     private int numChannels = 5;
     private Vessel vessel;
-//    private int nCols = 3;
     private int nCols = 20;
     private ControlRodGroupGraphic controlRodGroupGraphic;
     private ControlRod[] controlRods;
@@ -140,17 +136,13 @@ public class ControlledFissionModule extends ChainReactionModule {
 
         // Add a thermometer and a listener that will control the thermometer
         double thermometerColumnHeight = 400;
-        final Thermometer thermometer = new Thermometer( getPhysicalPanel(),
-                                                         new Point2D.Double( vessel.getX() + 200,
-                                                                             vessel.getY() - thermometerColumnHeight ),
-                                                         thermometerColumnHeight, 80, true, 0, Config.MAX_TEMPERATURE );
+        final VesselThermometer thermometer = new VesselThermometer( getPhysicalPanel(),
+                                                                     new Point2D.Double( vessel.getX() + 200,
+                                                                                         vessel.getY() - thermometerColumnHeight ),
+                                                                     thermometerColumnHeight, 80, true, 0, Config.MAX_TEMPERATURE,
+                                                                     vessel );
         thermometer.setNumericReadoutEnabled( false );
         getPhysicalPanel().addOriginCenteredGraphic( thermometer, 1000 );
-        vessel.addChangeListener( new Vessel.ChangeListener() {
-            public void temperatureChanged( Vessel.ChangeEvent event ) {
-                thermometer.setValue( event.getVessel().getTemperature() );
-            }
-        } );
 
         // Create the nuclei
         createNuclei();
@@ -212,12 +204,6 @@ public class ControlledFissionModule extends ChainReactionModule {
 //            throw new RuntimeException( "nucleus is of unexpected type" );
         }
         if( sourceImg != null ) {
-//        double rad = nucleus.getRadius();
-//        final Graphic ng = new PhetShapeGraphic( getPhysicalPanel(),
-//                                                 new Ellipse2D.Double( nucleus.getPosition().getX() - rad,
-//                                                                       nucleus.getPosition().getY() - rad,
-//                                                                       rad * 2, rad * 2 ),
-//                                                 Color.red );
             final PhetImageGraphic nig = new PhetImageGraphic( getPhysicalPanel(),
                                                                sourceImg,
                                                                (int)( nucleus.getPosition().getX() - nucleus.getRadius() ),
