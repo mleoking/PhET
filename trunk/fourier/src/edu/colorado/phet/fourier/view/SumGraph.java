@@ -219,7 +219,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _mathGraphic.centerRegistrationPoint();
             // Location is above the center of the chart.
             int x = _chartGraphic.getX() + ( CHART_SIZE.width / 2 );
-            int y = 28;
+            int y = 30;
             _mathGraphic.setLocation( x, y );
         }
         
