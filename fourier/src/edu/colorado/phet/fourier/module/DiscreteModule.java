@@ -55,9 +55,6 @@ public class DiscreteModule extends FourierModule {
     private static final double TOOLS_LAYER = 6;
 
     // Locations
-    private static final Point AMPLITUDES_LOCATION = new Point( 0, 0 );
-    private static final Point HARMONICS_LOCATION = new Point( 0, 195 );
-    private static final Point SUM_LOCATION = new Point( 0, 195 + 200 );
     private static final Point WAVELENGTH_TOOL_LOCATION = new Point( 590, 230 );
     private static final Point PERIOD_TOOL_LOCATION = WAVELENGTH_TOOL_LOCATION;
     private static final Point PERIOD_DISPLAY_LOCATION = new Point( 655, 345 );
@@ -122,7 +119,7 @@ public class DiscreteModule extends FourierModule {
         
         // Amplitudes view
         _amplitudesGraph = new AmplitudesGraph( apparatusPanel, _fourierSeries );
-        _amplitudesGraph.setLocation( 0, 0 );
+        _amplitudesGraph.setLocation( 5, 5 );
         apparatusPanel.addGraphic( _amplitudesGraph, AMPLITUDES_LAYER );
         
         // Harmonics view
@@ -240,10 +237,10 @@ public class DiscreteModule extends FourierModule {
         _sumGraph.setVisible( true );
         _sumGraphClosed.setVisible( false ); 
         
-        _harmonicsGraph.setLocation( 0, _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
-        _harmonicsGraphClosed.setLocation( 0, _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
-        _sumGraph.setLocation( 0, _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
-        _sumGraphClosed.setLocation( 0, _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        _harmonicsGraph.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
+        _harmonicsGraphClosed.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
+        _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
         
         _wavelengthTool.setVisible( false );
         _wavelengthTool.setLocation( WAVELENGTH_TOOL_LOCATION );
