@@ -16,8 +16,8 @@ import edu.colorado.phet.common.view.util.FrameSetup;
  */
 
 public class SchrodingerApplication extends PhetApplication {
-    public static String TITLE = "Schrodinger";
-    public static String DESCRIPTION = "Schrodinger Wave Propagation";
+    public static String TITLE = "Quantum Interference";
+    public static String DESCRIPTION = "Quantum Interference";
     public static String VERSION = "0.1";
 
     public SchrodingerApplication( String[] args ) {

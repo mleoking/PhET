@@ -30,11 +30,17 @@ public class PhotonBeam extends HighIntensityBeam {
 
         colorChangeHandler = new AbstractGun.MomentumChangeListener() {
             public void momentumChanged( double val ) {
-                getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( getPhoton() );
+                handleColorChange();
             }
         };
+
         photon.addMomentumChangeListerner( colorChangeHandler );
         cylinderWave.setMomentum( photon.getStartPy() );
+    }
+
+    private void handleColorChange() {
+        getGunGraphic().getSchrodingerModule().getDiscreteModel().clearWavefunction();
+        getGunGraphic().getSchrodingerPanel().setDisplayPhotonColor( getPhoton() );
     }
 
 
