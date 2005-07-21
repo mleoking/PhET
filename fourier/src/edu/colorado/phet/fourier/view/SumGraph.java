@@ -377,6 +377,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         if ( visible != isVisible() ) {
             super.setVisible( visible );
             if ( visible ) {
+                _previousNumberOfHarmonics = -1; // force an update
                 update();
             }
         }
