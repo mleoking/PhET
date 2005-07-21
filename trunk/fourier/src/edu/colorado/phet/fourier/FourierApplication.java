@@ -40,7 +40,7 @@ public class FourierApplication extends PhetApplication {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean TEST_ONE_MODULE = false;
+    private static final boolean TEST_ONE_MODULE = true;
     
     //----------------------------------------------------------------------------
     // Constructors
