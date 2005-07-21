@@ -23,10 +23,7 @@ import edu.colorado.phet.chart.LabelTable;
 import edu.colorado.phet.chart.Range2D;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
@@ -98,7 +95,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
     private FourierSeries _fourierSeries;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
-    private JButton _closeButton;
+    private PhetImageGraphic _closeButton;
     private HarmonicsChart _chartGraphic;
     private ZoomControl _horizontalZoomControl;
     private HarmonicsEquation _mathGraphic;
@@ -158,22 +155,10 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
         }
 
         // Close button
-        PhetGraphic closeButtonGraphic = null;
-        {
-            ImageIcon closeIcon = null;
-            try {
-                closeIcon = new ImageIcon( ImageLoader.loadBufferedImage( FourierConstants.CLOSE_BUTTON_IMAGE ) );
-            }
-            catch ( IOException ioe ) {
-                throw new RuntimeException( "missing image resource: " + FourierConstants.CLOSE_BUTTON_IMAGE );
-            }
-            _closeButton = new JButton( closeIcon );
-            _closeButton.setBackground( new Color( 0, 0, 0, 0 ) ); // transparent
-            closeButtonGraphic = PhetJComponent.newInstance( component, _closeButton );
-            addGraphic( closeButtonGraphic, CONTROLS_LAYER );
-            closeButtonGraphic.centerRegistrationPoint();
-            closeButtonGraphic.setLocation( (closeButtonGraphic.getWidth()/2) + 10, closeButtonGraphic.getHeight()/2  );
-        }
+        _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
+        addGraphic( _closeButton, CONTROLS_LAYER );
+        _closeButton.centerRegistrationPoint();
+        _closeButton.setLocation( (_closeButton.getWidth()/2) + 10, _closeButton.getHeight()/2 + 5 );
 
         // Zoom controls
         {
@@ -204,7 +189,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
             _mathGraphic.setIgnoreMouse( true );
             _horizontalZoomControl.addZoomListener( this );
 
-            closeButtonGraphic.setCursorHand();
+            _closeButton.setCursorHand();
         }
 
         // Misc initialization
@@ -316,7 +301,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
      * 
      * @return close button
      */
-    public JButton getCloseButton() {
+    public PhetImageGraphic getCloseButton() {
         return _closeButton;
     }
 
