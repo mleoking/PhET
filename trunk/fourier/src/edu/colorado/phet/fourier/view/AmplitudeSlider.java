@@ -84,8 +84,6 @@ public class AmplitudeSlider extends GraphicLayerSet
 
     // Knob parameters
     private static final Color KNOB_FILL_COLOR = Color.BLACK;
-    private static final Color KNOB_STROKE_COLOR = Color.BLACK;
-    private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
 
     // Track parameters
     private static final Dimension DEFAULT_TRACK_SIZE = new Dimension( 40, 100 );
@@ -184,13 +182,11 @@ public class AmplitudeSlider extends GraphicLayerSet
 
         // Slider Knob
         {
-            _knobRectangle = new Rectangle( 0, 0, _maxSize.width, 2 );
+            _knobRectangle = new Rectangle( 1, 0, _maxSize.width + 1, 4 ); // account for track stroke
             _knobGraphic = new PhetShapeGraphic( component );
             _knobGraphic.setName( "AmplitudeSlider.knob" );
             _knobGraphic.setShape( _knobRectangle );
             _knobGraphic.setPaint( KNOB_FILL_COLOR );
-            _knobGraphic.setStroke( KNOB_STROKE );
-            _knobGraphic.setBorderColor( KNOB_STROKE_COLOR );
             _knobGraphic.centerRegistrationPoint();
             _knobGraphic.setLocation( 0, 0 );
         }
@@ -288,7 +284,7 @@ public class AmplitudeSlider extends GraphicLayerSet
         _clickZoneGraphic.setShapeDirty();
         _clickZoneGraphic.centerRegistrationPoint();
 
-        _knobRectangle.setRect( 1, 1, _maxSize.width, 2 ); //XXX why is 1,1 necessary?
+        _knobRectangle.setRect( 1, 0, _maxSize.width + 1, 4 ); // account for track stroke
         _knobGraphic.setShapeDirty();
         _knobGraphic.centerRegistrationPoint();
 
@@ -469,7 +465,6 @@ public class AmplitudeSlider extends GraphicLayerSet
         // Knob location
         int knobX = _knobGraphic.getX();
         int knobY = (int) -( ( _maxSize.height / 2 ) * ( amplitude / MAX_AMPLITUDE ) );
-        _knobGraphic.centerRegistrationPoint();
         _knobGraphic.setLocation( knobX, knobY );
         
         repaint();
