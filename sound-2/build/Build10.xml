@@ -24,12 +24,12 @@ ignorepath      (those elements of the ant classpath that should not be
 <project name="General Ant Build Script" default="Release With Lib" basedir=".">
 
     <!--  Set ant output directories. They get made if they don't exist -->
-    <property name="project_home" value="../.."/>
+    <property name="project_home" value=".."/>
     <property name="ant.output" value="${project_home}/ant_output"/>
     <property name="classes" location="${ant.output}/classes"/>
     <property name="jars" location="${ant.output}/jars"/>
     <property name="javadoc" location="${ant.output}/javadoc"/>
-    <property name="lib" location="${ant.output}/lib"/>
+    <property name="lib" location="${project_home}/lib"/>
 
     <!-- Set current sister directories, for backup and release data. -->
     <property name="development" location=".."/>

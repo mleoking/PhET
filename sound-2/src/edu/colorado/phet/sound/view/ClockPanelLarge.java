@@ -10,6 +10,7 @@ package edu.colorado.phet.sound.view;
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.ModelElement;
 import edu.colorado.phet.common.model.clock.AbstractClock;
+import edu.colorado.phet.common.model.clock.ClockStateListener;
 import edu.colorado.phet.common.util.EventRegistry;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.sound.SoundConfig;
@@ -34,6 +35,8 @@ public class ClockPanelLarge extends JPanel {
     private ModelElement modelTickCounter;
     private BaseModel model;
     private double runningTime = 0;
+    private int startStopState = 0;
+    private JButton startStopBtn;
 
     public ClockPanelLarge( BaseModel model ) {
         this.model = model;
@@ -61,8 +64,8 @@ public class ClockPanelLarge extends JPanel {
         startStopStr = new String[2];
         startStopStr[0] = "Start";
         startStopStr[1] = "Stop";
-        JButton startStopBtn = new JButton( startStopStr[0] );
-        startStopBtn.addActionListener( new StartStopActionListener( startStopBtn ) );
+        startStopBtn = new JButton( startStopStr[0] );
+        startStopBtn.addActionListener( new StartStopActionListener() );
 
         // Reset button
         resetBtn = new JButton( "Reset" );
@@ -128,14 +131,12 @@ public class ClockPanelLarge extends JPanel {
     }
 
     private class StartStopActionListener implements ActionListener {
-        JButton startStopBtn;
-        int startStopState = 0;
-
-        public StartStopActionListener( JButton startStopBtn ) {
-            this.startStopBtn = startStopBtn;
-        }
 
         public void actionPerformed( ActionEvent e ) {
+            toggle();
+        }
+
+        private void toggle() {
             if( startStopState == 0 ) {
                 model.addModelElement( modelTickCounter );
                 ClockPanelEvent event = new ClockPanelEvent( this );

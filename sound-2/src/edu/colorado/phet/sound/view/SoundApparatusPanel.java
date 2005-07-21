@@ -31,7 +31,8 @@ public class SoundApparatusPanel extends ApparatusPanel2 {
 
     private SoundModel model;
     public SoundApparatusPanel( SoundModel model, AbstractClock clock ) {
-        super( model, clock );
+        super( model );
+//        super( model, clock );
 //        this.setUseOffscreenBuffer( true );
     }
 }
