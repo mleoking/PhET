@@ -3,7 +3,7 @@
 ===============================================================================
 
 IN PROGRESS:
-- hide/show buttons for Harmonics and Sum graphs, expand to fill space
+- expand Harmonics and Sum graphs to fill space
 
 HIGH PRIORITY:
 - hide wiggle me when user clicks anywhere
