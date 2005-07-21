@@ -14,17 +14,17 @@ click on "Setup & Troubleshooting" for more
 information.
 
 -->
-<!-- JNLP File for PhET Fourier Transforms simulation --> 
+<!-- JNLP File for PhET Fourier simulation --> 
 <jnlp 
   spec="1.0+" 
   codebase="http://www.colorado.edu/physics/phet/simulations"
   href="fourier/fourier.jnlp"> 
   <information> 
-    <title>Fourier Transforms</title>
+    <title>Fourier: Making Waves</title>
     <vendor>University of Colorado, Department of Physics</vendor> 
     <homepage href="docs/help.html"/> 
-    <description>Fourier Transforms simulation</description> 
-    <description kind="short">An interactive demonstration of Fourier Transforms.</description> 
+    <description></description> 
+    <description kind="short"></description> 
     <icon href="icons/PhET.gif"/> 
     <icon kind="splash" href="icons/PhET.gif"/> 
 <!--
