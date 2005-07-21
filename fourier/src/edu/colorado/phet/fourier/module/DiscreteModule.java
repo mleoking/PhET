@@ -62,7 +62,7 @@ public class DiscreteModule extends FourierModule {
     private static final Point WIGGLE_ME_LOCATION = new Point( 115, 155 );
     
     // Colors
-    private static final Color APPARATUS_PANEL_BACKGROUND = new Color( 215, 215, 215 );;
+    private static final Color APPARATUS_PANEL_BACKGROUND = new Color( 240, 255, 255 );
     private static final Color WIGGLE_ME_COLOR = Color.RED;
     
     // Fourier Components
