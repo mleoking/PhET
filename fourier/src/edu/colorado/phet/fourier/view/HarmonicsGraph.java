@@ -62,7 +62,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
     private static final double MATH_LAYER = 5;
 
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 715, 210 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 715, 205 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -79,7 +79,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
     private static final double X_RANGE_MAX = ( 2 * L );
     private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
-    private static final Dimension CHART_SIZE = new Dimension( 540, 140 );
+    private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
 
     // Wave parameters
     private static final Stroke WAVE_NORMAL_STROKE = new BasicStroke( 1f );
