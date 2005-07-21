@@ -437,6 +437,7 @@ public class Chart extends GraphicLayerSet {
 
     public void setChartSize( int width, int height ) {
         this.chartSize = new Dimension( width, height );
+        xAxisTitleGraphic.setLocation( chartSize.width + 2, chartSize.height / 2 - xAxisTitleGraphic.getHeight() / 2 );
         Rectangle viewBounds = new Rectangle( chartSize );
         backgroundGraphic.setShape( viewBounds );
         frameGraphic.setShape( viewBounds );
