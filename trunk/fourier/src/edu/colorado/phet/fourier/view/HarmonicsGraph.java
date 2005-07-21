@@ -65,7 +65,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
     private static final double MATH_LAYER = 5;
 
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 200 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 715, 200 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -81,7 +81,7 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
     private static final double X_RANGE_MAX = ( 2 * L );
     private static final double Y_RANGE_START = FourierConfig.MAX_HARMONIC_AMPLITUDE;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
-    private static final Dimension CHART_SIZE = new Dimension( 550, 130 );
+    private static final Dimension CHART_SIZE = new Dimension( 540, 130 );
 
     // Wave parameters
     private static final Stroke WAVE_NORMAL_STROKE = new BasicStroke( 1f );
@@ -168,7 +168,8 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
             _closeButton.setBackground( new Color( 0, 0, 0, 0 ) ); // transparent
             closeButtonGraphic = PhetJComponent.newInstance( component, _closeButton );
             addGraphic( closeButtonGraphic, CONTROLS_LAYER );
-            closeButtonGraphic.setLocation( 10, 10 );
+            closeButtonGraphic.centerRegistrationPoint();
+            closeButtonGraphic.setLocation( (closeButtonGraphic.getWidth()/2) + 10, closeButtonGraphic.getHeight()/2  );
         }
 
         // Zoom controls

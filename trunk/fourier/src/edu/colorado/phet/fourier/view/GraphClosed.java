@@ -49,7 +49,7 @@ public class GraphClosed extends GraphicLayerSet {
     private static final double CONTROLS_LAYER = 3;
     
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 800, 50 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 715, 35 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -84,7 +84,7 @@ public class GraphClosed extends GraphicLayerSet {
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         addGraphic( titleGraphic, TITLE_LAYER ); 
         titleGraphic.setRegistrationPoint( 0, titleGraphic.getHeight() / 2 ); // left center
-        titleGraphic.setLocation( 50, 50 ); // right of button
+        titleGraphic.setLocation( 50, 40 ); // right of button
         
         // Open button
         ImageIcon openIcon = null;
@@ -98,7 +98,8 @@ public class GraphClosed extends GraphicLayerSet {
         _openButton.setBackground( new Color( 0, 0, 0, 0 ) ); // transparent
         PhetGraphic openButtonGraphic = PhetJComponent.newInstance( component, _openButton );
         addGraphic( openButtonGraphic, CONTROLS_LAYER );
-        openButtonGraphic.setLocation( 10, 10 );
+        openButtonGraphic.centerRegistrationPoint();
+        openButtonGraphic.setLocation( (openButtonGraphic.getWidth()/2) + 10, openButtonGraphic.getHeight()/2 );
         
         // Interactivity
         openButtonGraphic.setCursorHand();
