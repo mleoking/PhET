@@ -30,6 +30,8 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         if( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }
+        clock.addClockStateListener( this );
+
         ImageLoader cil = new ImageLoader();
 
         String root = "images/icons/java/media/";
@@ -46,7 +48,10 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
 
         play.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                clock.setPaused( false );
+//                setPausedState( false );
+                if( clock.isPaused() ) {
+                    clock.setPaused( false );
+                }
                 play.setEnabled( false );
                 pause.setEnabled( true );
                 step.setEnabled( false );
@@ -54,7 +59,10 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         } );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                clock.setPaused( true );
+//                setPausedState( true );
+                if( !clock.isPaused() ) {
+                    clock.setPaused( true );
+                }
                 play.setEnabled( true );
                 pause.setEnabled( false );
                 step.setEnabled( true );
@@ -79,10 +87,12 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
     }
 
     private void setPausedState( boolean state ) {
-        clock.setPaused( state );
-        play.setEnabled( state );
-        pause.setEnabled( state );
-        step.setEnabled( state );
+        if( clock.isPaused() != state ) {
+            clock.setPaused( state );
+            play.setEnabled( !state );
+            pause.setEnabled( state );
+            step.setEnabled( !state );
+        }
     }
 
     public void delayChanged( int waitTime ) {
