@@ -64,6 +64,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/21) - disable all modules except "Discrete" for AAPT
 (7/21) - fix horizontal alignment of amplitude slider knob
 (7/21) - charts: reposition the x-axis title when chart size is changed
 (7/21) - expand Harmonics and Sum graphs to fill space
