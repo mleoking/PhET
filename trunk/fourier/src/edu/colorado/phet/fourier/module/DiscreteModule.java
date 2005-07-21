@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.model.BaseModel;
 import edu.colorado.phet.common.model.clock.AbstractClock;
@@ -188,15 +189,43 @@ public class DiscreteModule extends FourierModule {
         
         // Open/close buttons on graphs
         {
-            ActionListener listener = new ActionListener() {
-                public void actionPerformed( ActionEvent event ) {
-                    handleOpenCloseButton( event );
+            // Harmonics close
+            _harmonicsGraph.getCloseButton().addMouseInputListener( new MouseInputAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    _harmonicsGraph.setVisible( false );
+                    _harmonicsGraph.warpHeight( 0 );
+                    _harmonicsGraphClosed.setVisible( true );
+                    resizeGraphs();
                 }
-            };
-            _harmonicsGraph.getCloseButton().addActionListener( listener );
-            _harmonicsGraphClosed.getOpenButton().addActionListener( listener );
-            _sumGraph.getCloseButton().addActionListener( listener );
-            _sumGraphClosed.getOpenButton().addActionListener( listener );
+             } );
+            
+            // Harmonics open
+            _harmonicsGraphClosed.getOpenButton().addMouseInputListener( new MouseInputAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    _harmonicsGraph.setVisible( true );
+                    _harmonicsGraphClosed.setVisible( false );
+                    resizeGraphs();
+                }
+             } );
+            
+            // Sum close
+            _sumGraph.getCloseButton().addMouseInputListener( new MouseInputAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    _sumGraph.setVisible( false );
+                    _sumGraph.warpHeight( 0 );
+                    _sumGraphClosed.setVisible( true );
+                    resizeGraphs();
+                }
+             } );
+            
+            // Sum open
+            _sumGraphClosed.getOpenButton().addMouseInputListener( new MouseInputAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    _sumGraph.setVisible( true );
+                    _sumGraphClosed.setVisible( false );
+                    resizeGraphs();
+                }
+             } );
         }
         
         reset();
@@ -262,31 +291,12 @@ public class DiscreteModule extends FourierModule {
     //----------------------------------------------------------------------------
     
     /*
-     * Handles the open and close buttons for the Harmonics and Sum views.
+     * Resizes and repositions the graphs based on which ones are visible.
+     * 
+     * @param event
      */
-    private void handleOpenCloseButton( ActionEvent event ) {
+    private void resizeGraphs() {
         
-        // Visibilty of views
-        if ( event.getSource() == _harmonicsGraph.getCloseButton() ) {
-            _harmonicsGraph.setVisible( false );
-            _harmonicsGraph.warpHeight( 0 );
-            _harmonicsGraphClosed.setVisible( true );
-        }
-        else if ( event.getSource() == _harmonicsGraphClosed.getOpenButton() ) {
-            _harmonicsGraph.setVisible( true );
-            _harmonicsGraphClosed.setVisible( false );
-        }
-        else if ( event.getSource() == _sumGraph.getCloseButton() ) {
-            _sumGraph.setVisible( false );
-            _sumGraph.warpHeight( 0 );
-            _sumGraphClosed.setVisible( true );
-        }
-        else if ( event.getSource() == _sumGraphClosed.getOpenButton() ) {
-            _sumGraph.setVisible( true );
-            _sumGraphClosed.setVisible( false );
-        }
-        
-        // Height and location of views
         if (  _harmonicsGraph.isVisible() && _sumGraph.isVisible() ) {
             _harmonicsGraph.warpHeight( 0 );
             _sumGraph.warpHeight( 0 );

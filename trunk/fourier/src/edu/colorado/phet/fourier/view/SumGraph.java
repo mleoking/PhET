@@ -24,6 +24,7 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
@@ -105,7 +106,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private FourierSeries _fourierSeries;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic titleGraphic;
-    private JButton _closeButton;
+    private PhetImageGraphic _closeButton;
     private SumChart _chartGraphic;
     private SumEquation _mathGraphic;
     private FourierSumPlot _sumPlot;
@@ -185,22 +186,10 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         }
         
         // Close button
-        PhetGraphic closeButtonGraphic = null;
-        {
-            ImageIcon closeIcon = null;
-            try {
-                closeIcon = new ImageIcon( ImageLoader.loadBufferedImage( FourierConstants.CLOSE_BUTTON_IMAGE ) );
-            }
-            catch ( IOException ioe ) {
-                throw new RuntimeException( "missing image resource: " + FourierConstants.CLOSE_BUTTON_IMAGE );
-            }
-            _closeButton = new JButton( closeIcon );
-            _closeButton.setBackground( new Color(0,0,0,0) ); // transparent
-            closeButtonGraphic = PhetJComponent.newInstance( component, _closeButton );
-            addGraphic( closeButtonGraphic, CONTROLS_LAYER );
-            closeButtonGraphic.centerRegistrationPoint();
-            closeButtonGraphic.setLocation( (closeButtonGraphic.getWidth()/2) + 10, closeButtonGraphic.getHeight()/2  );
-        }
+        _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
+        addGraphic( _closeButton, CONTROLS_LAYER );
+        _closeButton.centerRegistrationPoint();
+        _closeButton.setLocation( (_closeButton.getWidth()/2) + 10, _closeButton.getHeight()/2 + 5 );
         
         // Zoom controls
         {
@@ -247,7 +236,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
             
-            closeButtonGraphic.setCursorHand();
+            _closeButton.setCursorHand();
             
             _horizontalZoomControl.addZoomListener( this );
             _verticalZoomControl.addZoomListener( this );
@@ -369,7 +358,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      * 
      * @return close button
      */
-    public JButton getCloseButton() {
+    public PhetImageGraphic getCloseButton() {
         return _closeButton;
     }
     

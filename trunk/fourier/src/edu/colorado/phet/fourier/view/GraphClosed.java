@@ -12,21 +12,11 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
-import java.awt.Component;
-import java.awt.Rectangle;
-import java.io.IOException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
-import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.view.util.ImageLoader;
-import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
 
@@ -49,7 +39,7 @@ public class GraphClosed extends GraphicLayerSet {
     private static final double CONTROLS_LAYER = 3;
     
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 735, 35 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 735, 30 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -62,7 +52,7 @@ public class GraphClosed extends GraphicLayerSet {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private JButton _openButton;
+    private PhetImageGraphic _openButton;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -84,32 +74,23 @@ public class GraphClosed extends GraphicLayerSet {
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         addGraphic( titleGraphic, TITLE_LAYER ); 
         titleGraphic.setRegistrationPoint( 0, titleGraphic.getHeight() / 2 ); // left center
-        titleGraphic.setLocation( 50, 40 ); // right of button
+        titleGraphic.setLocation( 45, 37 ); // right of button
         
         // Open button
-        ImageIcon openIcon = null;
-        try {
-            openIcon = new ImageIcon( ImageLoader.loadBufferedImage( FourierConstants.OPEN_BUTTON_IMAGE ) );
-        }
-        catch ( IOException ioe ) {
-            throw new RuntimeException( "missing image resource: " + FourierConstants.OPEN_BUTTON_IMAGE );
-        }
-        _openButton = new JButton( openIcon );
-        _openButton.setBackground( new Color( 0, 0, 0, 0 ) ); // transparent
-        PhetGraphic openButtonGraphic = PhetJComponent.newInstance( component, _openButton );
-        addGraphic( openButtonGraphic, CONTROLS_LAYER );
-        openButtonGraphic.centerRegistrationPoint();
-        openButtonGraphic.setLocation( (openButtonGraphic.getWidth()/2) + 10, openButtonGraphic.getHeight()/2 );
+        _openButton = new PhetImageGraphic( component, FourierConstants.OPEN_BUTTON_IMAGE );
+        addGraphic( _openButton, CONTROLS_LAYER );
+        _openButton.centerRegistrationPoint();
+        _openButton.setLocation( (_openButton.getWidth()/2) + 10, _openButton.getHeight()/2 + 5 );
         
         // Interactivity
-        openButtonGraphic.setCursorHand();
+        _openButton.setCursorHand();
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-    public JButton getOpenButton() {
+    public PhetImageGraphic getOpenButton() {
         return _openButton;
     }
 }
