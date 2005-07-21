@@ -19,12 +19,19 @@ public class Neutron extends NuclearParticle {
 
     public Neutron( Point2D location, double theta ) {
         super( location );
-        //        setVelocity( (float)Config.neutronSpeed, 0 );
         setVelocity( theta );
     }
 
     public void setVelocity( double theta ) {
         setVelocity( (float)( Math.cos( theta ) * Config.neutronSpeed ),
                      (float)( Math.sin( theta ) * Config.neutronSpeed ) );
+    }
+
+
+    public void setPosition( double v, double v1 ) {
+        if( v == 100000 ) {
+            System.out.println( "!!!" );
+        }
+        super.setPosition( v, v1 );
     }
 }

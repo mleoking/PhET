@@ -53,14 +53,17 @@ public class Uranium238 extends Nucleus {
         }
     }
 
+    // todo: Try to rewrite this so we just get rid of the thing right away
     public void fission( Neutron neutron ) {
         if( random.nextDouble() <= ABSORPTION_PROBABILITY ) {
             // Move the neutron way, way away so it doesn't show and doesn't
             // cause another fission event. It will be destroyed later. Do it
             // twice so the neutron's previous position gets set to the same thing.
-            neutron.setPosition( 100E3, 100E3 );
-            neutron.setPosition( 100E3, 100E3 );
-            neutron.setVelocity( 0, 0 );
+//            neutron.setPosition( 100E3, 100E3 );
+//            neutron.setPosition( 100E3, 100E3 );
+//            neutron.setVelocity( 0, 0 );
+
+            model.removeModelElement( neutron );
         }
     }
 }

@@ -86,6 +86,8 @@ public class Uranium235 extends Nucleus {
             neutron.setPosition( 100E3, 100E3 );
             neutron.setVelocity( 0, 0 );
 
+            model.removeModelElement( neutron );
+
             // Make note of the x coordinate of the nucleus, so we can keep the jiggling
             // centered
             jiggleOrgX = this.getPosition().getX();

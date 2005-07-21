@@ -28,7 +28,11 @@ import java.util.List;
 /**
  * Vessel
  * <p/>
- * The containment vessel for the reactor. It has channels for control rods.
+ * The containment vessel for the reactor. It has channels for control rods, and deals
+ * with neutrons that hit its walls.
+ * <p/>
+ * The vessel is a ModelElement, and so can respond to conditions in the model with each
+ * time step.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -42,6 +46,7 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
     private Rectangle2D[] rodChannels;
     private NuclearPhysicsModel model;
     private ScalarDataRecorder temperatureRecorder;
+    private boolean simulatesInfiniteSize = true;
 
     /**
      * @param x
@@ -100,16 +105,25 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
         return this.rodChannels.length;
     }
 
+    public Rectangle2D getBounds() {
+        return getShape().getBounds2D();
+    }
+
+    public void setSimulatesInfiniteSize( boolean simulatesInfiniteSize ) {
+        this.simulatesInfiniteSize = simulatesInfiniteSize;
+    }
+
+    //----------------------------------------------------------------
+    // Methods that relate to the shape of the vessel and its control
+    // rod channels
+    //----------------------------------------------------------------
+
     public boolean contains( double x, double y ) {
         return getShape().contains( x, y );
     }
 
     public boolean contains( Point2D p ) {
         return getShape().contains( p.getX(), p.getY() );
-    }
-
-    public Rectangle2D getBounds() {
-        return getShape().getBounds2D();
     }
 
     /**
@@ -138,6 +152,10 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
         return false;
     }
 
+    //----------------------------------------------------------------
+    // Methods having to do with placing neuclei and time dependent behavior
+    //----------------------------------------------------------------
+
     /**
      * Returns an array of points laid out on a grid with a specified number of columns.
      * The grid is laid out so that the points are evenly distributed between the channels,
@@ -157,7 +175,6 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
         // Get the width of the area and the spacing between columns, the spacing between rows,
         // and the number of rows
         double areaWidth = rodChannels[0].getMinX() - getX();
-//        double areaWidth = ( this.getWidth() - ( rodChannels.length * channelThickness ) ) / nInterChannelAreas;
         double colSpacing = areaWidth / ( nColsPerArea + 1 );
         double rowSpacing = colSpacing;
         int nRows = (int)( getHeight() / rowSpacing ) - 1;
@@ -178,9 +195,10 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
     }
 
     /**
-     * Absorbs neutrons that get into the wals of the vessel
+     * Handles neutrons that get into the walls of the vessel
      * <p/>
-     * Implements ModelElement
+     * If we are simulating a vessel of infinite size, we don't remove neutrons from the
+     * vessel, but wrap their positions, modulo the size of the vessel.
      *
      * @param v
      */
@@ -191,7 +209,19 @@ public class Vessel implements ModelElement, FissionListener, ScalarDataRecorder
             if( modelElement instanceof Neutron ) {
                 Neutron neutron = (Neutron)modelElement;
                 if( !this.contains( neutron.getPosition() ) ) {
-                    model.removeModelElement( neutron );
+                    if( simulatesInfiniteSize && neutron.getPosition().getX() != 100000 ) {
+                        if( neutron.getPosition().getX() < this.getX() ) {
+                            System.out.println( "$$$" );
+                        }
+                        double dx = ( neutron.getPosition().getX() - this.getX() ) % this.getWidth();
+                        double dy = ( neutron.getPosition().getY() - this.getY() ) % this.getHeight();
+                        double x = dx > 0 ? dx + this.getX() : dx + this.getX() + this.getWidth();
+                        double y = dy > 0 ? dy + this.getY() : dy + this.getY() + this.getHeight();
+                        neutron.setPosition( x, y );
+                    }
+                    else {
+                        model.removeModelElement( neutron );
+                    }
                 }
             }
         }
