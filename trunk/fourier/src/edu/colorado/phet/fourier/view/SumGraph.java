@@ -15,17 +15,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.chart.*;
 import edu.colorado.phet.common.util.SimpleObserver;
 import edu.colorado.phet.common.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.view.phetgraphics.*;
 import edu.colorado.phet.common.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.view.util.ImageLoader;
 import edu.colorado.phet.common.view.util.SimStrings;
 import edu.colorado.phet.fourier.FourierConfig;
 import edu.colorado.phet.fourier.FourierConstants;
@@ -99,7 +102,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     //----------------------------------------------------------------------------
     
     private FourierSeries _fourierSeries;
-    private PhetImageGraphic _closeButton;
+    private JButton _closeButton;
     private SumChart _chartGraphic;
     private SumEquation _mathGraphic;
     private FourierSumPlot _sumPlot;
@@ -141,7 +144,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         backgroundGraphic.setLocation( 0, 0 );
         
         // Title
-        String title = SimStrings.get( "SumGraphic.title" );
+        String title = SimStrings.get( "SumGraph.title" );
         PhetTextGraphic titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         titleGraphic.centerRegistrationPoint();
         titleGraphic.rotate( -( Math.PI / 2 ) );
@@ -179,10 +182,20 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         }
         
         // Close button
+        PhetGraphic closeButtonGraphic = null;
         {
-            _closeButton = new PhetImageGraphic( component, FourierConstants.CLOSE_BUTTON_IMAGE );
-            addGraphic( _closeButton, CONTROLS_LAYER );
-            _closeButton.setLocation( 10, 10 );
+            ImageIcon closeIcon = null;
+            try {
+                closeIcon = new ImageIcon( ImageLoader.loadBufferedImage( FourierConstants.CLOSE_BUTTON_IMAGE ) );
+            }
+            catch ( IOException ioe ) {
+                throw new RuntimeException( "missing image resource: " + FourierConstants.CLOSE_BUTTON_IMAGE );
+            }
+            _closeButton = new JButton( closeIcon );
+            _closeButton.setBackground( new Color(0,0,0,0) ); // transparent
+            closeButtonGraphic = PhetJComponent.newInstance( component, _closeButton );
+            addGraphic( closeButtonGraphic, CONTROLS_LAYER );
+            closeButtonGraphic.setLocation( 10, 10 );
         }
         
         // Zoom controls
@@ -203,7 +216,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         
         // Auto Scale control
         {
-            _autoScaleCheckBox = new JCheckBox( SimStrings.get( "SumGraphic.autoScale" ) );
+            _autoScaleCheckBox = new JCheckBox( SimStrings.get( "SumGraph.autoScale" ) );
             _autoScaleCheckBox.setBackground( new Color( 255, 255, 255, 0 ) );
             PhetGraphic autoScaleGraphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
             addGraphic( autoScaleGraphic, CONTROLS_LAYER );
@@ -230,7 +243,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
             
-            _closeButton.setCursorHand();
+            closeButtonGraphic.setCursorHand();
             
             _horizontalZoomControl.addZoomListener( this );
             _verticalZoomControl.addZoomListener( this );
@@ -347,6 +360,28 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
         }
     }
 
+    /**
+     * Gets a reference to the "close" button.
+     * 
+     * @return close button
+     */
+    public JButton getCloseButton() {
+        return _closeButton;
+    }
+    
+    //----------------------------------------------------------------------------
+    // PhetGraphic overrides
+    //----------------------------------------------------------------------------
+
+    public void setVisible( boolean visible ) {
+        if ( visible != isVisible() ) {
+            if ( visible ) {
+                update();
+            }
+            super.setVisible( visible );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
@@ -356,71 +391,70 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
      */
     public void update() {
         
-        _sumPlot.updateDataSet();
-        
-        // If auto scaling is enabled, adjust the vertical scale to fit the curve.
-        if ( _autoScaleCheckBox.isSelected() ) {
-            Range2D range = _chartGraphic.getRange();
-            double maxAmplitude = _sumPlot.getMaxAmplitude();
-            if ( maxAmplitude != range.getMaxY() ) {
-                range.setMinY( -maxAmplitude );
-                range.setMaxY( +maxAmplitude );
-                _chartGraphic.setRange( range );
-                updateLabelsAndLines();
-                updateZoomButtons();
-            }
-        }
-
-        // Reset the sum waveform, and update the preset waveform.
-        int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
-        int preset = _fourierSeries.getPreset();
-        int waveType = _fourierSeries.getWaveType();
-        
-        if ( numberOfHarmonics != _previousNumberOfHarmonics || 
-                preset != _previousPreset || 
-                waveType != _previousWaveType ) {
-
-            // Sum
-            _sumPlot.setStartX( 0 );
+        if ( isVisible() ) {
             
-            // Sine/cosine preset
-            _sumPlot.setStartX( 0 );
+            _sumPlot.updateDataSet();
 
-            // Other preset
-            _presetPlot.getDataSet().clear();
-            Point2D[] points = FourierConstants.getPresetPoints( preset, waveType );
-            if ( points != null ) {
-                Point2D[] copyPoints = new Point2D[points.length];
-                for ( int i = 0; i < points.length; i++ ) {
-                    copyPoints[i] = new Point2D.Double( points[i].getX(), points[i].getY() );
+            // If auto scaling is enabled, adjust the vertical scale to fit the curve.
+            if ( _autoScaleCheckBox.isSelected() ) {
+                Range2D range = _chartGraphic.getRange();
+                double maxAmplitude = _sumPlot.getMaxAmplitude();
+                if ( maxAmplitude != range.getMaxY() ) {
+                    range.setMinY( -maxAmplitude );
+                    range.setMaxY( +maxAmplitude );
+                    _chartGraphic.setRange( range );
+                    updateLabelsAndLines();
+                    updateZoomButtons();
                 }
-                _presetPlot.getDataSet().addAllPoints( copyPoints );
-                _presetPlot.setVisible( true );
             }
 
-            // Visibility of preset's infinite waveform
-            _sineCosinePlot.setVisible( false );
-            _presetPlot.setVisible( false );
-            if ( _presetEnabled ) {
-                if ( preset == FourierConstants.PRESET_SINE_COSINE ) {
-                    _sineCosinePlot.setVisible( true );
-                }
-                else {
+            // Reset the sum waveform, and update the preset waveform.
+            int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
+            int preset = _fourierSeries.getPreset();
+            int waveType = _fourierSeries.getWaveType();
+
+            if ( numberOfHarmonics != _previousNumberOfHarmonics || preset != _previousPreset || waveType != _previousWaveType ) {
+
+                // Sum
+                _sumPlot.setStartX( 0 );
+
+                // Sine/cosine preset
+                _sumPlot.setStartX( 0 );
+
+                // Other preset
+                _presetPlot.getDataSet().clear();
+                Point2D[] points = FourierConstants.getPresetPoints( preset, waveType );
+                if ( points != null ) {
+                    Point2D[] copyPoints = new Point2D[points.length];
+                    for ( int i = 0; i < points.length; i++ ) {
+                        copyPoints[i] = new Point2D.Double( points[i].getX(), points[i].getY() );
+                    }
+                    _presetPlot.getDataSet().addAllPoints( copyPoints );
                     _presetPlot.setVisible( true );
                 }
-            }
 
-            // Math
-            if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
-                updateMath();
+                // Visibility of preset's infinite waveform
+                _sineCosinePlot.setVisible( false );
+                _presetPlot.setVisible( false );
+                if ( _presetEnabled ) {
+                    if ( preset == FourierConstants.PRESET_SINE_COSINE ) {
+                        _sineCosinePlot.setVisible( true );
+                    }
+                    else {
+                        _presetPlot.setVisible( true );
+                    }
+                }
+
+                // Math
+                if ( _previousNumberOfHarmonics != numberOfHarmonics ) {
+                    updateMath();
+                }
+
+                _previousNumberOfHarmonics = numberOfHarmonics;
+                _previousPreset = preset;
+                _previousWaveType = waveType;
             }
-            
-            _previousNumberOfHarmonics = numberOfHarmonics;
-            _previousPreset = preset;
-            _previousWaveType = waveType;
         }
-
-        repaint();
     }     
     
     //----------------------------------------------------------------------------
