@@ -64,7 +64,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     private static final double MATH_LAYER = 5;
 
     // Background parameters
-    private static final Dimension BACKGROUND_SIZE = new Dimension( 715, 210 );
+    private static final Dimension BACKGROUND_SIZE = new Dimension( 715, 205 );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
@@ -72,7 +72,7 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     // Title parameters
     private static final Font TITLE_FONT = new Font( FourierConfig.FONT_NAME, Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
-    private static final Point TITLE_LOCATION = new Point( 40, 115 );
+    private static final Point TITLE_LOCATION = new Point( 40, 135 );
     
     // Chart parameters
     private static final double L = FourierConstants.L; // do not change!
