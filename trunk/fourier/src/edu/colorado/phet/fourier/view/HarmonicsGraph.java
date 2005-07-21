@@ -322,10 +322,11 @@ public class HarmonicsGraph extends GraphicLayerSet implements SimpleObserver, Z
 
     public void setVisible( boolean visible ) {
         if ( visible != isVisible() ) {
+            super.setVisible( visible );
             if ( visible ) {
+                _previousNumberOfHarmonics = -1; // force an update
                 update();
             }
-            super.setVisible( visible );
         }
     }
 

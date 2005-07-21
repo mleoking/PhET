@@ -372,13 +372,13 @@ public class SumGraph extends GraphicLayerSet implements SimpleObserver, ZoomLis
     //----------------------------------------------------------------------------
     // PhetGraphic overrides
     //----------------------------------------------------------------------------
-
+    
     public void setVisible( boolean visible ) {
         if ( visible != isVisible() ) {
+            super.setVisible( visible );
             if ( visible ) {
                 update();
             }
-            super.setVisible( visible );
         }
     }
     
