@@ -3,9 +3,10 @@
 ===============================================================================
 
 IN PROGRESS:
-- expand Harmonics and Sum graphs to fill space
+
 
 HIGH PRIORITY:
+- bar on Amplitude sliders isn't horizontally centered
 - hide wiggle me when user clicks anywhere
 - check the layout of the Discrete module on Windows
 - anti-aliasing of plots appears to be turned off
@@ -64,6 +65,7 @@ PHETCOMMON:
 - add the ability to attach help items to phetgraphics
 
 DONE:
+(7/21) - expand Harmonics and Sum graphs to fill space
 (7/21) - wire up open & close buttons on Harmonics and Sum graphs
 (7/21) - add "closed" versions of Harmonics and Sum graphs
 (7/20) - redo layout of SumGraph so that origin is at top-left corner

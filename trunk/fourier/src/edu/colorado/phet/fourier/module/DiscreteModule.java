@@ -237,6 +237,9 @@ public class DiscreteModule extends FourierModule {
         _sumGraph.setVisible( true );
         _sumGraphClosed.setVisible( false ); 
         
+        _harmonicsGraph.warpHeight( 0 );
+        _sumGraph.warpHeight( 0 );
+        
         _harmonicsGraph.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
         _harmonicsGraphClosed.setLocation( _amplitudesGraph.getX(), _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
         _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
@@ -258,26 +261,51 @@ public class DiscreteModule extends FourierModule {
     // EventHandling
     //----------------------------------------------------------------------------
     
+    /*
+     * Handles the open and close buttons for the Harmonics and Sum views.
+     */
     private void handleOpenCloseButton( ActionEvent event ) {
+        
+        // Visibilty of views
         if ( event.getSource() == _harmonicsGraph.getCloseButton() ) {
             _harmonicsGraph.setVisible( false );
+            _harmonicsGraph.warpHeight( 0 );
             _harmonicsGraphClosed.setVisible( true );
-            _sumGraph.setLocation( _sumGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
-            _sumGraphClosed.setLocation( _sumGraphClosed.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
         }
         else if ( event.getSource() == _harmonicsGraphClosed.getOpenButton() ) {
             _harmonicsGraph.setVisible( true );
             _harmonicsGraphClosed.setVisible( false );
-            _sumGraph.setLocation( _sumGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
-            _sumGraphClosed.setLocation( _sumGraphClosed.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
         }
         else if ( event.getSource() == _sumGraph.getCloseButton() ) {
             _sumGraph.setVisible( false );
+            _sumGraph.warpHeight( 0 );
             _sumGraphClosed.setVisible( true );
         }
         else if ( event.getSource() == _sumGraphClosed.getOpenButton() ) {
             _sumGraph.setVisible( true );
-            _sumGraphClosed.setVisible( false );      
+            _sumGraphClosed.setVisible( false );
+        }
+        
+        // Height and location of views
+        if (  _harmonicsGraph.isVisible() && _sumGraph.isVisible() ) {
+            _harmonicsGraph.warpHeight( 0 );
+            _sumGraph.warpHeight( 0 );
+            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        }
+        else if ( _harmonicsGraph.isVisible() ) {
+            _harmonicsGraph.warpHeight( _sumGraph.getHeight() - _sumGraphClosed.getHeight() );
+            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        }
+        else if ( _sumGraph.isVisible() ) {
+            _sumGraph.warpHeight( _harmonicsGraph.getHeight() - _harmonicsGraphClosed.getHeight() );
+            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
+            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
+        }
+        else {
+            _sumGraph.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
+            _sumGraphClosed.setLocation( _amplitudesGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() ); 
         }
     }
     
