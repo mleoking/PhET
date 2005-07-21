@@ -219,7 +219,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
                 layout.addAnchoredComponent( _showWavelengthComboBox, 0, 1, GridBagConstraints.WEST );
             }
 
-            // Show Wavelength
+            // Show Period
             JPanel showPeriodPanel = new JPanel();
             {
                 _showPeriodCheckBox = new JCheckBox( SimStrings.get( "DiscreteControlPanel.showPeriod" ) );
