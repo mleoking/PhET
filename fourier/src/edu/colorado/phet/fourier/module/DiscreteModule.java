@@ -122,27 +122,23 @@ public class DiscreteModule extends FourierModule {
         
         // Amplitudes view
         _amplitudesGraph = new AmplitudesGraph( apparatusPanel, _fourierSeries );
-        _amplitudesGraph.setLocation( AMPLITUDES_LOCATION );
+        _amplitudesGraph.setLocation( 0, 0 );
         apparatusPanel.addGraphic( _amplitudesGraph, AMPLITUDES_LAYER );
         
         // Harmonics view
         _harmonicsGraph = new HarmonicsGraph( apparatusPanel, _fourierSeries );
-        _harmonicsGraph.setLocation( HARMONICS_LOCATION );
         apparatusPanel.addGraphic( _harmonicsGraph, HARMONICS_LAYER );
         
         // Harmonics view (collapsed)
         _harmonicsGraphClosed = new GraphClosed( apparatusPanel, SimStrings.get( "HarmonicsGraph.title" ) );
-        _harmonicsGraphClosed.setLocation( HARMONICS_LOCATION );
         apparatusPanel.addGraphic( _harmonicsGraphClosed, HARMONICS_CLOSED_LAYER );
         
         // Sum view
         _sumGraph = new SumGraph( apparatusPanel, _fourierSeries );
-        _sumGraph.setLocation( SUM_LOCATION );
         apparatusPanel.addGraphic( _sumGraph, SUM_LAYER );
         
         // Sum view (collapsed)
         _sumGraphClosed = new GraphClosed( apparatusPanel, SimStrings.get( "SumGraph.title" ) );
-        _sumGraphClosed.setLocation( SUM_LOCATION );
         apparatusPanel.addGraphic( _sumGraphClosed, SUM_CLOSED_LAYER );
         
         // Wavelength Tool
@@ -244,6 +240,11 @@ public class DiscreteModule extends FourierModule {
         _sumGraph.setVisible( true );
         _sumGraphClosed.setVisible( false ); 
         
+        _harmonicsGraph.setLocation( 0, _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
+        _harmonicsGraphClosed.setLocation( 0, _amplitudesGraph.getY() + _amplitudesGraph.getHeight() );
+        _sumGraph.setLocation( 0, _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        _sumGraphClosed.setLocation( 0, _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+        
         _wavelengthTool.setVisible( false );
         _wavelengthTool.setLocation( WAVELENGTH_TOOL_LOCATION );
         
@@ -264,10 +265,14 @@ public class DiscreteModule extends FourierModule {
         if ( event.getSource() == _harmonicsGraph.getCloseButton() ) {
             _harmonicsGraph.setVisible( false );
             _harmonicsGraphClosed.setVisible( true );
+            _sumGraph.setLocation( _sumGraph.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
+            _sumGraphClosed.setLocation( _sumGraphClosed.getX(), _harmonicsGraphClosed.getY() + _harmonicsGraphClosed.getHeight() );
         }
         else if ( event.getSource() == _harmonicsGraphClosed.getOpenButton() ) {
             _harmonicsGraph.setVisible( true );
             _harmonicsGraphClosed.setVisible( false );
+            _sumGraph.setLocation( _sumGraph.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
+            _sumGraphClosed.setLocation( _sumGraphClosed.getX(), _harmonicsGraph.getY() + _harmonicsGraph.getHeight() );
         }
         else if ( event.getSource() == _sumGraph.getCloseButton() ) {
             _sumGraph.setVisible( false );
